@@ -15,36 +15,43 @@ namespace MemberSite.Service.BLL
         private readonly Tools tools;
         private readonly CustInfoService custInfoService;
         private readonly AuthenticateService authenticateService;
+        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly AgentInfoService agentInfoService;
 
-        public CustInfoBLL(Tools tools, CustInfoService custInfoService, AuthenticateService authenticateService)
+        public CustInfoBLL(Tools tools, CustInfoService custInfoService, AuthenticateService authenticateService, ServerInfoBLL serverInfoBLL, AgentInfoService agentInfoService)
         {
             this.tools = tools;
             this.custInfoService = custInfoService;
             this.authenticateService = authenticateService;
+            this.serverInfoBLL = serverInfoBLL;
+            this.agentInfoService = agentInfoService;
         }
-        public int AddCustInfo(Customer customer, Customer agent, ServerInfo serverInfo, out int custId)
+        public int AddCustInfo(string UserName, string Userpwd, int CurrencyId, string UserLang, out int custId)
         {
             //int custId = 0;
-            if (!serverInfo.ICurrencyList.Contains(customer.CurrencyId))
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            if (!serverInfo.ICurrencyList.Contains(CurrencyId))
             {
                 custId = 0;
                 return -1;
             }
-            else if (!tools.CheckUserName(customer.UserName) || !tools.CheckUserInputPassword(customer.Userpwd))
+            else if (!tools.CheckUserName(UserName) || !tools.CheckUserInputPassword(Userpwd))
             {
                 custId = 0;
                 return -2;
             }
-            else if (!serverInfo.ILangList.Contains(customer.UserLang))
+            else if (!serverInfo.ILangList.Contains(UserLang))
             {
                 custId = 0;
                 return -3;
             }
             else
             {
+                Customer agent = agentInfoService.GetSuperAgent(serverInfo.SiteId, CurrencyId);
+
                 Customer regCustInfo = new Customer();
-                regCustInfo.UserName = customer.UserName;
-                regCustInfo.Userpwd = tools.MD5Encrypt(customer.Userpwd);
+                regCustInfo.UserName = UserName;
+                regCustInfo.Userpwd = tools.MD5Encrypt(Userpwd);
                 regCustInfo.AgentId = agent.CustId;
                 regCustInfo.AllAgentId = GetAllAgentByUserId(agent);
                 regCustInfo.ActStatus = (int)CustActStatus.NonDepoist;
@@ -52,7 +59,7 @@ namespace MemberSite.Service.BLL
                 regCustInfo.IsTest = agent.IsTest;
                 regCustInfo.SiteId = serverInfo.SiteId;
                 regCustInfo.UserLevel = 1;
-                regCustInfo.UserLang = customer.UserLang;
+                regCustInfo.UserLang = UserLang;
 
                 return custInfoService.AddCustInfo(regCustInfo, out custId);
             }

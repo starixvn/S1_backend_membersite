@@ -18,7 +18,7 @@ namespace MemberSite.Service.DAL
         {
             this.configuration = configuration;
         }
-        public Customer GetSuperAgentModel(int currencyId, int siteId)
+        public Customer GetSuperAgent(int siteId, int currencyId)
         {
             using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
             {

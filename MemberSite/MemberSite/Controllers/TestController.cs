@@ -80,7 +80,7 @@ namespace MemberSite.Controllers
             depositDetailInfo.DispositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfoService.GetBankAccountOff(1, customer.CustId, depositDetailInfo.Amount));
             //@DispositType,@CustId,@UserName,@SiteId,@DispositInfo,@Amount,@Memo,@PostScript,@Status
             string TT = "";
-            var agent = agentInfoService.GetSuperAgentModel(customer.CurrencyId, customer.SiteId);
+            var agent = agentInfoService.GetSuperAgent(customer.CurrencyId, customer.SiteId);
             int custid = 0;
             //custInfoBLL.UserLogin(customer.UserName, customer.SiteId, customer.Userpwd, tools.GetClientIP(this.HttpContext), tools.GetFromUrl(this.HttpContext), Request.Headers["User-Agent"], ref customer, out token);
             //walletService.SetBalance(customer.CustId, customer.SiteId, customer.UserName, depositDetailInfo.Amount, 1, null, null, false);
