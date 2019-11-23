@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using System.Data;
 
 namespace MemberSite.Service.DAL
 {
     public class AgentInfoService
     {
-        private const string SelectSuperAgent_By_SiteIdAndCurrency = "SELECT CustId,SiteId,UserName,Userpwd,CurrencyId,UserLang,ActStatus,AgentId,AllAgentId,UserLevel,IsTest,LastLoginTime,RegTime FROM Customer WHERE CurrencyId=@CurrencyId AND AgentId=0 AND SiteId=@SiteId";
         private readonly IConfiguration configuration;
 
         public AgentInfoService(IConfiguration configuration)
@@ -22,7 +22,7 @@ namespace MemberSite.Service.DAL
         {
             using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
             {
-                return conn.QueryFirst<Customer>(SelectSuperAgent_By_SiteIdAndCurrency, new { CurrencyId = currencyId, SiteId = siteId });
+                return conn.QueryFirst<Customer>("SuperAgent_Get", new { CurrencyId = currencyId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
             }
         }
     }
