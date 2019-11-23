@@ -1,0 +1,42 @@
+﻿@using MemberSite.Service.BLL
+@inject SelLangBLL selLangBLL
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@selLangBLL.GetResourceValue("lbl_Title")|@selLangBLL.GetResourceValue("lbl_TitleDesc")|@selLangBLL.GetResourceValue("lbl_TitleKeywords")</title>
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@@Nova88official" />
+    <meta name="twitter:creator" content="@@Nova88official" />
+    <meta property="og:url" content="" />
+    <meta property="og:title" content="@selLangBLL.GetResourceValue("lbl_Title")" />
+    <meta property="og:description" content="@selLangBLL.GetResourceValue("lbl_Description")" />
+    <meta property="og:image" content="" />
+
+    @*<meta property="fb:admins" content="100002847892748" />
+        <meta property="fb:app_id" content="350231215126101" />
+        <meta property="fb:pages" content="241284961029,219315794887869,163253543730991,362512194085320,413437005485686,578214755657993" />
+        <meta property="article:author" content="https://www.facebook.com/myudn/" />
+        <meta property="article:publisher" content="https://www.facebook.com/myudn/" />*@
+    @*for Google*@
+    <meta name="description" content="@selLangBLL.GetResourceValue("lbl_Description")" />
+    @*M88*@
+    <meta name="description" content="M88 is Asia's best online betting and gaming site. Play live online casino with the M88 babes, sports betting, slots, live lottery, keno, and poker.">
+    <meta name="author" content="" />
+    <meta name="copyright" content="" />
+    <meta name="application-name" content="" />
+    @*M88*@
+    <meta name="keywords" content="online casino, gambling online, online gambling, betting and gambling, online gambling Malaysia, online gambling in Malaysia, gambling games, bet online, online betting, online bet, casino gambling, online betting website, sports betting, casino online, poker mahjong, lottery lotto, online gambling Australia, online gambling Asia">
+
+
+    @RenderSection("Style", required: false)
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    <script src="~/lib/moment.min.js"></script>
+    <script src="~/lib/axios.min.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

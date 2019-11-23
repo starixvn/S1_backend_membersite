@@ -1,0 +1,47 @@
+﻿using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
+using Dapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Data;
+
+namespace MemberSite.Service.DAL
+{
+    public class WalletService
+    {
+        private readonly IConfiguration configuration;
+
+        public WalletService(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
+
+        public int SetBalance(int custId, int siteId, string userName, decimal Amount, int type, string Memo, string RefTransId, bool isDepositOrWithdraw, out decimal afterAmount, out byte is1stDepoist)
+        {
+            using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
+            {
+                conn.Open();
+                using (MySqlTransaction trans = conn.BeginTransaction())
+                {
+                    var p = new DynamicParameters(new { CustId = custId, SiteId = siteId, UserName = userName, Amount = Amount, Type = type, Memo = Memo, RefTransId = RefTransId, IsDepositOrWithdraw = isDepositOrWithdraw });
+                    p.Add("Is1stDepoist", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+                    p.Add("AfterAmount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+                    conn.Execute("Wallet_Set", p, transaction: trans, commandType: CommandType.StoredProcedure);
+                    trans.Commit();
+                    is1stDepoist = p.Get<byte?>("Is1stDepoist") ?? 0;
+                    afterAmount = p.Get<decimal?>("AfterAmount") ?? 0;
+                    return afterAmount >= 0 ? 0 : -1;
+                }
+            }
+        }
+        public decimal GetBalance(int custId)
+        {
+            using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
+            {
+                return conn.ExecuteScalar<decimal>("Balance_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            }
+        }
+    }
+}

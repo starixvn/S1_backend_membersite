@@ -1,0 +1,24 @@
+﻿@model Dictionary<string, string>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        <ul>
+            @*Key/Value*@
+            @foreach (var Info in Model)
+            {
+                <li><label>@Info.Key</label>&nbsp;:&nbsp;<span>@Info.Value</span></li>
+            }
+        </ul>
+    </div>
+</body>
+</html>

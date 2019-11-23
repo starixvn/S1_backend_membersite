@@ -1,0 +1,544 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="betconfirm" xml:space="preserve">
+    <value>Vui lòng nhấp vào OK để xác nhận đặt cược?</value>
+    <comment>0001.</comment>
+  </data>
+  <data name="BingoFlashMsg" xml:space="preserve">
+    <value>Your account is not able to play Bingo, please contact your upline to enable Bingo for you.</value>
+    <comment>0044.</comment>
+  </data>
+  <data name="CasinoFlashMsg" xml:space="preserve">
+    <value>Tài khoản của bạn không thể cược sòng bac. Vui lòng liên hệ chúng tôi để được trợ giúp.</value>
+    <comment>0002.</comment>
+  </data>
+  <data name="disableOutrightMsg" xml:space="preserve">
+    <value>Tài khoản của bạn không thể chơi cược thắng. Vui lòng liên hệ chúng tôi để được trợ giúp.</value>
+    <comment>0003.</comment>
+  </data>
+  <data name="err_HistoryMes_Date" xml:space="preserve">
+    <value>Ngày &amp;quot;Từ&amp;quot; không thể lớn hơn Ngày &amp;quot;Đến&amp;quot;</value>
+    <comment>0004.</comment>
+  </data>
+  <data name="err_LackOfFundInCasino" xml:space="preserve">
+    <value>There is not enough balance in your Casino to make this transfer.</value>
+    <comment>0047.</comment>
+  </data>
+  <data name="err_LackOfFundInSB" xml:space="preserve">
+    <value>There is not enough balance in your Sportsbook acount to make this transfer.</value>
+    <comment>0046.</comment>
+  </data>
+  <data name="err_LackOfFundInSBBonus" xml:space="preserve">
+    <value>Kindly note that any given bonuses before fulfilling turnover requirements,cannot be transferred to Casino.</value>
+    <comment>0053.</comment>
+  </data>
+  <data name="err_mainWindowClosed" xml:space="preserve">
+    <value>Tài khoản của bạn đã thoát!! Xin vui lòng đăng nhập lại</value>
+    <comment>0005.</comment>
+  </data>
+  <data name="err_nickname_already_set" xml:space="preserve">
+    <value>Xin lỗi, biệt danh của bạn đã xác nhận, bạn không thể thay đổi.</value>
+    <comment>0006.</comment>
+  </data>
+  <data name="err_Nickname_Format" xml:space="preserve">
+    <value>Chỉ chấp nhận số và ký tự</value>
+    <comment>0007.</comment>
+  </data>
+  <data name="err_nickname_length" xml:space="preserve">
+    <value>Số lượng ký tự không được nhỏ hơn 5 hoặc lớn hơn 15</value>
+    <comment>0008.</comment>
+  </data>
+  <data name="err_PTTransfer" xml:space="preserve">
+    <value>Your transfer is not successful. Please try again only after 60 seconds.</value>
+    <comment>0045.</comment>
+  </data>
+  <data name="err_sessOverwrite" xml:space="preserve">
+    <value>Notice: Another account has been logged in in the same browser.</value>
+    <comment>0044.</comment>
+  </data>
+  <data name="err_transferAmtZero" xml:space="preserve">
+    <value>Transfer Amount can not be less or equal to ZERO.</value>
+    <comment>0050.</comment>
+  </data>
+  <data name="errchange_confirm_pw" xml:space="preserve">
+    <value>Mật khẩu xác nhận không hợp lệ .</value>
+    <comment>0009.</comment>
+  </data>
+  <data name="errlogin_AC_Closed" xml:space="preserve">
+    <value>Tài khoản của bạn đã bị khoá. Vui lòng liên hệ chúng tôi để được trợ giúp .</value>
+    <comment>0010.</comment>
+  </data>
+  <data name="errlogin_anotherloggedin" xml:space="preserve">
+    <value>Bạn đã đăng nhập vào một phiên khác. Buộc phải thoát.</value>
+    <comment>0011.</comment>
+  </data>
+  <data name="errlogin_confirm_pw" xml:space="preserve">
+    <value>Vui lòng nhập mật khẩu xác nhận</value>
+    <comment>0012.</comment>
+  </data>
+  <data name="errlogin_enter_nickname" xml:space="preserve">
+    <value>Vui lòng nhập biệt danh</value>
+    <comment>0013.</comment>
+  </data>
+  <data name="errlogin_enter_old_pw" xml:space="preserve">
+    <value>Vui lòng nhập mật khẩu cũ</value>
+    <comment>0014.</comment>
+  </data>
+  <data name="errlogin_enter_pw" xml:space="preserve">
+    <value>Vui lòng nhập mật khẩu</value>
+    <comment>0015.</comment>
+  </data>
+  <data name="errlogin_enter_un" xml:space="preserve">
+    <value>Vui lòng nhập tên người dùng</value>
+    <comment>0016.</comment>
+  </data>
+  <data name="errlogin_enter_un_pw" xml:space="preserve">
+    <value>Vui lòng nhập tên người dùng &amp; mật khẩu</value>
+    <comment>0017.</comment>
+  </data>
+  <data name="errlogin_enter_valid" xml:space="preserve">
+    <value>Vui lòng nhập thông tin xác thực</value>
+    <comment>0018.</comment>
+  </data>
+  <data name="errlogin_failedcode" xml:space="preserve">
+    <value>Đăng nhập không thành công: ErrorCode</value>
+    <comment>0019.</comment>
+  </data>
+  <data name="errlogin_illegal_ip" xml:space="preserve">
+    <value>Bạn không được phép đăng nhập từ vị trí của bạn. Vui lòng liên hệ với CSD để biết thêm thông tin.</value>
+    <comment>0020.</comment>
+  </data>
+  <data name="errlogin_old_pw" xml:space="preserve">
+    <value>Lỗi mật khẩu cũ!</value>
+    <comment>0021.</comment>
+  </data>
+  <data name="errlogin_toooften" xml:space="preserve">
+    <value>Đăng nhập quá thường xuyên</value>
+    <comment>0022.</comment>
+  </data>
+  <data name="fail_change_nickname" xml:space="preserve">
+    <value>Biệt danh này đã được sử dụng</value>
+    <comment>0023.</comment>
+  </data>
+  <data name="ForgetPwdFail" xml:space="preserve">
+    <value>Bạn đã nhập email và câu trả lời bảo mật không đúng, vui lòng thử lại!</value>
+    <comment>0024. Deposit</comment>
+  </data>
+  <data name="ForgetPwdSubject" xml:space="preserve">
+    <value>Thông báo thay đổi mật khẩu tài khoản 12BET của bạn!</value>
+    <comment>0025. Deposit</comment>
+  </data>
+  <data name="ForgetPwdSuccess" xml:space="preserve">
+    <value>Hệ thống gửi thư vào hộp thư của bạn. Vui lòng kiểm tra hộp thư!</value>
+    <comment>0026. Deposit</comment>
+  </data>
+  <data name="incorrect_un_pw" xml:space="preserve">
+    <value>Tên người dùng/mật khẩu không đúng</value>
+    <comment>0027.</comment>
+  </data>
+  <data name="inputinvalid" xml:space="preserve">
+    <value>Bạn đã nhập mã không hợp lệ</value>
+    <comment>0028.</comment>
+  </data>
+  <data name="lbl_CanBetGreyhoundsMsg" xml:space="preserve">
+    <value>Your account is not able to play Greyhounds. Please contact your upline to enable Greyhounds for you.</value>
+    <comment>0051.</comment>
+  </data>
+  <data name="lbl_CanBetHarnessMsg" xml:space="preserve">
+    <value>Your account is not able to play Harness. Please contact your upline to enable Harness for you.</value>
+    <comment>0060</comment>
+  </data>
+  <data name="lbl_CanBetHorseMsg" xml:space="preserve">
+    <value>Tài khoản của bạn không thể cược Đua ngựa. Vui lòng liên hệ chúng tôi để được trợ giúp .</value>
+    <comment>0029.</comment>
+  </data>
+  <data name="lbl_CanBetNumberMsg" xml:space="preserve">
+    <value>Your account is not able to play Number Game. Please contact your upline to enable Number Game for you.</value>
+  </data>
+  <data name="lbl_CanBetVirtualSportsMsg" xml:space="preserve">
+    <value>Your account is not able to play  Virtual Sports. Please contact your upline to enable Virtual Sports for you.</value>
+    <comment>0057.</comment>
+  </data>
+  <data name="lbl_oddsover200000" xml:space="preserve">
+    <value>Payout odds have exceeded Max Odds (200,000). Please make adjustments to the selection before placing bet.</value>
+  </data>
+  <data name="LiveCasinoFlashMsg" xml:space="preserve">
+    <value>Your account is not able to play Casino Live game, please contact your upline to enable Casino Live for you.</value>
+  </data>
+  <data name="msg_ActClosed" xml:space="preserve">
+    <value>Tài khoản bị đóng</value>
+    <comment>0030.</comment>
+  </data>
+  <data name="msg_ActLock" xml:space="preserve">
+    <value>Tài khoản bị khoá</value>
+    <comment>0031.</comment>
+  </data>
+  <data name="msg_CasinoNonDeposit" xml:space="preserve">
+    <value>Trước khi bạn trải nghiệm những giây phút hồi hộp cùng 12Bet Casino, vui lòng gửi tiền vào tài khoản của bạn.</value>
+    <comment>0032. deposit</comment>
+  </data>
+  <data name="msg_ChechBankSettingError" xml:space="preserve">
+    <value>The bank you chose is unavailable at the moment. Please choose another bank or contact CSD.</value>
+    <comment>0044. Deposit</comment>
+  </data>
+  <data name="msg_CntChangeToAsia" xml:space="preserve">
+    <value>To view our Asian Site, Please logout then select Asian language (English-Asia / 繁體中文/ 简体中文 / ภาษาไทย / Indonesian)。</value>
+    <comment>045.Deposit</comment>
+  </data>
+  <data name="msg_CntChangeToEurope" xml:space="preserve">
+    <value>To view our Europe Site, Please logout then select European language (English-Europe/ Español / Ελληνικά )</value>
+    <comment>044.Deposit</comment>
+  </data>
+  <data name="msg_ContactCSD" xml:space="preserve">
+    <value>Vui lòng liên hệ với dịch vụ khách hàng để biết thêm thông tin</value>
+    <comment>0033.</comment>
+  </data>
+  <data name="msg_General_Loginfail" xml:space="preserve">
+    <value>Đăng nhập không thành công.</value>
+    <comment>0034.</comment>
+  </data>
+  <data name="msg_leave12BetCasinoNotice" xml:space="preserve">
+    <value>You are now leaving products and services regulated under license from the laws and regulations of the Isle of Man's Gambling Supervisory Commission and entering areas regulated under license from the laws and regulations of the Philippines' First Cagayan Leisure Resort Corporation and the Cagayan Economic Zone Authority.</value>
+  </data>
+  <data name="msg_UUSNotAllowToUse" xml:space="preserve">
+    <value>UUS is not an allowed currency, please contact CSD for more information.</value>
+    <comment>0044.Deposit</comment>
+  </data>
+  <data name="NotAllowCounty" xml:space="preserve">
+    <value>The page that you are trying to access has been restricted in this location.</value>
+    <comment>0035. Deposit</comment>
+  </data>
+  <data name="Query_To_Frequent" xml:space="preserve">
+    <value>Truy vấn quá thường xuyên</value>
+    <comment>0036. Deposit</comment>
+  </data>
+  <data name="succ_Trans_Casino2SB" xml:space="preserve">
+    <value>Your transfer from Casino to Sportsbook is successful.</value>
+    <comment>0049.</comment>
+  </data>
+  <data name="succ_Trans_SB2Casicno" xml:space="preserve">
+    <value>Your transfer from Sportsbook to Casino is successful.</value>
+    <comment>0048.</comment>
+  </data>
+  <data name="success_change_nickname" xml:space="preserve">
+    <value>Thay đổi biệt danh thành công</value>
+    <comment>0037.</comment>
+  </data>
+  <data name="success_change_pw" xml:space="preserve">
+    <value>Thanh đổi mật khẩu thành công. Bạn sẽ được chuyển hướng đến Trang Sự Kiện Hôm Nay.</value>
+    <comment>0038.</comment>
+  </data>
+  <data name="success_remind_nextmonth" xml:space="preserve">
+    <value>Đã xác nhận. Sẽ nhắc lại tháng tới.</value>
+    <comment>0039.</comment>
+  </data>
+  <data name="ValidCodeChanged" xml:space="preserve">
+    <value>The Validation code has changed. Please login again.</value>
+  </data>
+  <data name="winmax10000" xml:space="preserve">
+    <value>Số tiền rút tối đa phải nhỏ hơn 10.000 !</value>
+    <comment>0040. Deposit</comment>
+  </data>
+  <data name="witmin50" xml:space="preserve">
+    <value>Số tiền rút tối thiểu phải lớn hơn 50 !</value>
+    <comment>0041. Deposit</comment>
+  </data>
+  <data name="yousuretobet" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn xử lý đặt cược không?</value>
+    <comment>0042.</comment>
+  </data>
+  <data name="yousuretobet1" xml:space="preserve">
+    <value>Your previous bet is still processing, are you sure you want to bet ?</value>
+  </data>
+  <data name="yousuretodel" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn xoá vé?</value>
+    <comment>0043. PhoneBetting</comment>
+  </data>
+  <data name="errlogin_AC_nocredit" xml:space="preserve">
+    <value>Login failed. You have insufficient fund.</value>
+  </data>
+  <data name="errlogin_AC_suspend" xml:space="preserve">
+    <value>Login failed. Your account is suspended. Please contact Customer Service for more information.</value>
+  </data>
+  <data name="err_LackOfFundInHOGaming" xml:space="preserve">
+    <value>There is not enough balance in your HOGaming to make this transfer.</value>
+    <comment>0061.Deposit</comment>
+  </data>
+  <data name="err_LackOfFundInSBBonus_HOGaming" xml:space="preserve">
+    <value>Kindly note that any given bonuses before fulfilling turnover requirements,cannot be transferred to HOGaming.</value>
+    <comment>0062.Deposit</comment>
+  </data>
+  <data name="succ_Trans_HOGamingToSB" xml:space="preserve">
+    <value>Your transfer from HOGaming to Sportsbook is successful.</value>
+    <comment>0063.Deposit</comment>
+  </data>
+  <data name="succ_Trans_SBToHOGaming" xml:space="preserve">
+    <value>Your transfer from Sportsbook to HOGaming is successful.</value>
+    <comment>0064.Deposit</comment>
+  </data>
+  <data name="msg_CasinoNoDeposit" xml:space="preserve">
+    <value>Trước khi bạn trải nghiệm những giây phút hồi hộp cùng Casino, vui lòng gửi tiền vào tài khoản của bạn.</value>
+    <comment>0032. deposit</comment>
+  </data>
+  <data name="msg_LiveCasinoNoDeposit" xml:space="preserve">
+    <value>Trước khi bạn trải nghiệm những giây phút hồi hộp cùng Live Casino, vui lòng gửi tiền vào tài khoản của bạn.</value>
+    <comment>0032. deposit</comment>
+  </data>
+  <data name="lbl_loginfirstmsg" xml:space="preserve">
+    <value>Vui lòng đăng nhập!</value>
+    <comment>Connect casino at customer.</comment>
+  </data>
+  <data name="ForgetPwdSendFail" xml:space="preserve">
+    <value>Có lỗi trong quá trình gửi mật khẩu mới tới email của bạn, xin vui lòng liên hệ với dịch vụ khách hàng của chúng tôi.</value>
+    <comment>Connect casino at customer.</comment>
+  </data>
+  <data name="err_LackOfFundInOpus" xml:space="preserve">
+    <value>Số dư trong tài khoản 12Diamond Club của quý khách không đủ để thực hiện chuyển quỹ.</value>
+  </data>
+  <data name="err_LessthantheMinLimit" xml:space="preserve">
+    <value>Không Đủ Tối Thiểu Chuyển Khoản</value>
+  </data>
+  <data name="err_overthanthemaxlimit" xml:space="preserve">
+    <value>Vượt Qua Giới Hạn Chuyển Khoản</value>
+  </data>
+  <data name="err_ThisCurrencyNotSupport" xml:space="preserve">
+    <value>Không Hỗ Trợ Tiền Tệ Của Quý Khách</value>
+  </data>
+  <data name="err_TransFromToSame" xml:space="preserve">
+    <value>The transfer is not allow  source and destination the same</value>
+  </data>
+  <data name="succ_Trans_Opus2SB" xml:space="preserve">
+    <value>Chuyển tiền thành công từ 12Diamond Club sang Thể Thao</value>
+  </data>
+  <data name="succ_Trans_SB2Opus" xml:space="preserve">
+    <value>Chuyển tiền thành công từ Thể Thao qua 12Diamond Club</value>
+  </data>
+  <data name="err_Casino_getbal" xml:space="preserve">
+    <value>Gặp Lỗi Khi Chuyển Quỹ 12Emerald Club </value>
+  </data>
+  <data name="err_Opus_getbal" xml:space="preserve">
+    <value>Gặp Lỗi Khi Chuyển Quỹ 12Diamond Club</value>
+  </data>
+  <data name="err_Sport_getbal" xml:space="preserve">
+    <value>Gặp Lỗi Khi Chuyển Quỹ Thể Thao</value>
+  </data>
+  <data name="succ_Casino_getbal" xml:space="preserve">
+    <value>Chuyển Quỹ 12Emerald Club Thành Công</value>
+  </data>
+  <data name="succ_Opus_getbal" xml:space="preserve">
+    <value>Chuyển Quỹ 12Diamond Club Thành Công</value>
+  </data>
+  <data name="succ_Trans_Emerald2SB" xml:space="preserve">
+    <value>Chuyển tiền thành công từ 12Emerald Club qua Thể Thao</value>
+  </data>
+  <data name="err_LackOfFundInEmerald" xml:space="preserve">
+    <value>There is not enough balance in your 12Emerald Club to make this transfer.</value>
+  </data>
+  <data name="succ_Trans_SB2Emerald" xml:space="preserve">
+    <value>Chuyển tiền thành công từ Thể Thao qua 12Emerald Club</value>
+  </data>
+  <data name="succ_Sport_getbal" xml:space="preserve">
+    <value>Chuyển Quỹ Thể Thao Thành Công</value>
+  </data>
+  <data name="Msg_TurnToMobile" xml:space="preserve">
+    <value>Would you like to proceed this page on Mobile version?</value>
+  </data>
+  <data name="KenoFlashMsg" xml:space="preserve">
+    <value>Your account is not able to play Keno game, please contact your upline to enable Keno for you.</value>
+  </data>
+  <data name="msg_KenoNoDeposit" xml:space="preserve">
+    <value>Trước khi bạn trải nghiệm những giây phút hồi hộp cùng Keno, vui lòng gửi tiền vào tài khoản của bạn.</value>
+  </data>
+  <data name="msg_Special_Characters_Alert" xml:space="preserve">
+    <value>Special characters are not allowed</value>
+  </data>
+  <data name="Msg_TurnToMobileTitle" xml:space="preserve">
+    <value>Entering Mobile Version</value>
+  </data>
+  <data name="Msg_TurnToMobileCheck" xml:space="preserve">
+    <value>Never ask me again</value>
+  </data>
+  <data name="Msg_Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Msg_No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="err_LackOfFund" xml:space="preserve">
+    <value>There is not enough balance in your {0} acount to make this transfer.</value>
+  </data>
+  <data name="lbl_BetTradeGuideMsg" xml:space="preserve">
+    <value>Để bảo đảm tiền thắng cược trước khi ván chơi kết thúc, chỉ cần làm theo các bước bên dưới để bán cược của bạn:</value>
+  </data>
+  <data name="lbl_Step1" xml:space="preserve">
+    <value>Bước 1</value>
+  </data>
+  <data name="lbl_Step1Msg" xml:space="preserve">
+    <value>Tìm kiếm mọi ván chơi có Biểu tượng Bán Lại Cược.</value>
+  </data>
+  <data name="lbl_Step2" xml:space="preserve">
+    <value>Bước 2</value>
+  </data>
+  <data name="lbl_Step2Msg" xml:space="preserve">
+    <value>Đặt cược vào ván chơi</value>
+  </data>
+  <data name="lbl_Step3" xml:space="preserve">
+    <value>Bước 3</value>
+  </data>
+  <data name="lbl_Step3Msg1" xml:space="preserve">
+    <value>Sau khi ván chơi bắt đầu, nút</value>
+  </data>
+  <data name="lbl_Step3Msg2" xml:space="preserve">
+    <value>có giá đề xuất sẽ xuất hiện trên phiếu.</value>
+  </data>
+  <data name="lbl_Step4" xml:space="preserve">
+    <value>Bước 4</value>
+  </data>
+  <data name="lbl_Step4Msg1" xml:space="preserve">
+    <value>Trạng thái &amp;lt;Đã bán&amp;gt; sẽ hiện ra nếu bạn đã bán vé thành công. Bấm vào</value>
+  </data>
+  <data name="lbl_Step4Msg2" xml:space="preserve">
+    <value>để hoàn tất.</value>
+  </data>
+  <data name="lbl_BetTradeGuide" xml:space="preserve">
+    <value>Hướng dẫn về Bán Lại Cược</value>
+  </data>
+  <data name="Msg_MGMenuNotFound" xml:space="preserve">
+    <value>Danh mục này trống.</value>
+  </data>
+  <data name="Msg_MGPageNotFound" xml:space="preserve">
+    <value>No game found on this tab , system will redirect to the first tab</value>
+  </data>
+  <data name="msg_ReferBetTradeGuide" xml:space="preserve">
+    <value>Vui lòng tham khảo hướng dẫn về Bán Lại Cược</value>
+  </data>
+  <data name="MSG_SellThisBetTicket" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn bán vé cược này không?</value>
+  </data>
+  <data name="lbl_disabledBet" xml:space="preserve">
+    <value>Your account is not able to play this market/product.</value>
+  </data>
+  <data name="msg_KenoLotteryNoDeposit" xml:space="preserve">
+    <value>Before you can experience the thrills of Lottery, please make a deposit into your account.</value>
+  </data>
+  <data name="KenoLotteryFlashMsg" xml:space="preserve">
+    <value>Your account is not able to play Lottery game, please contact your upline to enable Lottery for you.</value>
+  </data>
+</root>

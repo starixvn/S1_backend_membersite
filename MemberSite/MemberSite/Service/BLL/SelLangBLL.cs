@@ -1,0 +1,125 @@
+﻿using MemberSite.Service.Model;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Resources;
+using System.Threading.Tasks;
+
+namespace MemberSite.Service.BLL
+{
+    public class SelLangBLL : ISelLang
+    {
+        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly IHttpContextAccessor httpContextAccessor;
+        private ConcurrentDictionary<string, ResourceManager> rm = new ConcurrentDictionary<string, ResourceManager>();
+        private string sLangId;
+
+        public SelLangBLL(IHttpContextAccessor httpContextAccessor, ServerInfoBLL serverInfoBLL)
+        {
+            this.serverInfoBLL = serverInfoBLL;
+            this.httpContextAccessor = httpContextAccessor;
+            this.sLangId = null;
+        }
+        /// <summary>
+        /// Get Language ID
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public string GetLangId()
+        {
+            if (!string.IsNullOrEmpty(sLangId))
+            {
+                return sLangId;
+            }
+
+            string langId = null;
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            var context = httpContextAccessor.HttpContext;
+            if (context.User.Identity.IsAuthenticated)
+            {
+                langId = context.User.Claims.FirstOrDefault(m => m.Type == "LangId").Value;
+            }
+            else
+            {
+
+                langId = context.Request.Cookies[$"LangId_{serverInfo.SiteId}"];
+            }
+
+            string userLangs = context.Request.Headers["Accept-Language"].ToString();
+            string firstLang = userLangs.Split(',').FirstOrDefault();
+
+            if (string.IsNullOrEmpty(langId) && !string.IsNullOrEmpty(firstLang))
+            {
+                if (firstLang.StartsWith("th", StringComparison.OrdinalIgnoreCase))
+                {
+                    langId = "th";
+                }
+                else if (firstLang.StartsWith("vi", StringComparison.OrdinalIgnoreCase))
+                {
+                    langId = "vn";
+                }
+                else if (firstLang.StartsWith("en", StringComparison.OrdinalIgnoreCase))
+                {
+                    langId = "en";
+                }
+                else
+                {
+                    langId = serverInfo.DefLang;
+                }
+            }
+
+            if (string.IsNullOrEmpty(langId))
+            {
+                langId = serverInfo.DefLang;
+            }
+            else if (!serverInfo.ILangList.Contains(langId))
+            {
+                langId = serverInfo.DefLang;
+            }
+
+            return langId;
+        }
+
+        private string GetResourceValue(string key, string categoryId, string langId)
+        {
+            //
+            string labelString = string.Empty;
+            string sKey = $"{Assembly.GetExecutingAssembly().GetName().Name}.App_GlobalResources.{categoryId}_{langId}";
+            if (!rm.ContainsKey(sKey))
+            {
+                rm.TryAdd(sKey, new ResourceManager(sKey, Assembly.GetExecutingAssembly()));
+            }
+            labelString = rm[sKey].GetString(key);
+
+            if (string.IsNullOrEmpty(labelString))
+            {
+                labelString = GetResourceValue(key, "lan", "en");
+            }
+
+            return labelString;
+        }
+        public string GetResourceValue(string key)
+        {
+            string labelString = GetResourceValue(key, "MemberSite_lan", GetLangId());
+            if (string.IsNullOrEmpty(labelString))
+            {
+                labelString = GetResourceValue(key, "lan", GetLangId());
+            }
+
+            return labelString;
+        }
+        public string GetErrMsg(int code)
+        {
+            string labelString = GetResourceValue($"Code_{code}", "GameMsg_lan", GetLangId());
+            if (string.IsNullOrEmpty(labelString))
+            {
+                labelString = GetResourceValue($"Code_{code}", "GameMsg_lan", "en");
+            }
+
+            return labelString;
+        }
+    }
+}
