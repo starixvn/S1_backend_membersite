@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MemberSite.Controllers.Api
 {
     [Route("api/[controller]/[action]")]
+    //[Route("api/[controller]/[action]/{LangId}")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -34,6 +35,12 @@ namespace MemberSite.Controllers.Api
         {
             public string UserName { get; set; }
             public string Userpwd { get; set; }
+        }
+
+        [HttpGet]
+        public string test()
+        {
+            return selLangBLL.GetLangId();
         }
 
         [HttpPost]

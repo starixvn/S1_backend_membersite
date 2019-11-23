@@ -18,14 +18,14 @@ namespace MemberSite.Service.DAL
             this.configuration = configuration;
         }
 
-        public int SetBalance(int custId, int siteId, string userName, decimal Amount, int type, string Memo, string RefTransId, bool isDepositOrWithdraw, out decimal afterAmount, out byte is1stDepoist)
+        public int SetBalance(int custId, int siteId, string userName, decimal Amount, int type, string Memo, string RefTransId, out decimal afterAmount, out byte is1stDepoist)
         {
             using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
             {
                 conn.Open();
                 using (MySqlTransaction trans = conn.BeginTransaction())
                 {
-                    var p = new DynamicParameters(new { CustId = custId, SiteId = siteId, UserName = userName, Amount = Amount, Type = type, Memo = Memo, RefTransId = RefTransId, IsDepositOrWithdraw = isDepositOrWithdraw });
+                    var p = new DynamicParameters(new { CustId = custId, SiteId = siteId, UserName = userName, Amount = Amount, Type = type, Memo = Memo, RefTransId = RefTransId });
                     p.Add("Is1stDepoist", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     p.Add("AfterAmount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
                     conn.Execute("Wallet_Set", p, transaction: trans, commandType: CommandType.StoredProcedure);

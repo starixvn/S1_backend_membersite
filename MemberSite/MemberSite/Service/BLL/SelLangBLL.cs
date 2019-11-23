@@ -1,5 +1,6 @@
 ﻿using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -36,6 +37,7 @@ namespace MemberSite.Service.BLL
             }
 
             string langId = null;
+
             var serverInfo = serverInfoBLL.GetServerInfo();
             var context = httpContextAccessor.HttpContext;
             if (context.User.Identity.IsAuthenticated)
@@ -44,9 +46,22 @@ namespace MemberSite.Service.BLL
             }
             else
             {
-
                 langId = context.Request.Cookies[$"LangId_{serverInfo.SiteId}"];
             }
+
+            //////if (string.IsNullOrEmpty(langId))
+            //////{
+            //////    var routes = httpContextAccessor.HttpContext.GetRouteData();
+            //////    var routeDataLandId = routes.Values["LangId"] as string;
+            //////    if (!string.IsNullOrEmpty(routeDataLandId) && serverInfo.ILangList.Contains(routeDataLandId))
+            //////    {
+            //////        langId = routeDataLandId;
+
+            //////        /*CookieOptions option = new CookieOptions();
+            //////        option.Expires = DateTime.Now.AddDays(10);
+            //////        context.Response.Cookies.Append($"LangId_{serverInfo.SiteId}", langId, option);*/
+            //////    }
+            //////}
 
             string userLangs = context.Request.Headers["Accept-Language"].ToString();
             string firstLang = userLangs.Split(',').FirstOrDefault();
@@ -94,9 +109,9 @@ namespace MemberSite.Service.BLL
             }
             labelString = rm[sKey].GetString(key);
 
-            if (string.IsNullOrEmpty(labelString))
+            if (string.IsNullOrEmpty(labelString) && langId != "en")
             {
-                labelString = GetResourceValue(key, "lan", "en");
+                labelString = GetResourceValue(key, categoryId, "en");
             }
 
             return labelString;

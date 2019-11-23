@@ -1,4 +1,5 @@
-﻿@using MemberSite.Service.BLL
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
 @inject SelLangBLL selLangBLL
 <!DOCTYPE html>
 <html>
@@ -27,7 +28,9 @@
     <meta name="application-name" content="" />
     @*M88*@
     <meta name="keywords" content="online casino, gambling online, online gambling, betting and gambling, online gambling Malaysia, online gambling in Malaysia, gambling games, bet online, online betting, online bet, casino gambling, online betting website, sports betting, casino online, poker mahjong, lottery lotto, online gambling Australia, online gambling Asia">
-
+    <script>
+        var SiteLanguage = "@selLangBLL.GetLangId()";
+    </script>
 
     @RenderSection("Style", required: false)
 </head>

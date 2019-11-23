@@ -84,9 +84,11 @@ namespace MemberSite
             {
                 //endpoints.MapControllers();
                 endpoints.MapAreaControllerRoute("areaRoute", "{area:exists}", "{area:exists}/{controller=Home}/{action=Index}");
+                //endpoints.MapAreaControllerRoute("areaRoute", "{area:exists}", "{area:exists}/{controller=Home}/{action=Index}/{LandId}");
                 endpoints.MapControllerRoute(
                     name: "desktop",
                     pattern: "{controller=Home}/{action=Index}");
+                //pattern: "{controller=Home}/{action=Index}/{LandId?}");
             });
         }
     }
