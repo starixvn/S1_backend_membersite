@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace MemberSite.Service.Model
 {
+
     public interface IDispositInfo
     {
         int Ver { get; set; }
@@ -24,15 +25,15 @@ namespace MemberSite.Service.Model
         public string PostScript { get; set; }
         public int Status { get; set; }
     }
-    public class DispositInfo0 : IDispositInfo
+    public class DispositInfo0_1 : IDispositInfo
     {
         public int Ver { get; set; }
     }
-    public class DispositInfo1 : IDispositInfo
+    public class DispositInfo1_1 : IDispositInfo
     {
         public int Ver { get; set; }
     }
-    public class DispositInfo2 : IDispositInfo
+    public class DispositInfo2_1 : IDispositInfo
     {
         public int Ver { get; set; }
         public int BankDId { get; set; }

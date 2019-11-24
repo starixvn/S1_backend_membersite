@@ -77,7 +77,7 @@ namespace MemberSite.Controllers
             depositDetailInfo.SiteId = customer.SiteId;
             depositDetailInfo.UserName = customer.UserName;
             depositDetailInfo.Amount = -500;
-            depositDetailInfo.DispositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfoService.GetBankAccountOff(1, customer.CustId, depositDetailInfo.Amount));
+            //depositDetailInfo.DispositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfoService.GetBankAccountOff(1, customer.CustId, depositDetailInfo.Amount));
             //@DispositType,@CustId,@UserName,@SiteId,@DispositInfo,@Amount,@Memo,@PostScript,@Status
             string TT = "";
             var agent = agentInfoService.GetSuperAgent(customer.CurrencyId, customer.SiteId);

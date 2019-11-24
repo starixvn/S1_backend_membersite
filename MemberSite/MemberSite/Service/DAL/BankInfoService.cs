@@ -18,11 +18,11 @@ namespace MemberSite.Service.DAL
         {
             this.configuration = configuration;
         }
-        public DispositInfo2 GetBankAccountOff(int sysId, int custId, decimal amount)
+        public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId)
         {
             using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
             {
-                return conn.QueryFirstOrDefault<DispositInfo2>("BankAccountOff_Get", new { SysId = sysId, CustId = custId, Amount = amount }, commandType: CommandType.StoredProcedure);
+                return conn.Query<BankInfoOff>("BankAccountOff_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
             }
         }
     }

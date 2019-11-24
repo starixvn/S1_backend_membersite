@@ -32,6 +32,14 @@ namespace MemberSite.Service.DAL
                 return userId > 0 ? 0 : -1;
             }
         }
+        public Customer GetCustInfo(int custId)
+        {
+            using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
+            {
+                return conn.QueryFirstOrDefault<Customer>("Customer_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            }
+        }
+
         public Customer GetCustInfoByUserName(string userName, int siteId)
         {
             using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))

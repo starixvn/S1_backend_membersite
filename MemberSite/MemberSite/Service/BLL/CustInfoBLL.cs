@@ -20,14 +20,16 @@ namespace MemberSite.Service.BLL
         private readonly AuthenticateService authenticateService;
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly AgentInfoService agentInfoService;
+        private readonly IMemoryCache cache;
 
-        public CustInfoBLL(Tools tools, CustInfoService custInfoService, AuthenticateService authenticateService, ServerInfoBLL serverInfoBLL, AgentInfoService agentInfoService)
+        public CustInfoBLL(IMemoryCache cache, Tools tools, CustInfoService custInfoService, AuthenticateService authenticateService, ServerInfoBLL serverInfoBLL, AgentInfoService agentInfoService)
         {
             this.tools = tools;
             this.custInfoService = custInfoService;
             this.authenticateService = authenticateService;
             this.serverInfoBLL = serverInfoBLL;
             this.agentInfoService = agentInfoService;
+            this.cache = cache;
         }
         public int AddCustInfo(string UserName, string Userpwd, int CurrencyId, string UserLang, out int custId)
         {
@@ -117,6 +119,53 @@ namespace MemberSite.Service.BLL
             custInfoService.SetLanguage(custId, langId);
 
             return 0;
+        }
+        public Customer GetCustInfoWithCache(int custId)
+        {
+            string key = $"CustInfo_{custId}";
+            var customer = cache.Get<Customer>(key);
+            if (customer != null)
+            {
+                return customer;
+            }
+
+            customer = custInfoService.GetCustInfo(custId);
+            if (customer != null)
+            {
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetSlidingExpiration(TimeSpan.FromMinutes(1));
+                cache.Set(key, customer, cacheEntryOptions);
+            }
+
+            return customer;
+        }
+
+        public Customer GetCustInfo(int custId)
+        {
+            return custInfoService.GetCustInfo(custId);
+        }
+
+        public int GetVipLevel(int custId)
+        {
+            return custInfoService.GetVipLevel(custId);
+        }
+
+        public int GetVipLevelWithCache(int custId)
+        {
+            string key = $"VipLevelCache_{custId}";
+            var vipLevelCache = cache.Get<int?>(key) ?? -1;
+            if (vipLevelCache != -1)
+            {
+                return vipLevelCache;
+            }
+
+            vipLevelCache = custInfoService.GetVipLevel(custId);
+            if (vipLevelCache != 0)
+            {
+                cache.Set(key, vipLevelCache, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
+            }
+
+            return vipLevelCache;
         }
     }
 }
