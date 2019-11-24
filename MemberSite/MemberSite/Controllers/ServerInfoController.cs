@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MemberSite.Service.BLL;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -10,19 +11,22 @@ namespace MemberSite.Controllers
 {
     public class ServerInfoController : Controller
     {
-        private IWebHostEnvironment environment;
-        private IConfiguration configuration;
+        private readonly IWebHostEnvironment environment;
+        private readonly IConfiguration configuration;
+        private readonly SelLangBLL selLangBLL;
 
-        public ServerInfoController(IWebHostEnvironment environment, IConfiguration configuration)
+        public ServerInfoController(IWebHostEnvironment environment, IConfiguration configuration, SelLangBLL selLangBLL)
         {
             this.environment = environment;
             this.configuration = configuration;
+            this.selLangBLL = selLangBLL;
         }
         public IActionResult Index()
         {
             Dictionary<string, string> ServerInfoData = new Dictionary<string, string>();
             ServerInfoData.Add("Now", DateTime.Now.ToString());
             ServerInfoData.Add("EnvironmentName", environment.EnvironmentName);
+            ServerInfoData.Add("LangId", selLangBLL.GetLangId());
             ServerInfoData.Add("Url.Host", Request.Host.Host);
             ServerInfoData.Add("Url.Port", Request.Host.Port.ToString());
             //需要的欄位LIST

@@ -105,5 +105,18 @@ namespace MemberSite.Service.BLL
                 return 0;
             }
         }
+
+        public int SetLanguage(int custId, string langId)
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            if (!serverInfo.ILangList.Contains(langId))
+            {
+                return -1;
+            }
+
+            custInfoService.SetLanguage(custId, langId);
+
+            return 0;
+        }
     }
 }

@@ -39,5 +39,12 @@ namespace MemberSite.Service.DAL
                 return conn.QueryFirstOrDefault<Customer>("LoginCustInfo_Get", new { UserName = userName, SiteId = siteId }, commandType: CommandType.StoredProcedure);
             }
         }
+        public bool SetLanguage(int custId, string langId)
+        {
+            using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
+            {
+                return conn.Execute("LangId_Set", new { CustId = custId, LangId = langId }, commandType: CommandType.StoredProcedure) > 0;
+            }
+        }
     }
 }
