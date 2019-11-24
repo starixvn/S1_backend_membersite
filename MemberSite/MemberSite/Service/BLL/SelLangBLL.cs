@@ -119,30 +119,18 @@ namespace MemberSite.Service.BLL
         public string GetResourceValue(string key)
         {
             string labelString = GetResourceValue(key, "MemberSite_lan", GetLangId());
-            if (string.IsNullOrEmpty(labelString))
-            {
-                labelString = GetResourceValue(key, "lan", GetLangId());
-            }
 
             return labelString;
         }
         public string GetMsg(string key)
         {
             string labelString = GetResourceValue(key, "msg", GetLangId());
-            if (string.IsNullOrEmpty(labelString))
-            {
-                labelString = GetResourceValue(key, "msg", "en");
-            }
 
             return labelString;
         }
         public string GetErrMsg(int code)
         {
             string labelString = GetResourceValue($"Code_{code}", "GameMsg_lan", GetLangId());
-            if (string.IsNullOrEmpty(labelString))
-            {
-                labelString = GetResourceValue($"Code_{code}", "GameMsg_lan", "en");
-            }
 
             return labelString;
         }
