@@ -49,5 +49,18 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+
+        [HttpPost]
+        public async Task<ApiResult> Logout()
+        {
+            var apiResult = new ApiResult(selLangBLL);
+            bool result = authorizeBLL.Logout();
+
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            apiResult.ErrorCode = 0;
+            apiResult.Message = "";
+
+            return apiResult;
+        }
     }
 }

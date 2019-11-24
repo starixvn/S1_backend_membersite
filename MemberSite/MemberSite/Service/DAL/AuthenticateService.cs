@@ -47,7 +47,7 @@ namespace MemberSite.Service.DAL
         {
             using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
             {
-                return conn.Execute("LoginCheckIn_Set", new { IsOnline = isOnline, CustId = custId, IP = ip, Token = token }) > 0;
+                return conn.Execute("LoginCheckIn_Set", new { IsOnline = isOnline, CustId = custId, IP = ip, Token = token }, commandType: CommandType.StoredProcedure) > 0;
             }
         }
     }
