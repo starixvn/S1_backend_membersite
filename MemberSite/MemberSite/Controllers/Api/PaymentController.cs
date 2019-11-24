@@ -30,5 +30,12 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             return bankInfoBLL.GetBankInfoList(authData.CustId);
         }
+
+        //[HttpGet]
+        //public IEnumerable<SysBankInfo> GetBankInfoList()
+        //{
+        //    var authData = authorizeBLL.GetAuthData();
+        //    return bankInfoBLL.GetBankInfoList(authData.CustId);
+        //}
     }
 }

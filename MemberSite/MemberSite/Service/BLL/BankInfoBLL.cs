@@ -45,15 +45,44 @@ namespace MemberSite.Service.BLL
             var bankAccountOffList = GetBankAccountOff();
             var _info = (from x in bankAccountOffList
                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
+                         orderby x.PointLevel descending, x.Sort
                          select new SysBankInfo
                          {
+                             SysId = x.SysId,
                              BankId = x.BankId,
                              BankLogo = x.BankLogo,
                              BankName = x.BankName,
                              BankSite = x.BankSite,
-                             Sort = x.Sort,
-                             SysId = x.SysId
-                         }).OrderBy(x => x.Sort).Distinct();
+                         }).Distinct().ToList();
+
+            for (var i = 0; i < _info.Count(); i++)
+            {
+                var _info1 = (from x in bankAccountOffList
+                              where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && _info[i].SysId == x.SysId
+                              select new
+                              {
+                                  x.MinAmount,
+                                  x.MaxAmount
+                              }).OrderByDescending(x => x.MaxAmount == 0 ? decimal.MaxValue : x.MaxAmount).ThenBy(x => x.MinAmount).Distinct().FirstOrDefault();
+
+                _info[i].MinAmount = _info1.MinAmount;
+                _info[i].MaxAmount = _info1.MaxAmount;
+            }
+
+            //foreach (var bk in _info)
+            //{
+            //    var _info1 = (from x in bankAccountOffList
+            //                  where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && bk.SysId == x.SysId
+            //                  select new
+            //                  {
+            //                      x.MinAmount,
+            //                      x.MaxAmount
+            //                  }).OrderByDescending(x => x.MaxAmount == 0 ? decimal.MaxValue : x.MaxAmount).ThenBy(x => x.MinAmount).Distinct().FirstOrDefault();
+
+            //    bk.MinAmount = _info1.MinAmount;
+            //    bk.MaxAmount = _info1.MaxAmount;
+            //}
+
             return _info;
         }
     }
