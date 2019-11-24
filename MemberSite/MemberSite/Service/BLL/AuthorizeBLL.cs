@@ -28,7 +28,7 @@ namespace MemberSite.Service.BLL
             var authData = GetAuthData();
 
             string ip = tools.GetClientIP(httpContextAccessor.HttpContext);
-            bool result = authenticateService.UpdateOnline(authData.CustId, true, authData.LangId, ip);
+            bool result = authenticateService.UpdateOnline(authData.CustId, true, authData.Token, ip);
 
             return result;
         }
@@ -48,6 +48,15 @@ namespace MemberSite.Service.BLL
             }
 
             return authData;
+        }
+        public bool Logout()
+        {
+            var authData = GetAuthData();
+
+            string ip = tools.GetClientIP(httpContextAccessor.HttpContext);
+            bool result = authenticateService.UpdateOnline(authData.CustId, false, authData.Token, ip);
+
+            return result;
         }
     }
 }

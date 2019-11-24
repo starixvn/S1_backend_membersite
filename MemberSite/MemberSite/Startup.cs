@@ -42,6 +42,7 @@ namespace MemberSite
             services.AddSingleton<CustInfoBLL>();
             services.AddSingleton<WalletBLL>();
             services.AddScoped<SelLangBLL>();
+            services.AddScoped<AuthorizeBLL>();
 
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
@@ -79,7 +80,7 @@ namespace MemberSite
             app.UseRouting();
 
             app.UseAuthentication();
-            //app.UseAuthorization();//Controller、Action才能加上 [Authorize] 屬性
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
