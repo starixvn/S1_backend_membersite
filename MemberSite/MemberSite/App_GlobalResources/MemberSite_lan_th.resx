@@ -117,252 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="lbl_Deposit_wtNote1" xml:space="preserve">
-    <value>Please ensure that the currency you are transferring to us is the same as the currency of your Nova88 account. 
-                  &lt;br /&gt;
-                  &lt;strong&gt;To deposit via wire transfers, you will need to arrange with your bank to transfer funds to our account listed below:&lt;/strong&gt;</value>
+  <data name="lbl_Applicationname" xml:space="preserve">
+    <value />
   </data>
-  <data name="lbl_Deoisit_wtNote2" xml:space="preserve">
-    <value>กรอกรหัสผู้ใช้ Nova88 บนสำเนาใบเสร็จที่ได้รับอีเมล์ แล้วแฟกซ์มาทางเราที่ &lt;a href="mailto:Nova88.csd@gmail.com"&gt;Nova88.csd@gmail.com&lt;/a&gt;.&lt;br /&gt;</value>
+  <data name="lbl_Author" xml:space="preserve">
+    <value />
   </data>
-  <data name="lbl_copyright" xml:space="preserve">
+  <data name="lbl_Copyright" xml:space="preserve">
     <value>Copyright {0}</value>
-    <comment>00083. Deposit</comment>
   </data>
-  <data name="lbl_registerinfo" xml:space="preserve">
-    <value>Please complete this one-page form to register your Nova88 account.</value>
-    <comment>00625. Deposit1</comment>
+  <data name="lbl_Description" xml:space="preserve">
+    <value>online betting, sport betting, football betting, sports betting, tennis betting, golf betting, online sports betting, soccer betting, online gambling</value>
   </data>
-  <data name="lbl_regNote1" xml:space="preserve">
-    <value>การส่งแบบฟอร์มสมัครนี้ ฉันยอมรับว่ามีอายุบรรลุนิติภาวะแล้วตามที่เวบไซด์ระบุให้สอดคล้องตามกฎหมายในพื้นที่อาศัยของฉัน และฉันก็ยอมรับกติกาและเงื่อนไขทั้งหมดตามข้อผูกพันการส่งใบสมัครนี้</value>
-    <comment>00626. Deposit</comment>
-  </data>
-  <data name="ForgetPwdSubject" xml:space="preserve">
-    <value>Notify Change your Nova88 account Password!</value>
-  </data>
-  <data name="lbl_AccountApproved" xml:space="preserve">
-    <value>Your Nova88 account has been verified!</value>
-  </data>
-  <data name="lbl_MsgHistoryTitle" xml:space="preserve">
-    <value>Nova88</value>
-  </data>
-  <data name="lbl_VerityAccount" xml:space="preserve">
-    <value>Please verify your Nova88 account!</value>
-  </data>
-  <data name="lbl_Welcometo12bet" xml:space="preserve">
-    <value>ยินดีต้อนรับท่านเข้าสู่ Nova88</value>
-  </data>
-  <data name="lbl_Withdrawal_wtNote3" xml:space="preserve">
-    <value>&amp;nbsp;</value>
-  </data>
-  <data name="lbl_My_Preferred_currency" xml:space="preserve">
-    <value>สกุลเงินที่ต้องการ</value>
-  </data>
-  <data name="lbl_My_Preferred_odds" xml:space="preserve">
-    <value>รูปแบบราคาน้ำที่ต้องการ</value>
-  </data>
-  <data name="lbl_OpenAccount" xml:space="preserve">
-    <value>เปิดบัญชี(ฟอร์มลงทะเบียน)</value>
-  </data>
-  <data name="lbl_Preferred_username" xml:space="preserve">
-    <value>ID เข้าระบบ</value>
-  </data>
-  <data name="lbl_Primaryphone" xml:space="preserve">
-    <value>หมายเลขโทรศัพท์</value>
-  </data>
-  <data name="lbl_regNote4" xml:space="preserve">
-    <value>กรุณาจดจำว่า เราไม่อนุญาตให้สมาชิกสมัครเปิดบัญชีมากว่าหนึ่ง (1) บัญชี</value>
-  </data>
-  <data name="lbl_regNote5" xml:space="preserve">
-    <value>แนะนำให้ใส่ข้อมูลให้ครบ ในทุกช่องที่มีเครื่องหมาย อื่นๆที่ไม่มี เป็นทางเลือกให้ระบุ</value>
-  </data>
-  <data name="lbl_Securitycode" xml:space="preserve">
-    <value>Security Question</value>
-  </data>
-  <data name="lbl_SelectDay" xml:space="preserve">
-    <value>Day</value>
-  </data>
-  <data name="lbl_SelectMonth" xml:space="preserve">
-    <value>Month</value>
-  </data>
-  <data name="lbl_SelectYear" xml:space="preserve">
-    <value>Year</value>
-  </data>
-  <data name="lbl_timeDeposit" xml:space="preserve">
-    <value>(กรุณาระบุเวลาไทย)</value>
-  </data>
-  <data name="lbl_UpdateBankDetails" xml:space="preserve">
-    <value>อัพเดทข้อมูลธนาคาร</value>
-  </data>
-  <data name="lbl_e.g_firstname" xml:space="preserve">
-    <value>ตัวอย่าง. มานะ</value>
-  </data>
-  <data name="lbl_e.g_lastname" xml:space="preserve">
-    <value>ตัวอย่าง. รุ่งเรือง</value>
-  </data>
-  <data name="lbl_execlastname" xml:space="preserve">
-    <value>ชื่อที่สมัครต้องตรงกับชื่อบัญชีธนาคารสำหรับใช้ฝากและถอนเงินของคุณ</value>
-  </data>
-  <data name="lbl_mailwelcome_title" xml:space="preserve">
-    <value>ข้อมูลลูกค้า</value>
-  </data>
-  <data name="lbl_mailwelcome_con1" xml:space="preserve">
-    <value>เรียน {0}</value>
-  </data>
-  <data name="lbl_mailwelcome_con2" xml:space="preserve">
-    <value>ยินดีต้อนรับท่านเข้าสู่ Nova88 !</value>
-  </data>
-  <data name="lbl_mailwelcome_con3" xml:space="preserve">
-    <value>วิธีโอนเงินทุนผ่านทางอินเตอร์เน็ตที่สะดวกและปลอดภัย ท่านเพียงเข้าสู่ เวบไซด์ Nova88.com สมาชิกเข้าสู่ระบบ แล้วคลิกไปยังปุ่ม ฝากเงิน ซื่งอยู่ด้านบนของหน้าหลัก รายละเอียดจะแจ้งขั้นตอน วิธีการโอนเงินผ่านธนาคาร ส่วนข้อมูลการโอนเงินวิธีอื่นๆ หาเพิ่มจาก</value>
-  </data>
-  <data name="lbl_mailwelcome_con4" xml:space="preserve">
-    <value>คำถามที่พบบ่อย</value>
-  </data>
-  <data name="lbl_mailwelcome_con5" xml:space="preserve">
+  <data name="lbl_Image" xml:space="preserve">
     <value />
   </data>
-  <data name="lbl_mailwelcome_con6" xml:space="preserve">
-    <value>ทั้งนี้ หากท่านมีข้อสงสัยอื่นๆเพิ่มเติม ท่านสามารถติดอีเมลล์ติดต่อที่:</value>
-  </data>
-  <data name="lbl_mailwelcome_mail" xml:space="preserve">
-    <value>Nova88.csd@gmail.com</value>
-  </data>
-  <data name="lbl_mailwelcome_con7" xml:space="preserve">
-    <value />
-  </data>
-  <data name="lbl_mailwelcome_con8" xml:space="preserve">
-    <value>ถ้าคุณลืมรหัสผ่าน กรุณาคลิกที่ "ลืมไอดีหรือรหัสผ่าน</value>
-  </data>
-  <data name="lbl_mailwelcome_con9" xml:space="preserve">
-    <value>ด้วยความเคารพ</value>
-  </data>
-  <data name="lbl_mailwelcome_con10" xml:space="preserve">
-    <value>ทีมงาน Nova88</value>
-  </data>
-  <data name="lbl_Congratulations1" xml:space="preserve">
-    <value>ขอแสดงความยินดีด้วยค่ะ</value>
-  </data>
-  <data name="lbl_Congratulations2" xml:space="preserve">
-    <value>การสมัครของคุณเสร็จสิ้นสมบูรณ์แล้ว คุณสามารถเข้าระบบได้ทันที รวมถีงการฝากเงินและการวางเดิมพัน</value>
-  </data>
-  <data name="lbl_Congratulations3" xml:space="preserve">
-    <value>ฝากเงินเลยตอนนี้เพื่อเริ่มต้นเล่น</value>
-  </data>
-  <data name="lbl_Congratulations4" xml:space="preserve">
-    <value>ข้อควรจำ</value>
-  </data>
-  <data name="lbl_Congratulations5" xml:space="preserve">
-    <value>จำนวนเงินขั้นต่ำในการฝากต่อรายการ</value>
-  </data>
-  <data name="lbl_Congratulations6" xml:space="preserve">
-    <value>จำนวนเงินสูงสุดในการทำรายการฝากต่อวัน</value>
-  </data>
-  <data name="lbl_Congratulations7" xml:space="preserve">
-    <value>สำหรับการทำรายการฝากที่มากกว่าจำนวนที่ได้ระบุไว้  จะอยู่ภายใต้การพิจารณาของบริษัทแต่เพียงผู้เดียว ต้องการข้อมูลเพิ่มเติม ติดต่อ</value>
-  </data>
-  <data name="lbl_Congratulations8" xml:space="preserve">
-    <value />
-  </data>
-  <data name="lbl_Congratulations9" xml:space="preserve">
-    <value>เราจะดำเนินการอัพเดทยอดเงินฝากของท่านในเวลา 24 ชั่วโมง เวลาดำเนินการขึ้นอยู่กับระยะเวลาทำการและเคลียร์เงินของตัวกลางส่งเงิน</value>
-  </data>
-  <data name="lbl_Congratulationstitle" xml:space="preserve">
-    <value>การตรวจสอบบัญชีสำเร็จเรียบร้อยแล้ว</value>
-  </data>
-  <data name="lbl_UM_HelpLink" xml:space="preserve">
-    <value>/popContents.aspx?tapindex=contactUs</value>
-  </data>
-  <data name="lbl_UM_Mail" xml:space="preserve">
-    <value>Nova88.csd@gmail.com</value>
-  </data>
-  <data name="lbl_UMTitle" xml:space="preserve">
-    <value>Nova88</value>
-  </data>
-  <data name="lbl_ACClosed" xml:space="preserve">
-    <value>บัญชีของท่านถูกปิด กรุณาติดต่อฝ่ายบริการลูกค้าโดยการส่งอีเมลล์ไปที่ Nova88.csd@gmail.com</value>
-  </data>
-  <data name="lbl_ACLocked" xml:space="preserve">
-    <value>บัญชีของคุณได้รับการแช่แข็ง กรุณาติดต่อฝ่ายบริการลูกค้าโดยการส่งอีเมลล์ไปที่ Nova88.csd@gmail.com</value>
-  </data>
-  <data name="lbl_newpassword1" xml:space="preserve">
-    <value>รหัสลงทะเบียนNova88ใหม่ ของท่านคือ</value>
-  </data>
-  <data name="lbl_newpassword2" xml:space="preserve">
-    <value>หากรหัสใหม่นี้มีปัญหาในการเข้าสู่ระบบการลงทะเบียนกับ Nova88 กรุณาติดต่อทางเราที่</value>
-  </data>
-  <data name="lbl_newpassword3" xml:space="preserve">
-    <value />
-  </data>
-  <data name="lbl_mailwelcome_btn" xml:space="preserve">
-    <value>Play Now!</value>
-  </data>
-  <data name="lbl_newpassword4" xml:space="preserve">
-    <value>ร้องขอรหัสลงทะเบียนใหม่</value>
-  </data>
-  <data name="lbl_WithdrawalRequest1" xml:space="preserve">
-    <value>แจ้งถอนเงินทุน</value>
-  </data>
-  <data name="lbl_WithdrawalRequest2" xml:space="preserve">
-    <value>ขอบคุณท่านที่แจ้งถอนเงินทุนกับบัญชี Nova88 วันที่ </value>
-  </data>
-  <data name="lbl_WithdrawalRequest3" xml:space="preserve">
-    <value>จำนวน</value>
-  </data>
-  <data name="lbl_WithdrawalRequest4" xml:space="preserve">
-    <value>รหัสโอนเงินเลขที่</value>
-  </data>
-  <data name="lbl_WithdrawalRequest5" xml:space="preserve">
-    <value>ทางเราจะดำเนินการถอนเงินทุน และท่านจะได้รับเงินดังกล่าวหลังจากนี้ 24 ชั้วโมง</value>
-  </data>
-  <data name="lbl_WithdrawalRequest6" xml:space="preserve">
-    <value>อีเมลฉบับนี้ส่งจากระบบอัตโนมัติ กรุณาอย่าตอบกลับอีเมลนี่โดยตรง&lt;br /&gt;หากท่านมีคำถามหรือข้อสงสัยเพื่มเติม สามารถติดต่อเราได้ที่</value>
-  </data>
-  <data name="lbl_WithdrawalRequest7" xml:space="preserve">
-    <value />
-  </data>
-  <data name="lbl_Deposit_Approved1" xml:space="preserve">
-    <value>ตอบรับยอดเงินฝาก</value>
-  </data>
-  <data name="lbl_Deposit_Approved2" xml:space="preserve">
-    <value>เนื่องด้วยรหัสโอนเงินฝากเลขที่</value>
-  </data>
-  <data name="lbl_Deposit_Approved3" xml:space="preserve">
-    <value>ทางเรามีความยินดีที่จะแจ้งว่าเงินฝากของท่านจำนวน</value>
-  </data>
-  <data name="lbl_Deposit_Approved4" xml:space="preserve">
-    <value>ได้รับและมีการปรับยอดเข้าสู่บัญชี Nova88 ของท่านแล้ว</value>
-  </data>
-  <data name="lbl_Deposit_Approved5" xml:space="preserve">
-    <value>เข้าสู่ระบบได้ทันที ทั้งนี้เราขอให้ท่านโชคดีในการเล่นกับเรา</value>
-  </data>
-  <data name="lbl_Deposit_Approved6" xml:space="preserve">
-    <value>ล็อกอิน</value>
-  </data>
-  <data name="lbl_Deposit_Request1" xml:space="preserve">
-    <value>แจ้งโอนเงินฝาก</value>
-  </data>
-  <data name="lbl_Deposit_Request2" xml:space="preserve">
-    <value>ขอบคุณท่านที่แจ้งโอนเงินฝากกับบัญชี Nova88 วันท</value>
-  </data>
-  <data name="lbl_Deposit_Request3" xml:space="preserve">
-    <value>จำนวน</value>
-  </data>
-  <data name="lbl_Deposit_Request4" xml:space="preserve">
-    <value>รหัสโอนเงินเลขที่</value>
-  </data>
-  <data name="lbl_Deposit_Request5" xml:space="preserve">
-    <value>บัญชีNova88 ของท่านจะถูกปรับยอดยอดเงิน เมื่อทางเราได้ยอดเงินข้างต้นในบัญชีธนาคารของเรา</value>
-  </data>
-  <data name="lbl_Deposit_Request6" xml:space="preserve">
-    <value>ทีมงานฝ่ายการเงิน Nova88</value>
-  </data>
-  <data name="lbl_sports" xml:space="preserve">
-    <value>สปอร์ตบุ๊ค</value>
-  </data>
-  <data name="lbl_homePage" xml:space="preserve">
-    <value>หน้าแรก</value>
+  <data name="lbl_Keywords" xml:space="preserve">
+    <value>online betting, sport betting, football betting, sports betting, tennis betting, golf betting, online sports betting, soccer betting, online gambling</value>
   </data>
   <data name="lbl_Title" xml:space="preserve">
-    <value>Nova88 | World leading sportsbook. Best odds offers.Nova88 | World leading sportsbook. Best odds offers.</value>
+    <value>Nova88</value>
+  </data>
+  <data name="lbl_TitleDesc" xml:space="preserve">
+    <value>World leading sportsbook. Best odds offers.</value>
+  </data>
+  <data name="lbl_TitleKeywords" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lbl_TwitterCreator" xml:space="preserve">
+    <value>@Nova88official</value>
+  </data>
+  <data name="lbl_TwitterSite" xml:space="preserve">
+    <value>@Nova88official</value>
+  </data>
+  <data name="lbl_URL" xml:space="preserve">
+    <value />
   </data>
 </root>

@@ -57,17 +57,17 @@ namespace MemberSite.Controllers.Api
             if (userLoginResult == -1)
             {
                 apiResult.ErrorCode = 1101;
-                apiResult.Message = selLangBLL.GetResourceValue("msg_DepositProcessLogin_15");
+                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
             }
             else if (userLoginResult == -2)
             {
                 apiResult.ErrorCode = 1001;
-                apiResult.Message = selLangBLL.GetResourceValue("msg_DepositProcessLogin_15");
+                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
             }
             else if (userLoginResult == -3)
             {
                 apiResult.ErrorCode = 1102;
-                apiResult.Message = selLangBLL.GetResourceValue("lbl_ACLocked");
+                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
             }
             else if (userLoginResult != 0)
             {

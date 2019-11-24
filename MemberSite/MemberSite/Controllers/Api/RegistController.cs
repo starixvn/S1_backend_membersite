@@ -41,7 +41,7 @@ namespace MemberSite.Controllers.Api
             if (result == -1)
             {
                 apiResult.ErrorCode = result;
-                apiResult.Message = selLangBLL.GetMsg("err_ThisCurrencyNotSupport");
+                apiResult.Message = selLangBLL.GetMsg("msg_ThisCurrencyNotSupport");
             }
             else if (result == -2)
             {
@@ -61,7 +61,7 @@ namespace MemberSite.Controllers.Api
             else
             {
                 apiResult.ErrorCode = 0;
-                apiResult.Message = selLangBLL.GetResourceValue("lbl_Congratulations2");
+                apiResult.Message = selLangBLL.GetMsg("msg_Congratulations");
             }
 
             return apiResult;
