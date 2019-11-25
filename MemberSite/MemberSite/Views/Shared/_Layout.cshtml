@@ -34,9 +34,15 @@
 </head>
 <body>
     <div>
+        @foreach (var siteLanguage in selLangBLL.GetLangIdList())
+        {
+            <div>@siteLanguage.LangId</div>
+            <div>@siteLanguage.Language</div>
+        }
         @if (User.Identity.IsAuthenticated)
         {
             <div>@User.Identity.Name</div>
+            <input id="logoutBtn" type="button" value="Logout" />
         }
         else
         {
@@ -56,20 +62,48 @@
         <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
         <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
-
-        <script type="text/javascript">
-            const form = document.getElementById('loginForm');
-            form.onsubmit = (e) => {
-                let data = {"UserName":$("#UserName").val(),"Userpwd":$("#Userpwd").val()};
-                axios.post('/api/Site/Validation',data)
-               .then(function (response) {
-                    console.log(response);
-                }).catch(function (error) {
-                    console.log(error);
+        @if (User.Identity.IsAuthenticated)
+        {
+            <script type="text/javascript">
+                $("#logoutBtn").click(function () {
+                    axios.post('/api/Account/Logout')
+                        .then(function (response) {
+                            let result = response.data;
+                            if (result.errorCode == 0) {
+                                alert(result.message);
+                                location.reload();
+                            } else {
+                                alert(result.message);
+                            }
+                        }).catch(function (error) {
+                            alert(error);
+                        });
                 });
-                e.preventDefault(); 
-            };
-        </script>
+            </script>
+        }
+        else
+        {
+            <script type="text/javascript">
+                const form = document.getElementById('loginForm');
+                form.onsubmit = (e) => {
+                    let data = { "UserName": $("#UserName").val(), "Userpwd": $("#Userpwd").val() };
+                    axios.post('/api/Site/Validation', data)
+                        .then(function (response) {
+                            let result = response.data;
+                            if (result.errorCode == 0) {
+                                alert(result.message);
+                                location.reload();
+                            } else {
+                                alert(result.message);
+                            }
+                        }).catch(function (error) {
+                            alert(error);
+                            console.log(error);
+                        });
+                    e.preventDefault();
+                };
+            </script>
+        }
     }
     else
     {

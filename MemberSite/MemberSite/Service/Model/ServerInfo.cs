@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace MemberSite.Service.Model
 {
+    public class SiteLanguage
+    {
+        public string LangId { set; get; }
+        public string Language { set; get; }
+    }
+
     public class ServerInfo
     {
         public int SiteId { set; get; }

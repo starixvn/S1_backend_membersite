@@ -40,7 +40,7 @@ namespace MemberSite.Controllers.Api
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 apiResult.ErrorCode = 1001;
-                apiResult.Message = selLangBLL.GetResourceValue("msg_loggedout");
+                apiResult.Message = selLangBLL.GetMsg("msg_loggedout");
             }
             else
             {

@@ -117,19 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="msg_Congratulations" xml:space="preserve">
-    <value>Your registration is completed, you may immediately login, deposit and then start to place bets.</value>
-  </data>
-  <data name="msg_DepositProcessLogin_ACLocked" xml:space="preserve">
-    <value>Your account is locked, please contact 24/7 customer service, thanks!</value>
-  </data>
-  <data name="msg_DepositProcessLogin_LoginFailed" xml:space="preserve">
-    <value>Login failed, Username/ Password is wrong or Username does not exist.</value>
-  </data>
-  <data name="msg_loggedout" xml:space="preserve">
-    <value>You have logged out!! Please login and try again!!</value>
-  </data>
-  <data name="msg_ThisCurrencyNotSupport" xml:space="preserve">
-    <value>Your Currency Not Support</value>
-  </data>
 </root>

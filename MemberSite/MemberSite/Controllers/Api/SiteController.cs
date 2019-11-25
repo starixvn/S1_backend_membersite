@@ -59,17 +59,17 @@ namespace MemberSite.Controllers.Api
             if (userLoginResult == -1)
             {
                 apiResult.ErrorCode = 1101;
-                apiResult.Message = selLangBLL.GetResourceValue("msg_DepositProcessLogin_15");
+                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_15");
             }
             else if (userLoginResult == -2)
             {
                 apiResult.ErrorCode = 1001;
-                apiResult.Message = selLangBLL.GetResourceValue("msg_DepositProcessLogin_15");
+                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_15");
             }
             else if (userLoginResult == -3)
             {
                 apiResult.ErrorCode = 1102;
-                apiResult.Message = selLangBLL.GetResourceValue("lbl_ACLocked");
+                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
             }
             else if (userLoginResult != 0)
             {
@@ -131,9 +131,18 @@ namespace MemberSite.Controllers.Api
             else
             {
                 apiResult.ErrorCode = 0;
-                apiResult.Message = selLangBLL.GetResourceValue("lbl_Congratulations2");
+                apiResult.Message = selLangBLL.GetMsg("msg_Congratulations");
             }
 
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<SiteLanguage>> GetSiteLanguage()
+        {
+            var apiResult = new ApiResult<IEnumerable<SiteLanguage>>(selLangBLL);
+            apiResult.Data = selLangBLL.GetLangIdList();
+            apiResult.ErrorCode = 0;
             return apiResult;
         }
     }

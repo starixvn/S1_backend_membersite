@@ -24,6 +24,23 @@ namespace MemberSite.Service.BLL
             this.httpContextAccessor = httpContextAccessor;
             this.sLangId = null;
         }
+
+        public IEnumerable<SiteLanguage> GetLangIdList()
+        {
+            List<SiteLanguage> list = new List<SiteLanguage>();
+            var serverInfo = serverInfoBLL.GetServerInfo();
+
+            foreach (var langId in serverInfo.ILangList)
+            {
+                SiteLanguage siteLanguage = new SiteLanguage();
+                siteLanguage.LangId = langId;
+                siteLanguage.Language = GetLan_Info(langId);
+                list.Add(siteLanguage);
+            }
+
+            return list;
+        }
+
         /// <summary>
         /// Get Language ID
         /// </summary>
@@ -96,6 +113,20 @@ namespace MemberSite.Service.BLL
             }
 
             return langId;
+        }
+
+        private string GetLan_Info(string key)
+        {
+            //
+            string labelString = string.Empty;
+            string sKey = $"{Assembly.GetExecutingAssembly().GetName().Name}.App_GlobalResources.Lan_Info";
+            if (!rm.ContainsKey(sKey))
+            {
+                rm.TryAdd(sKey, new ResourceManager(sKey, Assembly.GetExecutingAssembly()));
+            }
+            labelString = rm[sKey].GetString(key);
+
+            return labelString;
         }
 
         private string GetResourceValue(string key, string categoryId, string langId)
