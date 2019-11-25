@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <None Remove="CookieKeys\key-719265ab-c466-43e8-a692-d9f4cd25edd1.xml" />
+    <None Remove="ScaffoldingReadMe.txt" />
   </ItemGroup>
 
   <ItemGroup>

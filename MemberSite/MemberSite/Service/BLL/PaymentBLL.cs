@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MemberSite.Service.DAL;
+using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,16 +13,20 @@ namespace MemberSite.Service.BLL
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly BankInfoBLL bankInfoBLL;
         private readonly CustInfoBLL custInfoBLL;
+        private readonly DepoistService depoistService;
 
-        public PaymentBLL(ServerInfoBLL serverInfoBLL, BankInfoBLL bankInfoBLL, CustInfoBLL custInfoBLL)
+        public PaymentBLL(ServerInfoBLL serverInfoBLL, BankInfoBLL bankInfoBLL, CustInfoBLL custInfoBLL, DepoistService depoistService)
         {
             this.serverInfoBLL = serverInfoBLL;
             this.bankInfoBLL = bankInfoBLL;
             this.custInfoBLL = custInfoBLL;
+            this.depoistService = depoistService;
         }
 
-        public int DepositReq(int custId, int sysId, decimal amount)
+        public int DepositReqWireTransfer(int custId, int sysId, decimal amount, string memo, out DepositRep3 depositRep3)
         {
+            depositRep3 = new DepositRep3();
+
             if (amount <= 0)
                 return -1;
             var serverInfo = serverInfoBLL.GetServerInfo();
@@ -41,6 +48,29 @@ namespace MemberSite.Service.BLL
                          }).FirstOrDefault();
             if (_info != null)
             {
+                DepositDetailInfo depositDetailInfo = new DepositDetailInfo();
+                depositDetailInfo.Amount = amount;
+                depositDetailInfo.CustId = custId;
+                depositDetailInfo.DispositType = (int)DispositType.WireTransfer;
+                depositDetailInfo.Memo = memo;
+                depositDetailInfo.SiteId = serverInfo.SiteId;
+                depositDetailInfo.UserName = custInfo.UserName;
+
+                DispositInfo3_1 dispositInfo3_1 = new DispositInfo3_1();
+                dispositInfo3_1.AccountName = _info.AccountName;
+                dispositInfo3_1.SysId = _info.SysId;
+                dispositInfo3_1.AccountNo = _info.AccountNo;
+                dispositInfo3_1.Ver = 1;
+                depositDetailInfo.DispositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(dispositInfo3_1);
+                string transId = null;
+                string postScript = null;
+
+                depoistService.DepositReq(depositDetailInfo, out transId, out postScript);
+                depositRep3.transId = transId;
+                depositRep3.postScript = postScript;
+                depositRep3.AccountNo = dispositInfo3_1.AccountNo;
+                depositRep3.AccountName = dispositInfo3_1.AccountName;
+
                 return 0;
             }
 
@@ -66,6 +96,9 @@ namespace MemberSite.Service.BLL
 
             if (_info == null && _info1 != null)
             {
+                depositRep3.MaxAmount = _info1.MaxAmount;
+                depositRep3.MinAmount = _info1.MinAmount;
+
                 return -3;
             }
 

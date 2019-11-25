@@ -42,8 +42,9 @@ namespace MemberSite
             services.AddSingleton<CustInfoBLL>();
             services.AddSingleton<WalletBLL>();
             services.AddScoped<SelLangBLL>();
-            services.AddScoped<AuthorizeBLL>();
-            services.AddScoped<BankInfoBLL>();
+            services.AddSingleton<AuthorizeBLL>();
+            services.AddSingleton<BankInfoBLL>();
+            services.AddSingleton<PaymentBLL>();
 
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();

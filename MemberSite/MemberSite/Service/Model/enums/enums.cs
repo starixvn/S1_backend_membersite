@@ -23,9 +23,9 @@ namespace MemberSite.Service.Model.enums
     }
     public enum DispositType
     {
-        OnlineBanking = 0,
-        MobilePayment = 1,
-        WireTransfer = 2,
+        OnlineBanking = 1,
+        MobilePayment = 2,
+        WireTransfer = 3,
     }
 
     /// <summary>
@@ -33,12 +33,12 @@ namespace MemberSite.Service.Model.enums
     /// </summary>
     public enum DepositStatus
     {
-        Pending = 0,
-        Paid = 1,
-        Approved = 2,
-        Rejected = 3,
-        Canceled = 4,
-        Expired = 5,
+        Pending = 1,
+        Paid = 2,
+        Approved = 3,
+        Rejected = 4,
+        Canceled = 5,
+        Expired = 6,
     }
     /// <summary>
     ///  1=已入账  2=支付中  3=等待出款  4=已出款

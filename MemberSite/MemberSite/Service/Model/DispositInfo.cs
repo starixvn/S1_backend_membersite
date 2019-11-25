@@ -25,10 +25,6 @@ namespace MemberSite.Service.Model
         public string PostScript { get; set; }
         public int Status { get; set; }
     }
-    public class DispositInfo0_1 : IDispositInfo
-    {
-        public int Ver { get; set; }
-    }
     public class DispositInfo1_1 : IDispositInfo
     {
         public int Ver { get; set; }
@@ -36,8 +32,22 @@ namespace MemberSite.Service.Model
     public class DispositInfo2_1 : IDispositInfo
     {
         public int Ver { get; set; }
-        public int BankDId { get; set; }
+    }
+    public class DispositInfo3_1 : IDispositInfo
+    {
+        public int Ver { get; set; }
+        public int SysId { get; set; }
         public string AccountName { get; set; }
         public string AccountNo { get; set; }
+    }
+
+    public class DepositRep3
+    {
+        public string AccountNo { get; set; }
+        public string AccountName { get; set; }
+        public string transId { get; set; }
+        public string postScript { get; set; }
+        public decimal MinAmount { get; set; }
+        public decimal MaxAmount { get; set; }
     }
 }

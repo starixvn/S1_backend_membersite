@@ -22,16 +22,24 @@ namespace MemberSite.Service.DAL
             this.configuration = configuration;
             this.common = common;
         }
-        public int DepositReq(DepositDetailInfo depositDetailInfo, out string transId)
+        public int DepositReq(DepositDetailInfo depositDetailInfo, out string transId, out string postScript)
         {
-            transId = "";
+            transId = null;
+            postScript = null;
             using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
             {
                 conn.Open();
                 using (MySqlTransaction trans = conn.BeginTransaction())
                 {
-                    transId = conn.ExecuteScalar<string>("DepositInfo_Ins", new { DispositType = depositDetailInfo.DispositType, CustId = depositDetailInfo.CustId, UserName = depositDetailInfo.UserName, SiteId = depositDetailInfo.SiteId, DispositInfo = depositDetailInfo.DispositInfo, Amount = depositDetailInfo.Amount, Memo = depositDetailInfo.Memo, PostScript = depositDetailInfo.PostScript, Status = (int)DepositStatus.Pending, Prefix = $"D{common.GetEnv()}" }, transaction: trans, commandType: CommandType.StoredProcedure);
+                    var p = new DynamicParameters(new { depositDetailInfo.DispositType, depositDetailInfo.CustId, depositDetailInfo.UserName, depositDetailInfo.SiteId, depositDetailInfo.DispositInfo, depositDetailInfo.Amount, depositDetailInfo.Memo, Prefix = $"D{common.GetEnv()}" });
+                    p.Add("vPostScript", dbType: DbType.String, direction: ParameterDirection.Output);
+                    p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
+
+                    conn.Execute("DepositInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
                     trans.Commit();
+
+                    postScript = p.Get<string>("vPostScript");
+                    transId = p.Get<string>("vTransId");
                     return 0;
                 }
             }

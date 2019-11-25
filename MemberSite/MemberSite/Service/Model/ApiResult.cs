@@ -49,10 +49,10 @@ namespace MemberSite.Service.Model
             this.RawMessage = RawMessage;
         }
     }
-    public class ApiResult<TData> : ApiResult where TData : new()
+    public class ApiResult<TData> : ApiResult
     {
-        public ApiResult() : this(9000, "", new TData()) { }
-        public ApiResult(ISelLang selLang) : this(9000, "", new TData()) { this.SelLang = selLang; }
+        public ApiResult() : this(9000, "",  default) { }
+        public ApiResult(ISelLang selLang) : this(9000, "", default) { this.SelLang = selLang; }
         public ApiResult(int ErrorCode, string Message, TData data) : base(ErrorCode, Message) { this.Data = data; }
         public TData Data { get; set; }
     }
