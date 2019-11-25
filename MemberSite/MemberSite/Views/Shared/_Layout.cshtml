@@ -1,6 +1,8 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
 @inject SelLangBLL selLangBLL
+@inject IWebHostEnvironment environment
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,15 +30,51 @@
     <script>
         var SiteLanguage = "@selLangBLL.GetLangId()";
     </script>
-
     @RenderSection("Style", required: false)
 </head>
 <body>
     <div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div>@User.Identity.Name</div>
+        }
+        else
+        {
+            <form id="loginForm">
+                <input id="UserName" type="text" />
+                <input id="Userpwd" type="text" />
+                <input id="Submit1" type="submit" value="submit" />
+            </form>
+        }
         @RenderBody()
     </div>
     <script src="~/lib/moment.min.js"></script>
     <script src="~/lib/axios.min.js" asp-append-version="true"></script>
+    @if (environment.EnvironmentName == "Development")
+    {
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+
+        <script type="text/javascript">
+            const form = document.getElementById('loginForm');
+            form.onsubmit = (e) => {
+                let data = {"UserName":$("#UserName").val(),"Userpwd":$("#Userpwd").val()};
+                axios.post('/api/Site/Validation',data)
+               .then(function (response) {
+                    console.log(response);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                e.preventDefault(); 
+            };
+        </script>
+    }
+    else
+    {
+
+    }
     @RenderSection("Scripts", required: false)
 </body>
 </html>
