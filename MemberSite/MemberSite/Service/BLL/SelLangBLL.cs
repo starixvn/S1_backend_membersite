@@ -48,11 +48,6 @@ namespace MemberSite.Service.BLL
         /// <returns></returns>
         public string GetLangId()
         {
-            if (!string.IsNullOrEmpty(sLangId))
-            {
-                return sLangId;
-            }
-
             string langId = null;
 
             var serverInfo = serverInfoBLL.GetServerInfo();
@@ -66,19 +61,19 @@ namespace MemberSite.Service.BLL
                 langId = context.Request.Cookies[$"LangId_{serverInfo.SiteId}"];
             }
 
-            //////if (string.IsNullOrEmpty(langId))
-            //////{
-            //////    var routes = httpContextAccessor.HttpContext.GetRouteData();
-            //////    var routeDataLandId = routes.Values["LangId"] as string;
-            //////    if (!string.IsNullOrEmpty(routeDataLandId) && serverInfo.ILangList.Contains(routeDataLandId))
-            //////    {
-            //////        langId = routeDataLandId;
+            if (string.IsNullOrEmpty(langId))
+            {
+                var routes = httpContextAccessor.HttpContext.GetRouteData();
+                var routeDataLandId = routes.Values["LangId"] as string;
+                if (!string.IsNullOrEmpty(routeDataLandId) && serverInfo.ILangList.Contains(routeDataLandId))
+                {
+                    langId = routeDataLandId;
 
-            //////        /*CookieOptions option = new CookieOptions();
-            //////        option.Expires = DateTime.Now.AddDays(10);
-            //////        context.Response.Cookies.Append($"LangId_{serverInfo.SiteId}", langId, option);*/
-            //////    }
-            //////}
+                    /*CookieOptions option = new CookieOptions();
+                    option.Expires = DateTime.Now.AddDays(10);
+                    context.Response.Cookies.Append($"LangId_{serverInfo.SiteId}", langId, option);*/
+                }
+            }
 
             string userLangs = context.Request.Headers["Accept-Language"].ToString();
             string firstLang = userLangs.Split(',').FirstOrDefault();

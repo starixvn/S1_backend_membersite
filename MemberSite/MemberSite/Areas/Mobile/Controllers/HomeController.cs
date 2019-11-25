@@ -2,18 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MemberSite.Service.BLL;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Areas.Mobile.Controllers
 {
     [Area("Mobile")]
-    [Route("[area]/[controller]")]
+    [Route("[area]/[controller]/[action]/{LangId}")]
     public class HomeController : Controller
     {
-        [HttpGet("[action]", Name = "Index")]
+        private readonly SelLangBLL selLangBLL;
+
+        public HomeController(SelLangBLL selLangBLL)
+        {
+            this.selLangBLL = selLangBLL;
+        }
+        [HttpGet]
         public IActionResult Index()
         {
-            return Content("Mobile");
+            return Content("Mobile"+ selLangBLL.GetLangId());
         }
     }
 }

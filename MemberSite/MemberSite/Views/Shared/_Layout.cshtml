@@ -36,11 +36,14 @@
 </head>
 <body>
     <div>
-        @foreach (var siteLanguage in selLangBLL.GetLangIdList())
-        {
-            <div>@siteLanguage.LangId</div>
-            <div>@siteLanguage.Language</div>
-        }
+        @Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() });
+        @Url.RouteUrl(new { action = "Index", controller = "Home", area = "Mobile", LangId = selLangBLL.GetLangId() });
+        <select id="Select1">
+            @foreach (var siteLanguage in selLangBLL.GetLangIdList())
+            {
+                <option value="@siteLanguage.LangId">@siteLanguage.Language</option>
+            }
+        </select>
         @if (User.Identity.IsAuthenticated)
         {
             <div>@User.Identity.Name</div>

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -41,11 +42,11 @@ namespace MemberSite
             services.AddSingleton<ServerInfoBLL>();
             services.AddSingleton<CustInfoBLL>();
             services.AddSingleton<WalletBLL>();
-            services.AddScoped<SelLangBLL>();
+            /*??SelLangBLL?Scope*/
+            services.AddSingleton<SelLangBLL>();
             services.AddSingleton<AuthorizeBLL>();
             services.AddSingleton<BankInfoBLL>();
             services.AddSingleton<PaymentBLL>();
-
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
@@ -84,15 +85,17 @@ namespace MemberSite
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseMiddleware<SiteMiddleware>();
+
             app.UseEndpoints(endpoints =>
             {
                 //endpoints.MapControllers();
-                endpoints.MapAreaControllerRoute("areaRoute", "{area:exists}", "{area:exists}/{controller=Home}/{action=Index}");
-                //endpoints.MapAreaControllerRoute("areaRoute", "{area:exists}", "{area:exists}/{controller=Home}/{action=Index}/{LandId}");
+                //endpoints.MapAreaControllerRoute("areaRoute", "{area:exists}", "{area:exists}/{controller=Home}/{action=Index}");
+                endpoints.MapAreaControllerRoute(name: "areaRoute", "{area:exists}", "{area:exists}/{controller=Home}/{action=Index}/{LangId?}");
                 endpoints.MapControllerRoute(
                     name: "desktop",
-                    pattern: "{controller=Home}/{action=Index}");
-                //pattern: "{controller=Home}/{action=Index}/{LandId?}");
+                //pattern: "{controller=Home}/{action=Index}");
+                pattern: "{controller=Home}/{action=Index}/{LangId?}");
             });
         }
     }
