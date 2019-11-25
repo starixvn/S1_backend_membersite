@@ -17,6 +17,10 @@ namespace MemberSite.Service.BLL
             this.tools = tools;
             this.walletService = walletService;
         }
+        public decimal GetBalance(int custId)
+        {
+            return walletService.GetBalance(custId);
+        }
         public string GetFmtBalance(int custId)
         {
             return tools.FmtBalance(walletService.GetBalance(custId));

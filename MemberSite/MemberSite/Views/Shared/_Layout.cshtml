@@ -1,8 +1,10 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using MemberSite.Service.BLL
 @using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
 @inject SelLangBLL selLangBLL
 @inject IWebHostEnvironment environment
+@inject WalletBLL walletBLL
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,6 +44,7 @@
         @if (User.Identity.IsAuthenticated)
         {
             <div>@User.Identity.Name</div>
+            <div>@walletBLL.GetFmtBalance(Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value))</div>
             <input id="logoutBtn" type="button" value="Logout" />
         }
         else
