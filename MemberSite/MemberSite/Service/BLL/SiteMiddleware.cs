@@ -27,6 +27,11 @@ namespace MemberSite.Service.BLL
                 await _next.Invoke(context);
                 if (!context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
                 {
+                    //var routes = ;
+                    var routeDataLandId = context.Request.RouteValues["LangId"] as string;
+                    //context.Request.u
+
+
 
                     if (context.Response.StatusCode == 404)
                     {

@@ -47,6 +47,7 @@ namespace MemberSite
             services.AddSingleton<AuthorizeBLL>();
             services.AddSingleton<BankInfoBLL>();
             services.AddSingleton<PaymentBLL>();
+
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
@@ -85,7 +86,7 @@ namespace MemberSite
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseMiddleware<SiteMiddleware>();
+            //app.UseMiddleware<SiteMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

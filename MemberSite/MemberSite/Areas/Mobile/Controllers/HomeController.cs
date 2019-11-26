@@ -9,6 +9,7 @@ namespace MemberSite.Areas.Mobile.Controllers
 {
     [Area("Mobile")]
     [Route("[area]/[controller]/[action]/{LangId}")]
+    //[MiddlewareFilter(typeof(LocalizationPipeline))]
     public class HomeController : Controller
     {
         private readonly SelLangBLL selLangBLL;
@@ -20,6 +21,7 @@ namespace MemberSite.Areas.Mobile.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            //RedirectToRoute("")
             return Content("Mobile"+ selLangBLL.GetLangId());
         }
     }
