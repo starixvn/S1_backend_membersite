@@ -36,6 +36,11 @@ namespace MemberSite.Service.Model
                 _Message = value;
             }
         }
+
+        public void SetSelLang(ISelLang selLang)
+        {
+            this.SelLang = selLang;
+        }
         public string RawErrorCode { get; set; }
         public string RawMessage { get; set; }
         public ApiResult() : this(9000, "", "", "") { }

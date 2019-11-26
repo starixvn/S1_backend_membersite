@@ -27,6 +27,7 @@ namespace MemberSite
             /*Library*/
             services.AddSingleton<Tools>();
             services.AddSingleton<Common>();
+            services.AddSingleton<CourierAdapter>();
             services.AddSingleton<IBCDBLibrary>();
 
             /*DAL*/
