@@ -105,5 +105,52 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+
+        public class ChangePasswordModel
+        {
+            public string OldPassword { set; get; }
+            public string NewPassword { set; get; }
+        }
+
+        [HttpPost]
+        public async Task<ApiResult> ChangePassword(ChangePasswordModel changePasswordModel)
+        {
+            string oldPassword = changePasswordModel.OldPassword;
+            string newPassword = changePasswordModel.NewPassword;
+
+            var apiResult = new ApiResult(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+
+            if (oldPassword == newPassword)
+            {
+                apiResult.ErrorCode = -1;
+                apiResult.Message = "";
+            }
+            else if (!tools.CheckUserInputPassword(newPassword))
+            {
+                apiResult.ErrorCode = -2;
+                apiResult.Message = "";
+            }
+            else
+            {
+                apiResult.ErrorCode = custInfoBLL.SetPassword(authData.CustId, oldPassword, newPassword);
+
+                if (apiResult.ErrorCode == -3)
+                {
+                    apiResult.Message = "";
+                }
+                else if (apiResult.ErrorCode == -4)
+                {
+                    apiResult.Message = "";
+                }
+                else
+                {
+                    apiResult.ErrorCode = 0;
+                    apiResult.Message = "";
+                }
+            }
+
+            return apiResult;
+        }
     }
 }

@@ -166,5 +166,32 @@ namespace MemberSite.Service.BLL
 
             return vipLevelCache;
         }
+
+        public int SetPassword(int custId, string oldPassword, string newPassword)
+        {
+            if (!tools.CheckUserInputPassword(newPassword))
+            {
+                return -2;
+            }
+
+            string md5OldPassword = tools.MD5Encrypt(oldPassword);
+            string md5NewPassword = tools.MD5Encrypt(newPassword);
+            string md5Userpwd = null;
+
+
+            bool isSet = custInfoService.SetPassword(custId, md5OldPassword, md5NewPassword, out md5Userpwd);
+            if (!isSet)
+            {
+                if (md5OldPassword != md5Userpwd)
+                {
+                    return -3;
+                }
+                return -4;
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 }

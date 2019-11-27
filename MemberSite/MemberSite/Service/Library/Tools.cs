@@ -33,10 +33,12 @@ namespace MemberSite.Service.Library
         /// <returns></returns>
         public bool CheckUserName(string userName)
         {
+            if (string.IsNullOrEmpty(userName) || userName.Length < 6 || userName.Length > 18)
+                return false;
+
             Regex regex = new Regex("^(?!^\\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,18}$", RegexOptions.Singleline);
             Match mPwd = regex.Match(userName);
-            if (userName.Length < 6 || userName.Length > 18)
-                return false;
+
             return mPwd.Success;
         }
         /// <summary>
@@ -46,10 +48,12 @@ namespace MemberSite.Service.Library
         /// <returns></returns>
         public bool CheckUserInputPassword(string userPwd)
         {
+            if (string.IsNullOrEmpty(userPwd) || userPwd.Length < 6 || userPwd.Length > 18)
+                return false;
+
             Regex regex = new Regex("^[A-Za-z0-9]+$", RegexOptions.Singleline);
             Match mPwd = regex.Match(userPwd);
-            if (userPwd.Length < 6 || userPwd.Length > 18)
-                return false;
+
             return mPwd.Success;
         }
 

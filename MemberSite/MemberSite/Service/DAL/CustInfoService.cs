@@ -61,5 +61,24 @@ namespace MemberSite.Service.DAL
                 return conn.ExecuteScalar<int>("VipLevel_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
             }
         }
+        public bool SetPassword(int custId, string md5OldPassword, string md5NewPassword, out string md5Userpwd)
+        {
+            int result = 0;
+            md5Userpwd = null;
+            using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
+            {
+                conn.Open();
+                using (MySqlTransaction trans = conn.BeginTransaction())
+                {
+                    var p = new DynamicParameters(new { CustId = custId, Md5OldPassword = md5OldPassword, Md5NewPassword = md5NewPassword });
+                    p.Add("Md5Userpwd", dbType: DbType.String, direction: ParameterDirection.Output);
+
+                    result = conn.Execute("Password_Set", p, trans, commandType: CommandType.StoredProcedure);
+                    md5Userpwd = p.Get<string>("Md5Userpwd");
+                    trans.Commit();
+                    return result > 0;
+                }
+            }
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace MemberSite.Service.DAL
                     p.Add("Is1stDepoist", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     p.Add("AfterAmount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
                     conn.Execute("Wallet_Set", p, transaction: trans, commandType: CommandType.StoredProcedure);
-                    trans.Commit();
+                    trans.Commit();/*attention*/
                     is1stDepoist = p.Get<byte?>("Is1stDepoist") ?? 0;
                     afterAmount = p.Get<decimal?>("AfterAmount") ?? 0;
                     return afterAmount >= 0 ? 0 : -1;
