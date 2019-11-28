@@ -190,9 +190,14 @@ namespace MemberSite.Controllers.Api
             }
 
             var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
-            if (custBankInfo != null && custBankInfo.BankInfo != null && custBankInfo.bankInfoDetail.Count() >= 3)
+            if (custBankInfo == null && string.IsNullOrEmpty(bankInfo.AccountName))
             {
                 apiResult.ErrorCode = -2;
+                return apiResult;
+            }
+            else if (custBankInfo != null && custBankInfo.BankInfo != null && custBankInfo.bankInfoDetail.Count() >= 3)
+            {
+                apiResult.ErrorCode = -3;
                 return apiResult;
             }
             else if (custBankInfo != null && custBankInfo.bankInfoDetail != null)
@@ -201,7 +206,7 @@ namespace MemberSite.Controllers.Api
 
                 if (bankInfoList.Where(x => x.SysId == bankInfo.SysId && x.AccountNo == bankInfo.AccountNo).Count() > 0)
                 {
-                    apiResult.ErrorCode = -3;
+                    apiResult.ErrorCode = -4;
                     return apiResult;
                 }
             }
@@ -213,6 +218,28 @@ namespace MemberSite.Controllers.Api
             bankInfoList.Add(new BankInfoDetail { AccountNo = bankInfo.AccountNo, SysId = bankInfo.SysId });
 
             apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, bankInfo.AccountName, bankInfoList);
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult DelCustBankInfo(BankInfo bankInfo)
+        {
+            var apiResult = new ApiResult(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+            IEnumerable<BankInfoDetail> bankInfoList = null;
+
+            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+            if (custBankInfo == null || custBankInfo.BankInfo == null)
+            {
+                apiResult.ErrorCode = -2;
+                return apiResult;
+            }
+            else if (custBankInfo != null && custBankInfo.bankInfoDetail != null)
+            {
+                bankInfoList = custBankInfo.bankInfoDetail.Where(x => !(x.SysId == bankInfo.SysId && x.AccountNo == bankInfo.AccountNo));
+            }
+
+            apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, custBankInfo.AccountName, bankInfoList);
             return apiResult;
         }
     }
