@@ -23,13 +23,15 @@ namespace MemberSite.Controllers.Api
         private readonly Tools tools;
         private readonly SelLangBLL selLangBLL;
         private readonly AuthorizeBLL authorizeBLL;
+        private readonly BankInfoBLL bankInfoBLL;
 
-        public AccountController(CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL)
+        public AccountController(CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
             this.selLangBLL = selLangBLL;
             this.authorizeBLL = authorizeBLL;
+            this.bankInfoBLL = bankInfoBLL;
         }
         [HttpPost]
         public async Task<ApiResult> LoginCheckin()
@@ -177,12 +179,22 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             List<BankInfoDetail> bankInfoList = null;
 
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            //
+            var bankInfoSysList = bankInfoBLL.GetBankInfoSysListByCurrency(custInfo.CurrencyId);
+
+            if (bankInfoSysList == null || bankInfoSysList.Where(x => x.SysId == bankInfo.SysId).Count() == 0)
+            {
+                apiResult.ErrorCode = -1;
+                return apiResult;
+            }
+
             var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
             if (custBankInfo != null && custBankInfo.BankInfo != null && custBankInfo.bankInfoDetail.Count() >= 3)
             {
                 return apiResult;
             }
-            else if (custBankInfo.bankInfoDetail != null)
+            else if (custBankInfo != null && custBankInfo.bankInfoDetail != null)
             {
                 bankInfoList = custBankInfo.bankInfoDetail.ToList();
             }
@@ -192,7 +204,6 @@ namespace MemberSite.Controllers.Api
             }
 
             bankInfoList.Add(new BankInfoDetail { AccountNo = bankInfo.AccountNo, SysId = bankInfo.SysId });
-
 
             apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, bankInfo.AccountName, bankInfoList);
             return apiResult;

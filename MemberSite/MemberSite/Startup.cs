@@ -37,6 +37,7 @@ namespace MemberSite
             services.AddSingleton<CustInfoService>();
             services.AddSingleton<AuthenticateService>();
             services.AddSingleton<DepoistService>();
+            services.AddSingleton<BankInfoOffService>();
             services.AddSingleton<BankInfoService>();
             services.AddSingleton<WalletService>();
 
@@ -47,6 +48,7 @@ namespace MemberSite
             /*??SelLangBLL?Scope*/
             services.AddSingleton<SelLangBLL>();
             services.AddSingleton<AuthorizeBLL>();
+            services.AddSingleton<BankInfoOffBLL>();
             services.AddSingleton<BankInfoBLL>();
             services.AddSingleton<PaymentBLL>();
 

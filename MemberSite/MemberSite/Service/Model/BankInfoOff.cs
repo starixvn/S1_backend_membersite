@@ -25,7 +25,7 @@ namespace MemberSite.Service.Model
         public int Ver { get; set; }
     }
 
-    public class SysBankInfo
+    public class SysBankInfoOff
     {
         public int SysId { get; set; }
         public string BankId { get; set; }

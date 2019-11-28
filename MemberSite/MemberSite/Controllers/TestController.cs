@@ -25,13 +25,13 @@ namespace MemberSite.Controllers
         private readonly Tools tools;
         private readonly IWebHostEnvironment environment;
         private readonly DepoistService depoistService;
-        private readonly BankInfoService bankInfoService;
+        private readonly BankInfoOffService bankInfoService;
         private readonly IBCDBLibrary iBCDBLibrary;
         private readonly WalletService walletService;
         private readonly WalletBLL walletBLL;
         private readonly SelLangBLL selLangBLL;
 
-        public TestController(WalletBLL walletBLL, WalletService walletService, IBCDBLibrary iBCDBLibrary, IWebHostEnvironment environment, ServerInfoService serverInfoService, AgentInfoService agentInfoService, CustInfoService custInfoService, CustInfoBLL custInfoBLL, AuthenticateService userLoginLogService, Tools tools, DepoistService depoistService, BankInfoService bankInfoService, SelLangBLL selLangBLL)
+        public TestController(WalletBLL walletBLL, WalletService walletService, IBCDBLibrary iBCDBLibrary, IWebHostEnvironment environment, ServerInfoService serverInfoService, AgentInfoService agentInfoService, CustInfoService custInfoService, CustInfoBLL custInfoBLL, AuthenticateService userLoginLogService, Tools tools, DepoistService depoistService, BankInfoOffService bankInfoService, SelLangBLL selLangBLL)
         {
             this.serverInfoService = serverInfoService;
             this.agentInfoService = agentInfoService;

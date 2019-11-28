@@ -21,7 +21,6 @@ namespace MemberSite.Service.BLL
         private readonly AgentInfoService agentInfoService;
         private readonly IMemoryCache cache;
         private readonly RegexUtilities regexUtilities;
-
         public CustInfoBLL(IMemoryCache cache, Tools tools, CustInfoService custInfoService, AuthenticateService authenticateService, ServerInfoBLL serverInfoBLL, AgentInfoService agentInfoService, RegexUtilities regexUtilities)
         {
             this.tools = tools;

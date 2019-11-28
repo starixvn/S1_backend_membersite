@@ -11,11 +11,11 @@ namespace MemberSite.Service.BLL
     public class PaymentBLL
     {
         private readonly ServerInfoBLL serverInfoBLL;
-        private readonly BankInfoBLL bankInfoBLL;
+        private readonly BankInfoOffBLL bankInfoBLL;
         private readonly CustInfoBLL custInfoBLL;
         private readonly DepoistService depoistService;
 
-        public PaymentBLL(ServerInfoBLL serverInfoBLL, BankInfoBLL bankInfoBLL, CustInfoBLL custInfoBLL, DepoistService depoistService)
+        public PaymentBLL(ServerInfoBLL serverInfoBLL, BankInfoOffBLL bankInfoBLL, CustInfoBLL custInfoBLL, DepoistService depoistService)
         {
             this.serverInfoBLL = serverInfoBLL;
             this.bankInfoBLL = bankInfoBLL;

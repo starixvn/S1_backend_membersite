@@ -15,22 +15,21 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly BankInfoBLL bankInfoBLL;
+        private readonly BankInfoOffBLL bankInfoOffBLL;
         private readonly AuthorizeBLL authorizeBLL;
         private readonly PaymentBLL paymentBLL;
-
-        public PaymentController(BankInfoBLL bankInfoBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL)
+        public PaymentController(BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL)
         {
-            this.bankInfoBLL = bankInfoBLL;
+            this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;
             this.paymentBLL = paymentBLL;
         }
 
         [HttpGet]
-        public IEnumerable<SysBankInfo> GetBankInfoList()
+        public IEnumerable<SysBankInfoOff> GetBankInfoOffList()
         {
             var authData = authorizeBLL.GetAuthData();
-            return bankInfoBLL.GetBankInfoList(authData.CustId);
+            return bankInfoOffBLL.GetBankInfoOffList(authData.CustId);
         }
 
         public class DepositReqWireTransferReq
