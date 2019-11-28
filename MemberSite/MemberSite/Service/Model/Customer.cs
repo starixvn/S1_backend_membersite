@@ -22,4 +22,10 @@ namespace MemberSite.Service.Model
         public DateTime RegTime { get; set; }
         public int Status { get; set; }
     }
+
+    public class CustProfile
+    {
+        public string RealName { get; set; }
+        public string EMail { get; set; }
+    }
 }

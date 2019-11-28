@@ -28,6 +28,7 @@ namespace MemberSite
             services.AddSingleton<Tools>();
             services.AddSingleton<Common>();
             services.AddSingleton<CourierAdapter>();
+            services.AddSingleton<RegexUtilities>();
             services.AddSingleton<IBCDBLibrary>();
 
             /*DAL*/

@@ -113,7 +113,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult> ChangePassword(ChangePasswordModel changePasswordModel)
+        public ApiResult ChangePassword(ChangePasswordModel changePasswordModel)
         {
             string oldPassword = changePasswordModel.OldPassword;
             string newPassword = changePasswordModel.NewPassword;
@@ -150,6 +150,16 @@ namespace MemberSite.Controllers.Api
                 }
             }
 
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult SetProfile(Dictionary<string, string> custProfile)
+        {
+            var apiResult = new ApiResult(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+
+            apiResult.ErrorCode = custInfoBLL.SetProfile(authData.CustId, custProfile);
             return apiResult;
         }
     }

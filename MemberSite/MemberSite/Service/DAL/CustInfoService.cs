@@ -80,5 +80,15 @@ namespace MemberSite.Service.DAL
                 }
             }
         }
+        public bool SetProfile(int custId,int siteId, Dictionary<string, string> custProfile)
+        {
+            int result = 0;
+            using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
+            {
+                string Email = custProfile[nameof(Email)];
+                result = conn.Execute("CustProfile_Set", new { CustId = custId, SiteId = siteId, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(custProfile), Email }, commandType: CommandType.StoredProcedure);
+                return result > 0;
+            }
+        }
     }
 }

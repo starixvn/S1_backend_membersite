@@ -20,8 +20,9 @@ namespace MemberSite.Service.BLL
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly AgentInfoService agentInfoService;
         private readonly IMemoryCache cache;
+        private readonly RegexUtilities regexUtilities;
 
-        public CustInfoBLL(IMemoryCache cache, Tools tools, CustInfoService custInfoService, AuthenticateService authenticateService, ServerInfoBLL serverInfoBLL, AgentInfoService agentInfoService)
+        public CustInfoBLL(IMemoryCache cache, Tools tools, CustInfoService custInfoService, AuthenticateService authenticateService, ServerInfoBLL serverInfoBLL, AgentInfoService agentInfoService, RegexUtilities regexUtilities)
         {
             this.tools = tools;
             this.custInfoService = custInfoService;
@@ -29,6 +30,7 @@ namespace MemberSite.Service.BLL
             this.serverInfoBLL = serverInfoBLL;
             this.agentInfoService = agentInfoService;
             this.cache = cache;
+            this.regexUtilities = regexUtilities;
         }
         public int AddCustInfo(string UserName, string Userpwd, int CurrencyId, string UserLang, out int custId)
         {
@@ -192,6 +194,13 @@ namespace MemberSite.Service.BLL
             {
                 return 0;
             }
+        }
+
+        public int SetProfile(int custId, Dictionary<string, string> custProfile)
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+
+            return custInfoService.SetProfile(custId, serverInfo.SiteId, custProfile) ? 0 : -1;
         }
     }
 }
