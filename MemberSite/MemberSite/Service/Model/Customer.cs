@@ -28,4 +28,17 @@ namespace MemberSite.Service.Model
         public string RealName { get; set; }
         public string EMail { get; set; }
     }
+    //{"Ver": 1, "SysId": 8, "AccountNo": "9876543210", "AccountName": "Eddie Wu"}
+    public class CustBankInfo
+    {
+        public string AccountName { set; get; }
+        public string BankInfo { set; get; }
+        public IEnumerable<BankInfoDetail> bankInfoDetail { set; get; }
+    }
+
+    public class BankInfoDetail
+    {
+        public int SysId { set; get; }
+        public string AccountNo { set; get; }
+    }
 }

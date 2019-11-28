@@ -80,14 +80,32 @@ namespace MemberSite.Service.DAL
                 }
             }
         }
-        public bool SetProfile(int custId,int siteId, Dictionary<string, string> custProfile)
+        public bool SetProfile(int custId,int siteId, Dictionary<string, string> profile)
         {
             int result = 0;
             using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
             {
-                string Email = custProfile[nameof(Email)];
-                result = conn.Execute("CustProfile_Set", new { CustId = custId, SiteId = siteId, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(custProfile), Email }, commandType: CommandType.StoredProcedure);
+                string Email = profile[nameof(Email)];
+                result = conn.Execute("CustProfile_Set", new { CustId = custId, SiteId = siteId, Email, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
                 return result > 0;
+            }
+        }
+
+        public bool SetCustBankInfo(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo)
+        {
+            int result = 0;
+            using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
+            {
+                result = conn.Execute("CustBankInfo_Set", new { CustId = custId, SiteId = siteId, AccountName = accountName, BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo) }, commandType: CommandType.StoredProcedure);
+                return result > 0;
+            }
+        }
+
+        public CustBankInfo GetCustBankInfo(int custId, int siteId)
+        {
+            using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
+            {
+                return conn.QueryFirstOrDefault<CustBankInfo>("CustBankInfo_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
             }
         }
     }

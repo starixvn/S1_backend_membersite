@@ -162,5 +162,40 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = custInfoBLL.SetProfile(authData.CustId, custProfile);
             return apiResult;
         }
+
+        public class BankInfo
+        {
+            public string AccountName { set; get; }
+            public int SysId { set; get; }
+            public string AccountNo { set; get; }
+        }
+
+        [HttpPost]
+        public ApiResult SetCustBankInfo(BankInfo bankInfo)
+        {
+            var apiResult = new ApiResult(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+            List<BankInfoDetail> bankInfoList = null;
+
+            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+            if (custBankInfo != null && custBankInfo.BankInfo != null && custBankInfo.bankInfoDetail.Count() >= 3)
+            {
+                return apiResult;
+            }
+            else if (custBankInfo.bankInfoDetail != null)
+            {
+                bankInfoList = custBankInfo.bankInfoDetail.ToList();
+            }
+            else
+            {
+                bankInfoList = new List<BankInfoDetail>();
+            }
+
+            bankInfoList.Add(new BankInfoDetail { AccountNo = bankInfo.AccountNo, SysId = bankInfo.SysId });
+
+
+            apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, bankInfo.AccountName, bankInfoList);
+            return apiResult;
+        }
     }
 }

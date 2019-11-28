@@ -202,5 +202,25 @@ namespace MemberSite.Service.BLL
 
             return custInfoService.SetProfile(custId, serverInfo.SiteId, custProfile) ? 0 : -1;
         }
+
+        public int SetCustBankInfo(int custId, string accountName, IEnumerable<BankInfoDetail> bankInfo)
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+
+            return custInfoService.SetCustBankInfo(custId, serverInfo.SiteId, accountName, bankInfo) ? 0 : -1;
+        }
+        public CustBankInfo GetCustBankInfo(int custId)
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+
+            var custBankInfo = custInfoService.GetCustBankInfo(custId, serverInfo.SiteId);
+
+            if (custBankInfo != null && custBankInfo.BankInfo != null)
+            {
+                custBankInfo.bankInfoDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
+            }
+
+            return custBankInfo;
+        }
     }
 }
