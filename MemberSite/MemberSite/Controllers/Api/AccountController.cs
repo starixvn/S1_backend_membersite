@@ -167,8 +167,8 @@ namespace MemberSite.Controllers.Api
 
         public class BankInfo
         {
-            public string AccountName { set; get; }
             public int SysId { set; get; }
+            public string AccountName { set; get; }
             public string AccountNo { set; get; }
         }
 

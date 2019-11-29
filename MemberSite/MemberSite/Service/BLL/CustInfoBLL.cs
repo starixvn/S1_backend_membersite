@@ -197,22 +197,19 @@ namespace MemberSite.Service.BLL
 
         public int SetProfile(int custId, Dictionary<string, string> custProfile)
         {
-            var serverInfo = serverInfoBLL.GetServerInfo();
-
-            return custInfoService.SetProfile(custId, serverInfo.SiteId, custProfile) ? 0 : -1;
+            var custInfo = GetCustInfoWithCache(custId);
+            return custInfoService.SetProfile(custId, custInfo.SiteId, custProfile) ? 0 : -1;
         }
 
         public int SetCustBankInfo(int custId, string accountName, IEnumerable<BankInfoDetail> bankInfo)
         {
-            var serverInfo = serverInfoBLL.GetServerInfo();
-
-            return custInfoService.SetCustBankInfo(custId, serverInfo.SiteId, accountName, bankInfo) ? 0 : -1;
+            var custInfo = GetCustInfoWithCache(custId);
+            return custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName, bankInfo) ? 0 : -1;
         }
         public CustBankInfo GetCustBankInfo(int custId)
         {
-            var serverInfo = serverInfoBLL.GetServerInfo();
-
-            var custBankInfo = custInfoService.GetCustBankInfo(custId, serverInfo.SiteId);
+            var custInfo = GetCustInfoWithCache(custId);
+            var custBankInfo = custInfoService.GetCustBankInfo(custId, custInfo.SiteId);
 
             if (custBankInfo != null && custBankInfo.BankInfo != null)
             {

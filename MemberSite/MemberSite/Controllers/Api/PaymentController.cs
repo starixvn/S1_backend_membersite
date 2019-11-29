@@ -18,11 +18,14 @@ namespace MemberSite.Controllers.Api
         private readonly BankInfoOffBLL bankInfoOffBLL;
         private readonly AuthorizeBLL authorizeBLL;
         private readonly PaymentBLL paymentBLL;
-        public PaymentController(BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL)
+        private readonly CustInfoBLL custInfoBLL;
+
+        public PaymentController(BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;
             this.paymentBLL = paymentBLL;
+            this.custInfoBLL = custInfoBLL;
         }
 
         [HttpGet]
@@ -64,6 +67,42 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = 0;
                 apiResult.Data = depositRep3;
             }
+
+            return apiResult;
+        }
+
+        public class WithdrawalReqModel
+        {
+            public int sysId { set; get; }
+            public string AccountName { set; get; }
+            public string AccountNo { set; get; }
+            public decimal amount { set; get; }
+            public string memo { set; get; }
+        }
+
+        [HttpPost]
+        public ApiResult<DepositRep3> WithdrawalReq(WithdrawalReqModel withdrawalReqModel)
+        {
+            ApiResult<DepositRep3> apiResult = new ApiResult<DepositRep3>();
+
+            var authData = authorizeBLL.GetAuthData();
+            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+
+            if (custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0)
+            {
+                return null;
+            }
+            else if (custBankInfo.bankInfoDetail.Where(x => x.SysId == withdrawalReqModel.sysId && x.AccountNo == withdrawalReqModel.AccountNo && x.AccountNo == withdrawalReqModel.AccountNo).Count() == 0)
+            {
+                return null;
+            }
+
+            DepositRep3 depositRep3 = null;
+
+            decimal afterAmount = 0;
+            string transId = "";
+
+            var result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out afterAmount, out transId);
 
             return apiResult;
         }

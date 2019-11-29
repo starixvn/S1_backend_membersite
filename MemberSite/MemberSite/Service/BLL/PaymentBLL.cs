@@ -14,13 +14,14 @@ namespace MemberSite.Service.BLL
         private readonly BankInfoOffBLL bankInfoBLL;
         private readonly CustInfoBLL custInfoBLL;
         private readonly DepoistService depoistService;
+        private readonly WithdrawalService withdrawalService;
 
-        public PaymentBLL(ServerInfoBLL serverInfoBLL, BankInfoOffBLL bankInfoBLL, CustInfoBLL custInfoBLL, DepoistService depoistService)
+        public PaymentBLL(BankInfoOffBLL bankInfoBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService)
         {
-            this.serverInfoBLL = serverInfoBLL;
             this.bankInfoBLL = bankInfoBLL;
             this.custInfoBLL = custInfoBLL;
             this.depoistService = depoistService;
+            this.withdrawalService = withdrawalService;
         }
 
         public int DepositReqWireTransfer(int custId, int sysId, decimal amount, string memo, out DepositRep3 depositRep3)
@@ -29,10 +30,9 @@ namespace MemberSite.Service.BLL
 
             if (amount <= 0)
                 return -1;
-            var serverInfo = serverInfoBLL.GetServerInfo();
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
-            var bankAccountOffList = bankInfoBLL.GetBankAccountOff();
+            var bankAccountOffList = bankInfoBLL.GetBankAccountOff(custInfo.SiteId);
             var _info = (from x in bankAccountOffList
                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId && ((x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
                          orderby x.PointLevel descending, x.BSort
@@ -53,7 +53,7 @@ namespace MemberSite.Service.BLL
                 depositDetailInfo.CustId = custId;
                 depositDetailInfo.DispositType = (int)DispositType.WireTransfer;
                 depositDetailInfo.Memo = memo;
-                depositDetailInfo.SiteId = serverInfo.SiteId;
+                depositDetailInfo.SiteId = custInfo.SiteId;
                 depositDetailInfo.UserName = custInfo.UserName;
 
                 DispositInfo3_1 dispositInfo3_1 = new DispositInfo3_1();
@@ -103,6 +103,19 @@ namespace MemberSite.Service.BLL
             }
 
             return 0;
+        }
+        public int WithdrawalReq(int custId, int sysId, string accountName, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
+        {
+            afterAmount = 0;
+            transId = "";
+            WithdrawalInfo withdrawalInfo = new WithdrawalInfo();
+            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+
+            withdrawalInfo.AccountName = accountName;
+            withdrawalInfo.AccountNo = accountNo;
+            withdrawalInfo.SysId = sysId;
+
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.SiteId, amount, memo, withdrawalInfo, out afterAmount, out transId);
         }
     }
 }

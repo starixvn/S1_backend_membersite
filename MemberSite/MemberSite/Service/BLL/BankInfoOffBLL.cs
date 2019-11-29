@@ -23,26 +23,23 @@ namespace MemberSite.Service.BLL
             this.custInfoBLL = custInfoBLL;
         }
 
-        public IEnumerable<BankInfoOff> GetBankAccountOff()
+        public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId)
         {
-            var serverInfo = serverInfoBLL.GetServerInfo();
-
-            string sBankInfoOffListKey = $"BankInfoOffList_{serverInfo.SiteId}";
+            string sBankInfoOffListKey = $"BankInfoOffList_{siteId}";
             var BankInfoOffList = cache.Get<IEnumerable<BankInfoOff>>(sBankInfoOffListKey);
             if (BankInfoOffList != null)
                 return BankInfoOffList;
 
-            BankInfoOffList = bankInfoService.GetBankAccountOff(serverInfo.SiteId);
+            BankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
             cache.Set(sBankInfoOffListKey, BankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(2)));
             return BankInfoOffList;
         }
 
         public IEnumerable<SysBankInfoOff> GetBankInfoOffList(int custId)
         {
-            var serverInfo = serverInfoBLL.GetServerInfo();
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
-            var bankAccountOffList = GetBankAccountOff();
+            var bankAccountOffList = GetBankAccountOff(custInfo.SiteId);
             var _info = (from x in bankAccountOffList
                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
                          orderby x.PointLevel descending, x.Sort
