@@ -74,16 +74,20 @@ namespace MemberSite.Controllers.Api
         public class WithdrawalReqModel
         {
             public int sysId { set; get; }
-            public string AccountName { set; get; }
             public string AccountNo { set; get; }
             public decimal amount { set; get; }
             public string memo { set; get; }
         }
 
         [HttpPost]
-        public ApiResult<DepositRep3> WithdrawalReq(WithdrawalReqModel withdrawalReqModel)
+        public ApiResult WithdrawalReq(WithdrawalReqModel withdrawalReqModel)
         {
-            ApiResult<DepositRep3> apiResult = new ApiResult<DepositRep3>();
+            ApiResult apiResult = new ApiResult();
+
+            if (withdrawalReqModel.amount <= 0)
+            {
+                return null;
+            }
 
             var authData = authorizeBLL.GetAuthData();
             var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
@@ -92,17 +96,20 @@ namespace MemberSite.Controllers.Api
             {
                 return null;
             }
-            else if (custBankInfo.bankInfoDetail.Where(x => x.SysId == withdrawalReqModel.sysId && x.AccountNo == withdrawalReqModel.AccountNo && x.AccountNo == withdrawalReqModel.AccountNo).Count() == 0)
+            else if (custBankInfo.bankInfoDetail.Where(x => x.SysId == withdrawalReqModel.sysId && x.AccountNo == withdrawalReqModel.AccountNo).Count() == 0)
             {
                 return null;
             }
-
-            DepositRep3 depositRep3 = null;
 
             decimal afterAmount = 0;
             string transId = "";
 
             var result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out afterAmount, out transId);
+
+            if (result != 0)
+            {
+                //apiResult
+            }
 
             return apiResult;
         }
