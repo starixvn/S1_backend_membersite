@@ -29,10 +29,13 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpGet]
-        public IEnumerable<SysBankInfoOff> GetBankInfoOffList()
+        public ApiResult<IEnumerable<SysBankInfoOff>> GetBankInfoOffList()
         {
             var authData = authorizeBLL.GetAuthData();
-            return bankInfoOffBLL.GetBankInfoOffList(authData.CustId);
+            var apiResult = new ApiResult<IEnumerable<SysBankInfoOff>>();
+            apiResult.Data = bankInfoOffBLL.GetBankInfoOffList(authData.CustId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
         }
 
         public class DepositReqWireTransferReq
