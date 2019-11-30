@@ -108,6 +108,10 @@ namespace MemberSite.Service.BLL
         {
             afterAmount = 0;
             transId = "";
+
+            if (amount <= 0)
+                return -99;
+
             WithdrawalInfo withdrawalInfo = new WithdrawalInfo();
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
 

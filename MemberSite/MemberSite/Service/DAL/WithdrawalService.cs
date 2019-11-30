@@ -33,7 +33,7 @@ namespace MemberSite.Service.DAL
                 conn.Open();
                 using (MySqlTransaction trans = conn.BeginTransaction())
                 {
-                    var p = new DynamicParameters(new { CustId = custId, UserName = userName, SiteId = siteId, Amount = amount, WithdrawalInfo = withdrawalInfo, Prefix = $"W{common.GetEnv()}" });
+                    var p = new DynamicParameters(new { CustId = custId, UserName = userName, SiteId = siteId, Amount = amount, Memo = memo, WithdrawalInfo = Newtonsoft.Json.JsonConvert.SerializeObject(withdrawalInfo), Prefix = $"W{common.GetEnv()}" });
                     p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
 
                     conn.Execute("WithdrawalInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
@@ -42,7 +42,7 @@ namespace MemberSite.Service.DAL
                     afterAmount = 0;
                     byte is1stDepoist = 0;
                     int result = -99;
-                    result = walletService.SetBalance(custId, siteId, userName, amount, typePosition + 1, memo, transId, out afterAmount, out is1stDepoist, conn, trans);
+                    result = walletService.SetBalance(custId, siteId, userName, amount * -1, typePosition + 1, (string)null, transId, out afterAmount, out is1stDepoist, conn, trans);
                     if (result == 0)
                     {
                         trans.Commit();
