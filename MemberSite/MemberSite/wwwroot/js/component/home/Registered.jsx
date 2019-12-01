@@ -90,7 +90,7 @@
     onCheck() {
         if(this._handleCheck != null)
         {
-            let result = await this._handleCheck();
+            let result = this._handleCheck();
             this._status = result.status;
             this._tooltip = result.message;
         }
