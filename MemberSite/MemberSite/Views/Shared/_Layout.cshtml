@@ -32,7 +32,7 @@
     <meta name="copyright" content="@string.Format(selLangBLL.GetResourceValue("lbl_Copyright"),DateTime.Now.Year)" />
     <meta name="application-name" content="@selLangBLL.GetResourceValue("lbl_Applicationname")" />
     <meta name="keywords" content="@selLangBLL.GetResourceValue("lbl_Keywords")">
-    <link href="~/css/main.css" rel="stylesheet" asp-append-version="true"/>
+    <link href="~/css/main.css" rel="stylesheet" asp-append-version="true" />
 
     <script>
         var SiteLanguage = "@selLangBLL.GetLangId()";
@@ -90,6 +90,10 @@
     <script src="~/lib/axios.min.js"></script>
     @if (environment.EnvironmentName == "Development")
     {
+        <!--[if IE]>
+        <script src="@Url.Content("~/lib/es6-promise.min.js")"></script>
+        <script src="@Url.Content("~/lib/es6-promise.auto.min.js")"></script>
+        <![endif]-->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
         <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
         <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
@@ -116,23 +120,27 @@
         else
         {
             <script type="text/javascript">
-                const form = document.getElementById('loginForm');
-                form.onsubmit = (e) => {
-                    let data = { "UserName": $("#UserName").val(), "Userpwd": $("#Userpwd").val() };
-                    axios.post('/api/Site/Validation', data)
-                        .then(function (response) {
-                            let result = response.data;
-                            if (result.errorCode == 0) {
-                                alert(result.message);
-                                location.reload();
-                            } else {
-                                alert(result.message);
-                            }
-                        }).catch(function (error) {
+                var form = document.getElementById('loginForm');
+                form.onsubmit = function (e) {
+                    var data = {
+                        UserName: $("#UserName").val(),
+                        Userpwd: $("#Userpwd").val()
+                    };
+                    e.preventDefault();
+                    axios.post("/api/Site/Validation", data).then(function (response) {
+                        var result = response.data;
+
+                        if (result.errorCode == 0) {
+                            alert(result.message);
+                            location.reload();
+                        } else {
+                            alert(result.message);
+                        }
+                    })
+                        .catch(function (error) {
                             alert(error);
                             console.log(error);
                         });
-                    e.preventDefault();
                 };
             </script>
         }

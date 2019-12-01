@@ -146,7 +146,7 @@ namespace MemberSite.Controllers.Api
         public ApiResult<bool> ExistsUserName(RegisteredModel registeredModel)
         {
             var apiResult = new ApiResult<bool>(selLangBLL);
-            custInfoBLL.ExistsUserName(registeredModel.UserName);
+            apiResult.Data = custInfoBLL.ExistsUserName(registeredModel.UserName);
             apiResult.ErrorCode = 0;
             return apiResult;
         }

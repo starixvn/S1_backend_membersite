@@ -87,10 +87,10 @@
         this._handleCheck=value;
     }
 
-    onCheck() {
+    async onCheck() {
         if(this._handleCheck != null)
         {
-            let result = this._handleCheck();
+            let result = await this._handleCheck(this._Value);
             this._status = result.status;
             this._tooltip = result.message;
         }
@@ -115,23 +115,36 @@ class InputBox extends React.Component {
     }
 
     onDropdown() {
-        this.setState({dropdown:!this.state.dropdown});
-        /*if(this.state.dropdown){
+        this.setState({dropdown:!this.state.dropdown}, function() {
+            if(this.state.dropdown){
+                let object = document.getElementsByTagName('body')[0];
+                $(object).on("mousedown", this.onHideDropdown.bind(this));
+            }
+        });
+
+    }
+
+    onHideDropdown(e) {
+        this.setState({dropdown:false}, function() {
             let object = document.getElementsByTagName('body')[0];
-            object.addEventListener("mousedown", this.onDropdown.bind(this));
-        } else {
-            let object = document.getElementsByTagName('body')[0];
-            object.removeEventListener("mousedown", this.onDropdown.bind(this));
-        }*/
+            $(object).off();
+        });
     }
 
     setValue(value) {
-        this._dataField.value=value;
-        this.setState({dropdown:!this.state.dropdown});
+        this._dataField.Value=value;
+        let object = document.getElementsByTagName('body')[0];
+        $(object).off();        
+        this.setState({dropdown:false});
     }
 
     handleChange(event) {
-        this._dataField.value=event.target.value;
+        this._dataField.Value=event.target.value;
+        this.forceUpdate();
+    }
+
+    async onBlur() {
+        await this._dataField.onCheck();
         this.forceUpdate();
     }
 
@@ -141,11 +154,11 @@ class InputBox extends React.Component {
         let field = this._dataField;
 
         if(field.objectType==1) {
-            input=<input type="text" className="textfield__input" placeholder={field.placeholder} onChange={this.handleChange.bind(this)}/>;
+            input=<input type="text" className="textfield__input" placeholder={field.placeholder} onChange={this.handleChange.bind(this)} value={this._dataField.Value} onBlur={this.onBlur.bind(this)}/>;
         }
 
         if(field.objectType==2) {
-            input=<input type={this.state.ShowPwd?"text":"password"} className="textfield__input" placeholder={field.placeholder} onChange={this.handleChange.bind(this)}/>;
+            input=<input type={this.state.ShowPwd?"text":"password"} className="textfield__input" placeholder={field.placeholder} onChange={this.handleChange.bind(this)} value={this._dataField.Value} onBlur={this.onBlur.bind(this)}/>;
             ShowPwdBtn = <a className="btn btn-icon-sm btn-form-togglepw" data-visibility={this.state.ShowPwd} onClick={this.onShowPwd.bind(this)}><i className="icon"></i></a>;
         }
 
@@ -156,7 +169,7 @@ class InputBox extends React.Component {
                 {input}
                 <span className="textfield__bg"></span>
                 {ShowPwdBtn}
-                <a className="btn btn-icon-sm btn-form-status" onClick={this.onShowTooltip.bind(this)}>
+                <a className="btn btn-icon-sm btn-form-status" onClick={field.status==1?this.onShowTooltip.bind(this):null}>
                     <i className="icon"></i>
                 </a>
             </div>;
@@ -166,7 +179,7 @@ class InputBox extends React.Component {
             if(field.dropdownList.length>0) {
                 for(var i=0; i < field.dropdownList.length; i++){
                     let dropdownItem=field.dropdownList[i];
-                    if(field.value==dropdownItem.value) {
+                    if(field.Value==dropdownItem.value) {
                         dropdownText=dropdownItem.text;
                     }
 
@@ -180,7 +193,7 @@ class InputBox extends React.Component {
                 <a className="btn" onClick={this.onDropdown.bind(this)}>
                     <span className="text">{dropdownText}</span>
                     <i className="icon icon-caret"></i>
-                    <div className="btn btn-icon-sm btn-form-status" onClick={this.onShowTooltip.bind(this)}>
+                    <div className="btn btn-icon-sm btn-form-status" onClick={field.status==1?this.onShowTooltip.bind(this):null}>
                         <i className="icon"></i>
                     </div>
                 </a>
@@ -217,33 +230,90 @@ class RegisteredForm extends React.Component {
         userNameDataField.displayName="UserName";
         userNameDataField.tooltip="UserName";
         userNameDataField.status=1;
+        userNameDataField.handleCheck = this.handleCheckUserName.bind(this);
+        userNameDataField.Value="";
         formArr.push(userNameDataField);
 
-        let UserpwdDataField = new DataField("Userpwd");
-        UserpwdDataField.placeholder="Password";
-        UserpwdDataField.displayName="Password";
-        UserpwdDataField.tooltip="Password";
-        UserpwdDataField.status=1;
-        UserpwdDataField.objectType=2;
-        formArr.push(UserpwdDataField);
+        let userpwdDataField = new DataField("Userpwd");
+        userpwdDataField.placeholder="Password";
+        userpwdDataField.displayName="Password";
+        userpwdDataField.tooltip="Password";
+        userpwdDataField.status=1;
+        userpwdDataField.objectType=2;
+        userpwdDataField.handleCheck = this.handleCheckUserpwd.bind(this);        
+        userpwdDataField.Value="";
+        formArr.push(userpwdDataField);
 
-        let CurrencyIdDataField = new DataField("CurrencyId");
-        CurrencyIdDataField.displayName="Preferred Currency";
-        CurrencyIdDataField.tooltip="Preferred Currency";
-        CurrencyIdDataField.status=1;
-        CurrencyIdDataField.objectType=3;
-        CurrencyIdDataField.value=defCurrencyId;
-        CurrencyIdDataField.dropdownList=currencyList;
-        formArr.push(CurrencyIdDataField);
+        let currencyIdDataField = new DataField("CurrencyId");
+        currencyIdDataField.displayName="Preferred Currency";
+        currencyIdDataField.tooltip="Preferred Currency";
+        currencyIdDataField.status=1;
+        currencyIdDataField.objectType=3;
+        currencyIdDataField.Value=defCurrencyId;
+        currencyIdDataField.dropdownList=currencyList;
+        formArr.push(currencyIdDataField);
 
         this.state = { formArr: formArr};
     }
     
+    async handleCheckUserName(value) {
+        let status = 1;
+        let message = "";
+        let regx = /^[a-zA-Z0-9]*$/;
+        if(value!=null) {
+            if(value.length == 0) {
+                status = 2;
+                message = "0";
+            } else if(value.length < 6 || value.length > 18) {
+                status = 2;
+                message = "can't lo";
+            } else if(!regx.test(value)) {
+                status = 2;
+                message = "仅限6-18 个字符，数字和字母组合(A-Z, a-z, 0-9)";
+            } else {
+                let res = await axios.post('/api/Site/ExistsUserName', {UserName: value});
+                let data = res.data;
+                if(data.errorCode==0 && data.data) {
+                    status = 2;
+                    message = value + " Exists";
+                } else {
+                    status = 3;
+                    message = "";
+                }
+            }
+        }
+
+        return {status: status, message: message};
+    }
+
+    async handleCheckUserpwd(value) {
+        let status = 1;
+        let message = "";
+        let regx = /^[a-zA-Z0-9@$*!%#?&]*$/;
+        if(value!=null) {
+            if(value.length == 0) {
+                status = 2;
+                message = "0";
+            } else if(value.length < 6 || value.length > 18) {
+                status = 2;
+                message = "can't lo";
+            } else if(!regx.test(value)) {
+                status = 2;
+                message = "仅限6-18 个字符，数字和字母组合(A-Z, a-z, 0-9) 或特殊字符@$!%*#?&";
+            } else {
+                status = 3;
+                message = "";
+            }
+        }
+
+        return {status: status, message: message};
+    }
+
     handleSubmit(event) {
         let data = {};
         for(var i=0; i < this.state.formArr.length; i++){
             let dataField = this.state.formArr[i];
-            data[dataField.name] = dataField.value;
+            data[dataField.name] = dataField.Value;
         }
 
         data["UserLang"] = SiteLanguage;
@@ -263,7 +333,6 @@ class RegisteredForm extends React.Component {
         event.preventDefault();
     }
 
-    /*仅限8-10 个字符，数字和字母组合(A-Z, a-z, 0-9) 或特殊字符@$!%*#?&*/
     render() {
         let Inputs=this.state.formArr.map(dataField => <InputBox key={dataField.name} DataField={dataField}/>);
 

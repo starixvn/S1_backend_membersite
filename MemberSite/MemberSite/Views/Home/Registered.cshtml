@@ -44,11 +44,9 @@
         var defCurrencyId=@selLangBLL.GetDefCurrencyId();
     </script>
 
-    <script src="~/js/demo.js" asp-append-version="true"></script>
     @if (environment.EnvironmentName == "Development")
     {
-        <script type="text/babel" src="~/js/component/home/Registered.jsx">
-        </script>
+        <script type="text/babel" src="~/js/component/home/Registered.jsx"></script>
     }
     else
     {
