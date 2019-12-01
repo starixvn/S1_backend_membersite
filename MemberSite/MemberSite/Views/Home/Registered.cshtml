@@ -18,6 +18,9 @@
     {
         currencyList.Add(new { text = selLangBLL.GetResourceValue($"Currency_{currencyId}"), value = currencyId });
     }
+
+    Dictionary<string, string> i18n = new Dictionary<string, string>();
+    i18n.Add("lbl_UserName", selLangBLL.GetResourceValue("lbl_UserName"));
 }
 <div class="main">
     <div class="page page--join">
@@ -41,7 +44,9 @@
 @section Scripts{
     <script type="text/javascript">
         var currencyList =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(currencyList));
-        var defCurrencyId=@selLangBLL.GetDefCurrencyId();
+        var defCurrencyId =@selLangBLL.GetDefCurrencyId();
+        var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
+
     </script>
 
     @if (environment.EnvironmentName == "Development")

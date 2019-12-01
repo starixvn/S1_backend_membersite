@@ -209,4 +209,7 @@
   <data name="lbl_URL" xml:space="preserve">
     <value />
   </data>
+  <data name="lbl_UserName" xml:space="preserve">
+    <value>User Name</value>
+  </data>
 </root>
