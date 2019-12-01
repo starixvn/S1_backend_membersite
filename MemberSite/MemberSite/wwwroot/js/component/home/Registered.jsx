@@ -226,8 +226,8 @@ class RegisteredForm extends React.Component {
         let formArr=[];
 
         let userNameDataField = new DataField("UserName");
-        userNameDataField.placeholder="UserName";
-        userNameDataField.displayName="UserName";
+        userNameDataField.placeholder=i18n.lbl_UserName;
+        userNameDataField.displayName=i18n.lbl_UserName;
         userNameDataField.tooltip="UserName";
         userNameDataField.status=1;
         userNameDataField.handleCheck = this.handleCheckUserName.bind(this);
@@ -258,7 +258,7 @@ class RegisteredForm extends React.Component {
     
     async handleCheckUserName(value) {
         let status = 1;
-        let message = "";
+        let message = "tooltip";
         let regx = /^[a-zA-Z0-9]*$/;
         if(value!=null) {
             if(value.length == 0) {
@@ -288,7 +288,7 @@ class RegisteredForm extends React.Component {
 
     async handleCheckUserpwd(value) {
         let status = 1;
-        let message = "";
+        let message = "tooltip";
         let regx = /^[a-zA-Z0-9@$*!%#?&]*$/;
         if(value!=null) {
             if(value.length == 0) {
