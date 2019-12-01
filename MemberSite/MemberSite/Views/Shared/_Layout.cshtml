@@ -98,57 +98,65 @@
         <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
         <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
-        @if (User.Identity.IsAuthenticated)
-        {
-            <script type="text/javascript">
-                $("#logoutBtn").click(function () {
-                    axios.post('/api/Account/Logout')
-                        .then(function (response) {
-                            let result = response.data;
-                            if (result.errorCode == 0) {
-                                alert(result.message);
-                                location.reload();
-                            } else {
-                                alert(result.message);
-                            }
-                        }).catch(function (error) {
-                            alert(error);
-                        });
-                });
-            </script>
-        }
-        else
-        {
-            <script type="text/javascript">
-                var form = document.getElementById('loginForm');
-                form.onsubmit = function (e) {
-                    var data = {
-                        UserName: $("#UserName").val(),
-                        Userpwd: $("#Userpwd").val()
-                    };
-                    e.preventDefault();
-                    axios.post("/api/Site/Validation", data).then(function (response) {
-                        var result = response.data;
+    }
+    else
+    {
+        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+        <script src="~/lib/react.production.min.js"></script>
+        <script src="~/lib/react-dom.production.min.js"></script>
+        <script src="~/lib/runtime.min.js"></script>
 
+        <script src="~/lib/es6-promise.min.js"></script>
+        <script src="~/lib/es6-promise.auto.min.js"></script>
+    }
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <script type="text/javascript">
+            $("#logoutBtn").click(function () {
+                axios.post('/api/Account/Logout')
+                    .then(function (response) {
+                        let result = response.data;
                         if (result.errorCode == 0) {
                             alert(result.message);
                             location.reload();
                         } else {
                             alert(result.message);
                         }
-                    })
-                        .catch(function (error) {
-                            alert(error);
-                            console.log(error);
-                        });
-                };
-            </script>
-        }
+                    }).catch(function (error) {
+                        alert(error);
+                    });
+            });
+        </script>
     }
     else
     {
-        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+        <script type="text/javascript">
+            var form = document.getElementById('loginForm');
+            form.onsubmit = function (e) {
+                var data = {
+                    UserName: $("#UserName").val(),
+                    Userpwd: $("#Userpwd").val()
+                };
+                e.preventDefault();
+                axios.post("/api/Site/Validation", data).then(function (response) {
+                    var result = response.data;
+
+                    if (result.errorCode == 0) {
+                        alert(result.message);
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                })
+                    .catch(function (error) {
+                        alert(error);
+                        console.log(error);
+                    });
+            };
+        </script>
     }
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
