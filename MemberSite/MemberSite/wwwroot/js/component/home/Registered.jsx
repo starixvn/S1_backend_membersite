@@ -226,18 +226,18 @@ class RegisteredForm extends React.Component {
         let formArr=[];
 
         let userNameDataField = new DataField("UserName");
-        userNameDataField.placeholder=i18n.lbl_UserName;
-        userNameDataField.displayName=i18n.lbl_UserName;
-        userNameDataField.tooltip="UserName";
+        userNameDataField.placeholder=i18n.lbl_Username;
+        userNameDataField.displayName=i18n.lbl_Username;
+        userNameDataField.tooltip=i18n.lbl_UsernameTooltip;
         userNameDataField.status=1;
         userNameDataField.handleCheck = this.handleCheckUserName.bind(this);
         userNameDataField.Value="";
         formArr.push(userNameDataField);
 
         let userpwdDataField = new DataField("Userpwd");
-        userpwdDataField.placeholder="Password";
-        userpwdDataField.displayName="Password";
-        userpwdDataField.tooltip="Password";
+        userpwdDataField.placeholder=i18n.lbl_Password;
+        userpwdDataField.displayName=i18n.lbl_Password;
+        userpwdDataField.tooltip=i18n.lbl_PasswordTooltip;
         userpwdDataField.status=1;
         userpwdDataField.objectType=2;
         userpwdDataField.handleCheck = this.handleCheckUserpwd.bind(this);        
@@ -245,8 +245,8 @@ class RegisteredForm extends React.Component {
         formArr.push(userpwdDataField);
 
         let currencyIdDataField = new DataField("CurrencyId");
-        currencyIdDataField.displayName="Preferred Currency";
-        currencyIdDataField.tooltip="Preferred Currency";
+        currencyIdDataField.displayName=i18n.lbl_PrefferedCurrency;
+        currencyIdDataField.tooltip=i18n.lbl_PreferredCurrencyToolTip;
         currencyIdDataField.status=1;
         currencyIdDataField.objectType=3;
         currencyIdDataField.Value=defCurrencyId;
@@ -263,19 +263,19 @@ class RegisteredForm extends React.Component {
         if(value!=null) {
             if(value.length == 0) {
                 status = 2;
-                message = "0";
+                message = i18n.msg_UsernameReq;
             } else if(value.length < 6 || value.length > 18) {
                 status = 2;
-                message = "can't lo";
+                message = i18n.msg_UsernameLength;
             } else if(!regx.test(value)) {
                 status = 2;
-                message = "仅限6-18 个字符，数字和字母组合(A-Z, a-z, 0-9)";
+                message = i18n.msg_UsernameVaildate;
             } else {
                 let res = await axios.post('/api/Site/ExistsUserName', {UserName: value});
                 let data = res.data;
                 if(data.errorCode==0 && data.data) {
                     status = 2;
-                    message = value + " Exists";
+                    message = i18n.msg_UsernameNotAvailable;
                 } else {
                     status = 3;
                     message = "";
@@ -293,13 +293,13 @@ class RegisteredForm extends React.Component {
         if(value!=null) {
             if(value.length == 0) {
                 status = 2;
-                message = "0";
+                message = i18n.msg_PasswordReq;
             } else if(value.length < 6 || value.length > 18) {
                 status = 2;
-                message = "can't lo";
+                message = i18n.msg_PasswordLength;
             } else if(!regx.test(value)) {
                 status = 2;
-                message = "仅限6-18 个字符，数字和字母组合(A-Z, a-z, 0-9) 或特殊字符@$!%*#?&";
+                message = i18n.msg_PasswordVaildate;
             } else {
                 status = 3;
                 message = "";
@@ -340,7 +340,7 @@ class RegisteredForm extends React.Component {
             <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                 {Inputs}
                 <div className="btn-group">
-                    <button type="submit" value="submit">Completed Registration</button>
+                    <button type="submit" value="submit">{i18n.lbl_CompletedRegistration}</button>
                 </div>
             </form>
         )

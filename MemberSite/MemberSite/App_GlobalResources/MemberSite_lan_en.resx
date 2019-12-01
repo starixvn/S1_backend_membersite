@@ -118,14 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Currency_1" xml:space="preserve">
-    <value>$ SGD</value>
+    <value>SGD</value>
   </data>
   <data name="Currency_12" xml:space="preserve">
-    <value>&amp;pound; GBP</value>
+    <value>GBP</value>
     <comment>00049. Deposit</comment>
   </data>
   <data name="Currency_13" xml:space="preserve">
-    <value>¥ RMB</value>
+    <value>RMB</value>
     <comment>00050. Deposit</comment>
   </data>
   <data name="Currency_15" xml:space="preserve">
@@ -133,51 +133,49 @@
     <comment>00949.</comment>
   </data>
   <data name="Currency_2" xml:space="preserve">
-    <value>RM MYR</value>
-    <comment>00051. Deposit</comment>
+    <value>MYR</value>
   </data>
   <data name="Currency_20" xml:space="preserve">
-    <value>$UUS</value>
-    <comment>00052. Deposit</comment>
+    <value>UUS</value>
   </data>
   <data name="Currency_3" xml:space="preserve">
-    <value>$USD</value>
-    <comment>00053. Deposit</comment>
+    <value>USD</value>
   </data>
   <data name="Currency_32" xml:space="preserve">
-    <value>¥JPY</value>
+    <value>JPY</value>
   </data>
   <data name="Currency_4" xml:space="preserve">
     <value>บาท</value>
-    <comment>00054. Deposit</comment>
   </data>
   <data name="Currency_40" xml:space="preserve">
     <value>WON</value>
   </data>
   <data name="Currency_41" xml:space="preserve">
-    <value>Fr CHF</value>
-    <comment>00055. Deposit</comment>
+    <value>CHF</value>
   </data>
   <data name="Currency_45" xml:space="preserve">
-    <value>₩ WON</value>
+    <value>WON</value>
   </data>
   <data name="Currency_51" xml:space="preserve">
     <value>VND</value>
-    <comment>01030. Deposit</comment>
   </data>
   <data name="Currency_6" xml:space="preserve">
-    <value>&amp;#8364; EURO</value>
-    <comment>00056. Deposit</comment>
+    <value>EURO</value>
   </data>
   <data name="Currency_9" xml:space="preserve">
-    <value>$ AUD</value>
-    <comment>00057. Deposit</comment>
+    <value>AUD</value>
   </data>
   <data name="lbl_Applicationname" xml:space="preserve">
     <value />
   </data>
   <data name="lbl_Author" xml:space="preserve">
     <value />
+  </data>
+  <data name="lbl_CompletedRegistration" xml:space="preserve">
+    <value>Completed Registration</value>
+  </data>
+  <data name="lbl_CompleteRegistration" xml:space="preserve">
+    <value>Complete Registration</value>
   </data>
   <data name="lbl_Copyright" xml:space="preserve">
     <value>Copyright {0}</value>
@@ -188,8 +186,29 @@
   <data name="lbl_Image" xml:space="preserve">
     <value />
   </data>
+  <data name="lbl_JoinNow" xml:space="preserve">
+    <value>Join Now</value>
+  </data>
   <data name="lbl_Keywords" xml:space="preserve">
     <value>online betting, sport betting, football betting, sports betting, tennis betting, golf betting, online sports betting, soccer betting, online gambling</value>
+  </data>
+  <data name="lbl_LoginHere" xml:space="preserve">
+    <value>Login Here</value>
+  </data>
+  <data name="lbl_LoginMsg" xml:space="preserve">
+    <value>Please note that we do not permit members to own more than (1) account.</value>
+  </data>
+  <data name="lbl_Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="lbl_PasswordTooltip" xml:space="preserve">
+    <value>6-18 alphanumeric (A-Z, a-z. 0-9) characters or special characters @$*!%#?&amp;</value>
+  </data>
+  <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
+    <value>Preferred currency can not be changed after registration.</value>
+  </data>
+  <data name="lbl_PrefferedCurrency" xml:space="preserve">
+    <value>Preferred Currency</value>
   </data>
   <data name="lbl_Title" xml:space="preserve">
     <value>Nova88</value>
@@ -209,7 +228,10 @@
   <data name="lbl_URL" xml:space="preserve">
     <value />
   </data>
-  <data name="lbl_UserName" xml:space="preserve">
-    <value>User Name</value>
+  <data name="lbl_Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="lbl_UsernameTooltip" xml:space="preserve">
+    <value>For decurity, we suggest that your username does not contain your real name.</value>
   </data>
 </root>

@@ -20,20 +20,34 @@
     }
 
     Dictionary<string, string> i18n = new Dictionary<string, string>();
-    i18n.Add("lbl_UserName", selLangBLL.GetResourceValue("lbl_UserName"));
+    i18n.Add("lbl_CompletedRegistration", selLangBLL.GetResourceValue("lbl_CompletedRegistration"));
+    i18n.Add("lbl_Username", selLangBLL.GetResourceValue("lbl_Username"));
+    i18n.Add("lbl_UsernameTooltip", selLangBLL.GetResourceValue("lbl_UsernameTooltip"));
+    i18n.Add("lbl_Password", selLangBLL.GetResourceValue("lbl_Password"));
+    i18n.Add("lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip"));
+    i18n.Add("lbl_PrefferedCurrency", selLangBLL.GetResourceValue("lbl_PrefferedCurrency"));
+    i18n.Add("lbl_PreferredCurrencyToolTip", selLangBLL.GetResourceValue("lbl_PreferredCurrencyToolTip"));
+    i18n.Add("msg_UsernameReq", selLangBLL.GetMsg("msg_UsernameReq"));
+    i18n.Add("msg_UsernameLength", selLangBLL.GetMsg("msg_UsernameLength"));
+    i18n.Add("msg_UsernameVaildate", selLangBLL.GetMsg("msg_UsernameVaildate"));
+    i18n.Add("msg_UsernameNotAvailable", selLangBLL.GetMsg("msg_UsernameNotAvailable"));
+    i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
+    i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
+    i18n.Add("msg_PasswordVaildate", selLangBLL.GetMsg("msg_PasswordVaildate"));
+    
 }
 <div class="main">
     <div class="page page--join">
         <div class="heading">
-            <span class="text">Join Now</span>
+            <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
             <a class="btn btn-icon">
                 <i class="icon icon-clear"></i>
             </a>
         </div>
         <p>
-            Please note that we do not permit members to own more than (1) account. Already have a account?
+            @selLangBLL.GetResourceValue("lbl_LoginMsg")
             <a class="text-link" demo-open-login>
-                <span class="text">Log in here</span>
+                <span class="text">@selLangBLL.GetResourceValue("lbl_LoginHere")</span>
             </a>.
         </p>
         <div id="Registered">

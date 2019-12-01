@@ -56,12 +56,12 @@ namespace MemberSite.Controllers.Api
             if (userLoginResult == -1)
             {
                 apiResult.ErrorCode = 1101;
-                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_15");
+                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
             }
             else if (userLoginResult == -2)
             {
                 apiResult.ErrorCode = 1001;
-                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_15");
+                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
             }
             else if (userLoginResult == -3)
             {
