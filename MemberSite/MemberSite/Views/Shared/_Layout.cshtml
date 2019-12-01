@@ -8,7 +8,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
     <title>@selLangBLL.GetResourceValue("lbl_Title")|@selLangBLL.GetResourceValue("lbl_TitleDesc")|@selLangBLL.GetResourceValue("lbl_TitleKeywords")</title>
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@selLangBLL.GetResourceValue("lbl_TwitterSite")" />
@@ -29,13 +32,33 @@
     <meta name="copyright" content="@string.Format(selLangBLL.GetResourceValue("lbl_Copyright"),DateTime.Now.Year)" />
     <meta name="application-name" content="@selLangBLL.GetResourceValue("lbl_Applicationname")" />
     <meta name="keywords" content="@selLangBLL.GetResourceValue("lbl_Keywords")">
+    <link href="~/css/main.css" rel="stylesheet" asp-append-version="true"/>
+
     <script>
         var SiteLanguage = "@selLangBLL.GetLangId()";
     </script>
     @RenderSection("Style", required: false)
 </head>
 <body>
-    <div>
+    <div class="app">
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                    <span class="logo"></span>
+                </div>
+                <div class="header__option">
+                    <a class="btn btn-secondary" href="@Url.Action("Registered","Home")">
+                        <span class="text">Join Now</span>
+                    </a>
+                    <a class="btn btn-highlight" demo-open-login>
+                        <span class="text">Login</span>
+                    </a>
+                </div>
+            </div>
+        </div>
         @Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() });
         @Url.RouteUrl(new { action = "Index", controller = "Home", area = "Mobile", LangId = selLangBLL.GetLangId() });
         <select id="Select1">
@@ -59,9 +82,12 @@
             </form>
         }
         @RenderBody()
+        <div class="footer">
+            123
+        </div>
     </div>
     <script src="~/lib/moment.min.js"></script>
-    <script src="~/lib/axios.min.js" asp-append-version="true"></script>
+    <script src="~/lib/axios.min.js"></script>
     @if (environment.EnvironmentName == "Development")
     {
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
@@ -113,7 +139,7 @@
     }
     else
     {
-
+        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
     }
     @RenderSection("Scripts", required: false)
 </body>

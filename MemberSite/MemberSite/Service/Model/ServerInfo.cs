@@ -19,6 +19,7 @@ namespace MemberSite.Service.Model
         public string LangList { set; get; }
         public string CurrencyList { set; get; }
         public string DefLang { set; get; }
+        public int DefCurrency { set; get; }
         public IEnumerable<int> ICurrencyList
         {
             get

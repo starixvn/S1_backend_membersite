@@ -13,6 +13,12 @@ namespace MemberSite.Service.BLL
 {
     public class SelLangBLL : ISelLang
     {
+        Dictionary<string, int> LangMapCurr =
+        new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+        {
+            {"vn", 51}, {"th", 4}
+        };
+
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly IHttpContextAccessor httpContextAccessor;
         private ConcurrentDictionary<string, ResourceManager> rm = new ConcurrentDictionary<string, ResourceManager>();
@@ -159,6 +165,38 @@ namespace MemberSite.Service.BLL
             string labelString = GetResourceValue($"Code_{code}", "GameMsg_lan", GetLangId());
 
             return labelString;
+        }
+
+        public int GetDefCurrencyId()
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            if (serverInfo.ICurrencyList == null)
+            {
+                return 0;
+            }
+
+            var langId = GetLangId();
+            var defCurrencyId = serverInfo.DefCurrency;
+
+            if (LangMapCurr.ContainsKey(langId) && serverInfo.ICurrencyList.Contains(LangMapCurr[langId]))
+            {
+                return LangMapCurr[langId];
+            }
+
+            if (defCurrencyId != 0 && serverInfo.ICurrencyList.Contains(defCurrencyId))
+            {
+                return defCurrencyId;
+            }
+
+            if (serverInfo.ICurrencyList.Count() > 0)
+            {
+                foreach (var currencyId in serverInfo.ICurrencyList)
+                {
+                    return currencyId;
+                }
+            }
+
+            return 0;
         }
     }
 }

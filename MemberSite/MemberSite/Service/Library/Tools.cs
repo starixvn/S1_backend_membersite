@@ -36,13 +36,13 @@ namespace MemberSite.Service.Library
             if (string.IsNullOrEmpty(userName) || userName.Length < 6 || userName.Length > 18)
                 return false;
 
-            Regex regex = new Regex("^(?!^\\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,18}$", RegexOptions.Singleline);
+            Regex regex = new Regex("^[a-zA-Z0-9]*$", RegexOptions.Singleline);
             Match mPwd = regex.Match(userName);
 
             return mPwd.Success;
         }
         /// <summary>
-        /// 验证用户密码："^[a-zA-Z]\w{5,17}$"正确格式为：以字母开头，长度在6~18之间，只能包含字符、数字和下划线。
+        /// 验证用户密码：仅限8-10 个字符，数字和字母组合(A-Z, a-z, 0-9) 或特殊字符@$!%*#?&。
         /// </summary>
         /// <param name="userPwd"></param>
         /// <returns></returns>
@@ -51,7 +51,7 @@ namespace MemberSite.Service.Library
             if (string.IsNullOrEmpty(userPwd) || userPwd.Length < 6 || userPwd.Length > 18)
                 return false;
 
-            Regex regex = new Regex("^[A-Za-z0-9]+$", RegexOptions.Singleline);
+            Regex regex = new Regex("^[a-zA-Z0-9@$*!%#?&]*$", RegexOptions.Singleline);
             Match mPwd = regex.Match(userPwd);
 
             return mPwd.Success;
