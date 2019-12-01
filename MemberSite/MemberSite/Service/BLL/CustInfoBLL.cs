@@ -65,7 +65,7 @@ namespace MemberSite.Service.BLL
                 regCustInfo.SiteId = serverInfo.SiteId;
                 regCustInfo.UserLevel = 1;
                 regCustInfo.UserLang = UserLang;
-
+                /**/
                 return custInfoService.AddCustInfo(regCustInfo, out custId);
             }
         }
