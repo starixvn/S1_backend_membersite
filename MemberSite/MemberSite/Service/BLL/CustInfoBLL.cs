@@ -84,9 +84,10 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        public int UserLogin(string userName, int siteId, string pwd, string ip, string fromUrl, string userAgent, ref Customer customer, out string token)
+        public int UserLogin(string userName, string pwd, string ip, string fromUrl, string userAgent, ref Customer customer, out string token)
         {
-            customer = custInfoService.GetCustInfoByUserName(userName, siteId);
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            customer = custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId);
             token = null;
             if (customer == null)
             {
@@ -217,6 +218,11 @@ namespace MemberSite.Service.BLL
             }
 
             return custBankInfo;
+        }
+        public bool ExistsUserName(string userName)
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            return custInfoService.ExistsUserName(userName, serverInfo.SiteId);
         }
     }
 }

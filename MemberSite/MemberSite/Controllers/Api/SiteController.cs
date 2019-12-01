@@ -21,14 +21,12 @@ namespace MemberSite.Controllers.Api
     public class SiteController : ControllerBase
     {
         private readonly CustInfoBLL custInfoBLL;
-        private readonly ServerInfoBLL serverInfoBLL;
         private readonly Tools tools;
         private readonly SelLangBLL selLangBLL;
 
-        public SiteController(CustInfoBLL custInfoBLL, ServerInfoBLL serverInfoBLL, SelLangBLL selLangBLL, Tools tools)
+        public SiteController(CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools)
         {
             this.custInfoBLL = custInfoBLL;
-            this.serverInfoBLL = serverInfoBLL;
             this.tools = tools;
             this.selLangBLL = selLangBLL;
         }
@@ -49,12 +47,11 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> Validation([FromBody]LoginModel loginModel)
         {
             var apiResult = new ApiResult(selLangBLL);
-            var serverInfo = serverInfoBLL.GetServerInfo();
             string userName = loginModel.UserName;
             string userpwd = loginModel.Userpwd;
             Customer customer = null;
             string token = null;
-            var userLoginResult = custInfoBLL.UserLogin(userName, serverInfo.SiteId, userpwd, tools.GetClientIP(this.HttpContext), tools.GetFromUrl(this.HttpContext), Request.Headers["User-Agent"], ref customer, out token);
+            var userLoginResult = custInfoBLL.UserLogin(userName, userpwd, tools.GetClientIP(this.HttpContext), tools.GetFromUrl(this.HttpContext), Request.Headers["User-Agent"], ref customer, out token);
 
             if (userLoginResult == -1)
             {
@@ -142,6 +139,14 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<SiteLanguage>>(selLangBLL);
             apiResult.Data = selLangBLL.GetLangIdList();
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+        [HttpPost]
+        public ApiResult<bool> ExistsUserName(RegisteredModel registeredModel)
+        {
+            var apiResult = new ApiResult<bool>(selLangBLL);
+            custInfoBLL.ExistsUserName(registeredModel.UserName);
             apiResult.ErrorCode = 0;
             return apiResult;
         }

@@ -8,6 +8,7 @@
     _objectType=1;/*1. Text,2. Password,3. dropdownList*/
     _Value=null;
     _dropdownList=[];
+    _handleCheck=null;
 
     constructor(name) {
         this._name=name;
@@ -80,6 +81,19 @@
 
     set dropdownList(value){
         this._dropdownList=value;
+    }
+
+    set handleCheck(value){
+        this._handleCheck=value;
+    }
+
+    onCheck() {
+        if(this._handleCheck != null)
+        {
+            let result = await this._handleCheck();
+            this._status = result.status;
+            this._tooltip = result.message;
+        }
     }
 }
 
