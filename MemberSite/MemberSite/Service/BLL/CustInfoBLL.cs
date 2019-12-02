@@ -31,7 +31,7 @@ namespace MemberSite.Service.BLL
             this.cache = cache;
             this.regexUtilities = regexUtilities;
         }
-        public int AddCustInfo(string UserName, string Userpwd, int CurrencyId, string UserLang, out int custId)
+        public int AddCustInfo(string UserName, string Userpwd, int CurrencyId, string UserLang, string refId, out int custId)
         {
             //int custId = 0;
             var serverInfo = serverInfoBLL.GetServerInfo();
@@ -57,7 +57,20 @@ namespace MemberSite.Service.BLL
             }
             else
             {
-                Customer agent = agentInfoService.GetSuperAgent(serverInfo.SiteId, CurrencyId);
+                Customer agent = null;
+                if (!string.IsNullOrEmpty(refId))
+                {
+                    agent = agentInfoService.GetAffiliateAgent($"{refId}_{CurrencyId}", serverInfo.SiteId);
+
+                    if (agent.CurrencyId != CurrencyId)
+                    {
+                        custId = 0;
+                        return -6;/*agent Currency != CurrencyId*/
+                    }
+                }
+
+                if (agent == null)
+                    agent = agentInfoService.GetSuperAgent(serverInfo.SiteId, CurrencyId);
 
                 Customer regCustInfo = new Customer();
                 regCustInfo.UserName = UserName;

@@ -1,4 +1,13 @@
-﻿class DataField {
+﻿(function ($, React, ReactDOM, i18n, axios) {
+
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)','i');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
+class DataField {
     _status = 1;
     _name="";
     _tooltip="";
@@ -159,7 +168,7 @@ class InputBox extends React.Component {
 
         if(field.objectType==2) {
             input=<input type={this.state.ShowPwd?"text":"password"} className="textfield__input" placeholder={field.placeholder} onChange={this.handleChange.bind(this)} value={this._dataField.Value} onBlur={this.onBlur.bind(this)}/>;
-            ShowPwdBtn = <a className="btn btn-icon-sm btn-form-togglepw" data-visibility={this.state.ShowPwd} onClick={this.onShowPwd.bind(this)}><i className="icon"></i></a>;
+            ShowPwdBtn = <a className="btn btn-icon-sm btn-form-togglepw" data-visibility={!this.state.ShowPwd} onClick={this.onShowPwd.bind(this)}><i className="icon"></i></a>;
         }
 
         let inputPanel = null;
@@ -328,7 +337,9 @@ class RegisteredForm extends React.Component {
             this.forceUpdate();
         } else {
             data["UserLang"] = SiteLanguage;
-            
+
+            data["refId"] = getUrlParameter("refId");
+
             axios.post('/api/Site/Registered', data)
             .then(function (response) {
                 let result = response.data;
@@ -359,3 +370,4 @@ class RegisteredForm extends React.Component {
 }
 
 ReactDOM.render(<RegisteredForm/>,document.getElementById('Registered'));
+})(jQuery, React, ReactDOM, i18n, axios);
