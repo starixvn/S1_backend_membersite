@@ -1,4 +1,4 @@
-﻿(function ($, React, ReactDOM, axios) {
+﻿(function ($, React, ReactDOM, i18n, axios) {
 
 function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -370,4 +370,4 @@ class RegisteredForm extends React.Component {
 }
 
 ReactDOM.render(<RegisteredForm/>,document.getElementById('Registered'));
-})(jQuery, React, ReactDOM, axios);
+})(jQuery, React, ReactDOM, i18n, axios);
