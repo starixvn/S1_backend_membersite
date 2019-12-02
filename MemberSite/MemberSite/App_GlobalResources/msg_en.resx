@@ -136,7 +136,7 @@
     <value>Password is required.</value>
   </data>
   <data name="msg_PasswordVaildate" xml:space="preserve">
-    <value>6-18 alphanumeric (A-Z, a-z. 0-9) characters or special characters @$*!%#?&amp;</value>
+    <value>6-18 alphanumeric (A-Z, a-z, 0-9) characters or special characters @$*!%#?&amp;</value>
   </data>
   <data name="msg_ThisCurrencyNotSupport" xml:space="preserve">
     <value>Your Currency Not Support</value>
@@ -151,6 +151,6 @@
     <value>Username is required.</value>
   </data>
   <data name="msg_UsernameVaildate" xml:space="preserve">
-    <value>6-18 alphanumeric (A-Z, a-z. 0-9) characters only.</value>
+    <value>6-18 alphanumeric (A-Z, a-z, 0-9) characters only.</value>
   </data>
 </root>

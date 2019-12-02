@@ -171,9 +171,6 @@
   <data name="lbl_Author" xml:space="preserve">
     <value />
   </data>
-  <data name="lbl_CompletedRegistration" xml:space="preserve">
-    <value>Completed Registration</value>
-  </data>
   <data name="lbl_CompleteRegistration" xml:space="preserve">
     <value>Complete Registration</value>
   </data>
@@ -202,7 +199,7 @@
     <value>Password</value>
   </data>
   <data name="lbl_PasswordTooltip" xml:space="preserve">
-    <value>6-18 alphanumeric (A-Z, a-z. 0-9) characters or special characters @$*!%#?&amp;</value>
+    <value>6-18 alphanumeric (A-Z, a-z, 0-9) characters or special characters @$*!%#?&amp;</value>
   </data>
   <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
     <value>Preferred currency can not be changed after registration.</value>
