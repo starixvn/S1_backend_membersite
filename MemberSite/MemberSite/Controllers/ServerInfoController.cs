@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -14,12 +15,13 @@ namespace MemberSite.Controllers
         private readonly IWebHostEnvironment environment;
         private readonly IConfiguration configuration;
         private readonly SelLangBLL selLangBLL;
-
-        public ServerInfoController(IWebHostEnvironment environment, IConfiguration configuration, SelLangBLL selLangBLL)
+        private readonly ServerInfoBLL serverInfoBLL;
+        public ServerInfoController(IWebHostEnvironment environment, IConfiguration configuration, SelLangBLL selLangBLL, ServerInfoBLL serverInfoBLL)
         {
             this.environment = environment;
             this.configuration = configuration;
             this.selLangBLL = selLangBLL;
+            this.serverInfoBLL = serverInfoBLL;
         }
         public IActionResult Index()
         {
@@ -29,6 +31,16 @@ namespace MemberSite.Controllers
             ServerInfoData.Add("LangId", selLangBLL.GetLangId());
             ServerInfoData.Add("Url.Host", Request.Host.Host);
             ServerInfoData.Add("Url.Port", Request.Host.Port.ToString());
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            ServerInfoData.Add("SiteId", serverInfo.SiteId.ToString());
+            ServerInfoData.Add("SiteName", serverInfo.SiteName);
+            ServerInfoData.Add("LangList", serverInfo.LangList);
+            ServerInfoData.Add("CurrencyList", serverInfo.CurrencyList);
+            ServerInfoData.Add("DefCurrency", serverInfo.DefCurrency.ToString());
+            ServerInfoData.Add("DefLang", serverInfo.DefLang);
+            var userAgent = Request.Headers["User-Agent"];
+            ServerInfoData.Add("User Agent", userAgent);
+
             //需要的欄位LIST
             var list = new List<string>
             {

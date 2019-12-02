@@ -112,18 +112,33 @@ namespace MemberSite.Controllers.Api
             }
             else if (result == -2)
             {
-                apiResult.ErrorCode = result;/**/
-                apiResult.Message = "";
+                apiResult.ErrorCode = result;
+                apiResult.Message = selLangBLL.GetMsg("msg_UsernameReq");
             }
             else if (result == -3)
             {
-                apiResult.ErrorCode = result;/**/
-                apiResult.Message = "";
+                apiResult.ErrorCode = result;
+                apiResult.Message = selLangBLL.GetMsg("msg_PasswordReq");
             }
-            else if (custId == 0)
+            else if (result == -4)
             {
                 apiResult.ErrorCode = result;/**/
                 apiResult.Message = "";
+            }
+            else if (result == -5)
+            {
+                apiResult.ErrorCode = result;
+                apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+            }
+            else if (custId == 0)
+            {
+                apiResult.ErrorCode = result;
+                apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+            }
+            else if (result != 0)
+            {
+                apiResult.ErrorCode = result;
+                apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
             }
             else
             {

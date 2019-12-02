@@ -40,15 +40,20 @@ namespace MemberSite.Service.BLL
                 custId = 0;
                 return -1;
             }
-            else if (!tools.CheckUserName(UserName) || !tools.CheckUserInputPassword(Userpwd))
+            else if (!tools.CheckUserName(UserName))
             {
                 custId = 0;
                 return -2;
             }
-            else if (!serverInfo.ILangList.Contains(UserLang))
+            else if (!tools.CheckUserInputPassword(Userpwd))
             {
                 custId = 0;
                 return -3;
+            }
+            else if (!serverInfo.ILangList.Contains(UserLang))
+            {
+                custId = 0;
+                return -4;
             }
             else
             {
@@ -66,8 +71,14 @@ namespace MemberSite.Service.BLL
                 regCustInfo.UserLevel = 1;
                 regCustInfo.UserLang = UserLang;
                 /**/
-                return custInfoService.AddCustInfo(regCustInfo, out custId);
+                var result = custInfoService.AddCustInfo(regCustInfo, out custId);
+                if (result != 0)
+                {
+                    return -5;
+                }
             }
+
+            return 0;
         }
 
         private string GetAllAgentByUserId(Customer agent)

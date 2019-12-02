@@ -309,28 +309,39 @@ class RegisteredForm extends React.Component {
         return {status: status, message: message};
     }
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
+        event.preventDefault();
         let data = {};
+        let valid = true;
         for(var i=0; i < this.state.formArr.length; i++){
             let dataField = this.state.formArr[i];
+            await dataField.onCheck();
+            if(valid) {
+                if(dataField.status == 2) {
+                    valid = false;
+                }
+            }
             data[dataField.name] = dataField.Value;
         }
 
-        data["UserLang"] = SiteLanguage;
-        
-        axios.post('/api/Site/Registered', data)
-        .then(function (response) {
-            let result = response.data;
-            if (result.errorCode == 0) {
-                alert(result.message);
-                location.reload();
-            } else {
-                alert(result.message);
-            }
-        }).catch(function (error) {
-            alert(error);
-        });
-        event.preventDefault();
+        if(!valid) {
+            this.forceUpdate();
+        } else {
+            data["UserLang"] = SiteLanguage;
+            
+            axios.post('/api/Site/Registered', data)
+            .then(function (response) {
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    alert(result.message);
+                    location.reload();
+                } else {
+                    alert(result.message);
+                }
+            }).catch(function (error) {
+                alert(error);
+            });
+        }
     }
 
     render() {
