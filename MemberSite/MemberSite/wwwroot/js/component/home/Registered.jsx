@@ -168,7 +168,7 @@ class InputBox extends React.Component {
 
         if(field.objectType==2) {
             input=<input type={this.state.ShowPwd?"text":"password"} className="textfield__input" placeholder={field.placeholder} onChange={this.handleChange.bind(this)} value={this._dataField.Value} onBlur={this.onBlur.bind(this)}/>;
-            ShowPwdBtn = <a className="btn btn-icon-sm btn-form-togglepw" data-visibility={this.state.ShowPwd} onClick={this.onShowPwd.bind(this)}><i className="icon"></i></a>;
+            ShowPwdBtn = <a className="btn btn-icon-sm btn-form-togglepw" data-visibility={!this.state.ShowPwd} onClick={this.onShowPwd.bind(this)}><i className="icon"></i></a>;
         }
 
         let inputPanel = null;
