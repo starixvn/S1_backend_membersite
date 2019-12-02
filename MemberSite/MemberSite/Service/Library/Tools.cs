@@ -27,6 +27,21 @@ namespace MemberSite.Service.Library
             return sBuilder.ToString();
         }
         /// <summary>
+        /// MD5加密16位
+        /// </summary>
+        /// <param name="ConvertString"></param>
+        /// <returns></returns>
+        public string MD5Encrypt16(string ConvertString)
+        {
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            string t2 = BitConverter.ToString(md5.ComputeHash(UTF8Encoding.Default.GetBytes(ConvertString)), 4, 8);
+            t2 = t2.Replace("-", "");
+
+            t2 = t2.ToLower();
+
+            return t2;
+        }
+        /// <summary>
         /// 验证用户名 必须是字母和数字的组合
         /// </summary>
         /// <param name="userName"></param>

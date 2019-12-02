@@ -97,14 +97,16 @@ namespace MemberSite.Controllers.Api
             public string Userpwd { get; set; }
             public int CurrencyId { get; set; }
             public string UserLang { get; set; }
+            public string RefId { get; set; }
         }
 
         [HttpPost]
         public ApiResult Registered([FromBody]RegisteredModel registeredModel)
         {
             var apiResult = new ApiResult(selLangBLL);
+
             int custId = 0;
-            var result = custInfoBLL.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd, registeredModel.CurrencyId, registeredModel.UserLang, out custId);
+            var result = custInfoBLL.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId, out custId);
             if (result == -1)
             {
                 apiResult.ErrorCode = result;

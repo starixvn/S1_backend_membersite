@@ -1,4 +1,13 @@
-﻿class DataField {
+﻿(function ($, React, ReactDOM, axios) {
+
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)','i');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
+class DataField {
     _status = 1;
     _name="";
     _tooltip="";
@@ -328,7 +337,9 @@ class RegisteredForm extends React.Component {
             this.forceUpdate();
         } else {
             data["UserLang"] = SiteLanguage;
-            
+
+            data["refId"] = getUrlParameter("refId");
+
             axios.post('/api/Site/Registered', data)
             .then(function (response) {
                 let result = response.data;
@@ -359,3 +370,4 @@ class RegisteredForm extends React.Component {
 }
 
 ReactDOM.render(<RegisteredForm/>,document.getElementById('Registered'));
+})(jQuery, React, ReactDOM, axios);
