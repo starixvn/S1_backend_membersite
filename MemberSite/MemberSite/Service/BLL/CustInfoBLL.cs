@@ -248,5 +248,10 @@ namespace MemberSite.Service.BLL
             var serverInfo = serverInfoBLL.GetServerInfo();
             return custInfoService.ExistsUserName(userName, serverInfo.SiteId);
         }
+        public bool ExistsEmail(int custId, string email)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return custInfoService.ExistsEmail(custId, email, custInfo.SiteId);
+        }
     }
 }

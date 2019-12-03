@@ -155,6 +155,21 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        public class ProfileModel
+        {
+            public string Email { set; get; }
+        }
+
+        [HttpPost]
+        public ApiResult<bool> ExistsEmail(ProfileModel profileModel)
+        {
+            var apiResult = new ApiResult<bool>(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+            apiResult.Data = custInfoBLL.ExistsEmail(authData.CustId, profileModel.Email);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
         [HttpPost]
         public ApiResult SetProfile(Dictionary<string, string> custProfile)
         {

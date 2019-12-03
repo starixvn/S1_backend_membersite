@@ -4,11 +4,14 @@ var webpack = require('webpack');
 
 module.exports = {
   entry:{
-		"home/registered.min":[
+		"js/component/home/registered.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/home/Registered.jsx'
+    ],
+    "js/component/account/Profile.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/account/Profile.jsx'
 		]},
   output: {
-    path:  path.resolve(__dirname,'../MemberSite/MemberSite/wwwroot/js/component/'),
+    path:  path.resolve(__dirname,'../MemberSite/MemberSite/wwwroot/'),
     filename: "[name].js",
 	chunkFilename: "[name].chunk.js?v=" + new Date().getTime(),
 	publicPath: ''

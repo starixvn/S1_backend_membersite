@@ -1,0 +1,225 @@
+﻿export class DataField {
+    _status = 1;
+    _name="";
+    _tooltip="";
+    _displayName="";
+    _placeholder="";
+    _dataStatus={"1":"info","2":"error","3":"valid"};
+    _objectType=1;/*1. Text,2. Password,3. dropdownList, 4. Email */
+    _Value=null;
+    _dropdownList=[];
+    _handleCheck=null;
+    _typeStr={1:"text",4:"email"};
+
+    constructor(name) {
+        this._name=name;
+        this._objectType=1;
+    }
+    
+    get typeStr() {
+        return this._typeStr;
+    }
+
+    get name() {
+        return this._name;
+    }
+    
+    set name(value) {
+        this._name = value;
+    }
+
+    get dataStatus() {
+      return this._dataStatus[this._status.toString()];
+    }
+
+    get status() {
+        return this._status;
+    }
+  
+    set status(value) {
+        this._status = value;
+    }
+
+    get tooltip() {
+        return this._tooltip;
+    }
+    
+    set tooltip(value) {
+        this._tooltip = value;
+    }
+    
+    get displayName(){
+        return this._displayName;
+    }
+
+    set displayName(value){
+        this._displayName=value;
+    }
+
+    get placeholder(){
+        return this._placeholder;
+    }
+
+    set placeholder(value){
+        this._placeholder=value;
+    }
+
+    get objectType(){
+        return this._objectType;
+    }
+
+    set objectType(value){
+        this._objectType=value;
+    }
+
+    get Value(){
+        return this._Value;
+    }
+
+    set Value(value){
+        this._Value=value;
+    }
+    
+    get dropdownList(){
+        return this._dropdownList;
+    }
+
+    set dropdownList(value){
+        this._dropdownList=value;
+    }
+
+    set handleCheck(value){
+        this._handleCheck=value;
+    }
+
+    async onCheck() {
+        if(this._handleCheck != null)
+        {
+            let result = await this._handleCheck(this._Value);
+            this._status = result.status;
+            this._tooltip = result.message;
+        }
+    }
+}
+
+export class InputBox extends React.Component {
+    _dataField={};
+    
+    constructor(props) {
+        super(props);
+        this._dataField=this.props.DataField;
+        this.state = { showTooltip: false, ShowPwd: false, dropdown: false};
+    }
+
+    onShowTooltip() {
+        this.setState({showTooltip:!this.state.showTooltip});
+    }
+    
+    onShowPwd() {
+        this.setState({ShowPwd:!this.state.ShowPwd});
+    }
+
+    onDropdown() {
+        this.setState({dropdown:!this.state.dropdown}, function() {
+            if(this.state.dropdown){
+                let object = document.getElementsByTagName('body')[0];
+                $(object).on("mousedown", this.onHideDropdown.bind(this));
+            }
+        });
+
+    }
+
+    onHideDropdown(e) {
+        this.setState({dropdown:false}, function() {
+            let object = document.getElementsByTagName('body')[0];
+            $(object).off();
+        });
+    }
+
+    setValue(value) {
+        this._dataField.Value=value;
+        let object = document.getElementsByTagName('body')[0];
+        $(object).off();        
+        this.setState({dropdown:false});
+    }
+
+    handleChange(event) {
+        this._dataField.Value=event.target.value;
+        this.forceUpdate();
+    }
+
+    async onBlur() {
+        await this._dataField.onCheck();
+        this.forceUpdate();
+    }
+
+    render() {
+        let input = null;
+        let ShowPwdBtn = null;
+        let field = this._dataField;
+
+        if(field.objectType!=3) {
+            let thisType=field.typeStr[field.objectType];
+            if(field.objectType==2) {
+                thisType = this.state.ShowPwd ? "text":"password";
+                ShowPwdBtn = <a className="btn btn-icon-sm btn-form-togglepw" data-visibility={!this.state.ShowPwd} onClick={this.onShowPwd.bind(this)}><i className="icon"></i></a>;
+            }
+            input=<input type={thisType} className="textfield__input" placeholder={field.placeholder} onChange={this.handleChange.bind(this)} value={this._dataField.Value} onBlur={this.onBlur.bind(this)}/>;
+        }
+
+        let inputPanel = null;
+
+        if(field.objectType != 3) {
+            inputPanel = <div className="textfield">
+                {input}
+                <span className="textfield__bg"></span>
+                {ShowPwdBtn}
+                <a className="btn btn-icon-sm btn-form-status" onClick={field.status==1?this.onShowTooltip.bind(this):null}>
+                    <i className="icon"></i>
+                </a>
+            </div>;
+        } else if (field.objectType==3){
+            let dropdownList=[];
+            let dropdownText=null;
+            if(field.dropdownList.length>0) {
+                for(var i=0; i < field.dropdownList.length; i++){
+                    let dropdownItem=field.dropdownList[i];
+                    if(field.Value==dropdownItem.value) {
+                        dropdownText=dropdownItem.text;
+                    }
+
+                    dropdownList.push(<div className="dropdown__item" key={i} onClick={this.setValue.bind(this, dropdownItem.value)}>
+                        <span className="text">{dropdownItem.text}</span>
+                    </div>);
+                }
+            }
+
+            inputPanel = <div className="dropdown dropdown-default" data-open={this.state.dropdown}>
+                <a className="btn" onClick={this.onDropdown.bind(this)}>
+                    <span className="text">{dropdownText}</span>
+                    <i className="icon icon-caret"></i>
+                    <div className="btn btn-icon-sm btn-form-status" onClick={field.status==1?this.onShowTooltip.bind(this):null}>
+                        <i className="icon"></i>
+                    </div>
+                </a>
+                <div className="dropdown__container">
+                    <div className="dropdown__list">
+                        {dropdownList}
+                    </div>
+                </div>
+            </div>;
+        }
+
+        return (
+        <div className="form-group">
+            <label className="form-title">{field.displayName}</label>
+            <div className="form-content" data-status={field.dataStatus}>
+                {inputPanel}
+                <div className="tooltip tooltip--bottom-right" data-open={(field.status!=3 && (this.state.showTooltip && field.status==1))||field.status==2}>
+                    <span className="text">{field.tooltip}</span>
+                </div>
+            </div>
+        </div>
+        )
+    }
+}

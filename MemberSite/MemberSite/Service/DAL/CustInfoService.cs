@@ -24,6 +24,14 @@ namespace MemberSite.Service.DAL
                 return conn.ExecuteScalar<int>("ExistsUserName_Get", new { UserName = userName, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
             }
         }
+
+        public bool ExistsEmail(int custId, string email, int siteId)
+        {
+            using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
+            {
+                return conn.ExecuteScalar<int>("ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
+            }
+        }
         public int AddCustInfo(Customer customer, out int userId)
         {
             using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))

@@ -1,0 +1,22 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Hosting
+@using MemberSite.Service.BLL
+@inject IWebHostEnvironment environment
+@inject SelLangBLL selLangBLL
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Style{
+
+}
+
+<div id="Profile"></div>
+@section Scripts{
+    <script type="text/javascript">
+        var i18n = {};
+        @*var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));*@
+    </script>
+    <script src="~/lib/runtime.min.js"></script>
+    <script src="~/js/component/account/Profile.min.js" asp-append-version="true"></script>
+}
