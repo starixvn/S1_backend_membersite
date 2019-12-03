@@ -130,10 +130,12 @@ export class InputBox extends React.Component {
     }
 
     onHideDropdown(e) {
-        this.setState({dropdown:false}, function() {
-            let object = document.getElementsByTagName('body')[0];
-            $(object).off();
-        });
+        if(event.target.parentNode == undefined || event.target.parentNode.className!="dropdown dropdown-default"){
+            this.setState({dropdown:false}, function() {
+                let object = document.getElementsByTagName('body')[0];
+                $(object).off();
+            });
+        }
     }
 
     setValue(value) {
