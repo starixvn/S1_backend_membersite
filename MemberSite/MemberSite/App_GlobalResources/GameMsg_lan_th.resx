@@ -117,4 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Code_10" xml:space="preserve">
+    <value>[10] เกมนี้อยู่ระหว่างการปรับปรุง โปรดลองอีกครั้งในภายหลัง</value>
+  </data>
+  <data name="Code_1101" xml:space="preserve">
+    <value>[1101]ชื่อ ID นี้ไม่สามารถใช้ได้ โปรดติดต่อ CSD</value>
+  </data>
+  <data name="Code_1102" xml:space="preserve">
+    <value>[1102] บัญชีนี้ถูกล็อค โปรดติดต่อ CSD</value>
+  </data>
+  <data name="Code_1103" xml:space="preserve">
+    <value>[1103] ผู้ใช้ยังไม่ได้ล็อคอิน โปรดล็อคอินเข้าสู่ระบบก่อน</value>
+  </data>
+  <data name="Code_1104" xml:space="preserve">
+    <value>[1104] การเชื่อมต่อถูกยกเลิกเนื่องจากมีการเข้าสู่ระบบซ้ำกัน</value>
+  </data>
+  <data name="Code_1105" xml:space="preserve">
+    <value>[1105] ระบบมีปัญหาขัดข้อง โปรดติดต่อ CSD</value>
+  </data>
+  <data name="Code_1200" xml:space="preserve">
+    <value>[1200] ไม่สามารถโอนได้ โปรดลองอีกครั้ง</value>
+  </data>
+  <data name="Code_1201" xml:space="preserve">
+    <value>[1201] ไม่สามารถโอนได้ โปรดเช็คจำนวนเงินที่จะโอน</value>
+  </data>
+  <data name="Code_1202" xml:space="preserve">
+    <value>[1202] มี TransID ซ้ำ โปรดติดต่อ CSD</value>
+  </data>
+  <data name="Code_1203" xml:space="preserve">
+    <value>[1203] จำนวนเงินโอนเกินจำนวนโปรดตรวจสอบ</value>
+  </data>
+  <data name="Code_1204" xml:space="preserve">
+    <value>[1204]ระบบมีปัญหาขัดข้อง โปรดติดต่อ CSD</value>
+  </data>
+  <data name="Code_1205" xml:space="preserve">
+    <value>[1205]ระบบมีปัญหาขัดข้อง โปรดติดต่อ CSD</value>
+  </data>
+  <data name="Code_1999" xml:space="preserve">
+    <value>[1999]ระบบมีปัญหาขัดข้อง โปรดติดต่อ CSD</value>
+  </data>
+  <data name="Code_2000" xml:space="preserve">
+    <value>[2000]ระบบมีปัญหาขัดข้อง โปรดติดต่อ CSD</value>
+  </data>
+  <data name="Code_2002" xml:space="preserve">
+    <value>[2002]ระบบมีปัญหาขัดข้อง โปรดติดต่อ CSD</value>
+  </data>
+  <data name="Code_9000" xml:space="preserve">
+    <value>[9000]ระบบมีปัญหาขัดข้อง โปรดติดต่อ CSD</value>
+  </data>
 </root>

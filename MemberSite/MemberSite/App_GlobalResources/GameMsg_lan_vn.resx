@@ -117,4 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Code_10" xml:space="preserve">
+    <value>[10]  Trò chơi này đang bảo trì vui lòng thử lại sau </value>
+  </data>
+  <data name="Code_1101" xml:space="preserve">
+    <value>[1101] ID người dùng không tồn tại, vui lòng liên hệ với CSD</value>
+  </data>
+  <data name="Code_1102" xml:space="preserve">
+    <value>[1102] Người dùng đã bị khóa , vui lòng liên hệ với CSD</value>
+  </data>
+  <data name="Code_1103" xml:space="preserve">
+    <value>[1103] Người dùng chưa đăng nhập , vui lòng đăng nhập</value>
+  </data>
+  <data name="Code_1104" xml:space="preserve">
+    <value>[1104] Kết nối bị chấm dứt , do đăng nhập trùng lặp</value>
+  </data>
+  <data name="Code_1105" xml:space="preserve">
+    <value>Lỗi hệ thống, vui lòng liên hệ với CSD</value>
+  </data>
+  <data name="Code_1200" xml:space="preserve">
+    <value>[1200] Chuyển khoản không thành công , vui lòng thử lại</value>
+  </data>
+  <data name="Code_1201" xml:space="preserve">
+    <value>[1201] Chuyển khoản không thành công, vui lòng kiểm tra số tiền chuyển</value>
+  </data>
+  <data name="Code_1202" xml:space="preserve">
+    <value>[1202]  TransID trùng lặp , vui lòng liên hệ với CSD</value>
+  </data>
+  <data name="Code_1203" xml:space="preserve">
+    <value>[1203] Vượt quá số tiền chuyển, vui lòng kiểm tra</value>
+  </data>
+  <data name="Code_1204" xml:space="preserve">
+    <value>[1204] Lỗi hệ thống, vui lòng liên hệ với CSD</value>
+  </data>
+  <data name="Code_1205" xml:space="preserve">
+    <value>[1205] Lỗi hệ thống, vui lòng liên hệ với CSD</value>
+  </data>
+  <data name="Code_1999" xml:space="preserve">
+    <value>[1999] Lỗi hệ thống, vui lòng liên hệ với CSD</value>
+  </data>
+  <data name="Code_2000" xml:space="preserve">
+    <value>[2000] Lỗi hệ thống, vui lòng liên hệ với CSD</value>
+  </data>
+  <data name="Code_2002" xml:space="preserve">
+    <value>[2002] Lỗi hệ thống, vui lòng liên hệ với CSD</value>
+  </data>
+  <data name="Code_9000" xml:space="preserve">
+    <value>[9000] Lỗi hệ thống, vui lòng liên hệ với CSD</value>
+  </data>
 </root>
