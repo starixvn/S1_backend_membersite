@@ -61,6 +61,7 @@ namespace MemberSite
                 //option.LoginPath = new PathString("/Home/Login");//登入頁
                 //option.LogoutPath = new PathString("/Home/Logout");//登出Action
                 //用戶頁面停留太久，登入逾期，或Controller中用戶登入時機點也可以設定↓
+                option.LoginPath = "/";
                 option.Cookie.Name = ".ES";
                 option.ExpireTimeSpan = TimeSpan.FromMinutes(30);//沒給預設14天
             });

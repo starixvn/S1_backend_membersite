@@ -14,6 +14,10 @@ namespace MemberSite.Controllers
         }
         public IActionResult Registered()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToRoute(new { action = "Index", controller = "Home" });
+            }
             return View();
         }
     }

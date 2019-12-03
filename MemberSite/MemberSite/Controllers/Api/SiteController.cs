@@ -104,6 +104,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult Registered([FromBody]RegisteredModel registeredModel)
         {
             var apiResult = new ApiResult(selLangBLL);
+            if (User.Identity.IsAuthenticated)
+            {
+                apiResult.ErrorCode = 9000;
+                return apiResult;
+            }
 
             int custId = 0;
             var result = custInfoBLL.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId, out custId);
