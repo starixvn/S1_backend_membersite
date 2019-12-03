@@ -119,23 +119,38 @@ export class InputBox extends React.Component {
         this.setState({ShowPwd:!this.state.ShowPwd});
     }
 
-    onDropdown() {
-        this.setState({dropdown:!this.state.dropdown}, function() {
-            if(this.state.dropdown){
-                let object = document.getElementsByTagName('body')[0];
-                $(object).on("mousedown", this.onHideDropdown.bind(this));
-            }
-        });
-
+    onDropdown(event) {
+        let node = event.target;
+        let parentNode = node.parentNode;;
+        if(node.className != "btn btn-icon-sm btn-form-status" && (parentNode!=undefined && parentNode.className != "btn btn-icon-sm btn-form-status")) {
+            this.setState({dropdown:!this.state.dropdown}, function() {
+                if(this.state.dropdown){
+                    let object = document.getElementsByTagName('body')[0];
+                    $(object).on("mousedown", this.onHideDropdown.bind(this));
+                } else {
+                    let object = document.getElementsByTagName('body')[0];
+                    $(object).off();                
+                }
+            });
+        }
     }
 
     onHideDropdown(event) {
-        if(event.target.parentNode == undefined || event.target.parentNode.className!="dropdown dropdown-default"){
-            this.setState({dropdown:false}, function() {
-                let object = document.getElementsByTagName('body')[0];
-                $(object).off();
-            });
+        let node = event.target.parentNode;
+        let i=1;
+        while (node != undefined && i<=3) {
+            if(node.className == "dropdown dropdown-default"){
+                return;
+            }
+
+            node = node.parentNode;
+            i++;
         }
+
+        this.setState({dropdown:false}, function() {
+            let object = document.getElementsByTagName('body')[0];
+            $(object).off();
+        });
     }
 
     setValue(value) {
