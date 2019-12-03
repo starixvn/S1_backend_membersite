@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MemberSite.Service.Model
@@ -32,6 +33,7 @@ namespace MemberSite.Service.Model
     public class CustBankInfo
     {
         public string AccountName { set; get; }
+        [JsonIgnore]
         public string BankInfo { set; get; }
         public IEnumerable<BankInfoDetail> bankInfoDetail { set; get; }
     }
