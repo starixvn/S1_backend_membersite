@@ -129,7 +129,7 @@ export class InputBox extends React.Component {
 
     }
 
-    onHideDropdown(e) {
+    onHideDropdown(event) {
         if(event.target.parentNode == undefined || event.target.parentNode.className!="dropdown dropdown-default"){
             this.setState({dropdown:false}, function() {
                 let object = document.getElementsByTagName('body')[0];
@@ -139,9 +139,9 @@ export class InputBox extends React.Component {
     }
 
     setValue(value) {
-        this._dataField.Value=value;
         let object = document.getElementsByTagName('body')[0];
         $(object).off();        
+        this._dataField.Value=value;
         this.setState({dropdown:false});
     }
 
