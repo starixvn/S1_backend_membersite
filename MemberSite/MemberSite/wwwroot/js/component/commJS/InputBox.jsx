@@ -4,7 +4,7 @@
     _tooltip="";
     _displayName="";
     _placeholder="";
-    _dataStatus={"1":"info","2":"error","3":"valid"};
+    _dataStatus={"1":"info","2":"error","3":"valid","4":"readOnly"};
     _objectType=1;/*1. Text,2. Password,3. dropdownList, 4. Email */
     _Value=null;
     _dropdownList=[];

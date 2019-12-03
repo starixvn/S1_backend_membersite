@@ -237,6 +237,19 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        public ApiResult<CustBankInfo> GetCustBankInfo()
+        {
+            var apiResult = new ApiResult<CustBankInfo>(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+
+            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+            apiResult.Data = custBankInfo;
+            apiResult.ErrorCode = 0;
+
+            return apiResult;
+        }
+
+        [HttpPost]
         public ApiResult DelCustBankInfo(BankInfo bankInfo)
         {
             var apiResult = new ApiResult(selLangBLL);
