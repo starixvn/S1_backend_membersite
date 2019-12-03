@@ -24,14 +24,16 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL selLangBLL;
         private readonly AuthorizeBLL authorizeBLL;
         private readonly BankInfoBLL bankInfoBLL;
+        private readonly WalletBLL walletBLL;
 
-        public AccountController(CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL)
+        public AccountController(CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
             this.selLangBLL = selLangBLL;
             this.authorizeBLL = authorizeBLL;
             this.bankInfoBLL = bankInfoBLL;
+            this.walletBLL = walletBLL;
         }
         [HttpPost]
         public async Task<ApiResult> LoginCheckin()
@@ -166,6 +168,16 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<bool>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
             apiResult.Data = custInfoBLL.ExistsEmail(authData.CustId, profileModel.Email);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<decimal> GetBalance()
+        {
+            var apiResult = new ApiResult<decimal>(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+            apiResult.Data = walletBLL.GetBalance(authData.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
