@@ -112,7 +112,7 @@ export class InputBox extends React.Component {
     }
 
     onShowTooltip() {
-        this.setState({showTooltip:!this.state.showTooltip});
+        this.setState({showTooltip:!this.state.showTooltip, dropdown: false});
     }
     
     onShowPwd() {
