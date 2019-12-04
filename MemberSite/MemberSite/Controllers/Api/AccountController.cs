@@ -282,5 +282,27 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, custBankInfo.AccountName, bankInfoList);
             return apiResult;
         }
+
+        //[HttpPost]
+        //public ApiResult DelCustBankInfo(BankInfo bankInfo)
+        //{
+        //    var apiResult = new ApiResult(selLangBLL);
+        //    var authData = authorizeBLL.GetAuthData();
+        //    IEnumerable<BankInfoDetail> bankInfoList = null;
+
+        //    var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+        //    if (custBankInfo == null || custBankInfo.BankInfo == null)
+        //    {
+        //        apiResult.ErrorCode = -2;
+        //        return apiResult;
+        //    }
+        //    else if (custBankInfo != null && custBankInfo.bankInfoDetail != null)
+        //    {
+        //        bankInfoList = custBankInfo.bankInfoDetail.Where(x => !(x.SysId == bankInfo.SysId && x.AccountNo == bankInfo.AccountNo));
+        //    }
+
+        //    apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, custBankInfo.AccountName, bankInfoList);
+        //    return apiResult;
+        //}
     }
 }

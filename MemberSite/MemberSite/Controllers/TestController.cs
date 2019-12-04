@@ -30,8 +30,9 @@ namespace MemberSite.Controllers
         private readonly WalletService walletService;
         private readonly WalletBLL walletBLL;
         private readonly SelLangBLL selLangBLL;
+        private readonly MessageService messageService;
 
-        public TestController(WalletBLL walletBLL, WalletService walletService, IBCDBLibrary iBCDBLibrary, IWebHostEnvironment environment, ServerInfoService serverInfoService, AgentInfoService agentInfoService, CustInfoService custInfoService, CustInfoBLL custInfoBLL, AuthenticateService userLoginLogService, Tools tools, DepoistService depoistService, BankInfoOffService bankInfoService, SelLangBLL selLangBLL)
+        public TestController(WalletBLL walletBLL, WalletService walletService, IBCDBLibrary iBCDBLibrary, IWebHostEnvironment environment, ServerInfoService serverInfoService, AgentInfoService agentInfoService, CustInfoService custInfoService, CustInfoBLL custInfoBLL, AuthenticateService userLoginLogService, Tools tools, DepoistService depoistService, BankInfoOffService bankInfoService, SelLangBLL selLangBLL, MessageService messageService)
         {
             this.serverInfoService = serverInfoService;
             this.agentInfoService = agentInfoService;
@@ -46,15 +47,21 @@ namespace MemberSite.Controllers
             this.walletService = walletService;
             this.walletBLL = walletBLL;
             this.selLangBLL = selLangBLL;
+            this.messageService = messageService;
         }
 
         [HttpGet]
         [Route("API/test")]
-        public string test()
+        public IEnumerable<Message> test()
         {
+
+            int a = 1;
+            int b = 0;
+            var cc = messageService.GetMsgList(3, 1, ref a, out b);
+            return cc;
             Assembly asm = Assembly.GetCallingAssembly();
             string rsFileName = asm.GetName().Name;
-            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+            //return System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en");
             /*System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("en");
             System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = new System.Globalization.CultureInfo("en");
@@ -88,7 +95,7 @@ namespace MemberSite.Controllers
             //depoistService.DepositRequest(depositDetailInfo, out TT);
             //userLoginLogService.UpdateOnline(customer.CustId, true, "SSS", "SSSS");
             ////
-            return Newtonsoft.Json.JsonConvert.SerializeObject(selLangBLL.GetLangId());
+            //return Newtonsoft.Json.JsonConvert.SerializeObject(selLangBLL.GetLangId());
         }
     }
     public abstract class BaseController : Controller

@@ -41,6 +41,7 @@ namespace MemberSite
             services.AddSingleton<BankInfoOffService>();
             services.AddSingleton<BankInfoService>();
             services.AddSingleton<WalletService>();
+            services.AddSingleton<MessageService>();
 
             /*BLL*/
             services.AddSingleton<ServerInfoBLL>();
