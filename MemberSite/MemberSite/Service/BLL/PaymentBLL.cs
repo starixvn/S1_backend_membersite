@@ -10,7 +10,6 @@ namespace MemberSite.Service.BLL
 {
     public class PaymentBLL
     {
-        private readonly ServerInfoBLL serverInfoBLL;
         private readonly BankInfoOffBLL bankInfoBLL;
         private readonly CustInfoBLL custInfoBLL;
         private readonly DepoistService depoistService;

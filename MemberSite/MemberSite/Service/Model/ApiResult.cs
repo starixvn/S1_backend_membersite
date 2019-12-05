@@ -7,7 +7,7 @@ namespace MemberSite.Service.Model
 {
     public interface ISelLang
     {
-        public string GetErrMsg(int code);
+        string GetErrMsg(int code);
     }
 
     public class ApiResult
