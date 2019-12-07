@@ -8,7 +8,7 @@
     <Content Remove="wwwroot\js\component\account\Profile.jsx" />
     <Content Remove="wwwroot\js\component\commJS\common.js" />
     <Content Remove="wwwroot\js\component\commJS\InputBox.jsx" />
-    <Content Remove="wwwroot\js\component\home\Registered.jsx" />
+    <Content Remove="wwwroot\js\component\home\Register.jsx" />
     <Content Remove="wwwroot\js\component\home\Registered_1.js" />
   </ItemGroup>
 
@@ -22,15 +22,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\images\logo.svg" />
+    <None Include="wwwroot\SiteSkin\Nova88\images\logo.svg" />
     <None Include="wwwroot\js\component\account\Profile.jsx" />
     <None Include="wwwroot\js\component\commJS\common.js" />
     <None Include="wwwroot\js\component\commJS\InputBox.jsx" />
-    <None Include="wwwroot\js\component\home\Registered.jsx" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.30" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
     <PackageReference Include="MySql.Data" Version="8.0.18" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>

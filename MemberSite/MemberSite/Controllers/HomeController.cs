@@ -12,7 +12,7 @@ namespace MemberSite.Controllers
         {
             return View();
         }
-        public IActionResult Registered()
+        public IActionResult Register()
         {
             if (User.Identity.IsAuthenticated)
             {

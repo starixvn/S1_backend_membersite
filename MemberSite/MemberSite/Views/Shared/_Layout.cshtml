@@ -3,15 +3,19 @@
 @using Microsoft.AspNetCore.Hosting
 @using System.Security.Claims
 @inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
 @inject IWebHostEnvironment environment
 @inject WalletBLL walletBLL
+@{
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="@Url.Content($"~/SiteSkin/{serverInfo.SiteName}/images/favicon.ico")" type="image/x-icon">
     <title>@selLangBLL.GetResourceValue("lbl_Title")|@selLangBLL.GetResourceValue("lbl_TitleDesc")|@selLangBLL.GetResourceValue("lbl_TitleKeywords")</title>
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@selLangBLL.GetResourceValue("lbl_TwitterSite")" />
@@ -32,7 +36,7 @@
     <meta name="copyright" content="@string.Format(selLangBLL.GetResourceValue("lbl_Copyright"),DateTime.Now.Year)" />
     <meta name="application-name" content="@selLangBLL.GetResourceValue("lbl_Applicationname")" />
     <meta name="keywords" content="@selLangBLL.GetResourceValue("lbl_Keywords")">
-    <link href="~/css/main.css" rel="stylesheet" asp-append-version="true" />
+    <link href="@($"~/SiteSkin/{serverInfo.SiteName}/css/main.css")" rel="stylesheet" asp-append-version="true" />
 
     <script>
         var SiteLanguage = "@selLangBLL.GetLangId()";
@@ -50,12 +54,12 @@
                     <span class="logo"></span>
                 </div>
                 <div class="header__option">
-                    <a class="btn btn-secondary" href="@Url.Action("Registered","Home")">
+                    <a class="btn btn-secondary" href="@Url.Action("Register","Home")">
                         <span class="text">Join Now</span>
                     </a>
-                    <a class="btn btn-highlight" demo-open-login>
+                    <button id="loginBtn" class="btn btn-highlight">
                         <span class="text">Login</span>
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -73,17 +77,239 @@
             <div>@walletBLL.GetFmtBalance(Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value))</div>
             <input id="logoutBtn" type="button" value="Logout" />
         }
-        else
-        {
-            <form id="loginForm">
-                <input id="UserName" type="text" />
-                <input id="Userpwd" type="text" />
-                <input id="Submit1" type="submit" value="submit" />
-            </form>
-        }
         @RenderBody()
         <div class="footer">
-            123
+            <div class="footer__nav">
+                <div class="footer__col">
+                    <div class="footer__heading">
+                        <span class="text">Products</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Sports</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">E-Sports</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Virtual Sports</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Number Game</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Casino</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Live Casino</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Keno</span>
+                    </div>
+                </div>
+                <div class="footer__col">
+                    <div class="footer__heading">
+                        <span class="text">About Us</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">About</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Licensee</span>
+                    </div>
+                </div>
+                <div class="footer__col">
+                    <div class="footer__heading">
+                        <span class="text">Policies</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Resposible Gaming</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Terms & Conditions</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Privacy Policy</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Cookie Policy</span>
+                    </div>
+                </div>
+                <div class="footer__col">
+                    <div class="footer__heading">
+                        <span class="text">Help & Support</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Contact Us</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Betting Rules</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Help</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Sitemap</span>
+                    </div>
+                    <div class="footer__item">
+                        <span class="text">Payment Options</span>
+                    </div>
+                </div>
+                <div class="footer__col-social">
+                    <div class="footer__heading">
+                        <span class="text">Social</span>
+                    </div>
+                    <div class="footer__item">
+                        <i class="icon icon-facebook"></i>
+                        <span class="text">Facebook</span>
+                    </div>
+                    <div class="footer__item">
+                        <i class="icon icon-letstalk"></i>
+                        <span class="text">Letstalk</span>
+                    </div>
+                    <div class="footer__item">
+                        <i class="icon icon-whatsapp"></i>
+                        <span class="text">Whatsapp</span>
+                    </div>
+                    <div class="footer__item">
+                        <i class="icon icon-qq"></i>
+                        <span class="text">QQ</span>
+                    </div>
+                    <div class="footer__item">
+                        <i class="icon icon-skype"></i>
+                        <span class="text">Skype</span>
+                    </div>
+                    <div class="footer__item">
+                        <i class="icon icon-wechat"></i>
+                        <span class="text">Wechat</span>
+                    </div>
+                    <div class="footer__item">
+                        <i class="icon icon-twitter"></i>
+                        <span class="text">Twitter</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__cpr">
+                <span class="text">© Copyright @DateTime.Now.Year. @serverInfo.SiteName. All Rights Reserved.</span>
+            </div>
+        </div>
+        <div class="side-bar" role="mobile-only">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <div class="side-nav__account">
+                        <a class="btn btn-secondary" href="Join.html">
+                            <span class="text">Join Now</span>
+                        </a>
+                        <a class="btn btn-highlight" demo-open-login>
+                            <span class="text">Login</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="side-nav__main">
+                    <div class="side-nav__list-sports">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-home"></i>
+                            <span class="text">Home</span>
+                        </a>
+                        <a class="side-nav__btn">
+                            <i class="icon icon-all-sports"></i>
+                            <span class="text">Sports</span>
+                        </a>
+                        <a class="side-nav__btn">
+                            <i class="icon icon-sport43"><span class="new-dot"></span></i>
+                            <span class="text">E-Sports</span>
+                        </a>
+                        <a class="side-nav__btn">
+                            <i class="icon icon-sport161"></i>
+                            <span class="text">Number Game</span>
+                        </a>
+                        <a class="side-nav__btn">
+                            <i class="icon icon-sport18x"></i>
+                            <span class="text">Virtual Sports</span>
+                        </a>
+                        <a class="side-nav__btn">
+                            <i class="icon icon-sport251"></i>
+                            <span class="text">Casino</span>
+                        </a>
+                        <a class="side-nav__btn">
+                            <i class="icon icon-sport162"></i>
+                            <span class="text">Live Casino</span>
+                        </a>
+                        <a class="side-nav__btn">
+                            <i class="icon icon-sport202"></i>
+                            <span class="text">Keno</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__list-member">
+                        <a class="side-nav__btn">
+                            <span class="side-nav__icon">
+                                <i class="icon icon-promotion"></i>
+                                <span class="new-dot"></span>
+                            </span>
+                            <span class="text">Promotion</span>
+                        </a>
+                        <a class="side-nav__btn">
+                            <span class="side-nav__icon">
+                                <i class="icon icon-info-outline"></i>
+                            </span>
+                            <span class="text">Help</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="side-nav__footer">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-contact-us"></i>
+                            <span class="text">Contact Us</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item">
+                        <div class="dropdown dropdown--up">
+                            <a class="btn">
+                                <i class="flag-square-GBR"></i>
+                                <span class="text">English</span>
+                                <i class="icon icon-caret"></i>
+                            </a>
+                            <div class="dropdown__container">
+                                <div class="dropdown__list">
+                                    <div class="dropdown__item" data-selected="true">
+                                        <i class="flag-square-GBR"></i>
+                                        <span class="text">English</span>
+                                    </div>
+                                    <div class="dropdown__item">
+                                        <i class="flag-square-MYS"></i>
+                                        <span class="text">繁體中文</span>
+                                    </div>
+                                    <div class="dropdown__item">
+                                        <i class="flag-square-CHN"></i>
+                                        <span class="text">简体中文</span>
+                                    </div>
+                                    <div class="dropdown__item">
+                                        <i class="flag-square-JPN"></i>
+                                        <span class="text">日本語</span>
+                                    </div>
+                                    <div class="dropdown__item">
+                                        <i class="flag-square-KOR"></i>
+                                        <span class="text">한국어</span>
+                                    </div>
+                                    <div class="dropdown__item">
+                                        <i class="flag-square-THA"></i>
+                                        <span class="text">ภาษาไทย</span>
+                                    </div>
+                                    <div class="dropdown__item">
+                                        <i class="flag-square-VIE"></i>
+                                        <span class="text">Tiếng Việt</span>
+                                    </div>
+                                    <div class="dropdown__item">
+                                        <i class="flag-square-IND"></i>
+                                        <span class="text">Indonesian</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="~/lib/moment.min.js"></script>
@@ -107,6 +333,10 @@
         <script src="~/lib/es6-promise.auto.min.js"></script>
     }
 
+    <script>
+        var i18n = {};
+    </script>
+
     @if (User.Identity.IsAuthenticated)
     {
         <script type="text/javascript">
@@ -128,30 +358,8 @@
     }
     else
     {
-        <script type="text/javascript">
-            var form = document.getElementById('loginForm');
-            form.onsubmit = function (e) {
-                var data = {
-                    UserName: $("#UserName").val(),
-                    Userpwd: $("#Userpwd").val()
-                };
-                e.preventDefault();
-                axios.post("/api/Site/Validation", data).then(function (response) {
-                    var result = response.data;
-
-                    if (result.errorCode == 0) {
-                        alert(result.message);
-                        location.reload();
-                    } else {
-                        alert(result.message);
-                    }
-                })
-                    .catch(function (error) {
-                        alert(error);
-                        console.log(error);
-                    });
-            };
-        </script>
+        <script src="~/lib/runtime.min.js"></script>
+        <script src="~/js/component/home/loginForm.min.js" asp-append-version="true"></script>
     }
 
     @RenderSection("Scripts", required: false)

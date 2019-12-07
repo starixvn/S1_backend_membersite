@@ -4,11 +4,14 @@ var webpack = require('webpack');
 
 module.exports = {
   entry:{
-		"js/component/home/registered.min":[
-			'../MemberSite/MemberSite/wwwroot/js/component/home/Registered.jsx'
+		"js/component/home/registerForm.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/home/RegisterForm.jsx'
     ],
     "js/component/account/Profile.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/account/Profile.jsx'
+		],
+    "js/component/home/loginForm.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/home/LoginForm.jsx'
 		]},
   output: {
     path:  path.resolve(__dirname,'../MemberSite/MemberSite/wwwroot/'),

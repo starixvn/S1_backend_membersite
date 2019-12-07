@@ -44,14 +44,14 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult> Validation([FromBody]LoginModel loginModel)
+        public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
             var apiResult = new ApiResult(selLangBLL);
             string userName = loginModel.UserName;
             string userpwd = loginModel.Userpwd;
             Customer customer = null;
             string token = null;
-            var userLoginResult = custInfoBLL.UserLogin(userName, userpwd, tools.GetClientIP(this.HttpContext), tools.GetFromUrl(this.HttpContext), Request.Headers["User-Agent"], ref customer, out token);
+            var userLoginResult = custInfoBLL.UserLogin(userName, userpwd, tools.GetClientIP(HttpContext), tools.GetFromUrl(HttpContext), Request.Headers["User-Agent"], ref customer, out token);
 
             if (userLoginResult == -1)
             {
@@ -88,6 +88,7 @@ namespace MemberSite.Controllers.Api
                 };
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+            apiResult.Message = Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() });
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -101,7 +102,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult Registered([FromBody]RegisteredModel registeredModel)
+        public ApiResult Register([FromBody]RegisteredModel registeredModel)
         {
             var apiResult = new ApiResult(selLangBLL);
             if (User.Identity.IsAuthenticated)

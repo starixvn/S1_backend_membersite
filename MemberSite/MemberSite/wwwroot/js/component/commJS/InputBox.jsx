@@ -122,7 +122,7 @@ export class InputBox extends React.Component {
     onDropdown(event) {
         let node = event.target;
         let parentNode = node.parentNode;;
-        if(node.className != "btn btn-icon-sm btn-form-status" && (parentNode!=undefined && parentNode.className != "btn btn-icon-sm btn-form-status")) {
+        if(node.className != "btn btn-icon btn-form-status" && (parentNode!=undefined && parentNode.className != "btn btn-icon btn-form-status")) {
             this.setState({dropdown:!this.state.dropdown}, function() {
                 if(this.state.dropdown){
                     let object = document.getElementsByTagName('body')[0];
@@ -179,7 +179,7 @@ export class InputBox extends React.Component {
             let thisType=field.typeStr[field.objectType];
             if(field.objectType==2) {
                 thisType = this.state.ShowPwd ? "text":"password";
-                ShowPwdBtn = <a className="btn btn-icon-sm btn-form-togglepw" data-visibility={!this.state.ShowPwd} onClick={this.onShowPwd.bind(this)}><i className="icon"></i></a>;
+                ShowPwdBtn = <a className="btn btn-icon btn-form-togglepw" data-visibility={!this.state.ShowPwd} onClick={this.onShowPwd.bind(this)}><i className="icon"></i></a>;
             }
             input=<input type={thisType} className="textfield__input" placeholder={field.placeholder} onChange={this.handleChange.bind(this)} value={this._dataField.Value} onBlur={this.onBlur.bind(this)}/>;
         }
@@ -191,7 +191,7 @@ export class InputBox extends React.Component {
                 {input}
                 <span className="textfield__bg"></span>
                 {ShowPwdBtn}
-                <a className="btn btn-icon-sm btn-form-status" onClick={field.status==1?this.onShowTooltip.bind(this):null}>
+                <a className="btn btn-icon btn-form-status" onClick={field.status==1?this.onShowTooltip.bind(this):null}>
                     <i className="icon"></i>
                 </a>
             </div>;
@@ -215,7 +215,7 @@ export class InputBox extends React.Component {
                 <a className="btn" onClick={this.onDropdown.bind(this)}>
                     <span className="text">{dropdownText}</span>
                     <i className="icon icon-caret"></i>
-                    <div className="btn btn-icon-sm btn-form-status" onClick={field.status==1?this.onShowTooltip.bind(this):null}>
+                    <div className="btn btn-icon btn-form-status" onClick={field.status==1?this.onShowTooltip.bind(this):null}>
                         <i className="icon"></i>
                     </div>
                 </a>

@@ -1,9 +1,7 @@
 ﻿import {DataField, InputBox} from '../commJS/InputBox.jsx';
-import {getUrlParameter} from '../commJS/common';
-
 (function ($, React, ReactDOM, i18n, axios) {
 
-class RegisteredForm extends React.Component {
+class LoginForm extends React.Component {
     //data-status="error" 1.info, 2.error,3.valid
     constructor(props) {
         super(props);
@@ -28,16 +26,7 @@ class RegisteredForm extends React.Component {
         userpwdDataField.Value="";
         formArr.push(userpwdDataField);
 
-        let currencyIdDataField = new DataField("CurrencyId");
-        currencyIdDataField.displayName=i18n.lbl_PrefferedCurrency;
-        currencyIdDataField.tooltip=i18n.lbl_PreferredCurrencyToolTip;
-        currencyIdDataField.status=1;
-        currencyIdDataField.objectType=3;
-        currencyIdDataField.Value=defCurrencyId;
-        currencyIdDataField.dropdownList=currencyList;
-        formArr.push(currencyIdDataField);
-
-        this.state = { formArr: formArr};
+        this.state = { formArr: formArr, popLoginForm: false};
     }
     
     async handleCheckUserName(value) {
@@ -55,15 +44,8 @@ class RegisteredForm extends React.Component {
                 status = 2;
                 message = i18n.msg_UsernameVaildate;
             } else {
-                let res = await axios.post('/api/Site/ExistsUserName', {UserName: value});
-                let data = res.data;
-                if(data.errorCode==0 && data.data) {
-                    status = 2;
-                    message = i18n.msg_UsernameNotAvailable;
-                } else {
-                    status = 3;
-                    message = "";
-                }
+                status = 3;
+                message = "";
             }
         }
 
@@ -111,16 +93,11 @@ class RegisteredForm extends React.Component {
         if(!valid) {
             this.forceUpdate();
         } else {
-            data["UserLang"] = SiteLanguage;
-
-            data["refId"] = getUrlParameter("refId");
-
-            axios.post('/api/Site/Registered', data)
+            axios.post('/api/Site/SignIn', data)
             .then(function (response) {
                 let result = response.data;
                 if (result.errorCode == 0) {
-                    alert(result.message);
-                    location.reload();
+                    window.location.replace(result.message);
                 } else {
                     alert(result.message);
                 }
@@ -130,19 +107,61 @@ class RegisteredForm extends React.Component {
         }
     }
 
+    onClose() {
+        this.setState({popLoginForm: false});
+    }
+
+    componentDidMount() {
+        $("#loginBtn").on("click", function(e) {this.setState({popLoginForm: true});}.bind(this));
+    }
+
     render() {
         let Inputs=this.state.formArr.map(dataField => <InputBox key={dataField.name} DataField={dataField}/>);
 
         return (
-            <form className="form" onSubmit={this.handleSubmit.bind(this)}>
-                {Inputs}
-                <div className="btn-group">
-                    <button type="submit" value="submit">{i18n.lbl_CompleteRegistration}</button>
+            this.state.popLoginForm ? 
+            <div className="login" data-open={this.state.popLoginForm}>
+                <div className="overlay" onClick={this.onClose.bind(this)}></div>
+                <div className="login__dialog">
+                    <div className="heading">
+                        <span className="text">Login</span>
+                        <button className="btn btn-icon" onClick={this.onClose.bind(this)}>
+                            <i className="icon icon-clear"></i>
+                        </button>
+                    </div>
+                    <p>Don't have an account? 
+                        <a className="text-link"><span className="text">Join Now</span></a>.
+                    </p>
+                    <form id="loginForm" onSubmit={this.handleSubmit.bind(this)}>                                        
+                        <div className="login__form">
+                            {Inputs}
+                        </div>
+                        {/*<div className="login__item">
+                            <label className="checkbox">
+                                <input type="checkbox"/>
+                                <i className="icon icon-checkbox"></i>
+                                <span className="text">Remember Me</span>
+                            </label>
+                        </div>*/}
+                        <div className="login__item-btn">
+                            <button type="submit" className="btn btn-highlight">
+                                <span className="text">Login</span>
+                            </button>
+                        </div>
+                    </form>
+                    <div className="login__item-forget">
+                        <a className="text-link">
+                            <span className="text">Forget your ID or password?</span>
+                        </a>
+                    </div>
                 </div>
-            </form>
+            </div> : null
         )
     }
 }
 
-ReactDOM.render(<RegisteredForm/>,document.getElementById('Registered'));
+let loginPanel = $("<div/>").get(0);
+$("body").append(loginPanel);
+
+ReactDOM.render(<LoginForm/>, loginPanel);
 })(jQuery, React, ReactDOM, i18n, axios);

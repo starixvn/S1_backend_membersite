@@ -50,7 +50,7 @@
                 <span class="text">@selLangBLL.GetResourceValue("lbl_LoginHere")</span>
             </a>.
         </p>
-        <div id="Registered">
+        <div id="RegisterForm">
 
         </div>
     </div>
@@ -59,10 +59,10 @@
     <script type="text/javascript">
         var currencyList =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(currencyList));
         var defCurrencyId =@selLangBLL.GetDefCurrencyId();
-        var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
+        $.extend( i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
 
     </script>
 
     <script src="~/lib/runtime.min.js"></script>
-    <script src="~/js/component/home/registered.min.js" asp-append-version="true"></script>
+    <script src="~/js/component/home/registerForm.min.js" asp-append-version="true"></script>
 }
