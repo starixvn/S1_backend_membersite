@@ -9,6 +9,7 @@
 @inject CustInfoBLL custInfoBLL
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/public");
 }
 <!DOCTYPE html>
 <html lang="@selLangBLL.GetLangId()" @*data-layout="desktop"*@>
@@ -16,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <link rel="shortcut icon" href="@Url.Content($"~/SiteSkin/{serverInfo.SiteName}/images/favicon.ico")" type="image/x-icon">
+    <link rel="shortcut icon" href="@SkinRootPath/images/favicon.ico" type="image/x-icon">
     <title>@selLangBLL.GetResourceValue("lbl_Title")|@selLangBLL.GetResourceValue("lbl_TitleDesc")|@selLangBLL.GetResourceValue("lbl_TitleKeywords")</title>
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@selLangBLL.GetResourceValue("lbl_TwitterSite")" />
@@ -37,7 +38,7 @@
     <meta name="copyright" content="@string.Format(selLangBLL.GetResourceValue("lbl_Copyright"),DateTime.Now.Year)" />
     <meta name="application-name" content="@selLangBLL.GetResourceValue("lbl_Applicationname")" />
     <meta name="keywords" content="@selLangBLL.GetResourceValue("lbl_Keywords")">
-    <link href="@($"~/SiteSkin/{serverInfo.SiteName}/css/main.css")" rel="stylesheet" asp-append-version="true" />
+    <link href="@SkinRootPath/css/main.css" rel="stylesheet" asp-append-version="true" />
 
     <script>
         var SiteLanguage = "@selLangBLL.GetLangId()";
@@ -257,6 +258,15 @@
                         </a>
                     </div>
                     <div class="side-nav__list-member">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a class="side-nav__btn">
+                                <span class="side-nav__icon">
+                                    <i class="icon icon-email"></i>
+                                </span>
+                                <span class="text">Message</span>
+                            </a>
+                        }
                         <a class="side-nav__btn">
                             <span class="side-nav__icon">
                                 <i class="icon icon-promotion"></i>
@@ -264,6 +274,33 @@
                             </span>
                             <span class="text">Promotion</span>
                         </a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a class="side-nav__btn">
+                                <span class="side-nav__icon">
+                                    <i class="icon icon-gesture-password"></i>
+                                </span>
+                                <span class="text">Change Password</span>
+                            </a>
+                            <a class="side-nav__btn">
+                                <span class="side-nav__icon">
+                                    <i class="icon icon-transaction"></i>
+                                </span>
+                                <span class="text">Cashier</span>
+                            </a>
+                            <a class="side-nav__btn">
+                                <span class="side-nav__icon">
+                                    <i class="icon icon-transfer"></i>
+                                </span>
+                                <span class="text">Transfer Funds</span>
+                            </a>
+                            <a class="side-nav__btn">
+                                <span class="side-nav__icon">
+                                    <i class="icon icon-calendar"></i>
+                                </span>
+                                <span class="text">Transaction History</span>
+                            </a>
+                        }
                         <a class="side-nav__btn">
                             <span class="side-nav__icon">
                                 <i class="icon icon-info-outline"></i>

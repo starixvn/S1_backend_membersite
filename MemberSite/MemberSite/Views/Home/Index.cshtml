@@ -1,117 +1,129 @@
-﻿
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@inject IWebHostEnvironment environment
+@inject WalletBLL walletBLL
+@inject CustInfoBLL custInfoBLL
 @{
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/public");
+    var SkinImgPath = $"{SkinRootPath}/images";
+    var CmsPromotionPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Promotion/{selLangBLL.GetLangId()}");
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div class="main main--home">
-        <div class="lobby-page">
-            <div class="lobby-banner-swiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="./images/Lobby/Home/Banner-Welcome.jpg">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="./images/Lobby/Home/Banner-Welcome.jpg">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="./images/Lobby/Home/Banner-Welcome.jpg">
-                    </div>
+<div class="main main--home">
+    <div class="lobby-page">
+        <div class="lobby-banner-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="@CmsPromotionPath/Banner-Welcome.jpg">
                 </div>
-                <div class="swiper-pagination"></div>
-            </div>
-            <div class="lobby-quicklink-list">
-                <div class="lobby-quicklink-download">
-                    <div class="lobby-quicklink__info">
-                        <i class="icon icon-download"></i>
-                        <span class="text-title">Download App</span><span class="text">Rebate bonus on Mobile</span>
-                    </div><img src="./images/UI/Download-App.png"><i class="icon icon-arrow-right"></i>
+                <div class="swiper-slide">
+                    <img src="@CmsPromotionPath/Banner-Welcome.jpg">
                 </div>
-                <div class="lobby-quicklink">
-                    <div class="lobby-quicklink__info">
-                        <i class="icon icon-join-now"></i>
-                        <span class="text-title">Join Now</span><span class="text">Click here for bonus</span>
-                    </div><i class="icon icon-arrow-right"></i>
-                </div>
-                <div class="lobby-quicklink">
-                    <div class="lobby-quicklink__info">
-                        <i class="icon icon-deposit-bank"></i>
-                        <span class="text-title">Deposit Now</span><span class="text">Various Banking Options</span>
-                    </div><i class="icon icon-arrow-right"></i>
-                </div>
-
-            </div>
-            <div class="lobby-sport-list">
-                <div class="lobby-sport">
-                    <img src="./images/Lobby/Home/Sport-Soccer.png">
-                    <img src="./images/Lobby/Home/d_Sport-Soccer.png">
-                    <div class="lobby-sport__info">
-                        <span class="text">Soccer</span>
-                    </div>
-                </div>
-                <div class="lobby-sport">
-                    <img src="./images/Lobby/Home/Sport-Basketball.png">
-                    <img src="./images/Lobby/Home/d_Sport-Basketball.png">
-                    <div class="lobby-sport__info">
-                        <span class="text">Basketball</span>
-                    </div>
-                </div>
-                <div class="lobby-sport">
-                    <img src="./images/Lobby/Home/Sport-Baseball.png">
-                    <img src="./images/Lobby/Home/d_Sport-Baseball.png">
-                    <div class="lobby-sport__info">
-                        <span class="text">Baseball</span>
-                    </div>
-                </div>
-                <div class="lobby-sport">
-                    <img src="./images/Lobby/Home/Sport-E-Sports.png">
-                    <img src="./images/Lobby/Home/d_Sport-E-Sports.png">
-                    <div class="lobby-sport__info">
-                        <span class="text">E-Sports</span>
-                    </div>
-                </div>
-                <div class="lobby-sport">
-                    <img src="./images/Lobby/Home/Sport-Tennis.png">
-                    <img src="./images/Lobby/Home/d_Sport-Tennis.png">
-                    <div class="lobby-sport__info">
-                        <span class="text">Tennis</span>
-                    </div>
+                <div class="swiper-slide">
+                    <img src="@CmsPromotionPath/Banner-Welcome.jpg">
                 </div>
             </div>
-            <div class="lobby-product-swiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="lobby-product">
-                            <div class="lobby-product__info">
-                                <span class="text-title">Casino</span>
-                                <span class="text">Multiple themes for Asian market</span>
-                                <a class="btn btn-secondary"><span class="text">Try Now</span></a>
-                            </div>
-                            <img src="./images/Lobby/Home/Product-Casino.png">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="lobby-product">
-                            <div class="lobby-product__info">
-                                <span class="text-title">Keno</span>
-                                <span class="text">Many ways to play, more chances to win!</span>
-                                <a class="btn btn-secondary"><span class="text">Try Now</span></a>
-                            </div>
-                            <img src="./images/Lobby/Home/Product-Keno.png">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="lobby-product">
-                            <div class="lobby-product__info">
-                                <span class="text-title">Live Casino</span>
-                                <span class="text">Real Casino experience</span>
-                                <a class="btn btn-secondary"><span class="text">Try Now</span></a>
-                            </div>
-                            <img src="./images/Lobby/Home/Product-LiveCasino.png">
-                        </div>
-                    </div>
-                </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class="lobby-quicklink-list">
+            <div class="lobby-quicklink-download">
+                <div class="lobby-quicklink__info">
+                    <i class="icon icon-download"></i>
+                    <span class="text-title">Download App</span><span class="text">Rebate bonus on Mobile</span>
+                </div><img src="@SkinImgPath/UI/Download-App.png"><i class="icon icon-arrow-right"></i>
+            </div>
+            <div class="lobby-quicklink">
+                <div class="lobby-quicklink__info">
+                    <i class="icon icon-join-now"></i>
+                    <span class="text-title">Join Now</span><span class="text">Click here for bonus</span>
+                </div><i class="icon icon-arrow-right"></i>
+            </div>
+            <div class="lobby-quicklink">
+                <div class="lobby-quicklink__info">
+                    <i class="icon icon-deposit-bank"></i>
+                    <span class="text-title">Deposit Now</span><span class="text">Various Banking Options</span>
+                </div><i class="icon icon-arrow-right"></i>
             </div>
 
         </div>
+        <div class="lobby-sport-list">
+            <div class="lobby-sport">
+                <img src="@SkinImgPath/Lobby/Home/Sport-Soccer.png">
+                <img src="@SkinImgPath/Lobby/Home/d_Sport-Soccer.png">
+                <div class="lobby-sport__info">
+                    <span class="text">Soccer</span>
+                </div>
+            </div>
+            <div class="lobby-sport">
+                <img src="@SkinImgPath/Lobby/Home/Sport-Basketball.png">
+                <img src="@SkinImgPath/Lobby/Home/d_Sport-Basketball.png">
+                <div class="lobby-sport__info">
+                    <span class="text">Basketball</span>
+                </div>
+            </div>
+            <div class="lobby-sport">
+                <img src="@SkinImgPath/Lobby/Home/Sport-Baseball.png">
+                <img src="@SkinImgPath/Lobby/Home/d_Sport-Baseball.png">
+                <div class="lobby-sport__info">
+                    <span class="text">Baseball</span>
+                </div>
+            </div>
+            <div class="lobby-sport">
+                <img src="@SkinImgPath/Lobby/Home/Sport-E-Sports.png">
+                <img src="@SkinImgPath/Lobby/Home/d_Sport-E-Sports.png">
+                <div class="lobby-sport__info">
+                    <span class="text">E-Sports</span>
+                </div>
+            </div>
+            <div class="lobby-sport">
+                <img src="@SkinImgPath/Lobby/Home/Sport-Tennis.png">
+                <img src="@SkinImgPath/Lobby/Home/d_Sport-Tennis.png">
+                <div class="lobby-sport__info">
+                    <span class="text">Tennis</span>
+                </div>
+            </div>
+        </div>
+        <div class="lobby-product-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="lobby-product">
+                        <div class="lobby-product__info">
+                            <span class="text-title">Casino</span>
+                            <span class="text">Multiple themes for Asian market</span>
+                            <a class="btn btn-secondary"><span class="text">Try Now</span></a>
+                        </div>
+                        <img src="@SkinImgPath/Lobby/Home/Product-Casino.png">
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="lobby-product">
+                        <div class="lobby-product__info">
+                            <span class="text-title">Keno</span>
+                            <span class="text">Many ways to play, more chances to win!</span>
+                            <a class="btn btn-secondary"><span class="text">Try Now</span></a>
+                        </div>
+                        <img src="@SkinImgPath/Lobby/Home/Product-Keno.png">
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="lobby-product">
+                        <div class="lobby-product__info">
+                            <span class="text-title">Live Casino</span>
+                            <span class="text">Real Casino experience</span>
+                            <a class="btn btn-secondary"><span class="text">Try Now</span></a>
+                        </div>
+                        <img src="@SkinImgPath/Lobby/Home/Product-LiveCasino.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
+</div>
 
