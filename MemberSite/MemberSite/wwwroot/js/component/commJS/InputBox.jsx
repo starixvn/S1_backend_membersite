@@ -180,7 +180,7 @@ export class InputBox extends React.Component {
             if(field.objectType==2) {
                 thisType = this.state.ShowPwd ? "text":"password";
                 let __Value = this._dataField.Value;
-                ShowPwdBtn = __Value&&__Value.length>0 ? <a className="btn btn-icon btn-form-togglepw" data-visibility={!this.state.ShowPwd} onClick={this.onShowPwd.bind(this)}><i className="icon"></i></a>:null;
+                ShowPwdBtn = __Value&&__Value.length>0 ? <a className="btn btn-icon btn-form-togglepw" data-visibility={!this.state.ShowPwd} onClick={this.onShowPwd.bind(this)}><i className="icon icon--lg"></i></a>:null;
             }
             input=<input type={thisType} className="textfield__input" placeholder={field.placeholder} onChange={this.handleChange.bind(this)} value={this._dataField.Value} onBlur={this.onBlur.bind(this)}/>;
         }
@@ -193,7 +193,7 @@ export class InputBox extends React.Component {
                 <span className="textfield__bg"></span>
                 {ShowPwdBtn}
                 <a className="btn btn-icon btn-form-status" onClick={field.status==1?this.onShowTooltip.bind(this):null}>
-                    <i className="icon"></i>
+                    <i className="icon icon--lg"></i>
                 </a>
             </div>;
         } else if (field.objectType==3){
@@ -217,7 +217,7 @@ export class InputBox extends React.Component {
                     <span className="text">{dropdownText}</span>
                     <i className="icon icon-caret"></i>
                     <div className="btn btn-icon btn-form-status" onClick={field.status==1?this.onShowTooltip.bind(this):null}>
-                        <i className="icon"></i>
+                        <i className="icon icon--lg"></i>
                     </div>
                 </a>
                 <div className="dropdown__container">

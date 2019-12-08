@@ -11,7 +11,7 @@
     var serverInfo = serverInfoBLL.GetServerInfo();
 }
 <!DOCTYPE html>
-<html lang="@selLangBLL.GetLangId()">
+<html lang="@selLangBLL.GetLangId()" @*data-layout="desktop"*@>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -76,7 +76,6 @@
                 </div>
             </div>
         </div>
-        @*Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() });*@
         @*Url.RouteUrl(new { action = "Index", controller = "Home", area = "Mobile", LangId = selLangBLL.GetLangId() });*@
         @RenderBody()
         <div class="footer">
@@ -86,7 +85,7 @@
                         <span class="text">Products</span>
                     </div>
                     <div class="footer__item">
-                        <span class="text">Sports</span>
+                        <a href="#" class="text"><span class="text">Sports</span></a>
                     </div>
                     <div class="footer__item">
                         <span class="text">E-Sports</span>
@@ -224,7 +223,7 @@
                 </div>
                 <div class="side-nav__main">
                     <div class="side-nav__list-sports">
-                        <a class="side-nav__btn">
+                        <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() })">
                             <i class="icon icon-home"></i>
                             <span class="text">Home</span>
                         </a>
@@ -331,12 +330,20 @@
     }
 
     <script>
+            @if (User.Identity.IsAuthenticated)
+            {
+
+            }
+            else
+            {
+                @:var joinNowUrl = '@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })';
+            }
         var i18n = {};
         $(function () {
-            var breakpoint;
-            var getBreakpoint = function () {
-                return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
-            };
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
 
             var displayBreakpoint = function () {
                 document.querySelector('html').dataset.layout = breakpoint;

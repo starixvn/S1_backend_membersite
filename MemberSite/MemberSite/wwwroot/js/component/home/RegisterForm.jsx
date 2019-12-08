@@ -136,8 +136,11 @@ class RegisterForm extends React.Component {
             <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                 {Inputs}
                 <div className="btn-group">
-                    <button type="submit" value="submit" className="btn btn-highlight">
-                        <span className="text">{i18n.lbl_CompleteRegistration}</span>
+                    <button>
+                        <div className="btn btn-secondary">
+                            <i className="icon icon-done-circle"></i>
+                            <span className="text">{i18n.lbl_CompleteRegistration}</span>
+                        </div>
                     </button>
                 </div>
             </form>

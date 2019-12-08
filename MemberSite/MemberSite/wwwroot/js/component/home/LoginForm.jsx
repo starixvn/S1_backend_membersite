@@ -114,6 +114,7 @@ class LoginForm extends React.Component {
     componentDidMount() {
         $("#loginBtn1").on("click", function(e) {this.setState({popLoginForm: true});}.bind(this));
         $("#loginBtn2").on("click", function(e) {this.setState({popLoginForm: true});}.bind(this));
+        $("#loginBtn3").on("click", function(e) {this.setState({popLoginForm: true});}.bind(this));
     }
 
     render() {
@@ -130,7 +131,7 @@ class LoginForm extends React.Component {
                         </button>
                     </div>
                     <p>Don't have an account? 
-                        <a className="text-link"><span className="text">Join Now</span></a>.
+                        <a className="text-link" href={joinNowUrl}><span className="text">Join Now</span></a>.
                     </p>
                     <form id="loginForm" onSubmit={this.handleSubmit.bind(this)}>                                        
                         <div className="login__form">
