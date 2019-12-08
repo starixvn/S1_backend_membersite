@@ -36,7 +36,7 @@ namespace MemberSite.Controllers.Api
             this.walletBLL = walletBLL;
         }
         [HttpPost]
-        public async Task<ApiResult> LoginCheckin()
+        public async Task<ApiResult> onlineCheck()
         {
             var apiResult = new ApiResult(selLangBLL);
             bool result = authorizeBLL.LoginCheckin();

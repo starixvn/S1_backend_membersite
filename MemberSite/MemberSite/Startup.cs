@@ -17,6 +17,22 @@ using Microsoft.Extensions.Hosting;
 
 namespace MemberSite
 {
+    public class CustomCookieAuthenticationEvents : CookieAuthenticationEvents
+    {
+        public override Task RedirectToLogin(Microsoft.AspNetCore.Authentication.RedirectContext<CookieAuthenticationOptions> ctx)
+        {
+            if (ctx.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase) &&
+                ctx.Response.StatusCode == (int)System.Net.HttpStatusCode.OK)
+            {
+                ctx.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
+            }
+            else
+            {
+                ctx.Response.Redirect(ctx.RedirectUri);
+            }
+            return Task.CompletedTask;
+        }
+    }
     public class Startup
     {
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -53,7 +69,7 @@ namespace MemberSite
             services.AddSingleton<BankInfoOffBLL>();
             services.AddSingleton<BankInfoBLL>();
             services.AddSingleton<PaymentBLL>();
-
+            services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
@@ -65,10 +81,14 @@ namespace MemberSite
                 option.LoginPath = "/";
                 option.Cookie.Name = ".ES";
                 option.ExpireTimeSpan = TimeSpan.FromMinutes(30);//沒給預設14天
+                option.EventsType = typeof(CustomCookieAuthenticationEvents);
             });
             services.AddDataProtection().DisableAutomaticKeyGeneration();
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("CookieKeys")).SetApplicationName("SharedCookieApp");
-            //services.ConfigureApplicationCookie(options => { options.Cookie.Name = ".AspNet.SharedCookie"; });
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.EventsType = typeof(CustomCookieAuthenticationEvents);
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

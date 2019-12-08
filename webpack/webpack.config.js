@@ -12,6 +12,9 @@ module.exports = {
 		],
     "js/component/home/loginForm.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/home/LoginForm.jsx'
+		],
+    "js/commJS/onlineCheck.min":[
+			'../MemberSite/MemberSite/wwwroot/js/commJS/onlineCheck'
 		]},
   output: {
     path:  path.resolve(__dirname,'../MemberSite/MemberSite/wwwroot/'),

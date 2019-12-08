@@ -54,12 +54,22 @@
                     <span class="logo"></span>
                 </div>
                 <div class="header__option">
-                    <a class="btn btn-secondary" href="@Url.Action("Register","Home")">
-                        <span class="text">Join Now</span>
-                    </a>
-                    <button id="loginBtn" class="btn btn-highlight">
-                        <span class="text">Login</span>
-                    </button>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="account-info">
+                            <span class="account-info__name">Welcome @User.Identity.Name</span>
+                            <span class="account-info__amount">USD 13.000.000</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <a class="btn btn-secondary" href="@Url.Action("Register","Home")">
+                            <span class="text">Join Now</span>
+                        </a>
+                        <button id="loginBtn" class="btn btn-highlight">
+                            <span class="text">Login</span>
+                        </button>
+                    }
                 </div>
             </div>
         </div>
@@ -339,6 +349,7 @@
 
     @if (User.Identity.IsAuthenticated)
     {
+        <script src="~/js/commJS/onlineCheck.min.js"></script>
         <script type="text/javascript">
             $("#logoutBtn").click(function () {
                 axios.post('/api/Account/Logout')

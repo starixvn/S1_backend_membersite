@@ -5,11 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\commJS\onlineCheck.js" />
     <Content Remove="wwwroot\js\component\account\Profile.jsx" />
     <Content Remove="wwwroot\js\component\commJS\common.js" />
     <Content Remove="wwwroot\js\component\commJS\InputBox.jsx" />
+    <Content Remove="wwwroot\js\component\home\LoginForm.jsx" />
     <Content Remove="wwwroot\js\component\home\Register.jsx" />
     <Content Remove="wwwroot\js\component\home\Registered_1.js" />
+    <Content Remove="wwwroot\js\component\home\RegisterForm.jsx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\js\commJS\onlineCheck.js" />
+    <None Include="wwwroot\js\component\home\LoginForm.jsx" />
+    <None Include="wwwroot\js\component\home\RegisterForm.jsx" />
     <None Include="wwwroot\SiteSkin\Nova88\images\logo.svg" />
     <None Include="wwwroot\js\component\account\Profile.jsx" />
     <None Include="wwwroot\js\component\commJS\common.js" />

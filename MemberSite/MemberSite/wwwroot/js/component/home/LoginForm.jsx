@@ -119,7 +119,6 @@ class LoginForm extends React.Component {
         let Inputs=this.state.formArr.map(dataField => <InputBox key={dataField.name} DataField={dataField}/>);
 
         return (
-            this.state.popLoginForm ? 
             <div className="login" data-open={this.state.popLoginForm}>
                 <div className="overlay" onClick={this.onClose.bind(this)}></div>
                 <div className="login__dialog">
@@ -155,7 +154,7 @@ class LoginForm extends React.Component {
                         </a>
                     </div>
                 </div>
-            </div> : null
+            </div>
         )
     }
 }
