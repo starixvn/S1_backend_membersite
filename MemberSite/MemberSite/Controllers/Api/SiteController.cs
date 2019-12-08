@@ -102,7 +102,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult Register([FromBody]RegisteredModel registeredModel)
+        public async Task<ApiResult> RegisterAsync([FromBody]RegisteredModel registeredModel)
         {
             var apiResult = new ApiResult(selLangBLL);
             if (User.Identity.IsAuthenticated)
@@ -150,8 +150,43 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                apiResult.ErrorCode = 0;
-                apiResult.Message = selLangBLL.GetMsg("msg_Congratulations");
+                Customer customer = null;
+                string token = null;
+                var userLoginResult = custInfoBLL.UserLogin(registeredModel.UserName, registeredModel.Userpwd, tools.GetClientIP(HttpContext), tools.GetFromUrl(HttpContext), Request.Headers["User-Agent"], ref customer, out token);
+
+                if (userLoginResult == -1)
+                {
+                    apiResult.ErrorCode = 1101;
+                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                }
+                else if (userLoginResult == -2)
+                {
+                    apiResult.ErrorCode = 1001;
+                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                }
+                else if (userLoginResult == -3)
+                {
+                    apiResult.ErrorCode = 1102;
+                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
+                }
+                else if (userLoginResult != 0)
+                {
+                    apiResult.ErrorCode = 9000;
+                }
+                else
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name,customer.UserName ),
+                        new Claim(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
+                        new Claim("Token",token ),
+                        new Claim("LangId",customer.UserLang )
+                    };
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                    apiResult.ErrorCode = 0;
+                    apiResult.Message = Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() });
+                }
             }
 
             return apiResult;

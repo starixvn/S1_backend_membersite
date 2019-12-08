@@ -55,7 +55,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult> Logout()
+        public async Task<ApiResult> SignOut()
         {
             var apiResult = new ApiResult(selLangBLL);
             bool result = authorizeBLL.Logout();

@@ -116,7 +116,7 @@ namespace MemberSite.Service.BLL
             return langId;
         }
 
-        private string GetLan_Info(string key)
+        public string GetLan_Info(string key)
         {
             //
             string labelString = string.Empty;

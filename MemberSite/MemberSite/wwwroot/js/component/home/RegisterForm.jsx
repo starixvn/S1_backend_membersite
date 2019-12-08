@@ -119,8 +119,7 @@ class RegisterForm extends React.Component {
             .then(function (response) {
                 let result = response.data;
                 if (result.errorCode == 0) {
-                    alert(result.message);
-                    location.reload();
+                    window.location.replace(result.message);
                 } else {
                     alert(result.message);
                 }

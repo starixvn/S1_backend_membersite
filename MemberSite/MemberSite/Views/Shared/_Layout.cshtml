@@ -6,11 +6,12 @@
 @inject ServerInfoBLL serverInfoBLL
 @inject IWebHostEnvironment environment
 @inject WalletBLL walletBLL
+@inject CustInfoBLL custInfoBLL
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
 }
 <!DOCTYPE html>
-<html>
+<html lang="@selLangBLL.GetLangId()">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -56,37 +57,27 @@
                 <div class="header__option">
                     @if (User.Identity.IsAuthenticated)
                     {
+                        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+                        var CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
                         <div class="account-info">
                             <span class="account-info__name">Welcome @User.Identity.Name</span>
-                            <span class="account-info__amount">USD 13.000.000</span>
+                            @selLangBLL.GetResourceValue($"Currency_{CurrencyId}")<span class="account-info__amount"></span><i class="icon"></i>
                         </div>
                     }
                     else
                     {
-                        <a class="btn btn-secondary" href="@Url.Action("Register","Home")">
+                        <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
                             <span class="text">Join Now</span>
                         </a>
-                        <button id="loginBtn" class="btn btn-highlight">
+                        <button id="loginBtn1" class="btn btn-highlight">
                             <span class="text">Login</span>
                         </button>
                     }
                 </div>
             </div>
         </div>
-        @Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() });
-        @Url.RouteUrl(new { action = "Index", controller = "Home", area = "Mobile", LangId = selLangBLL.GetLangId() });
-        <select id="Select1">
-            @foreach (var siteLanguage in selLangBLL.GetLangIdList())
-            {
-                <option value="@siteLanguage.LangId">@siteLanguage.Language</option>
-            }
-        </select>
-        @if (User.Identity.IsAuthenticated)
-        {
-            <div>@User.Identity.Name</div>
-            <div>@walletBLL.GetFmtBalance(Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value))</div>
-            <input id="logoutBtn" type="button" value="Logout" />
-        }
+        @*Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() });*@
+        @*Url.RouteUrl(new { action = "Index", controller = "Home", area = "Mobile", LangId = selLangBLL.GetLangId() });*@
         @RenderBody()
         <div class="footer">
             <div class="footer__nav">
@@ -207,12 +198,28 @@
             <div class="side-nav">
                 <div class="side-nav__header">
                     <div class="side-nav__account">
-                        <a class="btn btn-secondary" href="Join.html">
-                            <span class="text">Join Now</span>
-                        </a>
-                        <a class="btn btn-highlight" demo-open-login>
-                            <span class="text">Login</span>
-                        </a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+                            var CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
+                            <div class="account-info">
+                                <span class="account-info__name">Welcome @User.Identity.Name</span>
+                                @selLangBLL.GetResourceValue($"Currency_{CurrencyId}")<span class="account-info__amount"></span><i class="icon"></i>
+                            </div>
+                            <button id="logoutBtn" class="side-nav__btn">
+                                <i class="icon icon-logout"></i>
+                                <span class="text">Logout</span>
+                            </button>
+                        }
+                        else
+                        {
+                            <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
+                                <span class="text">Join Now</span>
+                            </a>
+                            <a id="loginBtn2" class="btn btn-highlight">
+                                <span class="text">Login</span>
+                            </a>
+                        }
                     </div>
                 </div>
                 <div class="side-nav__main">
@@ -276,44 +283,24 @@
                     <div class="side-nav__item">
                         <div class="dropdown dropdown--up">
                             <a class="btn">
-                                <i class="flag-square-GBR"></i>
-                                <span class="text">English</span>
+                                <i class="flag-square-@selLangBLL.GetLangId()"></i>
+                                <span class="text">@selLangBLL.GetLan_Info(selLangBLL.GetLangId())</span>
                                 <i class="icon icon-caret"></i>
                             </a>
                             <div class="dropdown__container">
                                 <div class="dropdown__list">
-                                    <div class="dropdown__item" data-selected="true">
-                                        <i class="flag-square-GBR"></i>
-                                        <span class="text">English</span>
-                                    </div>
-                                    <div class="dropdown__item">
-                                        <i class="flag-square-MYS"></i>
-                                        <span class="text">繁體中文</span>
-                                    </div>
-                                    <div class="dropdown__item">
-                                        <i class="flag-square-CHN"></i>
-                                        <span class="text">简体中文</span>
-                                    </div>
-                                    <div class="dropdown__item">
-                                        <i class="flag-square-JPN"></i>
-                                        <span class="text">日本語</span>
-                                    </div>
-                                    <div class="dropdown__item">
-                                        <i class="flag-square-KOR"></i>
-                                        <span class="text">한국어</span>
-                                    </div>
-                                    <div class="dropdown__item">
-                                        <i class="flag-square-THA"></i>
-                                        <span class="text">ภาษาไทย</span>
-                                    </div>
-                                    <div class="dropdown__item">
-                                        <i class="flag-square-VIE"></i>
-                                        <span class="text">Tiếng Việt</span>
-                                    </div>
-                                    <div class="dropdown__item">
-                                        <i class="flag-square-IND"></i>
-                                        <span class="text">Indonesian</span>
-                                    </div>
+                                    @foreach (var siteLanguage in selLangBLL.GetLangIdList())
+                                    {
+                                        if (siteLanguage.LangId != selLangBLL.GetLangId())
+                                        {
+                                            <a href="@Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })">
+                                                <div class="dropdown__item" @(siteLanguage.LangId == selLangBLL.GetLangId() ? @"data-selected=""true""" : "")>
+                                                    <i class="flag-square-@(siteLanguage.LangId)"></i>
+                                                    <span class="text">@siteLanguage.Language</span>
+                                                </div>
+                                            </a>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -345,27 +332,47 @@
 
     <script>
         var i18n = {};
+        $(function () {
+            var breakpoint;
+            var getBreakpoint = function () {
+                return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+            };
+
+            var displayBreakpoint = function () {
+                document.querySelector('html').dataset.layout = breakpoint;
+            };
+
+            breakpoint = getBreakpoint();
+
+            displayBreakpoint();
+
+            window.addEventListener('resize', function () {
+
+                breakpoint = getBreakpoint();
+
+                displayBreakpoint();
+
+            }, false);
+
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item > .dropdown > .btn").on("touchstart, click", function () {
+                var $dropdown = $(this).parent();
+                $dropdown.attr("data-open") == "true" ? $dropdown.removeAttr("data-open") : $dropdown.attr("data-open", "true");
+            });
+        });
     </script>
 
     @if (User.Identity.IsAuthenticated)
     {
-        <script src="~/js/commJS/onlineCheck.min.js"></script>
-        <script type="text/javascript">
-            $("#logoutBtn").click(function () {
-                axios.post('/api/Account/Logout')
-                    .then(function (response) {
-                        let result = response.data;
-                        if (result.errorCode == 0) {
-                            alert(result.message);
-                            location.reload();
-                        } else {
-                            alert(result.message);
-                        }
-                    }).catch(function (error) {
-                        alert(error);
-                    });
-            });
-        </script>
+        <script src="~/js/commJS/common.js"></script>
+        <script src="~/js/commJS/Account.js"></script>
     }
     else
     {
