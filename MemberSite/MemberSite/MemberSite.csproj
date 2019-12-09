@@ -29,7 +29,7 @@
   <ItemGroup>
     <None Include="wwwroot\js\component\home\LoginForm.jsx" />
     <None Include="wwwroot\js\component\home\RegisterForm.jsx" />
-    <None Include="wwwroot\SiteSkin\Nova88\public\images\logo.svg" />
+    <None Include="wwwroot\SiteSkin\Nova88\common\images\logo.svg" />
     <None Include="wwwroot\js\component\account\Profile.jsx" />
     <None Include="wwwroot\js\component\commJS\common.js" />
     <None Include="wwwroot\js\component\commJS\InputBox.jsx" />

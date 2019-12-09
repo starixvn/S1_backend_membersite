@@ -9,7 +9,7 @@
 @inject CustInfoBLL custInfoBLL
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
-    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/public");
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
     var SkinImgPath = $"{SkinRootPath}/images";
     var CmsPromotionPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Promotion/{selLangBLL.GetLangId()}");
     ViewData["Title"] = "Index";

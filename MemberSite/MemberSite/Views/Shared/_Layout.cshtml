@@ -9,7 +9,7 @@
 @inject CustInfoBLL custInfoBLL
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
-    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/public");
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
 }
 <!DOCTYPE html>
 <html lang="@selLangBLL.GetLangId()" @*data-layout="desktop"*@>
@@ -52,9 +52,9 @@
                 <a class="btn btn-icon btn-toggle-nav">
                     <i class="icon icon-menu"></i>
                 </a>
-                <div class="header__logo">
+                <a class="header__logo" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() })">
                     <span class="logo"></span>
-                </div>
+                </a>
                 <div class="header__option">
                     @if (User.Identity.IsAuthenticated)
                     {
