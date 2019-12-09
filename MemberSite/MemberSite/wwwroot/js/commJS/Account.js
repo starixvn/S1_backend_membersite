@@ -48,16 +48,16 @@
           }
         }.bind(_this)
       );
-  };  
+  }; 
 
   $(function() {
     setTimeout(onlineCheck.bind(this), 1000);
     getUserBalance();
 
-    $("#logoutBtn").click(function () {
+    $("#logoutBtn").on("touchstart, click", function () {
         axios.post('/api/Account/SignOut')
         .then(function (response) {
-            let result = response.data;
+            var result = response.data;
             if (result.errorCode == 0) {
                 alert(result.message);
                 window.location.replace(window.location.href);
@@ -73,5 +73,22 @@
         });
     });
 
+    $(".dropdown__item[data-lang-id]").on("touchstart, click", function (e) {
+        axios.post('/api/Account/SetLanguage',{LangId:$(this).attr("data-lang-id")})
+        .then(function (response) {
+            var result = response.data;
+            if (result.errorCode == 0) {
+                window.location.replace(window.location.href);
+            } else {
+                alert(result.message);
+            }
+        }).catch(function (error) {
+            if (error.response !=null &&  error.response.status == 401) {
+                window.location.replace(window.location.href);
+            } else {
+                alert(result.message);
+            }
+        });
+    });
   });
 })(jQuery, i18n, axios);

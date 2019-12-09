@@ -112,9 +112,9 @@ class LoginForm extends React.Component {
     }
 
     componentDidMount() {
-        $("#loginBtn1").on("click", function(e) {this.setState({popLoginForm: true});}.bind(this));
-        $("#loginBtn2").on("click", function(e) {this.setState({popLoginForm: true});}.bind(this));
-        $("#loginBtn3").on("click", function(e) {this.setState({popLoginForm: true});}.bind(this));
+        $("#loginBtn1").on("touchstart, click", function(e) {this.setState({popLoginForm: true});}.bind(this));
+        $("#loginBtn2").on("touchstart, click", function(e) {this.setState({popLoginForm: true});}.bind(this));
+        $("#loginBtn3").on("touchstart, click", function(e) {this.setState({popLoginForm: true});}.bind(this));
     }
 
     render() {

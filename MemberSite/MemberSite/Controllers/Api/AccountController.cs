@@ -77,35 +77,27 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
-            if (languageModel.LangId != authData.LangId)
+            int result = custInfoBLL.SetLanguage(authData.CustId, languageModel.LangId);
+
+            if (result == -1)
             {
-                int result = custInfoBLL.SetLanguage(authData.CustId, languageModel.LangId);
-
-                if (result == -1)
-                {
-                    apiResult.ErrorCode = result;
-                    apiResult.Message = "";/*Not Support Language*/
-                    return apiResult;
-                }
-
-                // create a new identity from the old one
-                var identity = new ClaimsIdentity(User.Identity);
-
-                // update claim value
-                identity.RemoveClaim(identity.FindFirst("LangId"));
-                identity.AddClaim(new Claim("LangId", languageModel.LangId));
-
-                // tell the SignInAsync to use this new identity
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
-
-                apiResult.ErrorCode = 0;
-                apiResult.Message = "";
+                apiResult.ErrorCode = result;
+                apiResult.Message = "";/*Not Support Language*/
+                return apiResult;
             }
-            else
-            {
-                apiResult.ErrorCode = 0;
-                apiResult.Message = "";
-            }
+
+            // create a new identity from the old one
+            var identity = new ClaimsIdentity(User.Identity);
+
+            // update claim value
+            identity.RemoveClaim(identity.FindFirst("LangId"));
+            identity.AddClaim(new Claim("LangId", languageModel.LangId));
+
+            // tell the SignInAsync to use this new identity
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
+            apiResult.ErrorCode = 0;
+            apiResult.Message = Url.RouteUrl("desktop", new { action = HttpContext.Request.RouteValues["action"], controller = HttpContext.Request.RouteValues["controller"], languageModel.LangId });
 
             return apiResult;
         }

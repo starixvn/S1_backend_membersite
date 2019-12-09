@@ -329,12 +329,22 @@
                                     {
                                         if (siteLanguage.LangId != selLangBLL.GetLangId())
                                         {
-                                            <a href="@Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })">
-                                                <div class="dropdown__item" @(siteLanguage.LangId == selLangBLL.GetLangId() ? @"data-selected=""true""" : "")>
+                                            @if (User.Identity.IsAuthenticated)
+                                            {
+                                                <div class="dropdown__item" data-lang-id="@siteLanguage.LangId">
                                                     <i class="flag-square-@(siteLanguage.LangId)"></i>
                                                     <span class="text">@siteLanguage.Language</span>
                                                 </div>
-                                            </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })">
+                                                    <div class="dropdown__item" @(siteLanguage.LangId == selLangBLL.GetLangId() ? @"data-selected=""true""" : "")>
+                                                        <i class="flag-square-@(siteLanguage.LangId)"></i>
+                                                        <span class="text">@siteLanguage.Language</span>
+                                                    </div>
+                                                </a>
+                                            }
                                         }
                                     }
                                 </div>

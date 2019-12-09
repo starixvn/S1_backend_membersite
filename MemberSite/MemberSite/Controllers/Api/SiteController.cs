@@ -37,12 +37,6 @@ namespace MemberSite.Controllers.Api
             public string Userpwd { get; set; }
         }
 
-        [HttpGet]
-        public string test()
-        {
-            return selLangBLL.GetLangId();
-        }
-
         [HttpPost]
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
@@ -102,7 +96,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult> RegisterAsync([FromBody]RegisteredModel registeredModel)
+        public async Task<ApiResult> RegisterAsync(RegisteredModel registeredModel)
         {
             var apiResult = new ApiResult(selLangBLL);
             if (User.Identity.IsAuthenticated)
@@ -192,14 +186,6 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        [HttpPost]
-        public ApiResult<IEnumerable<SiteLanguage>> GetSiteLanguage()
-        {
-            var apiResult = new ApiResult<IEnumerable<SiteLanguage>>(selLangBLL);
-            apiResult.Data = selLangBLL.GetLangIdList();
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
         [HttpPost]
         public ApiResult<bool> ExistsUserName(RegisteredModel registeredModel)
         {
