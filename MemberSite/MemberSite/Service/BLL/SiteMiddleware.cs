@@ -48,7 +48,6 @@ namespace MemberSite.Service.BLL
                 if (IsGetMethod(context) && IsSupportContentType(context))
                 {
                     await _next.Invoke(context);
-
                     if (context.Response.StatusCode == 404)
                     {
                         if (!context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
@@ -64,6 +63,11 @@ namespace MemberSite.Service.BLL
                         }
                     }
                 }
+                else
+                {
+                    await _next.Invoke(context);
+                }
+
             }
             catch (Exception)
             {

@@ -40,7 +40,7 @@ namespace MemberSite.Service.DAL
                 var p = new DynamicParameters(new { customer.SiteId, customer.UserName, customer.Userpwd, customer.CurrencyId, customer.UserLang, customer.AgentId, customer.AllAgentId, customer.UserLevel });
                 p.Add("CustId", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                var result = conn.Execute("CustInfo_Ins", customer, commandType: CommandType.StoredProcedure);
+                var result = conn.Execute("CustInfo_Ins", p, commandType: CommandType.StoredProcedure);
                 custId = p.Get<int?>("CustId") ?? 0;
                 return result > 0 ? 0 : -1;
             }
