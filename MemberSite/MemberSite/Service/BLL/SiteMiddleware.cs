@@ -15,6 +15,7 @@ namespace MemberSite.Service.BLL
     {
         private readonly RequestDelegate _next;
         private readonly SelLangBLL selLangBLL;
+
         public SiteMiddleware(RequestDelegate next, SelLangBLL selLangBLL)
         {
             _next = next;
@@ -47,8 +48,8 @@ namespace MemberSite.Service.BLL
                 if (IsGetMethod(context) && IsSupportContentType(context))
                 {
                     await _next.Invoke(context);
-                    var routeDataLandId = context.Request.RouteValues["LangId"] as string;
-                    if (context.Response.StatusCode == 404 && routeDataLandId != selLangBLL.GetLangId())
+
+                    if (context.Response.StatusCode == 404)
                     {
                         if (!context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
                         {
