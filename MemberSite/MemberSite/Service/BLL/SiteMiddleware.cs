@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Routing.Template;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
@@ -13,30 +15,52 @@ namespace MemberSite.Service.BLL
     {
         private readonly RequestDelegate _next;
         private readonly SelLangBLL selLangBLL;
-
         public SiteMiddleware(RequestDelegate next, SelLangBLL selLangBLL)
         {
             _next = next;
             this.selLangBLL = selLangBLL;
         }
-
+        public RouteValueDictionary Match(string routeTemplate, string requestPath)
+        {
+            var template = TemplateParser.Parse(routeTemplate);
+            var matcher = new TemplateMatcher(template, GetDefaults(template));
+            RouteValueDictionary values = new RouteValueDictionary();
+            matcher.TryMatch(requestPath, values);
+            return values;
+        }
+        private RouteValueDictionary GetDefaults(RouteTemplate parsedTemplate)
+        {
+            var result = new RouteValueDictionary();
+            foreach (var parameter in parsedTemplate.Parameters)
+            {
+                if (parameter.DefaultValue != null)
+                {
+                    result.Add(parameter.Name, parameter.DefaultValue);
+                }
+            }
+            return result;
+        }
         public async Task Invoke(HttpContext context)
         {
             try
             {
-                await _next.Invoke(context);
-                if (!context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
+                if (IsGetMethod(context) && IsSupportContentType(context))
                 {
-                    //var routes = ;
+                    await _next.Invoke(context);
                     var routeDataLandId = context.Request.RouteValues["LangId"] as string;
-                    //context.Request.u
-
-
-
-                    if (context.Response.StatusCode == 404)
+                    if (context.Response.StatusCode == 404 && routeDataLandId != selLangBLL.GetLangId())
                     {
-                        context.Response.Redirect($"/Home/Index/{selLangBLL.GetLangId()}");
-                        return;
+                        if (!context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
+                        {
+                            var AnticipationRouteData = Match("{controller=Home}/{action=Index}", context.Request.Path);
+                            object controller = "";
+                            object action = "";
+                            if (AnticipationRouteData.TryGetValue("controller", out controller) && AnticipationRouteData.TryGetValue("action", out action) && controller as string != selLangBLL.GetLangId())
+                            {
+                                context.Response.Redirect($"/{selLangBLL.GetLangId()}/{controller}/{action}");
+                                return;
+                            }
+                        }
                     }
                 }
             }
@@ -44,7 +68,14 @@ namespace MemberSite.Service.BLL
             {
                 throw;
             }
-
+        }
+        private bool IsGetMethod(HttpContext context)
+        {
+            return string.Equals("GET", context.Request.Method, StringComparison.OrdinalIgnoreCase);
+        }
+        private bool IsSupportContentType(HttpContext context)
+        {
+            return true;
         }
     }
 }

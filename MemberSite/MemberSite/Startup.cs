@@ -113,17 +113,17 @@ namespace MemberSite
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //app.UseMiddleware<SiteMiddleware>();
+            app.UseMiddleware<SiteMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
                 //endpoints.MapControllers();
                 //endpoints.MapAreaControllerRoute("areaRoute", "{area:exists}", "{area:exists}/{controller=Home}/{action=Index}");
-                endpoints.MapAreaControllerRoute(name: "areaRoute", "{area:exists}", "{area:exists}/{controller=Home}/{action=Index}/{LangId?}");
+                endpoints.MapAreaControllerRoute(name: "areaRoute", "{area:exists}", "{LangId?}/{area:exists}/{controller=Home}/{action=Index}");
                 endpoints.MapControllerRoute(
                     name: "desktop",
                 //pattern: "{controller=Home}/{action=Index}");
-                pattern: "{controller=Home}/{action=Index}/{LangId?}");
+                pattern: "{LangId?}/{controller=Home}/{action=Index}");
             });
         }
     }

@@ -65,7 +65,11 @@
                 alert(result.message);
             }
         }).catch(function (error) {
-            alert(error);
+            if (error.response !=null &&  error.response.status == 401) {
+                window.location.replace(window.location.href);
+            } else {
+                alert(result.message);
+            }
         });
     });
 
