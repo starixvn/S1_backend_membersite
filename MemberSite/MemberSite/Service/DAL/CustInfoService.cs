@@ -32,12 +32,17 @@ namespace MemberSite.Service.DAL
                 return conn.ExecuteScalar<int>("ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
             }
         }
-        public int AddCustInfo(Customer customer, out int userId)
+        public int AddCustInfo(Customer customer, out int custId)
         {
+            custId = 0;
             using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
             {
-                userId = conn.ExecuteScalar<int>("CustInfo_Ins", customer, commandType: CommandType.StoredProcedure);
-                return userId > 0 ? 0 : -1;
+                var p = new DynamicParameters(new { customer.SiteId, customer.UserName, customer.Userpwd, customer.CurrencyId, customer.UserLang, customer.AgentId, customer.AllAgentId, customer.UserLevel });
+                p.Add("CustId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                var result = conn.Execute("CustInfo_Ins", customer, commandType: CommandType.StoredProcedure);
+                custId = p.Get<int?>("CustId") ?? 0;
+                return result > 0 ? 0 : -1;
             }
         }
         public Customer GetCustInfo(int custId)
