@@ -58,6 +58,7 @@ namespace MemberSite
             services.AddSingleton<BankInfoService>();
             services.AddSingleton<WalletService>();
             services.AddSingleton<MessageService>();
+            services.AddSingleton<ThirdPartyService>();
 
             /*BLL*/
             services.AddSingleton<ServerInfoBLL>();
@@ -69,6 +70,8 @@ namespace MemberSite
             services.AddSingleton<BankInfoOffBLL>();
             services.AddSingleton<BankInfoBLL>();
             services.AddSingleton<PaymentBLL>();
+            services.AddSingleton<ThirdPartyBLL>();
+
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();

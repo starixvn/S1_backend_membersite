@@ -46,7 +46,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult> GotoGame([FromBody]TpInfo inInfo)
+        public async Task<ApiResult> GotoGame(TpInfo inInfo)
         {
             Dictionary<string, string> input = new Dictionary<string, string>();
             ////input.Add("gameType", gameType);/**/
@@ -55,9 +55,9 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
 
             input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-            input.Add("ClientIP", tools.GetClientIP(HttpContext));
+            input.Add("ClientIP", tools.GetClientIP());
 
-            var myUrl = Path.Combine(apiUrl, "GotoGame");
+            var myUrl = $"{apiUrl}GotoGame";
             var tpInfo = new TpInfo
             {
                 TpId = inInfo.TpId,
@@ -116,7 +116,7 @@ namespace MemberSite.Controllers.Api
             }
             Dictionary<string, string> input = new Dictionary<string, string>();
             input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-            input.Add("ClientIP", tools.GetClientIP(HttpContext));
+            input.Add("ClientIP", tools.GetClientIP());
 
             var tpTransfer = new TpTransfer
             {
@@ -126,7 +126,7 @@ namespace MemberSite.Controllers.Api
                 direction = inTpTransfer.direction,
                 inputs = input
             };
-            var myUrl = Path.Combine(apiUrl, "Transfer");
+            var myUrl = $"{apiUrl}Transfer";
             var data = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
 
             ApiResult<TransferResult> result = data;
@@ -147,7 +147,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             Dictionary<string, string> input = new Dictionary<string, string>();
-            var myUrl = Path.Combine(apiUrl, "GetBalance");
+            var myUrl = $"{apiUrl}GetBalance";
             var oTpInfo = new TpInfo
             {
                 TpId = inInfo.TpId,

@@ -15,6 +15,17 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@functions{
+    string GetEntPageUrl(int tpId)
+    {
+
+        var homeUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: "http", host: Context.Request.Host.Host);
+        var signupUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "Register", LangId = selLangBLL.GetLangId() }, protocol: "http", host: Context.Request.Host.Host);
+        var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: "http", host: Context.Request.Host.Host);
+        return Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId });
+    }
+}
+
 <div class="main main--home">
     <div class="lobby-page">
         <div class="lobby-banner-swiper">
@@ -62,13 +73,13 @@
 
         </div>
         <div class="lobby-sport-list">
-            <div class="lobby-sport">
+            <a class="lobby-sport" href="javascript:window.open('@GetEntPageUrl(1)', 'Tp_1');">
                 <img src="@SkinImgPath/Lobby/Home/Sport-Soccer.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Soccer.png">
                 <div class="lobby-sport__info">
                     <span class="text">Soccer</span>
                 </div>
-            </div>
+            </a>
             <div class="lobby-sport">
                 <img src="@SkinImgPath/Lobby/Home/Sport-Basketball.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Basketball.png">

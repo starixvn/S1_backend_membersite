@@ -45,7 +45,7 @@ namespace MemberSite.Controllers.Api
             string userpwd = loginModel.Userpwd;
             Customer customer = null;
             string token = null;
-            var userLoginResult = custInfoBLL.UserLogin(userName, userpwd, tools.GetClientIP(HttpContext), tools.GetFromUrl(HttpContext), Request.Headers["User-Agent"], ref customer, out token);
+            var userLoginResult = custInfoBLL.UserLogin(userName, userpwd, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
 
             if (userLoginResult == -1)
             {
@@ -146,7 +146,7 @@ namespace MemberSite.Controllers.Api
             {
                 Customer customer = null;
                 string token = null;
-                var userLoginResult = custInfoBLL.UserLogin(registeredModel.UserName, registeredModel.Userpwd, tools.GetClientIP(HttpContext), tools.GetFromUrl(HttpContext), Request.Headers["User-Agent"], ref customer, out token);
+                var userLoginResult = custInfoBLL.UserLogin(registeredModel.UserName, registeredModel.Userpwd, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
 
                 if (userLoginResult == -1)
                 {
@@ -193,6 +193,12 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = custInfoBLL.ExistsUserName(registeredModel.UserName);
             apiResult.ErrorCode = 0;
             return apiResult;
+        }
+
+        public class TpInfoNologin
+        {
+            public int TpId { set; get; }
+            public Dictionary<string, string> inputs { set; get; }
         }
     }
 }

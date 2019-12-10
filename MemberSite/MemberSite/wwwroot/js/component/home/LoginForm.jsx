@@ -1,4 +1,5 @@
 ﻿import {DataField, InputBox} from '../commJS/InputBox.jsx';
+import {getUrlParameter} from '../commJS/common';
 (function ($, React, ReactDOM, i18n, axios) {
 
 class LoginForm extends React.Component {
@@ -26,7 +27,7 @@ class LoginForm extends React.Component {
         userpwdDataField.Value="";
         formArr.push(userpwdDataField);
 
-        this.state = { formArr: formArr, popLoginForm: false};
+        this.state = { formArr: formArr, popLoginForm: getUrlParameter("loginCont")=="1"};
     }
     
     async handleCheckUserName(value) {
