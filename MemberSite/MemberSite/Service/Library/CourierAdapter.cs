@@ -33,8 +33,6 @@ namespace MemberSite.Service.Library
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
                 oApiResult = JsonConvert.DeserializeObject<ApiResult<T>>(responseBody);
-
-                oApiResult.Data = JsonConvert.DeserializeObject<T>(responseBody); //給不符合格式的回傳JSON用
             }
             return oApiResult;
         }
