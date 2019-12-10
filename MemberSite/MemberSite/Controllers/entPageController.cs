@@ -53,7 +53,7 @@ namespace MemberSite.Controllers
                     TpId = tpId,
                     CustId = authData.CustId,
                     LangId = selLangBLL.GetLangId(),
-                    AppType = 1,
+                    AppType = tools.IsMobile() ? 2 : 1,
                     inputs = inputs
                 };
 
