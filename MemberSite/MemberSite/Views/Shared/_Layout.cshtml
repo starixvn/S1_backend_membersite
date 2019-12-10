@@ -80,17 +80,17 @@
                         var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
                         var CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
                         <div class="account-info">
-                            <span class="account-info__name">Welcome @User.Identity.Name</span>
+                            <span class="account-info__name">@selLangBLL.GetResourceValue("lbl_Welcome") @User.Identity.Name</span>
                             @selLangBLL.GetResourceValue($"Currency_{CurrencyId}")<span class="account-info__amount"></span><i class="icon"></i>
                         </div>
                     }
                     else
                     {
                         <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                            <span class="text">Join Now</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
                         </a>
                         <button id="loginBtn1" class="btn btn-highlight">
-                            <span class="text">Login</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Login")</span>
                         </button>
                     }
                 </div>
@@ -101,110 +101,110 @@
         <div class="footer">
             <div class="footer__nav">
                 <div class="footer__col">
-                    <div class="footer__heading">
-                        <span class="text">Products</span>
+                    <div class="footer__headingUsername is no longer available.
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Products")</span>
                     </div>
                     <div class="footer__item">
-                        <a class="text" href="@GetEntPageUrl(1,"1")">Sports</a>
+                        <a class="text" href="@GetEntPageUrl(1,"1")">@selLangBLL.GetResourceValue("lbl_Sports")</a>
                     </div>
                     <div class="footer__item">
-                        <a class="text" href="@GetEntPageUrl(1,"43")">eSports</a>
+                        <a class="text" href="@GetEntPageUrl(1,"43")">@selLangBLL.GetResourceValue("lbl_eSports")</a>
                     </div>
                     <div class="footer__item">
-                        <a class="text" href="@GetEntPageUrl(1,"180")">Virtual Sports</a>
+                        <a class="text" href="@GetEntPageUrl(1,"180")">@selLangBLL.GetResourceValue("lbl_VirtualSports")</a>
                     </div>
                     <div class="footer__item">
-                        <a class="text" href="@GetEntPageUrl(1,"161")">Number Game</a>
+                        <a class="text" href="@GetEntPageUrl(1,"161")">@selLangBLL.GetResourceValue("lbl_NumberGame")</a>
                     </div>
                     <div class="footer__item">
-                        <span class="text">Casino</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
                     </div>
                     <div class="footer__item">
-                        <span class="text">Live Casino</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
                     </div>
                     <div class="footer__item">
-                        <span class="text">Keno</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Keno")</span>
                     </div>
                 </div>
                 <div class="footer__col">
                     <div class="footer__heading">
-                        <span class="text">About Us</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_AboutUs")</span>
                     </div>
                     <div class="footer__item">
-                        <span class="text">About</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_About")</span>
                     </div>
                     <div class="footer__item">
-                        <span class="text">Licensee</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Licensee")</span>
                     </div>
                 </div>
                 <div class="footer__col">
                     <div class="footer__heading">
-                        <span class="text">Policies</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Policies")</span>
                     </div>
                     <div class="footer__item">
-                        <span class="text">Resposible Gaming</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_ResposibleGaming")</span>
                     </div>
                     <div class="footer__item">
-                        <span class="text">Terms & Conditions</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_TermsConditions")</span>
                     </div>
                     <div class="footer__item">
-                        <span class="text">Privacy Policy</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_PrivacyPolicy")</span>
                     </div>
                     <div class="footer__item">
-                        <span class="text">Cookie Policy</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_CookiePolicy")</span>
                     </div>
                 </div>
                 <div class="footer__col">
                     <div class="footer__heading">
-                        <span class="text">Help & Support</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_HelpSupport")</span>
                     </div>
                     <div class="footer__item">
-                        <span class="text">Contact Us</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_ContactUs")</span>
                     </div>
                     <div class="footer__item">
-                        <span class="text">Betting Rules</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_BettingRules")</span>
                     </div>
                     <div class="footer__item">
-                        <span class="text">Help</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Help")</span>
                     </div>
                     <div class="footer__item">
-                        <span class="text">Sitemap</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Sitemap")</span>
                     </div>
                     <div class="footer__item">
-                        <span class="text">Payment Options</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_PaymentOptions")</span>
                     </div>
                 </div>
                 <div class="footer__col-social">
                     <div class="footer__heading">
-                        <span class="text">Social</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Social")</span>
                     </div>
                     <div class="footer__item">
                         <i class="icon icon-facebook"></i>
-                        <span class="text">Facebook</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Facebook")</span>
                     </div>
                     <div class="footer__item">
                         <i class="icon icon-letstalk"></i>
-                        <span class="text">Letstalk</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Letstalk")</span>
                     </div>
                     <div class="footer__item">
                         <i class="icon icon-whatsapp"></i>
-                        <span class="text">Whatsapp</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Whatsapp")</span>
                     </div>
                     <div class="footer__item">
                         <i class="icon icon-qq"></i>
-                        <span class="text">QQ</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_QQ")</span>
                     </div>
                     <div class="footer__item">
                         <i class="icon icon-skype"></i>
-                        <span class="text">Skype</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Skype")</span>
                     </div>
                     <div class="footer__item">
                         <i class="icon icon-wechat"></i>
-                        <span class="text">Wechat</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Wechat")</span>
                     </div>
                     <div class="footer__item">
                         <i class="icon icon-twitter"></i>
-                        <span class="text">Twitter</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Twitter")</span>
                     </div>
                 </div>
             </div>
@@ -222,21 +222,21 @@
                             var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
                             var CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
                             <div class="account-info">
-                                <span class="account-info__name">Welcome @User.Identity.Name</span>
+                                <span class="account-info__name">@selLangBLL.GetResourceValue("lbl_Welcome") @User.Identity.Name</span>
                                 @selLangBLL.GetResourceValue($"Currency_{CurrencyId}")<span class="account-info__amount"></span><i class="icon"></i>
                             </div>
                             <button id="logoutBtn" class="side-nav__btn">
                                 <i class="icon icon-logout"></i>
-                                <span class="text">Logout</span>
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Logout")</span>
                             </button>
                         }
                         else
                         {
                             <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                                <span class="text">Join Now</span>
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
                             </a>
                             <a id="loginBtn2" class="btn btn-highlight">
-                                <span class="text">Login</span>
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Login")</span>
                             </a>
                         }
                     </div>
@@ -245,35 +245,35 @@
                     <div class="side-nav__list-sports">
                         <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() })">
                             <i class="icon icon-home"></i>
-                            <span class="text">Home</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Home")</span>
                         </a>
                         <a class="side-nav__btn" href="@GetEntPageUrl(1,"1")">
                             <i class="icon icon-all-sports"></i>
-                            <span class="text">Sports</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Sports")</span>
                         </a>
                         <a class="side-nav__btn" href="@GetEntPageUrl(1,"43")">
                             <i class="icon icon-sport43"><span class="new-dot"></span></i>
-                            <span class="text">eSports</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_eSports")</span>
                         </a>
                         <a class="side-nav__btn" href="@GetEntPageUrl(1,"161")">
                             <i class="icon icon-sport161"></i>
-                            <span class="text">Number Game</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_NumberGame")</span>
                         </a>
                         <a class="side-nav__btn" href="@GetEntPageUrl(1,"180")">
                             <i class="icon icon-sport18x"></i>
-                            <span class="text">Virtual Sports</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>
                         </a>
                         <a class="side-nav__btn">
                             <i class="icon icon-sport251"></i>
-                            <span class="text">Casino</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
                         </a>
                         <a class="side-nav__btn">
                             <i class="icon icon-sport162"></i>
-                            <span class="text">Live Casino</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
                         </a>
                         <a class="side-nav__btn">
                             <i class="icon icon-sport202"></i>
-                            <span class="text">Keno</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Keno")</span>
                         </a>
                     </div>
                     <div class="side-nav__list-member">
@@ -283,7 +283,7 @@
                                 <span class="side-nav__icon">
                                     <i class="icon icon-email"></i>
                                 </span>
-                                <span class="text">Message</span>
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Message")</span>
                             </a>
                         }
                         <a class="side-nav__btn">
@@ -291,7 +291,7 @@
                                 <i class="icon icon-promotion"></i>
                                 <span class="new-dot"></span>
                             </span>
-                            <span class="text">Promotion</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Promotion")</span>
                         </a>
                         @if (User.Identity.IsAuthenticated)
                         {
@@ -299,32 +299,32 @@
                                 <span class="side-nav__icon">
                                     <i class="icon icon-gesture-password"></i>
                                 </span>
-                                <span class="text">Change Password</span>
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_ChangePassword")</span>
                             </a>
                             <a class="side-nav__btn">
                                 <span class="side-nav__icon">
                                     <i class="icon icon-transaction"></i>
                                 </span>
-                                <span class="text">Cashier</span>
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
                             </a>
                             <a class="side-nav__btn">
                                 <span class="side-nav__icon">
                                     <i class="icon icon-transfer"></i>
                                 </span>
-                                <span class="text">Transfer Funds</span>
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
                             </a>
                             <a class="side-nav__btn">
                                 <span class="side-nav__icon">
                                     <i class="icon icon-calendar"></i>
                                 </span>
-                                <span class="text">Transaction History</span>
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_TransactionHistory")</span>
                             </a>
                         }
                         <a class="side-nav__btn">
                             <span class="side-nav__icon">
                                 <i class="icon icon-info-outline"></i>
                             </span>
-                            <span class="text">Help</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Help")</span>
                         </a>
                     </div>
                 </div>
@@ -332,7 +332,7 @@
                     <div class="side-nav__item">
                         <a class="side-nav__btn">
                             <i class="icon icon-contact-us"></i>
-                            <span class="text">Contact Us</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_ContactUs")</span>
                         </a>
                     </div>
                     <div class="side-nav__item">
