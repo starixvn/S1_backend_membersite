@@ -1,12 +1,13 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using MemberSite.Service.BLL
+@using MemberSite.Service.Library
 @using Microsoft.AspNetCore.Hosting
-@using System.Security.Claims
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @inject IWebHostEnvironment environment
 @inject WalletBLL walletBLL
 @inject CustInfoBLL custInfoBLL
+@inject Tools tools
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
@@ -19,13 +20,19 @@
     string GetEntPageUrl(int tpId)
     {
 
-        var homeUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: "http", host: Context.Request.Host.Host);
-        var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: "http", host: Context.Request.Host.Host);
-        var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: "http", host: Context.Request.Host.Host);
-        return Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId });
+        var homeUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+        var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+        var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+
+        var entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId });
+        if (!tools.IsMobile() && tpId == 1)
+        {
+            entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}');";
+        }
+
+        return entPageUrl;
     }
 }
-
 <div class="main main--home">
     <div class="lobby-page">
         <div class="lobby-banner-swiper">
@@ -73,7 +80,7 @@
 
         </div>
         <div class="lobby-sport-list">
-            <a class="lobby-sport" href="javascript:window.open('@GetEntPageUrl(1)', 'Tp_1');">
+            <a class="lobby-sport" href="@GetEntPageUrl(1)">
                 <img src="@SkinImgPath/Lobby/Home/Sport-Soccer.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Soccer.png">
                 <div class="lobby-sport__info">
