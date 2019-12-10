@@ -144,9 +144,6 @@
   <data name="msg_UsernameLength" xml:space="preserve">
     <value>Username must between 6 and 18 characters long.</value>
   </data>
-  <data name="msg_UsernameNotAvailable" xml:space="preserve">
-    <value>Username is no longer available.</value>
-  </data>
   <data name="msg_UsernameReq" xml:space="preserve">
     <value>Username is required.</value>
   </data>

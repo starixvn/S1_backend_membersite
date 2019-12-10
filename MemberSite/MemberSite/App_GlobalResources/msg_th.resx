@@ -117,4 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="msg_Congratulations" xml:space="preserve">
+    <value>การลงทะเบียนของคุณเสร็จสมบูรณ์ คุณสามารถเข้าสู้ระบบฝากเงินและเริ่มเดิมพันได้ทันที</value>
+  </data>
+  <data name="msg_DepositProcessLogin_ACLocked" xml:space="preserve">
+    <value>บัญชีของคุณถูกล๊อค โปรดติดต่อฝ่ายบริการลูกค้าได้ตลอด 24/7 ขอบคุณ</value>
+  </data>
+  <data name="msg_DepositProcessLogin_LoginFailed" xml:space="preserve">
+    <value>ไม่สามารถเข้าสู่ระบบได้, ชื่อบัญชี/รหัสผ่านไม่ถูกต้อง หรือ ไม่มีชื่อบัญชีนี้</value>
+  </data>
+  <data name="msg_loggedout" xml:space="preserve">
+    <value>คุณได้ทำการออกจากระบบ โปรดล็อคอินใหม่อีกครั้ง</value>
+  </data>
+  <data name="msg_PasswordLength" xml:space="preserve">
+    <value>รหัสผ่านควรมีความยาวระหว่าง 6 ถึง 18 ตัวอักษร</value>
+  </data>
+  <data name="msg_PasswordReq" xml:space="preserve">
+    <value>ต้องใส่รหัสผ่าน</value>
+  </data>
+  <data name="msg_PasswordVaildate" xml:space="preserve">
+    <value>ตัวอักษรและตัวเลข 6-18 ตัว (A-Z, a-z, 0-9) หรือตัวอักขระพิเศษ @$*!%#?&amp;</value>
+  </data>
+  <data name="msg_ThisCurrencyNotSupport" xml:space="preserve">
+    <value>ไม่รองรับสกุลเงินนี้</value>
+  </data>
+  <data name="msg_UsernameLength" xml:space="preserve">
+    <value>ชื่อบัญชีผู้ใช้ควรมีความยาวระหว่าง 6 ถึง 18 ตัวอักษร</value>
+  </data>
+  <data name="msg_UsernameReq" xml:space="preserve">
+    <value>ต้องใส่ชื่อบัญชีผู้ใช้</value>
+  </data>
+  <data name="msg_UsernameVaildate" xml:space="preserve">
+    <value>ตัวอักษรและตัวเลข 6-18 ตัว (A-Z, a-z, 0-9) เท่านั้น</value>
+  </data>
 </root>

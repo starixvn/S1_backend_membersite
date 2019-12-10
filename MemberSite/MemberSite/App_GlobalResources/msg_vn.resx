@@ -117,4 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="msg_Congratulations" xml:space="preserve">
+    <value>Đăng ký của bạn đã hoàn tất, bạn có thể đăng nhập ngay bây giờ , gửi tiền và sau đó bắt đầu đặt cược.</value>
+  </data>
+  <data name="msg_DepositProcessLogin_ACLocked" xml:space="preserve">
+    <value>Tài khoản của bạn đã bị khóa, vui lòng liên hệ với dịch vụ khách hàng 24/7, cảm ơn!</value>
+  </data>
+  <data name="msg_DepositProcessLogin_LoginFailed" xml:space="preserve">
+    <value>Đăng nhập thất bại, Tên người dùng / Mật khẩu sai hoặc Tên người dùng không tồn tại.</value>
+  </data>
+  <data name="msg_loggedout" xml:space="preserve">
+    <value>Bạn đã đăng xuất !!! Hãy đăng nhập và thử lại !!!</value>
+  </data>
+  <data name="msg_PasswordLength" xml:space="preserve">
+    <value>Mật khẩu phải có từ 6 đến 18 ký tự</value>
+  </data>
+  <data name="msg_PasswordReq" xml:space="preserve">
+    <value>Mật khẩu là bắt buộc</value>
+  </data>
+  <data name="msg_PasswordVaildate" xml:space="preserve">
+    <value>6-18 ký tự chữ và số (A-Z, a-z, 0-9) hoặc Ký tự đặc biệt @$*!%#?&amp;</value>
+  </data>
+  <data name="msg_ThisCurrencyNotSupport" xml:space="preserve">
+    <value>Tiền tệ của bạn không được hỗ trợ</value>
+  </data>
+  <data name="msg_UsernameLength" xml:space="preserve">
+    <value>Tên người dùng phải dài từ 6 đến 18 ký tự </value>
+  </data>
+  <data name="msg_UsernameReq" xml:space="preserve">
+    <value>Tên người dùng là bắt buộc</value>
+  </data>
+  <data name="msg_UsernameVaildate" xml:space="preserve">
+    <value>6-18 ký tự chữ và số (A-Z, a-z, 0-9)</value>
+  </data>
 </root>
