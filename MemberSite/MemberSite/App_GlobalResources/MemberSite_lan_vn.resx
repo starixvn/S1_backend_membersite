@@ -123,23 +123,47 @@
   <data name="lbl_Author" xml:space="preserve">
     <value />
   </data>
+  <data name="lbl_CompleteRegistration" xml:space="preserve">
+    <value>Hoàn thành Đăng ký </value>
+  </data>
   <data name="lbl_Copyright" xml:space="preserve">
-    <value>Copyright {0}</value>
+    <value>Bản quyền {0}</value>
   </data>
   <data name="lbl_Description" xml:space="preserve">
-    <value>online betting, sport betting, football betting, sports betting, tennis betting, golf betting, online sports betting, soccer betting, online gambling</value>
+    <value>Cá cược trực tuyến, Cá cược Thể thao, Cá cược Bóng đá, Cá cược Quần vợt, Cá cược Golf, Cá cược Thể thao trực tuyến, Cá cược Bóng đá, Cờ Bạc trực tuyến</value>
   </data>
   <data name="lbl_Image" xml:space="preserve">
     <value />
   </data>
+  <data name="lbl_JoinNow" xml:space="preserve">
+    <value>Tham gia ngay </value>
+  </data>
   <data name="lbl_Keywords" xml:space="preserve">
-    <value>online betting, sport betting, football betting, sports betting, tennis betting, golf betting, online sports betting, soccer betting, online gambling</value>
+    <value>Cá cược trực tuyến, Cá cược Thể thao, Cá cược Bóng đá, Cá cược Quần vợt, Cá cược Golf, Cá cược Thể thao trực tuyến, Cá cược Bóng đá, Cờ Bạc trực tuyến</value>
+  </data>
+  <data name="lbl_LoginHere" xml:space="preserve">
+    <value>Đăng nhập tại đây</value>
+  </data>
+  <data name="lbl_LoginMsg" xml:space="preserve">
+    <value>Xin lưu ý rằng chúng tôi không cho phép các Thành Viên sở hữu nhiều hơn (1) tài khoản.</value>
+  </data>
+  <data name="lbl_Password" xml:space="preserve">
+    <value>Mật khẩu</value>
+  </data>
+  <data name="lbl_PasswordTooltip" xml:space="preserve">
+    <value>6-18 ký tự chữ và số (A-Z, a-z, 0-9) hoặc Ký tự đặc biệt @$*!%#?&amp;</value>
+  </data>
+  <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
+    <value>Tiền tệ ưa thích không thể thay đổi sau khi đăng ký</value>
+  </data>
+  <data name="lbl_PrefferedCurrency" xml:space="preserve">
+    <value>Tiền tệ ưa thích</value>
   </data>
   <data name="lbl_Title" xml:space="preserve">
     <value>Nova88</value>
   </data>
   <data name="lbl_TitleDesc" xml:space="preserve">
-    <value>World leading sportsbook. Best odds offers.</value>
+    <value>Cá cược thể thao hàng đầu thế giới.Cung cấp Tỷ lệ cược tốt nhất </value>
   </data>
   <data name="lbl_TitleKeywords" xml:space="preserve">
     <value />
@@ -152,5 +176,11 @@
   </data>
   <data name="lbl_URL" xml:space="preserve">
     <value />
+  </data>
+  <data name="lbl_Username" xml:space="preserve">
+    <value>Tên người dùng</value>
+  </data>
+  <data name="lbl_UsernameTooltip" xml:space="preserve">
+    <value>Để bảo mật, chúng tôi khuyên tên người dùng không sử dụng tên thật của bạn </value>
   </data>
 </root>

@@ -122,15 +122,12 @@
   </data>
   <data name="Currency_12" xml:space="preserve">
     <value>GBP</value>
-    <comment>00049. Deposit</comment>
   </data>
   <data name="Currency_13" xml:space="preserve">
     <value>RMB</value>
-    <comment>00050. Deposit</comment>
   </data>
   <data name="Currency_15" xml:space="preserve">
     <value>IDR</value>
-    <comment>00949.</comment>
   </data>
   <data name="Currency_2" xml:space="preserve">
     <value>MYR</value>
@@ -145,7 +142,7 @@
     <value>JPY</value>
   </data>
   <data name="Currency_4" xml:space="preserve">
-    <value>บาท</value>
+    <value>THB</value>
   </data>
   <data name="Currency_40" xml:space="preserve">
     <value>WON</value>
@@ -337,7 +334,7 @@
     <value>Username</value>
   </data>
   <data name="lbl_UsernameTooltip" xml:space="preserve">
-    <value>For decurity, we suggest that your username does not contain your real name.</value>
+    <value>For security, we suggest that your username does not contain your real name.</value>
   </data>
   <data name="lbl_VirtualSports" xml:space="preserve">
     <value>Virtual Sports</value>

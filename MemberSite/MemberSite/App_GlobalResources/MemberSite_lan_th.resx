@@ -123,23 +123,54 @@
   <data name="lbl_Author" xml:space="preserve">
     <value />
   </data>
+  <data name="lbl_CompleteRegistration" xml:space="preserve">
+    <value>ลงทะเบียนเรียบร้อย
+</value>
+  </data>
   <data name="lbl_Copyright" xml:space="preserve">
-    <value>Copyright {0}</value>
+    <value />
   </data>
   <data name="lbl_Description" xml:space="preserve">
-    <value>online betting, sport betting, football betting, sports betting, tennis betting, golf betting, online sports betting, soccer betting, online gambling</value>
+    <value>พนันออนไลน์, พนันบอล,
+ เดิมพันฟุตบอล, เดิมพันเทนนิส, เดิมพันกอล์ฟ, เดิมพันกีฬาออนไลน์, เดิมพันบอล, การพนันออนไลน์</value>
   </data>
   <data name="lbl_Image" xml:space="preserve">
     <value />
   </data>
+  <data name="lbl_JoinNow" xml:space="preserve">
+    <value>สมัครเลย
+</value>
+  </data>
   <data name="lbl_Keywords" xml:space="preserve">
-    <value>online betting, sport betting, football betting, sports betting, tennis betting, golf betting, online sports betting, soccer betting, online gambling</value>
+    <value>พนันออนไลน์, พนันบอล,
+ เดิมพันฟุตบอล, เดิมพันเทนนิส, เดิมพันกอล์ฟ, เดิมพันกีฬาออนไลน์, เดิมพันบอล, การพนันออนไลน์</value>
+  </data>
+  <data name="lbl_LoginHere" xml:space="preserve">
+    <value>เข้าสู่ระบบที่นี่
+</value>
+  </data>
+  <data name="lbl_LoginMsg" xml:space="preserve">
+    <value>โปรดทราบว่าเราไม่อนุญาตให้มีบัญชีเกินกว่า 1 บัญชี</value>
+  </data>
+  <data name="lbl_Password" xml:space="preserve">
+    <value>รหัสผ่าน</value>
+  </data>
+  <data name="lbl_PasswordTooltip" xml:space="preserve">
+    <value>6-18 ตัวอักษรและตัวเลข(A-Z, a-z, 0-9) หรือตัวอักษรพิเศษ @$*!%#?&amp;
+</value>
+  </data>
+  <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
+    <value>หลังจากลงทะเบียนจะไม่สามารถเปลี่ยนสกุลเงินที่เลือกไว้ได้
+</value>
+  </data>
+  <data name="lbl_PrefferedCurrency" xml:space="preserve">
+    <value>สกุลเงินที่เลือก</value>
   </data>
   <data name="lbl_Title" xml:space="preserve">
     <value>Nova88</value>
   </data>
   <data name="lbl_TitleDesc" xml:space="preserve">
-    <value>World leading sportsbook. Best odds offers.</value>
+    <value>ผู้นำทางด้านการเดิมพัน. ข้อเสนอและอัตราต่อรองที่ดีที่สุด</value>
   </data>
   <data name="lbl_TitleKeywords" xml:space="preserve">
     <value />
@@ -152,5 +183,12 @@
   </data>
   <data name="lbl_URL" xml:space="preserve">
     <value />
+  </data>
+  <data name="lbl_Username" xml:space="preserve">
+    <value>ชื่อผู้ใช้</value>
+  </data>
+  <data name="lbl_UsernameTooltip" xml:space="preserve">
+    <value>เพื่อความปลอดภัยเราแนะนำให้คุณใช้ชื่อผู้ใช้
+ที่ไม่มีชื่อจริงของคุณ</value>
   </data>
 </root>
