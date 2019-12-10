@@ -15,6 +15,10 @@ namespace MemberSite.Service.BLL
         private readonly SelLangBLL selLangBLL;
         private readonly Tools tools;
 
+        Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
+            {"1","soccer" },{"2","basketball" },{"5","tennis" }
+            ,{"43","esports" },{"8","baseball" },{"161","numbergame" },{"180","virtualsports" }
+        };
         public ThirdPartyBLL(ThirdPartyService thirdPartyService, SelLangBLL selLangBLL, Tools tools)
         {
             this.thirdPartyService = thirdPartyService;
@@ -46,13 +50,26 @@ namespace MemberSite.Service.BLL
             switch (tpId)
             {
                 case 1:
+                    string SportType = null;
+                    parameters.TryGetValue("gameId", out SportType);
+
                     if (tools.IsMobile())
                     {
-                        entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}";
+                        string types = $"{SportType},0,l";
+
+                        entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}&types={types}";
                     }
                     else
                     {
-                        entryUrl = $"{entryUrl}?lang={tpLanId}";//&market=[market column]&act=[act column]&menutype=[menu column]
+                        string act = null;
+                        string gameId = null;
+
+                        if (parameters.TryGetValue("gameId", out gameId))
+                        {
+                            sportTypeDic.TryGetValue(gameId, out act);
+                        }
+
+                        entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}";
                     }
 
                     return entryUrl;

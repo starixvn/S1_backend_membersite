@@ -17,14 +17,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @functions{
-    string GetEntPageUrl(int tpId)
+    string GetEntPageUrl(int tpId, string gameId)
     {
 
         var homeUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
         var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
         var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
 
-        var entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId });
+        var entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
         if (!tools.IsMobile() && tpId == 1)
         {
             entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}');";
@@ -80,41 +80,41 @@
 
         </div>
         <div class="lobby-sport-list">
-            <a class="lobby-sport" href="@GetEntPageUrl(1)">
+            <a class="lobby-sport" href="@GetEntPageUrl(1,"1")">
                 <img src="@SkinImgPath/Lobby/Home/Sport-Soccer.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Soccer.png">
                 <div class="lobby-sport__info">
                     <span class="text">Soccer</span>
                 </div>
             </a>
-            <div class="lobby-sport">
+            <a class="lobby-sport" href="@GetEntPageUrl(1,"2")">
                 <img src="@SkinImgPath/Lobby/Home/Sport-Basketball.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Basketball.png">
                 <div class="lobby-sport__info">
                     <span class="text">Basketball</span>
                 </div>
-            </div>
-            <div class="lobby-sport">
+            </a>
+            <a class="lobby-sport" href="@GetEntPageUrl(1,"8")">
                 <img src="@SkinImgPath/Lobby/Home/Sport-Baseball.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Baseball.png">
                 <div class="lobby-sport__info">
                     <span class="text">Baseball</span>
                 </div>
-            </div>
-            <div class="lobby-sport">
+            </a>
+            <a class="lobby-sport" href="@GetEntPageUrl(1,"43")">
                 <img src="@SkinImgPath/Lobby/Home/Sport-E-Sports.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-E-Sports.png">
                 <div class="lobby-sport__info">
-                    <span class="text">E-Sports</span>
+                    <span class="text">eSports</span>
                 </div>
-            </div>
-            <div class="lobby-sport">
+            </a>
+            <a class="lobby-sport" href="@GetEntPageUrl(1,"5")">
                 <img src="@SkinImgPath/Lobby/Home/Sport-Tennis.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Tennis.png">
                 <div class="lobby-sport__info">
                     <span class="text">Tennis</span>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="lobby-product-swiper">
             <div class="swiper-wrapper">
