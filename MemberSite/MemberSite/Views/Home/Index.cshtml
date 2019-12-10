@@ -20,7 +20,7 @@
     {
 
         var homeUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: "http", host: Context.Request.Host.Host);
-        var signupUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "Register", LangId = selLangBLL.GetLangId() }, protocol: "http", host: Context.Request.Host.Host);
+        var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: "http", host: Context.Request.Host.Host);
         var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: "http", host: Context.Request.Host.Host);
         return Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId });
     }
