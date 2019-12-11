@@ -11,6 +11,7 @@ using System.Security.Claims;
 using MemberSite.Service.Library;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Configuration;
 
 namespace MemberSite.Controllers.Api
 {
@@ -25,8 +26,10 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL authorizeBLL;
         private readonly BankInfoBLL bankInfoBLL;
         private readonly WalletBLL walletBLL;
-
-        public AccountController(CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL)
+        private readonly CourierAdapter courierAdapter;
+        private readonly string apiUrl;
+        private readonly int mainWalletType;
+        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -34,6 +37,9 @@ namespace MemberSite.Controllers.Api
             this.authorizeBLL = authorizeBLL;
             this.bankInfoBLL = bankInfoBLL;
             this.walletBLL = walletBLL;
+            this.courierAdapter = courierAdapter;
+            apiUrl = configuration.GetValue<string>("TpService");
+            mainWalletType = configuration.GetValue<int>("MainWalletType");
         }
         [HttpPost]
         public async Task<ApiResult> onlineCheck()
@@ -165,13 +171,43 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<decimal> GetBalance()
+        public async Task<ApiResult<decimal>> GetBalanceAsync()
         {
             var apiResult = new ApiResult<decimal>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
-            apiResult.Data = walletBLL.GetBalance(authData.CustId);
+            apiResult.Data = mainWalletType == 1 ? walletBLL.GetBalance(authData.CustId) : await Get3rdBalanceAsync(1, authData.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;
+        }
+
+        private class UserBalance
+        {
+            public decimal balance { get; set; }
+            public decimal outstanding { get; set; }
+            public byte Currency { get; set; }
+        }
+
+        private class TpInfo
+        {
+            public int TpId { set; get; }
+            public int CustId { set; get; }
+            public Dictionary<string, string> inputs { set; get; }
+        }
+
+        /*3rd Wallter*/
+        private async Task<decimal> Get3rdBalanceAsync(int tpId, int custId)
+        {
+            var myUrl = $"{apiUrl}GetBalance";
+            var oTpInfo = new TpInfo
+            {
+                TpId = tpId,
+                CustId = custId,
+                inputs = new Dictionary<string, string>()
+            };
+
+            var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
+
+            return data.ErrorCode == 0 ? data.Data.balance : 0;
         }
 
         [HttpPost]
