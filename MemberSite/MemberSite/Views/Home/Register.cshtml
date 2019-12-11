@@ -40,7 +40,7 @@
     <div class="page page--join">
         <div class="heading">
             <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
-            <a class="btn btn-icon">
+            <a class="btn btn-icon" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() })">
                 <i class="icon icon-clear"></i>
             </a>
         </div>

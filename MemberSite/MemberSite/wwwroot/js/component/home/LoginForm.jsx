@@ -147,15 +147,17 @@ class LoginForm extends React.Component {
                         </div>*/}
                         <div className="login__item-btn">
                             <button type="submit" className="btn btn-highlight">
-                                <span className="text">Login</span>
+                                <div className="btn__inner">
+                                    <span className="text">Login</span>
+                                </div>
                             </button>
                         </div>
+                        <div className="login__item-forget">
+                            <a className="text-link">
+                                <span className="text">Forget your ID or password?</span>
+                            </a>
+                        </div>
                     </form>
-                    <div className="login__item-forget">
-                        <a className="text-link">
-                            <span className="text">Forget your ID or password?</span>
-                        </a>
-                    </div>
                 </div>
             </div>
         )
