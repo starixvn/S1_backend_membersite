@@ -36,8 +36,8 @@ class RegisterForm extends React.Component {
         currencyIdDataField.Value=defCurrencyId;
         currencyIdDataField.dropdownList=currencyList;
         formArr.push(currencyIdDataField);
-
-        this.state = { formArr: formArr};
+        // data-disabled="false"
+        this.state = { formArr: formArr, SubmitDisabled: false};
     }
     
     async handleCheckUserName(value) {
@@ -109,8 +109,10 @@ class RegisterForm extends React.Component {
         }
 
         if(!valid) {
+            this.setState({SubmitDisabled: true});
             this.forceUpdate();
         } else {
+            this.setState({SubmitDisabled: false});
             data["UserLang"] = SiteLanguage;
 
             data["refId"] = getUrlParameter("refId");
@@ -136,7 +138,7 @@ class RegisterForm extends React.Component {
             <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                 {Inputs}
                 <div className="btn-group">
-                    <button className="btn btn-secondary">
+                    <button className="btn btn-secondary" data-disabled={this.state.SubmitDisabled}>
                         <div className="btn__inner">
                             <i className="icon icon-done-circle"></i>
                             <span className="text">{i18n.lbl_CompleteRegistration}</span>
