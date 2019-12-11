@@ -68,20 +68,21 @@
     <div class="app">
         <div class="header">
             <div class="header__main">
-                <a class="btn btn-icon btn-toggle-nav">
+                <a class="btn btn-icon btn-toggle-nav" role="mobile-only">
                     <i class="icon icon-menu"></i>
                 </a>
-                <a class="header__logo" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                    <span class="logo"></span>
-                </a>
+                <div class="header__logo">
+                    <a class="logo" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() })"></a>
+                </div>
                 <div class="header__option">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-                        var CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
-                        <div class="account-info">
-                            <span class="account-info__name">@selLangBLL.GetResourceValue("lbl_Welcome") @User.Identity.Name</span>
-                            @selLangBLL.GetResourceValue($"Currency_{CurrencyId}")<span class="account-info__amount"></span><i class="icon"></i>
+                        <div class="account-info" role="mobile-only">
+                            <div class="account-info__row">
+                                <span class="account-info__name">@selLangBLL.GetResourceValue("lbl_Welcome") @User.Identity.Name</span>
+                            </div>
+                            <div id="BalancePanel">
+                            </div>
                         </div>
                     }
                     else
@@ -101,7 +102,7 @@
         <div class="footer">
             <div class="footer__nav">
                 <div class="footer__col">
-                    <div class="footer__headingUsername is no longer available.
+                    <div class="footer__heading">
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Products")</span>
                     </div>
                     <div class="footer__item">
@@ -219,11 +220,12 @@
                     <div class="side-nav__account">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-                            var CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
                             <div class="account-info">
-                                <span class="account-info__name">@selLangBLL.GetResourceValue("lbl_Welcome") @User.Identity.Name</span>
-                                @selLangBLL.GetResourceValue($"Currency_{CurrencyId}")<span class="account-info__amount"></span><i class="icon"></i>
+                                <div class="account-info__row">
+                                    <span class="account-info__name">@selLangBLL.GetResourceValue("lbl_Welcome") @User.Identity.Name</span>
+                                </div>
+                                <div id="BalancePanel1">
+                                </div>
                             </div>
                             <button id="logoutBtn" class="side-nav__btn">
                                 <i class="icon icon-logout"></i>
@@ -398,13 +400,16 @@
     <script>
             @if (User.Identity.IsAuthenticated)
             {
-
+                var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+                var CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
+                @:var i18n = { "lbl_Currency": "@selLangBLL.GetResourceValue($"Currency_{CurrencyId}")" };
             }
             else
             {
+                @:var i18n = {};
                 @:var joinNowUrl = '@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })';
             }
-        var i18n = {};
+
         $(function () {
                 var breakpoint;
                 var getBreakpoint = function () {
@@ -446,6 +451,7 @@
     {
         <script src="~/js/commJS/common.js"></script>
         <script src="~/js/commJS/Account.js"></script>
+        <script src="~/js/component/account/BalancePanel.min.js" asp-append-version="true"></script>
     }
     else
     {

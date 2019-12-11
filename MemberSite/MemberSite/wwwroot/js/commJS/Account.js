@@ -52,7 +52,7 @@
 
   $(function() {
     setTimeout(onlineCheck.bind(this), 1000);
-    getUserBalance();
+    //getUserBalance();
 
     $("#logoutBtn").on("touchstart, click", function () {
         axios.post('/api/Account/SignOut')

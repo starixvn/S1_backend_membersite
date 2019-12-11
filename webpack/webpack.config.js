@@ -15,6 +15,9 @@ module.exports = {
 		],
     "js/commJS/account.min":[
 			'../MemberSite/MemberSite/wwwroot/js/commJS/Account'
+    ],
+    "js/component/account/BalancePanel.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/account/BalancePanel.jsx'
 		]},
   output: {
     path:  path.resolve(__dirname,'../MemberSite/MemberSite/wwwroot/'),

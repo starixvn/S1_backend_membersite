@@ -433,7 +433,7 @@ template {
 }
 
 ver {
-  ver: "0 0.1-0.42426";
+  ver: "0 0.1-0.44987";
 }
 
 *,
@@ -453,6 +453,14 @@ p {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+button {
+  padding: 0;
+  color: inherit;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
 }
 
 img {
@@ -486,6 +494,14 @@ body::before {
   }
 }
 
+[data-layout=desktop] [role=mobile-only] {
+  display: none;
+}
+
+[data-layout=mobile] [role=desktop-only] {
+  display: none;
+}
+
 @media (min-width: 769px) and (max-width: 1023px) {
   [data-layout=desktop] .main {
     padding: 0;
@@ -504,10 +520,6 @@ body::before {
   min-width: 882px;
 }
 
-[data-layout=desktop] .header .btn-toggle-nav {
-  display: none;
-}
-
 [data-layout=desktop] .main--home {
   max-width: none !important;
   background-image: url("../images/Lobby/Home/Home-BG.jpg");
@@ -517,7 +529,7 @@ body::before {
 
 @font-face {
   font-family: "iconfont";
-  src: url("../font/iconfont.woff?v=20191206001") format("woff");
+  src: url("../images/UI/iconfont.woff?v=20191206001") format("woff");
 }
 
 .icon {
@@ -1263,7 +1275,7 @@ body::before {
   display: inline-flex;
   width: 72px;
   height: 72px;
-  background-image: url("../images/flag-square.png");
+  background-image: url("../images/UI/flag-square.png");
   -webkit-transform-origin: 0 0;
           transform-origin: 0 0;
 }
@@ -1272,11 +1284,11 @@ body::before {
   background-position: 33.333333333333336% 0;
 }
 
-.flag-square-CHN::before {
+.flag-square-CHN::before, .flag-square-cn::before {
   background-position: 33.333333333333336% 66.66666666666667%;
 }
 
-.flag-square-GBR::before {
+.flag-square-GBR::before, .flag-square-en::before {
   background-position: 0 33.333333333333336%;
 }
 
@@ -1288,19 +1300,19 @@ body::before {
   background-position: 66.66666666666667% 0;
 }
 
-.flag-square-IND::before {
+.flag-square-IND::before, .flag-square-id::before {
   background-position: 66.66666666666667% 33.333333333333336%;
 }
 
-.flag-square-JPN::before {
+.flag-square-JPN::before, .flag-square-jp::before {
   background-position: 0 66.66666666666667%;
 }
 
-.flag-square-KOR::before {
+.flag-square-KOR::before, .flag-square-ko::before {
   background-position: 0 0;
 }
 
-.flag-square-MYS::before {
+.flag-square-MYS::before, .flag-square-ch::before {
   background-position: 66.66666666666667% 66.66666666666667%;
 }
 
@@ -1316,11 +1328,11 @@ body::before {
   background-position: 100% 66.66666666666667%;
 }
 
-.flag-square-THA::before {
+.flag-square-THA::before, .flag-square-th::before {
   background-position: 0 100%;
 }
 
-.flag-square-VIE::before {
+.flag-square-VIE::before, .flag-square-vn::before {
   background-position: 33.333333333333336% 100%;
 }
 
@@ -1568,7 +1580,17 @@ body::before {
 }
 
 .btn .preloader {
+  padding: 0;
   border-color: currentColor;
+}
+
+.btn .preloader__spiner {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.btn .preloader__circle-1::before, .btn .preloader__circle-2::before {
+  border-width: 1px;
 }
 
 .tooltip {
@@ -1731,6 +1753,13 @@ button.btn .btn__inner {
   margin: -.125rem 0;
   width: 100%;
   min-height: 34px;
+}
+
+button.btn .btn__inner::after {
+  content: "";
+  display: block;
+  min-height: inherit;
+  font-size: 0;
 }
 
 .btn[data-hidden="true"] {
@@ -2410,12 +2439,34 @@ p + .form {
           flex-direction: column;
 }
 
+.account-info__row {
+  -webkit-flex: 0 0 auto;
+          flex: 0 0 auto;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+          align-items: center;
+  height: 1.5rem;
+}
+
 .account-info__name {
   color: #DBEAFC;
 }
 
-.account-info__name + .account-info__amount {
-  margin-top: .25rem;
+.account-info__currency {
+  margin-right: .25rem;
+}
+
+.account-info .btn {
+  margin-right: -.5rem;
+}
+
+.account-info .btn[data-refresh=false] .preloader {
+  display: none;
+}
+
+.account-info .btn[data-refresh=true] .icon-refresh {
+  display: none;
 }
 
 html, body {
@@ -2691,6 +2742,10 @@ html, body {
   width: auto;
 }
 
+.side-nav__account .side-nav__btn .icon + .text {
+  margin-left: 0;
+}
+
 .side-nav__main {
   -webkit-flex: 1;
           flex: 1;
@@ -2749,6 +2804,10 @@ html, body {
 .side-nav__hot .side-nav__btn + .side-nav__btn {
   border-left-width: 1px;
   border-left-color: #112240;
+}
+
+.side-nav__hot .side-nav__btn .icon + .text {
+  margin-left: 0;
 }
 
 [class*="side-nav__list"] {
@@ -3306,7 +3365,7 @@ html, body {
 }
 
 .login__form .tooltip {
-  margin-top: 0;
+  margin-top: -.875rem;
   width: 100%;
 }
 
