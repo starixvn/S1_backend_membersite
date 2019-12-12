@@ -17,7 +17,7 @@ namespace MemberSite.Service.BLL
 
         Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
             {"1","soccer" },{"2","basketball" },{"3","football" },{"4","icehockey" },{"5","tennis" },{"8","baseball" } ,
-            {"43","esports" },{"8","baseball" },{"161","numbergame" },{"180","virtualsports" }
+            {"43","esports" },{"161","numbergame" },{"180","virtualsports" }
         };
         public ThirdPartyBLL(ThirdPartyService thirdPartyService, SelLangBLL selLangBLL, Tools tools)
         {
