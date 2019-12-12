@@ -213,6 +213,9 @@
   <data name="lbl_Downloads" xml:space="preserve">
     <value>Downloads</value>
   </data>
+  <data name="lbl_eSports" xml:space="preserve">
+    <value>eSports</value>
+  </data>
   <data name="lbl_eSportsBetting" xml:space="preserve">
     <value>eSports Betting</value>
   </data>
@@ -224,6 +227,9 @@
   </data>
   <data name="lbl_FootballBetting" xml:space="preserve">
     <value>Football Betting</value>
+  </data>
+  <data name="lbl_Help" xml:space="preserve">
+    <value>Help</value>
   </data>
   <data name="lbl_HelpSupport" xml:space="preserve">
     <value>Help &amp; Support</value>
@@ -240,8 +246,14 @@
   <data name="lbl_JoinNow" xml:space="preserve">
     <value>Join Now</value>
   </data>
+  <data name="lbl_Keno" xml:space="preserve">
+    <value>Keno</value>
+  </data>
   <data name="lbl_Keywords" xml:space="preserve">
     <value>online betting, sport betting, football betting, sports betting, tennis betting, golf betting, online sports betting, soccer betting, online gambling</value>
+  </data>
+  <data name="lbl_LiveCasino" xml:space="preserve">
+    <value>Live Casino</value>
   </data>
   <data name="lbl_Login" xml:space="preserve">
     <value>Login</value>
@@ -257,6 +269,9 @@
   </data>
   <data name="lbl_Message" xml:space="preserve">
     <value>Message</value>
+  </data>
+  <data name="lbl_NumberGame" xml:space="preserve">
+    <value>Number Game</value>
   </data>
   <data name="lbl_OurPolicies" xml:space="preserve">
     <value>Our Policies</value>
@@ -293,6 +308,9 @@
   </data>
   <data name="lbl_SocialMedia" xml:space="preserve">
     <value>Social Media</value>
+  </data>
+  <data name="lbl_Sports" xml:space="preserve">
+    <value>Sports</value>
   </data>
   <data name="lbl_SportsBetting" xml:space="preserve">
     <value>Sports Betting</value>
@@ -338,6 +356,9 @@
   </data>
   <data name="lbl_UsernameTooltip" xml:space="preserve">
     <value>For security, we suggest that your username does not contain your real name.</value>
+  </data>
+  <data name="lbl_VirtualSports" xml:space="preserve">
+    <value>Virtual Sports</value>
   </data>
   <data name="lbl_Welcome" xml:space="preserve">
     <value>Welcome</value>
