@@ -2,6 +2,7 @@
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace MemberSite.Service.BLL
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly BankInfoOffService bankInfoService;
         private readonly CustInfoBLL custInfoBLL;
+        private readonly SysBankInfoOffComparer sysBankInfoOffComparer;
 
         public BankInfoOffBLL(IMemoryCache cache, ServerInfoBLL serverInfoBLL, BankInfoOffService bankInfoService, CustInfoBLL custInfoBLL)
         {
@@ -21,6 +23,7 @@ namespace MemberSite.Service.BLL
             this.bankInfoService = bankInfoService;
             this.cache = cache;
             this.custInfoBLL = custInfoBLL;
+            sysBankInfoOffComparer = new SysBankInfoOffComparer();
         }
 
         public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId)
@@ -33,6 +36,19 @@ namespace MemberSite.Service.BLL
             BankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
             cache.Set(sBankInfoOffListKey, BankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(2)));
             return BankInfoOffList;
+        }
+
+        private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoOff>
+        {
+            public bool Equals(SysBankInfoOff t1, SysBankInfoOff t2)
+            {
+                return (t1.SysId == t2.SysId && t1.BankId == t2.BankId);
+            }
+
+            public int GetHashCode(SysBankInfoOff t)
+            {
+                return t.ToString().GetHashCode();
+            }
         }
 
         public IEnumerable<SysBankInfoOff> GetBankInfoOffList(int custId)
@@ -50,7 +66,7 @@ namespace MemberSite.Service.BLL
                              BankLogo = x.BankLogo,
                              BankName = x.BankName,
                              BankSite = x.BankSite,
-                         }).Distinct().ToList();
+                         }).Distinct(sysBankInfoOffComparer).ToList();
 
             for (var i = 0; i < _info.Count(); i++)
             {
@@ -60,7 +76,7 @@ namespace MemberSite.Service.BLL
                               {
                                   x.MinAmount,
                                   x.MaxAmount
-                              }).OrderByDescending(x => x.MaxAmount == 0 ? decimal.MaxValue : x.MaxAmount).ThenBy(x => x.MinAmount).Distinct().FirstOrDefault();
+                              }).OrderByDescending(x => x.MaxAmount == 0 ? decimal.MaxValue : x.MaxAmount).ThenBy(x => x.MinAmount).FirstOrDefault();
 
                 _info[i].MinAmount = _info1.MinAmount;
                 _info[i].MaxAmount = _info1.MaxAmount;
