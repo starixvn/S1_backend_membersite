@@ -16,7 +16,8 @@ namespace MemberSite.Service.BLL
         Dictionary<string, int> LangMapCurr =
         new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
         {
-            {"vn", 51}, {"th", 4}
+            {"th", 4}, {"cs", 13}, {"ch", 13}, {"id", 15}, {"jp", 32}, 
+            {"ko", 45}, {"vn", 51},{"hi", 61}
         };
 
         private readonly ServerInfoBLL serverInfoBLL;
@@ -86,13 +87,37 @@ namespace MemberSite.Service.BLL
 
             if (string.IsNullOrEmpty(langId) && !string.IsNullOrEmpty(firstLang))
             {
-                if (firstLang.StartsWith("th", StringComparison.OrdinalIgnoreCase))
+                if (firstLang.StartsWith("zh", StringComparison.OrdinalIgnoreCase))
+                {
+                    langId = "cs";
+                }
+                else if (firstLang.StartsWith("th", StringComparison.OrdinalIgnoreCase))
                 {
                     langId = "th";
                 }
                 else if (firstLang.StartsWith("vi", StringComparison.OrdinalIgnoreCase))
                 {
                     langId = "vn";
+                }
+                else if (firstLang.StartsWith("id", StringComparison.OrdinalIgnoreCase))
+                {
+                    langId = "id";
+                }
+                else if (firstLang.StartsWith("jp", StringComparison.OrdinalIgnoreCase))
+                {
+                    langId = "jp";
+                }
+                else if (firstLang.StartsWith("ko", StringComparison.OrdinalIgnoreCase))
+                {
+                    langId = "ko";
+                }
+                else if (firstLang.StartsWith("pa", StringComparison.OrdinalIgnoreCase))
+                {
+                    langId = "hi";
+                }
+                else if (firstLang.StartsWith("ta", StringComparison.OrdinalIgnoreCase))
+                {
+                    langId = "hi";
                 }
                 else if (firstLang.StartsWith("en", StringComparison.OrdinalIgnoreCase))
                 {
