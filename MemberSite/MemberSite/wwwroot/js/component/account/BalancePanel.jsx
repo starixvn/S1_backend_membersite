@@ -1,4 +1,4 @@
-import {number_format} from '../commJS/common';;
+import {number_format} from '../commJS/common';
 
 (function ($, React, ReactDOM, i18n, axios) {
 

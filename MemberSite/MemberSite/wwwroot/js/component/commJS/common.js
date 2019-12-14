@@ -3,7 +3,7 @@ export function getUrlParameter(name) {
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)','i');
     var results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-};
+}
 
 export function number_format(n) {
     n += "";
