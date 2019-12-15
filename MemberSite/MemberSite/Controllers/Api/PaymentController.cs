@@ -38,6 +38,15 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        [HttpPost]
+        public ApiResult<IEnumerable<dynamic>> GetDepositInfoRecent()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<dynamic>>();
+            apiResult.Data = paymentBLL.GetDepositInfoRecent(authData.CustId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
         public class DepositReqWireTransferReq
         {
             public int sysId { set; get; }

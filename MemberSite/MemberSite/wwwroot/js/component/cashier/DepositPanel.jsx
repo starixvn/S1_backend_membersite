@@ -1,13 +1,85 @@
 ﻿import {DataField, InputBox} from '../commJS/InputBox.jsx';
 import * as Loading from '../commJS/Loading.jsx';
+import {number_format} from '../commJS/common';
 
-(function ($, React, ReactDOM, i18n, axios) {
+(function ($, React, ReactDOM, i18n, axios, moment) {
+    class RecentHistoryBody extends React.Component {
+        render() {
+            let data = this.props.Data;
+            let rows = data.map(function( item ,index ) { 
+
+                return <div className="tr" key={index}>
+                    <div className="td-date" data-title="Date" role="mobile-click">
+                        <span className="text">{moment(item.CreateTime).format("YYYY/MM/DD")}</span>
+                        <i className="icon icon-caret"></i>
+                    </div>
+                    <div className="td-time" data-title="Time">
+                        <span className=" text">{moment(item.CreateTime).format("HH:mm:ss")}</span>
+                    </div>
+                    <div className="td-id" data-title="ID">
+                        <span className=" text">{item.TransId}</span>
+                    </div>
+                    <div className="td-method" data-title="Method">
+                        <span className=" text">{item.DepositType}</span>
+                    </div>
+                    <div className="td-amount" data-title="Amount">
+                        <span className=" text">{number_format(item.Amount.toFixed(2))}</span>
+                    </div>
+                    <div className="td-status" data-title="Status">
+                        <span className=" text">{item.Status}</span>
+                    </div>
+            </div>;
+                }.bind(this));
+
+                let dateStr = moment(data[0].CreateTime).format("YYYY/MM/DD");
+            return (
+                <div className="tbody" data-date={dateStr} data-open="true">
+                    {rows}
+                </div>
+            )
+        }
+    }        
+
     class RecentHistory extends React.Component {
         constructor(props) {
             super(props);
+            this.state={Data: null};
         }        
 
+        componentDidMount() {
+            axios.post('/api/Payment/GetDepositInfoRecent')
+            .then(function (response) {
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    this.setState({Data: result.data});
+                } else {
+                    alert(result.message);
+                }
+            }.bind(this)).catch(function (error) {
+                alert(error);
+            }.bind(this));
+        }
+
         render() {
+            let data=this.state.Data;
+            let bodyData = null;
+            if(data!=null){
+                let dataContainer=[];
+                for(let i=0;i < data.length;i++){
+                    let row = data[i];
+                    let mDate = moment(row.CreateTime);
+                    let sDate = mDate.format("YYYYMMDD");
+                    if(dataContainer.length==0 || dataContainer[dataContainer.length-1].Date != sDate) {
+                        dataContainer.push({Date:sDate, Data:[row]});
+                    } else {
+                        dataContainer[dataContainer.length-1].Data.push(row);
+                    }
+                }
+
+                bodyData = dataContainer.map(function( item ,index ) { 
+                    return <RecentHistoryBody key={index} Data={item.Data}/>;
+                }.bind(this));
+            }
 
             return (
                 <div className="table table-rwd table-primary">
@@ -35,9 +107,6 @@ import * as Loading from '../commJS/Loading.jsx';
                         <div className="td-method" data-title="Method">
                             <span className=" text">Method</span>
                         </div>
-                        <div className="td-type" data-title="Type">
-                            <span className=" text">Type</span>
-                        </div>
                         <div className="td-amount" data-title="Amount">
                             <span className=" text">Amount</span>
                         </div>
@@ -46,275 +115,7 @@ import * as Loading from '../commJS/Loading.jsx';
                         </div>
                     </div>
                 </div>
-                <div className="tbody" data-date="2019/12/05" data-open="true">
-                    <div className="tr">
-                        <div className="td-date" data-title="Date" role="mobile-click">
-                            <span className="text">2019/12/05</span>
-                            <i className="icon icon-caret"></i>
-                        </div>
-                        <div className="td-time" data-title="Time">
-                            <span className=" text">09:39 AM</span>
-                        </div>
-                        <div className="td-id" data-title="ID">
-                            <span className=" text">JISHir76476re76fyuf</span>
-                        </div>
-                        <div className="td-method" data-title="Method">
-                            <span className=" text">Wire Transfer</span>
-                        </div>
-                        <div className="td-type" data-title="Type">
-                            <span className=" text">Withdrawal</span>
-                        </div>
-                        <div className="td-amount" data-title="Amount">
-                            <span className=" text">200</span>
-                        </div>
-                        <div className="td-status" data-title="Status">
-                            <span className=" text">Success</span>
-                        </div>
-
-                    </div>
-                    <div className="tr row-even">
-
-                        <div className="td-date" data-title="Date">
-
-                            <span className=" text">2019/12/05</span>
-
-                            <i className="icon icon-caret"></i>
-                        </div>
-
-
-                        <div className="td-time" data-title="Time">
-
-                            <span className=" text">09:39 AM</span>
-
-
-                        </div>
-
-
-                        <div className="td-id" data-title="ID">
-
-                            <span className=" text">JISHir76476re76fyuf</span>
-
-
-                        </div>
-
-
-                        <div className="td-method" data-title="Method">
-
-                            <span className=" text">Wire Transfer</span>
-
-
-                        </div>
-
-
-                        <div className="td-type" data-title="Type">
-
-                            <span className=" text">Withdrawal</span>
-
-
-                        </div>
-
-
-                        <div className="td-amount" data-title="Amount">
-
-                            <span className=" text">1,000</span>
-
-
-                        </div>
-
-
-                        <div className="td-status" data-title="Status">
-
-                            <span className=" text">Success</span>
-
-
-                        </div>
-
-                    </div>
-                </div>
-                <div className="tbody" data-date="2019/12/06" data-open="false">
-                    <div className="tr">
-
-                        <div className="td-date" data-title="Date" role="mobile-click">
-
-                            <span className="text">2019/12/06</span>
-
-                            <i className="icon icon-caret"></i>
-                        </div>
-
-
-                        <div className="td-time" data-title="Time">
-
-                            <span className=" text">09:39 AM</span>
-
-
-                        </div>
-
-
-                        <div className="td-id" data-title="ID">
-
-                            <span className=" text">JISHir76476re76fyuf</span>
-
-
-                        </div>
-
-
-                        <div className="td-method" data-title="Method">
-
-                            <span className=" text">Wire Transfer</span>
-
-
-                        </div>
-
-
-                        <div className="td-type" data-title="Type">
-
-                            <span className=" text">Deposit</span>
-
-
-                        </div>
-
-
-                        <div className="td-amount" data-title="Amount">
-
-                            <span className=" text">5,000</span>
-
-
-                        </div>
-
-
-                        <div className="td-status" data-title="Status">
-
-                            <a className=" text-link" href="#">
-                                <span className="text">Pending</span>
-                            </a>
-
-
-                        </div>
-
-                    </div>
-                </div>
-                <div className="tbody" data-date="2019/12/07" data-open="false">
-                    <div className="tr row-even">
-
-                        <div className="td-date" data-title="Date" role="mobile-click">
-
-                            <span className="text">2019/12/07</span>
-
-                            <i className="icon icon-caret"></i>
-                        </div>
-
-
-                        <div className="td-time" data-title="Time">
-
-                            <span className=" text">09:39 AM</span>
-
-
-                        </div>
-
-
-                        <div className="td-id" data-title="ID">
-
-                            <span className=" text">JISHir76476re76fyuf</span>
-
-
-                        </div>
-
-
-                        <div className="td-method" data-title="Method">
-
-                            <span className=" text">Wire Transfer</span>
-
-
-                        </div>
-
-
-                        <div className="td-type" data-title="Type">
-
-                            <span className=" text">Deposit</span>
-
-
-                        </div>
-
-
-                        <div className="td-amount" data-title="Amount">
-
-                            <span className=" text">5,000</span>
-
-
-                        </div>
-
-
-                        <div className="td-status" data-title="Status">
-
-                            <a className=" text-link" href="#">
-                                <span className="text">Pending</span>
-                            </a>
-
-
-                        </div>
-
-                    </div>
-                    <div className="tr">
-
-                        <div className="td-date" data-title="Date">
-
-                            <span className=" text">2019/12/07</span>
-
-                            <i className="icon icon-caret"></i>
-                        </div>
-
-
-                        <div className="td-time" data-title="Time">
-
-                            <span className=" text">09:39 AM</span>
-
-
-                        </div>
-
-
-                        <div className="td-id" data-title="ID">
-
-                            <span className=" text">JISHir76476re76fyuf</span>
-
-
-                        </div>
-
-
-                        <div className="td-method" data-title="Method">
-
-                            <span className=" text">Wire Transfer</span>
-
-
-                        </div>
-
-
-                        <div className="td-type" data-title="Type">
-
-                            <span className=" text">Deposit</span>
-
-
-                        </div>
-
-
-                        <div className="td-amount" data-title="Amount">
-
-                            <span className=" text">5,000</span>
-
-
-                        </div>
-
-
-                        <div className="td-status" data-title="Status">
-
-                            <a className=" text-link" href="#">
-                                <span className="text">Pending</span>
-                            </a>
-
-
-                        </div>
-
-                    </div>
-                </div>
+                {bodyData}
             </div>
             )
         }
@@ -371,7 +172,7 @@ import * as Loading from '../commJS/Loading.jsx';
                         <span className="text">{data.bankName}</span>
                         {data.minAmount == 0 && data.maxAmount == 0 ? 
                             <span className="text">{"( Limit : "}<span className="text-accent">{"unlimited."}</span></span>
-                        : <span className="text">{"( Limit : "}<span className="text-accent">{data.minAmount}</span>{" ~ "}<span className="text-accent">{data.maxAmount}</span>{" )"}</span>
+                        : <span className="text">{"( Limit : "}<span className="text-accent">{number_format(data.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(data.maxAmount)}</span>{" )"}</span>
                         }
                     </div>
                 </div>                
@@ -388,7 +189,7 @@ import * as Loading from '../commJS/Loading.jsx';
                                     <span className="text">{PickBankInfoOff.bankName}</span>
                                     {PickBankInfoOff.minAmount == 0 && PickBankInfoOff.maxAmount == 0 ? 
                                         <span className="text">{"( Limit : "}<span className="text-accent">{"unlimited."}</span></span>
-                                    : <span className="text">{"( Limit : "}<span className="text-accent">{PickBankInfoOff.minAmount}</span>{" ~ "}<span className="text-accent">{PickBankInfoOff.maxAmount}</span>{" )"}</span>
+                                    : <span className="text">{"( Limit : "}<span className="text-accent">{number_format(PickBankInfoOff.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(PickBankInfoOff.maxAmount)}</span>{" )"}</span>
                                     }
                                 </div>
                                 <i className="icon icon-caret"></i>
@@ -467,7 +268,7 @@ import * as Loading from '../commJS/Loading.jsx';
                     message = "Can't Be 0.";
                 } else if((PickBankInfoOff.minAmount != 0 && PickBankInfoOff.maxAmount != 0) && (value > PickBankInfoOff.maxAmount || value < PickBankInfoOff.minAmount) ) {
                     status = 2;
-                    message = value + " not in Limit.";
+                    message = number_format(value) + " not in Limit.";
                 } else {
                     status = 3;
                     message = "";
@@ -652,4 +453,4 @@ import * as Loading from '../commJS/Loading.jsx';
     }
     
     ReactDOM.render(<DepositPanel/>,document.getElementById('DepositPanel'));
-    })(jQuery, React, ReactDOM, i18n, axios);
+    })(jQuery, React, ReactDOM, i18n, axios, moment);

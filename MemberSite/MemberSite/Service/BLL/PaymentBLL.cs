@@ -120,5 +120,11 @@ namespace MemberSite.Service.BLL
 
             return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.SiteId, amount, memo, withdrawalInfo, out afterAmount, out transId);
         }
+
+        public IEnumerable<dynamic> GetDepositInfoRecent(int custId)
+        {
+            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            return depoistService.GetDepositInfoRecent(custId, CustInfo.SiteId, 5);
+        }
     }
 }

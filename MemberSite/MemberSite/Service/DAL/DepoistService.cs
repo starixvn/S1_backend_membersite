@@ -44,5 +44,11 @@ namespace MemberSite.Service.DAL
                 }
             }
         }
+
+        public IEnumerable<dynamic> GetDepositInfoRecent(int custId, int siteId, int topNum)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Query<dynamic>("DepositInfoRecent_Get", new { CustId = custId, SiteId = siteId, TopNum = topNum }, commandType: CommandType.StoredProcedure);
+        }
     }
 }
