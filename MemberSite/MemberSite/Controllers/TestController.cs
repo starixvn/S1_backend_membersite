@@ -79,7 +79,7 @@ namespace MemberSite.Controllers
             string token = "";
             //var a = custInfoBLL.UserLogin(customer.UserName, customer.SiteId, customer.Userpwd, tools.GetClientIP(this.HttpContext), tools.GetFromUrl(this.HttpContext), Request.Headers["User-Agent"], ref customer, out token);
             DepositDetailInfo depositDetailInfo = new DepositDetailInfo();
-            depositDetailInfo.DispositType = 2;
+            depositDetailInfo.DepositType = 2;
             depositDetailInfo.CustId = customer.CustId;
             depositDetailInfo.SiteId = customer.SiteId;
             depositDetailInfo.UserName = customer.UserName;

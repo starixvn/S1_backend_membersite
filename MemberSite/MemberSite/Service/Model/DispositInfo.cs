@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace MemberSite.Service.Model
 {
 
-    public interface IDispositInfo
+    public interface IDepositInfo
     {
         int Ver { get; set; }
     }
@@ -14,26 +14,26 @@ namespace MemberSite.Service.Model
     {
         public int DepositId { get; set; }
         public string TransId { get; set; }
-        public int DispositType { get; set; }
+        public int DepositType { get; set; }
         public int CustId { get; set; }
         public string UserName { get; set; }
         public int SiteId { get; set; }
-        public string DispositInfo { get; set; }
+        public string DepositInfo { get; set; }
         public decimal Amount { get; set; }
         public decimal ActualDeposit { get; set; }
         public string Memo { get; set; }
         public string PostScript { get; set; }
         public int Status { get; set; }
     }
-    public class DispositInfo1_1 : IDispositInfo
+    public class DepositInfo1_1 : IDepositInfo
     {
         public int Ver { get; set; }
     }
-    public class DispositInfo2_1 : IDispositInfo
+    public class DepositInfo2_1 : IDepositInfo
     {
         public int Ver { get; set; }
     }
-    public class DispositInfo3_1 : IDispositInfo
+    public class DepositInfo3_1 : IDepositInfo
     {
         public int Ver { get; set; }
         public int SysId { get; set; }

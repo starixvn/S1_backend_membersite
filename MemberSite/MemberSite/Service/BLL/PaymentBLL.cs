@@ -50,25 +50,25 @@ namespace MemberSite.Service.BLL
                 DepositDetailInfo depositDetailInfo = new DepositDetailInfo();
                 depositDetailInfo.Amount = amount;
                 depositDetailInfo.CustId = custId;
-                depositDetailInfo.DispositType = (int)DispositType.WireTransfer;
+                depositDetailInfo.DepositType = (int)DepositType.WireTransfer;
                 depositDetailInfo.Memo = memo;
                 depositDetailInfo.SiteId = custInfo.SiteId;
                 depositDetailInfo.UserName = custInfo.UserName;
 
-                DispositInfo3_1 dispositInfo3_1 = new DispositInfo3_1();
-                dispositInfo3_1.AccountName = _info.AccountName;
-                dispositInfo3_1.SysId = _info.SysId;
-                dispositInfo3_1.AccountNo = _info.AccountNo;
-                dispositInfo3_1.Ver = 1;
-                depositDetailInfo.DispositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(dispositInfo3_1);
+                DepositInfo3_1 depositInfo3_1 = new DepositInfo3_1();
+                depositInfo3_1.AccountName = _info.AccountName;
+                depositInfo3_1.SysId = _info.SysId;
+                depositInfo3_1.AccountNo = _info.AccountNo;
+                depositInfo3_1.Ver = 1;
+                depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
                 string transId = null;
                 string postScript = null;
 
                 depoistService.DepositReq(depositDetailInfo, out transId, out postScript);
                 depositRep3.transId = transId;
                 depositRep3.postScript = postScript;
-                depositRep3.AccountNo = dispositInfo3_1.AccountNo;
-                depositRep3.AccountName = dispositInfo3_1.AccountName;
+                depositRep3.AccountNo = depositInfo3_1.AccountNo;
+                depositRep3.AccountName = depositInfo3_1.AccountName;
 
                 return 0;
             }

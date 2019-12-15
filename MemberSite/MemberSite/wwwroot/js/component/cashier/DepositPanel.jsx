@@ -2,6 +2,324 @@
 import * as Loading from '../commJS/Loading.jsx';
 
 (function ($, React, ReactDOM, i18n, axios) {
+    class RecentHistory extends React.Component {
+        constructor(props) {
+            super(props);
+        }        
+
+        render() {
+
+            return (
+                <div className="table table-rwd table-primary">
+
+                <div className="caption">
+                    <span className="text">Recent Transactions</span>
+
+                    <a className="text-link" href="#">
+                        <span className="text">All Transcations</span>
+                        <i className="icon icon-arrow-right"></i>
+                    </a>
+
+                </div>
+                <div className="thead">
+                    <div className="tr">
+                        <div className="td-date" data-title="Date">
+                            <span className=" text">Date</span>
+                        </div>
+                        <div className="td-time" data-title="Time">
+                            <span className=" text">Time</span>
+                        </div>
+                        <div className="td-id" data-title="ID">
+                            <span className=" text">ID</span>
+                        </div>
+                        <div className="td-method" data-title="Method">
+                            <span className=" text">Method</span>
+                        </div>
+                        <div className="td-type" data-title="Type">
+                            <span className=" text">Type</span>
+                        </div>
+                        <div className="td-amount" data-title="Amount">
+                            <span className=" text">Amount</span>
+                        </div>
+                        <div className="td-status" data-title="Status">
+                            <span className=" text">Status</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="tbody" data-date="2019/12/05" data-open="true">
+                    <div className="tr">
+                        <div className="td-date" data-title="Date" role="mobile-click">
+                            <span className="text">2019/12/05</span>
+                            <i className="icon icon-caret"></i>
+                        </div>
+                        <div className="td-time" data-title="Time">
+                            <span className=" text">09:39 AM</span>
+                        </div>
+                        <div className="td-id" data-title="ID">
+                            <span className=" text">JISHir76476re76fyuf</span>
+                        </div>
+                        <div className="td-method" data-title="Method">
+                            <span className=" text">Wire Transfer</span>
+                        </div>
+                        <div className="td-type" data-title="Type">
+                            <span className=" text">Withdrawal</span>
+                        </div>
+                        <div className="td-amount" data-title="Amount">
+                            <span className=" text">200</span>
+                        </div>
+                        <div className="td-status" data-title="Status">
+                            <span className=" text">Success</span>
+                        </div>
+
+                    </div>
+                    <div className="tr row-even">
+
+                        <div className="td-date" data-title="Date">
+
+                            <span className=" text">2019/12/05</span>
+
+                            <i className="icon icon-caret"></i>
+                        </div>
+
+
+                        <div className="td-time" data-title="Time">
+
+                            <span className=" text">09:39 AM</span>
+
+
+                        </div>
+
+
+                        <div className="td-id" data-title="ID">
+
+                            <span className=" text">JISHir76476re76fyuf</span>
+
+
+                        </div>
+
+
+                        <div className="td-method" data-title="Method">
+
+                            <span className=" text">Wire Transfer</span>
+
+
+                        </div>
+
+
+                        <div className="td-type" data-title="Type">
+
+                            <span className=" text">Withdrawal</span>
+
+
+                        </div>
+
+
+                        <div className="td-amount" data-title="Amount">
+
+                            <span className=" text">1,000</span>
+
+
+                        </div>
+
+
+                        <div className="td-status" data-title="Status">
+
+                            <span className=" text">Success</span>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div className="tbody" data-date="2019/12/06" data-open="false">
+                    <div className="tr">
+
+                        <div className="td-date" data-title="Date" role="mobile-click">
+
+                            <span className="text">2019/12/06</span>
+
+                            <i className="icon icon-caret"></i>
+                        </div>
+
+
+                        <div className="td-time" data-title="Time">
+
+                            <span className=" text">09:39 AM</span>
+
+
+                        </div>
+
+
+                        <div className="td-id" data-title="ID">
+
+                            <span className=" text">JISHir76476re76fyuf</span>
+
+
+                        </div>
+
+
+                        <div className="td-method" data-title="Method">
+
+                            <span className=" text">Wire Transfer</span>
+
+
+                        </div>
+
+
+                        <div className="td-type" data-title="Type">
+
+                            <span className=" text">Deposit</span>
+
+
+                        </div>
+
+
+                        <div className="td-amount" data-title="Amount">
+
+                            <span className=" text">5,000</span>
+
+
+                        </div>
+
+
+                        <div className="td-status" data-title="Status">
+
+                            <a className=" text-link" href="#">
+                                <span className="text">Pending</span>
+                            </a>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div className="tbody" data-date="2019/12/07" data-open="false">
+                    <div className="tr row-even">
+
+                        <div className="td-date" data-title="Date" role="mobile-click">
+
+                            <span className="text">2019/12/07</span>
+
+                            <i className="icon icon-caret"></i>
+                        </div>
+
+
+                        <div className="td-time" data-title="Time">
+
+                            <span className=" text">09:39 AM</span>
+
+
+                        </div>
+
+
+                        <div className="td-id" data-title="ID">
+
+                            <span className=" text">JISHir76476re76fyuf</span>
+
+
+                        </div>
+
+
+                        <div className="td-method" data-title="Method">
+
+                            <span className=" text">Wire Transfer</span>
+
+
+                        </div>
+
+
+                        <div className="td-type" data-title="Type">
+
+                            <span className=" text">Deposit</span>
+
+
+                        </div>
+
+
+                        <div className="td-amount" data-title="Amount">
+
+                            <span className=" text">5,000</span>
+
+
+                        </div>
+
+
+                        <div className="td-status" data-title="Status">
+
+                            <a className=" text-link" href="#">
+                                <span className="text">Pending</span>
+                            </a>
+
+
+                        </div>
+
+                    </div>
+                    <div className="tr">
+
+                        <div className="td-date" data-title="Date">
+
+                            <span className=" text">2019/12/07</span>
+
+                            <i className="icon icon-caret"></i>
+                        </div>
+
+
+                        <div className="td-time" data-title="Time">
+
+                            <span className=" text">09:39 AM</span>
+
+
+                        </div>
+
+
+                        <div className="td-id" data-title="ID">
+
+                            <span className=" text">JISHir76476re76fyuf</span>
+
+
+                        </div>
+
+
+                        <div className="td-method" data-title="Method">
+
+                            <span className=" text">Wire Transfer</span>
+
+
+                        </div>
+
+
+                        <div className="td-type" data-title="Type">
+
+                            <span className=" text">Deposit</span>
+
+
+                        </div>
+
+
+                        <div className="td-amount" data-title="Amount">
+
+                            <span className=" text">5,000</span>
+
+
+                        </div>
+
+
+                        <div className="td-status" data-title="Status">
+
+                            <a className=" text-link" href="#">
+                                <span className="text">Pending</span>
+                            </a>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            )
+        }
+    }
+
     class BankInfoOffDropdown extends React.Component {
         constructor(props) {
             super(props);
@@ -300,7 +618,8 @@ import * as Loading from '../commJS/Loading.jsx';
                             </a>
                         </div>
                     </div>
-                </div>                
+                </div>
+                <RecentHistory/>        
             </div>                
             )
         }

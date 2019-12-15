@@ -21,7 +21,7 @@ namespace MemberSite.Service.Model.enums
         Suspend = 2,
         Closed = 3,
     }
-    public enum DispositType
+    public enum DepositType
     {
         OnlineBanking = 1,
         MobilePayment = 2,
