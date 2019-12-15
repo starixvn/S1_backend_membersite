@@ -28,7 +28,7 @@ namespace MemberSite.Controllers.Api
             this.custInfoBLL = custInfoBLL;
         }
 
-        [HttpGet]
+        [HttpPost]
         public ApiResult<IEnumerable<SysBankInfoOff>> GetBankInfoOffList()
         {
             var authData = authorizeBLL.GetAuthData();

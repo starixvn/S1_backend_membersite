@@ -25,7 +25,7 @@ class RegisterForm extends React.Component {
         userpwdDataField.tooltip=i18n.lbl_PasswordTooltip;
         userpwdDataField.status=1;
         userpwdDataField.objectType=2;
-        userpwdDataField.handleCheck = this.handleCheckUserpwd.bind(this);        
+        userpwdDataField.handleCheck = this.handleCheckUserpwd.bind(this);    
         userpwdDataField.Value="";
         formArr.push(userpwdDataField);
 

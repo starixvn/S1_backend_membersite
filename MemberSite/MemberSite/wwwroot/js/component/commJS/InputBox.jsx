@@ -5,11 +5,11 @@
     _displayName="";
     _placeholder="";
     _dataStatus={"1":"info","2":"error","3":"valid","4":"readOnly"};
-    _objectType=1;/*1. Text,2. Password,3. dropdownList, 4. Email */
+    _objectType=1;/*1. Text,2. Password,3. dropdownList, 4. Email, 5.Number */
     _Value=null;
     _dropdownList=[];
     _handleCheck=null;
-    _typeStr={1:"text",4:"email"};
+    _typeStr={1:"text",4:"email",5:"number"};
 
     constructor(name) {
         this._name=name;
@@ -121,7 +121,7 @@ export class InputBox extends React.Component {
 
     onDropdown(event) {
         let node = event.target;
-        let parentNode = node.parentNode;;
+        let parentNode = node.parentNode;
         if(node.className != "btn btn-icon btn-form-status" && (parentNode!=undefined && parentNode.className != "btn btn-icon btn-form-status")) {
             this.setState({dropdown:!this.state.dropdown}, function() {
                 if(this.state.dropdown){
