@@ -1,4 +1,5 @@
 ﻿import {DataField, InputBox} from '../commJS/InputBox.jsx';
+import * as Loading from '../commJS/Loading.jsx';
 import {getUrlParameter} from '../commJS/common';
 (function ($, React, ReactDOM, i18n, axios) {
 
@@ -78,6 +79,10 @@ class LoginForm extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
+        this.setState({popLoginForm: false}, function() {
+                Loading.OnLoading();
+            }
+        );
         let data = {};
         let valid = true;
         for(var i=0; i < this.state.formArr.length; i++){
@@ -92,19 +97,24 @@ class LoginForm extends React.Component {
         }
 
         if(!valid) {
-            this.forceUpdate();
+            Loading.UnLoading();
+            this.setState({popLoginForm: true});
         } else {
             axios.post('/api/Site/SignIn', data)
             .then(function (response) {
+                Loading.UnLoading();
                 let result = response.data;
                 if (result.errorCode == 0) {
                     window.location.replace(result.message);
                 } else {
                     alert(result.message);
+                    this.setState({popLoginForm: true});
                 }
-            }).catch(function (error) {
+            }.bind(this)).catch(function (error) {
+                Loading.UnLoading();
                 alert(error);
-            });
+                this.setState({popLoginForm: true});
+            }.bind(this));
         }
     }
 

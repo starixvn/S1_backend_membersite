@@ -365,12 +365,16 @@
     <script src="~/lib/axios.min.js"></script>
     @if (environment.EnvironmentName == "Development")
     {
-        <script src="~/lib/es6-promise.min.js"></script>
-        <script src="~/lib/es6-promise.auto.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
-        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js" integrity="sha256-FiZMk1zgTeujzf/+vomWZGZ9r00+xnGvOgXoj0Jo1jA=" crossorigin="anonymous"></script>
+        if (!tools.IsMobile())
+        {
+            <script src="~/lib/es6-promise.min.js"></script>
+            <script src="~/lib/es6-promise.auto.min.js"></script>
+        }
+
+        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+        <script src="~/lib/react.development.js"></script>
+        <script src="~/lib/react-dom.development.js"></script>
+        <script src="~/lib/babel.min.js"></script>
         @*<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>*@
     }
     else
@@ -378,8 +382,11 @@
         <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
         <script src="~/lib/react.production.min.js"></script>
         <script src="~/lib/react-dom.production.min.js"></script>
-        <script src="~/lib/es6-promise.min.js"></script>
-        <script src="~/lib/es6-promise.auto.min.js"></script>
+        if (!tools.IsMobile())
+        {
+            <script src="~/lib/es6-promise.min.js"></script>
+            <script src="~/lib/es6-promise.auto.min.js"></script>
+        }
     }
 
     <script>

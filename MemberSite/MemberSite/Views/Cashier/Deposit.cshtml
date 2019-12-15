@@ -1,0 +1,24 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Hosting
+@using MemberSite.Service.BLL
+@inject IWebHostEnvironment environment
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = "Deposit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Style{
+
+}
+<div id="DepositPanel">
+
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(null)));
+    </script>
+
+    <script src="~/lib/runtime.min.js"></script>
+    <script src="~/js/component/cashier/depositPanel.min.js" asp-append-version="true"></script>
+}

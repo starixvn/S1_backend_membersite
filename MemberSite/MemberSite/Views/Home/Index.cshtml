@@ -58,22 +58,20 @@
             </div>
             @if (User.Identity.IsAuthenticated)
             {
-                <div class="lobby-quicklink">
+                <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
                     <div class="lobby-quicklink__info">
                         <i class="icon icon-deposit-bank"></i>
                         <span class="text-title">Deposit Now</span><span class="text">Various Banking Options</span>
                     </div><i class="icon icon-arrow-right"></i>
-                </div>
+                </a>
             }
             else
             {
-                <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                    <div class="lobby-quicklink">
-                        <div class="lobby-quicklink__info">
-                            <i class="icon icon-join-now"></i>
-                            <span class="text-title">Join Now</span><span class="text">Click here for bonus</span>
-                        </div><i class="icon icon-arrow-right"></i>
-                    </div>
+                <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
+                    <div class="lobby-quicklink__info">
+                        <i class="icon icon-join-now"></i>
+                        <span class="text-title">Join Now</span><span class="text">Click here for bonus</span>
+                    </div><i class="icon icon-arrow-right"></i>
                 </a>
             }
 

@@ -1,5 +1,6 @@
 ﻿import {DataField, InputBox} from '../commJS/InputBox.jsx';
 import {getUrlParameter} from '../commJS/common';
+import * as Loading from '../commJS/Loading.jsx';
 
 (function ($, React, ReactDOM, i18n, axios) {
 
@@ -95,6 +96,7 @@ class RegisterForm extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
+        Loading.OnLoading();
         let data = {};
         let valid = true;
         for(var i=0; i < this.state.formArr.length; i++){
@@ -109,8 +111,8 @@ class RegisterForm extends React.Component {
         }
 
         if(!valid) {
+            Loading.UnLoading();
             this.setState({SubmitDisabled: true});
-            this.forceUpdate();
         } else {
             this.setState({SubmitDisabled: false});
             data["UserLang"] = SiteLanguage;
@@ -119,6 +121,7 @@ class RegisterForm extends React.Component {
 
             axios.post('/api/Site/Register', data)
             .then(function (response) {
+                Loading.UnLoading();
                 let result = response.data;
                 if (result.errorCode == 0) {
                     window.location.replace(result.message);
@@ -126,6 +129,7 @@ class RegisterForm extends React.Component {
                     alert(result.message);
                 }
             }).catch(function (error) {
+                Loading.UnLoading();
                 alert(error);
             });
         }
