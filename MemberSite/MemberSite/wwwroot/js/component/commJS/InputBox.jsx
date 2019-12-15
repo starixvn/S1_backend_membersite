@@ -182,7 +182,7 @@ export class InputBox extends React.Component {
                 let __Value = this._dataField.Value;
                 ShowPwdBtn = __Value&&__Value.length>0 ? <a className="btn btn-icon btn-form-togglepw" data-visibility={!this.state.ShowPwd} onClick={this.onShowPwd.bind(this)}><i className="icon icon--lg"></i></a>:null;
             }
-            input=<input type={thisType} className="textfield__input" placeholder={field.placeholder} onChange={this.handleChange.bind(this)} value={this._dataField.Value} onBlur={this.onBlur.bind(this)}/>;
+            input=<input type={thisType} className="textfield__input" placeholder={field.placeholder} onChange={this.handleChange.bind(this)} value={this._dataField.Value} onBlur={this.onBlur.bind(this)} pattern={field.objectType==5 ? "\\d*": null}/>;
         }
 
         let inputPanel = null;
