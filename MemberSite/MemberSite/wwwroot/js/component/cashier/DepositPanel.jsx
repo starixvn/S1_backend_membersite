@@ -128,8 +128,15 @@ import * as Loading from '../commJS/Loading.jsx';
             }.bind(this));
         }
 
-        onPickBankInfoOff(BankInfoOff){
-            this.setState({PickBankInfoOff: BankInfoOff});
+        async onPickBankInfoOff(BankInfoOff){
+            this.setState({PickBankInfoOff: BankInfoOff},async function(){
+                for(var i=0; i < this.state.formArr.length; i++){
+                    let dataField = this.state.formArr[i];
+                    await dataField.onCheck();
+                }
+
+                this.forceUpdate();
+            }.bind(this));
         }
 
         async handleCheckAmount(value) {
