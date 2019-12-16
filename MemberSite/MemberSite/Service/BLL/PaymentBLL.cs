@@ -65,10 +65,13 @@ namespace MemberSite.Service.BLL
                 string postScript = null;
 
                 depoistService.DepositReq(depositDetailInfo, out transId, out postScript);
-                depositRep3.transId = transId;
-                depositRep3.postScript = postScript;
+                depositRep3.TransId = transId;
+                depositRep3.PostScript = postScript;
                 depositRep3.AccountNo = depositInfo3_1.AccountNo;
                 depositRep3.AccountName = depositInfo3_1.AccountName;
+                depositRep3.BankName = _info.BankName;
+                depositRep3.BankLogo = _info.BankLogo;
+                depositRep3.BankSite = _info.BankSite;
 
                 return 0;
             }
@@ -121,10 +124,16 @@ namespace MemberSite.Service.BLL
             return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.SiteId, amount, memo, withdrawalInfo, out afterAmount, out transId);
         }
 
-        public IEnumerable<dynamic> GetDepositInfoRecent(int custId)
+        public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            return depoistService.GetDepositInfoRecent(custId, CustInfo.SiteId, 5);
+            var depositInfoRecent = depoistService.GetDepositInfoRecent(custId, CustInfo.SiteId, 5);
+            foreach(var a in depositInfoRecent)
+            {
+                a.DepositRep = Newtonsoft.Json.JsonConvert.DeserializeObject<DepositRep3>(a.DepositInfo);
+            }
+
+            return depositInfoRecent;
         }
     }
 }

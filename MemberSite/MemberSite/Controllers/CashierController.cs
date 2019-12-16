@@ -14,5 +14,9 @@ namespace MemberSite.Controllers
         {
             return View();
         }
+        public IActionResult Withdrawal()
+        {
+            return View();
+        }
     }
 }

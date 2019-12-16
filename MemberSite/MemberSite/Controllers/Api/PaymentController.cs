@@ -39,10 +39,10 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<dynamic>> GetDepositInfoRecent()
+        public ApiResult<IEnumerable<DepositInfoHistory>> GetDepositInfoRecent()
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<dynamic>>();
+            var apiResult = new ApiResult<IEnumerable<DepositInfoHistory>>();
             apiResult.Data = paymentBLL.GetDepositInfoRecent(authData.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;

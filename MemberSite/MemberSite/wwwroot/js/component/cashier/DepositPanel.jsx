@@ -3,6 +3,185 @@ import * as Loading from '../commJS/Loading.jsx';
 import {number_format} from '../commJS/common';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
+    class BankModal extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state={Show: false};
+        }
+
+        componentDidMount() {
+            this.setState({Show: true});
+        }
+
+        onClose(){
+            this.props.onClose();
+        }
+
+        onConfirm(event){
+            event.preventDefault();
+            this.props.onConfirm();
+        }
+
+        setMemo(event) {
+            this.props.setMemo(event.target.value);
+        }
+
+        render() {
+            return (
+            <div className="modal">
+                <div className="overlay"></div>
+                <div className="modal__dialog">
+                    <div className="modal__header">
+                        <span className="text">Transaction</span>
+                    </div>
+                    <div className="modal__body">
+                        <p>Please transfer the amount to the account below in <span className="text-accent">14:29</span>.</p>
+                        <div className="table table-modal">
+                            <div className="tbody">
+                                <div className="tr">
+                                    <div className="td-left">
+                                        <img src="/common/images/BankLogo/Alipay.png"/>
+                                    </div>
+                                    <div className="td-right">
+                                        <span className="text-lowlight">Bank Name</span>
+                                        <span className="text">1,000</span>
+                                    </div>
+                                </div>
+                                <div className="tr">
+                                    <div className="td-left">
+                                        <span className="text-lowlight">Bank Account Name</span>
+                                        <span className="text">Nova88</span>
+                                    </div>
+                                    <div className="td-right">
+                                        <a className="btn btn-icon text-primary"><i className="icon icon-copy"></i></a>
+                                    </div>
+                                </div>
+                                <div className="tr">
+                                    <div className="td-left">
+                                        <span className="text-lowlight">Bank Number</span>
+                                        <span className="text">123456789</span>
+                                    </div>
+                                    <div className="td-right">
+                                        <a className="btn btn-icon text-primary"><i className="icon icon-copy"></i></a>
+                                    </div>
+                                </div>
+                                <div className="tr">
+                                    <div className="td-left">
+                                        <span className="text-lowlight">Deposit Amount</span>
+                                        <span className="text">123</span>
+                                    </div>
+                                    <div className="td-right">
+                                        <a className="btn btn-icon text-primary"><i className="icon icon-copy"></i></a>
+                                    </div>
+                                </div>                                
+                                <div className="tr">
+                                    <div className="td-left">
+                                        <span className="text-lowlight">Postscript</span>
+                                        <span className="text-accent">a12r55g37ghj</span>
+                                    </div>
+                                    <div className="td-right">
+                                        <a className="btn btn-icon text-primary"><i className="icon icon-copy"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="tfoot">
+                                <div className="tr">
+                                    <div className="td-left">
+                                        <span className="text">Fill in the postscript to get deposit instantly.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="btn-group">
+                            <a className="btn btn-primary">
+                                <span className="text">Close</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            )
+        }
+    }    
+
+    class TbdModal extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state={Show: false};
+        }
+
+        componentDidMount() {
+            this.setState({Show: true});
+        }
+
+        onClose(){
+            this.props.onClose();
+        }
+
+        onConfirm(event){
+            event.preventDefault();
+            this.props.onConfirm();
+        }
+
+        setMemo(event) {
+            this.props.setMemo(event.target.value);
+        }
+
+        render() {
+            return (
+            <div className="modal" data-open={this.state.Show}>
+                <div className="overlay" onClick={this.onClose.bind(this)}></div>
+                <div className="modal__dialog">
+                    <div className="modal__header">
+                        <span className="text">Important Note</span>
+                    </div>
+                    <form className="modal__body" onSubmit={this.onConfirm.bind(this)}>
+                        <p>Please confirm the deposit information.</p>
+                        <div className="table table-modal">
+                            <div className="tbody">
+                                <div className="tr">
+                                    <div className="td-left">
+                                        <span className="text-lowlight">Transfer To</span>
+                                    </div>
+                                    <div className="td-right">
+                                        <span className="text">{this.props.PickBankInfoOff.bankName}</span>
+                                    </div>
+                                </div>                                
+                                <div className="tr">
+                                    <div className="td-left">
+                                        <span className="text-lowlight">Deposit Amount</span>
+                                    </div>
+                                    <div className="td-right">
+                                        <span className="text">{number_format(parseFloat(this.props.Amount).toFixed(2))}</span>
+                                    </div>
+                                </div>
+                                <div className="tr">
+                                    <div className="td-left">
+                                        <span className="text-lowlight">Memo</span>
+                                    </div>
+                                </div>
+                                <div className="tr">
+                                    <div className="td-right">
+                                        <span className="text"><textarea value={this.props.Memo} onChange={this.setMemo.bind(this)}/></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="btn-group">
+                            <button className="btn btn-primary"  onClick={this.onClose.bind(this)} type="button">
+                                <span className="text">Cancel</span>
+                            </button>
+                            <button className="btn btn-secondary" type="submit">
+                                <span className="text">Confirm</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            )
+        }
+    }
+    
     class RecentHistoryBody extends React.Component {
         render() {
             let data = this.props.Data;
@@ -10,41 +189,41 @@ import {number_format} from '../commJS/common';
 
                 return <div className="tr" key={index}>
                     <div className="td-date" data-title="Date" role="mobile-click">
-                        <span className="text">{moment(item.CreateTime).format("YYYY/MM/DD")}</span>
+                        <span className="text">{moment(item.createTime).format("YYYY/MM/DD")}</span>
                         <i className="icon icon-caret"></i>
                     </div>
                     <div className="td-time" data-title="Time">
-                        <span className=" text">{moment(item.CreateTime).format("HH:mm:ss")}</span>
+                        <span className="text">{moment(item.createTime).format("HH:mm:ss")}</span>
                     </div>
                     <div className="td-id" data-title="ID">
-                        <span className=" text">{item.TransId}</span>
+                        <a className="text-link" href="#">{item.transId}</a>
                     </div>
                     <div className="td-method" data-title="Method">
-                        <span className=" text">{item.DepositType}</span>
+                        <span className="text">{item.depositType}</span>
                     </div>
                     <div className="td-amount" data-title="Amount">
-                        <span className=" text">{number_format(item.Amount.toFixed(2))}</span>
+                        <span className="text">{number_format(item.amount.toFixed(2))}</span>
                     </div>
                     <div className="td-status" data-title="Status">
-                        <span className=" text">{item.Status}</span>
+                        <span className="text">{item.status}</span>
                     </div>
             </div>;
                 }.bind(this));
 
-                let dateStr = moment(data[0].CreateTime).format("YYYY/MM/DD");
+                let dateStr = moment(data[0].createTime).format("YYYY/MM/DD");
             return (
                 <div className="tbody" data-date={dateStr} data-open="true">
                     {rows}
                 </div>
             )
         }
-    }        
+    }
 
     class RecentHistory extends React.Component {
         constructor(props) {
             super(props);
             this.state={Data: null};
-        }        
+        }
 
         componentDidMount() {
             axios.post('/api/Payment/GetDepositInfoRecent')
@@ -67,7 +246,7 @@ import {number_format} from '../commJS/common';
                 let dataContainer=[];
                 for(let i=0;i < data.length;i++){
                     let row = data[i];
-                    let mDate = moment(row.CreateTime);
+                    let mDate = moment(row.createTime);
                     let sDate = mDate.format("YYYYMMDD");
                     if(dataContainer.length==0 || dataContainer[dataContainer.length-1].Date != sDate) {
                         dataContainer.push({Date:sDate, Data:[row]});
@@ -83,40 +262,37 @@ import {number_format} from '../commJS/common';
 
             return (
                 <div className="table table-rwd table-primary">
-
-                <div className="caption">
-                    <span className="text">Recent Transactions</span>
-
-                    <a className="text-link" href="#">
-                        <span className="text">All Transcations</span>
-                        <i className="icon icon-arrow-right"></i>
-                    </a>
-
-                </div>
-                <div className="thead">
-                    <div className="tr">
-                        <div className="td-date" data-title="Date">
-                            <span className=" text">Date</span>
-                        </div>
-                        <div className="td-time" data-title="Time">
-                            <span className=" text">Time</span>
-                        </div>
-                        <div className="td-id" data-title="ID">
-                            <span className=" text">ID</span>
-                        </div>
-                        <div className="td-method" data-title="Method">
-                            <span className=" text">Method</span>
-                        </div>
-                        <div className="td-amount" data-title="Amount">
-                            <span className=" text">Amount</span>
-                        </div>
-                        <div className="td-status" data-title="Status">
-                            <span className=" text">Status</span>
+                    <div className="caption">
+                        <span className="text">Recent Transactions</span>
+                        <a className="text-link" href="#">
+                            <span className="text">All Transcations</span>
+                            <i className="icon icon-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div className="thead">
+                        <div className="tr">
+                            <div className="td-date" data-title="Date">
+                                <span className=" text">Date</span>
+                            </div>
+                            <div className="td-time" data-title="Time">
+                                <span className=" text">Time</span>
+                            </div>
+                            <div className="td-id" data-title="ID">
+                                <span className=" text">ID</span>
+                            </div>
+                            <div className="td-method" data-title="Method">
+                                <span className=" text">Method</span>
+                            </div>
+                            <div className="td-amount" data-title="Amount">
+                                <span className=" text">Amount</span>
+                            </div>
+                            <div className="td-status" data-title="Status">
+                                <span className=" text">Status</span>
+                            </div>
                         </div>
                     </div>
+                    {bodyData}
                 </div>
-                {bodyData}
-            </div>
             )
         }
     }
@@ -220,7 +396,7 @@ import {number_format} from '../commJS/common';
             amountDataField.Value="";
             formArr.push(amountDataField);
 
-            this.state = { formArr: formArr, BankInfoOffList: null, PickBankInfoOff:null};
+            this.state = { formArr: formArr, BankInfoOffList: null, PickBankInfoOff:null, showTodModal:false};
         }        
 
         componentDidMount() {
@@ -296,12 +472,41 @@ import {number_format} from '../commJS/common';
             if(!valid) {
                 this.forceUpdate();
             } else {
-                this.forceUpdate();
+                this.setState({showTodModal:true, Amount: parseFloat(data["Amount"])});
             }
-        } 
+        }
+        
+        setMemo(value) {
+            this.setState({Memo: value});
+        }
         
         onDepositOptions() {
             this.props.onDepositOptions();
+        }
+
+        onClose() {
+            this.setState({showTodModal:false});
+        }
+
+        onConfirm() {
+            this.setState({showTodModal:false});
+            Loading.OnLoading();
+            let data = {sysId: this.state.PickBankInfoOff.sysId, amount:this.state.Amount, memo:this.state.Memo};
+            axios.post('/api/Payment/DepositReqWireTransfer', data)
+            .then(function (response) {
+                Loading.UnLoading();
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    //this.setState({BankInfoOffList: result.data, PickBankInfoOff: BankInfoOff});
+                } else {
+                    alert(result.message);
+                    this.setState({showTodModal:true});
+                }
+            }.bind(this)).catch(function (error) {
+                Loading.UnLoading();
+                alert(error);
+                this.setState({showTodModal:true});                    
+            }.bind(this));
         }
 
         render() {
@@ -329,6 +534,7 @@ import {number_format} from '../commJS/common';
                         </button>
                     </div>
                 </form>
+                {this.state.showTodModal ? <TbdModal setMemo={this.setMemo.bind(this)} onConfirm={this.onConfirm.bind(this)} onClose={this.onClose.bind(this)} PickBankInfoOff={this.state.PickBankInfoOff} Amount={this.state.Amount} Memo={this.state.Memo} /> : null}
             </div>  
             )
         }
@@ -347,14 +553,14 @@ import {number_format} from '../commJS/common';
     
             return (
             <div className="page">
-                <div className="heading" role="desktop-only">
-                    <span className="text">Deposit Options</span>
+                <div className="heading">
+                    <span className="text">Deposit</span>
                 </div>
                 <p>You can choose the best suitable for you deposit option from the ones provided below:.</p>
                 <div className="panel panel-primary panel--payment" data-open="true">
                     <div className="panel__header">
                         <span className="text">Wire Transfers -</span>
-                        <span className="text-primary">Credit Time : 10 Mins</span>
+                        <span className="text-primary">Credit Time : 5 Mins</span>
                         <i className="icon icon-caret"></i>
                     </div>
                     <div className="panel__body">

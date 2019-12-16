@@ -50,6 +50,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\common\images\BankLogo\" />
     <Folder Include="wwwroot\SiteSkin\Nova88\en\" />
   </ItemGroup>
 
