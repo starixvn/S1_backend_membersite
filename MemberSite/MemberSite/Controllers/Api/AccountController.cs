@@ -114,7 +114,7 @@ namespace MemberSite.Controllers.Api
             public string NewPassword { set; get; }
         }
 
-        [HttpPost]
+        [HttpPost]/*會驗證[舊密碼]所以可以放在不嚴格的*/
         public ApiResult ChangePassword(ChangePasswordModel changePasswordModel)
         {
             string oldPassword = changePasswordModel.OldPassword;
@@ -126,12 +126,12 @@ namespace MemberSite.Controllers.Api
             if (oldPassword == newPassword)
             {
                 apiResult.ErrorCode = -1;
-                apiResult.Message = "";
+                apiResult.Message = "新&舊密碼一樣";
             }
             else if (!tools.CheckUserInputPassword(newPassword))
             {
                 apiResult.ErrorCode = -2;
-                apiResult.Message = "";
+                apiResult.Message = "密碼格式不對";
             }
             else
             {
@@ -139,11 +139,11 @@ namespace MemberSite.Controllers.Api
 
                 if (apiResult.ErrorCode == -3)
                 {
-                    apiResult.Message = "";
+                    apiResult.Message = "舊密碼驗證不對";
                 }
                 else if (apiResult.ErrorCode == -4)
                 {
-                    apiResult.Message = "";
+                    apiResult.Message = "失敗";
                 }
                 else
                 {

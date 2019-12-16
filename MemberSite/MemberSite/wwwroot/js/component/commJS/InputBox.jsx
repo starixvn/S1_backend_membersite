@@ -10,6 +10,7 @@
     _dropdownList=[];
     _handleCheck=null;
     _typeStr={1:"text",4:"email",5:"number"};
+    _autoComplete = null;
 
     constructor(name) {
         this._name=name;
@@ -90,6 +91,10 @@
 
     set handleCheck(value){
         this._handleCheck=value;
+    }
+
+    set AutoComplete(value){
+        this._autoComplete=value;
     }
 
     async onCheck() {
@@ -182,7 +187,7 @@ export class InputBox extends React.Component {
                 let __Value = this._dataField.Value;
                 ShowPwdBtn = __Value&&__Value.length>0 ? <a className="btn btn-icon btn-form-togglepw" data-visibility={!this.state.ShowPwd} onClick={this.onShowPwd.bind(this)}><i className="icon icon--lg"></i></a>:null;
             }
-            input=<input type={thisType} className="textfield__input" placeholder={field.placeholder} onChange={this.handleChange.bind(this)} value={this._dataField.Value} onBlur={this.onBlur.bind(this)} pattern={field.objectType==5 ? "[0-9]+([\\.,][0-9]+)?": null}/>;
+            input=<input type={thisType} className="textfield__input" placeholder={field.placeholder} onChange={this.handleChange.bind(this)} value={this._dataField.Value} onBlur={this.onBlur.bind(this)} pattern={field.objectType==5 ? "[0-9]+([\\.,][0-9]+)?": null} autoComplete={this._autoComplete}/>;
         }
 
         let inputPanel = null;
