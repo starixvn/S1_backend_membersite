@@ -177,8 +177,14 @@
   <data name="lbl_Author" xml:space="preserve">
     <value />
   </data>
+  <data name="lbl_Baseball" xml:space="preserve">
+    <value>Baseball</value>
+  </data>
   <data name="lbl_BaseballBetting" xml:space="preserve">
     <value>Baseball Betting</value>
+  </data>
+  <data name="lbl_Basketball" xml:space="preserve">
+    <value>Basketball</value>
   </data>
   <data name="lbl_BasketballBetting" xml:space="preserve">
     <value>Basketball Betting</value>
@@ -189,8 +195,14 @@
   <data name="lbl_Casino" xml:space="preserve">
     <value>Casino</value>
   </data>
+  <data name="lbl_CasinoSlogon" xml:space="preserve">
+    <value>Multiple themes for Asian Market</value>
+  </data>
   <data name="lbl_ChangePassword" xml:space="preserve">
     <value>Change Password</value>
+  </data>
+  <data name="lbl_Clickhereforbonus" xml:space="preserve">
+    <value>Click here for bonus</value>
   </data>
   <data name="lbl_CompleteRegistration" xml:space="preserve">
     <value>Complete Registration</value>
@@ -204,11 +216,20 @@
   <data name="lbl_Copyright" xml:space="preserve">
     <value>Copyright {0}</value>
   </data>
+  <data name="lbl_DepositNow" xml:space="preserve">
+    <value>Deposit Now</value>
+  </data>
   <data name="lbl_DepositWithdrawals" xml:space="preserve">
     <value>Deposit &amp; Withdrawals</value>
   </data>
   <data name="lbl_Description" xml:space="preserve">
     <value>online betting, sport betting, football betting, sports betting, tennis betting, golf betting, online sports betting, soccer betting, online gambling</value>
+  </data>
+  <data name="lbl_DontHaveAccount" xml:space="preserve">
+    <value>Don't have an account?</value>
+  </data>
+  <data name="lbl_DownloadApp" xml:space="preserve">
+    <value>Download App</value>
   </data>
   <data name="lbl_Downloads" xml:space="preserve">
     <value>Downloads</value>
@@ -227,6 +248,9 @@
   </data>
   <data name="lbl_FootballBetting" xml:space="preserve">
     <value>Football Betting</value>
+  </data>
+  <data name="lbl_ForgetIDPassword" xml:space="preserve">
+    <value>Forget your ID or password?</value>
   </data>
   <data name="lbl_Help" xml:space="preserve">
     <value>Help</value>
@@ -249,11 +273,17 @@
   <data name="lbl_Keno" xml:space="preserve">
     <value>Keno</value>
   </data>
+  <data name="lbl_KenoSlogon" xml:space="preserve">
+    <value>Many ways to play, more chances to win!</value>
+  </data>
   <data name="lbl_Keywords" xml:space="preserve">
     <value>online betting, sport betting, football betting, sports betting, tennis betting, golf betting, online sports betting, soccer betting, online gambling</value>
   </data>
   <data name="lbl_LiveCasino" xml:space="preserve">
     <value>Live Casino</value>
+  </data>
+  <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
+    <value>Real Casino experience</value>
   </data>
   <data name="lbl_Login" xml:space="preserve">
     <value>Login</value>
@@ -297,11 +327,17 @@
   <data name="lbl_Promotion" xml:space="preserve">
     <value>Promotion</value>
   </data>
+  <data name="lbl_RebatebonusonMobile" xml:space="preserve">
+    <value>Rebate bonus on Mobile</value>
+  </data>
   <data name="lbl_ResposibleGaming" xml:space="preserve">
     <value>Resposible Gaming</value>
   </data>
   <data name="lbl_RuleRegulations" xml:space="preserve">
     <value>Rules and Regulations</value>
+  </data>
+  <data name="lbl_Soccer" xml:space="preserve">
+    <value>Soccer</value>
   </data>
   <data name="lbl_SoccerBetting" xml:space="preserve">
     <value>Soccer Betting</value>
@@ -315,8 +351,8 @@
   <data name="lbl_SportsBetting" xml:space="preserve">
     <value>Sports Betting</value>
   </data>
-  <data name="lbl_SportsBettings" xml:space="preserve">
-    <value>Sports Betting</value>
+  <data name="lbl_Tennis" xml:space="preserve">
+    <value>Tennis</value>
   </data>
   <data name="lbl_TennisBetting" xml:space="preserve">
     <value>Tennis Betting</value>
@@ -339,6 +375,9 @@
   <data name="lbl_TransferFunds" xml:space="preserve">
     <value>Transfer Funds</value>
   </data>
+  <data name="lbl_TryNow" xml:space="preserve">
+    <value>Try Now</value>
+  </data>
   <data name="lbl_Twitter" xml:space="preserve">
     <value>Twitter</value>
   </data>
@@ -356,6 +395,9 @@
   </data>
   <data name="lbl_UsernameTooltip" xml:space="preserve">
     <value>For security, we suggest that your username does not contain your real name.</value>
+  </data>
+  <data name="lbl_VariousBankingOptions" xml:space="preserve">
+    <value>Various Banking Options</value>
   </data>
   <data name="lbl_VirtualSports" xml:space="preserve">
     <value>Virtual Sports</value>

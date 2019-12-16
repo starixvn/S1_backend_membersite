@@ -389,18 +389,33 @@
         }
     }
 
-    <script>
-            @if (User.Identity.IsAuthenticated)
-            {
-                var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-                var CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
-                @:var i18n = { "lbl_Currency": "@selLangBLL.GetResourceValue($"Currency_{CurrencyId}")" };
-            }
-            else
-            {
-                @:var i18n = {};
-                @:var joinNowUrl = '@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })';
-            }
+<script>
+        @if (User.Identity.IsAuthenticated)
+        {
+            var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
+            @:var i18n = { "lbl_Currency": "@selLangBLL.GetResourceValue($"Currency_{CurrencyId}")" };
+        }
+        else
+        {
+            Dictionary<string, string> i18n = new Dictionary<string, string>();
+            i18n.Add("lbl_JoinNow", selLangBLL.GetResourceValue("lbl_JoinNow"));
+            i18n.Add("lbl_DontHaveAccount", selLangBLL.GetResourceValue("lbl_DontHaveAccount"));
+            i18n.Add("lbl_ForgetIDPassword", selLangBLL.GetResourceValue("lbl_ForgetIDPassword"));
+            i18n.Add("lbl_Login", selLangBLL.GetResourceValue("lbl_Login"));
+            i18n.Add("lbl_Username", selLangBLL.GetResourceValue("lbl_Username"));
+            i18n.Add("lbl_UsernameTooltip", selLangBLL.GetResourceValue("lbl_UsernameTooltip"));
+            i18n.Add("lbl_Password", selLangBLL.GetResourceValue("lbl_Password"));
+            i18n.Add("lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip"));
+            i18n.Add("msg_PasswordVaildate", selLangBLL.GetResourceValue("msg_PasswordVaildate"));
+            i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
+            i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
+            i18n.Add("msg_UsernameVaildate", selLangBLL.GetMsg("msg_UsernameVaildate"));
+            i18n.Add("msg_UsernameLength", selLangBLL.GetMsg("msg_UsernameLength"));
+            i18n.Add("msg_UsernameReq", selLangBLL.GetMsg("msg_UsernameReq"));
+            @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
+            @:var joinNowUrl = '@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })';
+        }
 
         $(function () {
                 var breakpoint;
@@ -437,7 +452,7 @@
                 $dropdown.attr("data-open") == "true" ? $dropdown.removeAttr("data-open") : $dropdown.attr("data-open", "true");
             });
         });
-    </script>
+</script>
 
     @if (User.Identity.IsAuthenticated)
     {

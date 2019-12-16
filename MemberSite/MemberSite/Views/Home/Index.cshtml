@@ -53,7 +53,7 @@
             <div class="lobby-quicklink-download">
                 <div class="lobby-quicklink__info">
                     <i class="icon icon-download"></i>
-                    <span class="text-title">Download App</span><span class="text">Rebate bonus on Mobile</span>
+                    <span class="text-title">@selLangBLL.GetResourceValue("lbl_DownloadApp")</span><span class="text">@selLangBLL.GetResourceValue("lbl_RebatebonusonMobile")</span>
                 </div><img src="@SkinImgPath/UI/Download-App.png"><i class="icon icon-arrow-right"></i>
             </div>
             @if (User.Identity.IsAuthenticated)
@@ -61,7 +61,7 @@
                 <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
                     <div class="lobby-quicklink__info">
                         <i class="icon icon-deposit-bank"></i>
-                        <span class="text-title">Deposit Now</span><span class="text">Various Banking Options</span>
+                        <span class="text-title">@selLangBLL.GetResourceValue("lbl_DepositNow")</span><span class="text">@selLangBLL.GetResourceValue("lbl_VariousBankingOptions")</span>
                     </div><i class="icon icon-arrow-right"></i>
                 </a>
             }
@@ -70,7 +70,7 @@
                 <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
                     <div class="lobby-quicklink__info">
                         <i class="icon icon-join-now"></i>
-                        <span class="text-title">Join Now</span><span class="text">Click here for bonus</span>
+                        <span class="text-title">@selLangBLL.GetResourceValue("lbl_JoinNow")</span><span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforbonus")</span>
                     </div><i class="icon icon-arrow-right"></i>
                 </a>
             }
@@ -82,35 +82,35 @@
                 <img src="@SkinImgPath/Lobby/Home/Sport-Soccer.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Soccer.png">
                 <div class="lobby-sport__info">
-                    <span class="text">Soccer</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Soccer")</span>
                 </div>
             </a>
             <a class="lobby-sport" href="@GetEntPageUrl(1,"2")">
                 <img src="@SkinImgPath/Lobby/Home/Sport-Basketball.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Basketball.png">
                 <div class="lobby-sport__info">
-                    <span class="text">Basketball</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Basketball")</span>
                 </div>
             </a>
             <a class="lobby-sport" href="@GetEntPageUrl(1,"8")">
                 <img src="@SkinImgPath/Lobby/Home/Sport-Baseball.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Baseball.png">
                 <div class="lobby-sport__info">
-                    <span class="text">Baseball</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Baseball")</span>
                 </div>
             </a>
             <a class="lobby-sport" href="@GetEntPageUrl(1,"43")">
                 <img src="@SkinImgPath/Lobby/Home/Sport-E-Sports.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-E-Sports.png">
                 <div class="lobby-sport__info">
-                    <span class="text">eSports</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_eSports")</span>
                 </div>
             </a>
             <a class="lobby-sport" href="@GetEntPageUrl(1,"5")">
                 <img src="@SkinImgPath/Lobby/Home/Sport-Tennis.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Tennis.png">
                 <div class="lobby-sport__info">
-                    <span class="text">Tennis</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Tennis")</span>
                 </div>
             </a>
         </div>
@@ -119,9 +119,9 @@
                 <div class="swiper-slide">
                     <div class="lobby-product">
                         <div class="lobby-product__info">
-                            <span class="text-title">Casino</span>
-                            <span class="text">Multiple themes for Asian market</span>
-                            <a class="btn btn-secondary"><span class="text">Try Now</span></a>
+                            <span class="text-title">@selLangBLL.GetResourceValue("lbl_Casino")</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_CasinoSlogon")</span>
+                            <a class="btn btn-secondary"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
                         </div>
                         <img src="@SkinImgPath/Lobby/Home/Product-Casino.png">
                     </div>
@@ -129,9 +129,9 @@
                 <div class="swiper-slide">
                     <div class="lobby-product">
                         <div class="lobby-product__info">
-                            <span class="text-title">Keno</span>
-                            <span class="text">Many ways to play, more chances to win!</span>
-                            <a class="btn btn-secondary"><span class="text">Try Now</span></a>
+                            <span class="text-title">@selLangBLL.GetResourceValue("lbl_Keno")</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_KenoSlogon")</span>
+                            <a class="btn btn-secondary"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
                         </div>
                         <img src="@SkinImgPath/Lobby/Home/Product-Keno.png">
                     </div>
@@ -139,16 +139,14 @@
                 <div class="swiper-slide">
                     <div class="lobby-product">
                         <div class="lobby-product__info">
-                            <span class="text-title">Live Casino</span>
-                            <span class="text">Real Casino experience</span>
-                            <a class="btn btn-secondary"><span class="text">Try Now</span></a>
+                            <span class="text-title">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasinoSlogon")</span>
+                            <a class="btn btn-secondary"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
                         </div>
                         <img src="@SkinImgPath/Lobby/Home/Product-LiveCasino.png">
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-
