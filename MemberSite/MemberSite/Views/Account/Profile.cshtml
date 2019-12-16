@@ -10,12 +10,10 @@
 @section Style{
 
 }
-
 <div id="Profile"></div>
 @section Scripts{
     <script type="text/javascript">
-        var i18n = {};
-        @*var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));*@
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(null)));
     </script>
     <script src="~/lib/runtime.min.js"></script>
     <script src="~/js/component/account/Profile.min.js" asp-append-version="true"></script>

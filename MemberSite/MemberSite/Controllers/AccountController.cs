@@ -14,5 +14,9 @@ namespace MemberSite.Controllers
         {
             return View();
         }
+        public IActionResult ChangePwd()
+        {
+            return View();
+        }
     }
 }

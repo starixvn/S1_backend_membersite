@@ -282,7 +282,7 @@
                         </a>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <a class="side-nav__btn">
+                            <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "ChangePwd", controller = "Account", LangId = selLangBLL.GetLangId() })">
                                 <span class="side-nav__icon">
                                     <i class="icon icon-gesture-password"></i>
                                 </span>

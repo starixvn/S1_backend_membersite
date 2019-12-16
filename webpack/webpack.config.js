@@ -21,6 +21,9 @@ module.exports = {
 		],
     "js/component/cashier/DepositPanel.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/cashier/DepositPanel.jsx'
+		],
+    "js/component/account/ChangePwd.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/account/ChangePwd.jsx'
 		]},
   output: {
     path:  path.resolve(__dirname,'../MemberSite/MemberSite/wwwroot/'),
