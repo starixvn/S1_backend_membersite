@@ -126,12 +126,12 @@ namespace MemberSite.Controllers.Api
             if (oldPassword == newPassword)
             {
                 apiResult.ErrorCode = -1;
-                apiResult.Message = "新&舊密碼一樣";
+                apiResult.Message = selLangBLL.GetMsg("msg_SamePassword");
             }
             else if (!tools.CheckUserInputPassword(newPassword))
             {
                 apiResult.ErrorCode = -2;
-                apiResult.Message = "密碼格式不對";
+                apiResult.Message = selLangBLL.GetMsg("msg_PasswordVaildate");
             }
             else
             {
@@ -139,16 +139,16 @@ namespace MemberSite.Controllers.Api
 
                 if (apiResult.ErrorCode == -3)
                 {
-                    apiResult.Message = "舊密碼驗證不對";
+                    apiResult.Message = selLangBLL.GetMsg("msg_InvalidOldPassword");
                 }
                 else if (apiResult.ErrorCode == -4)
                 {
-                    apiResult.Message = "失敗";
+                    apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
                 }
                 else
                 {
                     apiResult.ErrorCode = 0;
-                    apiResult.Message = "";
+                    apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful"); ;
                 }
             }
 

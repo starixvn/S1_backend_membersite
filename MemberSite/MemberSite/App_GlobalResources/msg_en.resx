@@ -126,6 +126,9 @@
   <data name="msg_DepositProcessLogin_LoginFailed" xml:space="preserve">
     <value>Login failed, Username/ Password is wrong or Username does not exist.</value>
   </data>
+  <data name="msg_InvalidOldPassword" xml:space="preserve">
+    <value>Invalid Old Password!</value>
+  </data>
   <data name="msg_loggedout" xml:space="preserve">
     <value>You have logged out!! Please login and try again!!</value>
   </data>
@@ -138,8 +141,17 @@
   <data name="msg_PasswordVaildate" xml:space="preserve">
     <value>6-18 alphanumeric (A-Z, a-z, 0-9) characters or special characters @$*!%#?&amp;</value>
   </data>
+  <data name="msg_SamePassword" xml:space="preserve">
+    <value>Old Password and New Password are same!</value>
+  </data>
   <data name="msg_ThisCurrencyNotSupport" xml:space="preserve">
     <value>Your Currency Not Support</value>
+  </data>
+  <data name="msg_UpdateFailed" xml:space="preserve">
+    <value>Update Failed</value>
+  </data>
+  <data name="msg_Updatesuccessful" xml:space="preserve">
+    <value>Update Successful</value>
   </data>
   <data name="msg_UsernameLength" xml:space="preserve">
     <value>Username must between 6 and 18 characters long.</value>
