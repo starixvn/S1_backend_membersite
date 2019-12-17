@@ -5,17 +5,25 @@
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @{
-    ViewData["Title"] = "ChangePwd";
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_ChangePassword");
     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var i18n = new Dictionary<string, string>();
+    i18n.Add("lbl_OldPassword", selLangBLL.GetResourceValue("lbl_OldPassword"));
+    i18n.Add("lbl_NewPassword", selLangBLL.GetResourceValue("lbl_NewPassword"));
+    i18n.Add("lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip"));
+    i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
+    i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
+    i18n.Add("msg_PasswordVaildate", selLangBLL.GetMsg("msg_PasswordVaildate"));
 }
 <div class="page">
     <div class="heading">
-        <span class="text">Change Password</span>
+        <span class="text">@selLangBLL.GetResourceValue("lbl_ChangePassword")</span>
     </div>
-    <div id="ChangePwd">
-
-    </div>
+    <div id="ChangePwd"></div>
 </div>
+
 @section Scripts{
     <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(null)));
