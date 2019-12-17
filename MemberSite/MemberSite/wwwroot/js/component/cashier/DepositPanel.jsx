@@ -1,17 +1,31 @@
 ﻿import {DataField, InputBox} from '../commJS/InputBox.jsx';
 import * as Loading from '../commJS/Loading.jsx';
 import {number_format} from '../commJS/common';
-import {Clipboard} from '../commJS/ScottClipboard';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
     class BankModal extends React.Component {
+        _clipboard=null;
         constructor(props) {
             super(props);
             this.state={Show: false};
         }
 
         componentDidMount() {
+            this._clipboard = new ClipboardJS(".copyBtn");
+            /*clipboard = new ClipboardJS(this.btn2);
+            clipboard = new ClipboardJS(this.btn3);
+            clipboard = new ClipboardJS(this.btn4);*/
+            this._clipboard.on('success', function(e) {
+                //console.log(e);
+            });
+            this._clipboard.on('error', function(e) {
+                //console.log(e);
+            });
             this.setState({Show: true});
+        }
+
+        componentWillUnmount() {
+            this._clipboard.destroy();
         }
 
         onClose(){
@@ -20,7 +34,7 @@ import {Clipboard} from '../commJS/ScottClipboard';
 
         render() {
             let bankInfo = this.props.bankInfo;
-            console.log(Clipboard);
+
             return (
             <div className="modal" data-open={this.state.Show}>
                 <div className="overlay" onClick={this.onClose.bind(this)}></div>
@@ -47,7 +61,7 @@ import {Clipboard} from '../commJS/ScottClipboard';
                                         <span className="text">{bankInfo.accountName}</span>
                                     </div>
                                     <div className="td-right">
-                                        <button className="btn btn-icon text-primary" onClick={Clipboard.copy.bind(null, bankInfo.accountName,null,null)}><i className="icon icon-copy"></i></button>
+                                        <button className="btn btn-icon text-primary copyBtn" data-clipboard-text={bankInfo.accountName}><i className="icon icon-copy"></i></button>
                                     </div>
                                 </div>
                                 <div className="tr">
@@ -56,7 +70,7 @@ import {Clipboard} from '../commJS/ScottClipboard';
                                         <span className="text">{bankInfo.accountNo}</span>
                                     </div>
                                     <div className="td-right">
-                                        <button className="btn btn-icon text-primary" onClick={Clipboard.copy.bind(null, bankInfo.accountNo ,null,null)}><i className="icon icon-copy"></i></button>
+                                        <button className="btn btn-icon text-primary copyBtn" data-clipboard-text={bankInfo.accountNo}><i className="icon icon-copy"></i></button>
                                     </div>
                                 </div>
                                 <div className="tr">
@@ -65,7 +79,7 @@ import {Clipboard} from '../commJS/ScottClipboard';
                                         <span className="text">{number_format(parseFloat(bankInfo.amount).toFixed(2))}</span>
                                     </div>
                                     <div className="td-right">
-                                        <button className="btn btn-icon text-primary" onClick={Clipboard.copy.bind(null, parseFloat(bankInfo.amount) ,null,null)}><i className="icon icon-copy"></i></button>
+                                        <button className="btn btn-icon text-primary copyBtn" data-clipboard-text={parseFloat(bankInfo.amount)}><i className="icon icon-copy"></i></button>
                                     </div>
                                 </div>                                
                                 <div className="tr">
@@ -74,7 +88,7 @@ import {Clipboard} from '../commJS/ScottClipboard';
                                         <span className="text-accent">{bankInfo.postScript}</span>
                                     </div>
                                     <div className="td-right">
-                                        <button className="btn btn-icon text-primary" onClick={Clipboard.copy.bind(null, bankInfo.postScript ,null,null)}><i className="icon icon-copy"></i></button>
+                                        <button className="btn btn-icon text-primary copyBtn" data-clipboard-text={bankInfo.postScript}><i className="icon icon-copy"></i></button>
                                     </div>
                                 </div>
                             </div>
