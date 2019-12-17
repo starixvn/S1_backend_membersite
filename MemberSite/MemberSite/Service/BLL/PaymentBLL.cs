@@ -142,5 +142,12 @@ namespace MemberSite.Service.BLL
 
             return depositInfoRecent;
         }
+
+        public IEnumerable<WithdrawalHistory> GetWithdrawalInfoRecent(int custId)
+        {
+            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var withdrawalInfo = depoistService.GetWithdrawalInfoRecent(custId, CustInfo.SiteId, 5);
+            return withdrawalInfo;
+        }
     }
 }

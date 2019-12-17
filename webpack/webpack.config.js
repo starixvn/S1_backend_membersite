@@ -24,6 +24,12 @@ module.exports = {
 		],
     "js/component/account/ChangePwd.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/account/ChangePwd.jsx'
+		],
+    "js/component/account/CustBankInfo.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/account/CustBankInfo.jsx'
+		],
+    "js/component/cashier/WithdrawalPanel.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/cashier/WithdrawalPanel.jsx'
 		]},
   output: {
     path:  path.resolve(__dirname,'../MemberSite/MemberSite/wwwroot/'),

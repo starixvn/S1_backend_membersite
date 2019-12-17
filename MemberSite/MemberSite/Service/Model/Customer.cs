@@ -43,4 +43,17 @@ namespace MemberSite.Service.Model
         public int SysId { set; get; }
         public string AccountNo { set; get; }
     }
+
+    public class BankInfoDetailRep : BankInfoDetail
+    {
+        public string BankName { set; get; }
+        public string BankLogo { set; get; }
+        public string BankSite { set; get; }
+    }
+
+    public class CustBankInfoRep
+    {
+        public string AccountName { set; get; }
+        public IEnumerable<BankInfoDetailRep> bankInfoDetail { set; get; }
+    }
 }

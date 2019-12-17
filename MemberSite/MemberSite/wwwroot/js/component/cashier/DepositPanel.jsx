@@ -2,7 +2,7 @@
 import * as Loading from '../commJS/Loading.jsx';
 import {number_format} from '../commJS/common';
 
-(function ($, React, ReactDOM, i18n, axios, moment) {
+(function ($, React, ReactDOM, i18n, axios, moment, ClipboardJS) {
     class BankModal extends React.Component {
         _clipboard=null;
         constructor(props) {
@@ -37,7 +37,7 @@ import {number_format} from '../commJS/common';
 
             return (
             <div className="modal" data-open={this.state.Show}>
-                <div className="overlay" onClick={this.onClose.bind(this)}></div>
+                <div className="overlay"></div>
                 <div className="modal__dialog">
                     <div className="modal__header">
                         <span className="text">Transaction</span>
@@ -101,7 +101,9 @@ import {number_format} from '../commJS/common';
                         </div>
                         <div className="btn-group">
                             <button className="btn btn-primary" onClick={this.onClose.bind(this)} type="button">
-                                <span className="text">Close</span>
+                                <div className="btn__inner">
+                                    <span className="text">Close</span>
+                                </div>
                             </button>
                         </div>
                     </div>
@@ -176,10 +178,14 @@ import {number_format} from '../commJS/common';
                         </div>
                         <div className="btn-group">
                             <button className="btn btn-primary"  onClick={this.onClose.bind(this)} type="button">
-                                <span className="text">Cancel</span>
+                                <div className="btn__inner">
+                                    <span className="text">Cancel</span>
+                                </div>
                             </button>
                             <button className="btn btn-secondary" type="submit">
-                                <span className="text">Confirm</span>
+                                <div className="btn__inner">
+                                    <span className="text">Confirm</span>
+                                </div>
                             </button>
                         </div>
                     </form>
@@ -408,7 +414,7 @@ import {number_format} from '../commJS/common';
             formArr.push(amountDataField);
 
             this.state = { formArr: formArr, BankInfoOffList: null, PickBankInfoOff:null, showTodModal:false};
-        }        
+        }
 
         componentDidMount() {
             Loading.OnLoading();            
@@ -539,7 +545,9 @@ import {number_format} from '../commJS/common';
                     {Inputs}
                     <div className="btn-group">
                         <button className="btn btn-primary" type="button" onClick={this.onDepositOptions.bind(this)}>
-                            <span className="text">Back</span>
+                            <div className="btn__inner">
+                                <span className="text">Back</span>
+                            </div>
                         </button>
                         <button className="btn btn-secondary" type="submit">
                             <div className="btn__inner">
@@ -684,4 +692,4 @@ import {number_format} from '../commJS/common';
     }
     
     ReactDOM.render(<DepositPanel/>,document.getElementById('DepositPanel'));
-    })(jQuery, React, ReactDOM, i18n, axios, moment);
+    })(jQuery, React, ReactDOM, i18n, axios, moment, ClipboardJS);

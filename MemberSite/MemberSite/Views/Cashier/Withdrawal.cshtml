@@ -12,14 +12,12 @@
     var authData = authorizeBLL.GetAuthData();
     var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
 }
-
-<div class="page">
-    <div class="heading">
-        <span class="text">Withdrawal</span>
-    </div>
-    @{ 
-        if (custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0)
-        {
+@{
+    if (custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0)
+    {<div class="page">
+            <div class="heading">
+                <span class="text">Withdrawal</span>
+            </div>
             <div class="text--lg">Important Note</div>
             <p>Please update your bank account details. A registered bank account is required.</p><br />
             <div class="btn-group">
@@ -27,12 +25,25 @@
                     <span class="text">Update Bank Details</span>
                 </a>
             </div>
-        }
-        else
-        {
-
-        }
+        </div>
     }
-</div>
+    else
+    {
+        <div id="WithdrawalPanel">
+
+        </div>
+    }
+}
+
+@section Scripts{
+    @if (!(custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0))
+    {
+        <script type="text/javascript">
+            $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(null)));
+        </script>
+        <script src="~/lib/runtime.min.js"></script>
+        <script src="~/js/component/cashier/WithdrawalPanel.min.js" asp-append-version="true"></script>
+    }
+}
 
 

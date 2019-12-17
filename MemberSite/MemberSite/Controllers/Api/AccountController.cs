@@ -277,12 +277,28 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<CustBankInfo> GetCustBankInfo()
+        public ApiResult<CustBankInfoRep> GetCustBankInfo()
         {
-            var apiResult = new ApiResult<CustBankInfo>(selLangBLL);
+            var apiResult = new ApiResult<CustBankInfoRep>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var bankInfoSysList = bankInfoBLL.GetBankInfoSysListByCurrency(custInfo.CurrencyId);
 
-            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+            var custBankInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<CustBankInfoRep>(Newtonsoft.Json.JsonConvert.SerializeObject(custInfoBLL.GetCustBankInfo(authData.CustId)));
+            if (custBankInfo != null && custBankInfo.bankInfoDetail != null && custBankInfo.bankInfoDetail.Count() > 0)
+            {
+                foreach(var bankInfo in custBankInfo.bankInfoDetail)
+                {
+                    var refBankInfo = bankInfoSysList.Where(x => x.SysId == bankInfo.SysId).FirstOrDefault();
+                    if (refBankInfo != null)
+                    {
+                        bankInfo.BankName = refBankInfo.BankName;
+                        bankInfo.BankLogo = refBankInfo.BankLogo;
+                        bankInfo.BankSite = refBankInfo.BankSite;
+                    }
+                }
+            }
+
             apiResult.Data = custBankInfo;
             apiResult.ErrorCode = 0;
 

@@ -39,6 +39,16 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        public ApiResult<IEnumerable<WithdrawalHistory>> GetWithdrawalInfoRecent()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<WithdrawalHistory>>();
+            apiResult.Data = paymentBLL.GetWithdrawalInfoRecent(authData.CustId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        [HttpPost]
         public ApiResult<IEnumerable<DepositInfoHistory>> GetDepositInfoRecent()
         {
             var authData = authorizeBLL.GetAuthData();
