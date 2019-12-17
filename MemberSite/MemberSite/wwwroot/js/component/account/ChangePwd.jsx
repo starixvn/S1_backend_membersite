@@ -11,8 +11,8 @@ class ChangePwdForm extends React.Component {
 
         let dataField = new DataField("OldPassword");
 
-        dataField.placeholder="i18n.lbl_OldPassword";
-        dataField.displayName="i18n.lbl_OldPassword";
+        dataField.placeholder=i18n.lbl_OldPassword;
+        dataField.displayName=i18n.lbl_OldPassword;
         dataField.tooltip=i18n.lbl_PasswordTooltip;
         dataField.status=1;
         dataField.objectType=2;
@@ -22,8 +22,8 @@ class ChangePwdForm extends React.Component {
         formArr.push(dataField);
 
         dataField = new DataField("NewPassword");
-        dataField.placeholder="i18n.lbl_NewPassword";
-        dataField.displayName="i18n.lbl_NewPassword";
+        dataField.placeholder=i18n.lbl_NewPassword;
+        dataField.displayName=i18n.lbl_NewPassword;
         dataField.tooltip=i18n.lbl_PasswordTooltip;
         dataField.status=1;
         dataField.objectType=2;
@@ -107,7 +107,7 @@ class ChangePwdForm extends React.Component {
                 <div className="btn-group">
                     <button className="btn btn-secondary" type="submit">
                         <div className="btn__inner">
-                            <span className="text">{"i18n.Submit"}</span>
+                            <span className="text">{i18n.lbl_Submit}</span>
                         </div>
                     </button>
                 </div>
