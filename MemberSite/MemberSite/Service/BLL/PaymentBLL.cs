@@ -10,17 +10,19 @@ namespace MemberSite.Service.BLL
 {
     public class PaymentBLL
     {
-        private readonly BankInfoOffBLL bankInfoBLL;
+        private readonly BankInfoOffBLL bankInfoOffBLL;
         private readonly CustInfoBLL custInfoBLL;
         private readonly DepoistService depoistService;
         private readonly WithdrawalService withdrawalService;
+        private readonly BankInfoBLL bankInfoBLL;
 
-        public PaymentBLL(BankInfoOffBLL bankInfoBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService)
+        public PaymentBLL(BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService)
         {
-            this.bankInfoBLL = bankInfoBLL;
+            this.bankInfoOffBLL = bankInfoOffBLL;
             this.custInfoBLL = custInfoBLL;
             this.depoistService = depoistService;
             this.withdrawalService = withdrawalService;
+            this.bankInfoBLL = bankInfoBLL;
         }
 
         public int DepositReqWireTransfer(int custId, int sysId, decimal amount, string memo, out DepositRep3 depositRep3)
@@ -31,7 +33,7 @@ namespace MemberSite.Service.BLL
                 return -1;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
-            var bankAccountOffList = bankInfoBLL.GetBankAccountOff(custInfo.SiteId);
+            var bankAccountOffList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
             var _info = (from x in bankAccountOffList
                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId && ((x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
                          orderby x.PointLevel descending, x.BSort
@@ -128,9 +130,14 @@ namespace MemberSite.Service.BLL
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var depositInfoRecent = depoistService.GetDepositInfoRecent(custId, CustInfo.SiteId, 5);
-            foreach(var a in depositInfoRecent)
+            foreach (var depositInfo in depositInfoRecent)
             {
-                a.DepositRep = Newtonsoft.Json.JsonConvert.DeserializeObject<DepositRep3>(a.DepositInfo);
+                if (depositInfo.DepositType == 3)
+                {
+                    depositInfo.DepositRep = Newtonsoft.Json.JsonConvert.DeserializeObject<DepositInfo3_1>(depositInfo.DepositInfo);
+                    var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
+                    depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).Where(x => x.SysId == depositInfoRef.SysId).FirstOrDefault();
+                }
             }
 
             return depositInfoRecent;

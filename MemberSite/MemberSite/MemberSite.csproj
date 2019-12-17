@@ -12,6 +12,7 @@
     <Content Remove="wwwroot\js\component\commJS\common.js" />
     <Content Remove="wwwroot\js\component\commJS\InputBox.jsx" />
     <Content Remove="wwwroot\js\component\commJS\Loading.jsx" />
+    <Content Remove="wwwroot\js\component\commJS\ScottClipboard.js" />
     <Content Remove="wwwroot\js\component\home\LoginForm.jsx" />
     <Content Remove="wwwroot\js\component\home\Register.jsx" />
     <Content Remove="wwwroot\js\component\home\Registered_1.js" />
@@ -33,6 +34,7 @@
     <None Include="wwwroot\js\component\account\BalancePanel.jsx" />
     <None Include="wwwroot\js\component\cashier\DepositPanel.jsx" />
     <None Include="wwwroot\js\component\commJS\Loading.jsx" />
+    <None Include="wwwroot\js\component\commJS\ScottClipboard.js" />
     <None Include="wwwroot\js\component\home\LoginForm.jsx" />
     <None Include="wwwroot\js\component\home\RegisterForm.jsx" />
     <None Include="wwwroot\SiteSkin\Nova88\common\images\logo.svg" />

@@ -65,6 +65,7 @@ namespace MemberSite.Service.Model
         public string PostScript { get; set; }
         [JsonIgnore]
         public string DepositInfo { get; set; }
-        public DepositRep3 DepositRep { get; set; }
+        public dynamic DepositRep { get; set; }
+        public BankInfoSys BankInfo { get; set; }
     }
 }

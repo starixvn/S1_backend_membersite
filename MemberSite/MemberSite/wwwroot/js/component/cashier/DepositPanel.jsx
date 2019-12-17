@@ -1,6 +1,7 @@
 ﻿import {DataField, InputBox} from '../commJS/InputBox.jsx';
 import * as Loading from '../commJS/Loading.jsx';
 import {number_format} from '../commJS/common';
+import {copyToClipboard} from '../commJS/ScottClipboard';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
     class BankModal extends React.Component {
@@ -14,22 +15,14 @@ import {number_format} from '../commJS/common';
         }
 
         onClose(){
-            this.props.onClose();
-        }
-
-        onConfirm(event){
-            event.preventDefault();
-            this.props.onConfirm();
-        }
-
-        setMemo(event) {
-            this.props.setMemo(event.target.value);
+            this.props.onCloseModal();
         }
 
         render() {
+            let bankInfo = this.props.bankInfo;
             return (
-            <div className="modal">
-                <div className="overlay"></div>
+            <div className="modal" data-open={this.state.Show}>
+                <div className="overlay" onClick={this.onClose.bind(this)}></div>
                 <div className="modal__dialog">
                     <div className="modal__header">
                         <span className="text">Transaction</span>
@@ -44,22 +37,22 @@ import {number_format} from '../commJS/common';
                                     </div>
                                     <div className="td-right">
                                         <span className="text-lowlight">Bank Name</span>
-                                        <span className="text">1,000</span>
+                                        <span className="text">{bankInfo.bankName}</span>
                                     </div>
                                 </div>
                                 <div className="tr">
                                     <div className="td-left">
                                         <span className="text-lowlight">Bank Account Name</span>
-                                        <span className="text">Nova88</span>
+                                        <span className="text">{bankInfo.accountName}</span>
                                     </div>
                                     <div className="td-right">
-                                        <a className="btn btn-icon text-primary"><i className="icon icon-copy"></i></a>
+                                        <button className="btn btn-icon text-primary" onClick={copyToClipboard.bind(null, bankInfo.accountName)}><i className="icon icon-copy"></i></button>
                                     </div>
                                 </div>
                                 <div className="tr">
                                     <div className="td-left">
                                         <span className="text-lowlight">Bank Number</span>
-                                        <span className="text">123456789</span>
+                                        <span className="text">{bankInfo.accountNo}</span>
                                     </div>
                                     <div className="td-right">
                                         <a className="btn btn-icon text-primary"><i className="icon icon-copy"></i></a>
@@ -68,7 +61,7 @@ import {number_format} from '../commJS/common';
                                 <div className="tr">
                                     <div className="td-left">
                                         <span className="text-lowlight">Deposit Amount</span>
-                                        <span className="text">123</span>
+                                        <span className="text">{number_format(parseFloat(bankInfo.amount).toFixed(2))}</span>
                                     </div>
                                     <div className="td-right">
                                         <a className="btn btn-icon text-primary"><i className="icon icon-copy"></i></a>
@@ -77,7 +70,7 @@ import {number_format} from '../commJS/common';
                                 <div className="tr">
                                     <div className="td-left">
                                         <span className="text-lowlight">Postscript</span>
-                                        <span className="text-accent">a12r55g37ghj</span>
+                                        <span className="text-accent">{bankInfo.postScript}</span>
                                     </div>
                                     <div className="td-right">
                                         <a className="btn btn-icon text-primary"><i className="icon icon-copy"></i></a>
@@ -93,9 +86,9 @@ import {number_format} from '../commJS/common';
                             </div>
                         </div>
                         <div className="btn-group">
-                            <a className="btn btn-primary">
+                            <button className="btn btn-primary" onClick={this.onClose.bind(this)} type="button">
                                 <span className="text">Close</span>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -183,6 +176,10 @@ import {number_format} from '../commJS/common';
     }
     
     class RecentHistoryBody extends React.Component {
+        onShowBankModal(bankInfo){
+            this.props.onShowBankModal(bankInfo);
+        }
+
         render() {
             let data = this.props.Data;
             let rows = data.map(function( item ,index ) { 
@@ -196,7 +193,7 @@ import {number_format} from '../commJS/common';
                         <span className="text">{moment(item.createTime).format("HH:mm:ss")}</span>
                     </div>
                     <div className="td-id" data-title="ID">
-                        <a className="text-link" href="#">{item.transId}</a>
+                        <a className="text-link" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript})}>{item.transId}</a>
                     </div>
                     <div className="td-method" data-title="Method">
                         <span className="text">{item.depositType}</span>
@@ -256,7 +253,7 @@ import {number_format} from '../commJS/common';
                 }
 
                 bodyData = dataContainer.map(function( item ,index ) { 
-                    return <RecentHistoryBody key={index} Data={item.Data}/>;
+                    return <RecentHistoryBody key={index} Data={item.Data} onShowBankModal={this.props.onShowBankModal}/>;
                 }.bind(this));
             }
 
@@ -497,7 +494,9 @@ import {number_format} from '../commJS/common';
                 Loading.UnLoading();
                 let result = response.data;
                 if (result.errorCode == 0) {
-                    //this.setState({BankInfoOffList: result.data, PickBankInfoOff: BankInfoOff});
+                    let bankInfo = result.data;
+                    bankInfo.amount=this.state.Amount;
+                    this.props.onShowBankModal(result.data);
                 } else {
                     alert(result.message);
                     this.setState({showTodModal:true});
@@ -515,6 +514,7 @@ import {number_format} from '../commJS/common';
             if(BankInfoOffList != null && BankInfoOffList.length > 0) {
                 Inputs.push(<BankInfoOffDropdown key={"."} BankInfoOffList={this.state.BankInfoOffList} PickBankInfoOff={this.state.PickBankInfoOff} onPickBankInfoOff={this.onPickBankInfoOff.bind(this)} />);
             }
+            //let modalContaner = null;
 
             return (
             <div className="page">
@@ -548,9 +548,8 @@ import {number_format} from '../commJS/common';
         onWireTransfers() {
             this.props.onWireTransfers();
         }
-   
+
         render() {
-    
             return (
             <div className="page">
                 <div className="heading">
@@ -626,7 +625,7 @@ import {number_format} from '../commJS/common';
                         </div>
                     </div>
                 </div>
-                <RecentHistory/>        
+                <RecentHistory onShowBankModal={this.props.onShowBankModal}/>
             </div>                
             )
         }
@@ -635,7 +634,7 @@ import {number_format} from '../commJS/common';
     class DepositPanel extends React.Component {
         constructor(props) {
             super(props);
-            this.state={"DipositType": 0};
+            this.state={"DipositType": 0, showModal: false };
         }
 
         onWireTransfers() {
@@ -645,15 +644,27 @@ import {number_format} from '../commJS/common';
         onDepositOptions() {
             this.setState({"DipositType": 0});
         }
+
+        onCloseModal() {
+            this.setState({showModal:false});
+        }
+        
+        onShowBankModal(bankInfo) {
+            this.setState({showModal:true, bankInfo: bankInfo,DipositType: 0});
+        }
    
         render() {
-            let panelHolder = <DepositOptions onWireTransfers={this.onWireTransfers.bind(this)}/>;
+            let panelHolder = <DepositOptions onWireTransfers={this.onWireTransfers.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)}/>;
             if(this.state.DipositType == 1) {
-                panelHolder = <WireTransfers onDepositOptions={this.onDepositOptions.bind(this)}/>;
+                panelHolder = <WireTransfers onDepositOptions={this.onDepositOptions.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)}/>;
             } 
 
+            let modalContaner=null;
+
+            modalContaner = this.state.showModal ? <BankModal bankInfo={this.state.bankInfo} onCloseModal={this.onCloseModal.bind(this)}/> : null;
+
             return (
-                panelHolder
+                <div>{panelHolder}{modalContaner}</div>
             )
         }
     }
