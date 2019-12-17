@@ -48,7 +48,7 @@ import {number_format} from '../commJS/common';
                             <div className="tbody">
                                 <div className="tr">
                                     <div className="td-left">
-                                        <img src="/common/images/BankLogo/Alipay.png"/>
+                                        <img src={"/common/images/BankLogo/"+bankInfo.bankLogo}/>
                                     </div>
                                     <div className="td-right">
                                         <span className="text-lowlight">Bank Name</span>
