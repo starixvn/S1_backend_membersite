@@ -1,4 +1,4 @@
-﻿export function copyToClipboard(txt) {
+﻿/*export function copyToClipboard(txt) {
     console.log(txt);
     if (window.clipboardData) {
         console.log("1");
@@ -34,4 +34,64 @@
         clip.setData(trans, null, clipid.kGlobalClipboard);
         alert("複製成功！");
     }
-}
+}*/
+
+ let Clipboard = (function(window, document, navigator) {
+    var textArea;
+    
+    function isOS() {
+        return navigator.userAgent.match(/ipad|iphone/i);
+    }
+    
+    function createTextArea(text) {
+        textArea = document.createElement('textArea');
+        //textArea.style.display = "none";
+        textArea.value = text;
+        document.body.appendChild(textArea);
+    }
+    
+    function selectText() {
+        var range,
+        selection;
+        
+        if (isOS()) {
+            range = document.createRange();
+            range.selectNodeContents(textArea);
+            selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            textArea.setSelectionRange(0, 999999);
+        } else {
+            textArea.select();
+        }
+    }
+    
+    function copyToClipboard() {
+        document.execCommand("Copy");
+        document.body.removeChild(textArea);
+    }
+    
+    let copy = function(text, success, error) {
+        try {
+            createTextArea(text);
+            selectText();
+            copyToClipboard();
+            console.log(text);
+        } catch (e) {
+            console.log(e);
+            if(error!=null) {
+                error(e);
+            }
+        }
+
+        if(success!=null) {
+            success(text);
+        }
+    };
+    
+    return {
+        copy: copy
+    };
+})(window, document, navigator);
+
+export {Clipboard};

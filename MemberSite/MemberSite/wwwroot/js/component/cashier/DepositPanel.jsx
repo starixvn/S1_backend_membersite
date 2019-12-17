@@ -1,7 +1,7 @@
 ﻿import {DataField, InputBox} from '../commJS/InputBox.jsx';
 import * as Loading from '../commJS/Loading.jsx';
 import {number_format} from '../commJS/common';
-import {copyToClipboard} from '../commJS/ScottClipboard';
+import {Clipboard} from '../commJS/ScottClipboard';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
     class BankModal extends React.Component {
@@ -20,6 +20,7 @@ import {copyToClipboard} from '../commJS/ScottClipboard';
 
         render() {
             let bankInfo = this.props.bankInfo;
+            console.log(Clipboard);
             return (
             <div className="modal" data-open={this.state.Show}>
                 <div className="overlay" onClick={this.onClose.bind(this)}></div>
@@ -46,7 +47,7 @@ import {copyToClipboard} from '../commJS/ScottClipboard';
                                         <span className="text">{bankInfo.accountName}</span>
                                     </div>
                                     <div className="td-right">
-                                        <button className="btn btn-icon text-primary" onClick={copyToClipboard.bind(null, bankInfo.accountName)}><i className="icon icon-copy"></i></button>
+                                        <button className="btn btn-icon text-primary" onClick={Clipboard.copy.bind(null, bankInfo.accountName,null,null)}><i className="icon icon-copy"></i></button>
                                     </div>
                                 </div>
                                 <div className="tr">
@@ -55,7 +56,7 @@ import {copyToClipboard} from '../commJS/ScottClipboard';
                                         <span className="text">{bankInfo.accountNo}</span>
                                     </div>
                                     <div className="td-right">
-                                        <a className="btn btn-icon text-primary"><i className="icon icon-copy"></i></a>
+                                        <button className="btn btn-icon text-primary" onClick={Clipboard.copy.bind(null, bankInfo.accountNo ,null,null)}><i className="icon icon-copy"></i></button>
                                     </div>
                                 </div>
                                 <div className="tr">
@@ -64,7 +65,7 @@ import {copyToClipboard} from '../commJS/ScottClipboard';
                                         <span className="text">{number_format(parseFloat(bankInfo.amount).toFixed(2))}</span>
                                     </div>
                                     <div className="td-right">
-                                        <a className="btn btn-icon text-primary"><i className="icon icon-copy"></i></a>
+                                        <button className="btn btn-icon text-primary" onClick={Clipboard.copy.bind(null, parseFloat(bankInfo.amount) ,null,null)}><i className="icon icon-copy"></i></button>
                                     </div>
                                 </div>                                
                                 <div className="tr">
@@ -73,7 +74,7 @@ import {copyToClipboard} from '../commJS/ScottClipboard';
                                         <span className="text-accent">{bankInfo.postScript}</span>
                                     </div>
                                     <div className="td-right">
-                                        <a className="btn btn-icon text-primary"><i className="icon icon-copy"></i></a>
+                                        <button className="btn btn-icon text-primary" onClick={Clipboard.copy.bind(null, bankInfo.postScript ,null,null)}><i className="icon icon-copy"></i></button>
                                     </div>
                                 </div>
                             </div>
