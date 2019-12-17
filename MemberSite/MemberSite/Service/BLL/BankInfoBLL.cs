@@ -40,5 +40,26 @@ namespace MemberSite.Service.BLL
 
             return bankInfoSysList?.Where(x => x.CurrencyId == CurrencyId);
         }
+
+        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrencyForCtrl(int CurrencyId)
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+
+            string key = $"BankInfoSysListForCtrl_{serverInfo.SiteId}";
+            var bankInfoSysList = cache.Get<IEnumerable<BankInfoSys>>(key);
+            if (bankInfoSysList != null)
+            {
+                return bankInfoSysList.Where(x => x.CurrencyId == CurrencyId);
+            }
+
+            bankInfoSysList = bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId);
+
+            if (bankInfoSysList != null)
+            {
+                cache.Set(key, bankInfoSysList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
+            }
+
+            return bankInfoSysList?.Where(x => x.CurrencyId == CurrencyId);
+        }
     }
 }

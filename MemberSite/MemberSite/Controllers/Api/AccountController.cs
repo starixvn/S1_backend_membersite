@@ -236,7 +236,7 @@ namespace MemberSite.Controllers.Api
 
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             //
-            var bankInfoSysList = bankInfoBLL.GetBankInfoSysListByCurrency(custInfo.CurrencyId);
+            var bankInfoSysList = bankInfoBLL.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId);
 
             if (bankInfoSysList == null || bankInfoSysList.Where(x => x.SysId == bankInfo.SysId).Count() == 0)
             {
@@ -285,9 +285,10 @@ namespace MemberSite.Controllers.Api
             var bankInfoSysList = bankInfoBLL.GetBankInfoSysListByCurrency(custInfo.CurrencyId);
 
             var custBankInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<CustBankInfoRep>(Newtonsoft.Json.JsonConvert.SerializeObject(custInfoBLL.GetCustBankInfo(authData.CustId)));
+
             if (custBankInfo != null && custBankInfo.bankInfoDetail != null && custBankInfo.bankInfoDetail.Count() > 0)
             {
-                foreach(var bankInfo in custBankInfo.bankInfoDetail)
+                foreach (var bankInfo in custBankInfo.bankInfoDetail)
                 {
                     var refBankInfo = bankInfoSysList.Where(x => x.SysId == bankInfo.SysId).FirstOrDefault();
                     if (refBankInfo != null)

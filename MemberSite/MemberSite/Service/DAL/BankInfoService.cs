@@ -26,5 +26,14 @@ namespace MemberSite.Service.DAL
                 return conn.Query<BankInfoSys>("BankInfoSysList_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
             }
         }
+
+        public IEnumerable<BankInfoSys> GetBankInfoSysListForCtrl(int siteId)
+        {
+            //siteId Still Useless
+            using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
+            {
+                return conn.Query<BankInfoSys>("BankInfoSysListForCtrl_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 }

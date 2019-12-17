@@ -433,7 +433,7 @@ template {
 }
 
 ver {
-  ver: "0 0.1-0.93586";
+  ver: "0 0.1-0.4155";
 }
 
 *,
@@ -521,6 +521,10 @@ body::before {
   background-image: url("../images/Lobby/Home/Home-BG.jpg");
   background-size: cover;
   background-position: center center;
+}
+
+[data-layout=desktop] [role=mobile-click] {
+  pointer-events: none;
 }
 
 @font-face {
@@ -2136,6 +2140,7 @@ button.btn .btn__inner::after {
   -webkit-align-items: center;
           align-items: center;
   position: relative;
+  width: 100%;
   padding: 0 .375rem;
   z-index: 0;
 }
@@ -2719,46 +2724,13 @@ p + .form {
   border-bottom-width: 0;
 }
 
-[class*="tr__inner"] {
-  -webkit-flex: 0 0 auto;
-          flex: 0 0 auto;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-          flex-direction: row;
-  width: 100%;
-  padding: 0;
-  border-width: 0;
-  border-style: solid;
-  border-color: inherit;
-  background-color: inherit;
-}
-
-.tr__inner-sub {
-  display: none;
-  -webkit-flex-direction: row;
-          flex-direction: row;
-  border-top-width: 1px;
-}
-
-.tr__inner-sub.is-open {
-  display: -webkit-flex;
-  display: flex;
-}
-
-.tr__inner-sub > .td {
-  padding: 0;
-  -webkit-align-items: stretch;
-          align-items: stretch;
-}
-
 .td, [class^="td-"] {
   display: -webkit-flex;
   display: flex;
   -webkit-flex-direction: column;
           flex-direction: column;
   width: auto;
-  padding: 0.375rem;
+  padding: 0.5rem 0.75rem;
   border-width: 0;
   border-style: solid;
   border-color: inherit;
@@ -2840,26 +2812,6 @@ p + .form {
   border-color: transparent;
 }
 
-.td-wrapper {
-  -webkit-flex: 1 0 auto;
-          flex: 1 0 auto;
-  width: 24vw;
-  padding: 0;
-}
-
-.td-wrapper .table {
-  background-color: transparent;
-  border-right-width: 0;
-}
-
-.td-wrapper .tr:last-of-type {
-  border-bottom-width: 0;
-}
-
-.td-wrapper .td, .td-wrapper [class^="td-"]:first-of-type, .td-wrapper .td:first-of-type {
-  border-left-width: 0;
-}
-
 .colspan {
   -webkit-flex: 1 0 auto;
           flex: 1 0 auto;
@@ -2902,7 +2854,7 @@ p + .form {
   left: 0;
   right: 0;
   height: 200%;
-  padding: .375rem;
+  padding: .5rem;
   -webkit-align-items: center;
           align-items: center;
   background-color: inherit;
@@ -3045,124 +2997,6 @@ p + .form {
   border-bottom-width: 0;
 }
 
-.table .ticket {
-  background-color: transparent;
-}
-
-.table .ticket__info {
-  padding: 0;
-}
-
-.table .ticket .ticket {
-  padding: .5rem;
-}
-
-.table--betlist .td,
-.table--betlist [class^="td-"] {
-  -webkit-justify-content: flex-start;
-          justify-content: flex-start;
-}
-
-[class*="table--statement"] .td,
-[class*="table--statement"] [class^="td-"] {
-  -webkit-justify-content: flex-start;
-          justify-content: flex-start;
-}
-
-.table--statement .td,
-.table--statement [class^="td-"],
-.table--statement-betsummary .td,
-.table--statement-betsummary [class^="td-"] {
-  -webkit-justify-content: center;
-          justify-content: center;
-}
-
-.td-date {
-  width: 11.5vw;
-}
-
-.td-remark {
-  -webkit-flex: 1 1 0;
-          flex: 1 1 0;
-}
-
-.td-turnover {
-  width: 12vw;
-  text-align: right;
-}
-
-.td-creadit {
-  width: 16vw;
-  text-align: right;
-}
-
-.td-commission {
-  width: 16vw;
-  text-align: right;
-}
-
-.td-balance {
-  width: 16vw;
-  text-align: right;
-}
-
-.td-last {
-  width: 6vw;
-  text-align: center;
-}
-
-.td-no {
-  width: 6vw;
-  text-align: center;
-}
-
-.td-trans-time, .table--betlist .td-date {
-  width: 19vw;
-}
-
-.td-choice,
-.td-event {
-  -webkit-flex: 1 0 0;
-          flex: 1 0 0;
-}
-
-.td-bettype {
-  width: 16vw;
-}
-
-.td-odds {
-  width: 10vw;
-  -webkit-align-items: flex-end;
-          align-items: flex-end;
-  text-align: right;
-}
-
-.td-stake {
-  width: 13vw;
-  text-align: right;
-  -webkit-align-items: flex-end;
-          align-items: flex-end;
-}
-
-.td-win-loss {
-  width: 13vw;
-  text-align: right;
-  -webkit-align-items: flex-end;
-          align-items: flex-end;
-}
-
-.td-status {
-  width: 10.5vw;
-}
-
-.td [class*="text"] + .btn-icon-small, [class^="td-"] [class*="text"] + .btn-icon-small {
-  margin-left: 0;
-}
-
-.table-sub .td-date {
-  width: 25vw;
-}
-
 .tfoot .td-total {
   -webkit-flex: 1 1 auto;
           flex: 1 1 auto;
@@ -3208,7 +3042,7 @@ p + .form {
   color: inherit !important;
 }
 
-.table--void .tbody .td-trans-time .text-time, .table--void .tbody .table--betlist .td-date .text-time, .table--betlist .table--void .tbody .td-date .text-time {
+.table--void .tbody .td-trans-time .text-time {
   color: inherit !important;
 }
 
@@ -3234,275 +3068,6 @@ p + .form {
   opacity: .75;
 }
 
-.td-league {
-  -webkit-align-items: flex-start;
-          align-items: flex-start;
-}
-
-.td-time, .td-kickoff-time {
-  width: 13.5vw;
-  min-width: 70px;
-}
-
-[lang="ch"] .td-time, [lang="cs"] .td-time, [lang="zhcn"] .td-time, [lang="ch"] .td-kickoff-time, [lang="cs"] .td-kickoff-time, [lang="zhcn"] .td-kickoff-time {
-  width: 10vw;
-}
-
-.td-match {
-  -webkit-flex: 1 0 0;
-          flex: 1 0 0;
-}
-
-.td-1sthalf {
-  width: 11vw;
-  text-align: center;
-}
-
-[lang="ch"] .td-1sthalf, [lang="cs"] .td-1sthalf, [lang="zhcn"] .td-1sthalf {
-  width: 11vw;
-}
-
-.td-final {
-  -webkit-flex: 0 0 auto;
-          flex: 0 0 auto;
-  width: 11vw;
-  text-align: center;
-}
-
-[class*="table--result"] .td-status {
-  width: 13.5vw;
-  min-width: 90px;
-}
-
-[lang="ch"] [class*="table--result"] .td-status,
-[lang="cs"] [class*="table--result"] .td-status,
-[lang="zhcn"] [class*="table--result"] .td-status {
-  width: 10vw;
-  min-width: 0;
-}
-
-.td-status-with-icon {
-  position: relative;
-  width: 16vw;
-  padding-right: 40px;
-  min-width: 90px;
-  -webkit-align-items: flex-start;
-          align-items: flex-start;
-  -webkit-justify-content: center;
-          justify-content: center;
-}
-
-.td-status-with-icon .btn-icon-small {
-  position: absolute;
-  right: .375rem;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-}
-
-.td-ft-oe {
-  width: 10vw;
-  text-align: center;
-}
-
-.td-frist-number {
-  width: 10vw;
-  text-align: center;
-}
-
-.td-first-number {
-  width: 10vw;
-  text-align: center;
-}
-
-.td-last-number {
-  width: 10vw;
-  text-align: center;
-}
-
-.td-ft-oe {
-  width: 10vw;
-  text-align: center;
-}
-
-.td-quarter {
-  width: 5vw;
-  text-align: center;
-}
-
-[lang="ch"] .td-quarter, [lang="cs"] .td-quarter, [lang="zhcn"] .td-quarter {
-  width: 8vw;
-}
-
-.td-ot {
-  width: 5vw;
-  text-align: center;
-}
-
-[lang="ch"] .td-ot, [lang="cs"] .td-ot, [lang="zhcn"] .td-ot {
-  width: 6vw;
-}
-
-.td-period {
-  width: 5vw;
-  text-align: center;
-}
-
-.td-set {
-  width: 7vw;
-  text-align: center;
-}
-
-[lang="ch"] .td-set, [lang="cs"] .td-set, [lang="zhcn"] .td-set {
-  width: 8vw;
-}
-
-.td-total-points {
-  width: 8vw;
-  text-align: center;
-}
-
-[lang="ch"] .td-total-points, [lang="cs"] .td-total-points, [lang="zhcn"] .td-total-points {
-  width: 8vw;
-}
-
-.td-total-set {
-  width: 8vw;
-  text-align: center;
-}
-
-[lang="ch"] .td-total-set, [lang="cs"] .td-total-set, [lang="zhcn"] .td-total-set {
-  width: 10vw;
-}
-
-.table--result-badminton .td-set {
-  width: 9vw;
-}
-
-.td-innings {
-  width: 4.25vw;
-  text-align: center;
-}
-
-.td-e-i {
-  width: 4.75vw;
-  text-align: center;
-}
-
-[lang="ch"] .td-e-i, [lang="cs"] .td-e-i, [lang="zhcn"] .td-e-i {
-  width: 8vw;
-}
-
-[lang="ch"] .table--result-baseball .td-total-points,
-[lang="cs"] .table--result-baseball .td-total-points,
-[lang="zhcn"] .table--result-baseball .td-total-points {
-  width: 10vw;
-}
-
-.td-score {
-  width: 8vw;
-  text-align: center;
-}
-
-.td-correct-score {
-  width: 14vw;
-  text-align: center;
-}
-
-.td-match-code {
-  width: 15vw;
-}
-
-.td-result {
-  -webkit-flex: 1 0 0;
-          flex: 1 0 0;
-}
-
-.td-win {
-  width: 14vw;
-  text-align: center;
-}
-
-.td-place {
-  width: 14vw;
-  text-align: center;
-}
-
-.table--result-outright .td-time {
-  width: 15vw;
-}
-
-.table--result-outright .td-team {
-  -webkit-flex: 1 0 0;
-          flex: 1 0 0;
-}
-
-.table--result-outright .td-result {
-  width: 15vw;
-}
-
-.table--result-happy5 .td-kickoff-time {
-  width: 12.5vw;
-}
-
-.table--result-happy5 .td-match {
-  width: 10vw;
-  text-align: center;
-}
-
-.table--result-happy5 .td-happy5-result {
-  width: 24.5vw;
-  text-align: center;
-}
-
-.table--result-happy5 .td-total {
-  -webkit-flex: 1;
-          flex: 1;
-  text-align: center;
-}
-
-.table--result-happy5 .td-bs {
-  -webkit-flex: 1;
-          flex: 1;
-  text-align: center;
-}
-
-.table--result-happy5 .td-oe {
-  -webkit-flex: 1;
-          flex: 1;
-  text-align: center;
-}
-
-.table--result-happy5 .td-4s {
-  -webkit-flex: 1;
-          flex: 1;
-  text-align: center;
-}
-
-.table--result-happy5 .td-mome {
-  -webkit-flex: 1;
-          flex: 1;
-  min-width: 8vw;
-  text-align: center;
-}
-
-.table--result-happy5 .td-cb {
-  -webkit-flex: 1;
-          flex: 1;
-  text-align: center;
-}
-
-.table--result-happy5 .td-status {
-  width: 11.5vw;
-}
-
-.dialog .td-happy5-result {
-  width: 40%;
-  text-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-}
-
 .table-rwd {
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
@@ -3511,11 +3076,14 @@ p + .form {
 .table-rwd .caption {
   display: -webkit-flex;
   display: flex;
+  -webkit-flex-flow: row wrap;
+          flex-flow: row wrap;
   -webkit-align-items: center;
           align-items: center;
   -webkit-justify-content: space-between;
           justify-content: space-between;
-  padding: .5rem 1rem;
+  padding: .5rem .75rem;
+  min-height: 44px;
   background-color: #DBEAFC;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
@@ -3550,8 +3118,6 @@ p + .form {
   -webkit-flex: 1;
           flex: 1;
   width: auto;
-  padding-top: .5rem;
-  padding-bottom: .5rem;
   word-wrap: break-word;
   word-break: break-word;
 }
@@ -3600,27 +3166,35 @@ p + .form {
   text-align: right;
 }
 
-[data-layout=mobile] .table-rwd .thead {
+[data-layout=desktop] .table-rwd .td-value {
+  -webkit-flex: 2;
+          flex: 2;
+}
+
+[data-layout=desktop] .table-rwd .td-icon {
+  -webkit-flex: 0 0 auto;
+          flex: 0 0 auto;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+[data-layout=mobile] .table-rwd {
+  border-right-width: 0;
+}
+
+[data-layout=mobile] .table-rwd .td, [data-layout=mobile] .table-rwd [class^=td-] {
+  border-left-width: 0;
+}
+
+[data-layout=mobile] .table-rwd .tbody > .tr.row-even {
+  background-color: transparent;
+}
+
+[data-layout=mobile] .table-rwd [data-open] .tr + .tr [class^=td]:first-of-type {
   display: none;
 }
 
-[data-layout=mobile] .table-rwd .tbody + .tbody {
-  border-top-width: 1px;
-}
-
-[data-layout=mobile] .table-rwd .tbody + .tbody:last-of-type {
-  border-bottom-width: 1px;
-}
-
-[data-layout=mobile] .table-rwd .tbody > .tr {
-  border-bottom-width: 0;
-}
-
-[data-layout=mobile] .table-rwd .tbody > .tr + .tr .td-date {
-  display: none;
-}
-
-[data-layout=mobile] .table-rwd [data-open=true] .tr > [class^=td]:first-of-type {
+[data-layout=mobile] .table-rwd [data-open=true] .tr > [role=mobile-click] {
   color: white;
   background-color: #5574a7;
 }
@@ -3630,18 +3204,27 @@ p + .form {
           transform: rotate(180deg);
 }
 
+[data-layout=mobile] .table-rwd [data-open=false] .tr > [role=mobile-click] {
+  color: #5574a7;
+  background-color: white;
+}
+
+[data-layout=mobile] .table-rwd [data-open=false] .tr:not(:first-of-type) {
+  display: none;
+}
+
 [data-layout=mobile] .table-rwd [data-open=false] .tr > [class^=td]:not(:first-of-type) {
   display: none;
 }
 
-[data-layout=mobile] .table-rwd .tr {
+[data-layout=mobile] .table-rwd .tr[role=mobile-flow-column] {
   -webkit-flex-direction: column;
           flex-direction: column;
 }
 
-[data-layout=mobile] .table-rwd [class^=td] {
+[data-layout=mobile] .table-rwd [class^=td][data-title] {
   width: 100%;
-  padding: .75rem 1rem;
+  padding: .5rem 1rem;
   -webkit-flex-direction: row;
           flex-direction: row;
   -webkit-justify-content: space-between;
@@ -3650,23 +3233,63 @@ p + .form {
           align-items: center;
 }
 
-[data-layout=mobile] .table-rwd [class^=td]::before {
+[data-layout=mobile] .table-rwd [class^=td][data-title]::before {
   content: attr(data-title);
 }
 
-[data-layout=mobile] .table-rwd .td-date {
+[data-layout=mobile] .table-rwd [role=mobile-click] {
   cursor: pointer;
 }
 
-[data-layout=mobile] .table-rwd .td-date::before {
+[data-layout=mobile] .table-rwd [role=mobile-click]::before {
   content: attr(data-title);
   display: none;
 }
 
-[data-layout=mobile] .table-rwd .td-date,
-[data-layout=mobile] .table-rwd .td-time {
-  color: #5574a7;
-  background-color: white;
+[data-layout=mobile] .table-rwd .tr {
+  position: relative;
+}
+
+[data-layout=mobile] .table-rwd [role=mobile-grid] {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+}
+
+[data-layout=mobile] .table-rwd [role=mobile-grid] [class^=td] {
+  min-height: auto;
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+}
+
+[data-layout=mobile] .table-rwd [role=mobile-row-1] {
+  -webkit-flex: 0 0 auto;
+          flex: 0 0 auto;
+}
+
+[data-layout=mobile] .table-rwd [role=mobile-row-2] {
+  -webkit-flex: 0 0 auto;
+          flex: 0 0 auto;
+}
+
+[data-layout=mobile] .table-rwd [role=mobile-rowspan] {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+[data-layout=mobile] .table-rwd .td-label {
+  width: calc(50% - 18px);
+}
+
+[data-layout=mobile] .table-rwd .td-value {
+  width: calc(50% - 18px);
+  text-align: right;
+}
+
+[data-layout=mobile] .table-rwd .td-icon {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .text-lowlight {
@@ -3689,7 +3312,6 @@ p + .form {
 
 .table-modal [class^=td] {
   min-height: 36px;
-  padding: .25rem .75rem;
 }
 
 .table-modal [class^=td] > [class^=text] {

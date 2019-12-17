@@ -286,7 +286,7 @@ import {number_format} from '../commJS/common';
                             <i className="icon icon-arrow-right"></i>
                         </a>
                     </div>
-                    <div className="thead">
+                    <div className="thead" role="desktop-only">
                         <div className="tr">
                             <div className="td-date" data-title="Date">
                                 <span className=" text">Date</span>
