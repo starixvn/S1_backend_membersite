@@ -300,8 +300,14 @@
   <data name="lbl_Message" xml:space="preserve">
     <value>Message</value>
   </data>
+  <data name="lbl_NewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
   <data name="lbl_NumberGame" xml:space="preserve">
     <value>Number Game</value>
+  </data>
+  <data name="lbl_OldPassword" xml:space="preserve">
+    <value>Old Password</value>
   </data>
   <data name="lbl_OurPolicies" xml:space="preserve">
     <value>Our Policies</value>
@@ -350,6 +356,9 @@
   </data>
   <data name="lbl_SportsBetting" xml:space="preserve">
     <value>Sports Betting</value>
+  </data>
+  <data name="lbl_Submit" xml:space="preserve">
+    <value>Submit</value>
   </data>
   <data name="lbl_Tennis" xml:space="preserve">
     <value>Tennis</value>
