@@ -43,15 +43,14 @@ import {number_format} from '../commJS/common';
                         <span className="text">Transaction</span>
                     </div>
                     <div className="modal__body">
-                        <p>Please transfer the amount to the account below in <span className="text-accent">14:29</span>.</p>
+                        <p>Please transfer the amount to the account{/* below in <span className="text-accent">14:29</span>.*/}</p>
                         <div className="table table-modal">
                             <div className="tbody">
                                 <div className="tr">
-                                    <div className="td-left">
+                                    <a className="td-left" target="_blank" href={bankInfo.bankSite}>
                                         <img src={"/common/images/BankLogo/"+bankInfo.bankLogo}/>
-                                    </div>
+                                    </a>
                                     <div className="td-right">
-                                        <span className="text-lowlight">Bank Name</span>
                                         <span className="text">{bankInfo.bankName}</span>
                                     </div>
                                 </div>
