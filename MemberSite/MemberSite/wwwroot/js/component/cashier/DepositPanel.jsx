@@ -40,10 +40,10 @@ import {number_format} from '../commJS/common';
                 <div className="overlay"></div>
                 <div className="modal__dialog">
                     <div className="modal__header">
-                        <span className="text">Transaction</span>
+                        <span className="text">{i18n.lbl_Transaction}</span>
                     </div>
                     <div className="modal__body">
-                        <p>Please transfer the amount to the account{/* below in <span className="text-accent">14:29</span>.*/}</p>
+                        <p>{i18n.lbl_TransactionHint}</p>
                         <div className="table table-modal">
                             <div className="tbody">
                                 <div className="tr">
@@ -56,7 +56,7 @@ import {number_format} from '../commJS/common';
                                 </div>
                                 <div className="tr">
                                     <div className="td-left">
-                                        <span className="text-lowlight">Bank Account Name</span>
+                                        <span className="text-lowlight">{i18n.lbl_BankAccountName}</span>
                                         <span className="text">{bankInfo.accountName}</span>
                                     </div>
                                     <div className="td-right">
@@ -65,7 +65,7 @@ import {number_format} from '../commJS/common';
                                 </div>
                                 <div className="tr">
                                     <div className="td-left">
-                                        <span className="text-lowlight">Bank Number</span>
+                                        <span className="text-lowlight">{i18n.lbl_BankNumber}</span>
                                         <span className="text">{bankInfo.accountNo}</span>
                                     </div>
                                     <div className="td-right">
@@ -74,7 +74,7 @@ import {number_format} from '../commJS/common';
                                 </div>
                                 <div className="tr">
                                     <div className="td-left">
-                                        <span className="text-lowlight">Deposit Amount</span>
+                                        <span className="text-lowlight">{i18n.lbl_DepositAmount}</span>
                                         <span className="text">{number_format(parseFloat(bankInfo.amount).toFixed(2))}</span>
                                     </div>
                                     <div className="td-right">
@@ -83,7 +83,7 @@ import {number_format} from '../commJS/common';
                                 </div>                                
                                 <div className="tr">
                                     <div className="td-left">
-                                        <span className="text-lowlight">Postscript</span>
+                                        <span className="text-lowlight">{i18n.lbl_Postscript}</span>
                                         <span className="text-accent">{bankInfo.postScript}</span>
                                     </div>
                                     <div className="td-right">
@@ -94,7 +94,7 @@ import {number_format} from '../commJS/common';
                             <div className="tfoot">
                                 <div className="tr">
                                     <div className="td-left">
-                                        <span className="text">Fill in the postscript to get deposit instantly.</span>
+                                        <span className="text">{i18n.lbl_PostscriptHint}</span>
                                     </div>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@ import {number_format} from '../commJS/common';
                         <div className="btn-group">
                             <button className="btn btn-primary" onClick={this.onClose.bind(this)} type="button">
                                 <div className="btn__inner">
-                                    <span className="text">Close</span>
+                                    <span className="text">{i18n.lbl_Close}</span>
                                 </div>
                             </button>
                         </div>
@@ -142,15 +142,15 @@ import {number_format} from '../commJS/common';
                 <div className="overlay" onClick={this.onClose.bind(this)}></div>
                 <div className="modal__dialog">
                     <div className="modal__header">
-                        <span className="text">Important Note</span>
+                        <span className="text">{i18n.lbl_ImportantNote}</span>
                     </div>
                     <form className="modal__body" onSubmit={this.onConfirm.bind(this)}>
-                        <p>Please confirm the deposit information.</p>
+                        <p>{i18n.lbl_ConfirmDeposit}</p>
                         <div className="table table-modal">
                             <div className="tbody">
                                 <div className="tr">
                                     <div className="td-left">
-                                        <span className="text-lowlight">Transfer To</span>
+                                        <span className="text-lowlight">{i18n.lbl_TransferTo}</span>
                                     </div>
                                     <div className="td-right">
                                         <span className="text">{this.props.PickBankInfoOff.bankName}</span>
@@ -158,7 +158,7 @@ import {number_format} from '../commJS/common';
                                 </div>                                
                                 <div className="tr">
                                     <div className="td-left">
-                                        <span className="text-lowlight">Deposit Amount</span>
+                                        <span className="text-lowlight">{i18n.lbl_DepositAmount}</span>
                                     </div>
                                     <div className="td-right">
                                         <span className="text">{number_format(parseFloat(this.props.Amount).toFixed(2))}</span>
@@ -166,7 +166,7 @@ import {number_format} from '../commJS/common';
                                 </div>
                                 <div className="tr">
                                     <div className="td-left">
-                                        <span className="text-lowlight">Memo</span>
+                                        <span className="text-lowlight">{i18n.lbl_Memo}</span>
                                     </div>
                                 </div>
                                 <div className="tr">
@@ -179,12 +179,12 @@ import {number_format} from '../commJS/common';
                         <div className="btn-group">
                             <button className="btn btn-primary"  onClick={this.onClose.bind(this)} type="button">
                                 <div className="btn__inner">
-                                    <span className="text">Cancel</span>
+                                    <span className="text">{i18n.lbl_Cancel}</span>
                                 </div>
                             </button>
                             <button className="btn btn-secondary" type="submit">
                                 <div className="btn__inner">
-                                    <span className="text">Confirm</span>
+                                    <span className="text">{i18n.lbl_Confirm}</span>
                                 </div>
                             </button>
                         </div>
@@ -280,9 +280,9 @@ import {number_format} from '../commJS/common';
             return (
                 <div className="table table-rwd table-primary">
                     <div className="caption">
-                        <span className="text">Recent Transactions</span>
+                        <span className="text">{i18n.lbl_RecentTransactions}</span>
                         <a className="text-link" href="#">
-                            <span className="text">All Transcations</span>
+                            <span className="text">{i18n.lbl_AllTranscations}</span>
                             <i className="icon icon-arrow-right"></i>
                         </a>
                     </div>
@@ -292,19 +292,19 @@ import {number_format} from '../commJS/common';
                                 <span className=" text">Date</span>
                             </div>
                             <div className="td-time" data-title="Time">
-                                <span className=" text">Time</span>
+                                <span className=" text">{i18n.lbl_Time}</span>
                             </div>
                             <div className="td-id" data-title="ID">
-                                <span className=" text">ID</span>
+                                <span className=" text">{i18n.lbl_ID}</span>
                             </div>
                             <div className="td-method" data-title="Method">
-                                <span className=" text">Method</span>
+                                <span className=" text">{i18n.lbl_Method}</span>
                             </div>
                             <div className="td-amount" data-title="Amount">
-                                <span className=" text">Amount</span>
+                                <span className=" text">{i18n.lbl_Amount}</span>
                             </div>
                             <div className="td-status" data-title="Status">
-                                <span className=" text">Status</span>
+                                <span className=" text">{i18n.lbl_Status}</span>
                             </div>
                         </div>
                     </div>
@@ -374,7 +374,7 @@ import {number_format} from '../commJS/common';
             let PickBankInfoOff = this.props.PickBankInfoOff;
             return (
                 <div className="form-group">
-                    <label className="form-title">Transfer To</label>
+                    <label className="form-title">{i18n.lbl_TransferTo}</label>
                     <div className="form-content">
                         <div className="dropdown dropdown-default" data-open={this.state.dropdown}>
                             <a className="btn" onClick={this.onDropdown.bind(this)}>
@@ -404,9 +404,9 @@ import {number_format} from '../commJS/common';
             let formArr=[];
 
             let amountDataField = new DataField("Amount");
-            amountDataField.placeholder="Amount";
-            amountDataField.displayName="Amount";
-            amountDataField.tooltip="Amount";
+            amountDataField.placeholder=i18n.lbl_Amount;
+            amountDataField.displayName=i18n.lbl_Amount;
+            amountDataField.tooltip=i18n.lbl_AmountTooltip;
             amountDataField.status=1;
             amountDataField.objectType=5;
             amountDataField.handleCheck = this.handleCheckAmount.bind(this);
@@ -539,19 +539,19 @@ import {number_format} from '../commJS/common';
             return (
             <div className="page">
                 <div className="heading">
-                    <span className="text">Wire Transfers</span>
+                    <span className="text">{i18n.lbl_WireTransfers}</span>
                 </div>
                 <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                     {Inputs}
                     <div className="btn-group">
                         <button className="btn btn-primary" type="button" onClick={this.onDepositOptions.bind(this)}>
                             <div className="btn__inner">
-                                <span className="text">Back</span>
+                                <span className="text">{i18n.lbl_Back}</span>
                             </div>
                         </button>
                         <button className="btn btn-secondary" type="submit">
                             <div className="btn__inner">
-                                <span className="text">Submit</span>
+                                <span className="text">{i18n.lbl_Submit}</span>
                             </div>
                         </button>
                     </div>
@@ -575,13 +575,13 @@ import {number_format} from '../commJS/common';
             return (
             <div className="page">
                 <div className="heading">
-                    <span className="text">Deposit</span>
+                    <span className="text">{i18n.lbl_Deposit}</span>
                 </div>
-                <p>You can choose the best suitable for you deposit option from the ones provided below:.</p>
+                <p>{i18n.lbl_DepositOptionHint}</p>
                 <div className="panel panel-primary panel--payment" data-open="true">
                     <div className="panel__header">
-                        <span className="text">Wire Transfers -</span>
-                        <span className="text-primary">Credit Time : 5 Mins</span>
+                        <span className="text">{i18n.lbl_WireTransfers} -</span>
+                        <span className="text-primary">{i18n.lbl_CreditTime}: {i18n.lbl_5mins}</span>
                         <i className="icon icon-caret"></i>
                     </div>
                     <div className="panel__body">
@@ -590,15 +590,15 @@ import {number_format} from '../commJS/common';
                                 <div className="payment__img">
                                     <img src="../../SiteSkin/Nova88/common/images/payment/wire-transfer.png"/>
                                 </div>
-                                <span className="payment__text">Wire Transfers</span>
+                                <span className="payment__text">{i18n.lbl_WireTransfers}</span>
                             </a>
                         </div>
                     </div>
                 </div>
                 <div className="panel panel-primary panel--payment" data-open="true">
                     <div className="panel__header">
-                        <span className="text">Online Banking -</span>
-                        <span className="text-primary">Credit Time : Instant</span>
+                        <span className="text">{i18n.lbl_OnlineBanking} -</span>
+                        <span className="text-primary">{i18n.lbl_CreditTime}: {i18n.lbl_Instant}</span>
                         <i className="icon icon-caret"></i>
                     </div>
                     <div className="panel__body">
@@ -626,8 +626,8 @@ import {number_format} from '../commJS/common';
                 </div>
                 <div className="panel panel-primary panel--payment" data-open="true">
                     <div className="panel__header">
-                        <span className="text">Mobile Deposit -</span>
-                        <span className="text-primary">Credit Time : Instant</span>
+                        <span className="text">{i18n.lbl_MobileDeposit} -</span>
+                        <span className="text-primary">{i18n.lbl_CreditTime}: {i18n.lbl_Instant}</span>
                         <i className="icon icon-caret"></i>
                     </div>
                     <div className="panel__body">

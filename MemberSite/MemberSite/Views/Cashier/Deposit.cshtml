@@ -5,18 +5,53 @@
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @{
-    ViewData["Title"] = "Deposit";
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Deposit");
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    var i18n = new Dictionary<string, string>();
+    i18n.Add("lbl_Deposit", selLangBLL.GetResourceValue("lbl_Deposit"));
+    i18n.Add("lbl_Transaction", selLangBLL.GetResourceValue("lbl_Transaction"));
+    i18n.Add("lbl_TransactionHint", selLangBLL.GetResourceValue("lbl_TransactionHint"));
+    i18n.Add("lbl_BankAccountName", selLangBLL.GetResourceValue("lbl_BankAccountName"));
+    i18n.Add("lbl_BankNumber", selLangBLL.GetResourceValue("lbl_BankNumber"));
+    i18n.Add("lbl_DepositAmount", selLangBLL.GetResourceValue("lbl_DepositAmount"));
+    i18n.Add("lbl_Postscript", selLangBLL.GetResourceValue("lbl_Postscript"));
+    i18n.Add("lbl_PostscriptHint", selLangBLL.GetResourceValue("lbl_PostscriptHint"));
+    i18n.Add("lbl_Close", selLangBLL.GetResourceValue("lbl_Close"));
+    i18n.Add("lbl_ImportantNote", selLangBLL.GetResourceValue("lbl_ImportantNote"));
+    i18n.Add("lbl_ConfirmDeposit", selLangBLL.GetResourceValue("lbl_ConfirmDeposit"));
+    i18n.Add("lbl_TransferTo", selLangBLL.GetResourceValue("lbl_TransferTo"));
+    i18n.Add("lbl_Memo", selLangBLL.GetResourceValue("lbl_Memo"));
+    i18n.Add("lbl_Cancel", selLangBLL.GetResourceValue("lbl_Cancel"));
+    i18n.Add("lbl_Confirm", selLangBLL.GetResourceValue("lbl_Confirm"));
+    i18n.Add("lbl_RecentTransactions", selLangBLL.GetResourceValue("lbl_RecentTransactions"));
+    i18n.Add("lbl_AllTranscations", selLangBLL.GetResourceValue("lbl_AllTranscations"));
+    i18n.Add("lbl_Time", selLangBLL.GetResourceValue("lbl_Time"));
+    i18n.Add("lbl_ID", selLangBLL.GetResourceValue("lbl_ID"));
+    i18n.Add("lbl_Method", selLangBLL.GetResourceValue("lbl_Method"));
+    i18n.Add("lbl_Amount", selLangBLL.GetResourceValue("lbl_Amount"));
+    i18n.Add("lbl_Status", selLangBLL.GetResourceValue("lbl_Status"));
+    i18n.Add("lbl_WireTransfers", selLangBLL.GetResourceValue("lbl_WireTransfers"));
+    i18n.Add("lbl_DepositOptionHint", selLangBLL.GetResourceValue("lbl_DepositOptionHint"));
+    i18n.Add("lbl_CreditTime", selLangBLL.GetResourceValue("lbl_CreditTime"));
+    i18n.Add("lbl_5mins", selLangBLL.GetResourceValue("lbl_5mins"));
+    i18n.Add("lbl_Instant", selLangBLL.GetResourceValue("lbl_Instant"));
+    i18n.Add("lbl_OnlineBanking", selLangBLL.GetResourceValue("lbl_OnlineBanking"));
+    i18n.Add("lbl_MobileDeposit", selLangBLL.GetResourceValue("lbl_MobileDeposit"));
+    i18n.Add("lbl_AmountTooltip", selLangBLL.GetResourceValue("lbl_AmountTooltip"));
+    i18n.Add("lbl_Back", selLangBLL.GetResourceValue("lbl_Back"));
+    i18n.Add("lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit"));
+}
+
 @section Style{
 
 }
-<div id="DepositPanel">
+<div id="DepositPanel"></div>
 
-</div>
 @section Scripts{
     <script type="text/javascript">
-        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(null)));
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
     </script>
     <script src="~/lib/runtime.min.js"></script>
     <script src="~/lib/clipboard.min.js"></script>

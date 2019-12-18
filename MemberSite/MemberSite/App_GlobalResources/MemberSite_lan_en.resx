@@ -162,6 +162,9 @@
   <data name="Currency_9" xml:space="preserve">
     <value>AUD</value>
   </data>
+  <data name="lbl_5mins" xml:space="preserve">
+    <value>5 mins</value>
+  </data>
   <data name="lbl_AboutUs" xml:space="preserve">
     <value>About Us</value>
   </data>
@@ -171,11 +174,29 @@
   <data name="lbl_Affiliates" xml:space="preserve">
     <value>Affiliates</value>
   </data>
+  <data name="lbl_AllTranscations" xml:space="preserve">
+    <value>All Transcations</value>
+  </data>
+  <data name="lbl_Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="lbl_AmountTooltip" xml:space="preserve">
+    <value>Amount</value>
+  </data>
   <data name="lbl_Applicationname" xml:space="preserve">
     <value />
   </data>
   <data name="lbl_Author" xml:space="preserve">
     <value />
+  </data>
+  <data name="lbl_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="lbl_BankAccountName" xml:space="preserve">
+    <value>Bank Account Name</value>
+  </data>
+  <data name="lbl_BankNumber" xml:space="preserve">
+    <value>Bank Number</value>
   </data>
   <data name="lbl_Baseball" xml:space="preserve">
     <value>Baseball</value>
@@ -188,6 +209,9 @@
   </data>
   <data name="lbl_BasketballBetting" xml:space="preserve">
     <value>Basketball Betting</value>
+  </data>
+  <data name="lbl_Cancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="lbl_Cashier" xml:space="preserve">
     <value>Cashier</value>
@@ -204,8 +228,17 @@
   <data name="lbl_Clickhereforbonus" xml:space="preserve">
     <value>Click here for bonus</value>
   </data>
+  <data name="lbl_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="lbl_CompleteRegistration" xml:space="preserve">
     <value>Complete Registration</value>
+  </data>
+  <data name="lbl_Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="lbl_ConfirmDeposit" xml:space="preserve">
+    <value>Please confirm the deposit information.</value>
   </data>
   <data name="lbl_ContactUs" xml:space="preserve">
     <value>Contact Us</value>
@@ -216,8 +249,20 @@
   <data name="lbl_Copyright" xml:space="preserve">
     <value>Copyright {0}</value>
   </data>
+  <data name="lbl_CreditTime" xml:space="preserve">
+    <value>Credit Time</value>
+  </data>
+  <data name="lbl_Deposit" xml:space="preserve">
+    <value>Deposit</value>
+  </data>
+  <data name="lbl_DepositAmount" xml:space="preserve">
+    <value>Deposit Amount</value>
+  </data>
   <data name="lbl_DepositNow" xml:space="preserve">
     <value>Deposit Now</value>
+  </data>
+  <data name="lbl_DepositOptionHint" xml:space="preserve">
+    <value>You can choose the best suitable for you deposit option from the ones provided below:.</value>
   </data>
   <data name="lbl_DepositWithdrawals" xml:space="preserve">
     <value>Deposit &amp; Withdrawals</value>
@@ -264,8 +309,17 @@
   <data name="lbl_Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="lbl_ID" xml:space="preserve">
+    <value>ID</value>
+  </data>
   <data name="lbl_Image" xml:space="preserve">
     <value />
+  </data>
+  <data name="lbl_ImportantNote" xml:space="preserve">
+    <value>Important Note</value>
+  </data>
+  <data name="lbl_Instant" xml:space="preserve">
+    <value>Instant</value>
   </data>
   <data name="lbl_JoinNow" xml:space="preserve">
     <value>Join Now</value>
@@ -297,8 +351,17 @@
   <data name="lbl_Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
+  <data name="lbl_Memo" xml:space="preserve">
+    <value>Memo</value>
+  </data>
   <data name="lbl_Message" xml:space="preserve">
     <value>Message</value>
+  </data>
+  <data name="lbl_Method" xml:space="preserve">
+    <value>Method</value>
+  </data>
+  <data name="lbl_MobileDeposit" xml:space="preserve">
+    <value>Mobile Deposit</value>
   </data>
   <data name="lbl_NewPassword" xml:space="preserve">
     <value>New Password</value>
@@ -308,6 +371,9 @@
   </data>
   <data name="lbl_OldPassword" xml:space="preserve">
     <value>Old Password</value>
+  </data>
+  <data name="lbl_OnlineBanking" xml:space="preserve">
+    <value>Online Banking</value>
   </data>
   <data name="lbl_OurPolicies" xml:space="preserve">
     <value>Our Policies</value>
@@ -320,6 +386,12 @@
   </data>
   <data name="lbl_PaymentOptions" xml:space="preserve">
     <value>Payment Options</value>
+  </data>
+  <data name="lbl_Postscript" xml:space="preserve">
+    <value>Postscript</value>
+  </data>
+  <data name="lbl_PostscriptHint" xml:space="preserve">
+    <value>Fill in the postscript to get deposit instantly.</value>
   </data>
   <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
     <value>Preferred currency can not be changed after registration.</value>
@@ -335,6 +407,9 @@
   </data>
   <data name="lbl_RebatebonusonMobile" xml:space="preserve">
     <value>Rebate bonus on Mobile</value>
+  </data>
+  <data name="lbl_RecentTransactions" xml:space="preserve">
+    <value>Recent Transactions</value>
   </data>
   <data name="lbl_ResposibleGaming" xml:space="preserve">
     <value>Resposible Gaming</value>
@@ -357,6 +432,9 @@
   <data name="lbl_SportsBetting" xml:space="preserve">
     <value>Sports Betting</value>
   </data>
+  <data name="lbl_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
   <data name="lbl_Submit" xml:space="preserve">
     <value>Submit</value>
   </data>
@@ -369,6 +447,9 @@
   <data name="lbl_TermsConditions" xml:space="preserve">
     <value>Terms and Conditions</value>
   </data>
+  <data name="lbl_Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
   <data name="lbl_Title" xml:space="preserve">
     <value>Nova88</value>
   </data>
@@ -378,11 +459,20 @@
   <data name="lbl_TitleKeywords" xml:space="preserve">
     <value />
   </data>
+  <data name="lbl_Transaction" xml:space="preserve">
+    <value>Transaction</value>
+  </data>
+  <data name="lbl_TransactionHint" xml:space="preserve">
+    <value>Please transfer the amount to the account.</value>
+  </data>
   <data name="lbl_TransactionHistory" xml:space="preserve">
     <value>Transaction History</value>
   </data>
   <data name="lbl_TransferFunds" xml:space="preserve">
     <value>Transfer Funds</value>
+  </data>
+  <data name="lbl_TransferTo" xml:space="preserve">
+    <value>Transfer To</value>
   </data>
   <data name="lbl_TryNow" xml:space="preserve">
     <value>Try Now</value>
@@ -413,5 +503,8 @@
   </data>
   <data name="lbl_Welcome" xml:space="preserve">
     <value>Welcome</value>
+  </data>
+  <data name="lbl_WireTransfers" xml:space="preserve">
+    <value>Wire Transfers</value>
   </data>
 </root>
