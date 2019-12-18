@@ -84,31 +84,31 @@ import {number_format} from '../commJS/common';
             return (
                 <div className="table table-rwd table-primary">
                     <div className="caption">
-                        <span className="text">Recent Transactions</span>
+                        <span className="text">{i18n.lbl_RecentTransactions}</span>
                         <a className="text-link" href="#">
-                            <span className="text">All Transcations</span>
+                            <span className="text">{i18n.lbl_AllTranscations}</span>
                             <i className="icon icon-arrow-right"></i>
                         </a>
                     </div>
                     <div className="thead" role="desktop-only">
                         <div className="tr">
                             <div className="td-date" data-title="Date">
-                                <span className=" text">Date</span>
+                                <span className=" text">{i18n.lbl_Date}</span>
                             </div>
                             <div className="td-time" data-title="Time">
-                                <span className=" text">Time</span>
+                                <span className=" text">{i18n.lbl_Time}</span>
                             </div>
                             <div className="td-id" data-title="ID">
-                                <span className=" text">ID</span>
+                                <span className=" text">{i18n.lbl_ID}</span>
                             </div>
                             <div className="td-amount" data-title="Amount">
-                                <span className=" text">Amount</span>
+                                <span className=" text">{i18n.lbl_Amount}</span>
                             </div>                            
                             <div className="td-amount" data-title="Charge Fee">
-                                <span className=" text">Charge Fee</span>
+                                <span className=" text">{i18n.lbl_ChargeFee}</span>
                             </div>
                             <div className="td-status" data-title="Status">
-                                <span className=" text">Status</span>
+                                <span className=" text">{i18n.lbl_Status}</span>
                             </div>
                         </div>
                     </div>
@@ -175,7 +175,7 @@ import {number_format} from '../commJS/common';
             let PickBankInfo = this.props.PickBankInfo;
             return (
                 <div className="form-group">
-                    <label className="form-title">Transfer To</label>
+                    <label className="form-title">{i18n.lbl_TransferTo}</label>
                     <div className="form-content">
                         <div className="dropdown dropdown-default" data-open={this.state.dropdown}>
                             <a className="btn" onClick={this.onDropdown.bind(this)}>
@@ -224,15 +224,15 @@ import {number_format} from '../commJS/common';
                 <div className="overlay" onClick={this.onClose.bind(this)}></div>
                 <div className="modal__dialog">
                     <div className="modal__header">
-                        <span className="text">Important Note</span>
+                        <span className="text">{i18n.lbl_ImportantNote}</span>
                     </div>
                     <form className="modal__body" onSubmit={this.onConfirm.bind(this)}>
-                        <p>Please confirm the withdrawal information.</p>
+                        <p>{i18n.lbl_lbl_ConfirmWithdrawal}</p>
                         <div className="table table-modal">
                             <div className="tbody">
                                 <div className="tr">
                                     <div className="td-left">
-                                        <span className="text-lowlight">Withdrawal To</span>
+                                        <span className="text-lowlight">{i18n.lbl_WithdrawalTo}</span>
                                     </div>
                                     <div className="td-right">
                                         <span className="text">{this.props.PickBankInfo.bankName}</span>
@@ -240,7 +240,7 @@ import {number_format} from '../commJS/common';
                                 </div>
                                 <div className="tr">
                                     <div className="td-left">
-                                        <span className="text-lowlight">Account Name</span>
+                                        <span className="text-lowlight">{i18n.lbl_BankAccountName}</span>
                                     </div>
                                     <div className="td-right">
                                         <span className="text">{this.props.AcountName}</span>
@@ -248,7 +248,7 @@ import {number_format} from '../commJS/common';
                                 </div>
                                 <div className="tr">
                                     <div className="td-left">
-                                        <span className="text-lowlight">Account No</span>
+                                        <span className="text-lowlight">{i18n.lbl_BankNumber}</span>
                                     </div>
                                     <div className="td-right">
                                         <span className="text">{this.props.PickBankInfo.accountNo}</span>
@@ -256,7 +256,7 @@ import {number_format} from '../commJS/common';
                                 </div>                                
                                 <div className="tr">
                                     <div className="td-left">
-                                        <span className="text-lowlight">Withdrawal Amount</span>
+                                        <span className="text-lowlight">{i18n.lbl_WithdrawalAmount}</span>
                                     </div>
                                     <div className="td-right">
                                         <span className="text">{number_format(parseFloat(this.props.Amount).toFixed(2))}</span>
@@ -264,7 +264,7 @@ import {number_format} from '../commJS/common';
                                 </div>
                                 <div className="tr">
                                     <div className="td-left">
-                                        <span className="text-lowlight">Memo</span>
+                                        <span className="text-lowlight">{i18n.lbl_Memo}</span>
                                     </div>
                                 </div>
                                 <div className="tr">
@@ -277,12 +277,12 @@ import {number_format} from '../commJS/common';
                         <div className="btn-group">
                             <button className="btn btn-primary"  onClick={this.onClose.bind(this)} type="button">
                                 <div className="btn__inner">
-                                    <span className="text">Cancel</span>
+                                    <span className="text">{i18n.lbl_Cancel}</span>
                                 </div>
                             </button>
                             <button className="btn btn-secondary" type="submit">
                                 <div className="btn__inner">
-                                    <span className="text">Confirm</span>
+                                    <span className="text">{i18n.lbl_Confirm}</span>
                                 </div>
                             </button>
                         </div>
@@ -300,9 +300,9 @@ import {number_format} from '../commJS/common';
             let formArr=[];
 
             let amountDataField = new DataField("Amount");
-            amountDataField.placeholder="Withdrawal Amount";
-            amountDataField.displayName="Withdrawal Amount";
-            amountDataField.tooltip="Amount";
+            amountDataField.placeholder=i18n.lbl_WithdrawalAmount;
+            amountDataField.displayName=i18n.lbl_WithdrawalAmount;
+            amountDataField.tooltip=i18n.lbl_AmountTooltip;
             amountDataField.status=1;
             amountDataField.objectType=5;
             amountDataField.handleCheck = this.handleCheckAmount.bind(this);
@@ -347,7 +347,7 @@ import {number_format} from '../commJS/common';
             if(value!=null) {
                 if(value <= 0) {
                     status = 2;
-                    message = "Can't Be 0.";
+                    message = i18n.lbl_AmountToolTip;
                 /*} else if((PickBankInfoOff.minAmount != 0 && PickBankInfoOff.maxAmount != 0) && (value > PickBankInfoOff.maxAmount || value < PickBankInfoOff.minAmount) ) {
                     status = 2;
                     message = number_format(value) + " not in Limit.";*/
@@ -429,11 +429,11 @@ import {number_format} from '../commJS/common';
             return (
                     <div className="page">
                         <div className="heading">
-                            <span className="text">Withdrawal</span>
+                            <span className="text">{i18n.lbl_Withdrawal}</span>
                         </div>
                         <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                             <div className="form-group">
-                                <label className="form-title">Acount Name</label>
+                                <label className="form-title">{i18n.lbl_BankAccountName}</label>
                                 <div className="form-content" data-status="info">
                                     <div className="textfield">
                                         <span className="text">{this.state.AcountName}</span>
@@ -444,7 +444,7 @@ import {number_format} from '../commJS/common';
                             <div className="btn-group">
                                 <button className="btn btn-secondary">
                                     <div className="btn__inner">
-                                        <span className="text">Submit</span>
+                                        <span className="text">{i18n.lbl_Submit}</span>
                                     </div>
                                 </button>
                             </div>

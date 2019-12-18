@@ -181,7 +181,7 @@
     <value>Amount</value>
   </data>
   <data name="lbl_AmountTooltip" xml:space="preserve">
-    <value>Amount</value>
+    <value>Amount can not be less than 0.</value>
   </data>
   <data name="lbl_Applicationname" xml:space="preserve">
     <value />
@@ -225,6 +225,9 @@
   <data name="lbl_ChangePassword" xml:space="preserve">
     <value>Change Password</value>
   </data>
+  <data name="lbl_ChargeFee" xml:space="preserve">
+    <value>Charge Fee</value>
+  </data>
   <data name="lbl_Clickhereforbonus" xml:space="preserve">
     <value>Click here for bonus</value>
   </data>
@@ -239,6 +242,9 @@
   </data>
   <data name="lbl_ConfirmDeposit" xml:space="preserve">
     <value>Please confirm the deposit information.</value>
+  </data>
+  <data name="lbl_ConfirmWithdrawal" xml:space="preserve">
+    <value>Please confirm the withdrawal information.</value>
   </data>
   <data name="lbl_ContactUs" xml:space="preserve">
     <value>Contact Us</value>
@@ -262,7 +268,7 @@
     <value>Deposit Now</value>
   </data>
   <data name="lbl_DepositOptionHint" xml:space="preserve">
-    <value>You can choose the best suitable for you deposit option from the ones provided below:.</value>
+    <value>You can choose the best suitable for you deposit option from the ones provided below:</value>
   </data>
   <data name="lbl_DepositWithdrawals" xml:space="preserve">
     <value>Deposit &amp; Withdrawals</value>
@@ -486,6 +492,12 @@
   <data name="lbl_TwitterSite" xml:space="preserve">
     <value>@Nova88official</value>
   </data>
+  <data name="lbl_UpdateBankDetail" xml:space="preserve">
+    <value>Update Bank Details</value>
+  </data>
+  <data name="lbl_UpdateBankInfo" xml:space="preserve">
+    <value>Please update your bank account details before making deposit.</value>
+  </data>
   <data name="lbl_URL" xml:space="preserve">
     <value />
   </data>
@@ -506,5 +518,14 @@
   </data>
   <data name="lbl_WireTransfers" xml:space="preserve">
     <value>Wire Transfers</value>
+  </data>
+  <data name="lbl_Withdrawal" xml:space="preserve">
+    <value>Withdrawal</value>
+  </data>
+  <data name="lbl_WithdrawalAmount" xml:space="preserve">
+    <value>Withdrawal Amount</value>
+  </data>
+  <data name="lbl_WithdrawalTo" xml:space="preserve">
+    <value>Withdrawal To</value>
   </data>
 </root>
