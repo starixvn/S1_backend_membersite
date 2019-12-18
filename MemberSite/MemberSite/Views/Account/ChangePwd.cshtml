@@ -18,13 +18,14 @@
     i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
     i18n.Add("msg_PasswordVaildate", selLangBLL.GetMsg("msg_PasswordVaildate"));
 }
-<div class="page">
-    <div class="heading">
-        <span class="text">@selLangBLL.GetResourceValue("lbl_ChangePassword")</span>
+    <div class="main">
+        <div class="page">
+            <div class="heading">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_ChangePassword")</span>
+            </div>
+            <div id="ChangePwd"></div>
+        </div>
     </div>
-    <div id="ChangePwd"></div>
-</div>
-
 @section Scripts{
     <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
