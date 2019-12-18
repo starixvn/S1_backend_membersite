@@ -4,7 +4,7 @@
     _tooltip="";
     _displayName="";
     _placeholder="";
-    _dataStatus={"1":"info","2":"error","3":"valid","4":"readOnly"};
+    _dataStatus={"1":"info","2":"error","3":"valid","4":"readonly"};
     _objectType=1;/*1. Text,2. Password,3. dropdownList, 4. Email, 5.Number */
     _Value=null;
     _dropdownList=[];
@@ -238,7 +238,7 @@ export class InputBox extends React.Component {
             <label className="form-title">{field.displayName}</label>
             <div className="form-content" data-status={field.dataStatus}>
                 {inputPanel}
-                <div className="tooltip tooltip--bottom-right" data-open={(field.status!=3 && (this.state.showTooltip && field.status==1))||field.status==2}>
+                <div className="tooltip tooltip--bottom-right" data-open={(field.status!=3 && field.status!=4 && (this.state.showTooltip && field.status==1))||field.status==2}>
                     <span className="text">{field.tooltip}</span>
                 </div>
             </div>

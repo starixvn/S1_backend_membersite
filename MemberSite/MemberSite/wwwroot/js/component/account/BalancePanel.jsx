@@ -53,8 +53,8 @@ import {number_format} from '../commJS/common';
             )
         }
     }
-    
-    ReactDOM.render(<BalancePanel/>, document.getElementById('BalancePanel'));
-    ReactDOM.render(<BalancePanel/>, document.getElementById('BalancePanel1'));
+    let _balancePanel = <BalancePanel/>;
+    ReactDOM.render(_balancePanel, document.getElementById('BalancePanel'));
+    ReactDOM.render(_balancePanel, document.getElementById('BalancePanel1'));
     
     })(jQuery, React, ReactDOM, i18n, axios);

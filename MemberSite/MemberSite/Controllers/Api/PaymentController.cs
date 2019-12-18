@@ -19,13 +19,15 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL authorizeBLL;
         private readonly PaymentBLL paymentBLL;
         private readonly CustInfoBLL custInfoBLL;
+        private readonly BankInfoBLL bankInfoBLL;
 
-        public PaymentController(BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL)
+        public PaymentController(BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;
             this.paymentBLL = paymentBLL;
             this.custInfoBLL = custInfoBLL;
+            this.bankInfoBLL = bankInfoBLL;
         }
 
         [HttpPost]
@@ -135,5 +137,17 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<BankInfoSys>> GetBankInfoSysList()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<BankInfoSys>>();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            apiResult.Data = bankInfoBLL.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
     }
 }

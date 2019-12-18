@@ -27,13 +27,17 @@
 }
 
 let OnLoading = function() {
-    elem = document.createElement('div');
-    document.body.appendChild(elem);
-    ReactDOM.render(<Loading/>, elem);
+    if(elem == null) {
+        elem = document.createElement('div');
+        document.body.appendChild(elem);
+        ReactDOM.render(<Loading/>, elem);
+    }
 };
 
 let UnLoading = function() {
-    ReactDOM.unmountComponentAtNode(elem);
+    if(ReactDOM.unmountComponentAtNode(elem)){
+        elem = null;
+    }
 };
 
 export { OnLoading, UnLoading }; 
