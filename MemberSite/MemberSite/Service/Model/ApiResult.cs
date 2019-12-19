@@ -61,4 +61,15 @@ namespace MemberSite.Service.Model
         public ApiResult(int ErrorCode, string Message, TData data) : base(ErrorCode, Message) { this.Data = data; }
         public TData Data { get; set; }
     }
+
+    public class ApiListResult<TData> : ApiResult
+    {
+        public ApiListResult() : this(9000, "") { }
+        public ApiListResult(ISelLang selLang) : this(9000, "") { SelLang = selLang; }
+        public ApiListResult(int ErrorCode, string Message) : base(ErrorCode, Message) { }
+        public IEnumerable<TData> Data { get; set; }
+        public int TotalPages { get; set; }
+        public int PageNumber { get; set; }
+        public int RowCount { get; set; }
+    }
 }

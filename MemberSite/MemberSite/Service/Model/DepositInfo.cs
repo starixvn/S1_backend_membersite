@@ -61,6 +61,7 @@ namespace MemberSite.Service.Model
         public int DepositType { get; set; }
         public string TransId { get; set; }
         public decimal Amount { get; set; }
+        //public decimal ActualDeposit { get; set; }
         public int Status { get; set; }
         public string PostScript { get; set; }
         [JsonIgnore]

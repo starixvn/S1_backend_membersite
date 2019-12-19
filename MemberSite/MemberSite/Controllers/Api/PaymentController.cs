@@ -65,6 +65,29 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+        public class HistoryReq
+        {
+            public long StartDate { get; set; }
+            public long EndDate { get; set; }
+            public int PageNumber { get; set; }
+            //public int PageSize { get; set; }
+        }
+
+        [HttpPost]
+        public ApiListResult<DepositInfoHistory> GetDepositInfoHistory(HistoryReq historyReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiListResult<DepositInfoHistory>();
+            int pageNumber = historyReq.PageNumber;
+            int totalPages;
+            int rowCount;
+            apiResult.Data = paymentBLL.GetDepositInfoHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
+            apiResult.PageNumber = pageNumber;
+            apiResult.TotalPages = totalPages;
+            apiResult.RowCount = rowCount;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
         public class DepositReqWireTransferReq
         {
             public int sysId { set; get; }

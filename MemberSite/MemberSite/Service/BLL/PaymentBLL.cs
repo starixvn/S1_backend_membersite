@@ -146,8 +146,25 @@ namespace MemberSite.Service.BLL
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoRecent(int custId)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var withdrawalInfo = depoistService.GetWithdrawalInfoRecent(custId, CustInfo.SiteId, 5);
+            var withdrawalInfo = withdrawalService.GetWithdrawalInfoRecent(custId, CustInfo.SiteId, 5);
             return withdrawalInfo;
+        }
+
+        public IEnumerable<DepositInfoHistory> GetDepositInfoHistory(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
+        {
+            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var depositInfoHistory = depoistService.GetDepositInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
+
+            foreach (var depositInfo in depositInfoHistory)
+            {
+                if (depositInfo.DepositType == 3)
+                {
+                    depositInfo.DepositRep = Newtonsoft.Json.JsonConvert.DeserializeObject<DepositInfo3_1>(depositInfo.DepositInfo);
+                    var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
+                    depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).Where(x => x.SysId == depositInfoRef.SysId).FirstOrDefault();
+                }
+            }
+            return depositInfoHistory;
         }
     }
 }

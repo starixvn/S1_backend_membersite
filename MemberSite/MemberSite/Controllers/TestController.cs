@@ -52,13 +52,13 @@ namespace MemberSite.Controllers
 
         [HttpGet]
         [Route("API/test")]
-        public IEnumerable<Message> test()
+        public dynamic test()
         {
 
             int a = 1;
             int b = 0;
-            var cc = messageService.GetMsgList(3, 1, ref a, out b);
-            return cc;
+            //var cc = messageService.GetMsgList(3, 1, ref a, out b);
+            return serverInfoService.GetModel1();
             Assembly asm = Assembly.GetCallingAssembly();
             string rsFileName = asm.GetName().Name;
             //return System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
