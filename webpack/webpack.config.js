@@ -30,6 +30,9 @@ module.exports = {
 		],
     "js/component/cashier/WithdrawalPanel.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/cashier/WithdrawalPanel.jsx'
+		],
+    "js/component/history/Deposit.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/history/Deposit.jsx'
 		]},
   output: {
     path:  path.resolve(__dirname,'../MemberSite/MemberSite/wwwroot/'),

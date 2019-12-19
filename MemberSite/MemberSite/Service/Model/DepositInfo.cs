@@ -57,7 +57,7 @@ namespace MemberSite.Service.Model
 
     public class DepositInfoHistory
     {
-        public DateTimeOffset CreateTime { get; set; }
+        public string CreateTime { get; set; }
         public int DepositType { get; set; }
         public string TransId { get; set; }
         public decimal Amount { get; set; }
