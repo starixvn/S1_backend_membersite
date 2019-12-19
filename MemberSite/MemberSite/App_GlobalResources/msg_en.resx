@@ -132,6 +132,12 @@
   <data name="msg_loggedout" xml:space="preserve">
     <value>You have logged out!! Please login and try again!!</value>
   </data>
+  <data name="msg_NeedAccountName" xml:space="preserve">
+    <value>Need Account Name</value>
+  </data>
+  <data name="msg_NeedAccountNo" xml:space="preserve">
+    <value>Need Account Number</value>
+  </data>
   <data name="msg_PasswordLength" xml:space="preserve">
     <value>Password must between 6 and 18 characters long.</value>
   </data>

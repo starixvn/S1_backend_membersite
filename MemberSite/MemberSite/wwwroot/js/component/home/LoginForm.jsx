@@ -10,22 +10,22 @@ class LoginForm extends React.Component {
         let formArr=[];
 
         let userNameDataField = new DataField("UserName");
-        userNameDataField.placeholder=i18n.lbl_Username;
-        userNameDataField.displayName=i18n.lbl_Username;
-        userNameDataField.tooltip=i18n.lbl_UsernameTooltip;
-        userNameDataField.status=1;
+        userNameDataField.placeholder = i18n.lbl_Username;
+        userNameDataField.displayName = i18n.lbl_Username;
+        userNameDataField.tooltip = i18n.lbl_UsernameTooltip;
+        userNameDataField.status = 1;
         userNameDataField.handleCheck = this.handleCheckUserName.bind(this);
-        userNameDataField.Value="";
+        userNameDataField.Value = "";
         formArr.push(userNameDataField);
 
         let userpwdDataField = new DataField("Userpwd");
-        userpwdDataField.placeholder=i18n.lbl_Password;
-        userpwdDataField.displayName=i18n.lbl_Password;
-        userpwdDataField.tooltip=i18n.lbl_PasswordTooltip;
-        userpwdDataField.status=1;
-        userpwdDataField.objectType=2;
+        userpwdDataField.placeholder = i18n.lbl_Password;
+        userpwdDataField.displayName = i18n.lbl_Password;
+        userpwdDataField.tooltip = i18n.lbl_PasswordTooltip;
+        userpwdDataField.status = 1;
+        userpwdDataField.objectType = 2;
         userpwdDataField.handleCheck = this.handleCheckUserpwd.bind(this);        
-        userpwdDataField.Value="";
+        userpwdDataField.Value = "";
         formArr.push(userpwdDataField);
 
         this.state = { formArr: formArr, popLoginForm: getUrlParameter("loginCont")=="1"};
@@ -33,7 +33,7 @@ class LoginForm extends React.Component {
     
     async handleCheckUserName(value) {
         let status = 1;
-        let message = "tooltip";
+        let message = "";
         let regx = /^[a-zA-Z0-9]*$/;
         if(value!=null) {
             if(value.length == 0) {
@@ -56,7 +56,7 @@ class LoginForm extends React.Component {
 
     async handleCheckUserpwd(value) {
         let status = 1;
-        let message = "tooltip";
+        let message = "";
         let regx = /^[a-zA-Z0-9@$*!%#?&]*$/;
         if(value!=null) {
             if(value.length == 0) {
@@ -136,13 +136,13 @@ class LoginForm extends React.Component {
                 <div className="overlay" onClick={this.onClose.bind(this)}></div>
                 <div className="login__dialog">
                     <div className="heading">
-                        <span className="text">Login</span>
+                        <span className="text">{i18n.lbl_Login}</span>
                         <button className="btn btn-icon" onClick={this.onClose.bind(this)}>
                             <i className="icon icon-clear"></i>
                         </button>
                     </div>
-                    <p>Don't have an account? 
-                        <a className="text-link" href={joinNowUrl}><span className="text">Join Now</span></a>.
+                    <p>{i18n.lbl_NoAccount}
+                        <a className="text-link" href={joinNowUrl}><span className="text">{i18n.lbl_JoinNow}</span></a>.
                     </p>
                     <form id="loginForm" onSubmit={this.handleSubmit.bind(this)}>                                        
                         <div className="login__form">
@@ -158,13 +158,13 @@ class LoginForm extends React.Component {
                         <div className="login__item-btn">
                             <button type="submit" className="btn btn-highlight">
                                 <div className="btn__inner">
-                                    <span className="text">Login</span>
+                                    <span className="text">{i18n.lbl_Login}</span>
                                 </div>
                             </button>
                         </div>
                         <div className="login__item-forget">
                             <a className="text-link">
-                                <span className="text">Forget your ID or password?</span>
+                                <span className="text">{i18n.lbl_ForgetPassword}</span>
                             </a>
                         </div>
                     </form>

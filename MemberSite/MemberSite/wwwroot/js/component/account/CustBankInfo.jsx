@@ -48,11 +48,11 @@ import * as Loading from '../commJS/Loading.jsx';
 
         async handleCheckAccountName(value) {
             let status = 1;
-            let message = i18n.lbl_NeedAccountName;
+            let message = i18n.msg_NeedAccountName;
             if (value != null) {
                 if (value.length == 0) {
                     status = 2;
-                    message = i18n.lbl_NeedAccountName;
+                    message = i18n.msg_NeedAccountName;
                 }
             }
 
@@ -61,12 +61,12 @@ import * as Loading from '../commJS/Loading.jsx';
 
         async handleCheckAccountNo(value) {
             let status = 1;
-            let message = i18n.lbl_NeedAccountNo;
+            let message = i18n.msg_NeedAccountNo;
             let regx = /^[0-9]*$/;
             if (value != null) {
                 if (value.length == 0) {
                     status = 2;
-                    message = i18n.lbl_NeedAccountNo;
+                    message = i18n.msg_NeedAccountNo;
                 } else if (!regx.test(value)) {
                     status = 2;
                     message = "0~9";

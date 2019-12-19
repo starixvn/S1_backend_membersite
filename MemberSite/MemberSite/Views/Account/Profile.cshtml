@@ -4,16 +4,26 @@
 @inject IWebHostEnvironment environment
 @inject SelLangBLL selLangBLL
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Profile");
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    var i18n = new Dictionary<string, string>();
+    i18n.Add("lbl_Username", selLangBLL.GetResourceValue("lbl_Username"));
+    i18n.Add("lbl_UsernameTooltip", selLangBLL.GetResourceValue("lbl_UsernameTooltip"));
+    i18n.Add("lbl_CompletedRegistration", selLangBLL.GetResourceValue("lbl_CompletedRegistration"));
+    i18n.Add("msg_UsernameNotAvailable", selLangBLL.GetMsg("msg_UsernameNotAvailable"));
+    i18n.Add("msg_UsernameReq", selLangBLL.GetMsg("msg_UsernameReq"));
+    i18n.Add("msg_UsernameVaildate", selLangBLL.GetMsg("msg_UsernameVaildate"));
+}
+
 @section Style{
 
 }
 <div id="Profile"></div>
 @section Scripts{
     <script type="text/javascript">
-        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(null)));
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
     </script>
     <script src="~/lib/runtime.min.js"></script>
     <script src="~/js/component/account/Profile.min.js" asp-append-version="true"></script>

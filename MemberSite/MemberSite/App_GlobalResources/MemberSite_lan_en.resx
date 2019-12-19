@@ -246,6 +246,9 @@
   <data name="lbl_Close" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="lbl_CompletedRegistration" xml:space="preserve">
+    <value>Completed Registration</value>
+  </data>
   <data name="lbl_CompleteRegistration" xml:space="preserve">
     <value>Complete Registration</value>
   </data>
@@ -321,6 +324,9 @@
   <data name="lbl_ForgetIDPassword" xml:space="preserve">
     <value>Forget your ID or password?</value>
   </data>
+  <data name="lbl_ForgetPassword" xml:space="preserve">
+    <value>Forget your ID or password?</value>
+  </data>
   <data name="lbl_Help" xml:space="preserve">
     <value>Help</value>
   </data>
@@ -387,14 +393,14 @@
   <data name="lbl_MobileDeposit" xml:space="preserve">
     <value>Mobile Deposit</value>
   </data>
-  <data name="lbl_NeedAccountName" xml:space="preserve">
-    <value>Need Account Name</value>
-  </data>
-  <data name="lbl_NeedAccountNo" xml:space="preserve">
-    <value>Need Account Number</value>
-  </data>
   <data name="lbl_NewPassword" xml:space="preserve">
     <value>New Password</value>
+  </data>
+  <data name="lbl_NoAccount" xml:space="preserve">
+    <value>Don't have an account?</value>
+  </data>
+  <data name="lbl_NotinLimit" xml:space="preserve">
+    <value>not in Limit.</value>
   </data>
   <data name="lbl_NumberGame" xml:space="preserve">
     <value>Number Game</value>
@@ -431,6 +437,9 @@
   </data>
   <data name="lbl_PrivacyPolicy" xml:space="preserve">
     <value>Privacy Policy</value>
+  </data>
+  <data name="lbl_Profile" xml:space="preserve">
+    <value>Profile</value>
   </data>
   <data name="lbl_Promotion" xml:space="preserve">
     <value>Promotion</value>

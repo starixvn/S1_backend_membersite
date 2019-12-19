@@ -458,10 +458,10 @@ import {number_format} from '../commJS/common';
             if(value!=null) {
                 if(value <= 0) {
                     status = 2;
-                    message = "Can't Be 0.";
+                    message = i18n.lbl_AmountTooltip;
                 } else if((PickBankInfoOff.minAmount != 0 && PickBankInfoOff.maxAmount != 0) && (value > PickBankInfoOff.maxAmount || value < PickBankInfoOff.minAmount) ) {
                     status = 2;
-                    message = number_format(value) + " not in Limit.";
+                    message = number_format(value) + " "+ i18n.lbl_NotinLimit;
                 } else {
                     status = 3;
                     message = "";
