@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace MemberSite.Controllers.Api
 {
@@ -20,14 +22,18 @@ namespace MemberSite.Controllers.Api
         private readonly PaymentBLL paymentBLL;
         private readonly CustInfoBLL custInfoBLL;
         private readonly BankInfoBLL bankInfoBLL;
+        private readonly CourierAdapter courierAdapter;
+        private readonly string apiUrl;
 
-        public PaymentController(BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL)
+        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;
             this.paymentBLL = paymentBLL;
             this.custInfoBLL = custInfoBLL;
             this.bankInfoBLL = bankInfoBLL;
+            this.courierAdapter = courierAdapter;
+            apiUrl = configuration.GetValue<string>("TpService");
         }
 
         [HttpPost]
@@ -104,7 +110,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult WithdrawalReq(WithdrawalReqModel withdrawalReqModel)
+        public async Task<ApiResult> WithdrawalReqAsync(WithdrawalReqModel withdrawalReqModel)
         {
             ApiResult apiResult = new ApiResult();
 
@@ -124,15 +130,37 @@ namespace MemberSite.Controllers.Api
             {
                 return null;
             }
-
-            decimal afterAmount = 0;
-            string transId = "";
-
-            var result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out afterAmount, out transId);
-
-            if (result != 0)
+            int result = 99;
+            /*Temp will be Removed*/
+            var input = new TpTransfer();
+            input.Amount = withdrawalReqModel.amount;
+            input.CustId = authData.CustId;
+            input.direction = TpDirection.ToMain;
+            input.TpId = 1;
+            var transferToSabaResult = await TransferToSabaAsync(input);
+            /*Temp*/
+            if (transferToSabaResult.ErrorCode == 0)
             {
-                //apiResult
+                decimal afterAmount = 0;
+                string transId = "";
+
+                result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out afterAmount, out transId);
+            } else
+            {
+                apiResult.ErrorCode = transferToSabaResult.ErrorCode;
+                apiResult.Message = transferToSabaResult.Message;
+                apiResult.RawErrorCode = transferToSabaResult.RawErrorCode;
+                apiResult.RawMessage = transferToSabaResult.RawMessage;
+            }
+
+            if (result == 0)
+            {
+                apiResult.ErrorCode = 0;
+                apiResult.Message = "";
+            } 
+            else
+            {
+
             }
 
             return apiResult;
@@ -149,5 +177,56 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        public class TpTransfer
+        {
+            public int TpId { set; get; }
+            public int CustId { set; get; }
+            public decimal Amount { set; get; }
+            public TpDirection direction { set; get; }
+            public Dictionary<string, string> inputs { set; get; }
+        }
+
+        public enum TpDirection
+        {
+            ToTp = 1,
+            ToMain = 2
+        }
+        public async Task<ApiResult<TransferResult>> TransferToSabaAsync(TpTransfer inTpTransfer)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            decimal amount = inTpTransfer.Amount;
+            if (amount.ToString().IndexOf(".") > -1)
+            {
+                decimal.TryParse(amount.ToString("#.##"), out amount);
+            }
+
+            var tpTransfer = new TpTransfer
+            {
+                TpId = inTpTransfer.TpId,
+                CustId = authData.CustId,
+                Amount = amount,
+                direction = inTpTransfer.direction,
+                inputs = null
+            };
+            var myUrl = $"{apiUrl}Transfer";
+            var data = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
+
+            return data;
+        }
+
+        public class TransferResult
+        {
+            public TransferResult()
+            {
+                Status = TransferStatus.Pending;
+            }
+            public TransferStatus Status { get; set; }
+            public string ThirdId { get; set; }
+            public decimal Difference { get; set; }
+        }
+        public enum TransferStatus
+        {
+            Success = 0, Fail = 1, Pending = 2, PendingD = 3
+        }
     }
 }

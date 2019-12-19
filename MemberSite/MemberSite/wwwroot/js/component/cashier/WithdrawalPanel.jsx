@@ -43,25 +43,14 @@ import {number_format} from '../commJS/common';
     class RecentHistory extends React.Component {
         constructor(props) {
             super(props);
-            this.state={Data: null};
         }
 
         componentDidMount() {
-            axios.post('/api/Payment/GetWithdrawalInfoRecent')
-            .then(function (response) {
-                let result = response.data;
-                if (result.errorCode == 0) {
-                    this.setState({Data: result.data});
-                } else {
-                    alert(result.message);
-                }
-            }.bind(this)).catch(function (error) {
-                alert(error);
-            }.bind(this));
+            this.props.GetWithdrawalInfoRecent();
         }
 
         render() {
-            let data=this.state.Data;
+            let data=this.props.WithdrawalInfoRecent;
             let bodyData = null;
             if(data!=null){
                 let dataContainer=[];
@@ -382,7 +371,9 @@ import {number_format} from '../commJS/common';
                 let result = response.data;
                 if (result.errorCode == 0) {
                     alert(result.message);
-                    this.setState({showTodModal:false});
+                    this.setState({showTodModal:false}, function(){
+                        this.GetWithdrawalInfoRecent();
+                    }.bind(this));
                 } else {
                     alert(result.message);
                     this.setState({showTodModal:true});
@@ -391,6 +382,23 @@ import {number_format} from '../commJS/common';
                 Loading.UnLoading();
                 alert(error);
                 this.setState({showTodModal:true});                    
+            }.bind(this));
+        }
+
+        GetWithdrawalInfoRecent(){
+            Loading.OnLoading();
+            axios.post('/api/Payment/GetWithdrawalInfoRecent')
+            .then(function (response) {
+                Loading.UnLoading();
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    this.setState({WithdrawalInfoRecent: result.data});
+                } else {
+                    alert(result.message);
+                }
+            }.bind(this)).catch(function (error) {
+                Loading.UnLoading();
+                alert(error);
             }.bind(this));
         }
 
@@ -450,7 +458,7 @@ import {number_format} from '../commJS/common';
                             </div>
                         </form>
                         {this.state.showTodModal ? <TbdModal setMemo={this.setMemo.bind(this)} onConfirm={this.onConfirm.bind(this)} onClose={this.onClose.bind(this)} PickBankInfo={this.state.PickBankInfo} Amount={this.state.Amount} Memo={this.state.Memo} AcountName={this.state.AcountName} /> : null}                        
-                        <RecentHistory />
+                        <RecentHistory WithdrawalInfoRecent={this.state.WithdrawalInfoRecent} GetWithdrawalInfoRecent={this.GetWithdrawalInfoRecent.bind(this)}/>
                         {modalContaner}
                     </div>
             )
