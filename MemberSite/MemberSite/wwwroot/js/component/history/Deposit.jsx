@@ -19,17 +19,15 @@ import {number_format} from '../commJS/common';
         }
 
         onStartDate(event){
-            this.setState({StartDate:event.target.value});
-            
-            if(moment(event.target.value).toDate() > moment(this.state.EndDate).toDate()) { 
+            if(moment(event.target.value).toDate() > moment(this.state.EndDate).toDate() || !moment(this.state.EndDate).isValid()) { 
                 this.setState({EndDate:event.target.value, StartDate: event.target.value});
             } else {
-                this.setState({EndDate:event.target.value});
+                this.setState({StartDate:event.target.value});
             }
         }
 
         onEndDate(event){
-            if(moment(this.state.StartDate).toDate() > moment(event.target.value).toDate()) { 
+            if(moment(this.state.StartDate).toDate() > moment(event.target.value).toDate() || !moment(this.state.StartDate).isValid()) { 
                 this.setState({EndDate:event.target.value,StartDate: event.target.value});
             } else {
                 this.setState({EndDate:event.target.value});

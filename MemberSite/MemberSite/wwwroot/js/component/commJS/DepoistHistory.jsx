@@ -80,7 +80,7 @@ export class DepoistHistory extends React.Component {
         }
         let hrefAllTrans = window.hrefAllTrans;
         return (
-            data ? <div className="table table-rwd table-primary">
+            data!=null&&data.length > 0 ? <div className="table table-rwd table-primary">
                 <div className="caption">
                     <span className="text">{i18n.lbl_RecentTransactions}</span>
                     {hrefAllTrans ? <a className="text-link" href={hrefAllTrans}>
