@@ -7,14 +7,14 @@ import {number_format} from '../commJS/common';
         render() {
             let data = this.props.Data;
             let rows = data.map(function( item ,index ) { 
-
+                let dateMonent = moment(item.createTime);
                 return <div className="tr" key={index}>
                     <div className="td-date" data-title="Date" role="mobile-click">
-                        <span className="text">{moment(item.createTime).format("YYYY/MM/DD")}</span>
+                        <span className="text">{dateMonent.format('l')} ({dateMonent.format('Z')})</span>
                         <i className="icon icon-caret"></i>
                     </div>
                     <div className="td-time" data-title="Time">
-                        <span className="text">{moment(item.createTime).format("HH:mm:ss")}</span>
+                        <span className="text">{dateMonent.format("hh:mm:ss A")}</span>
                     </div>
                     <div className="td-id" data-title="ID">
                         <a className="text-link" onClick={null}>{item.transId}</a>
