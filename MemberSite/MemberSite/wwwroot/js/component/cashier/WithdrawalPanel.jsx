@@ -17,7 +17,7 @@ import {number_format} from '../commJS/common';
                         <span className="text">{dateMonent.format("hh:mm:ss A")}</span>
                     </div>
                     <div className="td-id" data-title="ID">
-                        <a className="text-link" onClick={null}>{item.transId}</a>
+                        <span className="text"><a className="text-link" onClick={null}>{item.transId}</a></span>
                     </div>
                     <div className="td-method" data-title="Method">
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
