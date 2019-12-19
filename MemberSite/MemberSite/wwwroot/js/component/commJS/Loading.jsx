@@ -1,4 +1,5 @@
  let elem = null;
+ let openCnt=0;
 
  class Loading extends React.Component {
     constructor(props) {
@@ -27,6 +28,7 @@
 }
 
 let OnLoading = function() {
+    ++openCnt;    
     if(elem == null) {
         elem = document.createElement('div');
         document.body.appendChild(elem);
@@ -35,8 +37,11 @@ let OnLoading = function() {
 };
 
 let UnLoading = function() {
-    if(ReactDOM.unmountComponentAtNode(elem)){
-        elem = null;
+    --openCnt;
+    if(openCnt == 0) {
+        if(ReactDOM.unmountComponentAtNode(elem)){
+            elem = null;
+        }
     }
 };
 

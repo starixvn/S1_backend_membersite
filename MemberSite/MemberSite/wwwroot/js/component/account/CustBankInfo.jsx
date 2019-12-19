@@ -47,7 +47,6 @@ import * as Loading from '../commJS/Loading.jsx';
         }
 
         async handleCheckAccountName(value) {
-            console.log(value);
             let status = 1;
             let message = "tooltip";
             if (value != null) {
@@ -183,6 +182,66 @@ import * as Loading from '../commJS/Loading.jsx';
             )
         }
     }
+    class BankAccountList extends React.Component {
+        constructor(props) {
+            super(props);
+            //this.state = { };
+        }
+
+        DelCustBankInfo(bankInfo) {
+            if(confirm('Are you sure?')) {
+                Loading.OnLoading();                
+                axios.post('/api/AccountStrict/DelCustBankInfo', bankInfo)
+                    .then(function (response) {
+                        let result = response.data;
+                        if (result.errorCode == 0) {
+                            this.props.GetCustBankInfo();
+                        } else {
+                            alert(result.message);
+                        }
+                        Loading.UnLoading();
+                    }.bind(this)).catch(function (error) {
+                        Loading.UnLoading();
+                        alert(error);
+                    }.bind(this));
+            }
+        }
+
+        render() {
+            let rows = this.props.bankInfoDetail.map(function (bankInfo) {
+                return <div className="tr" role="mobile-grid">
+                <div className="td-label" role="mobile-row-1">
+                    <span className="text-lowlight">Bank Name</span>
+                </div>
+                <div className="td-value" role="mobile-row-1">
+                    <span className="text">{bankInfo.bankName}</span>
+                </div>
+                <div className="td-label" role="mobile-row-2">
+                    <span className="text-lowlight">Account Number</span>
+                </div>
+                <div className="td-value" role="mobile-row-2">
+                    <span className="text">{bankInfo.accountNo}</span>
+                </div>
+                <div className="td-icon" role="mobile-rowspan">
+                    <a className="btn btn-icon text-primary" onClick={this.DelCustBankInfo.bind(this, bankInfo)}>
+                        <i className="icon icon-delete-outline"></i>
+                    </a>
+                </div>
+            </div>;
+            }.bind(this));
+
+            return (
+                <div className="table table-rwd table-primary">
+                    <div className="caption">
+                        <span className="text">Bank Account</span>
+                    </div>
+                    <div className="tbody">
+                        {rows}
+                    </div>
+                </div>
+            )
+        }
+    }
 
     class CustBankInfoDetail extends React.Component {
         constructor(props) {
@@ -198,32 +257,33 @@ import * as Loading from '../commJS/Loading.jsx';
             let bankInfoDetail = this.props.Data.bankInfoDetail;
 
             return (
-                <div class="page">
-                    <div class="heading" role="desktop-only">
-                        <span class="text">Bank Info</span>
+                <div className="page">
+                    <div className="heading" role="desktop-only">
+                        <span className="text">Bank Info</span>
                     </div>
-                    <div class="form-group">
-                        <label class="form-title">Bank Account Name</label>
-                        <div class="form-content" data-status="readonly">
-                            <div class="textfield">
-                                <input type="text" class="textfield__input" value={this.props.Data.accountName} readonly />
-                                <span class="textfield__bg"></span>
-                                <a class="btn btn-icon btn-form-status">
-                                    <i class="icon icon--lg"></i>
+                    <div className="form-group">
+                        <label className="form-title">Bank Account Name</label>
+                        <div className="form-content" data-status="readonly">
+                            <div className="textfield">
+                                <input type="text" className="textfield__input" value={this.props.Data.accountName} readOnly />
+                                <span className="textfield__bg"></span>
+                                <a className="btn btn-icon btn-form-status">
+                                    <i className="icon icon--lg"></i>
                                 </a>
                             </div>
-                            <div class="form-content__tips">
-                                <span class="text">For any request of modification, please ask CSD.</span>
+                            <div className="form-content__tips">
+                                <span className="text">For any request of modification, please ask CSD.</span>
                             </div>
                         </div>
                     </div>
-                    <div class="btn-group">
-                        <button class="btn btn-primary" onClick={bankInfoDetail&&bankInfoDetail.length == 3 ? null : this.onAddCustBankInfo.bind(this)}  data-disabled={bankInfoDetail&&bankInfoDetail.length == 3}>
+                    <div className="btn-group">
+                        <button className="btn btn-primary" onClick={bankInfoDetail&&bankInfoDetail.length == 3 ? null : this.onAddCustBankInfo.bind(this)}  data-disabled={bankInfoDetail&&bankInfoDetail.length == 3}>
                             <div className="btn__inner">
-                                <span class="text">Add New Account</span>
+                                <span className="text">Add New Account</span>
                             </div>
                         </button>
                     </div>
+                    {bankInfoDetail&&bankInfoDetail.length>0 ? <BankAccountList bankInfoDetail={bankInfoDetail} GetCustBankInfo={this.props.GetCustBankInfo}/> : null}
                 </div>
             )
         }
@@ -263,7 +323,7 @@ import * as Loading from '../commJS/Loading.jsx';
         render() {
             return (
                 this.state.GetCustBankInfo ? 
-                (this.state.AddCustBankInfo || this.state.Data == null ? <UpdateCustBankInfo Data={this.state.Data} GetCustBankInfo={this.GetCustBankInfo.bind(this)} /> : <CustBankInfoDetail onAddCustBankInfo={this.onAddCustBankInfo.bind(this)} Data={this.state.Data}/>):null
+                (this.state.AddCustBankInfo || this.state.Data == null ? <UpdateCustBankInfo Data={this.state.Data} GetCustBankInfo={this.GetCustBankInfo.bind(this)} /> : <CustBankInfoDetail  GetCustBankInfo={this.GetCustBankInfo.bind(this)} onAddCustBankInfo={this.onAddCustBankInfo.bind(this)} Data={this.state.Data}/>):null
             )
         }
     }
