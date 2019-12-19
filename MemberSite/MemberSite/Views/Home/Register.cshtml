@@ -5,7 +5,7 @@
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @{
-    ViewData["Title"] = "Registered";
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Register");
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Style{
@@ -34,7 +34,6 @@
     i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
     i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
     i18n.Add("msg_PasswordVaildate", selLangBLL.GetMsg("msg_PasswordVaildate"));
-
 }
 <div class="main">
     <div class="page page--join">
@@ -50,9 +49,7 @@
                 <span class="text">@selLangBLL.GetResourceValue("lbl_LoginHere")</span>
             </button>.
         </p>
-        <div id="RegisterForm">
-
-        </div>
+        <div id="RegisterForm"></div>
     </div>
 </div>
 @section Scripts{
@@ -60,7 +57,6 @@
         var currencyList =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(currencyList));
         var defCurrencyId =@selLangBLL.GetDefCurrencyId();
         $.extend( i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
-
     </script>
 
     <script src="~/lib/runtime.min.js"></script>

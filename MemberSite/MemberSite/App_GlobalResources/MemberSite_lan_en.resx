@@ -450,6 +450,9 @@
   <data name="lbl_RecentTransactions" xml:space="preserve">
     <value>Recent Transactions</value>
   </data>
+  <data name="lbl_Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
   <data name="lbl_ResposibleGaming" xml:space="preserve">
     <value>Resposible Gaming</value>
   </data>
