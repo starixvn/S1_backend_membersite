@@ -63,6 +63,7 @@
     {
         <script type="text/javascript">
             $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
+            var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })";
         </script>
         <script src="~/lib/runtime.min.js"></script>
         <script src="~/js/component/cashier/WithdrawalPanel.min.js" asp-append-version="true"></script>

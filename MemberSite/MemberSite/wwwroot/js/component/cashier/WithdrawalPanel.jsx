@@ -74,7 +74,7 @@ import {number_format} from '../commJS/common';
                 <div className="table table-rwd table-primary">
                     <div className="caption">
                         <span className="text">{i18n.lbl_RecentTransactions}</span>
-                        <a className="text-link" href="#">
+                        <a className="text-link" href={hrefAllTrans}>
                             <span className="text">{i18n.lbl_AllTranscations}</span>
                             <i className="icon icon-arrow-right"></i>
                         </a>

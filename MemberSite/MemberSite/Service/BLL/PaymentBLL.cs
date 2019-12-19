@@ -166,5 +166,12 @@ namespace MemberSite.Service.BLL
             }
             return depositInfoHistory;
         }
+
+        public IEnumerable<WithdrawalHistory> GetWithdrawalInfoHistory(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
+        {
+            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var withdrawalInfoHistory = withdrawalService.GetWithdrawalInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
+            return withdrawalInfoHistory;
+        }
     }
 }

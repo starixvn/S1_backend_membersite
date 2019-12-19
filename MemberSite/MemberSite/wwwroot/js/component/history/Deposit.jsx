@@ -1,6 +1,6 @@
 import * as Loading from '../commJS/Loading.jsx';
 import {Pagination} from '../commJS/Pagination.jsx';
-import {DepoistHistory} from '../commJS/DepoistHistory.jsx';
+import {DepositHistory} from '../commJS/DepositHistory.jsx';
 import {number_format} from '../commJS/common';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
@@ -94,7 +94,7 @@ import {number_format} from '../commJS/common';
                         </button>
                     </div>
                 </form>
-                {this.state.GetData ?<DepoistHistory Data={this.state.DepositInfoHistory}/> : null}
+                {this.state.GetData ?<DepositHistory Data={this.state.DepositInfoHistory}/> : null}
                 <Pagination onPaging={this.GetDepositInfoHistory.bind(this)} PageNumber={this.state.PageNumber} TotalPages={this.state.TotalPages}/>
             </div>
             )

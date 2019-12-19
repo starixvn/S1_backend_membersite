@@ -33,6 +33,9 @@ module.exports = {
 		],
     "js/component/history/Deposit.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/history/Deposit.jsx'
+		],
+    "js/component/history/Withdrawal.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/history/Withdrawal.jsx'
 		]},
   output: {
     path:  path.resolve(__dirname,'../MemberSite/MemberSite/wwwroot/'),
