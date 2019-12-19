@@ -8,9 +8,9 @@ import * as Loading from '../commJS/Loading.jsx';
             let formArr = [];
 
             let dataField = new DataField("AccountName");
-            dataField.placeholder = "AccountName";
-            dataField.displayName = "AccountName";
-            dataField.tooltip = "AccountName";
+            dataField.placeholder = i18n.lbl_BankAccountName;
+            dataField.displayName = i18n.lbl_BankAccountName;
+            dataField.tooltip = i18n.lbl_BankAccountNameHint;
             dataField.handleCheck = this.handleCheckAccountName.bind(this);
             dataField.Value = this.props.Data && this.props.Data.accountName;
             dataField.status = 1;
@@ -23,8 +23,8 @@ import * as Loading from '../commJS/Loading.jsx';
             formArr.push(dataField);
 
             dataField = new DataField("SysId");
-            dataField.displayName = "Bank Name";
-            dataField.tooltip = "SysId";
+            dataField.displayName = i18n.lbl_BankName;
+            dataField.tooltip = i18n.lbl_BankName;
             dataField.status = 1;
             dataField.objectType = 3;
             /*dataField.Value=defCurrencyId;
@@ -34,9 +34,9 @@ import * as Loading from '../commJS/Loading.jsx';
             formArr.push(dataField);
 
             dataField = new DataField("AccountNo");
-            dataField.placeholder = "AccountNo";
-            dataField.displayName = "AccountNo";
-            dataField.tooltip = "AccountNo";
+            dataField.placeholder = i18n.lbl_BankNumber;
+            dataField.displayName = i18n.lbl_BankNumber;
+            dataField.tooltip = i18n.lbl_BankNumber;
             dataField.handleCheck = this.handleCheckAccountNo.bind(this);
             dataField.Value = "";
             dataField.status = 1;
@@ -48,11 +48,11 @@ import * as Loading from '../commJS/Loading.jsx';
 
         async handleCheckAccountName(value) {
             let status = 1;
-            let message = "tooltip";
+            let message = i18n.lbl_NeedAccountName;
             if (value != null) {
                 if (value.length == 0) {
                     status = 2;
-                    message = "Need AccountName";
+                    message = i18n.lbl_NeedAccountName;
                 }
             }
 
@@ -61,12 +61,12 @@ import * as Loading from '../commJS/Loading.jsx';
 
         async handleCheckAccountNo(value) {
             let status = 1;
-            let message = "tooltip";
+            let message = i18n.lbl_NeedAccountNo;
             let regx = /^[0-9]*$/;
             if (value != null) {
                 if (value.length == 0) {
                     status = 2;
-                    message = "Need AccountNo";
+                    message = i18n.lbl_NeedAccountNo;
                 } else if (!regx.test(value)) {
                     status = 2;
                     message = "0~9";
@@ -160,7 +160,7 @@ import * as Loading from '../commJS/Loading.jsx';
             return (
                 <div className="page">
                     <div className="heading">
-                        <span className="text">Update Bank Details</span>
+                        <span className="text">{i18n.lbl_CustBankInfo}</span>
                     </div>
                     <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                         {Inputs}
@@ -168,12 +168,12 @@ import * as Loading from '../commJS/Loading.jsx';
                             {this.props.Data ?
                                 <button className="btn btn-primary" onClick={this.onClose.bind(this)}>
                                     <div className="btn__inner">
-                                        <span className="text">Back</span>
+                                        <span className="text">{i18n.lbl_Back}</span>
                                     </div>
                                 </button> : null}
                             <button className="btn btn-secondary" type="submit">
                                 <div className="btn__inner">
-                                    <span className="text">Submit</span>
+                                    <span className="text">{i18n.lbl_Submit}</span>
                                 </div>
                             </button>
                         </div>
@@ -211,13 +211,13 @@ import * as Loading from '../commJS/Loading.jsx';
             let rows = this.props.bankInfoDetail.map(function (bankInfo) {
                 return <div className="tr" role="mobile-grid">
                 <div className="td-label" role="mobile-row-1">
-                    <span className="text-lowlight">Bank Name</span>
+                    <span className="text-lowlight">{i18n.lbl_BankName}</span>
                 </div>
                 <div className="td-value" role="mobile-row-1">
                     <span className="text">{bankInfo.bankName}</span>
                 </div>
                 <div className="td-label" role="mobile-row-2">
-                    <span className="text-lowlight">Account Number</span>
+                    <span className="text-lowlight">{i18n.lbl_BankNumber}</span>
                 </div>
                 <div className="td-value" role="mobile-row-2">
                     <span className="text">{bankInfo.accountNo}</span>
@@ -233,7 +233,7 @@ import * as Loading from '../commJS/Loading.jsx';
             return (
                 <div className="table table-rwd table-primary">
                     <div className="caption">
-                        <span className="text">Bank Account</span>
+                        <span className="text">{i18n.lbl_BankNumber}</span>
                     </div>
                     <div className="tbody">
                         {rows}
@@ -259,10 +259,10 @@ import * as Loading from '../commJS/Loading.jsx';
             return (
                 <div className="page">
                     <div className="heading" role="desktop-only">
-                        <span className="text">Bank Info</span>
+                        <span className="text">{i18n.lbl_BankInfo}</span>
                     </div>
                     <div className="form-group">
-                        <label className="form-title">Bank Account Name</label>
+                        <label className="form-title">{i18n.lbl_BankAccountName}</label>
                         <div className="form-content" data-status="readonly">
                             <div className="textfield">
                                 <input type="text" className="textfield__input" value={this.props.Data.accountName} readOnly />
@@ -272,14 +272,14 @@ import * as Loading from '../commJS/Loading.jsx';
                                 </a>
                             </div>
                             <div className="form-content__tips">
-                                <span className="text">For any request of modification, please ask CSD.</span>
+                                <span className="text">{i18n.lbl_ContactCSD}</span>
                             </div>
                         </div>
                     </div>
                     <div className="btn-group">
                         <button className="btn btn-primary" onClick={bankInfoDetail&&bankInfoDetail.length == 3 ? null : this.onAddCustBankInfo.bind(this)}  data-disabled={bankInfoDetail&&bankInfoDetail.length == 3}>
                             <div className="btn__inner">
-                                <span className="text">Add New Account</span>
+                                <span className="text">{i18n.lbl_AddNewAccount}</span>
                             </div>
                         </button>
                     </div>

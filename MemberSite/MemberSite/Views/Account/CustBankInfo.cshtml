@@ -5,13 +5,30 @@
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @{
-    ViewData["Title"] = "CustBankInfo";
+    ViewData["Title"] = selLangBLL.GetResourceValue("lbl_CustBankInfo");
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    var i18n = new Dictionary<string, string>();
+    i18n.Add("lbl_BankName", selLangBLL.GetResourceValue("lbl_BankName"));
+    i18n.Add("lbl_BankAccountName", selLangBLL.GetResourceValue("lbl_BankAccountName"));
+    i18n.Add("lbl_BankAccountNameHint", selLangBLL.GetResourceValue("lbl_BankAccountNameHint"));
+    i18n.Add("lbl_BankNumber", selLangBLL.GetResourceValue("lbl_BankNumber"));
+    i18n.Add("lbl_NewAccountName", selLangBLL.GetResourceValue("lbl_NewAccountName"));
+    i18n.Add("lbl_NeedAccountName", selLangBLL.GetResourceValue("lbl_NeedAccountName"));
+    i18n.Add("lbl_NeedAccountNo", selLangBLL.GetResourceValue("lbl_NeedAccountNo"));
+    i18n.Add("lbl_CustBankInfo", selLangBLL.GetResourceValue("lbl_CustBankInfo"));
+    i18n.Add("lbl_Back", selLangBLL.GetResourceValue("lbl_Back"));
+    i18n.Add("lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit"));
+    i18n.Add("lbl_BankInfo", selLangBLL.GetResourceValue("lbl_BankInfo"));
+    i18n.Add("lbl_ContactCSD", selLangBLL.GetResourceValue("lbl_ContactCSD"));
+    i18n.Add("lbl_AddNewAccount", selLangBLL.GetResourceValue("lbl_AddNewAccount"));
+}
+
 <div id="CustBankInfo"></div>
 @section Scripts{
     <script type="text/javascript">
-        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(null)));
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
     </script>
 
     <script src="~/lib/runtime.min.js"></script>
