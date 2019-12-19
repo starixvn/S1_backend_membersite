@@ -99,7 +99,7 @@ export class WithdrawalHistory extends React.Component {
                             <span className=" text">{i18n.lbl_Amount}</span>
                         </div>                            
                         <div className="td-amount" data-title="Charge Fee">
-                            <span className=" text">{i18n.lbl_ChargeFee}</span>
+                            <span className=" text">{"i18n.lbl_ChargeFee"}</span>
                         </div>
                         <div className="td-status" data-title="Status">
                             <span className=" text">{i18n.lbl_Status}</span>

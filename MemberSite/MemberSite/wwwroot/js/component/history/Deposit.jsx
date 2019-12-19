@@ -4,7 +4,7 @@ import {DepositHistory} from '../commJS/DepositHistory.jsx';
 import {number_format} from '../commJS/common';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
-    class DepositHistory extends React.Component {
+    class History_Deposit extends React.Component {
         constructor(props) {
             super(props);
             this.state={StartDate:"", EndDate:"", GetData: false};
@@ -101,5 +101,5 @@ import {number_format} from '../commJS/common';
         }
     }
     
-    ReactDOM.render(<DepositHistory/>,document.getElementById('History'));
+    ReactDOM.render(<History_Deposit/>,document.getElementById('History'));
     })(jQuery, React, ReactDOM, i18n, axios, moment);

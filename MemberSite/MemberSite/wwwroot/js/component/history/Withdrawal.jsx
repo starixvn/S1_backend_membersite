@@ -1,10 +1,10 @@
 import * as Loading from '../commJS/Loading.jsx';
 import {Pagination} from '../commJS/Pagination.jsx';
-import {DepositHistory} from '../commJS/DepositHistory.jsx';
+import {WithdrawalHistory} from '../commJS/WithdrawalHistory.jsx';
 import {number_format} from '../commJS/common';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
-    class WithdrawalHistory extends React.Component {
+    class History_Withdrawal extends React.Component {
         constructor(props) {
             super(props);
             this.state={StartDate:"", EndDate:"", GetData: false};
@@ -94,12 +94,12 @@ import {number_format} from '../commJS/common';
                         </button>
                     </div>
                 </form>
-                {this.state.GetData ?<DepositHistory Data={this.state.WithdrawalInfoHistory}/> : null}
+                {this.state.GetData ?<WithdrawalHistory Data={this.state.WithdrawalInfoHistory}/> : null}
                 <Pagination onPaging={this.GetWithdrawalInfoHistory.bind(this)} PageNumber={this.state.PageNumber} TotalPages={this.state.TotalPages}/>
             </div>
             )
         }
     }
     
-    ReactDOM.render(<WithdrawalHistory/>,document.getElementById('History'));
+    ReactDOM.render(<History_Withdrawal/>,document.getElementById('History'));
     })(jQuery, React, ReactDOM, i18n, axios, moment);
