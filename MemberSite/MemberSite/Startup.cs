@@ -71,6 +71,7 @@ namespace MemberSite
             services.AddSingleton<BankInfoBLL>();
             services.AddSingleton<PaymentBLL>();
             services.AddSingleton<ThirdPartyBLL>();
+            services.AddSingleton<MessageBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();

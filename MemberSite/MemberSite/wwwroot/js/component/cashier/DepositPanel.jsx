@@ -212,8 +212,8 @@ import {number_format} from '../commJS/common';
                     <div className="td-time" data-title="Time">
                         <span className="text">{dateMonent.format("hh:mm:ss A")}</span>
                     </div>
-                    <div className="td-id" data-title="ID">
-                        <span className="text"><a className="text-link" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript})}>{item.transId}</a></span>
+                    <div className="td-id" data-title="ID">{/*Fix Link*/}
+                        <a className="text-link" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript})}><span className="text">{item.transId}</span></a>
                     </div>
                     <div className="td-method" data-title="Method">
                         <span className="text">{item.depositType}</span>
@@ -359,8 +359,9 @@ import {number_format} from '../commJS/common';
         }
 
         render() {
+            let PickBankInfoOff = this.props.PickBankInfoOff;
             let DropdownItem=this.props.BankInfoOffList.map(function( data ) { 
-                return <div className="dropdown__item" key={data.sysId} onClick={this.onPickBankInfoOff.bind(this, data)}>
+                return <div className="dropdown__item" key={data.sysId} onClick={this.onPickBankInfoOff.bind(this, data)} data-selected={data.sysId==PickBankInfoOff.sysId}>{/*Fixed Select*/}
                     <div className="text-group">
                         <span className="text">{data.bankName}</span>
                         {data.minAmount == 0 && data.maxAmount == 0 ? 
@@ -371,7 +372,6 @@ import {number_format} from '../commJS/common';
                 </div>                
                 }.bind(this));
 
-            let PickBankInfoOff = this.props.PickBankInfoOff;
             return (
                 <div className="form-group">
                     <label className="form-title">{i18n.lbl_TransferTo}</label>
@@ -581,7 +581,7 @@ import {number_format} from '../commJS/common';
                 <div className="panel panel-primary panel--payment" data-open="true">
                     <div className="panel__header">
                         <span className="text">{i18n.lbl_WireTransfers} -</span>
-                        <span className="text-primary">{i18n.lbl_CreditTime}: {i18n.lbl_5mins}</span>
+                        <span className="text-accent">{i18n.lbl_CreditTime}: {i18n.lbl_5mins}</span>
                         <i className="icon icon-caret"></i>
                     </div>
                     <div className="panel__body">
@@ -598,7 +598,7 @@ import {number_format} from '../commJS/common';
                 <div className="panel panel-primary panel--payment" data-open="true">
                     <div className="panel__header">
                         <span className="text">{i18n.lbl_OnlineBanking} -</span>
-                        <span className="text-primary">{i18n.lbl_CreditTime}: {i18n.lbl_Instant}</span>
+                        <span className="text-accent">{i18n.lbl_CreditTime}: {i18n.lbl_Instant}</span>
                         <i className="icon icon-caret"></i>
                     </div>
                     <div className="panel__body">
@@ -627,7 +627,7 @@ import {number_format} from '../commJS/common';
                 <div className="panel panel-primary panel--payment" data-open="true">
                     <div className="panel__header">
                         <span className="text">{i18n.lbl_MobileDeposit} -</span>
-                        <span className="text-primary">{i18n.lbl_CreditTime}: {i18n.lbl_Instant}</span>
+                        <span className="text-accent">{i18n.lbl_CreditTime}: {i18n.lbl_Instant}</span>
                         <i className="icon icon-caret"></i>
                     </div>
                     <div className="panel__body">

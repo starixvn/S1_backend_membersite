@@ -9,7 +9,8 @@
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Deposit");
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div id="History"></div>
+<div id="History" class="main">
+</div>
 @section Scripts{
     <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(null)));

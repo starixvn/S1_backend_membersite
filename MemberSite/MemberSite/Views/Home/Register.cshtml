@@ -36,12 +36,9 @@
     i18n.Add("msg_PasswordVaildate", selLangBLL.GetMsg("msg_PasswordVaildate"));
 }
 <div class="main">
-    <div class="page page--join">
+    <div class="page">
         <div class="heading">
             <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
-            <a class="btn btn-icon" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                <i class="icon icon-clear"></i>
-            </a>
         </div>
         <p>
             @selLangBLL.GetResourceValue("lbl_LoginMsg")

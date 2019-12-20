@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MemberSite.Service.Model
 {
-    public class Message
+    public class Msg
     {
         public int Id { get; set; }
         public int Type { get; set; }
@@ -16,7 +16,7 @@ namespace MemberSite.Service.Model
         public bool Flag { get; set; }
     }
 
-    public class MessageContent
+    public class MsgContent
     {
         public string Content { get; set; }
     }
