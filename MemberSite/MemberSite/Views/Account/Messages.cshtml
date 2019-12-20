@@ -9,7 +9,7 @@
     ViewData["Title"] = "Messages";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div id="Messages"></div>
+<div id="Messages" class="main"s></div>
 @section Scripts{
     <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(null)));

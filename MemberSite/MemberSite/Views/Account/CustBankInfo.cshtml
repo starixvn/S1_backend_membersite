@@ -25,7 +25,7 @@
     i18n.Add("msg_NeedAccountNo", selLangBLL.GetMsg("msg_NeedAccountNo"));
 }
 
-<div id="CustBankInfo"></div>
+<div id="CustBankInfo" class="main"></div>
 @section Scripts{
     <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
