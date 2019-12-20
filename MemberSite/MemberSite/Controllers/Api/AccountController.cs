@@ -29,7 +29,9 @@ namespace MemberSite.Controllers.Api
         private readonly CourierAdapter courierAdapter;
         private readonly string apiUrl;
         private readonly int mainWalletType;
-        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter)
+        private readonly MessageBLL messageBLL;
+
+        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter, MessageBLL messageBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -40,7 +42,9 @@ namespace MemberSite.Controllers.Api
             this.courierAdapter = courierAdapter;
             apiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
+            this.messageBLL = messageBLL;
         }
+
         [HttpPost]
         public async Task<ApiResult> onlineCheck()
         {
@@ -247,6 +251,44 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = custBankInfo;
             apiResult.ErrorCode = 0;
 
+            return apiResult;
+        }
+
+        public class MsgReq
+        {
+            public int PageNumber { get; set; }
+            //public int PageSize { get; set; }
+        }
+
+        [HttpPost]
+        public ApiListResult<Msg> GetMsgList(MsgReq msgReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiListResult<Msg>();
+            int pageNumber = msgReq.PageNumber;
+            int totalPages;
+            int rowCount;
+            apiResult.Data = messageBLL.GetMsgList(authData.CustId, 5, ref pageNumber, out totalPages, out rowCount);
+            apiResult.PageNumber = pageNumber;
+            apiResult.TotalPages = totalPages;
+            apiResult.RowCount = rowCount;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        public class MsgContentReq
+        {
+            public int MsgId { get; set; }
+            //public int PageSize { get; set; }
+        }
+
+        [HttpPost]
+        public ApiResult<MsgContent> GetMsgContent(MsgContentReq msgContentReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<MsgContent>();
+            apiResult.Data = messageBLL.GetMsgContent(authData.CustId, msgContentReq.MsgId);
+            apiResult.ErrorCode = 0;
             return apiResult;
         }
         //[HttpPost]

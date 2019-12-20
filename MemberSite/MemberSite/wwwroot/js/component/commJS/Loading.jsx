@@ -1,4 +1,4 @@
- let elem = null;
+ let __elem = null;
  let openCnt=0;
 
  class Loading extends React.Component {
@@ -29,18 +29,21 @@
 
 let OnLoading = function() {
     ++openCnt;    
-    if(elem == null) {
-        elem = document.createElement('div');
-        document.body.appendChild(elem);
-        ReactDOM.render(<Loading/>, elem);
+    if(__elem == null) {
+        __elem = document.createElement('div');
+        document.body.appendChild(__elem);
+        ReactDOM.render(<Loading/>, __elem);
     }
 };
 
 let UnLoading = function() {
-    --openCnt;
-    if(openCnt == 0) {
-        if(ReactDOM.unmountComponentAtNode(elem)){
-            elem = null;
+    if(openCnt > 0) {
+        --openCnt;
+    }
+
+    if(openCnt == 0 && __elem!=null) {
+        if(ReactDOM.unmountComponentAtNode(__elem)){
+            __elem = null;
         }
     }
 };

@@ -2,60 +2,109 @@ import * as Loading from '../commJS/Loading.jsx';
 import {Pagination} from '../commJS/Pagination.jsx';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
-    /*class MessagesBody extends React.Component {
+    class MessagesBody extends React.Component {
+        onGetMsgContent(msg){
+            msg.flag=true;
+            this.props.onGetMsgContent(msg.id);
+        }
+
         render() {
             let data = this.props.Data;
-            let rows = data.map(function( item ,index ) { 
-                let dateMonent = moment(item.createTime);
-                return <div className="tr" key={index}>
-                        <div className="td-date" data-title="Date" role="mobile-click">
-                            <span className="text">{dateMonent.format('l')} ({dateMonent.format('Z')})</span>
-                            <i className="icon icon-caret"></i>
-                        </div>
-                        <div className="td-time" data-title="Time">
-                            <span className="text">{dateMonent.format("hh:mm:ss A")}</span>
-                        </div>
-                        <div className="td-id" data-title="ID">
-                            <span className="text"><a className="text-link" onClick={null}>{item.transId}</a></span>
-                        </div>
-                        <div className="td-method" data-title="Method">
-                            <span className="text">{number_format(item.amount.toFixed(2))}</span>
-                        </div>
-                        <div className="td-amount" data-title="Amount">
-                            <span className="text">{number_format(item.chargeFee.toFixed(2))}</span>
-                        </div>
-                        <div className="td-status" data-title="Status">
-                            <span className="text">{item.status}</span>
-                        </div>
-                </div>;;
-                }.bind(this));
 
-                let dateStr = moment(data[0].createTime).format("YYYY/MM/DD");
+            let messagesRows =  data.map(function( item ,index ) { 
+                let createTime = moment(item.createTime).format('l LTS');
+                return <div className="message-list__body" key={item.id}>
+                            <div className="message" data-selected="false" data-read={item.flag} data-open={this.props.Open.indexOf(item.id)>-1}>
+                                <div className="message__item">
+                                    <label className="checkbox">
+                                        <input type="checkbox" />
+                                        <i className="icon icon-checkbox"></i>
+                                    </label>
+                                    <div className="message__title" onClick={this.onGetMsgContent.bind(this, item)}>
+                                        <span className="text">{item.title}</span>
+                                        <span className="text-lowlight">{createTime}</span>
+                                    </div>
+                                    <div className="btn-area btn-icon" onClick={this.onGetMsgContent.bind(this, item)}>
+                                        <i className="icon icon-caret"></i>
+                                    </div>
+                                </div>
+                                <div className="message__content">
+                                    <p><pre>{this.props.Open.indexOf(item.id)>-1 ? this.props.MsgContent["MsgId"+item.id]:null}</pre></p>
+                                </div>
+                            </div>
+                        </div>;
+            }.bind(this));
+
             return (
-                <div className="tbody" data-date={dateStr} data-open="true">
-                    {rows}
-                </div>
+                messagesRows
             )
         }
-    }*/
+    }
 
     class Messages extends React.Component {
         constructor(props) {
             super(props);
+
+            this.state={StartDate:"", EndDate:"", GetData: false, Refresh: false, Open:[], Checked:[]};
         }
 
         componentDidMount() {
-            axios.post('/api/Payment/GetDepositInfoRecent')
+            this.onGetMsgList(1);
+        }
+
+        onGetMsgList(pageNumber) {
+            Loading.OnLoading();
+            this.setState({Refresh: true});
+            let data = {PageNumber: pageNumber};
+            axios.post('/api/Account/GetMsgList', data)
             .then(function (response) {
+                Loading.UnLoading();
                 let result = response.data;
                 if (result.errorCode == 0) {
-                    this.setState({Data: result.data});
+                    this.setState({PageNumber: result.pageNumber, TotalPages: result.totalPages, Data: result.data, GetData: true, Refresh: false});
                 } else {
                     alert(result.message);
+                    this.setState({Refresh: false});
                 }
             }.bind(this)).catch(function (error) {
+                Loading.UnLoading();
                 alert(error);
+                this.setState({Refresh: false});
             }.bind(this));
+        }
+
+        onGetMsgContent(msgId) {
+            let open = this.state.Open;
+            let idx = open.indexOf(msgId);
+            let msgContent = this.state.MsgContent||{};
+            let key = "MsgId" + msgId;
+            if(idx > -1) {
+                open.splice(idx, 1);
+                this.setState({open});
+            } else {
+                if(msgContent[key]==null){
+                    Loading.OnLoading();
+                    let data = {MsgId: msgId};
+                    axios.post('/api/Account/GetMsgContent', data)
+                    .then(function (response) {
+                        Loading.UnLoading();
+                        let result = response.data;
+                        if (result.errorCode == 0) {
+                            msgContent[key] = result.data.content;
+                            open.push(msgId);
+                            this.setState({MsgContent: msgContent, Open: open});
+                        } else {
+                            alert(result.message);
+                        }
+                    }.bind(this)).catch(function (error) {
+                        Loading.UnLoading();
+                        alert(error);
+                    }.bind(this));
+                } else {
+                    open.push(msgId);
+                    this.setState({Open: open});
+                }
+            }
         }
 
         render() {
@@ -76,7 +125,7 @@ import {Pagination} from '../commJS/Pagination.jsx';
                                 <i className="icon icon-delete-outline"></i>
                             </div>
                         </button>
-                        <button className="btn btn-icon text-primary" data-refresh="false">
+                        <button className="btn btn-icon text-primary" data-refresh={this.state.Refresh} onClick={this.onGetMsgList.bind(this, this.state.PageNumber)}>
                             <div className="btn__inner">
                                 <i className="icon icon-refresh"></i>
                                 <div className="preloader">
@@ -90,31 +139,9 @@ import {Pagination} from '../commJS/Pagination.jsx';
                             </div>
                         </button>
                     </div>
-                    <div className="message-list__body">
-                        <div className="message" data-selected="false" data-read="true" data-open="false">
-                            <div className="message__item">
-                                <label className="checkbox">
-                                    <input type="checkbox"/>
-                                    <i className="icon icon-checkbox"></i>
-                                </label>
-                                <div className="message__title">
-                                    <span className="text">Welcome to Nova88!</span>
-                                    <span className="text-lowlight">2019/12/04 04:19 PM</span>
-                                </div>
-                                <div className="btn-area btn-icon">
-                                    <i className="icon icon-caret"></i>
-                                </div>
-                            </div>
-                            <div className="message__content">
-                                <p>The Company is a leading provider of innovative and exciting interactive gaming
-                                    products within the confines of a distinct gaming experience designed for its
-                                    members, which is operating under the Nova88 brand.</p>
-                            </div>
-                        </div>
-                        
-                    </div>
                 </div>
-                {null}
+                {this.state.Data ? <MessagesBody {...this.state} onGetMsgContent={this.onGetMsgContent.bind(this)}/> : null}
+                <Pagination onPaging={this.onGetMsgList.bind(this)} PageNumber={this.state.PageNumber} TotalPages={this.state.TotalPages}/>
             </div>
             )
         }

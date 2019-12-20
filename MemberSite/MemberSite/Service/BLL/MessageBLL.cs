@@ -20,5 +20,10 @@ namespace MemberSite.Service.BLL
             totalPages = 0;
             return messageService.GetMsgList(custId, pageSize, ref pageNumber, out totalPages, out rowCount);
         }
+
+        public MsgContent GetMsgContent(int custId, int msgId)
+        {
+            return messageService.GetMsgContent(custId, msgId);
+        }
     }
 }
