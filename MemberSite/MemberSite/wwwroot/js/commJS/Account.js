@@ -34,7 +34,7 @@
   $(function() {
     setTimeout(onlineCheck.bind(this), 1000);
 
-    $("#logoutBtn").on("touchstart, click", function () {
+    $(".logoutBtn").on("touchstart, click", function () {
         axios.post('/api/Account/SignOut')
         .then(function (response) {
             var result = response.data;
