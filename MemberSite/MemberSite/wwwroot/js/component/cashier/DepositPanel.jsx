@@ -47,11 +47,15 @@ import {number_format} from '../commJS/common';
                         <div className="table table-modal">
                             <div className="tbody">
                                 <div className="tr">
-                                    <a className="td-left" target="_blank" href={bankInfo.bankSite}>
+
+                                    <div className="td-left">
                                         <img src={"/common/images/BankLogo/"+bankInfo.bankLogo}/>
-                                    </a>
-                                    <div className="td-right">
                                         <span className="text">{bankInfo.bankName}</span>
+                                    </div>
+                                    <div className="td-right">
+                                        <a className="btn btn-icon text-primary" target="_blank" href={bankInfo.bankSite}>
+                                            <i className="icon icon-new-window"></i>
+                                        </a>
                                     </div>
                                 </div>
                                 <div className="tr">
@@ -60,7 +64,12 @@ import {number_format} from '../commJS/common';
                                         <span className="text">{bankInfo.accountName}</span>
                                     </div>
                                     <div className="td-right">
-                                        <button className="btn btn-icon text-primary copyBtn" data-clipboard-text={bankInfo.accountName}><i className="icon icon-copy"></i></button>
+                                        <a className="btn btn-icon text-primary copyBtn" data-clipboard-text={bankInfo.accountName}>
+                                            <i className="icon icon-copy"></i>
+                                            <div className="tooltip tooltip--top-right" data-open="true">
+                                                <span className="text">copy</span>
+                                            </div>                                            
+                                        </a>
                                     </div>
                                 </div>
                                 <div className="tr">
@@ -586,7 +595,7 @@ import {number_format} from '../commJS/common';
                     </div>
                     <div className="panel__body">
                         <div className="payment">
-                            <a className="payment__item" href="javascript:void(0);" onClick={this.onWireTransfers.bind(this)}>
+                            <a className="payment__item" onClick={this.onWireTransfers.bind(this)}>
                                 <div className="payment__img">
                                     <img src="../../SiteSkin/Nova88/common/images/payment/wire-transfer.png"/>
                                 </div>
@@ -686,7 +695,7 @@ import {number_format} from '../commJS/common';
             modalContaner = this.state.showModal ? <BankModal bankInfo={this.state.bankInfo} onCloseModal={this.onCloseModal.bind(this)}/> : null;
 
             return (
-                <div class="main">{panelHolder}{modalContaner}</div>
+                <div className="main">{panelHolder}{modalContaner}</div>
             )
         }
     }

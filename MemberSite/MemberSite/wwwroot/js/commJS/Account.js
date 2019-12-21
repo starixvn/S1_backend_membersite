@@ -22,7 +22,7 @@
       )
       .catch(
         function(error) {
-          if (error.response.status == 401) {
+          if (error.response!=null && error.response.status == 401) {
             window.location.replace(window.location.href);
           } else {
             setTimeout(onlineCheck.bind(this), 10000);
@@ -30,9 +30,35 @@
         }.bind(_this)
       );
   };
+  
+  var onGetMsgCount = function onGetMsgCount() {
+    axios
+      .post("/api/Account/GetMsgCount")
+      .then(
+        function(response) {
+          var result = response.data;
+          if (result.errorCode == 0) {
+            var msgCount = "";
+            if(result.data > 0) {
+                msgCount = result.data;
+            }
+            $(".MsgCount").html(msgCount)
+          }
+
+          setTimeout(onGetMsgCount.bind(this), 30000);
+        }.bind(_this)
+      )
+      .catch(
+        function(error) {
+          setTimeout(onGetMsgCount.bind(this), 30000);
+        }.bind(_this)
+      );
+  };
 
   $(function() {
     setTimeout(onlineCheck.bind(this), 1000);
+    onGetMsgCount();
+    window.onGetMsgCount = onGetMsgCount.bind(this);
 
     $(".logoutBtn").on("touchstart, click", function () {
         axios.post('/api/Account/SignOut')

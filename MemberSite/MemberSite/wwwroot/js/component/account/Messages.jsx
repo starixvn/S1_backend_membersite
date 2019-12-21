@@ -108,7 +108,11 @@ import {Pagination} from '../commJS/Pagination.jsx';
                         if (result.errorCode == 0) {
                             msgContent[key] = result.data.content;
                             open.push(msgId);
-                            this.setState({MsgContent: msgContent, Open: open});
+                            this.setState({MsgContent: msgContent, Open: open}, function(){
+                                if(window.onGetMsgCount!=null) {
+                                    window.onGetMsgCount();
+                                }
+                            });
                         } else {
                             alert(result.message);
                         }

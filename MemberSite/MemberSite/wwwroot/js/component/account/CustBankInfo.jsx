@@ -10,14 +10,14 @@ import * as Loading from '../commJS/Loading.jsx';
             let dataField = new DataField("AccountName");
             dataField.placeholder = i18n.lbl_BankAccountName;
             dataField.displayName = i18n.lbl_BankAccountName;
-            dataField.tooltip = i18n.lbl_BankAccountNameHint;
-            dataField.handleCheck = this.handleCheckAccountName.bind(this);
             dataField.Value = this.props.Data && this.props.Data.accountName;
             dataField.status = 1;
             if (dataField.Value != null && dataField.Value != "") {
                 dataField.status = 4;
             } else {
                 dataField.Value = "";
+                dataField.tooltip = i18n.lbl_BankAccountNameHint;                
+                dataField.handleCheck = this.handleCheckAccountName.bind(this);
             }
 
             formArr.push(dataField);
@@ -53,6 +53,9 @@ import * as Loading from '../commJS/Loading.jsx';
                 if (value.length == 0) {
                     status = 2;
                     message = i18n.msg_NeedAccountName;
+                } else {
+                    status = 3;
+                    message = "";
                 }
             }
 
@@ -70,6 +73,9 @@ import * as Loading from '../commJS/Loading.jsx';
                 } else if (!regx.test(value)) {
                     status = 2;
                     message = "0~9";
+                } else {
+                    status = 3;
+                    message = "";
                 }
             }
 
@@ -166,12 +172,12 @@ import * as Loading from '../commJS/Loading.jsx';
                         {Inputs}
                         <div className="btn-group">
                             {this.props.Data ?
-                                <button className="btn btn-primary" onClick={this.onClose.bind(this)}>
+                                <button className="btn btn-primary" type="button" onClick={this.onClose.bind(this)}>
                                     <div className="btn__inner">
                                         <span className="text">{i18n.lbl_Back}</span>
                                     </div>
                                 </button> : null}
-                            <button className="btn btn-secondary" type="submit">
+                            <button className="btn btn-secondary" type="submit" data-disabled={this.state.SubmitDisabled}>
                                 <div className="btn__inner">
                                     <span className="text">{i18n.lbl_Submit}</span>
                                 </div>
@@ -209,7 +215,7 @@ import * as Loading from '../commJS/Loading.jsx';
 
         render() {
             let rows = this.props.bankInfoDetail.map(function (bankInfo) {
-                return <div className="tr" role="mobile-grid">
+                return <div key={bankInfo.accountNo} className="tr" role="mobile-grid">
                 <div className="td-label" role="mobile-row-1">
                     <span className="text-lowlight">{i18n.lbl_BankName}</span>
                 </div>

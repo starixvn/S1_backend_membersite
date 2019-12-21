@@ -197,7 +197,7 @@ class LoginForm extends React.Component {
                             </div>
                         </div>
                         <div className="login__item-btn">
-                            <button className="btn btn-highlight">
+                            <button className="btn btn-highlight" type="submit">
                                 <div className="btn__inner">
                                     <span className="text">{i18n.lbl_Login}</span>
                                 </div>

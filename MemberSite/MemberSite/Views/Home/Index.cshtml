@@ -156,3 +156,44 @@
         </div>
     </div>
 </div>
+@section Scripts{
+    <script src="~/lib/swiper.min.js"></script>
+    <script>
+        $(function () {
+            var bannerSwiper = new Swiper('.lobby-banner-swiper', {
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+                observer: true,
+                observeParents: true,
+                updateTranslate: true,
+            });
+            bannerSwiper.updateSize();
+            bannerSwiper.updateSlides();
+        });
+
+        $(function () {
+            var productSwiper = new Swiper('.lobby-product-swiper', {
+                loop: true,
+                autoplay: {
+                    delay: 6000,
+                },
+                slidesPerView: 3,
+                breakpoints: {
+                    768: {
+                        slidesPerView: 1,
+                    }
+                },
+                observer: true,
+                observeParents: true,
+                updateTranslate: true,
+            });
+            productSwiper.updateSize();
+            productSwiper.updateSlides();
+        });
+    </script>
+}

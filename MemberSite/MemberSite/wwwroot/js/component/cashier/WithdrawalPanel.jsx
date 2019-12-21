@@ -264,7 +264,7 @@ import {number_format} from '../commJS/common';
                             </div>
                         </div>
                         <div className="btn-group">
-                            <button className="btn btn-primary"  onClick={this.onClose.bind(this)} type="button">
+                            <button className="btn btn-primary" onClick={this.onClose.bind(this)} type="button">
                                 <div className="btn__inner">
                                     <span className="text">{i18n.lbl_Cancel}</span>
                                 </div>
@@ -450,7 +450,7 @@ import {number_format} from '../commJS/common';
                             </div>
                             {Inputs}
                             <div className="btn-group">
-                                <button className="btn btn-secondary">
+                                <button className="btn btn-secondary" type="submit">
                                     <div className="btn__inner">
                                         <span className="text">{i18n.lbl_Submit}</span>
                                     </div>
