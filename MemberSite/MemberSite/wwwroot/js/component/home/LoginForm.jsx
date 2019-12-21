@@ -11,7 +11,6 @@ class LoginForm extends React.Component {
 
         let userNameDataField = new DataField("UserName");
         userNameDataField.placeholder = i18n.lbl_Username;
-        userNameDataField.displayName = i18n.lbl_Username;
         userNameDataField.tooltip = i18n.lbl_UsernameTooltip;
         userNameDataField.status = 1;
         userNameDataField.handleCheck = this.handleCheckUserName.bind(this);
@@ -20,7 +19,6 @@ class LoginForm extends React.Component {
 
         let userpwdDataField = new DataField("Userpwd");
         userpwdDataField.placeholder = i18n.lbl_Password;
-        userpwdDataField.displayName = i18n.lbl_Password;
         userpwdDataField.tooltip = i18n.lbl_PasswordTooltip;
         userpwdDataField.status = 1;
         userpwdDataField.objectType = 2;
@@ -28,7 +26,7 @@ class LoginForm extends React.Component {
         userpwdDataField.Value = "";
         formArr.push(userpwdDataField);
 
-        this.state = { formArr: formArr, popLoginForm: getUrlParameter("loginCont")=="1"};
+        this.state = { formArr: formArr, popLoginForm: getUrlParameter("loginCont")=="1", ShowPwd: false};
     }
     
     async handleCheckUserName(value) {
@@ -128,8 +126,41 @@ class LoginForm extends React.Component {
         $("#loginBtn3").on("touchstart, click", function(e) {this.setState({popLoginForm: true});}.bind(this));
     }
 
+    onChangeUserName(userNameDataField, event) {
+        userNameDataField.Value=event.target.value;
+        this.forceUpdate();
+    }
+
+    onChangeUserpwd(userpwdDataField, event) {
+        userpwdDataField.Value=event.target.value;
+        this.forceUpdate();
+    }
+
+    onShowPwd() {
+        this.setState({ShowPwd:!this.state.ShowPwd});
+    }
+
     render() {
-        let Inputs=this.state.formArr.map(dataField => <InputBox key={dataField.name} DataField={dataField}/>);
+        //let Inputs=this.state.formArr.map(dataField => <InputBox key={dataField.name} DataField={dataField}/>);
+        let userNameDataField = null;
+        let userpwdDataField = null;
+
+        this.state.formArr.forEach(function(dataField){
+            if(dataField.name=="UserName") {
+                userNameDataField = dataField;
+            } else if(dataField.name=="Userpwd") {
+                userpwdDataField = dataField;
+            }
+        });
+
+        let pwdType = this.state.ShowPwd ? "text":"password";
+        let ShowPwdBtn = (userpwdDataField.Value&&userpwdDataField.Value.length>0)||this.state.ShowPwd ? <a className="btn btn-icon btn-form-togglepw" data-visibility={!this.state.ShowPwd} onClick={this.onShowPwd.bind(this)}><i className="icon"></i></a>:null;
+        let tooltip = [];
+        this.state.formArr.forEach(function(dataField) { 
+            if(dataField.status==2) { 
+                tooltip.push(<div key={dataField.name}>{dataField.tooltip}</div>);
+            }
+        });
 
         return (
             <div className="login" data-open={this.state.popLoginForm}>
@@ -144,19 +175,31 @@ class LoginForm extends React.Component {
                     <p>{i18n.lbl_NoAccount}
                         <a className="text-link" href={joinNowUrl}><span className="text">{i18n.lbl_JoinNow}</span></a>.
                     </p>
-                    <form id="loginForm" onSubmit={this.handleSubmit.bind(this)}>                                        
+                    <form onSubmit={this.handleSubmit.bind(this)}>
                         <div className="login__form">
-                            {Inputs}
+                            <div className="form-group">
+                                <div className="form-content" data-status={userNameDataField.dataStatus}>
+                                    <div className="textfield">
+                                        <input type="text" className="textfield__input" placeholder={userNameDataField.placeholder} value={userNameDataField.Value} onChange={this.onChangeUserName.bind(this, userNameDataField)}/>
+                                        <span className="textfield__bg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <div className="form-content" data-status={userpwdDataField.dataStatus}>
+                                    <div className="textfield">
+                                        <input type={pwdType} className="textfield__input" placeholder={userpwdDataField.placeholder} value={userpwdDataField.Value} onChange={this.onChangeUserpwd.bind(this, userpwdDataField)} autoComplete="off"/>
+                                        <span className="textfield__bg"></span>
+                                        {ShowPwdBtn}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="tooltip tooltip--bottom" data-open={tooltip.length>0}>
+                                <span className="text">{tooltip}</span>
+                            </div>
                         </div>
-                        {/*<div className="login__item">
-                            <label className="checkbox">
-                                <input type="checkbox"/>
-                                <i className="icon icon-checkbox"></i>
-                                <span className="text">Remember Me</span>
-                            </label>
-                        </div>*/}
                         <div className="login__item-btn">
-                            <button type="submit" className="btn btn-highlight">
+                            <button className="btn btn-highlight">
                                 <div className="btn__inner">
                                     <span className="text">{i18n.lbl_Login}</span>
                                 </div>

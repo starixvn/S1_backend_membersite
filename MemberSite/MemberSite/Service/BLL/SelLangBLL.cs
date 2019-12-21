@@ -211,17 +211,21 @@ namespace MemberSite.Service.BLL
             var langId = GetLangId();
             var defCurrencyId = serverInfo.DefCurrency;
 
-            if (LangMapCurr.ContainsKey(langId) && serverInfo.ICurrencyList.Contains(LangMapCurr[langId]))
+            string userLangs = httpContextAccessor.HttpContext.Request.Headers["Accept-Language"].ToString();
+
+            if (userLangs.StartsWith("ms", StringComparison.OrdinalIgnoreCase) && serverInfo.ICurrencyList.Contains(2))/*Malay (Malaysia)*/
+            {
+                return 2;
+            }
+            else if (LangMapCurr.ContainsKey(langId) && serverInfo.ICurrencyList.Contains(LangMapCurr[langId]))
             {
                 return LangMapCurr[langId];
             }
-
-            if (defCurrencyId != 0 && serverInfo.ICurrencyList.Contains(defCurrencyId))
+            else if (defCurrencyId != 0 && serverInfo.ICurrencyList.Contains(defCurrencyId))
             {
                 return defCurrencyId;
             }
-
-            if (serverInfo.ICurrencyList.Count() > 0)
+            else if (serverInfo.ICurrencyList.Count() > 0)
             {
                 foreach (var currencyId in serverInfo.ICurrencyList)
                 {
