@@ -9,17 +9,24 @@
 @functions{
     string GetEntPageUrl(int tpId, string gameId)
     {
-
-        var homeUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
-        var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
-        var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
-
-        var entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
-        if (!tools.IsMobile() && tpId == 1)
+        var entPageUrl = "";
+        if (tpId == 1 && (gameId == "202" || gameId == "208"))
         {
-            entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}');";
+            var message = selLangBLL.GetMsg("msg_LoginToAccess");
+            entPageUrl = "javascript:alert('"+message+"');";
         }
+        else
+        {
+            var homeUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+            var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+            var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
 
+            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+            if (!tools.IsMobile() && tpId == 1)
+            {
+                entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}');";
+            }
+        }
         return entPageUrl;
     }
 }
