@@ -10,14 +10,14 @@ module.exports = {
     "js/component/account/Profile.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/account/Profile.jsx'
 		],
-    "js/component/home/loginForm.min":[
-			'../MemberSite/MemberSite/wwwroot/js/component/home/LoginForm.jsx'
+    "js/component/app/loginForm.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/app/LoginForm.jsx'
 		],
     "js/commJS/account.min":[
 			'../MemberSite/MemberSite/wwwroot/js/commJS/Account'
     ],
-    "js/component/account/BalancePanel.min":[
-			'../MemberSite/MemberSite/wwwroot/js/component/account/BalancePanel.jsx'
+    "js/component/app/BalancePanel.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/app/BalancePanel.jsx'
 		],
     "js/component/cashier/DepositPanel.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/cashier/DepositPanel.jsx'

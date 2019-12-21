@@ -142,9 +142,10 @@
                 <div class="side-nav__list-member">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a class="side-nav__btn">
+                        <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Messages", controller = "Account", LangId = selLangBLL.GetLangId() })">
                             <span class="side-nav__icon">
                                 <i class="icon icon-email"></i>
+                                <span class="new-dot"></span>
                             </span>
                             <span class="text">@selLangBLL.GetResourceValue("lbl_Message")</span>
                         </a>

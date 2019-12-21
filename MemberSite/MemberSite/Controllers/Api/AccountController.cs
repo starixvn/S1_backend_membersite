@@ -313,6 +313,18 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+        //
+
+        [HttpPost]
+        public ApiResult GetMsgCount()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<int>();
+            apiResult.Data = messageBLL.GetMsgCount(authData.CustId);
+            apiResult.ErrorCode = 0;
+
+            return apiResult;
+        }
         //[HttpPost]
         //public ApiResult DelCustBankInfo(BankInfo bankInfo)
         //{

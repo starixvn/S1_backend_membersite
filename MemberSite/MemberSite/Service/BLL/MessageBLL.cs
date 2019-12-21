@@ -36,5 +36,10 @@ namespace MemberSite.Service.BLL
 
             return resalt;
         }
+
+        public int GetMsgCount(int custId)
+        {
+            return messageService.GetMsgCount(custId);
+        }
     }
 }

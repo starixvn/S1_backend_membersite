@@ -60,5 +60,10 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Execute("Msg_Del", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure) > 0;
         }
+        public int GetMsgCount(int custId)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.ExecuteScalar<int>("MsgCount_Get", new { CustId = custId, IsUnread = 1 }, commandType: CommandType.StoredProcedure);
+        }
     }
 }
