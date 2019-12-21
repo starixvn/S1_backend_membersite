@@ -686,7 +686,7 @@ import {number_format} from '../commJS/common';
             modalContaner = this.state.showModal ? <BankModal bankInfo={this.state.bankInfo} onCloseModal={this.onCloseModal.bind(this)}/> : null;
 
             return (
-                <div>{panelHolder}{modalContaner}</div>
+                <div class="main">{panelHolder}{modalContaner}</div>
             )
         }
     }

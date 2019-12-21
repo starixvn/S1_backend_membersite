@@ -55,5 +55,10 @@ namespace MemberSite.Service.DAL
             var msgContent = conn.QueryFirstOrDefault<MsgContent>("MsgContent_Get", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure);
             return msgContent;
         }
+        public bool DelMsg(int custId, int msgId)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Execute("Msg_Del", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure) > 0;
+        }
     }
 }

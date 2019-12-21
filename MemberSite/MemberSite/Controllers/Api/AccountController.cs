@@ -291,6 +291,28 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+
+        public class DelMsgReq
+        {
+            public int[] MsgIds { get; set; }
+        }
+
+        [HttpPost]
+        public ApiResult DelMsg(DelMsgReq msgReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<MsgContent>();
+            if (messageBLL.DelMsg(authData.CustId, msgReq.MsgIds))
+            {
+                apiResult.ErrorCode = 0;
+            }
+            else
+            {
+                apiResult.ErrorCode = 99;
+            }
+
+            return apiResult;
+        }
         //[HttpPost]
         //public ApiResult DelCustBankInfo(BankInfo bankInfo)
         //{

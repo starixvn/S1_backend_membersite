@@ -8,6 +8,10 @@ import {Pagination} from '../commJS/Pagination.jsx';
             this.props.onGetMsgContent(msg.id);
         }
 
+        onChecked(msg){
+            this.props.onChecked(msg.id);
+        }
+
         render() {
             let data = this.props.Data;
 
@@ -17,7 +21,7 @@ import {Pagination} from '../commJS/Pagination.jsx';
                             <div className="message" data-selected="false" data-read={item.flag} data-open={this.props.Open.indexOf(item.id)>-1}>
                                 <div className="message__item">
                                     <label className="checkbox">
-                                        <input type="checkbox" />
+                                        <input type="checkbox"  onChange={this.onChecked.bind(this, item)} checked={this.props.Checked.indexOf(item.id)>-1}/>
                                         <i className="icon icon-checkbox"></i>
                                     </label>
                                     <div className="message__title" onClick={this.onGetMsgContent.bind(this, item)}>
@@ -29,7 +33,7 @@ import {Pagination} from '../commJS/Pagination.jsx';
                                     </div>
                                 </div>
                                 <div className="message__content">
-                                    <p><pre>{this.props.Open.indexOf(item.id)>-1 ? this.props.MsgContent["MsgId"+item.id]:null}</pre></p>
+                                    {this.props.Open.indexOf(item.id)>-1 ? <pre><p>{this.props.MsgContent["MsgId"+item.id]}</p></pre> :null}
                                 </div>
                             </div>
                         </div>;
@@ -53,24 +57,36 @@ import {Pagination} from '../commJS/Pagination.jsx';
         }
 
         onGetMsgList(pageNumber) {
-            Loading.OnLoading();
+            //Loading.OnLoading();
             this.setState({Refresh: true});
             let data = {PageNumber: pageNumber};
             axios.post('/api/Account/GetMsgList', data)
             .then(function (response) {
-                Loading.UnLoading();
+                //Loading.UnLoading();
                 let result = response.data;
                 if (result.errorCode == 0) {
-                    this.setState({PageNumber: result.pageNumber, TotalPages: result.totalPages, Data: result.data, GetData: true, Refresh: false});
+                    this.setState({PageNumber: result.pageNumber, TotalPages: result.totalPages, Data: result.data, GetData: true, Refresh: false, Checked: []});
                 } else {
                     alert(result.message);
                     this.setState({Refresh: false});
                 }
             }.bind(this)).catch(function (error) {
-                Loading.UnLoading();
+                //Loading.UnLoading();
                 alert(error);
                 this.setState({Refresh: false});
             }.bind(this));
+        }
+
+        onChecked(msgId) {
+            let checked = this.state.Checked;
+            let idx = checked.indexOf(msgId);
+            if(idx > -1) {
+                checked.splice(idx, 1);
+                this.setState({Checked: checked});
+            } else {
+                checked.push(msgId);
+                this.setState({Checked: checked});
+            }
         }
 
         onGetMsgContent(msgId) {
@@ -80,7 +96,7 @@ import {Pagination} from '../commJS/Pagination.jsx';
             let key = "MsgId" + msgId;
             if(idx > -1) {
                 open.splice(idx, 1);
-                this.setState({open});
+                this.setState({Open: open});
             } else {
                 if(msgContent[key]==null){
                     Loading.OnLoading();
@@ -107,6 +123,40 @@ import {Pagination} from '../commJS/Pagination.jsx';
             }
         }
 
+        onDelMsg() {
+            if(confirm('Are you sure?')) {
+                Loading.OnLoading();
+                axios.post('/api/Account/DelMsg', {MsgIds: this.state.Checked})
+                .then(function (response) {
+                    Loading.UnLoading();
+                    let result = response.data;
+                    if (result.errorCode == 0) {
+                        this.onGetMsgList(this.state.PageNumber);
+                    } else {
+                        alert(result.message);
+                    }
+                }.bind(this)).catch(function (error) {
+                    Loading.UnLoading();
+                    alert(error);
+                }.bind(this));
+            }
+        }
+
+        onSelAll() {
+            let checked=[];
+            if(this.state.Data!=null&&this.state.Checked.length == this.state.Data.length) {
+                this.setState({Checked: checked});
+            } else if(this.state.Data!=null && this.state.Data.length>0 ) {
+                let _data = this.state.Data;
+
+                for(let idx = 0;idx < _data.length;idx++) {
+                    checked.push(_data[idx].id)
+                }
+
+                this.setState({Checked: checked});
+            }
+        }
+
         render() {
             return (
             <div className="page">
@@ -116,11 +166,11 @@ import {Pagination} from '../commJS/Pagination.jsx';
                 <div className="message-list">
                     <div className="message-list__header">
                         <label className="checkbox">
-                            <input type="checkbox"/>
+                            <input type="checkbox" checked={this.state.Data!=null&&this.state.Checked.length == this.state.Data.length} onChange={this.onSelAll.bind(this)} />
                             <i className="icon icon-checkbox"></i>
                             <span className="text">Select All</span>
                         </label>
-                        <button className="btn btn-icon text-primary">
+                        <button className="btn btn-icon text-primary" data-disabled={this.state.Data==null||this.state.Checked.length==0} onClick={this.state.Data!=null&&this.state.Checked.length > 0  ? this.onDelMsg.bind(this): null}>
                             <div className="btn__inner">
                                 <i className="icon icon-delete-outline"></i>
                             </div>
@@ -140,7 +190,7 @@ import {Pagination} from '../commJS/Pagination.jsx';
                         </button>
                     </div>
                 </div>
-                {this.state.Data ? <MessagesBody {...this.state} onGetMsgContent={this.onGetMsgContent.bind(this)}/> : null}
+                {this.state.Data ? <MessagesBody {...this.state} onGetMsgContent={this.onGetMsgContent.bind(this)} onChecked={this.onChecked.bind(this)}/> : null}
                 <Pagination onPaging={this.onGetMsgList.bind(this)} PageNumber={this.state.PageNumber} TotalPages={this.state.TotalPages}/>
             </div>
             )
