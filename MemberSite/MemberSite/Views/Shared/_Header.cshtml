@@ -3,6 +3,23 @@
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @inject Tools tools
+@functions{
+    string GetEntPageUrl(int tpId, string gameId)
+    {
+
+        var homeUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+        var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+        var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+
+        var entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+        if (!tools.IsMobile() && tpId == 1)
+        {
+            entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}');";
+        }
+
+        return entPageUrl;
+    }
+}
 <div class="header">
     <div class="header__main">
         <a class="btn btn-icon btn-toggle-nav" role="mobile-only">
@@ -78,7 +95,7 @@
                 <div class="dropdown dropdown-highlight dropdown--right">
                     <a class="btn">
                         <i class="icon icon-transaction"></i>
-                        <span class="text">Cashier</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
                         <i class="icon icon-caret"></i>
                     </a>
                     <div class="dropdown__container">
@@ -86,11 +103,11 @@
                             <div class="dropdown__group">
                                 <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
                                     <i class="icon icon-deposit-bank"></i>
-                                    <span class="text">Deposit</span>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
                                 </a>
                                 <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
                                     <i class="icon icon-withdrawal"></i>
-                                    <span class="text">Withdrawal</span>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
                                 </a>
                                 @*<a class="dropdown__item" href="#">
                                         <i class="icon icon-transfer"></i>
@@ -112,7 +129,7 @@
                                 <label class="checkbox">
                                     <input type="checkbox" checked>
                                     <i class="icon icon-checkbox"></i>
-                                    <span class="text">Show Balance</span>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_ShowBalance")</span>
                                 </label>
                             </div>
                             <div class="wallet-info">
@@ -150,11 +167,11 @@
                                                 </div>*@
                             <div class="login-info">
                                 <div class="login-info__item">
-                                    <span class="text">Last Login</span>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_LastLogin")</span>
                                     <span class="text">11/20/2019 1:38 PM</span>
                                 </div>
                                 <div class="login-info__item">
-                                    <span class="text">Last Transaction</span>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_LastTransaction")</span>
                                     <span class="text">11/22/2019 11:38 AM</span>
                                 </div>
                             </div>
@@ -172,15 +189,15 @@
                             <div class="dropdown__group">
                                 <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "ChangePwd", controller = "Account", LangId = selLangBLL.GetLangId() })">
                                     <i class="icon icon-account"></i>
-                                    <span class="text">Change Pwd</span>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_ChangePassword")</span>
                                 </a>
                                 <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
                                     <i class="icon icon-account"></i>
-                                    <span class="text">Profile</span>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
                                 </a>
                                 <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
                                     <i class="icon icon-account"></i>
-                                    <span class="text">CustBankInfo</span>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_CustBank")</span>
                                 </a>
                                 @*<a class="dropdown__item" href="#">
                                         <i class="icon icon-promotion"></i>
@@ -190,7 +207,7 @@
                             <div class="dropdown__group">
                                 <a class="dropdown__item logoutBtn">
                                     <i class="icon icon-logout"></i>
-                                    <span class="text">Logout</span>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Logout")</span>
                                 </a>
                             </div>
                         </div>
@@ -208,12 +225,12 @@
                 </a>
                 <button class="btn btn-highlight loginBtn">
                     <div class="btn__inner">
-                        <span class="text">Login</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Login")</span>
                     </div>
                 </button>
                 <div class="text-group">
                     <a class="text-link">
-                        <span class="text">Forget your ID or password?</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_ForgetIDPassword")</span>
                     </a>
                 </div>
             }
@@ -223,26 +240,26 @@
         <a class="header__col-home" data-selected="false" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() })">
             <i class="icon icon-home"></i>
         </a>
-        <a class="header__col" data-selected="false" href="#">
-            <span class="text">Sports</span>
+        <a class="header__col" data-selected="false" href="@GetEntPageUrl(1,"1")">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_Sports")</span>
+        </a>
+        <a class="header__col" data-selected="false" href="@GetEntPageUrl(1,"43")">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_eSports")</span>
+        </a>
+        <a class="header__col" data-selected="false" href="@GetEntPageUrl(1,"151")">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_NumberGame")</span>
+        </a>
+        <a class="header__col" data-selected="false" href="@GetEntPageUrl(1,"181")">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>
         </a>
         <a class="header__col" data-selected="false" href="#">
-            <span class="text">E-Sports</span>
+            <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
         </a>
         <a class="header__col" data-selected="false" href="#">
-            <span class="text">Number Game</span>
+            <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
         </a>
         <a class="header__col" data-selected="false" href="#">
-            <span class="text">Virtual Sports</span>
-        </a>
-        <a class="header__col" data-selected="false" href="#">
-            <span class="text">Casino</span>
-        </a>
-        <a class="header__col" data-selected="false" href="#">
-            <span class="text">Live Casino</span>
-        </a>
-        <a class="header__col" data-selected="false" href="#">
-            <span class="text">Keno</span>
+            <span class="text">@selLangBLL.GetResourceValue("lbl_Keno")</span>
         </a>
     </div>
 </div>

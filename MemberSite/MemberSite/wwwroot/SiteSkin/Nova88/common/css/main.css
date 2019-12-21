@@ -433,7 +433,7 @@ template {
 }
 
 ver {
-  ver: "0 0.1-0.18204";
+  ver: "0 0.1-0.60996";
 }
 
 *,
@@ -447,7 +447,15 @@ ver {
 p {
   margin-top: .5rem;
   margin-bottom: .5rem;
-  line-height: 1.6;
+  line-height: 1.5;
+}
+
+pre {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.5;
+  white-space: pre-wrap;
 }
 
 a {

@@ -276,6 +276,9 @@
   <data name="lbl_CreditTime" xml:space="preserve">
     <value>Credit Time</value>
   </data>
+  <data name="lbl_CustBank" xml:space="preserve">
+    <value>Bank</value>
+  </data>
   <data name="lbl_CustBankInfo" xml:space="preserve">
     <value>Update Bank Information</value>
   </data>
@@ -362,6 +365,12 @@
   </data>
   <data name="lbl_Keywords" xml:space="preserve">
     <value>online betting, sport betting, football betting, sports betting, tennis betting, golf betting, online sports betting, soccer betting, online gambling</value>
+  </data>
+  <data name="lbl_LastLogin" xml:space="preserve">
+    <value>Last Login</value>
+  </data>
+  <data name="lbl_LastTransaction" xml:space="preserve">
+    <value>Last Transaction</value>
   </data>
   <data name="lbl_LiveCasino" xml:space="preserve">
     <value>Live Casino</value>
@@ -458,6 +467,9 @@
   </data>
   <data name="lbl_RuleRegulations" xml:space="preserve">
     <value>Rules and Regulations</value>
+  </data>
+  <data name="lbl_ShowBalance" xml:space="preserve">
+    <value>Show Balance</value>
   </data>
   <data name="lbl_Soccer" xml:space="preserve">
     <value>Soccer</value>
