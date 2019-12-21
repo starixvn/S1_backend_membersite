@@ -6,7 +6,7 @@
     string GetEntPageUrl(int tpId, string gameId)
     {
         var entPageUrl = "";
-        if (tpId == 1 && (gameId == "202" || gameId == "208"))
+        if (!User.Identity.IsAuthenticated && tpId == 1 && (gameId == "202" || gameId == "208"))
         {
             var message = selLangBLL.GetMsg("msg_LoginToAccess");
             entPageUrl = "javascript:alert('" + message + "');";

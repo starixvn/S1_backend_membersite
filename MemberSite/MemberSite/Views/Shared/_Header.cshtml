@@ -7,12 +7,13 @@
     string GetEntPageUrl(int tpId, string gameId)
     {
         var entPageUrl = "";
-        if(tpId == 1 && (gameId=="202" || gameId=="208"))
+        if (!User.Identity.IsAuthenticated && tpId == 1 && (gameId == "202" || gameId == "208"))
         {
             var message = selLangBLL.GetMsg("msg_LoginToAccess");
-            entPageUrl = "javascript:alert('"+message+"');";
+            entPageUrl = "javascript:alert('" + message + "');";
         }
-        else{
+        else
+        {
             var homeUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
             var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
             var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
@@ -37,24 +38,24 @@
         <div class="header__option" role="mobile-only">
             @if (User.Identity.IsAuthenticated)
             {
-            <div class="account-info" role="mobile-only">
-                <div class="account-info__row">
-                    <span class="account-info__name">@selLangBLL.GetResourceValue("lbl_Welcome") @User.Identity.Name</span>
+                <div class="account-info" role="mobile-only">
+                    <div class="account-info__row">
+                        <span class="account-info__name">@selLangBLL.GetResourceValue("lbl_Welcome") @User.Identity.Name</span>
+                    </div>
+                    <div id="BalancePanel">
+                    </div>
                 </div>
-                <div id="BalancePanel">
-                </div>
-            </div>
             }
             else
             {
-            <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
-            </a>
-            <button class="btn btn-highlight loginBtn">
-                <div class="btn__inner">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_Login")</span>
-                </div>
-            </button>
+                <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
+                </a>
+                <button class="btn btn-highlight loginBtn">
+                    <div class="btn__inner">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Login")</span>
+                    </div>
+                </button>
             }
         </div>
         <div class="header__option" role="desktop-only">
@@ -75,21 +76,21 @@
                         {
                             if (siteLanguage.LangId != selLangBLL.GetLangId())
                             {
-                        @if (User.Identity.IsAuthenticated)
+                                @if (User.Identity.IsAuthenticated)
                                 {
-                        <div class="dropdown__item" data-lang-id="@siteLanguage.LangId">
-                            <i class="flag-square-@(siteLanguage.LangId)"></i>
-                            <span class="text">@siteLanguage.Language</span>
-                        </div>
+                                    <div class="dropdown__item" data-lang-id="@siteLanguage.LangId">
+                                        <i class="flag-square-@(siteLanguage.LangId)"></i>
+                                        <span class="text">@siteLanguage.Language</span>
+                                    </div>
                                 }
                                 else
                                 {
-                        <a href="@Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })">
-                            <div class="dropdown__item">
-                                <i class="flag-square-@(siteLanguage.LangId)"></i>
-                                <span class="text">@siteLanguage.Language</span>
-                            </div>
-                        </a>
+                                    <a href="@Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })">
+                                        <div class="dropdown__item">
+                                            <i class="flag-square-@(siteLanguage.LangId)"></i>
+                                            <span class="text">@siteLanguage.Language</span>
+                                        </div>
+                                    </a>
                                 }
                             }
                         }
@@ -98,147 +99,147 @@
             </div>
             @if (User.Identity.IsAuthenticated)
             {
-            <div class="dropdown dropdown-highlight dropdown--right">
-                <a class="btn">
-                    <i class="icon icon-transaction"></i>
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
-                    <i class="icon icon-caret"></i>
-                </a>
-                <div class="dropdown__container">
-                    <div class="dropdown__list">
-                        <div class="dropdown__group">
-                            <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                                <i class="icon icon-deposit-bank"></i>
-                                <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
-                            </a>
-                            <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                                <i class="icon icon-withdrawal"></i>
-                                <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
-                            </a>
-                            @*<a class="dropdown__item" href="#">
-                                    <i class="icon icon-transfer"></i>
-                                    <span class="text">Transfer Funds</span>
-                                </a>*@
+                <div class="dropdown dropdown-highlight dropdown--right">
+                    <a class="btn">
+                        <i class="icon icon-transaction"></i>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
+                        <i class="icon icon-caret"></i>
+                    </a>
+                    <div class="dropdown__container">
+                        <div class="dropdown__list">
+                            <div class="dropdown__group">
+                                <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                                    <i class="icon icon-deposit-bank"></i>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+                                </a>
+                                <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                                    <i class="icon icon-withdrawal"></i>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
+                                </a>
+                                @*<a class="dropdown__item" href="#">
+                                        <i class="icon icon-transfer"></i>
+                                        <span class="text">Transfer Funds</span>
+                                    </a>*@
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="dropdown dropdown-secondary dropdown--right dropdown--balance">
-                <a class="btn">
-                    <i class="icon icon-balance"></i>
-                    <span class="text">UUS 593,497.24</span>
-                    <i class="icon icon-caret"></i>
-                </a>
-                <div class="dropdown__container">
-                    <div class="balance-info">
-                        <div class="balance-info__option">
-                            <label class="checkbox">
-                                <input type="checkbox" checked>
-                                <i class="icon icon-checkbox"></i>
-                                <span class="text">@selLangBLL.GetResourceValue("lbl_ShowBalance")</span>
-                            </label>
-                        </div>
-                        <div class="wallet-info">
-                            <div class="wallet-info__item">
-                                <span class="text text--lg">UUS</span>
-                                <span class="text-amount text--lg">9,975.40</span>
-                                <a class="btn btn-icon" data-refresh="false">
-                                    <i class="icon icon-refresh"></i>
-                                    <div class="preloader">
-                                        <div class="preloader__spiner">
-                                            <div class="preloader__circles">
-                                                <div class="preloader__circle-1"></div>
-                                                <div class="preloader__circle-2"></div>
+                <div class="dropdown dropdown-secondary dropdown--right dropdown--balance">
+                    <a class="btn">
+                        <i class="icon icon-balance"></i>
+                        <span class="text">UUS 593,497.24</span>
+                        <i class="icon icon-caret"></i>
+                    </a>
+                    <div class="dropdown__container">
+                        <div class="balance-info">
+                            <div class="balance-info__option">
+                                <label class="checkbox">
+                                    <input type="checkbox" checked>
+                                    <i class="icon icon-checkbox"></i>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_ShowBalance")</span>
+                                </label>
+                            </div>
+                            <div class="wallet-info">
+                                <div class="wallet-info__item">
+                                    <span class="text text--lg">UUS</span>
+                                    <span class="text-amount text--lg">9,975.40</span>
+                                    <a class="btn btn-icon" data-refresh="false">
+                                        <i class="icon icon-refresh"></i>
+                                        <div class="preloader">
+                                            <div class="preloader__spiner">
+                                                <div class="preloader__circles">
+                                                    <div class="preloader__circle-1"></div>
+                                                    <div class="preloader__circle-2"></div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
-                            @*<div class="wallet-info__item">
-                                    <span class="text">Sportsbook</span>
-                                    <span class="text-amount">9,975.40</span>
+                                    </a>
                                 </div>
-                                <div class="wallet-info__item">
-                                    <span class="text">Gold Deluxe</span>
-                                    <span class="text-amount">583,521.84</span>
-                                </div>*@
-                        </div>
-                        @*<div class="btn-group">
-                            <a class="btn btn-secondary" href="Deposit.html">
-                                <span class="text">Cashier</span>
-                            </a>
-                            <a class="btn btn-secondary" href="Deposit.html">
-                                    <span class="text">Transfer Funds</span>
+                                @*<div class="wallet-info__item">
+                                        <span class="text">Sportsbook</span>
+                                        <span class="text-amount">9,975.40</span>
+                                    </div>
+                                    <div class="wallet-info__item">
+                                        <span class="text">Gold Deluxe</span>
+                                        <span class="text-amount">583,521.84</span>
+                                    </div>*@
+                            </div>
+                            @*<div class="btn-group">
+                                <a class="btn btn-secondary" href="Deposit.html">
+                                    <span class="text">Cashier</span>
                                 </a>
-                                            </div>*@
-                        <div class="login-info">
-                            <div class="login-info__item">
-                                <span class="text">@selLangBLL.GetResourceValue("lbl_LastLogin")</span>
-                                <span class="text">11/20/2019 1:38 PM</span>
-                            </div>
-                            <div class="login-info__item">
-                                <span class="text">@selLangBLL.GetResourceValue("lbl_LastTransaction")</span>
-                                <span class="text">11/22/2019 11:38 AM</span>
+                                <a class="btn btn-secondary" href="Deposit.html">
+                                        <span class="text">Transfer Funds</span>
+                                    </a>
+                                                </div>*@
+                            <div class="login-info">
+                                <div class="login-info__item">
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_LastLogin")</span>
+                                    <span class="text">11/20/2019 1:38 PM</span>
+                                </div>
+                                <div class="login-info__item">
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_LastTransaction")</span>
+                                    <span class="text">11/22/2019 11:38 AM</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="dropdown dropdown-secondary dropdown--right">
-                <a class="btn">
-                    <i class="icon icon-account"></i>
-                    <span class="text">@User.Identity.Name</span>
-                    <i class="icon icon-caret"></i>
+                <div class="dropdown dropdown-secondary dropdown--right">
+                    <a class="btn">
+                        <i class="icon icon-account"></i>
+                        <span class="text">@User.Identity.Name</span>
+                        <i class="icon icon-caret"></i>
+                    </a>
+                    <div class="dropdown__container">
+                        <div class="dropdown__list">
+                            <div class="dropdown__group">
+                                <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "ChangePwd", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                                    <i class="icon icon-account"></i>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_ChangePassword")</span>
+                                </a>
+                                <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                                    <i class="icon icon-account"></i>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
+                                </a>
+                                <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                                    <i class="icon icon-account"></i>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_CustBank")</span>
+                                </a>
+                                @*<a class="dropdown__item" href="#">
+                                        <i class="icon icon-promotion"></i>
+                                        <span class="text">Promottion</span>
+                                    </a>*@
+                            </div>
+                            <div class="dropdown__group">
+                                <a class="dropdown__item logoutBtn">
+                                    <i class="icon icon-logout"></i>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Logout")</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn btn-icon btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Messages", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                    <i class="icon icon-email"></i>
+                    <span class="new-dot MsgCount"></span>
                 </a>
-                <div class="dropdown__container">
-                    <div class="dropdown__list">
-                        <div class="dropdown__group">
-                            <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "ChangePwd", controller = "Account", LangId = selLangBLL.GetLangId() })">
-                                <i class="icon icon-account"></i>
-                                <span class="text">@selLangBLL.GetResourceValue("lbl_ChangePassword")</span>
-                            </a>
-                            <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
-                                <i class="icon icon-account"></i>
-                                <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
-                            </a>
-                            <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
-                                <i class="icon icon-account"></i>
-                                <span class="text">@selLangBLL.GetResourceValue("lbl_CustBank")</span>
-                            </a>
-                            @*<a class="dropdown__item" href="#">
-                                    <i class="icon icon-promotion"></i>
-                                    <span class="text">Promottion</span>
-                                </a>*@
-                        </div>
-                        <div class="dropdown__group">
-                            <a class="dropdown__item logoutBtn">
-                                <i class="icon icon-logout"></i>
-                                <span class="text">@selLangBLL.GetResourceValue("lbl_Logout")</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <a class="btn btn-icon btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Messages", controller = "Account", LangId = selLangBLL.GetLangId() })">
-                <i class="icon icon-email"></i>
-                <span class="new-dot MsgCount"></span>
-            </a>
             }
             else
             {
-            <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                <span class="text">Join Now</span>
-            </a>
-            <button class="btn btn-highlight loginBtn">
-                <div class="btn__inner">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_Login")</span>
-                </div>
-            </button>
-            <div class="text-group">
-                <a class="text-link">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_ForgetIDPassword")</span>
+                <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
+                    <span class="text">Join Now</span>
                 </a>
-            </div>
+                <button class="btn btn-highlight loginBtn">
+                    <div class="btn__inner">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Login")</span>
+                    </div>
+                </button>
+                <div class="text-group">
+                    <a class="text-link">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_ForgetIDPassword")</span>
+                    </a>
+                </div>
             }
         </div>
     </div>
