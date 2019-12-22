@@ -78,7 +78,7 @@ export class WithdrawalHistory extends React.Component {
         return (
             data!=null&&data.length > 0 ? <div className="table table-rwd table-primary">
                 <div className="caption">
-                    <span className="text">{i18n.lbl_RecentTransactions}</span>
+                    <span className="text">{i18n.lbl_TransactionHistory}</span>
                     {hrefAllTrans ? <a className="text-link" href={hrefAllTrans}>
                         <span className="text">{i18n.lbl_AllTranscations}</span>
                         <i className="icon icon-arrow-right"></i>
@@ -86,22 +86,22 @@ export class WithdrawalHistory extends React.Component {
                 </div>
                 <div className="thead" role="desktop-only">
                     <div className="tr">
-                        <div className="td-date" data-title="Date">
+                        <div className="td-date" data-title={i18n.lbl_Date}>
                             <span className=" text">{i18n.lbl_Date}</span>
                         </div>
-                        <div className="td-time" data-title="Time">
+                        <div className="td-time" data-title={i18n.lbl_Time}>
                             <span className=" text">{i18n.lbl_Time}</span>
                         </div>
-                        <div className="td-id" data-title="ID">
+                        <div className="td-id" data-title={i18n.lbl_ID}>
                             <span className=" text">{i18n.lbl_ID}</span>
                         </div>
-                        <div className="td-amount" data-title="Amount">
+                        <div className="td-amount" data-title={i18n.lbl_Amount}>
                             <span className=" text">{i18n.lbl_Amount}</span>
                         </div>                            
-                        <div className="td-amount" data-title="Charge Fee">
-                            <span className=" text">{"i18n.lbl_ChargeFee"}</span>
+                        <div className="td-amount" data-title={i18n.lbl_ChargeFee}>
+                            <span className=" text">{i18n.lbl_ChargeFee}</span>
                         </div>
-                        <div className="td-status" data-title="Status">
+                        <div className="td-status" data-title={i18n.lbl_Status}>
                             <span className=" text">{i18n.lbl_Status}</span>
                         </div>
                     </div>
