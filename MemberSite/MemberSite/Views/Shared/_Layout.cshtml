@@ -109,6 +109,7 @@
             Dictionary<string, string> i18n = new Dictionary<string, string>();
             i18n.Add("lbl_LastTransaction", selLangBLL.GetResourceValue("lbl_LastTransaction"));
             i18n.Add("lbl_LastLogin", selLangBLL.GetResourceValue("lbl_LastLogin"));
+            i18n.Add("lbl_ShowBalance", selLangBLL.GetResourceValue("lbl_ShowBalance"));
             i18n.Add("lbl_Currency", selLangBLL.GetResourceValue($"Currency_{CurrencyId}"));
             @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
         }
