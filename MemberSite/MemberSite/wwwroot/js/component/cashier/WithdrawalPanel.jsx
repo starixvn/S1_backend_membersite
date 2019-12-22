@@ -258,7 +258,7 @@ import {number_format} from '../commJS/common';
                             <div className="form-content">
                                 <div className="textfield">
                                     <textarea rows="4" className="textfield__input"
-                                        placeholder="To get deposit soon, please leave your bank account name and bank number here." value={this.props.Memo} onChange={this.setMemo.bind(this)}></textarea>
+                                        placeholder={i18n.lbl_MomoHint} value={this.props.Memo} onChange={this.setMemo.bind(this)}></textarea>
                                     <span className="textfield__bg"></span>
                                 </div>
                             </div>
@@ -289,13 +289,13 @@ import {number_format} from '../commJS/common';
             let formArr=[];
 
             let amountDataField = new DataField("Amount");
-            amountDataField.placeholder=i18n.lbl_WithdrawalAmount;
-            amountDataField.displayName=i18n.lbl_WithdrawalAmount;
-            amountDataField.tooltip=i18n.lbl_AmountTooltip;
-            amountDataField.status=1;
-            amountDataField.objectType=5;
+            amountDataField.placeholder = i18n.lbl_WithdrawalAmount;
+            amountDataField.displayName = i18n.lbl_WithdrawalAmount;
+            amountDataField.tooltip = i18n.lbl_AmountTooltip;
+            amountDataField.status = 1;
+            amountDataField.objectType = 5;
             amountDataField.handleCheck = this.handleCheckAmount.bind(this);
-            amountDataField.Value="";
+            amountDataField.Value = "";
             formArr.push(amountDataField);
 
             this.state = { formArr: formArr, showTodModal: false};

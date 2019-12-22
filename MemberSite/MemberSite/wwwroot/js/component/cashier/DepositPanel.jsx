@@ -47,7 +47,6 @@ import {number_format} from '../commJS/common';
                         <div className="table table-modal">
                             <div className="tbody">
                                 <div className="tr">
-
                                     <div className="td-left">
                                         <img src={"/common/images/BankLogo/"+bankInfo.bankLogo}/>
                                         <span className="text">{bankInfo.bankName}</span>
@@ -180,7 +179,7 @@ import {number_format} from '../commJS/common';
                             <div className="form-content">
                                 <div className="textfield">
                                     <textarea rows="4" className="textfield__input"
-                                        placeholder="To get deposit soon, please leave your bank account name and bank number here." value={this.props.Memo} onChange={this.setMemo.bind(this)}></textarea>
+                                        placeholder={i18n.lbl_MomoHint} value={this.props.Memo} onChange={this.setMemo.bind(this)}></textarea>
                                     <span className="textfield__bg"></span>
                                 </div>
                             </div>

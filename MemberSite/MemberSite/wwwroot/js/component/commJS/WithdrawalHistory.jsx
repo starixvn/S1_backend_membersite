@@ -108,7 +108,7 @@ export class WithdrawalHistory extends React.Component {
                 </div>
                 {bodyData}
             </div> :<div className="no-data">
-                        <span className="text">No data.</span>
+                        <span className="text">{i18n.msg_NoData}</span>
                      </div>
         )
     }

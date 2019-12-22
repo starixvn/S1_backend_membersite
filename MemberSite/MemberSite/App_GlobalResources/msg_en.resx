@@ -144,6 +144,9 @@
   <data name="msg_NeedAccountNo" xml:space="preserve">
     <value>Need Account Number</value>
   </data>
+  <data name="msg_NoData" xml:space="preserve">
+    <value>No Data</value>
+  </data>
   <data name="msg_PasswordLength" xml:space="preserve">
     <value>Password must between 6 and 18 characters long.</value>
   </data>

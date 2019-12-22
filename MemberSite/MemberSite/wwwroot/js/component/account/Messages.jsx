@@ -172,7 +172,7 @@ import {Pagination} from '../commJS/Pagination.jsx';
                         <label className="checkbox">
                             <input type="checkbox" checked={this.state.Data!=null&&this.state.Checked.length == this.state.Data.length} onChange={this.onSelAll.bind(this)} />
                             <i className="icon icon-checkbox"></i>
-                            <span className="text">Select All</span>
+                            <span className="text">{i18n.lbl_SelectAll}</span>
                         </label>
                         <button className="btn btn-icon text-primary" data-disabled={this.state.Data==null||this.state.Checked.length==0} onClick={this.state.Data!=null&&this.state.Checked.length > 0  ? this.onDelMsg.bind(this): null}>
                             <div className="btn__inner">

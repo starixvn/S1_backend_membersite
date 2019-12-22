@@ -88,7 +88,7 @@ class ProfileForm extends React.Component {
             <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                 {Inputs}
                 <div className="btn-group">
-                    <button type="submit" value="submit">{"i18n.lbl_CompletedRegistration"}</button>
+                    <button type="submit" value="submit">{i18n.lbl_CompletedRegistration}</button>
                 </div>
             </form>
         )

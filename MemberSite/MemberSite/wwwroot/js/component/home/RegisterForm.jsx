@@ -11,31 +11,31 @@ class RegisterForm extends React.Component {
         let formArr=[];
 
         let userNameDataField = new DataField("UserName");
-        userNameDataField.placeholder=i18n.lbl_Username;
-        userNameDataField.displayName=i18n.lbl_Username;
-        userNameDataField.tooltip=i18n.lbl_UsernameTooltip;
-        userNameDataField.status=1;
+        userNameDataField.placeholder = i18n.lbl_Username;
+        userNameDataField.displayName = i18n.lbl_Username;
+        userNameDataField.tooltip = i18n.lbl_UsernameTooltip;
+        userNameDataField.status = 1;
         userNameDataField.handleCheck = this.handleCheckUserName.bind(this);
-        userNameDataField.Value="";
+        userNameDataField.Value = "";
         formArr.push(userNameDataField);
 
         let userpwdDataField = new DataField("Userpwd");
-        userpwdDataField.placeholder=i18n.lbl_Password;
-        userpwdDataField.displayName=i18n.lbl_Password;
-        userpwdDataField.tooltip=i18n.lbl_PasswordTooltip;
-        userpwdDataField.status=1;
-        userpwdDataField.objectType=2;
+        userpwdDataField.placeholder = i18n.lbl_Password;
+        userpwdDataField.displayName = i18n.lbl_Password;
+        userpwdDataField.tooltip = i18n.lbl_PasswordTooltip;
+        userpwdDataField.status = 1;
+        userpwdDataField.objectType = 2;
         userpwdDataField.handleCheck = this.handleCheckUserpwd.bind(this);    
-        userpwdDataField.Value="";
+        userpwdDataField.Value = "";
         formArr.push(userpwdDataField);
 
         let currencyIdDataField = new DataField("CurrencyId");
-        currencyIdDataField.displayName=i18n.lbl_PrefferedCurrency;
-        currencyIdDataField.tooltip=i18n.lbl_PreferredCurrencyToolTip;
-        currencyIdDataField.status=1;
-        currencyIdDataField.objectType=3;
-        currencyIdDataField.Value=defCurrencyId;
-        currencyIdDataField.dropdownList=currencyList;
+        currencyIdDataField.displayName = i18n.lbl_PrefferedCurrency;
+        currencyIdDataField.tooltip = i18n.lbl_PreferredCurrencyToolTip;
+        currencyIdDataField.status = 1;
+        currencyIdDataField.objectType = 3;
+        currencyIdDataField.Value = defCurrencyId;
+        currencyIdDataField.dropdownList = currencyList;
         formArr.push(currencyIdDataField);
         // data-disabled="false"
         this.state = { formArr: formArr, SubmitDisabled: false};

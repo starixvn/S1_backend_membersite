@@ -6,13 +6,17 @@
 @inject ServerInfoBLL serverInfoBLL
 
 @{
-    ViewData["Title"] = "Messages";
+    ViewData["Title"] = selLangBLL.GetResourceValue("lbl_Message");
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div id="Messages" class="main"s></div>
+@{
+    var i18n = new Dictionary<string, string>();
+    i18n.Add("lbl_SelectAll", selLangBLL.GetResourceValue("lbl_SelectAll"));
+}
+<div id="Messages" class="main"></div>
 @section Scripts{
     <script type="text/javascript">
-        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(null)));
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
     </script>
     <script src="~/js/component/account/Messages.min.js" asp-append-version="true"></script>
 }

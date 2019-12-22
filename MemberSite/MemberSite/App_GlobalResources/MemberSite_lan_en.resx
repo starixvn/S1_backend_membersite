@@ -411,6 +411,9 @@
   <data name="lbl_MobileDeposit" xml:space="preserve">
     <value>Mobile Deposit</value>
   </data>
+  <data name="lbl_MomoHint" xml:space="preserve">
+    <value>To get deposit soon, please leave your bank account name and bank number here.</value>
+  </data>
   <data name="lbl_MyAccount" xml:space="preserve">
     <value>My Account</value>
   </data>
@@ -426,6 +429,9 @@
   <data name="lbl_NumberGame" xml:space="preserve">
     <value>Number Game</value>
   </data>
+  <data name="lbl_Of" xml:space="preserve">
+    <value>of</value>
+  </data>
   <data name="lbl_OldPassword" xml:space="preserve">
     <value>Old Password</value>
   </data>
@@ -434,6 +440,9 @@
   </data>
   <data name="lbl_OurPolicies" xml:space="preserve">
     <value>Our Policies</value>
+  </data>
+  <data name="lbl_Page" xml:space="preserve">
+    <value>Page</value>
   </data>
   <data name="lbl_Password" xml:space="preserve">
     <value>Password</value>
@@ -479,6 +488,9 @@
   </data>
   <data name="lbl_RuleRegulations" xml:space="preserve">
     <value>Rules and Regulations</value>
+  </data>
+  <data name="lbl_SelectAll" xml:space="preserve">
+    <value>Select All</value>
   </data>
   <data name="lbl_ShowBalance" xml:space="preserve">
     <value>Show Balance</value>

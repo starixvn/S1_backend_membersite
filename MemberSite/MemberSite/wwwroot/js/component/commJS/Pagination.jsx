@@ -21,7 +21,7 @@ export class Pagination extends React.Component {
                     <i className="icon icon-arrow-left"></i>
                 </a>
                 <div className="pagination__pages">
-                    <span className="text">Page {pageNumber} of {totalPages}</span>
+                    <span className="text">{i18n.lbl_Page} {pageNumber} {i18n.lbl_Of} {totalPages}</span>
                 </div>
                 <a className="btn btn-icon text-primary" data-disabled={pageNumber==totalPages} onClick={pageNumber==totalPages ? null: this.onPaging.bind(this, pageNumber+1)}>
                     <i className="icon icon-arrow-right"></i>
