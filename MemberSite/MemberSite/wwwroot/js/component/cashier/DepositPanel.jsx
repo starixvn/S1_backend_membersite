@@ -66,9 +66,9 @@ import {number_format} from '../commJS/common';
                                     <div className="td-right">
                                         <a className="btn btn-icon text-primary copyBtn" data-clipboard-text={bankInfo.accountName}>
                                             <i className="icon icon-copy"></i>
-                                            <div className="tooltip tooltip--top-right" data-open="true">
+                                            {/*<div className="tooltip tooltip--top-right" data-open="true">
                                                 <span className="text">copy</span>
-                                            </div>                                            
+                                            </div>*/}
                                         </a>
                                     </div>
                                 </div>
@@ -546,7 +546,7 @@ import {number_format} from '../commJS/common';
             //let modalContaner = null;
 
             return (
-            <div className="page">
+            <div>
                 <div className="heading">
                     <span className="text">{i18n.lbl_WireTransfers}</span>
                 </div>
@@ -582,7 +582,7 @@ import {number_format} from '../commJS/common';
 
         render() {
             return (
-            <div className="page">
+            <div>
                 <div className="heading">
                     <span className="text">{i18n.lbl_Deposit}</span>
                 </div>
@@ -685,17 +685,19 @@ import {number_format} from '../commJS/common';
         }
    
         render() {
+            let panelObj=[];
             let panelHolder = <DepositOptions onWireTransfers={this.onWireTransfers.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)}/>;
             if(this.state.DipositType == 1) {
                 panelHolder = <WireTransfers onDepositOptions={this.onDepositOptions.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)}/>;
             } 
 
+            panelObj.push(panelHolder);
             let modalContaner=null;
 
             modalContaner = this.state.showModal ? <BankModal bankInfo={this.state.bankInfo} onCloseModal={this.onCloseModal.bind(this)}/> : null;
-
+            panelObj.push(modalContaner);
             return (
-                <div className="main">{panelHolder}{modalContaner}</div>
+                panelObj
             )
         }
     }

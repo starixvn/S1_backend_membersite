@@ -48,8 +48,21 @@
 @section Style{
 
 }
-<div id="DepositPanel"></div>
-
+    <div class="main">
+        <div class="page-title" role="mobile-only">
+            <span class="text">Cashier</span>
+        </div>
+        <div class="page-tabs" role="mobile-only">
+            <a class="page-tabs__btn" data-selected="true">
+                <span class="text">Deposit</span>
+            </a>
+            <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                <span class="text">Withdrawal</span>
+            </a>
+        </div>
+        <div id="DepositPanel" class="page">
+        </div>
+    </div>
 @section Scripts{
     <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));

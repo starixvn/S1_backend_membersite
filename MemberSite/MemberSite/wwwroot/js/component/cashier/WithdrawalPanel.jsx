@@ -435,7 +435,7 @@ import {number_format} from '../commJS/common';
             let modalContaner=null;
 
             return (
-                    <div className="page">
+                    <div>
                         <div className="heading">
                             <span className="text">{i18n.lbl_Withdrawal}</span>
                         </div>
