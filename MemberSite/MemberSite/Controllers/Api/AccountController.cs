@@ -221,6 +221,14 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
 
             apiResult.ErrorCode = custInfoBLL.SetProfile(authData.CustId, custProfile);
+            if (apiResult.ErrorCode == 0)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+            }
+            else
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+            }
             return apiResult;
         }
 

@@ -138,6 +138,15 @@
   <data name="msg_LoginToAccess" xml:space="preserve">
     <value>Please login to access game.</value>
   </data>
+  <data name="msg_MailExisted" xml:space="preserve">
+    <value>Mail existed</value>
+  </data>
+  <data name="msg_MailReq" xml:space="preserve">
+    <value>Email Requirement</value>
+  </data>
+  <data name="msg_MailWrongFormat" xml:space="preserve">
+    <value>Mail Format is wrong</value>
+  </data>
   <data name="msg_NeedAccountName" xml:space="preserve">
     <value>Need Account Name</value>
   </data>

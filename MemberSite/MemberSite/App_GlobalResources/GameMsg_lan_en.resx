@@ -181,4 +181,7 @@
     <value>[9000]System error , please contact to CSD</value>
     <comment>SystemError</comment>
   </data>
+  <data name="Cod_0" xml:space="preserve">
+    <value>Success!</value>
+  </data>
 </root>
