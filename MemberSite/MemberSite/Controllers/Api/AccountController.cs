@@ -360,6 +360,17 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        [HttpPost]
+        public ApiResult<CustInfoProfile> GetCustInfoProfile()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<CustInfoProfile>();
+            apiResult.Data = custInfoBLL.GetCustInfoProfile(authData.CustId);
+            apiResult.ErrorCode = 0;
+
+            return apiResult;
+        }
+
         //[HttpPost]
         //public ApiResult DelCustBankInfo(BankInfo bankInfo)
         //{

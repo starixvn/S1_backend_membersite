@@ -1,6 +1,7 @@
 ﻿import { DataField, InputBox } from '../commJS/InputBox.jsx';
+import * as Loading from '../commJS/Loading.jsx';
 
-(function ($, React, ReactDOM, i18n, axios) {
+(function ($, React, ReactDOM, i18n, axios, moment) {
 
 class ProfileForm extends React.Component {
     //data-status="error" 1.info, 2.error,3.valid
@@ -8,17 +9,17 @@ class ProfileForm extends React.Component {
         super(props);
         let formArr=[];
 
-        let emailDataField = new DataField("Email");
-        emailDataField.placeholder = i18n.lbl_Username;
-        emailDataField.displayName = i18n.lbl_Username;
-        emailDataField.tooltip = i18n.lbl_UsernameTooltip;
-        emailDataField.status = 1;
-        emailDataField.objectType = 4;
-        emailDataField.handleCheck = this.handleCheckEmail.bind(this);
-        emailDataField.Value = "";
-        formArr.push(emailDataField);
+        let dataField = new DataField("Email");
+        dataField.placeholder = "Email";
+        dataField.displayName = "Email";
+        dataField.tooltip = "Email";
+        dataField.status = 1;
+        dataField.objectType = 4;
+        dataField.handleCheck = this.handleCheckEmail.bind(this);
+        dataField.Value = "";
+        formArr.push(dataField);
 
-        this.state = { formArr: formArr};
+        this.state = { formArr: formArr, Profile: null, isUpdate: false};
     }
     
     async handleCheckEmail(value) {
@@ -28,16 +29,16 @@ class ProfileForm extends React.Component {
         if(value!=null) {
             if(value.length == 0) {
                 status = 2;
-                message = i18n.msg_UsernameReq;
+                message = "i18n.msg_MailReq";
             } else if(!regx.test(value)) {
                 status = 2;
-                message = i18n.msg_UsernameVaildate;
+                message = "Mail Format is wrong";
             } else {
                 let res = await axios.post('/api/Account/ExistsEmail', {Email: value});
                 let data = res.data;
                 if(data.errorCode==0 && data.data) {
                     status = 2;
-                    message = i18n.msg_UsernameNotAvailable;
+                    message = "Mail Is Exists";
                 } else {
                     status = 3;
                     message = "";
@@ -50,6 +51,7 @@ class ProfileForm extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
+        Loading.OnLoading();
         let data = {};
         let valid = true;
         for(var i=0; i < this.state.formArr.length; i++){
@@ -64,36 +66,135 @@ class ProfileForm extends React.Component {
         }
 
         if(!valid) {
+            Loading.UnLoading();
             this.forceUpdate();
         } else {
             axios.post('/api/Account/SetProfile', data)
             .then(function (response) {
+                Loading.UnLoading();
                 let result = response.data;
                 if (result.errorCode == 0) {
                     alert(result.message);
-                    location.reload();
+                    this.getCustInfoProfile();
                 } else {
                     alert(result.message);
                 }
             }).catch(function (error) {
+                Loading.UnLoading();
                 alert(error);
             });
         }
     }
 
-    render() {
-        let Inputs=this.state.formArr.map(dataField => <InputBox key={dataField.name} DataField={dataField}/>);
+    componentDidMount() {
+        this.getCustInfoProfile();
+    }
 
+    getCustInfoProfile() {
+        Loading.OnLoading();
+        axios.post('/api/account/GetCustInfoProfile')
+        .then(function (response) {
+            Loading.UnLoading();
+            let result = response.data;
+            if (result.errorCode == 0) {
+                this.setState({Profile: result.data, isUpdate:false});
+            } else {
+                alert(result.message);
+            }
+        }.bind(this)).catch(function (error) {
+            Loading.UnLoading();
+            alert(error);
+        }.bind(this));
+    }
+
+    onUpdate() {
+        console.log("ssss");
+        this.setState({isUpdate: true});
+    }
+
+    onBack() {
+        this.setState({isUpdate: false});
+    }
+
+    render() {
+        let Inputs = null;
+        let profile = this.state.Profile;        
+        let isUpdate = this.state.isUpdate;
+        if(isUpdate) {
+            Inputs = this.state.formArr.map(function(dataField) { 
+                if(dataField.name=="Email") {
+                    dataField.Value=profile.Email;
+                }
+                return <InputBox key={dataField.name} DataField={dataField}/>;
+            });
+        }
         return (
-            <form className="form" onSubmit={this.handleSubmit.bind(this)}>
-                {Inputs}
-                <div className="btn-group">
-                    <button type="submit" value="submit">{i18n.lbl_CompletedRegistration}</button>
+            profile!=null ?<div>
+                <div className="heading">
+                    <span className="text">{"Profile"}</span>
                 </div>
-            </form>
+                <form className="form" onSubmit={isUpdate ? this.handleSubmit.bind(this): null}>
+                    <div className="form-group">
+                        <label className="form-title"><b>User Name</b></label>
+                        <div className="form-content form-content--text">
+                                <span className="text">{profile.userName}</span>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="form-title"><b>Vip Level</b></label>
+                        <div className="form-content form-content--text">
+                                <span className="text">{profile.userLevel}</span>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="form-title"><b>Agent</b></label>
+                        <div className="form-content form-content--text">
+                                <span className="text">{profile.agent}</span>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="form-title"><b>Register  Time</b></label>
+                        <div className="form-content form-content--text">
+                                <span className="text">{moment(profile.regTime).format('l LTS')}</span>
+                        </div>
+                    </div>                    
+                    <div className="form-group">
+                        <label className="form-title"><b>Last Login Time</b></label>
+                        <div className="form-content form-content--text">
+                                <span className="text">{moment(profile.lastLoginTime).format('l LTS')}</span>
+                        </div>
+                    </div>
+                    {isUpdate ? null: <div className="form-group">
+                        <label className="form-title"><b>Email</b></label>
+                        <div className="form-content form-content--text">
+                                <span className="text">{profile.email}</span>
+                        </div>
+                    </div>}                             
+                    {Inputs}
+                    {isUpdate ? 
+                    <div className="btn-group">
+                        <button className="btn btn-primary" type="button" onClick={this.onBack.bind(this)}>
+                            <div className="btn__inner">
+                                <span className="text">Back</span>
+                            </div>
+                        </button>                    
+                        <button className="btn btn-secondary" type="submit">
+                            <div className="btn__inner">
+                                <span className="text">{i18n.lbl_Submit}</span>
+                            </div>
+                        </button>
+                    </div>: <div className="btn-group">
+                        <button className="btn btn-secondary" type="button" onClick={this.onUpdate.bind(this)}>
+                            <div className="btn__inner">
+                                <span className="text">Update</span>
+                            </div>
+                        </button>
+                    </div>}
+                </form>
+            </div>:null
         )
     }
 }
 
 ReactDOM.render(<ProfileForm/>,document.getElementById('Profile'));
-})(jQuery, React, ReactDOM, i18n, axios);
+})(jQuery, React, ReactDOM, i18n, axios, moment);

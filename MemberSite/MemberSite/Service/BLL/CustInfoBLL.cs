@@ -253,5 +253,11 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return custInfoService.ExistsEmail(custId, email, custInfo.SiteId);
         }
+
+        public CustInfoProfile GetCustInfoProfile(int custId)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return custInfoService.GetCustInfoProfile(custId, custInfo.SiteId);
+        }
     }
 }

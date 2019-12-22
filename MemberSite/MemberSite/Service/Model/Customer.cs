@@ -64,4 +64,19 @@ namespace MemberSite.Service.Model
         public string LastTransaction { set; get; }
         public bool IsHideBalance { set; get; }
     }
+
+    public class CustInfoProfile
+    {
+        public string UserName { get; set; }
+        public int CurrencyId { get; set; }
+        public int UserLevel { get; set; }
+        public string Agent { get; set; }
+        public string UserLang { get; set; }
+        public int ActStatus { get; set; }
+        public bool IsTest { get; set; }
+        public DateTime LastLoginTime { get; set; }
+        public DateTime RegTime { get; set; }
+        public string Email { get; set; }
+        public string Profile { get; set; }
+    }
 }
