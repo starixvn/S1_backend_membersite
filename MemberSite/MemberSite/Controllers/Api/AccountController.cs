@@ -54,7 +54,7 @@ namespace MemberSite.Controllers.Api
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 apiResult.ErrorCode = 1001;
-                apiResult.Message = selLangBLL.GetMsg("msg_loggedout");
+                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
             }
             else
             {
@@ -72,7 +72,7 @@ namespace MemberSite.Controllers.Api
 
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             apiResult.ErrorCode = 0;
-            apiResult.Message = "";
+            apiResult.Message = selLangBLL.GetMsg("msg_loggedout");
 
             return apiResult;
         }
@@ -152,7 +152,7 @@ namespace MemberSite.Controllers.Api
                 else
                 {
                     apiResult.ErrorCode = 0;
-                    apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful"); ;
+                    apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
                 }
             }
 

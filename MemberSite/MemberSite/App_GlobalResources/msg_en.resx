@@ -126,11 +126,14 @@
   <data name="msg_DepositProcessLogin_LoginFailed" xml:space="preserve">
     <value>Login failed, Username/ Password is wrong or Username does not exist.</value>
   </data>
+  <data name="msg_ForceLogedout" xml:space="preserve">
+    <value>You have logged out!! Please login and try again!!</value>
+  </data>
   <data name="msg_InvalidOldPassword" xml:space="preserve">
     <value>Invalid Old Password!</value>
   </data>
   <data name="msg_loggedout" xml:space="preserve">
-    <value>You have logged out!! Please login and try again!!</value>
+    <value>You have success logged out!!</value>
   </data>
   <data name="msg_LoginToAccess" xml:space="preserve">
     <value>Please login to access game.</value>
