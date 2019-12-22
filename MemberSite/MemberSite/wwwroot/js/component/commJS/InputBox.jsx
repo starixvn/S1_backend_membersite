@@ -131,7 +131,7 @@ export class InputBox extends React.Component {
             this.setState({dropdown:!this.state.dropdown}, function() {
                 if(this.state.dropdown){
                     let object = document.getElementsByTagName('body')[0];
-                    $(object).on("mousedown", this.onHideDropdown.bind(this));
+                    $(object).on("touchstart, mousedown", this.onHideDropdown.bind(this));
                 } else {
                     let object = document.getElementsByTagName('body')[0];
                     $(object).off();                
