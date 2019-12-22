@@ -436,7 +436,7 @@ import {number_format} from '../commJS/common';
 
             return (
                     <div>
-                        <div className="heading" role="desktop-only">
+                        <div className="heading">
                             <span className="text">{i18n.lbl_Withdrawal}</span>
                         </div>
                         <form className="form" onSubmit={this.handleSubmit.bind(this)}>

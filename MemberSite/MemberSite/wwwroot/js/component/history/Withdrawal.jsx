@@ -66,8 +66,8 @@ import {number_format} from '../commJS/common';
             //modalContaner = this.state.showModal ? <BankModal bankInfo={this.state.bankInfo} onCloseModal={this.onCloseModal.bind(this)}/> : null;
 
             return (
-            <div className="page">
-                <div className="heading" role="desktop-only">
+            <div>
+                <div className="heading">
                     <span className="text">Withdrawal</span>
                 </div>
                 <form onSubmit={this.handleSubmit.bind(this)}>
