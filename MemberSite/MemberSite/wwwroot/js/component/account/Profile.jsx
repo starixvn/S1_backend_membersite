@@ -79,10 +79,10 @@ class ProfileForm extends React.Component {
                 } else {
                     alert(result.message);
                 }
-            }).catch(function (error) {
+            }.bind(this)).catch(function (error) {
                 Loading.UnLoading();
                 alert(error);
-            });
+            }.bind(this));
         }
     }
 
