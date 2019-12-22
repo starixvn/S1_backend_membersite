@@ -402,6 +402,9 @@
   <data name="lbl_MobileDeposit" xml:space="preserve">
     <value>Mobile Deposit</value>
   </data>
+  <data name="lbl_MyAccount" xml:space="preserve">
+    <value>My Account</value>
+  </data>
   <data name="lbl_NewPassword" xml:space="preserve">
     <value>New Password</value>
   </data>

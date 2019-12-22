@@ -42,8 +42,7 @@
                     <div class="account-info__row">
                         <span class="account-info__name">@selLangBLL.GetResourceValue("lbl_Welcome") @User.Identity.Name</span>
                     </div>
-                    <div id="BalancePanel">
-                    </div>
+                    <div id="BalancePanel"></div>
                 </div>
             }
             else
@@ -59,10 +58,9 @@
             }
         </div>
         <div class="header__option" role="desktop-only">
-            @*APP Download*@
-            @*<a class="btn btn-base btn-icon shape-circle">
-                    <i class="icon icon-device-mobile"></i>
-                </a>*@
+            <a class="btn btn-base btn-icon shape-circle">
+                <i class="icon icon-device-mobile"></i>
+            </a>
             <a class="btn btn-base btn-icon shape-circle">
                 <i class="icon icon-headphone"></i>
             </a>
@@ -116,10 +114,10 @@
                                     <i class="icon icon-withdrawal"></i>
                                     <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
                                 </a>
-                                @*<a class="dropdown__item" href="#">
-                                        <i class="icon icon-transfer"></i>
-                                        <span class="text">Transfer Funds</span>
-                                    </a>*@
+                                <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action="Deposit" , controller="History" , LangId=selLangBLL.GetLangId() })">
+                                    <i class="icon icon-statement"></i>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_TransactionHistory")</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -228,7 +226,7 @@
             else
             {
                 <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                    <span class="text">Join Now</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
                 </a>
                 <button class="btn btn-highlight loginBtn">
                     <div class="btn__inner">

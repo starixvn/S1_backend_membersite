@@ -166,6 +166,9 @@
   <data name="lbl_PrefferedCurrency" xml:space="preserve">
     <value>สกุลเงินที่เลือก</value>
   </data>
+  <data name="lbl_Soccer" xml:space="preserve">
+    <value>ฟุตบอล</value>
+  </data>
   <data name="lbl_Title" xml:space="preserve">
     <value>Nova88</value>
   </data>

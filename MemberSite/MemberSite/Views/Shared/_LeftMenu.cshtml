@@ -97,11 +97,11 @@
                 <div class="side-nav__hot">
                     <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
                         <i class="icon icon-deposit-bank"></i>
-                        <span class="text">Deposit</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
                     </a>
                     <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
                         <i class="icon icon-withdrawal"></i>
-                        <span class="text">Withdrawal</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
                     </a>
                     @*<a class="side-nav__btn">
                                 <i class="icon icon-statement"></i>
@@ -158,6 +158,13 @@
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Message")</span>
                     </a>
                 }
+               <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "ChangePwd", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                    <span class="side-nav__icon">
+                        <i class="icon icon-promotion"></i>
+                        <span class="new-dot"></span>
+                    </span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
+                </a>
                 <a class="side-nav__btn">
                     <span class="side-nav__icon">
                         <i class="icon icon-promotion"></i>
@@ -173,21 +180,21 @@
                         </span>
                         <span class="text">@selLangBLL.GetResourceValue("lbl_ChangePassword")</span>
                     </a>
-                    <a class="side-nav__btn">
+                    @*<a class="side-nav__btn">
                         <span class="side-nav__icon">
                             <i class="icon icon-transaction"></i>
                         </span>
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
-                    </a>
-                    <a class="side-nav__btn">
+                    </a>*@
+                            @*<a class="side-nav__btn">
                         <span class="side-nav__icon">
                             <i class="icon icon-transfer"></i>
                         </span>
                         <span class="text">@selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
-                    </a>
-                    <a class="side-nav__btn">
+                    </a>*@
+                    <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action="Deposit" , controller="History" , LangId=selLangBLL.GetLangId() })">
                         <span class="side-nav__icon">
-                            <i class="icon icon-calendar"></i>
+                            <i class="icon icon-statement"></i>
                         </span>
                         <span class="text">@selLangBLL.GetResourceValue("lbl_TransactionHistory")</span>
                     </a>
@@ -200,5 +207,5 @@
                 </a>
             </div>
         </div>
-
     </div>
+</div>

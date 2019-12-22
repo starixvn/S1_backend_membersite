@@ -11,18 +11,17 @@
 }
     <div class="main">
         <div class="page-title" role="mobile-only">
-            <span class="text">History</span>
+            <span class="text">@selLangBLL.GetResourceValue("lbl_History")</span>
         </div>
         <div class="page-tabs" role="mobile-only">
             <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })">
-                <span class="text">Deposit</span>
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
             </a>
             <a class="page-tabs__btn" data-selected="true">
-                <span class="text">Withdrawal</span>
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
             </a>
         </div>
-        <div id="History" class="page">
-        </div>
+        <div id="History" class="page"></div>
     </div>
 @section Scripts{
     <script type="text/javascript">
@@ -30,7 +29,6 @@
     </script>
     <script src="~/lib/runtime.min.js"></script>
     <script src="~/js/component/history/Withdrawal.min.js" asp-append-version="true"></script>
-
 }
 
 

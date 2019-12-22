@@ -159,6 +159,9 @@
   <data name="lbl_PrefferedCurrency" xml:space="preserve">
     <value>Tiền tệ ưa thích</value>
   </data>
+  <data name="lbl_Soccer" xml:space="preserve">
+    <value>bóng đá</value>
+  </data>
   <data name="lbl_Title" xml:space="preserve">
     <value>Nova88</value>
   </data>

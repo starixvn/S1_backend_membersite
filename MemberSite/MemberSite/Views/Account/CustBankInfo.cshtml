@@ -26,21 +26,20 @@
 }
     <div class="main">
         <div class="page-title" role="mobile-only">
-            <span class="text">My Account</span>
+            <span class="text">@selLangBLL.GetResourceValue("lbl_MyAccount")</span>
         </div>
         <div class="page-tabs" role="mobile-only">
             <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
-                <span class="text">Profile</span>
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
             </a>
             <a class="page-tabs__btn" data-selected="true">
-                <span class="text">CustBankInfo</span>
+                <span class="text">@selLangBLL.GetResourceValue("lbl_CustBank")</span>
             </a>
         </div>
-        <div id="CustBankInfo" class="page">
-        </div>
+        <div id="CustBankInfo" class="page"></div>
         <div>
             <a class="text-link" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                <span class="text">Go to Withdrawal</span>
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
             </a>
         </div>
     </div>
