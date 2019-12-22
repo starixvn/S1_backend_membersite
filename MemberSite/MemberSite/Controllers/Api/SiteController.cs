@@ -93,6 +93,7 @@ namespace MemberSite.Controllers.Api
             public int CurrencyId { get; set; }
             public string UserLang { get; set; }
             public string RefId { get; set; }
+            public string AffId { get; set; }
         }
 
         [HttpPost]
@@ -106,7 +107,7 @@ namespace MemberSite.Controllers.Api
             }
 
             int custId = 0;
-            var result = custInfoBLL.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId, out custId);
+            var result = custInfoBLL.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId, registeredModel.AffId, out custId);
             if (result == -1)
             {
                 apiResult.ErrorCode = result;

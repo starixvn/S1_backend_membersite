@@ -29,14 +29,16 @@ class RegisterForm extends React.Component {
         userpwdDataField.Value = "";
         formArr.push(userpwdDataField);
 
-        let currencyIdDataField = new DataField("CurrencyId");
-        currencyIdDataField.displayName = i18n.lbl_PrefferedCurrency;
-        currencyIdDataField.tooltip = i18n.lbl_PreferredCurrencyToolTip;
-        currencyIdDataField.status = 1;
-        currencyIdDataField.objectType = 3;
-        currencyIdDataField.Value = defCurrencyId;
-        currencyIdDataField.dropdownList = currencyList;
-        formArr.push(currencyIdDataField);
+        if(getUrlParameter("affId") == ""){
+            let currencyIdDataField = new DataField("CurrencyId");
+            currencyIdDataField.displayName = i18n.lbl_PrefferedCurrency;
+            currencyIdDataField.tooltip = i18n.lbl_PreferredCurrencyToolTip;
+            currencyIdDataField.status = 1;
+            currencyIdDataField.objectType = 3;
+            currencyIdDataField.Value = defCurrencyId;
+            currencyIdDataField.dropdownList = currencyList;
+            formArr.push(currencyIdDataField);
+        }
         // data-disabled="false"
         this.state = { formArr: formArr, SubmitDisabled: false};
     }
@@ -118,6 +120,12 @@ class RegisterForm extends React.Component {
             data["UserLang"] = SiteLanguage;
 
             data["refId"] = getUrlParameter("refId");
+
+            data["affId"] = getUrlParameter("affId");
+
+            if(data["affId"] != "") {
+                data["CurrencyId"]=0;
+            }
 
             axios.post('/api/Site/Register', data)
             .then(function (response) {

@@ -31,11 +31,11 @@ namespace MemberSite.Service.BLL
             this.cache = cache;
             this.regexUtilities = regexUtilities;
         }
-        public int AddCustInfo(string UserName, string Userpwd, int CurrencyId, string UserLang, string refId, out int custId)
+        public int AddCustInfo(string UserName, string Userpwd, int CurrencyId, string UserLang, string refId, string affId, out int custId)
         {
             //int custId = 0;
             var serverInfo = serverInfoBLL.GetServerInfo();
-            if (!serverInfo.ICurrencyList.Contains(CurrencyId))
+            if (string.IsNullOrEmpty(affId) && !serverInfo.ICurrencyList.Contains(CurrencyId))
             {
                 custId = 0;
                 return -1;
@@ -58,7 +58,17 @@ namespace MemberSite.Service.BLL
             else
             {
                 Customer agent = null;
-                if (!string.IsNullOrEmpty(refId))
+                if (!string.IsNullOrEmpty(affId))
+                {
+                    agent = agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
+
+                    if (agent == null)
+                    {
+                        custId = 0;
+                        return -19;
+                    }
+                }
+                else if (!string.IsNullOrEmpty(refId))
                 {
                     agent = agentInfoService.GetAffiliateAgent($"{refId}_{CurrencyId}", serverInfo.SiteId);
 
