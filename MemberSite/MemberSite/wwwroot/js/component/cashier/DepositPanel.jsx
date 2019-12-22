@@ -583,7 +583,7 @@ import {number_format} from '../commJS/common';
         render() {
             return (
             <div>
-                <div className="heading">
+                <div className="heading" role="desktop-only">
                     <span className="text">{i18n.lbl_Deposit}</span>
                 </div>
                 <p>{i18n.lbl_DepositOptionHint}</p>
