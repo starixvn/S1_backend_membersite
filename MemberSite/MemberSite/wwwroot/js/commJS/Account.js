@@ -41,6 +41,9 @@
             var msgCount = "";
             if(result.data > 0) {
                 msgCount = result.data;
+                if(msgCount>99){
+                  msgCount="99+";
+                }
                 $(".MsgCount").html(msgCount).show();
             } else {
               $(".MsgCount").html(msgCount).hide();
