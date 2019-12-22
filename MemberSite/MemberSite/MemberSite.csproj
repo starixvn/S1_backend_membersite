@@ -7,12 +7,22 @@
   <ItemGroup>
     <Content Remove="wwwroot\js\commJS\onlineCheck.js" />
     <Content Remove="wwwroot\js\component\account\BalancePanel.jsx" />
+    <Content Remove="wwwroot\js\component\account\ChangePwd.jsx" />
+    <Content Remove="wwwroot\js\component\account\CustBankInfo.jsx" />
+    <Content Remove="wwwroot\js\component\account\Messages.jsx" />
     <Content Remove="wwwroot\js\component\account\Profile.jsx" />
+    <Content Remove="wwwroot\js\component\app\WalletInfo.jsx" />
     <Content Remove="wwwroot\js\component\cashier\DepositPanel.jsx" />
+    <Content Remove="wwwroot\js\component\cashier\WithdrawalPanel.jsx" />
     <Content Remove="wwwroot\js\component\commJS\common.js" />
+    <Content Remove="wwwroot\js\component\commJS\DepositHistory.jsx" />
     <Content Remove="wwwroot\js\component\commJS\InputBox.jsx" />
     <Content Remove="wwwroot\js\component\commJS\Loading.jsx" />
+    <Content Remove="wwwroot\js\component\commJS\Pagination.jsx" />
     <Content Remove="wwwroot\js\component\commJS\ScottClipboard.js" />
+    <Content Remove="wwwroot\js\component\commJS\WithdrawalHistory.jsx" />
+    <Content Remove="wwwroot\js\component\history\Deposit.jsx" />
+    <Content Remove="wwwroot\js\component\history\Withdrawal.jsx" />
     <Content Remove="wwwroot\js\component\home\LoginForm.jsx" />
     <Content Remove="wwwroot\js\component\home\Register.jsx" />
     <Content Remove="wwwroot\js\component\home\Registered_1.js" />
@@ -31,11 +41,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\js\component\account\BalancePanel.jsx" />
+    <None Include="wwwroot\js\component\account\ChangePwd.jsx" />
+    <None Include="wwwroot\js\component\account\CustBankInfo.jsx" />
+    <None Include="wwwroot\js\component\account\Messages.jsx" />
+    <None Include="wwwroot\js\component\app\WalletInfo.jsx" />
     <None Include="wwwroot\js\component\cashier\DepositPanel.jsx" />
+    <None Include="wwwroot\js\component\cashier\WithdrawalPanel.jsx" />
+    <None Include="wwwroot\js\component\commJS\DepositHistory.jsx" />
     <None Include="wwwroot\js\component\commJS\Loading.jsx" />
+    <None Include="wwwroot\js\component\commJS\Pagination.jsx" />
     <None Include="wwwroot\js\component\commJS\ScottClipboard.js" />
-    <None Include="wwwroot\js\component\home\LoginForm.jsx" />
+    <None Include="wwwroot\js\component\commJS\WithdrawalHistory.jsx" />
+    <None Include="wwwroot\js\component\history\Deposit.jsx" />
+    <None Include="wwwroot\js\component\history\Withdrawal.jsx" />
     <None Include="wwwroot\js\component\home\RegisterForm.jsx" />
     <None Include="wwwroot\SiteSkin\Nova88\common\images\logo.svg" />
     <None Include="wwwroot\js\component\account\Profile.jsx" />

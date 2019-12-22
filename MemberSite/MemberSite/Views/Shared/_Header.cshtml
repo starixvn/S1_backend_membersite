@@ -125,62 +125,11 @@
                 <div class="dropdown dropdown-secondary dropdown--right dropdown--balance">
                     <a class="btn">
                         <i class="icon icon-balance"></i>
-                        <span class="text">UUS 593,497.24</span>
+                        <span class="text WalletInfo"></span>
                         <i class="icon icon-caret"></i>
                     </a>
-                    <div class="dropdown__container">
-                        <div class="balance-info">
-                            <div class="balance-info__option">
-                                <label class="checkbox">
-                                    <input type="checkbox" checked>
-                                    <i class="icon icon-checkbox"></i>
-                                    <span class="text">@selLangBLL.GetResourceValue("lbl_ShowBalance")</span>
-                                </label>
-                            </div>
-                            <div class="wallet-info">
-                                <div class="wallet-info__item">
-                                    <span class="text text--lg">UUS</span>
-                                    <span class="text-amount text--lg">9,975.40</span>
-                                    <a class="btn btn-icon" data-refresh="false">
-                                        <i class="icon icon-refresh"></i>
-                                        <div class="preloader">
-                                            <div class="preloader__spiner">
-                                                <div class="preloader__circles">
-                                                    <div class="preloader__circle-1"></div>
-                                                    <div class="preloader__circle-2"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                @*<div class="wallet-info__item">
-                                        <span class="text">Sportsbook</span>
-                                        <span class="text-amount">9,975.40</span>
-                                    </div>
-                                    <div class="wallet-info__item">
-                                        <span class="text">Gold Deluxe</span>
-                                        <span class="text-amount">583,521.84</span>
-                                    </div>*@
-                            </div>
-                            @*<div class="btn-group">
-                                <a class="btn btn-secondary" href="Deposit.html">
-                                    <span class="text">Cashier</span>
-                                </a>
-                                <a class="btn btn-secondary" href="Deposit.html">
-                                        <span class="text">Transfer Funds</span>
-                                    </a>
-                                                </div>*@
-                            <div class="login-info">
-                                <div class="login-info__item">
-                                    <span class="text">@selLangBLL.GetResourceValue("lbl_LastLogin")</span>
-                                    <span class="text">11/20/2019 1:38 PM</span>
-                                </div>
-                                <div class="login-info__item">
-                                    <span class="text">@selLangBLL.GetResourceValue("lbl_LastTransaction")</span>
-                                    <span class="text">11/22/2019 11:38 AM</span>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="dropdown__container" id="Top_WalletInfo">
+                        
                     </div>
                 </div>
                 <div class="dropdown dropdown-secondary dropdown--right">

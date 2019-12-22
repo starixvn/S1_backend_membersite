@@ -39,6 +39,9 @@ module.exports = {
 		],
     "js/component/account/Messages.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/account/Messages.jsx'
+		],
+    "js/component/app/WalletInfo.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/app/WalletInfo.jsx'
 		]},
   output: {
     path:  path.resolve(__dirname,'../MemberSite/MemberSite/wwwroot/'),

@@ -325,6 +325,41 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+
+        [HttpPost]
+        public async Task<ApiResult<WalletInfo>> GetWalletInfoAsync()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<WalletInfo>();
+            apiResult.Data = walletBLL.GetWalletInfo(authData.CustId);
+            bool isHideBalance = false;
+            bool.TryParse(Request.Cookies[$"isHideBalance.{authData.CustId}"], out isHideBalance);
+            apiResult.Data.IsHideBalance = isHideBalance;
+
+            if (mainWalletType == 2)
+            {
+                apiResult.Data.Balance = await Get3rdBalanceAsync(1, authData.CustId);
+            }
+
+
+            apiResult.ErrorCode = 0;
+
+            return apiResult;
+        }
+
+        [HttpGet]
+        public ApiResult SetHideBalance(bool value)
+        {
+            var apiResult = new ApiResult();
+            var authData = authorizeBLL.GetAuthData();
+            CookieOptions option = new CookieOptions();
+            option.Expires = DateTime.Now.AddYears(10);
+            string key = $"isHideBalance.{authData.CustId}";
+            Response.Cookies.Append(key, value.ToString(), option);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
         //[HttpPost]
         //public ApiResult DelCustBankInfo(BankInfo bankInfo)
         //{
