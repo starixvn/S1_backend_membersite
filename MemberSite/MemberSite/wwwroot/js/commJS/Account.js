@@ -41,8 +41,10 @@
             var msgCount = "";
             if(result.data > 0) {
                 msgCount = result.data;
+                $(".MsgCount").html(msgCount).show();
+            } else {
+              $(".MsgCount").html(msgCount).hide();
             }
-            $(".MsgCount").html(msgCount)
           }
 
           setTimeout(onGetMsgCount.bind(this), 30000);

@@ -173,15 +173,15 @@ import {number_format} from '../commJS/common';
                                         <span className="text">{number_format(parseFloat(this.props.Amount).toFixed(2))}</span>
                                     </div>
                                 </div>
-                                <div className="tr">
-                                    <div className="td-left">
-                                        <span className="text-lowlight">{i18n.lbl_Memo}</span>
-                                    </div>
-                                </div>
-                                <div className="tr">
-                                    <div className="td-right">
-                                        <span className="text"><textarea value={this.props.Memo} onChange={this.setMemo.bind(this)}/></span>
-                                    </div>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label className="form-title">{i18n.lbl_Memo}</label>
+                            <div className="form-content">
+                                <div className="textfield">
+                                    <textarea rows="4" className="textfield__input"
+                                        placeholder="To get deposit soon, please leave your bank account name and bank number here." value={this.props.Memo} onChange={this.setMemo.bind(this)}></textarea>
+                                    <span className="textfield__bg"></span>
                                 </div>
                             </div>
                         </div>
@@ -221,7 +221,7 @@ import {number_format} from '../commJS/common';
                     <div className="td-time" data-title="Time">
                         <span className="text">{dateMonent.format("hh:mm:ss A")}</span>
                     </div>
-                    <div className="td-id" data-title="ID">{/*Fix Link*/}
+                    <div className="td-id" data-title="ID">
                         <a className="text-link" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript})}><span className="text">{item.transId}</span></a>
                     </div>
                     <div className="td-method" data-title="Method">
@@ -370,7 +370,7 @@ import {number_format} from '../commJS/common';
         render() {
             let PickBankInfoOff = this.props.PickBankInfoOff;
             let DropdownItem=this.props.BankInfoOffList.map(function( data ) { 
-                return <div className="dropdown__item" key={data.sysId} onClick={this.onPickBankInfoOff.bind(this, data)} data-selected={data.sysId==PickBankInfoOff.sysId}>{/*Fixed Select*/}
+                return <div className="dropdown__item" key={data.sysId} onClick={this.onPickBankInfoOff.bind(this, data)} data-selected={data.sysId==PickBankInfoOff.sysId}>
                     <div className="text-group">
                         <span className="text">{data.bankName}</span>
                         {data.minAmount == 0 && data.maxAmount == 0 ? 

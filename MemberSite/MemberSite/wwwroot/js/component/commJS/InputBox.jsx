@@ -211,7 +211,7 @@ export class InputBox extends React.Component {
                         dropdownText=dropdownItem.text;
                     }
 
-                    dropdownList.push(<div className="dropdown__item" key={i} onClick={this.setValue.bind(this, dropdownItem.value)}>
+                    dropdownList.push(<div className="dropdown__item" key={i} onClick={this.setValue.bind(this, dropdownItem.value)} data-selected={dropdownItem.value==field.Value}>
                         <span className="text">{dropdownItem.text}</span>
                     </div>);
                 }

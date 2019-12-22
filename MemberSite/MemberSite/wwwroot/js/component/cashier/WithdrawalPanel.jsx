@@ -152,8 +152,9 @@ import {number_format} from '../commJS/common';
         }
 
         render() {
+            let PickBankInfo = this.props.PickBankInfo;            
             let DropdownItem=this.props.BankInfoDetail.map(function( data, index ) { 
-                return <div className="dropdown__item" key={index} onClick={this.onPickBankInfo.bind(this, data)}>
+                return <div className="dropdown__item" key={index} onClick={this.onPickBankInfo.bind(this, data)} data-selected={data.accountNo==PickBankInfo.accountNo}>
                     <div className="text-group">
                         <span className="text">{data.bankName}</span>
                         <span className="text">{data.accountNo}</span>
@@ -161,7 +162,6 @@ import {number_format} from '../commJS/common';
                 </div>                
                 }.bind(this));
 
-            let PickBankInfo = this.props.PickBankInfo;
             return (
                 <div className="form-group">
                     <label className="form-title">{i18n.lbl_TransferTo}</label>
@@ -251,18 +251,18 @@ import {number_format} from '../commJS/common';
                                         <span className="text">{number_format(parseFloat(this.props.Amount).toFixed(2))}</span>
                                     </div>
                                 </div>
-                                <div className="tr">
-                                    <div className="td-left">
-                                        <span className="text-lowlight">{i18n.lbl_Memo}</span>
-                                    </div>
-                                </div>
-                                <div className="tr">
-                                    <div className="td-right">
-                                        <span className="text"><textarea value={this.props.Memo} onChange={this.setMemo.bind(this)}/></span>
-                                    </div>
-                                </div>
                             </div>
                         </div>
+                        <div className="form-group">
+                            <label className="form-title">{i18n.lbl_Memo}</label>
+                            <div className="form-content">
+                                <div className="textfield">
+                                    <textarea rows="4" className="textfield__input"
+                                        placeholder="To get deposit soon, please leave your bank account name and bank number here." value={this.props.Memo} onChange={this.setMemo.bind(this)}></textarea>
+                                    <span className="textfield__bg"></span>
+                                </div>
+                            </div>
+                        </div>                        
                         <div className="btn-group">
                             <button className="btn btn-primary" onClick={this.onClose.bind(this)} type="button">
                                 <div className="btn__inner">
