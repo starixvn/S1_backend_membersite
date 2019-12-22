@@ -72,15 +72,19 @@ import {number_format} from '../commJS/common';
                 </div>
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="form-row form-row--bg">
-                        <div className="form-group flex-2">
+                     <div className="form-group flex-3">
                             <label className="form-title">Date</label>
-                            <div className="form-content">
+                            <div className="form-content form-content--date">
                                 <div className="textfield">
+                                    <span className="text">from</span>
+                                    <input type="date" className="textfield__input" value={this.state.StartDate} onChange={this.onStartDate.bind(this)} />
                                     <i className="icon icon-calendar"></i>
-                                    <input type="date" className="textfield__input" value={this.state.StartDate} onChange={this.onStartDate.bind(this)}/>
+                                    <span className="textfield__bg"></span>
+                                </div>
+                                <div className="textfield">
                                     <span className="text">to</span>
-                                    <i className="icon icon-calendar"></i>
                                     <input type="date" className="textfield__input" value={this.state.EndDate} onChange={this.onEndDate.bind(this)}/>
+                                    <i className="icon icon-calendar"></i>
                                     <span className="textfield__bg"></span>
                                 </div>
                             </div>

@@ -15,7 +15,7 @@ namespace MemberSite.Service.Model
 
     public class WithdrawalHistory
     {
-        public string CreateTime { get; set; }
+        public DateTime CreateTime { get; set; }
         public string TransId { get; set; }
         public decimal Amount { get; set; }
         public decimal ChargeFee { get; set; }

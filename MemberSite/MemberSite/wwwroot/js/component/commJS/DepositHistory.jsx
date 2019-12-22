@@ -111,7 +111,9 @@ export class DepositHistory extends React.Component {
                     </div>
                 </div>
                 {bodyData}
-            </div> :< div>No Data</div>
+            </div> : <div className="no-data">
+                        <span className="text">No data.</span>
+                     </div>
         )
     }
 }
