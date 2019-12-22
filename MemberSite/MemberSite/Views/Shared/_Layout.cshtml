@@ -106,7 +106,11 @@
         {
             var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
-            @:var i18n = { "lbl_Currency": "@selLangBLL.GetResourceValue($"Currency_{CurrencyId}")" };
+            Dictionary<string, string> i18n = new Dictionary<string, string>();
+            i18n.Add("lbl_LastTransaction", selLangBLL.GetResourceValue("lbl_LastTransaction"));
+            i18n.Add("lbl_LastLogin", selLangBLL.GetResourceValue("lbl_LastLogin"));
+            i18n.Add("lbl_Currency", selLangBLL.GetResourceValue($"Currency_{CurrencyId}"));
+            @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
         }
         else
         {
