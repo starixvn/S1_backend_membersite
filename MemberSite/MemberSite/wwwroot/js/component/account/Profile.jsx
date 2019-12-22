@@ -10,9 +10,9 @@ class ProfileForm extends React.Component {
         let formArr=[];
 
         let dataField = new DataField("Email");
-        dataField.placeholder = "Email";
-        dataField.displayName = "Email";
-        dataField.tooltip = "Email";
+        dataField.placeholder = i18n.lbl_Email;
+        dataField.displayName = i18n.lbl_Email;
+        dataField.tooltip = i18n.lbl_EmailToolTip;
         dataField.status = 1;
         dataField.objectType = 4;
         dataField.handleCheck = this.handleCheckEmail.bind(this);
@@ -24,21 +24,21 @@ class ProfileForm extends React.Component {
     
     async handleCheckEmail(value) {
         let status = 1;
-        let message = "tooltip";
+        let message = "";
         let regx = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
         if(value!=null) {
             if(value.length == 0) {
                 status = 2;
-                message = "i18n.msg_MailReq";
+                message = i18n.msg_MailReq;
             } else if(!regx.test(value)) {
                 status = 2;
-                message = "Mail Format is wrong";
+                message = i18n.msg_Wrong;
             } else {
                 let res = await axios.post('/api/Account/ExistsEmail', {Email: value});
                 let data = res.data;
                 if(data.errorCode==0 && data.data) {
                     status = 2;
-                    message = "Mail Is Exists";
+                    message = i18n.msg_MailExisted;
                 } else {
                     status = 3;
                     message = "";
@@ -108,7 +108,6 @@ class ProfileForm extends React.Component {
     }
 
     onUpdate() {
-        console.log("ssss");
         this.setState({isUpdate: true});
     }
 
@@ -135,37 +134,37 @@ class ProfileForm extends React.Component {
                 </div>
                 <form className="form" onSubmit={isUpdate ? this.handleSubmit.bind(this): null}>
                     <div className="form-group">
-                        <label className="form-title"><b>User Name</b></label>
+                        <label className="form-title"><b>{i18n.lbl_Username}</b></label>
                         <div className="form-content form-content--text">
                                 <span className="text">{profile.userName}</span>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="form-title"><b>Vip Level</b></label>
+                        <label className="form-title"><b>{i18n.lbl_VIPLevel}</b></label>
                         <div className="form-content form-content--text">
                                 <span className="text">{profile.userLevel}</span>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="form-title"><b>Agent</b></label>
+                        <label className="form-title"><b>{i18n.lbl_Agent}</b></label>
                         <div className="form-content form-content--text">
                                 <span className="text">{profile.agent}</span>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="form-title"><b>Register  Time</b></label>
+                        <label className="form-title"><b>{i18n.lbl_RegisterTime}</b></label>
                         <div className="form-content form-content--text">
                                 <span className="text">{moment(profile.regTime).format('l LTS')}</span>
                         </div>
                     </div>                    
                     <div className="form-group">
-                        <label className="form-title"><b>Last Login Time</b></label>
+                        <label className="form-title"><b>{i18n.lbl_LastLogin}</b></label>
                         <div className="form-content form-content--text">
                                 <span className="text">{moment(profile.lastLoginTime).format('l LTS')}</span>
                         </div>
                     </div>
                     {isUpdate ? null: <div className="form-group">
-                        <label className="form-title"><b>Email</b></label>
+                        <label className="form-title"><b>{i18n.lbl_Email}</b></label>
                         <div className="form-content form-content--text">
                                 <span className="text">{profile.email}</span>
                         </div>
@@ -175,7 +174,7 @@ class ProfileForm extends React.Component {
                     <div className="btn-group">
                         <button className="btn btn-primary" type="button" onClick={this.onBack.bind(this)}>
                             <div className="btn__inner">
-                                <span className="text">Back</span>
+                                <span className="text">{i18n.lbl_Back}</span>
                             </div>
                         </button>                    
                         <button className="btn btn-secondary" type="submit">
@@ -186,7 +185,7 @@ class ProfileForm extends React.Component {
                     </div>: <div className="btn-group">
                         <button className="btn btn-secondary" type="button" onClick={this.onUpdate.bind(this)}>
                             <div className="btn__inner">
-                                <span className="text">Update</span>
+                                <span className="text">{i18n.lbl_Update}</span>
                             </div>
                         </button>
                     </div>}

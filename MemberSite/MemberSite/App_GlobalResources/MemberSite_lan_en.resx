@@ -177,6 +177,9 @@
   <data name="lbl_Affiliates" xml:space="preserve">
     <value>Affiliates</value>
   </data>
+  <data name="lbl_Agent" xml:space="preserve">
+    <value>Agent</value>
+  </data>
   <data name="lbl_AllTranscations" xml:space="preserve">
     <value>All Transcations</value>
   </data>
@@ -311,6 +314,12 @@
   </data>
   <data name="lbl_Downloads" xml:space="preserve">
     <value>Downloads</value>
+  </data>
+  <data name="lbl_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="lbl_EmailToolTip" xml:space="preserve">
+    <value>Email can not be change after submit</value>
   </data>
   <data name="lbl_eSports" xml:space="preserve">
     <value>eSports</value>
@@ -483,6 +492,9 @@
   <data name="lbl_Register" xml:space="preserve">
     <value>Register</value>
   </data>
+  <data name="lbl_RegisterTime" xml:space="preserve">
+    <value>Register Time</value>
+  </data>
   <data name="lbl_ResposibleGaming" xml:space="preserve">
     <value>Resposible Gaming</value>
   </data>
@@ -567,6 +579,9 @@
   <data name="lbl_TwitterSite" xml:space="preserve">
     <value>@Nova88official</value>
   </data>
+  <data name="lbl_Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
   <data name="lbl_UpdateBankDetail" xml:space="preserve">
     <value>Update Bank Details</value>
   </data>
@@ -584,6 +599,9 @@
   </data>
   <data name="lbl_VariousBankingOptions" xml:space="preserve">
     <value>Various Banking Options</value>
+  </data>
+  <data name="lbl_VIPLevel" xml:space="preserve">
+    <value>VIP Level</value>
   </data>
   <data name="lbl_VirtualSports" xml:space="preserve">
     <value>Virtual Sports</value>
