@@ -68,21 +68,21 @@ import {number_format} from '../commJS/common';
             return (
             <div>
                 <div className="heading">
-                    <span className="text">Withdrawal</span>
+                    <span className="text">{i18n.lbl_Withdrawal}</span>
                 </div>
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="form-row form-row--bg">
                      <div className="form-group flex-3">
-                            <label className="form-title">Date</label>
+                            <label className="form-title">{i18n.lbl_Date}</label>
                             <div className="form-content form-content--date">
                                 <div className="textfield">
-                                    <span className="text">from</span>
+                                    <span className="text">{i18n.lbl_From}</span>
                                     <input type="date" className="textfield__input" value={this.state.StartDate} onChange={this.onStartDate.bind(this)} />
                                     <i className="icon icon-calendar"></i>
                                     <span className="textfield__bg"></span>
                                 </div>
                                 <div className="textfield">
-                                    <span className="text">to</span>
+                                    <span className="text">{i18n.lbl_To}</span>
                                     <input type="date" className="textfield__input" value={this.state.EndDate} onChange={this.onEndDate.bind(this)}/>
                                     <i className="icon icon-calendar"></i>
                                     <span className="textfield__bg"></span>
@@ -93,7 +93,7 @@ import {number_format} from '../commJS/common';
                     <div className="btn-group">
                         <button className="btn btn-secondary" type="submit">
                             <div className="btn__inner">
-                                <span className="text">Submit</span>
+                                <span className="text">{i18n.lbl_Submit}</span>
                             </div>
                         </button>
                     </div>

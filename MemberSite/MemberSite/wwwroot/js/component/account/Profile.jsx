@@ -9,13 +9,13 @@ class ProfileForm extends React.Component {
         let formArr=[];
 
         let emailDataField = new DataField("Email");
-        emailDataField.placeholder="i18n.lbl_Username";
-        emailDataField.displayName="i18n.lbl_Username";
-        emailDataField.tooltip="i18n.lbl_UsernameTooltip";
-        emailDataField.status=1;
-        emailDataField.objectType=4;
+        emailDataField.placeholder = i18n.lbl_Username;
+        emailDataField.displayName = i18n.lbl_Username;
+        emailDataField.tooltip = i18n.lbl_UsernameTooltip;
+        emailDataField.status = 1;
+        emailDataField.objectType = 4;
         emailDataField.handleCheck = this.handleCheckEmail.bind(this);
-        emailDataField.Value="";
+        emailDataField.Value = "";
         formArr.push(emailDataField);
 
         this.state = { formArr: formArr};
@@ -28,16 +28,16 @@ class ProfileForm extends React.Component {
         if(value!=null) {
             if(value.length == 0) {
                 status = 2;
-                message = "i18n.msg_UsernameReq";
+                message = i18n.msg_UsernameReq;
             } else if(!regx.test(value)) {
                 status = 2;
-                message = "i18n.msg_UsernameVaildate";
+                message = i18n.msg_UsernameVaildate;
             } else {
                 let res = await axios.post('/api/Account/ExistsEmail', {Email: value});
                 let data = res.data;
                 if(data.errorCode==0 && data.data) {
                     status = 2;
-                    message = "i18n.msg_UsernameNotAvailable";
+                    message = i18n.msg_UsernameNotAvailable;
                 } else {
                     status = 3;
                     message = "";

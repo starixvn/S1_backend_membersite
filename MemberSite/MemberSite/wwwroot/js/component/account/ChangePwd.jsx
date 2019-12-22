@@ -11,25 +11,25 @@ class ChangePwdForm extends React.Component {
 
         let dataField = new DataField("OldPassword");
 
-        dataField.placeholder=i18n.lbl_OldPassword;
-        dataField.displayName=i18n.lbl_OldPassword;
-        dataField.tooltip=i18n.lbl_PasswordTooltip;
-        dataField.status=1;
-        dataField.objectType=2;
+        dataField.placeholder = i18n.lbl_OldPassword;
+        dataField.displayName = i18n.lbl_OldPassword;
+        dataField.tooltip = i18n.lbl_PasswordTooltip;
+        dataField.status = 1;
+        dataField.objectType = 2;
         dataField.handleCheck = this.handleCheckUserpwd.bind(this);
-        dataField.Value="";
-        dataField.AutoComplete="off";
+        dataField.Value = "";
+        dataField.AutoComplete = "off";
         formArr.push(dataField);
 
         dataField = new DataField("NewPassword");
-        dataField.placeholder=i18n.lbl_NewPassword;
-        dataField.displayName=i18n.lbl_NewPassword;
-        dataField.tooltip=i18n.lbl_PasswordTooltip;
-        dataField.status=1;
-        dataField.objectType=2;
+        dataField.placeholder = i18n.lbl_NewPassword;
+        dataField.displayName = i18n.lbl_NewPassword;
+        dataField.tooltip = i18n.lbl_PasswordTooltip;
+        dataField.status = 1;
+        dataField.objectType = 2;
         dataField.handleCheck = this.handleCheckUserpwd.bind(this);    
-        dataField.Value="";
-        dataField.AutoComplete="off";
+        dataField.Value = "";
+        dataField.AutoComplete = "off";
         formArr.push(dataField);
         // data-disabled="false"
         this.state = { formArr: formArr, SubmitDisabled: false};

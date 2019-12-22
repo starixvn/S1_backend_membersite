@@ -9,23 +9,36 @@
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Deposit");
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div class="main">
-        <div class="page-title" role="mobile-only">
-            <span class="text">@selLangBLL.GetResourceValue("lbl_History")</span>
-        </div>
-        <div class="page-tabs" role="mobile-only">
-            <a class="page-tabs__btn" data-selected="true">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
-            </a>
-            <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
-            </a>
-        </div>
-        <div id="History" class="page"></div>
+@{
+    var i18n = new Dictionary<string, string>();
+    i18n.Add("lbl_TransactionHistory", selLangBLL.GetResourceValue("lbl_TransactionHistory"));
+    i18n.Add("lbl_Deposit", selLangBLL.GetResourceValue("lbl_Deposit"));
+    i18n.Add("lbl_Date", selLangBLL.GetResourceValue("lbl_Date"));
+    i18n.Add("lbl_Time", selLangBLL.GetResourceValue("lbl_Time"));
+    i18n.Add("lbl_From", selLangBLL.GetResourceValue("lbl_From"));
+    i18n.Add("lbl_To", selLangBLL.GetResourceValue("lbl_To"));
+    i18n.Add("lbl_ID", selLangBLL.GetResourceValue("lbl_ID"));
+    i18n.Add("lbl_Method", selLangBLL.GetResourceValue("lbl_Method"));
+    i18n.Add("lbl_Amount", selLangBLL.GetResourceValue("lbl_Amount"));
+    i18n.Add("lbl_Status", selLangBLL.GetResourceValue("lbl_Status"));
+}
+<div class="main">
+    <div class="page-title" role="mobile-only">
+        <span class="text">@selLangBLL.GetResourceValue("lbl_History")</span>
     </div>
+    <div class="page-tabs" role="mobile-only">
+        <a class="page-tabs__btn" data-selected="true">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+        </a>
+        <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
+        </a>
+    </div>
+    <div id="History" class="page"></div>
+</div>
 @section Scripts{
     <script type="text/javascript">
-        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(null)));
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
     </script>
     <script src="~/lib/runtime.min.js"></script>
     <script src="~/js/component/history/Deposit.min.js" asp-append-version="true"></script>
