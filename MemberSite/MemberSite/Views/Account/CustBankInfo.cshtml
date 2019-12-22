@@ -24,8 +24,26 @@
     i18n.Add("msg_NeedAccountName", selLangBLL.GetMsg("msg_NeedAccountName"));
     i18n.Add("msg_NeedAccountNo", selLangBLL.GetMsg("msg_NeedAccountNo"));
 }
-
-<div id="CustBankInfo" class="main"></div>
+    <div class="main">
+        <div class="page-title" role="mobile-only">
+            <span class="text">My Account</span>
+        </div>
+        <div class="page-tabs" role="mobile-only">
+            <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                <span class="text">Profile</span>
+            </a>
+            <a class="page-tabs__btn" data-selected="true">
+                <span class="text">CustBankInfo</span>
+            </a>
+        </div>
+        <div id="CustBankInfo" class="page">
+        </div>
+        <div>
+            <a class="text-link" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                <span class="text">Go to Withdrawal</span>
+            </a>
+        </div>
+    </div>
 @section Scripts{
     <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));

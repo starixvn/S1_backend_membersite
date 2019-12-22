@@ -164,7 +164,7 @@ import * as Loading from '../commJS/Loading.jsx';
             let Inputs = this.state.formArr.map(dataField => <InputBox key={dataField.name} DataField={dataField} />);
 
             return (
-                <div className="page">
+                <div>
                     <div className="heading">
                         <span className="text">{i18n.lbl_CustBankInfo}</span>
                     </div>
@@ -263,8 +263,8 @@ import * as Loading from '../commJS/Loading.jsx';
             let bankInfoDetail = this.props.Data.bankInfoDetail;
 
             return (
-                <div className="page">
-                    <div className="heading" role="desktop-only">
+                <div>
+                    <div className="heading">
                         <span className="text">{i18n.lbl_BankInfo}</span>
                     </div>
                     <div className="form-group">

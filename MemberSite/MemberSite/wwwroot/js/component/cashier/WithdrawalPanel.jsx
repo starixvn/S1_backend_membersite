@@ -442,10 +442,8 @@ import {number_format} from '../commJS/common';
                         <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                             <div className="form-group">
                                 <label className="form-title">{i18n.lbl_BankAccountName}</label>
-                                <div className="form-content" data-status="info">
-                                    <div className="textfield">
+                                <div className="form-content form-content--text">
                                         <span className="text">{this.state.AcountName}</span>
-                                    </div>
                                 </div>
                             </div>
                             {Inputs}
