@@ -16,7 +16,7 @@ namespace MemberSite.Service.BLL
         Dictionary<string, int> LangMapCurr =
         new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
         {
-            {"th", 4}, {"cs", 13}, {"ch", 13}, {"id", 15}, {"jp", 32}, 
+            {"th", 4}, {"cs", 13}, {"ch", 13}, {"id", 15}, {"jp", 32},
             {"ko", 45}, {"vn", 51},{"hi", 61}
         };
 
@@ -87,7 +87,11 @@ namespace MemberSite.Service.BLL
 
             if (string.IsNullOrEmpty(langId) && !string.IsNullOrEmpty(firstLang))
             {
-                if (firstLang.StartsWith("zh", StringComparison.OrdinalIgnoreCase))
+                if (firstLang.StartsWith("zh-tw", StringComparison.OrdinalIgnoreCase) || firstLang.StartsWith("zh-hk", StringComparison.OrdinalIgnoreCase))
+                {
+                    langId = "ch";
+                }
+                else if (firstLang.StartsWith("zh", StringComparison.OrdinalIgnoreCase))
                 {
                     langId = "cs";
                 }
