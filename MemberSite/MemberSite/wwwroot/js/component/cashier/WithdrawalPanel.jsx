@@ -252,17 +252,7 @@ import {number_format} from '../commJS/common';
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="form-group">
-                            <label className="form-title">{i18n.lbl_Memo}</label>
-                            <div className="form-content">
-                                <div className="textfield">
-                                    <textarea rows="4" className="textfield__input"
-                                        placeholder={i18n.lbl_MomoHint} value={this.props.Memo} onChange={this.setMemo.bind(this)}></textarea>
-                                    <span className="textfield__bg"></span>
-                                </div>
-                            </div>
-                        </div>                        
+                        </div>                     
                         <div className="btn-group">
                             <button className="btn btn-primary" onClick={this.onClose.bind(this)} type="button">
                                 <div className="btn__inner">
