@@ -25,7 +25,7 @@ namespace MemberSite.Controllers
         }
         public IActionResult Index()
         {
-            Dictionary<string, string> ServerInfoData = new Dictionary<string, string>(comparer: StringComparer.OrdinalIgnoreCase);
+            Dictionary<string, string> ServerInfoData = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             ServerInfoData.Add("Now", DateTime.Now.ToString());
             ServerInfoData.Add("EnvironmentName", environment.EnvironmentName);
             ServerInfoData.Add("LangId", selLangBLL.GetLangId());
@@ -59,8 +59,8 @@ namespace MemberSite.Controllers
 
             foreach (var head in Request.Headers)
             {
-                string sKey = head.Key.ToLower();
-                if (list.Contains(sKey.ToLower()) && !ServerInfoData.ContainsKey(sKey))
+                string sKey = head.Key;
+                if (list.Contains(sKey, StringComparer.OrdinalIgnoreCase) && !ServerInfoData.ContainsKey(sKey))
                 {
                     ServerInfoData.Add(sKey, head.Value);
                 }
