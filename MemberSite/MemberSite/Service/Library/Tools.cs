@@ -96,7 +96,7 @@ namespace MemberSite.Service.Library
         /// <returns></returns>
         public string GetClientIP()
         {
-            string[] HeaderNames = new string[] { "HTTP_X_FORWARDED_FOR", "HTTP_INCAP_CLIENT_IP", "HTTP_TRUE_CLIENT_IP", "HTTP_X_REAL_IP", "REMOTE_ADDR" };
+            string[] HeaderNames = new string[] { "X-Forwarded-For", "HTTP_X_FORWARDED_FOR", "HTTP_INCAP_CLIENT_IP", "HTTP_TRUE_CLIENT_IP", "HTTP_X_REAL_IP", "REMOTE_ADDR" };
 
             foreach (string Header in HeaderNames)
             {
