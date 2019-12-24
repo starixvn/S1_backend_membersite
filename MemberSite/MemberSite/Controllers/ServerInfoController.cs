@@ -44,6 +44,7 @@ namespace MemberSite.Controllers
             //需要的欄位LIST
             var list = new List<string>
             {
+                "X-Forwarded-For",
                 "LOCAL_ADDR",
                 "server_port",
                 "Http_Host",
