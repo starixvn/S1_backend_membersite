@@ -87,7 +87,7 @@ namespace MemberSite.Service.BLL
 
             if (string.IsNullOrEmpty(langId) && !string.IsNullOrEmpty(firstLang))
             {
-                if (firstLang.StartsWith("zh-tw", StringComparison.OrdinalIgnoreCase) || firstLang.StartsWith("zh-hk", StringComparison.OrdinalIgnoreCase))
+                if (firstLang.StartsWith("ms", StringComparison.OrdinalIgnoreCase) || firstLang.StartsWith("zh-tw", StringComparison.OrdinalIgnoreCase) || firstLang.StartsWith("zh-hk", StringComparison.OrdinalIgnoreCase))
                 {
                     langId = "ch";
                 }
