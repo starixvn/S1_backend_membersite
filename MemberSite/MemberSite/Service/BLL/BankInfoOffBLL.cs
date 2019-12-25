@@ -42,7 +42,7 @@ namespace MemberSite.Service.BLL
         {
             public bool Equals(SysBankInfoOff t1, SysBankInfoOff t2)
             {
-                return (t1.SysId == t2.SysId && t1.BankId == t2.BankId);
+                return (t1.SysId == t2.SysId && t1.BankCode == t2.BankCode);
             }
 
             public int GetHashCode(SysBankInfoOff t)
@@ -62,7 +62,7 @@ namespace MemberSite.Service.BLL
                          select new SysBankInfoOff
                          {
                              SysId = x.SysId,
-                             BankId = x.BankId,
+                             BankCode = x.BankCode,
                              BankLogo = x.BankLogo,
                              BankName = x.BankName,
                              BankSite = x.BankSite,

@@ -7,7 +7,7 @@ namespace MemberSite.Service.Model
 {
     public class BankInfoOff
     {
-        public int BankDId { get; set; }
+        public int BankId { get; set; }
         public string AccountName { get; set; }
         public string AccountNo { get; set; }
         public int SysId { get; set; }
@@ -17,7 +17,7 @@ namespace MemberSite.Service.Model
         public string Memo { get; set; }
         public int BSort { get; set; }
         public int CurrencyId { get; set; }
-        public string BankId { get; set; }
+        public string BankCode { get; set; }
         public string BankName { get; set; }
         public string BankLogo { get; set; }
         public string BankSite { get; set; }
@@ -28,7 +28,7 @@ namespace MemberSite.Service.Model
     public class SysBankInfoOff
     {
         public int SysId { get; set; }
-        public string BankId { get; set; }
+        public string BankCode { get; set; }
         public string BankName { get; set; }
         public string BankLogo { get; set; }
         public string BankSite { get; set; }

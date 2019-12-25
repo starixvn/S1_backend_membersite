@@ -31,7 +31,7 @@ namespace MemberSite.Service.BLL
                 return bankInfoSysList.Where(x => x.CurrencyId == CurrencyId);
             }
 
-            bankInfoSysList = bankInfoService.GetBankInfoSysList(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId);
+            bankInfoSysList = bankInfoService.GetBankInfoSysList(serverInfo.SiteId);
 
             if (bankInfoSysList != null)
             {
@@ -52,7 +52,7 @@ namespace MemberSite.Service.BLL
                 return bankInfoSysList.Where(x => x.CurrencyId == CurrencyId);
             }
 
-            bankInfoSysList = bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId);
+            bankInfoSysList = bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId);
 
             if (bankInfoSysList != null)
             {
@@ -60,6 +60,31 @@ namespace MemberSite.Service.BLL
             }
 
             return bankInfoSysList?.Where(x => x.CurrencyId == CurrencyId);
+        }
+
+        public IEnumerable<BankInfoPay> GetOnlineBankInfoSysList()
+        {
+            return bankInfoService.GetBankInfoPayList();
+        }
+
+        public IEnumerable<BankInfoPay> GetOnlineBankList()
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            string key = $"BankInfoPayList_{serverInfo.SiteId}";
+            var bankInfoPayList = cache.Get<IEnumerable<BankInfoPay>>(key);
+            if (bankInfoPayList != null)
+            {
+                return bankInfoPayList;
+            }
+
+            bankInfoPayList = bankInfoService.GetBankInfoPayList();
+
+            if (bankInfoPayList != null)
+            {
+                cache.Set(key, bankInfoPayList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)));
+            }
+
+            return bankInfoPayList;
         }
     }
 }
