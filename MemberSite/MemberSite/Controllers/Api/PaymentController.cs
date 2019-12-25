@@ -23,7 +23,7 @@ namespace MemberSite.Controllers.Api
         private readonly CustInfoBLL custInfoBLL;
         private readonly BankInfoBLL bankInfoBLL;
         private readonly CourierAdapter courierAdapter;
-        private readonly string apiUrl;
+        private readonly string tpApiUrl;
 
         public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL)
         {
@@ -33,7 +33,7 @@ namespace MemberSite.Controllers.Api
             this.custInfoBLL = custInfoBLL;
             this.bankInfoBLL = bankInfoBLL;
             this.courierAdapter = courierAdapter;
-            apiUrl = configuration.GetValue<string>("TpService");
+            tpApiUrl = configuration.GetValue<string>("TpService");
         }
 
         [HttpPost]
@@ -227,6 +227,22 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        public class OnlineBankInfoReq
+        {
+            public int sysId { set; get; }
+        }
+
+        [HttpPost]
+        public ApiResult<BankInfoPayFront> GetOnlineBankInfo(OnlineBankInfoReq onlineBankInfoReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<BankInfoPayFront>();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            apiResult.Data = bankInfoBLL.GetOnlineBankInfo(custInfo.CustId, onlineBankInfoReq.sysId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
         public class TpTransfer
         {
             public int TpId { set; get; }
@@ -258,7 +274,7 @@ namespace MemberSite.Controllers.Api
                 direction = inTpTransfer.direction,
                 inputs = null
             };
-            var myUrl = $"{apiUrl}Transfer";
+            var myUrl = $"{tpApiUrl}Transfer";
             var data = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
 
             return data;

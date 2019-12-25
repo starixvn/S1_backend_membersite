@@ -140,10 +140,6 @@ import {number_format} from '../commJS/common';
             this.props.onConfirm();
         }
 
-        setMemo(event) {
-            this.props.setMemo(event.target.value);
-        }
-
         render() {
             return (
             <div className="modal" data-open={this.state.Show}>
@@ -395,7 +391,7 @@ import {number_format} from '../commJS/common';
         }
     }
     
-    class WireTransfers extends React.Component {    
+    class WireTransfers extends React.Component {
         constructor(props) {
             super(props);
 
@@ -490,11 +486,7 @@ import {number_format} from '../commJS/common';
                 this.setState({showTodModal:true, Amount: parseFloat(data["Amount"])});
             }
         }
-        
-        setMemo(value) {
-            this.setState({Memo: value});
-        }
-        
+       
         onDepositOptions() {
             this.props.onDepositOptions();
         }
@@ -506,7 +498,7 @@ import {number_format} from '../commJS/common';
         onConfirm() {
             this.setState({showTodModal:false});
             Loading.OnLoading();
-            let data = {sysId: this.state.PickBankInfoOff.sysId, amount:this.state.Amount, memo:this.state.Memo};
+            let data = {sysId: this.state.PickBankInfoOff.sysId, amount:this.state.Amount};
             axios.post('/api/Payment/DepositReqWireTransfer', data)
             .then(function (response) {
                 Loading.UnLoading();
@@ -554,8 +546,161 @@ import {number_format} from '../commJS/common';
                         </button>
                     </div>
                 </form>
-                {this.state.showTodModal ? <TbdModal setMemo={this.setMemo.bind(this)} onConfirm={this.onConfirm.bind(this)} onClose={this.onClose.bind(this)} PickBankInfoOff={this.state.PickBankInfoOff} Amount={this.state.Amount} Memo={this.state.Memo} /> : null}
+                {this.state.showTodModal ? <TbdModal onConfirm={this.onConfirm.bind(this)} onClose={this.onClose.bind(this)} PickBankInfoOff={this.state.PickBankInfoOff} Amount={this.state.Amount}/> : null}
             </div>  
+            )
+        }
+    }
+
+    class OnlineBanking extends React.Component {
+        constructor(props) {
+            super(props);
+
+            let formArr=[];
+
+            let amountDataField = new DataField("Amount");
+            amountDataField.placeholder=i18n.lbl_Amount;
+            amountDataField.displayName=i18n.lbl_Amount;
+            amountDataField.tooltip=i18n.lbl_AmountTooltip;
+            amountDataField.status=1;
+            amountDataField.objectType=5;
+            amountDataField.handleCheck = this.handleCheckAmount.bind(this);
+            amountDataField.Value="";
+            formArr.push(amountDataField);
+
+            this.state = { formArr: formArr, BankInfoOffList: null, SysId:this.props.SysId, showTodModal:false};
+        }
+
+        componentDidMount() {
+            Loading.OnLoading();            
+            axios.post('/api/Payment/GetOnlineBankInfo', { sysId: this.state.SysId})
+            .then(function (response) {
+                Loading.UnLoading();
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    let bankInfoPay=null;
+                    if(result.data != null) {
+                        bankInfoPay = result.data;
+                        this.setState({BankInfoPay: bankInfoPay});
+                    } else {
+                        alert(sysId + "Not Found.");
+                        this.onDepositOptions();                        
+                    }
+                } else {
+                    alert(result.message);
+                    this.onDepositOptions();
+                }
+            }.bind(this)).catch(function (error) {
+                Loading.UnLoading();
+                alert(error);
+                this.onDepositOptions();
+            }.bind(this));
+        }
+
+        async handleCheckAmount(value) {
+            let status = 1;
+            let message = "";
+            let BankInfoPay = this.state.BankInfoPay;
+            if(value!=null) {
+                if(value <= 0) {
+                    status = 2;
+                    message = i18n.lbl_AmountTooltip;
+                } else if((BankInfoPay.minAmount != 0 && BankInfoPay.maxAmount != 0) && (value > BankInfoPay.maxAmount || value < BankInfoPay.minAmount) ) {
+                    status = 2;
+                    message = number_format(value) + " "+ i18n.lbl_NotinLimit;
+                } else {
+                    status = 3;
+                    message = "";
+                }
+            }
+    
+            return {status: status, message: message};
+        }
+
+        async handleSubmit(event) {
+            event.preventDefault();
+            let data = {};
+            let valid = true;
+            for(var i=0; i < this.state.formArr.length; i++){
+                let dataField = this.state.formArr[i];
+                await dataField.onCheck();
+                if(valid) {
+                    if(dataField.status == 2) {
+                        valid = false;
+                    }
+                }
+                data[dataField.name] = dataField.Value;
+            }
+
+            if(!valid) {
+                this.forceUpdate();
+            } else {
+                this.setState({showTodModal:true, Amount: parseFloat(data["Amount"])});
+            }
+        }
+       
+        onDepositOptions() {
+            this.props.onDepositOptions();
+        }
+
+        onClose() {
+            this.setState({showTodModal:false});
+        }
+
+        onConfirm() {
+            this.setState({showTodModal:false});
+            Loading.OnLoading();
+            let data = {sysId: this.state.PickBankInfoOff.sysId, amount:this.state.Amount};
+            axios.post('/api/Payment/DepositReqOnlineBanking', data)
+            .then(function (response) {
+                Loading.UnLoading();
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    let bankInfo = result.data;
+                    bankInfo.amount=this.state.Amount;
+                } else {
+                    alert(result.message);
+                    this.setState({showTodModal:true});
+                }
+            }.bind(this)).catch(function (error) {
+                Loading.UnLoading();
+                alert(error);
+                this.setState({showTodModal:true});                    
+            }.bind(this));
+        }
+
+        render() {
+            let Inputs=this.state.formArr.map(dataField => <InputBox key={dataField.name} DataField={dataField}/>);
+            let BankInfoPay = this.state.BankInfoPay;
+            //let modalContaner = null;
+
+            return (
+            BankInfoPay != null ? <div>
+                <div className="heading">
+                    <span className="text">Online Banking</span>
+                </div>
+                <form className="form" onSubmit={this.handleSubmit.bind(this)}>
+                    <div className="payment__img">
+                        <img src={"/common/images/BankLogo/"+BankInfoPay.bankLogo}/>
+                    </div>
+                    <span className="payment__text">{BankInfoPay.bankName}</span>
+                    {Inputs}
+                    <div><span className="text">{"( Limit : "}<span className="text-accent">{number_format(BankInfoPay.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(BankInfoPay.maxAmount)}</span>{" )"}</span></div>                    
+                    <div className="btn-group">
+                        <button className="btn btn-primary" type="button" onClick={this.onDepositOptions.bind(this)}>
+                            <div className="btn__inner">
+                                <span className="text">{i18n.lbl_Back}</span>
+                            </div>
+                        </button>
+                        <button className="btn btn-secondary" type="submit">
+                            <div className="btn__inner">
+                                <span className="text">{i18n.lbl_Submit}</span>
+                            </div>
+                        </button>
+                    </div>
+                </form>
+                {this.state.showTodModal ? <TbdModal onConfirm={this.onConfirm.bind(this)} onClose={this.onClose.bind(this)} PickBankInfoOff={BankInfoPay} Amount={this.state.Amount} /> : null}
+            </div> : null
             )
         }
     }
@@ -599,29 +744,11 @@ import {number_format} from '../commJS/common';
         }
 
         onOnlineBanking(bankInfo) {
-            console.log(bankInfo);
+            this.props.onOnlineBanking(bankInfo.sysId);
         }
 
         getOnlineBanking() {
-            Loading.OnLoading();            
-            axios.post('/api/Payment/GetOnlineBankInfoSysList')
-            .then(function (response) {
-                Loading.UnLoading();
-                let result = response.data;
-                if (result.errorCode == 0) {
-                    let onlineBankInfo=null;
-                    if(result.data.length>0) {
-                        onlineBankInfo = result.data;
-                    }
-
-                    this.setState({OnlineBankInfo: onlineBankInfo});
-                } else {
-                    //alert(result.message);
-                }
-            }.bind(this)).catch(function (error) {
-                Loading.UnLoading();
-                //alert(error);
-            }.bind(this));
+            window.open('/api/Account/GetWalletInfo');
         }
 
         render() {
@@ -711,7 +838,11 @@ import {number_format} from '../commJS/common';
         }
 
         onWireTransfers() {
-            this.setState({"DipositType": 1});
+            this.setState({"DipositType": 3});
+        }
+
+        onOnlineBanking(sysId) {
+            this.setState({"DipositType": 1, SysId: sysId});
         }
 
         onDepositOptions() {
@@ -728,8 +859,10 @@ import {number_format} from '../commJS/common';
    
         render() {
             let panelObj=[];
-            let panelHolder = <DepositOptions key={1} onWireTransfers={this.onWireTransfers.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)}/>;
+            let panelHolder = <DepositOptions key={1} onWireTransfers={this.onWireTransfers.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)} onOnlineBanking={this.onOnlineBanking.bind(this)}/>;
             if(this.state.DipositType == 1) {
+                panelHolder = <OnlineBanking key={1} SysId={this.state.SysId} onDepositOptions={this.onDepositOptions.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)}/>;
+            } else if(this.state.DipositType == 3) {
                 panelHolder = <WireTransfers key={1} onDepositOptions={this.onDepositOptions.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)}/>;
             } 
 

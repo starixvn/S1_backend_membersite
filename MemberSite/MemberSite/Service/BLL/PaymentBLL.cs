@@ -17,7 +17,7 @@ namespace MemberSite.Service.BLL
         private readonly WithdrawalService withdrawalService;
         private readonly BankInfoBLL bankInfoBLL;
 
-        public PaymentBLL(IMemoryCache cache, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService)
+        public PaymentBLL(BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.custInfoBLL = custInfoBLL;
@@ -108,6 +108,41 @@ namespace MemberSite.Service.BLL
             }
 
             return 0;
+        }
+        public int DepositReqOnlineBanking(int custId, int channelId, decimal amount,out string transId)
+        {
+            transId = null;
+            if (amount <= 0)
+                return -1;
+            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var payCurrency = bankInfoBLL.GetPayCurrency().Where(x => x.CurrencyId == channelId && custInfo.CurrencyId == x.CurrencyId).FirstOrDefault();
+
+            if (payCurrency == null || payCurrency.MaxAmount < amount || payCurrency.MinAmount > amount)
+            {
+                return -2;
+            }
+
+            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var onlineBankList = bankInfoBLL.GetOnlineBankList();
+            var _info = onlineBankList.Where(x => vipLevel >= x.PointLevel && x.ChannelId == channelId && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+
+            if (_info != null)
+            {
+                DepositDetailInfo depositDetailInfo = new DepositDetailInfo();
+                depositDetailInfo.Amount = amount;
+                depositDetailInfo.CustId = custId;
+                depositDetailInfo.DepositType = (int)DepositType.OnlineBanking;
+                depositDetailInfo.Memo = null;
+                depositDetailInfo.SiteId = custInfo.SiteId;
+                depositDetailInfo.UserName = custInfo.UserName;
+                depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(_info);
+                string postScript = null;
+
+                depoistService.DepositReq(depositDetailInfo, out transId, out postScript);
+                return 0;
+            }
+
+            return -99;
         }
         public int WithdrawalReq(int custId, int sysId, string accountName, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
         {

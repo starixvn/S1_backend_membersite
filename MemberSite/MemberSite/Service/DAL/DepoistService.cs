@@ -38,6 +38,8 @@ namespace MemberSite.Service.DAL
 
             postScript = p.Get<string>("vPostScript");
             transId = p.Get<string>("vTransId");
+
+
             return 0;
         }
 
