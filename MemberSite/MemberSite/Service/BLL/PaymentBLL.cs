@@ -19,7 +19,7 @@ namespace MemberSite.Service.BLL
         private readonly PayService payService;
         private readonly IMemoryCache cache;
 
-        public PaymentBLL(IMemoryCache cache, PayService payService, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService)
+        public PaymentBLL(IMemoryCache cache, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.custInfoBLL = custInfoBLL;
@@ -177,24 +177,6 @@ namespace MemberSite.Service.BLL
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var withdrawalInfoHistory = withdrawalService.GetWithdrawalInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
             return withdrawalInfoHistory;
-        }
-
-        public IEnumerable<PayCurrency> GetPayCurrency()
-        {
-            string key = "PayCurrency";
-            var payCurrency = cache.Get<IEnumerable<PayCurrency>>(key);
-
-            if (payCurrency == null)
-            {
-                payCurrency = payService.GetPayCurrency();
-                if (payCurrency != null)
-                {
-                    var expireTime = TimeSpan.FromMinutes(5);
-                    cache.Set(key, payCurrency, new MemoryCacheEntryOptions().SetAbsoluteExpiration(expireTime));
-                }
-            }
-
-            return payCurrency;
         }
     }
 }
