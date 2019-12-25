@@ -610,7 +610,7 @@
     <value>Welcome</value>
   </data>
   <data name="lbl_WireTransfers" xml:space="preserve">
-    <value>Wire Transfers</value>
+    <value>Local Bank Transfer</value>
   </data>
   <data name="lbl_Withdrawal" xml:space="preserve">
     <value>Withdrawal</value>
