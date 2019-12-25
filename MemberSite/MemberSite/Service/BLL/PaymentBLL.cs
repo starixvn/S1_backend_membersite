@@ -16,8 +16,6 @@ namespace MemberSite.Service.BLL
         private readonly DepoistService depoistService;
         private readonly WithdrawalService withdrawalService;
         private readonly BankInfoBLL bankInfoBLL;
-        private readonly PayService payService;
-        private readonly IMemoryCache cache;
 
         public PaymentBLL(IMemoryCache cache, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService)
         {
@@ -26,8 +24,6 @@ namespace MemberSite.Service.BLL
             this.depoistService = depoistService;
             this.withdrawalService = withdrawalService;
             this.bankInfoBLL = bankInfoBLL;
-            this.payService = payService;
-            this.cache = cache;
         }
 
         public int DepositReqWireTransfer(int custId, int sysId, decimal amount, string memo, out DepositRep3 depositRep3)
