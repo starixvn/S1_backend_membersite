@@ -216,6 +216,17 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        [HttpPost]
+        public ApiResult<IEnumerable<SysBankInfoFront>> GetOnlineBankInfoSysList()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            apiResult.Data = bankInfoBLL.GetOnlineBankInfoSysList(custInfo.CustId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
         public class TpTransfer
         {
             public int TpId { set; get; }

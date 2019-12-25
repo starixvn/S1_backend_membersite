@@ -563,20 +563,102 @@ import {number_format} from '../commJS/common';
     class DepositOptions extends React.Component {
         constructor(props) {
             super(props);
+            
+            this.state={LocalBank: false};
         }
 
         onWireTransfers() {
             this.props.onWireTransfers();
         }
 
+        componentDidMount() {
+            this.getLocalBank();
+            this.getOnlineBanking();
+        }
+
+        getLocalBank() {
+            Loading.OnLoading();            
+            axios.post('/api/Payment/GetBankInfoOffList')
+            .then(function (response) {
+                Loading.UnLoading();
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    let localBank=false;
+                    if(result.data.length>0) {
+                        localBank = true;
+                    }
+
+                    this.setState({LocalBank: localBank});
+                } else {
+                    //alert(result.message);
+                }
+            }.bind(this)).catch(function (error) {
+                Loading.UnLoading();
+                //alert(error);
+            }.bind(this));
+        }
+
+        onOnlineBanking(bankInfo) {
+            console.log(bankInfo);
+        }
+
+        getOnlineBanking() {
+            Loading.OnLoading();            
+            axios.post('/api/Payment/GetOnlineBankInfoSysList')
+            .then(function (response) {
+                Loading.UnLoading();
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    let onlineBankInfo=null;
+                    if(result.data.length>0) {
+                        onlineBankInfo = result.data;
+                    }
+
+                    this.setState({OnlineBankInfo: onlineBankInfo});
+                } else {
+                    //alert(result.message);
+                }
+            }.bind(this)).catch(function (error) {
+                Loading.UnLoading();
+                //alert(error);
+            }.bind(this));
+        }
+
         render() {
+            let onlineBankInfo = this.state.OnlineBankInfo;
+
+            let onlineBankInfoList = null;
+
+            if(onlineBankInfo!=null){
+                onlineBankInfoList = onlineBankInfo.map(function( bankInfo ,index ) { 
+                return <a key={bankInfo.sysId} className="payment__item" onClick={this.onOnlineBanking.bind(this, bankInfo)}>
+                                <div className="payment__img">
+                                    <img src={"/common/images/BankLogo/"+bankInfo.bankLogo}/>
+                                </div>
+                                <span className="payment__text">{bankInfo.bankName}</span>
+                            </a>;
+                }.bind(this));
+            }
+
             return (
             <div>
                 <div className="heading">
                     <span className="text">{i18n.lbl_Deposit}</span>
                 </div>
                 <p>{i18n.lbl_DepositOptionHint}</p>
-                <div className="panel panel-primary panel--payment" data-open="true">
+                {onlineBankInfo != null ? <div className="panel panel-primary panel--payment" data-open="true">
+                    <div className="panel__header">
+                        <span className="text">{i18n.lbl_OnlineBanking} -</span>
+                        <span className="text-accent">{i18n.lbl_CreditTime}: {i18n.lbl_Instant}</span>
+                        <i className="icon icon-caret"></i>
+                    </div>
+                    <div className="panel__body">
+                        <div className="payment">
+                           {onlineBankInfoList}
+                        </div>
+                    </div>
+                </div>: null}
+                {this.state.LocalBank ? <div className="panel panel-primary panel--payment" data-open={true}>
                     <div className="panel__header">
                         <span className="text">{i18n.lbl_WireTransfers} -</span>
                         <span className="text-accent">{i18n.lbl_CreditTime}: {i18n.lbl_5mins}</span>
@@ -586,43 +668,14 @@ import {number_format} from '../commJS/common';
                         <div className="payment">
                             <a className="payment__item" onClick={this.onWireTransfers.bind(this)}>
                                 <div className="payment__img">
-                                    <img src="../../SiteSkin/Nova88/common/images/payment/wire-transfer.png"/>
+                                    <img src="/common/images/wire-transfer.png"/>
                                 </div>
                                 <span className="payment__text">{i18n.lbl_WireTransfers}</span>
                             </a>
                         </div>
                     </div>
-                </div>
-                <div className="panel panel-primary panel--payment" data-open="true">
-                    <div className="panel__header">
-                        <span className="text">{i18n.lbl_OnlineBanking} -</span>
-                        <span className="text-accent">{i18n.lbl_CreditTime}: {i18n.lbl_Instant}</span>
-                        <i className="icon icon-caret"></i>
-                    </div>
-                    <div className="panel__body">
-                        <div className="payment">
-                            <a className="payment__item" href="#">
-                                <div className="payment__img">
-                                    <img src="../../SiteSkin/Nova88/common/images/payment/hong-leong-bank.png"/>
-                                </div>
-                                <span className="payment__text">Hong Leong</span>
-                            </a>
-                            <a className="payment__item" href="#">
-                                <div className="payment__img">
-                                    <img src="../../SiteSkin/Nova88/common/images/payment/cimb.png"/>
-                                </div>
-                                <span className="payment__text">CIMB</span>
-                            </a>
-                            <a className="payment__item" href="#">
-                                <div className="payment__img">
-                                    <img src="../../SiteSkin/Nova88/common/images/payment/help2pay.png"/>
-                                </div>
-                                <span className="payment__text">Help 2 Pay</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div className="panel panel-primary panel--payment" data-open="true">
+                </div> : null}
+                {/*<div className="panel panel-primary panel--payment" data-open="true">
                     <div className="panel__header">
                         <span className="text">{i18n.lbl_MobileDeposit} -</span>
                         <span className="text-accent">{i18n.lbl_CreditTime}: {i18n.lbl_Instant}</span>
@@ -644,7 +697,7 @@ import {number_format} from '../commJS/common';
                             </a>
                         </div>
                     </div>
-                </div>
+                </div>*/}
                 <RecentHistory onShowBankModal={this.props.onShowBankModal}/>
             </div>                
             )
@@ -675,15 +728,15 @@ import {number_format} from '../commJS/common';
    
         render() {
             let panelObj=[];
-            let panelHolder = <DepositOptions onWireTransfers={this.onWireTransfers.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)}/>;
+            let panelHolder = <DepositOptions key={1} onWireTransfers={this.onWireTransfers.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)}/>;
             if(this.state.DipositType == 1) {
-                panelHolder = <WireTransfers onDepositOptions={this.onDepositOptions.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)}/>;
+                panelHolder = <WireTransfers key={1} onDepositOptions={this.onDepositOptions.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)}/>;
             } 
 
             panelObj.push(panelHolder);
             let modalContaner=null;
 
-            modalContaner = this.state.showModal ? <BankModal bankInfo={this.state.bankInfo} onCloseModal={this.onCloseModal.bind(this)}/> : null;
+            modalContaner = this.state.showModal ? <BankModal key={2} bankInfo={this.state.bankInfo} onCloseModal={this.onCloseModal.bind(this)}/> : null;
             panelObj.push(modalContaner);
             return (
                 panelObj

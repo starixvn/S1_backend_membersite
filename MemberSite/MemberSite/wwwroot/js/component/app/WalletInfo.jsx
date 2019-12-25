@@ -59,7 +59,7 @@ import {number_format} from '../commJS/common';
                 <div className="balance-info">
                     <div className="balance-info__option">
                         <label className="checkbox">
-                            <input type="checkbox" checked={walletInfo!=null? !walletInfo.isHideBalance: true} onClick={this.onHideBalance.bind(this)}/>
+                            <input type="checkbox" checked={walletInfo!=null? !walletInfo.isHideBalance: true} onClick={this.onHideBalance.bind(this)} readOnly/>
                             <i className="icon icon-checkbox"></i>
                             <span className="text">{i18n.lbl_ShowBalance}</span>
                         </label>
