@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +16,18 @@ namespace MemberSite.Service.BLL
         private readonly DepoistService depoistService;
         private readonly WithdrawalService withdrawalService;
         private readonly BankInfoBLL bankInfoBLL;
+        private readonly PayService payService;
+        private readonly IMemoryCache cache;
 
-        public PaymentBLL(BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService)
+        public PaymentBLL(IMemoryCache cache, PayService payService, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.custInfoBLL = custInfoBLL;
             this.depoistService = depoistService;
             this.withdrawalService = withdrawalService;
             this.bankInfoBLL = bankInfoBLL;
+            this.payService = payService;
+            this.cache = cache;
         }
 
         public int DepositReqWireTransfer(int custId, int sysId, decimal amount, string memo, out DepositRep3 depositRep3)
@@ -172,6 +177,24 @@ namespace MemberSite.Service.BLL
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var withdrawalInfoHistory = withdrawalService.GetWithdrawalInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
             return withdrawalInfoHistory;
+        }
+
+        public IEnumerable<PayCurrency> GetPayCurrency()
+        {
+            string key = "PayCurrency";
+            var payCurrency = cache.Get<IEnumerable<PayCurrency>>(key);
+
+            if (payCurrency == null)
+            {
+                payCurrency = payService.GetPayCurrency();
+                if (payCurrency != null)
+                {
+                    var expireTime = TimeSpan.FromMinutes(5);
+                    cache.Set(key, payCurrency, new MemoryCacheEntryOptions().SetAbsoluteExpiration(expireTime));
+                }
+            }
+
+            return payCurrency;
         }
     }
 }

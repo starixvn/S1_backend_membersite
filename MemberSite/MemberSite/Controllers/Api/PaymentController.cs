@@ -37,10 +37,10 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<SysBankInfoOff>> GetBankInfoOffList()
+        public ApiResult<IEnumerable<SysBankInfoFront>> GetBankInfoOffList()
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<SysBankInfoOff>>();
+            var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>();
             apiResult.Data = bankInfoOffBLL.GetBankInfoOffList(authData.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;

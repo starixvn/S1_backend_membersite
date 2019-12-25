@@ -59,6 +59,7 @@ namespace MemberSite
             services.AddSingleton<WalletService>();
             services.AddSingleton<MessageService>();
             services.AddSingleton<ThirdPartyService>();
+            services.AddSingleton<PayService>();
 
             /*BLL*/
             services.AddSingleton<ServerInfoBLL>();

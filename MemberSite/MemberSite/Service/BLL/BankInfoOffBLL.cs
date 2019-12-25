@@ -38,20 +38,20 @@ namespace MemberSite.Service.BLL
             return BankInfoOffList;
         }
 
-        private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoOff>
+        private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>
         {
-            public bool Equals(SysBankInfoOff t1, SysBankInfoOff t2)
+            public bool Equals(SysBankInfoFront t1, SysBankInfoFront t2)
             {
                 return (t1.SysId == t2.SysId && t1.BankCode == t2.BankCode);
             }
 
-            public int GetHashCode(SysBankInfoOff t)
+            public int GetHashCode(SysBankInfoFront t)
             {
                 return t.ToString().GetHashCode();
             }
         }
 
-        public IEnumerable<SysBankInfoOff> GetBankInfoOffList(int custId)
+        public IEnumerable<SysBankInfoFront> GetBankInfoOffList(int custId)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
@@ -59,7 +59,7 @@ namespace MemberSite.Service.BLL
             var _info = (from x in bankAccountOffList
                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
                          orderby x.PointLevel descending, x.Sort
-                         select new SysBankInfoOff
+                         select new SysBankInfoFront
                          {
                              SysId = x.SysId,
                              BankCode = x.BankCode,

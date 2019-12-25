@@ -13,12 +13,18 @@ namespace MemberSite.Service.BLL
         private readonly BankInfoService bankInfoService;
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly IMemoryCache cache;
+        private readonly CustInfoBLL custInfoBLL;
+        private readonly SysBankInfoOffComparer sysBankInfoOffComparer;
+        private readonly PaymentBLL paymentBLL;
 
-        public BankInfoBLL(IMemoryCache cache, BankInfoService bankInfoService, ServerInfoBLL serverInfoBLL)
+        public BankInfoBLL(IMemoryCache cache, PaymentBLL paymentBLL, BankInfoService bankInfoService, ServerInfoBLL serverInfoBLL, CustInfoBLL custInfoBLL)
         {
             this.bankInfoService = bankInfoService;
             this.serverInfoBLL = serverInfoBLL;
             this.cache = cache;
+            this.custInfoBLL = custInfoBLL;
+            sysBankInfoOffComparer = new SysBankInfoOffComparer();
+            this.paymentBLL = paymentBLL;
         }
         public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int CurrencyId)
         {
@@ -61,10 +67,63 @@ namespace MemberSite.Service.BLL
 
             return bankInfoSysList?.Where(x => x.CurrencyId == CurrencyId);
         }
-
-        public IEnumerable<BankInfoPay> GetOnlineBankInfoSysList()
+        private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>
         {
-            return bankInfoService.GetBankInfoPayList();
+            public bool Equals(SysBankInfoFront t1, SysBankInfoFront t2)
+            {
+                return (t1.SysId == t2.SysId && t1.BankCode == t2.BankCode);
+            }
+
+            public int GetHashCode(SysBankInfoFront t)
+            {
+                return t.ToString().GetHashCode();
+            }
+        }
+        public IEnumerable<SysBankInfoFront> GetOnlineBankInfoSysList(int custId)
+        {
+            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var bankInfoPayList = bankInfoService.GetBankInfoPayList();
+
+            var bankInfoList = (from x in bankInfoPayList
+                                where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
+                                select new SysBankInfoFront
+                                {
+                                    SysId = x.SysId,
+                                    BankCode = x.SysBankCode,
+                                    BankLogo = x.BankLogo,
+                                    BankName = x.SysBankName,
+                                }).Distinct(sysBankInfoOffComparer);
+
+            return bankInfoList;
+        }
+
+        public BankInfoPayFront GetOnlineBankInfo(int custId, int sysId)
+        {
+            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var bankInfoPayList = bankInfoService.GetBankInfoPayList();
+
+            var bankInfo = (from x in bankInfoPayList
+                            where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId
+                            orderby x.PointLevel descending, x.MSort, x.SSort
+                            select new BankInfoPayFront
+                            {
+                                SysId = x.SysId,
+                                BankCode = x.BankCode,
+                                BankLogo = x.BankLogo,
+                                BankName = x.SysBankName,/*x.SysBankCode*/
+                                ChannelId = x.ChannelId
+                            }).FirstOrDefault();
+
+            var payCurrency = paymentBLL.GetPayCurrency().Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == bankInfo.ChannelId).FirstOrDefault();
+            if (payCurrency != null)
+            {
+                bankInfo.MinAmount = payCurrency.MinAmount;
+                bankInfo.MaxAmount = payCurrency.MaxAmount;
+            }
+
+            return bankInfo;
         }
 
         public IEnumerable<BankInfoPay> GetOnlineBankList()
