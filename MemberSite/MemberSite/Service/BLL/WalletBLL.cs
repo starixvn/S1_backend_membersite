@@ -22,7 +22,7 @@ namespace MemberSite.Service.BLL
         }
         public decimal GetBalance(int custId)
         {
-            return walletService.GetBalance(custId);
+            return tools.Floor(walletService.GetBalance(custId), 2);
         }
         public string GetFmtBalance(int custId)
         {

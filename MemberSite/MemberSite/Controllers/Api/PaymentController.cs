@@ -24,6 +24,7 @@ namespace MemberSite.Controllers.Api
         private readonly BankInfoBLL bankInfoBLL;
         private readonly CourierAdapter courierAdapter;
         private readonly string tpApiUrl;
+        private readonly int mainWalletType;
 
         public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL)
         {
@@ -34,6 +35,7 @@ namespace MemberSite.Controllers.Api
             this.bankInfoBLL = bankInfoBLL;
             this.courierAdapter = courierAdapter;
             tpApiUrl = configuration.GetValue<string>("TpService");
+            mainWalletType = configuration.GetValue<int>("MainWalletType");
         }
 
         [HttpPost]
@@ -171,12 +173,21 @@ namespace MemberSite.Controllers.Api
             }
             int result = 99;
             /*Temp will be Removed*/
-            var input = new TpTransfer();
-            input.Amount = withdrawalReqModel.amount;
-            input.CustId = authData.CustId;
-            input.direction = TpDirection.ToMain;
-            input.TpId = 1;
-            var transferToSabaResult = await TransferToSabaAsync(input);
+            ApiResult<TransferResult> transferToSabaResult = null;
+            if (mainWalletType == 2)
+            {
+                var input = new TpTransfer();
+                input.Amount = withdrawalReqModel.amount;
+                input.CustId = authData.CustId;
+                input.direction = TpDirection.ToMain;
+                input.TpId = 1;
+                transferToSabaResult = await TransferToSabaAsync(input);
+            }
+            else
+            {
+                transferToSabaResult = new ApiResult<TransferResult>();
+                transferToSabaResult.ErrorCode = 0;
+            }
             /*Temp*/
             if (transferToSabaResult.ErrorCode == 0)
             {
@@ -259,7 +270,6 @@ namespace MemberSite.Controllers.Api
         }
         public async Task<ApiResult<TransferResult>> TransferToSabaAsync(TpTransfer inTpTransfer)
         {
-            var authData = authorizeBLL.GetAuthData();
             decimal amount = inTpTransfer.Amount;
             if (amount.ToString().IndexOf(".") > -1)
             {
@@ -269,7 +279,7 @@ namespace MemberSite.Controllers.Api
             var tpTransfer = new TpTransfer
             {
                 TpId = inTpTransfer.TpId,
-                CustId = authData.CustId,
+                CustId = inTpTransfer.CustId,
                 Amount = amount,
                 direction = inTpTransfer.direction,
                 inputs = null
