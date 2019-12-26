@@ -109,13 +109,14 @@ namespace MemberSite.Service.BLL
 
             return 0;
         }
-        public int DepositReqOnlineBanking(int custId, int channelId, decimal amount,out string transId)
+        public int DepositReqOnlineBanking(int custId, int sysId, int payId, int channelId, decimal amount, out string transId, out BankInfoPay onlineBank)
         {
             transId = null;
+            onlineBank = null;
             if (amount <= 0)
                 return -1;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var payCurrency = bankInfoBLL.GetPayCurrency().Where(x => x.CurrencyId == channelId && custInfo.CurrencyId == x.CurrencyId).FirstOrDefault();
+            var payCurrency = bankInfoBLL.GetPayCurrency().Where(x => x.ChannelId == channelId && custInfo.CurrencyId == x.CurrencyId).FirstOrDefault();
 
             if (payCurrency == null || payCurrency.MaxAmount < amount || payCurrency.MinAmount > amount)
             {
@@ -124,9 +125,9 @@ namespace MemberSite.Service.BLL
 
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
             var onlineBankList = bankInfoBLL.GetOnlineBankList();
-            var _info = onlineBankList.Where(x => vipLevel >= x.PointLevel && x.ChannelId == channelId && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            onlineBank = onlineBankList.Where(x => vipLevel >= x.PointLevel && x.ChannelId == channelId && x.SysId == sysId && x.PayId == payId && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
-            if (_info != null)
+            if (onlineBank != null)
             {
                 DepositDetailInfo depositDetailInfo = new DepositDetailInfo();
                 depositDetailInfo.Amount = amount;
@@ -135,7 +136,7 @@ namespace MemberSite.Service.BLL
                 depositDetailInfo.Memo = null;
                 depositDetailInfo.SiteId = custInfo.SiteId;
                 depositDetailInfo.UserName = custInfo.UserName;
-                depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(_info);
+                depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(onlineBank);
                 string postScript = null;
 
                 depoistService.DepositReq(depositDetailInfo, out transId, out postScript);

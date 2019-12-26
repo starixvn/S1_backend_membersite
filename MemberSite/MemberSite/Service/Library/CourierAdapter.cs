@@ -34,6 +34,13 @@ namespace MemberSite.Service.Library
                 string responseBody = await response.Content.ReadAsStringAsync();
                 oApiResult = JsonConvert.DeserializeObject<ApiResult<T>>(responseBody);
             }
+            else
+            {
+                oApiResult = new ApiResult<T>();
+                oApiResult.ErrorCode = 9000;
+                string responseBody = await response?.Content?.ReadAsStringAsync();
+                oApiResult.RawMessage = responseBody;
+            }
             return oApiResult;
         }
     }

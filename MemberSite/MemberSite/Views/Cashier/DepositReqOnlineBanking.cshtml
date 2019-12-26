@@ -1,0 +1,29 @@
+﻿@using MemberSite.Service.Model
+@model ApiResult<PayResult>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DepositReqOnlineBankingAsync</title>
+</head>
+<body>
+    @if (Model.ErrorCode == 0)
+    {
+        var payResult = Model.Data;
+        if (payResult.Mode == 1)
+        {
+            <form method="post" action="@payResult.Url">
+                @foreach (var param in payResult.FormData)
+                {
+                    <input type="hidden" name="@param.Key" value="@param.Value" />
+                }
+                @*<button type="submit">Submit</button>*@
+            </form>
+            <script>document.forms[0].submit();</script>
+        }
+    }
+</body>
+</html>

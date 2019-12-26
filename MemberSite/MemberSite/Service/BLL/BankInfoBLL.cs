@@ -110,6 +110,7 @@ namespace MemberSite.Service.BLL
                             select new BankInfoPayFront
                             {
                                 SysId = x.SysId,
+                                PayId = x.PayId,
                                 BankCode = x.BankCode,
                                 BankLogo = x.BankLogo,
                                 BankName = x.SysBankName,/*x.SysBankCode*/

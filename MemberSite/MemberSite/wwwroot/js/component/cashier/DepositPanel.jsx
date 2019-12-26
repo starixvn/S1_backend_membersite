@@ -649,24 +649,8 @@ import {number_format} from '../commJS/common';
 
         onConfirm() {
             this.setState({showTodModal:false});
-            Loading.OnLoading();
-            let data = {sysId: this.state.PickBankInfoOff.sysId, amount:this.state.Amount};
-            axios.post('/api/Payment/DepositReqOnlineBanking', data)
-            .then(function (response) {
-                Loading.UnLoading();
-                let result = response.data;
-                if (result.errorCode == 0) {
-                    let bankInfo = result.data;
-                    bankInfo.amount=this.state.Amount;
-                } else {
-                    alert(result.message);
-                    this.setState({showTodModal:true});
-                }
-            }.bind(this)).catch(function (error) {
-                Loading.UnLoading();
-                alert(error);
-                this.setState({showTodModal:true});                    
-            }.bind(this));
+            let bankInfoPay = this.state.BankInfoPay;
+            window.open(OnlineBankingUrl + "?sysId="+ bankInfoPay.sysId + "&payId=" + bankInfoPay.payId + "&ChannelId="+ this.state.BankInfoPay.channelId +"&Amount="+this.state.Amount);
         }
 
         render() {
@@ -748,7 +732,25 @@ import {number_format} from '../commJS/common';
         }
 
         getOnlineBanking() {
-            window.open('/api/Account/GetWalletInfo');
+            Loading.OnLoading();            
+            axios.post('/api/Payment/GetOnlineBankInfoSysList')
+            .then(function (response) {
+                Loading.UnLoading();
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    let onlineBankInfo=null;
+                    if(result.data.length>0) {
+                        onlineBankInfo = result.data;
+                    }
+
+                    this.setState({OnlineBankInfo: onlineBankInfo});
+                } else {
+                    //alert(result.message);
+                }
+            }.bind(this)).catch(function (error) {
+                Loading.UnLoading();
+                //alert(error);
+            }.bind(this));
         }
 
         render() {

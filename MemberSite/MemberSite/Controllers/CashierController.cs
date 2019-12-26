@@ -38,11 +38,13 @@ namespace MemberSite.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DepositReqOnlineBankingAsync(int ChannelId, decimal Amount)
+        public async Task<IActionResult> DepositReqOnlineBankingAsync(int sysId, int payId, int ChannelId, decimal Amount)
         {
             var authData = authorizeBLL.GetAuthData();
             string transId = null;
-            var result = paymentBLL.DepositReqOnlineBanking(authData.CustId, ChannelId, Amount, out transId);
+            BankInfoPay onlineBank = null;
+            var result = paymentBLL.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount, out transId, out onlineBank);
+            var apiResult = new ApiResult<PayResult>();
             if (result == 0)
             {
                 var reqDepositBank = new ReqDepositBank
@@ -50,16 +52,26 @@ namespace MemberSite.Controllers
                     TransId = transId,
                     CustId = authData.CustId,
                     Amount = Amount,
+                    PayId = onlineBank.PayId,
+                    SysId = onlineBank.SysId,
                     ClientIP = tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", authData.LangId })
+                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", authData.LangId }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
                 };
 
                 var myUrl = $"{payApiUrl}ReqDepositBank";
-                var apiResult = await courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
-                return View(apiResult);
+                apiResult = await courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
+                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
+                {
+                    return Redirect(apiResult.Data.Url);
+                }
+            }
+            else
+            {
+                apiResult.ErrorCode = result;
+                apiResult.Message = "Error.";
             }
 
-            return View();
+            return View(apiResult);
         }
 
         public class ReqDeposit
