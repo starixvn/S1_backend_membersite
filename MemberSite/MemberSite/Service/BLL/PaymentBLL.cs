@@ -58,8 +58,9 @@ namespace MemberSite.Service.BLL
                 depositDetailInfo.SiteId = custInfo.SiteId;
                 depositDetailInfo.UserName = custInfo.UserName;
 
-                DepositInfo3_1 depositInfo3_1 = new DepositInfo3_1();
+                var depositInfo3_1 = new DepositInfo3_1();
                 depositInfo3_1.AccountName = _info.AccountName;
+                depositInfo3_1.CurrencyId = custInfo.CurrencyId;
                 depositInfo3_1.SysId = _info.SysId;
                 depositInfo3_1.AccountNo = _info.AccountNo;
                 depositInfo3_1.Ver = 1;

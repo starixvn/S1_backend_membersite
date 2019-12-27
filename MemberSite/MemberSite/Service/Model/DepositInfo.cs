@@ -10,6 +10,7 @@ namespace MemberSite.Service.Model
     public interface IDepositInfo
     {
         int Ver { get; set; }
+        int CurrencyId { get; set; }
     }
     public class DepositDetailInfo
     {
@@ -29,10 +30,12 @@ namespace MemberSite.Service.Model
     public class DepositInfo1_1 : IDepositInfo
     {
         public int Ver { get; set; }
+        public int CurrencyId { get; set; }
     }
     public class DepositInfo2_1 : IDepositInfo
     {
         public int Ver { get; set; }
+        public int CurrencyId { get; set; }
     }
     public class DepositInfo3_1 : IDepositInfo
     {
@@ -40,6 +43,7 @@ namespace MemberSite.Service.Model
         public int SysId { get; set; }
         public string AccountName { get; set; }
         public string AccountNo { get; set; }
+        public int CurrencyId { get; set; }
     }
 
     public class DepositRep3
