@@ -370,8 +370,8 @@ import {number_format} from '../commJS/common';
                     <div class="text-group">
                         <span className="text">{data.bankName}</span>
                         {data.minAmount == 0 && data.maxAmount == 0 ? 
-                            <span className="text">{"( Limit : "}<span className="text-accent">{"unlimited."}</span>{")"}</span>
-                        : <span className="text">{"( Limit : "}<span className="text-accent">{number_format(data.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(data.maxAmount)}</span>{" )"}</span>
+                            <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{i18n.lbl_Unlimited}</span>{" )"}</span>
+                        : <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{number_format(data.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(data.maxAmount)}</span>{" )"}</span>
                         }
                     </div>
                 </div>                
@@ -389,8 +389,8 @@ import {number_format} from '../commJS/common';
                                 <div className="text-group">
                                     <span className="text">{PickBankInfoOff.bankName}</span>
                                     {PickBankInfoOff.minAmount == 0 && PickBankInfoOff.maxAmount == 0 ? 
-                                        <span className="text">{"( Limit : "}<span className="text-accent">{"unlimited."}</span>{")"}</span>
-                                    : <span className="text">{"( Limit : "}<span className="text-accent">{number_format(PickBankInfoOff.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(PickBankInfoOff.maxAmount)}</span>{" )"}</span>
+                                    <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{i18n.lbl_Unlimited}</span>{" )"}</span>
+                                    : <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{number_format(PickBankInfoOff.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(PickBankInfoOff.maxAmount)}</span>{" )"}</span>
                                     }
                                 </div>
                                 <i className="icon icon-caret"></i>
@@ -675,7 +675,7 @@ import {number_format} from '../commJS/common';
             return (
             BankInfoPay != null ? <div>
                 <div className="heading">
-                    <span className="text">Online Banking</span>
+                    <span className="text">{i18n.lbl_OnlineBanking}</span>
                 </div>
                 <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                     <div class="payment">
@@ -685,7 +685,7 @@ import {number_format} from '../commJS/common';
                         <span className="payment__name">{BankInfoPay.bankName}</span>
                     </div>
                     {Inputs}
-                    <div><span className="text">{"( Limit : "}<span className="text-accent">{number_format(BankInfoPay.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(BankInfoPay.maxAmount)}</span>{" )"}</span></div>                    
+                    <div><span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{number_format(BankInfoPay.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(BankInfoPay.maxAmount)}</span>{" )"}</span></div>                    
                     <div className="btn-group">
                         <button className="btn btn-primary" type="button" onClick={this.onDepositOptions.bind(this)}>
                             <div className="btn__inner">

@@ -170,7 +170,7 @@ class LoginForm extends React.Component {
                             <i className="icon icon-clear"></i>
                         </button>
                     </div>
-                    <p>{i18n.lbl_NoAccount}
+                    <p>{i18n.lbl_DontHaveAccount }
                         <a className="text-link" href={joinNowUrl}><span className="text">{i18n.lbl_JoinNow}</span></a>.
                     </p>
                     <form onSubmit={this.handleSubmit.bind(this)}>

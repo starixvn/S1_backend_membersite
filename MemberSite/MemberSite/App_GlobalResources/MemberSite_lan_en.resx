@@ -390,6 +390,9 @@
   <data name="lbl_LastTransaction" xml:space="preserve">
     <value>Last Transaction</value>
   </data>
+  <data name="lbl_Limit" xml:space="preserve">
+    <value>Limit</value>
+  </data>
   <data name="lbl_LiveCasino" xml:space="preserve">
     <value>Live Casino</value>
   </data>
@@ -428,9 +431,6 @@
   </data>
   <data name="lbl_NewPassword" xml:space="preserve">
     <value>New Password</value>
-  </data>
-  <data name="lbl_NoAccount" xml:space="preserve">
-    <value>Don't have an account?</value>
   </data>
   <data name="lbl_NotinLimit" xml:space="preserve">
     <value>not in Limit.</value>
@@ -578,6 +578,9 @@
   </data>
   <data name="lbl_TwitterSite" xml:space="preserve">
     <value>@Nova88official</value>
+  </data>
+  <data name="lbl_Unlimit" xml:space="preserve">
+    <value>Unlimit</value>
   </data>
   <data name="lbl_Update" xml:space="preserve">
     <value>Update</value>
