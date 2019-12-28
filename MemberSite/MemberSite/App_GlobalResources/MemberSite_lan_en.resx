@@ -579,8 +579,8 @@
   <data name="lbl_TwitterSite" xml:space="preserve">
     <value>@Nova88official</value>
   </data>
-  <data name="lbl_Unlimit" xml:space="preserve">
-    <value>Unlimit</value>
+  <data name="lbl_Unlimited" xml:space="preserve">
+    <value>Unlimited</value>
   </data>
   <data name="lbl_Update" xml:space="preserve">
     <value>Update</value>
