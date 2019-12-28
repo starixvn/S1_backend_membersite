@@ -167,12 +167,15 @@ export class InputBox extends React.Component {
 
     handleChange(event) {
         if(this._dataField.name == "Amount") {
-            if(!isNaN(event.target.value)) {
+            var re = /^\+?[1-9][0-9]*$/;
+            if(!isNaN(event.target.value) && re.test(event.target.value)) {
                 if (IsConvertRequired) {
                     this._dataField.Value = parseFloat(event.target.value) * 1000;
                 } else {
                     this._dataField.Value = event.target.value;
                 }
+            } else if(event.target.value=="") {
+                this._dataField.Value = event.target.value;
             }
         } else {
             this._dataField.Value = event.target.value;
