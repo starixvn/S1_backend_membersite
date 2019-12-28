@@ -6,8 +6,12 @@ export function getUrlParameter(name) {
 }
 
 export function number_format(n) {
+    if(!isNaN(n) && IsConvertRequired) {
+        n /= 1000;
+    }
+
     n += "";
     var arr = n.split(".");
     var re = /(\d{1,3})(?=(\d{3})+$)/g;
-    return arr[0].replace(re, "$1,") + (arr.length == 2 ? "." + arr[1] : "");
+    return arr[0].replace(re, "$1,") + (arr.length == 2 ? "." + arr[1] : "") + (IsConvertRequired ? " ('000)" : "");
 }

@@ -48,11 +48,11 @@ import {number_format} from '../commJS/common';
                             <div className="tbody">
                                 <div className="tr">
                                     <div className="td-left">
-                                        <div class="payment">
-                                            <div class="payment__img">
+                                        <div className="payment">
+                                            <div className="payment__img">
                                                 <img src={"/common/images/BankLogo/"+bankInfo.bankLogo}/>
                                             </div>
-                                            <div class="payment__name">
+                                            <div className="payment__name">
                                                 <span className="text">{bankInfo.bankName}</span>
                                             </div>
                                         </div>
@@ -367,7 +367,7 @@ import {number_format} from '../commJS/common';
                     <div className="payment-thumbnail">
                         <img src={"/common/images/BankLogo/" + data.bankLogo}/>
                     </div>    
-                    <div class="text-group">
+                    <div className="text-group">
                         <span className="text">{data.bankName}</span>
                         {data.minAmount == 0 && data.maxAmount == 0 ? 
                             <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{i18n.lbl_Unlimited}</span>{" )"}</span>
@@ -678,7 +678,7 @@ import {number_format} from '../commJS/common';
                     <span className="text">{i18n.lbl_OnlineBanking}</span>
                 </div>
                 <form className="form" onSubmit={this.handleSubmit.bind(this)}>
-                    <div class="payment">
+                    <div className="payment">
                         <div className="payment__img">
                             <img src={"/common/images/BankLogo/" + BankInfoPay.bankLogo}/>
                         </div>

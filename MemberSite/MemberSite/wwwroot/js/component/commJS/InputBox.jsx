@@ -166,7 +166,17 @@ export class InputBox extends React.Component {
     }
 
     handleChange(event) {
-        this._dataField.Value=event.target.value;
+        if(this._dataField.name == "Amount") {
+            if(!isNaN(event.target.value)) {
+                if (IsConvertRequired) {
+                    this._dataField.Value = parseFloat(event.target.value) * 1000;
+                } else {
+                    this._dataField.Value = event.target.value;
+                }
+            }
+        } else {
+            this._dataField.Value = event.target.value;
+        }
         this.forceUpdate();
     }
 
@@ -187,7 +197,14 @@ export class InputBox extends React.Component {
                 let __Value = this._dataField.Value;
                 ShowPwdBtn = (__Value&&__Value.length>0)||this.state.ShowPwd ? <a className="btn btn-icon btn-form-togglepw" data-visibility={!this.state.ShowPwd} onClick={this.onShowPwd.bind(this)}><i className="icon icon--lg"></i></a>:null;
             }
-            input=<input type={thisType} className="textfield__input" placeholder={field.placeholder} onChange={field.status != 4 ? this.handleChange.bind(this) : null} readOnly={field.status == 4} value={this._dataField.Value} onBlur={this.onBlur.bind(this)} pattern={field.objectType==5 ? "[0-9]+([\\.,][0-9]+)?": null} autoComplete={this._autoComplete}/>;
+            
+            let dispValue = field.Value;
+
+            if (field.name == "Amount" && !isNaN(dispValue) && IsConvertRequired) {
+                dispValue = parseFloat(dispValue) / 1000;
+            }
+
+            input=<input type={thisType} className="textfield__input" placeholder={field.placeholder} onChange={field.status != 4 ? this.handleChange.bind(this) : null} readOnly={field.status == 4} value={dispValue} onBlur={this.onBlur.bind(this)} pattern={field.name == "Amount" ? "[0-9]*": null} autoComplete={this._autoComplete}/>;
         }
 
         let inputPanel = null;
@@ -195,6 +212,7 @@ export class InputBox extends React.Component {
         if(field.objectType != 3) {
             inputPanel = <div className="textfield">
                 {input}
+                {IsConvertRequired ? <span className="text">('000)</span> : null}
                 <span className="textfield__bg"></span>
                 {ShowPwdBtn}
                 <a className="btn btn-icon btn-form-status" onClick={field.status==1?this.onShowTooltip.bind(this):null}>

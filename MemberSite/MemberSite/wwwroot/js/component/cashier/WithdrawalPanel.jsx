@@ -172,7 +172,7 @@ import {number_format} from '../commJS/common';
                         <div className="dropdown dropdown-default" data-open={this.state.dropdown}>
                             <a className="btn" onClick={this.onDropdown.bind(this)}>
                                 <div className="payment-thumbnail">
-                                    <img src={"/common/images/BankLogo/" + PickBankInfoOff.bankLogo} />
+                                    <img src={"/common/images/BankLogo/" + PickBankInfo.bankLogo} />
                                 </div> 
                                 <div className="text-group">
                                     <span className="text">{PickBankInfo.bankName}</span>
