@@ -75,18 +75,18 @@ import {number_format} from '../commJS/common';
                         <div className="form-group flex-3">
                             <label className="form-title">{i18n.lbl_Date}</label>
                             <div className="form-content form-content--date">
-                                <div className="textfield">
+                                <label className="textfield">
                                     <span className="text">{i18n.lbl_From}</span>
                                     <input type="date" className="textfield__input" value={this.state.StartDate} onChange={this.onStartDate.bind(this)} />
                                     <i className="icon icon-calendar"></i>
                                     <span className="textfield__bg"></span>
-                                </div>
-                                <div className="textfield">
+                                </label>
+                                <label className="textfield">
                                     <span className="text">{i18n.lbl_To}</span>
                                     <input type="date" className="textfield__input" value={this.state.EndDate} onChange={this.onEndDate.bind(this)}/>
                                     <i className="icon icon-calendar"></i>
                                     <span className="textfield__bg"></span>
-                                </div>
+                                </label>
                             </div>
                         </div>
                     </div>

@@ -48,8 +48,14 @@ import {number_format} from '../commJS/common';
                             <div className="tbody">
                                 <div className="tr">
                                     <div className="td-left">
-                                        <img src={"/common/images/BankLogo/"+bankInfo.bankLogo}/>
-                                        <span className="text">{bankInfo.bankName}</span>
+                                        <div class="payment">
+                                            <div class="payment__img">
+                                                <img src={"/common/images/BankLogo/"+bankInfo.bankLogo}/>
+                                            </div>
+                                            <div class="payment__name">
+                                                <span className="text">{bankInfo.bankName}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className="td-right">
                                         <a className="btn btn-icon text-primary" target="_blank" href={bankInfo.bankSite}>
@@ -153,11 +159,13 @@ import {number_format} from '../commJS/common';
                         <div className="table table-modal">
                             <div className="tbody">
                                 <div className="tr">
-                                    <div className="td-left">
-                                        <span className="text-lowlight">{i18n.lbl_TransferTo}</span>
-                                    </div>
-                                    <div className="td-right">
-                                        <span className="text">{this.props.PickBankInfoOff.bankName}</span>
+                                    <div className="td-right payment">
+                                        <div className="payment__img">
+                                            <img src={"/common/images/BankLogo/" + this.props.PickBankInfoOff.bankLogo}/>
+                                        </div>
+                                        <div className="payment__name">
+                                            <span className="text">{this.props.PickBankInfoOff.bankName}</span>
+                                        </div>
                                     </div>
                                 </div>                                
                                 <div className="tr">
@@ -356,10 +364,13 @@ import {number_format} from '../commJS/common';
             let PickBankInfoOff = this.props.PickBankInfoOff;
             let DropdownItem=this.props.BankInfoOffList.map(function( data ) { 
                 return <div className="dropdown__item" key={data.sysId} onClick={this.onPickBankInfoOff.bind(this, data)} data-selected={data.sysId==PickBankInfoOff.sysId}>
-                    <div className="text-group">
+                    <div className="payment-thumbnail">
+                        <img src={"/common/images/BankLogo/" + data.bankLogo}/>
+                    </div>    
+                    <div class="text-group">
                         <span className="text">{data.bankName}</span>
                         {data.minAmount == 0 && data.maxAmount == 0 ? 
-                            <span className="text">{"( Limit : "}<span className="text-accent">{"unlimited."}</span></span>
+                            <span className="text">{"( Limit : "}<span className="text-accent">{"unlimited."}</span>{")"}</span>
                         : <span className="text">{"( Limit : "}<span className="text-accent">{number_format(data.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(data.maxAmount)}</span>{" )"}</span>
                         }
                     </div>
@@ -372,10 +383,13 @@ import {number_format} from '../commJS/common';
                     <div className="form-content">
                         <div className="dropdown dropdown-default" data-open={this.state.dropdown}>
                             <a className="btn" onClick={this.onDropdown.bind(this)}>
+                                <div className="payment-thumbnail">
+                                    <img src={"/common/images/BankLogo/" + PickBankInfoOff.bankLogo} />
+                                </div>   
                                 <div className="text-group">
                                     <span className="text">{PickBankInfoOff.bankName}</span>
                                     {PickBankInfoOff.minAmount == 0 && PickBankInfoOff.maxAmount == 0 ? 
-                                        <span className="text">{"( Limit : "}<span className="text-accent">{"unlimited."}</span></span>
+                                        <span className="text">{"( Limit : "}<span className="text-accent">{"unlimited."}</span>{")"}</span>
                                     : <span className="text">{"( Limit : "}<span className="text-accent">{number_format(PickBankInfoOff.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(PickBankInfoOff.maxAmount)}</span>{" )"}</span>
                                     }
                                 </div>
@@ -664,10 +678,12 @@ import {number_format} from '../commJS/common';
                     <span className="text">Online Banking</span>
                 </div>
                 <form className="form" onSubmit={this.handleSubmit.bind(this)}>
-                    <div className="payment__img">
-                        <img src={"/common/images/BankLogo/"+BankInfoPay.bankLogo}/>
+                    <div class="payment">
+                        <div className="payment__img">
+                            <img src={"/common/images/BankLogo/" + BankInfoPay.bankLogo}/>
+                        </div>
+                        <span className="payment__name">{BankInfoPay.bankName}</span>
                     </div>
-                    <span className="payment__text">{BankInfoPay.bankName}</span>
                     {Inputs}
                     <div><span className="text">{"( Limit : "}<span className="text-accent">{number_format(BankInfoPay.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(BankInfoPay.maxAmount)}</span>{" )"}</span></div>                    
                     <div className="btn-group">
@@ -760,11 +776,11 @@ import {number_format} from '../commJS/common';
 
             if(onlineBankInfo!=null){
                 onlineBankInfoList = onlineBankInfo.map(function( bankInfo ,index ) { 
-                return <a key={bankInfo.sysId} className="payment__item" onClick={this.onOnlineBanking.bind(this, bankInfo)}>
+                return <a key={bankInfo.sysId} className="payment" onClick={this.onOnlineBanking.bind(this, bankInfo)}>
                                 <div className="payment__img">
-                                    <img src={"/common/images/BankLogo/"+bankInfo.bankLogo}/>
+                                    <img src={"/common/images/BankLogo/" + bankInfo.bankLogo}/>
                                 </div>
-                                <span className="payment__text">{bankInfo.bankName}</span>
+                                <span className="payment__name">{bankInfo.bankName}</span>
                             </a>;
                 }.bind(this));
             }
@@ -782,7 +798,7 @@ import {number_format} from '../commJS/common';
                         <i className="icon icon-caret"></i>
                     </div>
                     <div className="panel__body">
-                        <div className="payment">
+                        <div className="payment-list">
                            {onlineBankInfoList}
                         </div>
                     </div>
@@ -794,12 +810,12 @@ import {number_format} from '../commJS/common';
                         <i className="icon icon-caret"></i>
                     </div>
                     <div className="panel__body">
-                        <div className="payment">
-                            <a className="payment__item" onClick={this.onWireTransfers.bind(this)}>
+                        <div className="payment-list">
+                            <a className="payment" onClick={this.onWireTransfers.bind(this)}>
                                 <div className="payment__img">
                                     <img src="/common/images/wire-transfer.png"/>
                                 </div>
-                                <span className="payment__text">{i18n.lbl_WireTransfers}</span>
+                                <span className="payment__name">{i18n.lbl_WireTransfers}</span>
                             </a>
                         </div>
                     </div>
@@ -812,11 +828,11 @@ import {number_format} from '../commJS/common';
                     </div>
                     <div className="panel__body">
                         <div className="payment">
-                            <a className="payment__item" href="#">
+                            <a className="payment" href="#">
                                 <div className="payment__img">
                                     <img src="../../SiteSkin/Nova88/common/images/payment/alipay.png"/>
                                 </div>
-                                <span className="payment__text">Alipay</span>
+                                <span className="payment__name">Alipay</span>
                             </a>
                             <a className="payment__item" href="#">
                                 <div className="payment__img">

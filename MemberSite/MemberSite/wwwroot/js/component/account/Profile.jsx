@@ -132,7 +132,7 @@ class ProfileForm extends React.Component {
                 <div className="heading">
                     <span className="text">{"Profile"}</span>
                 </div>
-                <form className="form" onSubmit={isUpdate ? this.handleSubmit.bind(this): null}>
+                <form className="form form--list" onSubmit={isUpdate ? this.handleSubmit.bind(this): null}>
                     <div className="form-group">
                         <label className="form-title"><b>{i18n.lbl_Username}</b></label>
                         <div className="form-content form-content--text">

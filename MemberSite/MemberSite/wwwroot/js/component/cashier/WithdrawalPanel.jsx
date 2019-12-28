@@ -155,6 +155,9 @@ import {number_format} from '../commJS/common';
             let PickBankInfo = this.props.PickBankInfo;            
             let DropdownItem=this.props.BankInfoDetail.map(function( data, index ) { 
                 return <div className="dropdown__item" key={index} onClick={this.onPickBankInfo.bind(this, data)} data-selected={data.accountNo==PickBankInfo.accountNo}>
+                    <div className="payment-thumbnail">
+                        <img src={"/common/images/BankLogo/" + data.bankLogo} />
+                    </div> 
                     <div className="text-group">
                         <span className="text">{data.bankName}</span>
                         <span className="text">{data.accountNo}</span>
@@ -168,6 +171,9 @@ import {number_format} from '../commJS/common';
                     <div className="form-content">
                         <div className="dropdown dropdown-default" data-open={this.state.dropdown}>
                             <a className="btn" onClick={this.onDropdown.bind(this)}>
+                                <div className="payment-thumbnail">
+                                    <img src={"/common/images/BankLogo/" + PickBankInfoOff.bankLogo} />
+                                </div> 
                                 <div className="text-group">
                                     <span className="text">{PickBankInfo.bankName}</span>
                                     <span className="text">{PickBankInfo.accountNo}</span>
