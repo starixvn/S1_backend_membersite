@@ -112,6 +112,7 @@
             i18n.Add("lbl_ShowBalance", selLangBLL.GetResourceValue("lbl_ShowBalance"));
             i18n.Add("lbl_Currency", selLangBLL.GetResourceValue($"Currency_{CurrencyId}"));
             @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
+            @:var IsConvertRequired = @Newtonsoft.Json.JsonConvert.SerializeObject(custInfoBLL.IsConvertRequired(CurrencyId));
         }
         else
         {
@@ -170,7 +171,6 @@
             });*/
 
             $(".dropdown > .btn").on("touchstart, click", function () {
-                console.log("X_dropdown");
                 $(this).closest(".form-content").find(".tooltip").removeAttr("data-open");
                 var $target = $(this).parent();
                 $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open","true");

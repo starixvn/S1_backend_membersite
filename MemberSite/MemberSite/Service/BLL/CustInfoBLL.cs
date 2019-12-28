@@ -21,6 +21,10 @@ namespace MemberSite.Service.BLL
         private readonly AgentInfoService agentInfoService;
         private readonly IMemoryCache cache;
         private readonly RegexUtilities regexUtilities;
+        private readonly Dictionary<int, bool> isConvert = new Dictionary<int, bool>()
+            {
+                {51,false },{15,false }
+            };
         public CustInfoBLL(IMemoryCache cache, Tools tools, CustInfoService custInfoService, AuthenticateService authenticateService, ServerInfoBLL serverInfoBLL, AgentInfoService agentInfoService, RegexUtilities regexUtilities)
         {
             this.tools = tools;
@@ -30,6 +34,10 @@ namespace MemberSite.Service.BLL
             this.agentInfoService = agentInfoService;
             this.cache = cache;
             this.regexUtilities = regexUtilities;
+        }
+        public bool IsConvertRequired(int CurrencyId)
+        {
+            return isConvert.ContainsKey(CurrencyId);
         }
         public int AddCustInfo(string UserName, string Userpwd, int CurrencyId, string UserLang, string refId, string affId, out int custId)
         {
