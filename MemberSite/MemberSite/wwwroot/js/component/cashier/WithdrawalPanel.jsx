@@ -328,18 +328,19 @@ import {number_format} from '../commJS/common';
         async handleCheckAmount(value) {
             let status = 1;
             let message = "";
-            //let PickBankInfoOff = this.state.PickBankInfoOff;
-            if(value!=null) {
-                if(value <= 0) {
-                    status = 2;
-                    message = i18n.lbl_AmountTooltip;
-                /*} else if((PickBankInfoOff.minAmount != 0 && PickBankInfoOff.maxAmount != 0) && (value > PickBankInfoOff.maxAmount || value < PickBankInfoOff.minAmount) ) {
-                    status = 2;
-                    message = number_format(value) + " not in Limit.";*/
-                } else {
-                    status = 3;
-                    message = "";
-                }
+            
+            if(isNaN(value)) {
+                status = 2;
+                message = i18n.lbl_AmountTooltip;
+            } else if(value <= 0) {
+                status = 2;
+                message = i18n.lbl_AmountTooltip;
+            /*} else if((PickBankInfoOff.minAmount != 0 && PickBankInfoOff.maxAmount != 0) && (value > PickBankInfoOff.maxAmount || value < PickBankInfoOff.minAmount) ) {
+                status = 2;
+                message = number_format(value) + " not in Limit.";*/
+            } else {
+                status = 3;
+                message = "";
             }
     
             return {status: status, message: message};

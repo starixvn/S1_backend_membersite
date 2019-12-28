@@ -212,7 +212,7 @@ export class InputBox extends React.Component {
         if(field.objectType != 3) {
             inputPanel = <div className="textfield">
                 {input}
-                {IsConvertRequired ? <span className="text">('000)</span> : null}
+                {field.name == "Amount" && IsConvertRequired ? <span className="text">('000)</span> : null}
                 <span className="textfield__bg"></span>
                 {ShowPwdBtn}
                 <a className="btn btn-icon btn-form-status" onClick={field.status==1?this.onShowTooltip.bind(this):null}>

@@ -615,17 +615,18 @@ import {number_format} from '../commJS/common';
             let status = 1;
             let message = "";
             let BankInfoPay = this.state.BankInfoPay;
-            if(value!=null) {
-                if(value <= 0) {
-                    status = 2;
-                    message = i18n.lbl_AmountTooltip;
-                } else if((BankInfoPay.minAmount != 0 && BankInfoPay.maxAmount != 0) && (value > BankInfoPay.maxAmount || value < BankInfoPay.minAmount) ) {
-                    status = 2;
-                    message = number_format(value) + " "+ i18n.lbl_NotinLimit;
-                } else {
-                    status = 3;
-                    message = "";
-                }
+            if(isNaN(value)) {
+                status = 2;
+                message = i18n.lbl_AmountTooltip;
+            } else if(value <= 0) {
+                status = 2;
+                message = i18n.lbl_AmountTooltip;
+            } else if((BankInfoPay.minAmount != 0 && BankInfoPay.maxAmount != 0) && (value > BankInfoPay.maxAmount || value < BankInfoPay.minAmount) ) {
+                status = 2;
+                message = number_format(value) + " "+ i18n.lbl_NotinLimit;
+            } else {
+                status = 3;
+                message = "";
             }
     
             return {status: status, message: message};
