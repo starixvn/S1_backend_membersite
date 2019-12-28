@@ -79,25 +79,25 @@
     {
         if (!tools.IsMobile())
         {
-            <script src="~/lib/es6-promise.min.js"></script>
-            <script src="~/lib/es6-promise.auto.min.js"></script>
+    <script src="~/lib/es6-promise.min.js"></script>
+    <script src="~/lib/es6-promise.auto.min.js"></script>
         }
 
-        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
-        <script src="~/lib/react.development.js"></script>
-        <script src="~/lib/react-dom.development.js"></script>
-        <script src="~/lib/babel.min.js"></script>
-        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>*@
+    <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+    <script src="~/lib/react.development.js"></script>
+    <script src="~/lib/react-dom.development.js"></script>
+    <script src="~/lib/babel.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>*@
     }
     else
     {
-        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
-        <script src="~/lib/react.production.min.js"></script>
-        <script src="~/lib/react-dom.production.min.js"></script>
+    <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+    <script src="~/lib/react.production.min.js"></script>
+    <script src="~/lib/react-dom.production.min.js"></script>
         if (!tools.IsMobile())
         {
-            <script src="~/lib/es6-promise.min.js"></script>
-            <script src="~/lib/es6-promise.auto.min.js"></script>
+    <script src="~/lib/es6-promise.min.js"></script>
+    <script src="~/lib/es6-promise.auto.min.js"></script>
         }
     }
 
@@ -112,6 +112,7 @@
             i18n.Add("lbl_ShowBalance", selLangBLL.GetResourceValue("lbl_ShowBalance"));
             i18n.Add("lbl_Currency", selLangBLL.GetResourceValue($"Currency_{CurrencyId}"));
             @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
+            @:var IsConvertRequired = @Newtonsoft.Json.JsonConvert.SerializeObject(custInfoBLL.IsConvertRequired(CurrencyId));
         }
         else
         {
@@ -182,15 +183,15 @@
 
     @if (User.Identity.IsAuthenticated)
     {
-        <script src="~/js/commJS/common.js"></script>
-        <script src="~/js/commJS/Account.js" asp-append-version="true"></script>
-        <script src="~/js/component/app/BalancePanel.min.js" asp-append-version="true"></script>
-        <script src="~/js/component/app/WalletInfo.min.js" asp-append-version="true"></script>
+    <script src="~/js/commJS/common.js"></script>
+    <script src="~/js/commJS/Account.js" asp-append-version="true"></script>
+    <script src="~/js/component/app/BalancePanel.min.js" asp-append-version="true"></script>
+    <script src="~/js/component/app/WalletInfo.min.js" asp-append-version="true"></script>
     }
     else
     {
-        <script src="~/lib/runtime.min.js"></script>
-        <script src="~/js/component/app/loginForm.min.js" asp-append-version="true"></script>
+    <script src="~/lib/runtime.min.js"></script>
+    <script src="~/js/component/app/loginForm.min.js" asp-append-version="true"></script>
     }
     @RenderSection("Scripts", required: false)
 </body>
