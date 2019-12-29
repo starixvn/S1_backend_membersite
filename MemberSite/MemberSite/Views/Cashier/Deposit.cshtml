@@ -46,6 +46,18 @@
     i18n.Add("lbl_MomoHint", selLangBLL.GetResourceValue("lbl_MomoHint"));
     i18n.Add("lbl_Limit", selLangBLL.GetResourceValue("lbl_Limit"));
     i18n.Add("lbl_Unlimited", selLangBLL.GetResourceValue("lbl_Unlimited"));
+
+    for(var statusId = 1; statusId <= 7; statusId++)
+    {
+        string sKey = $"Status_{statusId}";
+        i18n.Add(sKey, selLangBLL.GetResourceValue(sKey));
+    }
+
+    for (var depositType = 1; depositType <= 3; depositType++)
+    {
+        string sKey = $"DepositType_{depositType}";
+        i18n.Add(sKey, selLangBLL.GetResourceValue(sKey));
+    }
 }
 
 @section Style{

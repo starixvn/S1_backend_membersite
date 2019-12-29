@@ -1,7 +1,7 @@
+import {number_format} from '../commJS/common';
 import * as Loading from '../commJS/Loading.jsx';
 import {Pagination} from '../commJS/Pagination.jsx';
 import {DepositHistory} from '../commJS/DepositHistory.jsx';
-import {number_format} from '../commJS/common';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
     class History_Deposit extends React.Component {

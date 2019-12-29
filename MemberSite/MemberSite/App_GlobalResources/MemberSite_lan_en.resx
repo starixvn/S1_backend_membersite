@@ -162,6 +162,15 @@
   <data name="Currency_9" xml:space="preserve">
     <value>AUD</value>
   </data>
+  <data name="DepositType_1" xml:space="preserve">
+    <value>Online Banking</value>
+  </data>
+  <data name="DepositType_2" xml:space="preserve">
+    <value>Mobile Pay</value>
+  </data>
+  <data name="DepositType_3" xml:space="preserve">
+    <value>Local Bank Transfer</value>
+  </data>
   <data name="lbl_5mins" xml:space="preserve">
     <value>5 mins</value>
   </data>
@@ -643,6 +652,6 @@
     <value>Expired</value>
   </data>
   <data name="Status_7" xml:space="preserve">
-    <value>OnHold</value>
+    <value>On Hold</value>
   </data>
 </root>

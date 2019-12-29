@@ -204,8 +204,15 @@ import {number_format} from '../commJS/common';
 
         render() {
             let data = this.props.Data;
+
             let rows = data.map(function( item ,index ) { 
                 let dateMonent = moment(item.createTime);
+                let transIdTxt=<span className="text">{item.transId}</span>;
+
+                if(item.depositType==3 && (item.status==1 || item.status==7)) {
+                    transIdTxt = <a className="text-link" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript})}><span className="text">{item.transId}</span></a>;
+                }
+                                
                 return <div className="tr" key={index}>
                     <div className="td-date" data-title="Date" role="mobile-click">
                         <span className="text">{dateMonent.format('l')} ({dateMonent.format('Z')})</span>
@@ -215,16 +222,16 @@ import {number_format} from '../commJS/common';
                         <span className="text">{dateMonent.format("hh:mm:ss A")}</span>
                     </div>
                     <div className="td-id" data-title="ID">
-                        <a className="text-link" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript})}><span className="text">{item.transId}</span></a>
+                        {transIdTxt}
                     </div>
                     <div className="td-method" data-title="Method">
-                        <span className="text">{item.depositType}</span>
+                        <span className="text">{i18n["DepositType_" + item.depositType]}</span>
                     </div>
                     <div className="td-amount" data-title="Amount">
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
                     </div>
                     <div className="td-status" data-title="Status">
-                        <span className="text">{item.status}</span>
+                        <span className="text">{i18n["Status_" + item.status]}</span>
                     </div>
             </div>;
                 }.bind(this));

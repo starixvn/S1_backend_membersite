@@ -1,3 +1,5 @@
+import {number_format} from '../commJS/common';
+
 class HistoryBody extends React.Component {
     render() {
         let data = this.props.Data;

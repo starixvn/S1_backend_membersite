@@ -25,6 +25,18 @@
     i18n.Add("lbl_Page", selLangBLL.GetResourceValue("lbl_Page"));
     i18n.Add("lbl_Of", selLangBLL.GetResourceValue("lbl_Of"));
     i18n.Add("msg_NoData", selLangBLL.GetMsg("msg_NoData"));
+
+    for (var statusId = 1; statusId <= 7; statusId++)
+    {
+        string sKey = $"Status_{statusId}";
+        i18n.Add(sKey, selLangBLL.GetResourceValue(sKey));
+    }
+
+    for (var depositType = 1; depositType <= 3; depositType++)
+    {
+        string sKey = $"DepositType_{depositType}";
+        i18n.Add(sKey, selLangBLL.GetResourceValue(sKey));
+    }
 }
 <div class="main">
     <div class="page-title" role="mobile-only">
