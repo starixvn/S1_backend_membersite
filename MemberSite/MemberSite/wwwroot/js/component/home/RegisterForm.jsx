@@ -63,7 +63,7 @@ class RegisterForm extends React.Component {
                 message = i18n.msg_MailReq;
             } else if(!regx.test(value)) {
                 status = 2;
-                message = i18n.msg_Wrong;
+                message = i18n.msg_MailWrongFormat;
             } else {
                 let res = await axios.post('/api/Site/ExistsEmail', {Email: value});
                 let data = res.data;
