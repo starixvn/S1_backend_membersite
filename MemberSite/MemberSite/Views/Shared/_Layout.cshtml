@@ -24,7 +24,7 @@
         var entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
         if (!tools.IsMobile() && tpId == 1)
         {
-            entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}');";
+            entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}').focus();";
         }
 
         return entPageUrl;
