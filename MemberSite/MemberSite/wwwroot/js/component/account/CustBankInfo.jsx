@@ -202,12 +202,13 @@ import * as Loading from '../commJS/Loading.jsx';
         }
 
         DelCustBankInfo(bankInfo) {
-            if(confirm('Are you sure?')) {
+            if (confirm(i18n.lbl_CheckConfirm)) {
                 Loading.OnLoading();                
                 axios.post('/api/AccountStrict/DelCustBankInfo', bankInfo)
                     .then(function (response) {
                         let result = response.data;
                         if (result.errorCode == 0) {
+                            alert(result.message);
                             this.props.GetCustBankInfo();
                         } else {
                             alert(result.message);

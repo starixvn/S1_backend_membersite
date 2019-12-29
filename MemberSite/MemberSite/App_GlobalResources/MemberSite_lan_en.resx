@@ -252,6 +252,9 @@
   <data name="lbl_ChargeFee" xml:space="preserve">
     <value>Charge Fee</value>
   </data>
+  <data name="lbl_CheckConfirm" xml:space="preserve">
+    <value>Are you sure you want to delete? It can not restore after delete!</value>
+  </data>
   <data name="lbl_Clickhereforbonus" xml:space="preserve">
     <value>Click here for bonus</value>
   </data>
