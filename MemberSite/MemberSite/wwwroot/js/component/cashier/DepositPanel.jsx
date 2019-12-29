@@ -248,19 +248,26 @@ import {number_format} from '../commJS/common';
     class RecentHistory extends React.Component {
         constructor(props) {
             super(props);
-            this.state={Data: null};
+            this.state={Data: null, refresh: false};
         }
 
         componentDidMount() {
+            this.GetDepositInfoRecent();
+        }
+
+        GetDepositInfoRecent(){
+            this.setState({refresh: true});            
             axios.post('/api/Payment/GetDepositInfoRecent')
             .then(function (response) {
                 let result = response.data;
                 if (result.errorCode == 0) {
-                    this.setState({Data: result.data});
+                    this.setState({Data: result.data, refresh: false});
                 } else {
+                    this.setState({refresh: false});
                     alert(result.message);
                 }
             }.bind(this)).catch(function (error) {
+                this.setState({refresh: false});
                 alert(error);
             }.bind(this));
         }
@@ -290,6 +297,17 @@ import {number_format} from '../commJS/common';
                 <div className="table table-rwd table-primary">
                     <div className="caption">
                         <span className="text">{i18n.lbl_RecentTransactions}</span>
+                        <button className="btn btn-icon" data-refresh={this.state.refresh} onClick={this.state.refresh?null:this.GetDepositInfoRecent.bind(this)}>
+                            <i className="icon icon-refresh"></i>
+                            <div className="preloader">
+                                <div className="preloader__spiner">
+                                    <div className="preloader__circles">
+                                        <div className="preloader__circle-1"></div>
+                                        <div className="preloader__circle-2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>                        
                         <a className="text-link" href={hrefAllTrans}>
                             <span className="text">{i18n.lbl_AllTranscations}</span>
                             <i className="icon icon-arrow-right"></i>
