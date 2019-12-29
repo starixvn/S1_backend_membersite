@@ -97,7 +97,14 @@ import * as Loading from '../commJS/Loading.jsx';
 
                                 if (dataField.name == "SysId") {
                                     let dropdownList = result.data.map(function (bankInfo) {
-                                        return { text: <b>{bankInfo.bankName}</b>, value: bankInfo.sysId };
+                                        return { text: <div className="dropdown__item">
+                                                <div className="payment-thumbnail">
+                                                    <img src={"/common/images/BankLogo/" + bankInfo.bankLogo} />
+                                                </div>
+                                                <div className="text-group">
+                                                    <span className="text">{bankInfo.bankName}</span>
+                                                </div>
+                                            </div>, value: bankInfo.sysId };
                                     });
 
                                     dataField.dropdownList = dropdownList;
@@ -219,8 +226,13 @@ import * as Loading from '../commJS/Loading.jsx';
                 <div className="td-label" role="mobile-row-1">
                     <span className="text-lowlight">{i18n.lbl_BankName}</span>
                 </div>
-                <div className="td-value" role="mobile-row-1">
-                    <span className="text">{bankInfo.bankName}</span>
+                <div className="td-label" role="mobile-row-1">
+                    <div className="payment-thumbnail">
+                        <img src={"/common/images/BankLogo/" + bankInfo.bankLogo} />
+                    </div>
+                    <div className="text-group">
+                        <span className="text">{bankInfo.bankName}</span>
+                    </div>
                 </div>
                 <div className="td-label" role="mobile-row-2">
                     <span className="text-lowlight">{i18n.lbl_BankNumber}</span>
