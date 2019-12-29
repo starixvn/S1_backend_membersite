@@ -90,6 +90,7 @@ namespace MemberSite.Controllers.Api
         {
             public string UserName { get; set; }
             public string Userpwd { get; set; }
+            public string Email { get; set; }
             public int CurrencyId { get; set; }
             public string UserLang { get; set; }
             public string RefId { get; set; }
@@ -107,7 +108,7 @@ namespace MemberSite.Controllers.Api
             }
 
             int custId = 0;
-            var result = custInfoBLL.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId, registeredModel.AffId, out custId);
+            var result = custInfoBLL.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd, registeredModel.Email, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId, registeredModel.AffId, out custId);
             if (result == -1)
             {
                 apiResult.ErrorCode = result;
@@ -192,6 +193,13 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<bool>(selLangBLL);
             apiResult.Data = custInfoBLL.ExistsUserName(registeredModel.UserName);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+        public ApiResult<bool> ExistsEmail(RegisteredModel registeredModel)
+        {
+            var apiResult = new ApiResult<bool>(selLangBLL);
+            apiResult.Data = custInfoBLL.ExistsEmail(0, registeredModel.Email);
             apiResult.ErrorCode = 0;
             return apiResult;
         }

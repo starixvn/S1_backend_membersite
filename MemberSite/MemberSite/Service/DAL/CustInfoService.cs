@@ -28,15 +28,28 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.ExecuteScalar<int>("ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
         }
-        public int AddCustInfo(Customer customer, out int custId)
+        public int AddCustInfo(Customer customer, string Email, out int custId)
         {
             custId = 0;
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             var p = new DynamicParameters(new { customer.SiteId, customer.UserName, customer.Userpwd, customer.CurrencyId, customer.UserLang, customer.AgentId, customer.AllAgentId, customer.UserLevel });
             p.Add("CustId", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var result = conn.Execute("CustInfo_Ins", p, commandType: CommandType.StoredProcedure);
-            custId = p.Get<int?>("CustId") ?? 0;
+            conn.Open();
+            using MySqlTransaction trans = conn.BeginTransaction();
+            var result = conn.Execute("CustInfo_Ins", p, trans, commandType: CommandType.StoredProcedure);
+
+            if (result > 0)
+            {
+                custId = p.Get<int?>("CustId") ?? 0;
+                result = conn.Execute("CustProfile_Ins", new { CustId = custId, customer.SiteId, Email, Profile = (string)null }, trans, commandType: CommandType.StoredProcedure);
+            }
+
+            if (result > 0)
+            {
+                trans.Commit();
+            }
+
             return result > 0 ? 0 : -1;
         }
         public Customer GetCustInfo(int custId)

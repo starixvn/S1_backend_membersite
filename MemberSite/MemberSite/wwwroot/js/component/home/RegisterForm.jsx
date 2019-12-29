@@ -10,39 +10,76 @@ class RegisterForm extends React.Component {
         super(props);
         let formArr=[];
 
-        let userNameDataField = new DataField("UserName");
-        userNameDataField.placeholder = i18n.lbl_Username;
-        userNameDataField.displayName = i18n.lbl_Username;
-        userNameDataField.tooltip = i18n.lbl_UsernameTooltip;
-        userNameDataField.status = 1;
-        userNameDataField.handleCheck = this.handleCheckUserName.bind(this);
-        userNameDataField.Value = "";
-        formArr.push(userNameDataField);
+        let dataField = new DataField("UserName");
+        dataField.placeholder = i18n.lbl_Username;
+        dataField.displayName = i18n.lbl_Username;
+        dataField.tooltip = i18n.lbl_UsernameTooltip;
+        dataField.status = 1;
+        dataField.handleCheck = this.handleCheckUserName.bind(this);
+        dataField.Value = "";
+        formArr.push(dataField);
 
-        let userpwdDataField = new DataField("Userpwd");
-        userpwdDataField.placeholder = i18n.lbl_Password;
-        userpwdDataField.displayName = i18n.lbl_Password;
-        userpwdDataField.tooltip = i18n.lbl_PasswordTooltip;
-        userpwdDataField.status = 1;
-        userpwdDataField.objectType = 2;
-        userpwdDataField.handleCheck = this.handleCheckUserpwd.bind(this);    
-        userpwdDataField.Value = "";
-        formArr.push(userpwdDataField);
+        dataField = new DataField("Userpwd");
+        dataField.placeholder = i18n.lbl_Password;
+        dataField.displayName = i18n.lbl_Password;
+        dataField.tooltip = i18n.lbl_PasswordTooltip;
+        dataField.status = 1;
+        dataField.objectType = 2;
+        dataField.handleCheck = this.handleCheckUserpwd.bind(this);    
+        dataField.Value = "";
+        formArr.push(dataField);
+
+        dataField = new DataField("Email");
+        dataField.placeholder = i18n.lbl_Email;
+        dataField.displayName = i18n.lbl_Email;
+        dataField.tooltip = i18n.lbl_EmailToolTip;
+        dataField.status = 1;
+        dataField.objectType = 4;
+        dataField.handleCheck = this.handleCheckEmail.bind(this);
+        dataField.Value = "";
+        formArr.push(dataField);   
 
         if(getUrlParameter("affId") == ""){
-            let currencyIdDataField = new DataField("CurrencyId");
-            currencyIdDataField.displayName = i18n.lbl_PrefferedCurrency;
-            currencyIdDataField.tooltip = i18n.lbl_PreferredCurrencyToolTip;
-            currencyIdDataField.status = 1;
-            currencyIdDataField.objectType = 3;
-            currencyIdDataField.Value = defCurrencyId;
-            currencyIdDataField.dropdownList = currencyList;
-            formArr.push(currencyIdDataField);
+            dataField = new DataField("CurrencyId");
+            dataField.displayName = i18n.lbl_PrefferedCurrency;
+            dataField.tooltip = i18n.lbl_PreferredCurrencyToolTip;
+            dataField.status = 1;
+            dataField.objectType = 3;
+            dataField.Value = defCurrencyId;
+            dataField.dropdownList = currencyList;
+            formArr.push(dataField);
         }
         // data-disabled="false"
         this.state = { formArr: formArr, SubmitDisabled: false};
     }
     
+    async handleCheckEmail(value) {
+        let status = 1;
+        let message = "";
+        let regx = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+        if(value!=null) {
+            if(value.length == 0) {
+                status = 2;
+                message = i18n.msg_MailReq;
+            } else if(!regx.test(value)) {
+                status = 2;
+                message = i18n.msg_Wrong;
+            } else {
+                let res = await axios.post('/api/Site/ExistsEmail', {Email: value});
+                let data = res.data;
+                if(data.errorCode==0 && data.data) {
+                    status = 2;
+                    message = i18n.msg_MailExisted;
+                } else {
+                    status = 3;
+                    message = "";
+                }
+            }
+        }
+
+        return {status: status, message: message};
+    }
+
     async handleCheckUserName(value) {
         let status = 1;
         let message = "tooltip";

@@ -39,7 +39,7 @@ namespace MemberSite.Service.BLL
         {
             return isConvert.ContainsKey(CurrencyId);
         }
-        public int AddCustInfo(string UserName, string Userpwd, int CurrencyId, string UserLang, string refId, string affId, out int custId)
+        public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang, string refId, string affId, out int custId)
         {
             //int custId = 0;
             var serverInfo = serverInfoBLL.GetServerInfo();
@@ -102,7 +102,7 @@ namespace MemberSite.Service.BLL
                 regCustInfo.UserLevel = 1;
                 regCustInfo.UserLang = UserLang;
                 /**/
-                var result = custInfoService.AddCustInfo(regCustInfo, out custId);
+                var result = custInfoService.AddCustInfo(regCustInfo, Email, out custId);
                 if (result != 0)
                 {
                     return -5;
@@ -268,8 +268,19 @@ namespace MemberSite.Service.BLL
         }
         public bool ExistsEmail(int custId, string email)
         {
-            var custInfo = GetCustInfoWithCache(custId);
-            return custInfoService.ExistsEmail(custId, email, custInfo.SiteId);
+            int siteId = 0;
+            if (custId == 0)
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                siteId = serverInfo.SiteId;
+            }
+            else
+            {
+                var custInfo = GetCustInfoWithCache(custId);
+                siteId = custInfo.SiteId;
+            }
+
+            return custInfoService.ExistsEmail(custId, email, siteId);
         }
 
         public CustInfoProfile GetCustInfoProfile(int custId)
