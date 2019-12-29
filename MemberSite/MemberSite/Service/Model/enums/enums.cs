@@ -37,8 +37,9 @@ namespace MemberSite.Service.Model.enums
         Paid = 2,
         Approved = 3,
         Rejected = 4,
-        Canceled = 5,
+        Cancelled = 5,
         Expired = 6,
+        OnHold = 7,
     }
     /// <summary>
     ///  1=已入账  2=支付中  3=等待出款  4=已出款
