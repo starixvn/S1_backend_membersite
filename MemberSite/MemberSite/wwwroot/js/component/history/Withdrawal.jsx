@@ -77,13 +77,13 @@ import {number_format} from '../commJS/common';
                             <div className="form-content form-content--date">
                                 <label className="textfield">
                                     <span className="text">{i18n.lbl_From}</span>
-                                    <input type="date" className="textfield__input" value={this.state.StartDate} onChange={this.onStartDate.bind(this)} />
+                                    <input type="date" className="textfield__input" value={this.state.StartDate} onChange={this.onStartDate.bind(this)} max={moment().format('YYYY-MM-DD')} />
                                     <i className="icon icon-calendar"></i>
                                     <span className="textfield__bg"></span>
                                 </label>
                                 <label className="textfield">
                                     <span className="text">{i18n.lbl_To}</span>
-                                    <input type="date" className="textfield__input" value={this.state.EndDate} onChange={this.onEndDate.bind(this)}/>
+                                    <input type="date" className="textfield__input" value={this.state.EndDate} onChange={this.onEndDate.bind(this)} max={moment().format('YYYY-MM-DD')}/>
                                     <i className="icon icon-calendar"></i>
                                     <span className="textfield__bg"></span>
                                 </label>

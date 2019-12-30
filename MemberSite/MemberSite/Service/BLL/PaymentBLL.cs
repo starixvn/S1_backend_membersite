@@ -5,6 +5,7 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
@@ -210,12 +211,18 @@ namespace MemberSite.Service.BLL
             var withdrawalInfoHistory = withdrawalService.GetWithdrawalInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
             return withdrawalInfoHistory;
         }
-        public int SetDepositReceipt(int custId, int depositId, string refNo, long depositTime)
+        public int SetDepositReceipt(int custId, string transId, string refNo, long depositTime)
         {
+            int depositId = 0;
+            Match m = Regex.Match(transId, @"\d+");
+            int.TryParse(m.Value, out depositId);
             return depoistService.SetDepositReceipt(custId, depositId, refNo, depositTime);
         }
-        public int SetDepositReceiptPic(int custId, int depositId, string picFileName, byte[] depositPic)
+        public int SetDepositReceiptPic(int custId, string transId, string picFileName, byte[] depositPic)
         {
+            int depositId = 0;
+            Match m = Regex.Match(transId, @"\d+");
+            int.TryParse(m.Value, out depositId);
             return depoistService.SetDepositReceiptPic(custId, depositId, picFileName, depositPic);
         }
     }

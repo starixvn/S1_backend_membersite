@@ -9,7 +9,7 @@
     _Value=null;
     _dropdownList=[];
     _handleCheck=null;
-    _typeStr={1:"text",4:"email",5:"number"};
+    _typeStr={1:"text",4:"email",5:"number", 6:"datetime-local"};
     _autoComplete = null;
     _labelCommit = null;
 

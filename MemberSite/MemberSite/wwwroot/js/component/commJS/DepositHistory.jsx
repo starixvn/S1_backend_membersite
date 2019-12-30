@@ -11,7 +11,7 @@ class HistoryBody extends React.Component {
             let transIdTxt=<span className="text">{item.transId}</span>;
 
             if(item.depositType==3 && (item.status==1 || item.status==7)) {
-                transIdTxt = <a className="text-link" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript})}><span className="text">{item.transId}</span></a>;
+                transIdTxt = <a className="text-link" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript,transId: item.transId})}><span className="text">{item.transId}</span></a>;
             }            
             return <div className="tr" key={index}>
                 <div className="td-date" data-title="Date" role="mobile-click">

@@ -257,35 +257,74 @@ namespace MemberSite.Controllers.Api
 
         public class DepositReceiptFile
         {
-            public int DepositId { get; set; }
+            public string TransId { get; set; }
             public IFormFile Receipt { get; set; }
         }
 
+        private readonly Dictionary<string, string> _contentTypes = new Dictionary<string, string>(comparer: StringComparer.OrdinalIgnoreCase)
+        {
+            {".png", "image/png"},
+            {".jpg", "image/jpeg"},
+            {".jpeg", "image/jpeg"},
+            {".gif", "image/gif"}
+        };
+
+        private readonly Dictionary<string, string> _contentTypesCheck = new Dictionary<string, string>(comparer: StringComparer.OrdinalIgnoreCase)
+        {
+            {"image/png",null},
+            {"image/jpeg",null},
+            { "image/gif",null}
+        };
+
         [HttpPost]
-        [DisableFormValueModelBinding]
-        public ApiResult UploadReceipt(DepositReceiptFile depositReceipt)
+        //[DisableFormValueModelBinding]
+        public ApiResult UploadReceipt([FromForm]DepositReceiptFile depositReceipt)
         {
             var apiResult = new ApiResult();
             var authData = authorizeBLL.GetAuthData();
-            using var fileStream = depositReceipt.Receipt.OpenReadStream();
-            string fileName = depositReceipt.Receipt.FileName;
-            byte[] fileBytes = new byte[fileStream.Length];
-            fileStream.WriteAsync(fileBytes, 0, Convert.ToInt32(fileStream.Length));
-            var result = paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.DepositId, fileName, fileBytes);
-            if (result == 0)
+            if (_contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
             {
-                apiResult.ErrorCode = 0;
+                using var fileStream = depositReceipt.Receipt.OpenReadStream();
+                //Graphics
+                string fileName = depositReceipt.Receipt.FileName;
+                fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
+                byte[] fileBytes = new byte[fileStream.Length];
+                int numBytesToRead = (int)fileStream.Length;
+                int numBytesRead = 0;
+                while (numBytesToRead > 0)
+                {
+                    // Read may return anything from 0 to numBytesToRead.
+                    int n = fileStream.Read(fileBytes, numBytesRead, numBytesToRead);
+
+                    // Break when the end of the file is reached.
+                    if (n == 0)
+                        break;
+
+                    numBytesRead += n;
+                    numBytesToRead -= n;
+                }
+
+                var result = paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, fileBytes);
+                if (result > 0)
+                {
+                    apiResult.ErrorCode = 0;
+                }
+                else
+                {
+                    apiResult.ErrorCode = -1;
+                }
             }
             else
             {
-                apiResult.ErrorCode = -1;
+
             }
+
             return apiResult;
         }
 
         public class DepositReceipt
         {
-            public int DepositId { get; set; }
+            public string TransId { get; set; }
             public string RefNo { get; set; }
             public long DepositTime { get; set; }
         }
@@ -296,7 +335,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult();
             var authData = authorizeBLL.GetAuthData();
 
-            var result = paymentBLL.SetDepositReceipt(authData.CustId, depositReceipt.DepositId, depositReceipt.RefNo, depositReceipt.DepositTime);
+            var result = paymentBLL.SetDepositReceipt(authData.CustId, depositReceipt.TransId, depositReceipt.RefNo, depositReceipt.DepositTime);
             if (result == 0)
             {
                 apiResult.ErrorCode = 0;
