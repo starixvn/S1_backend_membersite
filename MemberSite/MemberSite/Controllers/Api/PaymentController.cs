@@ -271,11 +271,11 @@ namespace MemberSite.Controllers.Api
             {".gif", "image/gif"}
         };
 
-        private readonly Dictionary<string, string> _contentTypesCheck = new Dictionary<string, string>(comparer: StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<string, System.Drawing.Imaging.ImageFormat> _contentTypesCheck = new Dictionary<string, System.Drawing.Imaging.ImageFormat>(comparer: StringComparer.OrdinalIgnoreCase)
         {
-            {"image/png",null},
-            {"image/jpeg",null},
-            { "image/gif",null}
+            {"image/png",System.Drawing.Imaging.ImageFormat.Png},
+            {"image/jpeg",System.Drawing.Imaging.ImageFormat.Jpeg},
+            { "image/gif",System.Drawing.Imaging.ImageFormat.Gif}
         };
 
         [HttpPost]
@@ -285,6 +285,7 @@ namespace MemberSite.Controllers.Api
             decimal xSize = 700m;
             var apiResult = new ApiResult();
             var authData = authorizeBLL.GetAuthData();
+            decimal xCell = 1;
             if (_contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
             {
                 using var fileStream = depositReceipt.Receipt.OpenReadStream();
@@ -293,7 +294,7 @@ namespace MemberSite.Controllers.Api
 
                 if (uploadedImage.Width > xSize || uploadedImage.Height > xSize)
                 {
-                    decimal xCell = 0;
+
                     if (uploadedImage.Width > uploadedImage.Height)
                     {
                         xCell = xSize / uploadedImage.Width;
@@ -302,12 +303,14 @@ namespace MemberSite.Controllers.Api
                     {
                         xCell = xSize / uploadedImage.Height;
                     }
-                    var graphicOptions = new GraphicOptions();
-                    graphicOptions.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-                    graphicOptions.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
-                    var img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
-                    img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+
                 }
+
+                var graphicOptions = new GraphicOptions();
+                graphicOptions.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                graphicOptions.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                var img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
+                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
 
                 string fileName = depositReceipt.Receipt.FileName;
                 fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
