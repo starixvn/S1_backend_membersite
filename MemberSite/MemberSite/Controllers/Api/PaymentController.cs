@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using LazZiya.ImageResize;
 using MemberSite.Attributes;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
@@ -280,21 +282,42 @@ namespace MemberSite.Controllers.Api
         //[DisableFormValueModelBinding]
         public ApiResult UploadReceipt([FromForm]DepositReceiptFile depositReceipt)
         {
+            decimal xSize = 700m;
             var apiResult = new ApiResult();
             var authData = authorizeBLL.GetAuthData();
             if (_contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
             {
                 using var fileStream = depositReceipt.Receipt.OpenReadStream();
-                //Graphics
+                using var uploadedImage = Image.FromStream(fileStream);
+                using System.IO.MemoryStream ms = new System.IO.MemoryStream();
+                if (uploadedImage.Width > xSize || uploadedImage.Height > xSize)
+                {
+                    decimal xCell = 0;
+                    if (uploadedImage.Width > uploadedImage.Height)
+                    {
+                        xCell = xSize / uploadedImage.Width;
+                    }
+                    else
+                    {
+                        xCell = xSize / uploadedImage.Height ;
+                    }
+                    var graphicOptions = new GraphicOptions();
+                    graphicOptions.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                    graphicOptions.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                    var img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
+                    img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                }
+
                 string fileName = depositReceipt.Receipt.FileName;
                 fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
-                byte[] fileBytes = new byte[fileStream.Length];
-                int numBytesToRead = (int)fileStream.Length;
+                fileName = $"{fileName.Substring(0, fileName.LastIndexOf('.'))}.jpg";
+                byte[] fileBytes = new byte[ms.Length];
+                int numBytesToRead = (int)ms.Length;
                 int numBytesRead = 0;
                 while (numBytesToRead > 0)
                 {
                     // Read may return anything from 0 to numBytesToRead.
-                    int n = fileStream.Read(fileBytes, numBytesRead, numBytesToRead);
+                    int n = ms.Read(fileBytes, numBytesRead, numBytesToRead);
 
                     // Break when the end of the file is reached.
                     if (n == 0)
