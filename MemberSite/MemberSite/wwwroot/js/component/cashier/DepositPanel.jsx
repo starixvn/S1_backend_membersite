@@ -571,8 +571,12 @@ import {number_format} from '../commJS/common';
         }
 
         render() {
-            let Inputs=this.state.formArr.map(dataField => <InputBox key={dataField.name} DataField={dataField}/>);
             let BankInfoPay = this.state.BankInfoPay;
+
+            let Inputs=this.state.formArr.map(function( dataField ) { 
+                dataField.LabelCommit = BankInfoPay !=null ? <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{number_format(BankInfoPay.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(BankInfoPay.maxAmount)}</span>{" )"}</span> : null;
+                return <InputBox key={dataField.name} DataField={dataField}/>;
+            });
             //let modalContaner = null;
 
             return (
@@ -588,7 +592,6 @@ import {number_format} from '../commJS/common';
                         <span className="payment__name">{BankInfoPay.bankName}</span>
                     </div>
                     {Inputs}
-                    <div><span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{number_format(BankInfoPay.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(BankInfoPay.maxAmount)}</span>{" )"}</span></div>                    
                     <div className="btn-group">
                         <button className="btn btn-primary" type="button" onClick={this.onDepositOptions.bind(this)}>
                             <div className="btn__inner">

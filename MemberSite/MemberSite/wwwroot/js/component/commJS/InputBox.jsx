@@ -11,6 +11,7 @@
     _handleCheck=null;
     _typeStr={1:"text",4:"email",5:"number"};
     _autoComplete = null;
+    _labelCommit = null;
 
     constructor(name) {
         this._name=name;
@@ -96,6 +97,16 @@
     set AutoComplete(value){
         this._autoComplete=value;
     }
+
+    get LabelCommit(){
+        return this._labelCommit;
+    }
+
+    set LabelCommit(value){
+        this._labelCommit=value;
+    }
+
+    
 
     async onCheck() {
         if(this._handleCheck != null)
@@ -256,7 +267,7 @@ export class InputBox extends React.Component {
 
         return (
         <div className="form-group">
-            <label className="form-title">{field.displayName}</label>
+            <label className="form-title"><span className="text">{field.displayName}</span>{field.LabelCommit}</label>
             <div className="form-content" data-status={field.dataStatus}>
                 {inputPanel}
                 <div className="tooltip tooltip--bottom-right" data-open={(field.status!=3 && field.status!=4 && (this.state.showTooltip && field.status==1))||field.status==2}>
