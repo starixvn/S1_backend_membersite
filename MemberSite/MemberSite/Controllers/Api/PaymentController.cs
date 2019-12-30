@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MemberSite.Attributes;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -25,7 +26,6 @@ namespace MemberSite.Controllers.Api
         private readonly CourierAdapter courierAdapter;
         private readonly string tpApiUrl;
         private readonly int mainWalletType;
-
         public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
@@ -195,7 +195,8 @@ namespace MemberSite.Controllers.Api
                 string transId = "";
 
                 result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out afterAmount, out transId);
-            } else
+            }
+            else
             {
                 apiResult.ErrorCode = transferToSabaResult.ErrorCode;
                 apiResult.Message = transferToSabaResult.Message;
@@ -207,7 +208,7 @@ namespace MemberSite.Controllers.Api
             {
                 apiResult.ErrorCode = 0;
                 apiResult.Message = "";
-            } 
+            }
             else
             {
 
@@ -254,6 +255,59 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        public class DepositReceiptFile
+        {
+            public int DepositId { get; set; }
+            public IFormFile Receipt { get; set; }
+        }
+
+        [HttpPost]
+        [DisableFormValueModelBinding]
+        public ApiResult UploadReceipt(DepositReceiptFile depositReceipt)
+        {
+            var apiResult = new ApiResult();
+            var authData = authorizeBLL.GetAuthData();
+            using var fileStream = depositReceipt.Receipt.OpenReadStream();
+            string fileName = depositReceipt.Receipt.FileName;
+            byte[] fileBytes = new byte[fileStream.Length];
+            fileStream.WriteAsync(fileBytes, 0, Convert.ToInt32(fileStream.Length));
+            var result = paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.DepositId, fileName, fileBytes);
+            if (result == 0)
+            {
+                apiResult.ErrorCode = 0;
+            }
+            else
+            {
+                apiResult.ErrorCode = -1;
+            }
+            return apiResult;
+        }
+
+        public class DepositReceipt
+        {
+            public int DepositId { get; set; }
+            public string RefNo { get; set; }
+            public long DepositTime { get; set; }
+        }
+
+        [HttpPost]
+        public ApiResult SetDepositReceipt(DepositReceipt depositReceipt)
+        {
+            var apiResult = new ApiResult();
+            var authData = authorizeBLL.GetAuthData();
+
+            var result = paymentBLL.SetDepositReceipt(authData.CustId, depositReceipt.DepositId, depositReceipt.RefNo, depositReceipt.DepositTime);
+            if (result == 0)
+            {
+                apiResult.ErrorCode = 0;
+            }
+            else
+            {
+                apiResult.ErrorCode = -1;
+            }
+            return apiResult;
+        }
+
         public class TpTransfer
         {
             public int TpId { set; get; }
@@ -268,7 +322,7 @@ namespace MemberSite.Controllers.Api
             ToTp = 1,
             ToMain = 2
         }
-        public async Task<ApiResult<TransferResult>> TransferToSabaAsync(TpTransfer inTpTransfer)
+        private async Task<ApiResult<TransferResult>> TransferToSabaAsync(TpTransfer inTpTransfer)
         {
             decimal amount = inTpTransfer.Amount;
             if (amount.ToString().IndexOf(".") > -1)

@@ -63,5 +63,16 @@ namespace MemberSite.Service.DAL
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return depositInfoHistoryResult;
         }
+        public int SetDepositReceipt(int custId, int depositId, string refNo, long depositTime)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Execute("DepositReceipt_Set", new { CustId = custId, SepositId = depositId, RefNo = refNo, DepositTime = depositTime }, commandType: CommandType.StoredProcedure);
+        }
+
+        public int SetDepositReceiptPic(int custId, int depositId, string picFileName, byte[] depositPic)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Execute("DepositReceiptPic_Set", new { CustId = custId, SepositId = depositId, PicFileName = picFileName, DepositPic = depositPic }, commandType: CommandType.StoredProcedure);
+        }
     }
 }

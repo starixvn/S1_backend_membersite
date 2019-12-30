@@ -204,12 +204,19 @@ namespace MemberSite.Service.BLL
             }
             return depositInfoHistory;
         }
-
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoHistory(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var withdrawalInfoHistory = withdrawalService.GetWithdrawalInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
             return withdrawalInfoHistory;
+        }
+        public int SetDepositReceipt(int custId, int depositId, string refNo, long depositTime)
+        {
+            return depoistService.SetDepositReceipt(custId, depositId, refNo, depositTime);
+        }
+        public int SetDepositReceiptPic(int custId, int depositId, string picFileName, byte[] depositPic)
+        {
+            return depoistService.SetDepositReceiptPic(custId, depositId, picFileName, depositPic);
         }
     }
 }
