@@ -289,7 +289,8 @@ namespace MemberSite.Controllers.Api
             {
                 using var fileStream = depositReceipt.Receipt.OpenReadStream();
                 using var uploadedImage = Image.FromStream(fileStream);
-                using System.IO.MemoryStream ms = new System.IO.MemoryStream();
+                using var ms = new System.IO.MemoryStream();
+
                 if (uploadedImage.Width > xSize || uploadedImage.Height > xSize)
                 {
                     decimal xCell = 0;
@@ -299,7 +300,7 @@ namespace MemberSite.Controllers.Api
                     }
                     else
                     {
-                        xCell = xSize / uploadedImage.Height ;
+                        xCell = xSize / uploadedImage.Height;
                     }
                     var graphicOptions = new GraphicOptions();
                     graphicOptions.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
@@ -311,23 +312,10 @@ namespace MemberSite.Controllers.Api
                 string fileName = depositReceipt.Receipt.FileName;
                 fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
                 fileName = $"{fileName.Substring(0, fileName.LastIndexOf('.'))}.jpg";
-                byte[] fileBytes = new byte[ms.Length];
-                int numBytesToRead = (int)ms.Length;
-                int numBytesRead = 0;
-                while (numBytesToRead > 0)
-                {
-                    // Read may return anything from 0 to numBytesToRead.
-                    int n = ms.Read(fileBytes, numBytesRead, numBytesToRead);
 
-                    // Break when the end of the file is reached.
-                    if (n == 0)
-                        break;
-
-                    numBytesRead += n;
-                    numBytesToRead -= n;
-                }
-
+                byte[] fileBytes = ms.ToArray();
                 var result = paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, fileBytes);
+
                 if (result > 0)
                 {
                     apiResult.ErrorCode = 0;
