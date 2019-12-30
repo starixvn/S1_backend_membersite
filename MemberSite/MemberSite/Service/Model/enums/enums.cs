@@ -34,13 +34,28 @@ namespace MemberSite.Service.Model.enums
     public enum DepositStatus
     {
         Pending = 1,
-        Paid = 2,
+        Paid = 2,/**/
         Approved = 3,
         Rejected = 4,
         Cancelled = 5,
         Expired = 6,
-        OnHold = 7,
+        OnHold = 7
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public enum WithdrawalStatus
+    {
+        Pending = 1,
+        OnHold = 2,
+        Verify = 3,
+        Process = 4,
+        Cancelled = 5,
+        Approved = 6,
+        Rejected = 7
+    }
+
     /// <summary>
     ///  1=已入账  2=支付中  3=等待出款  4=已出款
     /// </summary>
