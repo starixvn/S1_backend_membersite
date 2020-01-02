@@ -207,6 +207,9 @@
   <data name="lbl_Back" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="lbl_BankAccount" xml:space="preserve">
+    <value>Bank Account</value>
+  </data>
   <data name="lbl_BankAccountName" xml:space="preserve">
     <value>Account Name</value>
   </data>

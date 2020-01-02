@@ -223,41 +223,47 @@ import * as Loading from '../commJS/Loading.jsx';
 
         render() {
             let rows = this.props.bankInfoDetail.map(function (bankInfo) {
-                return <div key={bankInfo.accountNo} className="tr" role="mobile-grid">
-                <div className="td-label" role="mobile-row-1">
-                    <span className="text-lowlight">{i18n.lbl_BankName}</span>
-                </div>
-                <div className="td-label" role="mobile-row-1">
-                    <div className="payment-thumbnail">
-                        <img src={"/common/images/BankLogo/" + bankInfo.bankLogo} />
+                return <div key={bankInfo.accountNo} className="tbody">
+                    <div className="tr" role="mobile-grid">
+                        <div className="td-bank-img" role="mobile-rowspan">
+                            <div className="payment-thumbnail">
+                                <img src={"/common/images/BankLogo/" + bankInfo.bankLogo} />
+                            </div>
+                        </div>
+                        <div className="td-bank-name" role="mobile-row">
+                            <span className="text">{bankInfo.bankName}</span>
+                        </div>
+                        <div className="td-bank-number" role="mobile-row">
+                            <span className="text">{bankInfo.accountNo}</span>
+                        </div>
+                        <div className="td-icon" role="mobile-rowspan">
+                            <a className="btn btn-icon text-primary" onClick={this.DelCustBankInfo.bind(this, bankInfo)}>
+                                <i className="icon icon-delete-outline"></i>
+                            </a>
+                        </div>
                     </div>
-                    <div className="text-group">
-                        <span className="text">{bankInfo.bankName}</span>
-                    </div>
-                </div>
-                <div className="td-label" role="mobile-row-2">
-                    <span className="text-lowlight">{i18n.lbl_BankNumber}</span>
-                </div>
-                <div className="td-value" role="mobile-row-2">
-                    <span className="text">{bankInfo.accountNo}</span>
-                </div>
-                <div className="td-icon" role="mobile-rowspan">
-                    <a className="btn btn-icon text-primary" onClick={this.DelCustBankInfo.bind(this, bankInfo)}>
-                        <i className="icon icon-delete-outline"></i>
-                    </a>
-                </div>
-            </div>;
+                </div>;
             }.bind(this));
 
             return (
                 <div className="table table-rwd table-primary">
                     <div className="caption">
-                        <span className="text">{i18n.lbl_BankNumber}</span>
+                        <span className="text">{i18n.lbl_BankAccount}</span>
                     </div>
-                    <div className="tbody">
+                    <div className="thead" role="desktop-only">
+                        <div className="tr">
+                            <div className="td-bank-img"></div>
+                            <div className="td-bank-name" data-title={i18n.lbl_BankName}>
+                                <span className="text">{i18n.lbl_BankName}</span>
+                            </div>
+                            <div className="td-bank-number" data-title={i18n.lbl_BankNumber}>
+                                <span className="text">{i18n.lbl_BankNumber}</span>
+                            </div>
+                            <div className="td-icon"></div>
+                        </div>
+                    </div>
                         {rows}
                     </div>
-                </div>
             )
         }
     }
