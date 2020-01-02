@@ -79,15 +79,28 @@ import {number_format} from '../commJS/common';
             this.props.onShowBankModal(bankInfo);
         }
 
+        onCancel(transId){
+            if(confirm('Are you sure?')) {
+                this.props.onCancel(transId);
+            }
+        }
+
         render() {
             let data = this.props.Data;
 
             let rows = data.map(function( item ,index ) { 
                 let dateMonent = moment(item.createTime);
-                let transIdTxt=<span className="text">{item.transId}</span>;
-                
+                let btnGroup = null;
+
                 if(item.depositType==3 && (item.status==1 || item.status==7)) {
-                    transIdTxt = <a className="text-link" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript,transId: item.transId})}><span className="text">{item.transId}</span></a>;
+                    btnGroup = <div className="btn-group">
+                        <button className="btn btn-default" type="button" onClick={this.onCancel.bind(this,item.transId)}>
+                            <span className="text">Cancel</span>
+                        </button>
+                        <button className="btn btn-secondary" type="button" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript,transId: item.transId})}>
+                            <span className="text">Submit proof</span>
+                        </button>
+                    </div>
                 }
                                 
                 return <div className="tr" key={index}>
@@ -99,7 +112,7 @@ import {number_format} from '../commJS/common';
                         <span className="text">{dateMonent.format("hh:mm:ss A")}</span>
                     </div>
                     <div className="td-id" data-title="ID">
-                        {transIdTxt}
+                        <span className="text">{item.transId}</span>
                     </div>
                     <div className="td-method" data-title="Method">
                         <span className="text">{i18n["DepositType_" + item.depositType]}</span>
@@ -109,6 +122,7 @@ import {number_format} from '../commJS/common';
                     </div>
                     <div className="td-status" data-title="Status">
                         <span className="text">{i18n["Status_" + item.status]}</span>
+                        {btnGroup}
                     </div>
             </div>;
                 }.bind(this));
@@ -130,6 +144,20 @@ import {number_format} from '../commJS/common';
 
         componentDidMount() {
             this.GetDepositInfoRecent();
+        }
+
+        onCancel(transId) {
+            axios.post('/api/Payment/SetDepositCancel', {TransId: transId})
+            .then(function (response) {
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    this.GetDepositInfoRecent();
+                } else {
+                    alert(result.message);
+                }
+            }.bind(this)).catch(function (error) {
+                alert(error);
+            }.bind(this));
         }
 
         GetDepositInfoRecent(){
@@ -166,7 +194,7 @@ import {number_format} from '../commJS/common';
                 }
 
                 bodyData = dataContainer.map(function( item ,index ) { 
-                    return <RecentHistoryBody key={index} Data={item.Data} onShowBankModal={this.props.onShowBankModal}/>;
+                    return <RecentHistoryBody key={index} Data={item.Data} onShowBankModal={this.props.onShowBankModal} onCancel={this.onCancel.bind(this)}/>;
                 }.bind(this));
             }
 
@@ -174,7 +202,7 @@ import {number_format} from '../commJS/common';
                 <div className="table table-rwd table-primary">
                     <div className="caption">
                         <span className="text">{i18n.lbl_RecentTransactions}</span>
-                        <button className="btn btn-icon" data-refresh={this.state.refresh} onClick={this.state.refresh?null:this.GetDepositInfoRecent.bind(this)}>
+                       <a className="btn btn-icon" data-refresh={this.state.refresh} onClick={this.state.refresh?null:this.GetDepositInfoRecent.bind(this)}>
                             <i className="icon icon-refresh"></i>
                             <div className="preloader">
                                 <div className="preloader__spiner">
@@ -184,35 +212,41 @@ import {number_format} from '../commJS/common';
                                     </div>
                                 </div>
                             </div>
-                        </button>                        
-                        <a className="text-link" href={hrefAllTrans}>
-                            <span className="text">{i18n.lbl_AllTranscations}</span>
-                            <i className="icon icon-arrow-right"></i>
-                        </a>
+                        </a>                                               
                     </div>
                     <div className="thead" role="desktop-only">
                         <div className="tr">
                             <div className="td-date" data-title="Date">
                                 <span className=" text">Date</span>
                             </div>
-                            <div className="td-time" data-title="Time">
+                            <div className="td-time" data-title={i18n.lbl_Time}>
                                 <span className=" text">{i18n.lbl_Time}</span>
                             </div>
-                            <div className="td-id" data-title="ID">
+                            <div className="td-id" data-title={i18n.lbl_ID}>
                                 <span className=" text">{i18n.lbl_ID}</span>
                             </div>
-                            <div className="td-method" data-title="Method">
+                            <div className="td-method" data-title={i18n.lbl_Method}>
                                 <span className=" text">{i18n.lbl_Method}</span>
                             </div>
-                            <div className="td-amount" data-title="Amount">
+                            <div className="td-amount" data-title={i18n.lbl_Amount}>
                                 <span className=" text">{i18n.lbl_Amount}</span>
                             </div>
-                            <div className="td-status" data-title="Status">
+                            <div className="td-status" data-title={i18n.lbl_Status}>
                                 <span className=" text">{i18n.lbl_Status}</span>
                             </div>
                         </div>
                     </div>
                     {bodyData}
+                    <div className="tfoot">
+                        <div className="tr">
+                            <div className="td-right">
+                                <a className="text-link" href={hrefAllTrans}>
+                                    <span className="text">{i18n.lbl_AllTranscations}</span>
+                                    <i className="icon icon-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )
         }

@@ -33,14 +33,13 @@ namespace MemberSite.Service.DAL
             p.Add("vPostScript", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
 
-            conn.Execute("DepositInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
+            var result = conn.Execute("DepositInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
             trans.Commit();
 
             postScript = p.Get<string>("vPostScript");
             transId = p.Get<string>("vTransId");
 
-
-            return 0;
+            return result;
         }
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId, int siteId, int topNum)
@@ -73,6 +72,17 @@ namespace MemberSite.Service.DAL
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Execute("DepositReceiptPic_Set", new { CustId = custId, DepositId = depositId, PicFileName = picFileName, DepositPic = depositPic }, commandType: CommandType.StoredProcedure);
+        }
+        public int SetDepositCancel(int custId, int depositId, int siteid)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            conn.Open();
+            using MySqlTransaction trans = conn.BeginTransaction();
+
+            var result = conn.Execute("DepositInfoCancel_Set", new { CustId = custId, DepositId = depositId, Siteid = siteid }, transaction: trans, commandType: CommandType.StoredProcedure);
+            trans.Commit();
+
+            return result;
         }
     }
 }

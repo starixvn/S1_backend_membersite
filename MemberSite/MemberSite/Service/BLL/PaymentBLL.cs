@@ -225,5 +225,13 @@ namespace MemberSite.Service.BLL
             int.TryParse(m.Value, out depositId);
             return depoistService.SetDepositReceiptPic(custId, depositId, picFileName, depositPic);
         }
+        public int SetDepositCancel(int custId, string transId)
+        {
+            int depositId = 0;
+            Match m = Regex.Match(transId, @"\d+");
+            int.TryParse(m.Value, out depositId);
+            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            return depoistService.SetDepositCancel(CustInfo.CustId, depositId, CustInfo.SiteId);
+        }
     }
 }

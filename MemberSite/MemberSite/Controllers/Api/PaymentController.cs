@@ -335,10 +335,12 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-
-        public class DepositReceipt
+        public class DepositReq
         {
             public string TransId { get; set; }
+        }
+        public class DepositReceipt : DepositReq
+        {
             public string RefNo { get; set; }
             public long DepositTime { get; set; }
         }
@@ -350,7 +352,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
 
             var result = paymentBLL.SetDepositReceipt(authData.CustId, depositReceipt.TransId, depositReceipt.RefNo, depositReceipt.DepositTime);
-            if (result == 0)
+            if (result > 0)
             {
                 apiResult.ErrorCode = 0;
             }
@@ -361,6 +363,25 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+
+
+        [HttpPost]
+        public ApiResult SetDepositCancel(DepositReq depositReq)
+        {
+            var apiResult = new ApiResult();
+            var authData = authorizeBLL.GetAuthData();
+
+            var result = paymentBLL.SetDepositCancel(authData.CustId, depositReq.TransId);
+            if (result > 0)
+            {
+                apiResult.ErrorCode = 0;
+            }
+            else
+            {
+                apiResult.ErrorCode = -1;
+            }
+            return apiResult;
+        }
         public class TpTransfer
         {
             public int TpId { set; get; }
