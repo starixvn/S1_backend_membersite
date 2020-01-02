@@ -322,11 +322,12 @@ import {number_format} from '../commJS/common';
             amountDataField.handleCheck = this.handleCheckAmount.bind(this);
             amountDataField.Value="";
             formArr.push(amountDataField);
-
+            this.wireTransfersForm = React.createRef();
             this.state = { formArr: formArr, BankInfoOffList: null, PickBankInfoOff:null, showTodModal:false};
         }
 
         componentDidMount() {
+            this.wireTransfersForm.current.scrollIntoView(true);
             Loading.OnLoading();            
             axios.post('/api/Payment/GetBankInfoOffList')
             .then(function (response) {
@@ -444,7 +445,7 @@ import {number_format} from '../commJS/common';
 
             return (
             <div>
-                <div className="heading">
+                <div className="heading" ref={this.wireTransfersForm}>
                     <span className="text">{i18n.lbl_WireTransfers}</span>
                 </div>
                 <form className="form" onSubmit={this.handleSubmit.bind(this)}>
@@ -483,7 +484,7 @@ import {number_format} from '../commJS/common';
             amountDataField.handleCheck = this.handleCheckAmount.bind(this);
             amountDataField.Value="";
             formArr.push(amountDataField);
-
+            this.onlineBankingForm = React.createRef();
             this.state = { formArr: formArr, BankInfoOffList: null, SysId:this.props.SysId, showTodModal:false};
         }
 
@@ -497,6 +498,9 @@ import {number_format} from '../commJS/common';
                     let bankInfoPay=null;
                     if(result.data != null) {
                         bankInfoPay = result.data;
+                        if(bankInfoPay!=null){
+                            this.onlineBankingForm.current.scrollIntoView(true);
+                        }
                         this.setState({BankInfoPay: bankInfoPay});
                     } else {
                         alert(sysId + "Not Found.");
@@ -580,11 +584,11 @@ import {number_format} from '../commJS/common';
             //let modalContaner = null;
 
             return (
-            BankInfoPay != null ? <div>
-                <div className="heading">
+            <div>
+                <div className="heading" ref={this.onlineBankingForm}>
                     <span className="text">{i18n.lbl_OnlineBanking}</span>
                 </div>
-                <form className="form" onSubmit={this.handleSubmit.bind(this)}>
+                {BankInfoPay != null ? <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                     <div className="payment">
                         <div className="payment__img">
                             <img src={"/common/images/BankLogo/" + BankInfoPay.bankLogo}/>
@@ -604,9 +608,9 @@ import {number_format} from '../commJS/common';
                             </div>
                         </button>
                     </div>
-                </form>
-                {this.state.showTodModal ? <TbdModal onConfirm={this.onConfirm.bind(this)} onClose={this.onClose.bind(this)} PickBankInfoOff={BankInfoPay} Amount={this.state.Amount} /> : null}
-            </div> : null
+                </form> : null}
+                {this.state.showTodModal && BankInfoPay!=null ? <TbdModal onConfirm={this.onConfirm.bind(this)} onClose={this.onClose.bind(this)} PickBankInfoOff={BankInfoPay} Amount={this.state.Amount} /> : null}
+            </div>
             )
         }
     }
