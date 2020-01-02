@@ -79,25 +79,25 @@
     {
         if (!tools.IsMobile())
         {
-    <script src="~/lib/es6-promise.min.js"></script>
-    <script src="~/lib/es6-promise.auto.min.js"></script>
+            <script src="~/lib/es6-promise.min.js"></script>
+            <script src="~/lib/es6-promise.auto.min.js"></script>
         }
 
-    <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
-    <script src="~/lib/react.development.js"></script>
-    <script src="~/lib/react-dom.development.js"></script>
-    <script src="~/lib/babel.min.js"></script>
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>*@
+        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+        <script src="~/lib/react.development.js"></script>
+        <script src="~/lib/react-dom.development.js"></script>
+        <script src="~/lib/babel.min.js"></script>
+        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>*@
     }
     else
     {
-    <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
-    <script src="~/lib/react.production.min.js"></script>
-    <script src="~/lib/react-dom.production.min.js"></script>
+        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+        <script src="~/lib/react.production.min.js"></script>
+        <script src="~/lib/react-dom.production.min.js"></script>
         if (!tools.IsMobile())
         {
-    <script src="~/lib/es6-promise.min.js"></script>
-    <script src="~/lib/es6-promise.auto.min.js"></script>
+            <script src="~/lib/es6-promise.min.js"></script>
+            <script src="~/lib/es6-promise.auto.min.js"></script>
         }
     }
 
@@ -183,16 +183,34 @@
 
     @if (User.Identity.IsAuthenticated)
     {
-    <script src="~/js/commJS/common.js"></script>
-    <script src="~/js/commJS/Account.js" asp-append-version="true"></script>
-    <script src="~/js/component/app/BalancePanel.min.js" asp-append-version="true"></script>
-    <script src="~/js/component/app/WalletInfo.min.js" asp-append-version="true"></script>
+        <script src="~/js/commJS/common.js"></script>
+        <script src="~/js/commJS/Account.js" asp-append-version="true"></script>
+        <script src="~/js/component/app/BalancePanel.min.js" asp-append-version="true"></script>
+        <script src="~/js/component/app/WalletInfo.min.js" asp-append-version="true"></script>
     }
     else
     {
-    <script src="~/lib/runtime.min.js"></script>
-    <script src="~/js/component/app/loginForm.min.js" asp-append-version="true"></script>
+        <script src="~/lib/runtime.min.js"></script>
+        <script src="~/js/component/app/loginForm.min.js" asp-append-version="true"></script>
     }
+    <!-- Start of LiveChat (www.livechatinc.com) code -->
+    <script type="text/javascript">
+        window.__lc = window.__lc || {};
+        window.__lc.license = 11638088;
+        (function () {
+            var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
+            lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
+        })();
+    </script>
+    <noscript>
+        <a href="https://www.livechatinc.com/chat-with/11638088/" rel="nofollow">Chat with us</a>,
+        powered by <a href="https://www.livechatinc.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a>
+    </noscript>
+    <!-- End of LiveChat code -->
+
     @RenderSection("Scripts", required: false)
+
+
 </body>
 </html>
