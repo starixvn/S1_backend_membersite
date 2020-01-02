@@ -189,4 +189,13 @@
   <data name="msg_UsernameVaildate" xml:space="preserve">
     <value>6-18 alphanumeric (A-Z, a-z, 0-9) characters only.</value>
   </data>
+  <data name="msg_WithdrawalFailed" xml:space="preserve">
+    <value>Your withdrawal request was failed. Please check with CSD for more information.</value>
+  </data>
+  <data name="msg_WithdrawalNoFund" xml:space="preserve">
+    <value>Your withdrawal request was failed due to insufficient balance!</value>
+  </data>
+  <data name="msg_WithdrawalSuccessful" xml:space="preserve">
+    <value>Your withdrawal request was successfuled. We will notify you once it is done.</value>
+  </data>
 </root>

@@ -26,9 +26,11 @@ namespace MemberSite.Controllers.Api
         private readonly CustInfoBLL custInfoBLL;
         private readonly BankInfoBLL bankInfoBLL;
         private readonly CourierAdapter courierAdapter;
+        private readonly SelLangBLL selLangBLL;
         private readonly string tpApiUrl;
         private readonly int mainWalletType;
-        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL)
+
+        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;
@@ -36,6 +38,7 @@ namespace MemberSite.Controllers.Api
             this.custInfoBLL = custInfoBLL;
             this.bankInfoBLL = bankInfoBLL;
             this.courierAdapter = courierAdapter;
+            this.selLangBLL = selLangBLL;
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
         }
@@ -197,23 +200,24 @@ namespace MemberSite.Controllers.Api
                 string transId = "";
 
                 result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out afterAmount, out transId);
+                if (result == 0)
+                {
+                    apiResult.ErrorCode = 0;
+                    apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalSuccessful");
+                }
+                else
+                {
+                    apiResult.ErrorCode = 9000;
+                    apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalFailed");
+                }
             }
             else
             {
                 apiResult.ErrorCode = transferToSabaResult.ErrorCode;
-                apiResult.Message = transferToSabaResult.Message;
+                //apiResult.Message = transferToSabaResult.Message;
+                apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalNoFund");
                 apiResult.RawErrorCode = transferToSabaResult.RawErrorCode;
                 apiResult.RawMessage = transferToSabaResult.RawMessage;
-            }
-
-            if (result == 0)
-            {
-                apiResult.ErrorCode = 0;
-                apiResult.Message = "";
-            }
-            else
-            {
-
             }
 
             return apiResult;
