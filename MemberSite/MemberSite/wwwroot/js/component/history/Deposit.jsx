@@ -61,6 +61,10 @@ import {DepositHistory} from '../commJS/DepositHistory.jsx';
             }.bind(this));
         }
    
+        GetDepositInfoCur() {
+            this.GetDepositInfoHistory(this.state.PageNumber);
+        }
+
         render() {
             let modalContaner=null;
             modalContaner = this.state.showModal ? <BankModal bankInfo={this.state.bankInfo} onCloseModal={this.onCloseModal.bind(this)}/> : null;
@@ -98,7 +102,7 @@ import {DepositHistory} from '../commJS/DepositHistory.jsx';
                         </button>
                     </div>
                 </form>
-                {this.state.GetData ?<DepositHistory Data={this.state.DepositInfoHistory} onShowBankModal={this.onShowBankModal.bind(this)}/> : null}
+                {this.state.GetData ?<DepositHistory Data={this.state.DepositInfoHistory} onShowBankModal={this.onShowBankModal.bind(this)} GetDepositInfoCur={this.GetDepositInfoCur.bind(this)}/> : null}
                 <Pagination onPaging={this.GetDepositInfoHistory.bind(this)} PageNumber={this.state.PageNumber} TotalPages={this.state.TotalPages}/>
                 {modalContaner}
             </div>

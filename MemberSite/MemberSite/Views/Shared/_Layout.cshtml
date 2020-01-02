@@ -193,24 +193,15 @@
         <script src="~/lib/runtime.min.js"></script>
         <script src="~/js/component/app/loginForm.min.js" asp-append-version="true"></script>
     }
-    <!-- Start of LiveChat (www.livechatinc.com) code -->
+    @* Start of LiveChat (www.livechatinc.com) code *@
     <script type="text/javascript">
-        window.__lc = window.__lc || {};
-        window.__lc.license = 11638088;
-        (function () {
-            var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
-            lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
-        })();
+        !function(t,c){t.__lc=t.__lc||{},t.__lc.license=11638088;var e=c.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==c.location.protocol?"https://":"http://")+"cdn.livechatinc.com/tracking.js";var n=c.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)}(window,document);
     </script>
     <noscript>
         <a href="https://www.livechatinc.com/chat-with/11638088/" rel="nofollow">Chat with us</a>,
         powered by <a href="https://www.livechatinc.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a>
     </noscript>
-    <!-- End of LiveChat code -->
-
+    @*  End of LiveChat code*@
     @RenderSection("Scripts", required: false)
-
-
 </body>
 </html>
