@@ -201,6 +201,9 @@
   <data name="lbl_Applicationname" xml:space="preserve">
     <value />
   </data>
+  <data name="lbl_AttachFile" xml:space="preserve">
+    <value>Attach File</value>
+  </data>
   <data name="lbl_Author" xml:space="preserve">
     <value />
   </data>
@@ -314,6 +317,12 @@
   </data>
   <data name="lbl_DepositOptionHint" xml:space="preserve">
     <value>You can choose the best suitable for you deposit option from the ones provided below:</value>
+  </data>
+  <data name="lbl_DepositTime" xml:space="preserve">
+    <value>Deposit Time</value>
+  </data>
+  <data name="lbl_DepositTimeToolTip" xml:space="preserve">
+    <value>Please submit your deposit time.</value>
   </data>
   <data name="lbl_DepositWithdrawals" xml:space="preserve">
     <value>Deposit &amp; Withdrawals</value>
@@ -462,6 +471,9 @@
   <data name="lbl_OnlineBanking" xml:space="preserve">
     <value>Online Banking</value>
   </data>
+  <data name="lbl_Optional" xml:space="preserve">
+    <value>Optional</value>
+  </data>
   <data name="lbl_OurPolicies" xml:space="preserve">
     <value>Our Policies</value>
   </data>
@@ -504,11 +516,20 @@
   <data name="lbl_RecentTransactions" xml:space="preserve">
     <value>Recent Transactions</value>
   </data>
+  <data name="lbl_Refno" xml:space="preserve">
+    <value>Reference No.</value>
+  </data>
+  <data name="lbl_RefnoToolTip" xml:space="preserve">
+    <value>Please submit your bank slip reference number</value>
+  </data>
   <data name="lbl_Register" xml:space="preserve">
     <value>Register</value>
   </data>
   <data name="lbl_RegisterTime" xml:space="preserve">
     <value>Register Time</value>
+  </data>
+  <data name="lbl_Required" xml:space="preserve">
+    <value>This field is required</value>
   </data>
   <data name="lbl_ResposibleGaming" xml:space="preserve">
     <value>Resposible Gaming</value>
@@ -542,6 +563,9 @@
   </data>
   <data name="lbl_Submit" xml:space="preserve">
     <value>Submit</value>
+  </data>
+  <data name="lbl_SubmitProof" xml:space="preserve">
+    <value>Submit Proof</value>
   </data>
   <data name="lbl_Tennis" xml:space="preserve">
     <value>Tennis</value>
@@ -605,6 +629,15 @@
   </data>
   <data name="lbl_UpdateBankInfo" xml:space="preserve">
     <value>Please update your bank account details before making deposit.</value>
+  </data>
+  <data name="lbl_UpdateSuccess" xml:space="preserve">
+    <value>Update Success. We will process your request ASAP!</value>
+  </data>
+  <data name="lbl_UploadFile" xml:space="preserve">
+    <value>Upload File</value>
+  </data>
+  <data name="lbl_UploadSuccess" xml:space="preserve">
+    <value>Your file was upload successful.</value>
   </data>
   <data name="lbl_URL" xml:space="preserve">
     <value />

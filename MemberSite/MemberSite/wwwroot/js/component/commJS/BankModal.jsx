@@ -8,9 +8,9 @@ export class BankModal extends React.Component {
             let formArr=[];
 
             let dataField = new DataField("DepositTime");
-            dataField.placeholder = "DepositTime";
-            dataField.displayName = "DepositTime";
-            dataField.tooltip = "DepositTime";
+            dataField.placeholder = i18n.lbl_DepositTime;
+            dataField.displayName = i18n.lbl_DepositTime;
+            dataField.tooltip = i18n.lbl_DepositTimeToolTip;
             dataField.status = 1;
             dataField.objectType = 6;            
             dataField.handleCheck = this.handleCheck.bind(this);
@@ -18,26 +18,26 @@ export class BankModal extends React.Component {
             formArr.push(dataField);
 
             dataField = new DataField("RefNo");
-            dataField.placeholder = "RefNo";
-            dataField.displayName = "RefNo";
-            dataField.tooltip = "RefNo";
+            dataField.placeholder = i18n.lbl_Refno;
+            dataField.displayName = i18n.lbl_Refno;
+            dataField.tooltip = i18n.lbl_RefnoToolTip;
             dataField.status = 1;
             dataField.handleCheck = this.handleCheck.bind(this);
             dataField.Value = "";
             formArr.push(dataField);
                         
-            this.state={Show: false, UploadDisabled: false, SubmitDisabled:false, formArr: formArr};
+            this.state={Show: false, UploadDisabled: true, SubmitDisabled: true, formArr: formArr};
             this.filebox = React.createRef();
         }
 
         async handleCheck(value) {
             let status = 1;
-            let message = "tooltip";
+            let message = "";
             
             if(value!=null) {
                 if(value.length == 0) {
                     status = 2;
-                    message = "Req";
+                    message = i18n.lbl_Required;
                 } else {
                     status = 3;
                     message = "";
@@ -69,6 +69,16 @@ export class BankModal extends React.Component {
             this.props.onCloseModal();
         }
 
+        onCheckUpload(event) {
+            let files = this.filebox.current.files;
+            if(files.length >0 ) {
+                this.setState({UploadDisabled: false});
+            }
+            else {
+                this.setState({UploadDisabled: true});
+            }
+        }
+
         onUploadFile(event) {
             event.preventDefault();
             let files = this.filebox.current.files;
@@ -88,7 +98,7 @@ export class BankModal extends React.Component {
                     Loading.UnLoading();
                     let result = response.data;
                     if (result.errorCode == 0) {
-                        alert("success");
+                        alert(i18n.lbl_UploadSuccess);
                     } else {
                         alert(result.message);
                     }
@@ -130,7 +140,8 @@ export class BankModal extends React.Component {
                     Loading.UnLoading();
                     let result = response.data;
                     if (result.errorCode == 0) {
-                        
+                        alert(i18n.lbl_UpdateSuccess);
+                        this.onClose();
                     } else {
                         alert(result.message);
                     }
@@ -204,33 +215,38 @@ export class BankModal extends React.Component {
                                         <button className="btn btn-icon text-primary copyBtn" data-clipboard-text={parseFloat(bankInfo.amount)}><i className="icon icon-copy"></i></button>
                                     </div>
                                 </div>
-                                <div className="tr">
-                                    <div className="td-left">
-                                        <span className="text-lowlight">{i18n.lbl_Postscript}</span>
-                                        <span className="text-accent">{bankInfo.postScript}</span>
-                                    </div>
-                                    <div className="td-right">
-                                        <button className="btn btn-icon text-primary copyBtn" data-clipboard-text={bankInfo.postScript}><i className="icon icon-copy"></i></button>
-                                    </div>
-                                </div>
+                                    {/*<div className="tr">
+                                        <div className="td-left">
+                                            <span className="text-lowlight">{i18n.lbl_Postscript}</span>
+                                            <span className="text-accent">{bankInfo.postScript}</span>
+                                        </div>
+                                        <div className="td-right">
+                                            <button className="btn btn-icon text-primary copyBtn" data-clipboard-text={bankInfo.postScript}><i className="icon icon-copy"></i></button>
+                                        </div>
+                                            </div>*/}
                             </div>
-                            <div className="tfoot">
-                                <div className="tr">
-                                    <div className="td-left">
-                                        <span className="text">{i18n.lbl_PostscriptHint}</span>
+                                {/*<div className="tfoot">
+                                    <div className="tr">
+                                        <div className="td-left">
+                                            <span className="text">{i18n.lbl_PostscriptHint}</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                        </div>*/}
                         </div>
-                        <form onSubmit={this.onUploadFile.bind(this)}>
+                        <form onSubmit={this.onUploadFile.bind(this)} className="form">
                             <div className="form-group">
-                                <label className="form-title"><span className="text">Attached File</span><span className="text-accent">(*Not required)</span></label>
+                                <label className="form-title">
+                                    <span className="text">{i18n.lbl_AttachFile}</span>
+                                    <span className="text-accent"></span>
+                                </label>
                                 <div className="form-content" data-status="">
-                                    <input type="file" name="Receipt" ref={this.filebox} accept="image/*"/>
-                                    <button className="btn btn-secondary" data-disabled={this.state.UploadDisabled}>
+                                    <div className="textfield">
+                                        <input type="file" className="textfield__input" onChange={this.onCheckUpload.bind(this)} ref={this.filebox} accept="image/*"/>
+                                        <span className="textfield__bg"></span>
+                                    </div>
+                                    <button className="btn btn-primary" data-disabled={this.state.UploadDisabled}>
                                         <div className="btn__inner">
-                                            <i className="icon icon-done-circle"></i>
-                                            <span className="text">Upload File</span>
+                                            <span className="text">{i18n.lbl_UploadFile}</span>
                                         </div>
                                     </button>                                     
                                 </div>
@@ -238,21 +254,31 @@ export class BankModal extends React.Component {
                         </form>
                         <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                             {Inputs}
-                            <div className="btn-group">
-                                <button className="btn btn-secondary" data-disabled={this.state.SubmitDisabled} type="submit">
+                            <div className="modal__footer">
+                                <div className="btn-group">
+                                    <button className="btn btn-secondary" deedata-disabled={this.state.SubmitDisabled} type="submit">
+                                        <div className="btn__inner">
+                                            <span className="text">{i18n.lbl_Submit}</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div className="modal__footer">
+                        <div className="btn-group">
+                            <form className="form" onSubmit={this.handleSubmit.bind(this)}>
+                                <button className="btn btn-primary" onClick={this.onClose.bind(this)} type="button">
                                     <div className="btn__inner">
-                                        <i className="icon icon-done-circle"></i>
-                                        <span className="text">Submit</span>
+                                        <span className="text">{i18n.lbl_Close}</span>
                                     </div>
                                 </button>
-                            </div>
-                        </form>                                             
-                        <div className="btn-group">
-                            <button className="btn btn-primary" onClick={this.onClose.bind(this)} type="button">
-                                <div className="btn__inner">
-                                    <span className="text">{i18n.lbl_Close}</span>
-                                </div>
-                            </button>
+                                <button className="btn btn-secondary" deedata-disabled={this.state.SubmitDisabled} type="submit">
+                                    <div className="btn__inner">
+                                        <span className="text">{i18n.lbl_Submit}</span>
+                                    </div>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

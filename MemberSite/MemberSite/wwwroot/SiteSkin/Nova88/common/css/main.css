@@ -433,7 +433,7 @@ template {
 }
 
 ver {
-  ver: "0 0.1-0.22606";
+  ver: "0 0.1-0.20582";
 }
 
 *,
@@ -526,14 +526,6 @@ body::before {
 
 [data-layout=mobile] [role=desktop-only] {
   display: none;
-}
-
-[role=app-only] {
-  display: none !important;
-}
-
-[data-layout=mobile][dtat-platform=app] [role=app-only] {
-  display: flex !important;
 }
 
 @font-face {
@@ -1702,9 +1694,10 @@ button.btn .btn__inner {
   display: flex;
   align-items: inherit;
   justify-content: inherit;
-  margin: -.125rem 0;
+  margin-top: calc(-.125rem - 1px);
+  margin-bottom: calc(-.125rem - 1px);
   width: 100%;
-  min-height: 34px;
+  min-height: inherit;
 }
 
 button.btn .btn__inner::after {
@@ -1712,6 +1705,11 @@ button.btn .btn__inner::after {
   display: block;
   min-height: inherit;
   font-size: 0;
+}
+
+button.btn .btn__inner > .text {
+  padding-top: .125rem;
+  padding-bottom: .125rem;
 }
 
 .btn[data-hidden="true"] {
@@ -1724,12 +1722,14 @@ button.btn .btn__inner::after {
   border-color: #cfcfcf;
   touch-action: auto;
   cursor: auto;
+  pointer-events: none;
 }
 
 .btn[class*="text"]:disabled, .btn[class*="text"][disabled], .btn[class*="text"][data-disabled="true"] {
   color: #cfcfcf;
   touch-action: auto;
   cursor: auto;
+  pointer-events: none;
 }
 
 .btn[data-refresh=false] .preloader {
@@ -2164,20 +2164,27 @@ button.btn .btn__inner::after {
   z-index: -1;
 }
 
-[data-layout=desktop] .form .form-group {
-  display: flex;
+.form-group {
+  min-height: 86px;
+  padding-top: .5rem;
   padding-bottom: .5rem;
-  border-bottom-width: 1px;
-  border-bottom-color: #e7e7e7;
 }
 
-.form-group + .form-group {
-  margin-top: .75rem;
+[data-layout=desktop] .form-group {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+}
+
+.form-group:only-of-type {
+  min-height: auto;
 }
 
 .form-title {
-  display: block;
-  padding: .5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 36px;
+  align-items: center;
 }
 
 .form-title > * {
@@ -2186,6 +2193,10 @@ button.btn .btn__inner::after {
 
 .form-title > .text + .text {
   margin-left: .25rem;
+}
+
+[data-layout=mobile] .form-title {
+  min-height: 28px;
 }
 
 [data-layout=desktop] .form .form-title {
@@ -2216,8 +2227,14 @@ button.btn .btn__inner::after {
   right: 1.125rem;
 }
 
-.form .form-content {
-  min-height: 70px;
+.form-content .textfield + .btn {
+  margin-top: .5rem;
+  margin-left: auto;
+}
+
+[data-layout=desktop] .form-content .textfield + .btn {
+  margin-top: 0;
+  margin-left: .5rem;
 }
 
 [data-layout=desktop] .form .form-content {
@@ -2318,12 +2335,13 @@ p + .form {
 }
 
 .form .tooltip {
-  display: none;
   position: static;
+  display: none;
 }
 
-.form .tooltip[data-open="true"] {
+.form .tooltip[data-open=true] {
   display: block;
+  margin-bottom: -.25rem;
 }
 
 .form--list .form-group {
@@ -2352,6 +2370,40 @@ p + .form {
   padding: 1rem;
   background-color: #F6FAFC;
   border-radius: 16px;
+}
+
+[data-layout=desktop] .modal .form-title {
+  min-height: 28px;
+}
+
+[data-layout=desktop] .modal .form-title,
+[data-layout=desktop] .modal .form-content {
+  width: 100%;
+}
+
+[data-layout=desktop] .modal .textfield {
+  flex: 0 0 auto;
+}
+
+[data-layout=desktop] .modal .textfield + .btn {
+  margin-top: .5rem;
+  margin-left: auto;
+}
+
+.login .form-group {
+  min-height: auto;
+}
+
+.login .login__form {
+  margin-top: .75rem;
+}
+
+.login .login__form .form-group + .form-group {
+  margin: 0;
+}
+
+.login .login__form .tooltip {
+  margin-top: -1.5rem;
 }
 
 .panel {
@@ -3104,7 +3156,7 @@ form + .table-rwd {
 }
 
 [data-layout=desktop] .table-rwd .btn-group .btn {
-  flex: 0 1 80px;
+  flex: 0 1 100px;
   margin: .125rem;
   padding-left: .125rem;
   padding-right: .125rem;
@@ -3207,10 +3259,6 @@ form + .table-rwd {
   justify-content: flex-end;
 }
 
-[data-layout=mobile] .table-rwd .btn-group .btn {
-  min-width: 88px;
-}
-
 [data-layout=mobile] .table-rwd .tr {
   position: relative;
 }
@@ -3307,6 +3355,10 @@ form + .table-rwd {
   order: -1;
   margin-top: 0;
   margin-bottom: 1.75rem;
+}
+
+.table + .form {
+  margin-top: .75rem;
 }
 
 .flex-3 {
@@ -3519,14 +3571,15 @@ html, body {
   background-position: center center;
 }
 
+@media (max-width: 1025px) {
+  [data-layout=desktop] .main--home {
+    padding: 0;
+  }
+}
+
 .footer {
   color: white;
   background-color: #26416E;
-}
-
-[data-layout=mobile][dtat-platform=app] .main--home,
-[data-layout=mobile][dtat-platform=app] .footer {
-  display: none;
 }
 
 .header {
@@ -3739,18 +3792,6 @@ html, body {
   padding: .25rem .5rem;
   font-size: .75rem;
   opacity: .54;
-}
-
-[data-layout=mobile][dtat-platform=app] .btn-toggle-nav,
-[data-layout=mobile][dtat-platform=app] .header__logo,
-[data-layout=mobile][dtat-platform=app] .header__option,
-[data-layout=mobile][dtat-platform=app] .header__nav {
-  display: none;
-}
-
-[data-layout=mobile][dtat-platform=app] .header__main {
-  padding-top: .125rem;
-  padding-bottom: .125rem;
 }
 
 .footer {
@@ -4126,12 +4167,15 @@ html, body {
   text-align: center;
 }
 
-[data-layout=mobile][dtat-platform=app] .login,
-[data-layout=mobile][dtat-platform=app] .login__dialog {
+.login-page {
   transition: none;
 }
 
-[data-layout=mobile][dtat-platform=app] .login__dialog {
+.login-page .login__dialog {
+  transition: none;
+}
+
+.login-page .login__dialog {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -4139,21 +4183,22 @@ html, body {
   background-color: #5574a7;
 }
 
-[data-layout=mobile][dtat-platform=app] .login__dialog p {
+.login-page .login__dialog p {
   text-align: center;
   color: white;
 }
 
-[data-layout=mobile][dtat-platform=app] .login__dialog .text-link {
+.login-page .login__dialog .text-link {
   color: white;
 }
 
-[data-layout=mobile][dtat-platform=app] .login__logo {
-  margin-bottom: 3vh;
+.login-page .login__logo {
+  display: flex;
   justify-content: center;
+  margin-bottom: 3vh;
 }
 
-[data-layout=mobile][dtat-platform=app] .login__logo .logo::before {
+.login-page .login__logo .logo::before {
   content: "";
   display: block;
   width: calc(130px * 1.5);
@@ -4162,22 +4207,22 @@ html, body {
   background-size: cover;
 }
 
-[data-layout=mobile][dtat-platform=app] .login__form {
+.login-page .login__form {
   margin-top: 2.5vh;
   border-bottom-color: rgba(255, 255, 255, 0.12);
 }
 
-[data-layout=mobile][dtat-platform=app] .login__form .dropdown + .form-group,
-[data-layout=mobile][dtat-platform=app] .login__form .form-group + .form-group {
+.login-page .login__form .dropdown + .form-group,
+.login-page .login__form .form-group + .form-group {
   margin-top: 2.5vh;
 }
 
-[data-layout=mobile][dtat-platform=app] .login__form .dropdown {
+.login-page .login__form .dropdown {
   width: 100%;
   background-color: white;
 }
 
-[data-layout=mobile][dtat-platform=app] .login__form .dropdown .btn {
+.login-page .login__form .dropdown .btn {
   height: 44px;
 }
 
