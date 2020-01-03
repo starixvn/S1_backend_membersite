@@ -26,7 +26,7 @@ export class BankModal extends React.Component {
             dataField.Value = "";
             formArr.push(dataField);
                         
-            this.state={Show: false, UploadDisabled: true, SubmitDisabled: true, formArr: formArr};
+            this.state={Show: false, UploadDisabled: true, SubmitDisabled: false, formArr: formArr};
             this.filebox = React.createRef();
         }
 
@@ -127,6 +127,7 @@ export class BankModal extends React.Component {
                 }
                 data[dataField.name] = dataField.Value;
             }            
+            console.log(valid);
 
             if(!valid) {
                 Loading.UnLoading();
@@ -254,15 +255,7 @@ export class BankModal extends React.Component {
                         </form>
                         <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                             {Inputs}
-                            <div className="modal__footer">
-                                <div className="btn-group">
-                                    <button className="btn btn-secondary" deedata-disabled={this.state.SubmitDisabled} type="submit">
-                                        <div className="btn__inner">
-                                            <span className="text">{i18n.lbl_Submit}</span>
-                                        </div>
-                                    </button>
-                                </div>
-                            </div>
+                            <input type="submit" style={{display:"none"}}/>
                         </form>
                     </div>
                     <div className="modal__footer">
@@ -273,7 +266,7 @@ export class BankModal extends React.Component {
                                         <span className="text">{i18n.lbl_Close}</span>
                                     </div>
                                 </button>
-                                <button className="btn btn-secondary" deedata-disabled={this.state.SubmitDisabled} type="submit">
+                                <button className="btn btn-secondary" data-disabled={false} type="button" onClick={this.handleSubmit.bind(this)}>
                                     <div className="btn__inner">
                                         <span className="text">{i18n.lbl_Submit}</span>
                                     </div>
