@@ -98,7 +98,7 @@ import {number_format} from '../commJS/common';
                             <span className="text">Cancel</span>
                         </button>
                         <button className="btn btn-secondary" type="button" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript,transId: item.transId})}>
-                            <span className="text">Submit proof</span>
+                            <span className="text">{i18n.lbl_SubmitProof}</span>
                         </button>
                     </div>
                 }
@@ -217,7 +217,7 @@ import {number_format} from '../commJS/common';
                     <div className="thead" role="desktop-only">
                         <div className="tr">
                             <div className="td-date" data-title="Date">
-                                <span className=" text">Date</span>
+                                <span className=" text">{i18n.lbl_Date}</span>
                             </div>
                             <div className="td-time" data-title={i18n.lbl_Time}>
                                 <span className=" text">{i18n.lbl_Time}</span>
