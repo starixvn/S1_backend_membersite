@@ -318,11 +318,44 @@
   <data name="lbl_DepositOptionHint" xml:space="preserve">
     <value>You can choose the best suitable for you deposit option from the ones provided below:</value>
   </data>
+  <data name="lbl_DepositStatus0" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="lbl_DepositStatus1" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="lbl_DepositStatus2" xml:space="preserve">
+    <value>Paid</value>
+  </data>
+  <data name="lbl_DepositStatus3" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="lbl_DepositStatus4" xml:space="preserve">
+    <value>Rejected</value>
+  </data>
+  <data name="lbl_DepositStatus5" xml:space="preserve">
+    <value>Canceled</value>
+  </data>
+  <data name="lbl_DepositStatus6" xml:space="preserve">
+    <value>Expired</value>
+  </data>
+  <data name="lbl_DepositStatus99" xml:space="preserve">
+    <value>Error</value>
+  </data>
   <data name="lbl_DepositTime" xml:space="preserve">
     <value>Deposit Time</value>
   </data>
   <data name="lbl_DepositTimeToolTip" xml:space="preserve">
     <value>Please submit your deposit time.</value>
+  </data>
+  <data name="lbl_DepositType1" xml:space="preserve">
+    <value>Online Banking</value>
+  </data>
+  <data name="lbl_DepositType2" xml:space="preserve">
+    <value>Mobile Payment</value>
+  </data>
+  <data name="lbl_DepositType3" xml:space="preserve">
+    <value>Local Bank</value>
   </data>
   <data name="lbl_DepositWithdrawals" xml:space="preserve">
     <value>Deposit &amp; Withdrawals</value>
@@ -669,8 +702,44 @@
   <data name="lbl_WithdrawalAmount" xml:space="preserve">
     <value>Withdrawal Amount</value>
   </data>
+  <data name="lbl_WithdrawalStatus0" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="lbl_WithdrawalStatus1" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="lbl_WithdrawalStatus2" xml:space="preserve">
+    <value>OnHold</value>
+  </data>
+  <data name="lbl_WithdrawalStatus3" xml:space="preserve">
+    <value>Verify</value>
+  </data>
+  <data name="lbl_WithdrawalStatus4" xml:space="preserve">
+    <value>Process</value>
+  </data>
+  <data name="lbl_WithdrawalStatus5" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="lbl_WithdrawalStatus6" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="lbl_WithdrawalStatus7" xml:space="preserve">
+    <value>Rejected</value>
+  </data>
+  <data name="lbl_WithdrawalStatus99" xml:space="preserve">
+    <value>Error</value>
+  </data>
   <data name="lbl_WithdrawalTo" xml:space="preserve">
     <value>Withdrawal To</value>
+  </data>
+  <data name="lbl_WithdrawalType0" xml:space="preserve">
+    <value>Undefined</value>
+  </data>
+  <data name="lbl_WithdrawalType1" xml:space="preserve">
+    <value>Local Bank</value>
+  </data>
+  <data name="lbl_WithdrawalType2" xml:space="preserve">
+    <value>Online Payment</value>
   </data>
   <data name="Status_1" xml:space="preserve">
     <value>Waiting</value>
