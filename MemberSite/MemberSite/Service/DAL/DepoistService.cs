@@ -29,7 +29,7 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Open();
             using MySqlTransaction trans = conn.BeginTransaction();
-            var p = new DynamicParameters(new { depositDetailInfo.DepositType, depositDetailInfo.CustId, depositDetailInfo.UserName, depositDetailInfo.SiteId, depositDetailInfo.DepositInfo, depositDetailInfo.Amount, depositDetailInfo.Memo, Prefix = $"D{common.GetEnv()}" });
+            var p = new DynamicParameters(new { depositDetailInfo.DepositType, depositDetailInfo.CustId, depositDetailInfo.UserName, depositDetailInfo.CurrencyId, depositDetailInfo.SiteId, depositDetailInfo.DepositInfo, depositDetailInfo.Amount, depositDetailInfo.Memo, Prefix = $"D{common.GetEnv()}" });
             p.Add("vPostScript", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
 

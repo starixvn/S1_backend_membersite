@@ -19,6 +19,7 @@ namespace MemberSite.Service.Model
         public int DepositType { get; set; }
         public int CustId { get; set; }
         public string UserName { get; set; }
+        public int CurrencyId { get; set; }
         public int SiteId { get; set; }
         public string DepositInfo { get; set; }
         public decimal Amount { get; set; }

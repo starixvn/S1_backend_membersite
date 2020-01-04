@@ -24,14 +24,14 @@ namespace MemberSite.Service.DAL
             this.common = common;
             this.walletService = walletService;
         }
-        public int WithdrawalReq(int custId, string userName, int siteId, decimal amount, string memo, WithdrawalInfo withdrawalInfo, out decimal afterAmount, out string transId)
+        public int WithdrawalReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, WithdrawalInfo withdrawalInfo, out decimal afterAmount, out string transId)
         {
             transId = "";
 
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Open();
             using MySqlTransaction trans = conn.BeginTransaction();
-            var p = new DynamicParameters(new { CustId = custId, UserName = userName, SiteId = siteId, Amount = amount, Memo = memo, WithdrawalInfo = Newtonsoft.Json.JsonConvert.SerializeObject(withdrawalInfo), Prefix = $"W{common.GetEnv()}" });
+            var p = new DynamicParameters(new { CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, Amount = amount, Memo = memo, WithdrawalInfo = Newtonsoft.Json.JsonConvert.SerializeObject(withdrawalInfo), Prefix = $"W{common.GetEnv()}" });
             p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
 
             conn.Execute("WithdrawalInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);

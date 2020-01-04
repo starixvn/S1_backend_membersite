@@ -58,6 +58,7 @@ namespace MemberSite.Service.BLL
                 depositDetailInfo.Memo = memo;
                 depositDetailInfo.SiteId = custInfo.SiteId;
                 depositDetailInfo.UserName = custInfo.UserName;
+                depositDetailInfo.CurrencyId = custInfo.CurrencyId;
 
                 var depositInfo3_1 = new DepositInfo3_1();
                 depositInfo3_1.AccountName = _info.AccountName;
@@ -138,6 +139,7 @@ namespace MemberSite.Service.BLL
                 depositDetailInfo.Memo = null;
                 depositDetailInfo.SiteId = custInfo.SiteId;
                 depositDetailInfo.UserName = custInfo.UserName;
+                depositDetailInfo.CurrencyId = custInfo.CurrencyId;
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(onlineBank);
                 string postScript = null;
 
@@ -162,7 +164,7 @@ namespace MemberSite.Service.BLL
             withdrawalInfo.AccountNo = accountNo;
             withdrawalInfo.SysId = sysId;
 
-            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.SiteId, amount, memo, withdrawalInfo, out afterAmount, out transId);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalInfo, out afterAmount, out transId);
         }
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)
