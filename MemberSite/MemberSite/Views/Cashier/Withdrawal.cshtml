@@ -36,6 +36,12 @@
     i18n.Add("lbl_AmountTooltip", selLangBLL.GetResourceValue("lbl_AmountTooltip"));
     i18n.Add("lbl_TransferTo", selLangBLL.GetResourceValue("lbl_TransferTo"));
     i18n.Add("lbl_MomoHint", selLangBLL.GetResourceValue("lbl_MomoHint"));
+    for (int i = 0; i <= 7; i++)
+    {
+        if (!i18n.ContainsKey($"lbl_WithdrawalStatus{i}"))
+            i18n.Add($"lbl_WithdrawalStatus{i}", selLangBLL.GetResourceValue($"lbl_WithdrawalStatus{i}"));
+    }
+    i18n.Add($"lbl_WithdrawalStatus{99}", selLangBLL.GetResourceValue($"lbl_WithdrawalStatus{99}"));
 }
 @{
     if (custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0)

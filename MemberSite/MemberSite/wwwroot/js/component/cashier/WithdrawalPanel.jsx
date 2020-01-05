@@ -17,7 +17,7 @@ import {number_format} from '../commJS/common';
                         <span className="text">{dateMonent.format("hh:mm:ss A")}</span>
                     </div>
                     <div className="td-id" data-title="ID">
-                        <span className="text"><a className="text-link" onClick={null}>{item.transId}</a></span>
+                        <span className="text">{item.transId}</span>
                     </div>
                     <div className="td-method" data-title="Method">
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
@@ -26,7 +26,7 @@ import {number_format} from '../commJS/common';
                         <span className="text">{number_format(item.chargeFee.toFixed(2))}</span>
                     </div>
                     <div className="td-status" data-title="Status">
-                        <span className="text">{item.status}</span>
+                        <span className="text">{i18n["lbl_WithdrawalStatus"+item.status]}</span>
                     </div>
             </div>;
                 }.bind(this));

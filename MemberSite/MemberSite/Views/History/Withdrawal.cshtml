@@ -25,6 +25,12 @@
     i18n.Add("lbl_Page", selLangBLL.GetResourceValue("lbl_Page"));
     i18n.Add("lbl_Of", selLangBLL.GetResourceValue("lbl_Of"));
     i18n.Add("msg_NoData", selLangBLL.GetMsg("msg_NoData"));
+    for (int i = 0; i <= 7; i++)
+    {
+        if (!i18n.ContainsKey($"lbl_WithdrawalStatus{i}"))
+            i18n.Add($"lbl_WithdrawalStatus{i}", selLangBLL.GetResourceValue($"lbl_WithdrawalStatus{i}"));
+    }
+    i18n.Add($"lbl_WithdrawalStatus{99}", selLangBLL.GetResourceValue($"lbl_WithdrawalStatus{99}"));
 }
 <div class="main">
     <div class="page-title" role="mobile-only">

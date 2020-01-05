@@ -23,7 +23,7 @@ class HistoryBody extends React.Component {
                         <span className="text">{number_format(item.chargeFee.toFixed(2))}</span>
                     </div>
                     <div className="td-status" data-title="Status">
-                        <span className="text">{item.status}</span>
+                        <span className="text">{i18n["lbl_WithdrawalStatus"+item.status]}</span>
                     </div>
             </div>;;
             }.bind(this));

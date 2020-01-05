@@ -95,7 +95,7 @@ import {number_format} from '../commJS/common';
                 if(item.depositType==3 && (item.status==1 || item.status==7)) {
                     btnGroup = <div className="btn-group">
                         <button className="btn btn-default" type="button" onClick={this.onCancel.bind(this,item.transId)}>
-                            <span className="text">Cancel</span>
+                            <span className="text">{i18n.lbl_Cancel}</span>
                         </button>
                         <button className="btn btn-secondary" type="button" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript,transId: item.transId})}>
                             <span className="text">{i18n.lbl_SubmitProof}</span>
@@ -121,7 +121,7 @@ import {number_format} from '../commJS/common';
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
                     </div>
                     <div className="td-status" data-title="Status">
-                        <span className="text">{i18n["Status_" + item.status]}</span>
+                        <span className="text">{i18n["lbl_DepositStatus" + item.status]}</span>
                         {btnGroup}
                     </div>
             </div>;
