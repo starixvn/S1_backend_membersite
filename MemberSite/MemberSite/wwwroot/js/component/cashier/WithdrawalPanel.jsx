@@ -19,10 +19,10 @@ import {number_format} from '../commJS/common';
                     <div className="td-id" data-title="ID">
                         <span className="text">{item.transId}</span>
                     </div>
-                    <div className="td-method" data-title="Method">
+                    <div className="td-amount" data-title="Amount">
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
                     </div>
-                    <div className="td-amount" data-title="Amount">
+                    <div className="td-amount" data-title="Charge Fee">
                         <span className="text">{number_format(item.chargeFee.toFixed(2))}</span>
                     </div>
                     <div className="td-status" data-title="Status">

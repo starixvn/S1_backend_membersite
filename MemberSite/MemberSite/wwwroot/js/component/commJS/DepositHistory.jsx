@@ -39,7 +39,7 @@ class HistoryBody extends React.Component {
                     <span className="text">{item.transId}</span>
                 </div>
                 <div className="td-method" data-title="Method">
-                    <span className="text">{i18n["DepositType_" + item.depositType]}</span>
+                    <span className="text">{i18n["lbl_DepositType" + item.depositType]}item.depositType}</span>
                 </div>
                 <div className="td-amount" data-title="Amount">
                     <span className="text">{number_format(item.amount.toFixed(2))}</span>

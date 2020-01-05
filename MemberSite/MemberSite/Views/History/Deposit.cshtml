@@ -26,16 +26,16 @@
     i18n.Add("lbl_Of", selLangBLL.GetResourceValue("lbl_Of"));
     i18n.Add("msg_NoData", selLangBLL.GetMsg("msg_NoData"));
 
-    for (int i = 0; i <= 6; i++)
+    for (int depositStatus = 0; depositStatus <= 6; depositStatus++)
     {
-        if (!i18n.ContainsKey($"lbl_DepositStatus{i}"))
-            i18n.Add($"lbl_DepositStatus{i}", selLangBLL.GetResourceValue($"lbl_DepositStatus{i}"));
+        string sKey = $"lbl_DepositStatus{depositStatus}";
+        i18n.Add(sKey, selLangBLL.GetResourceValue(sKey));
     }
     i18n.Add($"lbl_DepositStatus{99}", selLangBLL.GetResourceValue($"lbl_DepositStatus{99}"));
 
     for (var depositType = 1; depositType <= 3; depositType++)
     {
-        string sKey = $"DepositType_{depositType}";
+        string sKey = $"lbl_DepositType{depositType}";
         i18n.Add(sKey, selLangBLL.GetResourceValue(sKey));
     }
 }

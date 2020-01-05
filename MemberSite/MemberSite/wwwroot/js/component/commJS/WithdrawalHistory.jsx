@@ -16,10 +16,10 @@ class HistoryBody extends React.Component {
                     <div className="td-id" data-title="ID">
                         <span className="text"><a className="text-link" onClick={null}>{item.transId}</a></span>
                     </div>
-                    <div className="td-method" data-title="Method">
+                    <div className="td-amount" data-title="Amount">
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
                     </div>
-                    <div className="td-amount" data-title="Amount">
+                    <div className="td-amount" data-title="Charge Fee">
                         <span className="text">{number_format(item.chargeFee.toFixed(2))}</span>
                     </div>
                     <div className="td-status" data-title="Status">
