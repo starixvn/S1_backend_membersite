@@ -238,11 +238,10 @@ namespace MemberSite.Service.BLL
 
         public int SetWithdrawalCancel(int custId, string transId)
         {
-            int depositId = 0;
-            Match m = Regex.Match(transId, @"\d+");
-            int.TryParse(m.Value, out depositId);
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            return withdrawalService.SetWithdrawalCancel(CustInfo.CustId, depositId, CustInfo.SiteId);
+            List<int> forStatus = new List<int>();
+            forStatus.Add((int)WithdrawalStatus.Pending);
+            return withdrawalService.SetWithdrawalCancel(CustInfo.CustId, transId, CustInfo.SiteId, forStatus, WithdrawalStatus.Cancelled);
         }
     }
 }

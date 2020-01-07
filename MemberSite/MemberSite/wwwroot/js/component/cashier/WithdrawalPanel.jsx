@@ -69,7 +69,7 @@ import {number_format} from '../commJS/common';
         }
 
         componentDidMount() {
-            this.props.GetWithdrawalInfoRecent();
+            this.GetWithdrawalInfoRecent();
         }
 
         onCancel(transId) {
@@ -77,7 +77,7 @@ import {number_format} from '../commJS/common';
             .then(function (response) {
                 let result = response.data;
                 if (result.errorCode == 0) {
-                    this.GetDepositInfoRecent();
+                    this.GetWithdrawalInfoRecent();
                 } else {
                     alert(result.message);
                 }
@@ -104,7 +104,7 @@ import {number_format} from '../commJS/common';
         }
 
         render() {
-            let data=this.props.WithdrawalInfoRecent;
+            let data=this.state.Data;
             let bodyData = null;
             if(data!=null){
                 let dataContainer=[];
@@ -120,7 +120,7 @@ import {number_format} from '../commJS/common';
                 }
 
                 bodyData = dataContainer.map(function( item ,index ) { 
-                    return <RecentHistoryBody key={index} Data={item.Data}/>;
+                    return <RecentHistoryBody key={index} Data={item.Data} onCancel={this.onCancel.bind(this)}/>;
                 }.bind(this));
             }
 
@@ -450,7 +450,7 @@ import {number_format} from '../commJS/common';
             }.bind(this));
         }
 
-        GetWithdrawalInfoRecent(){
+        /*GetWithdrawalInfoRecent(){
             Loading.OnLoading();
             axios.post('/api/Payment/GetWithdrawalInfoRecent')
             .then(function (response) {
@@ -465,7 +465,7 @@ import {number_format} from '../commJS/common';
                 Loading.UnLoading();
                 alert(error);
             }.bind(this));
-        }
+        }*/
 
 
         async handleSubmit(event) {
@@ -521,7 +521,7 @@ import {number_format} from '../commJS/common';
                             </div>
                         </form>
                         {this.state.showTodModal ? <TbdModal setMemo={this.setMemo.bind(this)} onConfirm={this.onConfirm.bind(this)} onClose={this.onClose.bind(this)} PickBankInfo={this.state.PickBankInfo} Amount={this.state.Amount} Memo={this.state.Memo} AcountName={this.state.AcountName} /> : null}                        
-                        <RecentHistory WithdrawalInfoRecent={this.state.WithdrawalInfoRecent} GetWithdrawalInfoRecent={this.GetWithdrawalInfoRecent.bind(this)}/>
+                        <RecentHistory/>
                         {modalContaner}
                     </div>
             )

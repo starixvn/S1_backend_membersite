@@ -27,7 +27,7 @@ namespace MemberSite.Service.DAL
             conn.Execute("Wallet_Set", p, transaction: trans, commandType: CommandType.StoredProcedure);
             is1stDepoist = p.Get<byte?>("Is1stDepoist") ?? 0;
             afterAmount = p.Get<decimal?>("AfterAmount") ?? 0;
-            return afterAmount >= 0 ? 0 : -1;
+            return afterAmount >= 0 ? 1 : 0;
         }
         public decimal GetBalance(int custId)
         {

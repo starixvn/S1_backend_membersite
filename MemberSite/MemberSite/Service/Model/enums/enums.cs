@@ -53,7 +53,8 @@ namespace MemberSite.Service.Model.enums
         Process = 4,
         Cancelled = 5,
         Approved = 6,
-        Rejected = 7
+        Rejected = 7,
+        Error = 99
     }
 
     /// <summary>

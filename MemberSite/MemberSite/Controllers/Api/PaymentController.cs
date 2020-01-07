@@ -385,13 +385,18 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        public class WithdrawaltReq
+        {
+            public string TransId { get; set; }
+        }
+
         [HttpPost]
-        public ApiResult SetWithdrawalCancel(DepositReq depositReq)
+        public ApiResult SetWithdrawalCancel(WithdrawaltReq withdrawaltReq)
         {
             var apiResult = new ApiResult();
             var authData = authorizeBLL.GetAuthData();
 
-            var result = paymentBLL.SetWithdrawalCancel(authData.CustId, depositReq.TransId);
+            var result = paymentBLL.SetWithdrawalCancel(authData.CustId, withdrawaltReq.TransId);
             if (result > 0)
             {
                 apiResult.ErrorCode = 0;
