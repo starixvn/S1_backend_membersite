@@ -343,7 +343,11 @@
     <value>Expired</value>
   </data>
   <data name="lbl_DepositStatus7" xml:space="preserve">
+<<<<<<< HEAD
     <value>On Hold</value>
+=======
+    <value>Processing</value>
+>>>>>>> 5dc3a645aeaa0137f368cfd0014de7444f85ef8a
   </data>
   <data name="lbl_DepositStatus99" xml:space="preserve">
     <value>Error</value>
