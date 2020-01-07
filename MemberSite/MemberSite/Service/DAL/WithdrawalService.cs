@@ -70,5 +70,17 @@ namespace MemberSite.Service.DAL
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return depositInfoHistoryResult;
         }
+
+        public int SetWithdrawalCancel(int custId, int withdrawalId, int siteid)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            conn.Open();
+            using MySqlTransaction trans = conn.BeginTransaction();
+
+            var result = conn.Execute("WithdrawalInfoCancel_Set", new { CustId = custId, WithdrawalId = withdrawalId, Siteid = siteid }, transaction: trans, commandType: CommandType.StoredProcedure);
+            trans.Commit();
+
+            return result;
+        }
     }
 }

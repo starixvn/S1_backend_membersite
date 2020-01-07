@@ -5,6 +5,15 @@ class HistoryBody extends React.Component {
         let data = this.props.Data;
         let rows = data.map(function( item ,index ) { 
             let dateMonent = moment(item.createTime);
+            let statusGroup = null;
+                
+                if (item.status==5 || item.status==6 || item.status==7 || item.status==99) {
+                    statusGroup = <span className="text">{i18n["lbl_WithdrawalStatus"+item.status]}</span>
+                }
+                else {
+                    statusGroup = <span className="text">{i18n.lbl_WithdrawalStatus4}</span>
+                }
+
             return <div className="tr" key={index}>
                     <div className="td-date" data-title="Date" role="mobile-click">
                         <span className="text">{dateMonent.format('l')} ({dateMonent.format('Z')})</span>
@@ -14,16 +23,13 @@ class HistoryBody extends React.Component {
                         <span className="text">{dateMonent.format("hh:mm:ss A")}</span>
                     </div>
                     <div className="td-id" data-title="ID">
-                        <span className="text"><a className="text-link" onClick={null}>{item.transId}</a></span>
+                        <span className="text">{item.transId}</span>
                     </div>
                     <div className="td-amount" data-title="Amount">
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
                     </div>
-                    <div className="td-amount" data-title="Charge Fee">
-                        <span className="text">{number_format(item.chargeFee.toFixed(2))}</span>
-                    </div>
                     <div className="td-status" data-title="Status">
-                        <span className="text">{i18n["lbl_WithdrawalStatus"+item.status]}</span>
+                        {statusGroup}
                     </div>
             </div>;;
             }.bind(this));
@@ -99,9 +105,6 @@ export class WithdrawalHistory extends React.Component {
                         </div>
                         <div className="td-amount" data-title={i18n.lbl_Amount}>
                             <span className=" text">{i18n.lbl_Amount}</span>
-                        </div>                            
-                        <div className="td-amount" data-title={i18n.lbl_ChargeFee}>
-                            <span className=" text">{i18n.lbl_ChargeFee}</span>
                         </div>
                         <div className="td-status" data-title={i18n.lbl_Status}>
                             <span className=" text">{i18n.lbl_Status}</span>

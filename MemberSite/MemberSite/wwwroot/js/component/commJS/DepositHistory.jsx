@@ -15,6 +15,7 @@ class HistoryBody extends React.Component {
         let rows = data.map(function( item ,index ) { 
             let dateMonent = moment(item.createTime);
             let btnGroup = null;
+            let statusGroup = null;
 
             if(item.depositType==3 && (item.status==1 || item.status==7)) {
                 btnGroup = <div className="btn-group">
@@ -25,6 +26,13 @@ class HistoryBody extends React.Component {
                         <span className="text">Submit proof</span>
                     </button>
                 </div>
+            }
+
+            if (item.status==5 || item.status==6 || item.status==7 || item.status==99) {
+                statusGroup = <span className="text">{i18n["lbl_DepositStatus" + item.status]}</span>
+            }
+            else {
+                statusGroup = <span className="text">{i18n.lbl_DepositStatus4}</span>
             }
 
             return <div className="tr" key={index}>
@@ -45,7 +53,7 @@ class HistoryBody extends React.Component {
                     <span className="text">{number_format(item.amount.toFixed(2))}</span>
                 </div>
                 <div className="td-status" data-title="Status">
-                    <span className="text">{i18n["lbl_DepositStatus" + item.status]}</span>
+                    {statusGroup}<span className="text">{i18n["lbl_DepositStatus" + item.status]}</span>
                     {btnGroup}
                 </div>
         </div>;

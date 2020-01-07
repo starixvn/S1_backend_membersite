@@ -80,7 +80,7 @@ import {number_format} from '../commJS/common';
         }
 
         onCancel(transId){
-            if(confirm('Are you sure?')) {
+            if(confirm(i18n.lbl_CancelConfirm)) {
                 this.props.onCancel(transId);
             }
         }
@@ -91,6 +91,7 @@ import {number_format} from '../commJS/common';
             let rows = data.map(function( item ,index ) { 
                 let dateMonent = moment(item.createTime);
                 let btnGroup = null;
+                let statusGroup = null;
 
                 if(item.depositType==3 && (item.status==1 || item.status==7)) {
                     btnGroup = <div className="btn-group">
@@ -101,6 +102,13 @@ import {number_format} from '../commJS/common';
                             <span className="text">{i18n.lbl_SubmitProof}</span>
                         </button>
                     </div>
+                }
+
+                if (item.status==5 || item.status==6 || item.status==7 || item.status==99) {
+                    statusGroup = <span className="text">{i18n["lbl_DepositStatus" + item.status]}</span>
+                }
+                else {
+                    statusGroup = <span className="text">{i18n.lbl_DepositStatus4}</span>
                 }
                                 
                 return <div className="tr" key={index}>
@@ -121,7 +129,7 @@ import {number_format} from '../commJS/common';
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
                     </div>
                     <div className="td-status" data-title="Status">
-                        <span className="text">{i18n["lbl_DepositStatus" + item.status]}</span>
+                        {statusGroup}
                         {btnGroup}
                     </div>
             </div>;
@@ -202,7 +210,7 @@ import {number_format} from '../commJS/common';
                 <div className="table table-rwd table-primary">
                     <div className="caption">
                         <span className="text">{i18n.lbl_RecentTransactions}</span>
-                       <a className="btn btn-icon" data-refresh={this.state.refresh} onClick={this.state.refresh?null:this.GetDepositInfoRecent.bind(this)}>
+                        <a className="btn btn-icon" data-refresh={this.state.refresh} onClick={this.state.refresh?null:this.GetDepositInfoRecent.bind(this)}>
                             <i className="icon icon-refresh"></i>
                             <div className="preloader">
                                 <div className="preloader__spiner">

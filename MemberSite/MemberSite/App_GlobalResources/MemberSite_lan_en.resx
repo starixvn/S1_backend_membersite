@@ -243,6 +243,9 @@
   <data name="lbl_Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="lbl_CancelConfirm" xml:space="preserve">
+    <value>Are you sure you want to cancel? It can not restore after cancel!</value>
+  </data>
   <data name="lbl_Cashier" xml:space="preserve">
     <value>Cashier</value>
   </data>
@@ -338,6 +341,9 @@
   </data>
   <data name="lbl_DepositStatus6" xml:space="preserve">
     <value>Expired</value>
+  </data>
+  <data name="lbl_DepositStatus7" xml:space="preserve">
+    <value>On Hold</value>
   </data>
   <data name="lbl_DepositStatus99" xml:space="preserve">
     <value>Error</value>

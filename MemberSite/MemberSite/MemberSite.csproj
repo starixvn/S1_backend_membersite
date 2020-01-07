@@ -59,6 +59,7 @@
     <None Include="wwwroot\js\component\account\Profile.jsx" />
     <None Include="wwwroot\js\component\commJS\common.js" />
     <None Include="wwwroot\js\component\commJS\InputBox.jsx" />
+    <None Include="wwwroot\SiteSkin\Nova88\common\js\help.js" />
   </ItemGroup>
 
   <ItemGroup>

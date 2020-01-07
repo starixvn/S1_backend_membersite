@@ -4,10 +4,34 @@ import {number_format} from '../commJS/common';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
     class RecentHistoryBody extends React.Component {
+        onCancel(transId){
+            if(confirm(i18n.lbl_CancelConfirm)) {
+                this.props.onCancel(transId);
+            }
+        }
+
         render() {
             let data = this.props.Data;
             let rows = data.map(function( item ,index ) { 
                 let dateMonent = moment(item.createTime);
+                let btnGroup = null;
+                let statusGroup = null;
+
+                if(item.status==1) {
+                    btnGroup = <div className="btn-group">
+                        <button className="btn btn-default" type="button" onClick={this.onCancel.bind(this,item.transId)}>
+                            <span className="text">{i18n.lbl_Cancel}</span>
+                        </button>
+                    </div>
+                }
+
+                if (item.status==5 || item.status==6 || item.status==7 || item.status==99) {
+                    statusGroup = <span className="text">{i18n["lbl_WithdrawalStatus"+item.status]}</span>
+                }
+                else {
+                    statusGroup = <span className="text">{i18n.lbl_WithdrawalStatus4}</span>
+                }
+
                 return <div className="tr" key={index}>
                     <div className="td-date" data-title="Date" role="mobile-click">
                         <span className="text">{dateMonent.format('l')} ({dateMonent.format('Z')})</span>
@@ -22,11 +46,9 @@ import {number_format} from '../commJS/common';
                     <div className="td-amount" data-title="Amount">
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
                     </div>
-                    <div className="td-amount" data-title="Charge Fee">
-                        <span className="text">{number_format(item.chargeFee.toFixed(2))}</span>
-                    </div>
                     <div className="td-status" data-title="Status">
-                        <span className="text">{i18n["lbl_WithdrawalStatus"+item.status]}</span>
+                        {statusGroup}
+                        {btnGroup}
                     </div>
             </div>;
                 }.bind(this));
@@ -43,10 +65,42 @@ import {number_format} from '../commJS/common';
     class RecentHistory extends React.Component {
         constructor(props) {
             super(props);
+            this.state={Data: null, refresh: false};
         }
 
         componentDidMount() {
             this.props.GetWithdrawalInfoRecent();
+        }
+
+        onCancel(transId) {
+            axios.post('/api/Payment/SetWithdrawalCancel', {TransId: transId})
+            .then(function (response) {
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    this.GetDepositInfoRecent();
+                } else {
+                    alert(result.message);
+                }
+            }.bind(this)).catch(function (error) {
+                alert(error);
+            }.bind(this));
+        }
+
+        GetWithdrawalInfoRecent(){
+            this.setState({refresh: true});            
+            axios.post('/api/Payment/GetWithdrawalInfoRecent')
+            .then(function (response) {
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    this.setState({Data: result.data, refresh: false});
+                } else {
+                    this.setState({refresh: false});
+                    alert(result.message);
+                }
+            }.bind(this)).catch(function (error) {
+                this.setState({refresh: false});
+                alert(error);
+            }.bind(this));
         }
 
         render() {
@@ -74,9 +128,16 @@ import {number_format} from '../commJS/common';
                 <div className="table table-rwd table-primary">
                     <div className="caption">
                         <span className="text">{i18n.lbl_RecentTransactions}</span>
-                        <a className="text-link" href={hrefAllTrans}>
-                            <span className="text">{i18n.lbl_AllTranscations}</span>
-                            <i className="icon icon-arrow-right"></i>
+                        <a className="btn btn-icon" data-refresh={this.state.refresh} onClick={this.state.refresh?null:this.GetWithdrawalInfoRecent.bind(this)}>
+                            <i className="icon icon-refresh"></i>
+                            <div className="preloader">
+                                <div className="preloader__spiner">
+                                    <div className="preloader__circles">
+                                        <div className="preloader__circle-1"></div>
+                                        <div className="preloader__circle-2"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </a>
                     </div>
                     <div className="thead" role="desktop-only">
@@ -92,9 +153,6 @@ import {number_format} from '../commJS/common';
                             </div>
                             <div className="td-amount" data-title="Amount">
                                 <span className=" text">{i18n.lbl_Amount}</span>
-                            </div>                            
-                            <div className="td-amount" data-title="Charge Fee">
-                                <span className=" text">{i18n.lbl_ChargeFee}</span>
                             </div>
                             <div className="td-status" data-title="Status">
                                 <span className=" text">{i18n.lbl_Status}</span>
@@ -102,6 +160,16 @@ import {number_format} from '../commJS/common';
                         </div>
                     </div>
                     {bodyData}
+                    <div className="tfoot">
+                        <div className="tr">
+                            <div className="td-right">
+                                <a className="text-link" href={hrefAllTrans}>
+                                    <span className="text">{i18n.lbl_AllTranscations}</span>
+                                    <i className="icon icon-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )
         }

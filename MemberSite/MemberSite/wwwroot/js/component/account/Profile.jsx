@@ -140,15 +140,27 @@ class ProfileForm extends React.Component {
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="form-title"><b>{i18n.lbl_VIPLevel}</b></label>
+                        <label className="form-title"><b>{i18n.lbl_Email}</b></label>
                         <div className="form-content form-content--text">
-                                <span className="text">{profile.userLevel}</span>
+                                <span className="text">{profile.email}</span>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="form-title"><b>{i18n.lbl_Agent}</b></label>
+                        <label className="form-title"><b>{i18n.lbl_RealName}</b></label>
                         <div className="form-content form-content--text">
-                                <span className="text">{profile.agent}</span>
+                                <span className="text">{profile.realname}</span>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="form-title"><b>{i18n.lbl_Phone}</b></label>
+                        <div className="form-content form-content--text">
+                                <span className="text">{profile.phone}</span>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="form-title"><b>{i18n.lbl_Nationality}</b></label>
+                        <div className="form-content form-content--text">
+                                <span className="text">{profile.nationality}</span>
                         </div>
                     </div>
                     <div className="form-group">
@@ -156,19 +168,14 @@ class ProfileForm extends React.Component {
                         <div className="form-content form-content--text">
                                 <span className="text">{moment(profile.regTime).format('l LTS')}</span>
                         </div>
-                    </div>                    
+                    </div>
                     <div className="form-group">
                         <label className="form-title"><b>{i18n.lbl_LastLogin}</b></label>
                         <div className="form-content form-content--text">
                                 <span className="text">{moment(profile.lastLoginTime).format('l LTS')}</span>
                         </div>
                     </div>
-                    {isUpdate ? null: <div className="form-group">
-                        <label className="form-title"><b>{i18n.lbl_Email}</b></label>
-                        <div className="form-content form-content--text">
-                                <span className="text">{profile.email}</span>
-                        </div>
-                    </div>}                             
+                                               
                     {Inputs}
                     {isUpdate ? 
                     <div className="btn-group">

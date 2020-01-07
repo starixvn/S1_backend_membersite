@@ -27,7 +27,7 @@
     i18n.Add("lbl_Confirm", selLangBLL.GetResourceValue("lbl_Confirm"));
     i18n.Add("lbl_RecentTransactions", selLangBLL.GetResourceValue("lbl_RecentTransactions"));
     i18n.Add("lbl_AllTranscations", selLangBLL.GetResourceValue("lbl_AllTranscations"));
-    i18n.Add("lbl_Date", selLangBLL.GetResourceValue("lbl_Date"));  
+    i18n.Add("lbl_Date", selLangBLL.GetResourceValue("lbl_Date"));
     i18n.Add("lbl_Time", selLangBLL.GetResourceValue("lbl_Time"));
     i18n.Add("lbl_ID", selLangBLL.GetResourceValue("lbl_ID"));
     i18n.Add("lbl_Method", selLangBLL.GetResourceValue("lbl_Method"));
@@ -58,11 +58,12 @@
     i18n.Add("lbl_UpdateSuccess", selLangBLL.GetResourceValue("lbl_UpdateSuccess"));
     i18n.Add("lbl_AttachFile", selLangBLL.GetResourceValue("lbl_AttachFile"));
     i18n.Add("lbl_SubmitProof", selLangBLL.GetResourceValue("lbl_SubmitProof"));
+    i18n.Add("lbl_CancelConfirm", selLangBLL.GetResourceValue("lbl_CancelConfirm"));
 
-    for (int depositStatus = 0; depositStatus <= 6; depositStatus++)
+    for (int depositStatus = 0; depositStatus <= 7; depositStatus++)
     {
-         string sKey = $"lbl_DepositStatus{depositStatus}";
-         i18n.Add(sKey, selLangBLL.GetResourceValue(sKey));
+        string sKey = $"lbl_DepositStatus{depositStatus}";
+        i18n.Add(sKey, selLangBLL.GetResourceValue(sKey));
     }
     i18n.Add($"lbl_DepositStatus{99}", selLangBLL.GetResourceValue($"lbl_DepositStatus{99}"));
 

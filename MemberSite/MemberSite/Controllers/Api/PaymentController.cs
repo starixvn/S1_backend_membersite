@@ -367,8 +367,6 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-
-
         [HttpPost]
         public ApiResult SetDepositCancel(DepositReq depositReq)
         {
@@ -386,6 +384,25 @@ namespace MemberSite.Controllers.Api
             }
             return apiResult;
         }
+
+        [HttpPost]
+        public ApiResult SetWithdrawalCancel(DepositReq depositReq)
+        {
+            var apiResult = new ApiResult();
+            var authData = authorizeBLL.GetAuthData();
+
+            var result = paymentBLL.SetWithdrawalCancel(authData.CustId, depositReq.TransId);
+            if (result > 0)
+            {
+                apiResult.ErrorCode = 0;
+            }
+            else
+            {
+                apiResult.ErrorCode = -1;
+            }
+            return apiResult;
+        }
+
         public class TpTransfer
         {
             public int TpId { set; get; }
