@@ -339,6 +339,9 @@
   <data name="lbl_DepositStatus6" xml:space="preserve">
     <value>Expired</value>
   </data>
+  <data name="lbl_DepositStatus7" xml:space="preserve">
+    <value>Processing</value>
+  </data>
   <data name="lbl_DepositStatus99" xml:space="preserve">
     <value>Error</value>
   </data>
