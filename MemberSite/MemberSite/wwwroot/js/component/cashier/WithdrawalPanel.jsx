@@ -65,46 +65,19 @@ import {number_format} from '../commJS/common';
     class RecentHistory extends React.Component {
         constructor(props) {
             super(props);
-            this.state={Data: null, refresh: false};
         }
 
         componentDidMount() {
             this.GetWithdrawalInfoRecent();
         }
 
-        onCancel(transId) {
-            axios.post('/api/Payment/SetWithdrawalCancel', {TransId: transId})
-            .then(function (response) {
-                let result = response.data;
-                if (result.errorCode == 0) {
-                    this.GetWithdrawalInfoRecent();
-                } else {
-                    alert(result.message);
-                }
-            }.bind(this)).catch(function (error) {
-                alert(error);
-            }.bind(this));
-        }
-
         GetWithdrawalInfoRecent(){
-            this.setState({refresh: true});            
-            axios.post('/api/Payment/GetWithdrawalInfoRecent')
-            .then(function (response) {
-                let result = response.data;
-                if (result.errorCode == 0) {
-                    this.setState({Data: result.data, refresh: false});
-                } else {
-                    this.setState({refresh: false});
-                    alert(result.message);
-                }
-            }.bind(this)).catch(function (error) {
-                this.setState({refresh: false});
-                alert(error);
-            }.bind(this));
+            this.props.GetWithdrawalInfoRecent();
         }
 
         render() {
-            let data=this.state.Data;
+            let data=this.props.Data;
+
             let bodyData = null;
             if(data!=null){
                 let dataContainer=[];
@@ -120,7 +93,7 @@ import {number_format} from '../commJS/common';
                 }
 
                 bodyData = dataContainer.map(function( item ,index ) { 
-                    return <RecentHistoryBody key={index} Data={item.Data} onCancel={this.onCancel.bind(this)}/>;
+                    return <RecentHistoryBody key={index} Data={item.Data} onCancel={this.props.onCancel}/>;
                 }.bind(this));
             }
 
@@ -128,7 +101,7 @@ import {number_format} from '../commJS/common';
                 <div className="table table-rwd table-primary">
                     <div className="caption">
                         <span className="text">{i18n.lbl_RecentTransactions}</span>
-                        <a className="btn btn-icon" data-refresh={this.state.refresh} onClick={this.state.refresh?null:this.GetWithdrawalInfoRecent.bind(this)}>
+                        <a className="btn btn-icon" data-refresh={this.props.refresh} onClick={this.props.refresh?null:this.GetWithdrawalInfoRecent.bind(this)}>
                             <i className="icon icon-refresh"></i>
                             <div className="preloader">
                                 <div className="preloader__spiner">
@@ -362,7 +335,7 @@ import {number_format} from '../commJS/common';
             amountDataField.Value = "";
             formArr.push(amountDataField);
 
-            this.state = { formArr: formArr, showTodModal: false};
+            this.state = { formArr: formArr, showTodModal: false,refresh:false};
         }
 
         componentDidMount() {
@@ -450,14 +423,14 @@ import {number_format} from '../commJS/common';
             }.bind(this));
         }
 
-        /*GetWithdrawalInfoRecent(){
+        onCancel(transId) {
             Loading.OnLoading();
-            axios.post('/api/Payment/GetWithdrawalInfoRecent')
+            axios.post('/api/Payment/SetWithdrawalCancel', {TransId: transId})
             .then(function (response) {
-                Loading.UnLoading();
+                Loading.UnLoading();                
                 let result = response.data;
                 if (result.errorCode == 0) {
-                    this.setState({WithdrawalInfoRecent: result.data});
+                    this.GetWithdrawalInfoRecent();
                 } else {
                     alert(result.message);
                 }
@@ -465,8 +438,24 @@ import {number_format} from '../commJS/common';
                 Loading.UnLoading();
                 alert(error);
             }.bind(this));
-        }*/
+        }
 
+        GetWithdrawalInfoRecent(){
+            this.setState({refresh: true});
+            axios.post('/api/Payment/GetWithdrawalInfoRecent')
+            .then(function (response) {
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    this.setState({WithdrawalInfoRecent: result.data, refresh: false});
+                } else {
+                    this.setState({refresh: false});
+                    alert(result.message);
+                }
+            }.bind(this)).catch(function (error) {
+                this.setState({refresh: false});
+                alert(error);
+            }.bind(this));
+        }
 
         async handleSubmit(event) {
             event.preventDefault();
@@ -521,7 +510,7 @@ import {number_format} from '../commJS/common';
                             </div>
                         </form>
                         {this.state.showTodModal ? <TbdModal setMemo={this.setMemo.bind(this)} onConfirm={this.onConfirm.bind(this)} onClose={this.onClose.bind(this)} PickBankInfo={this.state.PickBankInfo} Amount={this.state.Amount} Memo={this.state.Memo} AcountName={this.state.AcountName} /> : null}                        
-                        <RecentHistory/>
+                        <RecentHistory GetWithdrawalInfoRecent={this.GetWithdrawalInfoRecent.bind(this)} onCancel={this.onCancel.bind(this)} Data={this.state.WithdrawalInfoRecent} refresh={this.state.refresh}/>
                         {modalContaner}
                     </div>
             )
