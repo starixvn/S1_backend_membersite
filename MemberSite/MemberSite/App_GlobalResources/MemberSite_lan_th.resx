@@ -117,57 +117,436 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="lbl_Applicationname" xml:space="preserve">
-    <value />
+  <data name="Currency_1" xml:space="preserve">
+    <value>SGD</value>
   </data>
-  <data name="lbl_Author" xml:space="preserve">
-    <value />
+  <data name="Currency_12" xml:space="preserve">
+    <value>GBP</value>
+  </data>
+  <data name="Currency_13" xml:space="preserve">
+    <value>RMB</value>
+  </data>
+  <data name="Currency_15" xml:space="preserve">
+    <value>IDR</value>
+  </data>
+  <data name="Currency_2" xml:space="preserve">
+    <value>MYR</value>
+  </data>
+  <data name="Currency_20" xml:space="preserve">
+    <value>UUS</value>
+  </data>
+  <data name="Currency_3" xml:space="preserve">
+    <value>USD</value>
+  </data>
+  <data name="Currency_32" xml:space="preserve">
+    <value>JPY</value>
+  </data>
+  <data name="Currency_4" xml:space="preserve">
+    <value>THB</value>
+  </data>
+  <data name="Currency_40" xml:space="preserve">
+    <value>WON</value>
+  </data>
+  <data name="Currency_41" xml:space="preserve">
+    <value>CHF</value>
+  </data>
+  <data name="Currency_45" xml:space="preserve">
+    <value>WON</value>
+  </data>
+  <data name="Currency_51" xml:space="preserve">
+    <value>VND</value>
+  </data>
+  <data name="Currency_6" xml:space="preserve">
+    <value>EURO</value>
+  </data>
+  <data name="Currency_9" xml:space="preserve">
+    <value>AUD</value>
+  </data>
+  <data name="lbl_5mins" xml:space="preserve">
+    <value>5 mins</value>
+  </data>
+  <data name="lbl_AboutUs" xml:space="preserve">
+    <value>เกี่ยวกับเรา</value>
+  </data>
+  <data name="lbl_AccountTerms" xml:space="preserve">
+    <value>ข้อกำหนดบัญชี</value>
+  </data>
+  <data name="lbl_AddNewAccount" xml:space="preserve">
+    <value>เพิ่มบัญชีใหม่</value>
+  </data>
+  <data name="lbl_Affiliates" xml:space="preserve">
+    <value>ตัวแทน</value>
+  </data>
+  <data name="lbl_Agent" xml:space="preserve">
+    <value>เอเจนต์</value>
+  </data>
+  <data name="lbl_AllTranscations" xml:space="preserve">
+    <value>ธุรกรรมทั้งหมด</value>
+  </data>
+  <data name="lbl_Amount" xml:space="preserve">
+    <value>จำนวน</value>
+  </data>
+  <data name="lbl_AmountTooltip" xml:space="preserve">
+    <value>จำนวนเงินต้องไม่น้อยกว่า 0</value>
+  </data>
+  <data name="lbl_Back" xml:space="preserve">
+    <value>กลับ</value>
+  </data>
+  <data name="lbl_BankAccountName" xml:space="preserve">
+    <value>ชื่อบัญชี</value>
+  </data>
+  <data name="lbl_BankAccountNameHint" xml:space="preserve">
+    <value>กรุณาใช้ชื่อจริงของคุณเป็นชื่อบัญชี เพราะตรงส่วนนี้จะไม่สามารถเปลี่ยนแปลงทีหลังได้หลังจากกดยืนยัน</value>
+  </data>
+  <data name="lbl_BankInfo" xml:space="preserve">
+    <value>ข้อมูลธนาคาร</value>
+  </data>
+  <data name="lbl_BankName" xml:space="preserve">
+    <value>ชื่อธนาคาร</value>
+  </data>
+  <data name="lbl_BankNumber" xml:space="preserve">
+    <value>เลขที่บัญชีธนาคาร</value>
+  </data>
+  <data name="lbl_Baseball" xml:space="preserve">
+    <value>เบสบอล</value>
+  </data>
+  <data name="lbl_BaseballBetting" xml:space="preserve">
+    <value>เดิมพันเบสบอล</value>
+  </data>
+  <data name="lbl_Basketball" xml:space="preserve">
+    <value>บาสเกตบอล</value>
+  </data>
+  <data name="lbl_BasketballBetting" xml:space="preserve">
+    <value>เดิมพันบาสเก็ตบอล</value>
+  </data>
+  <data name="lbl_Cancel" xml:space="preserve">
+    <value>ยกเลิก</value>
+  </data>
+  <data name="lbl_Cashier" xml:space="preserve">
+    <value>แคชเชียร์</value>
+  </data>
+  <data name="lbl_Casino" xml:space="preserve">
+    <value>คาสิโน</value>
+  </data>
+  <data name="lbl_CasinoSlogon" xml:space="preserve">
+    <value>มีธีมหลากหลายแบบสำหรับตลาดเอเชีย</value>
+  </data>
+  <data name="lbl_ChangePassword" xml:space="preserve">
+    <value>เปลี่ยนรหัส</value>
+  </data>
+  <data name="lbl_ChargeFee" xml:space="preserve">
+    <value>ค่าธรรมเนียม</value>
+  </data>
+  <data name="lbl_Clickhereforbonus" xml:space="preserve">
+    <value>กดรับโบนัสได้ที่นี่</value>
+  </data>
+  <data name="lbl_Close" xml:space="preserve">
+    <value>ปิด</value>
+  </data>
+  <data name="lbl_CompletedRegistration" xml:space="preserve">
+    <value>Completed Registration</value>
   </data>
   <data name="lbl_CompleteRegistration" xml:space="preserve">
-    <value>ลงทะเบียนเรียบร้อย
-</value>
+    <value>ลงทะเบียนเรียบร้อย</value>
+  </data>
+  <data name="lbl_Confirm" xml:space="preserve">
+    <value>ยืนยัน</value>
+  </data>
+  <data name="lbl_ConfirmDeposit" xml:space="preserve">
+    <value>กรุณายืนยันข้อมูลการฝากเงิน</value>
+  </data>
+  <data name="lbl_ConfirmWithdrawal" xml:space="preserve">
+    <value>กรุณายืนยันข้อมูลการถอน</value>
+  </data>
+  <data name="lbl_ContactCSD" xml:space="preserve">
+    <value>หากมีคำขอเปลี่ยนแปลงโปรดติดต่อ CSD</value>
+  </data>
+  <data name="lbl_ContactUs" xml:space="preserve">
+    <value>ติดต่อเรา</value>
+  </data>
+  <data name="lbl_CookiePolicy" xml:space="preserve">
+    <value>นโยบาย Cookie</value>
   </data>
   <data name="lbl_Copyright" xml:space="preserve">
-    <value />
+    <value>ลิขสิทธิ์ {0}</value>
+  </data>
+  <data name="lbl_CreditTime" xml:space="preserve">
+    <value>เวลาเครดิต</value>
+  </data>
+  <data name="lbl_Currency_12" xml:space="preserve">
+    <value>ปอนด์</value>
+  </data>
+  <data name="lbl_Currency_15" xml:space="preserve">
+    <value>รูปี</value>
+  </data>
+  <data name="lbl_Currency_2" xml:space="preserve">
+    <value>ริงกิต(มาเลเซีย)</value>
+  </data>
+  <data name="lbl_Currency_3" xml:space="preserve">
+    <value>ดอลล่าร์(สหรัฐ)</value>
+  </data>
+  <data name="lbl_Currency_4" xml:space="preserve">
+    <value>บาท(ไทย)</value>
+  </data>
+  <data name="lbl_Currency_40" xml:space="preserve">
+    <value>วอน</value>
+  </data>
+  <data name="lbl_Currency_51" xml:space="preserve">
+    <value>ดอง</value>
+  </data>
+  <data name="lbl_Currency_6" xml:space="preserve">
+    <value>ยูโร</value>
+  </data>
+  <data name="lbl_CustBank" xml:space="preserve">
+    <value>ธนาคาร</value>
+  </data>
+  <data name="lbl_CustBankInfo" xml:space="preserve">
+    <value>อัปเดตข้อมูลธนาคาร</value>
+  </data>
+  <data name="lbl_Date" xml:space="preserve">
+    <value>วันที่</value>
+  </data>
+  <data name="lbl_Deposit" xml:space="preserve">
+    <value>การฝากเงิน</value>
+  </data>
+  <data name="lbl_DepositAmount" xml:space="preserve">
+    <value>จำนวนเงินที่ฝาก</value>
+  </data>
+  <data name="lbl_DepositNow" xml:space="preserve">
+    <value>ฝากเงินเดี๋ยวนี้</value>
+  </data>
+  <data name="lbl_DepositOptionHint" xml:space="preserve">
+    <value>คุณสามารถเลือกตัวเลือกการฝากที่ดีที่สุดสำหรับคุณจากรายการด้านล่าง:</value>
+  </data>
+  <data name="lbl_DepositWithdrawals" xml:space="preserve">
+    <value>การฝากเงิน&amp;การถอนเงิน</value>
   </data>
   <data name="lbl_Description" xml:space="preserve">
     <value>พนันออนไลน์, พนันบอล,
  เดิมพันฟุตบอล, เดิมพันเทนนิส, เดิมพันกอล์ฟ, เดิมพันกีฬาออนไลน์, เดิมพันบอล, การพนันออนไลน์</value>
   </data>
-  <data name="lbl_Image" xml:space="preserve">
-    <value />
+  <data name="lbl_DontHaveAccount" xml:space="preserve">
+    <value>ยังไม่มีบัญชีใช่ไหม</value>
+  </data>
+  <data name="lbl_DownloadApp" xml:space="preserve">
+    <value>ดาวน์โหลด App</value>
+  </data>
+  <data name="lbl_Downloads" xml:space="preserve">
+    <value>ดาวน์โหลด</value>
+  </data>
+  <data name="lbl_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="lbl_eSports" xml:space="preserve">
+    <value>อีสปอร์ต</value>
+  </data>
+  <data name="lbl_eSportsBetting" xml:space="preserve">
+    <value>เดิมพัน E-Sports</value>
+  </data>
+  <data name="lbl_Facebook" xml:space="preserve">
+    <value>Facebook</value>
+  </data>
+  <data name="lbl_FAQ" xml:space="preserve">
+    <value>คำถามคำตอบที่พบบ่อย</value>
+  </data>
+  <data name="lbl_FootballBetting" xml:space="preserve">
+    <value>เดิมพันฟุตบอล</value>
+  </data>
+  <data name="lbl_ForgetPassword" xml:space="preserve">
+    <value>ลืม ID หรือรหัสผ่าน?</value>
+  </data>
+  <data name="lbl_From" xml:space="preserve">
+    <value>จาก</value>
+  </data>
+  <data name="lbl_Help" xml:space="preserve">
+    <value>ช่วยเหลือ</value>
+  </data>
+  <data name="lbl_HelpSupport" xml:space="preserve">
+    <value>ช่วยเหลือและสนับสนุน</value>
+  </data>
+  <data name="lbl_History" xml:space="preserve">
+    <value>ประวัติ</value>
+  </data>
+  <data name="lbl_HockeyBetting" xml:space="preserve">
+    <value>เดิมพันฮอคกี้</value>
+  </data>
+  <data name="lbl_Home" xml:space="preserve">
+    <value>บ้าน</value>
+  </data>
+  <data name="lbl_ID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="lbl_ImportantNote" xml:space="preserve">
+    <value>โน๊ตสำคัญ</value>
+  </data>
+  <data name="lbl_Instant" xml:space="preserve">
+    <value>ทันทีทันใด</value>
   </data>
   <data name="lbl_JoinNow" xml:space="preserve">
-    <value>สมัครเลย
-</value>
+    <value>สมัครเลย</value>
+  </data>
+  <data name="lbl_Keno" xml:space="preserve">
+    <value>คีโน</value>
+  </data>
+  <data name="lbl_KenoSlogon" xml:space="preserve">
+    <value>วิธีเล่นหลากหลาย มีโอกาสชนะมากขึ้น!</value>
   </data>
   <data name="lbl_Keywords" xml:space="preserve">
     <value>พนันออนไลน์, พนันบอล,
  เดิมพันฟุตบอล, เดิมพันเทนนิส, เดิมพันกอล์ฟ, เดิมพันกีฬาออนไลน์, เดิมพันบอล, การพนันออนไลน์</value>
   </data>
+  <data name="lbl_LastLogin" xml:space="preserve">
+    <value>การเข้าระบบครั้งสุดท้าย</value>
+  </data>
+  <data name="lbl_LastTransaction" xml:space="preserve">
+    <value>รายการเล่นสุดท้าย</value>
+  </data>
+  <data name="lbl_LiveCasino" xml:space="preserve">
+    <value>Live Casino</value>
+  </data>
+  <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
+    <value>ประสบการณ์คาสิโนแบบสมจริง</value>
+  </data>
+  <data name="lbl_Login" xml:space="preserve">
+    <value>เข้าสู่ระบบ</value>
+  </data>
   <data name="lbl_LoginHere" xml:space="preserve">
-    <value>เข้าสู่ระบบที่นี่
-</value>
+    <value>เข้าสู่ระบบที่นี่</value>
   </data>
   <data name="lbl_LoginMsg" xml:space="preserve">
     <value>โปรดทราบว่าเราไม่อนุญาตให้มีบัญชีเกินกว่า 1 บัญชี</value>
   </data>
+  <data name="lbl_Logout" xml:space="preserve">
+    <value>ออกจากระบบ</value>
+  </data>
+  <data name="lbl_Memo" xml:space="preserve">
+    <value>เมโม</value>
+  </data>
+  <data name="lbl_Message" xml:space="preserve">
+    <value>ข้อความ</value>
+  </data>
+  <data name="lbl_Method" xml:space="preserve">
+    <value>วิธี</value>
+  </data>
+  <data name="lbl_MobileDeposit" xml:space="preserve">
+    <value>วิธีการชำระเงินผ่านมือถือ</value>
+  </data>
+  <data name="lbl_MomoHint" xml:space="preserve">
+    <value>หากต้องการรับเงินฝากเร็ว ๆ โปรดฝากชื่อบัญชีธนาคารของคุณและหมายเลขบัญชีธนาคารไว้ที่นี่</value>
+  </data>
+  <data name="lbl_MyAccount" xml:space="preserve">
+    <value>บัญชีของฉัน</value>
+  </data>
+  <data name="lbl_NewPassword" xml:space="preserve">
+    <value>รหัสผ่านใหม่</value>
+  </data>
+  <data name="lbl_NotinLimit" xml:space="preserve">
+    <value>จำนวนเงินมากกว่าหรือน้อยกว่าที่กำหนดไว้</value>
+  </data>
+  <data name="lbl_NumberGame" xml:space="preserve">
+    <value>เกมหมายเลข</value>
+  </data>
+  <data name="lbl_Of" xml:space="preserve">
+    <value>ของ</value>
+  </data>
+  <data name="lbl_OldPassword" xml:space="preserve">
+    <value>กรุณายืนยันรหัสที่ใช้ปัจจุบัน</value>
+  </data>
+  <data name="lbl_OnlineBanking" xml:space="preserve">
+    <value>ธนาคารออนไลน์</value>
+  </data>
+  <data name="lbl_OurPolicies" xml:space="preserve">
+    <value>นโยบายของเรา</value>
+  </data>
+  <data name="lbl_Page" xml:space="preserve">
+    <value>หน้า</value>
+  </data>
   <data name="lbl_Password" xml:space="preserve">
-    <value>รหัสผ่าน</value>
+    <value>รหัส</value>
   </data>
   <data name="lbl_PasswordTooltip" xml:space="preserve">
-    <value>6-18 ตัวอักษรและตัวเลข(A-Z, a-z, 0-9) หรือตัวอักษรพิเศษ @$*!%#?&amp;
-</value>
+    <value>6-18 ตัวอักษรและตัวเลข(A-Z, a-z, 0-9) หรือตัวอักษรพิเศษ @$*!%#?&amp;</value>
+  </data>
+  <data name="lbl_PaymentOptions" xml:space="preserve">
+    <value>ตัวเลือกการชำระเงิน</value>
+  </data>
+  <data name="lbl_Postscript" xml:space="preserve">
+    <value>หมายเลขอ้างอิง</value>
+  </data>
+  <data name="lbl_PostscriptHint" xml:space="preserve">
+    <value>กรอกหมายเลขอ้างอิงเพื่อรับเงินฝากทันที</value>
   </data>
   <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
-    <value>หลังจากลงทะเบียนจะไม่สามารถเปลี่ยนสกุลเงินที่เลือกไว้ได้
-</value>
+    <value>หลังจากลงทะเบียนจะไม่สามารถเปลี่ยนสกุลเงินที่เลือกไว้ได้</value>
   </data>
   <data name="lbl_PrefferedCurrency" xml:space="preserve">
     <value>สกุลเงินที่เลือก</value>
   </data>
+  <data name="lbl_PrivacyPolicy" xml:space="preserve">
+    <value>นโยบายของบริษัท</value>
+  </data>
+  <data name="lbl_Profile" xml:space="preserve">
+    <value>ข้อมูลส่วนตัว</value>
+  </data>
+  <data name="lbl_Promotion" xml:space="preserve">
+    <value>โปรโมชั่น</value>
+  </data>
+  <data name="lbl_RebatebonusonMobile" xml:space="preserve">
+    <value>ส่วนลดโบนัสบนมือถือ</value>
+  </data>
+  <data name="lbl_RecentTransactions" xml:space="preserve">
+    <value>ธุรกรรมล่าสุด</value>
+  </data>
+  <data name="lbl_Register" xml:space="preserve">
+    <value>สมัครสมาชิก</value>
+  </data>
+  <data name="lbl_RegisterTime" xml:space="preserve">
+    <value>เวลาลงทะเบียน</value>
+  </data>
+  <data name="lbl_ResposibleGaming" xml:space="preserve">
+    <value>การรับผิดชอบของการเล่นพนัน</value>
+  </data>
+  <data name="lbl_RuleRegulations" xml:space="preserve">
+    <value>กฎกติกาและระเบียบข้อบังคับการเดิมพัน</value>
+  </data>
+  <data name="lbl_SelectAll" xml:space="preserve">
+    <value>เลือกทั้งหมด</value>
+  </data>
+  <data name="lbl_ShowBalance" xml:space="preserve">
+    <value>แสดงยอดคงเหลือ</value>
+  </data>
   <data name="lbl_Soccer" xml:space="preserve">
     <value>ฟุตบอล</value>
+  </data>
+  <data name="lbl_SoccerBetting" xml:space="preserve">
+    <value>เดิมพันฟุตบอล</value>
+  </data>
+  <data name="lbl_SocialMedia" xml:space="preserve">
+    <value>สื่อสังคมออนไลน์</value>
+  </data>
+  <data name="lbl_Sports" xml:space="preserve">
+    <value>กีฬา</value>
+  </data>
+  <data name="lbl_SportsBetting" xml:space="preserve">
+    <value>เดิมพันกีฬา</value>
+  </data>
+  <data name="lbl_Status" xml:space="preserve">
+    <value>สถานะ</value>
+  </data>
+  <data name="lbl_Submit" xml:space="preserve">
+    <value>ตกลง</value>
+  </data>
+  <data name="lbl_Tennis" xml:space="preserve">
+    <value>เทนนิส</value>
+  </data>
+  <data name="lbl_TennisBetting" xml:space="preserve">
+    <value>เดิมพันเทนนิส</value>
+  </data>
+  <data name="lbl_TermsConditions" xml:space="preserve">
+    <value>เงี่อนไขและกติกา</value>
+  </data>
+  <data name="lbl_Time" xml:space="preserve">
+    <value>เวลา</value>
   </data>
   <data name="lbl_Title" xml:space="preserve">
     <value>Nova88</value>
@@ -175,8 +554,29 @@
   <data name="lbl_TitleDesc" xml:space="preserve">
     <value>ผู้นำทางด้านการเดิมพัน. ข้อเสนอและอัตราต่อรองที่ดีที่สุด</value>
   </data>
-  <data name="lbl_TitleKeywords" xml:space="preserve">
-    <value />
+  <data name="lbl_To" xml:space="preserve">
+    <value>ถึง</value>
+  </data>
+  <data name="lbl_Transaction" xml:space="preserve">
+    <value>รายการเล่นสุดท้าย</value>
+  </data>
+  <data name="lbl_TransactionHint" xml:space="preserve">
+    <value>กรุณาโอนเงินไปยังบัญชี</value>
+  </data>
+  <data name="lbl_TransactionHistory" xml:space="preserve">
+    <value>ประวัติการทำรายการ</value>
+  </data>
+  <data name="lbl_TransferFunds" xml:space="preserve">
+    <value>โอนเงินทุน</value>
+  </data>
+  <data name="lbl_TransferTo" xml:space="preserve">
+    <value>โอนไปที่</value>
+  </data>
+  <data name="lbl_TryNow" xml:space="preserve">
+    <value>ลองเลยตอนนี้</value>
+  </data>
+  <data name="lbl_Twitter" xml:space="preserve">
+    <value>Twitter</value>
   </data>
   <data name="lbl_TwitterCreator" xml:space="preserve">
     <value>@Nova88official</value>
@@ -184,8 +584,14 @@
   <data name="lbl_TwitterSite" xml:space="preserve">
     <value>@Nova88official</value>
   </data>
-  <data name="lbl_URL" xml:space="preserve">
-    <value />
+  <data name="lbl_Update" xml:space="preserve">
+    <value>สถานะปัจจุบัน</value>
+  </data>
+  <data name="lbl_UpdateBankDetail" xml:space="preserve">
+    <value>การแจ้งสถานะบัญชีธนาคารปัจจุบัน</value>
+  </data>
+  <data name="lbl_UpdateBankInfo" xml:space="preserve">
+    <value>โปรดอัปเดตรายละเอียดบัญชีธนาคารของคุณก่อนทำการฝากเงิน</value>
   </data>
   <data name="lbl_Username" xml:space="preserve">
     <value>ชื่อผู้ใช้</value>
@@ -193,5 +599,26 @@
   <data name="lbl_UsernameTooltip" xml:space="preserve">
     <value>เพื่อความปลอดภัยเราแนะนำให้คุณใช้ชื่อผู้ใช้
 ที่ไม่มีชื่อจริงของคุณ</value>
+  </data>
+  <data name="lbl_VariousBankingOptions" xml:space="preserve">
+    <value>ตัวเลือกธนาคารต่างๆ</value>
+  </data>
+  <data name="lbl_VIPLevel" xml:space="preserve">
+    <value>ระดับวีไอพี</value>
+  </data>
+  <data name="lbl_VirtualSports" xml:space="preserve">
+    <value>กีฬาจำลอง</value>
+  </data>
+  <data name="lbl_Welcome" xml:space="preserve">
+    <value>ยินดีต้อนรับ</value>
+  </data>
+  <data name="lbl_Withdrawal" xml:space="preserve">
+    <value>การถอนเงิน</value>
+  </data>
+  <data name="lbl_WithdrawalAmount" xml:space="preserve">
+    <value>จำนวนเงินที่ถอน</value>
+  </data>
+  <data name="lbl_WithdrawalTo" xml:space="preserve">
+    <value>ถอนออกเป็น</value>
   </data>
 </root>

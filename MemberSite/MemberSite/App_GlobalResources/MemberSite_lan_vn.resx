@@ -117,29 +117,272 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="lbl_Applicationname" xml:space="preserve">
-    <value />
+  <data name="Currency_1" xml:space="preserve">
+    <value>SGD</value>
   </data>
-  <data name="lbl_Author" xml:space="preserve">
-    <value />
+  <data name="Currency_12" xml:space="preserve">
+    <value>GBP</value>
+  </data>
+  <data name="Currency_13" xml:space="preserve">
+    <value>RMB</value>
+  </data>
+  <data name="Currency_15" xml:space="preserve">
+    <value>IDR</value>
+  </data>
+  <data name="Currency_2" xml:space="preserve">
+    <value>MYR</value>
+  </data>
+  <data name="Currency_20" xml:space="preserve">
+    <value>UUS</value>
+  </data>
+  <data name="Currency_3" xml:space="preserve">
+    <value>USD</value>
+  </data>
+  <data name="Currency_32" xml:space="preserve">
+    <value>JPY</value>
+  </data>
+  <data name="Currency_4" xml:space="preserve">
+    <value>THB</value>
+  </data>
+  <data name="Currency_40" xml:space="preserve">
+    <value>WON</value>
+  </data>
+  <data name="Currency_41" xml:space="preserve">
+    <value>CHF</value>
+  </data>
+  <data name="Currency_45" xml:space="preserve">
+    <value>WON</value>
+  </data>
+  <data name="Currency_51" xml:space="preserve">
+    <value>VND</value>
+  </data>
+  <data name="Currency_6" xml:space="preserve">
+    <value>EURO</value>
+  </data>
+  <data name="Currency_9" xml:space="preserve">
+    <value>AUD</value>
+  </data>
+  <data name="lbl_5mins" xml:space="preserve">
+    <value>5 mins</value>
+  </data>
+  <data name="lbl_AboutUs" xml:space="preserve">
+    <value>Giới Thiệu</value>
+  </data>
+  <data name="lbl_AccountTerms" xml:space="preserve">
+    <value>Điều khoản về Tài khoản</value>
+  </data>
+  <data name="lbl_AddNewAccount" xml:space="preserve">
+    <value>Thêm tài khoản</value>
+  </data>
+  <data name="lbl_Affiliates" xml:space="preserve">
+    <value>Chi nhánh</value>
+  </data>
+  <data name="lbl_Agent" xml:space="preserve">
+    <value>Agent</value>
+  </data>
+  <data name="lbl_AllTranscations" xml:space="preserve">
+    <value>Tất cả giao dịch</value>
+  </data>
+  <data name="lbl_Amount" xml:space="preserve">
+    <value>Số Tiền</value>
+  </data>
+  <data name="lbl_AmountTooltip" xml:space="preserve">
+    <value>Số tiền không thể nhỏ hơn 0.</value>
+  </data>
+  <data name="lbl_Back" xml:space="preserve">
+    <value>Quay lại</value>
+  </data>
+  <data name="lbl_BankAccountName" xml:space="preserve">
+    <value>Tên Tài Khoản</value>
+  </data>
+  <data name="lbl_BankAccountNameHint" xml:space="preserve">
+    <value>Vui lòng điền tên thật của bạn cho mục Tên tài khoản. Tên tài khoản không thể thay đổi!</value>
+  </data>
+  <data name="lbl_BankInfo" xml:space="preserve">
+    <value>Thông tin ngân hàng</value>
+  </data>
+  <data name="lbl_BankName" xml:space="preserve">
+    <value>Tên ngân hàng</value>
+  </data>
+  <data name="lbl_BankNumber" xml:space="preserve">
+    <value>Số Tài Khoản Ngân Hàng</value>
+  </data>
+  <data name="lbl_Baseball" xml:space="preserve">
+    <value>Bóng chày</value>
+  </data>
+  <data name="lbl_BaseballBetting" xml:space="preserve">
+    <value>Cá cược Bóng Chày</value>
+  </data>
+  <data name="lbl_Basketball" xml:space="preserve">
+    <value>Bóng rổ</value>
+  </data>
+  <data name="lbl_BasketballBetting" xml:space="preserve">
+    <value>Cá cược Bóng Rổ</value>
+  </data>
+  <data name="lbl_Cancel" xml:space="preserve">
+    <value>Hủy</value>
+  </data>
+  <data name="lbl_Cashier" xml:space="preserve">
+    <value>Thu ngân</value>
+  </data>
+  <data name="lbl_Casino" xml:space="preserve">
+    <value>Sòng bạc</value>
+  </data>
+  <data name="lbl_CasinoSlogon" xml:space="preserve">
+    <value>Nhiều giao diện riêng cho thị trường Châu Á</value>
+  </data>
+  <data name="lbl_ChangePassword" xml:space="preserve">
+    <value>Đổi Mật Khẩu</value>
+  </data>
+  <data name="lbl_ChargeFee" xml:space="preserve">
+    <value>Phí dịch vụ</value>
+  </data>
+  <data name="lbl_Clickhereforbonus" xml:space="preserve">
+    <value>Bấm để nhận thưởng</value>
+  </data>
+  <data name="lbl_Close" xml:space="preserve">
+    <value>Đóng</value>
+  </data>
+  <data name="lbl_CompletedRegistration" xml:space="preserve">
+    <value>Completed Registration</value>
   </data>
   <data name="lbl_CompleteRegistration" xml:space="preserve">
-    <value>Hoàn thành Đăng ký </value>
+    <value>Hoàn thành Đăng ký</value>
+  </data>
+  <data name="lbl_Confirm" xml:space="preserve">
+    <value>Xác nhận</value>
+  </data>
+  <data name="lbl_ConfirmDeposit" xml:space="preserve">
+    <value>Vui lòng xác nhận thông tin nạp tiền.</value>
+  </data>
+  <data name="lbl_ConfirmWithdrawal" xml:space="preserve">
+    <value>Vui lòng xác nhận thông tin rút tiền.</value>
+  </data>
+  <data name="lbl_ContactCSD" xml:space="preserve">
+    <value>Nếu bạn muốn thay đổi thông tin tài khoản, vui lòng liên hệ bộ phận chăm sóc khách hàng.</value>
+  </data>
+  <data name="lbl_ContactUs" xml:space="preserve">
+    <value>Liên hệ</value>
+  </data>
+  <data name="lbl_CookiePolicy" xml:space="preserve">
+    <value>Chính sách Cookie</value>
   </data>
   <data name="lbl_Copyright" xml:space="preserve">
     <value>Bản quyền {0}</value>
   </data>
+  <data name="lbl_CreditTime" xml:space="preserve">
+    <value>Thời gian thực hiện</value>
+  </data>
+  <data name="lbl_CustBank" xml:space="preserve">
+    <value>Ngân hàng</value>
+  </data>
+  <data name="lbl_CustBankInfo" xml:space="preserve">
+    <value>Cập nhật thông tin ngân hàng</value>
+  </data>
+  <data name="lbl_Date" xml:space="preserve">
+    <value>Ngày</value>
+  </data>
+  <data name="lbl_Deposit" xml:space="preserve">
+    <value>Gửi tiền</value>
+  </data>
+  <data name="lbl_DepositAmount" xml:space="preserve">
+    <value>Tiền gửi</value>
+  </data>
+  <data name="lbl_DepositNow" xml:space="preserve">
+    <value>Gửi tiền ngay</value>
+  </data>
+  <data name="lbl_DepositOptionHint" xml:space="preserve">
+    <value>Bạn có thể chọn mục nạp tiền phù hợp nhất từ những lựa chọn bên dưới:</value>
+  </data>
+  <data name="lbl_DepositWithdrawals" xml:space="preserve">
+    <value>Gửi tiền &amp; Rút tiền</value>
+  </data>
   <data name="lbl_Description" xml:space="preserve">
     <value>Cá cược trực tuyến, Cá cược Thể thao, Cá cược Bóng đá, Cá cược Quần vợt, Cá cược Golf, Cá cược Thể thao trực tuyến, Cá cược Bóng đá, Cờ Bạc trực tuyến</value>
   </data>
-  <data name="lbl_Image" xml:space="preserve">
-    <value />
+  <data name="lbl_DontHaveAccount" xml:space="preserve">
+    <value>Không có tài khoản?</value>
+  </data>
+  <data name="lbl_DownloadApp" xml:space="preserve">
+    <value>Tải ứng dụng</value>
+  </data>
+  <data name="lbl_Downloads" xml:space="preserve">
+    <value>Tải xuống</value>
+  </data>
+  <data name="lbl_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="lbl_eSports" xml:space="preserve">
+    <value>Thể thao điện tử</value>
+  </data>
+  <data name="lbl_eSportsBetting" xml:space="preserve">
+    <value>Cá cược eSports</value>
+  </data>
+  <data name="lbl_Facebook" xml:space="preserve">
+    <value>Facebook</value>
+  </data>
+  <data name="lbl_FAQ" xml:space="preserve">
+    <value>Hỏi đáp</value>
+  </data>
+  <data name="lbl_FootballBetting" xml:space="preserve">
+    <value>Cá cược Bóng Bầu Dục</value>
+  </data>
+  <data name="lbl_ForgetPassword" xml:space="preserve">
+    <value>Quên ID hoặc mật khẩu?</value>
+  </data>
+  <data name="lbl_From" xml:space="preserve">
+    <value>từ</value>
+  </data>
+  <data name="lbl_Help" xml:space="preserve">
+    <value>Trợ giúp</value>
+  </data>
+  <data name="lbl_HelpSupport" xml:space="preserve">
+    <value>Hỗ trợ</value>
+  </data>
+  <data name="lbl_History" xml:space="preserve">
+    <value>Lịch sử</value>
+  </data>
+  <data name="lbl_HockeyBetting" xml:space="preserve">
+    <value>Cá cược Hockey</value>
+  </data>
+  <data name="lbl_Home" xml:space="preserve">
+    <value>Trang Chủ</value>
+  </data>
+  <data name="lbl_ID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="lbl_ImportantNote" xml:space="preserve">
+    <value>Ghi chú</value>
+  </data>
+  <data name="lbl_Instant" xml:space="preserve">
+    <value>Ngay lập tức</value>
   </data>
   <data name="lbl_JoinNow" xml:space="preserve">
-    <value>Tham gia ngay </value>
+    <value>Tham gia ngay</value>
+  </data>
+  <data name="lbl_Keno" xml:space="preserve">
+    <value>Keno</value>
+  </data>
+  <data name="lbl_KenoSlogon" xml:space="preserve">
+    <value>Nhiều cách để chơi, nhiều cơ hội để thắng!</value>
   </data>
   <data name="lbl_Keywords" xml:space="preserve">
     <value>Cá cược trực tuyến, Cá cược Thể thao, Cá cược Bóng đá, Cá cược Quần vợt, Cá cược Golf, Cá cược Thể thao trực tuyến, Cá cược Bóng đá, Cờ Bạc trực tuyến</value>
+  </data>
+  <data name="lbl_LastLogin" xml:space="preserve">
+    <value>Truy cập gần nhất</value>
+  </data>
+  <data name="lbl_LastTransaction" xml:space="preserve">
+    <value>Giao Dịch Gần Nhất</value>
+  </data>
+  <data name="lbl_LiveCasino" xml:space="preserve">
+    <value>Live Casino</value>
+  </data>
+  <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
+    <value>Trải nghiệm chơi Casino như thật</value>
+  </data>
+  <data name="lbl_Login" xml:space="preserve">
+    <value>Đăng nhập</value>
   </data>
   <data name="lbl_LoginHere" xml:space="preserve">
     <value>Đăng nhập tại đây</value>
@@ -147,11 +390,65 @@
   <data name="lbl_LoginMsg" xml:space="preserve">
     <value>Xin lưu ý rằng chúng tôi không cho phép các Thành Viên sở hữu nhiều hơn (1) tài khoản.</value>
   </data>
+  <data name="lbl_Logout" xml:space="preserve">
+    <value>Thoát</value>
+  </data>
+  <data name="lbl_Memo" xml:space="preserve">
+    <value>Bản ghi nhớ</value>
+  </data>
+  <data name="lbl_Message" xml:space="preserve">
+    <value>Thông Tin</value>
+  </data>
+  <data name="lbl_Method" xml:space="preserve">
+    <value>Cách thức</value>
+  </data>
+  <data name="lbl_MobileDeposit" xml:space="preserve">
+    <value>Nạp tiền qua ĐT</value>
+  </data>
+  <data name="lbl_MomoHint" xml:space="preserve">
+    <value>Để nạp tiền nhanh chóng, vui lòng điền tên tài khoản ngân hàng và số tài khoản của bạn.</value>
+  </data>
+  <data name="lbl_MyAccount" xml:space="preserve">
+    <value>Tài khoản của Tôi</value>
+  </data>
+  <data name="lbl_NewPassword" xml:space="preserve">
+    <value>Mật khẩu mới</value>
+  </data>
+  <data name="lbl_NotinLimit" xml:space="preserve">
+    <value>ngoài hạn mức.</value>
+  </data>
+  <data name="lbl_NumberGame" xml:space="preserve">
+    <value>Number Game</value>
+  </data>
+  <data name="lbl_Of" xml:space="preserve">
+    <value>của</value>
+  </data>
+  <data name="lbl_OldPassword" xml:space="preserve">
+    <value>Vui lòng xác nhận mật khẩu hiện thời của bạn</value>
+  </data>
+  <data name="lbl_OnlineBanking" xml:space="preserve">
+    <value>Ngân hàng trực tuyến</value>
+  </data>
+  <data name="lbl_OurPolicies" xml:space="preserve">
+    <value>Chính sách của chúng tôi</value>
+  </data>
+  <data name="lbl_Page" xml:space="preserve">
+    <value>Trang</value>
+  </data>
   <data name="lbl_Password" xml:space="preserve">
-    <value>Mật khẩu</value>
+    <value>Mật Khẩu</value>
   </data>
   <data name="lbl_PasswordTooltip" xml:space="preserve">
     <value>6-18 ký tự chữ và số (A-Z, a-z, 0-9) hoặc Ký tự đặc biệt @$*!%#?&amp;</value>
+  </data>
+  <data name="lbl_PaymentOptions" xml:space="preserve">
+    <value>Lựa chọn thanh toán</value>
+  </data>
+  <data name="lbl_Postscript" xml:space="preserve">
+    <value>Mã xác nhận</value>
+  </data>
+  <data name="lbl_PostscriptHint" xml:space="preserve">
+    <value>Nhập mã xác nhận để thực hiện việc nạp tiền ngay lập tức</value>
   </data>
   <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
     <value>Tiền tệ ưa thích không thể thay đổi sau khi đăng ký</value>
@@ -159,17 +456,101 @@
   <data name="lbl_PrefferedCurrency" xml:space="preserve">
     <value>Tiền tệ ưa thích</value>
   </data>
+  <data name="lbl_PrivacyPolicy" xml:space="preserve">
+    <value>Chính sách bảo mật</value>
+  </data>
+  <data name="lbl_Profile" xml:space="preserve">
+    <value>Hồ sơ</value>
+  </data>
+  <data name="lbl_Promotion" xml:space="preserve">
+    <value>Khuyến mãi</value>
+  </data>
+  <data name="lbl_RebatebonusonMobile" xml:space="preserve">
+    <value>Thưởng chiết khấu khi nạp tiền trên ĐT</value>
+  </data>
+  <data name="lbl_RecentTransactions" xml:space="preserve">
+    <value>Giao dịch gần đây</value>
+  </data>
+  <data name="lbl_Register" xml:space="preserve">
+    <value>Đăng ký</value>
+  </data>
+  <data name="lbl_RegisterTime" xml:space="preserve">
+    <value>Thời gian đăng ký</value>
+  </data>
+  <data name="lbl_ResposibleGaming" xml:space="preserve">
+    <value>Chơi có trách nhiệm</value>
+  </data>
+  <data name="lbl_RuleRegulations" xml:space="preserve">
+    <value>Quy Tắc và Quy Định Đặt Cược</value>
+  </data>
+  <data name="lbl_SelectAll" xml:space="preserve">
+    <value>Chọn hết</value>
+  </data>
+  <data name="lbl_ShowBalance" xml:space="preserve">
+    <value>Hiển thị số dư tài khoản</value>
+  </data>
   <data name="lbl_Soccer" xml:space="preserve">
-    <value>bóng đá</value>
+    <value>Bóng đá</value>
+  </data>
+  <data name="lbl_SoccerBetting" xml:space="preserve">
+    <value>Cá cược Bóng Đá</value>
+  </data>
+  <data name="lbl_SocialMedia" xml:space="preserve">
+    <value>Mạng xã hội</value>
+  </data>
+  <data name="lbl_Sports" xml:space="preserve">
+    <value>Thể Thao</value>
+  </data>
+  <data name="lbl_SportsBetting" xml:space="preserve">
+    <value>Cá cược Thể Thao</value>
+  </data>
+  <data name="lbl_Status" xml:space="preserve">
+    <value>Trạng Thái</value>
+  </data>
+  <data name="lbl_Submit" xml:space="preserve">
+    <value>Gửi</value>
+  </data>
+  <data name="lbl_Tennis" xml:space="preserve">
+    <value>Tennis</value>
+  </data>
+  <data name="lbl_TennisBetting" xml:space="preserve">
+    <value>Cá cược Quần Vợt</value>
+  </data>
+  <data name="lbl_TermsConditions" xml:space="preserve">
+    <value>Điều Khoản và Điều Kiện</value>
+  </data>
+  <data name="lbl_Time" xml:space="preserve">
+    <value>Giờ</value>
   </data>
   <data name="lbl_Title" xml:space="preserve">
     <value>Nova88</value>
   </data>
   <data name="lbl_TitleDesc" xml:space="preserve">
-    <value>Cá cược thể thao hàng đầu thế giới.Cung cấp Tỷ lệ cược tốt nhất </value>
+    <value>Cá cược thể thao hàng đầu thế giới.Cung cấp Tỷ lệ cược tốt nhất</value>
   </data>
-  <data name="lbl_TitleKeywords" xml:space="preserve">
-    <value />
+  <data name="lbl_To" xml:space="preserve">
+    <value>Đến</value>
+  </data>
+  <data name="lbl_Transaction" xml:space="preserve">
+    <value>Giao Dịch Gần Nhất</value>
+  </data>
+  <data name="lbl_TransactionHint" xml:space="preserve">
+    <value>Chuyển tiền đến tài khoản.</value>
+  </data>
+  <data name="lbl_TransactionHistory" xml:space="preserve">
+    <value>Lịch sử giao dịch</value>
+  </data>
+  <data name="lbl_TransferFunds" xml:space="preserve">
+    <value>Chuyển tiền</value>
+  </data>
+  <data name="lbl_TransferTo" xml:space="preserve">
+    <value>Chuyển tiền đến</value>
+  </data>
+  <data name="lbl_TryNow" xml:space="preserve">
+    <value>Hãy Thử Ngay Bây Giờ</value>
+  </data>
+  <data name="lbl_Twitter" xml:space="preserve">
+    <value>Twitter</value>
   </data>
   <data name="lbl_TwitterCreator" xml:space="preserve">
     <value>@Nova88official</value>
@@ -177,13 +558,40 @@
   <data name="lbl_TwitterSite" xml:space="preserve">
     <value>@Nova88official</value>
   </data>
-  <data name="lbl_URL" xml:space="preserve">
-    <value />
+  <data name="lbl_Update" xml:space="preserve">
+    <value>Cập nhật</value>
+  </data>
+  <data name="lbl_UpdateBankDetail" xml:space="preserve">
+    <value>Cập Nhật Chi Tiết Ngân Hàng</value>
+  </data>
+  <data name="lbl_UpdateBankInfo" xml:space="preserve">
+    <value>Vui lòng điền chi tiết thông tin tài khoản ngân hàng của bạn trước khi nạp tiền.</value>
   </data>
   <data name="lbl_Username" xml:space="preserve">
     <value>Tên người dùng</value>
   </data>
   <data name="lbl_UsernameTooltip" xml:space="preserve">
-    <value>Để bảo mật, chúng tôi khuyên tên người dùng không sử dụng tên thật của bạn </value>
+    <value>Để bảo mật, chúng tôi khuyên tên người dùng không sử dụng tên thật của bạn</value>
+  </data>
+  <data name="lbl_VariousBankingOptions" xml:space="preserve">
+    <value>Nhiều lựa chọn ngân hàng</value>
+  </data>
+  <data name="lbl_VIPLevel" xml:space="preserve">
+    <value>Cấp VIP</value>
+  </data>
+  <data name="lbl_VirtualSports" xml:space="preserve">
+    <value>Thể Thao Ảo</value>
+  </data>
+  <data name="lbl_Welcome" xml:space="preserve">
+    <value>Chào mừng</value>
+  </data>
+  <data name="lbl_Withdrawal" xml:space="preserve">
+    <value>Rút tiền</value>
+  </data>
+  <data name="lbl_WithdrawalAmount" xml:space="preserve">
+    <value>Số tiền muốn rút </value>
+  </data>
+  <data name="lbl_WithdrawalTo" xml:space="preserve">
+    <value>Rút tiền về</value>
   </data>
 </root>

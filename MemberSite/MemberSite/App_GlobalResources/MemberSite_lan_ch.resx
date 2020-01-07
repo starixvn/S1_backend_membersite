@@ -1,0 +1,543 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="lbl_AboutUs" xml:space="preserve">
+    <value>關於我們</value>
+  </data>
+  <data name="lbl_AccountTerms" xml:space="preserve">
+    <value>帳戶條款</value>
+  </data>
+  <data name="lbl_AddNewAccount" xml:space="preserve">
+    <value>新增帳戶</value>
+  </data>
+  <data name="lbl_Affiliates" xml:space="preserve">
+    <value>合作夥伴</value>
+  </data>
+  <data name="lbl_Agent" xml:space="preserve">
+    <value>代理</value>
+  </data>
+  <data name="lbl_AllTranscations" xml:space="preserve">
+    <value>所有交易</value>
+  </data>
+  <data name="lbl_Amount" xml:space="preserve">
+    <value>金額</value>
+  </data>
+  <data name="lbl_AmountTooltip" xml:space="preserve">
+    <value>金額不得小於0</value>
+  </data>
+  <data name="lbl_Back" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="lbl_BankAccountName" xml:space="preserve">
+    <value>帳戶名稱</value>
+  </data>
+  <data name="lbl_BankAccountNameHint" xml:space="preserve">
+    <value>帳號名稱請填寫真實姓名，完成後將無法修改</value>
+  </data>
+  <data name="lbl_BankInfo" xml:space="preserve">
+    <value>銀行資訊</value>
+  </data>
+  <data name="lbl_BankName" xml:space="preserve">
+    <value>銀行名稱</value>
+  </data>
+  <data name="lbl_BankNumber" xml:space="preserve">
+    <value>銀行帳戶號碼</value>
+  </data>
+  <data name="lbl_Baseball" xml:space="preserve">
+    <value>棒球</value>
+  </data>
+  <data name="lbl_BaseballBetting" xml:space="preserve">
+    <value>籃球投注</value>
+  </data>
+  <data name="lbl_Basketball" xml:space="preserve">
+    <value>籃球</value>
+  </data>
+  <data name="lbl_BasketballBetting" xml:space="preserve">
+    <value>棒球投注</value>
+  </data>
+  <data name="lbl_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="lbl_Cashier" xml:space="preserve">
+    <value>收銀</value>
+  </data>
+  <data name="lbl_Casino" xml:space="preserve">
+    <value>娛樂城</value>
+  </data>
+  <data name="lbl_CasinoSlogon" xml:space="preserve">
+    <value>亞洲市場的多種主題</value>
+  </data>
+  <data name="lbl_ChangePassword" xml:space="preserve">
+    <value>更改密碼</value>
+  </data>
+  <data name="lbl_ChargeFee" xml:space="preserve">
+    <value>收費</value>
+  </data>
+  <data name="lbl_Clickhereforbonus" xml:space="preserve">
+    <value>點擊此處取得紅利</value>
+  </data>
+  <data name="lbl_Close" xml:space="preserve">
+    <value>關閉</value>
+  </data>
+  <data name="lbl_CompletedRegistration" xml:space="preserve">
+    <value>註冊已完成</value>
+  </data>
+  <data name="lbl_CompleteRegistration" xml:space="preserve">
+    <value>完成註冊</value>
+  </data>
+  <data name="lbl_Confirm" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="lbl_ConfirmDeposit" xml:space="preserve">
+    <value>請確認存款資訊。</value>
+  </data>
+  <data name="lbl_ConfirmWithdrawal" xml:space="preserve">
+    <value>請確認提款資訊。</value>
+  </data>
+  <data name="lbl_ContactCSD" xml:space="preserve">
+    <value>如有任何修改需求，請聯繫客服。</value>
+  </data>
+  <data name="lbl_ContactUs" xml:space="preserve">
+    <value>聯絡我們</value>
+  </data>
+  <data name="lbl_CookiePolicy" xml:space="preserve">
+    <value>Cookie政策</value>
+  </data>
+  <data name="lbl_Copyright" xml:space="preserve">
+    <value>{0}版權所有</value>
+  </data>
+  <data name="lbl_CreditTime" xml:space="preserve">
+    <value>所需時間</value>
+  </data>
+  <data name="lbl_Currency_12" xml:space="preserve">
+    <value>英鎊</value>
+  </data>
+  <data name="lbl_Currency_15" xml:space="preserve">
+    <value>印度盧比</value>
+  </data>
+  <data name="lbl_Currency_2" xml:space="preserve">
+    <value>馬幣</value>
+  </data>
+  <data name="lbl_Currency_3" xml:space="preserve">
+    <value>美元</value>
+  </data>
+  <data name="lbl_Currency_4" xml:space="preserve">
+    <value>泰銖</value>
+  </data>
+  <data name="lbl_Currency_40" xml:space="preserve">
+    <value>韓元</value>
+  </data>
+  <data name="lbl_Currency_51" xml:space="preserve">
+    <value>越南盾</value>
+  </data>
+  <data name="lbl_Currency_6" xml:space="preserve">
+    <value>歐元</value>
+  </data>
+  <data name="lbl_CustBank" xml:space="preserve">
+    <value>銀行</value>
+  </data>
+  <data name="lbl_CustBankInfo" xml:space="preserve">
+    <value>更新銀行資訊</value>
+  </data>
+  <data name="lbl_Date" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="lbl_Deposit" xml:space="preserve">
+    <value>存款</value>
+  </data>
+  <data name="lbl_DepositAmount" xml:space="preserve">
+    <value>存款金額</value>
+  </data>
+  <data name="lbl_DepositNow" xml:space="preserve">
+    <value>馬上存款</value>
+  </data>
+  <data name="lbl_DepositOptionHint" xml:space="preserve">
+    <value>從下方選出最符合您需求的存款方式:</value>
+  </data>
+  <data name="lbl_DepositWithdrawals" xml:space="preserve">
+    <value>存款&amp;提款</value>
+  </data>
+  <data name="lbl_DontHaveAccount" xml:space="preserve">
+    <value>沒有帳戶嗎?</value>
+  </data>
+  <data name="lbl_DownloadApp" xml:space="preserve">
+    <value>下載App</value>
+  </data>
+  <data name="lbl_Downloads" xml:space="preserve">
+    <value>下載</value>
+  </data>
+  <data name="lbl_Email" xml:space="preserve">
+    <value>電子郵件</value>
+  </data>
+  <data name="lbl_eSports" xml:space="preserve">
+    <value>電子競技</value>
+  </data>
+  <data name="lbl_eSportsBetting" xml:space="preserve">
+    <value>電子競技投注</value>
+  </data>
+  <data name="lbl_Facebook" xml:space="preserve">
+    <value>Facebook</value>
+  </data>
+  <data name="lbl_FAQ" xml:space="preserve">
+    <value>常見疑問</value>
+  </data>
+  <data name="lbl_FootballBetting" xml:space="preserve">
+    <value>美式足球投注</value>
+  </data>
+  <data name="lbl_ForgetPassword" xml:space="preserve">
+    <value>忘記ID或密碼嗎?</value>
+  </data>
+  <data name="lbl_From" xml:space="preserve">
+    <value>從</value>
+  </data>
+  <data name="lbl_Help" xml:space="preserve">
+    <value>幫助</value>
+  </data>
+  <data name="lbl_HelpSupport" xml:space="preserve">
+    <value>幫助支援</value>
+  </data>
+  <data name="lbl_History" xml:space="preserve">
+    <value>歷史記錄</value>
+  </data>
+  <data name="lbl_HockeyBetting" xml:space="preserve">
+    <value>曲棍球投注</value>
+  </data>
+  <data name="lbl_Home" xml:space="preserve">
+    <value>首頁</value>
+  </data>
+  <data name="lbl_ID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="lbl_ImportantNote" xml:space="preserve">
+    <value>重要訊息</value>
+  </data>
+  <data name="lbl_Instant" xml:space="preserve">
+    <value>即時</value>
+  </data>
+  <data name="lbl_Keno" xml:space="preserve">
+    <value>快樂彩</value>
+  </data>
+  <data name="lbl_KenoSlogon" xml:space="preserve">
+    <value>玩法精采多元，獲勝機會多更多！</value>
+  </data>
+  <data name="lbl_LastLogin" xml:space="preserve">
+    <value>最後登入</value>
+  </data>
+  <data name="lbl_LastTransaction" xml:space="preserve">
+    <value>最後交易</value>
+  </data>
+  <data name="lbl_LiveCasino" xml:space="preserve">
+    <value>娛樂城</value>
+  </data>
+  <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
+    <value>真實賭場體驗</value>
+  </data>
+  <data name="lbl_Login" xml:space="preserve">
+    <value>登入</value>
+  </data>
+  <data name="lbl_Logout" xml:space="preserve">
+    <value>登出</value>
+  </data>
+  <data name="lbl_Memo" xml:space="preserve">
+    <value>備忘錄</value>
+  </data>
+  <data name="lbl_Message" xml:space="preserve">
+    <value>訊息</value>
+  </data>
+  <data name="lbl_Method" xml:space="preserve">
+    <value>方式</value>
+  </data>
+  <data name="lbl_MobileDeposit" xml:space="preserve">
+    <value>手機儲值</value>
+  </data>
+  <data name="lbl_MomoHint" xml:space="preserve">
+    <value>如欲快速存款，請在此留下您的帳戶姓名及帳戶號碼</value>
+  </data>
+  <data name="lbl_MyAccount" xml:space="preserve">
+    <value>我的帳戶</value>
+  </data>
+  <data name="lbl_NewPassword" xml:space="preserve">
+    <value>新密碼</value>
+  </data>
+  <data name="lbl_NotinLimit" xml:space="preserve">
+    <value>超出設定範圍</value>
+  </data>
+  <data name="lbl_NumberGame" xml:space="preserve">
+    <value>百練賽</value>
+  </data>
+  <data name="lbl_Of" xml:space="preserve">
+    <value>之</value>
+  </data>
+  <data name="lbl_OldPassword" xml:space="preserve">
+    <value>目前的密碼</value>
+  </data>
+  <data name="lbl_OnlineBanking" xml:space="preserve">
+    <value>線上銀行服務</value>
+  </data>
+  <data name="lbl_OurPolicies" xml:space="preserve">
+    <value>我們的政策</value>
+  </data>
+  <data name="lbl_Page" xml:space="preserve">
+    <value>頁</value>
+  </data>
+  <data name="lbl_Password" xml:space="preserve">
+    <value>密碼</value>
+  </data>
+  <data name="lbl_PaymentOptions" xml:space="preserve">
+    <value>付款方式</value>
+  </data>
+  <data name="lbl_Postscript" xml:space="preserve">
+    <value>驗證碼</value>
+  </data>
+  <data name="lbl_PostscriptHint" xml:space="preserve">
+    <value>輸入驗證碼立即存款</value>
+  </data>
+  <data name="lbl_PrivacyPolicy" xml:space="preserve">
+    <value>隱私權政策</value>
+  </data>
+  <data name="lbl_Profile" xml:space="preserve">
+    <value>個人資料</value>
+  </data>
+  <data name="lbl_Promotion" xml:space="preserve">
+    <value>優惠促銷</value>
+  </data>
+  <data name="lbl_RebatebonusonMobile" xml:space="preserve">
+    <value>手機返水紅利</value>
+  </data>
+  <data name="lbl_RecentTransactions" xml:space="preserve">
+    <value>最近交易</value>
+  </data>
+  <data name="lbl_Register" xml:space="preserve">
+    <value>註冊</value>
+  </data>
+  <data name="lbl_RegisterTime" xml:space="preserve">
+    <value>註冊時間</value>
+  </data>
+  <data name="lbl_ResposibleGaming" xml:space="preserve">
+    <value>負責任博彩</value>
+  </data>
+  <data name="lbl_RuleRegulations" xml:space="preserve">
+    <value>投注規則與規定</value>
+  </data>
+  <data name="lbl_SelectAll" xml:space="preserve">
+    <value>全選</value>
+  </data>
+  <data name="lbl_ShowBalance" xml:space="preserve">
+    <value>顯示餘額</value>
+  </data>
+  <data name="lbl_Soccer" xml:space="preserve">
+    <value>足球</value>
+  </data>
+  <data name="lbl_SoccerBetting" xml:space="preserve">
+    <value>足球投注</value>
+  </data>
+  <data name="lbl_SocialMedia" xml:space="preserve">
+    <value>社群媒體</value>
+  </data>
+  <data name="lbl_Sports" xml:space="preserve">
+    <value>體育博彩</value>
+  </data>
+  <data name="lbl_SportsBetting" xml:space="preserve">
+    <value>體育投注</value>
+  </data>
+  <data name="lbl_Status" xml:space="preserve">
+    <value>狀態</value>
+  </data>
+  <data name="lbl_Submit" xml:space="preserve">
+    <value>提交</value>
+  </data>
+  <data name="lbl_Tennis" xml:space="preserve">
+    <value>網球</value>
+  </data>
+  <data name="lbl_TennisBetting" xml:space="preserve">
+    <value>網球投注</value>
+  </data>
+  <data name="lbl_TermsConditions" xml:space="preserve">
+    <value>條款及規則</value>
+  </data>
+  <data name="lbl_Time" xml:space="preserve">
+    <value>時間</value>
+  </data>
+  <data name="lbl_Title" xml:space="preserve">
+    <value>Nova88</value>
+  </data>
+  <data name="lbl_To" xml:space="preserve">
+    <value>至</value>
+  </data>
+  <data name="lbl_Transaction" xml:space="preserve">
+    <value>最後交易</value>
+  </data>
+  <data name="lbl_TransactionHint" xml:space="preserve">
+    <value>請轉帳到該帳號</value>
+  </data>
+  <data name="lbl_TransactionHistory" xml:space="preserve">
+    <value>交易紀錄</value>
+  </data>
+  <data name="lbl_TransferFunds" xml:space="preserve">
+    <value>資金轉移</value>
+  </data>
+  <data name="lbl_TransferTo" xml:space="preserve">
+    <value>轉帳至</value>
+  </data>
+  <data name="lbl_TryNow" xml:space="preserve">
+    <value>馬上試用</value>
+  </data>
+  <data name="lbl_Twitter" xml:space="preserve">
+    <value>Twitter</value>
+  </data>
+  <data name="lbl_TwitterCreator" xml:space="preserve">
+    <value>@Nova88official</value>
+  </data>
+  <data name="lbl_TwitterSite" xml:space="preserve">
+    <value>@Nova88official</value>
+  </data>
+  <data name="lbl_Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="lbl_UpdateBankDetail" xml:space="preserve">
+    <value>更新銀行資訊</value>
+  </data>
+  <data name="lbl_UpdateBankInfo" xml:space="preserve">
+    <value>請請在存款前完成銀行資訊更新</value>
+  </data>
+  <data name="lbl_Username" xml:space="preserve">
+    <value>戶名</value>
+  </data>
+  <data name="lbl_VariousBankingOptions" xml:space="preserve">
+    <value>多種銀行選項</value>
+  </data>
+  <data name="lbl_VIPLevel" xml:space="preserve">
+    <value>VIP等級</value>
+  </data>
+  <data name="lbl_VirtualSports" xml:space="preserve">
+    <value>虛擬運動</value>
+  </data>
+  <data name="lbl_Welcome" xml:space="preserve">
+    <value>歡迎</value>
+  </data>
+  <data name="lbl_Withdrawal" xml:space="preserve">
+    <value>提款</value>
+  </data>
+  <data name="lbl_WithdrawalAmount" xml:space="preserve">
+    <value>提款金額</value>
+  </data>
+  <data name="lbl_WithdrawalTo" xml:space="preserve">
+    <value>提款至</value>
+  </data>
+</root>

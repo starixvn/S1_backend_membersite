@@ -162,15 +162,6 @@
   <data name="Currency_9" xml:space="preserve">
     <value>AUD</value>
   </data>
-  <data name="DepositType_1" xml:space="preserve">
-    <value>Online Banking</value>
-  </data>
-  <data name="DepositType_2" xml:space="preserve">
-    <value>Mobile Pay</value>
-  </data>
-  <data name="DepositType_3" xml:space="preserve">
-    <value>Local Bank Transfer</value>
-  </data>
   <data name="lbl_5mins" xml:space="preserve">
     <value>5 mins</value>
   </data>
@@ -300,6 +291,54 @@
   <data name="lbl_CreditTime" xml:space="preserve">
     <value>Credit Time</value>
   </data>
+  <data name="lbl_Currency_1" xml:space="preserve">
+    <value>Singapore Dollor</value>
+  </data>
+  <data name="lbl_Currency_12" xml:space="preserve">
+    <value>British Pound</value>
+  </data>
+  <data name="lbl_Currency_13" xml:space="preserve">
+    <value>Chinese Renminbi</value>
+  </data>
+  <data name="lbl_Currency_15" xml:space="preserve">
+    <value>Indonesia Rupiah</value>
+  </data>
+  <data name="lbl_Currency_2" xml:space="preserve">
+    <value>Malaysian Ringgit</value>
+  </data>
+  <data name="lbl_Currency_20" xml:space="preserve">
+    <value>Virtual Dollar (for testing propose)</value>
+  </data>
+  <data name="lbl_Currency_3" xml:space="preserve">
+    <value>US Dollar</value>
+  </data>
+  <data name="lbl_Currency_32" xml:space="preserve">
+    <value>Japan Yen</value>
+  </data>
+  <data name="lbl_Currency_4" xml:space="preserve">
+    <value>Thai Baht</value>
+  </data>
+  <data name="lbl_Currency_40" xml:space="preserve">
+    <value>Korean Won</value>
+  </data>
+  <data name="lbl_Currency_41" xml:space="preserve">
+    <value>Swiss Franc</value>
+  </data>
+  <data name="lbl_Currency_45" xml:space="preserve">
+    <value>Korean Won</value>
+  </data>
+  <data name="lbl_Currency_5" xml:space="preserve">
+    <value>Hong Kong Dollar</value>
+  </data>
+  <data name="lbl_Currency_51" xml:space="preserve">
+    <value>Vietnamese Dong</value>
+  </data>
+  <data name="lbl_Currency_6" xml:space="preserve">
+    <value>EURO</value>
+  </data>
+  <data name="lbl_Currency_9" xml:space="preserve">
+    <value>Australian Dollar</value>
+  </data>
   <data name="lbl_CustBank" xml:space="preserve">
     <value>Bank</value>
   </data>
@@ -401,9 +440,6 @@
   </data>
   <data name="lbl_FootballBetting" xml:space="preserve">
     <value>Football Betting</value>
-  </data>
-  <data name="lbl_ForgetIDPassword" xml:space="preserve">
-    <value>Forget your ID or password?</value>
   </data>
   <data name="lbl_ForgetPassword" xml:space="preserve">
     <value>Forget your ID or password?</value>
@@ -724,7 +760,7 @@
     <value>Verify</value>
   </data>
   <data name="lbl_WithdrawalStatus4" xml:space="preserve">
-    <value>Process</value>
+    <value>Processing</value>
   </data>
   <data name="lbl_WithdrawalStatus5" xml:space="preserve">
     <value>Cancelled</value>
@@ -749,26 +785,5 @@
   </data>
   <data name="lbl_WithdrawalType2" xml:space="preserve">
     <value>Online Payment</value>
-  </data>
-  <data name="Status_1" xml:space="preserve">
-    <value>Waiting</value>
-  </data>
-  <data name="Status_2" xml:space="preserve">
-    <value>Processing</value>
-  </data>
-  <data name="Status_3" xml:space="preserve">
-    <value>Approved</value>
-  </data>
-  <data name="Status_4" xml:space="preserve">
-    <value>Rejected</value>
-  </data>
-  <data name="Status_5" xml:space="preserve">
-    <value>Cancelled</value>
-  </data>
-  <data name="Status_6" xml:space="preserve">
-    <value>Expired</value>
-  </data>
-  <data name="Status_7" xml:space="preserve">
-    <value>Waiting</value>
   </data>
 </root>
