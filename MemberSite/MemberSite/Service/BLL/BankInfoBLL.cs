@@ -83,7 +83,7 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
-            var bankInfoPayList = bankInfoService.GetBankInfoPayList();
+            var bankInfoPayList = GetOnlineBankList();
 
             var bankInfoList = (from x in bankInfoPayList
                                 where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
@@ -102,7 +102,7 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
-            var bankInfoPayList = bankInfoService.GetBankInfoPayList();
+            var bankInfoPayList = GetOnlineBankList();
 
             var bankInfo = (from x in bankInfoPayList
                             where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId
@@ -132,16 +132,14 @@ namespace MemberSite.Service.BLL
             var serverInfo = serverInfoBLL.GetServerInfo();
             string key = $"BankInfoPayList_{serverInfo.SiteId}";
             var bankInfoPayList = cache.Get<IEnumerable<BankInfoPay>>(key);
-            if (bankInfoPayList != null)
+            if (bankInfoPayList == null)
             {
-                return bankInfoPayList;
-            }
+                bankInfoPayList = bankInfoService.GetBankInfoPayList();
 
-            bankInfoPayList = bankInfoService.GetBankInfoPayList();
-
-            if (bankInfoPayList != null)
-            {
-                cache.Set(key, bankInfoPayList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)));
+                if (bankInfoPayList != null)
+                {
+                    cache.Set(key, bankInfoPayList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)));
+                }
             }
 
             return bankInfoPayList;
