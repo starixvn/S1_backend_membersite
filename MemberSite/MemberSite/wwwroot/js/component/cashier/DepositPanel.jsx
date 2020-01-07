@@ -108,7 +108,7 @@ import {number_format} from '../commJS/common';
                     statusGroup = <span className="text">{i18n["lbl_DepositStatus" + item.status]}</span>
                 }
                 else {
-                    statusGroup = <span className="text">{i18n.lbl_DepositStatus4}</span>
+                    statusGroup = <span className="text">{i18n.lbl_DepositStatus8}</span>
                 }
                                 
                 return <div className="tr" key={index}>
