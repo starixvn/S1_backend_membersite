@@ -105,6 +105,15 @@ export class BankModal extends React.Component {
                     Loading.UnLoading();
                     let result = response.data;
                     if (result.errorCode == 0) {
+                        //this.props.bankInfo.picFileName = files[0].
+                        let fullPath = files[0].name;
+                        var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+                        var filename = fullPath.substring(startIndex);
+                        if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+                            filename = filename.substring(1);
+                        }
+                        this.props.bankInfo.picFileName=filename;
+                        this.forceUpdate();
                         alert(i18n.lbl_UploadSuccess);
                     } else {
                         alert(result.message);
