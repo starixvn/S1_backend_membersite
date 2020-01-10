@@ -258,6 +258,9 @@
   <data name="lbl_Clickhereforbonus" xml:space="preserve">
     <value>Click here for bonus</value>
   </data>
+  <data name="lbl_Clickhereforpromotion" xml:space="preserve">
+    <value>30% Mobile Deposit Bonus</value>
+  </data>
   <data name="lbl_Close" xml:space="preserve">
     <value>Close</value>
   </data>
