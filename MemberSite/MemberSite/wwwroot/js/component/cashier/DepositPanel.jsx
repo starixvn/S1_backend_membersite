@@ -4,6 +4,16 @@ import * as Loading from '../commJS/Loading.jsx';
 import {number_format} from '../commJS/common';
 
 (function ($, React, ReactDOM, i18n, axios, moment, ClipboardJS) {
+    const DepositStatus = {
+        Pending:1,
+        Paid :2,
+        Approved:3,
+        Rejected:4,
+        Canceled:5,
+        Expired:6,
+        OnHold :7
+    };
+
     class TbdModal extends React.Component {
         constructor(props) {
             super(props);
@@ -93,21 +103,20 @@ import {number_format} from '../commJS/common';
                 let btnGroup = null;
                 let statusGroup = null;
 
-                if(item.depositType==3 && (item.status==1 || item.status==7)) {
-                    btnGroup = <div className="btn-group">
+                if(item.depositType==3&& (item.status==DepositStatus.Pending||item.status==DepositStatus.OnHold) ) {
+                    btnGroup = <div className="btn-group">{item.status==DepositStatus.Pending ? 
                         <button className="btn btn-default" type="button" onClick={this.onCancel.bind(this,item.transId)}>
                             <span className="text">{i18n.lbl_Cancel}</span>
-                        </button>
+                        </button> : null}
                         <button className="btn btn-secondary" type="button" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript,transId: item.transId})}>
                             <span className="text">{i18n.lbl_SubmitProof}</span>
                         </button>
                     </div>
                 }
 
-                if (item.status==5 || item.status==6 || item.status==7 || item.status==99) {
+                if (item.status==DepositStatus.Pending || item.status==DepositStatus.Approved || item.status==DepositStatus.Rejected || item.status==DepositStatus.Canceled) {
                     statusGroup = <span className="text">{i18n["lbl_DepositStatus" + item.status]}</span>
-                }
-                else {
+                } else {
                     statusGroup = <span className="text">{i18n.lbl_DepositStatus8}</span>
                 }
                                 
