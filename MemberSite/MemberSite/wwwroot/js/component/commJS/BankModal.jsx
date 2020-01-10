@@ -11,10 +11,17 @@ export class BankModal extends React.Component {
             dataField.placeholder = i18n.lbl_DepositTime;
             dataField.displayName = i18n.lbl_DepositTime;
             dataField.tooltip = i18n.lbl_DepositTimeToolTip;
+            dataField.LabelCommit = <span className="text-accent">{"("+moment().format('Z')+")"}</span>;
             dataField.status = 1;
             dataField.objectType = 6;            
             dataField.handleCheck = this.handleCheck.bind(this);
-            dataField.Value = moment().format("YYYY-MM-DDTHH:mm:ss");
+            let bankInfo = this.props.bankInfo;
+
+            if(moment(bankInfo.depositTime).unix()<0) {
+                dataField.Value = moment().format("YYYY-MM-DDTHH:mm:ss");
+            } else {
+                dataField.Value = moment(bankInfo.depositTime).format("YYYY-MM-DDTHH:mm:ss");
+            }
             formArr.push(dataField);
 
             dataField = new DataField("RefNo");
@@ -23,7 +30,7 @@ export class BankModal extends React.Component {
             dataField.tooltip = i18n.lbl_RefnoToolTip;
             dataField.status = 1;
             dataField.handleCheck = this.handleCheck.bind(this);
-            dataField.Value = "";
+            dataField.Value = bankInfo.refId||"";
             formArr.push(dataField);
                         
             this.state={Show: false, UploadDisabled: true, SubmitDisabled: false, formArr: formArr};
@@ -127,7 +134,6 @@ export class BankModal extends React.Component {
                 }
                 data[dataField.name] = dataField.Value;
             }            
-            console.log(valid);
 
             if(!valid) {
                 Loading.UnLoading();
@@ -244,6 +250,7 @@ export class BankModal extends React.Component {
                                     <div className="textfield">
                                         <input type="file" className="textfield__input" onChange={this.onCheckUpload.bind(this)} ref={this.filebox} accept="image/*"/>
                                         <span className="textfield__bg"></span>
+                                        {bankInfo.picFileName!=null? <a className="text-link" target="_blank" href={"/Cashier/DepositReceip.jpg?transId="+bankInfo.transId+"&FileName="+bankInfo.picFileName}><span className="text">{bankInfo.picFileName}</span></a>:null}
                                     </div>
                                     <button className="btn btn-primary" data-disabled={this.state.UploadDisabled}>
                                         <div className="btn__inner">

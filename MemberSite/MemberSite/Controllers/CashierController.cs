@@ -74,6 +74,20 @@ namespace MemberSite.Controllers
             return View(apiResult);
         }
 
+        [Route("[controller]/DepositReceip.jpg")]
+        [HttpGet]
+        public IActionResult GetDepositReceiptPic(string transId)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var depositReceipt = paymentBLL.GetDepositReceipt(transId, authData.CustId);
+            if (depositReceipt == null)
+            {
+                return StatusCode(404);
+            }
+            var image = depositReceipt.DepositPic;
+            return File(image, "image/jpeg");
+        }
+
         public class ReqDeposit
         {
             public string TransId { get; set; }

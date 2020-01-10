@@ -68,10 +68,20 @@ namespace MemberSite.Service.Model
         public decimal Amount { get; set; }
         //public decimal ActualDeposit { get; set; }
         public int Status { get; set; }
-        public string PostScript { get; set; }
+        //public string PostScript { get; set; }
         [JsonIgnore]
         public string DepositInfo { get; set; }
         public dynamic DepositRep { get; set; }
         public BankInfoSys BankInfo { get; set; }
+        public string RefId { get; set; }
+        public DateTime DepositTime { get; set; }
+        public string PicFileName { get; set; }
+    }
+
+    public class DepositReceipt
+    {
+        public int DepositId { get; set; }
+        public string PicFileName { get; set; }
+        public byte[] DepositPic { get; set; }
     }
 }

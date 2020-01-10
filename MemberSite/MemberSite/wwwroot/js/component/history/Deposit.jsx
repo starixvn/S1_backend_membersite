@@ -12,6 +12,7 @@ import {DepositHistory} from '../commJS/DepositHistory.jsx';
         }
 
         onCloseModal() {
+            this.GetDepositInfoCur();
             this.setState({showModal:false});
         }
         

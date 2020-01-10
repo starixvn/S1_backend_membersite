@@ -243,5 +243,13 @@ namespace MemberSite.Service.BLL
             forStatus.Add((int)WithdrawalStatus.Pending);
             return withdrawalService.SetWithdrawalCancel(CustInfo.CustId, transId, CustInfo.SiteId, forStatus, WithdrawalStatus.Cancelled);
         }
+        public DepositReceipt GetDepositReceipt(string transId, int custId)
+        {
+            int depositId = 0;
+            Match m = Regex.Match(transId, @"\d+");
+            int.TryParse(m.Value, out depositId);
+            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            return depoistService.GetDepositReceipt(depositId, CustInfo.SiteId);
+        }
     }
 }

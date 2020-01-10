@@ -14,6 +14,8 @@ import {number_format} from '../commJS/common';
         OnHold :7
     };
 
+    let onGetDepositInfoRecent = null;
+
     class TbdModal extends React.Component {
         constructor(props) {
             super(props);
@@ -108,7 +110,7 @@ import {number_format} from '../commJS/common';
                         <button className="btn btn-default" type="button" onClick={this.onCancel.bind(this,item.transId)}>
                             <span className="text">{i18n.lbl_Cancel}</span>
                         </button> : null}
-                        <button className="btn btn-secondary" type="button" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript,transId: item.transId})}>
+                        <button className="btn btn-secondary" type="button" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript,transId: item.transId, refId: item.refId, depositTime: item.depositTime, picFileName: item.picFileName})}>
                             <span className="text">{i18n.lbl_SubmitProof}</span>
                         </button>
                     </div>
@@ -161,6 +163,7 @@ import {number_format} from '../commJS/common';
 
         componentDidMount() {
             this.GetDepositInfoRecent();
+            onGetDepositInfoRecent = this.GetDepositInfoRecent.bind(this);
         }
 
         onCancel(transId) {
@@ -829,6 +832,9 @@ import {number_format} from '../commJS/common';
         }
 
         onCloseModal() {
+            if(onGetDepositInfoRecent!=null) {
+                onGetDepositInfoRecent();
+            }            
             this.setState({showModal:false});
         }
         

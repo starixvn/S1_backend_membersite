@@ -22,7 +22,7 @@ class HistoryBody extends React.Component {
                     <button className="btn btn-default" type="button" onClick={this.onCancel.bind(this, item.transId)}>
                         <span className="text">Cancel</span>
                     </button>
-                    <button className="btn btn-secondary" type="button" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript,transId: item.transId})}>
+                    <button className="btn btn-secondary" type="button" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript,transId: item.transId, refId: item.refId, depositTime: item.depositTime, picFileName: item.picFileName})}>
                         <span className="text">Submit proof</span>
                     </button>
                 </div>

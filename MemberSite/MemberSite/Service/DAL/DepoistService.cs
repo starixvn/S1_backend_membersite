@@ -84,5 +84,10 @@ namespace MemberSite.Service.DAL
 
             return result;
         }
+        public DepositReceipt GetDepositReceipt(int depositId, int siteId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.QueryFirstOrDefault<DepositReceipt>("DepositReceipt_Get", new { DepositId = depositId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+        }
     }
 }
