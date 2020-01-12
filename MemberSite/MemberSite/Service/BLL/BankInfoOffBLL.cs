@@ -30,12 +30,16 @@ namespace MemberSite.Service.BLL
         {
             string sBankInfoOffListKey = $"BankInfoOffList_{siteId}";
             var BankInfoOffList = cache.Get<IEnumerable<BankInfoOff>>(sBankInfoOffListKey);
-            if (BankInfoOffList != null)
-                return BankInfoOffList;
+            if (BankInfoOffList == null)
+            {
+                BankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
+                if (BankInfoOffList != null)
+                {
+                    cache.Set(sBankInfoOffListKey, BankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
+                }
+            }
 
-            BankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
-            cache.Set(sBankInfoOffListKey, BankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(2)));
-            return BankInfoOffList;
+            return BankInfoOffList.Where(x => (x.Purpose & 1) == 1);
         }
 
         private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>

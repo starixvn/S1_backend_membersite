@@ -22,6 +22,7 @@ namespace MemberSite.Service.Model
         public string BankLogo { get; set; }
         public string BankSite { get; set; }
         public int Sort { get; set; }
+        public int Purpose { get; set; }
         public int Ver { get; set; }
     }
 }
