@@ -130,7 +130,7 @@ class ProfileForm extends React.Component {
         return (
             profile!=null ?<div>
                 <div className="heading">
-                    <span className="text">{"Profile"}</span>
+                    <span className="text">{i18n.lbl_Profile}</span>
                 </div>
                 <form className="form form--list" onSubmit={isUpdate ? this.handleSubmit.bind(this): null}>
                     <div className="form-group">
