@@ -12,6 +12,9 @@
 @{
     var i18n = new Dictionary<string, string>();
     i18n.Add("lbl_TransactionHistory", selLangBLL.GetResourceValue("lbl_TransactionHistory"));
+    i18n.Add("lbl_TransactionHint", selLangBLL.GetResourceValue("lbl_TransactionHint"));
+    i18n.Add("lbl_RecentTransactions", selLangBLL.GetResourceValue("lbl_RecentTransactions"));
+    i18n.Add("lbl_Transaction", selLangBLL.GetResourceValue("lbl_Transaction"));
     i18n.Add("lbl_Deposit", selLangBLL.GetResourceValue("lbl_Deposit"));
     i18n.Add("lbl_Date", selLangBLL.GetResourceValue("lbl_Date"));
     i18n.Add("lbl_Time", selLangBLL.GetResourceValue("lbl_Time"));
@@ -20,13 +23,32 @@
     i18n.Add("lbl_ID", selLangBLL.GetResourceValue("lbl_ID"));
     i18n.Add("lbl_Method", selLangBLL.GetResourceValue("lbl_Method"));
     i18n.Add("lbl_Amount", selLangBLL.GetResourceValue("lbl_Amount"));
+    i18n.Add("lbl_DepositAmount", selLangBLL.GetResourceValue("lbl_DepositAmount"));
     i18n.Add("lbl_Status", selLangBLL.GetResourceValue("lbl_Status"));
     i18n.Add("lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit"));
+    i18n.Add("lbl_Back", selLangBLL.GetResourceValue("lbl_Back"));
+    i18n.Add("lbl_Refno", selLangBLL.GetResourceValue("lbl_Refno"));
+    i18n.Add("lbl_RefnoToolTip", selLangBLL.GetResourceValue("lbl_RefnoToolTip"));
+    i18n.Add("lbl_DepositTime", selLangBLL.GetResourceValue("lbl_DepositTime"));
+    i18n.Add("lbl_DepositTimeToolTip", selLangBLL.GetResourceValue("lbl_DepositTimeToolTip"));
+    i18n.Add("lbl_Required", selLangBLL.GetResourceValue("lbl_Required"));
+    i18n.Add("lbl_UploadSuccess", selLangBLL.GetResourceValue("lbl_UploadSuccess"));
+    i18n.Add("lbl_UploadFile", selLangBLL.GetResourceValue("lbl_UploadFile"));
+    i18n.Add("lbl_UpdateSuccess", selLangBLL.GetResourceValue("lbl_UpdateSuccess"));
+    i18n.Add("lbl_AttachFile", selLangBLL.GetResourceValue("lbl_AttachFile"));
+    i18n.Add("lbl_CancelConfirm", selLangBLL.GetResourceValue("lbl_CancelConfirm"));
+    i18n.Add("lbl_Optional", selLangBLL.GetResourceValue("lbl_Optional"));
+    i18n.Add("lbl_BankAccountName", selLangBLL.GetResourceValue("lbl_BankAccountName"));
+    i18n.Add("lbl_BankNumber", selLangBLL.GetResourceValue("lbl_BankNumber"));
+    i18n.Add("lbl_DateMissing", selLangBLL.GetResourceValue("lbl_DateMissing"));
+    i18n.Add("lbl_Cancel", selLangBLL.GetResourceValue("lbl_Cancel"));
+    i18n.Add("lbl_Close", selLangBLL.GetResourceValue("lbl_Close"));
+    i18n.Add("lbl_SubmitProof", selLangBLL.GetResourceValue("lbl_SubmitProof"));
     i18n.Add("lbl_Page", selLangBLL.GetResourceValue("lbl_Page"));
     i18n.Add("lbl_Of", selLangBLL.GetResourceValue("lbl_Of"));
     i18n.Add("msg_NoData", selLangBLL.GetMsg("msg_NoData"));
 
-    for (int depositStatus = 0; depositStatus <= 6; depositStatus++)
+    for (int depositStatus = 0; depositStatus <= 8; depositStatus++)
     {
         string sKey = $"lbl_DepositStatus{depositStatus}";
         i18n.Add(sKey, selLangBLL.GetResourceValue(sKey));

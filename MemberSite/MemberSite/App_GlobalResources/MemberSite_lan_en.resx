@@ -732,6 +732,9 @@
   <data name="lbl_Date" xml:space="preserve">
     <value>Date</value>
   </data>
+  <data name="lbl_DateMissing" xml:space="preserve">
+    <value>Please entery date for query.</value>
+  </data>
   <data name="lbl_Deposit" xml:space="preserve">
     <value>Deposit</value>
   </data>

@@ -165,4 +165,7 @@
   <data name="Code_9000" xml:space="preserve">
     <value>[9000]ระบบมีปัญหาขัดข้อง โปรดติดต่อ CSD</value>
   </data>
+  <data name="Cod_0" xml:space="preserve">
+    <value>ความสำเร็จ!!</value>
+  </data>
 </root>

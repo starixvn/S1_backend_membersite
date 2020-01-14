@@ -40,6 +40,10 @@ import {number_format} from '../commJS/common';
         }
 
         GetWithdrawalInfoHistory(pageNumber) {
+            if(this.state.EndDate=="" ||this.state.EndDate=="") { 
+                alert(i18n.lbl_DateMissing);
+                return;
+            }
             Loading.OnLoading();
             let endDate = moment(this.state.EndDate).add(1, 'days').unix()-1;
             let data = {StartDate:moment(this.state.StartDate).unix(), EndDate: endDate, PageNumber: pageNumber};

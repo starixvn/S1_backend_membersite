@@ -5,7 +5,7 @@ class HistoryBody extends React.Component {
     }
 
     onCancel(transId) {
-        if(confirm('Are you sure?')) {
+        if(confirm(i18n.lbl_CancelConfirm)) {
             this.props.onCancel(transId);
         }
     }
@@ -20,10 +20,10 @@ class HistoryBody extends React.Component {
             if(item.depositType==3 && (item.status==1 || item.status==7)) {
                 btnGroup = <div className="btn-group">
                     <button className="btn btn-default" type="button" onClick={this.onCancel.bind(this, item.transId)}>
-                        <span className="text">Cancel</span>
+                        <span className="text">{i18n.lbl_Cancel}</span>
                     </button>
                     <button className="btn btn-secondary" type="button" onClick={this.onShowBankModal.bind(this, {...item.depositRep, ...item.bankInfo, amount: item.amount,postScript: item.postScript,transId: item.transId, refId: item.refId, depositTime: item.depositTime, picFileName: item.picFileName})}>
-                        <span className="text">Submit proof</span>
+                        <span className="text">{i18n.lbl_SubmitProof}</span>
                     </button>
                 </div>
             }

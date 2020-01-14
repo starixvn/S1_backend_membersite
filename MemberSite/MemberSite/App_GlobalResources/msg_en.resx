@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="msg_Congratulations" xml:space="preserve">
-    <value>Your registration is completed, you may immediately login, deposit and then start to place bets.</value>
+    <value>Your registration is completed; you may immediately login, deposit and then start to place bets.</value>
   </data>
   <data name="msg_DepositProcessLogin_ACLocked" xml:space="preserve">
-    <value>Your account is locked, please contact 24/7 customer service, thanks!</value>
+    <value>Your account is locked; please contact 24/7 customer service, thanks!</value>
   </data>
   <data name="msg_DepositProcessLogin_LoginFailed" xml:space="preserve">
     <value>Login failed, Username/ Password is wrong or Username does not exist.</value>
@@ -133,19 +133,19 @@
     <value>Invalid Old Password!</value>
   </data>
   <data name="msg_loggedout" xml:space="preserve">
-    <value>You have success logged out!!</value>
+    <value>You have successfully logged out!!</value>
   </data>
   <data name="msg_LoginToAccess" xml:space="preserve">
     <value>Please login to access game.</value>
   </data>
   <data name="msg_MailExisted" xml:space="preserve">
-    <value>Mail existed</value>
+    <value>Mail already exists.</value>
   </data>
   <data name="msg_MailReq" xml:space="preserve">
-    <value>Email Requirement</value>
+    <value>Email cannot be changed after submission</value>
   </data>
   <data name="msg_MailWrongFormat" xml:space="preserve">
-    <value>Mail Format is wrong</value>
+    <value>Mail Format is wrong.</value>
   </data>
   <data name="msg_NeedAccountName" xml:space="preserve">
     <value>Need Account Name</value>
@@ -169,13 +169,13 @@
     <value>Old Password and New Password are same!</value>
   </data>
   <data name="msg_ThisCurrencyNotSupport" xml:space="preserve">
-    <value>Your Currency Not Support</value>
+    <value>Your Currency Does Not Support.</value>
   </data>
   <data name="msg_UpdateFailed" xml:space="preserve">
     <value>Update Failed</value>
   </data>
   <data name="msg_Updatesuccessful" xml:space="preserve">
-    <value>Update Successful</value>
+    <value>Update Successfully</value>
   </data>
   <data name="msg_UsernameLength" xml:space="preserve">
     <value>Username must between 6 and 18 characters long.</value>
@@ -189,13 +189,13 @@
   <data name="msg_UsernameVaildate" xml:space="preserve">
     <value>6-18 alphanumeric (A-Z, a-z, 0-9) characters only.</value>
   </data>
-  <data name="msg_WithdrawalFailed" xml:space="preserve">
-    <value>Your withdrawal request was failed. Please check with CSD for more information.</value>
-  </data>
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
     <value>Your withdrawal request was failed due to insufficient balance!</value>
   </data>
-  <data name="msg_WithdrawalSuccessful" xml:space="preserve">
-    <value>Your withdrawal request was successfuled. We will notify you once it is done.</value>
+  <data name="msg_WithdrawFailed" xml:space="preserve">
+    <value>Your withdrawal request was failed. Please check with CSD for more information.</value>
+  </data>
+  <data name="msg_WithdrawSuccessful" xml:space="preserve">
+    <value>Your withdrawal request was successful. We will notify you once it is done.</value>
   </data>
 </root>

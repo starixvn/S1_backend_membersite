@@ -165,4 +165,7 @@
   <data name="Code_9000" xml:space="preserve">
     <value>[9000] Lỗi hệ thống, vui lòng liên hệ với CSD</value>
   </data>
+  <data name="Cod_0" xml:space="preserve">
+    <value>Thành công !!</value>
+  </data>
 </root>
