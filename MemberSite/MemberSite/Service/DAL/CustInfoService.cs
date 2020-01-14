@@ -42,7 +42,7 @@ namespace MemberSite.Service.DAL
             if (result > 0)
             {
                 custId = p.Get<int?>("CustId") ?? 0;
-                result = conn.Execute("CustProfile_Ins", new { CustId = custId, customer.SiteId, Email, Profile = (string)null }, trans, commandType: CommandType.StoredProcedure);
+                result = conn.Execute("Member_CustProfile_Ins", new { CustId = custId, customer.SiteId, Email, Profile = (string)null }, trans, commandType: CommandType.StoredProcedure);
             }
 
             if (result > 0)
