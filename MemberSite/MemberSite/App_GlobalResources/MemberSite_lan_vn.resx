@@ -144,9 +144,6 @@
   <data name="Currency_4" xml:space="preserve">
     <value>THB</value>
   </data>
-  <data name="Currency_40" xml:space="preserve">
-    <value>WON</value>
-  </data>
   <data name="Currency_41" xml:space="preserve">
     <value>CHF</value>
   </data>
@@ -163,7 +160,7 @@
     <value>AUD</value>
   </data>
   <data name="lbl_5mins" xml:space="preserve">
-    <value>5 mins</value>
+    <value>5 phút</value>
   </data>
   <data name="lbl_AboutUs" xml:space="preserve">
     <value>Giới Thiệu</value>
@@ -189,8 +186,20 @@
   <data name="lbl_AmountTooltip" xml:space="preserve">
     <value>Số tiền không thể nhỏ hơn 0.</value>
   </data>
+  <data name="lbl_Applicationname" xml:space="preserve">
+    <value>Nova88</value>
+  </data>
+  <data name="lbl_AttachFile" xml:space="preserve">
+    <value>Vui lòng đính kèm Biên lai ngân hàng của bạn ở đây. (Không bắt buộc)</value>
+  </data>
+  <data name="lbl_Author" xml:space="preserve">
+    <value>Nova88</value>
+  </data>
   <data name="lbl_Back" xml:space="preserve">
     <value>Quay lại</value>
+  </data>
+  <data name="lbl_BankAccount" xml:space="preserve">
+    <value>Tài khoản ngân hàng</value>
   </data>
   <data name="lbl_BankAccountName" xml:space="preserve">
     <value>Tên Tài Khoản</value>
@@ -222,6 +231,9 @@
   <data name="lbl_Cancel" xml:space="preserve">
     <value>Hủy</value>
   </data>
+  <data name="lbl_CancelConfirm" xml:space="preserve">
+    <value>Bạn có chắc muốn hủy? Không thể khôi phục lại sau khi hủy!</value>
+  </data>
   <data name="lbl_Cashier" xml:space="preserve">
     <value>Thu ngân</value>
   </data>
@@ -237,6 +249,9 @@
   <data name="lbl_ChargeFee" xml:space="preserve">
     <value>Phí dịch vụ</value>
   </data>
+  <data name="lbl_CheckConfirm" xml:space="preserve">
+    <value>Bạn có chắc muốn xóa? Không thể khôi phục lại sau khi xóa!</value>
+  </data>
   <data name="lbl_Clickhereforbonus" xml:space="preserve">
     <value>Bấm để nhận thưởng</value>
   </data>
@@ -244,7 +259,7 @@
     <value>Đóng</value>
   </data>
   <data name="lbl_CompletedRegistration" xml:space="preserve">
-    <value>Completed Registration</value>
+    <value>Hoàn thành Đăng ký</value>
   </data>
   <data name="lbl_CompleteRegistration" xml:space="preserve">
     <value>Hoàn thành Đăng ký</value>
@@ -270,8 +285,413 @@
   <data name="lbl_Copyright" xml:space="preserve">
     <value>Bản quyền {0}</value>
   </data>
+  <data name="lbl_CountryAF" xml:space="preserve">
+    <value>Afghanistan</value>
+  </data>
+  <data name="lbl_CountryAI" xml:space="preserve">
+    <value>Anguilla</value>
+  </data>
+  <data name="lbl_CountryAO" xml:space="preserve">
+    <value>Angola</value>
+  </data>
+  <data name="lbl_CountryAR" xml:space="preserve">
+    <value>Argentina</value>
+  </data>
+  <data name="lbl_CountryAW" xml:space="preserve">
+    <value>Aruba</value>
+  </data>
+  <data name="lbl_CountryBB" xml:space="preserve">
+    <value>Barbados</value>
+  </data>
+  <data name="lbl_CountryBD" xml:space="preserve">
+    <value>Bangladesh</value>
+  </data>
+  <data name="lbl_CountryBF" xml:space="preserve">
+    <value>Burkina Faso</value>
+  </data>
+  <data name="lbl_CountryBH" xml:space="preserve">
+    <value>Bahrain</value>
+  </data>
+  <data name="lbl_CountryBI" xml:space="preserve">
+    <value>Burundi</value>
+  </data>
+  <data name="lbl_CountryBJ" xml:space="preserve">
+    <value>Benin</value>
+  </data>
+  <data name="lbl_CountryBM" xml:space="preserve">
+    <value>Bermuda</value>
+  </data>
+  <data name="lbl_CountryBN" xml:space="preserve">
+    <value>Vương quốc Bru-nây</value>
+  </data>
+  <data name="lbl_CountryBO" xml:space="preserve">
+    <value>Bolivia</value>
+  </data>
+  <data name="lbl_CountryBR" xml:space="preserve">
+    <value>Brazil</value>
+  </data>
+  <data name="lbl_CountryBS" xml:space="preserve">
+    <value>Bahamas</value>
+  </data>
+  <data name="lbl_CountryBT" xml:space="preserve">
+    <value>Bhutan</value>
+  </data>
+  <data name="lbl_CountryBW" xml:space="preserve">
+    <value>Botswana</value>
+  </data>
+  <data name="lbl_CountryBZ" xml:space="preserve">
+    <value>Belize</value>
+  </data>
+  <data name="lbl_CountryCA" xml:space="preserve">
+    <value>Canada</value>
+  </data>
+  <data name="lbl_CountryCD" xml:space="preserve">
+    <value>Cộng hòa Dominican</value>
+  </data>
+  <data name="lbl_CountryCF" xml:space="preserve">
+    <value>Cộng hòa Trung Phi</value>
+  </data>
+  <data name="lbl_CountryCG" xml:space="preserve">
+    <value>Congo</value>
+  </data>
+  <data name="lbl_CountryCI" xml:space="preserve">
+    <value>Cote D&amp;#039;Ivoire</value>
+  </data>
+  <data name="lbl_CountryCK" xml:space="preserve">
+    <value>Quần đảo Cook</value>
+  </data>
+  <data name="lbl_CountryCL" xml:space="preserve">
+    <value>Chile</value>
+  </data>
+  <data name="lbl_CountryCM" xml:space="preserve">
+    <value>Cameroon</value>
+  </data>
+  <data name="lbl_CountryCO" xml:space="preserve">
+    <value>Colombia</value>
+  </data>
+  <data name="lbl_CountryCR" xml:space="preserve">
+    <value>Costa Rica</value>
+  </data>
+  <data name="lbl_CountryCS" xml:space="preserve">
+    <value>Trung Quốc</value>
+  </data>
+  <data name="lbl_CountryCV" xml:space="preserve">
+    <value>Cape Verde</value>
+  </data>
+  <data name="lbl_CountryDZ" xml:space="preserve">
+    <value>Algeria</value>
+  </data>
+  <data name="lbl_CountryEC" xml:space="preserve">
+    <value>Ecuador</value>
+  </data>
+  <data name="lbl_CountryEG" xml:space="preserve">
+    <value>Ai Cập</value>
+  </data>
+  <data name="lbl_CountryER" xml:space="preserve">
+    <value>Eritrea</value>
+  </data>
+  <data name="lbl_CountryET" xml:space="preserve">
+    <value>Ethiopia</value>
+  </data>
+  <data name="lbl_CountryFJ" xml:space="preserve">
+    <value>Fiji</value>
+  </data>
+  <data name="lbl_CountryFO" xml:space="preserve">
+    <value>Quần đảo Falkland (Malvinas)</value>
+  </data>
+  <data name="lbl_CountryGA" xml:space="preserve">
+    <value>Gabon</value>
+  </data>
+  <data name="lbl_CountryGD" xml:space="preserve">
+    <value>Grenada</value>
+  </data>
+  <data name="lbl_CountryGH" xml:space="preserve">
+    <value>Ghana</value>
+  </data>
+  <data name="lbl_CountryGI" xml:space="preserve">
+    <value>Gibraltar</value>
+  </data>
+  <data name="lbl_CountryGN" xml:space="preserve">
+    <value>Guinea</value>
+  </data>
+  <data name="lbl_CountryGT" xml:space="preserve">
+    <value>Guatemala</value>
+  </data>
+  <data name="lbl_CountryGY" xml:space="preserve">
+    <value>Guyana</value>
+  </data>
+  <data name="lbl_CountryHN" xml:space="preserve">
+    <value>Honduras</value>
+  </data>
+  <data name="lbl_CountryHT" xml:space="preserve">
+    <value>Haiti</value>
+  </data>
+  <data name="lbl_CountryID" xml:space="preserve">
+    <value>Indonesia</value>
+  </data>
+  <data name="lbl_CountryIN" xml:space="preserve">
+    <value>Ấn Độ</value>
+  </data>
+  <data name="lbl_CountryJM" xml:space="preserve">
+    <value>Jamaica</value>
+  </data>
+  <data name="lbl_CountryJO" xml:space="preserve">
+    <value>Jordan</value>
+  </data>
+  <data name="lbl_CountryJP" xml:space="preserve">
+    <value>Nhật Bản</value>
+  </data>
+  <data name="lbl_CountryKE" xml:space="preserve">
+    <value>Kenya</value>
+  </data>
+  <data name="lbl_CountryKH" xml:space="preserve">
+    <value>Campuchia</value>
+  </data>
+  <data name="lbl_CountryKR" xml:space="preserve">
+    <value>Hàn Quốc</value>
+  </data>
+  <data name="lbl_CountryKW" xml:space="preserve">
+    <value>Kuwait</value>
+  </data>
+  <data name="lbl_CountryKY" xml:space="preserve">
+    <value>Quần đảo Cayman</value>
+  </data>
+  <data name="lbl_CountryKZ" xml:space="preserve">
+    <value>Kazakhstan</value>
+  </data>
+  <data name="lbl_CountryLA" xml:space="preserve">
+    <value>Cộng hòa Dân chủ nhân dân Lào</value>
+  </data>
+  <data name="lbl_CountryLB" xml:space="preserve">
+    <value>Lebanon</value>
+  </data>
+  <data name="lbl_CountryLC" xml:space="preserve">
+    <value>Saint Lucia</value>
+  </data>
+  <data name="lbl_CountryLK" xml:space="preserve">
+    <value>Sri Lanka</value>
+  </data>
+  <data name="lbl_CountryLS" xml:space="preserve">
+    <value>Lesotho</value>
+  </data>
+  <data name="lbl_CountryMA" xml:space="preserve">
+    <value>Ma-rốc</value>
+  </data>
+  <data name="lbl_CountryMG" xml:space="preserve">
+    <value>Madagascar</value>
+  </data>
+  <data name="lbl_CountryML" xml:space="preserve">
+    <value>Mali</value>
+  </data>
+  <data name="lbl_CountryMM" xml:space="preserve">
+    <value>Myanmar</value>
+  </data>
+  <data name="lbl_CountryMN" xml:space="preserve">
+    <value>Mông Cổ</value>
+  </data>
+  <data name="lbl_CountryMR" xml:space="preserve">
+    <value>Mauritania</value>
+  </data>
+  <data name="lbl_CountryMU" xml:space="preserve">
+    <value>Mauritius</value>
+  </data>
+  <data name="lbl_CountryMV" xml:space="preserve">
+    <value>Maldives</value>
+  </data>
+  <data name="lbl_CountryMW" xml:space="preserve">
+    <value>Malawi</value>
+  </data>
+  <data name="lbl_CountryMX" xml:space="preserve">
+    <value>Mexico</value>
+  </data>
+  <data name="lbl_CountryMY" xml:space="preserve">
+    <value>Malaysia</value>
+  </data>
+  <data name="lbl_CountryNA" xml:space="preserve">
+    <value>Namibia</value>
+  </data>
+  <data name="lbl_CountryNC" xml:space="preserve">
+    <value>New Caledonia</value>
+  </data>
+  <data name="lbl_CountryNE" xml:space="preserve">
+    <value>Niger</value>
+  </data>
+  <data name="lbl_CountryNG" xml:space="preserve">
+    <value>Nigeria</value>
+  </data>
+  <data name="lbl_CountryNP" xml:space="preserve">
+    <value>Nepal</value>
+  </data>
+  <data name="lbl_CountryNR" xml:space="preserve">
+    <value>Nauru</value>
+  </data>
+  <data name="lbl_CountryNZ" xml:space="preserve">
+    <value>New Zealand</value>
+  </data>
+  <data name="lbl_CountryOM" xml:space="preserve">
+    <value>Oman</value>
+  </data>
+  <data name="lbl_CountryPA" xml:space="preserve">
+    <value>Panama</value>
+  </data>
+  <data name="lbl_CountryPE" xml:space="preserve">
+    <value>Peru</value>
+  </data>
+  <data name="lbl_CountryPG" xml:space="preserve">
+    <value>Papua New Guinea</value>
+  </data>
+  <data name="lbl_CountryPK" xml:space="preserve">
+    <value>Pakistan</value>
+  </data>
+  <data name="lbl_CountryPN" xml:space="preserve">
+    <value>Quần đảo Pitcairn</value>
+  </data>
+  <data name="lbl_CountryPY" xml:space="preserve">
+    <value>Paraguay</value>
+  </data>
+  <data name="lbl_CountryQA" xml:space="preserve">
+    <value>Qatar</value>
+  </data>
+  <data name="lbl_CountrySA" xml:space="preserve">
+    <value>Saudi Arabia</value>
+  </data>
+  <data name="lbl_CountrySB" xml:space="preserve">
+    <value>Quần đảo Solomon</value>
+  </data>
+  <data name="lbl_CountrySC" xml:space="preserve">
+    <value>Seychelles</value>
+  </data>
+  <data name="lbl_CountrySD" xml:space="preserve">
+    <value>Sudan</value>
+  </data>
+  <data name="lbl_CountrySL" xml:space="preserve">
+    <value>Sierra Leone</value>
+  </data>
+  <data name="lbl_CountrySN" xml:space="preserve">
+    <value>Senegal</value>
+  </data>
+  <data name="lbl_CountrySO" xml:space="preserve">
+    <value>Somalia</value>
+  </data>
+  <data name="lbl_CountrySR" xml:space="preserve">
+    <value>Suriname</value>
+  </data>
+  <data name="lbl_CountryST" xml:space="preserve">
+    <value>Sao Tome và Principe</value>
+  </data>
+  <data name="lbl_CountrySV" xml:space="preserve">
+    <value>El Salvador</value>
+  </data>
+  <data name="lbl_CountrySY" xml:space="preserve">
+    <value>Cộng Hòa Arab Syrian</value>
+  </data>
+  <data name="lbl_CountrySZ" xml:space="preserve">
+    <value>Swaziland</value>
+  </data>
+  <data name="lbl_CountryTD" xml:space="preserve">
+    <value>Chad</value>
+  </data>
+  <data name="lbl_CountryTG" xml:space="preserve">
+    <value>Vương quốc Tonga</value>
+  </data>
+  <data name="lbl_CountryTH" xml:space="preserve">
+    <value>nước Thái Lan</value>
+  </data>
+  <data name="lbl_CountryTJ" xml:space="preserve">
+    <value>Tajikistan</value>
+  </data>
+  <data name="lbl_CountryTN" xml:space="preserve">
+    <value>Tunisia</value>
+  </data>
+  <data name="lbl_CountryTT" xml:space="preserve">
+    <value>Trinidad và Tobago</value>
+  </data>
+  <data name="lbl_CountryTZ" xml:space="preserve">
+    <value>Tanzania United Republic of</value>
+  </data>
+  <data name="lbl_CountryUG" xml:space="preserve">
+    <value>Uganda</value>
+  </data>
+  <data name="lbl_CountryUY" xml:space="preserve">
+    <value>Uruguay</value>
+  </data>
+  <data name="lbl_CountryUZ" xml:space="preserve">
+    <value>Uzbekistan</value>
+  </data>
+  <data name="lbl_CountryVC" xml:space="preserve">
+    <value>Saint Vincent và Grenadines</value>
+  </data>
+  <data name="lbl_CountryVE" xml:space="preserve">
+    <value>Venezuela</value>
+  </data>
+  <data name="lbl_CountryVN" xml:space="preserve">
+    <value>Việt Nam</value>
+  </data>
+  <data name="lbl_CountryVU" xml:space="preserve">
+    <value>Vanuatu</value>
+  </data>
+  <data name="lbl_CountryWF" xml:space="preserve">
+    <value>Wallis và Futuna</value>
+  </data>
+  <data name="lbl_CountryWS" xml:space="preserve">
+    <value>Tây Sahara</value>
+  </data>
+  <data name="lbl_CountryYE" xml:space="preserve">
+    <value>Yemen</value>
+  </data>
+  <data name="lbl_CountryZA" xml:space="preserve">
+    <value>Nam Phi</value>
+  </data>
+  <data name="lbl_CountryZM" xml:space="preserve">
+    <value>Zambia</value>
+  </data>
+  <data name="lbl_CountryZW" xml:space="preserve">
+    <value>Zimbabwe</value>
+  </data>
   <data name="lbl_CreditTime" xml:space="preserve">
     <value>Thời gian thực hiện</value>
+  </data>
+  <data name="lbl_Currency_1" xml:space="preserve">
+    <value>Đô la Singapore</value>
+  </data>
+  <data name="lbl_Currency_12" xml:space="preserve">
+    <value>Bảng Anh</value>
+  </data>
+  <data name="lbl_Currency_13" xml:space="preserve">
+    <value>Nhân dân tệ</value>
+  </data>
+  <data name="lbl_Currency_15" xml:space="preserve">
+    <value>Rupiah</value>
+  </data>
+  <data name="lbl_Currency_2" xml:space="preserve">
+    <value>Ringgit</value>
+  </data>
+  <data name="lbl_Currency_3" xml:space="preserve">
+    <value>Đô la Mỹ</value>
+  </data>
+  <data name="lbl_Currency_32" xml:space="preserve">
+    <value>Yên Nhật</value>
+  </data>
+  <data name="lbl_Currency_4" xml:space="preserve">
+    <value>Baht</value>
+  </data>
+  <data name="lbl_Currency_41" xml:space="preserve">
+    <value>Franc Thụy Sĩ</value>
+  </data>
+  <data name="lbl_Currency_45" xml:space="preserve">
+    <value>Won Hàn Quốc</value>
+  </data>
+  <data name="lbl_Currency_5" xml:space="preserve">
+    <value>Đô la Hồng Kông</value>
+  </data>
+  <data name="lbl_Currency_51" xml:space="preserve">
+    <value>Đồng</value>
+  </data>
+  <data name="lbl_Currency_6" xml:space="preserve">
+    <value>Euro</value>
+  </data>
+  <data name="lbl_Currency_9" xml:space="preserve">
+    <value>Đô la Úc</value>
   </data>
   <data name="lbl_CustBank" xml:space="preserve">
     <value>Ngân hàng</value>
@@ -294,11 +714,56 @@
   <data name="lbl_DepositOptionHint" xml:space="preserve">
     <value>Bạn có thể chọn mục nạp tiền phù hợp nhất từ những lựa chọn bên dưới:</value>
   </data>
+  <data name="lbl_DepositStatus0" xml:space="preserve">
+    <value>Bản phác thảo</value>
+  </data>
+  <data name="lbl_DepositStatus1" xml:space="preserve">
+    <value>Đang chờ</value>
+  </data>
+  <data name="lbl_DepositStatus2" xml:space="preserve">
+    <value>Đã thanh toán</value>
+  </data>
+  <data name="lbl_DepositStatus3" xml:space="preserve">
+    <value>Chấp thuận</value>
+  </data>
+  <data name="lbl_DepositStatus4" xml:space="preserve">
+    <value>Từ chối</value>
+  </data>
+  <data name="lbl_DepositStatus5" xml:space="preserve">
+    <value>Hủy</value>
+  </data>
+  <data name="lbl_DepositStatus6" xml:space="preserve">
+    <value>Hết hạn</value>
+  </data>
+  <data name="lbl_DepositStatus7" xml:space="preserve">
+    <value>Tạm dừng</value>
+  </data>
+  <data name="lbl_DepositStatus8" xml:space="preserve">
+    <value>Đang xử lý</value>
+  </data>
+  <data name="lbl_DepositStatus99" xml:space="preserve">
+    <value>Lỗi</value>
+  </data>
+  <data name="lbl_DepositTime" xml:space="preserve">
+    <value>Ngày giờ nạp tiền</value>
+  </data>
+  <data name="lbl_DepositTimeToolTip" xml:space="preserve">
+    <value>Vui lòng ghi ngày giờ nap tiền của bạn</value>
+  </data>
+  <data name="lbl_DepositType1" xml:space="preserve">
+    <value>Ngân hàng trực tuyến</value>
+  </data>
+  <data name="lbl_DepositType2" xml:space="preserve">
+    <value>Thanh toán qua  ĐT</value>
+  </data>
+  <data name="lbl_DepositType3" xml:space="preserve">
+    <value>Ngân hàng trong nước</value>
+  </data>
   <data name="lbl_DepositWithdrawals" xml:space="preserve">
     <value>Gửi tiền &amp; Rút tiền</value>
   </data>
   <data name="lbl_Description" xml:space="preserve">
-    <value>Cá cược trực tuyến, Cá cược Thể thao, Cá cược Bóng đá, Cá cược Quần vợt, Cá cược Golf, Cá cược Thể thao trực tuyến, Cá cược Bóng đá, Cờ Bạc trực tuyến</value>
+    <value>Nova88 là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value>
   </data>
   <data name="lbl_DontHaveAccount" xml:space="preserve">
     <value>Không có tài khoản?</value>
@@ -311,6 +776,9 @@
   </data>
   <data name="lbl_Email" xml:space="preserve">
     <value>Email</value>
+  </data>
+  <data name="lbl_EmailToolTip" xml:space="preserve">
+    <value>Không thể thay đổi Email sau khi xác nhận</value>
   </data>
   <data name="lbl_eSports" xml:space="preserve">
     <value>Thể thao điện tử</value>
@@ -351,6 +819,9 @@
   <data name="lbl_ID" xml:space="preserve">
     <value>ID</value>
   </data>
+  <data name="lbl_Image" xml:space="preserve">
+    <value />
+  </data>
   <data name="lbl_ImportantNote" xml:space="preserve">
     <value>Ghi chú</value>
   </data>
@@ -367,13 +838,16 @@
     <value>Nhiều cách để chơi, nhiều cơ hội để thắng!</value>
   </data>
   <data name="lbl_Keywords" xml:space="preserve">
-    <value>Cá cược trực tuyến, Cá cược Thể thao, Cá cược Bóng đá, Cá cược Quần vợt, Cá cược Golf, Cá cược Thể thao trực tuyến, Cá cược Bóng đá, Cờ Bạc trực tuyến</value>
+    <value>Nova88 là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value>
   </data>
   <data name="lbl_LastLogin" xml:space="preserve">
     <value>Truy cập gần nhất</value>
   </data>
   <data name="lbl_LastTransaction" xml:space="preserve">
     <value>Giao Dịch Gần Nhất</value>
+  </data>
+  <data name="lbl_Limit" xml:space="preserve">
+    <value>Han mức giá trị</value>
   </data>
   <data name="lbl_LiveCasino" xml:space="preserve">
     <value>Live Casino</value>
@@ -429,6 +903,9 @@
   <data name="lbl_OnlineBanking" xml:space="preserve">
     <value>Ngân hàng trực tuyến</value>
   </data>
+  <data name="lbl_Optional" xml:space="preserve">
+    <value>Tùy chọn</value>
+  </data>
   <data name="lbl_OurPolicies" xml:space="preserve">
     <value>Chính sách của chúng tôi</value>
   </data>
@@ -471,11 +948,20 @@
   <data name="lbl_RecentTransactions" xml:space="preserve">
     <value>Giao dịch gần đây</value>
   </data>
+  <data name="lbl_Refno" xml:space="preserve">
+    <value>Số tham chiếu</value>
+  </data>
+  <data name="lbl_RefnoToolTip" xml:space="preserve">
+    <value>Vui lòng nhập Số tham chiếu trên biên lai ngân hàng của bạn.</value>
+  </data>
   <data name="lbl_Register" xml:space="preserve">
     <value>Đăng ký</value>
   </data>
   <data name="lbl_RegisterTime" xml:space="preserve">
     <value>Thời gian đăng ký</value>
+  </data>
+  <data name="lbl_Required" xml:space="preserve">
+    <value>Mục bắt buộc</value>
   </data>
   <data name="lbl_ResposibleGaming" xml:space="preserve">
     <value>Chơi có trách nhiệm</value>
@@ -510,6 +996,9 @@
   <data name="lbl_Submit" xml:space="preserve">
     <value>Gửi</value>
   </data>
+  <data name="lbl_SubmitProof" xml:space="preserve">
+    <value>Gửi biên lai ngân hàng</value>
+  </data>
   <data name="lbl_Tennis" xml:space="preserve">
     <value>Tennis</value>
   </data>
@@ -526,7 +1015,10 @@
     <value>Nova88</value>
   </data>
   <data name="lbl_TitleDesc" xml:space="preserve">
-    <value>Cá cược thể thao hàng đầu thế giới.Cung cấp Tỷ lệ cược tốt nhất</value>
+    <value>Nova88 trực tuyến tỷ lệ cược tốt nhất cho thể thao và cá cược trực tiếp</value>
+  </data>
+  <data name="lbl_TitleKeywords" xml:space="preserve">
+    <value>Nova88 là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value>
   </data>
   <data name="lbl_To" xml:space="preserve">
     <value>Đến</value>
@@ -558,6 +1050,9 @@
   <data name="lbl_TwitterSite" xml:space="preserve">
     <value>@Nova88official</value>
   </data>
+  <data name="lbl_Unlimited" xml:space="preserve">
+    <value>Không giới hạn</value>
+  </data>
   <data name="lbl_Update" xml:space="preserve">
     <value>Cập nhật</value>
   </data>
@@ -567,8 +1062,20 @@
   <data name="lbl_UpdateBankInfo" xml:space="preserve">
     <value>Vui lòng điền chi tiết thông tin tài khoản ngân hàng của bạn trước khi nạp tiền.</value>
   </data>
+  <data name="lbl_UpdateSuccess" xml:space="preserve">
+    <value>Cập nhật thành công. Chúng tôi sẽ xử lý yêu cầu của bạn nhanh nhất có thể!</value>
+  </data>
+  <data name="lbl_UploadFile" xml:space="preserve">
+    <value>Tải lên tệp tin</value>
+  </data>
+  <data name="lbl_UploadSuccess" xml:space="preserve">
+    <value>Tệp tin đã được tải lên thành công.</value>
+  </data>
+  <data name="lbl_URL" xml:space="preserve">
+    <value>https://www.nova88.net</value>
+  </data>
   <data name="lbl_Username" xml:space="preserve">
-    <value>Tên người dùng</value>
+    <value>Tên truy cập</value>
   </data>
   <data name="lbl_UsernameTooltip" xml:space="preserve">
     <value>Để bảo mật, chúng tôi khuyên tên người dùng không sử dụng tên thật của bạn</value>
@@ -585,13 +1092,52 @@
   <data name="lbl_Welcome" xml:space="preserve">
     <value>Chào mừng</value>
   </data>
+  <data name="lbl_WireTransfers" xml:space="preserve">
+    <value>Chuyển khoản trong nước</value>
+  </data>
   <data name="lbl_Withdrawal" xml:space="preserve">
     <value>Rút tiền</value>
   </data>
   <data name="lbl_WithdrawalAmount" xml:space="preserve">
     <value>Số tiền muốn rút </value>
   </data>
+  <data name="lbl_WithdrawalStatus0" xml:space="preserve">
+    <value>Bản phác thảo</value>
+  </data>
+  <data name="lbl_WithdrawalStatus1" xml:space="preserve">
+    <value>Đang chờ</value>
+  </data>
+  <data name="lbl_WithdrawalStatus2" xml:space="preserve">
+    <value>Tạm dừng</value>
+  </data>
+  <data name="lbl_WithdrawalStatus3" xml:space="preserve">
+    <value>Xác thực</value>
+  </data>
+  <data name="lbl_WithdrawalStatus4" xml:space="preserve">
+    <value>Đang xử lý</value>
+  </data>
+  <data name="lbl_WithdrawalStatus5" xml:space="preserve">
+    <value>Hủy</value>
+  </data>
+  <data name="lbl_WithdrawalStatus6" xml:space="preserve">
+    <value>Chấp thuận</value>
+  </data>
+  <data name="lbl_WithdrawalStatus7" xml:space="preserve">
+    <value>Từ chối</value>
+  </data>
+  <data name="lbl_WithdrawalStatus99" xml:space="preserve">
+    <value>Lỗi</value>
+  </data>
   <data name="lbl_WithdrawalTo" xml:space="preserve">
     <value>Rút tiền về</value>
+  </data>
+  <data name="lbl_WithdrawalType0" xml:space="preserve">
+    <value>Không xác định</value>
+  </data>
+  <data name="lbl_WithdrawalType1" xml:space="preserve">
+    <value>Ngân hàng trong nước</value>
+  </data>
+  <data name="lbl_WithdrawalType2" xml:space="preserve">
+    <value>Thánh toán trực tuyến</value>
   </data>
 </root>

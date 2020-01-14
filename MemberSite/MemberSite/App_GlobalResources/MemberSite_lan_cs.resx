@@ -117,6 +117,51 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Currency_1" xml:space="preserve">
+    <value>SGD</value>
+  </data>
+  <data name="Currency_12" xml:space="preserve">
+    <value>GBP</value>
+  </data>
+  <data name="Currency_13" xml:space="preserve">
+    <value>RMB</value>
+  </data>
+  <data name="Currency_15" xml:space="preserve">
+    <value>IDR</value>
+  </data>
+  <data name="Currency_2" xml:space="preserve">
+    <value>MYR</value>
+  </data>
+  <data name="Currency_20" xml:space="preserve">
+    <value>UUS</value>
+  </data>
+  <data name="Currency_3" xml:space="preserve">
+    <value>USD</value>
+  </data>
+  <data name="Currency_32" xml:space="preserve">
+    <value>JPY</value>
+  </data>
+  <data name="Currency_4" xml:space="preserve">
+    <value>THB</value>
+  </data>
+  <data name="Currency_41" xml:space="preserve">
+    <value>CHF</value>
+  </data>
+  <data name="Currency_45" xml:space="preserve">
+    <value>WON</value>
+  </data>
+  <data name="Currency_51" xml:space="preserve">
+    <value>VND</value>
+  </data>
+  <data name="Currency_6" xml:space="preserve">
+    <value>EURO</value>
+  </data>
+  <data name="Currency_9" xml:space="preserve">
+    <value>AUD</value>
+  </data>
+  <data name="lbl_5mins" xml:space="preserve">
+    <value>5分鐘</value>
+  </data>
   <data name="lbl_AboutUs" xml:space="preserve">
     <value>关于我们</value>
   </data>
@@ -129,6 +174,9 @@
   <data name="lbl_Affiliates" xml:space="preserve">
     <value>合作伙伴</value>
   </data>
+  <data name="lbl_Agent" xml:space="preserve">
+    <value>代理</value>
+  </data>
   <data name="lbl_AllTranscations" xml:space="preserve">
     <value>所有交易</value>
   </data>
@@ -138,17 +186,31 @@
   <data name="lbl_AmountTooltip" xml:space="preserve">
     <value>金额不得小于0</value>
   </data>
+  <data name="lbl_Applicationname" xml:space="preserve">
+    <value>欧亚体育</value>
+  </data>
+  <data name="lbl_AttachFile" xml:space="preserve">
+    <value>请附上您银行收据(非必要)
+</value>
+  </data>
+  <data name="lbl_Author" xml:space="preserve">
+    <value>欧亚体育</value>
+  </data>
   <data name="lbl_Back" xml:space="preserve">
     <value>返回</value>
+  </data>
+  <data name="lbl_BankAccount" xml:space="preserve">
+    <value>银行帐户
+</value>
   </data>
   <data name="lbl_BankAccountName" xml:space="preserve">
     <value>帐户名称</value>
   </data>
   <data name="lbl_BankAccountNameHint" xml:space="preserve">
-    <value>账号名称请填写真实姓名，完成后将无法修改</value>
+    <value>账号名称请填写真实姓名，完成后将无法修改！</value>
   </data>
   <data name="lbl_BankInfo" xml:space="preserve">
-    <value>银行信息</value>
+    <value>银行资料</value>
   </data>
   <data name="lbl_BankName" xml:space="preserve">
     <value>银行名称</value>
@@ -171,6 +233,9 @@
   <data name="lbl_Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
+  <data name="lbl_CancelConfirm" xml:space="preserve">
+    <value>确定要取消么？取消后将无法恢复！</value>
+  </data>
   <data name="lbl_Cashier" xml:space="preserve">
     <value>收银</value>
   </data>
@@ -184,7 +249,10 @@
     <value>更改密码</value>
   </data>
   <data name="lbl_ChargeFee" xml:space="preserve">
-    <value>收费</value>
+    <value>手续费</value>
+  </data>
+  <data name="lbl_CheckConfirm" xml:space="preserve">
+    <value>确定要删除么？删除后将无法恢复！</value>
   </data>
   <data name="lbl_Clickhereforbonus" xml:space="preserve">
     <value>点击此处取得红利</value>
@@ -193,7 +261,7 @@
     <value>关闭</value>
   </data>
   <data name="lbl_CompletedRegistration" xml:space="preserve">
-    <value>注册已完成</value>
+    <value>已完成注册</value>
   </data>
   <data name="lbl_CompleteRegistration" xml:space="preserve">
     <value>完成注册</value>
@@ -219,11 +287,380 @@
   <data name="lbl_Copyright" xml:space="preserve">
     <value>{0}版权所有</value>
   </data>
+  <data name="lbl_CountryAF" xml:space="preserve">
+    <value>阿富汗</value>
+  </data>
+  <data name="lbl_CountryAI" xml:space="preserve">
+    <value>安圭拉岛</value>
+  </data>
+  <data name="lbl_CountryAO" xml:space="preserve">
+    <value>安哥拉</value>
+  </data>
+  <data name="lbl_CountryAR" xml:space="preserve">
+    <value>阿根廷</value>
+  </data>
+  <data name="lbl_CountryAW" xml:space="preserve">
+    <value>阿鲁巴岛</value>
+  </data>
+  <data name="lbl_CountryBB" xml:space="preserve">
+    <value>巴巴多斯</value>
+  </data>
+  <data name="lbl_CountryBD" xml:space="preserve">
+    <value>孟加拉国</value>
+  </data>
+  <data name="lbl_CountryBF" xml:space="preserve">
+    <value>布吉纳法索</value>
+  </data>
+  <data name="lbl_CountryBH" xml:space="preserve">
+    <value>巴林</value>
+  </data>
+  <data name="lbl_CountryBI" xml:space="preserve">
+    <value>布隆迪</value>
+  </data>
+  <data name="lbl_CountryBJ" xml:space="preserve">
+    <value>贝宁</value>
+  </data>
+  <data name="lbl_CountryBM" xml:space="preserve">
+    <value>百慕大</value>
+  </data>
+  <data name="lbl_CountryBN" xml:space="preserve">
+    <value>文莱达鲁萨兰国</value>
+  </data>
+  <data name="lbl_CountryBO" xml:space="preserve">
+    <value>玻利维亚</value>
+  </data>
+  <data name="lbl_CountryBR" xml:space="preserve">
+    <value>巴西</value>
+  </data>
+  <data name="lbl_CountryBS" xml:space="preserve">
+    <value>巴哈马</value>
+  </data>
+  <data name="lbl_CountryBT" xml:space="preserve">
+    <value>不丹</value>
+  </data>
+  <data name="lbl_CountryBW" xml:space="preserve">
+    <value>博茨瓦纳</value>
+  </data>
+  <data name="lbl_CountryBZ" xml:space="preserve">
+    <value>伯利兹</value>
+  </data>
+  <data name="lbl_CountryCA" xml:space="preserve">
+    <value>加拿大</value>
+  </data>
+  <data name="lbl_CountryCD" xml:space="preserve">
+    <value>多米尼加共和国</value>
+  </data>
+  <data name="lbl_CountryCF" xml:space="preserve">
+    <value>中非共和国</value>
+  </data>
+  <data name="lbl_CountryCG" xml:space="preserve">
+    <value>刚果</value>
+  </data>
+  <data name="lbl_CountryCI" xml:space="preserve">
+    <value>科特迪瓦</value>
+  </data>
+  <data name="lbl_CountryCK" xml:space="preserve">
+    <value>库克群岛</value>
+  </data>
+  <data name="lbl_CountryCL" xml:space="preserve">
+    <value>智利</value>
+  </data>
+  <data name="lbl_CountryCM" xml:space="preserve">
+    <value>喀麦隆</value>
+  </data>
+  <data name="lbl_CountryCO" xml:space="preserve">
+    <value>哥伦比亚</value>
+  </data>
+  <data name="lbl_CountryCR" xml:space="preserve">
+    <value>哥斯达黎加</value>
+  </data>
+  <data name="lbl_CountryCS" xml:space="preserve">
+    <value>中国</value>
+  </data>
+  <data name="lbl_CountryCV" xml:space="preserve">
+    <value>佛得角</value>
+  </data>
+  <data name="lbl_CountryDZ" xml:space="preserve">
+    <value>阿尔及利亚</value>
+  </data>
+  <data name="lbl_CountryEC" xml:space="preserve">
+    <value>厄瓜多尔</value>
+  </data>
+  <data name="lbl_CountryEG" xml:space="preserve">
+    <value>埃及</value>
+  </data>
+  <data name="lbl_CountryER" xml:space="preserve">
+    <value>厄立特里亚</value>
+  </data>
+  <data name="lbl_CountryET" xml:space="preserve">
+    <value>埃塞俄比亚</value>
+  </data>
+  <data name="lbl_CountryFJ" xml:space="preserve">
+    <value>斐济</value>
+  </data>
+  <data name="lbl_CountryFO" xml:space="preserve">
+    <value>福克兰群岛(马尔维纳斯)</value>
+  </data>
+  <data name="lbl_CountryGA" xml:space="preserve">
+    <value>加蓬</value>
+  </data>
+  <data name="lbl_CountryGD" xml:space="preserve">
+    <value>格林纳达</value>
+  </data>
+  <data name="lbl_CountryGH" xml:space="preserve">
+    <value>加纳</value>
+  </data>
+  <data name="lbl_CountryGI" xml:space="preserve">
+    <value>直布罗陀</value>
+  </data>
+  <data name="lbl_CountryGN" xml:space="preserve">
+    <value>几内亚</value>
+  </data>
+  <data name="lbl_CountryGT" xml:space="preserve">
+    <value>危地马拉</value>
+  </data>
+  <data name="lbl_CountryGY" xml:space="preserve">
+    <value>圭亚那</value>
+  </data>
+  <data name="lbl_CountryHN" xml:space="preserve">
+    <value>洪都拉斯</value>
+  </data>
+  <data name="lbl_CountryHT" xml:space="preserve">
+    <value>海地</value>
+  </data>
+  <data name="lbl_CountryID" xml:space="preserve">
+    <value>印尼</value>
+  </data>
+  <data name="lbl_CountryIN" xml:space="preserve">
+    <value>印度</value>
+  </data>
+  <data name="lbl_CountryJM" xml:space="preserve">
+    <value>牙买加</value>
+  </data>
+  <data name="lbl_CountryJO" xml:space="preserve">
+    <value>约旦</value>
+  </data>
+  <data name="lbl_CountryJP" xml:space="preserve">
+    <value>日本</value>
+  </data>
+  <data name="lbl_CountryKE" xml:space="preserve">
+    <value>肯尼亚</value>
+  </data>
+  <data name="lbl_CountryKH" xml:space="preserve">
+    <value>柬埔寨</value>
+  </data>
+  <data name="lbl_CountryKR" xml:space="preserve">
+    <value>韩国</value>
+  </data>
+  <data name="lbl_CountryKW" xml:space="preserve">
+    <value>科威特</value>
+  </data>
+  <data name="lbl_CountryKY" xml:space="preserve">
+    <value>开曼群岛</value>
+  </data>
+  <data name="lbl_CountryKZ" xml:space="preserve">
+    <value>哈萨克斯坦</value>
+  </data>
+  <data name="lbl_CountryLA" xml:space="preserve">
+    <value>老挝</value>
+  </data>
+  <data name="lbl_CountryLB" xml:space="preserve">
+    <value>黎巴嫩</value>
+  </data>
+  <data name="lbl_CountryLC" xml:space="preserve">
+    <value>圣卢西亚岛</value>
+  </data>
+  <data name="lbl_CountryLK" xml:space="preserve">
+    <value>斯里兰卡</value>
+  </data>
+  <data name="lbl_CountryLS" xml:space="preserve">
+    <value>莱索托</value>
+  </data>
+  <data name="lbl_CountryMA" xml:space="preserve">
+    <value>摩洛哥</value>
+  </data>
+  <data name="lbl_CountryMG" xml:space="preserve">
+    <value>马达加斯加</value>
+  </data>
+  <data name="lbl_CountryML" xml:space="preserve">
+    <value>马里</value>
+  </data>
+  <data name="lbl_CountryMM" xml:space="preserve">
+    <value>缅甸</value>
+  </data>
+  <data name="lbl_CountryMN" xml:space="preserve">
+    <value>蒙古</value>
+  </data>
+  <data name="lbl_CountryMR" xml:space="preserve">
+    <value>毛利塔尼亚</value>
+  </data>
+  <data name="lbl_CountryMU" xml:space="preserve">
+    <value>毛里求斯</value>
+  </data>
+  <data name="lbl_CountryMV" xml:space="preserve">
+    <value>马尔代夫</value>
+  </data>
+  <data name="lbl_CountryMW" xml:space="preserve">
+    <value>马拉维</value>
+  </data>
+  <data name="lbl_CountryMX" xml:space="preserve">
+    <value>墨西哥</value>
+  </data>
+  <data name="lbl_CountryMY" xml:space="preserve">
+    <value>马来西亚</value>
+  </data>
+  <data name="lbl_CountryNA" xml:space="preserve">
+    <value>纳米比亚</value>
+  </data>
+  <data name="lbl_CountryNC" xml:space="preserve">
+    <value>新喀里多尼亚</value>
+  </data>
+  <data name="lbl_CountryNE" xml:space="preserve">
+    <value>尼日尔</value>
+  </data>
+  <data name="lbl_CountryNG" xml:space="preserve">
+    <value>尼日利亚</value>
+  </data>
+  <data name="lbl_CountryNP" xml:space="preserve">
+    <value>尼泊尔</value>
+  </data>
+  <data name="lbl_CountryNR" xml:space="preserve">
+    <value>瑙鲁</value>
+  </data>
+  <data name="lbl_CountryNZ" xml:space="preserve">
+    <value>新西兰</value>
+  </data>
+  <data name="lbl_CountryOM" xml:space="preserve">
+    <value>阿曼</value>
+  </data>
+  <data name="lbl_CountryPA" xml:space="preserve">
+    <value>巴拿马</value>
+  </data>
+  <data name="lbl_CountryPE" xml:space="preserve">
+    <value>秘鲁</value>
+  </data>
+  <data name="lbl_CountryPG" xml:space="preserve">
+    <value>巴布新几内亚</value>
+  </data>
+  <data name="lbl_CountryPK" xml:space="preserve">
+    <value>巴基斯坦</value>
+  </data>
+  <data name="lbl_CountryPN" xml:space="preserve">
+    <value>皮特克恩岛</value>
+  </data>
+  <data name="lbl_CountryPY" xml:space="preserve">
+    <value>巴拉圭</value>
+  </data>
+  <data name="lbl_CountryQA" xml:space="preserve">
+    <value>卡塔尔</value>
+  </data>
+  <data name="lbl_CountrySA" xml:space="preserve">
+    <value>沙特阿拉伯</value>
+  </data>
+  <data name="lbl_CountrySB" xml:space="preserve">
+    <value>所罗门群岛</value>
+  </data>
+  <data name="lbl_CountrySC" xml:space="preserve">
+    <value>塞舌尔</value>
+  </data>
+  <data name="lbl_CountrySD" xml:space="preserve">
+    <value>苏丹</value>
+  </data>
+  <data name="lbl_CountrySL" xml:space="preserve">
+    <value>塞拉利昂</value>
+  </data>
+  <data name="lbl_CountrySN" xml:space="preserve">
+    <value>塞内加尔</value>
+  </data>
+  <data name="lbl_CountrySO" xml:space="preserve">
+    <value>索马里</value>
+  </data>
+  <data name="lbl_CountrySR" xml:space="preserve">
+    <value>苏里南</value>
+  </data>
+  <data name="lbl_CountryST" xml:space="preserve">
+    <value>圣多美和普林西比</value>
+  </data>
+  <data name="lbl_CountrySV" xml:space="preserve">
+    <value>萨尔瓦多</value>
+  </data>
+  <data name="lbl_CountrySY" xml:space="preserve">
+    <value>阿拉伯叙利亚共和国</value>
+  </data>
+  <data name="lbl_CountrySZ" xml:space="preserve">
+    <value>斯威士兰</value>
+  </data>
+  <data name="lbl_CountryTD" xml:space="preserve">
+    <value>乍得</value>
+  </data>
+  <data name="lbl_CountryTG" xml:space="preserve">
+    <value>汤加</value>
+  </data>
+  <data name="lbl_CountryTH" xml:space="preserve">
+    <value>泰国</value>
+  </data>
+  <data name="lbl_CountryTJ" xml:space="preserve">
+    <value>塔吉克斯坦</value>
+  </data>
+  <data name="lbl_CountryTN" xml:space="preserve">
+    <value>突尼斯</value>
+  </data>
+  <data name="lbl_CountryTT" xml:space="preserve">
+    <value>特立尼达和多巴哥</value>
+  </data>
+  <data name="lbl_CountryTZ" xml:space="preserve">
+    <value>坦桑尼亚联合共和国</value>
+  </data>
+  <data name="lbl_CountryUG" xml:space="preserve">
+    <value>乌干达</value>
+  </data>
+  <data name="lbl_CountryUY" xml:space="preserve">
+    <value>乌拉圭</value>
+  </data>
+  <data name="lbl_CountryUZ" xml:space="preserve">
+    <value>乌兹别克斯坦</value>
+  </data>
+  <data name="lbl_CountryVC" xml:space="preserve">
+    <value>圣文森特和格林纳丁斯</value>
+  </data>
+  <data name="lbl_CountryVE" xml:space="preserve">
+    <value>委内瑞拉</value>
+  </data>
+  <data name="lbl_CountryVN" xml:space="preserve">
+    <value>越南</value>
+  </data>
+  <data name="lbl_CountryVU" xml:space="preserve">
+    <value>瓦努阿图</value>
+  </data>
+  <data name="lbl_CountryWF" xml:space="preserve">
+    <value>瓦利斯群岛和富图纳群岛</value>
+  </data>
+  <data name="lbl_CountryWS" xml:space="preserve">
+    <value>西撒哈拉</value>
+  </data>
+  <data name="lbl_CountryYE" xml:space="preserve">
+    <value>也门</value>
+  </data>
+  <data name="lbl_CountryZA" xml:space="preserve">
+    <value>南非</value>
+  </data>
+  <data name="lbl_CountryZM" xml:space="preserve">
+    <value>赞比亚</value>
+  </data>
+  <data name="lbl_CountryZW" xml:space="preserve">
+    <value>津巴布韦</value>
+  </data>
   <data name="lbl_CreditTime" xml:space="preserve">
     <value>所需时间</value>
   </data>
+  <data name="lbl_Currency_1" xml:space="preserve">
+    <value>新加坡元</value>
+  </data>
   <data name="lbl_Currency_12" xml:space="preserve">
     <value>英镑</value>
+  </data>
+  <data name="lbl_Currency_13" xml:space="preserve">
+    <value>人民币</value>
   </data>
   <data name="lbl_Currency_15" xml:space="preserve">
     <value>印度卢比</value>
@@ -234,17 +671,29 @@
   <data name="lbl_Currency_3" xml:space="preserve">
     <value>美元</value>
   </data>
+  <data name="lbl_Currency_32" xml:space="preserve">
+    <value>日元</value>
+  </data>
   <data name="lbl_Currency_4" xml:space="preserve">
     <value>泰铢</value>
   </data>
-  <data name="lbl_Currency_40" xml:space="preserve">
-    <value>韩元</value>
+  <data name="lbl_Currency_41" xml:space="preserve">
+    <value>瑞士法郎</value>
+  </data>
+  <data name="lbl_Currency_45" xml:space="preserve">
+    <value>南韩圜</value>
+  </data>
+  <data name="lbl_Currency_5" xml:space="preserve">
+    <value>港元</value>
   </data>
   <data name="lbl_Currency_51" xml:space="preserve">
     <value>越南盾</value>
   </data>
   <data name="lbl_Currency_6" xml:space="preserve">
     <value>欧元</value>
+  </data>
+  <data name="lbl_Currency_9" xml:space="preserve">
+    <value>澳元</value>
   </data>
   <data name="lbl_CustBank" xml:space="preserve">
     <value>银行</value>
@@ -265,16 +714,79 @@
     <value>马上存款</value>
   </data>
   <data name="lbl_DepositOptionHint" xml:space="preserve">
-    <value>从下方选出最符合您需求的存款方式:</value>
+    <value>从下方选出最符合您需求的存款方式：</value>
+  </data>
+  <data name="lbl_DepositStatus0" xml:space="preserve">
+    <value>草稿</value>
+  </data>
+  <data name="lbl_DepositStatus1" xml:space="preserve">
+    <value>待定</value>
+  </data>
+  <data name="lbl_DepositStatus2" xml:space="preserve">
+    <value>已付款</value>
+  </data>
+  <data name="lbl_DepositStatus3" xml:space="preserve">
+    <value>已核准</value>
+  </data>
+  <data name="lbl_DepositStatus4" xml:space="preserve">
+    <value>拒绝</value>
+  </data>
+  <data name="lbl_DepositStatus5" xml:space="preserve">
+    <value>已取消</value>
+  </data>
+  <data name="lbl_DepositStatus6" xml:space="preserve">
+    <value>过期</value>
+  </data>
+  <data name="lbl_DepositStatus7" xml:space="preserve">
+    <value>搁置</value>
+  </data>
+  <data name="lbl_DepositStatus8" xml:space="preserve">
+    <value>处理中</value>
+  </data>
+  <data name="lbl_DepositStatus99" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="lbl_DepositTime" xml:space="preserve">
+    <value>存款时间</value>
+  </data>
+  <data name="lbl_DepositTimeToolTip" xml:space="preserve">
+    <value>請提交您的存款存入時間。</value>
+  </data>
+  <data name="lbl_DepositType1" xml:space="preserve">
+    <value>网络银行</value>
+  </data>
+  <data name="lbl_DepositType2" xml:space="preserve">
+    <value>移动支付</value>
+  </data>
+  <data name="lbl_DepositType3" xml:space="preserve">
+    <value>地方银行</value>
   </data>
   <data name="lbl_DepositWithdrawals" xml:space="preserve">
     <value>存款&amp;提款</value>
   </data>
+  <data name="lbl_Description" xml:space="preserve">
+    <value>欧亚体育是世界领先的体育博彩，提供最佳的博彩体验，涵盖所有体育，娱乐城，老虎机，快乐彩，电子竞技，rng娱乐城，梦幻对垒，虚拟体育，彩票，真人娱乐场，真人荷官，宾果游戏和赛车。</value>
+  </data>
+  <data name="lbl_DontHaveAccount" xml:space="preserve">
+    <value>没有账户吗?</value>
+  </data>
+  <data name="lbl_DownloadApp" xml:space="preserve">
+    <value>下载app</value>
+  </data>
+  <data name="lbl_Downloads" xml:space="preserve">
+    <value>下载</value>
+  </data>
   <data name="lbl_Email" xml:space="preserve">
     <value>电子邮件</value>
   </data>
+  <data name="lbl_EmailToolTip" xml:space="preserve">
+    <value>提交后电子邮箱将无法更改。</value>
+  </data>
   <data name="lbl_eSports" xml:space="preserve">
     <value>电子竞技</value>
+  </data>
+  <data name="lbl_eSportsBetting" xml:space="preserve">
+    <value>电子竞技投注</value>
   </data>
   <data name="lbl_Facebook" xml:space="preserve">
     <value>Facebook</value>
@@ -282,14 +794,26 @@
   <data name="lbl_FAQ" xml:space="preserve">
     <value>常见疑问</value>
   </data>
+  <data name="lbl_FootballBetting" xml:space="preserve">
+    <value>美式足球投注</value>
+  </data>
+  <data name="lbl_ForgetPassword" xml:space="preserve">
+    <value>忘记ID或密码吗？</value>
+  </data>
   <data name="lbl_From" xml:space="preserve">
     <value>从</value>
   </data>
   <data name="lbl_Help" xml:space="preserve">
     <value>帮助</value>
   </data>
+  <data name="lbl_HelpSupport" xml:space="preserve">
+    <value>帮助及支持</value>
+  </data>
   <data name="lbl_History" xml:space="preserve">
     <value>历史记录</value>
+  </data>
+  <data name="lbl_HockeyBetting" xml:space="preserve">
+    <value>曲棍球投注</value>
   </data>
   <data name="lbl_Home" xml:space="preserve">
     <value>首页</value>
@@ -297,11 +821,26 @@
   <data name="lbl_ID" xml:space="preserve">
     <value>ID</value>
   </data>
+  <data name="lbl_Image" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lbl_ImportantNote" xml:space="preserve">
+    <value>重要讯息</value>
+  </data>
+  <data name="lbl_Instant" xml:space="preserve">
+    <value>立即</value>
+  </data>
+  <data name="lbl_JoinNow" xml:space="preserve">
+    <value>立即加入</value>
+  </data>
   <data name="lbl_Keno" xml:space="preserve">
     <value>快乐彩</value>
   </data>
   <data name="lbl_KenoSlogon" xml:space="preserve">
     <value>玩法精采多元，获胜机会多更多！</value>
+  </data>
+  <data name="lbl_Keywords" xml:space="preserve">
+    <value>欧亚体育是世界领先的体育博彩，提供最佳的博彩体验，涵盖所有体育，娱乐城，老虎机，快乐彩，电子竞技，rng娱乐城，梦幻对垒，虚拟体育，彩票，真人娱乐场，真人荷官，宾果游戏和 赛车。</value>
   </data>
   <data name="lbl_LastLogin" xml:space="preserve">
     <value>最后登录</value>
@@ -309,17 +848,41 @@
   <data name="lbl_LastTransaction" xml:space="preserve">
     <value>最后交易</value>
   </data>
+  <data name="lbl_Limit" xml:space="preserve">
+    <value>限制</value>
+  </data>
   <data name="lbl_LiveCasino" xml:space="preserve">
     <value>娱乐城</value>
+  </data>
+  <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
+    <value>真实赌场体验</value>
   </data>
   <data name="lbl_Login" xml:space="preserve">
     <value>登录</value>
   </data>
+  <data name="lbl_LoginHere" xml:space="preserve">
+    <value>此处登录</value>
+  </data>
+  <data name="lbl_LoginMsg" xml:space="preserve">
+    <value>请注意，一个会员仅能注册一个账号。</value>
+  </data>
   <data name="lbl_Logout" xml:space="preserve">
     <value>登出</value>
   </data>
+  <data name="lbl_Memo" xml:space="preserve">
+    <value>备忘录</value>
+  </data>
   <data name="lbl_Message" xml:space="preserve">
     <value>讯息</value>
+  </data>
+  <data name="lbl_Method" xml:space="preserve">
+    <value>方法</value>
+  </data>
+  <data name="lbl_MobileDeposit" xml:space="preserve">
+    <value>移动存款</value>
+  </data>
+  <data name="lbl_MomoHint" xml:space="preserve">
+    <value>如欲快速存款，请在此留下您的帐户姓名及帐户号码。</value>
   </data>
   <data name="lbl_MyAccount" xml:space="preserve">
     <value>我的帐户</value>
@@ -327,20 +890,80 @@
   <data name="lbl_NewPassword" xml:space="preserve">
     <value>新密码</value>
   </data>
+  <data name="lbl_NotinLimit" xml:space="preserve">
+    <value>超出设定范围</value>
+  </data>
   <data name="lbl_NumberGame" xml:space="preserve">
     <value>百练赛</value>
+  </data>
+  <data name="lbl_Of" xml:space="preserve">
+    <value>之</value>
   </data>
   <data name="lbl_OldPassword" xml:space="preserve">
     <value>当前密码</value>
   </data>
+  <data name="lbl_OnlineBanking" xml:space="preserve">
+    <value>网络银行服务</value>
+  </data>
+  <data name="lbl_Optional" xml:space="preserve">
+    <value>选填</value>
+  </data>
+  <data name="lbl_OurPolicies" xml:space="preserve">
+    <value>我们的政策</value>
+  </data>
+  <data name="lbl_Page" xml:space="preserve">
+    <value>页</value>
+  </data>
   <data name="lbl_Password" xml:space="preserve">
     <value>密码</value>
+  </data>
+  <data name="lbl_PasswordTooltip" xml:space="preserve">
+    <value>6到18个数字、英文字母大写、英文字母小写或特殊字符(@$*!%#?&amp;)</value>
+  </data>
+  <data name="lbl_PaymentOptions" xml:space="preserve">
+    <value>支付方式</value>
+  </data>
+  <data name="lbl_Postscript" xml:space="preserve">
+    <value>验证码</value>
+  </data>
+  <data name="lbl_PostscriptHint" xml:space="preserve">
+    <value>输入验证码立即存款</value>
+  </data>
+  <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
+    <value>一旦註冊完成後，無法更改首选币种。</value>
+  </data>
+  <data name="lbl_PrefferedCurrency" xml:space="preserve">
+    <value>首选币种</value>
   </data>
   <data name="lbl_PrivacyPolicy" xml:space="preserve">
     <value>隐私权政策</value>
   </data>
+  <data name="lbl_Profile" xml:space="preserve">
+    <value>个人资料</value>
+  </data>
   <data name="lbl_Promotion" xml:space="preserve">
     <value>优惠促销</value>
+  </data>
+  <data name="lbl_RebatebonusonMobile" xml:space="preserve">
+    <value>手机返水红利</value>
+  </data>
+  <data name="lbl_RecentTransactions" xml:space="preserve">
+    <value>最近交易</value>
+  </data>
+  <data name="lbl_Refno" xml:space="preserve">
+    <value>参考编号</value>
+  </data>
+  <data name="lbl_RefnoToolTip" xml:space="preserve">
+    <value>请提交您的银行收据编号。</value>
+  </data>
+  <data name="lbl_Register" xml:space="preserve">
+    <value>注册</value>
+  </data>
+  <data name="lbl_RegisterTime" xml:space="preserve">
+    <value>注册时间</value>
+  </data>
+  <data name="lbl_Required" xml:space="preserve">
+    <value>必填字段</value>
   </data>
   <data name="lbl_ResposibleGaming" xml:space="preserve">
     <value>负责任博彩</value>
@@ -348,14 +971,26 @@
   <data name="lbl_RuleRegulations" xml:space="preserve">
     <value>投注规则与规定</value>
   </data>
+  <data name="lbl_SelectAll" xml:space="preserve">
+    <value>全选</value>
+  </data>
   <data name="lbl_ShowBalance" xml:space="preserve">
     <value>显示余额</value>
   </data>
   <data name="lbl_Soccer" xml:space="preserve">
     <value>足球</value>
   </data>
+  <data name="lbl_SoccerBetting" xml:space="preserve">
+    <value>足球投注</value>
+  </data>
+  <data name="lbl_SocialMedia" xml:space="preserve">
+    <value>社群媒体</value>
+  </data>
   <data name="lbl_Sports" xml:space="preserve">
     <value>体育博彩</value>
+  </data>
+  <data name="lbl_SportsBetting" xml:space="preserve">
+    <value>体育投注</value>
   </data>
   <data name="lbl_Status" xml:space="preserve">
     <value>状态</value>
@@ -363,8 +998,14 @@
   <data name="lbl_Submit" xml:space="preserve">
     <value>提交</value>
   </data>
+  <data name="lbl_SubmitProof" xml:space="preserve">
+    <value>提交银行收据</value>
+  </data>
   <data name="lbl_Tennis" xml:space="preserve">
     <value>网球</value>
+  </data>
+  <data name="lbl_TennisBetting" xml:space="preserve">
+    <value>网球投注</value>
   </data>
   <data name="lbl_TermsConditions" xml:space="preserve">
     <value>条款及规则</value>
@@ -373,7 +1014,13 @@
     <value>时间</value>
   </data>
   <data name="lbl_Title" xml:space="preserve">
-    <value>Nova88</value>
+    <value>欧亚体育</value>
+  </data>
+  <data name="lbl_TitleDesc" xml:space="preserve">
+    <value>欧亚体育提供线上体育博彩和现场博彩最佳赔率</value>
+  </data>
+  <data name="lbl_TitleKeywords" xml:space="preserve">
+    <value>欧亚体育是世界领先的体育博彩，提供最佳的博彩体验，涵盖所有体育，娱乐城，老虎机，快乐彩，电子竞技，rng娱乐城，梦幻对垒，虚拟体育，彩票，真人娱乐场，真人荷官，宾果游戏和赛车。</value>
   </data>
   <data name="lbl_To" xml:space="preserve">
     <value>至</value>
@@ -381,11 +1028,23 @@
   <data name="lbl_Transaction" xml:space="preserve">
     <value>最后交易</value>
   </data>
+  <data name="lbl_TransactionHint" xml:space="preserve">
+    <value>请转账到该账户</value>
+  </data>
+  <data name="lbl_TransactionHistory" xml:space="preserve">
+    <value>交易记录</value>
+  </data>
   <data name="lbl_TransferFunds" xml:space="preserve">
     <value>资金转移</value>
   </data>
+  <data name="lbl_TransferTo" xml:space="preserve">
+    <value>转账至</value>
+  </data>
   <data name="lbl_TryNow" xml:space="preserve">
     <value>马上试用</value>
+  </data>
+  <data name="lbl_Twitter" xml:space="preserve">
+    <value>Twitter</value>
   </data>
   <data name="lbl_TwitterCreator" xml:space="preserve">
     <value>@Nova88official</value>
@@ -393,14 +1052,41 @@
   <data name="lbl_TwitterSite" xml:space="preserve">
     <value>@Nova88official</value>
   </data>
+  <data name="lbl_Unlimited" xml:space="preserve">
+    <value>无限制</value>
+  </data>
   <data name="lbl_Update" xml:space="preserve">
     <value>更新</value>
   </data>
   <data name="lbl_UpdateBankDetail" xml:space="preserve">
     <value>更新银行资料</value>
   </data>
+  <data name="lbl_UpdateBankInfo" xml:space="preserve">
+    <value>请在存款前完成银行信息更新</value>
+  </data>
+  <data name="lbl_UpdateSuccess" xml:space="preserve">
+    <value>更新成功。我们会尽快处理您的需求！</value>
+  </data>
+  <data name="lbl_UploadFile" xml:space="preserve">
+    <value>档案上传</value>
+  </data>
+  <data name="lbl_UploadSuccess" xml:space="preserve">
+    <value>档案上传成功</value>
+  </data>
+  <data name="lbl_URL" xml:space="preserve">
+    <value>https://www.nova88.net</value>
+  </data>
   <data name="lbl_Username" xml:space="preserve">
-    <value>户名</value>
+    <value>用戶名</value>
+  </data>
+  <data name="lbl_UsernameTooltip" xml:space="preserve">
+    <value>基于安全考虑，我们建议用户名不要使用或包含您的真实姓名</value>
+  </data>
+  <data name="lbl_VariousBankingOptions" xml:space="preserve">
+    <value>其他银行通路</value>
+  </data>
+  <data name="lbl_VIPLevel" xml:space="preserve">
+    <value>VIP等级</value>
   </data>
   <data name="lbl_VirtualSports" xml:space="preserve">
     <value>虚拟运动</value>
@@ -408,7 +1094,52 @@
   <data name="lbl_Welcome" xml:space="preserve">
     <value>欢迎</value>
   </data>
+  <data name="lbl_WireTransfers" xml:space="preserve">
+    <value>地方银行转账</value>
+  </data>
   <data name="lbl_Withdrawal" xml:space="preserve">
     <value>提款</value>
+  </data>
+  <data name="lbl_WithdrawalAmount" xml:space="preserve">
+    <value>提款金额</value>
+  </data>
+  <data name="lbl_WithdrawalStatus0" xml:space="preserve">
+    <value>草稿</value>
+  </data>
+  <data name="lbl_WithdrawalStatus1" xml:space="preserve">
+    <value>待定</value>
+  </data>
+  <data name="lbl_WithdrawalStatus2" xml:space="preserve">
+    <value>搁置</value>
+  </data>
+  <data name="lbl_WithdrawalStatus3" xml:space="preserve">
+    <value>核实</value>
+  </data>
+  <data name="lbl_WithdrawalStatus4" xml:space="preserve">
+    <value>处理中</value>
+  </data>
+  <data name="lbl_WithdrawalStatus5" xml:space="preserve">
+    <value>已取消</value>
+  </data>
+  <data name="lbl_WithdrawalStatus6" xml:space="preserve">
+    <value>已付款</value>
+  </data>
+  <data name="lbl_WithdrawalStatus7" xml:space="preserve">
+    <value>拒绝</value>
+  </data>
+  <data name="lbl_WithdrawalStatus99" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="lbl_WithdrawalTo" xml:space="preserve">
+    <value>提款至</value>
+  </data>
+  <data name="lbl_WithdrawalType0" xml:space="preserve">
+    <value>未定义</value>
+  </data>
+  <data name="lbl_WithdrawalType1" xml:space="preserve">
+    <value>地方银行</value>
+  </data>
+  <data name="lbl_WithdrawalType2" xml:space="preserve">
+    <value>网上支付</value>
   </data>
 </root>

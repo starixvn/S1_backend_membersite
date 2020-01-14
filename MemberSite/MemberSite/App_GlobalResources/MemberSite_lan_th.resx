@@ -144,9 +144,6 @@
   <data name="Currency_4" xml:space="preserve">
     <value>THB</value>
   </data>
-  <data name="Currency_40" xml:space="preserve">
-    <value>WON</value>
-  </data>
   <data name="Currency_41" xml:space="preserve">
     <value>CHF</value>
   </data>
@@ -163,7 +160,7 @@
     <value>AUD</value>
   </data>
   <data name="lbl_5mins" xml:space="preserve">
-    <value>5 mins</value>
+    <value>5 นาที</value>
   </data>
   <data name="lbl_AboutUs" xml:space="preserve">
     <value>เกี่ยวกับเรา</value>
@@ -189,8 +186,20 @@
   <data name="lbl_AmountTooltip" xml:space="preserve">
     <value>จำนวนเงินต้องไม่น้อยกว่า 0</value>
   </data>
+  <data name="lbl_Applicationname" xml:space="preserve">
+    <value>Nova88</value>
+  </data>
+  <data name="lbl_AttachFile" xml:space="preserve">
+    <value>โปรดแนบสลิปธนาคารของคุณที่นี่ (ทางเลือก)</value>
+  </data>
+  <data name="lbl_Author" xml:space="preserve">
+    <value>Nova88</value>
+  </data>
   <data name="lbl_Back" xml:space="preserve">
     <value>กลับ</value>
+  </data>
+  <data name="lbl_BankAccount" xml:space="preserve">
+    <value>บัญชีธนาคาร</value>
   </data>
   <data name="lbl_BankAccountName" xml:space="preserve">
     <value>ชื่อบัญชี</value>
@@ -222,6 +231,9 @@
   <data name="lbl_Cancel" xml:space="preserve">
     <value>ยกเลิก</value>
   </data>
+  <data name="lbl_CancelConfirm" xml:space="preserve">
+    <value>คุณแน่ใจว่าต้องการยกเลิก? เพราะระบบจะไม่สามารถแก้คืนได้หลังจากยกเลิก!</value>
+  </data>
   <data name="lbl_Cashier" xml:space="preserve">
     <value>แคชเชียร์</value>
   </data>
@@ -237,6 +249,9 @@
   <data name="lbl_ChargeFee" xml:space="preserve">
     <value>ค่าธรรมเนียม</value>
   </data>
+  <data name="lbl_CheckConfirm" xml:space="preserve">
+    <value>คุณแน่ใจว่าต้องการยกเลิก? เพราะระบบจะไม่สามารถแก้คืนได้หลังจากยกเลิก!</value>
+  </data>
   <data name="lbl_Clickhereforbonus" xml:space="preserve">
     <value>กดรับโบนัสได้ที่นี่</value>
   </data>
@@ -244,7 +259,7 @@
     <value>ปิด</value>
   </data>
   <data name="lbl_CompletedRegistration" xml:space="preserve">
-    <value>Completed Registration</value>
+    <value>ลงทะเบียนเรียบร้อย</value>
   </data>
   <data name="lbl_CompleteRegistration" xml:space="preserve">
     <value>ลงทะเบียนเรียบร้อย</value>
@@ -270,32 +285,413 @@
   <data name="lbl_Copyright" xml:space="preserve">
     <value>ลิขสิทธิ์ {0}</value>
   </data>
+  <data name="lbl_CountryAF" xml:space="preserve">
+    <value>อัฟกานิสถาน</value>
+  </data>
+  <data name="lbl_CountryAI" xml:space="preserve">
+    <value>แองกวิลลา</value>
+  </data>
+  <data name="lbl_CountryAO" xml:space="preserve">
+    <value>แองโกลา</value>
+  </data>
+  <data name="lbl_CountryAR" xml:space="preserve">
+    <value>อาร์เจนตินา</value>
+  </data>
+  <data name="lbl_CountryAW" xml:space="preserve">
+    <value>อารูบ้า</value>
+  </data>
+  <data name="lbl_CountryBB" xml:space="preserve">
+    <value>บาร์เบโดส</value>
+  </data>
+  <data name="lbl_CountryBD" xml:space="preserve">
+    <value>บังกลาเทศ</value>
+  </data>
+  <data name="lbl_CountryBF" xml:space="preserve">
+    <value>บูกินา ฟาโซ</value>
+  </data>
+  <data name="lbl_CountryBH" xml:space="preserve">
+    <value>บาห์เรน</value>
+  </data>
+  <data name="lbl_CountryBI" xml:space="preserve">
+    <value>บุรุนดี</value>
+  </data>
+  <data name="lbl_CountryBJ" xml:space="preserve">
+    <value>เบนิน</value>
+  </data>
+  <data name="lbl_CountryBM" xml:space="preserve">
+    <value>เบอร์มิวด้า</value>
+  </data>
+  <data name="lbl_CountryBN" xml:space="preserve">
+    <value>บรูไน</value>
+  </data>
+  <data name="lbl_CountryBO" xml:space="preserve">
+    <value>โบลิเวีย</value>
+  </data>
+  <data name="lbl_CountryBR" xml:space="preserve">
+    <value>บราซิล</value>
+  </data>
+  <data name="lbl_CountryBS" xml:space="preserve">
+    <value>บาฮามาส</value>
+  </data>
+  <data name="lbl_CountryBT" xml:space="preserve">
+    <value>ภูฏาน</value>
+  </data>
+  <data name="lbl_CountryBW" xml:space="preserve">
+    <value>บอทสวานา</value>
+  </data>
+  <data name="lbl_CountryBZ" xml:space="preserve">
+    <value>เบลีซ</value>
+  </data>
+  <data name="lbl_CountryCA" xml:space="preserve">
+    <value>แคนาดา</value>
+  </data>
+  <data name="lbl_CountryCD" xml:space="preserve">
+    <value>สาธรณรัฐโดมินิกัน</value>
+  </data>
+  <data name="lbl_CountryCF" xml:space="preserve">
+    <value>สาธารณรัฐแอฟริกากลาง</value>
+  </data>
+  <data name="lbl_CountryCG" xml:space="preserve">
+    <value>คองโก</value>
+  </data>
+  <data name="lbl_CountryCI" xml:space="preserve">
+    <value>ไอเวอร์รี่โคท</value>
+  </data>
+  <data name="lbl_CountryCK" xml:space="preserve">
+    <value>หมู่เกาะคุ๊ก</value>
+  </data>
+  <data name="lbl_CountryCL" xml:space="preserve">
+    <value>ชิลี</value>
+  </data>
+  <data name="lbl_CountryCM" xml:space="preserve">
+    <value>แคเมอรูน</value>
+  </data>
+  <data name="lbl_CountryCO" xml:space="preserve">
+    <value>โคลอมเบีย</value>
+  </data>
+  <data name="lbl_CountryCR" xml:space="preserve">
+    <value>คอสตาริก้า</value>
+  </data>
+  <data name="lbl_CountryCS" xml:space="preserve">
+    <value>จีน</value>
+  </data>
+  <data name="lbl_CountryCV" xml:space="preserve">
+    <value>เคป เวิร์ด</value>
+  </data>
+  <data name="lbl_CountryDZ" xml:space="preserve">
+    <value>อัลจีเรีย</value>
+  </data>
+  <data name="lbl_CountryEC" xml:space="preserve">
+    <value>เอกวาดอร์</value>
+  </data>
+  <data name="lbl_CountryEG" xml:space="preserve">
+    <value>อียิปส์</value>
+  </data>
+  <data name="lbl_CountryER" xml:space="preserve">
+    <value>เอริเธีย</value>
+  </data>
+  <data name="lbl_CountryET" xml:space="preserve">
+    <value>เอธิโอเปีย</value>
+  </data>
+  <data name="lbl_CountryFJ" xml:space="preserve">
+    <value>ฟิจิ</value>
+  </data>
+  <data name="lbl_CountryFO" xml:space="preserve">
+    <value>หมูเกาะฟอล์คแลนด์</value>
+  </data>
+  <data name="lbl_CountryGA" xml:space="preserve">
+    <value>กาบอง</value>
+  </data>
+  <data name="lbl_CountryGD" xml:space="preserve">
+    <value>เกรนาดา</value>
+  </data>
+  <data name="lbl_CountryGH" xml:space="preserve">
+    <value>กาน่า</value>
+  </data>
+  <data name="lbl_CountryGI" xml:space="preserve">
+    <value>ยิบรอลตา</value>
+  </data>
+  <data name="lbl_CountryGN" xml:space="preserve">
+    <value>กินี</value>
+  </data>
+  <data name="lbl_CountryGT" xml:space="preserve">
+    <value>กัวเลมาลา</value>
+  </data>
+  <data name="lbl_CountryGY" xml:space="preserve">
+    <value>กายอานา</value>
+  </data>
+  <data name="lbl_CountryHN" xml:space="preserve">
+    <value>ฮอนดูรัส</value>
+  </data>
+  <data name="lbl_CountryHT" xml:space="preserve">
+    <value>ไฮติ</value>
+  </data>
+  <data name="lbl_CountryID" xml:space="preserve">
+    <value>อินโดนีเซีย</value>
+  </data>
+  <data name="lbl_CountryIN" xml:space="preserve">
+    <value>อินเดีย</value>
+  </data>
+  <data name="lbl_CountryJM" xml:space="preserve">
+    <value>จาไมก้า</value>
+  </data>
+  <data name="lbl_CountryJO" xml:space="preserve">
+    <value>จอร์แดน</value>
+  </data>
+  <data name="lbl_CountryJP" xml:space="preserve">
+    <value>ญี่ปุ่น</value>
+  </data>
+  <data name="lbl_CountryKE" xml:space="preserve">
+    <value>เคนยา</value>
+  </data>
+  <data name="lbl_CountryKH" xml:space="preserve">
+    <value>กัมพูชา</value>
+  </data>
+  <data name="lbl_CountryKR" xml:space="preserve">
+    <value>เกาหลีใต้</value>
+  </data>
+  <data name="lbl_CountryKW" xml:space="preserve">
+    <value>คูเวต</value>
+  </data>
+  <data name="lbl_CountryKY" xml:space="preserve">
+    <value>หมู่เกาะเคย์แมน</value>
+  </data>
+  <data name="lbl_CountryKZ" xml:space="preserve">
+    <value>คาซัคสถาน</value>
+  </data>
+  <data name="lbl_CountryLA" xml:space="preserve">
+    <value>ลาว</value>
+  </data>
+  <data name="lbl_CountryLB" xml:space="preserve">
+    <value>เลบานอน</value>
+  </data>
+  <data name="lbl_CountryLC" xml:space="preserve">
+    <value>เซนต์ ลูเซีย</value>
+  </data>
+  <data name="lbl_CountryLK" xml:space="preserve">
+    <value>ศรีลังกา</value>
+  </data>
+  <data name="lbl_CountryLS" xml:space="preserve">
+    <value>เลโซโธ</value>
+  </data>
+  <data name="lbl_CountryMA" xml:space="preserve">
+    <value>โมร็อคโก</value>
+  </data>
+  <data name="lbl_CountryMG" xml:space="preserve">
+    <value>มาดากัสการ์</value>
+  </data>
+  <data name="lbl_CountryML" xml:space="preserve">
+    <value>มาลี</value>
+  </data>
+  <data name="lbl_CountryMM" xml:space="preserve">
+    <value>เมียนมาร์</value>
+  </data>
+  <data name="lbl_CountryMN" xml:space="preserve">
+    <value>มองโกเลีย</value>
+  </data>
+  <data name="lbl_CountryMR" xml:space="preserve">
+    <value>มอริเทเนีย</value>
+  </data>
+  <data name="lbl_CountryMU" xml:space="preserve">
+    <value>มอริเชียส</value>
+  </data>
+  <data name="lbl_CountryMV" xml:space="preserve">
+    <value>มัลดีฟส์</value>
+  </data>
+  <data name="lbl_CountryMW" xml:space="preserve">
+    <value>มาลาวี</value>
+  </data>
+  <data name="lbl_CountryMX" xml:space="preserve">
+    <value>เม็กซิโก</value>
+  </data>
+  <data name="lbl_CountryMY" xml:space="preserve">
+    <value>มาเลเซีย</value>
+  </data>
+  <data name="lbl_CountryNA" xml:space="preserve">
+    <value>นามิเบีย</value>
+  </data>
+  <data name="lbl_CountryNC" xml:space="preserve">
+    <value>นิคาเลโดเนีย</value>
+  </data>
+  <data name="lbl_CountryNE" xml:space="preserve">
+    <value>ไนเจอร์</value>
+  </data>
+  <data name="lbl_CountryNG" xml:space="preserve">
+    <value>ไนจีเรีย</value>
+  </data>
+  <data name="lbl_CountryNP" xml:space="preserve">
+    <value>เนปาล</value>
+  </data>
+  <data name="lbl_CountryNR" xml:space="preserve">
+    <value>นาอูรู</value>
+  </data>
+  <data name="lbl_CountryNZ" xml:space="preserve">
+    <value>นิวซีแลนด์</value>
+  </data>
+  <data name="lbl_CountryOM" xml:space="preserve">
+    <value>โอมาน</value>
+  </data>
+  <data name="lbl_CountryPA" xml:space="preserve">
+    <value>ปานามา</value>
+  </data>
+  <data name="lbl_CountryPE" xml:space="preserve">
+    <value>เปรู</value>
+  </data>
+  <data name="lbl_CountryPG" xml:space="preserve">
+    <value>ปาปัวนิวกินี</value>
+  </data>
+  <data name="lbl_CountryPK" xml:space="preserve">
+    <value>ปากีสถาน</value>
+  </data>
+  <data name="lbl_CountryPN" xml:space="preserve">
+    <value>หมู่เกาะพิตแคร์น</value>
+  </data>
+  <data name="lbl_CountryPY" xml:space="preserve">
+    <value>ปารากวัย</value>
+  </data>
+  <data name="lbl_CountryQA" xml:space="preserve">
+    <value>การ์ตา</value>
+  </data>
+  <data name="lbl_CountrySA" xml:space="preserve">
+    <value>ซาอุดิอาระเบีย</value>
+  </data>
+  <data name="lbl_CountrySB" xml:space="preserve">
+    <value>หมู่เกาะโซโลมอน</value>
+  </data>
+  <data name="lbl_CountrySC" xml:space="preserve">
+    <value>ซีเชลล์</value>
+  </data>
+  <data name="lbl_CountrySD" xml:space="preserve">
+    <value>ซูดาน</value>
+  </data>
+  <data name="lbl_CountrySL" xml:space="preserve">
+    <value>เซียร์รา เลโอน</value>
+  </data>
+  <data name="lbl_CountrySN" xml:space="preserve">
+    <value>เซเนกัล</value>
+  </data>
+  <data name="lbl_CountrySO" xml:space="preserve">
+    <value>โซมาเลีย</value>
+  </data>
+  <data name="lbl_CountrySR" xml:space="preserve">
+    <value>ซูรินาเม</value>
+  </data>
+  <data name="lbl_CountryST" xml:space="preserve">
+    <value>เซา โตเม แอนด์ ปรินซิเป</value>
+  </data>
+  <data name="lbl_CountrySV" xml:space="preserve">
+    <value>เอล ซัลวาดอร์</value>
+  </data>
+  <data name="lbl_CountrySY" xml:space="preserve">
+    <value>ซีเรีย</value>
+  </data>
+  <data name="lbl_CountrySZ" xml:space="preserve">
+    <value>สวาซิแลนด์</value>
+  </data>
+  <data name="lbl_CountryTD" xml:space="preserve">
+    <value>ชาด</value>
+  </data>
+  <data name="lbl_CountryTG" xml:space="preserve">
+    <value>ตองก้า</value>
+  </data>
+  <data name="lbl_CountryTH" xml:space="preserve">
+    <value>ไทย</value>
+  </data>
+  <data name="lbl_CountryTJ" xml:space="preserve">
+    <value>ทาจิกิสถาน</value>
+  </data>
+  <data name="lbl_CountryTN" xml:space="preserve">
+    <value>ตูนิเซีย</value>
+  </data>
+  <data name="lbl_CountryTT" xml:space="preserve">
+    <value>ตรินิแดด แอนด์ โตเบโก้</value>
+  </data>
+  <data name="lbl_CountryTZ" xml:space="preserve">
+    <value>แทนซาเนีย</value>
+  </data>
+  <data name="lbl_CountryUG" xml:space="preserve">
+    <value>อูกันด้า</value>
+  </data>
+  <data name="lbl_CountryUY" xml:space="preserve">
+    <value>อุรุกวัย</value>
+  </data>
+  <data name="lbl_CountryUZ" xml:space="preserve">
+    <value>อุซเบกิสถาน</value>
+  </data>
+  <data name="lbl_CountryVC" xml:space="preserve">
+    <value>เซนต์ วินเซนต์ แอนด์ เดอะ เกรนาดีน</value>
+  </data>
+  <data name="lbl_CountryVE" xml:space="preserve">
+    <value>เวเนซูเอลา</value>
+  </data>
+  <data name="lbl_CountryVN" xml:space="preserve">
+    <value>เวียตนาม</value>
+  </data>
+  <data name="lbl_CountryVU" xml:space="preserve">
+    <value>วานูอาตู</value>
+  </data>
+  <data name="lbl_CountryWF" xml:space="preserve">
+    <value>วาลิสและฟูตูนา</value>
+  </data>
+  <data name="lbl_CountryWS" xml:space="preserve">
+    <value>ซาฮาราตะวันตก</value>
+  </data>
+  <data name="lbl_CountryYE" xml:space="preserve">
+    <value>เยเมน</value>
+  </data>
+  <data name="lbl_CountryZA" xml:space="preserve">
+    <value>แอฟริกาใต้</value>
+  </data>
+  <data name="lbl_CountryZM" xml:space="preserve">
+    <value>แซมเบีย</value>
+  </data>
+  <data name="lbl_CountryZW" xml:space="preserve">
+    <value>ซิมบับเว</value>
+  </data>
   <data name="lbl_CreditTime" xml:space="preserve">
     <value>เวลาเครดิต</value>
   </data>
+  <data name="lbl_Currency_1" xml:space="preserve">
+    <value>ดอลลาร์สิงคโปร์</value>
+  </data>
   <data name="lbl_Currency_12" xml:space="preserve">
-    <value>ปอนด์</value>
+    <value>ปอนด์สเตอร์ลิง</value>
+  </data>
+  <data name="lbl_Currency_13" xml:space="preserve">
+    <value>เหรินหมินปี้</value>
   </data>
   <data name="lbl_Currency_15" xml:space="preserve">
-    <value>รูปี</value>
+    <value>รูปียะฮ์</value>
   </data>
   <data name="lbl_Currency_2" xml:space="preserve">
     <value>ริงกิต(มาเลเซีย)</value>
   </data>
   <data name="lbl_Currency_3" xml:space="preserve">
-    <value>ดอลล่าร์(สหรัฐ)</value>
+    <value>ดอลลาร์สหรัฐ</value>
+  </data>
+  <data name="lbl_Currency_32" xml:space="preserve">
+    <value>เยน</value>
   </data>
   <data name="lbl_Currency_4" xml:space="preserve">
-    <value>บาท(ไทย)</value>
+    <value>บาท</value>
   </data>
-  <data name="lbl_Currency_40" xml:space="preserve">
-    <value>วอน</value>
+  <data name="lbl_Currency_41" xml:space="preserve">
+    <value>ฟรังก์สวิส</value>
+  </data>
+  <data name="lbl_Currency_45" xml:space="preserve">
+    <value>วอนเกาหลีใต้</value>
+  </data>
+  <data name="lbl_Currency_5" xml:space="preserve">
+    <value>ดอลลาร์ฮ่องกง</value>
   </data>
   <data name="lbl_Currency_51" xml:space="preserve">
     <value>ดอง</value>
   </data>
   <data name="lbl_Currency_6" xml:space="preserve">
     <value>ยูโร</value>
+  </data>
+  <data name="lbl_Currency_9" xml:space="preserve">
+    <value>ดอลลาร์ออสเตรเลีย</value>
   </data>
   <data name="lbl_CustBank" xml:space="preserve">
     <value>ธนาคาร</value>
@@ -318,12 +714,56 @@
   <data name="lbl_DepositOptionHint" xml:space="preserve">
     <value>คุณสามารถเลือกตัวเลือกการฝากที่ดีที่สุดสำหรับคุณจากรายการด้านล่าง:</value>
   </data>
+  <data name="lbl_DepositStatus0" xml:space="preserve">
+    <value>ดราฟต์</value>
+  </data>
+  <data name="lbl_DepositStatus1" xml:space="preserve">
+    <value>รอดำเนินการ</value>
+  </data>
+  <data name="lbl_DepositStatus2" xml:space="preserve">
+    <value>จ่ายแล้ว</value>
+  </data>
+  <data name="lbl_DepositStatus3" xml:space="preserve">
+    <value>ยืนยัน</value>
+  </data>
+  <data name="lbl_DepositStatus4" xml:space="preserve">
+    <value>ปฏิเสธ</value>
+  </data>
+  <data name="lbl_DepositStatus5" xml:space="preserve">
+    <value>ยกเลิก</value>
+  </data>
+  <data name="lbl_DepositStatus6" xml:space="preserve">
+    <value>หมดเวลา</value>
+  </data>
+  <data name="lbl_DepositStatus7" xml:space="preserve">
+    <value>รอยืนยันการชำระเงิน</value>
+  </data>
+  <data name="lbl_DepositStatus8" xml:space="preserve">
+    <value>กำลังดำเนินการ</value>
+  </data>
+  <data name="lbl_DepositStatus99" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="lbl_DepositTime" xml:space="preserve">
+    <value>เวลาที่ทำการฝากเงิน</value>
+  </data>
+  <data name="lbl_DepositTimeToolTip" xml:space="preserve">
+    <value>โปรดใส่เวลาที่ทำการฝากเงิน</value>
+  </data>
+  <data name="lbl_DepositType1" xml:space="preserve">
+    <value>ธนาคารออนไลน์</value>
+  </data>
+  <data name="lbl_DepositType2" xml:space="preserve">
+    <value>จ่ายผ่านมือถือ</value>
+  </data>
+  <data name="lbl_DepositType3" xml:space="preserve">
+    <value>ธนาคารในประเทศ</value>
+  </data>
   <data name="lbl_DepositWithdrawals" xml:space="preserve">
     <value>การฝากเงิน&amp;การถอนเงิน</value>
   </data>
   <data name="lbl_Description" xml:space="preserve">
-    <value>พนันออนไลน์, พนันบอล,
- เดิมพันฟุตบอล, เดิมพันเทนนิส, เดิมพันกอล์ฟ, เดิมพันกีฬาออนไลน์, เดิมพันบอล, การพนันออนไลน์</value>
+    <value>Nova88 เว็บพนันออนไลน์ชั้นนำของโลกที่ให้ประสบการณ์ในการเดิมพันแบบ Live สดที่ครอบคลุมกีฬาทั้งหมด, คาสิโน, สล็อต, คีโน, E-sports, RNG คาสิโน, Fantasy sports, กีฬาเสมือนจริง Virtual Sports, ล็อตเตอรี่, คาสิโนสด, คาสิโนออนไลน์เกมส์สด, บิงโก และการแข่งรถ</value>
   </data>
   <data name="lbl_DontHaveAccount" xml:space="preserve">
     <value>ยังไม่มีบัญชีใช่ไหม</value>
@@ -335,7 +775,10 @@
     <value>ดาวน์โหลด</value>
   </data>
   <data name="lbl_Email" xml:space="preserve">
-    <value>Email</value>
+    <value>อีเมล</value>
+  </data>
+  <data name="lbl_EmailToolTip" xml:space="preserve">
+    <value>ไม่สามารถเปลี่ยนชื่ออีเมล์ได้หลังจากกดยืนยัน</value>
   </data>
   <data name="lbl_eSports" xml:space="preserve">
     <value>อีสปอร์ต</value>
@@ -376,6 +819,9 @@
   <data name="lbl_ID" xml:space="preserve">
     <value>ID</value>
   </data>
+  <data name="lbl_Image" xml:space="preserve">
+    <value />
+  </data>
   <data name="lbl_ImportantNote" xml:space="preserve">
     <value>โน๊ตสำคัญ</value>
   </data>
@@ -392,14 +838,16 @@
     <value>วิธีเล่นหลากหลาย มีโอกาสชนะมากขึ้น!</value>
   </data>
   <data name="lbl_Keywords" xml:space="preserve">
-    <value>พนันออนไลน์, พนันบอล,
- เดิมพันฟุตบอล, เดิมพันเทนนิส, เดิมพันกอล์ฟ, เดิมพันกีฬาออนไลน์, เดิมพันบอล, การพนันออนไลน์</value>
+    <value>Nova88 เว็บพนันออนไลน์ชั้นนำของโลกที่ให้ประสบการณ์ในการเดิมพันแบบ Live สดที่ครอบคลุมกีฬาทั้งหมด, คาสิโน, สล็อต, คีโน, E-sports, RNG คาสิโน, Fantasy sports, กีฬาเสมือนจริง Virtual Sports, ล็อตเตอรี่, คาสิโนสด, คาสิโนออนไลน์เกมส์สด, บิงโก และการแข่งรถ</value>
   </data>
   <data name="lbl_LastLogin" xml:space="preserve">
     <value>การเข้าระบบครั้งสุดท้าย</value>
   </data>
   <data name="lbl_LastTransaction" xml:space="preserve">
     <value>รายการเล่นสุดท้าย</value>
+  </data>
+  <data name="lbl_Limit" xml:space="preserve">
+    <value>จำกัด</value>
   </data>
   <data name="lbl_LiveCasino" xml:space="preserve">
     <value>Live Casino</value>
@@ -455,6 +903,9 @@
   <data name="lbl_OnlineBanking" xml:space="preserve">
     <value>ธนาคารออนไลน์</value>
   </data>
+  <data name="lbl_Optional" xml:space="preserve">
+    <value>ตัวเลือกอื่น</value>
+  </data>
   <data name="lbl_OurPolicies" xml:space="preserve">
     <value>นโยบายของเรา</value>
   </data>
@@ -497,11 +948,20 @@
   <data name="lbl_RecentTransactions" xml:space="preserve">
     <value>ธุรกรรมล่าสุด</value>
   </data>
+  <data name="lbl_Refno" xml:space="preserve">
+    <value>หมายเลขอ้างอิง</value>
+  </data>
+  <data name="lbl_RefnoToolTip" xml:space="preserve">
+    <value>โปรดใส่หมายเลขอ้างอิงสลิปธนาคารของคุณ</value>
+  </data>
   <data name="lbl_Register" xml:space="preserve">
     <value>สมัครสมาชิก</value>
   </data>
   <data name="lbl_RegisterTime" xml:space="preserve">
     <value>เวลาลงทะเบียน</value>
+  </data>
+  <data name="lbl_Required" xml:space="preserve">
+    <value>ต้องระบุข้อมูลในช่องนี้</value>
   </data>
   <data name="lbl_ResposibleGaming" xml:space="preserve">
     <value>การรับผิดชอบของการเล่นพนัน</value>
@@ -536,6 +996,9 @@
   <data name="lbl_Submit" xml:space="preserve">
     <value>ตกลง</value>
   </data>
+  <data name="lbl_SubmitProof" xml:space="preserve">
+    <value>ส่งสลิปธนาคาร</value>
+  </data>
   <data name="lbl_Tennis" xml:space="preserve">
     <value>เทนนิส</value>
   </data>
@@ -552,7 +1015,10 @@
     <value>Nova88</value>
   </data>
   <data name="lbl_TitleDesc" xml:space="preserve">
-    <value>ผู้นำทางด้านการเดิมพัน. ข้อเสนอและอัตราต่อรองที่ดีที่สุด</value>
+    <value>Nova88 เว็บพนันออนไลน์และเดิมพันในกีฬาสดที่ให้ราคาดีที่สุดในตอนนี้</value>
+  </data>
+  <data name="lbl_TitleKeywords" xml:space="preserve">
+    <value>Nova88 เว็บพนันออนไลน์ชั้นนำของโลกที่ให้ประสบการณ์ในการเดิมพันแบบ Live สดที่ครอบคลุมกีฬาทั้งหมด, คาสิโน, สล็อต, คีโน, E-sports, RNG คาสิโน, Fantasy sports, กีฬาเสมือนจริง Virtual Sports, ล็อตเตอรี่, คาสิโนสด, คาสิโนออนไลน์เกมส์สด, บิงโก และการแข่งรถ</value>
   </data>
   <data name="lbl_To" xml:space="preserve">
     <value>ถึง</value>
@@ -584,6 +1050,9 @@
   <data name="lbl_TwitterSite" xml:space="preserve">
     <value>@Nova88official</value>
   </data>
+  <data name="lbl_Unlimited" xml:space="preserve">
+    <value>ไม่จำกัด</value>
+  </data>
   <data name="lbl_Update" xml:space="preserve">
     <value>สถานะปัจจุบัน</value>
   </data>
@@ -592,6 +1061,18 @@
   </data>
   <data name="lbl_UpdateBankInfo" xml:space="preserve">
     <value>โปรดอัปเดตรายละเอียดบัญชีธนาคารของคุณก่อนทำการฝากเงิน</value>
+  </data>
+  <data name="lbl_UpdateSuccess" xml:space="preserve">
+    <value>การอัปเดตสำเร็จ เราจะดำเนินการตามคำขอของคุณอย่างเร็วที่สุด!</value>
+  </data>
+  <data name="lbl_UploadFile" xml:space="preserve">
+    <value>กำลังดำเนินการอัพโหลดไฟล์</value>
+  </data>
+  <data name="lbl_UploadSuccess" xml:space="preserve">
+    <value>อัพโหลดไฟล์ของคุณสำเร็จแล้ว</value>
+  </data>
+  <data name="lbl_URL" xml:space="preserve">
+    <value>https://www.nova88.net</value>
   </data>
   <data name="lbl_Username" xml:space="preserve">
     <value>ชื่อผู้ใช้</value>
@@ -612,13 +1093,52 @@
   <data name="lbl_Welcome" xml:space="preserve">
     <value>ยินดีต้อนรับ</value>
   </data>
+  <data name="lbl_WireTransfers" xml:space="preserve">
+    <value>โอนเงินผ่านธนาคารในประเทศ</value>
+  </data>
   <data name="lbl_Withdrawal" xml:space="preserve">
     <value>การถอนเงิน</value>
   </data>
   <data name="lbl_WithdrawalAmount" xml:space="preserve">
     <value>จำนวนเงินที่ถอน</value>
   </data>
+  <data name="lbl_WithdrawalStatus0" xml:space="preserve">
+    <value>ดราฟต์</value>
+  </data>
+  <data name="lbl_WithdrawalStatus1" xml:space="preserve">
+    <value>รอดำเนินการ</value>
+  </data>
+  <data name="lbl_WithdrawalStatus2" xml:space="preserve">
+    <value>รอตรวจสอบการถอนเงิน</value>
+  </data>
+  <data name="lbl_WithdrawalStatus3" xml:space="preserve">
+    <value>ตรวจสอบ</value>
+  </data>
+  <data name="lbl_WithdrawalStatus4" xml:space="preserve">
+    <value>กำลังดำเนินการ</value>
+  </data>
+  <data name="lbl_WithdrawalStatus5" xml:space="preserve">
+    <value>ยกเลิก</value>
+  </data>
+  <data name="lbl_WithdrawalStatus6" xml:space="preserve">
+    <value>ยืนยัน</value>
+  </data>
+  <data name="lbl_WithdrawalStatus7" xml:space="preserve">
+    <value>ปฎิเสธ</value>
+  </data>
+  <data name="lbl_WithdrawalStatus99" xml:space="preserve">
+    <value>Error</value>
+  </data>
   <data name="lbl_WithdrawalTo" xml:space="preserve">
     <value>ถอนออกเป็น</value>
+  </data>
+  <data name="lbl_WithdrawalType0" xml:space="preserve">
+    <value>ไม่ได้กำหนด</value>
+  </data>
+  <data name="lbl_WithdrawalType1" xml:space="preserve">
+    <value>ธนาคารในประเทศ</value>
+  </data>
+  <data name="lbl_WithdrawalType2" xml:space="preserve">
+    <value>ถอนเงินออนไลน์</value>
   </data>
 </root>
