@@ -50,7 +50,7 @@ class RegisterForm extends React.Component {
             formArr.push(dataField);
         }
         // data-disabled="false"
-        this.state = { formArr: formArr, SubmitDisabled: false};
+        this.state = { formArr: formArr, SubmitDisabled: false,over18yo:false , agreeterm:false};
     }
     
     async handleCheckEmail(value) {
@@ -180,12 +180,27 @@ class RegisterForm extends React.Component {
         }
     }
 
+  onCheckboxChange = e => {
+    const key = e.target.id
+    this.setState(state => ({
+        ...state,
+        [key]: !state[key]
+    }))
+  }    
+
     render() {
         let Inputs=this.state.formArr.map(dataField => <InputBox key={dataField.name} DataField={dataField}/>);
 
         return (
             <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                 {Inputs}
+                <input type="checkbox" id="over18yo" onChange={this.onCheckboxChange} checked={this.state.over18yo}/><label className="light" forHtml="over18yo">Over 18yrs old</label><br/>
+                <input type="checkbox" id="agreeterm" onChange={this.onCheckboxChange} checked={this.state.agreeterm} /><label className="light" forHtml="agreeterm">Agree to 
+                <a href="#" target="_blank" className="text-link">
+                    <span class="text">T&amp;C</span>
+                </a>
+                </label>
+                {this.state.SubmitDisabled && (!this.state.over18yo || !this.state.agreeterm) ? <div><span class="text-accent">XXXXXXXXXXXXXXXXXXXXX</span></div> : null}
                 <div className="btn-group">
                     <button className="btn btn-secondary" data-disabled={this.state.SubmitDisabled} type="submit">
                         <div className="btn__inner">
