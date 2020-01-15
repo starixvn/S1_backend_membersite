@@ -41,7 +41,7 @@ import * as Loading from '../commJS/Loading.jsx';
                             filename = filename.substring(1);
                         }
 
-                        alert("i18n.lbl_UploadSuccess");
+                        alert(i18n.lbl_UploadSuccess);
                         window.location.replace(window.location.href);
 
                     } else {
@@ -70,7 +70,7 @@ import * as Loading from '../commJS/Loading.jsx';
                             </div>
                             <button className="btn btn-primary" data-disabled={this.state.UploadDisabled} type="submit">
                                 <div className="btn__inner">
-                                    <span className="text">Photo Id Upload</span>
+                                    <span className="text">{i18n.lbl_UploadPhotoId}</span>
                                 </div>
                             </button>
                         </div>

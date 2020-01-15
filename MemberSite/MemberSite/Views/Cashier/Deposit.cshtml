@@ -98,13 +98,13 @@
             </div>
             <div class="page">
                 <div class="heading">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
                 </div>
                 <div class="text--lg">@selLangBLL.GetResourceValue("lbl_ImportantNote")</div>
-                <p>@selLangBLL.GetResourceValue("lbl_UpdateBankInfo")</p><br />
+                <p>@selLangBLL.GetResourceValue("lbl_UpdatePersonalInfo")</p><br />
                 <div class="btn-group">
                     <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_UpdateBankDetail")</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_UpdatePersonalDetail")</span>
                     </a>
                 </div>
             </div>
