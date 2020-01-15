@@ -58,7 +58,7 @@ class ProfileForm extends React.Component {
     _dataStatus={"1":"info","2":"error","3":"valid","4":"readonly"}    
     constructor(props) {
         super(props);
-        this.state={CountryCode: this.props.countryCode||perCountry, AccountName: this.props.Profile.accountName,Email: this.props.Profile.email,PhoneNo:this.props.Profile.phoneNo};
+        this.state={CountryCode: this.props.Profile.countryCode||perCountry, AccountName: this.props.Profile.accountName,Email: this.props.Profile.email,PhoneNo:this.props.Profile.phoneNo};
     }
 
     onChange(event) {
