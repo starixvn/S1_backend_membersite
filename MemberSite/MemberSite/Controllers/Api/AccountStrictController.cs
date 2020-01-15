@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using LazZiya.ImageResize;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authorization;
@@ -109,6 +111,103 @@ namespace MemberSite.Controllers.Api
 
             apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, custBankInfo.AccountName, bankInfoList);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult SetProfile(Dictionary<string, string> custProfile)
+        {
+            var apiResult = new ApiResult(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+
+            string AreaCode = custProfile[nameof(AreaCode)];
+            string PhoneNo = custProfile[nameof(PhoneNo)];
+            if(custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
+            {
+                apiResult.Message = $"({AreaCode}){PhoneNo} has exists.";
+                return apiResult;
+            }
+
+            string AccountName = custProfile[nameof(AccountName)];
+            var result = custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
+            apiResult.ErrorCode = custInfoBLL.SetProfile(authData.CustId, custProfile);
+            if (apiResult.ErrorCode == 0)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+            }
+            else
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+            }
+            return apiResult;
+        }
+
+        private readonly Dictionary<string, System.Drawing.Imaging.ImageFormat> _contentTypesCheck = new Dictionary<string, System.Drawing.Imaging.ImageFormat>(comparer: StringComparer.OrdinalIgnoreCase)
+        {
+            {"image/png",System.Drawing.Imaging.ImageFormat.Png},
+            {"image/jpeg",System.Drawing.Imaging.ImageFormat.Jpeg},
+            { "image/gif",System.Drawing.Imaging.ImageFormat.Gif}
+        };
+        public class CustPhotoIdReq
+        {
+            public IFormFile PhotoId { get; set; }
+        }
+
+        [HttpPost]
+        public ApiResult UploadCustPhotoId([FromForm]CustPhotoIdReq custPhotoIdReq)
+        {
+            decimal xSize = 500m;
+            var apiResult = new ApiResult();
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            decimal xCell = 1;
+            if (_contentTypesCheck.ContainsKey(custPhotoIdReq.PhotoId.ContentType))
+            {
+                using var fileStream = custPhotoIdReq.PhotoId.OpenReadStream();
+                using var uploadedImage = Image.FromStream(fileStream);
+                using var ms = new System.IO.MemoryStream();
+
+                if (uploadedImage.Width > xSize || uploadedImage.Height > xSize)
+                {
+
+                    if (uploadedImage.Width > uploadedImage.Height)
+                    {
+                        xCell = xSize / uploadedImage.Width;
+                    }
+                    else
+                    {
+                        xCell = xSize / uploadedImage.Height;
+                    }
+
+                }
+
+                var graphicOptions = new GraphicOptions();
+                graphicOptions.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                graphicOptions.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                var img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
+                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                string fileName = custPhotoIdReq.PhotoId.FileName;
+                fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
+                fileName = $"{fileName.Substring(0, fileName.LastIndexOf('.'))}.jpg";
+
+                byte[] fileBytes = ms.ToArray();
+                var result = custInfoBLL.SetCustPhotoId(custInfo.CustId, custInfo.SiteId, fileName, fileBytes);
+
+                if (result > 0)
+                {
+                    apiResult.ErrorCode = 0;
+                }
+                else
+                {
+                    apiResult.ErrorCode = -1;
+                }
+            }
+            else
+            {
+
+            }
+
             return apiResult;
         }
     }

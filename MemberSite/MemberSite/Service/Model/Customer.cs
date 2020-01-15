@@ -77,6 +77,9 @@ namespace MemberSite.Service.Model
         public DateTime LastLoginTime { get; set; }
         public DateTime RegTime { get; set; }
         public string Email { get; set; }
-        public string Profile { get; set; }
+        public string AccountName { get; set; }
+        public string CountryCode { get; set; }
+        public string AreaCode { get; set; }
+        public string PhoneNo { get; set; }
     }
 }

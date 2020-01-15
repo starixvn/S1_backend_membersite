@@ -12,6 +12,13 @@ namespace MemberSite.Service.Model
         public string Language { set; get; }
     }
 
+    public class Country
+    {
+        public string Code { set; get; }
+        public string CountryName { set; get; }
+        public int Sort { set; get; }
+    }
+
     public class ServerInfo
     {
         public int SiteId { set; get; }

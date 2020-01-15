@@ -1,5 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,13 @@ namespace MemberSite.Service.BLL
         private readonly ServerInfoService serverInfoService;
         //private ConcurrentDictionary<int, ServerInfo> rm = new ConcurrentDictionary<int, ResourceManager>();
         private ServerInfo serverInfo;/*Single Site*/
-        public ServerInfoBLL(ServerInfoService serverInfoService)
+        private readonly IMemoryCache cache;
+
+        public ServerInfoBLL(IMemoryCache cache, ServerInfoService serverInfoService)
         {
             this.serverInfoService = serverInfoService;
             this.serverInfo = null;
+            this.cache = cache;
         }
 
         public ServerInfo GetServerInfo()
@@ -25,6 +29,12 @@ namespace MemberSite.Service.BLL
 
             serverInfo = serverInfoService.GetModel();
             return serverInfo;
+        }
+
+        public IEnumerable<Country> GetCountryList()
+        {
+            var countryList = serverInfoService.GetCountryList();
+            return countryList;
         }
     }
 }

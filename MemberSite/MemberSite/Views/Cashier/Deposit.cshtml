@@ -4,9 +4,13 @@
 @inject IWebHostEnvironment environment
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
+@inject AuthorizeBLL authorizeBLL
+@inject CustInfoBLL custInfoBLL
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Deposit");
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var authData = authorizeBLL.GetAuthData();
+    var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
 }
 @{
     var i18n = new Dictionary<string, string>();
@@ -77,27 +81,68 @@
 @section Style{
 
 }
-    <div class="main">
-        <div class="page-title" role="mobile-only">
-            <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
+@{
+    if (custInfoProfile == null || custInfoProfile.AccountName == null || custInfoProfile.CountryCode == null || custInfoProfile.PhoneNo == null)
+    {
+        <div class="main">
+            <div class="page-title" role="mobile-only">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
+            </div>
+            <div class="page-tabs" role="mobile-only">
+                <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+                </a>
+                <a class="page-tabs__btn" data-selected="true">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
+                </a>
+            </div>
+            <div class="page">
+                <div class="heading">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
+                </div>
+                <div class="text--lg">@selLangBLL.GetResourceValue("lbl_ImportantNote")</div>
+                <p>@selLangBLL.GetResourceValue("lbl_UpdateBankInfo")</p><br />
+                <div class="btn-group">
+                    <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_UpdateBankDetail")</span>
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="page-tabs" role="mobile-only">
-            <a class="page-tabs__btn" data-selected="true">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
-            </a>
-            <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
-            </a>
+    }
+    else
+    {
+        <div class="main">
+            <div class="page-title" role="mobile-only">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
+            </div>
+            <div class="page-tabs" role="mobile-only">
+                <a class="page-tabs__btn" data-selected="true">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+                </a>
+                <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
+                </a>
+            </div>
+            <div id="DepositPanel" class="page"></div>
         </div>
-        <div id="DepositPanel" class="page"></div>
-    </div>
+    }
+}
 @section Scripts{
-    <script type="text/javascript">
+
+    @if (custInfoProfile == null || custInfoProfile.AccountName == null || custInfoProfile.CountryCode == null || custInfoProfile.PhoneNo == null)
+    {
+
+    }
+    else
+    {
+        <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
         var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })";
         var OnlineBankingUrl = "@Url.RouteUrl("desktop", new { action = "DepositReqOnlineBanking", controller = "Cashier", LangId = selLangBLL.GetLangId() })";
-    </script>
-    <script src="~/lib/runtime.min.js"></script>
-    <script src="~/lib/clipboard.min.js"></script>
-    <script src="~/js/component/cashier/depositPanel.min.js" asp-append-version="true"></script>
+        </script>
+        <script src="~/lib/runtime.min.js"></script>
+        <script src="~/lib/clipboard.min.js"></script>
+        <script src="~/js/component/cashier/depositPanel.min.js" asp-append-version="true"></script>
+    }
 }

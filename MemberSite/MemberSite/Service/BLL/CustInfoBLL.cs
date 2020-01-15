@@ -266,6 +266,12 @@ namespace MemberSite.Service.BLL
             var serverInfo = serverInfoBLL.GetServerInfo();
             return custInfoService.ExistsUserName(userName, serverInfo.SiteId);
         }
+
+        public bool ExistsPhoneNo(int custId, string AreaCode, string PhoneNo)
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            return custInfoService.ExistsPhoneNo(custId, serverInfo.SiteId, AreaCode, PhoneNo);
+        }
         public bool ExistsEmail(int custId, string email)
         {
             int siteId = 0;
@@ -287,6 +293,19 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = GetCustInfoWithCache(custId);
             return custInfoService.GetCustInfoProfile(custId, custInfo.SiteId);
+        }
+        public bool SubmittedCustPhotoId(int custId)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            if (custInfo.CurrencyId == 13)
+            {
+                return true;
+            }
+            return custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId);
+        }
+        public int SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
+        {
+            return custInfoService.SetCustPhotoId(custId, siteId, picFileName, photoIdPic);
         }
     }
 }

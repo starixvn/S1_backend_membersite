@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -24,12 +25,14 @@ namespace MemberSite.Service.BLL
         private readonly IHttpContextAccessor httpContextAccessor;
         private ConcurrentDictionary<string, ResourceManager> rm = new ConcurrentDictionary<string, ResourceManager>();
         private string sLangId;
+        private readonly IMemoryCache cache;
 
-        public SelLangBLL(IHttpContextAccessor httpContextAccessor, ServerInfoBLL serverInfoBLL)
+        public SelLangBLL(IMemoryCache cache, IHttpContextAccessor httpContextAccessor, ServerInfoBLL serverInfoBLL)
         {
             this.serverInfoBLL = serverInfoBLL;
             this.httpContextAccessor = httpContextAccessor;
             this.sLangId = null;
+            this.cache = cache;
         }
 
         public IEnumerable<SiteLanguage> GetLangIdList()
@@ -238,6 +241,28 @@ namespace MemberSite.Service.BLL
             }
 
             return 0;
+        }
+        public IEnumerable<Country> GetCountryList()
+        {
+            string key = $"CountryList_{GetLangId()}";
+            var countryList = cache.Get<IEnumerable<Country>>(key);
+            if (countryList == null)
+            {
+                countryList = serverInfoBLL.GetCountryList();
+                if (countryList != null)
+                {
+                    foreach(var country in countryList)
+                    {
+                        country.CountryName = GetResourceValue($"lbl_Country{country.Code}");
+                    }
+
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromHours(1));
+                    cache.Set(key, countryList, cacheEntryOptions);
+                }
+            }
+
+            return countryList;
         }
     }
 }

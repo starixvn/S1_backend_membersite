@@ -215,24 +215,6 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult SetProfile(Dictionary<string, string> custProfile)
-        {
-            var apiResult = new ApiResult(selLangBLL);
-            var authData = authorizeBLL.GetAuthData();
-
-            apiResult.ErrorCode = custInfoBLL.SetProfile(authData.CustId, custProfile);
-            if (apiResult.ErrorCode == 0)
-            {
-                apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
-            }
-            else
-            {
-                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
-            }
-            return apiResult;
-        }
-
-        [HttpPost]
         public ApiResult<CustBankInfoRep> GetCustBankInfo()
         {
             var apiResult = new ApiResult<CustBankInfoRep>(selLangBLL);
@@ -376,6 +358,23 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = custInfoBLL.GetCustInfoProfile(authData.CustId);
             apiResult.ErrorCode = 0;
 
+            return apiResult;
+        }
+
+        public class RrofileReq
+        {
+            public string AreaCode { get; set; }
+            public string PhoneNo { get; set; }
+        }
+
+        [HttpPost]
+        public ApiResult<bool> ExistsPhoneNo(RrofileReq rrofileReq)
+        {
+            var apiResult = new ApiResult<bool>(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+
+            apiResult.Data = custInfoBLL.ExistsPhoneNo(authData.CustId, rrofileReq.AreaCode, rrofileReq.PhoneNo);
+            apiResult.ErrorCode = 0;
             return apiResult;
         }
 

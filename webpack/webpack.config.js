@@ -40,6 +40,9 @@ module.exports = {
     "js/component/account/Messages.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/account/Messages.jsx'
 		],
+    "js/component/account/UploadPhotoId.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/account/UploadPhotoId.jsx'
+		],
     "js/component/app/WalletInfo.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/app/WalletInfo.jsx'
 		]},

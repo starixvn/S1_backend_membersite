@@ -3,12 +3,15 @@
 @using MemberSite.Service.BLL
 @inject IWebHostEnvironment environment
 @inject SelLangBLL selLangBLL
+@inject AuthorizeBLL authorizeBLL
+@inject CustInfoBLL custInfoBLL
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Profile");
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
     var i18n = new Dictionary<string, string>();
+    var Country = new Dictionary<string, string>();
     i18n.Add("lbl_Profile", selLangBLL.GetResourceValue("lbl_Profile"));
     i18n.Add("lbl_Username", selLangBLL.GetResourceValue("lbl_Username"));
     i18n.Add("lbl_UsernameTooltip", selLangBLL.GetResourceValue("lbl_UsernameTooltip"));
@@ -29,6 +32,12 @@
     i18n.Add("msg_MailExisted", selLangBLL.GetMsg("msg_MailExisted"));
     i18n.Add("msg_Wrong", selLangBLL.GetMsg("msg_Wrong"));
     i18n.Add("msg_Updatesuccessful", selLangBLL.GetMsg("msg_Updatesuccessful"));
+
+    Dictionary<int, string> PerCountry = new Dictionary<int, string>()
+    {
+        {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" }
+    };
+    var currencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
 }
 
 @section Style{
@@ -42,7 +51,7 @@
         <a class="page-tabs__btn" data-selected="true">
             <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
         </a>
-        <a class="page-tabs__btn"  href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
+        <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
             <span class="text">@selLangBLL.GetResourceValue("lbl_CustBank")</span>
         </a>
     </div>
@@ -50,7 +59,9 @@
 </div>
 @section Scripts{
     <script type="text/javascript">
+        var perCountry="@PerCountry[currencyId]";
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
+        var Country = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(selLangBLL.GetCountryList()));
     </script>
     <script src="~/lib/runtime.min.js"></script>
     <script src="~/js/component/account/Profile.min.js" asp-append-version="true"></script>

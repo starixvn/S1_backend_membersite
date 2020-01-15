@@ -48,31 +48,72 @@
 @{
     if (custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0)
     {
-    <div class="main">
-        <div class="page-title" role="mobile-only">
-            <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
-        </div>
-        <div class="page-tabs" role="mobile-only">
-            <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
-            </a>
-            <a class="page-tabs__btn" data-selected="true">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
-            </a>
-        </div>
-        <div class="page">
-            <div class="heading">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
+        <div class="main">
+            <div class="page-title" role="mobile-only">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
             </div>
-            <div class="text--lg">@selLangBLL.GetResourceValue("lbl_ImportantNote")</div>
-            <p>@selLangBLL.GetResourceValue("lbl_UpdateBankInfo")</p><br />
-            <div class="btn-group">
-                <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_UpdateBankDetail")</span>
+            <div class="page-tabs" role="mobile-only">
+                <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+                </a>
+                <a class="page-tabs__btn" data-selected="true">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
                 </a>
             </div>
+            <div class="page">
+                <div class="heading">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
+                </div>
+                <div class="text--lg">@selLangBLL.GetResourceValue("lbl_ImportantNote")</div>
+                <p>@selLangBLL.GetResourceValue("lbl_UpdateBankInfo")</p><br />
+                <div class="btn-group">
+                    <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_UpdateBankDetail")</span>
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
+    }
+    else if (!custInfoBLL.SubmittedCustPhotoId(authData.CustId))
+    {
+        <div class="main">
+            <div class="page-title" role="mobile-only">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
+            </div>
+            <div class="page-tabs" role="mobile-only">
+                <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+                </a>
+                <a class="page-tabs__btn" data-selected="true">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
+                </a>
+            </div>
+            <div class="page-title" role="mobile-only">
+                <span class="text">收银</span>
+            </div>
+            <div class="page-tabs" role="mobile-only">
+                <a class="page-tabs__btn" data-selected="true">
+                    <span class="text">存款</span>
+                </a>
+                <a class="page-tabs__btn" href="/cs/Cashier/Withdrawal">
+                    <span class="text">提款</span>
+                </a>
+            </div>
+            <div class="page">
+                <div class="heading">
+                    <span class="text">提交PhotoID</span>
+                </div><p>从下方选出最符合您需求的存款方式：</p>
+                <div class="panel panel-primary panel--payment" data-open="true">
+                    <div class="panel__header">
+                        <span class="text">网络银行服务 -</span>
+                        <span class="text-accent">所需时间: 立即</span><i class="icon icon-caret"></i>
+                    </div>
+                    <div class="panel__body" id="UploadForm">
+
+                    </div>
+                </div>
+            </div>
+        </div>
     }
     else
     {
@@ -94,7 +135,11 @@
 }
 
 @section Scripts{
-    @if (!(custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0))
+    @if (!custInfoBLL.SubmittedCustPhotoId(authData.CustId))
+    {
+        <script src="~/js/component/account/UploadPhotoId.min.js" asp-append-version="true"></script>
+    }
+    else if (!(custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0))
     {
         <script type="text/javascript">
             $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));

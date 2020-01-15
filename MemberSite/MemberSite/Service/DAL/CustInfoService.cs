@@ -23,6 +23,12 @@ namespace MemberSite.Service.DAL
             return conn.ExecuteScalar<int>("Member_ExistsUserName_Get", new { UserName = userName, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
         }
 
+        public bool ExistsPhoneNo(int custId, int siteId, string AreaCode, string PhoneNo)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.ExecuteScalar<int>("Member_ExistsPhoneNo_Get", new { CustId = custId, AreaCode, PhoneNo, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
+        }
+
         public bool ExistsEmail(int custId, string email, int siteId)
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
@@ -97,7 +103,9 @@ namespace MemberSite.Service.DAL
             int result = 0;
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             string Email = profile[nameof(Email)];
-            result = conn.Execute("CustProfile_Set", new { CustId = custId, SiteId = siteId, Email, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
+            string AreaCode = profile[nameof(AreaCode)];
+            string PhoneNo = profile[nameof(PhoneNo)];
+            result = conn.Execute("Member_CustProfile_Set", new { CustId = custId, SiteId = siteId, Email, AreaCode, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
 
@@ -117,6 +125,17 @@ namespace MemberSite.Service.DAL
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.QueryFirstOrDefault<CustInfoProfile>("Member_CustProfile_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+        }
+        public bool SubmittedCustPhotoId(int custId, int siteId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.ExecuteScalar<bool>("Member_SubmittedCustPhotoId_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+        }
+
+        public int SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Execute("Member_CustPhotoId_Int", new { CustId = custId, SiteId = siteId, PicFileName = picFileName, PhotoIdPic = photoIdPic }, commandType: CommandType.StoredProcedure);
         }
     }
 }
