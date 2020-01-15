@@ -249,26 +249,17 @@
   <data name="lbl_ChargeFee" xml:space="preserve">
     <value>Charge Fee</value>
   </data>
-  <data name="lbl_Check18TC" xml:space="preserve">
-    <value>I agree to the Terms &amp; Conditions and the Rules &amp; Regulations of {sitename}. I acknowledge I am at least 18 years of age.</value>
-  </data>
   <data name="lbl_Check18TC1" xml:space="preserve">
     <value>I agree to the</value>
   </data>
   <data name="lbl_Check18TC2" xml:space="preserve">
-    <value>Terms &amp; Conditions</value>
-  </data>
-  <data name="lbl_Check18TC3" xml:space="preserve">
     <value>and the</value>
   </data>
-  <data name="lbl_Check18TC4" xml:space="preserve">
-    <value>Rules &amp; Regulations</value>
-  </data>
-  <data name="lbl_Check18TC5" xml:space="preserve">
+  <data name="lbl_Check18TC3" xml:space="preserve">
     <value>of</value>
   </data>
-  <data name="lbl_Check18TC6" xml:space="preserve">
-    <value>{sitename}</value>
+  <data name="lbl_Check18TC4" xml:space="preserve">
+    <value>I acknowledge I am at least 18 years of age.</value>
   </data>
   <data name="lbl_Check18TC7" xml:space="preserve">
     <value>I acknowledge I am at least 18 years of age.</value>
@@ -853,7 +844,7 @@
     <value>ID</value>
   </data>
   <data name="lbl_Image" xml:space="preserve">
-    <value />
+    <value>http://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
   </data>
   <data name="lbl_ImportantNote" xml:space="preserve">
     <value>Important Note</value>

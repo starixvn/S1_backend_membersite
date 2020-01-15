@@ -118,70 +118,51 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Code_10" xml:space="preserve">
-    <value>[10]This Game Under Maintenance , please try again later</value>
-    <comment>UM</comment>
+    <value>[10] This Game Under Maintenance , please try again later</value>
   </data>
   <data name="Code_1101" xml:space="preserve">
-    <value>[1101]User ID not exist ,please contact to CSD</value>
-    <comment>UserNotExist</comment>
+    <value>[1101] User ID not exist ,please contact to CSD</value>
   </data>
   <data name="Code_1102" xml:space="preserve">
-    <value>[1102]User has been locked , please contact to CSD</value>
-    <comment>UserLocked</comment>
+    <value>[1102] User has been locked , please contact to CSD</value>
   </data>
   <data name="Code_1103" xml:space="preserve">
-    <value>[1103]User not login yet , please login first</value>
-    <comment>UserNotLogin</comment>
+    <value>[1103] User not login yet , please login first</value>
   </data>
   <data name="Code_1104" xml:space="preserve">
-    <value>[1104]Connection is terminated , due to duplicated login</value>
-    <comment>UserDuplicatedLogin</comment>
+    <value>[1104] Connection is terminated , due to duplicated login</value>
   </data>
   <data name="Code_1105" xml:space="preserve">
-    <value>[1105]System error , please contact to CSD</value>
-    <comment>UserAGGroupDisable</comment>
+    <value>[1105] System error , please contact to CSD</value>
   </data>
   <data name="Code_1200" xml:space="preserve">
-    <value>[1200]Tansfer Fail , please try again</value>
-    <comment>TransferFail</comment>
+    <value>[1200] Tansfer Fail , please try again</value>
   </data>
   <data name="Code_1201" xml:space="preserve">
-    <value>[1201]Transfer fail , please check transfer amount</value>
-    <comment>MoneyNotEnough</comment>
+    <value>[1201] Transfer fail , please check transfer amount</value>
   </data>
   <data name="Code_1202" xml:space="preserve">
-    <value>[1202]Duplicate TransID , please contact to CSD</value>
-    <comment>DuplicateTransID</comment>
+    <value>[1202] Duplicate TransID , please contact to CSD</value>
   </data>
   <data name="Code_1203" xml:space="preserve">
-    <value>[1203]Out of Transfer amount , please check</value>
-    <comment>AmountOutOfRange</comment>
+    <value>[1203] Out of Transfer amount , please check</value>
   </data>
   <data name="Code_1204" xml:space="preserve">
-    <value>[1204]System error , please contact to CSD</value>
-    <comment>TransferNotExist</comment>
+    <value>[1204] System error , please contact to CSD</value>
   </data>
   <data name="Code_1205" xml:space="preserve">
-    <value>[1205]System error , please contact to CSD</value>
-    <comment>TransferPending</comment>
+    <value>[1205] System error , please contact to CSD</value>
   </data>
   <data name="Code_1999" xml:space="preserve">
-    <value>[1999]System error , please contact to CSD</value>
-    <comment>OtherError</comment>
+    <value>[1999] System error , please contact to CSD</value>
   </data>
   <data name="Code_2000" xml:space="preserve">
-    <value>[2000]System error , please contact to CSD</value>
-    <comment>InvalidParameter</comment>
+    <value>[2000] System error , please contact to CSD</value>
   </data>
   <data name="Code_2002" xml:space="preserve">
-    <value>[2002]System error , please contact to CSD</value>
-    <comment>InvalidCurrency</comment>
+    <value>[2002] System error , please contact to CSD</value>
   </data>
   <data name="Code_9000" xml:space="preserve">
-    <value>[9000]System error , please contact to CSD</value>
-    <comment>SystemError</comment>
-  </data>
-  <data name="Cod_0" xml:space="preserve">
-    <value>Successful!!</value>
+    <value>[9000] System error , please contact to CSD</value>
   </data>
 </root>

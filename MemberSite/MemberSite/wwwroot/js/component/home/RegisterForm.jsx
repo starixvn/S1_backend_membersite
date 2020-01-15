@@ -50,7 +50,7 @@ class RegisterForm extends React.Component {
             formArr.push(dataField);
         }
         // data-disabled="false"
-        this.state = { formArr: formArr, SubmitDisabled: false,over18yo:false , agreeterm:false};
+        this.state = { formArr: formArr, SubmitDisabled: false, agreeterm:false};
     }
     
     async handleCheckEmail(value) {
@@ -189,18 +189,22 @@ class RegisterForm extends React.Component {
   }    
 
     render() {
-        let Inputs=this.state.formArr.map(dataField => <InputBox key={dataField.name} DataField={dataField}/>);
+        let Inputs = this.state.formArr.map(dataField => <InputBox key={dataField.name} DataField={dataField}/>);
+        let TCUrl = Check18URL + "/TermsConditions.html";
+        let RRUrl = Check18URL + "/RulesandRegulations.html";
 
         return (
             <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                 {Inputs}
-                <input type="checkbox" id="over18yo" onChange={this.onCheckboxChange} checked={this.state.over18yo}/><label className="light" forHtml="over18yo">Over 18yrs old</label><br/>
-                <input type="checkbox" id="agreeterm" onChange={this.onCheckboxChange} checked={this.state.agreeterm} /><label className="light" forHtml="agreeterm">Agree to 
-                <a href="#" target="_blank" className="text-link">
-                    <span class="text">T&amp;C</span>
-                </a>
-                </label>
-                {this.state.SubmitDisabled && (!this.state.over18yo || !this.state.agreeterm) ? <div><span class="text-accent">XXXXXXXXXXXXXXXXXXXXX</span></div> : null}
+                <div>
+                    <input type="checkbox" id="agreeterm" onChange={this.onCheckboxChange} checked={this.state.agreeterm} />
+                    <label className="light" forHtml="agreeterm">
+                        <span className="text">
+                            {i18n.lbl_Check18TC1} <a href={TCUrl} target="_temp">{i18n.lbl_TermsConditions}</a> {i18n.lbl_Check18TC2} <a href={RRUrl} target="_temp">{i18n.lbl_RuleRegulations}</a> {i18n.lbl_Check18TC3} {siteName}. {i18n.lbl_Check18TC4}
+                        </span>
+                    </label>
+                </div>
+                {this.state.SubmitDisabled && ( !this.state.agreeterm) ? <div><span className="text">{i18n.lbl_Check18TCTooltip}</span></div> : null}
                 <div className="btn-group">
                     <button className="btn btn-secondary" data-disabled={this.state.SubmitDisabled} type="submit">
                         <div className="btn__inner">

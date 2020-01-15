@@ -29,6 +29,14 @@
     i18n.Add("lbl_EmailToolTip", selLangBLL.GetResourceValue("lbl_EmailToolTip"));
     i18n.Add("lbl_PrefferedCurrency", selLangBLL.GetResourceValue("lbl_PrefferedCurrency"));
     i18n.Add("lbl_PreferredCurrencyToolTip", selLangBLL.GetResourceValue("lbl_PreferredCurrencyToolTip"));
+    i18n.Add("lbl_CheckTCTooltip", selLangBLL.GetResourceValue("lbl_CheckTCTooltip"));
+    i18n.Add("lbl_Check18TC1", selLangBLL.GetResourceValue("lbl_Check18TC1"));
+    i18n.Add("lbl_Check18TC2", selLangBLL.GetResourceValue("lbl_Check18TC2"));
+    i18n.Add("lbl_Check18TC3", selLangBLL.GetResourceValue("lbl_Check18TC3"));
+    i18n.Add("lbl_Check18TC4", selLangBLL.GetResourceValue("lbl_Check18TC4"));
+    i18n.Add("lbl_TermsConditions", selLangBLL.GetResourceValue("lbl_TermsConditions"));
+    i18n.Add("lbl_RuleRegulations", selLangBLL.GetResourceValue("lbl_RuleRegulations"));
+    i18n.Add("lbl_Check18TCTooltip", selLangBLL.GetResourceValue("lbl_Check18TCTooltip"));
     i18n.Add("msg_UsernameReq", selLangBLL.GetMsg("msg_UsernameReq"));
     i18n.Add("msg_UsernameLength", selLangBLL.GetMsg("msg_UsernameLength"));
     i18n.Add("msg_UsernameVaildate", selLangBLL.GetMsg("msg_UsernameVaildate"));
@@ -40,6 +48,7 @@
     i18n.Add("msg_MailWrongFormat", selLangBLL.GetMsg("msg_MailWrongFormat"));
     i18n.Add("msg_MailExisted", selLangBLL.GetMsg("msg_MailExisted"));
 }
+
 <div class="main">
     <div class="page">
         <div class="heading">
@@ -49,15 +58,17 @@
             @selLangBLL.GetResourceValue("lbl_LoginMsg")
             <button class="text-link loginBtn">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_LoginHere")</span>
-            </button>.
+            </button>
         </p>
         <div id="RegisterForm"></div>
     </div>
 </div>
 @section Scripts{
     <script type="text/javascript">
-        var currencyList =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(currencyList));
-        var defCurrencyId =@selLangBLL.GetDefCurrencyId();
+        var currencyList = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(currencyList));
+        var defCurrencyId = @selLangBLL.GetDefCurrencyId();
+        var siteName = "@serverInfo.SiteName";
+        var Check18URL = "@Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{serverInfo.DefLang}")";
         $.extend( i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
     </script>
 

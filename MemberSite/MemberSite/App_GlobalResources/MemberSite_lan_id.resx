@@ -159,8 +159,8 @@
   <data name="Currency_9" xml:space="preserve">
     <value>AUD</value>
   </data>
-  <data name="Key" xml:space="preserve">
-    <value>ID</value>
+  <data name="lbl_5mins" xml:space="preserve">
+    <value>5 menit</value>
   </data>
   <data name="lbl_AboutUs" xml:space="preserve">
     <value>Tentang Kami</value>
@@ -168,14 +168,29 @@
   <data name="lbl_AccountTerms" xml:space="preserve">
     <value>Ketentuan Akun</value>
   </data>
+  <data name="lbl_AddNewAccount" xml:space="preserve">
+    <value>Tambahkan akun baru</value>
+  </data>
   <data name="lbl_Affiliates" xml:space="preserve">
     <value>Affiliates</value>
+  </data>
+  <data name="lbl_Agent" xml:space="preserve">
+    <value>Agen</value>
+  </data>
+  <data name="lbl_AllTranscations" xml:space="preserve">
+    <value>Semua Transaksi</value>
   </data>
   <data name="lbl_Amount" xml:space="preserve">
     <value>Jumlah</value>
   </data>
+  <data name="lbl_AmountTooltip" xml:space="preserve">
+    <value>Jumlah tidak boleh kurang dari 0</value>
+  </data>
   <data name="lbl_Applicationname" xml:space="preserve">
     <value>Nova88</value>
+  </data>
+  <data name="lbl_AttachFile" xml:space="preserve">
+    <value>Silahkan unggah bukti setoran bank anda disini</value>
   </data>
   <data name="lbl_Author" xml:space="preserve">
     <value>Nova88</value>
@@ -183,8 +198,17 @@
   <data name="lbl_Back" xml:space="preserve">
     <value>Kembali</value>
   </data>
+  <data name="lbl_BankAccount" xml:space="preserve">
+    <value>Rekening Bank</value>
+  </data>
   <data name="lbl_BankAccountName" xml:space="preserve">
     <value>Nama Rekening</value>
+  </data>
+  <data name="lbl_BankAccountNameHint" xml:space="preserve">
+    <value>Silahkan isi nama asli untuk nama akun anda, Bagian ini tidak bisa dirubah jika sudah menekan enter</value>
+  </data>
+  <data name="lbl_BankInfo" xml:space="preserve">
+    <value>Informasi bank</value>
   </data>
   <data name="lbl_BankName" xml:space="preserve">
     <value>Nama bank</value>
@@ -195,23 +219,77 @@
   <data name="lbl_Baseball" xml:space="preserve">
     <value>Bola Kasti</value>
   </data>
+  <data name="lbl_BaseballBetting" xml:space="preserve">
+    <value>Taruhan Bola Kasti</value>
+  </data>
   <data name="lbl_Basketball" xml:space="preserve">
     <value>Bola Basket</value>
+  </data>
+  <data name="lbl_BasketballBetting" xml:space="preserve">
+    <value>Taruhan Bola Basket</value>
   </data>
   <data name="lbl_Cancel" xml:space="preserve">
     <value>Batal</value>
   </data>
+  <data name="lbl_CancelConfirm" xml:space="preserve">
+    <value>Apakah anda yakin untuk membatalkannya ? Jika sudah batal maka tidak bisa kembali lagi</value>
+  </data>
+  <data name="lbl_Cashier" xml:space="preserve">
+    <value>Kasir</value>
+  </data>
   <data name="lbl_Casino" xml:space="preserve">
     <value>Kasino</value>
   </data>
+  <data name="lbl_CasinoSlogon" xml:space="preserve">
+    <value>Berbagai Tema untuk pasaran Asia</value>
+  </data>
   <data name="lbl_ChangePassword" xml:space="preserve">
-    <value>Ubah Kata Sandi</value>
+    <value>Mengubah Kata Sandi</value>
+  </data>
+  <data name="lbl_ChargeFee" xml:space="preserve">
+    <value>Beban biaya</value>
+  </data>
+  <data name="lbl_Check18TC" xml:space="preserve">
+    <value>Saya menyetujui Syarat &amp; Ketentuan dan Peraturan &amp; Peraturan {Nama site}. Saya mengakui bahwa saya setidaknya berusia 18 tahun atau diatas.</value>
+  </data>
+  <data name="lbl_Check18TC1" xml:space="preserve">
+    <value>Saya setuju dengan   </value>
+  </data>
+  <data name="lbl_Check18TC2" xml:space="preserve">
+    <value>Syarat dan ketentuan</value>
+  </data>
+  <data name="lbl_Check18TC3" xml:space="preserve">
+    <value>dan</value>
+  </data>
+  <data name="lbl_Check18TC4" xml:space="preserve">
+    <value>Peraturan dan Ketetapan </value>
+  </data>
+  <data name="lbl_Check18TC5" xml:space="preserve">
+    <value>Dari</value>
+  </data>
+  <data name="lbl_Check18TC6" xml:space="preserve">
+    <value>{Nama Situs}</value>
+  </data>
+  <data name="lbl_Check18TC7" xml:space="preserve">
+    <value>Saya mengakui bahwa saya setidaknya berusia atau 18 tahun atau diatas.</value>
+  </data>
+  <data name="lbl_CheckConfirm" xml:space="preserve">
+    <value>Apakah anda yakin untuk menghapus? Jika sudah terhapus maka tidak bisa kembali lagi</value>
+  </data>
+  <data name="lbl_Clickhereforbonus" xml:space="preserve">
+    <value>Klik disini untuk Bonus</value>
   </data>
   <data name="lbl_Close" xml:space="preserve">
     <value>Tutup</value>
   </data>
+  <data name="lbl_CompletedRegistration" xml:space="preserve">
+    <value>Pendaftaran selesai</value>
+  </data>
+  <data name="lbl_CompleteRegistration" xml:space="preserve">
+    <value>Pendaftaran Lengkap</value>
+  </data>
   <data name="lbl_Confirm" xml:space="preserve">
-    <value>Confirm</value>
+    <value>Konfirmasi</value>
   </data>
   <data name="lbl_ConfirmDeposit" xml:space="preserve">
     <value>Harap konfirmasikan informasi setoran.</value>
@@ -219,8 +297,20 @@
   <data name="lbl_ConfirmWithdrawal" xml:space="preserve">
     <value>Harap konfirmasikan informasi penarikan.</value>
   </data>
+  <data name="lbl_ContactCSD" xml:space="preserve">
+    <value>Untuk setiap permintaan modifikasi, silakan hubungi CSD.</value>
+  </data>
   <data name="lbl_ContactUs" xml:space="preserve">
     <value>Hubungi Kami</value>
+  </data>
+  <data name="lbl_CookiePolicy" xml:space="preserve">
+    <value>Kebijakan Cookie</value>
+  </data>
+  <data name="lbl_Copyright" xml:space="preserve">
+    <value>Hak Cipta</value>
+  </data>
+  <data name="lbl_Country" xml:space="preserve">
+    <value>Negara</value>
   </data>
   <data name="lbl_CountryAF" xml:space="preserve">
     <value>Afghanistan</value>
@@ -585,8 +675,65 @@
   <data name="lbl_CountryZW" xml:space="preserve">
     <value>Zimbabwe</value>
   </data>
+  <data name="lbl_CreditTime" xml:space="preserve">
+    <value>Masa kredit</value>
+  </data>
+  <data name="lbl_Currency_1" xml:space="preserve">
+    <value>Dolar Singapura</value>
+  </data>
+  <data name="lbl_Currency_12" xml:space="preserve">
+    <value>Pound Inggris</value>
+  </data>
+  <data name="lbl_Currency_13" xml:space="preserve">
+    <value>RMB China</value>
+  </data>
+  <data name="lbl_Currency_15" xml:space="preserve">
+    <value>Rupiah Indonesia</value>
+  </data>
+  <data name="lbl_Currency_2" xml:space="preserve">
+    <value>Ringgit Malaysia</value>
+  </data>
+  <data name="lbl_Currency_20" xml:space="preserve">
+    <value>Mata uang virtual (untuk pengujian)</value>
+  </data>
+  <data name="lbl_Currency_3" xml:space="preserve">
+    <value>Dolar Amerika</value>
+  </data>
+  <data name="lbl_Currency_32" xml:space="preserve">
+    <value>Jepang Yen</value>
+  </data>
+  <data name="lbl_Currency_4" xml:space="preserve">
+    <value>Bath Thailand</value>
+  </data>
+  <data name="lbl_Currency_41" xml:space="preserve">
+    <value>Franc Swiss</value>
+  </data>
+  <data name="lbl_Currency_45" xml:space="preserve">
+    <value>Won Korea</value>
+  </data>
+  <data name="lbl_Currency_5" xml:space="preserve">
+    <value>Dolar Hong Kong</value>
+  </data>
+  <data name="lbl_Currency_51" xml:space="preserve">
+    <value>Vietnam Dong</value>
+  </data>
+  <data name="lbl_Currency_6" xml:space="preserve">
+    <value>EURO</value>
+  </data>
+  <data name="lbl_Currency_9" xml:space="preserve">
+    <value>Dolar Australia</value>
+  </data>
+  <data name="lbl_CustBank" xml:space="preserve">
+    <value>Bank</value>
+  </data>
+  <data name="lbl_CustBankInfo" xml:space="preserve">
+    <value>Perbarui Informasi Bank</value>
+  </data>
   <data name="lbl_Date" xml:space="preserve">
     <value>Tanggal</value>
+  </data>
+  <data name="lbl_DateMissing" xml:space="preserve">
+    <value>Saya setuju dengan Syarat &amp; Ketentuan dan Peraturan &amp; Peraturan {sitename}. Saya mengakui bahwa saya setidaknya berusia 18 tahun atau diatas.</value>
   </data>
   <data name="lbl_Deposit" xml:space="preserve">
     <value>Setoran</value>
@@ -597,17 +744,80 @@
   <data name="lbl_DepositNow" xml:space="preserve">
     <value>Setorkan Sekarang</value>
   </data>
+  <data name="lbl_DepositOptionHint" xml:space="preserve">
+    <value>Anda dapat memilih opsi setoran yang paling cocok dari yang disediakan di bawah ini:</value>
+  </data>
+  <data name="lbl_DepositStatus0" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="lbl_DepositStatus1" xml:space="preserve">
+    <value>Ditunda</value>
+  </data>
+  <data name="lbl_DepositStatus2" xml:space="preserve">
+    <value>Bayar</value>
+  </data>
+  <data name="lbl_DepositStatus3" xml:space="preserve">
+    <value>Disetujui</value>
+  </data>
+  <data name="lbl_DepositStatus4" xml:space="preserve">
+    <value>Ditolak</value>
+  </data>
+  <data name="lbl_DepositStatus5" xml:space="preserve">
+    <value>Dibatalkan</value>
+  </data>
+  <data name="lbl_DepositStatus6" xml:space="preserve">
+    <value>Masa kadaluarsa</value>
+  </data>
+  <data name="lbl_DepositStatus7" xml:space="preserve">
+    <value>Ditunggu</value>
+  </data>
+  <data name="lbl_DepositStatus8" xml:space="preserve">
+    <value>Sedang diproses</value>
+  </data>
+  <data name="lbl_DepositStatus99" xml:space="preserve">
+    <value>Waktu setoran</value>
+  </data>
+  <data name="lbl_DepositTime" xml:space="preserve">
+    <value>Mohon kirim waktu setoran anda</value>
+  </data>
+  <data name="lbl_DepositTimeToolTip" xml:space="preserve">
+    <value>Kirimkan waktu Setoran anda</value>
+  </data>
+  <data name="lbl_DepositType1" xml:space="preserve">
+    <value>Online Banking</value>
+  </data>
+  <data name="lbl_DepositType2" xml:space="preserve">
+    <value>Pembayaran Via Mobile</value>
+  </data>
+  <data name="lbl_DepositType3" xml:space="preserve">
+    <value>Bank Lokal</value>
+  </data>
   <data name="lbl_DepositWithdrawals" xml:space="preserve">
     <value>Deposit &amp; Penarikan</value>
   </data>
   <data name="lbl_Description" xml:space="preserve">
     <value>Nova88 adalah Sportbook terhebat didunia yang menawarkan Jenis pengalaman judi terbaik di taruhan Live yang mencakupi seluruh olahraga, Kasino, Slots, Keno, E-Sports, RNG Casino, Olahraga Fantasy, Olahraga Maya, Lottery, Live kasino, Live Dealer, Bingo dan Balap</value>
   </data>
+  <data name="lbl_DontHaveAccount" xml:space="preserve">
+    <value>Tidak meiliki Akun</value>
+  </data>
+  <data name="lbl_DownloadApp" xml:space="preserve">
+    <value>Unduh Aplikasi</value>
+  </data>
+  <data name="lbl_Downloads" xml:space="preserve">
+    <value>Dowload</value>
+  </data>
   <data name="lbl_Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="lbl_EmailToolTip" xml:space="preserve">
+    <value>Email tidak bisa dirubah jika sudah diajukan</value>
+  </data>
   <data name="lbl_eSports" xml:space="preserve">
-    <value>E-Sports</value>
+    <value>Esports</value>
+  </data>
+  <data name="lbl_eSportsBetting" xml:space="preserve">
+    <value>Taruhan Esports</value>
   </data>
   <data name="lbl_Facebook" xml:space="preserve">
     <value>Facebook</value>
@@ -615,14 +825,26 @@
   <data name="lbl_FAQ" xml:space="preserve">
     <value>FAQ</value>
   </data>
+  <data name="lbl_FootballBetting" xml:space="preserve">
+    <value>Taruhan Sepak Bola Amerika</value>
+  </data>
+  <data name="lbl_ForgetPassword" xml:space="preserve">
+    <value>Lupa Kata Sandi dan ID anda?</value>
+  </data>
   <data name="lbl_From" xml:space="preserve">
     <value>dari</value>
   </data>
   <data name="lbl_Help" xml:space="preserve">
     <value>Bantuan</value>
   </data>
+  <data name="lbl_HelpSupport" xml:space="preserve">
+    <value>Bantuan &amp; Dukungan</value>
+  </data>
   <data name="lbl_History" xml:space="preserve">
     <value>Riwayat</value>
+  </data>
+  <data name="lbl_HockeyBetting" xml:space="preserve">
+    <value>Taruhan Hockey</value>
   </data>
   <data name="lbl_Home" xml:space="preserve">
     <value>Beranda</value>
@@ -630,11 +852,23 @@
   <data name="lbl_ID" xml:space="preserve">
     <value>ID</value>
   </data>
+  <data name="lbl_Image" xml:space="preserve">
+    <value>http://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
+  </data>
+  <data name="lbl_ImportantNote" xml:space="preserve">
+    <value>Catatan Penting</value>
+  </data>
+  <data name="lbl_Instant" xml:space="preserve">
+    <value>Instan</value>
+  </data>
+  <data name="lbl_JoinNow" xml:space="preserve">
+    <value>Gabung Sekarang</value>
+  </data>
   <data name="lbl_Keno" xml:space="preserve">
     <value>Keno</value>
   </data>
   <data name="lbl_KenoSlogon" xml:space="preserve">
-    <value>Banyak cara untuk bermain, lebih banyak peluang untuk menang!</value>
+    <value>Banyak cara untuk bermain, lebih banyak Kesempatan anda untuk menang!</value>
   </data>
   <data name="lbl_Keywords" xml:space="preserve">
     <value>Nova88 adalah Sportbook terhebat didunia yang menawarkan Jenis pengalaman judi terbaik di taruhan Live yang mencakupi seluruh olahraga, Kasino, Slots, Keno, E-Sports, RNG Casino, Olahraga Fantasy, Olahraga Maya, Lottery, Live kasino, Live Dealer, Bingo dan Balap</value>
@@ -645,17 +879,41 @@
   <data name="lbl_LastTransaction" xml:space="preserve">
     <value>Transaksi Terakhir</value>
   </data>
+  <data name="lbl_Limit" xml:space="preserve">
+    <value>Harap perhatikan bahwa kami tidak mengizinkan anggota untuk memiliki lebih dari (1) akun.</value>
+  </data>
   <data name="lbl_LiveCasino" xml:space="preserve">
     <value>Live Kasino</value>
+  </data>
+  <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
+    <value>Pengalaman Kasino Sungguhan</value>
   </data>
   <data name="lbl_Login" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="lbl_LoginHere" xml:space="preserve">
+    <value>Login disini</value>
+  </data>
+  <data name="lbl_LoginMsg" xml:space="preserve">
+    <value>Harap perhatikan bahwa kami tidak mengizinkan anggota untuk memiliki lebih dari (1) akun.</value>
+  </data>
   <data name="lbl_Logout" xml:space="preserve">
-    <value>Keluar</value>
+    <value>Logout</value>
+  </data>
+  <data name="lbl_Memo" xml:space="preserve">
+    <value>Memo</value>
   </data>
   <data name="lbl_Message" xml:space="preserve">
     <value>Pesan</value>
+  </data>
+  <data name="lbl_Method" xml:space="preserve">
+    <value>Metode</value>
+  </data>
+  <data name="lbl_MobileDeposit" xml:space="preserve">
+    <value>Deposit mobile</value>
+  </data>
+  <data name="lbl_MomoHint" xml:space="preserve">
+    <value>Untuk segera mendapatkan deposit , Silahkan tinggalkan Nama akun Bank serta nomor rekening Bank anda disini</value>
   </data>
   <data name="lbl_MyAccount" xml:space="preserve">
     <value>Akun Saya</value>
@@ -663,20 +921,83 @@
   <data name="lbl_NewPassword" xml:space="preserve">
     <value>Kata Sandi Baru</value>
   </data>
+  <data name="lbl_NotinLimit" xml:space="preserve">
+    <value>Tidak dalam Limit</value>
+  </data>
   <data name="lbl_NumberGame" xml:space="preserve">
     <value>Permainan Angka</value>
   </data>
+  <data name="lbl_Of" xml:space="preserve">
+    <value>Dari</value>
+  </data>
   <data name="lbl_OldPassword" xml:space="preserve">
-    <value>Kata sandi saat ini</value>
+    <value>Kata sandi lama</value>
+  </data>
+  <data name="lbl_OnlineBanking" xml:space="preserve">
+    <value>Online Banking</value>
+  </data>
+  <data name="lbl_Optional" xml:space="preserve">
+    <value>Opsional</value>
+  </data>
+  <data name="lbl_OurPolicies" xml:space="preserve">
+    <value>Kebijakan Kami</value>
+  </data>
+  <data name="lbl_Page" xml:space="preserve">
+    <value>Halaman</value>
   </data>
   <data name="lbl_Password" xml:space="preserve">
     <value>Kata Sandi</value>
   </data>
+  <data name="lbl_PasswordTooltip" xml:space="preserve">
+    <value>6-18 karakter alfanumerik (A-Z, a-z, 0-9) atau karakter khusus @ $ *!% #? &amp;</value>
+  </data>
+  <data name="lbl_PaymentOptions" xml:space="preserve">
+    <value>Opsi pembayaran</value>
+  </data>
+  <data name="lbl_PhotoID" xml:space="preserve">
+    <value>Foto ID</value>
+  </data>
+  <data name="lbl_Postscript" xml:space="preserve">
+    <value>Kode verifikasi</value>
+  </data>
+  <data name="lbl_PostscriptHint" xml:space="preserve">
+    <value>Masukkan kode verifikasi untuk segera mendapatkan deposit</value>
+  </data>
+  <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
+    <value>Mata uang pilihan anda tidak dapat diubah setelah melakukan pendaftaran.</value>
+  </data>
+  <data name="lbl_PrefferedCurrency" xml:space="preserve">
+    <value>Mata Uang Pilihan</value>
+  </data>
   <data name="lbl_PrivacyPolicy" xml:space="preserve">
     <value>Kebijakan Privasi</value>
   </data>
+  <data name="lbl_Profile" xml:space="preserve">
+    <value>Profil</value>
+  </data>
   <data name="lbl_Promotion" xml:space="preserve">
     <value>Promosi</value>
+  </data>
+  <data name="lbl_RebatebonusonMobile" xml:space="preserve">
+    <value>Rabat Bonus di ponsel</value>
+  </data>
+  <data name="lbl_RecentTransactions" xml:space="preserve">
+    <value>Transaksi Terkini</value>
+  </data>
+  <data name="lbl_Refno" xml:space="preserve">
+    <value>Nomor Referensi</value>
+  </data>
+  <data name="lbl_RefnoToolTip" xml:space="preserve">
+    <value>Silahkan kirim bukti slip refrensi rekening anda</value>
+  </data>
+  <data name="lbl_Register" xml:space="preserve">
+    <value>Registrasi</value>
+  </data>
+  <data name="lbl_RegisterTime" xml:space="preserve">
+    <value>Waktu Registrasi</value>
+  </data>
+  <data name="lbl_Required" xml:space="preserve">
+    <value>Bagian wajib diisi</value>
   </data>
   <data name="lbl_ResposibleGaming" xml:space="preserve">
     <value>Permainan Bertanggung Jawab</value>
@@ -684,14 +1005,26 @@
   <data name="lbl_RuleRegulations" xml:space="preserve">
     <value>Peraturan dan Ketetapan Taruhan</value>
   </data>
+  <data name="lbl_SelectAll" xml:space="preserve">
+    <value>Pilih Semua</value>
+  </data>
   <data name="lbl_ShowBalance" xml:space="preserve">
     <value>Tampilkan Saldo</value>
   </data>
   <data name="lbl_Soccer" xml:space="preserve">
     <value>Sepak Bola</value>
   </data>
+  <data name="lbl_SoccerBetting" xml:space="preserve">
+    <value>Taruhan Sepak Bola</value>
+  </data>
+  <data name="lbl_SocialMedia" xml:space="preserve">
+    <value>Sosial Media</value>
+  </data>
   <data name="lbl_Sports" xml:space="preserve">
     <value>Olahraga</value>
+  </data>
+  <data name="lbl_SportsBetting" xml:space="preserve">
+    <value>Taruhan olahraga</value>
   </data>
   <data name="lbl_Status" xml:space="preserve">
     <value>Status</value>
@@ -699,8 +1032,14 @@
   <data name="lbl_Submit" xml:space="preserve">
     <value>Ajukan</value>
   </data>
+  <data name="lbl_SubmitProof" xml:space="preserve">
+    <value>Ajukan Bukti Slip Bank</value>
+  </data>
   <data name="lbl_Tennis" xml:space="preserve">
     <value>Tennis</value>
+  </data>
+  <data name="lbl_TennisBetting" xml:space="preserve">
+    <value>Taruhan Tenis</value>
   </data>
   <data name="lbl_TermsConditions" xml:space="preserve">
     <value>Persyaratan dan Ketentuan</value>
@@ -718,13 +1057,22 @@
     <value>Nova88 adalah Sportbook terhebat didunia yang menawarkan Jenis pengalaman judi terbaik di taruhan Live yang mencakupi seluruh olahraga, Kasino, Slots, Keno, E-Sports, RNG Casino, Olahraga Fantasy, Olahraga Maya, Lottery, Live kasino, Live Dealer, Bingo dan Balap</value>
   </data>
   <data name="lbl_To" xml:space="preserve">
-    <value>Ke</value>
+    <value>Kepada</value>
   </data>
   <data name="lbl_Transaction" xml:space="preserve">
     <value>Transaksi Terakhir</value>
   </data>
+  <data name="lbl_TransactionHint" xml:space="preserve">
+    <value>Silahkan Transfer Jumlah dana ke akun</value>
+  </data>
+  <data name="lbl_TransactionHistory" xml:space="preserve">
+    <value>Riwayat transaksi</value>
+  </data>
   <data name="lbl_TransferFunds" xml:space="preserve">
     <value>Transfer Dana</value>
+  </data>
+  <data name="lbl_TransferTo" xml:space="preserve">
+    <value>Transfer kepada</value>
   </data>
   <data name="lbl_TryNow" xml:space="preserve">
     <value>Coba Sekarang</value>
@@ -738,11 +1086,26 @@
   <data name="lbl_TwitterSite" xml:space="preserve">
     <value>@Nova88official</value>
   </data>
+  <data name="lbl_Unlimited" xml:space="preserve">
+    <value>Tidak terbatas</value>
+  </data>
   <data name="lbl_Update" xml:space="preserve">
     <value>Perbarui</value>
   </data>
   <data name="lbl_UpdateBankDetail" xml:space="preserve">
     <value>Perbarui Rincian Bank</value>
+  </data>
+  <data name="lbl_UpdateBankInfo" xml:space="preserve">
+    <value>Silahkan perbarui keterangan akun bank anda sebelum anda melakukan deposit</value>
+  </data>
+  <data name="lbl_UpdateSuccess" xml:space="preserve">
+    <value>Berhasil diperbarui, Kami akan segera memproses permintaan anda</value>
+  </data>
+  <data name="lbl_UploadFile" xml:space="preserve">
+    <value>Unggah file</value>
+  </data>
+  <data name="lbl_UploadSuccess" xml:space="preserve">
+    <value>File Anda terlah berhasil diunggah.</value>
   </data>
   <data name="lbl_URL" xml:space="preserve">
     <value>https://www.nova88.net</value>
@@ -750,13 +1113,67 @@
   <data name="lbl_Username" xml:space="preserve">
     <value>Nama pengguna</value>
   </data>
+  <data name="lbl_UsernameTooltip" xml:space="preserve">
+    <value>Demi keamanan, kami menyarankan agar Username anda berbeda dengan nama asli anda</value>
+  </data>
+  <data name="lbl_VariousBankingOptions" xml:space="preserve">
+    <value>Berbagai Pilihan Perbankan</value>
+  </data>
+  <data name="lbl_VIPLevel" xml:space="preserve">
+    <value>Level VIP</value>
+  </data>
   <data name="lbl_VirtualSports" xml:space="preserve">
     <value>Olahraga maya</value>
   </data>
   <data name="lbl_Welcome" xml:space="preserve">
     <value>Selamat Datang</value>
   </data>
+  <data name="lbl_WireTransfers" xml:space="preserve">
+    <value>Transfer Bank Lokal</value>
+  </data>
   <data name="lbl_Withdrawal" xml:space="preserve">
     <value>Penarikan</value>
+  </data>
+  <data name="lbl_WithdrawalAmount" xml:space="preserve">
+    <value>Jumlah penarikan</value>
+  </data>
+  <data name="lbl_WithdrawalStatus0" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="lbl_WithdrawalStatus1" xml:space="preserve">
+    <value>Tertunda</value>
+  </data>
+  <data name="lbl_WithdrawalStatus2" xml:space="preserve">
+    <value>Sedang menunggu</value>
+  </data>
+  <data name="lbl_WithdrawalStatus3" xml:space="preserve">
+    <value>Verifikasi</value>
+  </data>
+  <data name="lbl_WithdrawalStatus4" xml:space="preserve">
+    <value>Sedang dalam proses</value>
+  </data>
+  <data name="lbl_WithdrawalStatus5" xml:space="preserve">
+    <value>Dibatalkan</value>
+  </data>
+  <data name="lbl_WithdrawalStatus6" xml:space="preserve">
+    <value>Disetujui</value>
+  </data>
+  <data name="lbl_WithdrawalStatus7" xml:space="preserve">
+    <value>Ditolak</value>
+  </data>
+  <data name="lbl_WithdrawalStatus99" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="lbl_WithdrawalTo" xml:space="preserve">
+    <value>Penarikan Tunai di</value>
+  </data>
+  <data name="lbl_WithdrawalType0" xml:space="preserve">
+    <value>Tidak terdefinisi</value>
+  </data>
+  <data name="lbl_WithdrawalType1" xml:space="preserve">
+    <value>Bank Local</value>
+  </data>
+  <data name="lbl_WithdrawalType2" xml:space="preserve">
+    <value>Pembayaran Online</value>
   </data>
 </root>

@@ -133,7 +133,7 @@
     <value>[1104] Kết nối bị chấm dứt , do đăng nhập trùng lặp</value>
   </data>
   <data name="Code_1105" xml:space="preserve">
-    <value>Lỗi hệ thống, vui lòng liên hệ với CSD</value>
+    <value>[1105 Lỗi hệ thống, vui lòng liên hệ với CSD</value>
   </data>
   <data name="Code_1200" xml:space="preserve">
     <value>[1200] Chuyển khoản không thành công , vui lòng thử lại</value>
