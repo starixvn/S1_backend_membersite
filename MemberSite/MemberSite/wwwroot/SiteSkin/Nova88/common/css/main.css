@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /* normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
 /* Document
    ========================================================================== */
@@ -790,6 +790,10 @@ body::before {
   content: "\EA3D";
 }
 
+.icon-deposit-CSD::before {
+    content: "\EAA0";
+}
+
 .icon-jackpots::before, .icon-currency::before {
   content: "\EA3E";
 }
@@ -1250,6 +1254,10 @@ body::before {
   margin-left: .25rem;
 }
 
+input#agreeterm + label .text {
+    line-height: 1.5rem;
+}
+
 .icon {
   flex: 0 0 auto;
   display: inline-flex;
@@ -1257,6 +1265,16 @@ body::before {
   align-self: center;
   font-size: 1.5rem;
   line-height: 1;
+}
+
+.agreeterm-module {
+    margin: 1rem auto;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+input#agreeterm {
+    margin-right: 0.5rem;
 }
 
 .icon--lg {

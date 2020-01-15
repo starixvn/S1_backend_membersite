@@ -270,6 +270,12 @@
   <data name="lbl_Clickhereforbonus" xml:space="preserve">
     <value>Click here for bonus</value>
   </data>
+  <data name="lbl_Clickhereforjoin" xml:space="preserve">
+    <value>Click here for join</value>
+  </data>
+  <data name="lbl_Clickhereforsupport" xml:space="preserve">
+    <value>Click here for getting support</value>
+  </data>
   <data name="lbl_Close" xml:space="preserve">
     <value>Close</value>
   </data>
@@ -879,6 +885,9 @@
   <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
     <value>Real Casino experience</value>
   </data>
+  <data name="lbl_LiveSupport" xml:space="preserve">
+    <value>24/7 Live Support</value>
+  </data>
   <data name="lbl_Login" xml:space="preserve">
     <value>Login</value>
   </data>
@@ -1032,6 +1041,9 @@
   <data name="lbl_TennisBetting" xml:space="preserve">
     <value>Tennis Betting</value>
   </data>
+  <data name="lbl_Terms" xml:space="preserve">
+    <value>Terms of Use</value>
+  </data>
   <data name="lbl_TermsConditions" xml:space="preserve">
     <value>Terms and Conditions</value>
   </data>
@@ -1115,6 +1127,9 @@
   </data>
   <data name="lbl_VirtualSports" xml:space="preserve">
     <value>Virtual Sports</value>
+  </data>
+  <data name="lbl_VirtualSportsSlogon" xml:space="preserve">
+    <value>Apart from popular sports, we now offer pioneering In-Play solutions.</value>
   </data>
   <data name="lbl_Welcome" xml:space="preserve">
     <value>Welcome</value>

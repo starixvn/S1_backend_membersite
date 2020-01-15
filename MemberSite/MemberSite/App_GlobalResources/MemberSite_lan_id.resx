@@ -888,6 +888,9 @@
   <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
     <value>Pengalaman Kasino Sungguhan</value>
   </data>
+  <data name="lbl_LiveSupport" xml:space="preserve">
+    <value>24/7 Layanan Dukungan</value>
+  </data>
   <data name="lbl_Login" xml:space="preserve">
     <value>Login</value>
   </data>

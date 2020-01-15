@@ -196,7 +196,7 @@ class RegisterForm extends React.Component {
         return (
             <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                 {Inputs}
-                <div>
+                <div className='agreeterm-module'>
                     <input type="checkbox" id="agreeterm" onChange={this.onCheckboxChange} checked={this.state.agreeterm} />
                     <label className="light" forHtml="agreeterm">
                         <span className="text">

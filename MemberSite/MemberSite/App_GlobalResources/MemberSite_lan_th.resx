@@ -855,6 +855,9 @@
   <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
     <value>ประสบการณ์คาสิโนแบบสมจริง</value>
   </data>
+  <data name="lbl_LiveSupport" xml:space="preserve">
+    <value>ติดต่อลูกค้าสัมพันธ์ 24/7</value>
+  </data>
   <data name="lbl_Login" xml:space="preserve">
     <value>เข้าสู่ระบบ</value>
   </data>

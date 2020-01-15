@@ -855,6 +855,9 @@
   <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
     <value>Trải nghiệm chơi Casino như thật</value>
   </data>
+  <data name="lbl_LiveSupport" xml:space="preserve">
+    <value>Hỗ trợ trực tiếp 24/7</value>
+  </data>
   <data name="lbl_Login" xml:space="preserve">
     <value>Đăng nhập</value>
   </data>

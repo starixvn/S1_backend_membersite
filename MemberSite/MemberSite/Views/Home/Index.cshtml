@@ -56,14 +56,14 @@
             <div class="swiper-pagination"></div>
         </div>
         <div class="lobby-quicklink-list">
-            <div class="lobby-quicklink-download">
-                <div class="lobby-quicklink__info">
-                    <i class="icon icon-download"></i>
-                    <span class="text-title">@selLangBLL.GetResourceValue("lbl_DownloadApp")</span>
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_RebatebonusonMobile")</span>
-                </div>
-                <img src="@SkinImgPath/UI/Download-App.png"><i class="icon icon-arrow-right"></i>
+            @*<div class="lobby-quicklink-download">
+            <div class="lobby-quicklink__info">
+                <i class="icon icon-download"></i>
+                <span class="text-title">@selLangBLL.GetResourceValue("lbl_DownloadApp")</span>
+                <span class="text">@selLangBLL.GetResourceValue("lbl_RebatebonusonMobile")</span>
             </div>
+            <img src="@SkinImgPath/UI/Download-App.png"><i class="icon icon-arrow-right"></i>
+        </div>*@
             @if (User.Identity.IsAuthenticated)
             {
                 <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
@@ -74,17 +74,25 @@
                     </div>
                     <i class="icon icon-arrow-right"></i>
                 </a>
-                <a class="lobby-quicklink" href="#">
-                    <div class="lobby-quicklink__info">
-                        <i class="icon icon-promotion"></i>
-                        <span class="text-title">@selLangBLL.GetResourceValue("lbl_Promotion")</span>
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforpromotion")</span>
-                    </div>
-                    <i class="icon icon-arrow-right"></i>
-                </a>
+                @*<a class="lobby-quicklink" href="#">
+                <div class="lobby-quicklink__info">
+                    <i class="icon icon-promotion"></i>
+                    <span class="text-title">@selLangBLL.GetResourceValue("lbl_Promotion")</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforpromotion")</span>
+                </div>
+                <i class="icon icon-arrow-right"></i>
+            </a>*@
             }
             else
             {
+                <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
+                    <div class="lobby-quicklink__info">
+                        <i class="icon icon-join-now"></i>
+                        <span class="text-title">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforjoin")</span>
+                    </div>
+                    <i class="icon icon-arrow-right"></i>
+                </a>
                 <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
                     <div class="lobby-quicklink__info">
                         <i class="icon icon-deposit-bank"></i>
@@ -93,15 +101,15 @@
                     </div>
                     <i class="icon icon-arrow-right"></i>
                 </a>
-                <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                    <div class="lobby-quicklink__info">
-                        <i class="icon icon-join-now"></i>
-                        <span class="text-title">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforbonus")</span>
-                    </div>
-                    <i class="icon icon-arrow-right"></i>
-                </a>
             }
+            <a class="lobby-quicklink" href="https://direct.lc.chat/11638088/" target="_blank">
+                <div class="lobby-quicklink__info">
+                    <i class="icon icon-deposit-CSD"></i>
+                    <span class="text-title">@selLangBLL.GetResourceValue("lbl_LiveSupport")</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforsupport")</span>
+                </div>
+                <i class="icon icon-arrow-right"></i>
+            </a>
         </div>
         <div class="lobby-sport-list">
             <a class="lobby-sport" href="@GetEntPageUrl(1,"1")">
@@ -163,13 +171,21 @@
                     </div>
                 </div>
                 <div class="swiper-slide">
-                    <div class="lobby-product">
+                    @*<div class="lobby-product">
                         <div class="lobby-product__info">
                             <span class="text-title">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
                             <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasinoSlogon")</span>
                             <a class="btn btn-secondary"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
                         </div>
                         <img src="@SkinImgPath/Lobby/Home/Product-LiveCasino.png">
+                    </div>*@
+                    <div class="lobby-product">
+                        <div class="lobby-product__info">
+                            <span class="text-title">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualSportsSlogon")</span>
+                            <a class="btn btn-secondary"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
+                        </div>
+                        <img src="@SkinImgPath/Lobby/Home/Product-VirtualSports.png">
                     </div>
                 </div>
             </div>

@@ -857,6 +857,9 @@
   <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
     <value>真实赌场体验</value>
   </data>
+  <data name="lbl_LiveSupport" xml:space="preserve">
+    <value>24/7 在线客服</value>
+  </data>
   <data name="lbl_Login" xml:space="preserve">
     <value>登录</value>
   </data>
