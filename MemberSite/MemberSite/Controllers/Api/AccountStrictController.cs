@@ -124,7 +124,7 @@ namespace MemberSite.Controllers.Api
             string PhoneNo = custProfile[nameof(PhoneNo)];
             if(custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
             {
-                apiResult.Message = $"({AreaCode}){PhoneNo} has exists.";
+                apiResult.Message = $"({AreaCode}){PhoneNo} "+ selLangBLL.GetMsg("msg_HasExist");
                 return apiResult;
             }
 
