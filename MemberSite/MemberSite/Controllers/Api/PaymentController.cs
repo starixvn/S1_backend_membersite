@@ -286,7 +286,7 @@ namespace MemberSite.Controllers.Api
         //[DisableFormValueModelBinding]
         public ApiResult UploadReceipt([FromForm]DepositReceiptFile depositReceipt)
         {
-            decimal xSize = 700m;
+            decimal xSize = 500m;
             var apiResult = new ApiResult();
             var authData = authorizeBLL.GetAuthData();
             decimal xCell = 1;
