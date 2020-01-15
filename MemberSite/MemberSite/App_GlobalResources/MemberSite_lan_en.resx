@@ -627,6 +627,9 @@
   <data name="lbl_CountryTN" xml:space="preserve">
     <value>Tunisia</value>
   </data>
+  <data name="lbl_CountryTooltip" xml:space="preserve">
+    <value>Please select your country of residence</value>
+  </data>
   <data name="lbl_CountryTT" xml:space="preserve">
     <value>Trinidad and Tobago</value>
   </data>
@@ -954,6 +957,12 @@
   <data name="lbl_PaymentOptions" xml:space="preserve">
     <value>Payment Options</value>
   </data>
+  <data name="lbl_Phone" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="lbl_PhoneTooltip" xml:space="preserve">
+    <value>Please enter your phone number, it can not change once enter!</value>
+  </data>
   <data name="lbl_PhotoID" xml:space="preserve">
     <value>Photo ID</value>
   </data>
@@ -1032,6 +1041,12 @@
   <data name="lbl_Submit" xml:space="preserve">
     <value>Submit</value>
   </data>
+  <data name="lbl_SubmitPhotoId" xml:space="preserve">
+    <value>Submit Photo ID</value>
+  </data>
+  <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
+    <value>Please submit your photo id before makign withdrawal!</value>
+  </data>
   <data name="lbl_SubmitProof" xml:space="preserve">
     <value>Submit Bank Slip</value>
   </data>
@@ -1101,11 +1116,20 @@
   <data name="lbl_UpdateBankInfo" xml:space="preserve">
     <value>Please update your bank account details before making deposit.</value>
   </data>
+  <data name="lbl_UpdatePersonalDetail" xml:space="preserve">
+    <value>Update Personal Details</value>
+  </data>
+  <data name="lbl_UpdatePersonalInfo" xml:space="preserve">
+    <value>Please update your personal information before making deposit.</value>
+  </data>
   <data name="lbl_UpdateSuccess" xml:space="preserve">
     <value>Update Successful. We will process your request ASAP!</value>
   </data>
   <data name="lbl_UploadFile" xml:space="preserve">
     <value>Upload File</value>
+  </data>
+  <data name="lbl_UploadPhotoId" xml:space="preserve">
+    <value>Upload Photo ID</value>
   </data>
   <data name="lbl_UploadSuccess" xml:space="preserve">
     <value>Your file was uploaded successfully.</value>
@@ -1129,7 +1153,7 @@
     <value>Virtual Sports</value>
   </data>
   <data name="lbl_VirtualSportsSlogon" xml:space="preserve">
-    <value>Apart from popular sports, we now offer pioneering In-Play solutions.</value>
+    <value>Apart from popular sports, try our pioneering In-Play.</value>
   </data>
   <data name="lbl_Welcome" xml:space="preserve">
     <value>Welcome</value>

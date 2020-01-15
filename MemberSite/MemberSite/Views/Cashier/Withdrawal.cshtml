@@ -37,6 +37,8 @@
     i18n.Add("lbl_TransferTo", selLangBLL.GetResourceValue("lbl_TransferTo"));
     i18n.Add("lbl_MomoHint", selLangBLL.GetResourceValue("lbl_MomoHint"));
     i18n.Add("lbl_CancelConfirm", selLangBLL.GetResourceValue("lbl_CancelConfirm"));
+    i18n.Add("lbl_UploadPhotoId", selLangBLL.GetResourceValue("lbl_UploadPhotoId"));
+    i18n.Add("lbl_UploadSuccess", selLangBLL.GetResourceValue("lbl_UploadSuccess"));
 
     for (int i = 0; i <= 7; i++)
     {
@@ -88,29 +90,16 @@
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
                 </a>
             </div>
-            <div class="page-title" role="mobile-only">
-                <span class="text">收银</span>
-            </div>
-            <div class="page-tabs" role="mobile-only">
-                <a class="page-tabs__btn" data-selected="true">
-                    <span class="text">存款</span>
-                </a>
-                <a class="page-tabs__btn" href="/cs/Cashier/Withdrawal">
-                    <span class="text">提款</span>
-                </a>
-            </div>
             <div class="page">
                 <div class="heading">
-                    <span class="text">提交PhotoID</span>
-                </div><p>从下方选出最符合您需求的存款方式：</p>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_SubmitPhotoId")</span>
+                </div>
                 <div class="panel panel-primary panel--payment" data-open="true">
                     <div class="panel__header">
-                        <span class="text">网络银行服务 -</span>
-                        <span class="text-accent">所需时间: 立即</span><i class="icon icon-caret"></i>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_SubmitPhotoIdHint")</span>
+                        <i class="icon icon-caret"></i>
                     </div>
-                    <div class="panel__body" id="UploadForm">
-
-                    </div>
+                    <div class="panel__body" id="UploadForm"> </div>
                 </div>
             </div>
         </div>
@@ -135,6 +124,9 @@
 }
 
 @section Scripts{
+    <script type="text/javascript">
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
+    </script>
     @if (!custInfoBLL.SubmittedCustPhotoId(authData.CustId))
     {
         <script src="~/js/component/account/UploadPhotoId.min.js" asp-append-version="true"></script>
@@ -142,7 +134,6 @@
     else if (!(custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0))
     {
         <script type="text/javascript">
-            $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
             var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })";
         </script>
         <script src="~/lib/runtime.min.js"></script>

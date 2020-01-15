@@ -18,6 +18,12 @@
     i18n.Add("lbl_CompletedRegistration", selLangBLL.GetResourceValue("lbl_CompletedRegistration"));
     i18n.Add("lbl_Email", selLangBLL.GetResourceValue("lbl_Email"));
     i18n.Add("lbl_EmailToolTip", selLangBLL.GetResourceValue("lbl_EmailToolTip"));
+    i18n.Add("lbl_BankAccountName", selLangBLL.GetResourceValue("lbl_BankAccountName"));
+    i18n.Add("lbl_BankAccountNameHint", selLangBLL.GetResourceValue("lbl_BankAccountNameHint"));
+    i18n.Add("lbl_Country", selLangBLL.GetResourceValue("lbl_Country"));
+    i18n.Add("lbl_CountryTooltip", selLangBLL.GetResourceValue("lbl_CountryTooltip"));
+    i18n.Add("lbl_Phone", selLangBLL.GetResourceValue("lbl_Phone"));
+    i18n.Add("lbl_PhoneTooltip", selLangBLL.GetResourceValue("lbl_PhoneTooltip"));
     i18n.Add("lbl_VIPLevel", selLangBLL.GetResourceValue("lbl_VIPLevel"));
     i18n.Add("lbl_Agent", selLangBLL.GetResourceValue("lbl_Agent"));
     i18n.Add("lbl_RegisterTime", selLangBLL.GetResourceValue("lbl_RegisterTime"));
@@ -34,7 +40,7 @@
     i18n.Add("msg_Updatesuccessful", selLangBLL.GetMsg("msg_Updatesuccessful"));
 
     Dictionary<int, string> PerCountry = new Dictionary<int, string>()
-    {
+{
         {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" }
     };
     var currencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
