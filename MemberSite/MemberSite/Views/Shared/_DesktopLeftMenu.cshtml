@@ -27,20 +27,7 @@
     }
 }
 @{
-    <script>
-        $(function () {
-            // Button Refresh toggle
-            $(".btn[data-refresh]").on("touchstart, click", function () {
-                var $target = $(this);
-                $target.attr("data-refresh") == "true" ? $target.attr("data-refresh", "false") : $target.attr("data-refresh", "true");
-            });
-            // Page Nav toggle
-            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
-                var $target = $(this).parent();
-                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
-            });
-        }
-    </script>
+
 
 }
 
@@ -48,15 +35,11 @@
 
     <div class="account-info">
         <div class="account-info__row">
-
             <i class="icon icon-account"></i>
-
             <span class="account-info__name"> @User.Identity.Name</span>
         </div>
-        <div class="account-info__row">
-
+        @*<div class="account-info__row">
             <i class="icon icon-balance"></i>
-
             <span class="account-info__currency">USD</span>
             <span class="account-info__amount">593,497.24</span>
             <a class="btn btn-icon" data-refresh="false">
@@ -70,7 +53,7 @@
                     </div>
                 </div>
             </a>
-        </div>
+        </div>*@
     </div>
 
     <div class="page-nav__main">
@@ -80,7 +63,7 @@
                 <i class="icon icon-caret"></i>
             </a>
             <div class="page-nav__submenu">
-                <div class="page-nav__subitem" data-selected="true">
+                <div class="page-nav__subitem">
                     <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
                     </a>
@@ -115,7 +98,7 @@
             </div>*@
         @*</div>
             </div>*@
-        <div class="page-nav__item has-submenu">
+        <div class="page-nav__item has-submenu" data-open="true">
             <a class="page-nav__btn">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_MyAccount")</span>
                 <i class="icon icon-caret"></i>
@@ -133,7 +116,7 @@
                 </div>
                 <div class="page-nav__subitem">
                     <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_BankInfo")</span>
                     </a>
                 </div>
             </div>
@@ -143,10 +126,5 @@
                 <span class="text">@selLangBLL.GetResourceValue("lbl_Message")</span>
             </a>
         </div>
-
     </div>
 </div>
-
-@section Scripts{
-    <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
-}

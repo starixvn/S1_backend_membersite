@@ -250,9 +250,6 @@
   <data name="lbl_ChargeFee" xml:space="preserve">
     <value>手續費</value>
   </data>
-  <data name="lbl_Check18TC" xml:space="preserve">
-    <value>我同意 {網站名稱} 的條款及規則. 我確認我已年滿 18歲.</value>
-  </data>
   <data name="lbl_Check18TC1" xml:space="preserve">
     <value>我同意</value>
   </data>
