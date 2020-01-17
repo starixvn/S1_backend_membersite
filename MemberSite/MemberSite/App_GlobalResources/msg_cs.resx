@@ -129,6 +129,9 @@
   <data name="msg_ForceLogedout" xml:space="preserve">
     <value>已登出！请重新登录后再试！</value>
   </data>
+  <data name="msg_HasExist" xml:space="preserve">
+    <value>已存在系统中</value>
+  </data>
   <data name="msg_InvalidOldPassword" xml:space="preserve">
     <value>旧密码无效</value>
   </data>

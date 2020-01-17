@@ -130,6 +130,9 @@
   <data name="msg_ForceLogedout" xml:space="preserve">
     <value>已登出！請重新登入後再試！</value>
   </data>
+  <data name="msg_HasExist" xml:space="preserve">
+    <value>已存在系統中</value>
+  </data>
   <data name="msg_InvalidOldPassword" xml:space="preserve">
     <value>舊密碼無效</value>
   </data>

@@ -49,20 +49,21 @@
 @section Style{
 
 }
-<div class="main">
-    <div class="page-title" role="mobile-only">
-        <span class="text">@selLangBLL.GetResourceValue("lbl_MyAccount")</span>
+    <div class="main">
+        <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
+        <div class="page-title" role="mobile-only">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_MyAccount")</span>
+        </div>
+        <div class="page-tabs" role="mobile-only">
+            <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })" data-selected="true">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
+            </a>
+            <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_CustBank")</span>
+            </a>
+        </div>
+        <div id="Profile" class="page"></div>
     </div>
-    <div class="page-tabs" role="mobile-only">
-        <a class="page-tabs__btn" data-selected="true">
-            <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
-        </a>
-        <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
-            <span class="text">@selLangBLL.GetResourceValue("lbl_CustBank")</span>
-        </a>
-    </div>
-    <div id="Profile" class="page"></div>
-</div>
 @section Scripts{
     <script type="text/javascript">
         var perCountry="@PerCountry[currencyId]";

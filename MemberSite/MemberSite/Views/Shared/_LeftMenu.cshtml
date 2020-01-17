@@ -106,11 +106,11 @@
                     @*<a class="side-nav__btn">
                                 <i class="icon icon-statement"></i>
                                 <span class="text">Statement</span>
-                            </a>
-                        <a class="side-nav__btn" href="Profile.html">
-                                <i class="icon icon-account"></i>
-                                <span class="text">My Account</span>
                             </a>*@
+                        <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                                <i class="icon icon-account@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })i>
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
+                            </a>
                 </div>
             }
             <div class="side-nav__list-sports">
@@ -164,13 +164,13 @@
                     </span>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
                 </a>
-                <a class="side-nav__btn">
+                @*<a class="side-nav__btn">
                     <span class="side-nav__icon">
                         <i class="icon icon-promotion"></i>
                         <span class="new-dot">0</span>
                     </span>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Promotion")</span>
-                </a>
+                </a>*@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "ChangePwd", controller = "Account", LangId = selLangBLL.GetLangId() })">
@@ -198,12 +198,12 @@
                         <span class="text">@selLangBLL.GetResourceValue("lbl_TransactionHistory")</span>
                     </a>
                 }
-                <a class="side-nav__btn">
+                @*<a class="side-nav__btn">
                     <span class="side-nav__icon">
                         <i class="icon icon-info-outline"></i>
                     </span>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Help")</span>
-                </a>
+                </a>*@
             </div>
         </div>
     </div>

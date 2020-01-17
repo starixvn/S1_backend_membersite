@@ -51,6 +51,7 @@
     if (custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0)
     {
         <div class="main">
+            <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
             <div class="page-title" role="mobile-only">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
             </div>
@@ -79,6 +80,7 @@
     else if (!custInfoBLL.SubmittedCustPhotoId(authData.CustId))
     {
         <div class="main">
+            <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
             <div class="page-title" role="mobile-only">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
             </div>
@@ -107,6 +109,7 @@
     else
     {
         <div class="main">
+            <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
             <div class="page-title" role="mobile-only">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
             </div>

@@ -200,17 +200,16 @@
     <value>返回</value>
   </data>
   <data name="lbl_BankAccount" xml:space="preserve">
-    <value>银行帐户
-</value>
+    <value>银行账户</value>
   </data>
   <data name="lbl_BankAccountName" xml:space="preserve">
-    <value>帐户名称</value>
+    <value>账户名称</value>
   </data>
   <data name="lbl_BankAccountNameHint" xml:space="preserve">
     <value>账号名称请填写真实姓名，完成后将无法修改！</value>
   </data>
   <data name="lbl_BankInfo" xml:space="preserve">
-    <value>银行资料</value>
+    <value>银行资讯</value>
   </data>
   <data name="lbl_BankName" xml:space="preserve">
     <value>银行名称</value>
@@ -222,19 +221,19 @@
     <value>棒球</value>
   </data>
   <data name="lbl_BaseballBetting" xml:space="preserve">
-    <value>篮球投注</value>
+    <value>棒球投注</value>
   </data>
   <data name="lbl_Basketball" xml:space="preserve">
     <value>篮球</value>
   </data>
   <data name="lbl_BasketballBetting" xml:space="preserve">
-    <value>棒球投注</value>
+    <value>篮球投注</value>
   </data>
   <data name="lbl_Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
   <data name="lbl_CancelConfirm" xml:space="preserve">
-    <value>确定要取消么？取消后将无法恢复！</value>
+    <value>确定取消？取消后将无法还原！</value>
   </data>
   <data name="lbl_Cashier" xml:space="preserve">
     <value>收银</value>
@@ -251,11 +250,35 @@
   <data name="lbl_ChargeFee" xml:space="preserve">
     <value>手续费</value>
   </data>
+  <data name="lbl_Check18TC" xml:space="preserve">
+    <value>我同意 {网站名称} 的条款及规则. 我确认我已年满 18岁.</value>
+  </data>
+  <data name="lbl_Check18TC1" xml:space="preserve">
+    <value>我同意</value>
+  </data>
+  <data name="lbl_Check18TC2" xml:space="preserve">
+    <value>和</value>
+  </data>
+  <data name="lbl_Check18TC3" xml:space="preserve">
+    <value>在</value>
+  </data>
+  <data name="lbl_Check18TC4" xml:space="preserve">
+    <value>我确认我至少21岁</value>
+  </data>
+  <data name="lbl_Check18TCTooltip" xml:space="preserve">
+    <value>请点选上方格子以确认符合账号注册条件</value>
+  </data>
   <data name="lbl_CheckConfirm" xml:space="preserve">
-    <value>确定要删除么？删除后将无法恢复！</value>
+    <value>确定要删除么？删除后将无法还原！</value>
   </data>
   <data name="lbl_Clickhereforbonus" xml:space="preserve">
     <value>点击此处取得红利</value>
+  </data>
+  <data name="lbl_Clickhereforjoin" xml:space="preserve">
+    <value>点击这里加入</value>
+  </data>
+  <data name="lbl_Clickhereforsupport" xml:space="preserve">
+    <value>点击这裡获得支援</value>
   </data>
   <data name="lbl_Close" xml:space="preserve">
     <value>关闭</value>
@@ -270,10 +293,10 @@
     <value>确认</value>
   </data>
   <data name="lbl_ConfirmDeposit" xml:space="preserve">
-    <value>请确认存款信息。</value>
+    <value>请确认存款资讯。</value>
   </data>
   <data name="lbl_ConfirmWithdrawal" xml:space="preserve">
-    <value>请确认提款信息。</value>
+    <value>请确认提款资讯。</value>
   </data>
   <data name="lbl_ContactCSD" xml:space="preserve">
     <value>如有任何修改需求，请联系客服。</value>
@@ -286,6 +309,9 @@
   </data>
   <data name="lbl_Copyright" xml:space="preserve">
     <value>{0}版权所有</value>
+  </data>
+  <data name="lbl_Country" xml:space="preserve">
+    <value>国家</value>
   </data>
   <data name="lbl_CountryAF" xml:space="preserve">
     <value>阿富汗</value>
@@ -605,6 +631,9 @@
   <data name="lbl_CountryTN" xml:space="preserve">
     <value>突尼斯</value>
   </data>
+  <data name="lbl_CountryTooltip" xml:space="preserve">
+    <value>请选择您的居住国家</value>
+  </data>
   <data name="lbl_CountryTT" xml:space="preserve">
     <value>特立尼达和多巴哥</value>
   </data>
@@ -668,6 +697,9 @@
   <data name="lbl_Currency_2" xml:space="preserve">
     <value>马币</value>
   </data>
+  <data name="lbl_Currency_20" xml:space="preserve">
+    <value>虚拟币(测试用)</value>
+  </data>
   <data name="lbl_Currency_3" xml:space="preserve">
     <value>美元</value>
   </data>
@@ -699,10 +731,13 @@
     <value>银行</value>
   </data>
   <data name="lbl_CustBankInfo" xml:space="preserve">
-    <value>更新银行信息</value>
+    <value>更新银行资讯</value>
   </data>
   <data name="lbl_Date" xml:space="preserve">
     <value>日期</value>
+  </data>
+  <data name="lbl_DateMissing" xml:space="preserve">
+    <value>请输入咨询日期</value>
   </data>
   <data name="lbl_Deposit" xml:space="preserve">
     <value>存款</value>
@@ -729,13 +764,13 @@
     <value>已核准</value>
   </data>
   <data name="lbl_DepositStatus4" xml:space="preserve">
-    <value>拒绝</value>
+    <value>已拒绝</value>
   </data>
   <data name="lbl_DepositStatus5" xml:space="preserve">
     <value>已取消</value>
   </data>
   <data name="lbl_DepositStatus6" xml:space="preserve">
-    <value>过期</value>
+    <value>逾期</value>
   </data>
   <data name="lbl_DepositStatus7" xml:space="preserve">
     <value>搁置</value>
@@ -759,10 +794,10 @@
     <value>移动支付</value>
   </data>
   <data name="lbl_DepositType3" xml:space="preserve">
-    <value>地方银行</value>
+    <value>银行卡</value>
   </data>
   <data name="lbl_DepositWithdrawals" xml:space="preserve">
-    <value>存款&amp;提款</value>
+    <value>存款與提款</value>
   </data>
   <data name="lbl_Description" xml:space="preserve">
     <value>欧亚体育是世界领先的体育博彩，提供最佳的博彩体验，涵盖所有体育，娱乐城，老虎机，快乐彩，电子竞技，rng娱乐城，梦幻对垒，虚拟体育，彩票，真人娱乐场，真人荷官，宾果游戏和赛车。</value>
@@ -771,7 +806,7 @@
     <value>没有账户吗?</value>
   </data>
   <data name="lbl_DownloadApp" xml:space="preserve">
-    <value>下载app</value>
+    <value>下载APP</value>
   </data>
   <data name="lbl_Downloads" xml:space="preserve">
     <value>下载</value>
@@ -780,7 +815,7 @@
     <value>电子邮件</value>
   </data>
   <data name="lbl_EmailToolTip" xml:space="preserve">
-    <value>提交后电子邮箱将无法更改。</value>
+    <value>提交后无法变更电子邮件地址。</value>
   </data>
   <data name="lbl_eSports" xml:space="preserve">
     <value>电子竞技</value>
@@ -789,7 +824,7 @@
     <value>电子竞技投注</value>
   </data>
   <data name="lbl_Facebook" xml:space="preserve">
-    <value>Facebook</value>
+    <value>脸书</value>
   </data>
   <data name="lbl_FAQ" xml:space="preserve">
     <value>常见疑问</value>
@@ -828,7 +863,7 @@
     <value>重要讯息</value>
   </data>
   <data name="lbl_Instant" xml:space="preserve">
-    <value>立即</value>
+    <value>即时</value>
   </data>
   <data name="lbl_JoinNow" xml:space="preserve">
     <value>立即加入</value>
@@ -837,13 +872,13 @@
     <value>快乐彩</value>
   </data>
   <data name="lbl_KenoSlogon" xml:space="preserve">
-    <value>玩法精采多元，获胜机会多更多！</value>
+    <value>玩法精采多元，更多获胜机会！</value>
   </data>
   <data name="lbl_Keywords" xml:space="preserve">
     <value>欧亚体育是世界领先的体育博彩，提供最佳的博彩体验，涵盖所有体育，娱乐城，老虎机，快乐彩，电子竞技，rng娱乐城，梦幻对垒，虚拟体育，彩票，真人娱乐场，真人荷官，宾果游戏和 赛车。</value>
   </data>
   <data name="lbl_LastLogin" xml:space="preserve">
-    <value>最后登录</value>
+    <value>最后登入</value>
   </data>
   <data name="lbl_LastTransaction" xml:space="preserve">
     <value>最后交易</value>
@@ -861,10 +896,10 @@
     <value>24/7 在线客服</value>
   </data>
   <data name="lbl_Login" xml:space="preserve">
-    <value>登录</value>
+    <value>登入</value>
   </data>
   <data name="lbl_LoginHere" xml:space="preserve">
-    <value>此处登录</value>
+    <value>此处登入</value>
   </data>
   <data name="lbl_LoginMsg" xml:space="preserve">
     <value>请注意，一个会员仅能注册一个账号。</value>
@@ -876,25 +911,25 @@
     <value>备忘录</value>
   </data>
   <data name="lbl_Message" xml:space="preserve">
-    <value>讯息</value>
+    <value>信息</value>
   </data>
   <data name="lbl_Method" xml:space="preserve">
-    <value>方法</value>
+    <value>方式</value>
   </data>
   <data name="lbl_MobileDeposit" xml:space="preserve">
-    <value>移动存款</value>
+    <value>手机存款</value>
   </data>
   <data name="lbl_MomoHint" xml:space="preserve">
-    <value>如欲快速存款，请在此留下您的帐户姓名及帐户号码。</value>
+    <value>如欲快速存款，请在此处留下您的银行账户姓名及银行账户号码。</value>
   </data>
   <data name="lbl_MyAccount" xml:space="preserve">
-    <value>我的帐户</value>
+    <value>我的账户</value>
   </data>
   <data name="lbl_NewPassword" xml:space="preserve">
     <value>新密码</value>
   </data>
   <data name="lbl_NotinLimit" xml:space="preserve">
-    <value>超出设定范围</value>
+    <value>不在设定范围</value>
   </data>
   <data name="lbl_NumberGame" xml:space="preserve">
     <value>百练赛</value>
@@ -906,7 +941,7 @@
     <value>当前密码</value>
   </data>
   <data name="lbl_OnlineBanking" xml:space="preserve">
-    <value>网络银行服务</value>
+    <value>网络银行</value>
   </data>
   <data name="lbl_Optional" xml:space="preserve">
     <value>选填</value>
@@ -926,6 +961,15 @@
   <data name="lbl_PaymentOptions" xml:space="preserve">
     <value>支付方式</value>
   </data>
+  <data name="lbl_Phone" xml:space="preserve">
+    <value>电话号码</value>
+  </data>
+  <data name="lbl_PhoneTooltip" xml:space="preserve">
+    <value>请输入您的电话号码，输入后将无法更改！</value>
+  </data>
+  <data name="lbl_PhotoID" xml:space="preserve">
+    <value>附有照片的身份证</value>
+  </data>
   <data name="lbl_Postscript" xml:space="preserve">
     <value>验证码</value>
   </data>
@@ -933,10 +977,10 @@
     <value>输入验证码立即存款</value>
   </data>
   <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
-    <value>一旦註冊完成後，無法更改首选币种。</value>
+    <value>一旦完成注册，即无法修改选定币别。</value>
   </data>
   <data name="lbl_PrefferedCurrency" xml:space="preserve">
-    <value>首选币种</value>
+    <value>首选货币</value>
   </data>
   <data name="lbl_PrivacyPolicy" xml:space="preserve">
     <value>隐私权政策</value>
@@ -966,10 +1010,10 @@
     <value>注册时间</value>
   </data>
   <data name="lbl_Required" xml:space="preserve">
-    <value>必填字段</value>
+    <value>必填栏位</value>
   </data>
   <data name="lbl_ResposibleGaming" xml:space="preserve">
-    <value>负责任博彩</value>
+    <value>博彩责任</value>
   </data>
   <data name="lbl_RuleRegulations" xml:space="preserve">
     <value>投注规则与规定</value>
@@ -1001,6 +1045,12 @@
   <data name="lbl_Submit" xml:space="preserve">
     <value>提交</value>
   </data>
+  <data name="lbl_SubmitPhotoId" xml:space="preserve">
+    <value>提交附有照片的身份证</value>
+  </data>
+  <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
+    <value>提款前请提交您附有照片的身份证！</value>
+  </data>
   <data name="lbl_SubmitProof" xml:space="preserve">
     <value>提交银行收据</value>
   </data>
@@ -1009,6 +1059,9 @@
   </data>
   <data name="lbl_TennisBetting" xml:space="preserve">
     <value>网球投注</value>
+  </data>
+  <data name="lbl_Terms" xml:space="preserve">
+    <value>使用条款</value>
   </data>
   <data name="lbl_TermsConditions" xml:space="preserve">
     <value>条款及规则</value>
@@ -1020,7 +1073,7 @@
     <value>欧亚体育</value>
   </data>
   <data name="lbl_TitleDesc" xml:space="preserve">
-    <value>欧亚体育提供线上体育博彩和现场博彩最佳赔率</value>
+    <value>欧亚体育提供线上体育博彩和现场博彩的最佳赔率</value>
   </data>
   <data name="lbl_TitleKeywords" xml:space="preserve">
     <value>欧亚体育是世界领先的体育博彩，提供最佳的博彩体验，涵盖所有体育，娱乐城，老虎机，快乐彩，电子竞技，rng娱乐城，梦幻对垒，虚拟体育，彩票，真人娱乐场，真人荷官，宾果游戏和赛车。</value>
@@ -1029,13 +1082,13 @@
     <value>至</value>
   </data>
   <data name="lbl_Transaction" xml:space="preserve">
-    <value>最后交易</value>
+    <value>交易</value>
   </data>
   <data name="lbl_TransactionHint" xml:space="preserve">
     <value>请转账到该账户</value>
   </data>
   <data name="lbl_TransactionHistory" xml:space="preserve">
-    <value>交易记录</value>
+    <value>交易历史记录</value>
   </data>
   <data name="lbl_TransferFunds" xml:space="preserve">
     <value>资金转移</value>
@@ -1043,11 +1096,14 @@
   <data name="lbl_TransferTo" xml:space="preserve">
     <value>转账至</value>
   </data>
+  <data name="lbl_TryMobile" xml:space="preserve">
+    <value>使用手机游览我们的网站</value>
+  </data>
   <data name="lbl_TryNow" xml:space="preserve">
     <value>马上试用</value>
   </data>
   <data name="lbl_Twitter" xml:space="preserve">
-    <value>Twitter</value>
+    <value>推特</value>
   </data>
   <data name="lbl_TwitterCreator" xml:space="preserve">
     <value>@Nova88official</value>
@@ -1056,22 +1112,28 @@
     <value>@Nova88official</value>
   </data>
   <data name="lbl_Unlimited" xml:space="preserve">
-    <value>无限制</value>
+    <value>无上限</value>
   </data>
   <data name="lbl_Update" xml:space="preserve">
     <value>更新</value>
   </data>
   <data name="lbl_UpdateBankDetail" xml:space="preserve">
-    <value>更新银行资料</value>
+    <value>更新银行资讯</value>
   </data>
   <data name="lbl_UpdateBankInfo" xml:space="preserve">
-    <value>请在存款前完成银行信息更新</value>
+    <value>请在存款前完成更新银行资讯</value>
+  </data>
+  <data name="lbl_UpdatePersonalDetail" xml:space="preserve">
+    <value>更新个人资料</value>
+  </data>
+  <data name="lbl_UpdatePersonalInfo" xml:space="preserve">
+    <value>请在存款前更新您的个人资料。</value>
   </data>
   <data name="lbl_UpdateSuccess" xml:space="preserve">
-    <value>更新成功。我们会尽快处理您的需求！</value>
+    <value>更新成功。我们会尽快处理您的要求！</value>
   </data>
   <data name="lbl_UploadFile" xml:space="preserve">
-    <value>档案上传</value>
+    <value>上传档案</value>
   </data>
   <data name="lbl_UploadSuccess" xml:space="preserve">
     <value>档案上传成功</value>
@@ -1083,22 +1145,25 @@
     <value>用戶名</value>
   </data>
   <data name="lbl_UsernameTooltip" xml:space="preserve">
-    <value>基于安全考虑，我们建议用户名不要使用或包含您的真实姓名</value>
+    <value>基于安全考量，我们建议用户名不要使用或包含您的真实姓名。</value>
   </data>
   <data name="lbl_VariousBankingOptions" xml:space="preserve">
-    <value>其他银行通路</value>
+    <value>各个银行选项</value>
   </data>
   <data name="lbl_VIPLevel" xml:space="preserve">
-    <value>VIP等级</value>
+    <value>贵宾等级</value>
   </data>
   <data name="lbl_VirtualSports" xml:space="preserve">
     <value>虚拟运动</value>
+  </data>
+  <data name="lbl_VirtualSportsSlogon" xml:space="preserve">
+    <value>除了流行的运动项目，我们还提供开创新的虚拟游戏。</value>
   </data>
   <data name="lbl_Welcome" xml:space="preserve">
     <value>欢迎</value>
   </data>
   <data name="lbl_WireTransfers" xml:space="preserve">
-    <value>地方银行转账</value>
+    <value>银行卡转帐</value>
   </data>
   <data name="lbl_Withdrawal" xml:space="preserve">
     <value>提款</value>
@@ -1116,7 +1181,7 @@
     <value>搁置</value>
   </data>
   <data name="lbl_WithdrawalStatus3" xml:space="preserve">
-    <value>核实</value>
+    <value>审核</value>
   </data>
   <data name="lbl_WithdrawalStatus4" xml:space="preserve">
     <value>处理中</value>
@@ -1125,10 +1190,10 @@
     <value>已取消</value>
   </data>
   <data name="lbl_WithdrawalStatus6" xml:space="preserve">
-    <value>已付款</value>
+    <value>已核准</value>
   </data>
   <data name="lbl_WithdrawalStatus7" xml:space="preserve">
-    <value>拒绝</value>
+    <value>已拒绝</value>
   </data>
   <data name="lbl_WithdrawalStatus99" xml:space="preserve">
     <value>错误</value>
@@ -1137,10 +1202,10 @@
     <value>提款至</value>
   </data>
   <data name="lbl_WithdrawalType0" xml:space="preserve">
-    <value>未定义</value>
+    <value>无法定义</value>
   </data>
   <data name="lbl_WithdrawalType1" xml:space="preserve">
-    <value>地方银行</value>
+    <value>银行卡</value>
   </data>
   <data name="lbl_WithdrawalType2" xml:space="preserve">
     <value>网上支付</value>

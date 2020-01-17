@@ -166,10 +166,10 @@
     <value>關於我們</value>
   </data>
   <data name="lbl_AccountTerms" xml:space="preserve">
-    <value>帳戶條款</value>
+    <value>賬戶條款</value>
   </data>
   <data name="lbl_AddNewAccount" xml:space="preserve">
-    <value>新增帳戶</value>
+    <value>新增賬戶</value>
   </data>
   <data name="lbl_Affiliates" xml:space="preserve">
     <value>合作夥伴</value>
@@ -200,14 +200,13 @@
     <value>返回</value>
   </data>
   <data name="lbl_BankAccount" xml:space="preserve">
-    <value>銀行帳戶
-</value>
+    <value>銀行賬戶</value>
   </data>
   <data name="lbl_BankAccountName" xml:space="preserve">
-    <value>帳戶名稱</value>
+    <value>賬戶名稱</value>
   </data>
   <data name="lbl_BankAccountNameHint" xml:space="preserve">
-    <value>帳號名稱請填寫真實姓名，完成後將無法修改！</value>
+    <value>賬號名稱請填寫真實姓名，完成後將無法修改！</value>
   </data>
   <data name="lbl_BankInfo" xml:space="preserve">
     <value>銀行資訊</value>
@@ -216,25 +215,25 @@
     <value>銀行名稱</value>
   </data>
   <data name="lbl_BankNumber" xml:space="preserve">
-    <value>銀行帳戶號碼</value>
+    <value>銀行賬戶號碼</value>
   </data>
   <data name="lbl_Baseball" xml:space="preserve">
     <value>棒球</value>
   </data>
   <data name="lbl_BaseballBetting" xml:space="preserve">
-    <value>籃球投注</value>
+    <value>棒球投注</value>
   </data>
   <data name="lbl_Basketball" xml:space="preserve">
     <value>籃球</value>
   </data>
   <data name="lbl_BasketballBetting" xml:space="preserve">
-    <value>棒球投注</value>
+    <value>籃球投注</value>
   </data>
   <data name="lbl_Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
   <data name="lbl_CancelConfirm" xml:space="preserve">
-    <value>確定取消？取消後將無法再恢復！</value>
+    <value>確定取消？取消後將無法再還原！</value>
   </data>
   <data name="lbl_Cashier" xml:space="preserve">
     <value>收銀</value>
@@ -251,11 +250,35 @@
   <data name="lbl_ChargeFee" xml:space="preserve">
     <value>手續費</value>
   </data>
+  <data name="lbl_Check18TC" xml:space="preserve">
+    <value>我同意 {網站名稱} 的條款及規則. 我確認我已年滿 18歲.</value>
+  </data>
+  <data name="lbl_Check18TC1" xml:space="preserve">
+    <value>我同意</value>
+  </data>
+  <data name="lbl_Check18TC2" xml:space="preserve">
+    <value>和</value>
+  </data>
+  <data name="lbl_Check18TC3" xml:space="preserve">
+    <value>在</value>
+  </data>
+  <data name="lbl_Check18TC4" xml:space="preserve">
+    <value>我確認我至少21歲</value>
+  </data>
+  <data name="lbl_Check18TCTooltip" xml:space="preserve">
+    <value>請點選上方格子以確認符合賬號註冊條件</value>
+  </data>
   <data name="lbl_CheckConfirm" xml:space="preserve">
-    <value>確定刪除？確定刪除後將無法再恢復！</value>
+    <value>確定刪除？確定刪除後將無法再還原！</value>
   </data>
   <data name="lbl_Clickhereforbonus" xml:space="preserve">
     <value>點擊此處取得紅利</value>
+  </data>
+  <data name="lbl_Clickhereforjoin" xml:space="preserve">
+    <value>點擊這裡加入</value>
+  </data>
+  <data name="lbl_Clickhereforsupport" xml:space="preserve">
+    <value>點擊這裡獲得支援</value>
   </data>
   <data name="lbl_Close" xml:space="preserve">
     <value>關閉</value>
@@ -286,6 +309,9 @@
   </data>
   <data name="lbl_Copyright" xml:space="preserve">
     <value>{0}版權所有</value>
+  </data>
+  <data name="lbl_Country" xml:space="preserve">
+    <value>國家</value>
   </data>
   <data name="lbl_CountryAF" xml:space="preserve">
     <value>阿富汗</value>
@@ -605,6 +631,9 @@
   <data name="lbl_CountryTN" xml:space="preserve">
     <value>突尼斯</value>
   </data>
+  <data name="lbl_CountryTooltip" xml:space="preserve">
+    <value>請選擇您的居住國家</value>
+  </data>
   <data name="lbl_CountryTT" xml:space="preserve">
     <value>特立尼達和多巴哥</value>
   </data>
@@ -668,6 +697,9 @@
   <data name="lbl_Currency_2" xml:space="preserve">
     <value>馬幣</value>
   </data>
+  <data name="lbl_Currency_20" xml:space="preserve">
+    <value>虛擬幣(測試用)</value>
+  </data>
   <data name="lbl_Currency_3" xml:space="preserve">
     <value>美元</value>
   </data>
@@ -704,6 +736,9 @@
   <data name="lbl_Date" xml:space="preserve">
     <value>日期</value>
   </data>
+  <data name="lbl_DateMissing" xml:space="preserve">
+    <value>請輸入咨詢日期</value>
+  </data>
   <data name="lbl_Deposit" xml:space="preserve">
     <value>存款</value>
   </data>
@@ -726,16 +761,16 @@
     <value>已付款</value>
   </data>
   <data name="lbl_DepositStatus3" xml:space="preserve">
-    <value>已核准</value>
+    <value>已核準</value>
   </data>
   <data name="lbl_DepositStatus4" xml:space="preserve">
-    <value>拒絕</value>
+    <value>已拒絕</value>
   </data>
   <data name="lbl_DepositStatus5" xml:space="preserve">
     <value>已取消</value>
   </data>
   <data name="lbl_DepositStatus6" xml:space="preserve">
-    <value>過期</value>
+    <value>逾期</value>
   </data>
   <data name="lbl_DepositStatus7" xml:space="preserve">
     <value>擱置</value>
@@ -759,10 +794,10 @@
     <value>行動支付</value>
   </data>
   <data name="lbl_DepositType3" xml:space="preserve">
-    <value>地方銀行</value>
+    <value>銀行卡</value>
   </data>
   <data name="lbl_DepositWithdrawals" xml:space="preserve">
-    <value>存款&amp;提款</value>
+    <value>存款与提款</value>
   </data>
   <data name="lbl_Description" xml:space="preserve">
     <value>歐亞體育是世界領先的體育博彩，提供最佳的博彩體驗，涵蓋所有體育，娛樂城，老虎機，快樂彩，電子競技，rng娛樂城，夢幻對壘，虛擬體育，彩票，真人娛樂場，真人荷官，賓果遊戲和賽車。</value>
@@ -771,7 +806,7 @@
     <value>沒有帳號嗎?</value>
   </data>
   <data name="lbl_DownloadApp" xml:space="preserve">
-    <value>下載App</value>
+    <value>下載APP</value>
   </data>
   <data name="lbl_Downloads" xml:space="preserve">
     <value>下載</value>
@@ -789,7 +824,7 @@
     <value>電子競技投注</value>
   </data>
   <data name="lbl_Facebook" xml:space="preserve">
-    <value>Facebook</value>
+    <value>臉書</value>
   </data>
   <data name="lbl_FAQ" xml:space="preserve">
     <value>常見疑問</value>
@@ -837,7 +872,7 @@
     <value>快樂彩</value>
   </data>
   <data name="lbl_KenoSlogon" xml:space="preserve">
-    <value>玩法精采多元，獲勝機會多更多！</value>
+    <value>玩法精采多元，更多獲勝機會！</value>
   </data>
   <data name="lbl_Keywords" xml:space="preserve">
     <value>歐亞體育是世界領先的體育博彩，提供最佳的博彩體驗，涵蓋所有體育，娛樂城，老虎機，快樂彩，電子競技，rng娛樂城，夢幻對壘，虛擬體育，彩票，真人娛樂場，真人荷官，賓果遊戲和賽車。</value>
@@ -876,7 +911,7 @@
     <value>備忘錄</value>
   </data>
   <data name="lbl_Message" xml:space="preserve">
-    <value>訊息</value>
+    <value>信息</value>
   </data>
   <data name="lbl_Method" xml:space="preserve">
     <value>方式</value>
@@ -885,16 +920,16 @@
     <value>手機存款</value>
   </data>
   <data name="lbl_MomoHint" xml:space="preserve">
-    <value>如欲快速存款，請在此留下您的帳戶姓名及帳戶號碼。</value>
+    <value>如欲快速存款，請在此處留下您的銀行賬戶姓名及銀行賬戶號碼。</value>
   </data>
   <data name="lbl_MyAccount" xml:space="preserve">
-    <value>我的帳戶</value>
+    <value>我的賬戶</value>
   </data>
   <data name="lbl_NewPassword" xml:space="preserve">
     <value>新密碼</value>
   </data>
   <data name="lbl_NotinLimit" xml:space="preserve">
-    <value>超出設定範圍</value>
+    <value>不在設定範圍</value>
   </data>
   <data name="lbl_NumberGame" xml:space="preserve">
     <value>百練賽</value>
@@ -903,10 +938,10 @@
     <value>之</value>
   </data>
   <data name="lbl_OldPassword" xml:space="preserve">
-    <value>目前的密碼</value>
+    <value>當前密碼</value>
   </data>
   <data name="lbl_OnlineBanking" xml:space="preserve">
-    <value>網路銀行服務</value>
+    <value>網路銀行</value>
   </data>
   <data name="lbl_Optional" xml:space="preserve">
     <value>選填</value>
@@ -924,7 +959,16 @@
     <value>6到18個數字、英文字母大小寫或特殊符號(@$*!%#?&amp;)</value>
   </data>
   <data name="lbl_PaymentOptions" xml:space="preserve">
-    <value>付款方式</value>
+    <value>支付方式</value>
+  </data>
+  <data name="lbl_Phone" xml:space="preserve">
+    <value>電話號碼</value>
+  </data>
+  <data name="lbl_PhoneTooltip" xml:space="preserve">
+    <value>請輸入您的電話號碼，輸入後將無法更改！</value>
+  </data>
+  <data name="lbl_PhotoID" xml:space="preserve">
+    <value>附有照片的身份證</value>
   </data>
   <data name="lbl_Postscript" xml:space="preserve">
     <value>驗證碼</value>
@@ -933,10 +977,10 @@
     <value>輸入驗證碼立即存款</value>
   </data>
   <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
-    <value>一旦完成註冊，即無法修改偏好幣別。</value>
+    <value>一旦完成註冊，即無法修改选定幣別。</value>
   </data>
   <data name="lbl_PrefferedCurrency" xml:space="preserve">
-    <value>偏好幣別</value>
+    <value>首選貨幣</value>
   </data>
   <data name="lbl_PrivacyPolicy" xml:space="preserve">
     <value>隱私權政策</value>
@@ -969,7 +1013,7 @@
     <value>必填欄位</value>
   </data>
   <data name="lbl_ResposibleGaming" xml:space="preserve">
-    <value>負責任博彩</value>
+    <value>博彩責任</value>
   </data>
   <data name="lbl_RuleRegulations" xml:space="preserve">
     <value>投注規則與規定</value>
@@ -1001,6 +1045,12 @@
   <data name="lbl_Submit" xml:space="preserve">
     <value>提交</value>
   </data>
+  <data name="lbl_SubmitPhotoId" xml:space="preserve">
+    <value>提交附有照片的身份證</value>
+  </data>
+  <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
+    <value>提款前請提交您附有照片的身份證！</value>
+  </data>
   <data name="lbl_SubmitProof" xml:space="preserve">
     <value>提交銀行收據</value>
   </data>
@@ -1009,6 +1059,9 @@
   </data>
   <data name="lbl_TennisBetting" xml:space="preserve">
     <value>網球投注</value>
+  </data>
+  <data name="lbl_Terms" xml:space="preserve">
+    <value>使用條款</value>
   </data>
   <data name="lbl_TermsConditions" xml:space="preserve">
     <value>條款及規則</value>
@@ -1020,7 +1073,7 @@
     <value>歐亞體育</value>
   </data>
   <data name="lbl_TitleDesc" xml:space="preserve">
-    <value>歐亞體育提供線上體育博彩和現場博彩最佳賠率</value>
+    <value>歐亞體育提供線上體育博彩和現場博彩的最佳賠率</value>
   </data>
   <data name="lbl_TitleKeywords" xml:space="preserve">
     <value>歐亞體育是世界領先的體育博彩，提供最佳的博彩體驗，涵蓋所有體育，娛樂城，老虎機，快樂彩，電子競技，rng娛樂城，夢幻對壘，虛擬體育，彩票，真人娛樂場，真人荷官，賓果遊戲和賽車。</value>
@@ -1029,25 +1082,28 @@
     <value>至</value>
   </data>
   <data name="lbl_Transaction" xml:space="preserve">
-    <value>最後交易</value>
+    <value>交易</value>
   </data>
   <data name="lbl_TransactionHint" xml:space="preserve">
     <value>請轉帳到該帳戶</value>
   </data>
   <data name="lbl_TransactionHistory" xml:space="preserve">
-    <value>交易紀錄</value>
+    <value>交易歷史紀錄</value>
   </data>
   <data name="lbl_TransferFunds" xml:space="preserve">
     <value>資金轉移</value>
   </data>
   <data name="lbl_TransferTo" xml:space="preserve">
-    <value>轉帳至</value>
+    <value>轉賬至</value>
+  </data>
+  <data name="lbl_TryMobile" xml:space="preserve">
+    <value>使用手機遊覽我們的網站</value>
   </data>
   <data name="lbl_TryNow" xml:space="preserve">
     <value>馬上試用</value>
   </data>
   <data name="lbl_Twitter" xml:space="preserve">
-    <value>Twitter</value>
+    <value>推特</value>
   </data>
   <data name="lbl_TwitterCreator" xml:space="preserve">
     <value>@Nova88official</value>
@@ -1056,7 +1112,7 @@
     <value>@Nova88official</value>
   </data>
   <data name="lbl_Unlimited" xml:space="preserve">
-    <value>無限制</value>
+    <value>無上限</value>
   </data>
   <data name="lbl_Update" xml:space="preserve">
     <value>更新</value>
@@ -1065,10 +1121,16 @@
     <value>更新銀行資訊</value>
   </data>
   <data name="lbl_UpdateBankInfo" xml:space="preserve">
-    <value>請在存款前完成銀行資訊更新</value>
+    <value>請在存款前完成更新銀行資訊</value>
+  </data>
+  <data name="lbl_UpdatePersonalDetail" xml:space="preserve">
+    <value>更新個人資料</value>
+  </data>
+  <data name="lbl_UpdatePersonalInfo" xml:space="preserve">
+    <value>請在存款前更新您的個人資料。</value>
   </data>
   <data name="lbl_UpdateSuccess" xml:space="preserve">
-    <value>更新成功。我們會儘快處理您的需求！</value>
+    <value>更新成功。我們會儘快處理您的要求！</value>
   </data>
   <data name="lbl_UploadFile" xml:space="preserve">
     <value>上傳檔案</value>
@@ -1086,19 +1148,22 @@
     <value>基於安全考量，我們建議用戶名不要使用或包含您的真實姓名。</value>
   </data>
   <data name="lbl_VariousBankingOptions" xml:space="preserve">
-    <value>其他銀行通路</value>
+    <value>各個銀行選項</value>
   </data>
   <data name="lbl_VIPLevel" xml:space="preserve">
-    <value>VIP等級</value>
+    <value>貴賓等級</value>
   </data>
   <data name="lbl_VirtualSports" xml:space="preserve">
     <value>虛擬運動</value>
+  </data>
+  <data name="lbl_VirtualSportsSlogon" xml:space="preserve">
+    <value>除了流行的運動項目，我們還提供開創新的虛擬遊戲。</value>
   </data>
   <data name="lbl_Welcome" xml:space="preserve">
     <value>歡迎</value>
   </data>
   <data name="lbl_WireTransfers" xml:space="preserve">
-    <value>地方銀行轉帳</value>
+    <value>銀行卡轉帳</value>
   </data>
   <data name="lbl_Withdrawal" xml:space="preserve">
     <value>提款</value>
@@ -1116,7 +1181,7 @@
     <value>擱置</value>
   </data>
   <data name="lbl_WithdrawalStatus3" xml:space="preserve">
-    <value>證實</value>
+    <value>審核</value>
   </data>
   <data name="lbl_WithdrawalStatus4" xml:space="preserve">
     <value>處理中</value>
@@ -1125,10 +1190,10 @@
     <value>已取消</value>
   </data>
   <data name="lbl_WithdrawalStatus6" xml:space="preserve">
-    <value>已付款</value>
+    <value>已核準</value>
   </data>
   <data name="lbl_WithdrawalStatus7" xml:space="preserve">
-    <value>拒絕</value>
+    <value>已拒絕</value>
   </data>
   <data name="lbl_WithdrawalStatus99" xml:space="preserve">
     <value>錯誤</value>
@@ -1137,12 +1202,12 @@
     <value>提款至</value>
   </data>
   <data name="lbl_WithdrawalType0" xml:space="preserve">
-    <value>未定義</value>
+    <value>無法定義</value>
   </data>
   <data name="lbl_WithdrawalType1" xml:space="preserve">
-    <value>地方銀行</value>
+    <value>銀行卡</value>
   </data>
   <data name="lbl_WithdrawalType2" xml:space="preserve">
-    <value>網路支付</value>
+    <value>網上支付</value>
   </data>
 </root>

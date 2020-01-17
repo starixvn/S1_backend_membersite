@@ -256,28 +256,28 @@
     <value>Saya setuju dengan   </value>
   </data>
   <data name="lbl_Check18TC2" xml:space="preserve">
-    <value>Syarat dan ketentuan</value>
-  </data>
-  <data name="lbl_Check18TC3" xml:space="preserve">
     <value>dan</value>
   </data>
-  <data name="lbl_Check18TC4" xml:space="preserve">
-    <value>Peraturan dan Ketetapan </value>
-  </data>
-  <data name="lbl_Check18TC5" xml:space="preserve">
+  <data name="lbl_Check18TC3" xml:space="preserve">
     <value>Dari</value>
   </data>
-  <data name="lbl_Check18TC6" xml:space="preserve">
-    <value>{Nama Situs}</value>
+  <data name="lbl_Check18TC4" xml:space="preserve">
+    <value>Saya mengakui bahwa saya setidaknya berusia atau 21 tahun atau diatas.</value>
   </data>
-  <data name="lbl_Check18TC7" xml:space="preserve">
-    <value>Saya mengakui bahwa saya setidaknya berusia atau 18 tahun atau diatas.</value>
+  <data name="lbl_Check18TCTooltip" xml:space="preserve">
+    <value>Silakan diklik kotak diatas untuk konfirmasi persyaratan registrasi akun anda </value>
   </data>
   <data name="lbl_CheckConfirm" xml:space="preserve">
     <value>Apakah anda yakin untuk menghapus? Jika sudah terhapus maka tidak bisa kembali lagi</value>
   </data>
   <data name="lbl_Clickhereforbonus" xml:space="preserve">
     <value>Klik disini untuk Bonus</value>
+  </data>
+  <data name="lbl_Clickhereforjoin" xml:space="preserve">
+    <value>Klik disini untuk bergabung</value>
+  </data>
+  <data name="lbl_Clickhereforsupport" xml:space="preserve">
+    <value>Klik disini untuk mendapatkan bantuan</value>
   </data>
   <data name="lbl_Close" xml:space="preserve">
     <value>Tutup</value>
@@ -292,10 +292,10 @@
     <value>Konfirmasi</value>
   </data>
   <data name="lbl_ConfirmDeposit" xml:space="preserve">
-    <value>Harap konfirmasikan informasi setoran.</value>
+    <value>Harap konfirmasi informasi setoran.</value>
   </data>
   <data name="lbl_ConfirmWithdrawal" xml:space="preserve">
-    <value>Harap konfirmasikan informasi penarikan.</value>
+    <value>Harap konfirmasi informasi penarikan.</value>
   </data>
   <data name="lbl_ContactCSD" xml:space="preserve">
     <value>Untuk setiap permintaan modifikasi, silakan hubungi CSD.</value>
@@ -630,6 +630,9 @@
   <data name="lbl_CountryTN" xml:space="preserve">
     <value>Tunisia</value>
   </data>
+  <data name="lbl_CountryTooltip" xml:space="preserve">
+    <value>Silakan dipilih negara asal anda</value>
+  </data>
   <data name="lbl_CountryTT" xml:space="preserve">
     <value>Trinidad dan Tobago</value>
   </data>
@@ -957,6 +960,12 @@
   <data name="lbl_PaymentOptions" xml:space="preserve">
     <value>Opsi pembayaran</value>
   </data>
+  <data name="lbl_Phone" xml:space="preserve">
+    <value>No HP</value>
+  </data>
+  <data name="lbl_PhoneTooltip" xml:space="preserve">
+    <value>Silakan masukkan nomor hp anda, tidak dapat di ganti setelah menekan enter</value>
+  </data>
   <data name="lbl_PhotoID" xml:space="preserve">
     <value>Foto ID</value>
   </data>
@@ -967,7 +976,7 @@
     <value>Masukkan kode verifikasi untuk segera mendapatkan deposit</value>
   </data>
   <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
-    <value>Mata uang pilihan anda tidak dapat diubah setelah melakukan pendaftaran.</value>
+    <value>Mata uang yang dipilih tidak dapat diubah setelah melakukan pendaftaran.</value>
   </data>
   <data name="lbl_PrefferedCurrency" xml:space="preserve">
     <value>Mata Uang Pilihan</value>
@@ -1035,6 +1044,12 @@
   <data name="lbl_Submit" xml:space="preserve">
     <value>Ajukan</value>
   </data>
+  <data name="lbl_SubmitPhotoId" xml:space="preserve">
+    <value>Unggah foto ID anda</value>
+  </data>
+  <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
+    <value>Silakan unggah foto ID anda sebelum melakukan penarikan</value>
+  </data>
   <data name="lbl_SubmitProof" xml:space="preserve">
     <value>Ajukan Bukti Slip Bank</value>
   </data>
@@ -1043,6 +1058,9 @@
   </data>
   <data name="lbl_TennisBetting" xml:space="preserve">
     <value>Taruhan Tenis</value>
+  </data>
+  <data name="lbl_Terms" xml:space="preserve">
+    <value>Ketentuan Penggunaan</value>
   </data>
   <data name="lbl_TermsConditions" xml:space="preserve">
     <value>Persyaratan dan Ketentuan</value>
@@ -1063,7 +1081,7 @@
     <value>Kepada</value>
   </data>
   <data name="lbl_Transaction" xml:space="preserve">
-    <value>Transaksi Terakhir</value>
+    <value>Transaksi</value>
   </data>
   <data name="lbl_TransactionHint" xml:space="preserve">
     <value>Silahkan Transfer Jumlah dana ke akun</value>
@@ -1076,6 +1094,9 @@
   </data>
   <data name="lbl_TransferTo" xml:space="preserve">
     <value>Transfer kepada</value>
+  </data>
+  <data name="lbl_TryMobile" xml:space="preserve">
+    <value>Silakan dicoba buka situs kami melalui mobile. </value>
   </data>
   <data name="lbl_TryNow" xml:space="preserve">
     <value>Coba Sekarang</value>
@@ -1100,6 +1121,12 @@
   </data>
   <data name="lbl_UpdateBankInfo" xml:space="preserve">
     <value>Silahkan perbarui keterangan akun bank anda sebelum anda melakukan deposit</value>
+  </data>
+  <data name="lbl_UpdatePersonalDetail" xml:space="preserve">
+    <value>Perbarui Informasi pribadi anda </value>
+  </data>
+  <data name="lbl_UpdatePersonalInfo" xml:space="preserve">
+    <value>Silakan perbarui informasi pribadi anda sebelum melakukan deposit</value>
   </data>
   <data name="lbl_UpdateSuccess" xml:space="preserve">
     <value>Berhasil diperbarui, Kami akan segera memproses permintaan anda</value>
@@ -1127,6 +1154,9 @@
   </data>
   <data name="lbl_VirtualSports" xml:space="preserve">
     <value>Olahraga maya</value>
+  </data>
+  <data name="lbl_VirtualSportsSlogon" xml:space="preserve">
+    <value />
   </data>
   <data name="lbl_Welcome" xml:space="preserve">
     <value>Selamat Datang</value>
@@ -1174,7 +1204,7 @@
     <value>Tidak terdefinisi</value>
   </data>
   <data name="lbl_WithdrawalType1" xml:space="preserve">
-    <value>Bank Local</value>
+    <value>Bank Lokal</value>
   </data>
   <data name="lbl_WithdrawalType2" xml:space="preserve">
     <value>Pembayaran Online</value>

@@ -205,7 +205,7 @@
     <value>ชื่อบัญชี</value>
   </data>
   <data name="lbl_BankAccountNameHint" xml:space="preserve">
-    <value>กรุณาใช้ชื่อจริงของคุณเป็นชื่อบัญชี เพราะตรงส่วนนี้จะไม่สามารถเปลี่ยนแปลงทีหลังได้หลังจากกดยืนยัน</value>
+    <value>กรุณาใช้ชื่อจริงของคุณเป็นชื่อบัญชี เพราะตรงส่วนนี้จะไม่สามารถเปลี่ยนแปลงทีหลังได้ หลังจากกดยืนยัน</value>
   </data>
   <data name="lbl_BankInfo" xml:space="preserve">
     <value>ข้อมูลธนาคาร</value>
@@ -249,11 +249,35 @@
   <data name="lbl_ChargeFee" xml:space="preserve">
     <value>ค่าธรรมเนียม</value>
   </data>
+  <data name="lbl_Check18TC" xml:space="preserve">
+    <value>ฉันยอมรับ เงื่อนไข ข้อตกลง  กฎและข้อบังคับ ของ  {sitename}. ฉันรับทราบว่าฉันมีอายุอย่างน้อย 18 ปีบริบรูณ์</value>
+  </data>
+  <data name="lbl_Check18TC1" xml:space="preserve">
+    <value>ฉันตกลง</value>
+  </data>
+  <data name="lbl_Check18TC2" xml:space="preserve">
+    <value>และ</value>
+  </data>
+  <data name="lbl_Check18TC3" xml:space="preserve">
+    <value>ของ</value>
+  </data>
+  <data name="lbl_Check18TC4" xml:space="preserve">
+    <value>ฉันรับทราบว่าฉันมีอายุอย่างน้อย 21 ปีบริบรูณ์</value>
+  </data>
+  <data name="lbl_Check18TCTooltip" xml:space="preserve">
+    <value>โปรดคลิก เครื่องหมายด้านบนเพื่อยืนยันคำขอลงทะเบียนบัญชี</value>
+  </data>
   <data name="lbl_CheckConfirm" xml:space="preserve">
     <value>คุณแน่ใจว่าต้องการยกเลิก? เพราะระบบจะไม่สามารถแก้คืนได้หลังจากยกเลิก!</value>
   </data>
   <data name="lbl_Clickhereforbonus" xml:space="preserve">
     <value>กดรับโบนัสได้ที่นี่</value>
+  </data>
+  <data name="lbl_Clickhereforjoin" xml:space="preserve">
+    <value>คลิกที่นี่เพื่อเข้าร่วม</value>
+  </data>
+  <data name="lbl_Clickhereforsupport" xml:space="preserve">
+    <value>คลิกที่นี่เพื่อรับการช่วยเหลือ</value>
   </data>
   <data name="lbl_Close" xml:space="preserve">
     <value>ปิด</value>
@@ -284,6 +308,9 @@
   </data>
   <data name="lbl_Copyright" xml:space="preserve">
     <value>ลิขสิทธิ์ {0}</value>
+  </data>
+  <data name="lbl_Country" xml:space="preserve">
+    <value>ประเทศ</value>
   </data>
   <data name="lbl_CountryAF" xml:space="preserve">
     <value>อัฟกานิสถาน</value>
@@ -603,6 +630,9 @@
   <data name="lbl_CountryTN" xml:space="preserve">
     <value>ตูนิเซีย</value>
   </data>
+  <data name="lbl_CountryTooltip" xml:space="preserve">
+    <value>โปรดเลือกประเทศที่คุณอยู่</value>
+  </data>
   <data name="lbl_CountryTT" xml:space="preserve">
     <value>ตรินิแดด แอนด์ โตเบโก้</value>
   </data>
@@ -649,22 +679,25 @@
     <value>ซิมบับเว</value>
   </data>
   <data name="lbl_CreditTime" xml:space="preserve">
-    <value>เวลาเครดิต</value>
+    <value>เวลาที่ต้องใช้</value>
   </data>
   <data name="lbl_Currency_1" xml:space="preserve">
     <value>ดอลลาร์สิงคโปร์</value>
   </data>
   <data name="lbl_Currency_12" xml:space="preserve">
-    <value>ปอนด์สเตอร์ลิง</value>
+    <value>ปอนด์</value>
   </data>
   <data name="lbl_Currency_13" xml:space="preserve">
-    <value>เหรินหมินปี้</value>
+    <value>หยวน</value>
   </data>
   <data name="lbl_Currency_15" xml:space="preserve">
-    <value>รูปียะฮ์</value>
+    <value>รูปี</value>
   </data>
   <data name="lbl_Currency_2" xml:space="preserve">
     <value>ริงกิต(มาเลเซีย)</value>
+  </data>
+  <data name="lbl_Currency_20" xml:space="preserve">
+    <value>Virtual Dollar (for testing propose)</value>
   </data>
   <data name="lbl_Currency_3" xml:space="preserve">
     <value>ดอลลาร์สหรัฐ</value>
@@ -702,8 +735,11 @@
   <data name="lbl_Date" xml:space="preserve">
     <value>วันที่</value>
   </data>
+  <data name="lbl_DateMissing" xml:space="preserve">
+    <value>โปรดป้อนวันที่ ที่สอบถาม</value>
+  </data>
   <data name="lbl_Deposit" xml:space="preserve">
-    <value>การฝากเงิน</value>
+    <value>ฝากเงิน</value>
   </data>
   <data name="lbl_DepositAmount" xml:space="preserve">
     <value>จำนวนเงินที่ฝาก</value>
@@ -715,7 +751,7 @@
     <value>คุณสามารถเลือกตัวเลือกการฝากที่ดีที่สุดสำหรับคุณจากรายการด้านล่าง:</value>
   </data>
   <data name="lbl_DepositStatus0" xml:space="preserve">
-    <value>ดราฟต์</value>
+    <value>ร่าง</value>
   </data>
   <data name="lbl_DepositStatus1" xml:space="preserve">
     <value>รอดำเนินการ</value>
@@ -760,7 +796,7 @@
     <value>ธนาคารในประเทศ</value>
   </data>
   <data name="lbl_DepositWithdrawals" xml:space="preserve">
-    <value>การฝากเงิน&amp;การถอนเงิน</value>
+    <value>ฝากเงิน &amp; ถอนเงิน</value>
   </data>
   <data name="lbl_Description" xml:space="preserve">
     <value>Nova88 เว็บพนันออนไลน์ชั้นนำของโลกที่ให้ประสบการณ์ในการเดิมพันแบบ Live สดที่ครอบคลุมกีฬาทั้งหมด, คาสิโน, สล็อต, คีโน, E-sports, RNG คาสิโน, Fantasy sports, กีฬาเสมือนจริง Virtual Sports, ล็อตเตอรี่, คาสิโนสด, คาสิโนออนไลน์เกมส์สด, บิงโก และการแข่งรถ</value>
@@ -769,13 +805,13 @@
     <value>ยังไม่มีบัญชีใช่ไหม</value>
   </data>
   <data name="lbl_DownloadApp" xml:space="preserve">
-    <value>ดาวน์โหลด App</value>
+    <value>ดาวน์โหลดAPP</value>
   </data>
   <data name="lbl_Downloads" xml:space="preserve">
     <value>ดาวน์โหลด</value>
   </data>
   <data name="lbl_Email" xml:space="preserve">
-    <value>อีเมล</value>
+    <value>อีเมล์</value>
   </data>
   <data name="lbl_EmailToolTip" xml:space="preserve">
     <value>ไม่สามารถเปลี่ยนชื่ออีเมล์ได้หลังจากกดยืนยัน</value>
@@ -790,7 +826,7 @@
     <value>Facebook</value>
   </data>
   <data name="lbl_FAQ" xml:space="preserve">
-    <value>คำถามคำตอบที่พบบ่อย</value>
+    <value>คำถามที่พบบ่อย</value>
   </data>
   <data name="lbl_FootballBetting" xml:space="preserve">
     <value>เดิมพันฟุตบอล</value>
@@ -814,13 +850,13 @@
     <value>เดิมพันฮอคกี้</value>
   </data>
   <data name="lbl_Home" xml:space="preserve">
-    <value>บ้าน</value>
+    <value>หน้าแรก</value>
   </data>
   <data name="lbl_ID" xml:space="preserve">
     <value>ID</value>
   </data>
   <data name="lbl_Image" xml:space="preserve">
-    <value />
+    <value>http://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
   </data>
   <data name="lbl_ImportantNote" xml:space="preserve">
     <value>โน๊ตสำคัญ</value>
@@ -865,13 +901,13 @@
     <value>เข้าสู่ระบบที่นี่</value>
   </data>
   <data name="lbl_LoginMsg" xml:space="preserve">
-    <value>โปรดทราบว่าเราไม่อนุญาตให้มีบัญชีเกินกว่า 1 บัญชี</value>
+    <value>โปรดทราบว่าเราไม่อนุญาตให้มีบัญชีเกินกว่า  (1)  บัญชี</value>
   </data>
   <data name="lbl_Logout" xml:space="preserve">
     <value>ออกจากระบบ</value>
   </data>
   <data name="lbl_Memo" xml:space="preserve">
-    <value>เมโม</value>
+    <value>Memo</value>
   </data>
   <data name="lbl_Message" xml:space="preserve">
     <value>ข้อความ</value>
@@ -924,6 +960,15 @@
   <data name="lbl_PaymentOptions" xml:space="preserve">
     <value>ตัวเลือกการชำระเงิน</value>
   </data>
+  <data name="lbl_Phone" xml:space="preserve">
+    <value>หมายเลขโทรศัพท์</value>
+  </data>
+  <data name="lbl_PhoneTooltip" xml:space="preserve">
+    <value>กรุณากรอกหมายเลขโทรศัพท์ของคุณ และไม่สามารถเปลี่ยนแปลงได้ภายหลัง</value>
+  </data>
+  <data name="lbl_PhotoID" xml:space="preserve">
+    <value>สำเนารูปถ่ายบัตรประชาชน</value>
+  </data>
   <data name="lbl_Postscript" xml:space="preserve">
     <value>หมายเลขอ้างอิง</value>
   </data>
@@ -937,7 +982,7 @@
     <value>สกุลเงินที่เลือก</value>
   </data>
   <data name="lbl_PrivacyPolicy" xml:space="preserve">
-    <value>นโยบายของบริษัท</value>
+    <value>นโยบาย</value>
   </data>
   <data name="lbl_Profile" xml:space="preserve">
     <value>ข้อมูลส่วนตัว</value>
@@ -999,6 +1044,12 @@
   <data name="lbl_Submit" xml:space="preserve">
     <value>ตกลง</value>
   </data>
+  <data name="lbl_SubmitPhotoId" xml:space="preserve">
+    <value>ส่ง รูปถ่ายบัตรประชาชน</value>
+  </data>
+  <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
+    <value>กรุณาส่งรูปถ่ายบัตรประชาชนของคุณ ก่อนทำการถอนเงิน</value>
+  </data>
   <data name="lbl_SubmitProof" xml:space="preserve">
     <value>ส่งสลิปธนาคาร</value>
   </data>
@@ -1007,6 +1058,9 @@
   </data>
   <data name="lbl_TennisBetting" xml:space="preserve">
     <value>เดิมพันเทนนิส</value>
+  </data>
+  <data name="lbl_Terms" xml:space="preserve">
+    <value>เกี่ยวกับเรา</value>
   </data>
   <data name="lbl_TermsConditions" xml:space="preserve">
     <value>เงี่อนไขและกติกา</value>
@@ -1041,6 +1095,9 @@
   <data name="lbl_TransferTo" xml:space="preserve">
     <value>โอนไปที่</value>
   </data>
+  <data name="lbl_TryMobile" xml:space="preserve">
+    <value>ลองเว็บไซต์ของเราด้วยเบราว์เซอร์ในมือถือ</value>
+  </data>
   <data name="lbl_TryNow" xml:space="preserve">
     <value>ลองเลยตอนนี้</value>
   </data>
@@ -1057,13 +1114,19 @@
     <value>ไม่จำกัด</value>
   </data>
   <data name="lbl_Update" xml:space="preserve">
-    <value>สถานะปัจจุบัน</value>
+    <value>ิอัพเดท</value>
   </data>
   <data name="lbl_UpdateBankDetail" xml:space="preserve">
     <value>การแจ้งสถานะบัญชีธนาคารปัจจุบัน</value>
   </data>
   <data name="lbl_UpdateBankInfo" xml:space="preserve">
     <value>โปรดอัปเดตรายละเอียดบัญชีธนาคารของคุณก่อนทำการฝากเงิน</value>
+  </data>
+  <data name="lbl_UpdatePersonalDetail" xml:space="preserve">
+    <value>อัปเดตข้อมูลส่วนบุคคล</value>
+  </data>
+  <data name="lbl_UpdatePersonalInfo" xml:space="preserve">
+    <value>กรุณากรอกข้อมูลส่วนบุคคลของคุณ ก่อนทำการฝากเงิน</value>
   </data>
   <data name="lbl_UpdateSuccess" xml:space="preserve">
     <value>การอัปเดตสำเร็จ เราจะดำเนินการตามคำขอของคุณอย่างเร็วที่สุด!</value>
@@ -1093,6 +1156,9 @@
   <data name="lbl_VirtualSports" xml:space="preserve">
     <value>กีฬาจำลอง</value>
   </data>
+  <data name="lbl_VirtualSportsSlogon" xml:space="preserve">
+    <value>นอกเหนือจากกีฬายอดนิยมแล้ว เรายังมีเกมนวัตกรรมใหม่ In-Play ให้คุณ</value>
+  </data>
   <data name="lbl_Welcome" xml:space="preserve">
     <value>ยินดีต้อนรับ</value>
   </data>
@@ -1100,13 +1166,13 @@
     <value>โอนเงินผ่านธนาคารในประเทศ</value>
   </data>
   <data name="lbl_Withdrawal" xml:space="preserve">
-    <value>การถอนเงิน</value>
+    <value>ถอนเงิน</value>
   </data>
   <data name="lbl_WithdrawalAmount" xml:space="preserve">
     <value>จำนวนเงินที่ถอน</value>
   </data>
   <data name="lbl_WithdrawalStatus0" xml:space="preserve">
-    <value>ดราฟต์</value>
+    <value>ร่าง</value>
   </data>
   <data name="lbl_WithdrawalStatus1" xml:space="preserve">
     <value>รอดำเนินการ</value>

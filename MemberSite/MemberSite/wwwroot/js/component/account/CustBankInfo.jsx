@@ -286,21 +286,23 @@ import * as Loading from '../commJS/Loading.jsx';
                     <div className="heading">
                         <span className="text">{i18n.lbl_BankInfo}</span>
                     </div>
-                    <div className="form-group">
-                        <label className="form-title">{i18n.lbl_BankAccountName}</label>
-                        <div className="form-content" data-status="readonly">
-                            <div className="textfield">
-                                <input type="text" className="textfield__input" value={this.props.Data.accountName} readOnly />
-                                <span className="textfield__bg"></span>
-                                <a className="btn btn-icon btn-form-status">
-                                    <i className="icon icon--lg"></i>
-                                </a>
-                            </div>
-                            <div className="form-content__tips">
-                                <span className="text">{i18n.lbl_ContactCSD}</span>
+                    <form className="form">
+                        <div className="form-group">
+                            <label className="form-title">{i18n.lbl_BankAccountName}</label>
+                            <div className="form-content" data-status="readonly">
+                                <div className="textfield">
+                                    <input type="text" className="textfield__input" value={this.props.Data.accountName} readOnly />
+                                    <span className="textfield__bg"></span>
+                                    <a className="btn btn-icon btn-form-status">
+                                        <i className="icon icon--lg"></i>
+                                    </a>
+                                </div>
+                                <div className="form-content__tips">
+                                    <span className="text">{i18n.lbl_ContactCSD}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                     <div className="btn-group">
                         <button className="btn btn-primary" onClick={bankInfoDetail&&bankInfoDetail.length == 3 ? null : this.onAddCustBankInfo.bind(this)}  data-disabled={bankInfoDetail&&bankInfoDetail.length == 3}>
                             <div className="btn__inner">

@@ -5847,3 +5847,8 @@ button.swiper-pagination-bullet {
     visibility: hidden;
   }
 }
+
+
+#Messages {
+    width: 100%;
+}

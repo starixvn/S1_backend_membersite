@@ -129,6 +129,9 @@
   <data name="msg_ForceLogedout" xml:space="preserve">
     <value>Anda telah Logout !! Silakan masuk dan coba lagi !!</value>
   </data>
+  <data name="msg_HasExist" xml:space="preserve">
+    <value>Sudah ada</value>
+  </data>
   <data name="msg_InvalidOldPassword" xml:space="preserve">
     <value>Kata Sandi Lama Tidak Valid!</value>
   </data>

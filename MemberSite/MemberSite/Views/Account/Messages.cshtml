@@ -16,10 +16,16 @@
     i18n.Add("lbl_Of", selLangBLL.GetResourceValue("lbl_Of"));
     i18n.Add("msg_NoData", selLangBLL.GetMsg("msg_NoData"));
 }
-<div id="Messages" class="main"></div>
-@section Scripts{
-    <script type="text/javascript">
+
+
+    <div class="main">
+        <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
+        <div id="Messages"></div>
+    </div>
+
+    @section Scripts{
+        <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
-    </script>
-    <script src="~/js/component/account/Messages.min.js" asp-append-version="true"></script>
-}
+        </script>
+        <script src="~/js/component/account/Messages.min.js" asp-append-version="true"></script>
+    }

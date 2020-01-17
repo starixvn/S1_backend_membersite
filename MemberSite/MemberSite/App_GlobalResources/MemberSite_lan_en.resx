@@ -249,6 +249,9 @@
   <data name="lbl_ChargeFee" xml:space="preserve">
     <value>Charge Fee</value>
   </data>
+  <data name="lbl_Check18TC" xml:space="preserve">
+    <value>I agree to the Terms &amp; Conditions and the Rules &amp; Regulations of {sitename}. I acknowledge I am at least 18 years of age.</value>
+  </data>
   <data name="lbl_Check18TC1" xml:space="preserve">
     <value>I agree to the</value>
   </data>
@@ -259,10 +262,10 @@
     <value>of</value>
   </data>
   <data name="lbl_Check18TC4" xml:space="preserve">
-    <value>I acknowledge I am at least 18 years of age.</value>
+    <value>I acknowledge I am at least 21 years of age.</value>
   </data>
-  <data name="lbl_Check18TC7" xml:space="preserve">
-    <value>I acknowledge I am at least 18 years of age.</value>
+  <data name="lbl_Check18TCTooltip" xml:space="preserve">
+    <value>Please click the above checkbox to confirm the account registration requirements</value>
   </data>
   <data name="lbl_CheckConfirm" xml:space="preserve">
     <value>Are you sure you want to delete? It cannot restore after deletion!</value>
@@ -802,7 +805,7 @@
     <value>Don't have an account?</value>
   </data>
   <data name="lbl_DownloadApp" xml:space="preserve">
-    <value>Download App</value>
+    <value>Download APP</value>
   </data>
   <data name="lbl_Downloads" xml:space="preserve">
     <value>Downloads</value>
@@ -1045,7 +1048,7 @@
     <value>Submit Photo ID</value>
   </data>
   <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
-    <value>Please submit your photo id before makign withdrawal!</value>
+    <value>Please submit your photo id before making withdrawal!</value>
   </data>
   <data name="lbl_SubmitProof" xml:space="preserve">
     <value>Submit Bank Slip</value>
@@ -1092,6 +1095,9 @@
   <data name="lbl_TransferTo" xml:space="preserve">
     <value>Transfer To</value>
   </data>
+  <data name="lbl_TryMobile" xml:space="preserve">
+    <value>Try to browse our website by Mobile</value>
+  </data>
   <data name="lbl_TryNow" xml:space="preserve">
     <value>Try Now</value>
   </data>
@@ -1128,9 +1134,6 @@
   <data name="lbl_UploadFile" xml:space="preserve">
     <value>Upload File</value>
   </data>
-  <data name="lbl_UploadPhotoId" xml:space="preserve">
-    <value>Upload Photo ID</value>
-  </data>
   <data name="lbl_UploadSuccess" xml:space="preserve">
     <value>Your file was uploaded successfully.</value>
   </data>
@@ -1153,7 +1156,7 @@
     <value>Virtual Sports</value>
   </data>
   <data name="lbl_VirtualSportsSlogon" xml:space="preserve">
-    <value>Apart from popular sports, try our pioneering In-Play.</value>
+    <value>Apart from popular sports, we offer pioneering In-Play solutions.</value>
   </data>
   <data name="lbl_Welcome" xml:space="preserve">
     <value>Welcome</value>

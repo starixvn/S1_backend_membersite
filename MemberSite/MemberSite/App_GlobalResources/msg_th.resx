@@ -129,6 +129,9 @@
   <data name="msg_ForceLogedout" xml:space="preserve">
     <value>คุณได้ทำการออกจากระบบ โปรดล็อคอินใหม่อีกครั้ง</value>
   </data>
+  <data name="msg_HasExist" xml:space="preserve">
+    <value>มีอยู่ในระบบแล้ว</value>
+  </data>
   <data name="msg_InvalidOldPassword" xml:space="preserve">
     <value>รหัสผ่านเก่าไม่ถูกต้อง!</value>
   </data>
