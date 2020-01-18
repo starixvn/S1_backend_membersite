@@ -834,6 +834,9 @@
   <data name="lbl_ForgetPassword" xml:space="preserve">
     <value>Forget your ID or password?</value>
   </data>
+  <data name="lbl_ForgetPwdHint" xml:space="preserve">
+    <value>If you have forgotten your username or password, please provide your email and we will send your new password to your registered email address.</value>
+  </data>
   <data name="lbl_From" xml:space="preserve">
     <value>From</value>
   </data>
@@ -1208,5 +1211,8 @@
   </data>
   <data name="lbl_WithdrawalType2" xml:space="preserve">
     <value>Online Payment</value>
+  </data>
+  <data name="lbl_YourEmail" xml:space="preserve">
+    <value>Your Email Address</value>
   </data>
 </root>

@@ -834,6 +834,9 @@
   <data name="lbl_ForgetPassword" xml:space="preserve">
     <value>ลืม ID หรือรหัสผ่าน?</value>
   </data>
+  <data name="lbl_ForgetPwdHint" xml:space="preserve">
+    <value>หากคุณลืมชื่อผู้ใช้หรือรหัสผ่านโปรดระบุอีเมลของคุณและเราจะส่งรหัสผ่านใหม่ไปยังอีเมลที่คุณลงทะเบียนไว้</value>
+  </data>
   <data name="lbl_From" xml:space="preserve">
     <value>จาก</value>
   </data>
@@ -1209,5 +1212,8 @@
   </data>
   <data name="lbl_WithdrawalType2" xml:space="preserve">
     <value>ถอนเงินออนไลน์</value>
+  </data>
+  <data name="lbl_YourEmail" xml:space="preserve">
+    <value>อีเมลของคุณ</value>
   </data>
 </root>

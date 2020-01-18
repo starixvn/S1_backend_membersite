@@ -832,6 +832,9 @@
   <data name="lbl_ForgetPassword" xml:space="preserve">
     <value>忘记ID或密码吗？</value>
   </data>
+  <data name="lbl_ForgetPwdHint" xml:space="preserve">
+    <value>若您忘记您的用户名或密码，请提供您的电子邮件后我们将寄新密码至您的邮箱。</value>
+  </data>
   <data name="lbl_From" xml:space="preserve">
     <value>从</value>
   </data>
@@ -1206,5 +1209,8 @@
   </data>
   <data name="lbl_WithdrawalType2" xml:space="preserve">
     <value>网上支付</value>
+  </data>
+  <data name="lbl_YourEmail" xml:space="preserve">
+    <value>您的电子邮件</value>
   </data>
 </root>
