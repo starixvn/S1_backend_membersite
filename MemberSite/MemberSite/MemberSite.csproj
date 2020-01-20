@@ -86,6 +86,9 @@
     <Content Update="wwwroot\js\component\account\Messages.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\SiteSkin\Nova88\common\images\logo_main.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
