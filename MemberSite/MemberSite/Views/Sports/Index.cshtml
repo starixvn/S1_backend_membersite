@@ -8,12 +8,32 @@
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Sports");
     Layout = "~/Views/Shared/_LayoutNoFooter.cshtml";
 }
-@{
+@section Style{
+    <style>
+        html, 
+        body {
+            height: 100%;
+        }
 
+        .sports-ifrname {
+            border: none;
+            width: calc(1280px - 22px);
+            background: #000;
+            margin: 0 auto;
+            height: 100%;
+        }
+
+        [data-layout=desktop] .main {
+            background-image: url("/SiteSkin/Nova88/common/images/Lobby/Home/Sports-Iframe-BG.jpg");
+            background-size: cover;
+            max-width: none;
+        }
+    </style>
 }
-<div class="main">
-
+<div class="main ">
+    <iframe class="sports-ifrname"></iframe>
 </div>
+
 @section Scripts{
 
 }
