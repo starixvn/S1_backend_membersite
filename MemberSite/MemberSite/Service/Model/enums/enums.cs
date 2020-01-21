@@ -56,7 +56,12 @@ namespace MemberSite.Service.Model.enums
         Rejected = 7,
         Error = 99
     }
-
+    public enum WithdrawalType
+    {
+        Undefine = 0,
+        OnlinePayment = 1,
+        LocalBank = 2,
+    }
     /// <summary>
     ///  1=已入账  2=支付中  3=等待出款  4=已出款
     /// </summary>

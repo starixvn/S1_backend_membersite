@@ -1205,10 +1205,10 @@
     <value>無法定義</value>
   </data>
   <data name="lbl_WithdrawalType1" xml:space="preserve">
-    <value>銀行卡</value>
+    <value>網上支付</value>
   </data>
   <data name="lbl_WithdrawalType2" xml:space="preserve">
-    <value>網上支付</value>
+    <value>銀行卡</value>
   </data>
   <data name="lbl_YourEmail" xml:space="preserve">
     <value>您的電子郵件</value>

@@ -1204,10 +1204,10 @@
     <value>Tidak terdefinisi</value>
   </data>
   <data name="lbl_WithdrawalType1" xml:space="preserve">
-    <value>Bank Lokal</value>
+    <value>Pembayaran Online</value>
   </data>
   <data name="lbl_WithdrawalType2" xml:space="preserve">
-    <value>Pembayaran Online</value>
+    <value>Bank Lokal</value>
   </data>
   <data name="lbl_YourEmail" xml:space="preserve">
     <value>Alamat Email anda</value>

@@ -1207,10 +1207,10 @@
     <value>Undefined</value>
   </data>
   <data name="lbl_WithdrawalType1" xml:space="preserve">
-    <value>Local Bank</value>
+    <value>Online Payment</value>
   </data>
   <data name="lbl_WithdrawalType2" xml:space="preserve">
-    <value>Online Payment</value>
+    <value>Local Bank</value>
   </data>
   <data name="lbl_YourEmail" xml:space="preserve">
     <value>Your Email Address</value>

@@ -1208,10 +1208,10 @@
     <value>ไม่ได้กำหนด</value>
   </data>
   <data name="lbl_WithdrawalType1" xml:space="preserve">
-    <value>ธนาคารในประเทศ</value>
+    <value>ถอนเงินออนไลน์</value>
   </data>
   <data name="lbl_WithdrawalType2" xml:space="preserve">
-    <value>ถอนเงินออนไลน์</value>
+    <value>ธนาคารในประเทศ</value>
   </data>
   <data name="lbl_YourEmail" xml:space="preserve">
     <value>อีเมลของคุณ</value>
