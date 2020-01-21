@@ -209,5 +209,28 @@ namespace MemberSite.Controllers.Api
             public int TpId { set; get; }
             public Dictionary<string, string> inputs { set; get; }
         }
+
+
+        public class ForgetPwdReq
+        {
+            public string Email { get; set; }
+        }
+        [HttpPost]
+        public async Task<ApiResult> ForgetPwdAsync(ForgetPwdReq forgetPwdReq)
+        {
+            var apiResult = new ApiResult<bool>(selLangBLL);
+            try
+            {
+                var custInfo = custInfoBLL.GetCustInfoByMail(forgetPwdReq.Email);
+                await custInfoBLL.ForgetPwdAsync(custInfo.CustId);
+                apiResult.ErrorCode = 0;
+            }
+            catch (Exception ex)
+            {
+                apiResult.RawMessage = ex.Message;
+            }
+
+            return apiResult;
+        }
     }
 }

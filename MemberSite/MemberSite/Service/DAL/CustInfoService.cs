@@ -64,6 +64,12 @@ namespace MemberSite.Service.DAL
             return conn.QueryFirstOrDefault<Customer>("Customer_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
         }
 
+        public Customer GetCustInfoByMail(string email)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.QueryFirstOrDefault<Customer>("Member_CustomerByMail_Get", new { Email = email }, commandType: CommandType.StoredProcedure);
+        }
+
         public Customer GetCustInfoByUserName(string userName, int siteId)
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));

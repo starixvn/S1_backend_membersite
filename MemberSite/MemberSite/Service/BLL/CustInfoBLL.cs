@@ -199,6 +199,11 @@ namespace MemberSite.Service.BLL
             return custInfoService.GetCustInfo(custId);
         }
 
+        public Customer GetCustInfoByMail(string email)
+        {
+            return custInfoService.GetCustInfoByMail(email);
+        }
+
         public int GetVipLevel(int custId)
         {
             return custInfoService.GetVipLevel(custId);
