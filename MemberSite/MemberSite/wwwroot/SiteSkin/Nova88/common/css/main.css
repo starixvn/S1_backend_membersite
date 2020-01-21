@@ -1267,6 +1267,14 @@ input#agreeterm + label .text {
   line-height: 1;
 }
 
+.agreetermTip-module {
+    margin: 1rem auto;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: red !important;
+    font-weight: bold;
+}
+
 .agreeterm-module {
     margin: 1rem auto;
     text-align: center;
@@ -1744,7 +1752,7 @@ button.btn .btn__inner > .text {
   color: white !important;
   background-color: #cfcfcf !important;
   border-color: #cfcfcf !important;
-  pointer-events: none !important;
+  /*pointer-events: none !important;*/
 }
 
 .btn[class*="text-"][data-disabled=true] {

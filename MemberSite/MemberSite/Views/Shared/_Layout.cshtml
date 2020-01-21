@@ -53,8 +53,8 @@
         @if (!string.Equals(ViewContext.RouteData.Values["controller"] as string, "sports", StringComparison.OrdinalIgnoreCase))
         {
             <partial name="~/Views/Shared/_Footer.cshtml" />
+            <partial name="~/Views/Shared/_LeftMenu.cshtml" />
         }
-        <partial name="~/Views/Shared/_LeftMenu.cshtml" />
 
     </div>
     <script src="~/lib/moment.min.js"></script>

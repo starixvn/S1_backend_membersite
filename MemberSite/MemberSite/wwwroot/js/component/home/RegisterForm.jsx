@@ -149,6 +149,9 @@ class RegisterForm extends React.Component {
             data[dataField.name] = dataField.Value;
         }
 
+        if(!this.state.agreeterm)
+            valid = false;
+
         if(!valid) {
             Loading.UnLoading();
             this.setState({SubmitDisabled: true});
@@ -198,13 +201,13 @@ class RegisterForm extends React.Component {
                 {Inputs}
                 <div className='agreeterm-module'>
                     <input type="checkbox" id="agreeterm" onChange={this.onCheckboxChange} checked={this.state.agreeterm} />
-                    <label className="light" forHtml="agreeterm">
+                    <label className="light" htmlFor="agreeterm">
                         <span className="text">
                             {i18n.lbl_Check18TC1} <a href={TCUrl} target="_temp">{i18n.lbl_TermsConditions}</a> {i18n.lbl_Check18TC2} <a href={RRUrl} target="_temp">{i18n.lbl_RuleRegulations}</a> {i18n.lbl_Check18TC3} {siteName}. {i18n.lbl_Check18TC4}
                         </span>
                     </label>
                 </div>
-                {this.state.SubmitDisabled && ( !this.state.agreeterm) ? <div><span className="text">{i18n.lbl_Check18TCTooltip}</span></div> : null}
+                {this.state.SubmitDisabled && ( !this.state.agreeterm) ? <div className='agreetermTip-module'><span className="text">{i18n.lbl_Check18TCTooltip}</span></div> : null}
                 <div className="btn-group">
                     <button className="btn btn-secondary" data-disabled={this.state.SubmitDisabled} type="submit">
                         <div className="btn__inner">
