@@ -378,26 +378,6 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        [HttpPost]
-        public async Task<ApiResult> ForgetPwdAsync()
-        {
-            var apiResult = new ApiResult<bool>(selLangBLL);
-            var authData = authorizeBLL.GetAuthData();
-            try
-            {
-                await custInfoBLL.ForgetPwdAsync(authData.CustId);
-                apiResult.ErrorCode = 0;
-            }
-            catch (Exception ex)
-            {
-                apiResult.RawMessage = ex.Message;
-            }
-
-            return apiResult;
-        }
-
-        
-
         //[HttpPost]
         //public ApiResult DelCustBankInfo(BankInfo bankInfo)
         //{

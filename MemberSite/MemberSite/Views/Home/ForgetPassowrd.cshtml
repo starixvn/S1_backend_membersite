@@ -8,25 +8,24 @@
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_ForgetPassword");
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="main ">
     <div class="page">
         <div class="heading">
             <span class="text">@selLangBLL.GetResourceValue("lbl_ForgetPassword")</span>
         </div>
         <p>@selLangBLL.GetResourceValue("lbl_ForgetPwdHint")</p>
-        <form class="form">
+        <form class="form" method="post" id="ForgetPassowrd">
             <div class="form-group">
                 <label class="form-title">@selLangBLL.GetResourceValue("lbl_YourEmail")</label>
                 <div class="form-content">
                     <div class="textfield">
-                        <input type="text" class="textfield__input">
+                        <input type="email" id="email" class="textfield__input" required />
                         <span class="textfield__bg"></span>
                     </div>
                 </div>
             </div>
             <div class="btn-group">
-                <button class="btn btn-secondary">
+                <button class="btn btn-secondary" type="submit">
                     <div class="btn__inner">
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Submit")</span>
                     </div>
@@ -35,3 +34,7 @@
         </form>
     </div>
 </div>
+@section Scripts{
+    <script src="~/lib/runtime.min.js"></script>
+    <script src="~/js/component/home/ForgetPassowrd.min.js" asp-append-version="true"></script>
+}

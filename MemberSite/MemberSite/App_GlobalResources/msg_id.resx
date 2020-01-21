@@ -201,4 +201,12 @@
   <data name="msg_WithdrawSuccessful" xml:space="preserve">
     <value>Pengajuan penarikan Anda berhasil. Jika sudah selesai kami akan memberi tahu kepada anda</value>
   </data>
+  <data name="ForgetPwdFail" xml:space="preserve">
+    <value>Anda sudah memasukkan email atau jawaban keamanan yang salah, silakan coba lagi!</value>
+    <comment>0024. Deposit</comment>
+  </data>
+  <data name="ForgetPwdSuccess" xml:space="preserve">
+    <value>Sistem Kirim Surat ke Kotak Surat Anda dengan Kata Sandi, Silakan Periksa Kotak Surat Anda!</value>
+    <comment>0026. Deposit</comment>
+  </data>  
 </root>

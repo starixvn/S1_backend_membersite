@@ -222,8 +222,17 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var custInfo = custInfoBLL.GetCustInfoByMail(forgetPwdReq.Email);
-                await custInfoBLL.ForgetPwdAsync(custInfo.CustId);
-                apiResult.ErrorCode = 0;
+                if (custInfo == null)
+                {
+                    apiResult.Message = selLangBLL.GetMsg("ForgetPwdFail");
+                }
+                else
+                {
+                    await custInfoBLL.ForgetPwdAsync(custInfo.CustId);
+
+                    apiResult.Message = selLangBLL.GetMsg("ForgetPwdSuccess");
+                    apiResult.ErrorCode = 0;
+                }
             }
             catch (Exception ex)
             {

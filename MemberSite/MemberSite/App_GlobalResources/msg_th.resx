@@ -201,4 +201,12 @@
   <data name="msg_WithdrawSuccessful" xml:space="preserve">
     <value>คำขอถอนเงินของคุณสำเร็จแล้ว เราจะแจ้งให้คุณทราบเมื่อดำเนินการเสร็จ</value>
   </data>
+  <data name="ForgetPwdFail" xml:space="preserve">
+    <value>คุณได้กรอกอีเมล์และคำถามคำตอบเพื่อความปลอดภัยไม่ถูกต้อง ,กรุณาลองใหม่อีกครั้ง!</value>
+    <comment>0024. Deposit</comment>
+  </data>
+  <data name="ForgetPwdSuccess" xml:space="preserve">
+    <value>ระบบจะส่งอีเมลล์ไปในอีเมลล์ของคุณ แจ้งรหัสที่ใช้, กรุณาตรวจสอบอีเมลล์ของคุณ !</value>
+    <comment>0026. Deposit</comment>
+  </data>  
 </root>

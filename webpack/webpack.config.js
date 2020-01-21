@@ -45,6 +45,9 @@ module.exports = {
 		],
     "js/component/app/WalletInfo.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/app/WalletInfo.jsx'
+		],
+    "js/component/home/ForgetPassowrd.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/home/ForgetPassowrd.js'
 		]},
   output: {
     path:  path.resolve(__dirname,'../MemberSite/MemberSite/wwwroot/'),
