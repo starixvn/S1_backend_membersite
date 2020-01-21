@@ -830,7 +830,8 @@
     <value>美式足球投注</value>
   </data>
   <data name="lbl_ForgetPassword" xml:space="preserve">
-    <value>忘记ID或密码吗？</value>
+    <value>忘记您的用户名或者密码</value>
+    <comment>00340. Deposit</comment>
   </data>
   <data name="lbl_ForgetPwdHint" xml:space="preserve">
     <value>若您忘记您的用户名或密码，请提供您的电子邮件后我们将寄新密码至您的邮箱。</value>
@@ -1221,8 +1222,10 @@
     <value>如果您忘记了您的密码，请提供您的电子邮箱地址，安全问题及答案，我们将会发送新的密码到您登记的电子邮箱地址。</value>
     <comment>00339. Deposit</comment>
   </data>
-  <data name="lbl_ForgetPassword" xml:space="preserve">
-    <value>忘记您的用户名或者密码</value>
-    <comment>00340. Deposit</comment>
-  </data>  
+  <data name="lbl_RealName" xml:space="preserve">
+    <value>真实姓名</value>
+  </data>
+  <data name="lbl_UploadPhotoId" xml:space="preserve">
+    <value>上传</value>
+  </data>
 </root>

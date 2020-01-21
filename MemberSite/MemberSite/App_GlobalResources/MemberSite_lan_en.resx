@@ -832,7 +832,8 @@
     <value>Football Betting</value>
   </data>
   <data name="lbl_ForgetPassword" xml:space="preserve">
-    <value>Forget your ID or password?</value>
+    <value>Forget your ID or Password </value>
+    <comment>00339. Deposit</comment>
   </data>
   <data name="lbl_ForgetPwdHint" xml:space="preserve">
     <value>If you have forgotten your username or password, please provide your email and we will send your new password to your registered email address.</value>
@@ -1223,8 +1224,10 @@
     <value>If you have forgotten your password, please provide your email, security question and answer, and we will send your new password to your registered email address.</value>
     <comment>00338. Deposit</comment>
   </data>
-  <data name="lbl_ForgetPassword" xml:space="preserve">
-    <value>Forget your ID or Password </value>
-    <comment>00339. Deposit</comment>
-  </data>  
+  <data name="lbl_RealName" xml:space="preserve">
+    <value>Real Name</value>
+  </data>
+  <data name="lbl_UploadPhotoId" xml:space="preserve">
+    <value>Upload</value>
+  </data>
 </root>

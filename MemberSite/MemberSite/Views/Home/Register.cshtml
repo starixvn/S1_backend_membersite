@@ -68,7 +68,7 @@
         var currencyList = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(currencyList));
         var defCurrencyId = @selLangBLL.GetDefCurrencyId();
         var siteName = "@serverInfo.SiteName";
-        var Check18URL = "@Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{serverInfo.DefLang}")";
+        var Check18URL = "@Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}")";
         $.extend( i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
     </script>
 

@@ -829,7 +829,8 @@
     <value>Taruhan Sepak Bola Amerika</value>
   </data>
   <data name="lbl_ForgetPassword" xml:space="preserve">
-    <value>Lupa Kata Sandi dan ID anda?</value>
+    <value>Lupa ID atau Kata Sandi</value>
+    <comment>00339. Deposit</comment>
   </data>
   <data name="lbl_ForgetPwdHint" xml:space="preserve">
     <value>Jika anda lupa username dan password anda, silakan konfirmasi email anda dan kami akan mengirimkan password baru anda ke email terdaftar anda.</value>
@@ -1220,8 +1221,10 @@
     <value>Jika lupa kata sandi, harap memberikan email, pertanyaan dan jawaban keamanan Anda, dan kami akan mengirimkan kata sandi baru ke alamat email yang terdaftar.</value>
     <comment>00338. Deposit</comment>
   </data>
-  <data name="lbl_ForgetPassword" xml:space="preserve">
-    <value>Lupa ID atau Kata Sandi</value>
-    <comment>00339. Deposit</comment>
-  </data>  
+  <data name="lbl_RealName" xml:space="preserve">
+    <value>Nama asli</value>
+  </data>
+  <data name="lbl_UploadPhotoId" xml:space="preserve">
+    <value>Unggah</value>
+  </data>
 </root>
