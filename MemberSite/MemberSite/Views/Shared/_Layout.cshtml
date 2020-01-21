@@ -21,7 +21,7 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="shortcut icon" href="@SkinRootPath/images/favicon.ico" type="image/x-icon">
     <title>@selLangBLL.GetResourceValue("lbl_Title")|@selLangBLL.GetResourceValue("lbl_TitleDesc")</title>
-    
+
     <meta name="twitter:card" content="website" />
     <meta name="twitter:site" content="@selLangBLL.GetResourceValue("lbl_TwitterSite")" />
     <meta name="twitter:creator" content="@selLangBLL.GetResourceValue("lbl_TwitterCreator")" />
@@ -50,7 +50,10 @@
         <partial name="~/Views/Shared/_Header.cshtml" />
         @*Url.RouteUrl(new { action = "Index", controller = "Home", area = "Mobile", LangId = selLangBLL.GetLangId() });*@
         @RenderBody()
-        <partial name="~/Views/Shared/_Footer.cshtml" />
+        @if (!string.Equals(ViewContext.RouteData.Values["controller"] as string, "sports", StringComparison.OrdinalIgnoreCase))
+        {
+            <partial name="~/Views/Shared/_Footer.cshtml" />
+        }
         <partial name="~/Views/Shared/_LeftMenu.cshtml" />
 
     </div>
@@ -176,7 +179,7 @@
     }
     @* Start of LiveChat (www.livechatinc.com) code *@
     <script type="text/javascript">
-        !function(t,c){t.__lc=t.__lc||{},t.__lc.license=11638088;var e=c.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"==c.location.protocol?"https://":"http://")+"cdn.livechatinc.com/tracking.js";var n=c.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)}(window,document);
+        !function (t, c) { t.__lc = t.__lc || {}, t.__lc.license = 11638088; var e = c.createElement("script"); e.type = "text/javascript", e.async = !0, e.src = ("https:" == c.location.protocol ? "https://" : "http://") + "cdn.livechatinc.com/tracking.js"; var n = c.getElementsByTagName("script")[0]; n.parentNode.insertBefore(e, n) }(window, document);
     </script>
     <noscript>
         <a href="https://www.livechatinc.com/chat-with/11638088/" rel="nofollow">Chat with us</a>,
