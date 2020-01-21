@@ -202,9 +202,7 @@ class RegisterForm extends React.Component {
                 <div className='agreeterm-module'>
                     <input type="checkbox" id="agreeterm" onChange={this.onCheckboxChange} checked={this.state.agreeterm} />
                     <label className="light" htmlFor="agreeterm">
-                        <span className="text">
-                            {i18n.lbl_Check18TC1} <a href={TCUrl} target="_temp">{i18n.lbl_TermsConditions}</a> {i18n.lbl_Check18TC2} <a href={RRUrl} target="_temp">{i18n.lbl_RuleRegulations}</a> {i18n.lbl_Check18TC3} {siteName}. {i18n.lbl_Check18TC4}
-                        </span>
+                            {i18n.lbl_Check18TC1} <a className="text-link" href={TCUrl} target="_blank"><span className="text">{i18n.lbl_TermsConditions}</span></a> {i18n.lbl_Check18TC2} <a  className="text-link" href={RRUrl} target="_blank"><span className="text">{i18n.lbl_RuleRegulations}</span></a> {i18n.lbl_Check18TC3} {siteName}. {i18n.lbl_Check18TC4}
                     </label>
                 </div>
                 {this.state.SubmitDisabled && ( !this.state.agreeterm) ? <div className='agreetermTip-module'><span className="text">{i18n.lbl_Check18TCTooltip}</span></div> : null}
