@@ -1213,4 +1213,16 @@
   <data name="lbl_YourEmail" xml:space="preserve">
     <value>您的電子郵件</value>
   </data>
+  <data name="lbl_Forget" xml:space="preserve">
+    <value>忘記您的用戶名或者密碼?</value>
+    <comment>00339.</comment>
+  </data>
+  <data name="lbl_ForgetNote" xml:space="preserve">
+    <value>如果您忘記了您的密碼，請提供您的電子郵箱地址，安全問題及答案，我們將會發送新的密碼到您登記的電子郵箱地址。</value>
+    <comment>00340. Deposit</comment>
+  </data>
+  <data name="lbl_ForgetPassword" xml:space="preserve">
+    <value>忘記您的用戶名或者密碼</value>
+    <comment>00341. Deposit</comment>
+  </data>  
 </root>

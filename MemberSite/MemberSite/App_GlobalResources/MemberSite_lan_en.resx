@@ -1215,4 +1215,16 @@
   <data name="lbl_YourEmail" xml:space="preserve">
     <value>Your Email Address</value>
   </data>
+  <data name="lbl_Forget" xml:space="preserve">
+    <value>Forget your ID or password?</value>
+    <comment>00337.</comment>
+  </data>
+  <data name="lbl_ForgetNote" xml:space="preserve">
+    <value>If you have forgotten your password, please provide your email, security question and answer, and we will send your new password to your registered email address.</value>
+    <comment>00338. Deposit</comment>
+  </data>
+  <data name="lbl_ForgetPassword" xml:space="preserve">
+    <value>Forget your ID or Password </value>
+    <comment>00339. Deposit</comment>
+  </data>  
 </root>

@@ -1143,4 +1143,16 @@
   <data name="lbl_WithdrawalType2" xml:space="preserve">
     <value>Ngân hàng trong nước</value>
   </data>
+  <data name="lbl_Forget" xml:space="preserve">
+    <value>Quên ID hoặc mật khẩu của bạn?</value>
+    <comment>00337.</comment>
+  </data>
+  <data name="lbl_ForgetNote" xml:space="preserve">
+    <value>Nếu bạn quên mật khẩu, vui lòng cung cấp email, câu hỏi và câu trả lời bảo mật, sau đó chúng tôi sẽ gửi cho bạn mật khẩu mới đến địa chỉ email đã đăng ký.</value>
+    <comment>00338. Deposit</comment>
+  </data>
+  <data name="lbl_ForgetPassword" xml:space="preserve">
+    <value>Quên ID hoặc Mật Khẩu </value>
+    <comment>00339. Deposit</comment>
+  </data>  
 </root>

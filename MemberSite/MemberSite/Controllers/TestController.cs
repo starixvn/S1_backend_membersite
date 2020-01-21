@@ -52,9 +52,10 @@ namespace MemberSite.Controllers
 
         [HttpGet]
         [Route("API/test")]
-        public dynamic test()
+        public async Task<dynamic> testAsync()
         {
-
+            
+            await custInfoBLL.ForgetPwdAsync(8);
             int a = 1;
             int b = 0;
             //var cc = messageService.GetMsgList(3, 1, ref a, out b);

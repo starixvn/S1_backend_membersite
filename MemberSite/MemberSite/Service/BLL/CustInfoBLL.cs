@@ -2,12 +2,15 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
@@ -21,11 +24,15 @@ namespace MemberSite.Service.BLL
         private readonly AgentInfoService agentInfoService;
         private readonly IMemoryCache cache;
         private readonly RegexUtilities regexUtilities;
+        private readonly Common common;
+        private readonly IWebHostEnvironment environment;
+        private readonly CodeGenerator codeGenerator;
+        private readonly SelLangBLL selLangBLL;
         private readonly Dictionary<int, bool> isConvert = new Dictionary<int, bool>()
             {
                 {51,false },{15,false }
             };
-        public CustInfoBLL(IMemoryCache cache, Tools tools, CustInfoService custInfoService, AuthenticateService authenticateService, ServerInfoBLL serverInfoBLL, AgentInfoService agentInfoService, RegexUtilities regexUtilities)
+        public CustInfoBLL(IMemoryCache cache, IWebHostEnvironment environment, SelLangBLL selLangBLL, CodeGenerator codeGenerator, Tools tools, Common common, CustInfoService custInfoService, AuthenticateService authenticateService, ServerInfoBLL serverInfoBLL, AgentInfoService agentInfoService, RegexUtilities regexUtilities)
         {
             this.tools = tools;
             this.custInfoService = custInfoService;
@@ -34,6 +41,10 @@ namespace MemberSite.Service.BLL
             this.agentInfoService = agentInfoService;
             this.cache = cache;
             this.regexUtilities = regexUtilities;
+            this.common = common;
+            this.environment = environment;
+            this.codeGenerator = codeGenerator;
+            this.selLangBLL = selLangBLL;
         }
         public bool IsConvertRequired(int CurrencyId)
         {
@@ -306,6 +317,35 @@ namespace MemberSite.Service.BLL
         public int SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
         {
             return custInfoService.SetCustPhotoId(custId, siteId, picFileName, photoIdPic);
+        }
+        public async Task ForgetPwdAsync(int custId)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            var custInfoProfile = custInfoService.GetCustInfoProfile(custId, custInfo.SiteId);
+
+            if (custInfoProfile?.Email != null)
+            {
+                var path = $@"{environment.ContentRootPath}\App_Data\{serverInfo.SiteName}\email\{custInfo.UserLang}\new_password.html";
+                string MailBody = null;
+                if (File.Exists(path))
+                {
+                    MailBody = File.ReadAllText(path);
+                    MailBody = MailBody.Replace("{SiteName}", serverInfo.SiteName);
+                    MailBody = MailBody.Replace("{UserName}", custInfo.UserName);
+                    var SendDate = new DateTimeOffset(DateTime.Now).ToOffset(TimeSpan.FromHours(8)).ToString("yyyy-MM-dd hh:mm:sstt", System.Globalization.CultureInfo.InvariantCulture);
+                    MailBody = MailBody.Replace("{SendDate}", SendDate);
+                    codeGenerator.Maximum = 8;
+                    codeGenerator.Minimum = 6;
+                    codeGenerator.RepeatCharacters = true;
+                    string NewPassword = codeGenerator.Generate();
+                    string md5NewPassword = tools.MD5Encrypt(NewPassword);
+                    custInfoService.SetResetPwd(custId, md5NewPassword);
+                    MailBody = MailBody.Replace("{NewPassword}", NewPassword);
+                }
+
+                await common.SendMailAsync(serverInfo.SiteName, null, custInfo.UserName, custInfoProfile.Email, selLangBLL.GetResourceValue("lbl_ForgetPassword"), MailBody);
+            }
         }
     }
 }

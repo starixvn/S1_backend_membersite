@@ -1212,4 +1212,16 @@
   <data name="lbl_YourEmail" xml:space="preserve">
     <value>Alamat Email anda</value>
   </data>
+  <data name="lbl_Forget" xml:space="preserve">
+    <value>Lupa ID atau kata sandi Anda?</value>
+    <comment>00337.</comment>
+  </data>
+  <data name="lbl_ForgetNote" xml:space="preserve">
+    <value>Jika lupa kata sandi, harap memberikan email, pertanyaan dan jawaban keamanan Anda, dan kami akan mengirimkan kata sandi baru ke alamat email yang terdaftar.</value>
+    <comment>00338. Deposit</comment>
+  </data>
+  <data name="lbl_ForgetPassword" xml:space="preserve">
+    <value>Lupa ID atau Kata Sandi</value>
+    <comment>00339. Deposit</comment>
+  </data>  
 </root>

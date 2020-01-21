@@ -1216,4 +1216,16 @@
   <data name="lbl_YourEmail" xml:space="preserve">
     <value>อีเมลของคุณ</value>
   </data>
+  <data name="lbl_Forget" xml:space="preserve">
+    <value>ลืมไอดีหรือรหัสเข้าระบบ?</value>
+    <comment>00336. </comment>
+  </data>
+  <data name="lbl_ForgetNote" xml:space="preserve">
+    <value>ถ้าคุณได้ลืมรหัส กรุณาแจ้งอีเมลล์ของคุณ คำถามคำตอบเพื่อความปลอดภัย เราจะส่งรหัสใหม่ไปให้คุณที่อีเมลล์ที่คุณสมัครไว้กับเรา</value>
+    <comment>00337. Deposit</comment>
+  </data>
+  <data name="lbl_ForgetPassword" xml:space="preserve">
+    <value>ลืมชื่อที่ใช้ในการเข้าระบบหรือรหัส</value>
+    <comment>00338. Deposit</comment>
+  </data>  
 </root>
