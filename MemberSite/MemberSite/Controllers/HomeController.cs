@@ -20,5 +20,14 @@ namespace MemberSite.Controllers
             }
             return View();
         }
+
+        public IActionResult ForgetPassowrd()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToRoute(new { action = "Index", controller = "Home" });
+            }
+            return View();
+        }
     }
 }
