@@ -55,7 +55,6 @@
     <None Include="wwwroot\js\component\history\Deposit.jsx" />
     <None Include="wwwroot\js\component\history\Withdrawal.jsx" />
     <None Include="wwwroot\js\component\home\RegisterForm.jsx" />
-    <None Include="wwwroot\SiteSkin\Nova88\common\images\logo.svg" />
     <None Include="wwwroot\js\component\account\Profile.jsx" />
     <None Include="wwwroot\js\component\commJS\common.js" />
     <None Include="wwwroot\js\component\commJS\InputBox.jsx" />
@@ -84,9 +83,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\js\component\account\Messages.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\SiteSkin\Nova88\common\images\logo.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\SiteSkin\Nova88\common\images\logo_main.svg">

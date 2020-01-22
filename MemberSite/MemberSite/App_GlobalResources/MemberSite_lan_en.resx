@@ -817,10 +817,10 @@
     <value>Email cannot be changed after submission.</value>
   </data>
   <data name="lbl_eSports" xml:space="preserve">
-    <value>eSports</value>
+    <value>E-Sport</value>
   </data>
   <data name="lbl_eSportsBetting" xml:space="preserve">
-    <value>eSports Betting</value>
+    <value>E-Sport Betting</value>
   </data>
   <data name="lbl_Facebook" xml:space="preserve">
     <value>Facebook</value>
