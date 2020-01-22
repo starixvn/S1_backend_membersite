@@ -195,10 +195,10 @@
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
     <value>ไม่สามารถถอนเงินได้เนื่องจากยอดเงินของคุณไม่พอ</value>
   </data>
-  <data name="msg_WithdrawFailed" xml:space="preserve">
+  <data name="msg_WithdrawalFailed" xml:space="preserve">
     <value>คำขอถอนเงินของคุณไม่สำเร็จ โปรดตรวจสอบกับ CSD สำหรับข้อมูลเพิ่มเติม</value>
   </data>
-  <data name="msg_WithdrawSuccessful" xml:space="preserve">
+  <data name="msg_WithdrawalSuccessful" xml:space="preserve">
     <value>คำขอถอนเงินของคุณสำเร็จแล้ว เราจะแจ้งให้คุณทราบเมื่อดำเนินการเสร็จ</value>
   </data>
   <data name="ForgetPwdFail" xml:space="preserve">

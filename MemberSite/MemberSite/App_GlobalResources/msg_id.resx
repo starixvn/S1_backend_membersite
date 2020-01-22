@@ -195,10 +195,10 @@
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
     <value>Pengajuan pernarikan Anda gagal, Saldo anda tidak mencukupi</value>
   </data>
-  <data name="msg_WithdrawFailed" xml:space="preserve">
+  <data name="msg_WithdrawalFailed" xml:space="preserve">
     <value>Pengajuan penarikan Anda gagal, Untuk informasi lebih lanjut silahkan hubungi CSD</value>
   </data>
-  <data name="msg_WithdrawSuccessful" xml:space="preserve">
+  <data name="msg_WithdrawalSuccessful" xml:space="preserve">
     <value>Pengajuan penarikan Anda berhasil. Jika sudah selesai kami akan memberi tahu kepada anda</value>
   </data>
   <data name="ForgetPwdFail" xml:space="preserve">

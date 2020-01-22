@@ -195,10 +195,10 @@
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
     <value>Your withdrawal request was failed due to insufficient balance!</value>
   </data>
-  <data name="msg_WithdrawFailed" xml:space="preserve">
+  <data name="msg_WithdrawalFailed" xml:space="preserve">
     <value>Your withdrawal request was failed. Please check with CSD for more information.</value>
   </data>
-  <data name="msg_WithdrawSuccessful" xml:space="preserve">
+  <data name="msg_WithdrawalSuccessful" xml:space="preserve">
     <value>Your withdrawal request was successful. We will notify you once it is done.</value>
   </data>
   <data name="ForgetPwdFail" xml:space="preserve">

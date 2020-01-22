@@ -195,10 +195,10 @@
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
     <value>余额不足！申请提款失败。</value>
   </data>
-  <data name="msg_WithdrawFailed" xml:space="preserve">
+  <data name="msg_WithdrawalFailed" xml:space="preserve">
     <value>申请提款失败。请联系客服了解详情。</value>
   </data>
-  <data name="msg_WithdrawSuccessful" xml:space="preserve">
+  <data name="msg_WithdrawalSuccessful" xml:space="preserve">
     <value>申请提款成功。核准后会及时通知。</value>
   </data>
   <data name="ForgetPwdFail" xml:space="preserve">

@@ -1217,7 +1217,7 @@
     <value>Your Email Address</value>
   </data>
   <data name="lbl_Forget" xml:space="preserve">
-    <value>Forget your ID or password?</value>
+    <value>Forgotten your ID or password?</value>
     <comment>00337.</comment>
   </data>
   <data name="lbl_ForgetNote" xml:space="preserve">

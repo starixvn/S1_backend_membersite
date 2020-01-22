@@ -197,11 +197,11 @@
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
     <value>餘額不足！申請提款失敗。</value>
   </data>
-  <data name="msg_WithdrawFailed" xml:space="preserve">
+  <data name="msg_WithdrawalFailed" xml:space="preserve">
     <value>申請提款失敗。請聯繫客服了解詳情。
 </value>
   </data>
-  <data name="msg_WithdrawSuccessful" xml:space="preserve">
+  <data name="msg_WithdrawalSuccessful" xml:space="preserve">
     <value>申請提款成功。核准後會立即通知。</value>
   </data>
   <data name="ForgetPwdFail" xml:space="preserve">
