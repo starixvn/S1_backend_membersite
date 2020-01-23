@@ -1230,4 +1230,7 @@
   <data name="lbl_UploadPhotoId" xml:space="preserve">
     <value>Upload</value>
   </data>
+  <data name="lbl_RemindForName" xml:space="preserve">
+    <value>*FULL NAME must match name in your bank account for Instant deposit &amp; withdrawal.</value>
+  </data>
 </root>

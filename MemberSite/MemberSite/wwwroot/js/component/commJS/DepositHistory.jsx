@@ -11,6 +11,16 @@ class HistoryBody extends React.Component {
     }
 
     render() {
+        const DepositStatus = {
+            Pending:1,
+            Paid :2,
+            Approved:3,
+            Rejected:4,
+            Canceled:5,
+            Expired:6,
+            OnHold :7
+        };    
+        
         let data = this.props.Data;
         let rows = data.map(function( item ,index ) { 
             let dateMonent = moment(item.createTime);
@@ -28,7 +38,7 @@ class HistoryBody extends React.Component {
                 </div>
             }
 
-            if (item.status==5 || item.status==6 || item.status==7 || item.status==99) {
+            if (item.status==DepositStatus.Pending || item.status==DepositStatus.Approved || item.status==DepositStatus.Rejected || item.status==DepositStatus.Canceled) {
                 statusGroup = <span className="text">{i18n["lbl_DepositStatus" + item.status]}</span>
             }
             else {

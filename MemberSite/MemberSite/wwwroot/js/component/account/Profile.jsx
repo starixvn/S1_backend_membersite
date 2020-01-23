@@ -189,7 +189,7 @@ import areaCode from '../commJS/areaCode';
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="form-title">{i18n.lbl_BankAccountName}</label>
+                        <label className="form-title">{i18n.lbl_RealName}</label>
                         <div className="form-content" data-status={this.props.Profile.accountName == null ? this._dataStatus[1] : this._dataStatus[4]}>
                             <div className="textfield">
                                 <input type="text" value={this.state.AccountName} onChange={this.props.Profile.accountName == null ? this.onChange.bind(this) : null} className="textfield__input" name="AccountName" required />
@@ -200,6 +200,9 @@ import areaCode from '../commJS/areaCode';
                             </div>
                             <div className="tooltip tooltip--bottom-right" data-open={this.state.IsAccountMailTip}>
                                 <span className="text">{i18n.lbl_BankAccountNameHint}</span>
+                            </div>
+                            <div className="form-content__tips">
+                                <span className="text-accent">{i18n.lbl_RemindForName}</span>
                             </div>
                         </div>
                     </div>

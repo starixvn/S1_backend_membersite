@@ -1228,4 +1228,7 @@
   <data name="lbl_UploadPhotoId" xml:space="preserve">
     <value>上傳</value>
   </data>
+  <data name="lbl_RemindForName" xml:space="preserve">
+    <value>*請填寫與您銀行賬戶一致的完整姓名，以加速存款和提款操作。</value>
+  </data>
 </root>
