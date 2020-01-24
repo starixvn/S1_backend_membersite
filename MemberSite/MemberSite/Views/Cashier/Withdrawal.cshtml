@@ -130,11 +130,12 @@
     <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
     </script>
-    @if (!custInfoBLL.SubmittedCustPhotoId(authData.CustId))
-    {
-        <script src="~/js/component/account/UploadPhotoId.min.js" asp-append-version="true"></script>
-    }
-    else if (!(custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0))
+    @*if (!custInfoBLL.SubmittedCustPhotoId(authData.CustId))
+        {
+            <script src="~/js/component/account/UploadPhotoId.min.js" asp-append-version="true"></script>
+        }
+        else *@
+    @if (!(custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0))
     {
         <script type="text/javascript">
             var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })";
