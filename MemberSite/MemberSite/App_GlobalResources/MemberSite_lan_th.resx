@@ -1231,4 +1231,7 @@
   <data name="lbl_UploadPhotoId" xml:space="preserve">
     <value>อัปโหลด</value>
   </data>
+  <data name="lbl_RemindForName" xml:space="preserve">
+    <value>ชื่อและนามสกุลต้องตรงกันกับชื่อในบัญชีธนาคาร เพื่อนำฝากและถอนที่รวดเร็วยิ่งขึ้น</value>
+  </data>
 </root>
