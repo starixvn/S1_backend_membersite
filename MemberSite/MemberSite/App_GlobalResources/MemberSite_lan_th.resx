@@ -1124,7 +1124,7 @@
     <value>การแจ้งสถานะบัญชีธนาคารปัจจุบัน</value>
   </data>
   <data name="lbl_UpdateBankInfo" xml:space="preserve">
-    <value>โปรดอัปเดตรายละเอียดบัญชีธนาคารของคุณก่อนทำการฝากเงิน</value>
+    <value>โปรดอัปเดตรายละเอียดบัญชีธนาคารของคุณก่อนทำการถอนเงิน</value>
   </data>
   <data name="lbl_UpdatePersonalDetail" xml:space="preserve">
     <value>อัปเดตข้อมูลส่วนบุคคล</value>

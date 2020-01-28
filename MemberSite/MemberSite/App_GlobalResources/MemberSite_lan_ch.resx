@@ -1122,7 +1122,7 @@
     <value>更新銀行資訊</value>
   </data>
   <data name="lbl_UpdateBankInfo" xml:space="preserve">
-    <value>請在存款前完成更新銀行資訊</value>
+    <value>請在提款前完成更新銀行資訊</value>
   </data>
   <data name="lbl_UpdatePersonalDetail" xml:space="preserve">
     <value>更新個人資料</value>

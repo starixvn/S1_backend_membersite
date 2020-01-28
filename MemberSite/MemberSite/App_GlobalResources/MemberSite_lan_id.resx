@@ -1118,10 +1118,10 @@
     <value>Perbarui</value>
   </data>
   <data name="lbl_UpdateBankDetail" xml:space="preserve">
-    <value>Perbarui Rincian Bank</value>
+    <value>Perbarui Keterangan Bank</value>
   </data>
   <data name="lbl_UpdateBankInfo" xml:space="preserve">
-    <value>Silakan perbarui keterangan akun bank anda sebelum anda melakukan deposit</value>
+    <value>Silakan perbarui keterangan akun bank anda sebelum anda melakukan penarikan.</value>
   </data>
   <data name="lbl_UpdatePersonalDetail" xml:space="preserve">
     <value>Perbarui Informasi pribadi anda </value>
@@ -1229,5 +1229,5 @@
   </data>
   <data name="lbl_RemindForName" xml:space="preserve">
     <value>*Pastikan NAMA LENGKAP sesuai dengan nama di Rekening Bank untuk mempercepat Deposit dan Penarikan.</value>
-  </data> 
+  </data>
 </root>

@@ -1124,7 +1124,7 @@
     <value>Update Bank Details</value>
   </data>
   <data name="lbl_UpdateBankInfo" xml:space="preserve">
-    <value>Please update your bank account details before making deposit.</value>
+    <value>Please update your bank account details before making withdrawal.</value>
   </data>
   <data name="lbl_UpdatePersonalDetail" xml:space="preserve">
     <value>Update Personal Details</value>
