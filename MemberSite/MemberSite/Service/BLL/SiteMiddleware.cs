@@ -55,9 +55,10 @@ namespace MemberSite.Service.BLL
                             var AnticipationRouteData = Match("{controller=Home}/{action=Index}", context.Request.Path);
                             object controller = "";
                             object action = "";
+
                             if (AnticipationRouteData.TryGetValue("controller", out controller) && AnticipationRouteData.TryGetValue("action", out action) && controller as string != selLangBLL.GetLangId())
                             {
-                                context.Response.Redirect($"/{selLangBLL.GetLangId()}/{controller}/{action}");
+                                context.Response.Redirect($"/{selLangBLL.GetLangId()}/{controller}/{action}{context.Request.QueryString.Value}");
                                 return;
                             }
                         }
