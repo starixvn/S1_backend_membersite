@@ -52,10 +52,10 @@ namespace MemberSite.Service.Library
             var client = new SmtpClient
             {
                 Host = _mailConfig.MailHost,
-                Credentials = new NetworkCredential(_mailConfig.MailID, _mailConfig.MailPwd),
+                //Credentials = new NetworkCredential(_mailConfig.MailID, _mailConfig.MailPwd),
                 Port = _mailConfig.Port,
-                EnableSsl = true,
-                UseDefaultCredentials = false
+                //EnableSsl = true,
+                //UseDefaultCredentials = false
             };
 
             MailMessage mailMessage = new MailMessage();

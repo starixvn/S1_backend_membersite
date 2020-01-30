@@ -68,11 +68,17 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> SignOut()
         {
             var apiResult = new ApiResult(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
             bool result = authorizeBLL.Logout();
 
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             apiResult.ErrorCode = 0;
             apiResult.Message = selLangBLL.GetMsg("msg_loggedout");
+
+            _ = Task.Run(async () =>
+              {
+                  _ = await LogoutAsync(1, authData.CustId);
+              });
 
             return apiResult;
         }
@@ -212,6 +218,21 @@ namespace MemberSite.Controllers.Api
             var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
 
             return data.ErrorCode == 0 ? data.Data.balance : 0;
+        }
+
+        private async Task<bool> LogoutAsync(int tpId, int custId)
+        {
+            var myUrl = $"{apiUrl}Logout";
+            var oTpInfo = new TpInfo
+            {
+                TpId = tpId,
+                CustId = custId,
+                inputs = new Dictionary<string, string>()
+            };
+
+            var data = await courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, oTpInfo);
+
+            return data.ErrorCode == 0 ? true : false;
         }
 
         [HttpPost]
