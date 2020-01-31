@@ -49,12 +49,17 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> onlineCheck()
         {
             var apiResult = new ApiResult(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
             bool result = authorizeBLL.LoginCheckin();
             if (!result)
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 apiResult.ErrorCode = 1001;
                 apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                _ = Task.Run(async () =>
+                {
+                    _ = await LogoutAsync(1, authData.CustId);
+                });
             }
             else
             {
