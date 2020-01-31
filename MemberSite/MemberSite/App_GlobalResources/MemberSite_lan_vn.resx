@@ -1155,4 +1155,8 @@
   <data name="lbl_RemindForName" xml:space="preserve">
     <value>*Vui lòng điền tên đầy đủ phù hợp với tài khoản ngân hàng của bạn, để tăng tốc các hoạt động gửi tiền và rút tiền.</value>
   </data>
+  <data name="lbl_badminton" xml:space="preserve">
+    <value>Cầu lông</value>
+    <comment>00131.</comment>
+  </data>  
 </root>

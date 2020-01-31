@@ -22,6 +22,7 @@ namespace MemberSite.Service.BLL
             {"4","icehockey" },
             {"5","tennis" },
             {"8","baseball" } ,
+            {"9","badminton" } ,
             {"43","esports" },
             {"161","numbergame" },
             {"180","virtualsports" }

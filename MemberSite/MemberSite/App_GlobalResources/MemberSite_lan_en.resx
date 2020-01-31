@@ -1233,4 +1233,8 @@
   <data name="lbl_RemindForName" xml:space="preserve">
     <value>*FULL NAME must match name in your bank account for Instant deposit &amp; withdrawal.</value>
   </data>
+  <data name="lbl_badminton" xml:space="preserve">
+    <value>Badminton</value>
+    <comment>00131.</comment>
+  </data>  
 </root>

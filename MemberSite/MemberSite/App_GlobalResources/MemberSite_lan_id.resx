@@ -1230,4 +1230,8 @@
   <data name="lbl_RemindForName" xml:space="preserve">
     <value>*Pastikan NAMA LENGKAP sesuai dengan nama di Rekening Bank untuk mempercepat Deposit dan Penarikan.</value>
   </data>
+  <data name="lbl_badminton" xml:space="preserve">
+    <value>Badminton</value>
+    <comment>00131.</comment>
+  </data>  
 </root>
