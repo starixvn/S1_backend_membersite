@@ -70,7 +70,8 @@
                                     }
                                     else
                                     {
-                                        <a href="@Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })">
+                                        var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
+                                        <a href="@LangUrl">
                                             <div class="dropdown__item">
                                                 <i class="flag-square-@(siteLanguage.LangId)"></i>
                                                 <span class="text">@siteLanguage.Language</span>
@@ -112,7 +113,7 @@
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
                     </a>
                 </div>
-        }
+            }
             <div class="side-nav__list-sports">
                 <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() })">
                     <i class="icon icon-home"></i>

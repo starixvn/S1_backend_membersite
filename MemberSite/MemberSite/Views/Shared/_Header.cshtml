@@ -86,11 +86,8 @@
                                 }
                                 else
                                 {
-                                    var LangUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId });
-                                    if (string.Equals(ViewContext.RouteData.Values["controller"] as string, "sports", StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        LangUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId, tpId = Context.Request.Query["tpId"], gameId = Context.Request.Query["gameId"] });
-                                    }
+                                    var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
+
                                     <a href="@LangUrl">
                                         <div class="dropdown__item">
                                             <i class="flag-square-@(siteLanguage.LangId)"></i>
