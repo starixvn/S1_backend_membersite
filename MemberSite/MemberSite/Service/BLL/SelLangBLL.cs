@@ -17,7 +17,7 @@ namespace MemberSite.Service.BLL
         Dictionary<string, int> LangMapCurr =
         new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
         {
-            {"th", 4}, {"cs", 13}, {"ch", 13}, {"id", 15}, {"jp", 32},
+            {"th", 4}, {"cs", 13}, {"ch", 2}, {"id", 15}, {"jp", 32},
             {"ko", 45}, {"vn", 51},{"hi", 61}
         };
 
@@ -207,7 +207,7 @@ namespace MemberSite.Service.BLL
             return labelString;
         }
 
-        public int GetDefCurrencyId()
+        public int GetPreferCurrencyId()
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             if (serverInfo.ICurrencyList == null)
