@@ -71,6 +71,14 @@ namespace MemberSite
             services.AddSingleton<MessageService>();
             services.AddSingleton<ThirdPartyService>();
             services.AddSingleton<PayService>();
+            services.AddSingleton<RollOverService>();
+            services.AddSingleton<PromotionService>();
+            // foreach (var s in AppDomain.CurrentDomain.GetAssemblies()
+            //.SelectMany(t => t.GetTypes())
+            //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.DAL"))
+            // {
+            //     services.AddSingleton(s);
+            // }
 
             /*BLL*/
             services.AddSingleton<ServerInfoBLL>();
@@ -84,6 +92,16 @@ namespace MemberSite
             services.AddSingleton<PaymentBLL>();
             services.AddSingleton<ThirdPartyBLL>();
             services.AddSingleton<MessageBLL>();
+            services.AddSingleton<PromotionBLL>();
+
+            //var bll = AppDomain.CurrentDomain.GetAssemblies()
+            //.SelectMany(t => t.GetTypes())
+            //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.BLL");
+
+            //foreach (var s in bll)
+            //{
+            //    services.AddSingleton(s);
+            //}
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();

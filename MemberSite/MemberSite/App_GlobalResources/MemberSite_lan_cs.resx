@@ -1235,4 +1235,8 @@
     <value>羽毛球</value>
     <comment>00132.</comment>
   </data>  
+  <data name="lbl_Promotions" xml:space="preserve">
+    <value>Promotions</value>
+    <comment></comment>
+  </data>  
 </root>

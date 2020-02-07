@@ -27,10 +27,11 @@ namespace MemberSite.Controllers.Api
         private readonly BankInfoBLL bankInfoBLL;
         private readonly CourierAdapter courierAdapter;
         private readonly SelLangBLL selLangBLL;
+        private readonly WalletBLL walletBLL;
         private readonly string tpApiUrl;
         private readonly int mainWalletType;
 
-        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL)
+        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;
@@ -39,6 +40,7 @@ namespace MemberSite.Controllers.Api
             this.bankInfoBLL = bankInfoBLL;
             this.courierAdapter = courierAdapter;
             this.selLangBLL = selLangBLL;
+            this.walletBLL = walletBLL;
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
         }
@@ -391,7 +393,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult SetWithdrawalCancel(WithdrawaltReq withdrawaltReq)
+        public async Task<ApiResult> SetWithdrawalCancelAsync(WithdrawaltReq withdrawaltReq)
         {
             var apiResult = new ApiResult();
             var authData = authorizeBLL.GetAuthData();
@@ -399,6 +401,18 @@ namespace MemberSite.Controllers.Api
             var result = paymentBLL.SetWithdrawalCancel(authData.CustId, withdrawaltReq.TransId);
             if (result > 0)
             {
+
+                if (mainWalletType == 2)
+                {
+                    ApiResult<TransferResult> transferToSabaResult = null;
+                    var input = new TpTransfer();
+                    input.Amount = walletBLL.GetBalance(authData.CustId);
+                    input.CustId = authData.CustId;
+                    input.direction = TpDirection.ToTp;
+                    input.TpId = 1;
+                    transferToSabaResult = await TransferToSabaAsync(input);
+                }
+
                 apiResult.ErrorCode = 0;
             }
             else

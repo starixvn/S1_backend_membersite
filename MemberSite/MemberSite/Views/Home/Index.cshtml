@@ -2,11 +2,13 @@
 @using MemberSite.Service.BLL
 @using MemberSite.Service.Library
 @using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @inject IWebHostEnvironment environment
 @inject WalletBLL walletBLL
 @inject CustInfoBLL custInfoBLL
+@inject PromotionBLL promotionBLL
 @inject Tools tools
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
@@ -15,6 +17,21 @@
     var CmsPromotionPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Promotion/{selLangBLL.GetLangId()}");
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int CurrencyId = 0;
+    int promotionCnt = 0;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
+        promotionCnt = promotionBLL.GetPromotionListByCustId(custId).Count();
+    }
+    else
+    {
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+        promotionCnt = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).Count();
+    }
 }
 @functions{
     string GetEntPageUrl(int tpId, string gameId)
@@ -108,14 +125,6 @@
                     </div>
                     <i class="icon icon-arrow-right"></i>
                 </a>
-                @*<a class="lobby-quicklink" href="#">
-                        <div class="lobby-quicklink__info">
-                            <i class="icon icon-promotion"></i>
-                            <span class="text-title">@selLangBLL.GetResourceValue("lbl_Promotion")</span>
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforpromotion")</span>
-                        </div>
-                        <i class="icon icon-arrow-right"></i>
-                    </a>*@
             }
             else
             {
@@ -124,6 +133,17 @@
                         <i class="icon icon-join-now"></i>
                         <span class="text-title">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforjoin")</span>
+                    </div>
+                    <i class="icon icon-arrow-right"></i>
+                </a>
+            }
+            @if (promotionCnt > 0)
+            {
+                <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
+                    <div class="lobby-quicklink__info">
+                        <i class="icon icon-promotion"></i>
+                        <span class="text-title">@selLangBLL.GetResourceValue("lbl_Promotion")</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforpromotion")</span>
                     </div>
                     <i class="icon icon-arrow-right"></i>
                 </a>
@@ -153,12 +173,12 @@
                 </div>
             </a>
             @*<a class="lobby-sport" href="@GetEntPageUrl(1,"8")">
-                <img src="@SkinImgPath/Lobby/Home/Sport-Baseball.png">
-                <img src="@SkinImgPath/Lobby/Home/d_Sport-Baseball.png">
-                <div class="lobby-sport__info">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_Baseball")</span>
-                </div>
-            </a>*@
+                    <img src="@SkinImgPath/Lobby/Home/Sport-Baseball.png">
+                    <img src="@SkinImgPath/Lobby/Home/d_Sport-Baseball.png">
+                    <div class="lobby-sport__info">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Baseball")</span>
+                    </div>
+                </a>*@
             <a class="lobby-sport" href="@GetEntPageUrl(1,"9")">
                 <img src="@SkinImgPath/Lobby/Home/Sport-Badminton.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Badminton.png">

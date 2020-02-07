@@ -1,0 +1,202 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@inject SelLangBLL selLangBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var i18n = new Dictionary<string, string>();
+    string[] lbl_Txts = new string[] { "lbl_TC" };
+    foreach (var lbl_Txt in lbl_Txts)
+    {
+        if (!i18n.ContainsKey(lbl_Txt))
+            i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
+    }
+
+    for (var currencyId = 0; currencyId <= 51; currencyId++)
+    {
+        var ccr = selLangBLL.GetResourceValue($"Currency_{currencyId}");
+        if (ccr != null)
+            i18n.Add($"Currency_{currencyId}", ccr);
+    }
+}
+<div class="main">
+    <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
+    <div class="page-title" role="mobile-only">
+        <span class="text">@selLangBLL.GetResourceValue("lbl_Promotions")</span>
+    </div>
+    <div class="promotionsList-page page">
+        <div class="heading">
+            <span class="text">PromotionsList</span>
+        </div>
+        @*<form>
+                <div class="form-row form-row--bg">
+                    <div class="form-group flex-2">
+                        <ul>
+                            <li>
+                                <i class="icon icon-all"></i>ALL(
+                                <span>12</span>)
+                            </li>
+                            <li>
+                                REDEPOSIT BONUS(
+                                <span>12</span>)
+                            </li>
+                            <li>
+                                REBATE(
+                                <span>12</span>)
+                            </li>
+                            <li>
+                                SPECIAL BONUS(
+                                <span>12</span>)
+                            </li>
+                            <li>
+                                OVER(
+                                <span>12</span>)
+                            </li>
+                            <li>
+                                <div class="form-group">
+                                    <label class="form-title">DATE</label>
+                                    <a class="btn">
+                                        <i class="icon icon-caret"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </form>*@
+        <!--Group-start-->
+        <div id="promotions">
+            @*<div class="promotions-module">
+                <span class="promotions-title">FIRST DEPOSIT BONUS</span>
+                <!--Set-start-->
+                <a href="" class="promotions-set">
+                    <article>
+                        <div class="promotions-banner"></div>
+                        <div class="promotions-txt">
+                            <ul>
+                                <li class="txt-blue">MYR 988 First Deposit Bonus Promotion</li>
+                                <li class="txt-gray">
+                                    Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If
+                                    you are not an 188BET member yet, join now! Enjoy up to MYR 988 Bonus with your first
+                                    deposit made in 188BET! If you are not an 188BET member yet, join now!
+                                    Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If you are not an
+                                    188BET member yet, join now! Enjoy up to MYR 988 Bonus with your first deposit made in
+                                    188BET! If you are not an 188BET member yet, join
+                                    now!
+                                </li>
+                                <li class="txt-org">Promotion-Specific Terms and Conditions</li>
+                            </ul>
+                        </div>
+                        <div class="promotions-type">
+                            <ul class="txt-gray">
+                                <li>
+                                    <i class="icon icon-transaction"></i>BONUS
+                                    <span class="txt-org">MYR 50%</span>
+                                </li>
+                                <li>
+                                    <i class="icon icon-gototop"></i>MAX
+                                    <span class="txt-org">MYR 688</span>
+                                </li>
+                                <li>
+                                    <i class="icon icon-sport252"></i>ROLL OVER
+                                    <span class="txt-org">20X</span>
+                                </li>
+                                <li>
+                                    <i class="icon icon-race"></i>REMAINING TIME
+                                    <span class="txt-org">00:00</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article>
+                        <div class="schedule-module">
+                            <div class="promotions-txt">
+                                <ul>
+                                    <li class="txt-org">BONUS ROLL OVER</li>
+                                    <li class="txt-gray">
+                                        <span class="txt-org">MYR $000</span> (Req.MYR $000)
+                                        <div class="percentage"></div>
+                                    </li>
+                                    <li>
+                                        <div class="schedule">
+                                            <div class="schedule-bg"></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="promotions-txt">
+                                <ul>
+                                    <li class="txt-org">DEPOSIT ROLL OVER</li>
+                                    <li class="txt-gray">
+                                        <span class="txt-org">MYR $000</span> (Req.MYR $000)
+                                        <div class="percentage"></div>
+                                    </li>
+                                    <li>
+                                        <div class="schedule">
+                                            <div class="schedule-bg"></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+                <!--Set-end-->
+                <!--Set-start-->
+                <a href="" class="promotions-set">
+                    <article>
+                        <div class="promotions-banner"></div>
+                        <div class="promotions-txt">
+                            <ul>
+                                <li class="txt-blue">MYR 988 First Deposit Bonus Promotion</li>
+                                <li class="txt-gray">
+                                    Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If
+                                    you are not an 188BET member yet, join now! Enjoy up to MYR 988 Bonus with your first
+                                    deposit made in 188BET! If you are not an 188BET member yet, join now!
+                                    Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If you are not an
+                                    188BET member yet, join now! Enjoy up to MYR 988 Bonus with your first deposit made in
+                                    188BET! If you are not an 188BET member yet, join
+                                    now!
+                                </li>
+                                <li class="txt-org">Promotion-Specific Terms and Conditions</li>
+                            </ul>
+                        </div>
+                        <div class="promotions-type">
+                            <ul class="txt-gray">
+                                <li>
+                                    <i class="icon icon-transaction"></i>BONUS
+                                    <span class="txt-org">MYR 50%</span>
+                                </li>
+                                <li>
+                                    <i class="icon icon-gototop"></i>MAX
+                                    <span class="txt-org">MYR 688</span>
+                                </li>
+                                <li>
+                                    <i class="icon icon-sport252"></i>ROLL OVER
+                                    <span class="txt-org">20X</span>
+                                </li>
+                                <li>
+                                    <i class="icon icon-race"></i>REMAINING TIME
+                                    <span class="txt-org">00:00</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
+                </a>
+                <!--Set-end-->
+            </div>*@
+        </div>
+        <!--Group-end-->
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
+    </script>
+    <script src="~/lib/runtime.min.js"></script>
+    @*<script src="~/lib/clipboard.min.js"></script>*@
+    <script src="~/js/component/Promotion/promotions.min.js" asp-append-version="true"></script>
+}

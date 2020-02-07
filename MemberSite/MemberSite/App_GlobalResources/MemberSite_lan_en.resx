@@ -1236,5 +1236,24 @@
   <data name="lbl_badminton" xml:space="preserve">
     <value>Badminton</value>
     <comment>00131.</comment>
-  </data>  
+  </data>
+  <data name="lbl_Promotions" xml:space="preserve">
+    <value>Promotions</value>
+    <comment></comment>
+  </data>    
+  <data name="lbl_Promotions" xml:space="preserve">
+    <value>Promotions</value>
+  </data>
+  <data name="FTDPDescription" xml:space="preserve">
+    <value>Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If you are not an 188BET member yet, join now! Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If you are not an 188BET member yet, join now! Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If you are not an 188BET member yet, join now! Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If you are not an 188BET member yet, join now!</value>
+  </data>
+  <data name="FTDPTitle" xml:space="preserve">
+    <value>FIRST DEPOSIT BONUS</value>
+  </data>
+  <data name="PromotionCategory1" xml:space="preserve">
+    <value>FIRST DEPOSIT</value>
+  </data>
+  <data name="lbl_TC" xml:space="preserve">
+    <value>Promotion-Specific Terms and Conditions</value>
+  </data>
 </root>

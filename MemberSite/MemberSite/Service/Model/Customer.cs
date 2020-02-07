@@ -82,4 +82,11 @@ namespace MemberSite.Service.Model
         public string AreaCode { get; set; }
         public string PhoneNo { get; set; }
     }
+    public class CustRollOver
+    {
+        public decimal DepositRollOver { get; set; }
+        public decimal DepositTurnOver { get; set; }
+        public decimal BonusRollOver { get; set; }
+        public decimal BonusTurnOver { get; set; }
+    }
 }

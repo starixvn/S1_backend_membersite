@@ -48,6 +48,9 @@ module.exports = {
 		],
     "js/component/home/ForgetPassowrd.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/home/ForgetPassowrd.js'
+		],
+    "js/component/Promotion/promotions.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/Promotion/promotions.jsx'
 		]},
   output: {
     path:  path.resolve(__dirname,'../MemberSite/MemberSite/wwwroot/'),

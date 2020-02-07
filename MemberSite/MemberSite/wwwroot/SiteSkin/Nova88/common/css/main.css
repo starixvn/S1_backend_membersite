@@ -6572,11 +6572,13 @@ ul {
                 line-height: 1.5rem;
             }
 
-            .promotionsList-page article div.promotions-banner {
-                background: #ececec;
-                border-radius: 10px;
-                height: 10rem;
-            }
+.promotionsList-page article div.promotions-banner {
+  background: #ececec;
+  border-radius: 10px;
+  height: 10rem;
+  width: 17.5rem;
+  min-width: 17.5rem;
+}
 
             .promotionsList-page article div.promotions-txt {
                 flex: 3 0 0;
@@ -6590,9 +6592,9 @@ ul {
                     font-size: 1rem;
                 }
 
-                .promotionsList-page article div.promotions-txt .txt-gray {
-                    padding: 1rem 0;
-                }
+.promotionsList-page article div.promotions-txt .txt-gray {
+  padding: 0.8rem 0;
+}
 
             .promotionsList-page article div.schedule-module {
                 background: #f6fafc;
@@ -6627,48 +6629,54 @@ ul {
                     padding: 0;
                 }
 
-        .promotionsList-page article .promotions-type {
-            color: #999999;
-            padding-top: 2.2rem;
-        }
+.promotionsList-page article .promotions-type {
+  color: #999999;
+  padding: 0;
+}
 
-            .promotionsList-page article .promotions-type li {
-                display: flex;
-                align-items: center;
-            }
+.promotionsList-page article .promotions-type li {
+  display: inline-flex;
+  align-items: center;
+}
 
                 .promotionsList-page article .promotions-type li i {
                     margin-right: 0.5rem;
                 }
 
+.promotionsList-page article .promotions-type li .txt-org {
+  margin-left: 0.5rem;
+}
+
+.promotionsList-page article .promotions-type ul.txt-gray {
+  padding: 0;
+}
+
 @media (max-width: 900px) {
-    .promotionsList-page .promotions-module {
-        padding: 0 .4rem;
-    }
-
-    .promotionsList-page article {
-        display: block;
-    }
-
-        .promotionsList-page article div {
-            padding: 0;
-        }
-
-            .promotionsList-page article div.schedule-module {
-                display: block;
-            }
-
-                .promotionsList-page article div.schedule-module .promotions-txt {
-                    margin: 1rem 0;
-                }
-
-        .promotionsList-page article .promotions-banner {
-            margin-bottom: 1rem;
-        }
-
-        .promotionsList-page article .promotions-type {
-            padding-top: 1.2rem;
-        }
+  .promotionsList-page .promotions-module {
+    margin: 0;
+  }
+  .promotionsList-page .promotions-module .promotions-title {
+    padding: 0;
+  }
+  .promotionsList-page article {
+    display: block;
+    padding: 0;
+  }
+  .promotionsList-page article div {
+    padding: 0;
+  }
+  .promotionsList-page article div.schedule-module {
+    display: block;
+  }
+  .promotionsList-page article div.schedule-module .promotions-txt {
+    margin: 1rem 0;
+  }
+  .promotionsList-page article .promotions-banner {
+    margin-bottom: 1rem;
+  }
+  .promotionsList-page article .promotions-type {
+    padding: 0.5rem 0;
+  }
 }
 
 @font-face {
