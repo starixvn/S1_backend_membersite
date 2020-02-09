@@ -1,6 +1,10 @@
 ﻿@using MemberSite.Service.BLL
 @using MemberSite.Service.Library
+@using System.Security.Claims
 @inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@inject PromotionBLL promotionBLL
+@inject CustInfoBLL custInfoBLL
 @inject Tools tools
 @functions{
     string GetEntPageUrl(int tpId, string gameId)
@@ -25,6 +29,26 @@
         }
         return entPageUrl;
     }
+}
+@{
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    int CurrencyId = 0;
+
+    int promotionCnt = 0;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
+        promotionCnt = promotionBLL.GetPromotionListByCustId(custId).Count();
+    }
+    else
+    {
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+        promotionCnt = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).Count();
+    }
+
+    
 }
 <div class="side-bar" role="mobile-only">
     <div class="overlay"></div>
@@ -165,13 +189,16 @@
                     </span>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
                 </a>
-                @*<a class="side-nav__btn">
+                @if (promotionCnt > 0)
+                {
+                    <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
                         <span class="side-nav__icon">
                             <i class="icon icon-promotion"></i>
-                            <span class="new-dot">0</span>
+                            <span class="new-dot">@promotionCnt</span>
                         </span>
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Promotion")</span>
-                    </a>*@
+                    </a>
+                }
                 @if (User.Identity.IsAuthenticated)
                 {
                     <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "ChangePwd", controller = "Account", LangId = selLangBLL.GetLangId() })">

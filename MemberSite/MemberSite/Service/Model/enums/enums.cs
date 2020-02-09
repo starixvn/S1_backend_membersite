@@ -113,4 +113,35 @@ namespace MemberSite.Service.Model.enums
         /// </summary>
         AutoPayError = 9,
     }
+
+    public enum PromotionType
+    {
+        FstDeposit = 1,
+        ReDeposit = 2,
+        Rebate = 3,
+        Special = 4
+    }
+
+    public enum BonusType
+    {
+        Percentage = 1,
+        Amount = 2
+    }
+    public enum BonusStatus
+    {
+        Running = 1,
+        Canceled = 2,
+        Expiry = 3
+    }
+    public enum RollOverStatus
+    {
+        Running = 1,
+        Fulfill = 2
+    }
+
+    public enum RollOverType
+    {
+        Deposit = 1,
+        Bonus = 2
+    }
 }

@@ -403,6 +403,21 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+        public class CustRollOverReq
+        {
+            public string BonusCode { set; get; }
+        }
+
+        [HttpPost]
+        public ApiResult<CustRollOver> GetCustRollOver(CustRollOverReq custRollOverReq)
+        {
+            var apiResult = new ApiResult<CustRollOver>(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+
+            apiResult.Data = custInfoBLL.GetCustRollOver(authData.CustId, custRollOverReq.BonusCode);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
 
         //[HttpPost]
         //public ApiResult DelCustBankInfo(BankInfo bankInfo)

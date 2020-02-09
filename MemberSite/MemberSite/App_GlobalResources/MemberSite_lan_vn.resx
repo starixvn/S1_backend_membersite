@@ -1159,4 +1159,7 @@
     <value>Cầu lông</value>
     <comment>00131.</comment>
   </data>  
+  <data name="lbl_Promotions" xml:space="preserve">
+    <value>Promotions</value>
+  </data>
 </root>

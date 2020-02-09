@@ -31,8 +31,9 @@ namespace MemberSite.Controllers
         private readonly WalletBLL walletBLL;
         private readonly SelLangBLL selLangBLL;
         private readonly MessageService messageService;
+        private readonly PromotionBLL promotionBLL;
 
-        public TestController(WalletBLL walletBLL, WalletService walletService, IBCDBLibrary iBCDBLibrary, IWebHostEnvironment environment, ServerInfoService serverInfoService, AgentInfoService agentInfoService, CustInfoService custInfoService, CustInfoBLL custInfoBLL, AuthenticateService userLoginLogService, Tools tools, DepoistService depoistService, BankInfoOffService bankInfoService, SelLangBLL selLangBLL, MessageService messageService)
+        public TestController(PromotionBLL promotionBLL, WalletBLL walletBLL, WalletService walletService, IBCDBLibrary iBCDBLibrary, IWebHostEnvironment environment, ServerInfoService serverInfoService, AgentInfoService agentInfoService, CustInfoService custInfoService, CustInfoBLL custInfoBLL, AuthenticateService userLoginLogService, Tools tools, DepoistService depoistService, BankInfoOffService bankInfoService, SelLangBLL selLangBLL, MessageService messageService)
         {
             this.serverInfoService = serverInfoService;
             this.agentInfoService = agentInfoService;
@@ -48,6 +49,7 @@ namespace MemberSite.Controllers
             this.walletBLL = walletBLL;
             this.selLangBLL = selLangBLL;
             this.messageService = messageService;
+            this.promotionBLL = promotionBLL;
         }
 
         [HttpGet]
@@ -55,11 +57,12 @@ namespace MemberSite.Controllers
         public async Task<dynamic> testAsync()
         {
             
-            await custInfoBLL.ForgetPwdAsync(8);
+            //await custInfoBLL.ForgetPwdAsync(8);
             int a = 1;
             int b = 0;
             //var cc = messageService.GetMsgList(3, 1, ref a, out b);
-            return serverInfoService.GetModel1();
+
+            return custInfoBLL.GetCustRollOver(18, "FTDP");
             Assembly asm = Assembly.GetCallingAssembly();
             string rsFileName = asm.GetName().Name;
             //return System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;

@@ -1237,5 +1237,9 @@
   <data name="lbl_badminton" xml:space="preserve">
     <value> แบดมินตัน</value>
     <comment>00131. </comment>
+  </data>
+  <data name="lbl_Promotions" xml:space="preserve">
+    <value>Promotions</value>
+    <comment></comment>
   </data>  
 </root>
