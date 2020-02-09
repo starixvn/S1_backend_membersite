@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /* normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
 /* Document
    ========================================================================== */
@@ -4745,7 +4745,7 @@ button.swiper-pagination-bullet {
   display: block;
   width: calc(130px * 1.5);
   height: calc(46px * 1.5);
-  background-image: url("../images/logo.svg");
+  background-image: url("../images/logo.svg?v=20200210");
   background-size: cover;
 }
 
@@ -4878,7 +4878,7 @@ button.swiper-pagination-bullet {
   display: block;
   width: calc(130px * 0.8);
   height: calc(46px * 0.8);
-  background-image: url("../images/logo.svg");
+  background-image: url("../images/logo.svg?v=20200210");
   background-size: cover;
   transition: ease .15s;
 }
