@@ -5668,7 +5668,7 @@ button.swiper-pagination-bullet {
 
 [data-layout=desktop] .main--home {
   max-width: none;
-  background-image: url("../images/Lobby/Home/Home-BG.jpg");
+  background-image: url("../images/Lobby/Home/Sports-Iframe-BG.jpg");
   background-position: center center;
   transition: padding ease .3s;
 }
