@@ -156,10 +156,10 @@
                                     <i class="icon icon-deposit-bank"></i>
                                     <span class="text">@selLangBLL.GetResourceValue("lbl_CustBank")</span>
                                 </a>
-                                @*<a class="dropdown__item" href="#">
+                                <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
                                         <i class="icon icon-promotion"></i>
-                                        <span class="text">Promottion</span>
-                                    </a>*@
+                                        <span class="text">@selLangBLL.GetResourceValue("lbl_Promotion")</span>
+                                    </a>
                             </div>
                             <div class="dropdown__group">
                                 <a class="dropdown__item logoutBtn">

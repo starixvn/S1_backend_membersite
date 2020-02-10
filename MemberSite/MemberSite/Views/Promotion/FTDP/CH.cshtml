@@ -32,7 +32,7 @@
                 <div class="promotions-banner"></div>
                 <div class="promotions-txt">
                     <ul>
-                        <li class="txt-blue">@Currency 988 First Deposit Bonus Promotion</li>
+                        <li class="txt-blue">50% 歡迎紅利，最高 @Currency 500</li>
                         <li class="txt-gray">
                             Enjoy up to @Currency 988 Bonus with your first deposit made in @serverInfo.SiteName! If you
                             are not an @serverInfo.SiteName member yet, join now! Enjoy up to @Currency 988 Bonus with your first deposit
@@ -45,19 +45,19 @@
                             <div class="promotions-type">
                                 <ul class="txt-gray">
                                     <li>
-                                        <i class="icon icon-transaction"></i>BONUS
+                                        <i class="icon icon-transaction"></i>優惠
                                         <span class="txt-org">@Currency @promotion.Bonus.ToString("#,##0") %</span>
                                     </li>
                                     <li>
-                                        <i class="icon icon-gototop"></i>MAX
+                                        <i class="icon icon-gototop"></i>最高獎金（@Currency）
                                         <span class="txt-org">@Currency @promotion.MaxBonus.ToString("#,##0")</span>
                                     </li>
                                     <li>
-                                        <i class="icon icon-sport252"></i>ROLL OVER
+                                        <i class="icon icon-sport252"></i>最低投注倍數
                                         <span class="txt-org">@promotion.RollOver X</span>
                                     </li>
                                     <li>
-                                        <i class="icon icon-race"></i>REMAINING TIME
+                                        <i class="icon icon-race"></i>剩餘時間
                                         <span class="txt-org" id="REMAINING"></span>
                                     </li>
                                     @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
@@ -66,7 +66,7 @@
                                             <div class="btn-group">
                                                 <button class="btn btn-secondary" id="JOIN">
                                                     <div class="btn__inner">
-                                                        <span class="text">JOIN NOW</span>
+                                                        <span class="text">加入</span>
                                                     </div>
                                                 </button>
                                             </div>
@@ -80,68 +80,66 @@
             </article>
         </div>
         <div class="promotions-module">
-            <span class="promotions-title">Significant Conditions</span>
-            <article>
+            <span class="promotions-title">
+                優惠標準規則
+            </span>
+            <article> 
                 <ol type="i">
-                    <li>Only available to @Currency account members;</li>
-                    <li>First Deposit must be made to get Bonus</li>
-                    <li>Have not made a withdrawal request before the Bonus is credited;</li>
-                    <li>Members must click on the “Join Now” button to take part;</li>
+                    <li>此優惠活動使用於貨幣為 @Currency 的新客戶。</li>
+                    <li>優惠期限為馬來西亞時間00:00:00 (GMT+8)至  @promotion.ExpiryTime @promotion.ExpiryDays (GMT+8) (優惠期間)</li>
+                    <li>獲得紅利資格，玩家必須先進行首存，並且沒有申請過提款請求。</li>
+                    <li>根據首存存款額，最高 @Currency 500的紅利將在48小時內存入玩家賬戶。</li>
                     <li>
-                        A Bonus of up to @Currency 500 based on the First Deposit amount will be credited within 48 hours;
-                    </li>
-                    <li>
-                        The Bonus and Qualifying Deposit amount used are subject to a 20 times rollover requirement
-                        within 30 days on any @serverInfo.SiteName products, except Casino.
+                        在提款前，存款金額和紅利至少需要完成 @promotion.RollOver 倍投注額；在紅利注入的30天，若未完成最低投注，帶來的贏利將被扣除。紅利適用於 @serverInfo.SiteName 所有產品，除了娛樂城和即時兌現。
                         <br>
-                        <br> Example:
+                        <br> 舉例：
                         <br>
                         <em>
-                            - Deposit amount: @Currency 1,500
-                            <br> - Bonus amount = @Currency 1,500 x 50% = @Currency 500 Capped MAX
-                            <br> - Deposit amount used to generate the bonus = @Currency 500/ 50% = @Currency 1,000
-                            <br> - Deposit amounts not used for the promotion = @Currency 1,500 – @Currency 1,000 = @Currency 500
-                            <br> - Rollover requirement = (@Currency 1,000 + @Currency 500) x 20 + @Currency 500 = @Currency 30,500
-                        </em>
+                            - 存款金額=1,500 @Currency
+                            <br> - 優惠紅利 = 1,500 @Currency X 50% = 封頂紅利500 @Currency
+                            <br> - 用於申請獎金的部分 = 封頂獎金500 @Currency/ 50% = 1,000 @Currency 
+                            <br> - 沒有申請獎金的部分 = 1,500 @Currency – 1,000馬幣 = 500 @Currency 
+                            <br> - 最低投注額 = (1,000 @Currency + 500 @Currency) x @promotion.RollOver + 500 @Currency = 23,000 @Currency 
                         <br>
                     </li>
                 </ol>
+
+
             </article>
             <div class="panel panel-primary panel--payment" data-open="true">
                 <div class="panel__header">
-                    <span class="txt-blue">Full Promotion Specific Terms and Conditions</span>
+                    <span class="txt-blue">完整優惠標準規則</span>
                     <i class="icon icon-caret"></i>
                 </div>
                 <div class="panel__body">
                     <article>
                         <ol type="i">
                             <li>
-                                To be eligible for the Promotion, members must meet all criteria below (“Qualified
-                                Member”):
+                                本優惠適用於以下會員（“符合資格的會員”）：
                             </li>
                             <ol>
-                                <li>- Have chosen @Currency as their preferred currency,</li>
+                                <li>首選貨幣是 @Currency</li>
                                 <li>
-                                    - Have made their first approved deposit to their @serverInfo.SiteName account during the
-                                    promotion period.
+                                    優惠期間，在 @serverInfo.SiteName 有首次成功的存款(“有效存款”)。
                                 </li>
                             </ol>
                             <li>
-                                Qualified members will be awarded with a 50% bonus based on their first approved deposit
-                                amount made during the Promotion Period, up to a maximum of @Currency 500, as illustrated
-                                below:
+                                優惠期間，符合以上優惠資格的會員，可享有一次50%首存存款獎金，最高為500 @Currency（“獎金”），詳情如下：
                                 <br>
                                 <div class="table table-rwd table-primary">
                                     <div class="thead">
                                         <div class="tr">
                                             <div class="td-date">
-                                                <span class="text">Bonus</span>
+                                                <span class="text">優惠</span>
+                                            </div>
+                                            <div class="td-date">
+                                                <span class="text">產品</span>
                                             </div>
                                             <div class="td-time">
-                                                <span class="text">Rollover requirement</span>
+                                                <span class="text">最高獎金（@Currency）</span>
                                             </div>
                                             <div class="td-id">
-                                                <span class="text">Max. Bonus Amount (@Currency)</span>
+                                                <span class="text">最低投注倍數</span>
                                             </div>
                                         </div>
                                     </div>
@@ -150,68 +148,52 @@
                                             <div class="td-date">
                                                 <span class="text">@promotion.Bonus.ToString("#,##0") %</span>
                                             </div>
+                                            <div class="td-date">
+                                                <span class="text">所有 @serverInfo.SiteName 產品，除了娛樂城與即時兌現.</span>
+                                            </div>
                                             <div class="td-time">
-                                                <span class="text">@promotion.RollOver x on any @serverInfo.SiteName products, except Casino</span>
+                                                <span class="text">@promotion.MaxBonus.ToString("#,##0")</span>
                                             </div>
                                             <div class="td-id">
-                                                <span class="text">@promotion.MaxBonus.ToString("#,##0")</span>
+                                                <span class="text">@promotion.RollOver x</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </li>
                             <li>
-                                The Qualified Member is required to click on the “JOIN NOW” button within the
-                                Promotion-Specific Terms and Conditions page upon login to their @serverInfo.SiteName account at
-                                www.@(serverInfo.SiteName).net to claim the Bonus.
+                                符合資格的會員請登錄  @serverInfo.SiteName 網站，進入優惠頁面，點擊特定的優惠規則與條款，在上方點擊"立即加入"即可。
                             </li>
                             <li>
-                                The Qualified Member is not allowed to cancel the Bonus once it is credited to their
-                                @serverInfo.SiteName account.
+                                優惠獎金注入後，會員將不能申請取消。
                             </li>
                             <li>
-                                The bonus received and deposit amount used to generate the bonus (“Qualifying Deposit”)
-                                by the Qualified Member from the Promotion are subject to a 20 times rollover
-                                requirement in @serverInfo.SiteName All product except Casino /or Financials
-                                before any withdrawals can be made. General withdrawal rule applies for all other
-                                deposit amounts not used for the Promotion.
+                                會員申請優惠的存款金額和獎金需要在  @serverInfo.SiteName 達到指定獎金的投注要求後，才可申請提款。此優惠獎金最低投注金額倍數為 @promotion.RollOver 倍。此投注要求會且僅計算 @serverInfo.SiteName 產品，除了娛樂城與即時兌現。
                                 <p>
-                                    For Example: Qualified Member A has made the first approved deposit with an amount of
-                                    @Currency 1,500. Member A will be eligible to claim the deposit bonus.
+                                    舉例: 會員A在優惠期間成功存款了1,500 @Currency, 以下是本優惠最低投注需求演算法;
                                     <br>
-                                    <br> - Bonus amount = @Currency 1,500 x 50% = capped to @Currency 500
-                                    <br> - Deposit amount used to generate the bonus = @Currency 500/50% = @Currency 1,000
-                                    <br> - Deposit amounts not used for the promotion = @Currency 1,500 – @Currency 1,000 = @Currency 500
+                                    <br> - 優惠獎金 = 1,500 @Currency x 50% = 封頂獎金500 @Currency
+                                    <br> - 用於申請獎金的部分 = 封頂獎金500 @Currency / 50% = 1,000 @Currency
+                                    <br> - 沒有申請獎金的部分 = 1,500 @Currency – 1,000 @Currency = 500 @Currency
                                     <br>
-                                    <br> Before any withdrawals can be made, Qualified Member A is subjected to rollover
-                                    = (@Currency 1,500 + @Currency 500) x 20 + @Currency 500 = @Currency 30,500
+                                    <br> 會員A在申請提款前必須完成的最低投注額 = (1,000 @Currency + 500 @Currency) x @promotion.RollOver + 500 @Currency = 23,000 @Currency.
                                 </p>
                             </li>
                             <li>
-                                The Qualified Member is allowed to participate in only one (1) ‘First Time Deposit
-                                Bonus’ related promotion offered by @serverInfo.SiteName . Should the Qualified Member participate in
-                                more than one (1) only the first approved ‘First Time
-                                Deposit Bonus’ related promotion received by @serverInfo.SiteName from such Qualified Member will be
-                                considered valid and participation in all other ‘First Time Deposit Bonus’ related
-                                promotions will be void.
+                                符合資格的會員在優惠期間只能領取一次“首存優惠獎金”，如果會員在優惠期間申請了多次“首存優惠獎金”，只有第一筆的“首存優惠獎金”被視為有效，而其他申請將被視為無效。
                             </li>
                             <li>
-                                The Qualified Member will be disqualified from the Promotion if any withdrawals are made
-                                before the Bonus is credited to their @serverInfo.SiteName account.
+                                在獎金未註入您的賬號之前請勿提款，否則將失去領取獎金的資格。
                             </li>
                             <li>
-                                Only wagers in @serverInfo.SiteName that generate a win/loss return will contribute to the rollover
-                                requirement. Cancelled or void wagers, wagers on odds less than Euro 1.75 or Asia 0.75,
-                                or wagers on both even-chances during a single game
-                                will not count towards this requirement.
+                                有效投注額僅計算在 @serverInfo.SiteName 投注產生輸贏結果的注單。即時兌現，注單取消或本金退還，任何賠率低於標準盤1.5、中國盤0.5、馬來盤正數賠率0.5、印尼盤-2.0、美國盤-200的投注，及在同一局遊戲中同時投注對等盤口，或在娛樂城的注單將不計算為有效投注額內。
                             </li>
                             <li>
-                                The rollover requirement will be considered fulfilled if the Qualified Member’s account
-                                balance is less than the minimum stake amount allowed (i.e. @Currency 50).
+                                當會員的投注額未達到上述條款要求，且帳戶現金餘額少於5 @Currency 時，則無需繼續履行此優惠規則與條款。
                             </li>
-                            <li>@serverInfo.SiteName reserves the right to amend or withdraw the Promotion at any time.</li>
-                            <li>@serverInfo.SiteName is the sole arbiter of the Promotion and its decision is final.</li>
-                            <li>@serverInfo.SiteName Standard Terms and Conditions apply.</li>
+                            <li>@serverInfo.SiteName 有權隨時中止或取消本優惠。</li>
+                            <li>@serverInfo.SiteName 保留對本優惠的最終解釋權。</li>
+                            <li>@serverInfo.SiteName <a class="text-link" href="~/SiteSkin/Nova88/Static/ch/Promotion.html" target="_blank">標準規則和條款</a>適用。</li>
                         </ol>
                     </article>
                 </div>
