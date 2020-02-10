@@ -21,7 +21,7 @@
             entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
             if (!tools.IsMobile() && tpId == 1)
             {
-                if(gameId == "202" || gameId == "208")
+                if (gameId == "202" || gameId == "208")
                     entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}', 'width=1366, height=1024').focus();";
                 else
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
@@ -157,9 +157,9 @@
                                     <span class="text">@selLangBLL.GetResourceValue("lbl_CustBank")</span>
                                 </a>
                                 <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
-                                        <i class="icon icon-promotion"></i>
-                                        <span class="text">@selLangBLL.GetResourceValue("lbl_Promotion")</span>
-                                    </a>
+                                    <i class="icon icon-promotion"></i>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Promotion")</span>
+                                </a>
                             </div>
                             <div class="dropdown__group">
                                 <a class="dropdown__item logoutBtn">
@@ -186,10 +186,10 @@
                     </div>
                 </button>
                 @*<div class="text-group">
-                    <a class="text-link" href="@Url.RouteUrl("desktop", new { action = "ForgetPassowrd", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_ForgetPassword")</span>
-                    </a>
-                </div>*@
+                        <a class="text-link" href="@Url.RouteUrl("desktop", new { action = "ForgetPassowrd", controller = "Home", LangId = selLangBLL.GetLangId() })">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_ForgetPassword")</span>
+                        </a>
+                    </div>*@
             }
         </div>
     </div>

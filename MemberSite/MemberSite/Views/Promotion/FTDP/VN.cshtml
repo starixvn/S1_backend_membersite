@@ -18,7 +18,7 @@
         CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
     }
 
-    var Currency = selLangBLL.GetResourceValue($"Currency_{CurrencyId}");
+    var Currency = selLangBLL.GetResourceValue($"lbl_Currency_{CurrencyId}");
 
     var promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
 }
