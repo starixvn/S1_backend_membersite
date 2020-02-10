@@ -1735,7 +1735,7 @@ button.btn .btn__inner > .text {
   color: white !important;
   background-color: #cfcfcf !important;
   border-color: #cfcfcf !important;
-  pointer-events: none !important;
+  /*pointer-events: none !important;*/
 }
 
 .btn[class*="text-"][data-disabled=true] {
