@@ -1273,4 +1273,16 @@
   <data name="lbl_RollOver" xml:space="preserve">
     <value>ยอดหมุนเวียน</value>
   </data>
+  <data name="FTDPDescription" xml:space="preserve">
+    <value>รับโบนัสสูงสุดถึง RM500 เมื่อคุณทำการฝากเงินครั้งแรกกับ Nova88! สมัครเลย</value>
+  </data>
+  <data name="FTDPTitle" xml:space="preserve">
+    <value>โบนัส 50% สำหรับการฝากเงินครั้งแรก ยอดเงินโบนัสสูงสุดไม่เกิน 5000 บาท</value>
+  </data>
+  <data name="lbl_TC" xml:space="preserve">
+    <value>ข้อกำหนดและเงื่อนไขเฉพาะของข้อเสนอ</value>
+  </data>
+  <data name="PromotionCategory" xml:space="preserve">
+    <value>ฝากครั้งแรก</value>
+  </data>
 </root>

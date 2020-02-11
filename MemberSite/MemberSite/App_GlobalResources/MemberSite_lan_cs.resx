@@ -1268,4 +1268,16 @@
   <data name="lbl_RollOver" xml:space="preserve">
     <value>最低投注倍数</value>
   </data>
+  <data name="FTDPDescription" xml:space="preserve">
+    <value>在欧亚88完成第一笔存款以享受高达 马币500 的优惠回馈！立即加入！</value>
+  </data>
+  <data name="FTDPTitle" xml:space="preserve">
+    <value>50% 欢迎红利，最高 马币500</value>
+  </data>
+  <data name="lbl_TC" xml:space="preserve">
+    <value>优惠专用条款和条件</value>
+  </data>
+  <data name="PromotionCategory" xml:space="preserve">
+    <value>首次存款</value>
+  </data>
 </root>

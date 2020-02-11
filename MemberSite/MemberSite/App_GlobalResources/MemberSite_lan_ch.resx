@@ -1265,4 +1265,16 @@
   <data name="lbl_RollOver" xml:space="preserve">
     <value>最低投注倍數</value>
   </data>
+  <data name="FTDPDescription" xml:space="preserve">
+    <value>在歐亞88完成第一筆存款以享受高達 馬幣500 的優惠回饋！立即加入！</value>
+  </data>
+  <data name="FTDPTitle" xml:space="preserve">
+    <value>50% 歡迎紅利，最高 馬幣500</value>
+  </data>
+  <data name="lbl_TC" xml:space="preserve">
+    <value>優惠專用條款和條件</value>
+  </data>
+  <data name="PromotionCategory" xml:space="preserve">
+    <value>首次存款</value>
+  </data>
 </root>

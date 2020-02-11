@@ -1267,4 +1267,16 @@
   <data name="lbl_RollOver" xml:space="preserve">
     <value>PERPUTARAN / ROLLOVER</value>
   </data>
+  <data name="FTDPDescription" xml:space="preserve">
+    <value>Selamat menikmati maksimal bonus MYR 500 dengan deposit anda yang pertama pada Nova88! Mari bergabung SEKARANG!</value>
+  </data>
+  <data name="FTDPTitle" xml:space="preserve">
+    <value>50% Deposit Awal Bonus Hingga IDR 1,000,000</value>
+  </data>
+  <data name="lbl_TC" xml:space="preserve">
+    <value>Syarat dan ketentuan khusus penawaran</value>
+  </data>
+  <data name="PromotionCategory" xml:space="preserve">
+    <value>Setoran pertama</value>
+  </data>
 </root>

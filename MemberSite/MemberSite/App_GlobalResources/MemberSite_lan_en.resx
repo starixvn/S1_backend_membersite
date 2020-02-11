@@ -1241,13 +1241,10 @@
     <value>Promotions</value>
   </data>
   <data name="FTDPDescription" xml:space="preserve">
-    <value>Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If you are not an 188BET member yet, join now! Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If you are not an 188BET member yet, join now! Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If you are not an 188BET member yet, join now! Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If you are not an 188BET member yet, join now!</value>
+    <value>Enjoy up to MYR 500 Bonus with your first deposit with Nova88! Join NOW!</value>
   </data>
   <data name="FTDPTitle" xml:space="preserve">
-    <value>FIRST DEPOSIT BONUS</value>
-  </data>
-  <data name="PromotionCategory1" xml:space="preserve">
-    <value>FIRST DEPOSIT</value>
+    <value>50% WELCOME BONUS UP TO MYR 500</value>
   </data>
   <data name="lbl_TC" xml:space="preserve">
     <value>Promotion-Specific Terms and Conditions</value>
@@ -1281,5 +1278,8 @@
   </data>
   <data name="lbl_RollOver" xml:space="preserve">
     <value>ROLLOVER</value>
+  </data>
+  <data name="PromotionCategory" xml:space="preserve">
+    <value>FIRST DEPOSIT</value>
   </data>
 </root>
