@@ -42,6 +42,7 @@
 
     <script>
         var SiteLanguage = "@selLangBLL.GetLangId()";
+        var SkinRootPath = "@Url.Content($"~/SiteSkin/{serverInfo.SiteName}")";
     </script>
     @RenderSection("Style", required: false)
 </head>

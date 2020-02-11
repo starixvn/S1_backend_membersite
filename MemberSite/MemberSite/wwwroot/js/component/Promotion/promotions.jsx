@@ -14,7 +14,8 @@ import {number_format} from '../commJS/common';
             return (
                 <a href={"/"+SiteLanguage+"/Promotion/Bonus?BonusCode="+Data.bonusCode} className="promotions-set">
                     <article>
-                        <div className="promotions-banner"></div>
+                        <div className="promotions-banner" style={{backgroundImage: "url(" + SkinRootPath + "/Promotion/"+Data.bonusCode+"/"+SiteLanguage+".png)", backgroundPosition: 'top center',backgroundRepeat: 'noRepeat',backgroundSize: 'cover'}}>
+                        </div>
                         <div className="promotions-txt">
                             <ul>
                                 <li className="txt-blue">{Data.title}</li>
