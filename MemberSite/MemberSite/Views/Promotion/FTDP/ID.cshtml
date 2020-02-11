@@ -44,15 +44,15 @@
                                         <span class="txt-org">@Currency @promotion.Bonus.ToString("#,##0")%</span>
                                     </li>
                                     <li>
-                                        <i class="icon icon-gototop"></i>MAX
+                                        <i class="icon icon-gototop"></i>JUMLAH MAKSIMAL BONUS
                                         <span class="txt-org">@Currency @promotion.MaxBonus.ToString("#,##0")</span>
                                     </li>
                                     <li>
-                                        <i class="icon icon-sport252"></i>ROLL OVER
+                                        <i class="icon icon-sport252"></i>PERPUTARAN
                                         <span class="txt-org">@(promotion.RollOver)x</span>
                                     </li>
                                     <li>
-                                        <i class="icon icon-race"></i>REMAINING TIME
+                                        <i class="icon icon-race"></i>SISA WAKTU
                                         <span class="txt-org" id="REMAINING"></span>
                                     </li>
                                     @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))

@@ -1233,8 +1233,38 @@
   <data name="lbl_badminton" xml:space="preserve">
     <value>Badminton</value>
     <comment>00131.</comment>
-  </data>  
+  </data>
   <data name="lbl_Promotions" xml:space="preserve">
     <value>Promotions</value>
-  </data>  
+  </data>
+  <data name="lbl_Bonus" xml:space="preserve">
+    <value>BONUS</value>
+  </data>
+  <data name="lbl_BonusAmount" xml:space="preserve">
+    <value>JUMLAH BONUS</value>
+  </data>
+  <data name="lbl_BonusRollOver" xml:space="preserve">
+    <value>BONUS PERPUTARAN\</value>
+  </data>
+  <data name="lbl_DepositRollOver" xml:space="preserve">
+    <value>DEPOSIT ROLLOVER</value>
+  </data>
+  <data name="lbl_ExpiryTime" xml:space="preserve">
+    <value>MASA BERLAKU</value>
+  </data>
+  <data name="lbl_MaxBonusAmount" xml:space="preserve">
+    <value>JUMLAH MAKSIMAL BONUS</value>
+  </data>
+  <data name="lbl_Product" xml:space="preserve">
+    <value>PRODUK</value>
+  </data>
+  <data name="lbl_PromotionsList" xml:space="preserve">
+    <value>List Promosi</value>
+  </data>
+  <data name="lbl_RemainingTime" xml:space="preserve">
+    <value>SISA WAKTU</value>
+  </data>
+  <data name="lbl_RollOver" xml:space="preserve">
+    <value>PERPUTARAN / ROLLOVER</value>
+  </data>
 </root>

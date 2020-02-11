@@ -40,19 +40,19 @@
                             <div class="promotions-type">
                                 <ul class="txt-gray">
                                     <li>
-                                        <i class="icon icon-transaction"></i>BONUS
+                                        <i class="icon icon-transaction"></i>โบนัส
                                         <span class="txt-org">@Currency @promotion.Bonus.ToString("#,##0")%</span>
                                     </li>
                                     <li>
-                                        <i class="icon icon-gototop"></i>MAX
+                                        <i class="icon icon-gototop"></i>จำนวนโบนัสสูงสุด
                                         <span class="txt-org">@Currency @promotion.MaxBonus.ToString("#,##0")</span>
                                     </li>
                                     <li>
-                                        <i class="icon icon-sport252"></i>ROLL OVER
+                                        <i class="icon icon-sport252"></i>ยอดหมุนเวียน
                                         <span class="txt-org">@(promotion.RollOver)x</span>
                                     </li>
                                     <li>
-                                        <i class="icon icon-race"></i>REMAINING TIME
+                                        <i class="icon icon-race"></i>เวลาคงเหลือ
                                         <span class="txt-org" id="REMAINING"></span>
                                     </li>
                                     @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
