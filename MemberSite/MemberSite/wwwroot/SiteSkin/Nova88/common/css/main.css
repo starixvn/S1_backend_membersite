@@ -5899,14 +5899,6 @@ input#agreeterm {
     src: url("../images/UI/iconfont.woff?v=20191206001") format("woff");
 }
 
-ul {
-    padding: 0;
-}
-
-li {
-    list-style: none;
-}
-
 .download-page {
     flex: 1 0 auto;
     display: flex;
@@ -5918,6 +5910,14 @@ li {
     height: 100%;
     background-image: url("../images/Lobby/Home/StaticPage-BG.jpg");
     background-size: cover;
+}
+
+.download-page ul {
+  padding: 0;
+}
+
+.download-page li {
+  list-style: none;
 }
 
 .download-page__header {
@@ -6275,14 +6275,6 @@ li {
     src: url("../images/UI/iconfont.woff?v=20191206001") format("woff");
 }
 
-ul {
-    padding: 0;
-}
-
-li {
-    list-style: none;
-}
-
 .contact-us {
     flex: 1 0 auto;
     display: flex;
@@ -6294,6 +6286,14 @@ li {
     height: 100%;
     background-image: url("../images/Lobby/Home/StaticPage-BG.jpg");
     background-size: cover;
+}
+
+.contact-us ul {
+  padding: 0;
+}
+
+.contact-us li {
+  list-style: none;
 }
 
 .contact-us__header {

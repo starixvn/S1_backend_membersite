@@ -48,7 +48,7 @@
         promotionCnt = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).Count();
     }
 
-    
+
 }
 <div class="side-bar" role="mobile-only">
     <div class="overlay"></div>
@@ -106,14 +106,14 @@
                             }
                         </div>
                     </div>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <button class="side-nav__btn logoutBtn">
-                            <i class="icon icon-logout"></i>
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_Logout")</span>
-                        </button>
-                    }
                 </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <button class="side-nav__btn logoutBtn">
+                        <i class="icon icon-logout"></i>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Logout")</span>
+                    </button>
+                }
             </div>
         </div>
         <div class="side-nav__main">
