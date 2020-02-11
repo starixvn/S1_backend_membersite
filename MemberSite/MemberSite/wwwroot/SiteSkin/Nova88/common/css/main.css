@@ -6637,11 +6637,12 @@ ul {
 .promotionsList-page article .promotions-type li {
   display: inline-flex;
   align-items: center;
+  margin-right: 0.2rem;
 }
 
-                .promotionsList-page article .promotions-type li i {
-                    margin-right: 0.5rem;
-                }
+.promotionsList-page article .promotions-type li i {
+  margin-right: 0.2rem;
+}
 
 .promotionsList-page article .promotions-type li .txt-org {
   margin-left: 0.5rem;
@@ -6791,15 +6792,21 @@ ul {
                 line-height: 1.5rem;
             }
 
-            .promotionsInfo-page article div.promotions-banner {
-                background: #ececec;
-                border-radius: 10px;
-                height: 10rem;
-            }
+.promotionsInfo-page article div.promotions-banner {
+  background: #ececec;
+  border-radius: 10px;
+  height: 10rem;
+  width: 17.5rem;
+  max-width: 17.5rem;
+}
 
-            .promotionsInfo-page article div.promotions-txt {
-                flex: 3 0 0;
-            }
+.promotionsInfo-page article div.promotions-txt {
+  flex: 3 0 0;
+}
+
+.promotionsInfo-page article div.promotions-txt li {
+  list-style: none;
+}
 
                 .promotionsInfo-page article div.promotions-txt .txt-org {
                     padding: 0;
