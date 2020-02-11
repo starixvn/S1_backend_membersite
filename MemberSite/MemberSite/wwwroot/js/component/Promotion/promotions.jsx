@@ -25,28 +25,28 @@ import {number_format} from '../commJS/common';
                                     <div className="promotions-type">
                                         <ul className="txt-gray">
                                             <li>
-                                                <i className="icon icon-transaction"></i>BONUS
+                                                <i className="icon icon-transaction"></i>{i18n.lbl_Bonus}
                                                 <span className="txt-org">{i18n["Currency_"+Data.currencyId]} {Data.bonus}%</span>
                                             </li>
                                             <li>
-                                                <i className="icon icon-gototop"></i>MAX
+                                                <i className="icon icon-gototop"></i>{i18n.lbl_MaxBonusAmount}
                                                 <span className="txt-org">{i18n["Currency_"+Data.currencyId]} {number_format(Data.maxBonus)}</span>
                                             </li>
                                             <li>
-                                                <i className="icon icon-sport252"></i>ROLL OVER
-                                                <span className="txt-org">{Data.rollOver} X</span>
+                                                <i className="icon icon-sport252"></i>{i18n.lbl_RollOver}
+                                                <span className="txt-org">{Data.rollOver}x</span>
                                             </li>
                                             {Data.bonusInfoStatus!=1 ?
                                             <li>
-                                                <i className="icon icon-race"></i>REMAINING TIME
+                                                <i className="icon icon-race"></i>{i18n.lbl_RemainingTime}
                                                 <span className="txt-org">{moment.unix(Data.periodTo).format('lll')}</span>
                                             </li>:<li>
-                                                <i className="icon icon-race"></i>EXPRIY TIME
+                                                <i className="icon icon-race"></i>{i18n.lbl_ExpiryTime}
                                                 <span className="txt-org">{moment(Data.expiryTime).format('lll')}</span>
                                             </li>}
                                             {Data.bonusInfoStatus==1 ?
                                             <li>
-                                                <i className="icon icon-transaction"></i>bonus Amount
+                                                <i className="icon icon-transaction"></i>{i18n.lbl_BonusAmount}
                                                 <span className="txt-org">{number_format(Data.bonusAmount)}</span>
                                             </li>:null}                                            
                                         </ul>
@@ -56,11 +56,11 @@ import {number_format} from '../commJS/common';
                             </ul>
                         </div>
                     </article>
-                    {Data.bonusInfoStatus==1 && Data.custRollOver!=null  ? <article>
+                    {Data.bonusInfoStatus==1 && Data.custRollOver!=null ? <article>
                         <div className="schedule-module">
                             <div className="promotions-txt">
                                 <ul>
-                                    <li className="txt-org">BONUS ROLL OVER</li>
+                                    <li className="txt-org">{i18n.lbl_BonusRollOver}</li>
                                     <li className="txt-gray">
                                         <span className="txt-org">{i18n["Currency_"+Data.currencyId]} ${number_format(Data.custRollOver.bonusTurnOver)}</span> (Req.{i18n["Currency_"+Data.currencyId]} ${number_format(Data.custRollOver.bonusRollOver)})
                                         <div className="percentage"></div>
@@ -74,7 +74,7 @@ import {number_format} from '../commJS/common';
                             </div>
                             <div className="promotions-txt">
                                 <ul>
-                                    <li className="txt-org">DEPOSIT ROLL OVER</li>
+                                    <li className="txt-org">{i18n.lbl_DepositRollOver}</li>
                                     <li className="txt-gray">
                                         <span className="txt-org">{i18n["Currency_"+Data.currencyId]} ${number_format(Data.custRollOver.depositTurnOver)}</span> (Req.{i18n["Currency_"+Data.currencyId]} ${number_format(Data.custRollOver.depositRollOver)})
                                         <div className="percentage"></div>
