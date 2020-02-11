@@ -1279,7 +1279,7 @@
   <data name="lbl_RollOver" xml:space="preserve">
     <value>ROLLOVER</value>
   </data>
-  <data name="PromotionCategory" xml:space="preserve">
+  <data name="PromotionCategory1" xml:space="preserve">
     <value>FIRST DEPOSIT</value>
   </data>
 </root>

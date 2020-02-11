@@ -1277,7 +1277,7 @@
   <data name="lbl_TC" xml:space="preserve">
     <value>优惠专用条款和条件</value>
   </data>
-  <data name="PromotionCategory" xml:space="preserve">
+  <data name="PromotionCategory1" xml:space="preserve">
     <value>首次存款</value>
   </data>
 </root>
