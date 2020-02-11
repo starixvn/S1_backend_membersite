@@ -1235,4 +1235,34 @@
     <value>羽毛球</value>
     <comment>00132.</comment>
   </data>
+  <data name="lbl_Bonus" xml:space="preserve">
+    <value>優惠</value>
+  </data>
+  <data name="lbl_BonusAmount" xml:space="preserve">
+    <value>優惠金額</value>
+  </data>
+  <data name="lbl_BonusRollOver" xml:space="preserve">
+    <value>優惠最低投注倍數</value>
+  </data>
+  <data name="lbl_DepositRollOver" xml:space="preserve">
+    <value>存款最低投注倍數</value>
+  </data>
+  <data name="lbl_ExpiryTime" xml:space="preserve">
+    <value>到期時間</value>
+  </data>
+  <data name="lbl_MaxBonusAmount" xml:space="preserve">
+    <value>最高獎金</value>
+  </data>
+  <data name="lbl_Product" xml:space="preserve">
+    <value>產品</value>
+  </data>
+  <data name="lbl_PromotionsList" xml:space="preserve">
+    <value>優惠促銷清單</value>
+  </data>
+  <data name="lbl_RemainingTime" xml:space="preserve">
+    <value>剩餘時間</value>
+  </data>
+  <data name="lbl_RollOver" xml:space="preserve">
+    <value>最低投注倍數</value>
+  </data>
 </root>

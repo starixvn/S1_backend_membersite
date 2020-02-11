@@ -1234,9 +1234,38 @@
   <data name="lbl_badminton" xml:space="preserve">
     <value>羽毛球</value>
     <comment>00132.</comment>
-  </data>  
+  </data>
   <data name="lbl_Promotions" xml:space="preserve">
     <value>Promotions</value>
-    <comment></comment>
-  </data>  
+  </data>
+  <data name="lbl_Bonus" xml:space="preserve">
+    <value>优惠</value>
+  </data>
+  <data name="lbl_BonusAmount" xml:space="preserve">
+    <value>优惠金额</value>
+  </data>
+  <data name="lbl_BonusRollOver" xml:space="preserve">
+    <value>优惠最低投注倍数</value>
+  </data>
+  <data name="lbl_DepositRollOver" xml:space="preserve">
+    <value>存款最低投注倍数</value>
+  </data>
+  <data name="lbl_ExpiryTime" xml:space="preserve">
+    <value>到期时间</value>
+  </data>
+  <data name="lbl_MaxBonusAmount" xml:space="preserve">
+    <value>最高奖金</value>
+  </data>
+  <data name="lbl_Product" xml:space="preserve">
+    <value>产品</value>
+  </data>
+  <data name="lbl_PromotionsList" xml:space="preserve">
+    <value>优惠促销清单</value>
+  </data>
+  <data name="lbl_RemainingTime" xml:space="preserve">
+    <value>剩余时间</value>
+  </data>
+  <data name="lbl_RollOver" xml:space="preserve">
+    <value>最低投注倍数</value>
+  </data>
 </root>

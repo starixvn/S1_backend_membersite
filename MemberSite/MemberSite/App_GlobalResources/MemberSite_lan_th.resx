@@ -1217,10 +1217,6 @@
   <data name="lbl_YourEmail" xml:space="preserve">
     <value>อีเมลของคุณ</value>
   </data>
-  <data name="lbl_Forget" xml:space="preserve">
-    <value>ลืมไอดีหรือรหัสเข้าระบบ?</value>
-    <comment>00336. </comment>
-  </data>
   <data name="lbl_ForgetNote" xml:space="preserve">
     <value>ถ้าคุณได้ลืมรหัส กรุณาแจ้งอีเมลล์ของคุณ คำถามคำตอบเพื่อความปลอดภัย เราจะส่งรหัสใหม่ไปให้คุณที่อีเมลล์ที่คุณสมัครไว้กับเรา</value>
     <comment>00337. Deposit</comment>
@@ -1240,6 +1236,41 @@
   </data>
   <data name="lbl_Promotions" xml:space="preserve">
     <value>Promotions</value>
-    <comment></comment>
-  </data>  
+  </data>
+  <data name="lbl_Bonus" xml:space="preserve">
+    <value>โบนัส</value>
+  </data>
+  <data name="lbl_BonusAmount" xml:space="preserve">
+    <value>จำนวนโบนัส</value>
+  </data>
+  <data name="lbl_BonusRollOver" xml:space="preserve">
+    <value>ยอดหมุนเวียน โบนัส </value>
+  </data>
+  <data name="lbl_DepositRollOver" xml:space="preserve">
+    <value>ยอดหมุนเวียน เงินฝาก</value>
+  </data>
+  <data name="lbl_ExpiryTime" xml:space="preserve">
+    <value>เวลาหมดอายุ</value>
+  </data>
+  <data name="lbl_ForgetNote1" xml:space="preserve">
+    <value>หากคุณลืมรหัสผ่าน กรุณาป้อนอีเมลคำถามและคำตอบของคุณ จากนั้นเราจะส่งรหัสผ่านใหม่ไปยังอีเมลที่คุณลงเคยทะเบียนไว้</value>
+  </data>
+  <data name="lbl_ForgetPassword1" xml:space="preserve">
+    <value>ลืมชื่อผู้ใช้ หรือ รหัสผ่าน</value>
+  </data>
+  <data name="lbl_MaxBonusAmount" xml:space="preserve">
+    <value>จำนวนโบนัสสูงสุด</value>
+  </data>
+  <data name="lbl_Product" xml:space="preserve">
+    <value>ผลิตภัณฑ์</value>
+  </data>
+  <data name="lbl_PromotionsList" xml:space="preserve">
+    <value>รายการโปรโมชั่น</value>
+  </data>
+  <data name="lbl_RemainingTime" xml:space="preserve">
+    <value>เวลาคงเหลือ</value>
+  </data>
+  <data name="lbl_RollOver" xml:space="preserve">
+    <value>ยอดหมุนเวียน</value>
+  </data>
 </root>

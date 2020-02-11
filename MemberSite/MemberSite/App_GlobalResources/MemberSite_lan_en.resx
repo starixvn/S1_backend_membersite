@@ -1239,10 +1239,6 @@
   </data>
   <data name="lbl_Promotions" xml:space="preserve">
     <value>Promotions</value>
-    <comment></comment>
-  </data>    
-  <data name="lbl_Promotions" xml:space="preserve">
-    <value>Promotions</value>
   </data>
   <data name="FTDPDescription" xml:space="preserve">
     <value>Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If you are not an 188BET member yet, join now! Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If you are not an 188BET member yet, join now! Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If you are not an 188BET member yet, join now! Enjoy up to MYR 988 Bonus with your first deposit made in 188BET! If you are not an 188BET member yet, join now!</value>
@@ -1255,5 +1251,35 @@
   </data>
   <data name="lbl_TC" xml:space="preserve">
     <value>Promotion-Specific Terms and Conditions</value>
+  </data>
+  <data name="lbl_Bonus" xml:space="preserve">
+    <value>BONUS</value>
+  </data>
+  <data name="lbl_BonusAmount" xml:space="preserve">
+    <value>BOUNUS AMOUNT</value>
+  </data>
+  <data name="lbl_BonusRollOver" xml:space="preserve">
+    <value>BONUS ROLL OVER</value>
+  </data>
+  <data name="lbl_DepositRollOver" xml:space="preserve">
+    <value>DEPOSIT ROLL OVER</value>
+  </data>
+  <data name="lbl_ExpiryTime" xml:space="preserve">
+    <value>EXPIRY TIME</value>
+  </data>
+  <data name="lbl_MaxBonusAmount" xml:space="preserve">
+    <value>MAX BONUS AMOUNT</value>
+  </data>
+  <data name="lbl_Product" xml:space="preserve">
+    <value>PRODUCTS</value>
+  </data>
+  <data name="lbl_PromotionsList" xml:space="preserve">
+    <value>Promotions List</value>
+  </data>
+  <data name="lbl_RemainingTime" xml:space="preserve">
+    <value>REMAINING TIME</value>
+  </data>
+  <data name="lbl_RollOver" xml:space="preserve">
+    <value>ROLLOVER</value>
   </data>
 </root>
