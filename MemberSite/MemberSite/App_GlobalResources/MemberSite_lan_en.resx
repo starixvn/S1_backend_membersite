@@ -1236,5 +1236,50 @@
   <data name="lbl_badminton" xml:space="preserve">
     <value>Badminton</value>
     <comment>00131.</comment>
-  </data>  
+  </data>
+  <data name="lbl_Promotions" xml:space="preserve">
+    <value>Promotions</value>
+  </data>
+  <data name="FTDPDescription" xml:space="preserve">
+    <value>Enjoy up to MYR 500 Bonus with your first deposit with Nova88! Join NOW!</value>
+  </data>
+  <data name="FTDPTitle" xml:space="preserve">
+    <value>50% WELCOME BONUS UP TO MYR 500</value>
+  </data>
+  <data name="lbl_TC" xml:space="preserve">
+    <value>Promotion-Specific Terms and Conditions</value>
+  </data>
+  <data name="lbl_Bonus" xml:space="preserve">
+    <value>BONUS</value>
+  </data>
+  <data name="lbl_BonusAmount" xml:space="preserve">
+    <value>BOUNUS AMOUNT</value>
+  </data>
+  <data name="lbl_BonusRollOver" xml:space="preserve">
+    <value>BONUS ROLL OVER</value>
+  </data>
+  <data name="lbl_DepositRollOver" xml:space="preserve">
+    <value>DEPOSIT ROLL OVER</value>
+  </data>
+  <data name="lbl_ExpiryTime" xml:space="preserve">
+    <value>EXPIRY TIME</value>
+  </data>
+  <data name="lbl_MaxBonusAmount" xml:space="preserve">
+    <value>MAX BONUS AMOUNT</value>
+  </data>
+  <data name="lbl_Product" xml:space="preserve">
+    <value>PRODUCTS</value>
+  </data>
+  <data name="lbl_PromotionsList" xml:space="preserve">
+    <value>Promotions List</value>
+  </data>
+  <data name="lbl_RemainingTime" xml:space="preserve">
+    <value>REMAINING TIME</value>
+  </data>
+  <data name="lbl_RollOver" xml:space="preserve">
+    <value>ROLLOVER</value>
+  </data>
+  <data name="PromotionCategory1" xml:space="preserve">
+    <value>FIRST DEPOSIT</value>
+  </data>
 </root>

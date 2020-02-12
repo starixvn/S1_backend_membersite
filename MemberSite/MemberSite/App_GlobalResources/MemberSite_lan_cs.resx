@@ -888,7 +888,7 @@
     <value>限制</value>
   </data>
   <data name="lbl_LiveCasino" xml:space="preserve">
-    <value>娱乐城</value>
+    <value>真人娱乐</value>
   </data>
   <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
     <value>真实赌场体验</value>
@@ -1234,5 +1234,50 @@
   <data name="lbl_badminton" xml:space="preserve">
     <value>羽毛球</value>
     <comment>00132.</comment>
-  </data>  
+  </data>
+  <data name="lbl_Promotions" xml:space="preserve">
+    <value>Promotions</value>
+  </data>
+  <data name="lbl_Bonus" xml:space="preserve">
+    <value>优惠</value>
+  </data>
+  <data name="lbl_BonusAmount" xml:space="preserve">
+    <value>优惠金额</value>
+  </data>
+  <data name="lbl_BonusRollOver" xml:space="preserve">
+    <value>优惠最低投注倍数</value>
+  </data>
+  <data name="lbl_DepositRollOver" xml:space="preserve">
+    <value>存款最低投注倍数</value>
+  </data>
+  <data name="lbl_ExpiryTime" xml:space="preserve">
+    <value>到期时间</value>
+  </data>
+  <data name="lbl_MaxBonusAmount" xml:space="preserve">
+    <value>最高奖金</value>
+  </data>
+  <data name="lbl_Product" xml:space="preserve">
+    <value>产品</value>
+  </data>
+  <data name="lbl_PromotionsList" xml:space="preserve">
+    <value>优惠促销清单</value>
+  </data>
+  <data name="lbl_RemainingTime" xml:space="preserve">
+    <value>剩余时间</value>
+  </data>
+  <data name="lbl_RollOver" xml:space="preserve">
+    <value>最低投注倍数</value>
+  </data>
+  <data name="FTDPDescription" xml:space="preserve">
+    <value>在欧亚88完成第一笔存款以享受高达 马币500 的优惠回馈！立即加入！</value>
+  </data>
+  <data name="FTDPTitle" xml:space="preserve">
+    <value>50% 欢迎红利，最高 马币500</value>
+  </data>
+  <data name="lbl_TC" xml:space="preserve">
+    <value>优惠专用条款和条件</value>
+  </data>
+  <data name="PromotionCategory1" xml:space="preserve">
+    <value>首次存款</value>
+  </data>
 </root>
