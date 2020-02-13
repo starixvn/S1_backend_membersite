@@ -1,5 +1,6 @@
 ﻿import {DataField, InputBox} from '../commJS/InputBox.jsx';
 import {getUrlParameter} from '../commJS/common';
+import {getCookie} from '../commJS/Cookie';
 import * as Loading from '../commJS/Loading.jsx';
 
 (function ($, React, ReactDOM, i18n, axios) {
@@ -39,7 +40,7 @@ class RegisterForm extends React.Component {
         dataField.Value = "";
         formArr.push(dataField);   
 
-        if(getUrlParameter("affId") == ""){
+        if(getUrlParameter("affId") == "" && getCookie("affId") == ""){
             dataField = new DataField("CurrencyId");
             dataField.displayName = i18n.lbl_PrefferedCurrency;
             dataField.tooltip = i18n.lbl_PreferredCurrencyToolTip;
@@ -159,9 +160,9 @@ class RegisterForm extends React.Component {
             this.setState({SubmitDisabled: false});
             data["UserLang"] = SiteLanguage;
 
-            data["refId"] = getUrlParameter("refId");
+            data["refId"] = getUrlParameter("refId")||getCookie("refId");
 
-            data["affId"] = getUrlParameter("affId");
+            data["affId"] = getUrlParameter("affId")||getCookie("affId");
 
             if(data["affId"] != "") {
                 data["CurrencyId"]=0;
