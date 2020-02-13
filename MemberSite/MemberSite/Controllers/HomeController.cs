@@ -9,8 +9,25 @@ namespace MemberSite.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(string refId, string affId)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                if (refId != null)
+                {
+                    CookieOptions option = new CookieOptions();
+                    option.Expires = DateTime.Now.AddMonths(1);
+                    Response.Cookies.Append(nameof(refId), refId, option);
+                }
+
+                if (affId != null)
+                {
+                    CookieOptions option = new CookieOptions();
+                    option.Expires = DateTime.Now.AddMonths(1);
+                    Response.Cookies.Append(nameof(affId), affId, option);
+                }
+            }
+
             return View();
         }
         public IActionResult Register(string refId, string affId)
