@@ -161,13 +161,14 @@
                         </span>
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Message")</span>
                     </a>
-                }
-                <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
-                    <span class="side-nav__icon">
-                        <i class="icon icon-account"></i>
-                    </span>
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
-                </a>
+               
+                    <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                        <span class="side-nav__icon">
+                            <i class="icon icon-account"></i>
+                        </span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
+                    </a>
+                 }
                 @*<a class="side-nav__btn">
                         <span class="side-nav__icon">
                             <i class="icon icon-promotion"></i>
