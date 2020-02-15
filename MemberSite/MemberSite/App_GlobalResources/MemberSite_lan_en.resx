@@ -1282,4 +1282,8 @@
   <data name="PromotionCategory1" xml:space="preserve">
     <value>FIRST DEPOSIT</value>
   </data>
+  <data name="lbl_CreditSignUp" xml:space="preserve">
+    <value>Dear Valued customer, &lt;br /&gt;&lt;br /&gt;Welcome to &lt;a href=""https://www.nova88.net"" target=""_new""&gt;www.nova88.net&lt;/a&gt;, upon registration please visit the said link and enjoy our games.
+</value>
+  </data>
 </root>
