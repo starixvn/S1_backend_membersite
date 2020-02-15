@@ -18,6 +18,11 @@ namespace MemberSite.Controllers
                     CookieOptions option = new CookieOptions();
                     option.Expires = DateTime.Now.AddMonths(1);
                     Response.Cookies.Append(nameof(refId), refId, option);
+
+                    if (affId == null)
+                    {
+                        Response.Cookies.Delete(nameof(affId));
+                    }
                 }
 
                 if (affId != null)
@@ -42,6 +47,11 @@ namespace MemberSite.Controllers
                 CookieOptions option = new CookieOptions();
                 option.Expires = DateTime.Now.AddMonths(1);
                 Response.Cookies.Append(nameof(refId), refId, option);
+
+                if (affId == null)
+                {
+                    Response.Cookies.Delete(nameof(affId));
+                }
             }
 
             if (affId != null)

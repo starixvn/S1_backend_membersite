@@ -9,7 +9,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Style{
+    <style>
+        .modal__body {
+            flex: 0 0 auto;
+            overflow: visible;
+            color: #26416e;
+        }
 
+            .modal__body a {
+                color: #f77a00;
+                font-weight: bold;
+                text-decoration: underline;
+            }
+    </style>
 }
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
@@ -74,4 +86,34 @@
 
     <script src="~/lib/runtime.min.js"></script>
     <script src="~/js/component/home/registerForm.min.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".Js-CreditSignUp").on("touchstart, click", function () {
+                $("#CreditSignUpBtnModel").attr("data-open", false);
+            });
+        });
+    </script>
+}
+@section PromptMsg{
+    @if ((Context.Request.Query.ContainsKey("refId") && Context.Request.Query["refId"].ToString().StartsWith("Nova88", StringComparison.OrdinalIgnoreCase)) || (!Context.Request.Query.ContainsKey("refId") && Context.Request.Cookies["refId"] != null && Context.Request.Cookies["refId"].StartsWith("Nova88", StringComparison.OrdinalIgnoreCase)))
+    {
+        <div class="modal" data-open="true" id="CreditSignUpBtnModel">
+            <div class="overlay Js-CreditSignUp"></div>
+            <div class="modal__dialog">
+                <div class="modal__header">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Welcome")</span>
+                </div>
+                <div class="modal__body">
+                    @Html.Raw(selLangBLL.GetResourceValue("lbl_CreditSignUp"))
+                </div>
+                <div class="modal__footer">
+                    <div class="btn-group">
+                        <button class="btn btn-secondary Js-CreditSignUp" type="button">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Close")</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 }
