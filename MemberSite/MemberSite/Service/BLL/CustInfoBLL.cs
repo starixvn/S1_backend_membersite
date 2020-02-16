@@ -28,12 +28,12 @@ namespace MemberSite.Service.BLL
         private readonly IWebHostEnvironment environment;
         private readonly CodeGenerator codeGenerator;
         private readonly SelLangBLL selLangBLL;
-        private readonly RollOverService rollOverService;
+        private readonly RolloverService rollOverService;
         private readonly Dictionary<int, bool> isConvert = new Dictionary<int, bool>()
             {
                 {51,false },{15,false }
             };
-        public CustInfoBLL(IMemoryCache cache, IWebHostEnvironment environment, SelLangBLL selLangBLL, CodeGenerator codeGenerator, Tools tools, Common common, CustInfoService custInfoService, AuthenticateService authenticateService, ServerInfoBLL serverInfoBLL, RollOverService rollOverService, AgentInfoService agentInfoService, RegexUtilities regexUtilities)
+        public CustInfoBLL(IMemoryCache cache, IWebHostEnvironment environment, SelLangBLL selLangBLL, CodeGenerator codeGenerator, Tools tools, Common common, CustInfoService custInfoService, AuthenticateService authenticateService, ServerInfoBLL serverInfoBLL, RolloverService rollOverService, AgentInfoService agentInfoService, RegexUtilities regexUtilities)
         {
             this.tools = tools;
             this.custInfoService = custInfoService;

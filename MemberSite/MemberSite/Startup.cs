@@ -71,7 +71,7 @@ namespace MemberSite
             services.AddSingleton<MessageService>();
             services.AddSingleton<ThirdPartyService>();
             services.AddSingleton<PayService>();
-            services.AddSingleton<RollOverService>();
+            services.AddSingleton<RolloverService>();
             services.AddSingleton<PromotionService>();
             // foreach (var s in AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())

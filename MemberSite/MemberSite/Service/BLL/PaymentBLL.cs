@@ -17,14 +17,16 @@ namespace MemberSite.Service.BLL
         private readonly DepoistService depoistService;
         private readonly WithdrawalService withdrawalService;
         private readonly BankInfoBLL bankInfoBLL;
+        private readonly RolloverService rollOverService;
 
-        public PaymentBLL(BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService)
+        public PaymentBLL(BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService, RolloverService rollOverService)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.custInfoBLL = custInfoBLL;
             this.depoistService = depoistService;
             this.withdrawalService = withdrawalService;
             this.bankInfoBLL = bankInfoBLL;
+            this.rollOverService = rollOverService;
         }
 
         public int DepositReqWireTransfer(int custId, int sysId, decimal amount, string memo, out DepositRep3 depositRep3)
@@ -250,6 +252,14 @@ namespace MemberSite.Service.BLL
             int.TryParse(m.Value, out depositId);
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
             return depoistService.GetDepositReceipt(depositId, CustInfo.SiteId);
+        }
+        public Rollover ReachedRollover(int custId)
+        {
+            return rollOverService.ReachedRollover(custId);
+        }
+        public decimal GetWithdrawalAvailableBalance(int custId)
+        {
+            return withdrawalService.GetWithdrawalAvailableBalance(custId);
         }
     }
 }

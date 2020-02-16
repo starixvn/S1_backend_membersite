@@ -84,9 +84,13 @@ namespace MemberSite.Service.Model
     }
     public class CustRollOver
     {
-        public decimal DepositRollOver { get; set; }
-        public decimal DepositTurnOver { get; set; }
-        public decimal BonusRollOver { get; set; }
-        public decimal BonusTurnOver { get; set; }
+        public decimal RollOver { get; set; }
+        public decimal TurnOver { get; set; }
+    }
+
+    public class Rollover
+    {
+        public bool ReachedRollover { get; set; }
+        public decimal Lack { get; set; }
     }
 }

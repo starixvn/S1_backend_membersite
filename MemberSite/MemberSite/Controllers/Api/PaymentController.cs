@@ -160,31 +160,64 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> WithdrawalReqAsync(WithdrawalReqModel withdrawalReqModel)
         {
-            ApiResult apiResult = new ApiResult();
+            ApiResult apiResult = new ApiResult(selLangBLL);
 
             if (withdrawalReqModel.amount <= 0)
             {
-                return null;
+                return apiResult;
             }
 
             var authData = authorizeBLL.GetAuthData();
+            var rollover = paymentBLL.ReachedRollover(authData.CustId);
+
+            if (!rollover.ReachedRollover)
+            {
+                apiResult.Message = $"{rollover.Lack}";
+                apiResult.ErrorCode = -1;
+                return apiResult;
+            }
+
             var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
 
             if (custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0)
             {
-                return null;
+                return apiResult;
             }
             else if (custBankInfo.bankInfoDetail.Where(x => x.SysId == withdrawalReqModel.sysId && x.AccountNo == withdrawalReqModel.AccountNo).Count() == 0)
             {
-                return null;
+                return apiResult;
             }
             int result = 99;
+
+            //GetWithdrawalAvailableBalance
+
             /*Temp will be Removed*/
+            var balance = walletBLL.GetBalance(authData.CustId);
+            var WithdrawalAvailableBalance = paymentBLL.GetWithdrawalAvailableBalance(authData.CustId);
             ApiResult<TransferResult> transferToSabaResult = null;
             if (mainWalletType == 2)
             {
+                var sabaBalance = await Get3rdBalanceAsync(1, authData.CustId);
+                decimal transferBalance = 0;
+                if (WithdrawalAvailableBalance + sabaBalance < withdrawalReqModel.amount)
+                {
+                    apiResult.Message = $"{WithdrawalAvailableBalance}";
+                    apiResult.ErrorCode = -3;
+                    return apiResult;
+                }
+                else if (balance + sabaBalance < withdrawalReqModel.amount)
+                {
+                    apiResult.Message = $"{withdrawalReqModel.amount - (balance + sabaBalance)}";
+                    apiResult.ErrorCode = -2;
+                    return apiResult;
+                }
+                else if (balance < withdrawalReqModel.amount)
+                {
+                    transferBalance = withdrawalReqModel.amount - balance;
+                }
+
                 var input = new TpTransfer();
-                input.Amount = withdrawalReqModel.amount;
+                input.Amount = transferBalance;
                 input.CustId = authData.CustId;
                 input.direction = TpDirection.ToMain;
                 input.TpId = 1;
@@ -192,6 +225,19 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
+                if (WithdrawalAvailableBalance < withdrawalReqModel.amount)
+                {
+                    apiResult.Message = $"{WithdrawalAvailableBalance}";
+                    apiResult.ErrorCode = -3;
+                    return apiResult;
+                }
+                else if (balance < withdrawalReqModel.amount)
+                {
+                    apiResult.Message = $"{withdrawalReqModel.amount - balance}";
+                    apiResult.ErrorCode = -2;
+                    return apiResult;
+                }
+
                 transferToSabaResult = new ApiResult<TransferResult>();
                 transferToSabaResult.ErrorCode = 0;
             }
@@ -420,6 +466,36 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -1;
             }
             return apiResult;
+        }
+
+        private class UserBalance
+        {
+            public decimal balance { get; set; }
+            public decimal outstanding { get; set; }
+            public byte Currency { get; set; }
+        }
+
+        private class TpInfo
+        {
+            public int TpId { set; get; }
+            public int CustId { set; get; }
+            public Dictionary<string, string> inputs { set; get; }
+        }
+
+        /*3rd Wallter*/
+        private async Task<decimal> Get3rdBalanceAsync(int tpId, int custId)
+        {
+            var myUrl = $"{tpApiUrl}GetBalance";
+            var oTpInfo = new TpInfo
+            {
+                TpId = tpId,
+                CustId = custId,
+                inputs = new Dictionary<string, string>()
+            };
+
+            var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
+
+            return data.ErrorCode == 0 ? data.Data.balance : 0;
         }
 
         public class TpTransfer

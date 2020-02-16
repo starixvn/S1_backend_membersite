@@ -63,26 +63,12 @@ import {number_format} from '../commJS/common';
                                 <ul>
                                     <li className="txt-org">{i18n.lbl_BonusRollOver}</li>
                                     <li className="txt-gray">
-                                        <span className="txt-org">{i18n["Currency_"+Data.currencyId]} ${number_format(Data.custRollOver.bonusTurnOver)}</span> (Req.{i18n["Currency_"+Data.currencyId]} ${number_format(Data.custRollOver.bonusRollOver)})
+                                        <span className="txt-org">{i18n["Currency_"+Data.currencyId]} ${number_format(Data.custRollOver.turnOver)}</span> (Req.{i18n["Currency_"+Data.currencyId]} ${number_format(Data.custRollOver.rollOver)})
                                         <div className="percentage"></div>
                                     </li>
                                     <li>
                                         <div className="schedule">
-                                            <div className="schedule-bg" style={{width:  (Data.custRollOver.bonusTurnOver / Data.custRollOver.bonusRollOver) * 100 + "%"}}></div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="promotions-txt">
-                                <ul>
-                                    <li className="txt-org">{i18n.lbl_DepositRollOver}</li>
-                                    <li className="txt-gray">
-                                        <span className="txt-org">{i18n["Currency_"+Data.currencyId]} ${number_format(Data.custRollOver.depositTurnOver)}</span> (Req.{i18n["Currency_"+Data.currencyId]} ${number_format(Data.custRollOver.depositRollOver)})
-                                        <div className="percentage"></div>
-                                    </li>
-                                    <li>
-                                        <div className="schedule">
-                                            <div className="schedule-bg" style={{width:  (Data.custRollOver.depositTurnOver / Data.custRollOver.depositRollOver) * 100 + "%"}}></div>
+                                            <div className="schedule-bg" style={{width:  (Data.custRollOver.turnOver / Data.custRollOver.rollOver) * 100 + "%"}}></div>
                                         </div>
                                     </li>
                                 </ul>

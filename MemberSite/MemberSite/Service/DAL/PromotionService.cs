@@ -16,10 +16,10 @@ namespace MemberSite.Service.DAL
     {
         private IConfiguration configuration;
         private readonly Common common;
-        private readonly RollOverService rollOverService;
+        private readonly RolloverService rollOverService;
         private readonly WalletService walletService;
 
-        public PromotionService(IConfiguration configuration, Common common, WalletService walletService, RollOverService rollOverService)
+        public PromotionService(IConfiguration configuration, Common common, WalletService walletService, RolloverService rollOverService)
         {
             this.configuration = configuration;
             this.common = common;
@@ -79,7 +79,7 @@ namespace MemberSite.Service.DAL
                             }
                         }
 
-                        dRollOver = ((dLockedAmount + dBonus) * promotion.RollOver) - dLockedAmount;
+                        dRollOver = ((dLockedAmount + dBonus) * promotion.RollOver);
                         sBonusInfo = Newtonsoft.Json.JsonConvert.SerializeObject(promotion, new Newtonsoft.Json.JsonSerializerSettings { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore });
                     }
                     else

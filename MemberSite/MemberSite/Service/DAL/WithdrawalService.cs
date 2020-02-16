@@ -18,28 +18,39 @@ namespace MemberSite.Service.DAL
         private readonly IConfiguration configuration;
         private readonly Common common;
         private readonly WalletService walletService;
+        private readonly RolloverService rolloverService;
         private int typePosition = 1000;
 
-        public WithdrawalService(IConfiguration configuration, Common common, WalletService walletService)
+        public WithdrawalService(IConfiguration configuration, Common common, WalletService walletService, RolloverService rolloverService)
         {
             this.configuration = configuration;
             this.common = common;
             this.walletService = walletService;
+            this.rolloverService = rolloverService;
         }
         public int WithdrawalReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, WithdrawalInfo withdrawalInfo, out decimal afterAmount, out string transId)
         {
             transId = "";
-
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            afterAmount = 0;
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Open();
-            using MySqlTransaction trans = conn.BeginTransaction();
+            using var trans = conn.BeginTransaction();
             var p = new DynamicParameters(new { CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, Amount = amount, Memo = memo, WithdrawalInfo = Newtonsoft.Json.JsonConvert.SerializeObject(withdrawalInfo), Prefix = $"W{common.GetEnv()}" });
             p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
 
             conn.Execute("WithdrawalInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
             transId = p.Get<string>("vTransId");
+            var rollover = rolloverService.ReachedRollover(custId, conn, trans);
 
-            afterAmount = 0;
+            if (!rollover.ReachedRollover)
+            {
+                return -2;
+            }
+            else if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
+            {
+                return -3;
+            }
+
             byte is1stDepoist = 0;
             int result = -99;
             result = walletService.SetBalance(custId, siteId, userName, amount * -1, typePosition + 1, null, transId, out afterAmount, out is1stDepoist, conn, trans);
@@ -128,8 +139,21 @@ namespace MemberSite.Service.DAL
 
         private int SetWithdrawalLog(int withdrawalId, int siteId, string comment, int status, string Operator)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Execute("WithdrawalLog_Ins", new { WithdrawalId = withdrawalId, SiteId = siteId, Comment = comment, Action = status, Operator }, commandType: CommandType.StoredProcedure);
+        }
+        public decimal GetWithdrawalAvailableBalance(int custId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            conn.Open();
+            using var trans = conn.BeginTransaction(IsolationLevel.ReadUncommitted);
+            var result = GetWithdrawalAvailableBalance(custId, conn, trans);
+            trans.Rollback();
+            return result;
+        }
+        public decimal GetWithdrawalAvailableBalance(int custId, MySqlConnection conn, MySqlTransaction trans)
+        {
+            return conn.Execute("Common_WithdrawalAvailableBalance_Get", new { CustId = custId }, transaction: trans, commandType: CommandType.StoredProcedure);
         }
     }
 }
