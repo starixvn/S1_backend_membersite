@@ -5813,9 +5813,83 @@ button.swiper-pagination-bullet {
 }
 
 @media (max-width: 1025px) {
-    [data-layout=desktop] .main--home {
-        padding: 0;
-    }
+  [data-layout=desktop] .main--home {
+    padding: 0;
+  }
+}
+
+.side-btn {
+  position: fixed;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  z-index: 9;
+}
+
+.side-btn button {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: #26416e;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 0.1rem;
+  padding: 0.1rem;
+}
+
+.side-btn button .icon {
+  font-size: 18px;
+  display: block;
+}
+
+.status-icon {
+  color: #fff;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 0.2rem 0.4rem !important;
+  font-size: 12px;
+  font-weight: normal;
+  margin-left: 0.3rem;
+}
+
+.status-icon.ace {
+  background: #f77a00;
+}
+
+.status-icon.end {
+  background: #26416e;
+}
+
+.status-icon.cal {
+  background: #999999;
+}
+
+.form-group.WAB {
+  background: #DBEAFC;
+  border-radius: 10px;
+  padding: 0 0.75rem;
+  min-height: auto;
+  color: #26416E;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.form-group.WAB .form-content {
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+
+.form-group.WAB + form {
+  padding: 0 0.75rem;
+}
+
+@media (max-width: 1110px) {
+  .status-icon {
+    margin-left: 0;
+    width: 70px;
+    text-align: center;
+    display: block;
+  }
 }
 
 .app {
@@ -6603,9 +6677,11 @@ ul {
                     padding: 0;
                 }
 
-                .promotionsList-page article div.promotions-txt .txt-blue {
-                    font-size: 1rem;
-                }
+.promotionsList-page article div.promotions-txt .txt-blue {
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+}
 
                 .promotionsList-page article div.promotions-txt .txt-gray {
                     padding: 0.8rem 0;
@@ -6667,39 +6743,35 @@ ul {
                 padding: 0;
             }
 
-@media (max-width: 900px) {
-    .promotionsList-page .promotions-module {
-        margin: 0;
-    }
-
-        .promotionsList-page .promotions-module .promotions-title {
-            padding: 0;
-        }
-
-    .promotionsList-page article {
-        display: block;
-        padding: 0;
-    }
-
-        .promotionsList-page article div {
-            padding: 0;
-        }
-
-            .promotionsList-page article div.schedule-module {
-                display: block;
-            }
-
-                .promotionsList-page article div.schedule-module .promotions-txt {
-                    margin: 1rem 0;
-                }
-
-        .promotionsList-page article .promotions-banner {
-            margin-bottom: 1rem;
-        }
-
-        .promotionsList-page article .promotions-type {
-            padding: 0.5rem 0;
-        }
+@media (max-width: 1110px) {
+  .promotionsList-page .promotions-module {
+    margin: 0;
+  }
+  .promotionsList-page .promotions-module .promotions-title {
+    padding: 0;
+  }
+  .promotionsList-page article {
+    display: block;
+    padding: 1rem 0 0;
+  }
+  .promotionsList-page article div {
+    padding: 0;
+  }
+  .promotionsList-page article div.schedule-module {
+    display: block;
+  }
+  .promotionsList-page article div.schedule-module .promotions-txt {
+    margin: 1rem 0;
+  }
+  .promotionsList-page article div.promotions-txt .txt-blue {
+    display: block;
+  }
+  .promotionsList-page article .promotions-banner {
+    margin-bottom: 1rem;
+  }
+  .promotionsList-page article .promotions-type {
+    padding: 0.5rem 0;
+  }
 }
 
 @font-face {
@@ -6834,9 +6906,11 @@ ul {
                     padding: 0;
                 }
 
-                .promotionsInfo-page article div.promotions-txt .txt-blue {
-                    font-size: 1rem;
-                }
+.promotionsInfo-page article div.promotions-txt .txt-blue {
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+}
 
                 .promotionsInfo-page article div.promotions-txt .txt-gray {
                     padding: 1rem 0 0;
@@ -6876,41 +6950,36 @@ ul {
                 }
 
 @media (max-width: 1110px) {
-    .promotionsInfo-page .promotions-module {
-        padding: 0 .4rem;
-    }
-
-    .promotionsInfo-page article {
-        display: block;
-    }
-
-        .promotionsInfo-page article div {
-            padding: 0;
-        }
-
-        .promotionsInfo-page article .promotions-banner {
-            margin-bottom: 1rem;
-        }
-
-        .promotionsInfo-page article .promotions-type {
-            padding-top: 1.2rem;
-        }
-
-            .promotionsInfo-page article .promotions-type ul {
-                display: block;
-                font-size: 0.9rem;
-            }
-
-            .promotionsInfo-page article .promotions-type li .btn-group {
-                justify-content: center;
-                margin-top: 1rem;
-            }
-
-    .promotionsInfo-page .table-rwd [class^=td-] {
-        border-left-width: 1px;
-    }
-
-    .promotionsInfo-page .table-rwd .tr > div {
-        padding: 0.5rem;
-    }
+  .promotionsInfo-page .promotions-module {
+    padding: 0 .4rem;
+  }
+  .promotionsInfo-page article {
+    display: block;
+  }
+  .promotionsInfo-page article div {
+    padding: 0;
+  }
+  .promotionsInfo-page article div.promotions-txt .txt-blue {
+    display: block;
+  }
+  .promotionsInfo-page article .promotions-banner {
+    margin-bottom: 1rem;
+  }
+  .promotionsInfo-page article .promotions-type {
+    padding-top: 1.2rem;
+  }
+  .promotionsInfo-page article .promotions-type ul {
+    display: block;
+    font-size: 0.9rem;
+  }
+  .promotionsInfo-page article .promotions-type li .btn-group {
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  .promotionsInfo-page .table-rwd [class^=td-] {
+    border-left-width: 1px;
+  }
+  .promotionsInfo-page .table-rwd .tr > div {
+    padding: 0.5rem;
+  }
 }

@@ -58,17 +58,17 @@ import {number_format} from '../commJS/common';
                         </div>
                     </article>
                     {Data.bonusInfoStatus==1 && Data.custRollOver!=null ? <article>
-                        <div className="schedule-module">
-                            <div className="promotions-txt">
+                        <div class="schedule-module">
+                            <div class="promotions-txt">
                                 <ul>
-                                    <li className="txt-org">{i18n.lbl_BonusRollOver}</li>
-                                    <li className="txt-gray">
+                                    <li class="txt-org">{i18n.lbl_BonusRollOver}</li>
+                                    <li class="txt-gray">
                                         <span className="txt-org">{i18n["Currency_"+Data.currencyId]} ${number_format(Data.custRollOver.turnOver)}</span> (Req.{i18n["Currency_"+Data.currencyId]} ${number_format(Data.custRollOver.rollOver)})
-                                        <div className="percentage"></div>
+                                        <div class="percentage">{((Data.custRollOver.turnOver / Data.custRollOver.rollOver) * 100).toFixed(2)}%</div>
                                     </li>
                                     <li>
-                                        <div className="schedule">
-                                            <div className="schedule-bg" style={{width:  (Data.custRollOver.turnOver / Data.custRollOver.rollOver) * 100 + "%"}}></div>
+                                        <div class="schedule">
+                                            <div class="schedule-bg" style={{width:  (Data.custRollOver.turnOver / Data.custRollOver.rollOver) * 100 + "%"}}></div>
                                         </div>
                                     </li>
                                 </ul>

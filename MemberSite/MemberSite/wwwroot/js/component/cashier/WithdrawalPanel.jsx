@@ -527,12 +527,12 @@ import {ShowModal} from '../commJS/Modal.jsx';
                         <div className="heading">
                             <span className="text">{i18n.lbl_Withdrawal}</span>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group WAB">
                             <label className="form-title">Withdrawal Available Balance</label>
-                            <div class="form-content form-content--text">
+                            <div className="form-content form-content--text">
                                 <span className="text">{this.state.WithdrawalAvailableBalance!=null ? number_format(this.state.WithdrawalAvailableBalance):0}</span>
                             </div>
-                        </div>
+                        </div>                        
                         <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                             <div className="form-group">
                                 <label className="form-title">{i18n.lbl_BankAccountName}</label>
