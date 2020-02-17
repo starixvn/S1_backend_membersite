@@ -40,6 +40,13 @@
     i18n.Add("lbl_UploadPhotoId", selLangBLL.GetResourceValue("lbl_UploadPhotoId"));
     i18n.Add("lbl_UploadSuccess", selLangBLL.GetResourceValue("lbl_UploadSuccess"));
 
+    string[] lbl_Txts = new string[] { "lbl_Close" };
+    foreach (var lbl_Txt in lbl_Txts)
+    {
+        if (!i18n.ContainsKey(lbl_Txt))
+            i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
+    }
+
     for (int i = 0; i <= 7; i++)
     {
         if (!i18n.ContainsKey($"lbl_WithdrawalStatus{i}"))
