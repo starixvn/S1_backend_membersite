@@ -121,17 +121,14 @@
                 </div>
                 @if (User.Identity.IsAuthenticated)
                 {
-<<<<<<< HEAD
                     <button class="side-nav__btn logoutBtn">
                         <i class="icon icon-logout"></i>
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Logout")</span>
                     </button>
-=======
                 <button class="side-nav__btn logoutBtn">
                     <i class="icon icon-logout"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Logout")</span>
                 </button>
->>>>>>> PRD
                 }
             </div>
         </div>
@@ -208,14 +205,11 @@
                     </span>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
                 </a>
-<<<<<<< HEAD
                 @if (promotionCnt > 0)
                 {
                     <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
-=======
                  }
                 @*<a class="side-nav__btn">
->>>>>>> PRD
                         <span class="side-nav__icon">
                             <i class="icon icon-promotion"></i>
                             <span class="new-dot">@promotionCnt</span>
