@@ -208,5 +208,14 @@
   <data name="ForgetPwdSuccess" xml:space="preserve">
     <value>Sistem Kirim Surat ke Kotak Surat Anda dengan Kata Sandi, Silakan Periksa Kotak Surat Anda!</value>
     <comment>0026. Deposit</comment>
-  </data>  
+  </data>
+  <data name="msg_CreditSignUp" xml:space="preserve">
+    <value>Kepada Pelanggan Terhormat,&lt;br /&gt;&lt;br /&gt;Selamat datang di &lt;a href="https://www.nova88.net" target="_new"&gt;www.nova88.net&lt;/a&gt;, setelah pendaftaran silakan kunjungi link yang kami berikan dan selamat menikmati permainan kami.
+</value>
+  </data>
+  <data name="msg_DepositAlet" xml:space="preserve">
+    <value>Saldo anda saat ini:  {0}{1}&lt;br &gt;
+Deposit sekarang dan nikmati permainan dan pelayanan kami
+</value>
+  </data>
 </root>

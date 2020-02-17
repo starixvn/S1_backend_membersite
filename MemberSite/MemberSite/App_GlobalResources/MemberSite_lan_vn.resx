@@ -1162,4 +1162,7 @@
   <data name="lbl_Promotions" xml:space="preserve">
     <value>Promotions</value>
   </data>
+  <data name="lbl_Notice" xml:space="preserve">
+    <value>ĐỂ Ý</value>
+  </data>
 </root>

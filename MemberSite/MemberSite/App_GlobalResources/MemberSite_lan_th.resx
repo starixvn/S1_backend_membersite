@@ -1285,4 +1285,7 @@
   <data name="PromotionCategory1" xml:space="preserve">
     <value>ฝากครั้งแรก</value>
   </data>
+  <data name="lbl_Notice" xml:space="preserve">
+    <value>หมายเหตุ</value>
+  </data>
 </root>

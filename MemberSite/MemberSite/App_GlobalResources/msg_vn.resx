@@ -201,9 +201,14 @@
   <data name="ForgetPwdFail" xml:space="preserve">
     <value>Bạn đã nhập email và câu trả lời bảo mật không đúng, vui lòng thử lại!</value>
     <comment>0024. Deposit</comment>
-  </data>  
+  </data>
   <data name="ForgetPwdSuccess" xml:space="preserve">
     <value>Hệ thống gửi thư vào hộp thư của bạn. Vui lòng kiểm tra hộp thư!</value>
     <comment>0026. Deposit</comment>
-  </data>  
+  </data>
+  <data name="msg_DepositAlet" xml:space="preserve">
+    <value>Số dư hiện tại của bạn là:  {0}{1}&lt;br &gt;
+Gửi tiền ngay để thưởng thức các trò chơi và dịch vụ của chúng tôi
+</value>
+  </data>
 </root>

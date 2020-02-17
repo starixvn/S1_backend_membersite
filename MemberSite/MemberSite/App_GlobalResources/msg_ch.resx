@@ -207,9 +207,16 @@
   <data name="ForgetPwdFail" xml:space="preserve">
     <value>您輸入的電子郵件或是安全問題回答不正確，請確認!</value>
     <comment>0024. Deposit</comment>
-  </data>  
+  </data>
   <data name="ForgetPwdSuccess" xml:space="preserve">
     <value>系統已經密碼寄送至你註冊的電子郵件信箱!</value>
     <comment>0026. Deposit</comment>
-  </data>  
+  </data>
+  <data name="msg_CreditSignUp" xml:space="preserve">
+    <value>敬愛的客戶， &lt;br /&gt;&lt;br /&gt;歡迎來到&lt;a href="https://www.nova88.net" target="_new"&gt;www.nova88.net&lt;/a&gt;, 完成註冊後請遊覽此鏈接並享受我司的遊戲盤口。</value>
+  </data>
+  <data name="msg_DepositAlet" xml:space="preserve">
+    <value>您的當前余額是： {0}{1}&lt;br &gt;
+立即存款以享有我司遊戲盤口及服務</value>
+  </data>
 </root>

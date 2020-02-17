@@ -888,7 +888,7 @@
     <value>限制</value>
   </data>
   <data name="lbl_LiveCasino" xml:space="preserve">
-    <value>娱乐城</value>
+    <value>真人娱乐</value>
   </data>
   <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
     <value>真实赌场体验</value>
@@ -1279,5 +1279,8 @@
   </data>
   <data name="PromotionCategory1" xml:space="preserve">
     <value>首次存款</value>
+  </data>
+  <data name="lbl_Notice" xml:space="preserve">
+    <value>通知</value>
   </data>
 </root>

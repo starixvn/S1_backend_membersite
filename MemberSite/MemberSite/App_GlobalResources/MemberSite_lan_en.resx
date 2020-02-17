@@ -1282,4 +1282,7 @@
   <data name="PromotionCategory1" xml:space="preserve">
     <value>FIRST DEPOSIT</value>
   </data>
+  <data name="lbl_Notice" xml:space="preserve">
+    <value>NOTICE</value>
+  </data>
 </root>
