@@ -30,8 +30,9 @@ namespace MemberSite.Controllers.Api
         private readonly string apiUrl;
         private readonly int mainWalletType;
         private readonly MessageBLL messageBLL;
+        private readonly PaymentBLL paymentBLL;
 
-        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter, MessageBLL messageBLL)
+        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter, MessageBLL messageBLL, PaymentBLL paymentBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -43,6 +44,7 @@ namespace MemberSite.Controllers.Api
             apiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
             this.messageBLL = messageBLL;
+            this.paymentBLL = paymentBLL;
         }
 
         [HttpPost]
@@ -194,7 +196,27 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+        [HttpPost]
+        public async Task<ApiResult<decimal>> GetWithdrawalAvailableBalanceAsync()
+        {
+            var apiResult = new ApiResult<decimal>(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+            var withdrawalAvailableBalance = paymentBLL.GetWithdrawalAvailableBalance(authData.CustId);
 
+            if (mainWalletType==2)
+            {
+                withdrawalAvailableBalance += await Get3rdBalanceAsync(1, authData.CustId);
+            }
+
+            if (withdrawalAvailableBalance < 0)
+            {
+                withdrawalAvailableBalance = 0;
+            }
+
+            apiResult.Data = withdrawalAvailableBalance;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
         private class UserBalance
         {
             public decimal balance { get; set; }

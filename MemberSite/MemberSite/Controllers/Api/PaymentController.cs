@@ -199,9 +199,20 @@ namespace MemberSite.Controllers.Api
             {
                 var sabaBalance = await Get3rdBalanceAsync(1, authData.CustId);
                 decimal transferBalance = 0;
-                if (WithdrawalAvailableBalance + sabaBalance < withdrawalReqModel.amount)
+                WithdrawalAvailableBalance += sabaBalance;
+                if (WithdrawalAvailableBalance < withdrawalReqModel.amount)
                 {
-                    apiResult.Message = $"{WithdrawalAvailableBalance}";
+                    decimal DiffWithdrawalAvailableBalance = 0;
+                    if (WithdrawalAvailableBalance > 0)
+                    {
+                        DiffWithdrawalAvailableBalance = withdrawalReqModel.amount - WithdrawalAvailableBalance;
+                    }
+                    else
+                    {
+                        DiffWithdrawalAvailableBalance = withdrawalReqModel.amount;
+                    }
+
+                    apiResult.Message = $"{DiffWithdrawalAvailableBalance}";
                     apiResult.ErrorCode = -3;
                     return apiResult;
                 }
@@ -211,6 +222,7 @@ namespace MemberSite.Controllers.Api
                     apiResult.ErrorCode = -2;
                     return apiResult;
                 }
+
                 else if (balance < withdrawalReqModel.amount)
                 {
                     transferBalance = withdrawalReqModel.amount - balance;
@@ -227,7 +239,18 @@ namespace MemberSite.Controllers.Api
             {
                 if (WithdrawalAvailableBalance < withdrawalReqModel.amount)
                 {
-                    apiResult.Message = $"{WithdrawalAvailableBalance}";
+
+                    decimal DiffWithdrawalAvailableBalance = 0;
+                    if (WithdrawalAvailableBalance > 0)
+                    {
+                        DiffWithdrawalAvailableBalance = withdrawalReqModel.amount - WithdrawalAvailableBalance;
+                    }
+                    else
+                    {
+                        DiffWithdrawalAvailableBalance = withdrawalReqModel.amount;
+                    }
+
+                    apiResult.Message = $"{DiffWithdrawalAvailableBalance}";
                     apiResult.ErrorCode = -3;
                     return apiResult;
                 }
@@ -255,6 +278,17 @@ namespace MemberSite.Controllers.Api
                 }
                 else
                 {
+                    if (mainWalletType == 2)
+                    {
+                        transferToSabaResult = null;
+                        var input = new TpTransfer();
+                        input.Amount = walletBLL.GetBalance(authData.CustId);
+                        input.CustId = authData.CustId;
+                        input.direction = TpDirection.ToTp;
+                        input.TpId = 1;
+                        transferToSabaResult = await TransferToSabaAsync(input);
+                    }
+
                     apiResult.ErrorCode = 9000;
                     apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalFailed");
                 }

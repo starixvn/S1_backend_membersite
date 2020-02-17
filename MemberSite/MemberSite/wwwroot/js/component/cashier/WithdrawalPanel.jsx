@@ -1,6 +1,7 @@
 ﻿import {DataField, InputBox} from '../commJS/InputBox.jsx';
 import * as Loading from '../commJS/Loading.jsx';
 import {number_format} from '../commJS/common';
+import {ShowModal} from '../commJS/Modal.jsx';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
     class RecentHistoryBody extends React.Component {
@@ -339,6 +340,11 @@ import {number_format} from '../commJS/common';
         }
 
         componentDidMount() {
+            this.getWithdrawalAvailableBalance();
+            this.getCustBankInfo();
+        }
+
+        getCustBankInfo() {
             Loading.OnLoading();            
             axios.post('/api/Account/GetCustBankInfo')
             .then(function (response) {
@@ -346,6 +352,23 @@ import {number_format} from '../commJS/common';
                 let result = response.data;
                 if (result.errorCode == 0 && result.data.bankInfoDetail.length > 0) {
                     this.setState({BankInfoDetail: result.data.bankInfoDetail, AcountName: result.data.accountName, PickBankInfo: result.data.bankInfoDetail[0]});
+                } else {
+                    alert(result.message);
+                }
+            }.bind(this)).catch(function (error) {
+                Loading.UnLoading();
+                alert(error);
+            }.bind(this));
+        }
+
+        getWithdrawalAvailableBalance() {
+            Loading.OnLoading();            
+            axios.post('/api/Account/GetWithdrawalAvailableBalance')
+            .then(function (response) {
+                Loading.UnLoading();
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    this.setState({WithdrawalAvailableBalance: result.data});
                 } else {
                     alert(result.message);
                 }
@@ -408,10 +431,21 @@ import {number_format} from '../commJS/common';
                 Loading.UnLoading();
                 let result = response.data;
                 if (result.errorCode == 0) {
+                    //ShowModal
                     alert(result.message);
                     this.setState({showTodModal:false}, function(){
                         this.GetWithdrawalInfoRecent();
                     }.bind(this));
+                } else if (result.errorCode < 0) {
+                    if(result.errorCode==-1) {
+                        ShowModal(i18n.lbl_ImportantNote, "Bonus Rollover的流水不足: " + number_format(parseFloat(result.message)));
+                    } else if(result.errorCode==-2) {
+                        ShowModal(i18n.lbl_ImportantNote, "你的提款申請超過你的餘額: " + number_format(parseFloat(result.message)));
+                    } else if(result.errorCode==-3) {
+                        ShowModal(i18n.lbl_ImportantNote, "你的提款申請超過可提款額度: " + number_format(parseFloat(result.message)));                        
+                    }
+
+                    this.setState({showTodModal:true});
                 } else {
                     alert(result.message);
                     this.setState({showTodModal:true});
@@ -492,6 +526,12 @@ import {number_format} from '../commJS/common';
                     <div>
                         <div className="heading">
                             <span className="text">{i18n.lbl_Withdrawal}</span>
+                        </div>
+                        <div className="form-group">
+                            <label className="form-title">Withdrawal Available Balance</label>
+                            <div class="form-content form-content--text">
+                                <span className="text">{this.state.WithdrawalAvailableBalance!=null ? number_format(this.state.WithdrawalAvailableBalance):0}</span>
+                            </div>
                         </div>
                         <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                             <div className="form-group">
