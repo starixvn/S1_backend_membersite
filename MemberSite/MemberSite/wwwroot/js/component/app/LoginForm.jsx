@@ -206,7 +206,11 @@ class LoginForm extends React.Component {
                         {/*<div className="login__item-forget">
                             <a className="text-link" href={forgetPassowrdUrl}>
                                 <span className="text">{i18n.lbl_ForgetPassword}</span>
+<<<<<<< HEAD
                             </a>
+=======
+                           </a>
+>>>>>>> PRD
                         </div>*/}
                     </form>
                 </div>

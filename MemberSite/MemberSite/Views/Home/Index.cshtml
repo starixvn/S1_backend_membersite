@@ -37,9 +37,9 @@
     string GetEntPageUrl(int tpId, string gameId)
     {
         var entPageUrl = "";
-        if (tpId == 1 && (gameId == "202" || gameId == "208"))
+        if (tpId == 1)
         {
-            if (!User.Identity.IsAuthenticated)
+            if (!User.Identity.IsAuthenticated && (gameId == "202" || gameId == "208" || gameId == "211"))
             {
                 var message = selLangBLL.GetMsg("msg_LoginToAccess");
                 entPageUrl = "javascript:alert('" + message + "');";
@@ -50,23 +50,20 @@
                 var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
                 var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
 
-                entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
-                if (!tools.IsMobile() && tpId == 1)
+                if (gameId == "202" || gameId == "208" || gameId == "211")
                 {
+                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+                    entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'width=1366, height=1024').focus();";
+                }
+                else if (tools.IsMobile())
+                {
+                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+                }
+                else
+                {
+                @*IFrame*@
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
                 }
-            }
-        }
-        else
-        {
-            var homeUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
-            var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
-            var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
-
-            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
-            if (!tools.IsMobile() && tpId == 1)
-            {
-                entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
             }
         }
         return entPageUrl;
@@ -77,17 +74,42 @@
         <div class="lobby-banner-swiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
+                    <img src="@CmsPromotionPath/banner-promo.png">
+                </div>
+                <div class="swiper-slide">
                     <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/banner-euro.jpg"></a>
                 </div>
                 <div class="swiper-slide">
+<<<<<<< HEAD
                     <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/banner-FTDP.jpg"></a>
                 </div>
                 <div class="swiper-slide">
+=======
+                    <a href="@GetEntPageUrl(1,"211")"><img src="@CmsPromotionPath/banner-Allbet.jpg"></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="@GetEntPageUrl(1,"208")"><img src="@CmsPromotionPath/banner-PP.jpg"></a>
+                </div>
+                @*<div class="swiper-slide">
+>>>>>>> PRD
                     <a href="@GetEntPageUrl(1,"1")"><img src="@CmsPromotionPath/banner-soc.jpg"></a>
                 </div>
                 <div class="swiper-slide">
                     <a href="@GetEntPageUrl(1,"2")"><img src="@CmsPromotionPath/banner-bas.jpg"></a>
                 </div>
+<<<<<<< HEAD
+=======
+                <div class="swiper-slide">
+            <img src="@CmsPromotionPath/banner-mobile.jpg">
+        </div>
+        <div class="swiper-slide">
+            <img src="@CmsPromotionPath/banner-bonus.jpg">
+        </div>
+        <div class="swiper-slide">
+            <img src="@CmsPromotionPath/Banner-Welcome.jpg">
+        </div>
+                *@
+>>>>>>> PRD
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -220,14 +242,16 @@
                     </div>
                 </div>
                 <div class="swiper-slide">
-                    @*<div class="lobby-product">
-                            <div class="lobby-product__info">
-                                <span class="text-title">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
-                                <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasinoSlogon")</span>
-                                <a class="btn btn-secondary"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
-                            </div>
-                            <img src="@SkinImgPath/Lobby/Home/Product-LiveCasino.png">
-                        </div>*@
+                    <div class="lobby-product">
+                        <div class="lobby-product__info">
+                            <span class="text-title">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasinoSlogon")</span>
+                            <a class="btn btn-secondary" href="@GetEntPageUrl(1,"211")"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
+                        </div>
+                        <img src="@SkinImgPath/Lobby/Home/Product-LiveCasino.png">
+                    </div>
+                </div>
+                <div class="swiper-slide">
                     <div class="lobby-product">
                         <div class="lobby-product__info">
                             <span class="text-title">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>

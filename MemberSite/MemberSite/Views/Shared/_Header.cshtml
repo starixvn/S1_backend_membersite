@@ -7,7 +7,7 @@
     string GetEntPageUrl(int tpId, string gameId)
     {
         var entPageUrl = "";
-        if (!User.Identity.IsAuthenticated && tpId == 1 && (gameId == "202" || gameId == "208"))
+        if (!User.Identity.IsAuthenticated && tpId == 1 && (gameId == "202" || gameId == "208" || gameId == "211"))
         {
             var message = selLangBLL.GetMsg("msg_LoginToAccess");
             entPageUrl = "javascript:alert('" + message + "');";
@@ -19,13 +19,20 @@
             var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
 
             entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+<<<<<<< HEAD
             if (!tools.IsMobile() && tpId == 1)
             {
                 if (gameId == "202" || gameId == "208")
                     entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}', 'width=1366, height=1024').focus();";
+=======
+            //if (!tools.IsMobile() && tpId == 1)
+            //{
+                if (gameId == "202" || gameId == "208" || gameId == "211")
+                    entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'width=1366, height=1024').focus();";
+>>>>>>> PRD
                 else
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
-            }
+            //}
         }
         return entPageUrl;
     }
@@ -212,9 +219,9 @@
         <a class="header__col" data-selected="false" href="@GetEntPageUrl(1,"208")">
             <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
         </a>
-        @*<a class="header__col" data-selected="false" href="#">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
-            </a>*@
+        <a class="header__col" data-selected="false" href="@GetEntPageUrl(1,"211")">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
+        </a>
         <a class="header__col" data-selected="false" href="@GetEntPageUrl(1,"202")">
             <span class="text">@selLangBLL.GetResourceValue("lbl_Keno")</span>
         </a>
