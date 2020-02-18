@@ -214,7 +214,7 @@
 </value>
   </data>
   <data name="msg_DepositAlet" xml:space="preserve">
-    <value>您的当前余额是： {0}{1}&lt;br &gt;
+    <value>您的当前余额是： {0} {1}&lt;br &gt;
 立即存款以享有我司游戏盘口及服务。</value>
   </data>
 </root>

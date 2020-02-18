@@ -214,7 +214,7 @@
 </value>
   </data>
   <data name="msg_DepositAlet" xml:space="preserve">
-    <value>ยอดคงเหลือปัจจุบันของคุณคือ:  {0}{1}&lt;br &gt;
+    <value>ยอดคงเหลือปัจจุบันของคุณคือ:  {0} {1}&lt;br &gt;
 ฝากเงินเลย เพื่อเพลินเงินกับเกมและบริการของเร
 </value>
   </data>
