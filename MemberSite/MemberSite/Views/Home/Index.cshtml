@@ -1,15 +1,19 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using MemberSite.Service.BLL
 @using MemberSite.Service.Library
+@using MemberSite.Service.Model
 @using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Configuration
 @using System.Security.Claims
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @inject IWebHostEnvironment environment
+@inject IConfiguration configuration
 @inject WalletBLL walletBLL
 @inject CustInfoBLL custInfoBLL
 @inject PromotionBLL promotionBLL
 @inject Tools tools
+@inject CourierAdapter courierAdapter
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
@@ -20,11 +24,14 @@
 
     int CurrencyId = 0;
     int promotionCnt = 0;
+    int mainWalletType = configuration.GetValue<int>("MainWalletType");
+    Customer customer = null;
 
     if (User.Identity.IsAuthenticated)
     {
         var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-        CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
+        customer = custInfoBLL.GetCustInfoWithCache(custId);
+        CurrencyId = customer.CurrencyId;
         promotionCnt = promotionBLL.GetPromotionListByCustId(custId).Count();
     }
     else
@@ -61,7 +68,7 @@
                 }
                 else
                 {
-                @*IFrame*@
+                    @*IFrame*@
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
                 }
             }
@@ -83,26 +90,26 @@
                     <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/banner-FTDP.jpg"></a>
                 </div>
                 <div class="swiper-slide">
-                    <a href="@GetEntPageUrl(1,"211")"><img src="@CmsPromotionPath/banner-Allbet.jpg"></a>
+                    <a href="@GetEntPageUrl(1, "211")"><img src="@CmsPromotionPath/banner-Allbet.jpg"></a>
                 </div>
                 <div class="swiper-slide">
-                    <a href="@GetEntPageUrl(1,"208")"><img src="@CmsPromotionPath/banner-PP.jpg"></a>
+                    <a href="@GetEntPageUrl(1, "208")"><img src="@CmsPromotionPath/banner-PP.jpg"></a>
                 </div>
                 @*<div class="swiper-slide">
-                    <a href="@GetEntPageUrl(1,"1")"><img src="@CmsPromotionPath/banner-soc.jpg"></a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="@GetEntPageUrl(1,"2")"><img src="@CmsPromotionPath/banner-bas.jpg"></a>
-                </div>
-                <div class="swiper-slide">
-            <img src="@CmsPromotionPath/banner-mobile.jpg">
-        </div>
-        <div class="swiper-slide">
-            <img src="@CmsPromotionPath/banner-bonus.jpg">
-        </div>
-        <div class="swiper-slide">
-            <img src="@CmsPromotionPath/Banner-Welcome.jpg">
-        </div> *@
+                                <a href="@GetEntPageUrl(1,"1")"><img src="@CmsPromotionPath/banner-soc.jpg"></a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="@GetEntPageUrl(1,"2")"><img src="@CmsPromotionPath/banner-bas.jpg"></a>
+                            </div>
+                            <div class="swiper-slide">
+                        <img src="@CmsPromotionPath/banner-mobile.jpg">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="@CmsPromotionPath/banner-bonus.jpg">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="@CmsPromotionPath/Banner-Welcome.jpg">
+                    </div> *@
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -169,14 +176,14 @@
             }
         </div>
         <div class="lobby-sport-list">
-            <a class="lobby-sport" href="@GetEntPageUrl(1,"1")">
+            <a class="lobby-sport" href="@GetEntPageUrl(1, "1")">
                 <img src="@SkinImgPath/Lobby/Home/Sport-Soccer.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Soccer.png">
                 <div class="lobby-sport__info">
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Soccer")</span>
                 </div>
             </a>
-            <a class="lobby-sport" href="@GetEntPageUrl(1,"2")">
+            <a class="lobby-sport" href="@GetEntPageUrl(1, "2")">
                 <img src="@SkinImgPath/Lobby/Home/Sport-Basketball.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Basketball.png">
                 <div class="lobby-sport__info">
@@ -190,21 +197,21 @@
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Baseball")</span>
                     </div>
                 </a>*@
-            <a class="lobby-sport" href="@GetEntPageUrl(1,"9")">
+            <a class="lobby-sport" href="@GetEntPageUrl(1, "9")">
                 <img src="@SkinImgPath/Lobby/Home/Sport-Badminton.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Badminton.png">
                 <div class="lobby-sport__info">
                     <span class="text">@selLangBLL.GetResourceValue("lbl_badminton")</span>
                 </div>
             </a>
-            <a class="lobby-sport" href="@GetEntPageUrl(1,"43")">
+            <a class="lobby-sport" href="@GetEntPageUrl(1, "43")">
                 <img src="@SkinImgPath/Lobby/Home/Sport-E-Sports.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-E-Sports.png">
                 <div class="lobby-sport__info">
                     <span class="text">@selLangBLL.GetResourceValue("lbl_eSports")</span>
                 </div>
             </a>
-            <a class="lobby-sport" href="@GetEntPageUrl(1,"5")">
+            <a class="lobby-sport" href="@GetEntPageUrl(1, "5")">
                 <img src="@SkinImgPath/Lobby/Home/Sport-Tennis.png">
                 <img src="@SkinImgPath/Lobby/Home/d_Sport-Tennis.png">
                 <div class="lobby-sport__info">
@@ -219,7 +226,7 @@
                         <div class="lobby-product__info">
                             <span class="text-title">@selLangBLL.GetResourceValue("lbl_Casino")</span>
                             <span class="text">@selLangBLL.GetResourceValue("lbl_CasinoSlogon")</span>
-                            <a class="btn btn-secondary" href="@GetEntPageUrl(1,"208")"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
+                            <a class="btn btn-secondary" href="@GetEntPageUrl(1, "208")"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
                         </div>
                         <img src="@SkinImgPath/Lobby/Home/Product-Casino.png">
                     </div>
@@ -229,7 +236,7 @@
                         <div class="lobby-product__info">
                             <span class="text-title">@selLangBLL.GetResourceValue("lbl_Keno")</span>
                             <span class="text">@selLangBLL.GetResourceValue("lbl_KenoSlogon")</span>
-                            <a class="btn btn-secondary" href="@GetEntPageUrl(1,"202")"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
+                            <a class="btn btn-secondary" href="@GetEntPageUrl(1, "202")"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
                         </div>
                         <img src="@SkinImgPath/Lobby/Home/Product-Keno.png">
                     </div>
@@ -239,7 +246,7 @@
                         <div class="lobby-product__info">
                             <span class="text-title">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
                             <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasinoSlogon")</span>
-                            <a class="btn btn-secondary" href="@GetEntPageUrl(1,"211")"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
+                            <a class="btn btn-secondary" href="@GetEntPageUrl(1, "211")"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
                         </div>
                         <img src="@SkinImgPath/Lobby/Home/Product-LiveCasino.png">
                     </div>
@@ -249,7 +256,7 @@
                         <div class="lobby-product__info">
                             <span class="text-title">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>
                             <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualSportsSlogon")</span>
-                            <a class="btn btn-secondary" href="@GetEntPageUrl(1,"180")"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
+                            <a class="btn btn-secondary" href="@GetEntPageUrl(1, "180")"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
                         </div>
                         <img src="@SkinImgPath/Lobby/Home/Product-VirtualSports.png">
                     </div>
@@ -298,4 +305,92 @@
             productSwiper.updateSlides();
         });
     </script>
+    <script type="text/javascript">
+        $(function () {
+            $(".Js-DepositAlet").on("touchstart, click", function () {
+                $("#DepositAlet").attr("data-open", false);
+            });
+        });
+    </script>
+}
+
+@functions{
+    private class TpInfo
+    {
+        public int TpId { set; get; }
+        public int CustId { set; get; }
+        public Dictionary<string, string> inputs { set; get; }
+    }
+
+    private class UserBalance
+    {
+        public decimal balance { get; set; }
+        public decimal outstanding { get; set; }
+        public byte Currency { get; set; }
+    }
+
+    async Task<decimal> Get3rdBalanceAsync(int tpId, int custId)
+    {
+        var apiUrl = configuration.GetValue<string>("TpService");
+        var myUrl = $"{apiUrl}GetBalance";
+        var oTpInfo = new TpInfo
+        {
+            TpId = tpId,
+            CustId = custId,
+            inputs = new Dictionary<string, string>()
+        };
+
+        var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>
+(myUrl, oTpInfo);
+
+        return data.ErrorCode == 0 ? data.Data.balance : 0;
+    }
+}
+@section PromptMsg{
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (!Context.Request.Cookies.ContainsKey("Initialization"))
+        {
+            var custId = customer.CustId;
+            var balance = 0m;
+            if (customer.ActStatus == 2)
+            {
+                balance = mainWalletType == 1 ? walletBLL.GetBalance(custId) : await Get3rdBalanceAsync(1, custId);
+                if (custInfoBLL.IsConvertRequired(CurrencyId))
+                {
+                    balance /= 1000;
+                }
+            }
+
+            if (balance < 1m)
+            {
+                <div class="modal" id="DepositAlet" data-open="true">
+                    <div class="overlay Js-DepositAlet"></div>
+                    <div class="modal__dialog">
+                        <div class="modal__header">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Notice")</span>
+                        </div>
+                        <div class="modal__body">
+                            <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlet"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), balance.ToString("#,##0.##")))</p>
+                            <br>
+                        </div>
+                        <div class="modal__footer">
+                            <div class="btn-group">
+                                <button class="btn btn-primary Js-DepositAlet" type="button">
+                                    <span class="text">Later</span>
+                                </button>
+                                <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_DepositNow")</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+        var option = new Microsoft.AspNetCore.Http.CookieOptions();
+        option.Expires = DateTime.Now.AddDays(1);
+        Context.Response.Cookies.Append("Initialization", "1", option);
+    }
 }
