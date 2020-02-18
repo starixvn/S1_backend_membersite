@@ -214,7 +214,7 @@
 </value>
   </data>
   <data name="msg_DepositAlet" xml:space="preserve">
-    <value>Saldo anda saat ini:  &lt;span&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
+    <value>Saldo anda saat ini: &lt;span&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
 Deposit sekarang dan nikmati permainan dan pelayanan kami
 </value>
   </data>

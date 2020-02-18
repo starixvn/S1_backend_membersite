@@ -1280,4 +1280,7 @@
   <data name="lbl_Notice" xml:space="preserve">
     <value>通知</value>
   </data>
+  <data name="lbl_Later" xml:space="preserve">
+    <value>稍後</value>
+  </data>
 </root>

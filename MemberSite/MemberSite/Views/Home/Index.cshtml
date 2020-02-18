@@ -377,7 +377,7 @@
                         <div class="modal__footer">
                             <div class="btn-group">
                                 <button class="btn btn-primary Js-DepositAlet" type="button">
-                                    <span class="text">Later</span>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Later")</span>
                                 </button>
                                 <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
                                     <span class="text">@selLangBLL.GetResourceValue("lbl_DepositNow")</span>

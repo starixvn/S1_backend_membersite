@@ -203,18 +203,16 @@
   </data>
   <data name="ForgetPwdFail" xml:space="preserve">
     <value>您输入的电子邮件或是安全问题回答不正确，请确认!</value>
-    <comment>0024. Deposit</comment>
   </data>
   <data name="ForgetPwdSuccess" xml:space="preserve">
     <value>系统已经新密码寄送至你注册的电子邮件信箱!</value>
-    <comment>0026. Deposit</comment>
   </data>
   <data name="msg_CreditSignUp" xml:space="preserve">
     <value>敬爱的客户， &lt;br /&gt;&lt;br /&gt;欢迎来到&lt;a href="https://www.nova88.net" target="_new"&gt;www.nova88.net&lt;/a&gt;, 完成注册后请游览此链接并享受我司的游戏盘口。
 </value>
   </data>
   <data name="msg_DepositAlet" xml:space="preserve">
-    <value>您的当前余额是： &lt;span&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
+    <value>您的当前余额是：&lt;span&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
 立即存款以享有我司游戏盘口及服务。</value>
   </data>
 </root>

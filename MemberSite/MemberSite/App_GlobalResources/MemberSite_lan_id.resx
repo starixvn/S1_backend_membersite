@@ -1282,4 +1282,7 @@
   <data name="lbl_Notice" xml:space="preserve">
     <value>PEMBERITAHUAN</value>
   </data>
+  <data name="lbl_Later" xml:space="preserve">
+    <value>Nanti</value>
+  </data>
 </root>
