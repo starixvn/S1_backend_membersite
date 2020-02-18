@@ -207,7 +207,7 @@
     <comment>0026. Deposit</comment>
   </data>
   <data name="msg_DepositAlet" xml:space="preserve">
-    <value>Số dư hiện tại của bạn là:  {0} {1}&lt;br &gt;
+    <value>Số dư hiện tại của bạn là:  &lt;span&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
 Gửi tiền ngay để thưởng thức các trò chơi và dịch vụ của chúng tôi
 </value>
   </data>
