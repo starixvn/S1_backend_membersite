@@ -3,6 +3,11 @@ import * as Loading from '../commJS/Loading.jsx';
 import {number_format} from '../commJS/common';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
+    const Status = {1:<div className="status-icon ace">Running</div>,
+                    2:<div className="status-icon cal">Canceled</div>,
+                    3:<div className="status-icon cal">Expiry</div>,
+                    4:<div className="status-icon end">Fulfill</div>};   
+
     class PromotionItem extends React.Component {
         constructor(props) {
             super(props);
@@ -18,7 +23,10 @@ import {number_format} from '../commJS/common';
                         </div>
                         <div className="promotions-txt">
                             <ul>
-                                <li className="txt-blue">{Data.title}</li>
+                                <li className="txt-blue">
+                                    {Data.title}
+                                    {Data.bonusInfoStatus > 0 ? Status[Data.bonusInfoStatus] : null}
+                                </li>
                                 <li className="txt-gray">
                                     {Data.description}
                                 </li>
