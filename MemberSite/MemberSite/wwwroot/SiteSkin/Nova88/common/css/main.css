@@ -4908,10 +4908,12 @@ button.swiper-pagination-bullet {
             }
 
 .header {
-    flex: 0 0 auto;
-    position: relative;
-    color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.26);
+  flex: 0 0 auto;
+  position: fixed;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.26);
+  width: 100%;
+  z-index: 1;
 }
 
 [data-layout=desktop] .header {
@@ -5214,13 +5216,7 @@ button.swiper-pagination-bullet {
 .dropdown-rollover .rollover-info .text:nth-child(1) {
   font-size: 0.875rem;
   color: #26416e;
-}
-
-.dropdown-rollover .rollover-info .text:nth-child(2) {
-  font-size: 1.125rem;
-  font-weight: bold;
-  color: #f77a00;
-  float: right;
+  word-break: break-all;
 }
 
 .dropdown-rollover .rollover-info .text:nth-child(n+4) {
