@@ -1297,4 +1297,16 @@
   <data name="lbl_RolloverProgress" xml:space="preserve">
     <value>ROLLOVER PROGRESS</value>
   </data>
+  <data name="lbl_DepositOver" xml:space="preserve">
+    <value>Your request withdrawal amount over your account balance</value>
+  </data>
+  <data name="lbl_EligibleWithdrawalAmount" xml:space="preserve">
+    <value>Your eligible withdrawal amount is</value>
+  </data>
+  <data name="lbl_RolloverOver" xml:space="preserve">
+    <value>Your rollover turnover is not enough</value>
+  </data>
+  <data name="lbl_WithdrawalOver" xml:space="preserve">
+    <value>Your request withdrawal amount over your eligible withdrawal amount</value>
+  </data>
 </root>

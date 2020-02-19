@@ -422,11 +422,11 @@ import {ShowModal} from '../commJS/Modal.jsx';
                     }.bind(this));
                 } else if (result.errorCode < 0) {
                     if(result.errorCode==-1) {
-                        ShowModal(i18n.lbl_ImportantNote, "Bonus Rollover的流水不足: " + number_format(parseFloat(result.message)));
+                        ShowModal(i18n.lbl_ImportantNote, i18n.lbl_RolloverOver + ": " + number_format(parseFloat(result.message)));
                     } else if(result.errorCode==-2) {
-                        ShowModal(i18n.lbl_ImportantNote, "你的提款申請超過你的餘額: " + number_format(parseFloat(result.message)));
+                        ShowModal(i18n.lbl_ImportantNote, i18n.lbl_DepositOver + ": " + number_format(parseFloat(result.message)));
                     } else if(result.errorCode==-3) {
-                        ShowModal(i18n.lbl_ImportantNote, "你的提款申請超過可提款額度: " + number_format(parseFloat(result.message)));                        
+                        ShowModal(i18n.lbl_ImportantNote, i18n.lbl_WithdrawalOver + ": " + number_format(parseFloat(result.message)));                        
                     }
 
                     this.setState({showTodModal:true});
@@ -512,7 +512,7 @@ import {ShowModal} from '../commJS/Modal.jsx';
                             <span className="text">{i18n.lbl_Withdrawal}</span>
                         </div>
                         <div className="form-group WAB">
-                            <label className="form-title">Withdrawal Available Balance</label>
+                            <label className="form-title">{i18n.lbl_EligibleWithdrawalAmount}</label>
                             <div className="form-content form-content--text">
                                 <span className="text">{this.state.WithdrawalAvailableBalance!=null ? number_format(this.state.WithdrawalAvailableBalance):0}</span>
                             </div>
