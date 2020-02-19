@@ -212,7 +212,7 @@
 </value>
   </data>
   <data name="msg_DepositAlet" xml:space="preserve">
-    <value>您的当前余额是：&lt;span&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
+    <value>您的当前余额是：&lt;span class="popup-span"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
 立即存款以享有我司游戏盘口及服务。</value>
   </data>
 </root>

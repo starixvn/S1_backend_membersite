@@ -214,7 +214,7 @@
 </value>
   </data>
   <data name="msg_DepositAlet" xml:space="preserve">
-    <value>Your current balance is : &lt;span&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
+    <value>Your current balance is : &lt;span class="popup-span"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
 Deposit now to enjoy our games and services.</value>
   </data>
 </root>
