@@ -1255,9 +1255,6 @@
   <data name="lbl_BonusAmount" xml:space="preserve">
     <value>BOUNUS AMOUNT</value>
   </data>
-  <data name="lbl_DepositRollover" xml:space="preserve">
-    <value>DEPOSIT ROLL OVER</value>
-  </data>
   <data name="lbl_ExpiryTime" xml:space="preserve">
     <value>EXPIRY TIME</value>
   </data>
@@ -1285,9 +1282,6 @@
   <data name="lbl_Later" xml:space="preserve">
     <value>Later</value>
   </data>
-  <data name="lbl_BonusRollOver" xml:space="preserve">
-    <value>BONUS ROLLOVER</value>
-  </data>
   <data name="lbl_EligibleWithdrawal" xml:space="preserve">
     <value>ELIGIBLE WITHDRAWAL</value>
   </data>
@@ -1298,15 +1292,15 @@
     <value>ROLLOVER PROGRESS</value>
   </data>
   <data name="lbl_DepositOver" xml:space="preserve">
-    <value>Your request withdrawal amount over your account balance</value>
+    <value>Your required withdrawal amount had exceeded your current available balance.</value>
   </data>
   <data name="lbl_EligibleWithdrawalAmount" xml:space="preserve">
     <value>Your eligible withdrawal amount is</value>
   </data>
   <data name="lbl_RolloverOver" xml:space="preserve">
-    <value>Your rollover turnover is not enough</value>
+    <value>Insufficient rollover turnover</value>
   </data>
   <data name="lbl_WithdrawalOver" xml:space="preserve">
-    <value>Your request withdrawal amount over your eligible withdrawal amount</value>
+    <value>Your required withdrawal amount had exceeded your elegible withdrawal amount.</value>
   </data>
 </root>

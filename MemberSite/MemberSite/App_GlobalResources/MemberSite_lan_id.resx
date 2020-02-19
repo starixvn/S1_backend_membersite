@@ -1279,4 +1279,25 @@
   <data name="lbl_Later" xml:space="preserve">
     <value>Nanti</value>
   </data>
+  <data name="lbl_DepositOver" xml:space="preserve">
+    <value>Jumlah permintaan penarikan anda melebihi saldo di akun anda </value>
+  </data>
+  <data name="lbl_EligibleWithdrawal" xml:space="preserve">
+    <value>Penarikan yang memenuhi syarat</value>
+  </data>
+  <data name="lbl_EligibleWithdrawalAmount" xml:space="preserve">
+    <value>Jumlah penarikan anda yang memenuhi syarat adalah</value>
+  </data>
+  <data name="lbl_Req" xml:space="preserve">
+    <value>Permintaan </value>
+  </data>
+  <data name="lbl_RolloverOver" xml:space="preserve">
+    <value>Perputaran turnover anda belum mencukupi</value>
+  </data>
+  <data name="lbl_RolloverProgress" xml:space="preserve">
+    <value>Perkembangan Rollover</value>
+  </data>
+  <data name="lbl_WithdrawalOver" xml:space="preserve">
+    <value>Jumlah permintaan penarikan anda melebihi ketentuan penarikan  </value>
+  </data>
 </root>
