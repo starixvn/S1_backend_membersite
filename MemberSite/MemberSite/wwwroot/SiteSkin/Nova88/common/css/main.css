@@ -5247,6 +5247,18 @@ button.swiper-pagination-bullet {
   border-radius: 10px;
 }
 
+.dropdown-rollover .rollover-info .schedule-info {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-rollover .rollover-info .schedule-info .text:nth-child(1) {
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: #f77a00;
+}
+
 .dropdown-rollover .icon-schedule {
   font-size: 1rem;
   margin-right: 0.3rem;
@@ -5451,11 +5463,15 @@ button.swiper-pagination-bullet {
     background-color: #112240;
 }
 
-    .side-nav__account > .dropdown > .btn {
-        padding: .125rem;
-        background-color: white;
-        border-radius: 100%;
-    }
+.side-nav__account > .dropdown {
+  padding-left: .5rem;
+}
+
+.side-nav__account > .dropdown > .btn {
+  padding: .125rem;
+  background-color: white;
+  border-radius: 100%;
+}
 
     .side-nav__account > .btn {
         flex: 1;
@@ -5490,6 +5506,16 @@ button.swiper-pagination-bullet {
 
 .side-nav__rollover > .dropdown-rollover {
   padding: 0;
+}
+
+.side-nav__rollover > .dropdown-rollover > .icon-refresh {
+  background: #DBEAFC;
+  color: #112240;
+  border-radius: 5px;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
 }
 
 .side-nav__rollover > .dropdown-rollover .icon-schedule ~ span {
@@ -5730,16 +5756,79 @@ button.swiper-pagination-bullet {
         background-color: #3c5175;
     }
 
-.main--home .lobby-page {
-    margin: 0 auto;
-    background-color: white;
+.side-nav .dropdown.dropdown-secondary.dropdown--right.dropdown--balance.dropdown-rollover {
+  background-color: #112240;
+  display: block;
+  padding: 0 .75rem .75rem;
+  width: 100%;
 }
 
-[data-layout=desktop] .main--home .lobby-page {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: 1024px;
-    min-width: 1024px;
+.side-nav .dropdown.dropdown-secondary.dropdown--right.dropdown--balance.dropdown-rollover .btn {
+  padding: 0;
+  justify-content: space-between;
+}
+
+.side-nav .dropdown.dropdown-secondary.dropdown--right.dropdown--balance.dropdown-rollover .btn .icon-caret {
+  background: #DBEAFC;
+  color: #112240;
+  border-radius: 5px;
+  margin-right: 0;
+}
+
+.side-nav .dropdown.dropdown-secondary.dropdown--right.dropdown--balance.dropdown-rollover[data-open=true] .dropdown__container {
+  position: relative;
+}
+
+.side-nav .dropdown.dropdown-secondary.dropdown--right.dropdown--balance.dropdown-rollover .dropdown__container {
+  background: transparent;
+  box-shadow: none;
+  width: 100%;
+  display: initial;
+}
+
+.side-nav .dropdown.dropdown-secondary.dropdown--right.dropdown--balance.dropdown-rollover .dropdown__container .balance-info {
+  width: 100%;
+  padding: 0;
+}
+
+.side-nav .dropdown.dropdown-secondary.dropdown--right.dropdown--balance.dropdown-rollover .dropdown__container .balance-info .rollover-info {
+  background: transparent;
+  padding: 0;
+}
+
+.side-nav .dropdown.dropdown-secondary.dropdown--right.dropdown--balance.dropdown-rollover .dropdown__container .balance-info .rollover-info .rollover-info__item {
+  padding: 0;
+  margin: 0 0 0.7rem;
+  clear: both;
+}
+
+.side-nav .dropdown.dropdown-secondary.dropdown--right.dropdown--balance.dropdown-rollover .dropdown__container .balance-info .rollover-info .rollover-info__item > .text {
+  color: #DBEAFC;
+  font-size: 0.7rem;
+  font-weight: normal;
+}
+
+.side-nav .dropdown.dropdown-secondary.dropdown--right.dropdown--balance.dropdown-rollover .dropdown__container .balance-info .rollover-info .rollover-info__item .schedule {
+  margin: 0.2rem 0;
+}
+
+.side-nav .dropdown.dropdown-secondary.dropdown--right.dropdown--balance.dropdown-rollover .dropdown__container .balance-info .rollover-info .rollover-info__item .schedule-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.side-nav .dropdown.dropdown-secondary.dropdown--right.dropdown--balance.dropdown-rollover .dropdown__container .balance-info .rollover-info .rollover-info__item .schedule-info .text:nth-child(1) {
+  font-size: 0.95rem;
+  color: #f77a00;
+  font-weight: bold;
+}
+
+.side-nav .dropdown.dropdown-secondary.dropdown--right.dropdown--balance.dropdown-rollover .dropdown__container .balance-info .rollover-info .rollover-info__item .schedule-info .text:nth-child(2) {
+  color: #fff;
+  font-weight: normal;
+  font-size: .75rem;
+  float: right;
 }
 
 .lobby-banner-swiper {
@@ -6080,9 +6169,26 @@ button.swiper-pagination-bullet {
             height: 100%;
         }
 
+.main--home .lobby-page {
+  margin: 0 auto;
+  background-color: white;
+}
+
+[data-layout=desktop] .main--home .lobby-page {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1024px;
+  min-width: 1024px;
+}
+
+[data-layout=mobile] .main.main {
+  margin-top: 72px;
+}
+
 [data-layout=mobile] .main:not(.main--home) {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
 }
 
 [data-layout=desktop] .main {
@@ -6111,17 +6217,16 @@ button.swiper-pagination-bullet {
 .side-btn {
   position: fixed;
   right: 0.5rem;
-  bottom: 0.5rem;
+  bottom: calc(60px + 1rem);
   z-index: 9;
 }
 
 .side-btn button {
-  width: 2.5rem;
-  height: 2.5rem;
-  background: #26416e;
+  width: 60px;
+  height: 60px;
+  background: #4384F5;
   color: #fff;
-  border-radius: 5px;
-  font-size: 14px;
+  border-radius: 60px;
   display: block;
   margin-bottom: 0.1rem;
   padding: 0.1rem;
@@ -6129,6 +6234,7 @@ button.swiper-pagination-bullet {
 
 .side-btn button .icon {
   font-size: 18px;
+  font-weight: bold;
   display: block;
 }
 

@@ -128,39 +128,53 @@
         </div>
         @if (User.Identity.IsAuthenticated)
         {
-            <div class="side-nav__rollover">
-                <a class="btn dropdown-rollover">
+            var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var promotions = promotionBLL.GetPromotionListByCustIdWithCache(custId).Where(x => x.BonusInfoStatus == 1);
+            var rolloverPanelDisplay = "none";
+            decimal totalRollover = 1m;
+            decimal totalturnover = 0m;
+
+            if (promotions != null && promotions.Count() > 0)
+            {
+
+                rolloverPanelDisplay = "block";
+                foreach (var promotion in promotions)
+                {
+                    promotion.Title = selLangBLL.GetResourceValue($"{promotion.BonusCode}Title");
+                    promotion.custRollOver = custInfoBLL.GetCustRollOver(custId, promotion.BonusCode);
+                    totalRollover += promotion.custRollOver.RollOver;
+                    totalturnover += promotion.custRollOver.TurnOver;
+                }
+            }
+            <div class="dropdown dropdown-secondary dropdown--right dropdown--balance dropdown-rollover" data-open="true" style="display:@rolloverPanelDisplay">
+                <a class="btn">
                     <i class="icon icon-schedule"></i>
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_RolloverProgress")</span>
-                    <span class="text">100%</span>
+                    <span class="text">
+                        @selLangBLL.GetResourceValue("lbl_RolloverProgress")
+                    </span>
+                    <span class="text">@((totalturnover / totalRollover).ToString("0.##")) %</span>
                     <i class="icon icon-caret"></i>
                 </a>
-                <div class="side-nav-rollover-info">
-                    <div class="eligible-info">
-                        <div class="eligible-info__item">
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_EligibleWithdrawal")</span>
-                            <span class="text-amount text--lg">@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") $000</span>
-                        </div>
-                    </div>
-                    <div class="rollover-info">
-                        <div class="rollover-info__item">
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_BonusRollOver")</span>
-                            <span class="text">@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") $000</span>
-                            <div class="schedule">
-                                <div class="schedule-bg"></div>
-                            </div>
-                            <span class="text">(@selLangBLL.GetResourceValue("lbl_Req") @selLangBLL.GetResourceValue($"Currency_{CurrencyId}") $000)</span>
-                            <span class="text">100%</span>
-                        </div>
-                        <div class="rollover-info__item">
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_DepositRollover")</span>
-                            <span class="text">@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") $000</span>
-                            <div class="schedule">
-                                <div class="schedule-bg"></div>
-                            </div>
-                            <span class="text">(@selLangBLL.GetResourceValue("lbl_Req") @selLangBLL.GetResourceValue($"Currency_{CurrencyId}") $000)</span>
-                            <span class="text">100%</span>
-                        </div>
+                <div class="dropdown__container">
+                    <div class="balance-info">
+
+                        @if (promotions != null && promotions.Count() > 0)
+                        {
+                            foreach (var promotion in promotions)
+                            {
+                                <div class="rollover-info__item">
+                                    <span class="text">@promotion.Title</span>
+                                    <div class="schedule">
+                                        <div class="schedule-bg" style="width: @((promotion.custRollOver.TurnOver / promotion.custRollOver.RollOver).ToString("0.##"))%"></div>
+                                    </div>
+                                    <div class="schedule-info">
+                                        <span class="text">@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") $@promotion.custRollOver.TurnOver.ToString("#,#0.##")</span>
+                                        <span class="text">(@selLangBLL.GetResourceValue("lbl_Req") @selLangBLL.GetResourceValue($"Currency_{CurrencyId}")) $@promotion.custRollOver.RollOver.ToString("#,#0.##"))@((promotion.custRollOver.TurnOver / promotion.custRollOver.RollOver).ToString("0.##"))%</span>
+                                    </div>
+                                </div>
+                            }
+                        }
+
                     </div>
                 </div>
             </div>
