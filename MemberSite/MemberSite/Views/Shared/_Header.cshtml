@@ -192,7 +192,7 @@
                 var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
                 var promotions = promotionBLL.GetPromotionListByCustIdWithCache(custId).Where(x => x.BonusInfoStatus == 1);
                 var rolloverPanelDisplay = "none";
-                decimal totalRollover = 0m;
+                decimal totalRollover = 1m;
                 decimal totalturnover = 0m;
                 decimal withdrawalAvailableBalance = 0m;
                 if (promotions != null && promotions.Count() > 0)
@@ -217,10 +217,10 @@
                     <div class="dropdown__container">
                         <div class="balance-info">
                             <div class="eligible-info">
-                                <div class="eligible-info__item">
+                                @*<div class="eligible-info__item">
                                     <span class="text">@selLangBLL.GetResourceValue("lbl_EligibleWithdrawal")</span>
                                     <span class="text-amount text--lg">@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") $@withdrawalAvailableBalance.ToString("#,##0.##")</span>
-                                </div>
+                                </div>*@
                                 <button class="btn btn-icon" data-refresh="false">
                                     <i class="icon icon-refresh"></i>
                                     <div class="preloader">
