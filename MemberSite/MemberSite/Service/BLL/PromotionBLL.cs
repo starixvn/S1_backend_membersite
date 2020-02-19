@@ -33,7 +33,7 @@ namespace MemberSite.Service.BLL
 
             if (promotionList == null)
             {
-                promotionList = promotionService.GetPromotionList(siteId);
+                promotionList = GetPromotionList(siteId);
 
                 if (promotionList != null)
                 {
@@ -46,7 +46,25 @@ namespace MemberSite.Service.BLL
         public IEnumerable<Promotion> GetPromotionListByCustId(int custId)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            return promotionService.GetPromotionListByCustId(custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId)?.Where(x => GetCanJoin(custInfo.CustId, x.BonusCode) || x.BonusInfoStatus == 1 || custInfo.ActStatus == 1);
+            return promotionService.GetPromotionListByCustId(custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId)?.Where(x => GetCanJoin(custInfo.CustId, x.BonusCode) || x.BonusInfoStatus > 0 || custInfo.ActStatus == 1);
+        }
+        /*Radis*/
+        public IEnumerable<Promotion> GetPromotionListByCustIdWithCache(int custId)
+        {
+            string key = $"PromotionListByCustId_{custId}";
+            var promotionList = cache.Get<IEnumerable<Promotion>>(key);
+
+            if (promotionList == null)
+            {
+                promotionList = GetPromotionListByCustId(custId);
+
+                if (promotionList != null)
+                {
+                    cache.Set(key, promotionList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)));
+                }
+            }
+
+            return promotionList;
         }
         public int SetClaimPromotion(int custId, string bonusCode)
         {

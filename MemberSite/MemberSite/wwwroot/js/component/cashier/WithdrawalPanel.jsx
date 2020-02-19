@@ -418,6 +418,7 @@ import {ShowModal} from '../commJS/Modal.jsx';
                     alert(result.message);
                     this.setState({showTodModal:false}, function(){
                         this.GetWithdrawalInfoRecent();
+                        this.getWithdrawalAvailableBalance();
                     }.bind(this));
                 } else if (result.errorCode < 0) {
                     if(result.errorCode==-1) {

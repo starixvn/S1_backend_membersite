@@ -31,8 +31,9 @@ namespace MemberSite.Controllers.Api
         private readonly int mainWalletType;
         private readonly MessageBLL messageBLL;
         private readonly PaymentBLL paymentBLL;
+        private readonly PromotionBLL promotionBLL;
 
-        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter, MessageBLL messageBLL, PaymentBLL paymentBLL)
+        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter, MessageBLL messageBLL, PaymentBLL paymentBLL, PromotionBLL promotionBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -45,6 +46,7 @@ namespace MemberSite.Controllers.Api
             mainWalletType = configuration.GetValue<int>("MainWalletType");
             this.messageBLL = messageBLL;
             this.paymentBLL = paymentBLL;
+            this.promotionBLL = promotionBLL;
         }
 
         [HttpPost]
@@ -201,11 +203,43 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<decimal>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
-            var withdrawalAvailableBalance = paymentBLL.GetWithdrawalAvailableBalance(authData.CustId);
+            var withdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
 
-            if (mainWalletType==2)
+            apiResult.Data = withdrawalAvailableBalance;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        public class RolloverPanel
+        {
+            public IEnumerable<Promotion> promotions { get; set; }
+            public decimal WithdrawalAvailableBalance { get; set; }
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<RolloverPanel>> GetRolloverPanelDataAsync()
+        {
+            var apiResult = new ApiResult<RolloverPanel>(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+            RolloverPanel rolloverPanel = new RolloverPanel();
+            var promotions = promotionBLL.GetPromotionListByCustIdWithCache(authData.CustId).Where(x => x.BonusInfoStatus == 1);
+            if (promotions != null && promotions?.Count() > 0)
             {
-                withdrawalAvailableBalance += await Get3rdBalanceAsync(1, authData.CustId);
+                rolloverPanel.promotions = promotionBLL.GetPromotionListByCustIdWithCache(authData.CustId);
+                rolloverPanel.WithdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
+            }
+
+            apiResult.Data = rolloverPanel;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+        private async Task<decimal> GetWithdrawalAvailableBalanceAsync(int custId)
+        {
+            var withdrawalAvailableBalance = paymentBLL.GetWithdrawalAvailableBalance(custId);
+
+            if (mainWalletType == 2)
+            {
+                withdrawalAvailableBalance += await Get3rdBalanceAsync(1, custId);
             }
 
             if (withdrawalAvailableBalance < 0)
@@ -213,9 +247,7 @@ namespace MemberSite.Controllers.Api
                 withdrawalAvailableBalance = 0;
             }
 
-            apiResult.Data = withdrawalAvailableBalance;
-            apiResult.ErrorCode = 0;
-            return apiResult;
+            return withdrawalAvailableBalance;
         }
         private class UserBalance
         {
