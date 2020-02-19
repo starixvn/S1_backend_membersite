@@ -199,12 +199,12 @@
             $("#REMAINING").html(moment.unix(@promotion.PeriodTo).format('lll'));
 
             $("#JOIN").on("touchstart, click", function () {
-                if (confirm("Are you sure?")) {
+                if (confirm("@selLangBLL.GetResourceValue("lbl_BonusConfirm")")) {
                     axios.post('/api/Promotion/SetClaimPromotion/@selLangBLL.GetLangId()', { BonusCode:"@promotion.BonusCode"})
                         .then(function (response) {
                             var result = response.data;
                             if (result.errorCode == 0) {
-                                alert("success!");
+                                alert("@selLangBLL.GetMsg("msg_Updatesuccessful")");
                                 window.location.replace("@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })");
                             } else {
                                 alert(result.message);

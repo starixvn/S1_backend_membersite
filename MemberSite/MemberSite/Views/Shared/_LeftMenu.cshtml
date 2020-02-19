@@ -166,7 +166,7 @@
                                     <div class="rollover-info__item">
                                         <span class="text">@promotion.Title</span>
                                         <div class="schedule">
-                                            <div class="schedule-bg" style="width: @((promotion.custRollOver.TurnOver / promotion.custRollOver.RollOver*100).ToString("0.##"))%"></div>
+                                            <div class="schedule-bg" style="width: @(tools.Floor((promotion.custRollOver.TurnOver / promotion.custRollOver.RollOver*100),2).ToString("0.##"))%"></div>
                                         </div>
                                         <div class="schedule-info">
                                             <span class="text">@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") $@promotion.custRollOver.TurnOver.ToString("#,#0.##")</span>

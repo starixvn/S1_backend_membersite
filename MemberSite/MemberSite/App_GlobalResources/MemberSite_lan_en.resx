@@ -1291,6 +1291,9 @@
   <data name="lbl_RolloverProgress" xml:space="preserve">
     <value>ROLLOVER PROGRESS</value>
   </data>
+  <data name="lbl_BonusConfirm" xml:space="preserve">
+    <value>You had selected our promotion bonus, do you wish to continue?</value>
+  </data>
   <data name="lbl_DepositOver" xml:space="preserve">
     <value>Your required withdrawal amount had exceeded your current available balance.</value>
   </data>
@@ -1302,5 +1305,8 @@
   </data>
   <data name="lbl_WithdrawalOver" xml:space="preserve">
     <value>Your required withdrawal amount had exceeded your elegible withdrawal amount.</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
   </data>
 </root>

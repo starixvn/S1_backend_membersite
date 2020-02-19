@@ -1301,4 +1301,7 @@
   <data name="lbl_WithdrawalOver" xml:space="preserve">
     <value>您的提款申请超过您可提款金额</value>
   </data>
+  <data name="lbl_BonusConfirm" xml:space="preserve">
+    <value>您已点选我司优惠回馈，请问是否要继续？</value>
+  </data>
 </root>

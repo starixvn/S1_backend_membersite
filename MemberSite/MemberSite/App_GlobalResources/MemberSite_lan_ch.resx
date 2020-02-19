@@ -1277,6 +1277,9 @@
   <data name="lbl_Later" xml:space="preserve">
     <value>稍後</value>
   </data>
+  <data name="lbl_BonusConfirm" xml:space="preserve">
+    <value>您已點選我司優惠回饋，請問是否要繼續？</value>
+  </data>
   <data name="lbl_DepositOver" xml:space="preserve">
     <value>您的提款申請超過您的餘額</value>
   </data>

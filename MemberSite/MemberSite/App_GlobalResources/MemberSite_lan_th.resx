@@ -1285,4 +1285,7 @@
   <data name="lbl_Later" xml:space="preserve">
     <value>ภายหลัง</value>
   </data>
+  <data name="lbl_BonusConfirm" xml:space="preserve">
+    <value>คุณเลือกโบนัสโปรโมชั่นของเรา คุณต้องการดำเนินการต่อหรือไม่?</value>
+  </data>
 </root>
