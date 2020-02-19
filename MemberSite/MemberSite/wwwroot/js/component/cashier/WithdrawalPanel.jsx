@@ -449,6 +449,7 @@ import {ShowModal} from '../commJS/Modal.jsx';
                 let result = response.data;
                 if (result.errorCode == 0) {
                     this.GetWithdrawalInfoRecent();
+                    this.getWithdrawalAvailableBalance();
                 } else {
                     alert(result.message);
                 }
