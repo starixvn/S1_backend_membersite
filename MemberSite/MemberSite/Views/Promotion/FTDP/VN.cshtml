@@ -62,15 +62,15 @@
                                     </li>
                                     @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
                                     {
-                                        <li>
-                                            <div class="btn-group">
-                                                <button class="btn btn-secondary" id="JOIN">
-                                                    <div class="btn__inner">
-                                                        <span class="text">JOIN NOW</span>
-                                                    </div>
-                                                </button>
-                                            </div>
-                                        </li>
+                                    <li>
+                                        <div class="btn-group">
+                                            <button class="btn btn-secondary" id="JOIN">
+                                                <div class="btn__inner">
+                                                    <span class="text">JOIN NOW</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </li>
                                     }
                                 </ul>
                             </div>
@@ -225,12 +225,12 @@
             $("#REMAINING").html(moment.unix(@promotion.PeriodTo).format('lll'));
 
             $("#JOIN").on("touchstart, click", function () {
-                if (confirm("@selLangBLL.GetResourceValue("lbl_BonusConfirm")")) {
+                  if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {
                     axios.post('/api/Promotion/SetClaimPromotion/@selLangBLL.GetLangId()', { BonusCode:"@promotion.BonusCode"})
                         .then(function (response) {
                             var result = response.data;
                             if (result.errorCode == 0) {
-                                alert("@selLangBLL.GetMsg("msg_Updatesuccessful")");
+                                 alert("@Html.Raw(selLangBLL.GetMsg("msg_Updatesuccessful"))");
                                 window.location.replace("@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })");
                             } else {
                                 alert(result.message);

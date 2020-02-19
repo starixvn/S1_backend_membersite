@@ -1288,4 +1288,25 @@
   <data name="lbl_BonusConfirm" xml:space="preserve">
     <value>คุณเลือกโบนัสโปรโมชั่นของเรา คุณต้องการดำเนินการต่อหรือไม่?</value>
   </data>
+  <data name="lbl_DepositOver" xml:space="preserve">
+    <value>จำนวนเงินที่คุณต้องการถอนมากกว่ายอดเงินคงหลือในบัญชีของคุณ</value>
+  </data>
+  <data name="lbl_EligibleWithdrawal" xml:space="preserve">
+    <value>วงเงินถอน</value>
+  </data>
+  <data name="lbl_EligibleWithdrawalAmount" xml:space="preserve">
+    <value>ยอดเงินที่คุณมีสิทธิ์ถอนคือ</value>
+  </data>
+  <data name="lbl_Req" xml:space="preserve">
+    <value>ข้อกำหนดและเงื่อนไขเฉพาะของข้อเสนอ</value>
+  </data>
+  <data name="lbl_RolloverOver" xml:space="preserve">
+    <value>ยอดโรลโอเวอร์ของคุณไม่เพียงพอ</value>
+  </data>
+  <data name="lbl_RolloverProgress" xml:space="preserve">
+    <value>ความคืบหน้าโรลโอเวอร์</value>
+  </data>
+  <data name="lbl_WithdrawalOver" xml:space="preserve">
+    <value>จำนวนเงินที่คุณต้องการถอนมากกว่าจำนวนเงินที่คุณมีสิทธิ์ถอน</value>
+  </data>
 </root>

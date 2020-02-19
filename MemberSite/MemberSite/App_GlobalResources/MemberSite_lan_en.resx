@@ -1306,7 +1306,7 @@
   <data name="lbl_WithdrawalOver" xml:space="preserve">
     <value>Your required withdrawal amount had exceeded your elegible withdrawal amount.</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
+  <data name="lbl_Clickhereforpromotion" xml:space="preserve">
+    <value>Click here to see your availiable promotions</value>
   </data>
 </root>
