@@ -102,7 +102,7 @@ namespace MemberSite.Service.DAL
                     if (result > 0)
                     {
                         decimal afterRollOver = 0;
-                        result = rollOverService.SetRollOver(custId, siteId, userName, RollOverType.Bonus, bonusCode, dRollOver, $"Bonus RollOver: {dRollOver}", transId, out afterRollOver, conn, trans);
+                        result = rollOverService.SetRollOver(custId, siteId, userName, bonusCode, dRollOver, $"Bonus RollOver: {dRollOver}", transId, out afterRollOver, conn, trans);
                     }
 
                     if (result > 0)
