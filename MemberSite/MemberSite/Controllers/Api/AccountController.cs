@@ -206,6 +206,11 @@ namespace MemberSite.Controllers.Api
             var withdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
 
             apiResult.Data = withdrawalAvailableBalance;
+            var rollover = paymentBLL.ReachedRollover(authData.CustId);
+            if (!rollover.ReachedRollover)
+            {
+                apiResult.Data = 0;
+            }
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -217,7 +222,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult<RolloverPanel>> GetRolloverPanelDataAsync()
+        public ApiResult<RolloverPanel> GetRolloverPanelData()
         {
             var apiResult = new ApiResult<RolloverPanel>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
@@ -225,8 +230,13 @@ namespace MemberSite.Controllers.Api
             var promotions = promotionBLL.GetPromotionListByCustIdWithCache(authData.CustId).Where(x => x.BonusInfoStatus == 1);
             if (promotions != null && promotions?.Count() > 0)
             {
-                rolloverPanel.promotions = promotionBLL.GetPromotionListByCustIdWithCache(authData.CustId);
-                rolloverPanel.WithdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
+                foreach (var promotion in promotions)
+                {
+                    promotion.Title = selLangBLL.GetResourceValue($"{promotion.BonusCode}Title");
+                    promotion.custRollOver = custInfoBLL.GetCustRollOver(authData.CustId, promotion.BonusCode);
+                }
+                rolloverPanel.promotions = promotions;
+                //rolloverPanel.WithdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
             }
 
             apiResult.Data = rolloverPanel;
