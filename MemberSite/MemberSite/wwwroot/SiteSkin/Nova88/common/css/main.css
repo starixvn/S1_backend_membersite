@@ -5214,13 +5214,7 @@ button.swiper-pagination-bullet {
 .dropdown-rollover .rollover-info .text:nth-child(1) {
   font-size: 0.875rem;
   color: #26416e;
-}
-
-.dropdown-rollover .rollover-info .text:nth-child(2) {
-  font-size: 1.125rem;
-  font-weight: bold;
-  color: #f77a00;
-  float: right;
+  word-break: break-all;
 }
 
 .dropdown-rollover .rollover-info .text:nth-child(n+4) {
