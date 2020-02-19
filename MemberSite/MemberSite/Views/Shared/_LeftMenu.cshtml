@@ -59,8 +59,6 @@
         CurrencyId = selLangBLL.GetPreferCurrencyId();
         promotionCnt = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).Count();
     }
-
-
 }
 <div class="side-bar" role="mobile-only">
     <div class="overlay"></div>
@@ -128,6 +126,45 @@
                 }
             </div>
         </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="side-nav__rollover">
+                <a class="btn dropdown-rollover">
+                    <i class="icon icon-schedule"></i>
+                    <span class="text">ROLLOVER PROGRESS</span>
+                    <span class="text">100%</span>
+                    <i class="icon icon-caret"></i>
+                </a>
+                <div class="side-nav-rollover-info">
+                    <div class="eligible-info">
+                        <div class="eligible-info__item">
+                            <span class="text">ELIGIBLE WITHDRAWAL</span>
+                            <span class="text-amount text--lg">MYR $000</span>
+                        </div>
+                    </div>
+                    <div class="rollover-info">
+                        <div class="rollover-info__item">
+                            <span class="text">BONUS ROLLOVER</span>
+                            <span class="text">MYR $000</span>
+                            <div class="schedule">
+                                <div class="schedule-bg"></div>
+                            </div>
+                            <span class="text">(Req.MYR $000)</span>
+                            <span class="text">100%</span>
+                        </div>
+                        <div class="rollover-info__item">
+                            <span class="text">DEPOSIT ROLLOVER</span>
+                            <span class="text">MYR $000</span>
+                            <div class="schedule">
+                                <div class="schedule-bg"></div>
+                            </div>
+                            <span class="text">(Req.MYR $000)</span>
+                            <span class="text">100%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
         <div class="side-nav__main">
             @if (User.Identity.IsAuthenticated)
             {

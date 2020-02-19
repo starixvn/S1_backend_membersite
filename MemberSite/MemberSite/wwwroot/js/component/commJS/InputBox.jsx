@@ -125,6 +125,7 @@ export class InputBox extends React.Component {
         super(props);
         this._dataField=this.props.DataField;
         this.state = { showTooltip: false, ShowPwd: false, dropdown: false};
+        this.Dropdown = React.createRef();
     }
 
     onShowTooltip() {
@@ -139,39 +140,20 @@ export class InputBox extends React.Component {
         let node = event.target;
         let parentNode = node.parentNode;
         if(node.className != "btn btn-icon btn-form-status" && (parentNode!=undefined && parentNode.className != "btn btn-icon btn-form-status")) {
-            this.setState({dropdown:!this.state.dropdown}, function() {
-                if(this.state.dropdown){
-                    let object = document.getElementsByTagName('body')[0];
-                    $(object).on("touchstart, mousedown", this.onHideDropdown.bind(this));
-                } else {
-                    let object = document.getElementsByTagName('body')[0];
-                    $(object).off();                
-                }
-            });
-        }
-    }
+            let dropdownVal = !this.state.dropdown;
+            let $target = $(this.Dropdown.current);
 
-    onHideDropdown(event) {
-        let node = event.target.parentNode;
-        let i=1;
-        while (node != undefined && i<=3) {
-            if(node.className == "dropdown dropdown-default"){
-                return;
+            //console.log(typeof($target.attr("data-open")));
+            //console.log($target.attr("data-open"));
+            if(typeof($target.attr("data-open"))!=dropdownVal) {
+                dropdownVal = true;
             }
 
-            node = node.parentNode;
-            i++;
+            this.setState({dropdown: dropdownVal});
         }
-
-        this.setState({dropdown:false}, function() {
-            let object = document.getElementsByTagName('body')[0];
-            $(object).off();
-        });
     }
 
     setValue(value) {
-        let object = document.getElementsByTagName('body')[0];
-        $(object).off();        
         this._dataField.Value=value;
         this.setState({dropdown:false});
     }
@@ -249,7 +231,7 @@ export class InputBox extends React.Component {
                 }
             }
 
-            inputPanel = <div className="dropdown dropdown-default" data-open={this.state.dropdown}>
+            inputPanel = <div className="dropdown dropdown-default" data-open={this.state.dropdown} ref={this.Dropdown}>
                 <a className="btn" onClick={this.onDropdown.bind(this)}>
                     <span className="text">{dropdownText}</span>
                     <i className="icon icon-caret"></i>

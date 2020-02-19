@@ -4971,18 +4971,55 @@ button.swiper-pagination-bullet {
     background-color: #112240;
 }
 
-    .header__nav::after {
-        content: "";
-        display: block;
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: -1;
-        width: inherit;
-        height: inherit;
-        background-color: inherit;
-    }
+.header__nav li {
+  list-style: none;
+  flex: 1 0 0;
+}
+
+.header__nav li ul {
+  padding: 0 calc((100% - 1280px)/2);
+  margin: 0;
+  background: #5574a7;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  display: flex;
+  height: 230px;
+  justify-content: center;
+  border-bottom: 1px solid #26416e;
+}
+
+.header__nav li ul :hover {
+  background: #335793;
+}
+
+.header__nav li ul li {
+  background: #5574a7;
+  text-align: center;
+  flex: none;
+}
+
+.header__nav li ul li a {
+  display: block;
+}
+
+.header__nav li ul li a img {
+  display: block;
+  margin: auto;
+  max-width: 200px;
+}
+
+.header__nav::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  width: inherit;
+  height: inherit;
+  background-color: inherit;
+}
 
 [class^=header__col] {
     flex: 1 0 auto;
@@ -5130,6 +5167,154 @@ button.swiper-pagination-bullet {
     padding: .25rem .5rem;
     font-size: .75rem;
     opacity: .54;
+}
+
+.dropdown-rollover {
+  background-color: #112240;
+}
+
+.dropdown-rollover .eligible-info {
+  padding: .5rem .25rem;
+}
+
+.dropdown-rollover .eligible-info__item {
+  display: flex;
+  align-items: center;
+  padding: .25rem .5rem;
+}
+
+.dropdown-rollover .eligible-info__item [class^=text]:first-child {
+  flex: 1;
+  padding-right: .5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  color: #26416e;
+}
+
+.dropdown-rollover .eligible-info .text-amount {
+  font-weight: bold;
+  color: #f77a00;
+}
+
+.dropdown-rollover .rollover-info {
+  padding: .5rem .25rem;
+  background-color: #e7e7e7;
+}
+
+.dropdown-rollover .rollover-info__item {
+  align-items: center;
+  justify-content: space-between;
+  padding: .25rem .5rem;
+  font-size: .75rem;
+  font-weight: bold;
+}
+
+.dropdown-rollover .rollover-info .text:nth-child(1) {
+  font-size: 0.875rem;
+  color: #26416e;
+}
+
+.dropdown-rollover .rollover-info .text:nth-child(2) {
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: #f77a00;
+  float: right;
+}
+
+.dropdown-rollover .rollover-info .text:nth-child(n+4) {
+  color: #7c7c7c;
+}
+
+.dropdown-rollover .rollover-info .text:nth-child(5) {
+  float: right;
+}
+
+.dropdown-rollover .rollover-info .schedule {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #bdbdbd;
+  height: 0.7rem;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+.dropdown-rollover .rollover-info .schedule .schedule-bg {
+  background: url("../images/UI/schedulebg.jpg");
+  padding: 1px;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.dropdown-rollover .icon-schedule {
+  font-size: 1rem;
+  margin-right: 0.3rem;
+}
+
+.dropdown-rollover .icon-schedule + .text {
+  text-align: left;
+  font-size: 0.7rem;
+}
+
+.dropdown-rollover .icon-schedule + .text + .text {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.header_simplify {
+  top: -60px;
+  opacity: 0;
+}
+
+[data-layout=desktop] .header_simplify {
+  box-shadow: none;
+  display: none;
+  flex-direction: column;
+}
+
+.header_simplify .header__main .header__option > .btn:not(.btn-icon) {
+  min-width: auto;
+}
+
+.header_simplify .header__nav {
+  background-color: transparent;
+  flex: 1;
+}
+
+.header_simplify .dropdown > .btn:nth-child(n+2) {
+  padding-left: .375rem;
+}
+
+.header_simplify a.logo {
+  height: 30px;
+  overflow-y: hidden;
+}
+
+.subMenu, .subMenu_sim {
+  padding: 0 calc((100% - 1280px) /2);
+  background: #5574a7;
+  height: 215px;
+}
+
+.subMenu div ul, .subMenu_sim div ul {
+  display: flex;
+  justify-content: center;
+}
+
+.subMenu div ul a, .subMenu_sim div ul a {
+  flex: 1;
+  max-width: 200px;
+  padding: 1rem;
+}
+
+.subMenu div ul a:hover, .subMenu_sim div ul a:hover {
+  background: #335793;
+}
+
+.subMenu div ul li, .subMenu_sim div ul li {
+  list-style: none;
+  text-align: center;
 }
 
 .footer {
@@ -5290,9 +5475,114 @@ button.swiper-pagination-bullet {
         width: auto;
     }
 
-        .side-nav__account .side-nav__btn .icon + .text {
-            margin-left: 0;
-        }
+.side-nav__account .side-nav__btn .icon + .text {
+  margin-left: 0;
+}
+
+.side-nav__account .side-nav__btn {
+  padding-right: 0;
+}
+
+.side-nav__rollover {
+  padding: 0 .75rem .75rem;
+  background-color: #112240;
+}
+
+.side-nav__rollover > .dropdown-rollover {
+  padding: 0;
+}
+
+.side-nav__rollover > .dropdown-rollover .icon-schedule ~ span {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.side-nav__rollover > .dropdown-rollover .icon-caret {
+  background: #DBEAFC;
+  color: #112240;
+  border-radius: 5px;
+  transform: rotate(0deg);
+}
+
+.side-nav__rollover > .dropdown-rollover .icon-caret2::before {
+  transform: rotate(180deg);
+}
+
+.side-nav__rollover > .dropdown-rollover.btn {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.3rem;
+}
+
+.side-nav__rollover > .dropdown-rollover + .side-nav-rollover-info .eligible-info {
+  margin-bottom: 0.3rem;
+}
+
+.side-nav__rollover > .dropdown-rollover + .side-nav-rollover-info .eligible-info__item {
+  display: flex;
+  align-items: center;
+  font-size: .75rem;
+  margin: 0 0 0.7rem;
+}
+
+.side-nav__rollover > .dropdown-rollover + .side-nav-rollover-info .eligible-info__item [class^=text]:first-child {
+  flex: 1;
+  padding-right: .5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #DBEAFC;
+  font-size: 0.7rem;
+}
+
+.side-nav__rollover > .dropdown-rollover + .side-nav-rollover-info .eligible-info .text-amount {
+  font-weight: bold;
+  color: #f77a00;
+  font-size: 0.95rem;
+}
+
+.side-nav__rollover > .dropdown-rollover + .side-nav-rollover-info .rollover-info__item {
+  align-items: center;
+  justify-content: space-between;
+  font-size: .75rem;
+  margin: 0 0 0.7rem;
+}
+
+.side-nav__rollover > .dropdown-rollover + .side-nav-rollover-info .rollover-info .text:nth-child(1) {
+  font-size: 0.7rem;
+  color: #DBEAFC;
+}
+
+.side-nav__rollover > .dropdown-rollover + .side-nav-rollover-info .rollover-info .text:nth-child(2) {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #f77a00;
+  float: right;
+}
+
+.side-nav__rollover > .dropdown-rollover + .side-nav-rollover-info .rollover-info .text:nth-child(n+4) {
+  color: #fff;
+}
+
+.side-nav__rollover > .dropdown-rollover + .side-nav-rollover-info .rollover-info .text:nth-child(5) {
+  float: right;
+}
+
+.side-nav__rollover > .dropdown-rollover + .side-nav-rollover-info .rollover-info .schedule {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #bdbdbd;
+  height: 0.7rem;
+  padding: 0;
+  margin: 0.2rem 0;
+}
+
+.side-nav__rollover > .dropdown-rollover + .side-nav-rollover-info .rollover-info .schedule .schedule-bg {
+  background: url("../images/UI/schedulebg.jpg");
+  padding: 1px;
+  height: 100%;
+  border-radius: 10px;
+}
 
 .side-nav__header > .btn-icon:only-of-type {
     margin: .25rem;
@@ -6983,7 +7273,7 @@ ul {
     padding: 0.5rem;
   }
 }
-.modal__body span {
+.modal__body span.popup-span {
     background: #dbeafc;
     border-radius: 5px;
     padding: 0.1rem 0.8rem;

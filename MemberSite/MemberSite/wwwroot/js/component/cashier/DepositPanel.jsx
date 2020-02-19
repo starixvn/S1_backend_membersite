@@ -276,6 +276,7 @@ import {number_format} from '../commJS/common';
         constructor(props) {
             super(props);
             this.state = { dropdown: false};
+            this.Dropdown = React.createRef();
         }        
         onPickBankInfoOff(PickBankInfoOff){
             this.props.onPickBankInfoOff(PickBankInfoOff);
@@ -286,34 +287,16 @@ import {number_format} from '../commJS/common';
             let node = event.target;
             let parentNode = node.parentNode;
             if(node.className != "btn btn-icon btn-form-status" && (parentNode!=undefined && parentNode.className != "btn btn-icon btn-form-status")) {
-                this.setState({dropdown:!this.state.dropdown}, function() {
-                    if(this.state.dropdown){
-                        let object = document.getElementsByTagName('body')[0];
-                        $(object).on("mousedown", this.onHideDropdown.bind(this));
-                    } else {
-                        let object = document.getElementsByTagName('body')[0];
-                        $(object).off();                
-                    }
-                });
-            }
-        }
+                let dropdownVal = !this.state.dropdown;
+                let $target = $(this.Dropdown.current);
 
-        onHideDropdown(event) {
-            let node = event.target.parentNode;
-            let i=1;
-            while (node != undefined && i<=3) {
-                if(node.className == "dropdown dropdown-default"){
-                    return;
+                if(typeof($target.attr("data-open"))=="undefined") {
+                    $target.attr("data-open",true);
+                    dropdownVal = true;
                 }
-    
-                node = node.parentNode;
-                i++;
+
+                this.setState({dropdown: dropdownVal});
             }
-    
-            this.setState({dropdown:false}, function() {
-                let object = document.getElementsByTagName('body')[0];
-                $(object).off();
-            });
         }
 
         render() {
@@ -337,7 +320,7 @@ import {number_format} from '../commJS/common';
                 <div className="form-group">
                     <label className="form-title">{i18n.lbl_TransferTo}</label>
                     <div className="form-content">
-                        <div className="dropdown dropdown-default" data-open={this.state.dropdown}>
+                        <div className="dropdown dropdown-default" data-open={this.state.dropdown} ref={this.Dropdown}>
                             <a className="btn" onClick={this.onDropdown.bind(this)}>
                                 <div className="payment-thumbnail">
                                     <img src={"/common/images/BankLogo/" + PickBankInfoOff.bankLogo} />
@@ -493,7 +476,7 @@ import {number_format} from '../commJS/common';
             let Inputs=this.state.formArr.map(dataField => <InputBox key={dataField.name} DataField={dataField}/>);
             let BankInfoOffList = this.state.BankInfoOffList;
             if(BankInfoOffList != null && BankInfoOffList.length > 0) {
-                Inputs.push(<BankInfoOffDropdown key={"."} BankInfoOffList={this.state.BankInfoOffList} PickBankInfoOff={this.state.PickBankInfoOff} onPickBankInfoOff={this.onPickBankInfoOff.bind(this)} />);
+                Inputs.push(<BankInfoOffDropdown key={"BankInfoOffList"} BankInfoOffList={this.state.BankInfoOffList} PickBankInfoOff={this.state.PickBankInfoOff} onPickBankInfoOff={this.onPickBankInfoOff.bind(this)} />);
             }
             //let modalContaner = null;
 

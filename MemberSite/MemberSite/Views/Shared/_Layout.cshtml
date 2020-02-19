@@ -153,18 +153,27 @@
                 $(".side-bar").removeAttr("data-open");
             });
 
-            /*$(".side-nav__item > .dropdown > .btn").on("touchstart, click", function () {
-                var $dropdown = $(this).parent();
-                $dropdown.attr("data-open") == "true" ? $dropdown.removeAttr("data-open") : $dropdown.attr("data-open", "true");
-            });*/
+            //$(".side-nav__item > .dropdown > .btn").on("touchstart, click", function () {
+            //    var $dropdown = $(this).parent();
+            //    $dropdown.attr("data-open") == "true" ? $dropdown.removeAttr("data-open") : $dropdown.attr("data-open", "true");
+            //});
 
-            $(document.body).on("touchstart, mousedown", function () {
-                $('.dropdown').removeAttr("data-open");
+            $(document.body).on("touchstart, mousedown", function (e) {
+                var container = $(".dropdown");
+                if (!container.is(e.target) && container.has(e.target).length === 0) {
+                   container.removeAttr("data-open");
+                }
             });
 
-            $(".dropdown > .btn").on("touchstart, click", function () {
+            $(".dropdown > .btn").on("touchstart, click", function (e) {
                 var $target = $(this).parent();
-                $target.attr("data-open","true");
+
+                var container = $(".dropdown");
+                if (!container.is($target) && container.has($target).length === 0) {
+                    container.removeAttr("data-open");
+                }
+
+                $target.attr("data-open", $target.attr("data-open") === "true" ? "false" : "true");
             });
         });
     </script>
