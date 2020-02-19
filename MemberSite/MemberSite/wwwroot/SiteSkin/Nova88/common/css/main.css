@@ -6177,9 +6177,6 @@ button.swiper-pagination-bullet {
   min-width: 1024px;
 }
 
-[data-layout=mobile] .main.main {
-  margin-top: 72px;
-}
 
 [data-layout=mobile] .main:not(.main--home) {
   display: flex;
