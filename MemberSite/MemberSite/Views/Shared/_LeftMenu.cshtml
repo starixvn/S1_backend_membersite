@@ -131,34 +131,34 @@
             <div class="side-nav__rollover">
                 <a class="btn dropdown-rollover">
                     <i class="icon icon-schedule"></i>
-                    <span class="text">ROLLOVER PROGRESS</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_RolloverProgress")</span>
                     <span class="text">100%</span>
                     <i class="icon icon-caret"></i>
                 </a>
                 <div class="side-nav-rollover-info">
                     <div class="eligible-info">
                         <div class="eligible-info__item">
-                            <span class="text">ELIGIBLE WITHDRAWAL</span>
-                            <span class="text-amount text--lg">MYR $000</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_EligibleWithdrawal")</span>
+                            <span class="text-amount text--lg">@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") $000</span>
                         </div>
                     </div>
                     <div class="rollover-info">
                         <div class="rollover-info__item">
-                            <span class="text">BONUS ROLLOVER</span>
-                            <span class="text">MYR $000</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_BonusRollOver")</span>
+                            <span class="text">@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") $000</span>
                             <div class="schedule">
                                 <div class="schedule-bg"></div>
                             </div>
-                            <span class="text">(Req.MYR $000)</span>
+                            <span class="text">(@selLangBLL.GetResourceValue("lbl_Req") @selLangBLL.GetResourceValue($"Currency_{CurrencyId}") $000)</span>
                             <span class="text">100%</span>
                         </div>
                         <div class="rollover-info__item">
-                            <span class="text">DEPOSIT ROLLOVER</span>
-                            <span class="text">MYR $000</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_DepositRollover")</span>
+                            <span class="text">@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") $000</span>
                             <div class="schedule">
                                 <div class="schedule-bg"></div>
                             </div>
-                            <span class="text">(Req.MYR $000)</span>
+                            <span class="text">(@selLangBLL.GetResourceValue("lbl_Req") @selLangBLL.GetResourceValue($"Currency_{CurrencyId}") $000)</span>
                             <span class="text">100%</span>
                         </div>
                     </div>
