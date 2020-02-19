@@ -213,7 +213,7 @@
                         <span class="text">
                             @selLangBLL.GetResourceValue("lbl_RolloverProgress")
                         </span>
-                        <span class="text">@((totalturnover / totalRollover).ToString("0.##")) %</span>
+                        <span class="text">@((totalturnover / totalRollover * 100).ToString("0.##")) %</span>
                         <i class="icon icon-caret"></i>
                     </a>
                     <div class="dropdown__container">
