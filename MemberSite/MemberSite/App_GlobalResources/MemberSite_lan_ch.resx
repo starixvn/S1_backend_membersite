@@ -1277,4 +1277,26 @@
   <data name="lbl_Later" xml:space="preserve">
     <value>稍後</value>
   </data>
+  <data name="lbl_DepositOver" xml:space="preserve">
+    <value>您的提款申請超過您的餘額</value>
+  </data>
+  <data name="lbl_EligibleWithdrawal" xml:space="preserve">
+    <value>提款限額</value>
+  </data>
+  <data name="lbl_EligibleWithdrawalAmount" xml:space="preserve">
+    <value>
+您可提款的金額為</value>
+  </data>
+  <data name="lbl_Req" xml:space="preserve">
+    <value>條件</value>
+  </data>
+  <data name="lbl_RolloverOver" xml:space="preserve">
+    <value>您的優惠回饋流水未達最低金額</value>
+  </data>
+  <data name="lbl_RolloverProgress" xml:space="preserve">
+    <value>流水金額進度</value>
+  </data>
+  <data name="lbl_WithdrawalOver" xml:space="preserve">
+    <value>您的提款申請超過您可提款金額</value>
+  </data>
 </root>

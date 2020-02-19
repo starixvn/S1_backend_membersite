@@ -153,7 +153,7 @@
                     <span class="text">
                         @selLangBLL.GetResourceValue("lbl_RolloverProgress")
                     </span>
-                    <span class="text">@((totalturnover / totalRollover * 100).ToString("0.##")) %</span>
+                    <span class="text">@((Math.Floor(totalturnover / totalRollover * 10000)/100).ToString("0.##")) %</span>
                     <i class="icon icon-caret"></i>
                 </a>
                 <div class="dropdown__container">
@@ -170,7 +170,7 @@
                                     </div>
                                     <div class="schedule-info">
                                         <span class="text">@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") $@promotion.custRollOver.TurnOver.ToString("#,#0.##")</span>
-                                        <span class="text">(@selLangBLL.GetResourceValue("lbl_Req") @selLangBLL.GetResourceValue($"Currency_{CurrencyId}")) $@promotion.custRollOver.RollOver.ToString("#,#0.##"))@((promotion.custRollOver.TurnOver / promotion.custRollOver.RollOver * 100).ToString("0.##"))%</span>
+                                        <span class="text">(@selLangBLL.GetResourceValue("lbl_Req") @selLangBLL.GetResourceValue($"Currency_{CurrencyId}")) $@promotion.custRollOver.RollOver.ToString("#,#0.##")) @((Math.Floor(totalturnover / totalRollover * 10000)/100).ToString("0.##")) %</span>
                                     </div>
                                 </div>
                             }

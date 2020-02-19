@@ -72,7 +72,7 @@ import {number_format} from '../commJS/common';
                                     <li class="txt-org">{i18n.lbl_BonusRollOver}</li>
                                     <li class="txt-gray">
                                         <span className="txt-org">{i18n["Currency_"+Data.currencyId]} ${number_format(Data.custRollOver.turnOver)}</span> (Req.{i18n["Currency_"+Data.currencyId]} ${number_format(Data.custRollOver.rollOver)})
-                                        <div class="percentage">{((Data.custRollOver.turnOver / Data.custRollOver.rollOver) * 100).toFixed(2)}%</div>
+                                        <div class="percentage">{(Math.floor((Data.custRollOver.turnOver / Data.custRollOver.rollOver) * 10000)/100).toFixed(2)}%</div>
                                     </li>
                                     <li>
                                         <div class="schedule">
