@@ -118,8 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Code_10" xml:space="preserve">
-    <value>
-[10] 目前遊戲維護中，請稍後再試。</value>
+    <value>[10] 目前遊戲維護中，請稍後再試。</value>
   </data>
   <data name="Code_1101" xml:space="preserve">
     <value>[1101] 用戶ID不存在，請聯繫客服。</value>

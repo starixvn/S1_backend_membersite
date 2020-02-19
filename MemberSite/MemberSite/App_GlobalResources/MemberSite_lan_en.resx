@@ -1255,10 +1255,7 @@
   <data name="lbl_BonusAmount" xml:space="preserve">
     <value>BOUNUS AMOUNT</value>
   </data>
-  <data name="lbl_BonusRollOver" xml:space="preserve">
-    <value>BONUS ROLL OVER</value>
-  </data>
-  <data name="lbl_DepositRollOver" xml:space="preserve">
+  <data name="lbl_DepositRollover" xml:space="preserve">
     <value>DEPOSIT ROLL OVER</value>
   </data>
   <data name="lbl_ExpiryTime" xml:space="preserve">
@@ -1287,5 +1284,17 @@
   </data>
   <data name="lbl_Later" xml:space="preserve">
     <value>Later</value>
+  </data>
+  <data name="lbl_BonusRollOver" xml:space="preserve">
+    <value>BONUS ROLLOVER</value>
+  </data>
+  <data name="lbl_EligibleWithdrawal" xml:space="preserve">
+    <value>ELIGIBLE WITHDRAWAL</value>
+  </data>
+  <data name="lbl_Req" xml:space="preserve">
+    <value>Req.</value>
+  </data>
+  <data name="lbl_RolloverProgress" xml:space="preserve">
+    <value>ROLLOVER PROGRESS</value>
   </data>
 </root>

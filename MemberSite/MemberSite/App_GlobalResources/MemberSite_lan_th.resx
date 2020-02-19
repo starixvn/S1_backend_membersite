@@ -1243,12 +1243,6 @@
   <data name="lbl_BonusAmount" xml:space="preserve">
     <value>จำนวนโบนัส</value>
   </data>
-  <data name="lbl_BonusRollOver" xml:space="preserve">
-    <value>ยอดหมุนเวียน โบนัส </value>
-  </data>
-  <data name="lbl_DepositRollOver" xml:space="preserve">
-    <value>ยอดหมุนเวียน เงินฝาก</value>
-  </data>
   <data name="lbl_ExpiryTime" xml:space="preserve">
     <value>เวลาหมดอายุ</value>
   </data>

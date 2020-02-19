@@ -1244,12 +1244,6 @@
   <data name="lbl_BonusAmount" xml:space="preserve">
     <value>优惠金额</value>
   </data>
-  <data name="lbl_BonusRollOver" xml:space="preserve">
-    <value>优惠最低投注倍数</value>
-  </data>
-  <data name="lbl_DepositRollOver" xml:space="preserve">
-    <value>存款最低投注倍数</value>
-  </data>
   <data name="lbl_ExpiryTime" xml:space="preserve">
     <value>到期时间</value>
   </data>
