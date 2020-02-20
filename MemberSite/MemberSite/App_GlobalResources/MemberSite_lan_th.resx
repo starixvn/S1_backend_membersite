@@ -1309,4 +1309,7 @@
   <data name="lbl_WithdrawalOver" xml:space="preserve">
     <value>จำนวนเงินที่คุณต้องการถอนมากกว่าจำนวนเงินที่คุณมีสิทธิ์ถอน</value>
   </data>
+  <data name="lbl_Clickhereforpromotion" xml:space="preserve">
+    <value>คลิกที่นี่ เพื่อตรวจสอบโปรโมชั่นของคุณ</value>
+  </data>
 </root>

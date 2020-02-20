@@ -1302,4 +1302,7 @@
   <data name="lbl_WithdrawalOver" xml:space="preserve">
     <value>您的提款申請超過您可提款金額</value>
   </data>
+  <data name="lbl_Clickhereforpromotion" xml:space="preserve">
+    <value>點擊這裡查看您現有的優惠</value>
+  </data>
 </root>

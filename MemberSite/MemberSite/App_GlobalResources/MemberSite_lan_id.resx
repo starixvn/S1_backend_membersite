@@ -1282,6 +1282,9 @@
   <data name="lbl_BonusConfirm" xml:space="preserve">
     <value>Anda telah memilih bonus promosi kami, apakah anda mau melanjutkan?</value>
   </data>
+  <data name="lbl_Clickhereforpromotion" xml:space="preserve">
+    <value>Klik disini untuk melihat promosi yang tersedia</value>
+  </data>
   <data name="lbl_DepositOver" xml:space="preserve">
     <value>Jumlah permintaan penarikan anda melebihi saldo di akun anda </value>
   </data>

@@ -80,15 +80,18 @@
     <div class="lobby-page">
         <div class="lobby-banner-swiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <img src="@CmsPromotionPath/banner-promo.png">
-                </div>
+                @*<div class="swiper-slide">
+                        <img src="@CmsPromotionPath/banner-promo.png">
+                    </div>*@
                 <div class="swiper-slide">
                     <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/banner-euro.jpg"></a>
                 </div>
-                <div class="swiper-slide">
-                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/banner-FTDP.jpg"></a>
-                </div>
+                @if (promotionCnt > 0)
+                {
+                    <div class="swiper-slide">
+                        <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/banner-FTDP.jpg"></a>
+                    </div>
+                }
                 <div class="swiper-slide">
                     <a href="@GetEntPageUrl(1, "211")"><img src="@CmsPromotionPath/banner-Allbet.jpg"></a>
                 </div>

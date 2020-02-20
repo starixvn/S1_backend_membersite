@@ -1304,4 +1304,7 @@
   <data name="lbl_BonusConfirm" xml:space="preserve">
     <value>您已点选我司优惠回馈，请问是否要继续？</value>
   </data>
+  <data name="lbl_Clickhereforpromotion" xml:space="preserve">
+    <value>点击这里查看您现有的优惠</value>
+  </data>
 </root>
