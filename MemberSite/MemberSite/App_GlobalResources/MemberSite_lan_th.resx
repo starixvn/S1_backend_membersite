@@ -1298,7 +1298,7 @@
     <value>ยอดเงินที่คุณมีสิทธิ์ถอนคือ</value>
   </data>
   <data name="lbl_Req" xml:space="preserve">
-    <value>ข้อกำหนดและเงื่อนไขเฉพาะของข้อเสนอ</value>
+    <value>ข้อกำหนด</value>
   </data>
   <data name="lbl_RolloverOver" xml:space="preserve">
     <value>ยอดโรลโอเวอร์ของคุณไม่เพียงพอ</value>
