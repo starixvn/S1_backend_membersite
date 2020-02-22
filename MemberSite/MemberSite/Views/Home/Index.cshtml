@@ -48,8 +48,13 @@
         {
             if (!User.Identity.IsAuthenticated && (gameId == "202" || gameId == "208" || gameId == "211"))
             {
-                var message = selLangBLL.GetMsg("msg_LoginToAccess");
-                entPageUrl = "javascript:alert('" + message + "');";
+                if (tools.IsMobile())
+                {
+                    var message = selLangBLL.GetMsg("msg_LoginToAccess");
+                    entPageUrl = "javascript:alert('" + message + "');";
+                }
+                else
+                    entPageUrl = Url.RouteUrl("desktop", new { action = "Static", controller = "Home", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
             }
             else
             {

@@ -72,5 +72,10 @@ namespace MemberSite.Controllers
             }
             return View();
         }
+
+        public IActionResult Static()
+        {
+            return View();
+        }
     }
 }
