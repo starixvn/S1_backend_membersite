@@ -1158,11 +1158,23 @@
   <data name="lbl_badminton" xml:space="preserve">
     <value>Cầu lông</value>
     <comment>00131.</comment>
-  </data>  
+  </data>
   <data name="lbl_Promotions" xml:space="preserve">
     <value>Promotions</value>
   </data>
   <data name="lbl_Notice" xml:space="preserve">
     <value>ĐỂ Ý</value>
+  </data>
+  <data name="lbl_BonusConfirm" xml:space="preserve">
+    <value>Bạn đã chọn phần thưởng khuyến mãi của chúng tôi, bạn có muốn tiếp tục không?</value>
+  </data>
+  <data name="lbl_DepositOver" xml:space="preserve">
+    <value>Số tiền rút của bạn đã vượt quá số dư hiện tại</value>
+  </data>
+  <data name="lbl_EligibleWithdrawalAmount" xml:space="preserve">
+    <value>Số tiền có thể rút</value>
+  </data>
+  <data name="lbl_RolloverOver" xml:space="preserve">
+    <value>Doanh thu yêu cầu cho khuyến mãi chưa đạt</value>
   </data>
 </root>

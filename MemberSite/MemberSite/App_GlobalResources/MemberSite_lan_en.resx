@@ -1309,4 +1309,19 @@
   <data name="lbl_Clickhereforpromotion" xml:space="preserve">
     <value>Click here to see your availiable promotions</value>
   </data>
+  <data name="lbl_GameList" xml:space="preserve">
+    <value>Game List</value>
+  </data>
+  <data name="lbl_AGCasino" xml:space="preserve">
+    <value>AG Casino</value>
+  </data>
+  <data name="lbl_AllbetCasino" xml:space="preserve">
+    <value>Allbet Casino</value>
+  </data>
+  <data name="lbl_ComingSoon" xml:space="preserve">
+    <value>Coming Soon</value>
+  </data>
+  <data name="lbl_SACasino" xml:space="preserve">
+    <value>SA Casino</value>
+  </data>
 </root>
