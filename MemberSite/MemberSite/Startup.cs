@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.WebEncoders;
 
 namespace MemberSite
 {
@@ -104,7 +105,7 @@ namespace MemberSite
             //{
             //    services.AddSingleton(s);
             //}
-            services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
+
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
@@ -125,6 +126,10 @@ namespace MemberSite
             //{
             //    options.EventsType = typeof(CustomCookieAuthenticationEvents);
             //});
+            services.Configure<WebEncoderOptions>(options =>
+            {
+                options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
