@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using MemberSite.Service.BLL;
 using MemberSite.Service.DAL;
@@ -102,7 +104,7 @@ namespace MemberSite
             //{
             //    services.AddSingleton(s);
             //}
-
+            services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
