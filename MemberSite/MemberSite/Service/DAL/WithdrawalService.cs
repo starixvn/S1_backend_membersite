@@ -48,7 +48,7 @@ namespace MemberSite.Service.DAL
             }
             else if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
             {
-                return -3;
+                //return -3; Remark for MainWalletType = 2
             }
 
             byte is1stDepoist = 0;
