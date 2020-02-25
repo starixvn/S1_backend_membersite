@@ -7,6 +7,7 @@ using MemberSite.Service.Library;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Controllers
 {
@@ -17,15 +18,19 @@ namespace MemberSite.Controllers
         private readonly AuthorizeBLL authorizeBLL;
         private readonly Tools tools;
         private readonly SelLangBLL selLangBLL;
+        private readonly WalletBLL walletBLL;
+        private readonly CustInfoBLL custInfoBLL;
         private readonly string apiUrl;
 
-        public entPageController(IConfiguration configuration, ThirdPartyBLL thirdPartyBLL, CourierAdapter courierAdapter, AuthorizeBLL authorizeBLL,Tools tools, SelLangBLL selLangBLL)
+        public entPageController(IConfiguration configuration, ThirdPartyBLL thirdPartyBLL, CourierAdapter courierAdapter, AuthorizeBLL authorizeBLL, Tools tools, SelLangBLL selLangBLL, WalletBLL walletBLL, CustInfoBLL custInfoBLL)
         {
             this.thirdPartyBLL = thirdPartyBLL;
             this.courierAdapter = courierAdapter;
             this.authorizeBLL = authorizeBLL;
             this.tools = tools;
             this.selLangBLL = selLangBLL;
+            this.walletBLL = walletBLL;
+            this.custInfoBLL = custInfoBLL;
             apiUrl = configuration.GetValue<string>("TpService");
         }
         public class TpInfo
@@ -46,6 +51,20 @@ namespace MemberSite.Controllers
 
                 inputs.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
                 inputs.Add("ClientIP", tools.GetClientIP());
+
+                if (tpId == (int)Tp.AG)
+                {
+                    var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                    var tpCurrency = thirdPartyBLL.GetTpCurrency(tpId, custInfo.CurrencyId);
+                    var balance = walletBLL.GetBalance(authData.CustId);
+                    if (tpCurrency.ExchangeRate != 0 && tpCurrency.ExchangeRate != 1)
+                    {
+                        balance /= tpCurrency.ExchangeRate;
+                    }
+
+                    inputs.Add("Balance", tools.Floor(balance, 2).ToString());
+                    inputs.Add("Token", authData.Token);
+                }
 
                 var myUrl = $"{apiUrl}GotoGame";
                 var tpInfo = new TpInfo

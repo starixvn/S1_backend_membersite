@@ -59,7 +59,7 @@
             var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
 
             entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
-            entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}').focus();";
+            entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
         }
         return entPageUrl;
     }
@@ -86,21 +86,23 @@
                         <div class="message-list__body">
                             <div>
                                 <div>
-                                    <a href="@GetEntPageUrl(2, "SA")">
+                                    <a href="@Html.Raw(GetEntPageUrl(2, "SA"))">
                                         <img src="/common/images/LiveCasino/SA.jpg" />
                                     </a>
                                 </div>
                                 <div class="txt-blue">@selLangBLL.GetResourceValue("lbl_SACasino")</div>
                             </div>
                             <div>
-                                <a href="@GetEntPageUrl(3, "AG")">
-                                    <img src="/common/images/LiveCasino/SA.jpg" />
-                                </a>
+                                <div>
+                                    <a href="@Html.Raw(GetEntPageUrl(3, "AG"))">
+                                        <img src="/common/images/LiveCasino/SA.jpg" />
+                                    </a>
+                                </div>
                                 <div class="txt-blue">@selLangBLL.GetResourceValue("lbl_AGCasino")</div>
                             </div>
                             <div>
                                 <div>
-                                    <a href="@GetEntPageUrl(1,"211")">
+                                    <a href="@Html.Raw(GetEntPageUrl(1,"211"))">
                                         <img src="/common/images/LiveCasino/SA.jpg" />
                                     </a>
                                 </div>

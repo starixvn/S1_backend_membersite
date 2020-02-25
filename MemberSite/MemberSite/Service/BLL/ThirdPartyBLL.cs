@@ -3,6 +3,7 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace MemberSite.Service.BLL
         private readonly ThirdPartyService thirdPartyService;
         private readonly SelLangBLL selLangBLL;
         private readonly Tools tools;
+        private ConcurrentDictionary<string, TpCurrency> TpCurrencyList;
 
         Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
             {"1","soccer" },
@@ -32,6 +34,7 @@ namespace MemberSite.Service.BLL
             this.thirdPartyService = thirdPartyService;
             this.selLangBLL = selLangBLL;
             this.tools = tools;
+            TpCurrencyList = new ConcurrentDictionary<string, TpCurrency>();
         }
 
         public string GetTpLanId(int tpId)
@@ -84,6 +87,17 @@ namespace MemberSite.Service.BLL
                 default:
                     return null;
             }
+        }
+        public TpCurrency GetTpCurrency(int tpId, int currencyId)
+        {
+            string key = $"{tpId}_{currencyId}";
+            if (!TpCurrencyList.ContainsKey(key))
+            {
+                TpCurrencyList.TryAdd(key, thirdPartyService.GetTpCurrency(tpId, currencyId));
+            }
+
+            var tpCurrency = TpCurrencyList[key];
+            return tpCurrency;
         }
     }
 }

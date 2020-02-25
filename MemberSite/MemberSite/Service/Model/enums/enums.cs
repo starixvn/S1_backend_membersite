@@ -139,4 +139,10 @@ namespace MemberSite.Service.Model.enums
         Running = 1,
         Fulfill = 2
     }
+    public enum Tp
+    {
+        Saba = 1,
+        SA = 2,
+        AG = 3
+    }
 }

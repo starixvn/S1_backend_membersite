@@ -12,4 +12,9 @@ namespace MemberSite.Service.Model
         public string Setting { set; get; }
         public int Status { set; get; }
     }
+    public class TpCurrency
+    {
+        public string TpCurrencyId { set; get; }
+        public decimal ExchangeRate { set; get; }
+    }
 }
