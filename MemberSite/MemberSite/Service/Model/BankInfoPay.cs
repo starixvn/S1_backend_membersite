@@ -18,6 +18,7 @@ namespace MemberSite.Service.Model
         public int ChannelId { get; set; }
         public int Mode { get; set; }
         public int PointLevel { get; set; }
+        public string PayName { get; set; }
         public string PayCode { get; set; }
         public int MSort { get; set; }
         public int SSort { get; set; }

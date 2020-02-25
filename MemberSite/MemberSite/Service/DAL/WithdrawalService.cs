@@ -46,10 +46,10 @@ namespace MemberSite.Service.DAL
             {
                 return -2;
             }
-            else if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
-            {
-                return -3;
-            }
+            //else if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
+            //{
+            //    return -3;
+            //}
 
             byte is1stDepoist = 0;
             int result = -99;
