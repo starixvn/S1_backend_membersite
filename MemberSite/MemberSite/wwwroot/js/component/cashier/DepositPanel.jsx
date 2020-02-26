@@ -634,8 +634,8 @@ import {number_format} from '../commJS/common';
         }
 
         componentDidMount() {
-            Loading.OnLoading();            
-            axios.post('/api/Payment/GetOnlineBankInfo', { sysId: this.state.SysId})
+            Loading.OnLoading();       
+            axios.post('/api/Payment/GetOnlineBankInfo', { sysId: this.state.SysId, payId: this.props.PayId})
             .then(function (response) {
                 Loading.UnLoading();
                 let result = response.data;
@@ -768,7 +768,6 @@ import {number_format} from '../commJS/common';
         }
 
         onOnlinePayment(paymentInfo) {
-            console.log(this.props.onOnlinePayment);
             this.props.onOnlinePayment(paymentInfo.payId);
         }
 

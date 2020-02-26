@@ -132,7 +132,7 @@ namespace MemberSite.Service.BLL
             return bankInfoList;
         }
 
-        public BankInfoPayFront GetOnlineBankInfo(int custId, int sysId)
+        public BankInfoPayFront GetOnlineBankInfo(int custId, int sysId, int payId)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
@@ -151,7 +151,7 @@ namespace MemberSite.Service.BLL
                                 ChannelId = x.ChannelId
                             }).FirstOrDefault();
 
-            var payCurrency = GetPayCurrency().Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == bankInfo.ChannelId).FirstOrDefault();
+            var payCurrency = GetPayCurrency().Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == payId).FirstOrDefault();
             if (payCurrency != null)
             {
                 bankInfo.MinAmount = payCurrency.MinAmount;

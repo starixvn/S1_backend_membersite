@@ -345,6 +345,7 @@ namespace MemberSite.Controllers.Api
         public class OnlineBankInfoReq
         {
             public int sysId { set; get; }
+            public int payId { set; get; }
         }
 
         [HttpPost]
@@ -353,7 +354,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<BankInfoPayFront>();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            apiResult.Data = bankInfoBLL.GetOnlineBankInfo(custInfo.CustId, onlineBankInfoReq.sysId);
+            apiResult.Data = bankInfoBLL.GetOnlineBankInfo(custInfo.CustId, onlineBankInfoReq.sysId, onlineBankInfoReq.payId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
