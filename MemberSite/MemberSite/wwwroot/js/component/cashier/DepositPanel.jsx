@@ -376,7 +376,6 @@ import {number_format} from '../commJS/common';
                 //alert(error);
             }.bind(this));
         }
-
         
         onPickBankInfoOff(PickBankInfoOff){
             this.props.onPickBankInfoOff(PickBankInfoOff);
@@ -390,7 +389,7 @@ import {number_format} from '../commJS/common';
         onDropdown(event) {
             let node = event.target;
             let parentNode = node.parentNode;
-            if(node.className != "btn btn-icon btn-form-status" && (parentNode!=undefined && parentNode.className != "btn btn-icon btn-form-status")) {
+            if(node.className != "bt  btn-icon btn-form-status" && (parentNode!=undefined && parentNode.className != "btn btn-icon btn-form-status")) {
                 let dropdownVal = !this.state.dropdown;
                 let $target = $(this.Dropdown.current);
 
@@ -403,13 +402,17 @@ import {number_format} from '../commJS/common';
             }
         }
 
+        onDepositOptions() {
+            this.props.onDepositOptions();
+        }
+
         render() {
             let onlineBankInfo = this.state.OnlineBankInfo;
  
              let onlineBankInfoList = null;
              if(onlineBankInfo!=null){
                  onlineBankInfoList = onlineBankInfo.map(function( bankInfo ,index ) { 
-                 return <a key={bankInfo.sysId} className="payment" onClick={this.onOnlineBanking.bind(this, bankInfo)}>
+                 return <a key={bankInfo.bankName} className="payment" onClick={this.onOnlineBanking.bind(this, bankInfo)}>
                                  <div className="payment__img">
                                      <img src={"/common/images/BankLogo/" + bankInfo.bankLogo}/>
                                  </div>
@@ -435,8 +438,16 @@ import {number_format} from '../commJS/common';
                             {onlineBankInfoList}
                          </div>
                      </div>
+                     <div className="btn-group">
+                        <button className="btn btn-primary" type="button" onClick={this.onDepositOptions.bind(this)}>
+                            <div className="btn__inner">
+                                <span className="text">{i18n.lbl_Back}</span>
+                            </div>
+                        </button>
+                    </div>
                  </div>: null}
-             </div>                
+             </div>  
+                           
              )
          }
     }
@@ -693,9 +704,9 @@ import {number_format} from '../commJS/common';
                 this.setState({showTodModal:true, Amount: parseFloat(data["Amount"])});
             }
         }
-       
-        onDepositOptions() {
-            this.props.onDepositOptions();
+
+        onOnlinePayment() {
+           this.props.onOnlinePayment(this.props.PayId);
         }
 
         onClose() {
@@ -731,7 +742,7 @@ import {number_format} from '../commJS/common';
                     </div>
                     {Inputs}
                     <div className="btn-group">
-                        <button className="btn btn-primary" type="button" onClick={this.onDepositOptions.bind(this)}>
+                        <button className="btn btn-primary" type="button" onClick={this.onOnlinePayment.bind(this)}>
                             <div className="btn__inner">
                                 <span className="text">{i18n.lbl_Back}</span>
                             </div>
@@ -757,6 +768,7 @@ import {number_format} from '../commJS/common';
         }
 
         onOnlinePayment(paymentInfo) {
+            console.log(this.props.onOnlinePayment);
             this.props.onOnlinePayment(paymentInfo.payId);
         }
 
@@ -766,7 +778,6 @@ import {number_format} from '../commJS/common';
 
         componentDidMount() {
             this.getLocalBank();
-            //this.getOnlineBanking();
             this.getOnlinePayment();
         }
 
@@ -791,32 +802,6 @@ import {number_format} from '../commJS/common';
                 //alert(error);
             }.bind(this));
         }
-/*
-        onOnlineBanking(bankInfo) {
-            this.props.onOnlineBanking(bankInfo.sysId);
-        }
-        
-        getOnlineBanking() {
-            Loading.OnLoading();            
-            axios.post('/api/Payment/GetOnlineBankInfoSysList')
-            .then(function (response) {
-                Loading.UnLoading();
-                let result = response.data;
-                if (result.errorCode == 0) {
-                    let onlineBankInfo=null;
-                    if(result.data.length>0) {
-                        onlineBankInfo = result.data;
-                    }
-
-                    this.setState({OnlineBankInfo: onlineBankInfo});
-                } else {
-                    //alert(result.message);
-                }
-            }.bind(this)).catch(function (error) {
-                Loading.UnLoading();
-                //alert(error);
-            }.bind(this));
-        }*/
 
         getOnlinePayment() {
             Loading.OnLoading();            
@@ -847,7 +832,7 @@ import {number_format} from '../commJS/common';
 
             if(onlinePayment!=null){
                 onlinePaymentList = onlinePayment.map(function( paymentInfo ,index ) { 
-                return <a key={paymentInfo.sysId} className="payment" onClick={this.onOnlinePayment.bind(this, paymentInfo)}>
+                return <a key={paymentInfo.payId} className="payment" onClick={this.onOnlinePayment.bind(this, paymentInfo)}>
                                 <div className="payment__img">
                                     <img src={"/common/images/Payment/" + paymentInfo.payName +".png"}  />
                                 </div>
@@ -927,7 +912,12 @@ import {number_format} from '../commJS/common';
         }
 
         onOnlinePayment(payId) {
+            this.state.Select = false;
             this.setState( {"DipositType": 1, PayId: payId});
+        }
+
+        onOnlineBanking(sysId) {
+            this.setState( {"DipositType": 1, SysId: sysId, "Select": true});
         }
 
         onWireTransfers() {
@@ -951,10 +941,11 @@ import {number_format} from '../commJS/common';
    
         render() {
             let panelObj=[];
-            let panelHolder = <DepositOptions key={1} onWireTransfers={this.onWireTransfers.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)} onOnlinePayment={this.onOnlinePayment.bind(this)}/>;
-            if(this.state.DipositType == 1) {
-                //panelHolder = <OnlineBanking key={1} SysId={this.state.SysId} onDepositOptions={this.onDepositOptions.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)}/>;
-                panelHolder = <OnlinePayment key={1} PayId={this.state.PayId} onDepositOptions={this.onDepositOptions.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)} />;
+            let panelHolder = <DepositOptions key={1} PayId={this.state.PayId} onWireTransfers={this.onWireTransfers.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)} onOnlinePayment={this.onOnlinePayment.bind(this)} onOnlineBanking={this.onOnlineBanking.bind(this)}/>;
+            if (this.state.Select==true) {
+                panelHolder = <OnlineBanking key={1} SysId={this.state.SysId} PayId={this.state.PayId} onShowBankModal={this.onShowBankModal.bind(this)} onOnlinePayment={this.onOnlinePayment.bind(this)} />;
+            } else if(this.state.DipositType == 1) {
+                panelHolder = <OnlinePayment key={1} PayId={this.state.PayId} onDepositOptions={this.onDepositOptions.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)} onOnlineBanking={this.onOnlineBanking.bind(this)}/>;
             } else if(this.state.DipositType == 3) {
                 panelHolder = <WireTransfers key={1} onDepositOptions={this.onDepositOptions.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)}/>;
             } 
