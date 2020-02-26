@@ -15,7 +15,7 @@ import {number_format} from '../commJS/common';
 
         render() {
             let Data=this.props.Data;
-
+            const diff = moment.duration(moment.unix(Data.periodTo).diff(new Date()));
             return (
                 <a href={"/"+SiteLanguage+"/Promotion/Bonus?BonusCode="+Data.bonusCode} className="promotions-set">
                     <article>
@@ -51,7 +51,7 @@ import {number_format} from '../commJS/common';
                                                 <span className="txt-org">{moment.unix(Data.periodTo).format('lll')}</span>
                                             </li>:<li>
                                                 <i className="icon icon-race"></i>{i18n.lbl_ExpiryTime}
-                                                <span className="txt-org">{moment(Data.expiryTime).format('lll')}</span>
+                                            <span className="txt-org">{diff.days()} {i18n.lbl_Days}{diff.hours()} {i18n.lbl_Hours}</span>
                                             </li>}
                                             {Data.bonusInfoStatus==1 ?
                                             <li>

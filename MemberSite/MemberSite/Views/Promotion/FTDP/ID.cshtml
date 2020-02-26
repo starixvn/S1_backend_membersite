@@ -1,6 +1,8 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using MemberSite.Service.BLL
 @using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @inject AuthorizeBLL authorizeBLL
@@ -12,15 +14,32 @@
 }
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
-    var CurrencyId = selLangBLL.GetPreferCurrencyId();
+    int CurrencyId = 0;
+    long ExpiryTime = 0;
+    Promotion promotion = null;
+
     if (User.Identity.IsAuthenticated)
     {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
         CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
+
+        promotion = promotionBLL.GetPromotionListByCustId(custId).FirstOrDefault();
+    }
+    else
+    {
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+        promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
     }
 
+    if (promotion.BonusInfoStatus == 0)
+    {
+        ExpiryTime = promotion.PeriodTo;
+    }
+    else
+    {
+        ExpiryTime = new DateTimeOffset(promotion.ExpiryTime.ToUniversalTime(), TimeSpan.Zero).ToUnixTimeSeconds();
+    }
     var Currency = selLangBLL.GetResourceValue($"lbl_Currency_{CurrencyId}");
-
-    var promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
 }
 <div class="main ">
     <div class="promotionsInfo-page page">
@@ -57,15 +76,15 @@
                                     </li>
                                     @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
                                     {
-                                    <li>
-                                        <div class="btn-group">
-                                            <button class="btn btn-secondary" id="JOIN">
-                                                <div class="btn__inner">
-                                                    <span class="text">Gabung Sekarang</span>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <button class="btn btn-secondary" id="JOIN">
+                                                    <div class="btn__inner">
+                                                        <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </li>
                                     }
                                 </ul>
                             </div>
@@ -79,7 +98,7 @@
             <article>
                 <ol type="i">
                     <li>Promosi ini hanya berlaku untuk akun pemain dengan mata uang @Currency;</li>
-                    <li>Promosi ini dimulai Dari 00:00:00 (GMT+8) Sampai xxxx 2020 23:59:59 (GMT+8) (“Periode Promosi”).</li>
+                    <li>Promosi ini dimulai Dari Sampai <span id="ExpiryTime"></span> (“Periode Promosi”).</li>
                     <li>Untuk memenuhi syarat, Pemain harus melakukan Deposit awal dan Pemain tidak boleh melakukan penarikan terlebih dahulu.</li>
                     <li>
                         Bonus hingga @Currency 1.000.000 berdasarkan Jumlah deposit Awal akan dikreditkan ke pemain yang memenuhi syarat dalam waktu 48 jam;
@@ -200,7 +219,9 @@
 @section Scripts{
     <script type="text/javascript">
         $(function() {
-            $("#REMAINING").html(moment.unix(@promotion.PeriodTo).format('lll'));
+            const diff = moment.duration(moment.unix(@promotion.PeriodTo).diff(new Date()))
+            $("#REMAINING").html(diff.days() + " दिन" + diff.hours() + " घंटा" );
+            $("#ExpiryTime").html(moment.unix(@ExpiryTime).format('lll'));
 
             $("#JOIN").on("touchstart, click", function () {
                  if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {

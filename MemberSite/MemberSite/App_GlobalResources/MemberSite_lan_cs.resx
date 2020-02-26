@@ -1307,4 +1307,10 @@
   <data name="lbl_Clickhereforpromotion" xml:space="preserve">
     <value>点击这里查看您现有的优惠</value>
   </data>
+  <data name="lbl_Days" xml:space="preserve">
+    <value>天</value>
+  </data>
+  <data name="lbl_Hours" xml:space="preserve">
+    <value>小时</value>
+  </data>
 </root>

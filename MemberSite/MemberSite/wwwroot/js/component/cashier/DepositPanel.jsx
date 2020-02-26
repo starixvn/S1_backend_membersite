@@ -869,7 +869,7 @@ import {number_format} from '../commJS/common';
                         <div className="payment-list">
                             <a className="payment" onClick={this.onWireTransfers.bind(this)}>
                                 <div className="payment__img">
-                                    <img src="/common/images/wire-transfer.png"/>
+                                    <img src="/common/images/wire-transfer.png" />
                                 </div>
                                 <span className="payment__name">{i18n.lbl_WireTransfers}</span>
                             </a>

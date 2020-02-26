@@ -1,6 +1,8 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using MemberSite.Service.BLL
 @using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @inject AuthorizeBLL authorizeBLL
@@ -12,15 +14,33 @@
 }
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
-    var CurrencyId = selLangBLL.GetPreferCurrencyId();
+  
+    int CurrencyId = 0;
+    long ExpiryTime = 0;
+    Promotion promotion = null;
+
     if (User.Identity.IsAuthenticated)
     {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
         CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
+
+        promotion = promotionBLL.GetPromotionListByCustId(custId).FirstOrDefault();
+    }
+    else
+    {
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+        promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
     }
 
+    if (promotion.BonusInfoStatus == 0)
+    {
+        ExpiryTime = promotion.PeriodTo;
+    }
+    else
+    {
+        ExpiryTime = new DateTimeOffset(promotion.ExpiryTime.ToUniversalTime(), TimeSpan.Zero).ToUnixTimeSeconds();
+    }
     var Currency = selLangBLL.GetResourceValue($"lbl_Currency_{CurrencyId}");
-
-    var promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
 }
 <div class="main ">
     <div class="promotionsInfo-page page">
@@ -61,7 +81,7 @@
                                             <div class="btn-group">
                                                 <button class="btn btn-secondary" id="JOIN">
                                                     <div class="btn__inner">
-                                                        <span class="text">立即加入</span>
+                                                        <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
                                                     </div>
                                                 </button>
                                             </div>
@@ -81,7 +101,7 @@
             <article>
                 <ol type="i">
                     <li>此優惠活動使用於貨幣為 @Currency 的新客戶。</li>
-                    <li>優惠期限為馬來西亞時間00:00:00 (GMT+8)至 @promotion.ExpiryTime @promotion.ExpiryDays (GMT+8) (優惠期間)</li>
+                    <li>優惠期限為馬來西亞時間 至 <span id="ExpiryTime"></span>(優惠期間)</li>
                     <li>獲得紅利資格，玩家必須先進行首存，並且沒有申請過提款請求。</li>
                     <li>根據首存存款額，最高 @Currency 500的紅利將在48小時內存入玩家賬戶。</li>
                     <li>
@@ -196,8 +216,12 @@
 </div>
 @section Scripts{
     <script type="text/javascript">
-        $(function() {
-            $("#REMAINING").html(moment.unix(@promotion.PeriodTo).format('lll'));
+        $(function () {
+          
+            const diff = moment.duration(moment.unix(@promotion.PeriodTo).diff(new Date()))
+            $("#REMAINING").html(diff.days() + " 天" + diff.hours() + " 小時" );
+            $("#ExpiryTime").html(moment.unix(@ExpiryTime).format('lll'));
+          
 
             $("#JOIN").on("touchstart, click", function () {
                 if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {

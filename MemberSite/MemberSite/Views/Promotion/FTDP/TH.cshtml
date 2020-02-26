@@ -1,6 +1,8 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using MemberSite.Service.BLL
 @using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @inject AuthorizeBLL authorizeBLL
@@ -12,15 +14,32 @@
 }
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
-    var CurrencyId = selLangBLL.GetPreferCurrencyId();
+    int CurrencyId = 0;
+    long ExpiryTime = 0;
+    Promotion promotion = null;
+
     if (User.Identity.IsAuthenticated)
     {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
         CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
+
+        promotion = promotionBLL.GetPromotionListByCustId(custId).FirstOrDefault();
+    }
+    else
+    {
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+        promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
     }
 
+    if (promotion.BonusInfoStatus == 0)
+    {
+        ExpiryTime = promotion.PeriodTo;
+    }
+    else
+    {
+        ExpiryTime = new DateTimeOffset(promotion.ExpiryTime.ToUniversalTime(), TimeSpan.Zero).ToUnixTimeSeconds();
+    }
     var Currency = selLangBLL.GetResourceValue($"lbl_Currency_{CurrencyId}");
-
-    var promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
 }
 <div class="main ">
     <div class="promotionsInfo-page page">
@@ -57,15 +76,15 @@
                                     </li>
                                     @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
                                     {
-                                    <li>
-                                        <div class="btn-group">
-                                            <button class="btn btn-secondary" id="JOIN">
-                                                <div class="btn__inner">
-                                                    <span class="text">สมัครเลย</span>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <button class="btn btn-secondary" id="JOIN">
+                                                    <div class="btn__inner">
+                                                        <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </li>
                                     }
                                 </ul>
                             </div>
@@ -79,7 +98,7 @@
             <article>
                 <ol type="i">
                     <li>โปรโมชั่นนี้ใช้ได้กับบัญชีผู้เล่นที่เป็นสกุลเงิน @Currency ไทยเท่านั้น</li>
-                    <li>โบนัส 50% โปรโมชั่น เริ่มตั้งแต่ 00:00:00 (GMT+8) จนถึง xxxx 2020 23:59:59 (GMT+8) (ระยะเวลาโปรโมชั่น)</li>
+                    <li>โบนัส 50% โปรโมชั่น เริ่มตั้งแต่  จนถึง <span id="ExpiryTime"></span> (ระยะเวลาโปรโมชั่น)</li>
                     <li>โสมาชิกที่มีสิทธิ์ได้รับโปรโมชั่นนี้ต้องฝากเงินครั้งแรกและไม่มีรายการถอนเงินมาก่อน</li>
                     <li>โบนัสสูงสุด 5000 @Currency สำหรับการฝากเงินครั้งแรกจะถูกโอนไปยังบัญชีที่ผ่านการพิจารณาภายใน 48 ชั่วโมงหลังฝาก</li>
                     <li>
@@ -182,7 +201,7 @@
                                 โบนัสจะสิ้นสุดหากยอดเงินคงเหลือในบัญชีน้อยกว่าจำนวนเงินที่กำหนด เช่น 50 @Currency
                             </li>
                             <li>@serverInfo.SiteName ขอสงวนสิทธิ์ในการแก้ไขหรือยกเลิกโปรโมชั่นได้ตลอดเวลา</li>
-                            <li>@serverInfo.SiteName ขอสงวนสิทธิ์ในการเป็นผู้พิจารณาการเข้าร่วมโปรโมชั่นให้กับสมาชิกแต่เพียงผู้เดียว และการตัดสินใจของ NOVA88 ถือเป็นอันสิ้นสุด</li>
+                            <li>@serverInfo.SiteName ขอสงวนสิทธิ์ในการเป็นผู้พิจารณาการเข้าร่วมโปรโมชั่นให้กับสมาชิกแต่เพียงผู้เดียว และการตัดสินใจของ @serverInfo.SiteName ถือเป็นอันสิ้นสุด</li>
                             <li><a class="text-link" href="~/SiteSkin/Nova88/Static/th/Promotion.html" target="_blank">ข้อกำหนดและเงื่อนไขโปรโมชั่</a>นแบบทั่วไปของ @serverInfo.SiteName</li>
                         </ol>
                     </article>
@@ -194,7 +213,9 @@
 @section Scripts{
     <script type="text/javascript">
         $(function() {
-            $("#REMAINING").html(moment.unix(@promotion.PeriodTo).format('lll'));
+            const diff = moment.duration(moment.unix(@promotion.PeriodTo).diff(new Date()))
+            $("#REMAINING").html(diff.days() + " วัน" + diff.hours() + " ชั่วโมง" );
+            $("#ExpiryTime").html(moment.unix(@ExpiryTime).format('lll'));
 
             $("#JOIN").on("touchstart, click", function () {
                   if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {

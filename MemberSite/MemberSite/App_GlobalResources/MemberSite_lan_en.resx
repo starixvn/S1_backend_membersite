@@ -1324,4 +1324,10 @@
   <data name="lbl_SACasino" xml:space="preserve">
     <value>SA Casino</value>
   </data>
+  <data name="lbl_Days" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="lbl_Hours" xml:space="preserve">
+    <value>hours</value>
+  </data>
 </root>
