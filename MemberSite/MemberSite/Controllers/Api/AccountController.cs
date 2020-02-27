@@ -429,6 +429,7 @@ namespace MemberSite.Controllers.Api
                 {
                     foreach(var tpWallet in apiResult.Data.tpWallets)
                     {
+                        tpWallet.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{tpWallet.TpName}") ;
                         if (tpWallet.WalletType == 0 && tpWallet.Transfer)
                         {
                             tpWallet.Balance = await Get3rdBalanceAsync(tpWallet.TpId, authData.CustId);

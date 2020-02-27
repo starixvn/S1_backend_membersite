@@ -1330,4 +1330,10 @@
   <data name="lbl_Hours" xml:space="preserve">
     <value>hours</value>
   </data>
+  <data name="lbl_MainWallet" xml:space="preserve">
+    <value>Main Wallet</value>
+  </data>
+  <data name="lbl_Wallet_Saba" xml:space="preserve">
+    <value>Sports Wallet</value>
+  </data>
 </root>

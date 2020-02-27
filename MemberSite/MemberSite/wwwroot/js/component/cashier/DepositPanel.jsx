@@ -716,6 +716,8 @@ import {number_format} from '../commJS/common';
         onConfirm() {
             this.setState({showTodModal:false});
             let bankInfoPay = this.state.BankInfoPay;
+            console.log(bankInfoPay.payId);
+            console.log(OnlineBankingUrl);
             window.open(OnlineBankingUrl + "?sysId="+ bankInfoPay.sysId + "&payId=" + bankInfoPay.payId + "&ChannelId="+ this.state.BankInfoPay.channelId +"&Amount="+this.state.Amount);
         }
 
