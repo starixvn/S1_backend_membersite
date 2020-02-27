@@ -19,8 +19,14 @@
                     var message = selLangBLL.GetMsg("msg_LoginToAccess");
                     entPageUrl = "javascript:alert('" + message + "');";
                 }
+                else if (gameId == "211")
+                {
+                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+                }
                 else
+                {
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Static", controller = "Home", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                }
             }
             else
             {

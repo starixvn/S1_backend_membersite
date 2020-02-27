@@ -1313,16 +1313,16 @@
     <value>Game List</value>
   </data>
   <data name="lbl_AGCasino" xml:space="preserve">
-    <value>AG Casino</value>
+    <value>Asia Gaming</value>
   </data>
   <data name="lbl_AllbetCasino" xml:space="preserve">
-    <value>Allbet Casino</value>
+    <value>Allbet</value>
   </data>
   <data name="lbl_ComingSoon" xml:space="preserve">
     <value>Coming Soon</value>
   </data>
   <data name="lbl_SACasino" xml:space="preserve">
-    <value>SA Casino</value>
+    <value>SA Gaming</value>
   </data>
   <data name="lbl_Days" xml:space="preserve">
     <value>days</value>

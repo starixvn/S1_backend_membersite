@@ -39,6 +39,10 @@
                 }
             }
         }
+        else if (gameId == "livecasino")
+        {
+             entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+        }
         return entPageUrl;
     }
 }
@@ -227,7 +231,7 @@
                     <i class="icon icon-sport251"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
                 </a>
-                <a class="side-nav__btn" href="@GetEntPageUrl(1,"211")">
+                <a class="side-nav__btn" href="@GetEntPageUrl(0,"livecasino")">
                     <i class="icon icon-sport162"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
                 </a>

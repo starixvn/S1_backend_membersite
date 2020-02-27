@@ -74,12 +74,16 @@
                 else
                 {
                     @*IFrame*@
-                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
-                }
+                entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
             }
         }
-        return entPageUrl;
     }
+    else if (gameId == "livecasino")
+    {
+         entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+    }
+    return entPageUrl;
+}
 }
 <div class="main main--home">
     <div class="lobby-page">
@@ -254,7 +258,7 @@
                         <div class="lobby-product__info">
                             <span class="text-title">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
                             <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasinoSlogon")</span>
-                            <a class="btn btn-secondary" href="@GetEntPageUrl(1, "211")"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
+                            <a class="btn btn-secondary" href="@GetEntPageUrl(0, "livecasino")"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
                         </div>
                         <img src="@SkinImgPath/Lobby/Home/Product-LiveCasino.png">
                     </div>
