@@ -99,5 +99,9 @@ namespace MemberSite.Service.BLL
             var tpCurrency = TpCurrencyList[key];
             return tpCurrency;
         }
+        public IEnumerable<TpWallet> GetTpWallet(int custId)
+        {
+            return thirdPartyService.GetTpWallet(custId);
+        }
     }
 }

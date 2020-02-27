@@ -54,6 +54,15 @@ import {number_format} from '../commJS/common';
     
         render() {
             let walletInfo = this.state.WalletInfo;
+            let tpWallets = null;
+            if(this.state.WalletInfo != null && this.state.WalletInfo.tpWallets!=null) {
+                tpWallets = this.state.WalletInfo.tpWallets.map(function( item ,index ) { 
+                    return <div key={item.tpId} className="wallet-info__item">
+                        <span className="text">{item.tpName}</span>
+                        <span className="text-amount">{number_format(item.balance.toFixed(2))}</span>
+                    </div>
+                });
+            }
 
             return (
                 <div className="balance-info">
@@ -80,6 +89,7 @@ import {number_format} from '../commJS/common';
                                 </div>
                             </a>
                         </div>
+                        {tpWallets}
                     {/*<div className="wallet-info__item">
                             <span className="text">Sportsbook</span>
                             <span className="text-amount">9,975.40</span>
@@ -89,14 +99,14 @@ import {number_format} from '../commJS/common';
                             <span className="text-amount">583,521.84</span>
                         </div>*/}
                     </div>
-                        {/*<div className="btn-group">
-                            <a className="btn btn-secondary" href="Deposit.html">
+                        {<div className="btn-group">
+                            <a className="btn btn-secondary" href="/Cashier/Deposit">
                                 <span className="text">Cashier</span>
                             </a>
-                            <a className="btn btn-secondary" href="Deposit.html">
+                            <a className="btn btn-secondary" href="#">
                                     <span className="text">Transfer Funds</span>
                                 </a>
-                        </div>*/}
+                        </div>}
                     <div className="login-info">
                         <div className="login-info__item">
                             <span className="text">{i18n.lbl_LastLogin}</span>

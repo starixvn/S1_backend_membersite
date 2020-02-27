@@ -29,12 +29,10 @@ namespace MemberSite.Service.DAL
         {
             if (!ThirdPartyModelContainer.ContainsKey(tpId))
             {
-                using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
-                {
-                    var thirdPartyModel = conn.QueryFirstOrDefault<ThirdPartyModel>("Tp_Get", new { TpId = tpId }, commandType: CommandType.StoredProcedure);
-                    if (thirdPartyModel != null)
-                        ThirdPartyModelContainer.TryAdd(tpId, thirdPartyModel);
-                }
+                using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+                var thirdPartyModel = conn.QueryFirstOrDefault<ThirdPartyModel>("Tp_Get", new { TpId = tpId }, commandType: CommandType.StoredProcedure);
+                if (thirdPartyModel != null)
+                    ThirdPartyModelContainer.TryAdd(tpId, thirdPartyModel);
             }
 
             return ThirdPartyModelContainer.ContainsKey(tpId) ? ThirdPartyModelContainer[tpId] : null;
@@ -65,6 +63,11 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.QueryFirstOrDefault<TpCurrency>("TpCurrency_Get", new { TpId = tpId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+        }
+        public IEnumerable<TpWallet> GetTpWallet(int custId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Query<TpWallet>("TpWallet_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
         }
     }
 }

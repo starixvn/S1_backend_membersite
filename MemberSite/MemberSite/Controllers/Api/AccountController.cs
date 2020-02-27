@@ -32,8 +32,9 @@ namespace MemberSite.Controllers.Api
         private readonly MessageBLL messageBLL;
         private readonly PaymentBLL paymentBLL;
         private readonly PromotionBLL promotionBLL;
+        private readonly ThirdPartyBLL thirdPartyBLL;
 
-        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter, MessageBLL messageBLL, PaymentBLL paymentBLL, PromotionBLL promotionBLL)
+        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter, MessageBLL messageBLL, PaymentBLL paymentBLL, PromotionBLL promotionBLL, ThirdPartyBLL thirdPartyBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -47,6 +48,7 @@ namespace MemberSite.Controllers.Api
             this.messageBLL = messageBLL;
             this.paymentBLL = paymentBLL;
             this.promotionBLL = promotionBLL;
+            this.thirdPartyBLL = thirdPartyBLL;
         }
 
         [HttpPost]
@@ -422,11 +424,20 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-
+                apiResult.Data.tpWallets = thirdPartyBLL.GetTpWallet(authData.CustId)?.Where(x => x.WalletType == 0);
+                if (apiResult.Data.tpWallets != null)
+                {
+                    foreach(var tpWallet in apiResult.Data.tpWallets)
+                    {
+                        if (tpWallet.WalletType == 0 && tpWallet.Transfer)
+                        {
+                            tpWallet.Balance = await Get3rdBalanceAsync(tpWallet.TpId, authData.CustId);
+                        }
+                    }
+                }
             }
 
             apiResult.ErrorCode = 0;
-
             return apiResult;
         }
 
