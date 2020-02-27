@@ -24,16 +24,7 @@
         var entPageUrl = "";
         if (!User.Identity.IsAuthenticated)
         {
-            if (tools.IsMobile())
-            {
-                var message = selLangBLL.GetMsg("msg_LoginToAccess");
-                entPageUrl = "javascript:alert('" + message + "');";
-            }
-            else
-            {
-                var message = selLangBLL.GetMsg("msg_LoginToAccess");
-                entPageUrl = "javascript:alert('" + message + "');";
-            }
+            entPageUrl = "javascript:void();";
         }
         else
         {
@@ -65,7 +56,7 @@
                         <div class="message-list__body">
                             <div>
                                 <div>
-                                    <a href="@Html.Raw(GetEntPageUrl(2, "SA"))">
+                                    <a href="@Html.Raw(GetEntPageUrl(2, "SA"))" @(!User.Identity.IsAuthenticated? "class=loginBtn":string.Empty)>
                                         <img src="/common/images/LiveCasino/SA.png" />
                                     </a>
                                 </div>
@@ -73,7 +64,7 @@
                             </div>
                             <div>
                                 <div>
-                                    <a href="@Html.Raw(GetEntPageUrl(3, "AG"))">
+                                    <a href="@Html.Raw(GetEntPageUrl(3, "AG"))" @(!User.Identity.IsAuthenticated? "class=loginBtn":string.Empty)>
                                         <img src="/common/images/LiveCasino/AG.png" />
                                     </a>
                                 </div>
@@ -81,7 +72,7 @@
                             </div>
                             <div>
                                 <div>
-                                    <a href="@Html.Raw(GetEntPageUrl(1,"211"))">
+                                    <a href="@Html.Raw(GetEntPageUrl(1,"211"))" @(!User.Identity.IsAuthenticated? "class=loginBtn":string.Empty)>
                                         <img src="/common/images/LiveCasino/All-Bet.png" />
                                     </a>
                                 </div>
@@ -89,7 +80,7 @@
                             </div>
                             <div>
                                 <div>
-                                    <img src="/common/images/LiveCasino/DG.png" />
+                                    <img src="/common/images/LiveCasino/DG.png"/>
                                 </div>
                                 <div class="txt-blue">@selLangBLL.GetResourceValue("lbl_ComingSoon")</div>
                             </div>

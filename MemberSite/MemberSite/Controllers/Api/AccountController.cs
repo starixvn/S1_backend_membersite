@@ -420,7 +420,10 @@ namespace MemberSite.Controllers.Api
             {
                 apiResult.Data.Balance = await Get3rdBalanceAsync(1, authData.CustId);
             }
+            else
+            {
 
+            }
 
             apiResult.ErrorCode = 0;
 
