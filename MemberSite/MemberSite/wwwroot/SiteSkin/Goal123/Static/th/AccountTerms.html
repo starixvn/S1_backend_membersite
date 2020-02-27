@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>บัญชี</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../common/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="side-bar" role="desktop-drawer">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <a class="btn btn-icon" role="desktop-only">
+                        <i class="icon icon-clear"></i>
+                    </a>
+                </div>
+                <div class="side-nav__list">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn" href="/">
+                            <i class="icon icon-home"></i>
+                            <span class="text">บ้าน</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-info-outline"></i>
+                            <span class="text">Nova88</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="AboutUs.html" target="_self">
+                                <span class="text">เกี่ยวกับเรา</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Terms.html" target="_self">
+                                <span class="text">เกี่ยวกับเรา</span>
+                            </a>
+                            <a class="side-nav__subitem" href="ContactUs.html" target="_self">
+                                <span class="text">ติดต่อเรา</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="Affiliates.html" target="_self"
+                                <span class="text">ตัวแทน</span>
+                            </a>-->
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-help-outline"></i>
+                            <span class="text">ช่วยเหลือและสนับสนุน</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="RulesandRegulations.html">
+                                <span class="text">กฎกติกาและระเบียบข้อบังคับการเดิมพัน</span>
+                            </a>
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">ข้อกำหนดบัญชี</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="FAQ.html" target="_self">
+                                <span class="text">คำถามคำตอบที่พบบ่อย</span>
+                            </a>
+                            <a class="side-nav__subitem" href="DepositWithdrawals.html" target="_self">
+                                <span class="text">ฝากเงิน &amp; ถอนเงิน</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Downloads.html" target="_self">
+                                <span class="text">ดาวน์โหลด</span>
+                            </a>-->
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">ข้อกำหนดบัญชี</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-policy"></i>
+                            <span class="text">นโยบายของเรา</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="ResposibleGaming.html" target="_self">
+                                <span class="text">การรับผิดชอบของการเล่นพนัน</span>
+                            </a>
+                            <a class="side-nav__subitem" href="TermsConditions.html" target="_self">
+                                <span class="text">เงี่อนไขและกติกา</span>
+                            </a>
+                            <a class="side-nav__subitem" href="PrivacyPolicy.html" target="_self">
+                                <span class="text">นโยบายของบริษัท</span>
+                            </a>
+                            <a class="side-nav__subitem" href="CookiePolicy.html" target="_self">
+                                <span class="text">นโยบาย Cookie</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                    <a class="logo" href="/"></a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="help-page">
+                <div class="help-page__body">
+                    <div class="heading">
+                        <span class="text">บัญชี</span>
+                    </div>
+                    <div class="article">
+                        <h3>ข้อจำกัด</h3>
+                        <p>ข้อบังคับและข้อจำกัดด้านการพนันจะแตกต่างกันไปในแต่ละประเทศ เช่น การพนันทางไกลหรือการเล่นพนันออนไลน์อาจผิดกฎหมายในบางประเทศและเขตอำนาจศาล ซึ่งหมายความว่าบริษัทจะไม่ยอมรับการลงทะเบียนและการเดิมพันจากบุคคลที่อยู่ในประเทศหรือเขตอำนาจศาลเหล่านี้ </p>
+
+                        <p>สิ่งสำคัญคือบุคคลแต่ละบุคคลต้องตรวจสอบให้แน่ใจว่ากฎหมายที่บังคับใช้กับตนเองเกี่ยวกับการพนันทางไกลหรือการเล่นพนันออนไลน์ไม่ได้สั่งห้ามการเปิดบัญชีและวางเดิมพันกับบริษัท</p>
+
+                        <p>หากต้องการเข้าถึงบริการเดิมพันของบริษัท ผู้เล่นต้องเปิดบัญชีก่อน ผู้เล่นแต่ละคนสามารถเปิดได้หนึ่ง (1) บัญชีเท่านั้น หากบริษัทพบว่าผู้เล่นคนใดมีบัญชีมากกว่าหนึ่งบัญชี บริษัทขอสงวนสิทธิ์เด็ดขาดในการปฏิบัติต่อบัญชีดังกล่าวเสมือนเป็นบัญชีร่วมหนึ่งบัญชีหรือปิดบัญชีอื่นทั้งหมด</p>
+
+                        <p>ผู้เล่นสามารถวางเดิมพันตามวงเงินจำกัดที่แน่นอนที่มีอยู่ในบัญชีเดิมพันเท่านั้น</p>
+
+                        <h3>ความรับผิดชอบ</h3>
+                        <p>เมื่อเปิดบัญชีกับเรา ผู้เล่นมีความรับผิดชอบสำคัญที่ต้องตระหนักถึงอยู่เสมอ </p>
+
+                        <p>เป็นความรับผิดชอบแต่เพียงผู้เดียวของผู้เล่นในการตรวจสอบให้แน่ใจว่าบันทึกของตนกับบริษัทเป็นปัจจุบันเสมอ โดยเฉพาะที่อยู่ หมายเลขโทรศัพท์ และรายละเอียดการชำระเงิน/ธนาคาร อย่างไรก็ตาม บริษัทมีสิทธิ์ที่จะร้องขอให้ผู้เล่นปรับข้อมูลของตนเป็นปัจจุบัน และส่งข้อมูลดังกล่าวให้บริษัทเป็นครั้งคราว หากผู้เล่นไม่สามารถส่งข้อมูลหรือเอกสารที่จำเป็นเพื่อยืนยันตัวตน บริษัทมีสิทธิ์ที่จะปฏิเสธการเปิดบัญชีหรือยุติการทำธุรกรรมใด ๆ กับผู้เล่นคนดังกล่าว</p>
+
+                        <p>เป็นความรับผิดชอบของผู้เล่นแต่เพียงผู้เดียวในการตรวจสอบให้แน่ใจว่าตนเก็บชื่อผู้ใช้ รหัสผ่าน และรายละเอียดความปลอดภัยอื่น ๆ ไว้เป็นความลับ ในกรณีที่ผู้เล่นคิดว่ามีการละเมิดการรักษาความลับของชื่อผู้ใช้และรายละเอียดความปลอดภัยอื่น ๆ ผู้เล่นควรดำเนินการแจ้งบริษัทอย่างเหมาะสมไปและขอรับรหัสผ่านใหม่ การเดิมพันใด ๆ ที่กระทำทางออนไลน์โดยใช้ชื่อผู้ใช้และรหัสผ่านที่ถูกต้องจะถือว่าใช้ได้และมีผลผูกพันกับผู้เล่น</p>
+
+                        <p>นอกจากนี้ ผู้เล่นควรตรวจสอบยอดคงเหลือในบัญชีของตนทุกครั้งที่เข้าสู่ระบบเว็บไซต์การเล่นพนันของบริษัท ในกรณีที่มีความขัดแย้งใด ๆ เป็นความรับผิดชอบของผู้เล่นในการแจ้งให้บริษัททราบโดยทันที พร้อมด้วยบันทึกธุรกรรมของผู้เล่นตั้งแต่ยอดคงเหลือในบัญชีที่ได้รับการตรวจสอบล่าสุดและเอกสารประกอบอื่น ๆ</p>
+
+                        <p>ผู้เล่นสามารถถอนเงินออกจากบัญชีของตนได้ตลอดเวลา หากยอดคงเหลือในบัญชีได้รับการยืนยันตามนโยบายที่บังคับใช้ของบริษัทเกี่ยวกับการถอนเงิน</p>
+
+                        <h3>การสงวนสิทธิ์ที่สำคัญ</h3>
+                        <p>บริษัทขอสงวนสิทธิ์ในการปฏิเสธการเดิมพันหรือส่วนหนึ่งของการเดิมพันใด ๆ โดยไม่ต้องแจ้งเหตุผลได้ตลอดเวลา</p>
+                        <p>บริษัทขอสงวนสิทธิ์ในการปิดบัญชีเดิมพันของผู้เล่นและคืนยอดคงเหลือในบัญชีของผู้เล่นโดยไม่ต้องมีคำอธิบายเพิ่มเติม</p>
+
+                        <p>หากบัญชีเดิมพันไม่ได้ใช้งานเป็นเวลาหนึ่ง (1) ปีหรือขึ้นไป บริษัทขอสงวนสิทธิ์ในการริบยอดคงเหลือ</p>
+
+                        <p>ดังนั้น บริษัทขอสงวนสิทธิ์เด็ดขาดในการจำกัดการเข้าถึงเว็บไซต์การเล่นพนันของเรา ระงับหรือยุติบัญชีเดิมพันของคุณ ปฏิเสธข้อเสนอการเดิมพันใด ๆ ของคุณ และริบยอดคงเหลือหรือการเดิมพันที่ตรงกันใด ๆ ตามดุลยพินิจเด็ดขาดของเราได้ตลอดเวลา </p>
+
+                        <p>สำหรับข้อมูลเพิ่มเติมเกี่ยวกับนโยบายบัญชีผู้เล่นของบริษัท กรุณาดู<a href="TermsConditions.html" target="_blank">ข้อกำหนดและเงื่อนไข</a>ที่ประกาศในเว็บไซต์นี้</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2020. Nova88. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
