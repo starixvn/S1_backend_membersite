@@ -17,8 +17,8 @@ namespace MemberSite.Service.Model
 
     public class PaymentFront
     {
-        public int SysId { get; set; }
         public int PayId { get; set; }
+        public int ChannelId { get; set; }
         public string PayName { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }

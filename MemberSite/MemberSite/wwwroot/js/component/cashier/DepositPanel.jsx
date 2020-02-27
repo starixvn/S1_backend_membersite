@@ -769,8 +769,8 @@ import {number_format} from '../commJS/common';
             this.state={LocalBank: false};
         }
 
-        onOnlinePayment(paymentInfo) {
-            this.props.onOnlinePayment(paymentInfo.payId);
+        onOnlinePayment(payId) {
+            this.props.onOnlinePayment(payId);
         }
 
         onWireTransfers() {
@@ -833,12 +833,18 @@ import {number_format} from '../commJS/common';
 
             if(onlinePayment!=null){
                 onlinePaymentList = onlinePayment.map(function( paymentInfo ,index ) { 
-                return <a key={paymentInfo.payId} className="payment" onClick={this.onOnlinePayment.bind(this, paymentInfo)}>
-                                <div className="payment__img">
-                                    <img src={"/common/images/Payment/" + paymentInfo.payName +".png"}  />
-                                </div>
-                                <span className="payment__name">{paymentInfo.payName}</span>
-                            </a>;
+                return <div key={paymentInfo.payId} className="payment" onClick={this.onOnlinePayment.bind(this, paymentInfo.payId)}>
+                            <div className="payment__img">
+                                <img src={"/common/images/Payment/" + paymentInfo.payName +".png"}  />
+                            </div>
+                            <span className="payment__name">{paymentInfo.payName}</span>
+                            <div className="text-group">
+                                {paymentInfo.minAmount == 0 && paymentInfo.maxAmount == 0 ? 
+                                    <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{i18n.lbl_Unlimited}</span>{" )"}</span>
+                                : <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{number_format(paymentInfo.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(paymentInfo.maxAmount)}</span>{" )"}</span>
+                                }
+                            </div>
+                        </div>;
                 }.bind(this));
             }
 

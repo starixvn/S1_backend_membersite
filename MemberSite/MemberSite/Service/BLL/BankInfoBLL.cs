@@ -102,13 +102,26 @@ namespace MemberSite.Service.BLL
             var bankInfoPayList = GetOnlineBankList();
 
             var onlinePaymentList = (from x in bankInfoPayList
-                                where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
-                                select new PaymentFront
-                                {
-                                    SysId = x.SysId,
-                                    PayName = x.PayName,
-                                    PayId = x.PayId,
-                                }).Distinct(paymentOffComparer);
+                                     where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
+                                     select new PaymentFront
+                                     {
+                                         PayName = x.PayName,
+                                         PayId = x.PayId,
+                                         ChannelId = x.ChannelId
+                                     }).Distinct(paymentOffComparer).ToArray();
+            var payCurrency = GetPayCurrency();//.Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == payId).FirstOrDefault()
+            if (onlinePaymentList != null)
+            {
+                foreach(var onlinePayment in onlinePaymentList)
+                {
+                    var iPayCurrency = payCurrency.Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == onlinePayment.ChannelId).FirstOrDefault();
+                    if (iPayCurrency != null)
+                    {
+                        onlinePayment.MaxAmount = iPayCurrency.MaxAmount;
+                        onlinePayment.MinAmount = iPayCurrency.MinAmount;
+                    }
+                }
+            }
 
             return onlinePaymentList;
         }
@@ -140,7 +153,6 @@ namespace MemberSite.Service.BLL
 
             var bankInfo = (from x in bankInfoPayList
                             where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId && x.PayId == payId
-                            orderby x.PointLevel descending, x.MSort, x.SSort
                             select new BankInfoPayFront
                             {
                                 SysId = x.SysId,
@@ -151,7 +163,7 @@ namespace MemberSite.Service.BLL
                                 ChannelId = x.ChannelId
                             }).FirstOrDefault();
 
-            var payCurrency = GetPayCurrency().Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == payId).FirstOrDefault();
+            var payCurrency = GetPayCurrency().Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == bankInfo.ChannelId).FirstOrDefault();
             if (payCurrency != null)
             {
                 bankInfo.MinAmount = payCurrency.MinAmount;
