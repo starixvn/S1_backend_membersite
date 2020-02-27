@@ -27,18 +27,14 @@
 <div class="main">
     @if (Context.Request.Query["gameId"] == "211")@*Live Casino*@
     {
-        <img src="/SiteSkin/Nova88/common/images/Lobby/Home/Casino_Static.jpg" style="margin:auto;"/>
+        <img src="/SiteSkin/Nova88/common/images/Lobby/Home/Casino_Static.jpg" style="margin:auto;" />
     }
     else if (Context.Request.Query["gameId"] == "208") @*RNG*@
     {
-        <img src="/SiteSkin/Nova88/common/images/Lobby/Home/RNG_Static.jpg" style="margin:auto;"/>
+        <img src="/SiteSkin/Nova88/common/images/Lobby/Home/RNG_Static.jpg" style="margin:auto;" />
     }
     else if (Context.Request.Query["gameId"] == "202") @*Lottery*@
     {
-        <img src="/SiteSkin/Nova88/common/images/Lobby/Home/RNG_Static.jpg" style="margin:auto;"/>
+        <img src="~/CMS/Nova88/Keno/@selLangBLL.GetLangId()/landing-page.jpg" style="margin:auto;" />
     }
 </div>
-
-@section Scripts{
-
-}
