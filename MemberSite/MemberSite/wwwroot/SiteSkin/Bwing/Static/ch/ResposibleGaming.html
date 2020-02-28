@@ -1,0 +1,369 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>負責任博彩</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../common/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="side-bar" role="desktop-drawer">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <a class="btn btn-icon" role="desktop-only">
+                        <i class="icon icon-clear"></i>
+                    </a>
+                </div>
+                <div class="side-nav__list">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn" href="/">
+                            <i class="icon icon-home"></i>
+                            <span class="text">首頁</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-info-outline"></i>
+                            <span class="text">Nova88</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="AboutUs.html" target="_self">
+                                <span class="text">關於我們</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Terms.html" target="_self">
+                                <span class="text">使用條款</span>
+                            </a>
+                            <a class="side-nav__subitem" href="ContactUs.html" target="_self">
+                                <span class="text">聯絡我們</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="Affiliates.html" target="_self"
+                                <span class="text">合作夥伴</span>
+                            </a>-->
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-help-outline"></i>
+                            <span class="text">幫助及支持</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="RulesandRegulations.html">
+                                <span class="text">投注規則與規定</span>
+                            </a>
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">帳戶條款</span>
+                            </a>
+                            <a class="side-nav__subitem" href="FAQ.html" target="_self">
+                                <span class="text">常見疑問</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="DepositWithdrawals.html" target="_self">
+                                <span class="text">存款與提款</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Downloads.html" target="_self">
+                                <span class="text">下載</span>
+                            </a>-->
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">帳戶條款</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-policy"></i>
+                            <span class="text">我們的政策</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="ResposibleGaming.html" target="_self">
+                                <span class="text">負責任博彩</span>
+                            </a>
+                            <a class="side-nav__subitem" href="TermsConditions.html" target="_self">
+                                <span class="text">條款及規則</span>
+                            </a>
+                            <a class="side-nav__subitem" href="PrivacyPolicy.html" target="_self">
+                                <span class="text">隱私權政策</span>
+                            </a>
+                            <a class="side-nav__subitem" href="CookiePolicy.html" target="_self">
+                                <span class="text">Cookie政策</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                    <a class="logo" href="/"></a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="help-page">
+                <div class="help-page__body">
+                    <div class="heading">
+                        <span class="text">負責任博彩</span>
+                    </div>
+                    <div class="article">
+                        <h3>
+                            社會責任
+                        </h3>
+                        <p>
+                            Nova88（“公司”）致力於開展盡責博彩。公司不僅遵守相關監管機構制定的適用法律和準則，還力求成為一個對社會負責的遠端賭博或線上博彩運營商。
+                        </p>
+                        <p>
+                            遠端賭博或線上博彩是一種全球數百萬玩家都體驗過的合法的娛樂、樂趣和休閒方式。對於大多數玩家而言，遠端賭博或線上博彩是一種愉悅的體驗。然而，我們必須承認一個現實，有一部分玩家未經許可即參與遠端賭博或線上博彩，或是因為賭博而嚴重危害了他們的生活和財務狀況。
+                        </p>
+                        <p>
+                            作為一個具有社會責任感的公司意味著關照我們所有的玩家，並採取積極主動的措施來面對那些影響社會的問題。這也是本公司採納並以最嚴格的方式全力執行以下政策的原因：
+                        </p>
+
+                        <h3>限制非經許可玩家的訪問</h3>
+                        <p>
+                            本公司嚴格要求新玩家必須至少年滿二十一（21）周歲並應聲明其已達到所居住國家的法定年齡。
+                        </p>
+                        <p>
+                            公司還禁止菲律賓公民（包括居住在境外的菲律賓公民）、所在國法律禁止公民參與遠端賭博或線上博彩活動的個人，以及在菲律賓境內的外國公民使用本公司的產品和服務，或是參與本公司的遠端賭博或線上博彩活動。
+                        </p>
+                        <p>
+                            若公司懷疑有虛假聲明，或有未經許可的玩家試圖使用本公司的服務，則公司將採取進一步合理措施進行核實。在此種情況下，如果我們有此種程度的懷疑，我們將保留暫停帳戶並要求玩家提供身份和年齡證明的權利，以便確認該玩家遵守本政策。
+                        </p>
+                        <p>
+                            此外，為確保未經許可的玩家不在公司網站上賭博，我們還要求玩家在註冊時提供姓名、住址、出生日期、國籍以及我們認為核實玩家身份必需的其他資訊。玩家公佈的所有資訊都必須真實準確。公司可能還會要求玩家不定期更新其個人資訊。
+                        </p>
+                        <p>
+                            公司還確保所有廣告、贊助及促銷活動均不以二十一（21）歲以下的個人為目標人群。
+                        </p>
+                        <p>
+                            公司不允許任何未滿二十一（21）歲的人員使用其服務。本政策完全符合並/或超出菲律賓娛樂和博彩公司（PAGCOR）發佈的用以監管本公司博彩業務的規章制度的要求。
+                        </p>
+                        <p>
+                            公司承諾將盡其所能，但也需要您的説明：
+                        </p>
+                        <ul>
+                            <li>
+                                在未成年人可能使用的電腦上設置兒童上網保護軟體，以遮罩遠端賭博或線上博彩網站。
+                            </li>
+                            <li>
+                                您登錄到遠端賭博或線上博彩網站時，不要令電腦處於無人監管的狀態。
+                            </li>
+                            <li>
+                                不要與未成年人分享您的銀行帳號資訊。
+                            </li>
+                            <li>
+                                不要在任何登錄螢幕上啟用任何“保存密碼”的選擇。
+                            </li>
+                            <li>
+                                在電腦上為未成年人創建單獨的設定檔，以便其登錄時無法看到您的資訊。
+                            </li>
+                            <li>如果您知道有未滿21歲（或其所在司法轄區內的法定年齡）的人被錯誤註冊為我們的玩家，請立即與我們聯繫。</li>
+                        </ul>
+
+                        <h3>
+                            控制強迫性賭博或問題賭博
+                        </h3>
+                        <p>
+                            公司重視且絕不容忍強迫性賭博或問題賭博。儘管我們致力於為玩家提供最佳的博彩體驗，但強迫性賭徒對其家人、朋友及個人生活都構成嚴峻的問題。
+                        </p>
+                        <p>
+                            強迫性賭博或問題賭博是一種不顧有害的負面後果或想要罷手的願望而繼續賭博的衝動行為。它同樣也可以被定義為一種危害心理、生理、社會或職業等重要生活領域的賭博行為。“問題賭博”一詞包括但不限於被稱為“病態”或“強迫性”賭博的狀態。這是一種逐步成癮的情況，其特徵為越來越專注於賭博、需頻繁加大下注金額、在嘗試停止賭博時會坐立不安或情緒暴躁、想“贏回”賭本、以及在面對越來越多的嚴重負面後果之後繼續賭博而造成的失控。
+                        </p>
+                        <p>
+                            考慮到這些，公司致力於發現並減少強迫性賭博或問題賭博，因為這既無益於公司，也無益於玩家。公司將利用監控系統跟蹤玩家的博彩活動，並不斷制定和採用有效的控制措施，以限制失控的賭博行為，以此營造一個安全、有趣的博彩氛圍。
+                        </p>
+                        <p>
+                            公司不僅承諾有效識別玩家中的強迫性賭徒或問題賭徒，還將幫助他們解決其賭博問題。
+                        </p>
+                        <p>
+                            為了幫助您保持控制，我們希望您記住以下幾點：
+                        </p>
+                        <ul>
+                            <li>
+                                賭博應被視為一種娛樂、放鬆和休閒的方式；將其視為娛樂消費，因此不要為之過度消費；
+                            </li>
+                            <li>
+                                不要將賭博視為一種可行的賺錢方式或解決財務問題的手段；
+                            </li>
+                            <li>
+                                不要在輸錢後試圖贏回賭本；
+                            </li>
+                            <li>
+                                僅在能夠承擔損失的情況下賭博；
+                            </li>
+                            <li>
+                                追蹤記錄您在賭博上花費的時間和金錢；
+                            </li>
+                            <li>
+                                如果需要幫助，請使用資金限制和時間限制來控制您可以使用的額度；
+                            </li>
+                            <li>
+                                如果您需要停止賭博一段時間，請聯繫我們設置自願禁賭或暫停帳戶。
+                            </li>
+                        </ul>
+                        <p>
+                            公司遵循為解決賭博的社會影響而專門設立的機構準則。為幫助玩家負責任地參與賭博，公司承諾與這些機構合作制定負責任的政策和常規。
+                        </p>
+                        <p>
+                            此外，本公司還鼓勵：
+                        </p>
+                        <h3>
+                            公司主導的投注限額：
+                        </h3>
+                        <p>
+                            通過制定投注限額政策，公司旨在限制玩家面對的風險，幫助玩家控制在特定時限內在本網站上的投注金額。
+                        </p>
+                        <h3>
+                            玩家主導的投注限額：
+                        </h3>
+                        <p>
+                            設置投注限額的操作非常簡單，您可以借此控制您在特定時限內通過帳戶下注的額度。請在進行投注前聯繫我們，以便為您制定投注限額政策。
+                        </p>
+                        <h3>
+                            自願禁賭工具：
+                        </h3>
+                        <p>
+                            為了您的自身保護，您可以要求設置自願禁賭或將帳戶暫停一段時間。這意味著您在自己設定的冷卻期內無法登錄我們的網站。限制將在自願禁賭期結束後自動解除，屆時您即可恢復登錄。
+                        </p>
+                        <h3>
+                            知道什麼時候應該離場
+                        </h3>
+                        <p>
+                            遠端賭博是一種娛樂、放鬆和休閒的方式，玩家毋須明白，如果賭博給您的生活帶來了經濟或心理負擔，那麼公司建議您問問自己以下幾個問題：
+                        </p>
+                        <ul>
+                            <li>
+                                您是否曾因為賭博而耽誤工作或學習的時間？
+                            </li>
+                            <li>
+                                賭博是否曾導致您的家庭不睦？
+                            </li>
+                            <li>
+                                賭博是否曾影響到您的名譽？
+                            </li>
+                            <li>
+                                您在賭博後是否感到後悔？
+                            </li>
+                            <li>
+                                您是否曾為了償還債務或度過經濟難關而試圖通過賭博賺錢？
+                            </li>
+                            <li>
+                                賭博是否蠶食了您的抱負或效率？
+                            </li>
+                            <li>
+                                輸錢後，您是否覺得需要儘快返回，把輸掉的賭本贏回來？
+                            </li>
+                            <li>
+                                贏錢後，您是否有強烈的欲望再次返回，以便贏更多的錢？
+                            </li>
+                            <li>
+                                您是否曾賭到身無分文？
+                            </li>
+                            <li>
+                                您是否曾借錢賭博？
+                            </li>
+                            <li>
+                                您是否曾變賣東西來籌集賭本？
+                            </li>
+                            <li>
+                                您是否不願意把“賭本”用作日常開支？
+                            </li>
+                            <li>
+                                賭博是否讓您忽視了自己或家人的幸福？
+                            </li>
+                            <li>
+                                您賭博的時間是否曾超出計畫的時長？
+                            </li>
+                            <li>
+                                您是否曾為了逃避煩惱或難題而賭博？
+                            </li>
+                            <li>
+                                您是否曾做過或考慮過以非法行為賺取賭本？
+                            </li>
+                            <li>賭博是否影響了您的睡眠？</li>
+                            <li>爭吵、失望或挫折是否會讓您產生賭博的衝動？</li>
+                            <li>您是否曾有去賭幾個小時來慶祝好運的欲望？</li>
+                            <li>您是否曾因為賭博而考慮過自暴自棄或自殺？</li>
+                        </ul>
+
+                        <p>大多數強迫性賭徒或問題賭徒在以上問題中至少有七（7）道題會回答“是”。因此，如果您想尋找專業建議，請尋求幫助。</p>
+
+                        <p>有關盡責賭博的進一步資訊，請訪問 <a href="http://www.pagcor.ph/regulatory" target="_blank">www.pagcor.ph/regulatory</a> 或發送郵件至 <a href="mailto:keepitfun@pagcor.ph">keepitfun@pagcor.ph</a>聯繫PAGCOR。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2020. Nova88. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

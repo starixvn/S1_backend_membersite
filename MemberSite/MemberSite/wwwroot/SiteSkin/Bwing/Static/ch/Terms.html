@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>使用條款</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../common/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="side-bar" role="desktop-drawer">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <a class="btn btn-icon" role="desktop-only">
+                        <i class="icon icon-clear"></i>
+                    </a>
+                </div>
+                <div class="side-nav__list">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn" href="/">
+                            <i class="icon icon-home"></i>
+                            <span class="text">首頁</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-info-outline"></i>
+                            <span class="text">Nova88</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="AboutUs.html" target="_self">
+                                <span class="text">關於我們</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Terms.html" target="_self">
+                                <span class="text">使用條款</span>
+                            </a>
+                            <a class="side-nav__subitem" href="ContactUs.html" target="_self">
+                                <span class="text">聯絡我們</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="Affiliates.html" target="_self"
+                                <span class="text">合作夥伴</span>
+                            </a>-->
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-help-outline"></i>
+                            <span class="text">幫助及支持</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="RulesandRegulations.html">
+                                <span class="text">投注規則與規定</span>
+                            </a>
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">帳戶條款</span>
+                            </a>
+                            <a class="side-nav__subitem" href="FAQ.html" target="_self">
+                                <span class="text">常見疑問</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="DepositWithdrawals.html" target="_self">
+                                <span class="text">存款與提款</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Downloads.html" target="_self">
+                                <span class="text">下載</span>
+                            </a>-->
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">帳戶條款</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-policy"></i>
+                            <span class="text">我們的政策</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="ResposibleGaming.html" target="_self">
+                                <span class="text">負責任博彩</span>
+                            </a>
+                            <a class="side-nav__subitem" href="TermsConditions.html" target="_self">
+                                <span class="text">條款及規則</span>
+                            </a>
+                            <a class="side-nav__subitem" href="PrivacyPolicy.html" target="_self">
+                                <span class="text">隱私權政策</span>
+                            </a>
+                            <a class="side-nav__subitem" href="CookiePolicy.html" target="_self">
+                                <span class="text">Cookie政策</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                    <a class="logo" href="/"></a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="help-page">
+                <div class="help-page__body">
+                    <div class="heading">
+                        <span class="text">使用條款</span>
+                    </div>
+                    <div class="article">
+                        <h3>
+                            接受使用條款
+                        </h3>
+                        <p>
+                            訪問和使用本網站即表示您已接受本網站的使用條款。本文所述的“我們的”、“我們”、“本公司”或類似表述均指Nova88；所述的“您”、“您的”或類似表述均指訪問本網站的人員（自然人或其他）。
+                        </p>
+                        <h3>
+                            無買賣要約
+                        </h3>
+                        <p>
+                            本網站的內容不以任何方式構成出售或招攬購買本公司的任何產品或服務等的要約。
+                        </p>
+                        <h3>
+                            其他網站連結
+                        </h3>
+                        <p>
+                            我們提供的協力廠商網站連結僅為您方便之用。如果您使用這些連結，您將離開本網站，並受到協力廠商網站所用的其他使用條款的制約。一些其他網站連結（即使是由本公司運營）提供的內容未必適合所有人。點擊本網站上的連結後，您必須閱讀和接受所訪問網站的使用條款。公司未審查本網站連結的協力廠商網站，也不對任何這些網站或其內容進行控制或承擔責任。公司不採納任何協力廠商網站上的聲明。
+                        </p>
+                        <h3>
+                            內容免責聲明
+                        </h3>
+                        <p>
+                            公司盡合理努力在本網站上提供準確、完整和最新（截至發佈日期）的資訊。但公司不保證本網站的內容準確、完整、最新或沒有任何技術或印刷錯誤。此外，所提供的資訊以發表之日為准，因此可能已不再適用。公司不承擔更新資訊的責任。您有責任在依賴任何資訊之前對其進行核實。公司保留在沒有事先通知的情況下修改或更新本網站所載資訊的權利。因受到監管或其他限制，有些市場不提供某些產品或服務。
+                        </p>
+                        <p>
+                            本網站所有內容的版權均歸公司所有，並保留一切權利。任何未經公司事先書面授權的使用、複製、存儲都屬於非法。本網站提供的所有徽標、商標、設計、商業外觀和/或任何其他智慧財產權均由公司所有，由公司許可或允許使用，公司對此擁有合法權利，因此任何未經授權的使用都屬於非法行為。對於非法使用或濫用本網站提供的智慧財產權的行為，公司將尋求一切可能的法律補救措施（民事或刑事）對其進行起訴。
+                        </p>
+                        <p>
+                            要訪問本網站提供的產品和服務，您必須接受相關的條款與條件。
+                        </p>
+                        <p>
+                            關聯公司、代理和行銷協力廠商受到他們與本公司關係的特定條款與條件的制約。
+                        </p>
+                        <p>
+                            促銷、活動或類似事宜受本網站在顯著位置發佈、針對該促銷或活動的具體條款與條件的約束。
+                        </p>
+                        <p>
+                            本網站所載資訊僅供參考之用，而不可向禁止或需要許可證方可進行遠端賭博或網上博彩的司法轄區的人士發佈或分發。
+                        </p>
+                        <h3>用戶的責任</h3>
+                        <p>
+                            訪問和使用本網站及其內容的風險由使用者承擔。無論是本公司還是參與創建、製作或交付本網站的任何相關方均不對您因為訪問、使用或無法使用本網站或任何其他超連結網站，或這些網站內容存在的任何錯誤或疏漏所導致的任何直接、意外、間接或懲罰性損害或任何損害而承擔任何責任。
+                        </p>
+                        <p>
+                            如有任何問題、意見或疑問，您可以通過本網站的“聯繫我們”部分中的任何聯絡位址與我們聯繫。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2020. Nova88. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

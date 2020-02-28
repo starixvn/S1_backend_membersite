@@ -1,0 +1,379 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>Permainan Game yang Bertanggung Jawabg</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../common/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="side-bar" role="desktop-drawer">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <a class="btn btn-icon" role="desktop-only">
+                        <i class="icon icon-clear"></i>
+                    </a>
+                </div>
+                <div class="side-nav__list">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn" href="/">
+                            <i class="icon icon-home"></i>
+                            <span class="text">Beranda</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-info-outline"></i>
+                            <span class="text">Nova88</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="AboutUs.html" target="_self">
+                                <span class="text">Tentang Kami</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Terms.html" target="_self">
+                                <span class="text">Ketentuan Penggunaan</span>
+                            </a>
+                            <a class="side-nav__subitem" href="ContactUs.html" target="_self">
+                                <span class="text">Hubungi Kami</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="Affiliates.html" target="_self"
+                                <span class="text">Affiliates</span>
+                            </a>-->
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-help-outline"></i>
+                            <span class="text">Bantuan &amp; Dukungan</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="RulesandRegulations.html">
+                                <span class="text">Peraturan dan Ketetapan Taruhan</span>
+                            </a>
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Ketentuan Akun</span>
+                            </a>
+                            <a class="side-nav__subitem" href="FAQ.html" target="_self">
+                                <span class="text">FAQ</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="DepositWithdrawals.html" target="_self">
+                                <span class="text">Deposit &amp; Penarikan</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Downloads.html" target="_self">
+                                <span class="text">Downloads</span>
+                            </a>-->
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Ketentuan Akun</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-policy"></i>
+                            <span class="text">Kebijakan Kami</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="ResposibleGaming.html" target="_self">
+                                <span class="text">Permainan Bertanggung Jawab</span>
+                            </a>
+                            <a class="side-nav__subitem" href="TermsConditions.html" target="_self">
+                                <span class="text">Persyaratan dan Ketentuan</span>
+                            </a>
+                            <a class="side-nav__subitem" href="PrivacyPolicy.html" target="_self">
+                                <span class="text">Kebijakan Privasi</span>
+                            </a>
+                            <a class="side-nav__subitem" href="CookiePolicy.html" target="_self">
+                                <span class="text">Kebijakan Cookie</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                    <a class="logo" href="/"></a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="help-page">
+                <div class="help-page__body">
+                    <div class="heading">
+                        <span class="text">Permainan Game yang Bertanggung Jawab</span>
+                    </div>
+                    <div class="article">
+                        <h3>Tanggung Jawab Komunitas</h3>
+                        <p>
+                            Nova88 (”Perusahaan”) berkomitmen pada perjudian yang bertanggung jawab. Perusahaan berupaya untuk melampaui sekadar kepatuhan terhadap undang-undang yang berlaku dan panduan yang diberikan oleh otoritas pengatur yang relevan, dan terus menjadi operator permainan judi jarak jauh atau permainan game online yang bertanggung jawab secara sosial.
+                        </p>
+                        <p>
+                            Perjudian jarak jauh atau permainan game online merupakan bentuk hiburan, kesenangan, dan pengisi waktu luang yang sah, yang dialami oleh jutaan pemain di seluruh dunia. Bagi kebanyakan pemain, perjudian jarak jauh atau permainan game online adalah pengalaman yang dapat dinikmati. Meski demikian, realitas harus disadari bahwa sejumlah persentase pemain yang terlibat dalam perjudian jarak jauh atau permainan game online mungkin tidak memiliki izin atau mungkin mengalami masalah dengan permainan judi yang menguasai kehidupan dan keuangan mereka.
+                        </p>
+                        <p>
+                            Menjadi perusahaan yang bertanggung jawab secara sosial berarti mengurus semua pemain kami, dan memiliki pendekatan proaktif terhadap masalah yang memengaruhi komunitas. Ini sebabnya Perusahaan mengadopsi dan berkomitmen penuh pada penerapan dan penegakan kebijakan berikut:
+                        </p>
+                        <h3>
+                            Membatasi Akses bagi Pemain Tanpa Izin
+                        </h3>
+                        <p>
+                            Perusahaan dengan tegas mensyaratkan pemain barunya harus berusia <strong>minimal dua puluh satu (21) tahun</strong> dan pemain harus menyatakan bahwa mereka sudah berusia dewasa di negara asing masing-masing tempat mereka tinggal.
+                        </p>
+                        <p>
+                            Selain itu, Perusahaan melarang warga Filipina, meskipun berada di luar negeri, dan individu di negara yang undang-undangnya melarang warna negara mereka berpartisipasi dalam aktivitas perjudian jarak jauh atau permainan game online, dan warga negara asing saat berada di wilayah Filipina, dari mengakses produk dan layanannya dan berpartisipasi dalam aktivitas perjudian jarak jauh atau permainan game onlinenya.
+                        </p>
+                        <p>
+                            Perusahaan lebih lanjut mengambil langkah-langkah yang wajar untuk memverifikasi hal ini, jika Perusahaan memiliki kecurigaan tentang adanya pernyataan palsu atau pemain yang tidak memiliki izin yang berusaha menggunakan layanannya. Dalam hal ini, jika kami memiliki kecurigaan hingga sejauh ini, kami berhak untuk menangguhkan akun dan meminta bukti identitas dan usia dari pemain untuk memverifikasi kepatuhan terhadap kebijakan ini.
+                        </p>
+                        <p>
+                            Lebih lanjut, untuk memastikan pemain yang tidak memiliki izin tidak berjudi di situs web Perusahaan, Perusahaan mewajibkan nama, alamat, tanggal lahir, kebangsaan, dan informasi lain yang mungkin dianggapnya perlu untuk memverifikasi identitas semua pemainnya saat mendaftar. Semua informasi yang akan dinyatakan oleh pemain harus jujur dan akurat. Perusahaan juga mungkin mewajibkan pemainnya memperbarui informasi mereka dari waktu ke waktu.
+                        </p>
+                        <p>
+                            Perusahaan juga memastikan bahwa semua iklan, sponsor, dan aktivitas promosi tidak ditargetkan pada individu berusia kurang dari dua puluh satu (21) tahun.
+                        </p>
+                        <p>
+                            Perusahaan tidak mengizinkan siapa pun yang berusia kurang dari dua puluh satu (21) tahun menggunakan layanannya. Kebijakan ini mematuhi dan/atau melampaui persyaratan Aturan dan Regulasi yang diterbitkan oleh Philippine Amusement and Gaming Corporation (PAGCOR) yang mengatur dan mengawasi pengoperasian perjudian Perusahaan.
+                        </p>
+                        <p>
+                            Perusahaan berjanji untuk melakukan semua yang dapat dilakukannya, tapi juga membutuhkan bantuan Anda:
+                        </p>
+                        <ul>
+                            <li>
+                                Menggunakan perangkat lunak perlindungan anak untuk memblokir situs permainan judi jarak jauh atau permainan game online dari komputer yang mungkin dapat diakses oleh anak di bawah umur.
+                            </li>
+                            <li>
+                                Jangan meninggalkan komputer tanpa pengawasan saat Anda sedang masuk ke situs permainan judi jarak jauh atau permainan game online.
+                            </li>
+                            <li>
+                                Jangan membagikan data rekening bank Anda dengan anak di bawah umur.
+                            </li>
+                            <li>
+                                Jangan meninggalkan opsi "Simpan Kata Sandi" dalam keadaan aktif di semua layar masuk.
+                            </li>
+                            <li>
+                                Buat profil terpisah untuk anak di bawah umur di komputer sehingga saat mereka masuk, mereka tidak dapat mengakses informasi Anda.
+                            </li>
+                            <li>
+                                Jika Anda mengetahui seseorang yang berusia di bawah 21 tahun (atau usia dewasa di yurisdiksi mereka masing-masing) yang karena kesalahan terdaftar di kami sebagai pemain, harap segera hubungi kami.
+                            </li>
+                        </ul>
+
+                        <h3>Mengendalikan Perjudian Kompulsif atau Kecanduan Judi</h3>
+                        <p>
+                            Perusahaan sensitif dan tidak akan pernah menoleransi Perjudian Kompulsif atau Kecanduan Judi. Meskipun kami berupaya untuk menyediakan pengalaman permainan game yang optimal bagi para pemain kami, tetapi para pemain judi kompulsif membawa masalah besar bagi keluarga, teman, dan kehidupan pribadi mereka.
+                        </p>
+                        <p>
+                            Perjudian Kompulsif atau Kecanduan Judi adalah dorongan untuk terus bermain judi meskipun terdapat konsekuensi negatif yang merugikan atau keinginan untuk berhenti. Ini juga didefinisikan sebagai perilaku permainan judi yang menyebabkan gangguan pada area utama kehidupan: psikologis, fisik, sosial, atau pekerjaan. Istilah “Kecanduan Judi” mencakup, tapi tidak terbatas pada, kondisi yang dikenal sebagai Perjudian “Patologis” atau “Kompulsif” yang merupakan kecanduan progresif dengan ciri-ciri bertambahnya waktu untuk bermain judi, kebutuhan untuk mempertaruhkan lebih banyak uang dengan lebih sering, resah atau jengkel saat berusaha berhenti, “membalas” kekalahan, dan hilangnya kendali yang diwujudkan melalui berlanjutnya perilaku bermain judi meskipun menghadapi konsekuensi yang bertambah, serius, dan negatif.
+                        </p>
+                        <p>
+                            Dengan mengingat ini, Perusahaan berkomitmen untuk mendeteksi dan mengurangi Perjudian Kompulsif atau Kecanduan Judi, karena hal itu tidak memberikan manfaat bagi Perusahaan maupun pemain. Perusahaan akan terus berupaya untuk memiliki lingkungan permainan game yang aman dan mengasyikkan, dengan memanfaatkan sistem pemantauan yang akan melacak aktivitas permainan game pemain dan akan terus bekerja untuk merancang dan menegakkan langkah-langkah pengendalian yang efektif untuk membatasi pola perjudian yang di luar kendali.
+                        </p>
+                        <p>
+                            Perusahaan bukan hanya akan bertanggung jawab untuk secara efektif mengidentifikasi anggotanya yang merupakan pemain judi kompulsif atau pecandu judi, tetapi juga akan memberikan bantuan bagi mereka untuk mengatasi masalah kecanduan judi mereka.
+                        </p>
+                        <p>
+                            Untuk membantu Anda tetap terkendali, kami ingin Anda mengingat hal berikut:
+                        </p>
+                        <ul>
+                            <li>
+                                Permainan judi harus dipandang sebagai hiburan, kesenangan, dan pengisi waktu luang; pandanglah seolah-olah Anda membayar untuk hiburan, jadi jangan membayar berlebihan untuk itu;
+                            </li>
+                            <li>
+                                Permainan judi TIDAK boleh dipandang sebagai cara sungguhan untuk menghasilkan uang atau cara untuk memecahkan masalah keuangan;
+                            </li>
+                            <li>
+                                Hindari membalas kekalahan;
+
+                            </li>
+                            <li>
+                                Hanya berjudi sebesar kekalahan yang mampu Anda tanggung;
+
+                            </li>
+                            <li>
+                                Ingat waktu dan jumlah uang yang Anda gunakan untuk berjudi;
+
+                            </li>
+                            <li>
+                                Jika Anda membutuhkan bantuan, gunakan batas deposit dan batas waktu untuk mengendalikan jumlah yang bisa Anda keluarkan;
+                            </li>
+                            <li>
+                                Jika Anda perlu berhenti sejenak dari berjudi, hubungi kami untuk pelarangan mandiri atau penangguhan akun.
+                            </li>
+                        </ul>
+
+
+                        <p>
+                            Perusahaan mengikuti panduan institusi yang didedikasikan untuk mengatasi dampak sosial perjudian. Untuk membantu pemain berjudi dengan bertanggung jawab, Perusahaan berkomitmen untuk bekerja dengan institusi ini untuk mengembangkan kebijakan dan praktik yang bertanggung jawab.
+                        </p>
+                        <p>
+                            Selain itu, Perusahaan menganjurkan hal berikut:
+                        </p>
+                        <h3>
+                            Batas taruhan yang ditetapkan Perusahaan:
+                        </h3>
+                        <p>
+                            Dengan menetapkan kebijakan batas taruhan, Perusahaan mencoba membatasi paparan pemain dan membantu mereka mengendalikan jumlah yang dimainkan dengan kami dalam jangka waktu tertentu.
+                        </p>
+                        <h3>
+                            Batas taruhan yang ditetapkan pemain:
+                        </h3>
+                        <p>
+                            Menetapkan batas taruhan caranya mudah dan memungkinkan Anda mengendalikan jumlah yang diperjudikan melalui akun Anda dalam jangka waktu tertentu. Tetapkan kebijakan batas taruhan Anda sebelum mulai bermain dengan kami, dengan menghubungi kami.
+                        </p>
+                        <h3>
+                            Alat pelarangan mandiri:
+                        </h3>
+                        <p>
+                            Untuk perlindungan pribadi, Anda dapat meminta pelarangan mandiri atau penangguhan untuk periode waktu tertentu. Ini berarti Anda tidak akan dapat masuk ke situs web kami selama periode penghentian yang Anda tentukan. Segera setelah periode pelarangan mandiri berakhir, Anda secara otomatis akan dapat masuk kembali.
+                        </p>
+                        <h3>
+                            Ketahui Kapan Harus Berhenti
+                        </h3>
+                        <p>
+                            Permainan judi jarak jauh merupakan bentuk hiburan, kesenangan, dan pengisi waktu luang, dan penting bagi pemain untuk memahami bahwa jika permainan judi membebani kehidupan Anda baik secara keuangan ataupun emosional, Perusahaan menyarankan agar Anda menanyakan 20 pertanyaan berikut kepada diri sendiri:
+                        </p>
+                        <p>
+                            <ul>
+                                <li>
+                                    Pernahkah Anda kehilangan waktu bekerja atau pendidikan karena permainan judi?
+                                </li>
+                                <li>
+                                    Pernahkah permainan judi membuat kehidupan rumah tangga Anda tidak bahagia?
+                                </li>
+                                <li>
+                                    Apakah permainan judi memengaruhi reputasi Anda?
+                                </li>
+                                <li>
+                                    Apakah Anda pernah merasa menyesal setelah berjudi?
+                                </li>
+                                <li>
+                                    Apakah permainan judi menyebabkan menurunnya ambisi atau efisiensi Anda?
+                                </li>
+                                <li>
+                                    Setelah kalah, apakah Anda merasa perlu kembali secepatnya dan memenangkan kembali kekalahan Anda?
+                                </li>
+                                <li>
+                                    Setelah menang, apakah Anda merasakan dorongan kuat untuk kembali dan menang lebih banyak?
+                                </li>
+                                <li>
+                                    Apakah Anda pernah berjudi sampai dollar terakhir melayang?
+                                </li>
+                                <li>
+                                    Apakah Anda pernah meminjam untuk membiayai perjudian Anda?
+                                </li>
+                                <li>
+                                    Apakah Anda pernah menjual sesuatu untuk membiayai perjudian?
+                                </li>
+                                <li>
+                                    Apakah Anda merasa enggan menggunakan 'uang judi' untuk pengeluaran normal?
+                                </li>
+                                <li>
+                                    Apakah permainan judi membuat Anda mengabaikan kesejahteraan diri Anda sendiri atau keluarga Anda?
+                                </li>
+                                <li>
+                                    Pernahkah Anda berjudi lebih lama daripada yang Anda rencanakan?
+                                </li>
+                                <li>
+                                    Pernahkah Anda berjudi sebagai pelarian dari kekhawatiran atau masalah?
+                                </li>
+                                <li>
+                                    Pernahkah Anda melakukan, atau mempertimbangkan untuk melakukan, tindakan ilegal untuk membiayai perjudian?
+                                </li>
+                                <li>
+                                    Apakah permainan judi menyebabkan Anda mengalami kesulitan tidur?
+                                </li>
+                                <li>
+                                    Apakah pertengkaran, kekecewaan, atau frustrasi menimbulkan dorongan untuk berjudi dalam diri Anda?
+                                </li>
+                                <li>
+                                    Pernahkah Anda merasakan dorongan untuk merayakan keberuntungan dengan berjudi beberapa jam?
+                                </li>
+                                <li>
+                                    Pernahkah Anda mempertimbangkan untuk menghancurkan diri sendiri atau bunuh diri sebagai akibat dari perjudian Anda?
+                                </li>
+                            </ul>
+
+                        <p>Kebanyakan penjudi kompulsif atau pecandu judi akan menjawab “Ya” untuk setidaknya tujuh (7) dari pertanyaan ini. Karenanya, jika Anda ingin mencari saran profesional, harap cari bantuan.</p>
+
+                        <p>Untuk informasi selengkapnya mengenai perjudian yang bertanggung jawab, Anda dapat mengunjungi <a href="http://www.pagcor.ph/regulatory" target="_blank">www.pagcor.ph/regulatory</a> atau menghubungi PAGCOR di <a href="mailto:keepitfun@pagcor.ph">keepitfun@pagcor.ph</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2020. Nova88. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>ข้อกำหนดการใช้งาน</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../common/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="side-bar" role="desktop-drawer">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <a class="btn btn-icon" role="desktop-only">
+                        <i class="icon icon-clear"></i>
+                    </a>
+                </div>
+                <div class="side-nav__list">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn" href="/">
+                            <i class="icon icon-home"></i>
+                            <span class="text">บ้าน</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-info-outline"></i>
+                            <span class="text">Nova88</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="AboutUs.html" target="_self">
+                                <span class="text">เกี่ยวกับเรา</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Terms.html" target="_self">
+                                <span class="text">เกี่ยวกับเรา</span>
+                            </a>
+                            <a class="side-nav__subitem" href="ContactUs.html" target="_self">
+                                <span class="text">ติดต่อเรา</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="Affiliates.html" target="_self"
+                                <span class="text">ตัวแทน</span>
+                            </a>-->
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-help-outline"></i>
+                            <span class="text">ช่วยเหลือและสนับสนุน</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="RulesandRegulations.html">
+                                <span class="text">กฎกติกาและระเบียบข้อบังคับการเดิมพัน</span>
+                            </a>
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">ข้อกำหนดบัญชี</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="FAQ.html" target="_self">
+                                <span class="text">คำถามคำตอบที่พบบ่อย</span>
+                            </a>
+                            <a class="side-nav__subitem" href="DepositWithdrawals.html" target="_self">
+                                <span class="text">ฝากเงิน &amp; ถอนเงิน</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Downloads.html" target="_self">
+                                <span class="text">ดาวน์โหลด</span>
+                            </a>-->
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">ข้อกำหนดบัญชี</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-policy"></i>
+                            <span class="text">นโยบายของเรา</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="ResposibleGaming.html" target="_self">
+                                <span class="text">การรับผิดชอบของการเล่นพนัน</span>
+                            </a>
+                            <a class="side-nav__subitem" href="TermsConditions.html" target="_self">
+                                <span class="text">เงี่อนไขและกติกา</span>
+                            </a>
+                            <a class="side-nav__subitem" href="PrivacyPolicy.html" target="_self">
+                                <span class="text">นโยบายของบริษัท</span>
+                            </a>
+                            <a class="side-nav__subitem" href="CookiePolicy.html" target="_self">
+                                <span class="text">นโยบาย Cookie</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                    <a class="logo" href="/"></a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="help-page">
+                <div class="help-page__body">
+                    <div class="heading">
+                        <span class="text">Terms of Use</span>
+                    </div>
+                    <div class="article">
+                        <h3>ข้อกำหนดการใช้งาน</h3>
+
+                        <p>
+                            เมื่อเข้าถึงและใช้เว็บไซต์นี้ ถือว่าคุณยอมรับข้อกำหนดการใช้งานสำหรับการใช้เว็บไซต์นี้ ในที่นี่ เมื่อกล่าวถึง "ของเรา" "เรา" "บริษัทของเรา" หรือที่คล้ายคลึงกันหมายถึง Nova88 การอ้างอิงถึง "คุณ" "ของคุณ" และที่คล้ายคลึงกันหมายถึงบุคคล (ทั่วไปหรืออย่างอื่น) ที่เข้าถึงเว็บไซต์นี้
+                        </p>
+                        <h3>
+                            ไม่มีข้อเสนอซื้อหรือขาย
+                        </h3>
+                        <p>
+                            เนื้อหาในเว็บไซต์นี้ไม่ใช่ข้อเสนอขายหรือเชิญชวนให้ซื้อผลิตภัณฑ์หรือบริการใด ๆ ของบริษัทหรืออื่น ๆ ในทางใดทางหนึ่ง
+                        </p>
+                        <h3>
+                            ลิงก์ที่ไปยังเว็บไซต์อื่น
+                        </h3>
+                        <p>
+                            ลิงก์ทเชื่อมโยงไปยังเว็บไซต์ภายนอกมีไว้เพื่อความสะดวกของคุณเท่านั้น หากคุณใช้ลิงก์เหล่านี้ คุณจะออกจากเว็บไซต์นี้และจะมีข้อกำหนดการใช้งานที่แตกต่างกันสำหรับเว็บไซต์เหล่านั้น ลิงก์ที่เชื่อมโยงไปยังเว็บไซต์อื่นบางลิงก์ แม้จะดำเนินการโดยบริษัทของเรา แต่อาจมีเนื้อหาที่ไม่เหมาะสมสำหรับทุกคน เมื่อไปตามลิงก์ต่าง ๆ ในเว็บไซต์นี้ คุณต้องอ่านและยอมรับข้อกำหนดการใช้งานของเว็บไซต์ดังกล่าว บริษัทไม่ได้ตรวจสอบเว็บไซต์ภายนอกที่เชื่อมโยงจากเว็บไซต์นี้ รวมทั้งไม่ได้ควบคุมและไม่รับผิดชอบใด ๆ ในเว็บไซต์เหล่าดังกล่าว หรือเนื้อหาในเว็บไซต์ดังกล่าว บริษัทไม่ยอมรับคำแถลงจากเว็บไซต์ภายนอกใด ๆ
+                        </p>
+                        <h3>
+                            ข้อความปฏิเสธความรับผิดชอบด้านเนื้อหา
+                        </h3>
+                        <p>
+                            บริษัทใช้ความพยายามอย่างสมเหตุสมผลเพื่อรวบรวมข้อมูลที่ถูกต้อง ครบถ้วน และเป็นปัจจุบัน (ตามวันที่ที่ลงประกาศ) ในเว็บไซต์นี้ อย่างไรก็ตาม บริษัทไม่รับประกันว่าเนื้อหาในที่นี้ถูกต้อง ครบถ้วน เป็นปัจจุบัน หรือไม่มีข้อผิดพลาดทางเทคนิคหรือเกี่ยวกับการพิมพ์ นอกจากนี้ ข้อมูลที่ให้ไว้กล่าวถึง ณ วันที่ดังกล่าว และข้อมูลอาจไม่เป็นจริงอีกต่อไป บริษัทไม่ได้ดำเนินการปรับข้อมูลให้เป็นปัจจุบัน คุณมีหน้าที่รับผิดชอบในการตรวจสอบข้อมูลใด ๆ ก่อนที่จะใช้ข้อมูลนั้น บริษัทขอสงวนสิทธิ์ในการแก้ไขและ/หรือปรับปรุงข้อมูลที่มีอยู่ในเว็บไซต์นี้ โดยไม่ต้องแจ้งให้ทราบล่วงหน้า ผลิตภัณฑ์หรือบริการบางรายการอาจอยู่ภายใต้การกำกับดูแลหรือข้อจำกัดอื่น ๆ และไม่ได้มีให้บริการในตลาดทุกแห่ง
+                        </p>
+                        <p>
+                            เนื้อหาทั้งหมดของเว็บไซต์นี้ถือเป็นลิขสิทธิ์บริษัท ซึ่งสงวนสิทธิ์ทั้งหมด การใช้ คัดลอก จัดเก็บโดยไม่ได้รับอนุญาตล่วงหน้าเป็นลายลักษณ์อักษรจากบริษัทของเราถือว่าผิดกฎหมาย โลโก้ เครื่องหมายการค้า การออกแบบ รูปลักษณ์ทางการค้า และ/หรือสิทธิในทรัพย์สินทางปัญญาอื่นใดทั้งหมดที่มีอยู่ในเว็บไซต์นี้เป็นของบริษัท ได้รับใบอนุญาตหรือได้รับอนุญาตให้ใช้จากบริษัท และบริษัทมีสิทธิ์ตามกฎหมาย ดั้งนั้นการใช้โดยไม่ได้รับอนุญาตถือว่าผิดกฎหมาย บริษัทจะแสวงหาวิธีการแก้ไขตามกฎหมายทุกหนทาง (ทางแพ่งหรือทางอาญา) ที่มีอยู่ เพื่อดำเนินคดีกับการใช้ทรัพย์สินทางปัญญาที่จัดไว้ในเว็บไซต์นี้โดยผิดกฎหมายหรือใช้ในทางมิชอบ
+                        </p>
+                        <p>
+                            ผลิตภัณฑ์และบริการที่เข้าถึงได้ผ่านทางเว็บไซต์นี้ อยู่ภายใต้การยอมรับข้อกำหนดและเงื่อนไขของคุณ
+                        </p>
+                        <p>
+                            บริษัทในเครือ บริษัทตัวแทน และบุคคลภายนอกด้านการตลาดอยู่ภายใต้ข้อกำหนดและเงื่อนไขที่เฉพาะเจาะจงเกี่ยวกับความสัมพันธ์กับบริษัท
+                        </p>
+                        <p>
+                            การส่งเสริมการขาย กิจกรรม และการดำเนินการที่คล้ายคลึงกันจะอยู่ภายใต้ข้อกำหนดและเงื่อนไขที่เฉพาะเจาะจงสำหรับการส่งเสริมการขายแต่ละครั้ง หรือกิจกรรมที่เผยแพร่อย่างเด่นชัดในเว็บไซต์
+                        </p>
+                        <p>
+                            ข้อมูลในเอกสารฉบับนี้มีวัตถุประสงค์เพื่อใช้เป็นข้อมูลเท่านั้น และไม่ได้มีไว้เพื่อเผยแพร่หรือแจกจ่ายแก่บุคคลในเขตอำนาจศาลที่สั่งห้ามหรือต้องขอใบอนุญาตสำหรับการพนันทางไกลหรือการเล่นพนันทางออนไลน์
+                        </p>
+
+                        <h3>ความรับผิดชอบของผู้ใช้</h3>
+                        <p>
+                            การเข้าถึงและการใช้เว็บไซต์นี้ และเนื้อหาในที่นี้ ถือเป็นความเสี่ยงของผู้ใช้ ไม่ว่าบริษัทหรือฝ่ายใดที่เกี่ยวข้องในการสร้าง การผลิต หรือการส่งมอบเว็บไซต์นี้จะไม่รับผิดชอบต่อความเสียหายโดยตรง โดยบังเอิญ อันเป็นผลสืบเนื่อง โดยอ้อม หรือเชิงลงโทษ หรือความเสียหายใด ๆ ก็ตามที่เกิดขึ้นจากการเข้าถึง การใช้ หรือการไม่สามารถใช้เว็บไซต์นี้หรือเว็บไซต์ไฮเปอร์ลิงก์อื่นใด หรือข้อผิดพลาดหรือการละเว้นใด ๆ ของเนื้อหาในนั้น
+                        </p>
+                        <p>
+                            หากมีคำถาม ความคิดเห็น หรือข้อกังวลใด ๆ คุณสามารถติดต่อเราตามที่อยู่ติดต่อในส่วนติดต่อเราของเว็บไซต์นี้
+                        </p>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2020. Nova88. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

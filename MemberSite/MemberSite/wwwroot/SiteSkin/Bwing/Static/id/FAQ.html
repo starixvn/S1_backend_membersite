@@ -1,0 +1,432 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>Pertanyaan Umum</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../common/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="side-bar" role="desktop-drawer">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <a class="btn btn-icon" role="desktop-only">
+                        <i class="icon icon-clear"></i>
+                    </a>
+                </div>
+                <div class="side-nav__list">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn" href="/">
+                            <i class="icon icon-home"></i>
+                            <span class="text">Beranda</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-info-outline"></i>
+                            <span class="text">Nova88</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="AboutUs.html" target="_self">
+                                <span class="text">Tentang Kami</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Terms.html" target="_self">
+                                <span class="text">Ketentuan Penggunaan</span>
+                            </a>
+                            <a class="side-nav__subitem" href="ContactUs.html" target="_self">
+                                <span class="text">Hubungi Kami</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="Affiliates.html" target="_self"
+                                <span class="text">Affiliates</span>
+                            </a>-->
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-help-outline"></i>
+                            <span class="text">Bantuan &amp; Dukungan</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="RulesandRegulations.html">
+                                <span class="text">Peraturan dan Ketetapan Taruhan</span>
+                            </a>
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Ketentuan Akun</span>
+                            </a>
+                            <a class="side-nav__subitem" href="FAQ.html" target="_self">
+                                <span class="text">FAQ</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="DepositWithdrawals.html" target="_self">
+                                <span class="text">Deposit &amp; Penarikan</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Downloads.html" target="_self">
+                                <span class="text">Downloads</span>
+                            </a>-->
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Ketentuan Akun</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-policy"></i>
+                            <span class="text">Kebijakan Kami</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="ResposibleGaming.html" target="_self">
+                                <span class="text">Permainan Bertanggung Jawab</span>
+                            </a>
+                            <a class="side-nav__subitem" href="TermsConditions.html" target="_self">
+                                <span class="text">Persyaratan dan Ketentuan</span>
+                            </a>
+                            <a class="side-nav__subitem" href="PrivacyPolicy.html" target="_self">
+                                <span class="text">Kebijakan Privasi</span>
+                            </a>
+                            <a class="side-nav__subitem" href="CookiePolicy.html" target="_self">
+                                <span class="text">Kebijakan Cookie</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                    <a class="logo" href="/"></a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="help-page">
+                <div class="help-page__body">
+                    <div class="heading">
+                        <span class="text">Pertanyaan Umum</span>
+                    </div>
+                    <div class="article">
+                        <h3>Umum</h3>
+                        <h3>Apa saja mata uang yang tersedia?</h3>
+
+                        <ul>
+                            <!--<li>Dollar AS (USD)</li>
+        <li>Euro (EUR)</li>
+        <li>Poundsterling Britania Raya (GBP)</li>
+        <li>Renminbi (RMB)</li>-->
+                            <li>Ringgit Malaysia (MYR)</li>
+                            <li>Baht Thailand (THB)</li>
+                            <li>Rupiah Indonesia (IDR)</li>
+                            <!--<li>Rupee India (INR)</li>-->
+                        </ul>
+
+
+                        <h3>
+                            Bagaimana cara memasang taruhan?
+                        </h3>
+                        <p>
+                            Anda HANYA dapat memasang taruhan melalui situs web Perusahaan dan sesuai dengan Syarat dan Ketentuan Perusahaan, serta kebijakan atau peraturan lain yang dinyatakan di situs webnya.
+                        </p>
+                        <h3>
+                            Apakah saya akan dikenakan biaya setiap kali menyetor atau menarik dana dari akun saya?
+                        </h3>
+                        <p>
+                            Kami selalu berusaha agar setoran dan penarikan dana semudah mungkin, hal ini mencakup bebas biaya bank. Meski demikian, jika metode yang Anda pilih disertai biaya ekstra, kami akan memberi tahu Anda sebelumnya.
+                        </p>
+                        <h3>
+                            Dapatkah saya membatalkan taruhan?
+                        </h3>
+                        <p>
+                            Tidak. Setelah taruhan diterima, taruhan tidak dapat dibatalkan dan akan diselesaikan menurut Syarat dan Ketentuan Perusahaan sebagaimana disebutkan dalam situs webnya. Penting agar pemain mengetahui dengan baik Syarat dan Ketentuan Perusahaan.
+                        </p>
+                        <h3>
+                            Apakah data pribadi saya aman dan dijaga kerahasiaannya oleh Perusahaan?
+                        </h3>
+                        <p>
+                            Ya. Semua data pribadi dan informasi yang dimasukkan pemain di situs akan dijaga kerahasiaannya dengan ketat.
+                        </p>
+                        <h3>
+                            Apa yang harus saya lakukan jika lupa ID Pengguna atau Kata Sandi saya?
+                        </h3>
+                        <p>
+                            Segera hubungi tim layanan pelanggan berdedikasi Perusahaan melalui email, telepon, atau faks.
+                        </p>
+                        <h3>
+                            Bagaimana jika ada perubahan pada data pribadi saya?
+                        </h3>
+                        <p>
+                            Hubungi tim layanan pelanggan berdedikasi Perusahaan dan segera beri tahukan perubahan tersebut kepada mereka.
+                        </p>
+                        <p>
+                            <h3>Setoran</h3>
+                            <h3>Bagaimana cara menyetorkan dana ke akun permainan game saya?</h3>
+                        <p>Anda dapat menyetor melalui metode berikut:</p>
+                        <ul>
+                            <li>Perbankan Online</li>
+                            <li>Bank Lokal</li>
+                            <li>Metode lain</li>
+                        </ul>
+
+                        <table width="587">
+                            <tbody>
+                                <tr>
+                                    <td rowspan="6" width="84">
+                                        <p><strong>DEPOSITS</strong></p>
+                                    </td>
+                                    <td width="82">
+                                        <p><strong>Mata Uang</strong></p>
+                                    </td>
+                                    <td width="169">
+                                        <p><strong>Metode Transfer</strong></p>
+                                    </td>
+                                    <td width="107">
+                                        <p><strong> MIN </strong></p>
+                                    </td>
+                                    <td width="144">
+                                        <p><strong> MAX </strong></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2" width="82">
+                                        <p>MYR</p>
+                                    </td>
+                                    <td width="169">
+                                        <p>Judi Online</p>
+                                    </td>
+                                    <td width="107">
+                                        <p>           50.00</p>
+                                    </td>
+                                    <td width="144">
+                                        <p>            50,000.00</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="169">
+                                        <p>Lokal Bank</p>
+                                    </td>
+                                    <td width="107">
+                                        <p>           50.00</p>
+                                    </td>
+                                    <td width="144">
+                                        <p>              5,000.00</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2" width="82">
+                                        <p>THB</p>
+                                    </td>
+                                    <td width="169">
+                                        <p>Judi Online</p>
+                                    </td>
+                                    <td width="107">
+                                        <p>          500.00</p>
+                                    </td>
+                                    <td width="144">
+                                        <p>          500,000.00</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="169">
+                                        <p>Lokal Bank</p>
+                                    </td>
+                                    <td width="107">
+                                        <p>          500.00</p>
+                                    </td>
+                                    <td width="144">
+                                        <p>            50,000.00</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="82">
+                                        <p>IDR</p>
+                                    </td>
+                                    <td width="169">
+                                        <p>Judi Online</p>
+                                    </td>
+                                    <td width="107">
+                                        <p>   200,000.00</p>
+                                    </td>
+                                    <td width="144">
+                                        <p>    200,000,000.00</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        <h3>Penarikan</h3>
+                        <h3>Bagaimana cara menarik dana dari akun permainan game saya?</h3>
+                        <p>Anda dapat melakukan penarikan melalui metode berikut:</p>
+                        <ul>
+                            <li>Perbankan Online</li>
+                            <li>Bank Lokal</li>
+                            <li>Metode lain</li>
+                        </ul>
+
+                        <ol>
+                            <li>
+                                Anda hanya dapat menarik dana dalam mata uang yang terdaftar saat ini dalam rekening taruhan Anda.
+                            </li>
+                            <li>
+                                Semua penarikan hanya dapat dilakukan sesuai dengan nama dan rincian yang terdaftar.
+                            </li>
+                            <li>
+                                Anda diwajibkan bertaruh sekurang-kurangnya 100% dari jumlah setoran sebelum Anda dapat mengajukan penarikan. Semua taruhan yang ditolak, digugurkan, draw dan tie, akan dikecualikan dalam penghitungan persyaratan omset (turnover). Jika ketentuan taruhan ini tidak dipenuhi, akan dikenakan biaya administrasi sebesar 20% untuk penarikan dana.
+                            </li>
+                            <li>
+                                Kami berhak meminta informasi lebih jauh yang berkenaan dengan rekening anggota, misalnya:                                <ul>
+                                    <li>
+                                        Salinan paspor Anda yang menampilkan foto dan nomor paspor; atau
+                                    </li>
+                                    <li>
+                                        Salinan surat izin mengemudi Anda yang menampilkan nomor izin mengemudi; atau
+                                    </li>
+                                    <li>
+                                        Salinan kartu ID foto yang dikeluarkan pemerintah, yang menampilkan foto dan nomor ID.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                Kami berhak memodifikasi modus atau metode pembayaran untuk permintaan penarikan dana Anda (dana keluar) atas kebijakan kami semata-mata dan mutlak, serta memotong sebagian atau semua biaya transfer dana yang timbul karenanya. Perusahaan akan memberitahu Pelanggan mengenai keputusannya melalui e-mail. Keputusan Perusahaan adalah final dan mengikat.
+                            </li>
+                        </ol>
+                        <table width="506">
+                            <tbody>
+                                <tr>
+                                    <td rowspan="4" width="119">
+                                        <p><strong>Penarikan</strong></p>
+                                    </td>
+                                    <td width="85">
+                                        <p><strong>Mata Uang</strong></p>
+                                    </td>
+                                    <td width="180">
+                                        <p><strong> MIN </strong></p>
+                                    </td>
+                                    <td width="123">
+                                        <p><strong> MAX </strong></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="85">
+                                        <p>MYR</p>
+                                    </td>
+                                    <td width="180">
+                                        <p>                    50.00</p>
+                                    </td>
+                                    <td width="123">
+                                        <p> Tidak Terbatas</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="85">
+                                        <p>THB</p>
+                                    </td>
+                                    <td width="180">
+                                        <p>                  500.00</p>
+                                    </td>
+                                    <td width="123">
+                                        <p> Tidak Terbatas</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="85">
+                                        <p>IDR</p>
+                                    </td>
+                                    <td width="180">
+                                        <p>            200,000.00</p>
+                                    </td>
+                                    <td width="123">
+                                        <p> Tidak Terbatas</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2020. Nova88. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
