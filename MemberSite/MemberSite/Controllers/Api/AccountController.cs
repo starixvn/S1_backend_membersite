@@ -424,13 +424,13 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                apiResult.Data.tpWallets = thirdPartyBLL.GetTpWallet(authData.CustId)?.Where(x => x.WalletType == 0);
+                apiResult.Data.tpWallets = thirdPartyBLL.GetTpWallet(authData.CustId);
                 if (apiResult.Data.tpWallets != null)
                 {
                     foreach(var tpWallet in apiResult.Data.tpWallets)
                     {
                         tpWallet.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{tpWallet.TpName}") ;
-                        if (tpWallet.WalletType == 0 && tpWallet.Transfer)
+                        if (tpWallet.Transfer)
                         {
                             tpWallet.Balance = await Get3rdBalanceAsync(tpWallet.TpId, authData.CustId);
                         }

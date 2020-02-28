@@ -90,21 +90,13 @@ import {number_format} from '../commJS/common';
                             </a>
                         </div>
                         {tpWallets}
-                    {/*<div className="wallet-info__item">
-                            <span className="text">Sportsbook</span>
-                            <span className="text-amount">9,975.40</span>
-                        </div>
-                        <div className="wallet-info__item">
-                            <span className="text">Gold Deluxe</span>
-                            <span className="text-amount">583,521.84</span>
-                        </div>*/}
                     </div>
                         {<div className="btn-group">
                             <a className="btn btn-secondary" href="/Cashier/Deposit">
-                                <span className="text">Cashier</span>
+                                <span className="text">{i18n.lbl_Deposit}</span>
                             </a>
-                            <a className="btn btn-secondary" href="#">
-                                    <span className="text">Transfer Funds</span>
+                            <a className="btn btn-secondary" href="/Cashier/Transfer">
+                                    <span className="text">{i18n.lbl_TransferFunds}</span>
                                 </a>
                         </div>}
                     <div className="login-info">

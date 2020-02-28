@@ -36,6 +36,10 @@ namespace MemberSite.Controllers
         {
             return View();
         }
+        public IActionResult Transfer()
+        {
+            return View();
+        }
 
         [HttpGet]
         public async Task<IActionResult> DepositReqOnlineBankingAsync(int sysId, int payId, int ChannelId, decimal Amount)

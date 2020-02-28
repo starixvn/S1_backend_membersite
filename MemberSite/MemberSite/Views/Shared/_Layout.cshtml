@@ -96,6 +96,13 @@
             i18n.Add("lbl_LastLogin", selLangBLL.GetResourceValue("lbl_LastLogin"));
             i18n.Add("lbl_ShowBalance", selLangBLL.GetResourceValue("lbl_ShowBalance"));
             i18n.Add("lbl_Currency", selLangBLL.GetResourceValue($"Currency_{CurrencyId}"));
+
+            string[] lbl_Txts = new string[] { "lbl_Deposit", "lbl_TransferFunds" };
+            foreach (var lbl_Txt in lbl_Txts)
+            {
+                if (!i18n.ContainsKey(lbl_Txt))
+                    i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
+            }
             @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
             @:var IsConvertRequired = @Newtonsoft.Json.JsonConvert.SerializeObject(custInfoBLL.IsConvertRequired(CurrencyId));
         }

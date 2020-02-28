@@ -98,9 +98,7 @@ namespace MemberSite.Service.Model
     {
         public int TpId { set; get; }
         public string TpName { set; get; }
-        public string TpUserName { set; get; }
         public decimal Balance { set; get; }
-        public int WalletType { set; get; }
         public bool Transfer { set; get; }
     }
 }
