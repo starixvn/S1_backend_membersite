@@ -1,5 +1,4 @@
 import {number_format} from '../commJS/common';
-
 (function ($, React, ReactDOM, i18n, axios, moment) {
 
     class WalletInfo extends React.Component {
@@ -109,7 +108,7 @@ import {number_format} from '../commJS/common';
                             <span className="text">{walletInfo != null && walletInfo.lastTransaction != null ? moment(walletInfo.lastTransaction).format('l LTS'):null}</span>
                         </div>
                     </div>
-                </div>                
+                </div>
             )
         }
     }

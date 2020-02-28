@@ -51,6 +51,9 @@ module.exports = {
 		],
     "js/component/Promotion/promotions.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/Promotion/promotions.jsx'
+		],
+    "js/component/cashier/TransferPanel.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/cashier/TransferPanel.jsx'
 		]},
   output: {
     path:  path.resolve(__dirname,'../MemberSite/MemberSite/wwwroot/'),

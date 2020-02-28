@@ -25,8 +25,10 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL selLangBLL;
         private readonly AuthorizeBLL authorizeBLL;
         private readonly string apiUrl;
+        private readonly ThirdPartyBLL thirdPartyBLL;
+        private readonly WalletBLL walletBLL;
 
-        public TpController(CourierAdapter courierAdapter, IConfiguration configuration, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL)
+        public TpController(CourierAdapter courierAdapter, IConfiguration configuration, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, ThirdPartyBLL thirdPartyBLL,WalletBLL walletBLL)
         {
             this.courierAdapter = courierAdapter;
             this.configuration = configuration;
@@ -34,6 +36,8 @@ namespace MemberSite.Controllers.Api
             this.selLangBLL = selLangBLL;
             this.authorizeBLL = authorizeBLL;
             apiUrl = configuration.GetValue<string>("TpService");
+            this.thirdPartyBLL = thirdPartyBLL;
+            this.walletBLL = walletBLL;
         }
 
         public class TpInfo
@@ -67,7 +71,7 @@ namespace MemberSite.Controllers.Api
                 inputs = input
             };
 
-            var data = await courierAdapter.MyPostAsync<bool, TpInfo> (myUrl, tpInfo);
+            var data = await courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
 
             ApiResult<bool> result = data;
             result.SetSelLang(selLangBLL);
@@ -105,8 +109,15 @@ namespace MemberSite.Controllers.Api
             ToMain = 2
         }
 
+        public class TpTransferReq
+        {
+            public int TpId { set; get; }
+            public decimal Amount { set; get; }
+            public TpDirection direction { set; get; }
+        }
+
         [HttpPost]
-        public async Task<ApiResult<TransferResult>> Transfer([FromBody]TpTransfer inTpTransfer)
+        public async Task<ApiResult<TransferResult>> Transfer([FromBody]TpTransferReq inTpTransfer)
         {
             var authData = authorizeBLL.GetAuthData();
             decimal amount = inTpTransfer.Amount;
@@ -130,8 +141,179 @@ namespace MemberSite.Controllers.Api
             var data = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
 
             ApiResult<TransferResult> result = data;
+            if (result.ErrorCode != 0 && string.IsNullOrEmpty(result.Message) && !string.IsNullOrEmpty(result.RawMessage))
+            {
+                result.Message = result.RawMessage;
+            }
             result.SetSelLang(selLangBLL);
+            return result;
+        }
 
+        [HttpPost]
+        public async Task<ApiResult<TransferResult>> RetrieveAll()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var tpWallets = thirdPartyBLL.GetTpWallet(authData.CustId);
+            ApiResult<TransferResult> result = new ApiResult<TransferResult>();
+
+            foreach (var tpWallet in tpWallets?.Where(x => x.Transfer))
+            {
+                var TpBalance = await GetBalance(tpWallet.TpId);
+                if (TpBalance.ErrorCode > 0)
+                {
+                    continue;
+                }
+                else if (TpBalance.Data.balance < 1)
+                {
+                    result.ErrorCode = 0;
+                    return result;
+                }
+
+                decimal amount = TpBalance.Data.balance;
+                if (amount.ToString().IndexOf(".") > -1)
+                {
+                    decimal.TryParse(amount.ToString("#.##"), out amount);
+                }
+                Dictionary<string, string> input = new Dictionary<string, string>();
+                input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
+                input.Add("ClientIP", tools.GetClientIP());
+
+                var tpTransfer = new TpTransfer
+                {
+                    TpId = tpWallet.TpId,
+                    CustId = authData.CustId,
+                    Amount = amount,
+                    direction = TpDirection.ToMain,
+                    inputs = input
+                };
+                var myUrl = $"{apiUrl}Transfer";
+                var data = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
+                result = data;
+            }
+
+            if (result.ErrorCode != 0 && string.IsNullOrEmpty(result.Message) && !string.IsNullOrEmpty(result.RawMessage))
+            {
+                result.Message = result.RawMessage;
+            }
+
+            result.SetSelLang(selLangBLL);
+            return result;
+        }
+
+        public class TpReq
+        {
+            public int TpId { set; get; }
+        }
+        [HttpPost]
+        public async Task<ApiResult<TransferResult>> AllTransferIn(TpReq tpReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var tpWallets = thirdPartyBLL.GetTpWallet(authData.CustId);
+            ApiResult<TransferResult> result = new ApiResult<TransferResult>();
+            var myUrl = $"{apiUrl}Transfer";
+
+            foreach (var tpWallet in tpWallets?.Where(x => x.Transfer && x.TpId != tpReq.TpId))
+            {
+                var TpBalance = await GetBalance(tpWallet.TpId);
+                if (TpBalance.ErrorCode > 0)
+                {
+                    continue;
+                }
+                else if (TpBalance.Data.balance < 1)
+                {
+                    result.ErrorCode = 0;
+                    continue;
+                }
+
+                decimal amount = TpBalance.Data.balance;
+                if (amount.ToString().IndexOf(".") > -1)
+                {
+                    decimal.TryParse(amount.ToString("#.##"), out amount);
+                }
+                Dictionary<string, string> input = new Dictionary<string, string>();
+                input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
+                input.Add("ClientIP", tools.GetClientIP());
+
+                var tpTransfer = new TpTransfer
+                {
+                    TpId = tpWallet.TpId,
+                    CustId = authData.CustId,
+                    Amount = amount,
+                    direction = TpDirection.ToMain,
+                    inputs = input
+                };
+
+                result = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
+            }
+
+            decimal amount1 = walletBLL.GetBalance(authData.CustId);
+            if (amount1.ToString().IndexOf(".") > -1)
+            {
+                decimal.TryParse(amount1.ToString("#.##"), out amount1);
+            }
+            Dictionary<string, string> input1 = new Dictionary<string, string>();
+            input1.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
+            input1.Add("ClientIP", tools.GetClientIP());
+
+            var tpTransfer1 = new TpTransfer
+            {
+                TpId = tpReq.TpId,
+                CustId = authData.CustId,
+                Amount = amount1,
+                direction = TpDirection.ToTp,
+                inputs = input1
+            };
+
+            result = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer1);
+
+            if (result.ErrorCode != 0 && string.IsNullOrEmpty(result.Message) && !string.IsNullOrEmpty(result.RawMessage))
+            {
+                result.Message = result.RawMessage;
+            }
+
+            result.SetSelLang(selLangBLL);
+            return result;
+        }
+        [HttpPost]
+        public async Task<ApiResult<TransferResult>> AllTransferOut(TpReq tpReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var tpWallets = thirdPartyBLL.GetTpWallet(authData.CustId);
+            ApiResult<TransferResult> result = new ApiResult<TransferResult>();
+            var TpBalance = await GetBalance(tpReq.TpId);
+            if (TpBalance.Data.balance < 1)
+            {
+                result.ErrorCode = 0;
+                return result;
+            }
+
+            decimal amount = TpBalance.Data.balance;
+            if (amount.ToString().IndexOf(".") > -1)
+            {
+                decimal.TryParse(amount.ToString("#.##"), out amount);
+            }
+            Dictionary<string, string> input = new Dictionary<string, string>();
+            input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
+            input.Add("ClientIP", tools.GetClientIP());
+
+            var tpTransfer = new TpTransfer
+            {
+                TpId = tpReq.TpId,
+                CustId = authData.CustId,
+                Amount = amount,
+                direction = TpDirection.ToMain,
+                inputs = input
+            };
+            var myUrl = $"{apiUrl}Transfer";
+            var data = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
+            result = data;
+
+            if (result.ErrorCode != 0 && string.IsNullOrEmpty(result.Message) && !string.IsNullOrEmpty(result.RawMessage))
+            {
+                result.Message = result.RawMessage;
+            }
+
+            result.SetSelLang(selLangBLL);
             return result;
         }
 
@@ -141,16 +323,14 @@ namespace MemberSite.Controllers.Api
             public decimal outstanding { get; set; }
             public byte Currency { get; set; }
         }
-
-        [HttpPost]
-        public async Task<ApiResult<UserBalance>> GetBalance([FromBody]TpInfo inInfo)
+        public async Task<ApiResult<UserBalance>> GetBalance(int tpId)
         {
             var authData = authorizeBLL.GetAuthData();
             Dictionary<string, string> input = new Dictionary<string, string>();
             var myUrl = $"{apiUrl}GetBalance";
             var oTpInfo = new TpInfo
             {
-                TpId = inInfo.TpId,
+                TpId = tpId,
                 CustId = authData.CustId,
                 inputs = input
             };
