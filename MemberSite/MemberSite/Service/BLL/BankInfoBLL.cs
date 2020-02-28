@@ -133,7 +133,7 @@ namespace MemberSite.Service.BLL
             var bankInfoPayList = GetOnlineBankList();
 
             var bankInfoList = (from x in bankInfoPayList
-                                where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.PayId == payId
+                                where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.PayId == payId && (x.Method == 0 || x.Method == 1)
                                 select new SysBankInfoFront
                                 {
                                     SysId = x.SysId,

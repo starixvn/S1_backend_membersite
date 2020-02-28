@@ -12,8 +12,10 @@ namespace MemberSite.Service.Model
         public string SysBankCode { get; set; }
         public string SysBankName { get; set; }
         public string BankLogo { get; set; }
+        public int Method { get; set; }
         public int PayId { get; set; }
         public string BankCode { get; set; }
+        public string BankPayoutCode { get; set; }
         public string BankName { get; set; }
         public int ChannelId { get; set; }
         public int Mode { get; set; }
