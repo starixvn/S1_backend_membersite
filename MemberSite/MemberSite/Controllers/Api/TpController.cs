@@ -144,8 +144,16 @@ namespace MemberSite.Controllers.Api
             ApiResult<TransferResult> result = data;
             if (result.ErrorCode != 0 && string.IsNullOrEmpty(result.Message) && !string.IsNullOrEmpty(result.RawMessage))
             {
-                result.Message = result.RawMessage;
+                if (result.RawErrorCode == "3")
+                    result.Message = selLangBLL.GetMsg("msg_InsufficientFund");
+                else
+                    result.Message = result.RawMessage;
             }
+            else if ( result.ErrorCode == 1201)
+            {
+                result.Message = selLangBLL.GetMsg("msg_InsufficientFund");
+            }
+
             result.SetSelLang(selLangBLL);
             return result;
         }
