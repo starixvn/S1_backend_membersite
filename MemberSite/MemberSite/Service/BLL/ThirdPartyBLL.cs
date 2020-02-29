@@ -16,7 +16,7 @@ namespace MemberSite.Service.BLL
         private readonly SelLangBLL selLangBLL;
         private readonly Tools tools;
         private ConcurrentDictionary<string, TpCurrency> TpCurrencyList;
-
+        private readonly ServerInfoBLL serverInfoBLL;
         Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
             {"1","soccer" },
             {"2","basketball" },
@@ -29,12 +29,13 @@ namespace MemberSite.Service.BLL
             {"161","numbergame" },
             {"180","virtualsports" }
         };
-        public ThirdPartyBLL(ThirdPartyService thirdPartyService, SelLangBLL selLangBLL, Tools tools)
+        public ThirdPartyBLL(ThirdPartyService thirdPartyService, SelLangBLL selLangBLL, Tools tools,ServerInfoBLL serverInfoBLL)
         {
             this.thirdPartyService = thirdPartyService;
             this.selLangBLL = selLangBLL;
             this.tools = tools;
             TpCurrencyList = new ConcurrentDictionary<string, TpCurrency>();
+            this.serverInfoBLL = serverInfoBLL;
         }
 
         public string GetTpLanId(int tpId)
@@ -42,14 +43,14 @@ namespace MemberSite.Service.BLL
             return thirdPartyService.GetTpLanId(tpId, selLangBLL.GetLangId());
         }
 
-        public ThirdPartyModel GetThirdPartyModel(int tpId)
+        public ThirdPartyModel GetThirdPartyModel(int tpId, int siteId)
         {
-            return thirdPartyService.GetThirdPartyModel(tpId);
+            return thirdPartyService.GetThirdPartyBySite(tpId, siteId);
         }
 
         public string getEntryUrl(int tpId, Dictionary<string, string> parameters)
         {
-            Dictionary<string, string> inputs = JsonConvert.DeserializeObject<Dictionary<string, string>>(thirdPartyService.GetThirdPartyModel(tpId).Setting);
+            Dictionary<string, string> inputs = JsonConvert.DeserializeObject<Dictionary<string, string>>(thirdPartyService.GetThirdPartyBySite(tpId, serverInfoBLL.GetServerInfo().SiteId).Setting);
             string urlKey = "DesktopBfUrl";
             if (tools.IsMobile())
             {

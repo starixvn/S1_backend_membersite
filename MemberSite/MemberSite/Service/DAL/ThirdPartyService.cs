@@ -15,7 +15,7 @@ namespace MemberSite.Service.DAL
     public class ThirdPartyService
     {
         //private static ConcurrentDictionary<int, IThirdPartyHelper> ThirdPartyHelperContainer = new ConcurrentDictionary<int, IThirdPartyHelper>();
-        private static ConcurrentDictionary<int, ThirdPartyModel> ThirdPartyModelContainer = new ConcurrentDictionary<int, ThirdPartyModel>();
+        private static ConcurrentDictionary<string, ThirdPartyModel> ThirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
         private readonly IWebHostEnvironment environment;
         private readonly IConfiguration configuration;
 
@@ -25,19 +25,19 @@ namespace MemberSite.Service.DAL
             this.configuration = configuration;
         }
 
-        public ThirdPartyModel GetThirdPartyModel(int tpId)
+        public ThirdPartyModel GetThirdPartyBySite(int tpId, int siteId)
         {
-            if (!ThirdPartyModelContainer.ContainsKey(tpId))
+            string sKet = $"{tpId}_{siteId}";
+            if (!ThirdPartyModelContainer.ContainsKey(sKet))
             {
-                using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-                var thirdPartyModel = conn.QueryFirstOrDefault<ThirdPartyModel>("Tp_Get", new { TpId = tpId }, commandType: CommandType.StoredProcedure);
+                using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+                var thirdPartyModel = conn.QueryFirstOrDefault<ThirdPartyModel>("Common_Tp_Get", new { TpId = tpId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
                 if (thirdPartyModel != null)
-                    ThirdPartyModelContainer.TryAdd(tpId, thirdPartyModel);
+                    ThirdPartyModelContainer.TryAdd(sKet, thirdPartyModel);
             }
 
-            return ThirdPartyModelContainer.ContainsKey(tpId) ? ThirdPartyModelContainer[tpId] : null;
+            return ThirdPartyModelContainer.ContainsKey(sKet) ? ThirdPartyModelContainer[sKet] : null;
         }
-
         /*public IThirdPartyHelper GetThirdPartyHelper(int tpId)
         {
             if (!ThirdPartyHelperContainer.ContainsKey(tpId))
