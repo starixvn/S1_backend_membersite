@@ -1334,7 +1334,7 @@
     <value>Main Wallet</value>
   </data>
   <data name="lbl_Wallet_Saba" xml:space="preserve">
-    <value>Sports Wallet (Include OneRNG, PP, Allbet)</value>
+    <value>Sports Wallet</value>
   </data>
   <data name="lbl_Balance" xml:space="preserve">
     <value>Balance</value>

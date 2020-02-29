@@ -12,6 +12,12 @@ namespace MemberSite.Service.Model
         public string Language { set; get; }
     }
 
+    public class Site
+    {
+        public int SiteId { set; get; }
+        public string Domain { set; get; }
+    }
+
     public class Country
     {
         public string Code { set; get; }
