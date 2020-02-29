@@ -13,13 +13,21 @@
     //var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
 }
 @{
-    var i18n = new Dictionary<string, string>();
-    string[] lbl_Txts = new string[] { "lbl_RealName", "lbl_RemindForName" };
-    foreach (var lbl_Txt in lbl_Txts)
-    {
-        if (!i18n.ContainsKey(lbl_Txt))
-            i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
-    }
+
+    Dictionary<string, string> i18n = new Dictionary<string, string>();
+    i18n.Add("lbl_TransferFrom", selLangBLL.GetResourceValue("lbl_TransferFrom"));
+    i18n.Add("lbl_TransferTo", selLangBLL.GetResourceValue("lbl_TransferTo"));
+    i18n.Add("lbl_MaxAmount", selLangBLL.GetResourceValue("lbl_MaxAmount"));
+    i18n.Add("lbl_TransferFunds", selLangBLL.GetResourceValue("lbl_TransferFunds"));
+    i18n.Add("lbl_MainWallet", selLangBLL.GetResourceValue("lbl_MainWallet"));
+    i18n.Add("lbl_OtherWallet", selLangBLL.GetResourceValue("lbl_OtherWallet"));
+    i18n.Add("lbl_Balance", selLangBLL.GetResourceValue("lbl_Balance"));
+    i18n.Add("lbl_RetriveAllIn", selLangBLL.GetResourceValue("lbl_RetriveAllIn"));
+    i18n.Add("lbl_Amount", selLangBLL.GetResourceValue("lbl_Amount"));
+    i18n.Add("lbl_TransferIn", selLangBLL.GetResourceValue("lbl_TransferIn"));
+    i18n.Add("lbl_TransferOut", selLangBLL.GetResourceValue("lbl_TransferOut"));
+    i18n.Add("lbl_SabaWalletHint", selLangBLL.GetResourceValue("lbl_SabaWalletHint"));
+
 }
 
 @section Style{
@@ -46,9 +54,7 @@
             <div class="heading">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
             </div>
-            <div id="TransferPanel">
-  
-            </div>
+            <div id="TransferPanel"></div>
         </div>
     </div>
 }

@@ -31,7 +31,8 @@ namespace MemberSite.Service.BLL
 
         public WalletInfo GetWalletInfo(int custId)
         {
-            var serverInfo = serverInfoService.GetModel();
+            // edd
+            var serverInfo = serverInfoService.GetModel(1);
             return walletService.GetWalletInfo(custId, serverInfo.SiteId);
         }
     }

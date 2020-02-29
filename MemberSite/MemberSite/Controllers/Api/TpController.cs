@@ -98,6 +98,7 @@ namespace MemberSite.Controllers.Api
         {
             public int TpId { set; get; }
             public int CustId { set; get; }
+            public string Description { set; get; }
             public decimal Amount { set; get; }
             public TpDirection direction { set; get; }
             public Dictionary<string, string> inputs { set; get; }
@@ -181,6 +182,7 @@ namespace MemberSite.Controllers.Api
                 var tpTransfer = new TpTransfer
                 {
                     TpId = tpWallet.TpId,
+                    Description = tpWallet.Description,
                     CustId = authData.CustId,
                     Amount = amount,
                     direction = TpDirection.ToMain,
@@ -247,7 +249,12 @@ namespace MemberSite.Controllers.Api
             }
 
             decimal amount1 = walletBLL.GetBalance(authData.CustId);
-            if (amount1.ToString().IndexOf(".") > -1)
+            if (amount1 <= 0)
+            {
+                result.ErrorCode = 0;
+                return result;
+            }
+            else if (amount1.ToString().IndexOf(".") > -1)
             {
                 decimal.TryParse(amount1.ToString("#.##"), out amount1);
             }
@@ -288,7 +295,12 @@ namespace MemberSite.Controllers.Api
             }
 
             decimal amount = TpBalance.Data.balance;
-            if (amount.ToString().IndexOf(".") > -1)
+            if(amount <= 0)
+            {
+                result.ErrorCode = 0;
+                return result;
+            }
+            else if (amount.ToString().IndexOf(".") > -1)
             {
                 decimal.TryParse(amount.ToString("#.##"), out amount);
             }

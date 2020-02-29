@@ -32,20 +32,20 @@ import {number_format} from '../commJS/common';
                 }
 
                 return <div className="tr" key={index}>
-                    <div className="td-date" data-title="Date" role="mobile-click">
+                    <div className="td-date" data-title={i18n.lbl_Date} role="mobile-click">
                         <span className="text">{dateMonent.format('l')} ({dateMonent.format('Z')})</span>
                         <i className="icon icon-caret"></i>
                     </div>
-                    <div className="td-time" data-title="Time">
+                    <div className="td-time" data-title={i18n.lbl_Time}>
                         <span className="text">{dateMonent.format("hh:mm:ss A")}</span>
                     </div>
-                    <div className="td-id" data-title="ID">
+                    <div className="td-id" data-title={i18n.lbl_Time}>
                         <span className="text">{item.transId}</span>
                     </div>
-                    <div className="td-amount" data-title="Amount">
+                    <div className="td-amount" data-title={i18n.lbl_Amount}>
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
                     </div>
-                    <div className="td-status" data-title="Status">
+                    <div className="td-status" data-title={i18n.lbl_Status}>
                         {statusGroup}
                         {btnGroup}
                     </div>
@@ -114,19 +114,19 @@ import {number_format} from '../commJS/common';
                     </div>
                     <div className="thead" role="desktop-only">
                         <div className="tr">
-                            <div className="td-date" data-title="Date">
+                            <div className="td-date" data-title={i18n.lbl_Date}>
                                 <span className=" text">{i18n.lbl_Date}</span>
                             </div>
-                            <div className="td-time" data-title="Time">
+                            <div className="td-time" data-title={i18n.lbl_Time}>
                                 <span className=" text">{i18n.lbl_Time}</span>
                             </div>
-                            <div className="td-id" data-title="ID">
+                            <div className="td-id" data-title={i18n.lbl_ID}>
                                 <span className=" text">{i18n.lbl_ID}</span>
                             </div>
-                            <div className="td-amount" data-title="Amount">
+                            <div className="td-amount" data-title={i18n.lbl_Amount}>
                                 <span className=" text">{i18n.lbl_Amount}</span>
                             </div>
-                            <div className="td-status" data-title="Status">
+                            <div className="td-status" data-title={i18n.lbl_Status}>
                                 <span className=" text">{i18n.lbl_Status}</span>
                             </div>
                         </div>
@@ -440,10 +440,12 @@ import {number_format} from '../commJS/common';
                 tpWallets = <div className="tbody">{WalletInfo.tpWallets.map(function( item ,index ) { 
                     data.push({Text:item.tpName,Value:item.tpId});
                     return <div className="tr" key={item.tpId}>
-                            <div className="td-Secondary-wallet" data-title="Secondary wallet">
+                            <div className="td-Secondary-wallet" data-title={i18n.lbl_OtherWallet}>
                                 <span className="text">{item.tpName}</span>
+                                <br />
+                                <span className="text">{item.description}</span>
                             </div>
-                            <div className="td-Balance" data-title="Balance">
+                            <div className="td-Balance" data-title={i18n.lbl_Balance}>
                                 <span className="text">{number_format(item.balance)}</span>
                                 <a className="btn btn-icon" data-refresh={this.state.refresh} onClick={!this.state.refresh ? this.getWalletInfo.bind(this):null}>
                                     <i className="icon icon-refresh"></i>
@@ -461,12 +463,12 @@ import {number_format} from '../commJS/common';
                                 <div className="btn-group">
                                     <button className="btn btn-highlight" type="button" onClick={this.onAllTransferOut.bind(this,item.tpId)}>
                                         <div className="btn__inner">
-                                            <span className="text">Transfer Out</span>
+                                            <span className="text">{i18n.lbl_TransferOut}</span>
                                         </div>
                                     </button>
                                     <button className="btn btn-secondary" type="button" onClick={this.onAllTransferIn.bind(this,item.tpId)}>
                                         <div className="btn__inner">
-                                            <span className="text">Transfer To</span>
+                                            <span className="text">{i18n.lbl_TransferIn}</span>
                                         </div>
                                     </button>
                                 </div>
@@ -481,19 +483,19 @@ import {number_format} from '../commJS/common';
             <div>
                 <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                     <div className="form-group">
-                        <label className="form-title">Transfer out of wallet</label>
+                        <label className="form-title">{i18n.lbl_TransferTo}</label>
                         <div className="form-content">
                             <DropdownList Data={data} Value={this.state.From} onSelect={this.onSelectFrom.bind(this)}/>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="form-title">Transfer to wallet</label>
+                        <label className="form-title">{i18n.lbl_TransferFrom}</label>
                         <div className="form-content">
                             <DropdownList Data={data} Value={this.state.To} onSelect={this.onSelectTo.bind(this)}/>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="form-title">Transfer amount</label>
+                        <label className="form-title">{i18n.lbl_Amount}</label>
                         <div className="form-content" data-status="valid">
                             <div className="textfield">
                                 <input type="number" className="textfield__input" pattern="[0-9]*" value={this.state.Amount} onChange={this.handleChange.bind(this)}/>
@@ -505,12 +507,12 @@ import {number_format} from '../commJS/common';
                     <div className="btn-group">
                         <button className="btn btn-secondary dropdown-highlight" type="button" onClick={this.setHighestValue.bind(this)}>
                             <div className="btn__inner">
-                                <span className="text">Highest Value</span>
+                                <span className="text">{i18n.lbl_MaxAmount}</span>
                             </div>
                         </button>
                         <button className="btn btn-secondary" type="submit">
                             <div className="btn__inner">
-                                <span className="text">Transfer</span>
+                                <span className="text">{i18n.lbl_TransferFunds}</span>
                             </div>
                         </button>
                     </div>
@@ -518,23 +520,23 @@ import {number_format} from '../commJS/common';
                 <div className="table table-rwd table-primary">
                     <div className="thead" role="desktop-only">
                         <div className="tr">
-                            <div className="td-Main-wallet" data-title="Main wallet">
-                                <span className="text">Main wallet</span>
+                            <div className="td-Main-wallet" data-title={i18n.lbl_MainWallet}>
+                                <span className="text">{i18n.lbl_MainWallet}</span>
                             </div>
-                            <div className="td-Balance" data-title="Balance">
-                                <span className="text">Balance</span>
+                            <div className="td-Balance" data-title={i18n.lbl_Balance}>
+                                <span className="text">{i18n.lbl_Balance}</span>
                             </div>
-                            <div className="td-status" data-title="Retrieve">
-                                <span className="text">Retrieve</span>
+                            <div className="td-status" data-title={i18n.lbl_RetriveAllIn}>
+                                <span className="text">{i18n.lbl_RetriveAllIn}</span>
                             </div>
                         </div>
                     </div>
                     <div className="tbody">
                         <div className="tr">
-                            <div className="td-Main-wallet" data-title="Main wallet">
+                            <div className="td-Main-wallet" data-title={i18n.lbl_MainWallet}>
                                 <span className="text">{SiteName}</span>
                             </div>
-                            <div className="td-Balance" data-title="Balance">
+                            <div className="td-Balance" data-title={i18n.lbl_Balance}>
                                 <span className="text">{WalletInfo&&number_format(WalletInfo.balance.toFixed(2))}</span>
                                 <a className="btn btn-icon" data-refresh={this.state.refresh} onClick={!this.state.refresh ? this.getWalletInfo.bind(this):null}>
                                     <i className="icon icon-refresh"></i>
@@ -552,7 +554,7 @@ import {number_format} from '../commJS/common';
                                 <div className="btn-group">
                                     <button className="btn btn btn-primary" onClick={this.onRetrieveAll.bind(this)}>
                                         <div className="btn__inner">
-                                            <span className="text">Retrieve all</span>
+                                            <span className="text">{i18n.lbl_TransferIn}</span>
                                         </div>
                                     </button>
                                 </div>
@@ -563,14 +565,14 @@ import {number_format} from '../commJS/common';
                 <div className="table table-rwd table-primary2">
                     <div className="thead" role="desktop-only">
                         <div className="tr">
-                            <div className="td-Secondary-wallet" data-title="Secondary wallet">
-                                <span className="text">Secondary wallet</span>
+                            <div className="td-Secondary-wallet" data-title={i18n.lbl_OtherWallet}>
+                                <span className="text">{i18n.lbl_OtherWallet}</span>
                             </div>
-                            <div className="td-Balance" data-title="Balance">
-                                <span className="text">Balance</span>
+                            <div className="td-Balance" data-title={i18n.lbl_Balance}>
+                                <span className="text">{i18n.lbl_Balance}</span>
                             </div>
-                            <div className="td-status" data-title="Transfer all">
-                                <span className="text">Transfer all</span>
+                            <div className="td-status" data-title={i18n.lbl_RetriveAllIn}>
+                                <span className="text">{i18n.lbl_RetriveAllIn}</span>
                             </div>
                         </div>
                     </div>

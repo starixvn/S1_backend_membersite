@@ -72,7 +72,7 @@ namespace MemberSite.Controllers
             return System.Globalization.CultureInfo.CurrentCulture.DisplayName;*/
             //System.Globalization.CultureInfo.GetCultureInfo
             int currencyId = 51;
-            var serverInfo = serverInfoService.GetModel();
+            var serverInfo = serverInfoService.GetModel(1);
 
             Customer customer = new Customer();
             customer.UserName = "scott010812";

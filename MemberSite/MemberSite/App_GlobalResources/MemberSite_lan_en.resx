@@ -1313,16 +1313,16 @@
     <value>Game List</value>
   </data>
   <data name="lbl_AGCasino" xml:space="preserve">
-    <value>Asia Gaming</value>
+    <value>Phoenix Suite</value>
   </data>
   <data name="lbl_AllbetCasino" xml:space="preserve">
-    <value>Allbet</value>
+    <value>Platinum Suite</value>
   </data>
   <data name="lbl_ComingSoon" xml:space="preserve">
     <value>Coming Soon</value>
   </data>
   <data name="lbl_SACasino" xml:space="preserve">
-    <value>SA Gaming</value>
+    <value>Athena Suite</value>
   </data>
   <data name="lbl_Days" xml:space="preserve">
     <value>days</value>
@@ -1334,6 +1334,45 @@
     <value>Main Wallet</value>
   </data>
   <data name="lbl_Wallet_Saba" xml:space="preserve">
-    <value>Sports Wallet</value>
+    <value>Sports Wallet (Include OneRNG, PP, Allbet)</value>
+  </data>
+  <data name="lbl_Balance" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="lbl_DepositHistory" xml:space="preserve">
+    <value>Deposit History</value>
+  </data>
+  <data name="lbl_DreamGaming" xml:space="preserve">
+    <value>Crystal Suite</value>
+  </data>
+  <data name="lbl_MaxAmount" xml:space="preserve">
+    <value>Max Amount</value>
+  </data>
+  <data name="lbl_OtherWallet" xml:space="preserve">
+    <value>Other Wallet</value>
+  </data>
+  <data name="lbl_RetriveAllIn" xml:space="preserve">
+    <value>Retrive All in</value>
+  </data>
+  <data name="lbl_TransferAll" xml:space="preserve">
+    <value>Transfer To Main Wallet</value>
+  </data>
+  <data name="lbl_TransferFrom" xml:space="preserve">
+    <value>Transfer From</value>
+  </data>
+  <data name="lbl_TransferHistory" xml:space="preserve">
+    <value>Transfer History</value>
+  </data>
+  <data name="lbl_TransferIn" xml:space="preserve">
+    <value>Fund In</value>
+  </data>
+  <data name="lbl_TransferOut" xml:space="preserve">
+    <value>Transfer out </value>
+  </data>
+  <data name="lbl_WalletDescription_Saba" xml:space="preserve">
+    <value>Include OneRNG, PP and Platinum Suite</value>
+  </data>
+  <data name="lbl_WithdrawalHistory" xml:space="preserve">
+    <value>Withdrawal History</value>
   </data>
 </root>

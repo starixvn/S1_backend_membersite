@@ -1311,4 +1311,46 @@
   <data name="lbl_Hours" xml:space="preserve">
     <value>小時</value>
   </data>
+  <data name="lbl_Balance" xml:space="preserve">
+    <value>餘額</value>
+  </data>
+  <data name="lbl_DepositHistory" xml:space="preserve">
+    <value>存款歷史記錄</value>
+  </data>
+  <data name="lbl_MainWallet" xml:space="preserve">
+    <value>中心錢包</value>
+  </data>
+  <data name="lbl_MaxAmount" xml:space="preserve">
+    <value>總金額</value>
+  </data>
+  <data name="lbl_OtherWallet" xml:space="preserve">
+    <value>其他錢包</value>
+  </data>
+  <data name="lbl_RetriveAllIn" xml:space="preserve">
+    <value>一鍵轉入</value>
+  </data>
+  <data name="lbl_TransferAll" xml:space="preserve">
+    <value>轉入中心錢包</value>
+  </data>
+  <data name="lbl_TransferFrom" xml:space="preserve">
+    <value>轉帳從</value>
+  </data>
+  <data name="lbl_TransferHistory" xml:space="preserve">
+    <value>轉帳歷史記錄</value>
+  </data>
+  <data name="lbl_TransferIn" xml:space="preserve">
+    <value>資金轉入</value>
+  </data>
+  <data name="lbl_TransferOut" xml:space="preserve">
+    <value>資金轉出</value>
+  </data>
+  <data name="lbl_WalletDescription_Saba" xml:space="preserve">
+    <value>包含 OneRNG, PP 和 Platinum Suite</value>
+  </data>
+  <data name="lbl_Wallet_Saba" xml:space="preserve">
+    <value>體育錢包</value>
+  </data>
+  <data name="lbl_WithdrawalHistory" xml:space="preserve">
+    <value>提款歷史記錄</value>
+  </data>
 </root>
