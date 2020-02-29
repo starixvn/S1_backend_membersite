@@ -33,10 +33,10 @@ namespace MemberSite.Service.DAL
             return conn.Query<Country>("Common_CountryList_Get", commandType: CommandType.StoredProcedure);
         }
 
-        public string GetSite(string domain)
+        public int GetSite(string domain)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<string>("Common_SiteId_Get", new {Domain = domain}, commandType: CommandType.StoredProcedure).FirstOrDefault();
+            return conn.QueryFirstOrDefault<int>("Member_SiteId_Get", new { Domain = domain }, commandType: CommandType.StoredProcedure);
         }
     }
 }
