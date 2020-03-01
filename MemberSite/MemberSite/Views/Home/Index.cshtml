@@ -384,7 +384,7 @@
             var balance = 0m;
             if (customer.ActStatus == 2)
             {
-                balance = mainWalletType == 1 ? walletBLL.GetBalance(custId) : await Get3rdBalanceAsync(1, custId);
+                balance = walletBLL.GetBalance(custId) + await Get3rdBalanceAsync(1, custId);
                 if (custInfoBLL.IsConvertRequired(CurrencyId))
                 {
                     balance /= 1000;
