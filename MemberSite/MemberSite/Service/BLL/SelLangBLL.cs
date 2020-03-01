@@ -190,7 +190,29 @@ namespace MemberSite.Service.BLL
         }
         public string GetResourceValue(string key)
         {
-            string labelString = GetResourceValue(key, "MemberSite_lan", GetLangId());
+            string labelString = "";
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            if (serverInfo.SiteId == 1)
+            {
+                labelString = GetResourceValue(key, "MemberSite_lan", GetLangId());
+            }
+            else
+            {
+                try
+                {
+                    labelString = GetResourceValue(key, $"{serverInfo.SiteName}_lan", GetLangId());
+                }
+                catch (Exception ex)
+                {
+                    
+                }
+
+                if (string.IsNullOrEmpty(labelString))
+                {
+                    labelString = GetResourceValue(key, "MemberSite_lan", GetLangId());
+                }
+            }
+            //
 
             return labelString;
         }
