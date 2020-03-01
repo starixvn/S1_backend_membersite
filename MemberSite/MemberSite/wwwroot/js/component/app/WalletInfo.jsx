@@ -1,5 +1,5 @@
 import {number_format} from '../commJS/common';
-(function ($, React, ReactDOM, i18n, axios, moment) {
+(function ($, React, ReactDOM, i18n, axios, moment, window) {
 
     class WalletInfo extends React.Component {
         //data-status="error" 1.info, 2.error,3.valid
@@ -15,13 +15,7 @@ import {number_format} from '../commJS/common';
                 function(response) {
                     var result = response.data;
                     if (result.errorCode != null && result.errorCode == 0) {
-                        this.setState({ refresh: false, WalletInfo: result.data}, function() {
-                            let balance = i18n.lbl_Currency;
-                            if(!result.data.isHideBalance){
-                                balance = balance + ' ' +number_format(result.data.balance.toFixed(2));
-                            }
-                            $(".WalletInfo").html(balance);
-                        });
+                        this.setWalletInfo(result.data);
                     } else {
                         this.setState({ refresh: false});
                     }
@@ -30,6 +24,16 @@ import {number_format} from '../commJS/common';
                 alert(error);
                 this.setState({ refresh: false});      
             }.bind(this));
+        }
+
+        setWalletInfo(walletInfo) {
+            this.setState({ refresh: false, WalletInfo: walletInfo}, function() {
+                let balance = i18n.lbl_Currency;
+                if(!walletInfo.isHideBalance){
+                    balance = balance + ' ' +number_format(walletInfo.balance.toFixed(2));
+                }
+                $(".WalletInfo").html(balance);
+            });
         }
 
         componentDidMount() {
@@ -112,7 +116,9 @@ import {number_format} from '../commJS/common';
             )
         }
     }
-    let _walletInfo = <WalletInfo/>;
-    ReactDOM.render(_walletInfo, document.getElementById('Top_WalletInfo'));
+    let _walletInfo = ReactDOM.render(<WalletInfo/>, document.getElementById('Top_WalletInfo'));
+    window.setWalletInfo = _walletInfo.setWalletInfo.bind(_walletInfo);
+    //exports["setWalletInfo"] = _walletInfo.setWalletInfo;
+    //console.log(_walletInfo.setWalletInfo);
     
-    })(jQuery, React, ReactDOM, i18n, axios, moment);
+    })(jQuery, React, ReactDOM, i18n, axios, moment, window);

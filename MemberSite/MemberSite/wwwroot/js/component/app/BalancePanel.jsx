@@ -16,7 +16,9 @@ import {number_format} from '../commJS/common';
                 function(response) {
                     var result = response.data;
                     if (result.errorCode != null && result.errorCode == 0) {
-                        this.setState({ refresh: false, amount: number_format(result.data.toFixed(2))});
+                        this.setState({ refresh: false, amount: number_format(result.data.toFixed(2))},function(){
+                            $(".Js-Balance").html(number_format(result.data.toFixed(2)));
+                        });
                     } else {
                         this.setState({ refresh: false});
                     }
@@ -37,7 +39,7 @@ import {number_format} from '../commJS/common';
             return (
                 <div className="account-info__row">
                     <span className="account-info__currency">{i18n.lbl_Currency}</span>
-                    <span className="account-info__amount">{amount}</span>
+                    <span className="account-info__amount Js-Balance">{amount}</span>
                     <button className="btn btn-icon" data-refresh={this.state.refresh} onClick={this.state.refresh?null:this.getUserBalance.bind(this)}>
                         <i className="icon icon-refresh"></i>
                         <div className="preloader">

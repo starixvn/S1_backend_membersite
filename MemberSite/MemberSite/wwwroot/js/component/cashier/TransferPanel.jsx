@@ -221,6 +221,7 @@ import {number_format} from '../commJS/common';
 
         componentDidMount() {
             //this.getWithdrawalAvailableBalance();
+            console.log(setWalletInfo);
             this.getWalletInfo();
         }
 
@@ -232,7 +233,11 @@ import {number_format} from '../commJS/common';
                     var result = response.data;
                     if (result.errorCode != null && result.errorCode == 0) {
                         this.setState({ refresh: false, WalletInfo: result.data}, function() {
+                            if(setWalletInfo!=null){
+                                setWalletInfo(result.data);
+                            }
                             
+                            $(".Js-Balance").html(number_format(result.data.balance));
                         });
                     } else {
                         this.setState({ refresh: false});
@@ -461,11 +466,11 @@ import {number_format} from '../commJS/common';
                             </div>
                             <div className="td-status">
                                 <div className="btn-group">
-                                    <button className="btn btn-highlight" type="button" onClick={this.onAllTransferOut.bind(this,item.tpId)}>
+                                    {/*<button className="btn btn-highlight" type="button" onClick={this.onAllTransferOut.bind(this,item.tpId)}>
                                         <div className="btn__inner">
                                             <span className="text">{i18n.lbl_TransferOut}</span>
                                         </div>
-                                    </button>
+                                    </button>*/}
                                     <button className="btn btn-secondary" type="button" onClick={this.onAllTransferIn.bind(this,item.tpId)}>
                                         <div className="btn__inner">
                                             <span className="text">{i18n.lbl_TransferIn}</span>
