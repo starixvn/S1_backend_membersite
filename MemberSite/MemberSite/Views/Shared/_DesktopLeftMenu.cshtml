@@ -40,6 +40,8 @@
 }
 @{
 
+    string SelectAction = ViewContext.RouteData.Values["action"].ToString();
+    string SelectController = ViewContext.RouteData.Values["controller"].ToString();
 
 }
 
@@ -75,58 +77,63 @@
                 <i class="icon icon-caret"></i>
             </a>
             <div class="page-nav__submenu">
-                <div class="page-nav__subitem">
+                <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("Deposit", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Cashier", StringComparison.OrdinalIgnoreCase))?"true":"false")>
                     <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
                     </a>
                 </div>
-                <div class="page-nav__subitem">
+                <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("Transfer", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Cashier", StringComparison.OrdinalIgnoreCase))?"true":"false")>
+                    <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
+                    </a>
+                </div>
+                <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("Withdrawal", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Cashier", StringComparison.OrdinalIgnoreCase))?"true":"false")>
                     <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
                     </a>
                 </div>
-                <div class="page-nav__subitem">
-                    <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_TransactionHistory")</span>
-                    </a>
+            </div>
+            <div class="page-nav__item has-submenu" data-open="true">
+                <a class="page-nav__btn">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_TransactionHistory")</span>
+                    <i class="icon icon-caret"></i>
+                </a>
+                <div class="page-nav__submenu">
+                    <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("Deposit", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("History", StringComparison.OrdinalIgnoreCase))?"true":"false")>
+                        <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_DepositHistory")</span>
+                        </a>
+                    </div>
+                    <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("Transfer", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("History", StringComparison.OrdinalIgnoreCase))?"true":"false")>
+                        <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "History", LangId = selLangBLL.GetLangId() })">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_TransferHistory")</span>
+                        </a>
+                    </div>
+                    <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("Withdrawal", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("History", StringComparison.OrdinalIgnoreCase))?"true":"false")>
+                        <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_WithdrawalHistory")</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-        @*<div class="page-nav__item has-submenu">*@
-        @*<a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action="Deposit" , controller="History" , LangId=selLangBLL.GetLangId() })">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_TransactionHistory")</span>
-                <i class="icon icon-caret"></i>
-            </a>*@
-        @*<div class="page-nav__submenu">
-            <div class="page-nav__subitem">
-                <a class="page-nav__btn" href="DepositWithdrawal_History.html">
-                    <span class="text">Deposit / Withdrawal</span>
-                </a>
-            </div>*@
-        @*<div class="page-nav__subitem">
-                <a class="page-nav__btn" href="TransferFunds_History.html">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
-                </a>
-            </div>*@
-        @*</div>
-            </div>*@
         <div class="page-nav__item has-submenu" data-open="true">
             <a class="page-nav__btn">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_MyAccount")</span>
                 <i class="icon icon-caret"></i>
             </a>
             <div class="page-nav__submenu">
-                <div class="page-nav__subitem">
+                <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("ChangePwd", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Account", StringComparison.OrdinalIgnoreCase))?"true":"false")>
                     <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "ChangePwd", controller = "Account", LangId = selLangBLL.GetLangId() })">
                         <span class="text">@selLangBLL.GetResourceValue("lbl_ChangePassword")</span>
                     </a>
                 </div>
-                <div class="page-nav__subitem">
+                <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("Profile", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Account", StringComparison.OrdinalIgnoreCase))?"true":"false")>
                     <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Profile")</span>
                     </a>
                 </div>
-                <div class="page-nav__subitem">
+                <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("CustBankInfo", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Account", StringComparison.OrdinalIgnoreCase))?"true":"false")>
                     <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
                         <span class="text">@selLangBLL.GetResourceValue("lbl_BankInfo")</span>
                     </a>
