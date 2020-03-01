@@ -19,9 +19,11 @@
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
     var SkinImgPath = $"{SkinRootPath}/images";
     var CmsPromotionPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Promotion/{selLangBLL.GetLangId()}");
+    var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
+
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
+    
     int CurrencyId = 0;
     int promotionCnt = 0;
     int mainWalletType = configuration.GetValue<int>("MainWalletType");

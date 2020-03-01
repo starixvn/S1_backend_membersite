@@ -11,9 +11,9 @@
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@{
+
     var serverInfo = serverInfoBLL.GetServerInfo();
+    var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
     int CurrencyId = 0;
     long ExpiryTime = 0;
     Promotion promotion = null;
@@ -206,7 +206,7 @@
                             </li>
                             <li>@serverInfo.SiteName 有权随时中止或取消本优惠。</li>
                             <li>@serverInfo.SiteName 保留对本优惠的最终解释权。</li>
-                            <li>@serverInfo.SiteName <a class="text-link" href="~/SiteSkin/Nova88/Static/cs/Promotion.html" target="_blank">标准规则和条款</a>适用。</li>
+                            <li>@serverInfo.SiteName <a class="text-link" href="@StaticRootPath/Promotion.html" target="_blank">标准规则和条款</a>适用。</li>
                         </ol>
                     </article>
                 </div>

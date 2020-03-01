@@ -858,6 +858,9 @@
   <data name="lbl_Facebook" xml:space="preserve">
     <value>Facebook</value>
   </data>
+  <data name="lbl_FacebookAccount" xml:space="preserve">
+    <value>nova88official</value>
+  </data>
   <data name="lbl_FAQ" xml:space="preserve">
     <value>Hỏi đáp</value>
   </data>
@@ -1187,6 +1190,9 @@
   </data>
   <data name="lbl_Twitter" xml:space="preserve">
     <value>Twitter</value>
+  </data>
+  <data name="lbl_TwitterAccount" xml:space="preserve">
+    <value>nova88official</value>
   </data>
   <data name="lbl_TwitterCreator" xml:space="preserve">
     <value>@Nova88official</value>

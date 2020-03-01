@@ -5,6 +5,7 @@
 @inject Tools tools
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
+    var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
 }
 @functions{
     string GetEntPageUrl(int tpId, string gameId)
@@ -82,16 +83,16 @@
             <a class="footer__heading">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_OurPolicies")</span>
             </a>
-            <a class="footer__item" href="~/SiteSkin/Nova88/Static/@selLangBLL.GetLangId()/ResposibleGaming.html" target="_temp">
+            <a class="footer__item" href="@StaticRootPath/ResposibleGaming.html" target="_temp">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_ResposibleGaming")</span>
             </a>
-            <a class="footer__item" href="~/SiteSkin/Nova88/Static/@selLangBLL.GetLangId()/TermsConditions.html" target="_temp">
+            <a class="footer__item" href="@StaticRootPath/TermsConditions.html" target="_temp">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_TermsConditions")</span>
             </a>
-            <a class="footer__item" href="~/SiteSkin/Nova88/Static/@selLangBLL.GetLangId()/PrivacyPolicy.html" target="_temp">
+            <a class="footer__item" href="@StaticRootPath/PrivacyPolicy.html" target="_temp">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_PrivacyPolicy")</span>
             </a>
-            <a class="footer__item" href="~/SiteSkin/Nova88/Static/@selLangBLL.GetLangId()/CookiePolicy.html" target="_temp">
+            <a class="footer__item" href="@StaticRootPath/CookiePolicy.html" target="_temp">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_CookiePolicy")</span>
             </a>
         </div>
@@ -99,19 +100,19 @@
             <a class="footer__heading">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_HelpSupport")</span>
             </a>
-            <a class="footer__item" href="~/SiteSkin/Nova88/Static/@selLangBLL.GetLangId()/RulesandRegulations.html" target="_temp">
+            <a class="footer__item" href="@StaticRootPath/RulesandRegulations.html" target="_temp">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_RuleRegulations")</span>
             </a>
-            <a class="footer__item" href="~/SiteSkin/Nova88/Static/@selLangBLL.GetLangId()/AccountTerms.html" target="_temp">
+            <a class="footer__item" href="@StaticRootPath/AccountTerms.html" target="_temp">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_AccountTerms")</span>
             </a>
-            <a class="footer__item" href="~/SiteSkin/Nova88/Static/@selLangBLL.GetLangId()/FAQ.html" target="_temp">
+            <a class="footer__item" href="@StaticRootPath/FAQ.html" target="_temp">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_FAQ")</span>
             </a>
-            @*<a class="footer__item" href="~/SiteSkin/Nova88/Static/@selLangBLL.GetLangId()/DepositWithdrawals.html" target="_temp">
+            @*<a class="footer__item" href="@StaticRootPath/DepositWithdrawals.html" target="_temp">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_DepositWithdrawals")</span>
                 </a>*@
-            @*<a class="footer__item" href="~/SiteSkin/Nova88/Static/@selLangBLL.GetLangId()/Downloads.html" target="_temp">
+            @*<a class="footer__item" href="@StaticRootPath/Downloads.html" target="_temp">
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Downloads")</span>
                 </a>*@
         </div>
@@ -119,16 +120,16 @@
             <a class="footer__heading">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_Title")</span>
             </a>
-            <a class="footer__item" href="~/SiteSkin/Nova88/Static/@selLangBLL.GetLangId()/AboutUs.html" target="_temp">
+            <a class="footer__item" href="@StaticRootPath/AboutUs.html" target="_temp">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_AboutUs")</span>
             </a>
-            <a class="footer__item" href="~/SiteSkin/Nova88/Static/@selLangBLL.GetLangId()/Terms.html" target="_temp">
+            <a class="footer__item" href="@StaticRootPath/Terms.html" target="_temp">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_Terms")</span>
             </a>
-            <a class="footer__item" href="~/SiteSkin/Nova88/Static/@selLangBLL.GetLangId()/ContactUs.html" target="_temp">
+            <a class="footer__item" href="@StaticRootPath/ContactUs.html" target="_temp">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_ContactUs")</span>
             </a>
-            @*<a class="footer__item" href="~/SiteSkin/Nova88/Static/@selLangBLL.GetLangId()/Affiliates.html" target="_temp">
+            @*<a class="footer__item" href="@StaticRootPath/Affiliates.html" target="_temp">
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Affiliates")</span>
                 </a>*@
         </div>
@@ -136,11 +137,11 @@
             <a class="footer__heading">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_SocialMedia")</span>
             </a>
-            <a class="footer__item" href="https://www.facebook.com/nova88official/" target="_blank">
+            <a class="footer__item" href="https://www.facebook.com/@(selLangBLL.GetResourceValue("lbl_FacebookAccount"))/" target="_blank">
                 <i class="icon icon-facebook"></i>
                 <span class="text">@selLangBLL.GetResourceValue("lbl_Facebook")</span>
             </a>
-            <a class="footer__item" href="https://twitter.com/Nova88official" target="_blank">
+            <a class="footer__item" href="https://twitter.com/@(selLangBLL.GetResourceValue("lbl_TwitterAccount"))" target="_blank">
                 <i class="icon icon-twitter"></i>
                 <span class="text">@selLangBLL.GetResourceValue("lbl_Twitter")</span>
             </a>

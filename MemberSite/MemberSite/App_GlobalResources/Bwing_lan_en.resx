@@ -126,6 +126,9 @@
   <data name="lbl_Description" xml:space="preserve">
     <value>Bwing is the world leading sportsbook offering one of the kind gambling experience in live betting covering all sports, casino, slots, keno, esports, rng casino, fantasy sports, virtual sports, lottery, live casino, live dealer, bingo, and racing.</value>
   </data>
+  <data name="lbl_FacebookAccount" xml:space="preserve">
+    <value>bwingofficial</value>
+  </data>
   <data name="lbl_Image" xml:space="preserve">
     <value>https://www.bwing.com/SiteSkin/Bwing/common/images/logo.png</value>
   </data>
@@ -140,6 +143,9 @@
   </data>
   <data name="lbl_TitleKeywords" xml:space="preserve">
     <value>Bwing is the world leading sportsbook offering one of the kind gambling experience in live betting covering all sports, casino, slots, keno, esports, rng casino, fantasy sports, virtual sports, lottery, live casino, live dealer, bingo, and racing.</value>
+  </data>
+  <data name="lbl_TwitterAccount" xml:space="preserve">
+    <value>bwingofficial</value>
   </data>
   <data name="lbl_TwitterCreator" xml:space="preserve">
     <value>@Bwingofficial</value>

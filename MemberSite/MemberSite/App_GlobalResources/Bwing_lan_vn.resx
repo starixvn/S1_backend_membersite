@@ -129,8 +129,11 @@
   <data name="lbl_Description" xml:space="preserve">
     <value>Bwing là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value>
   </data>
+  <data name="lbl_FacebookAccount" xml:space="preserve">
+    <value>bwingofficial</value>
+  </data>
   <data name="lbl_Image" xml:space="preserve">
-    <value>http://www.Bwing.net/SiteSkin/Bwing/common/images/logo.png</value>
+    <value>https://www.bwing.com/SiteSkin/Bwing/common/images/logo.png</value>
   </data>
   <data name="lbl_Keywords" xml:space="preserve">
     <value>Bwing là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value>
@@ -144,6 +147,9 @@
   <data name="lbl_TitleKeywords" xml:space="preserve">
     <value>Bwing là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value>
   </data>
+  <data name="lbl_TwitterAccount" xml:space="preserve">
+    <value>bwingofficial</value>
+  </data>
   <data name="lbl_TwitterCreator" xml:space="preserve">
     <value>@Bwingofficial</value>
   </data>
@@ -151,6 +157,6 @@
     <value>@Bwingofficial</value>
   </data>
   <data name="lbl_URL" xml:space="preserve">
-    <value>https://www.Bwing.net</value>
+    <value>https://www.bwing.com</value>
   </data>
 </root>
