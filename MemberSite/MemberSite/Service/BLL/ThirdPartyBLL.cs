@@ -16,7 +16,9 @@ namespace MemberSite.Service.BLL
         private readonly SelLangBLL selLangBLL;
         private readonly Tools tools;
         private ConcurrentDictionary<string, TpCurrency> TpCurrencyList;
+        private ConcurrentDictionary<string, ThirdPartyModel> ThirdPartyModelContainer;
         private readonly ServerInfoBLL serverInfoBLL;
+        private readonly CustInfoBLL custInfoBLL;
         Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
             {"1","soccer" },
             {"2","basketball" },
@@ -29,13 +31,15 @@ namespace MemberSite.Service.BLL
             {"161","numbergame" },
             {"180","virtualsports" }
         };
-        public ThirdPartyBLL(ThirdPartyService thirdPartyService, SelLangBLL selLangBLL, Tools tools,ServerInfoBLL serverInfoBLL)
+        public ThirdPartyBLL(ThirdPartyService thirdPartyService, SelLangBLL selLangBLL, Tools tools, ServerInfoBLL serverInfoBLL, CustInfoBLL custInfoBLL)
         {
             this.thirdPartyService = thirdPartyService;
             this.selLangBLL = selLangBLL;
             this.tools = tools;
             TpCurrencyList = new ConcurrentDictionary<string, TpCurrency>();
+            ThirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
             this.serverInfoBLL = serverInfoBLL;
+            this.custInfoBLL = custInfoBLL;
         }
 
         public string GetTpLanId(int tpId)
@@ -45,7 +49,16 @@ namespace MemberSite.Service.BLL
 
         public ThirdPartyModel GetThirdPartyModel(int tpId, int siteId)
         {
-            return thirdPartyService.GetThirdPartyBySite(tpId, siteId);
+
+            string sKet = $"{tpId}_{siteId}";
+            if (!ThirdPartyModelContainer.ContainsKey(sKet))
+            {
+                var thirdPartyModel = thirdPartyService.GetThirdPartyBySite(tpId, siteId);
+                if (thirdPartyModel != null)
+                    ThirdPartyModelContainer.TryAdd(sKet, thirdPartyModel);
+            }
+
+            return ThirdPartyModelContainer.ContainsKey(sKet) ? ThirdPartyModelContainer[sKet] : null;
         }
 
         public string getEntryUrl(int tpId, Dictionary<string, string> parameters)
@@ -103,6 +116,33 @@ namespace MemberSite.Service.BLL
         public IEnumerable<TpWallet> GetTpWallet(int custId)
         {
             return thirdPartyService.GetTpWallet(custId);
+        }
+
+        public IEnumerable<TpTransferInfoHistory> GetTransferHistory(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
+        {
+            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var tpTransferInfoHistory = thirdPartyService.GetTransferHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
+            if (tpTransferInfoHistory != null)
+            {
+                foreach(var tpTransferInfo in tpTransferInfoHistory)
+                {
+                    tpTransferInfo.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{GetThirdPartyModel(tpTransferInfo.TpId, CustInfo.SiteId).TpName}");
+                }
+            }
+            return tpTransferInfoHistory;
+        }
+        public IEnumerable<TpTransferInfoHistory> GetTransferRecent(int custId)
+        {
+            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var tpTransferInfoHistory = thirdPartyService.GetTransferRecent(custId, CustInfo.SiteId, 5);
+            if (tpTransferInfoHistory != null)
+            {
+                foreach (var tpTransferInfo in tpTransferInfoHistory)
+                {
+                    tpTransferInfo.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{GetThirdPartyModel(tpTransferInfo.TpId, CustInfo.SiteId).TpName}");
+                }
+            }
+            return tpTransferInfoHistory;
         }
     }
 }

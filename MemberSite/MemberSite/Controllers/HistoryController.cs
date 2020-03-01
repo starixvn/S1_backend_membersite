@@ -18,5 +18,9 @@ namespace MemberSite.Controllers
         {
             return View();
         }
+        public IActionResult Transfer()
+        {
+            return View();
+        }
     }
 }

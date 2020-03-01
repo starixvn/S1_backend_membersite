@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MemberSite.Service.Model
@@ -17,5 +18,18 @@ namespace MemberSite.Service.Model
     {
         public string TpCurrencyId { set; get; }
         public decimal ExchangeRate { set; get; }
+    }
+
+    public class TpTransferInfoHistory
+    {
+        [JsonIgnore]
+        public int TpId { set; get; }
+        public string TpName { set; get; }
+        public string TransId { set; get; }
+        public decimal Amount { set; get; }
+        public int Direction { set; get; }
+        public DateTime CreateTime { set; get; }
+        public int Status { set; get; }
+        public string Memo { set; get; }
     }
 }

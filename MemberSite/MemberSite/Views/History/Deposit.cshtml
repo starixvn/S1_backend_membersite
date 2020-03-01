@@ -72,6 +72,9 @@
         <a class="page-tabs__btn" data-selected="true">
             <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
         </a>
+        <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "History", LangId = selLangBLL.GetLangId() })">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
+        </a>
         <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })">
             <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
         </a>

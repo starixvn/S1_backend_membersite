@@ -78,10 +78,10 @@ namespace MemberSite.Service.DAL
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var depositInfoHistoryResult = conn.Query<WithdrawalHistory>("WithdrawalInfoSearch_Get", p, commandType: CommandType.StoredProcedure);
+            var withdrawalInfoHistoryResult = conn.Query<WithdrawalHistory>("WithdrawalInfoSearch_Get", p, commandType: CommandType.StoredProcedure);
             totalPages = p.Get<int?>("TotalPages") ?? 0;
             rowCount = p.Get<int?>("RowCount") ?? 0;
-            return depositInfoHistoryResult;
+            return withdrawalInfoHistoryResult;
         }
 
         public int SetWithdrawalCancel(int custId, string transId, int siteId, IEnumerable<int> forStatus, WithdrawalStatus status)

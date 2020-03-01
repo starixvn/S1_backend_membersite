@@ -2,53 +2,46 @@ import * as Loading from '../commJS/Loading.jsx';
 import {number_format} from '../commJS/common';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
-    class RecentHistoryBody extends React.Component {
-        onCancel(transId){
-            if(confirm(i18n.lbl_CancelConfirm)) {
-                this.props.onCancel(transId);
-            }
-        }
+    const TransferStatus = {0:<span>Success</span>,
+                    1:<span>Fail</span>,
+                    2:<span>Pending</span>,
+                    3:<span>Pending</span>};      
 
+    class RecentHistoryBody extends React.Component {
         render() {
             let data = this.props.Data;
             let rows = data.map(function( item ,index ) { 
                 let dateMonent = moment(item.createTime);
-                let btnGroup = null;
-                let statusGroup = null;
-
-                if(item.status==1) {
-                    btnGroup = <div className="btn-group">
-                        <button className="btn btn-default" type="button" onClick={this.onCancel.bind(this,item.transId)}>
-                            <span className="text">{i18n.lbl_Cancel}</span>
-                        </button>
-                    </div>
-                }
-
-                if (item.status==5 || item.status==6 || item.status==7 || item.status==99) {
-                    statusGroup = <span className="text">{i18n["lbl_WithdrawalStatus"+item.status]}</span>
-                }
-                else {
-                    statusGroup = <span className="text">{i18n.lbl_WithdrawalStatus4}</span>
+                let direction = "";
+                if(item.direction==1){
+                    direction = "From " + "Main Wallet" + " To " + item.tpName;
+                } else {
+                    direction = "From " + item.tpName + " To " + "Main Wallet";
                 }
 
                 return <div className="tr" key={index}>
-                    <div className="td-date" data-title={i18n.lbl_Date} role="mobile-click">
+                    <div className="td-date" data-title="Date" role="mobile-click">
                         <span className="text">{dateMonent.format('l')} ({dateMonent.format('Z')})</span>
                         <i className="icon icon-caret"></i>
                     </div>
-                    <div className="td-time" data-title={i18n.lbl_Time}>
+                    <div className="td-time" data-title="Time">
                         <span className="text">{dateMonent.format("hh:mm:ss A")}</span>
                     </div>
-                    <div className="td-id" data-title={i18n.lbl_Time}>
+                    <div className="td-id" data-title="ID">
                         <span className="text">{item.transId}</span>
                     </div>
-                    <div className="td-amount" data-title={i18n.lbl_Amount}>
+                    <div className="td-amount" data-title="Direction">
+                        <span className="text">{direction}</span>
+                    </div>                    
+                    <div className="td-amount" data-title="Amount">
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
                     </div>
-                    <div className="td-status" data-title={i18n.lbl_Status}>
-                        {statusGroup}
-                        {btnGroup}
+                    <div className="td-status" data-title="Status">
+                        {TransferStatus[item.status]}
                     </div>
+                    <div className="td-status" data-title="Memo">
+                        {item.memo}
+                    </div>   
             </div>;
                 }.bind(this));
 
@@ -67,11 +60,11 @@ import {number_format} from '../commJS/common';
         }
 
         componentDidMount() {
-            this.GetWithdrawalInfoRecent();
+            this.GetRecent();
         }
 
-        GetWithdrawalInfoRecent(){
-            this.props.GetWithdrawalInfoRecent();
+        GetRecent(){
+            this.props.GetRecent();
         }
 
         render() {
@@ -92,7 +85,7 @@ import {number_format} from '../commJS/common';
                 }
 
                 bodyData = dataContainer.map(function( item ,index ) { 
-                    return <RecentHistoryBody key={index} Data={item.Data} onCancel={this.props.onCancel}/>;
+                    return <RecentHistoryBody key={index} Data={item.Data}/>;
                 }.bind(this));
             }
 
@@ -100,7 +93,7 @@ import {number_format} from '../commJS/common';
                 <div className="table table-rwd table-primary">
                     <div className="caption">
                         <span className="text">{i18n.lbl_RecentTransactions}</span>
-                        <a className="btn btn-icon" data-refresh={this.props.refresh} onClick={this.props.refresh?null:this.GetWithdrawalInfoRecent.bind(this)}>
+                        <a className="btn btn-icon" data-refresh={this.props.refresh} onClick={this.props.refresh?null:this.GetRecent.bind(this)}>
                             <i className="icon icon-refresh"></i>
                             <div className="preloader">
                                 <div className="preloader__spiner">
@@ -123,12 +116,18 @@ import {number_format} from '../commJS/common';
                             <div className="td-id" data-title={i18n.lbl_ID}>
                                 <span className=" text">{i18n.lbl_ID}</span>
                             </div>
+                            <div className="td-status" data-title={"Direction"}>
+                                <span className=" text">{"Direction"}</span>
+                            </div>                            
                             <div className="td-amount" data-title={i18n.lbl_Amount}>
                                 <span className=" text">{i18n.lbl_Amount}</span>
                             </div>
                             <div className="td-status" data-title={i18n.lbl_Status}>
                                 <span className=" text">{i18n.lbl_Status}</span>
                             </div>
+                            <div className="td-status" data-title={"Memo"}>
+                                <span className=" text">{"Memo"}</span>
+                            </div>                        
                         </div>
                     </div>
                     {bodyData}
@@ -288,13 +287,13 @@ import {number_format} from '../commJS/common';
             }
         }        
 
-        GetWithdrawalInfoRecent(){
+        GetRecent(){
             this.setState({refresh: true});
-            axios.post('/api/Payment/GetWithdrawalInfoRecent')
+            axios.post('/api/Tp/GetTransferRecent')
             .then(function (response) {
                 let result = response.data;
                 if (result.errorCode == 0) {
-                    this.setState({WithdrawalInfoRecent: result.data, refresh: false});
+                    this.setState({Recent: result.data, refresh: false});
                 } else {
                     this.setState({refresh: false});
                     alert(result.message);
@@ -583,6 +582,7 @@ import {number_format} from '../commJS/common';
                     </div>
                     {tpWallets}
                 </div>
+                <RecentHistory GetRecent={this.GetRecent.bind(this)} Data={this.state.Recent} refresh={this.state.refresh}/>                
             </div>
             )
         }

@@ -28,6 +28,12 @@
     i18n.Add("lbl_TransferOut", selLangBLL.GetResourceValue("lbl_TransferOut"));
     i18n.Add("lbl_SabaWalletHint", selLangBLL.GetResourceValue("lbl_SabaWalletHint"));
 
+    string[] lbl_Txts = new string[] { "lbl_Close", "lbl_AllTranscations", "lbl_Status", "lbl_Amount", "lbl_ID", "lbl_Time", "lbl_Date" };
+    foreach (var lbl_Txt in lbl_Txts)
+    {
+        if (!i18n.ContainsKey(lbl_Txt))
+            i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
+    }
 }
 
 @section Style{
@@ -61,8 +67,7 @@
 @section Scripts{
     <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
-        var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })";
-        var OnlineBankingUrl = "@Url.RouteUrl("desktop", new { action = "DepositReqOnlineBanking", controller = "Cashier", LangId = selLangBLL.GetLangId() })";
+        var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Transfer", controller = "History", LangId = selLangBLL.GetLangId() })";
     </script>
     <script src="~/lib/runtime.min.js"></script>
     <script src="~/js/component/cashier/TransferPanel.min.js" asp-append-version="true"></script>

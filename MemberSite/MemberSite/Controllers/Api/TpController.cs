@@ -361,5 +361,35 @@ namespace MemberSite.Controllers.Api
 
             return result;
         }
+        public class HistoryReq
+        {
+            public long StartDate { get; set; }
+            public long EndDate { get; set; }
+            public int PageNumber { get; set; }
+            //public int PageSize { get; set; }
+        }
+        [HttpPost]
+        public ApiListResult<TpTransferInfoHistory> GetTransferHistory(HistoryReq historyReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiListResult<TpTransferInfoHistory>();
+            int pageNumber = historyReq.PageNumber;
+            int totalPages;
+            int rowCount;
+            apiResult.Data = thirdPartyBLL.GetTransferHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
+            apiResult.PageNumber = pageNumber;
+            apiResult.TotalPages = totalPages;
+            apiResult.RowCount = rowCount;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+        public ApiResult<IEnumerable<TpTransferInfoHistory>> GetTransferRecent()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<TpTransferInfoHistory>>();
+            apiResult.Data = thirdPartyBLL.GetTransferRecent(authData.CustId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
     }
 }
