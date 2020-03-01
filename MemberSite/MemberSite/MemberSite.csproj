@@ -76,6 +76,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\CMS\Goal123\Keno\en\" />
+    <Folder Include="wwwroot\CMS\Goal123\Keno\vn\" />
+    <Folder Include="wwwroot\CMS\Goal123\LiveCasino\en\" />
+    <Folder Include="wwwroot\CMS\Goal123\LiveCasino\vn\" />
+    <Folder Include="wwwroot\SiteSkin\Goal123\" />
     <Folder Include="wwwroot\SiteSkin\Nova88\en\" />
   </ItemGroup>
 

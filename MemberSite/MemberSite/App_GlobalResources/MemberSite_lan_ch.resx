@@ -1345,7 +1345,7 @@
     <value>資金轉出</value>
   </data>
   <data name="lbl_WalletDescription_Saba" xml:space="preserve">
-    <value>包含 OneRNG, PP 和 Platinum Suite</value>
+    <value>包含 OneRNG, PP 和 Platinum Suite(AB)</value>
   </data>
   <data name="lbl_Wallet_Saba" xml:space="preserve">
     <value>體育錢包</value>

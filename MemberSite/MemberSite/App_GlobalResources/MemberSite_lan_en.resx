@@ -1370,7 +1370,7 @@
     <value>Transfer out </value>
   </data>
   <data name="lbl_WalletDescription_Saba" xml:space="preserve">
-    <value>Include OneRNG, PP and Platinum Suite</value>
+    <value>Include OneRNG, PP and Platinum Suite(AB)</value>
   </data>
   <data name="lbl_WithdrawalHistory" xml:space="preserve">
     <value>Withdrawal History</value>

@@ -220,4 +220,7 @@ Deposit now to enjoy our games and services.</value>
   <data name="msg_InsufficientFund" xml:space="preserve">
     <value>Insufficient Fund!</value>
   </data>
+  <data name="mag_AffiliateNotExist" xml:space="preserve">
+    <value>Your Affiliate Code is invaild. Please check again!</value>
+  </data>
 </root>

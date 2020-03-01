@@ -151,6 +151,11 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = result;
                 apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
             }
+            else if (result == -19)
+            {
+                apiResult.ErrorCode = result;
+                apiResult.Message = selLangBLL.GetMsg("mag_AffiliateNotExist");
+            }
             else if (custId == 0)
             {
                 apiResult.ErrorCode = result;
