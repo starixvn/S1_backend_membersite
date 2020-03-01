@@ -860,7 +860,7 @@
     <value>ID</value>
   </data>
   <data name="lbl_Image" xml:space="preserve">
-    <value>http://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
+    <value>https://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
   </data>
   <data name="lbl_ImportantNote" xml:space="preserve">
     <value>โน๊ตสำคัญ</value>
