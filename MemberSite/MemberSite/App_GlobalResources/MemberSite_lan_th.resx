@@ -1312,4 +1312,10 @@
   <data name="lbl_Clickhereforpromotion" xml:space="preserve">
     <value>คลิกที่นี่ เพื่อตรวจสอบโปรโมชั่นของคุณ</value>
   </data>
+  <data name="lbl_FacebookAccount" xml:space="preserve">
+    <value>nova88official</value>
+  </data>
+  <data name="lbl_TwitterAccount" xml:space="preserve">
+    <value>nova88official</value>
+  </data>
 </root>

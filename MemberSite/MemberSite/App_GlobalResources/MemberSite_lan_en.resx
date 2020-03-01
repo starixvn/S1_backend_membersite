@@ -860,7 +860,7 @@
     <value>ID</value>
   </data>
   <data name="lbl_Image" xml:space="preserve">
-    <value>http://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
+    <value>httsp://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
   </data>
   <data name="lbl_ImportantNote" xml:space="preserve">
     <value>Important Note</value>
@@ -1374,5 +1374,11 @@
   </data>
   <data name="lbl_WithdrawalHistory" xml:space="preserve">
     <value>Withdrawal History</value>
+  </data>
+  <data name="lbl_FacebookAccount" xml:space="preserve">
+    <value>nova88official</value>
+  </data>
+  <data name="lbl_TwitterAccount" xml:space="preserve">
+    <value>nova88official</value>
   </data>
 </root>

@@ -129,6 +129,9 @@
   <data name="lbl_Description" xml:space="preserve">
     <value>Goal123 là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value>
   </data>
+  <data name="lbl_FacebookAccount" xml:space="preserve">
+    <value>goal123official</value>
+  </data>
   <data name="lbl_Image" xml:space="preserve">
     <value>https://www.goal123.com/SiteSkin/Goal123/common/images/logo.png</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="lbl_TitleKeywords" xml:space="preserve">
     <value>Goal123 là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value>
+  </data>
+  <data name="lbl_TwitterAccount" xml:space="preserve">
+    <value>goal123official</value>
   </data>
   <data name="lbl_TwitterCreator" xml:space="preserve">
     <value>@Goal123official</value>

@@ -858,7 +858,7 @@
     <value>ID</value>
   </data>
   <data name="lbl_Image" xml:space="preserve">
-    <value>http://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
+    <value>https://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
   </data>
   <data name="lbl_ImportantNote" xml:space="preserve">
     <value>重要訊息</value>
@@ -1352,5 +1352,11 @@
   </data>
   <data name="lbl_WithdrawalHistory" xml:space="preserve">
     <value>提款歷史記錄</value>
+  </data>
+  <data name="lbl_FacebookAccount" xml:space="preserve">
+    <value>nova88official</value>
+  </data>
+  <data name="lbl_TwitterAccount" xml:space="preserve">
+    <value>nova88official</value>
   </data>
 </root>
