@@ -116,9 +116,7 @@ import {number_format} from '../commJS/common';
                             <div className="td-id" data-title={i18n.lbl_ID}>
                                 <span className=" text">{i18n.lbl_ID}</span>
                             </div>
-                            <div className="td-status" data-title={"Direction"}>
-                                <span className=" text">{"Direction"}</span>
-                            </div>                            
+                            
                             <div className="td-amount" data-title={i18n.lbl_Amount}>
                                 <span className=" text">{i18n.lbl_Amount}</span>
                             </div>
@@ -485,7 +483,7 @@ import {number_format} from '../commJS/common';
 
             return (
             <div>
-                {/*<form className="form" onSubmit={this.handleSubmit.bind(this)}>
+                {<form className="form" onSubmit={this.handleSubmit.bind(this)}>
                     <div className="form-group">
                         <label className="form-title">{i18n.lbl_TransferTo}</label>
                         <div className="form-content">
@@ -520,7 +518,7 @@ import {number_format} from '../commJS/common';
                             </div>
                         </button>
                     </div>
-                </form>*/}
+                </form>}
                 <div className="table table-rwd table-primary">
                     <div className="thead" role="desktop-only">
                         <div className="tr">
