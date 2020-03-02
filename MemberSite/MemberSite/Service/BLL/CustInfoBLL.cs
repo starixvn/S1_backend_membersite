@@ -93,7 +93,7 @@ namespace MemberSite.Service.BLL
                 {
                     agent = agentInfoService.GetAffiliateAgent($"{refId}_{CurrencyId}", serverInfo.SiteId);
 
-                    if (agent.CurrencyId != CurrencyId)
+                    if (agent?.CurrencyId != CurrencyId)
                     {
                         custId = 0;
                         return -6;/*agent Currency != CurrencyId*/

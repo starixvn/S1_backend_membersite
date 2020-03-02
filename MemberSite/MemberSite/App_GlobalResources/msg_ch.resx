@@ -219,4 +219,7 @@
     <value>您的當前余額是：&lt;span class="popup-span"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
 立即存款以享有我司遊戲盤口及服務</value>
   </data>
+  <data name="msg_InsufficientFund" xml:space="preserve">
+    <value>餘額不足!</value>
+  </data>
 </root>

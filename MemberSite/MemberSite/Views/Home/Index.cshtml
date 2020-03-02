@@ -19,9 +19,11 @@
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
     var SkinImgPath = $"{SkinRootPath}/images";
     var CmsPromotionPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Promotion/{selLangBLL.GetLangId()}");
+    var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
+
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
+    
     int CurrencyId = 0;
     int promotionCnt = 0;
     int mainWalletType = configuration.GetValue<int>("MainWalletType");
@@ -65,7 +67,7 @@
                 if (gameId == "202" || gameId == "208" || gameId == "211")
                 {
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
-                    entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'width=1366, height=1024').focus();";
+                    entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
                 }
                 else if (tools.IsMobile())
                 {

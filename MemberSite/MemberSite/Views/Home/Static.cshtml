@@ -7,6 +7,10 @@
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Title") + '|' + @selLangBLL.GetResourceValue("lbl_TitleDesc") + "|" + @selLangBLL.GetResourceValue("lbl_Sports");
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
+    var CMSPath = Url.Content($"~/CMS/{serverInfo.SiteName}");
 }
 
 @section Style{
@@ -17,7 +21,6 @@
         }
 
         [data-layout=desktop] .main {
-            background-image: url("/SiteSkin/Nova88/common/images/Lobby/Home/Sports-Iframe-BG.jpg");
             background-size: cover;
             padding: 0rem 0rem;
             max-width: none;
@@ -28,18 +31,14 @@
 <div class="main">
     @if (Context.Request.Query["gameId"] == "211")@*Live Casino*@
     {
-        <img src="/SiteSkin/Nova88/common/images/Lobby/Home/Casino_Static.jpg" style="margin:auto;"/>
+        <img src="@SkinRootPath/images/Lobby/Home/Casino_Static.jpg" style="margin:auto;" />
     }
     else if (Context.Request.Query["gameId"] == "208") @*RNG*@
     {
-        <img src="/SiteSkin/Nova88/common/images/Lobby/Home/RNG_Static.jpg" style="margin:auto;"/>
+        <img src="@SkinRootPath/images/Lobby/Home/RNG_Static.jpg" style="margin:auto;" />
     }
     else if (Context.Request.Query["gameId"] == "202") @*Lottery*@
     {
-        <img src="/SiteSkin/Nova88/common/images/Lobby/Home/RNG_Static.jpg" style="margin:auto;"/>
+        <img src="@CMSPath/Keno/@selLangBLL.GetLangId()/landing-page.jpg" style="margin:auto;" />
     }
 </div>
-
-@section Scripts{
-
-}

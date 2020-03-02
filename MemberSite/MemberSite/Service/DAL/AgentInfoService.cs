@@ -27,7 +27,7 @@ namespace MemberSite.Service.DAL
         public Customer GetAffiliateAgent(string affiliateId, int siteId)
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.QueryFirst<Customer>("AffiliateAgent_Get", new { AffiliateId = affiliateId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.QueryFirstOrDefault<Customer>("AffiliateAgent_Get", new { AffiliateId = affiliateId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
         public int AddAffiliateId(string affiliateId, int custId, int siteId)
         {

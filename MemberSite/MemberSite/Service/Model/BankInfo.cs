@@ -14,6 +14,16 @@ namespace MemberSite.Service.Model
         public string BankLogo { set; get; }
         public string BankSite { set; get; }
     }
+
+    public class PaymentFront
+    {
+        public int PayId { get; set; }
+        public int ChannelId { get; set; }
+        public string PayName { get; set; }
+        public decimal MinAmount { get; set; }
+        public decimal MaxAmount { get; set; }
+    }
+
     public class SysBankInfoFront
     {
         public int SysId { get; set; }

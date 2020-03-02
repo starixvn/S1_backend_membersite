@@ -860,7 +860,7 @@
     <value>ID</value>
   </data>
   <data name="lbl_Image" xml:space="preserve">
-    <value>http://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
+    <value>httsp://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
   </data>
   <data name="lbl_ImportantNote" xml:space="preserve">
     <value>Important Note</value>
@@ -1308,5 +1308,77 @@
   </data>
   <data name="lbl_Clickhereforpromotion" xml:space="preserve">
     <value>Click here to see your availiable promotions</value>
+  </data>
+  <data name="lbl_GameList" xml:space="preserve">
+    <value>Game List</value>
+  </data>
+  <data name="lbl_AGCasino" xml:space="preserve">
+    <value>Phoenix Suite</value>
+  </data>
+  <data name="lbl_AllbetCasino" xml:space="preserve">
+    <value>Platinum Suite</value>
+  </data>
+  <data name="lbl_ComingSoon" xml:space="preserve">
+    <value>Coming Soon</value>
+  </data>
+  <data name="lbl_SACasino" xml:space="preserve">
+    <value>Athena Suite</value>
+  </data>
+  <data name="lbl_Days" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="lbl_Hours" xml:space="preserve">
+    <value>hours</value>
+  </data>
+  <data name="lbl_MainWallet" xml:space="preserve">
+    <value>Main Wallet</value>
+  </data>
+  <data name="lbl_Wallet_Saba" xml:space="preserve">
+    <value>Sports Wallet</value>
+  </data>
+  <data name="lbl_Balance" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="lbl_DepositHistory" xml:space="preserve">
+    <value>Deposit History</value>
+  </data>
+  <data name="lbl_DreamGaming" xml:space="preserve">
+    <value>Crystal Suite</value>
+  </data>
+  <data name="lbl_MaxAmount" xml:space="preserve">
+    <value>Max Amount</value>
+  </data>
+  <data name="lbl_OtherWallet" xml:space="preserve">
+    <value>Other Wallet</value>
+  </data>
+  <data name="lbl_RetriveAllIn" xml:space="preserve">
+    <value>Retrive All in</value>
+  </data>
+  <data name="lbl_TransferAll" xml:space="preserve">
+    <value>Transfer To Main Wallet</value>
+  </data>
+  <data name="lbl_TransferFrom" xml:space="preserve">
+    <value>Transfer From</value>
+  </data>
+  <data name="lbl_TransferHistory" xml:space="preserve">
+    <value>Transfer History</value>
+  </data>
+  <data name="lbl_TransferIn" xml:space="preserve">
+    <value>Fund In</value>
+  </data>
+  <data name="lbl_TransferOut" xml:space="preserve">
+    <value>Transfer out </value>
+  </data>
+  <data name="lbl_WalletDescription_Saba" xml:space="preserve">
+    <value>Include OneRNG, PP and Platinum Suite(AB)</value>
+  </data>
+  <data name="lbl_WithdrawalHistory" xml:space="preserve">
+    <value>Withdrawal History</value>
+  </data>
+  <data name="lbl_FacebookAccount" xml:space="preserve">
+    <value>nova88official</value>
+  </data>
+  <data name="lbl_TwitterAccount" xml:space="preserve">
+    <value>nova88official</value>
   </data>
 </root>

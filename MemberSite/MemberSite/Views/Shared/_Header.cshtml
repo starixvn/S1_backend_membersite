@@ -19,8 +19,14 @@
                     var message = selLangBLL.GetMsg("msg_LoginToAccess");
                     entPageUrl = "javascript:alert('" + message + "');";
                 }
+                else if (gameId == "211")
+                {
+                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+                }
                 else
+                {
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Static", controller = "Home", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                }
             }
             else
             {
@@ -28,11 +34,13 @@
                 var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
                 var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
 
-                if (gameId == "202" || gameId == "208" || gameId == "211")
+                if (gameId == "202" || gameId == "208")
                 {
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
-                    entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'width=1366, height=1024').focus();";
+                    entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
                 }
+                else if (gameId == "211")
+                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
                 else if (tools.IsMobile())
                 {
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
@@ -47,6 +55,7 @@
         return entPageUrl;
     }
 }
+
 @{
     int CurrencyId = selLangBLL.GetPreferCurrencyId();
 }
@@ -135,6 +144,10 @@
                                     <i class="icon icon-deposit-bank"></i>
                                     <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
                                 </a>
+                                @*<a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                                    <i class="icon icon-transfer"></i>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
+                                </a>*@
                                 <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
                                     <i class="icon icon-withdrawal"></i>
                                     <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>

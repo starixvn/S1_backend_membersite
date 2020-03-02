@@ -858,7 +858,7 @@
     <value>ID</value>
   </data>
   <data name="lbl_Image" xml:space="preserve">
-    <value>http://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
+    <value>https://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
   </data>
   <data name="lbl_ImportantNote" xml:space="preserve">
     <value>重要讯息</value>
@@ -1306,5 +1306,17 @@
   </data>
   <data name="lbl_Clickhereforpromotion" xml:space="preserve">
     <value>点击这里查看您现有的优惠</value>
+  </data>
+  <data name="lbl_Days" xml:space="preserve">
+    <value>天</value>
+  </data>
+  <data name="lbl_Hours" xml:space="preserve">
+    <value>小时</value>
+  </data>
+  <data name="lbl_FacebookAccount" xml:space="preserve">
+    <value>nova88official</value>
+  </data>
+  <data name="lbl_TwitterAccount" xml:space="preserve">
+    <value>nova88official</value>
   </data>
 </root>

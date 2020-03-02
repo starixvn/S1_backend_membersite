@@ -316,13 +316,28 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        public class Payment
+        {
+            public int payId { get; set; }
+        }
         [HttpPost]
-        public ApiResult<IEnumerable<SysBankInfoFront>> GetOnlineBankInfoSysList()
+        public ApiResult<IEnumerable<SysBankInfoFront>> GetOnlineBankInfoSysList(Payment payment)
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            apiResult.Data = bankInfoBLL.GetOnlineBankInfoSysList(custInfo.CustId);
+            apiResult.Data = bankInfoBLL.GetOnlineBankInfoSysList(custInfo.CustId, payment.payId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<PaymentFront>> GetOnlinePaymentList()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<PaymentFront>>();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            apiResult.Data = bankInfoBLL.GetOnlinePaymentList(custInfo.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -330,6 +345,7 @@ namespace MemberSite.Controllers.Api
         public class OnlineBankInfoReq
         {
             public int sysId { set; get; }
+            public int payId { set; get; }
         }
 
         [HttpPost]
@@ -338,7 +354,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<BankInfoPayFront>();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            apiResult.Data = bankInfoBLL.GetOnlineBankInfo(custInfo.CustId, onlineBankInfoReq.sysId);
+            apiResult.Data = bankInfoBLL.GetOnlineBankInfo(custInfo.CustId, onlineBankInfoReq.sysId, onlineBankInfoReq.payId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
