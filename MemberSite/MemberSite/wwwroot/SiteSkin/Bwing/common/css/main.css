@@ -1988,7 +1988,6 @@ button.btn .btn__inner > .text {
 .dropdown[data-open="true"] .dropdown__container {
   visibility: visible;
   opacity: 1;
-  width: 100%;
 }
 
 .dropdown__list {

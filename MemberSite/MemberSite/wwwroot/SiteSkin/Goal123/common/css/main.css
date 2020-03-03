@@ -1977,7 +1977,7 @@ button.btn .btn__inner > .text {
   min-width: 100%;
   margin: .25rem 0;
   /* color: rgba(0, 0, 0, 0.87); */
-  background-color: #121212;
+  background-color: #000;
   border-radius: inherit;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.26);
   transition: ease 0.2s;
@@ -1989,8 +1989,9 @@ button.btn .btn__inner > .text {
 .dropdown[data-open="true"] .dropdown__container {
   visibility: visible;
   opacity: 1;
-  width: 100%;
 }
+
+
 
 .dropdown__list {
   display: flex;
@@ -2101,7 +2102,7 @@ button.btn .btn__inner > .text {
 }
 
 .dropdown-default {
-  background-color: #121212;
+  background-color: #000;
 }
 
 .dropdown-default > .btn {
@@ -2148,6 +2149,7 @@ button.btn .btn__inner > .text {
   width: 100%;
   padding: 0 .375rem;
   z-index: 0;
+  background: #000;
   /* color: #000; */
 }
 
@@ -2176,8 +2178,7 @@ button.btn .btn__inner > .text {
 }
 
 .textfield__input::-webkit-input-placeholder {
-  color: currentColor;
-  opacity: .54;
+  color: #c2a667;
 }
 
 .textfield__bg {
@@ -2186,7 +2187,7 @@ button.btn .btn__inner > .text {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #121212;
+  background-color: #000;
   border-width: 1px;
   border-color: #bdbdbd;
   border-radius: 6px;
@@ -2487,6 +2488,10 @@ p + .form {
 
 .panel-primary > .panel__body {
   padding: 1rem;
+}
+
+.panel-primary > .panel__body + .btn-group{
+  margin-bottom: 1rem;
 }
 
 .panel--payment > .panel__header {
@@ -4733,7 +4738,7 @@ button.swiper-pagination-bullet {
 }
 
 [data-layout=mobile] .login__form .textfield__bg {
-  background-color: white;
+  background-color: #000;
 }
 
 [class^="login__item"] {
