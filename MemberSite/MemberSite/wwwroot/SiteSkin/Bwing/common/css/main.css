@@ -1820,7 +1820,7 @@ button.btn .btn__inner > .text {
 }
 
 .btn-primary:not(:disabled):not([disabled]):not([data-disabled="true"]):hover {
-  background-color: #6f89b4;
+  background-color: #aaa;
 }
 
 .btn-secondary {
@@ -2644,6 +2644,7 @@ p + .form {
   padding: 1rem 1.5rem;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  color: #fff;
 }
 
 .modal__body > p{

@@ -7,7 +7,7 @@
  * 2. Prevent adjustments of font size after orientation changes in
  *    IE on Windows Phone and in iOS.
  */
- @import url(font/font.css?ver=[2020]);
+ @import url(font/font.css?ver=202003031800);
 html {
     line-height: 1.15;
     /* 1 */
