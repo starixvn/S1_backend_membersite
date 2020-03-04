@@ -51,9 +51,9 @@
                 <div class="promotions-banner" style="background-image: url('@Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Promotion/{promotion.BonusCode}/{selLangBLL.GetLangId()}.png")'); background-position: center top; background-size: cover;"></div>
                 <div class="promotions-txt">
                     <ul>
-                        <li class="txt-blue">50% WELCOME BONUS UP TO MYR 500</li>
+                        <li class="txt-blue">@promotion.Title</li>
                         <li class="txt-gray">
-                            Enjoy up to MYR 500 Bonus with your first deposit with @serverInfo.SiteName! Join NOW!
+                            Enjoy up to @Currency @promotion.MaxBonus.ToString("#,##0") with your first deposit with @serverInfo.SiteName! Join NOW!
                         </li>
                         <li>
                             <div class="promotions-type">
@@ -97,22 +97,22 @@
             <span class="promotions-title">Significant Conditions</span>
             <article>
                 <ol type="i">
-                    <li>1.	This promotion applies only to MYR account players;</li>
+                    <li>1.	This promotion applies only to @Currency account players;</li>
                     <li>2.	This promotion starts at until <span id="ExpiryTime"></span> (“Promotion Period”).</li>
                     <li>3.	To qualify, the player must have made their First Deposit and have not made any withdrawal requests before.</li>
-                    <li>4.	A Bonus of up to MYR 500 based on the First Deposit amount will be credited to qualified players within 48 hours;</li>
+                    <li>4.	A Bonus of up to @Currency @promotion.MaxBonus.ToString("#,##0") based on the First Deposit amount will be credited to qualified players within 48 hours;</li>
                     <li>
                         5.	The Bonus and Qualifying Deposit amount used are subject to a 15 times rollover requirement within 30 days on any @serverInfo.SiteName products, except Casino and Cash Out products.
                         <br>
-                        <br> Example:
+                        @*<br> Example:
                         <br>
                         <em>
                             - Deposit amount: @Currency 1,500
-                            <br> - Bonus amount = @Currency 1,500 x 50% = @Currency 500 Capped MAX
-                            <br> - Deposit amount used to generate the bonus = @Currency 500 / 50% = @Currency 1,000
-                            <br> - Deposit amount not used for the promotion = MYR 1,500 – MYR 1,000 = MYR 500
-                            <br> - Rollover requirement = (MYR 1,000 + MYR 500) x 15 + MYR 500 = MYR 23,000
-                        </em>
+                            <br> - Bonus amount = @Currency 1,500 x @promotion.Bonus.ToString("#,##0")% = @Currency 500 Capped MAX
+                            <br> - Deposit amount used to generate the bonus = @Currency 500 / @promotion.Bonus.ToString("#,##0")% = @Currency 1,000
+                            <br> - Deposit amount not used for the promotion = @Currency 1,500 – @Currency 1,000 = @Currency 500
+                            <br> - Rollover requirement = (@Currency 1,000 + @Currency 500) x 15 + @Currency 500 = @Currency 23,000
+                        </em>*@
                     </li>
                 </ol>
             </article>
@@ -134,7 +134,7 @@
                                 </li>
                             </ol>
                             <li>
-                                Qualified Players will be awarded with a 50% bonus based on their first approved deposit amount made during the Promotion Period, up to a maximum of @Currency 500, as illustrated below:
+                                Qualified Players will be awarded with a @promotion.Bonus.ToString("#,##0")% bonus based on their first approved deposit amount made during the Promotion Period, up to a maximum of @Currency @promotion.MaxBonus.ToString("#,##0"), as illustrated below:
                                 <br>
                                 <div class="table table-rwd table-primary">
                                     <div class="thead">
@@ -179,16 +179,16 @@
                             </li>
                             <li>
                                 The bonus received and deposit amount used to generate the bonus (“Qualifying Deposit”) by the Qualified Player from the Promotion are subject to a @promotion.RollOver times rollover requirement in all @serverInfo.SiteName products, except Casino and Cash Out products, before any withdrawals can be made. General withdrawal rule applies for all other deposit amounts not used for the Promotion.
-                                <p>
+                                @*<p>
                                     Example: <br>
                                     Qualified Player A has made the first approved deposit with an amount of @Currency 1,500. Player A is now eligible to claim the deposit bonus.
                                     <br>
-                                    <br> - Bonus amount = @Currency 1,500 x 50% = capped to @Currency 500
-                                    <br> - Deposit amount used to generate the bonus = @Currency 500 / 50% = @Currency 1,000
+                                    <br> - Bonus amount = @Currency 1,500 x @promotion.Bonus.ToString("#,##0")% = capped to @Currency 500
+                                    <br> - Deposit amount used to generate the bonus = @Currency 500 / @promotion.Bonus.ToString("#,##0")% = @Currency 1,000
                                     <br> - Deposit amounts not used for the promotion = @Currency 1,500 – @Currency 1,000 = @Currency 500
                                     <br>
                                     <br> Before any withdrawals can be made, Qualified Member A is subjected to rollover = (@Currency 1,000 + @Currency 500) x @promotion.RollOver + @Currency 500 = @Currency 23,000
-                                </p>
+                                </p>*@
                             </li>
                             <li>
                                 The Qualified Player is allowed to participate in only one (1) ‘First Time Deposit Bonus’ related promotion offered by @serverInfo.SiteName. Should the Qualified Player participate in more than one (1), only the first approved ‘First Time Deposit Bonus’ related promotion received by @serverInfo.SiteName from such Qualified Player will be considered valid and participation in all other ‘First Time Deposit Bonus’ related promotions will be void.

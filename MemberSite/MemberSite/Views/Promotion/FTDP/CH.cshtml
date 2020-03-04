@@ -51,9 +51,9 @@
                 <div class="promotions-banner" style="background-image: url('@Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Promotion/{promotion.BonusCode}/{selLangBLL.GetLangId()}.png")'); background-position: center top; background-size: cover;"></div>
                 <div class="promotions-txt">
                     <ul>
-                        <li class="txt-blue">50% 歡迎紅利，最高 @Currency 500</li>
+                        <li class="txt-blue">@promotion.Title</li>
                         <li class="txt-gray">
-                            在歐亞88完成第一筆存款以享受高達 馬幣500 的優惠回饋！立即加入！
+                            在 @serverInfo.SiteName 完成第一筆存款以享受高達 @Currency @promotion.MaxBonus.ToString("#,##0") 的優惠回饋！立即加入！
                         </li>
                         <li>
                             <div class="promotions-type">
@@ -102,19 +102,19 @@
                     <li>此優惠活動使用於貨幣為 @Currency 的新客戶。</li>
                     <li>優惠期限為馬來西亞時間 至 <span id="ExpiryTime"></span>(優惠期間)</li>
                     <li>獲得紅利資格，玩家必須先進行首存，並且沒有申請過提款請求。</li>
-                    <li>根據首存存款額，最高 @Currency 500的紅利將在48小時內存入玩家賬戶。</li>
+                    <li>根據首存存款額，最高 @Currency @promotion.MaxBonus.ToString("#,##0") 的紅利將在48小時內存入玩家賬戶。</li>
                     <li>
                         在提款前，存款金額和紅利至少需要完成 @promotion.RollOver 倍投注額；在紅利注入的30天，若未完成最低投注，帶來的贏利將被扣除。紅利適用於 @serverInfo.SiteName 所有產品，除了娛樂城和即時兌現。
-                        <br>
+                        @*<br>
                         <br>舉例：
                         <br>
                         <em>
                             - 存款金額 = 1,500 @Currency
-                            <br> - 優惠紅利 = 1,500 @Currency X 50% = 封頂紅利500 @Currency
-                            <br> - 用於申請獎金的部分 = 封頂獎金500 @Currency / 50% = 1,000 @Currency
+                            <br> - 優惠紅利 = 1,500 @Currency X @promotion.Bonus.ToString("#,##0")% = 封頂紅利500 @Currency
+                            <br> - 用於申請獎金的部分 = 封頂獎金500 @Currency / @promotion.Bonus.ToString("#,##0")% = 1,000 @Currency
                             <br> - 沒有申請獎金的部分 = 1,500 @Currency – 1,000 @Currency = 500 @Currency
                             <br> - 最低投注額 = (1,000 @Currency + 500 @Currency) x @promotion.RollOver + 500 @Currency = 23,000 @Currency
-                        </em>
+                        </em>*@
                     </li>
                 </ol>
             </article>
@@ -136,7 +136,7 @@
                                 </li>
                             </ol>
                             <li>
-                                優惠期間，符合以上優惠資格的會員，可享有一次50%首存存款獎金，最高為500 @Currency（“獎金”），詳情如下：
+                                優惠期間，符合以上優惠資格的會員，可享有一次 @promotion.Bonus.ToString("#,##0")% 首存存款獎金，最高為 @Currency @promotion.MaxBonus.ToString("#,##0")（“獎金”），詳情如下：
                                 <br>
                                 <div class="table table-rwd table-primary">
                                     <div class="thead">
@@ -179,18 +179,18 @@
                             <li>
                                 優惠獎金注入後，會員將不能申請取消。
                             </li>
-                            <li>
+                            @*<li>
                                 會員申請優惠的存款金額和獎金需要在 @serverInfo.SiteName 達到指定獎金的投注要求後，才可申請提款。此優惠獎金最低投注金額倍數為 @promotion.RollOver 倍。此投注要求會且僅計算 @serverInfo.SiteName 產品，除了娛樂城與即時兌現。
                                 <p>
-                                    舉例: 會員A在優惠期間成功存款了1,500 @Currency, 以下是本優惠最低投注需求演算法;
+                                    舉例: 會員A在優惠期間成功存款了 @Currency @promotion.MaxBonus.ToString("#,##0"), 以下是本優惠最低投注需求演算法;
                                     <br>
-                                    <br> - 優惠獎金 = 1,500 @Currency x 50% = 封頂獎金500 @Currency
-                                    <br> - 用於申請獎金的部分 = 封頂獎金500 @Currency / 50% = 1,000 @Currency
+                                    <br> - 優惠獎金 = 1,500 @Currency x @promotion.Bonus.ToString("#,##0")% = 封頂獎金500 @Currency
+                                    <br> - 用於申請獎金的部分 = 封頂獎金500 @Currency / @promotion.Bonus.ToString("#,##0")% = 1,000 @Currency
                                     <br> - 沒有申請獎金的部分 = 1,500 @Currency – 1,000 @Currency = 500 @Currency
                                     <br>
                                     <br>會員A在申請提款前必須完成的最低投注額 = (1,000 @Currency + 500 @Currency) x @promotion.RollOver + 500 @Currency = 23,000 @Currency.
                                 </p>
-                            </li>
+                            </li>*@
                             <li>
                                 符合資格的會員在優惠期間只能領取一次“首存優惠獎金”，如果會員在優惠期間申請了多次“首存優惠獎金”，只有第一筆的“首存優惠獎金”被視為有效，而其他申請將被視為無效。
                             </li>

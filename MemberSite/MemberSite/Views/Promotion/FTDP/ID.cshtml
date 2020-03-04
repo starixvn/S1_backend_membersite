@@ -51,9 +51,9 @@
                 <div class="promotions-banner" style="background-image: url('@Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Promotion/{promotion.BonusCode}/{selLangBLL.GetLangId()}.png")'); background-position: center top; background-size: cover;"></div>
                 <div class="promotions-txt">
                     <ul>
-                        <li class="txt-blue">50% Deposit Awal Bonus Hingga IDR 1,000,000</li>
+                        <li class="txt-blue">@promotion.Title</li>
                         <li class="txt-gray">
-                            Selamat menikmati maksimal bonus MYR 500 dengan deposit anda yang pertama pada @serverInfo.SiteName! Mari bergabung SEKARANG!
+                            Selamat menikmati maksimal bonus @Currency @promotion.MaxBonus.ToString("#,##0") dengan deposit anda yang pertama pada @serverInfo.SiteName! Mari bergabung SEKARANG!
                         </li>
                         <li>
                             <div class="promotions-type">
@@ -101,20 +101,20 @@
                     <li>Promosi ini dimulai Dari Sampai <span id="ExpiryTime"></span> (“Periode Promosi”).</li>
                     <li>Untuk memenuhi syarat, Pemain harus melakukan Deposit awal dan Pemain tidak boleh melakukan penarikan terlebih dahulu.</li>
                     <li>
-                        Bonus hingga @Currency 1.000.000 berdasarkan Jumlah deposit Awal akan dikreditkan ke pemain yang memenuhi syarat dalam waktu 48 jam;
+                        Bonus hingga @Currency @promotion.MaxBonus.ToString("#,##0") berdasarkan Jumlah deposit Awal akan dikreditkan ke pemain yang memenuhi syarat dalam waktu 48 jam;
                     </li>
                     <li>
                         Jumlah bonus dan jumlah kualifikasi Deposit yang digunakan tergantung pada persyaratan Rollover sebanyak @promotion.RollOver kali dalam waktu 30 hari, berlaku untuk semua produk @serverInfo.SiteName kecuali Kasino dan juga produk Cash out.
                         <br>
-                        <br>Contohnya:
+                        @*<br>Contohnya:
                         <br>
                         <em>
                             - Total deposit: @Currency 3,000,000
-                            <br> - Jumlah Bonus = @Currency 3,000,000 X 50% = batas maksimal @Currency 1,000,000
-                            <br> - Jumlah Deposit yang memenuhi syarat yang digunakan untuk Bonus = @Currency 1,000,000 / 50% = @Currency 2,000,000
+                            <br> - Jumlah Bonus = @Currency 3,000,000 X @promotion.Bonus.ToString("#,##0")% = batas maksimal @Currency 1,000,000
+                            <br> - Jumlah Deposit yang memenuhi syarat yang digunakan untuk Bonus = @Currency 1,000,000 / @promotion.Bonus.ToString("#,##0")% = @Currency 2,000,000
                             <br> - Jumlah Deposit yang tidak digunakan untuk Promosi = @Currency 3,000,000 - @Currency 2,000,000 = @Currency 1,000,000
                             <br> - Syarat Putaran = (@Currency 2,000,000 + @Currency 1,000,000 X @promotion.RollOver) + @Currency 1,000,000 = @Currency 46,000,000
-                        </em>
+                        </em>*@
                     </li>
                 </ol>
             </article>
@@ -136,7 +136,7 @@
                                 </li>
                             </ol>
                             <li>
-                                Bagi Member yang memenuhi syarat akan diberikan 50% bonus berdasarkan jumlah Deposit pertama yang disetujui selama periode promosi, Dapatkan bonus hingga @Currency 1,000,000 ("Bonus"), seperti yang diilustrasikan sebagai berikut:
+                                Bagi Member yang memenuhi syarat akan diberikan @promotion.Bonus.ToString("#,##0")% bonus berdasarkan jumlah Deposit pertama yang disetujui selama periode promosi, Dapatkan bonus hingga @Currency @promotion.MaxBonus.ToString("#,##0") ("Bonus"), seperti yang diilustrasikan sebagai berikut:
                                 <br>
                                 <div class="table table-rwd table-primary">
                                     <div class="thead">
@@ -183,16 +183,16 @@
                             </li>
                             <li>
                                 Jumlah Bonus yang diterima dan jumlah Deposit yang memenuhi syarat yang digunakan untuk Bonus @promotion.RollOver kali persyaratan putaran di produk @serverInfo.SiteName Kecuali Casino dan Produk Cash Out, sebelum penarikan dapat dilakukan. Aturan penarikan umum berlaku untuk semua jumlah setoran lainnya yang tidak digunakan untuk promosi.
-                                <p>
+                                @*<p>
                                     Contoh:
                                     Member A telah membuat Deposit yang memenuhi syarat selama Periode Promosi sejumlah @Currency 3,000,000. Member A akan mendapatkan Bonus, seperti yang dihitung sebagai berikut:
                                     <br>
-                                    <br> - Jumlah Bonus = @Currency 3.000,000 x 50% = Batas maksimal @Currency 1,000,000
-                                    <br> - Jumlah Deposit yang memenuhi syarat yang digunakan untuk Bonus = @Currency 1,000,000 / 50% = @Currency 2,000,000
+                                    <br> - Jumlah Bonus = @Currency 3.000,000 x @promotion.Bonus.ToString("#,##0")% = Batas maksimal @Currency 1,000,000
+                                    <br> - Jumlah Deposit yang memenuhi syarat yang digunakan untuk Bonus = @Currency 1,000,000 / @promotion.Bonus.ToString("#,##0")% = @Currency 2,000,000
                                     <br> - Jumlah Deposit yang tidak digunakan untuk Promosi = @Currency 3,000,000 – @Currency 2,000,000 = @Currency 1,000,000
                                     <br>
                                     <br>Sebelum melakukan penarikan, pemain yang memenuhi syarat harus mencapai syarat Rolloverebelum penarikan dapat dilakukan, jumlah penuh Bonus dan jumlah Deposit yang memenuhi syarat yang digunakan untuk Bonus terkena persyaratan putaran = (@Currency 2,000,000+ @Currency 1,000,000) x @promotion.RollOver = @Currency 46,000,000.
-                                </p>
+                                </p>*@
                             </li>
                             <li>
                                 Member yang memenuhi syarat hanya diperbolehkan untuk berpartisipasi pada satu (1) promosi terkait 'Bonus Deposit Awal' yang ditawarkan oleh @serverInfo.SiteName selama Periode Promosi. Jika Member yang memenuhi syarat berpartisipasi di lebih dari satu (1) promosi terkait 'Bonus Deposit Awal' selama Periode Promosi, hanya promosi terkait 'Bonus Deposit Awal' pertama yang diterima oleh @serverInfo.SiteName dari Member yang memenuhi syarat yang akan dianggap berlaku dan partisipasi di seluruh promosi terkait 'Bonus Deposit Awal' lainnya akan dibatalkan.
