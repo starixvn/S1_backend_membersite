@@ -3,7 +3,7 @@ import {BankModal} from '../commJS/BankModal.jsx';
 import * as Loading from '../commJS/Loading.jsx';
 import {number_format} from '../commJS/common';
 
-(function ($, React, ReactDOM, i18n, axios, moment, ClipboardJS) {
+(function ($, React, ReactDOM, i18n, axios, moment, ClipboardJS, window) {
     const DepositStatus = {
         Pending:1,
         Paid :2,
@@ -473,6 +473,8 @@ import {number_format} from '../commJS/common';
 
         componentDidMount() {
             this.wireTransfersForm.current.scrollIntoView(true);
+            var scrolledY = window.scrollY;
+            window.scrollTo(0, scrolledY - $($(".header").get(0)).height());
             Loading.OnLoading();            
             axios.post('/api/Payment/GetBankInfoOffList')
             .then(function (response) {
@@ -645,6 +647,8 @@ import {number_format} from '../commJS/common';
                         bankInfoPay = result.data;
                         if(bankInfoPay!=null){
                             this.onlineBankingForm.current.scrollIntoView(true);
+                            var scrolledY = window.scrollY;
+                            window.scrollTo(0, scrolledY - $($(".header").get(0)).height());
                         }
                         this.setState({BankInfoPay: bankInfoPay});
                     } else {
@@ -967,4 +971,4 @@ import {number_format} from '../commJS/common';
     }
     
     ReactDOM.render(<DepositPanel/>,document.getElementById('DepositPanel'));
-    })(jQuery, React, ReactDOM, i18n, axios, moment, ClipboardJS);
+    })(jQuery, React, ReactDOM, i18n, axios, moment, ClipboardJS, window);
