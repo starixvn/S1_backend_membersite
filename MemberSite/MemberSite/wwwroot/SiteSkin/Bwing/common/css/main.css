@@ -6263,6 +6263,10 @@ button.swiper-pagination-bullet {
   }
 }
 
+#Messages {
+  width: 100%;
+}
+
 .agreeterm-module {
   margin: 1rem auto;
   text-align: center;
