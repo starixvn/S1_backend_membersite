@@ -196,7 +196,21 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<decimal>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
-            apiResult.Data = mainWalletType == 1 ? walletBLL.GetBalance(authData.CustId) : await Get3rdBalanceAsync(1, authData.CustId);
+
+
+            if(mainWalletType == 1)
+            {
+                apiResult.Data = walletBLL.GetBalance(authData.CustId);
+            }
+            else
+            {
+                var sportsWallet = await thirdPartyBLL.GetSportsBalanceAsync(authData.CustId);
+                if (sportsWallet.ErrorCode == 0)
+                {
+                    apiResult.Data = sportsWallet.Data;
+                }
+            }
+
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -251,7 +265,11 @@ namespace MemberSite.Controllers.Api
 
             if (mainWalletType == 2)
             {
-                withdrawalAvailableBalance += await Get3rdBalanceAsync(1, custId);
+                var sportsWallet = await thirdPartyBLL.GetSportsBalanceAsync(custId);
+                if (sportsWallet.ErrorCode == 0)
+                {
+                    withdrawalAvailableBalance += sportsWallet.Data;
+                }
             }
 
             if (withdrawalAvailableBalance < 0)
@@ -274,23 +292,6 @@ namespace MemberSite.Controllers.Api
             public int CustId { set; get; }
             public Dictionary<string, string> inputs { set; get; }
         }
-
-        /*3rd Wallter*/
-        private async Task<decimal> Get3rdBalanceAsync(int tpId, int custId)
-        {
-            var myUrl = $"{apiUrl}GetBalance";
-            var oTpInfo = new TpInfo
-            {
-                TpId = tpId,
-                CustId = custId,
-                inputs = new Dictionary<string, string>()
-            };
-
-            var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
-
-            return data.ErrorCode == 0 ? data.Data.balance : 0;
-        }
-
         private async Task<bool> LogoutAsync(int tpId, int custId)
         {
             var myUrl = $"{apiUrl}Logout";
@@ -420,20 +421,32 @@ namespace MemberSite.Controllers.Api
 
             if (mainWalletType == 2)
             {
-                apiResult.Data.Balance = await Get3rdBalanceAsync(1, authData.CustId);
+                TpWallet tpWallet = new TpWallet();
+                tpWallet.Balance = apiResult.Data.Balance;
+                tpWallet.TpId = 0;
+                tpWallet.TpName = selLangBLL.GetResourceValue("lbl_MainWallet");
+                var sportsBalance = await thirdPartyBLL.GetSportsBalanceAsync(authData.CustId);
+                apiResult.Data.Balance = sportsBalance.Data;
+                apiResult.ErrorCode = sportsBalance.ErrorCode;
+                apiResult.RawErrorCode = sportsBalance.RawErrorCode;
+                apiResult.RawMessage = sportsBalance.RawMessage;
+                var tpWallets = new List<TpWallet>();
+                tpWallets.Add(tpWallet);
+                apiResult.Data.tpWallets = tpWallets;
             }
             else
             {
                 apiResult.Data.tpWallets = thirdPartyBLL.GetTpWallet(authData.CustId);
                 if (apiResult.Data.tpWallets != null)
                 {
-                    foreach(var tpWallet in apiResult.Data.tpWallets)
+                    foreach (var tpWallet in apiResult.Data.tpWallets)
                     {
                         tpWallet.Description = selLangBLL.GetResourceValue($"lbl_WalletDescription_{tpWallet.TpName}");
-                        tpWallet.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{tpWallet.TpName}") ;
+                        tpWallet.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{tpWallet.TpName}");
                         if (tpWallet.Transfer)
                         {
-                            tpWallet.Balance = await Get3rdBalanceAsync(tpWallet.TpId, authData.CustId);
+                            var tpWalletBalance = await thirdPartyBLL.GetTpWalletBalanceAsync(tpWallet.TpId, authData.CustId);
+                            tpWallet.Balance = tpWalletBalance.Data;
                         }
                     }
                 }

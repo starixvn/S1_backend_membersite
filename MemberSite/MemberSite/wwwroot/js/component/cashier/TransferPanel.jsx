@@ -14,9 +14,9 @@ import {number_format} from '../commJS/common';
                 let dateMonent = moment(item.createTime);
                 let direction = "";
                 if(item.direction==1){
-                    direction = "From " + "Main Wallet" + " To " + item.tpName;
+                    direction = <span className="text"><span>{i18n.lbl_MainWallet}</span> To <span>{item.tpName}</span></span>;
                 } else {
-                    direction = "From " + item.tpName + " To " + "Main Wallet";
+                    direction = <span className="text"><span>{item.tpName}</span> To <span>{i18n.lbl_MainWallet}</span></span>;
                 }
 
                 return <div className="tr" key={index}>
@@ -31,7 +31,7 @@ import {number_format} from '../commJS/common';
                         <span className="text">{item.transId}</span>
                     </div>
                     <div className="td-amount" data-title="Direction">
-                        <span className="text">{direction}</span>
+                        {direction}
                     </div>                    
                     <div className="td-amount" data-title="Amount">
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
@@ -246,20 +246,12 @@ import {number_format} from '../commJS/common';
         }
         
         onSelectFrom(value){
+            console.log(value);
             let to = this.state.To;
             let from = this.state.From;
             if(value != from){
                 if(value == 0 && to == 0) {
-                    let data = this.state.WalletInfo.tpWallets;
-                    if(data!=null) {
-                        for(let i=0;i<data.length;i++) {
-                            if(data[i].tpId != 0) {
-                                to = data[i].tpId;
-                                break;
-                            }
-                        }
-                    }
-
+                    to = 1;
                     this.setState({ From: value, To: to });
                 } else {
                     this.setState({ From: value, To: 0 });
@@ -268,11 +260,12 @@ import {number_format} from '../commJS/common';
         }
 
         onSelectTo(value){
+            console.log(value);
             let from = this.state.From;
             let to = this.state.To;
             if(value != to){
                 if(value == 0 && from == 0) {
-                    let data = this.state.WalletInfo.tpWallets;
+                    /*let data = this.state.WalletInfo.tpWallets;
                     if(data != null) {
                         for(let i=0;i<data.length;i++) {
                             if(data[i].tpId != 0) {
@@ -280,8 +273,8 @@ import {number_format} from '../commJS/common';
                                 break;
                             }
                         }
-                    }
-
+                    }*/
+                    from = 1;
                     this.setState({ To: value, From: from});
                 } else {
                     this.setState({ To: value, From: 0});
@@ -312,7 +305,7 @@ import {number_format} from '../commJS/common';
             let amount = 0;
             if(WalletInfo!=null) {
                 // && WalletInfo.balance > 0
-                if(from==0) {
+                if(from==1) {
                     amount = WalletInfo.balance;
                 } else if(WalletInfo.tpWallets != null) {
                     let data = this.state.WalletInfo.tpWallets;
@@ -441,7 +434,7 @@ import {number_format} from '../commJS/common';
             let WalletInfo = this.state.WalletInfo;
             let tpWallets = null;
             let data = [];
-            data.push({Text:SiteName,Value:0});
+            data.push({Text:i18n.lbl_Wallet_Saba, Value:1});
             if(WalletInfo != null && WalletInfo.tpWallets !=null){
                 tpWallets = <div className="tbody">{WalletInfo.tpWallets.map(function( item ,index ) { 
                     data.push({Text:item.tpName,Value:item.tpId});
@@ -488,19 +481,6 @@ import {number_format} from '../commJS/common';
             return (
             <div>
                 <div className="table table-rwd table-primary">
-                    <div className="thead" role="desktop-only">
-                        <div className="tr">
-                            <div className="td-Main-wallet" data-title={i18n.lbl_MainWallet}>
-                                <span className="text">{i18n.lbl_MainWallet}</span>
-                            </div>
-                            <div className="td-Balance" data-title={i18n.lbl_Balance}>
-                                <span className="text">{i18n.lbl_Balance}</span>
-                            </div>
-                            {/*<div className="td-status" data-title={i18n.lbl_RetriveAllIn}>
-                                <span className="text">{i18n.lbl_RetriveAllIn}</span>
-                            </div>*/}
-                        </div>
-                    </div>
                     <div className="tbody">
                         <div className="tr">
                             <div className="td-Main-wallet" data-title={i18n.lbl_MainWallet}>
@@ -533,19 +513,6 @@ import {number_format} from '../commJS/common';
                     </div>
                 </div>
                 <div className="table table-rwd table-primary2">
-                    <div className="thead" role="desktop-only">
-                        <div className="tr">
-                            <div className="td-Secondary-wallet" data-title={i18n.lbl_OtherWallet}>
-                                <span className="text">{i18n.lbl_OtherWallet}</span>
-                            </div>
-                            <div className="td-Balance" data-title={i18n.lbl_Balance}>
-                                <span className="text">{i18n.lbl_Balance}</span>
-                            </div>
-                            {/*<div className="td-status" data-title={i18n.lbl_RetriveAllIn}>
-                                <span className="text">{i18n.lbl_RetriveAllIn}</span>
-                            </div>*/}
-                        </div>
-                    </div>
                     {tpWallets}
                 </div>
                 {<form className="form" onSubmit={this.handleSubmit.bind(this)}>
