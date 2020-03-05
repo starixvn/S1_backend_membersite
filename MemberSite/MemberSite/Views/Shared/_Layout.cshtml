@@ -54,8 +54,8 @@
         @RenderBody()
         @if (!string.Equals(ViewContext.RouteData.Values["controller"] as string, "sports", StringComparison.OrdinalIgnoreCase))
         {
-            <partial name="~/Views/Shared/_Footer.cshtml" />
-            <partial name="~/Views/Shared/_LeftMenu.cshtml" />
+        <partial name="~/Views/Shared/_Footer.cshtml" />
+        <partial name="~/Views/Shared/_LeftMenu.cshtml" />
         }
 
     </div>
@@ -65,29 +65,29 @@
     {
         if (!tools.IsMobile())
         {
-            <script src="~/lib/es6-promise.min.js"></script>
-            <script src="~/lib/es6-promise.auto.min.js"></script>
+    <script src="~/lib/es6-promise.min.js"></script>
+    <script src="~/lib/es6-promise.auto.min.js"></script>
         }
 
-        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
-        <script src="~/lib/react.development.js"></script>
-        <script src="~/lib/react-dom.development.js"></script>
-        <script src="~/lib/babel.min.js"></script>
-        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>*@
+    <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+    <script src="~/lib/react.development.js"></script>
+    <script src="~/lib/react-dom.development.js"></script>
+    <script src="~/lib/babel.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>*@
     }
     else
     {
-        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
-        <script src="~/lib/react.production.min.js"></script>
-        <script src="~/lib/react-dom.production.min.js"></script>
+    <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+    <script src="~/lib/react.production.min.js"></script>
+    <script src="~/lib/react-dom.production.min.js"></script>
         if (!tools.IsMobile())
         {
-            <script src="~/lib/es6-promise.min.js"></script>
-            <script src="~/lib/es6-promise.auto.min.js"></script>
+    <script src="~/lib/es6-promise.min.js"></script>
+    <script src="~/lib/es6-promise.auto.min.js"></script>
         }
     }
 
-<script>
+    <script>
         @if (User.Identity.IsAuthenticated)
         {
             var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
@@ -184,28 +184,32 @@
                 $target.attr("data-open", $target.attr("data-open") === "true" ? "false" : "true");
             });
         });
-</script>
+    </script>
 
     @if (User.Identity.IsAuthenticated)
     {
-        <script src="~/js/commJS/common.js"></script>
-        <script src="~/js/commJS/Account.js" asp-append-version="true"></script>
-        <script src="~/js/component/app/BalancePanel.min.js" asp-append-version="true"></script>
-        <script src="~/js/component/app/WalletInfo.min.js" asp-append-version="true"></script>
+    <script src="~/js/commJS/common.js"></script>
+    <script src="~/js/commJS/Account.js" asp-append-version="true"></script>
+    <script src="~/js/component/app/BalancePanel.min.js" asp-append-version="true"></script>
+    <script src="~/js/component/app/WalletInfo.min.js" asp-append-version="true"></script>
     }
     else
     {
-        <script src="~/lib/runtime.min.js"></script>
-        <script src="~/js/component/app/loginForm.min.js" asp-append-version="true"></script>
+    <script src="~/lib/runtime.min.js"></script>
+    <script src="~/js/component/app/loginForm.min.js" asp-append-version="true"></script>
     }
     @* Start of LiveChat (www.livechatinc.com) code *@
     <script type="text/javascript">
-        !function (t, c) { t.__lc = t.__lc || {}, t.__lc.license = 11638088; var e = c.createElement("script"); e.type = "text/javascript", e.async = !0, e.src = ("https:" == c.location.protocol ? "https://" : "http://") + "cdn.livechatinc.com/tracking.js"; var n = c.getElementsByTagName("script")[0]; n.parentNode.insertBefore(e, n) }(window, document);
+        window.__lc = window.__lc || {};
+        window.__lc.license = 11638088;
+        window.__lc.chat_between_groups = false;
+
+        (function () {
+            var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
+            lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
+        })();
     </script>
-    <noscript>
-        <a href="https://www.livechatinc.com/chat-with/11638088/" rel="nofollow">Chat with us</a>,
-        powered by <a href="https://www.livechatinc.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a>
-    </noscript>
     @*  End of LiveChat code*@
     @RenderSection("Scripts", required: false)
     @RenderSection("PromptMsg", required: false)

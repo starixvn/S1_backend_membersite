@@ -81,45 +81,57 @@
 @section Style{
 
 }
-
-
-<div class="main">
-    <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
-    <div class="page-title" role="mobile-only">
-        <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
-    </div>
-    <div class="page-tabs" role="mobile-only">
-        <a class="page-tabs__btn" data-selected="true">
-            <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
-        </a>
-        <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-            <span class="text">@selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
-        </a>
-        <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-            <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
-        </a>
-    </div>
-    @if (custInfoProfile == null || custInfoProfile.AccountName == null || custInfoProfile.CountryCode == null || custInfoProfile.PhoneNo == null)
+@{
+    if (custInfoProfile == null || custInfoProfile.AccountName == null || custInfoProfile.CountryCode == null || custInfoProfile.PhoneNo == null)
     {
-        <div class="page">
-            <div class="heading">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+        <div class="main">
+            <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
+            <div class="page-title" role="mobile-only">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
             </div>
-            <div class="text--lg">@selLangBLL.GetResourceValue("lbl_ImportantNote")</div>
-            <p>@selLangBLL.GetResourceValue("lbl_UpdatePersonalInfo")</p><br />
-            <div class="btn-group">
-                <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_UpdatePersonalDetail")</span>
+            <div class="page-tabs" role="mobile-only">
+                <a class="page-tabs__btn" data-selected="true" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
                 </a>
+                <a class="page-tabs__btn">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
+                </a>
+            </div>
+            <div class="page">
+                <div class="heading">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+                </div>
+                <div class="text--lg">@selLangBLL.GetResourceValue("lbl_ImportantNote")</div>
+                <p>@selLangBLL.GetResourceValue("lbl_UpdatePersonalInfo")</p><br />
+                <div class="btn-group">
+                    <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_UpdatePersonalDetail")</span>
+                    </a>
+                </div>
             </div>
         </div>
     }
     else
     {
-        <div id="DepositPanel" class="page"></div>
+        <div class="main">
+            <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
+            <div class="page-title" role="mobile-only">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
+            </div>
+            <div class="page-tabs" role="mobile-only">
+                <a class="page-tabs__btn" data-selected="true">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+                </a>
+                <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
+                </a>
+            </div>
+            <div id="DepositPanel" class="page"></div>
+        </div>
     }
-</div>
+}
 @section Scripts{
+
     @if (custInfoProfile == null || custInfoProfile.AccountName == null || custInfoProfile.CountryCode == null || custInfoProfile.PhoneNo == null)
     {
 
