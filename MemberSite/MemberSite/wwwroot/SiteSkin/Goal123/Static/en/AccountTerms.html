@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>Account Terms</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../common/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="side-bar" role="desktop-drawer">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <a class="btn btn-icon" role="desktop-only">
+                        <i class="icon icon-clear"></i>
+                    </a>
+                </div>
+                <div class="side-nav__list">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn" href="/">
+                            <i class="icon icon-home"></i>
+                            <span class="text">Home</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-info-outline"></i>
+                            <span class="text">Goal123</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="AboutUs.html" target="_self">
+                                <span class="text">About Us</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Terms.html" target="_self">
+                                <span class="text">Terms of Use</span>
+                            </a>
+                            <a class="side-nav__subitem" href="ContactUs.html" target="_self">
+                                <span class="text">Contact Us</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="Affiliates.html" target="_self"
+                                <span class="text">Affiliates</span>
+                            </a>-->
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-help-outline"></i>
+                            <span class="text">Help &amp; Support</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="RulesandRegulations.html">
+                                <span class="text">Rules and Regulations</span>
+                            </a>
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Account Terms</span>
+                            </a>
+                            <a class="side-nav__subitem" href="FAQ.html" target="_self">
+                                <span class="text">FAQ</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="DepositWithdrawals.html" target="_self">
+                                <span class="text">Deposit &amp; Withdrawals</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Downloads.html" target="_self">
+                                <span class="text">Downloads</span>
+                            </a>-->
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Account Terms</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-policy"></i>
+                            <span class="text">Our Policies</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="ResposibleGaming.html" target="_self">
+                                <span class="text">Responsible Gaming</span>
+                            </a>
+                            <a class="side-nav__subitem" href="TermsConditions.html" target="_self">
+                                <span class="text">Terms &amp; Conditions</span>
+                            </a>
+                            <a class="side-nav__subitem" href="PrivacyPolicy.html" target="_self">
+                                <span class="text">Privacy Policy</span>
+                            </a>
+                            <a class="side-nav__subitem" href="CookiePolicy.html" target="_self">
+                                <span class="text">Cookie Policy</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                    <a class="logo" href="/"></a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="help-page">
+                <div class="help-page__body">
+                    <div class="heading">
+                        <span class="text">Account Terms</span>
+                    </div>
+                    <div class="article">
+                        <h3>Limitations</h3>
+                        <p>Gambling regulations and restrictions vary from one country to another. As such, remote gambling or online gaming may be illegal in certain countries and jurisdictions, which means that the Company does not accept registration and bets by individuals located in these countries or jurisdictions. </p>
+
+                        <p>It is important that an individual ensures that the laws applicable to him concerning remote gambling or online gaming does not prohibit him from opening an account and placing a bet with the Company.</p>
+
+                        <p>To access the Company’s betting service, a player must first open an account. Every player may open only one (1) account. Should the Company discover any player with more than one account, the Company reserves the exclusive right to treat any such accounts as one joint account or close all other accounts.</p>
+
+                        <p>Players may only place bets up to a certain limit available in their betting account.</p>
+
+                        <h3>Responsibilities</h3>
+
+                        <p>By opening an account with us, there are important responsibilities that a player should always keep in mind.</p>
+
+                        <p>It shall always be the player’s responsibility to ensure that his records with the Company are kept up-to-date, especially with regard to the address, telephone number and payment/bank details. The Company shall however have the right to require the player to update his information and provide the same to the Company from time to time. If the player cannot provide the required information or document to verify his identity, the Company shall have the right to refuse the opening of an account or discontinue any transaction with the player.</p>
+
+                        <p>It is the player’s sole responsibility to ensure that he keeps his username, password and other security details confidential. In the event that a player thinks that the confidentiality of his username and other security details were breached, he should make the appropriate notification to the Company and obtain a new password. Any bets made online where the correct username and password have been used will be considered valid and binding upon the player.</p>
+
+                        <p>Players should likewise routinely check his account balance each time they log-in to the Company’s gaming website. In the event of any discrepancies, it is the player’s responsibility to immediately notify the Company together with the player’s record of transactions since the account balance was last verified and other supporting documents.</p>
+
+                        <p>Players may withdraw money from their account at any time provided that account balance has been confirmed, subject to the applicable policies of the Company on withdrawal.</p>
+
+                        <h3>Important Reservations</h3>
+                        <p>The Company reserves the right to refuse any bet or part of a bet without providing a reason at any time.</p>
+
+                        <p>The Company reserves the right to close a player’s betting account and refund the balance of his account without further explanation.</p>
+
+                        <p>If a betting account is inactive for one (1) year or longer, the Company reserves the right to forfeit the outstanding balance.</p>
+
+                        <p>Hence, the Company reserves the exclusive rights to restrict your access to our gaming website, suspend or terminate your betting account, refuse your offers for any bets, and forfeit any outstanding or matched bets in our absolute discretion without cause at any time. </p>
+
+                        <p>For further information on player account policies of the Company, please refer to the <a href="TermsConditions.html" target="_blank">Terms and Conditions</a> posted in this website.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2020. Goal123. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

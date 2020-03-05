@@ -166,10 +166,10 @@
     <value>關於我們</value>
   </data>
   <data name="lbl_AccountTerms" xml:space="preserve">
-    <value>賬戶條款</value>
+    <value>帳戶條款</value>
   </data>
   <data name="lbl_AddNewAccount" xml:space="preserve">
-    <value>新增賬戶</value>
+    <value>新增帳戶</value>
   </data>
   <data name="lbl_Affiliates" xml:space="preserve">
     <value>合作夥伴</value>
@@ -190,8 +190,7 @@
     <value>歐亞體育</value>
   </data>
   <data name="lbl_AttachFile" xml:space="preserve">
-    <value>請附上您銀行收據(非必要)
-</value>
+    <value>請附上您銀行收據(非必要)</value>
   </data>
   <data name="lbl_Author" xml:space="preserve">
     <value>歐亞體育</value>
@@ -200,13 +199,13 @@
     <value>返回</value>
   </data>
   <data name="lbl_BankAccount" xml:space="preserve">
-    <value>銀行賬戶</value>
+    <value>銀行帳戶</value>
   </data>
   <data name="lbl_BankAccountName" xml:space="preserve">
-    <value>賬戶名稱</value>
+    <value>帳戶名稱</value>
   </data>
   <data name="lbl_BankAccountNameHint" xml:space="preserve">
-    <value>賬號名稱請填寫真實姓名，完成後將無法修改！</value>
+    <value>帳號名稱請填寫真實姓名，完成後將無法修改！</value>
   </data>
   <data name="lbl_BankInfo" xml:space="preserve">
     <value>銀行資訊</value>
@@ -215,7 +214,7 @@
     <value>銀行名稱</value>
   </data>
   <data name="lbl_BankNumber" xml:space="preserve">
-    <value>銀行賬戶號碼</value>
+    <value>銀行帳戶號碼</value>
   </data>
   <data name="lbl_Baseball" xml:space="preserve">
     <value>棒球</value>
@@ -233,7 +232,7 @@
     <value>取消</value>
   </data>
   <data name="lbl_CancelConfirm" xml:space="preserve">
-    <value>確定取消？取消後將無法再還原！</value>
+    <value>確定取消？取消後將無法還原！</value>
   </data>
   <data name="lbl_Cashier" xml:space="preserve">
     <value>收銀</value>
@@ -263,10 +262,10 @@
     <value>我確認我至少21歲</value>
   </data>
   <data name="lbl_Check18TCTooltip" xml:space="preserve">
-    <value>請點選上方格子以確認符合賬號註冊條件</value>
+    <value>請點選上方格子以確認符合帳號註冊條件</value>
   </data>
   <data name="lbl_CheckConfirm" xml:space="preserve">
-    <value>確定刪除？確定刪除後將無法再還原！</value>
+    <value>確定要刪除麼？刪除後將無法還原！</value>
   </data>
   <data name="lbl_Clickhereforbonus" xml:space="preserve">
     <value>點擊此處取得紅利</value>
@@ -326,10 +325,10 @@
     <value>阿魯巴島</value>
   </data>
   <data name="lbl_CountryBB" xml:space="preserve">
-    <value>巴巴多斯</value>
+    <value>巴貝多</value>
   </data>
   <data name="lbl_CountryBD" xml:space="preserve">
-    <value>孟加拉國</value>
+    <value>孟加拉</value>
   </data>
   <data name="lbl_CountryBF" xml:space="preserve">
     <value>布吉納法索</value>
@@ -341,10 +340,10 @@
     <value>布隆迪</value>
   </data>
   <data name="lbl_CountryBJ" xml:space="preserve">
-    <value>貝寧</value>
+    <value>貝南</value>
   </data>
   <data name="lbl_CountryBM" xml:space="preserve">
-    <value>百慕達</value>
+    <value>百慕大</value>
   </data>
   <data name="lbl_CountryBN" xml:space="preserve">
     <value>汶萊達魯薩蘭國</value>
@@ -362,16 +361,16 @@
     <value>不丹</value>
   </data>
   <data name="lbl_CountryBW" xml:space="preserve">
-    <value>波茨華拿</value>
+    <value>波札那</value>
   </data>
   <data name="lbl_CountryBZ" xml:space="preserve">
-    <value>伯利茲</value>
+    <value>貝里斯</value>
   </data>
   <data name="lbl_CountryCA" xml:space="preserve">
     <value>加拿大</value>
   </data>
   <data name="lbl_CountryCD" xml:space="preserve">
-    <value>多米尼加共和國</value>
+    <value>多明尼加共和國</value>
   </data>
   <data name="lbl_CountryCF" xml:space="preserve">
     <value>中非共和國</value>
@@ -383,7 +382,7 @@
     <value>象牙海岸</value>
   </data>
   <data name="lbl_CountryCK" xml:space="preserve">
-    <value>庫克群島</value>
+    <value>科克群島</value>
   </data>
   <data name="lbl_CountryCL" xml:space="preserve">
     <value>智利</value>
@@ -395,13 +394,13 @@
     <value>哥倫比亞</value>
   </data>
   <data name="lbl_CountryCR" xml:space="preserve">
-    <value>哥斯達黎加</value>
+    <value>哥斯大黎加</value>
   </data>
   <data name="lbl_CountryCS" xml:space="preserve">
     <value>中國</value>
   </data>
   <data name="lbl_CountryCV" xml:space="preserve">
-    <value>佛得角</value>
+    <value>維德角</value>
   </data>
   <data name="lbl_CountryDZ" xml:space="preserve">
     <value>阿爾及利亞</value>
@@ -413,25 +412,25 @@
     <value>埃及</value>
   </data>
   <data name="lbl_CountryER" xml:space="preserve">
-    <value>厄立特裏亞</value>
+    <value>厄立特里亞</value>
   </data>
   <data name="lbl_CountryET" xml:space="preserve">
-    <value>埃塞俄比亞</value>
+    <value>衣索比亞</value>
   </data>
   <data name="lbl_CountryFJ" xml:space="preserve">
     <value>斐濟</value>
   </data>
   <data name="lbl_CountryFO" xml:space="preserve">
-    <value>福克蘭群島(馬爾維納斯)</value>
+    <value>福克蘭群島(瑪律維納斯)</value>
   </data>
   <data name="lbl_CountryGA" xml:space="preserve">
     <value>加蓬</value>
   </data>
   <data name="lbl_CountryGD" xml:space="preserve">
-    <value>格林納達</value>
+    <value>格瑞那達</value>
   </data>
   <data name="lbl_CountryGH" xml:space="preserve">
-    <value>加納</value>
+    <value>迦納</value>
   </data>
   <data name="lbl_CountryGI" xml:space="preserve">
     <value>直布羅陀</value>
@@ -440,7 +439,7 @@
     <value>幾內亞</value>
   </data>
   <data name="lbl_CountryGT" xml:space="preserve">
-    <value>危地馬拉</value>
+    <value>瓜地馬拉</value>
   </data>
   <data name="lbl_CountryGY" xml:space="preserve">
     <value>圭亞那</value>
@@ -467,7 +466,7 @@
     <value>日本</value>
   </data>
   <data name="lbl_CountryKE" xml:space="preserve">
-    <value>肯尼亞</value>
+    <value>肯亞</value>
   </data>
   <data name="lbl_CountryKH" xml:space="preserve">
     <value>柬埔寨</value>
@@ -482,7 +481,7 @@
     <value>開曼群島</value>
   </data>
   <data name="lbl_CountryKZ" xml:space="preserve">
-    <value>哈薩克斯坦</value>
+    <value>哈薩克</value>
   </data>
   <data name="lbl_CountryLA" xml:space="preserve">
     <value>老撾</value>
@@ -491,13 +490,13 @@
     <value>黎巴嫩</value>
   </data>
   <data name="lbl_CountryLC" xml:space="preserve">
-    <value>聖盧西亞島</value>
+    <value>聖露西亞島</value>
   </data>
   <data name="lbl_CountryLK" xml:space="preserve">
-    <value>斯裏蘭卡</value>
+    <value>斯里蘭卡</value>
   </data>
   <data name="lbl_CountryLS" xml:space="preserve">
-    <value>萊索托</value>
+    <value>賴索托</value>
   </data>
   <data name="lbl_CountryMA" xml:space="preserve">
     <value>摩洛哥</value>
@@ -506,7 +505,7 @@
     <value>馬達加斯加</value>
   </data>
   <data name="lbl_CountryML" xml:space="preserve">
-    <value>馬裏</value>
+    <value>馬里</value>
   </data>
   <data name="lbl_CountryMM" xml:space="preserve">
     <value>緬甸</value>
@@ -518,13 +517,13 @@
     <value>毛利塔尼亞</value>
   </data>
   <data name="lbl_CountryMU" xml:space="preserve">
-    <value>毛裏求斯</value>
+    <value>模里西斯</value>
   </data>
   <data name="lbl_CountryMV" xml:space="preserve">
-    <value>馬爾代夫</value>
+    <value>馬爾地夫</value>
   </data>
   <data name="lbl_CountryMW" xml:space="preserve">
-    <value>馬拉維</value>
+    <value>馬拉威</value>
   </data>
   <data name="lbl_CountryMX" xml:space="preserve">
     <value>墨西哥</value>
@@ -536,22 +535,22 @@
     <value>納米比亞</value>
   </data>
   <data name="lbl_CountryNC" xml:space="preserve">
-    <value>新喀裏多尼亞</value>
+    <value>新赫里多尼亞</value>
   </data>
   <data name="lbl_CountryNE" xml:space="preserve">
     <value>尼日爾</value>
   </data>
   <data name="lbl_CountryNG" xml:space="preserve">
-    <value>尼日利亞</value>
+    <value>奈及利亞</value>
   </data>
   <data name="lbl_CountryNP" xml:space="preserve">
     <value>尼泊爾</value>
   </data>
   <data name="lbl_CountryNR" xml:space="preserve">
-    <value>瑙魯</value>
+    <value>諾魯</value>
   </data>
   <data name="lbl_CountryNZ" xml:space="preserve">
-    <value>新西蘭</value>
+    <value>紐西蘭</value>
   </data>
   <data name="lbl_CountryOM" xml:space="preserve">
     <value>阿曼</value>
@@ -575,34 +574,34 @@
     <value>巴拉圭</value>
   </data>
   <data name="lbl_CountryQA" xml:space="preserve">
-    <value>卡塔爾</value>
+    <value>卡達</value>
   </data>
   <data name="lbl_CountrySA" xml:space="preserve">
-    <value>沙特阿拉伯</value>
+    <value>沙烏地阿拉伯</value>
   </data>
   <data name="lbl_CountrySB" xml:space="preserve">
     <value>所羅門群島</value>
   </data>
   <data name="lbl_CountrySC" xml:space="preserve">
-    <value>塞舌爾</value>
+    <value>塞席爾</value>
   </data>
   <data name="lbl_CountrySD" xml:space="preserve">
     <value>蘇丹</value>
   </data>
   <data name="lbl_CountrySL" xml:space="preserve">
-    <value>塞拉利昂</value>
+    <value>獅子山</value>
   </data>
   <data name="lbl_CountrySN" xml:space="preserve">
     <value>塞內加爾</value>
   </data>
   <data name="lbl_CountrySO" xml:space="preserve">
-    <value>索馬裏</value>
+    <value>索馬里</value>
   </data>
   <data name="lbl_CountrySR" xml:space="preserve">
-    <value>蘇裏南</value>
+    <value>蘇利南</value>
   </data>
   <data name="lbl_CountryST" xml:space="preserve">
-    <value>聖多美和普林西比</value>
+    <value>聖多美及普林西比島</value>
   </data>
   <data name="lbl_CountrySV" xml:space="preserve">
     <value>薩爾瓦多</value>
@@ -611,13 +610,13 @@
     <value>阿拉伯敘利亞共和國</value>
   </data>
   <data name="lbl_CountrySZ" xml:space="preserve">
-    <value>斯威士蘭</value>
+    <value>史瓦濟蘭</value>
   </data>
   <data name="lbl_CountryTD" xml:space="preserve">
-    <value>乍得</value>
+    <value>查德</value>
   </data>
   <data name="lbl_CountryTG" xml:space="preserve">
-    <value>湯加</value>
+    <value>東加</value>
   </data>
   <data name="lbl_CountryTH" xml:space="preserve">
     <value>泰國</value>
@@ -632,10 +631,10 @@
     <value>請選擇您的居住國家</value>
   </data>
   <data name="lbl_CountryTT" xml:space="preserve">
-    <value>特立尼達和多巴哥</value>
+    <value>千里達和多巴哥</value>
   </data>
   <data name="lbl_CountryTZ" xml:space="preserve">
-    <value>坦桑尼亞聯合共和國</value>
+    <value>坦尚尼亞聯合共和國</value>
   </data>
   <data name="lbl_CountryUG" xml:space="preserve">
     <value>烏干達</value>
@@ -647,7 +646,7 @@
     <value>烏茲別克斯坦</value>
   </data>
   <data name="lbl_CountryVC" xml:space="preserve">
-    <value>聖文森特和格林納丁斯</value>
+    <value>聖文森特和格林納丁斯群島</value>
   </data>
   <data name="lbl_CountryVE" xml:space="preserve">
     <value>委內瑞拉</value>
@@ -665,16 +664,16 @@
     <value>西撒哈拉</value>
   </data>
   <data name="lbl_CountryYE" xml:space="preserve">
-    <value>也門</value>
+    <value>葉門</value>
   </data>
   <data name="lbl_CountryZA" xml:space="preserve">
     <value>南非</value>
   </data>
   <data name="lbl_CountryZM" xml:space="preserve">
-    <value>贊比亞</value>
+    <value>尚比亞</value>
   </data>
   <data name="lbl_CountryZW" xml:space="preserve">
-    <value>津巴布韋</value>
+    <value>辛巴威</value>
   </data>
   <data name="lbl_CreditTime" xml:space="preserve">
     <value>所需時間</value>
@@ -701,7 +700,7 @@
     <value>美元</value>
   </data>
   <data name="lbl_Currency_32" xml:space="preserve">
-    <value>日圓</value>
+    <value>日元</value>
   </data>
   <data name="lbl_Currency_4" xml:space="preserve">
     <value>泰銖</value>
@@ -710,7 +709,7 @@
     <value>瑞士法郎</value>
   </data>
   <data name="lbl_Currency_45" xml:space="preserve">
-    <value>韓圓</value>
+    <value>南韓圜</value>
   </data>
   <data name="lbl_Currency_5" xml:space="preserve">
     <value>港元</value>
@@ -722,7 +721,7 @@
     <value>歐元</value>
   </data>
   <data name="lbl_Currency_9" xml:space="preserve">
-    <value>澳洲元</value>
+    <value>澳元</value>
   </data>
   <data name="lbl_CustBank" xml:space="preserve">
     <value>銀行</value>
@@ -734,7 +733,7 @@
     <value>日期</value>
   </data>
   <data name="lbl_DateMissing" xml:space="preserve">
-    <value>請輸入咨詢日期</value>
+    <value>請輸入諮詢日期</value>
   </data>
   <data name="lbl_Deposit" xml:space="preserve">
     <value>存款</value>
@@ -758,7 +757,7 @@
     <value>已付款</value>
   </data>
   <data name="lbl_DepositStatus3" xml:space="preserve">
-    <value>已核準</value>
+    <value>已核准</value>
   </data>
   <data name="lbl_DepositStatus4" xml:space="preserve">
     <value>已拒絕</value>
@@ -782,25 +781,25 @@
     <value>存款時間</value>
   </data>
   <data name="lbl_DepositTimeToolTip" xml:space="preserve">
-    <value>請提交您的存款時間。</value>
+    <value>請提交您的存款存入時間。</value>
   </data>
   <data name="lbl_DepositType1" xml:space="preserve">
     <value>網路銀行</value>
   </data>
   <data name="lbl_DepositType2" xml:space="preserve">
-    <value>行動支付</value>
+    <value>移動支付</value>
   </data>
   <data name="lbl_DepositType3" xml:space="preserve">
     <value>銀行卡</value>
   </data>
   <data name="lbl_DepositWithdrawals" xml:space="preserve">
-    <value>存款与提款</value>
+    <value>存款與提款</value>
   </data>
   <data name="lbl_Description" xml:space="preserve">
     <value>歐亞體育是世界領先的體育博彩，提供最佳的博彩體驗，涵蓋所有體育，娛樂城，老虎機，快樂彩，電子競技，rng娛樂城，夢幻對壘，虛擬體育，彩票，真人娛樂場，真人荷官，賓果遊戲和賽車。</value>
   </data>
   <data name="lbl_DontHaveAccount" xml:space="preserve">
-    <value>沒有帳號嗎?</value>
+    <value>沒有帳戶嗎?</value>
   </data>
   <data name="lbl_DownloadApp" xml:space="preserve">
     <value>下載APP</value>
@@ -812,7 +811,7 @@
     <value>電子郵件</value>
   </data>
   <data name="lbl_EmailToolTip" xml:space="preserve">
-    <value>提交後無法變更電子郵件地址。</value>
+    <value>提交後無法變更電子郵寄地址。</value>
   </data>
   <data name="lbl_eSports" xml:space="preserve">
     <value>電子競技</value>
@@ -831,7 +830,7 @@
   </data>
   <data name="lbl_ForgetPassword" xml:space="preserve">
     <value>忘記您的用戶名或者密碼</value>
-    <comment>00341. Deposit</comment>
+    <comment>00340. Deposit</comment>
   </data>
   <data name="lbl_ForgetPwdHint" xml:space="preserve">
     <value>若您忘記您的用戶名或密碼，請提供您的電子郵件後我們將寄新密碼至您的郵箱。</value>
@@ -843,7 +842,7 @@
     <value>幫助</value>
   </data>
   <data name="lbl_HelpSupport" xml:space="preserve">
-    <value>幫助及支援</value>
+    <value>幫助及支持</value>
   </data>
   <data name="lbl_History" xml:space="preserve">
     <value>歷史記錄</value>
@@ -876,7 +875,7 @@
     <value>玩法精采多元，更多獲勝機會！</value>
   </data>
   <data name="lbl_Keywords" xml:space="preserve">
-    <value>歐亞體育是世界領先的體育博彩，提供最佳的博彩體驗，涵蓋所有體育，娛樂城，老虎機，快樂彩，電子競技，rng娛樂城，夢幻對壘，虛擬體育，彩票，真人娛樂場，真人荷官，賓果遊戲和賽車。</value>
+    <value>歐亞體育是世界領先的體育博彩，提供最佳的博彩體驗，涵蓋所有體育，娛樂城，老虎機，快樂彩，電子競技，rng娛樂城，夢幻對壘，虛擬體育，彩票，真人娛樂場，真人荷官，賓果遊戲和 賽車。</value>
   </data>
   <data name="lbl_LastLogin" xml:space="preserve">
     <value>最後登入</value>
@@ -894,13 +893,13 @@
     <value>真實賭場體驗</value>
   </data>
   <data name="lbl_LiveSupport" xml:space="preserve">
-    <value>24/7 在線客服</value>
+    <value>24/7 線上客服</value>
   </data>
   <data name="lbl_Login" xml:space="preserve">
     <value>登入</value>
   </data>
   <data name="lbl_LoginHere" xml:space="preserve">
-    <value>在此登入</value>
+    <value>此處登入</value>
   </data>
   <data name="lbl_LoginMsg" xml:space="preserve">
     <value>請注意，一個會員僅能註冊一個帳號。</value>
@@ -921,10 +920,10 @@
     <value>手機存款</value>
   </data>
   <data name="lbl_MomoHint" xml:space="preserve">
-    <value>如欲快速存款，請在此處留下您的銀行賬戶姓名及銀行賬戶號碼。</value>
+    <value>如欲快速存款，請在此處留下您的銀行帳戶姓名及銀行帳戶號碼。</value>
   </data>
   <data name="lbl_MyAccount" xml:space="preserve">
-    <value>我的賬戶</value>
+    <value>我的帳戶</value>
   </data>
   <data name="lbl_NewPassword" xml:space="preserve">
     <value>新密碼</value>
@@ -957,7 +956,7 @@
     <value>密碼</value>
   </data>
   <data name="lbl_PasswordTooltip" xml:space="preserve">
-    <value>6到18個數字、英文字母大小寫或特殊符號(@$*!%#?&amp;)</value>
+    <value>6到18個數位、英文字母大寫、英文字母小寫或特殊字元(@$*!%#?&amp;)</value>
   </data>
   <data name="lbl_PaymentOptions" xml:space="preserve">
     <value>支付方式</value>
@@ -978,7 +977,7 @@
     <value>輸入驗證碼立即存款</value>
   </data>
   <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
-    <value>一旦完成註冊，即無法修改选定幣別。</value>
+    <value>一旦完成註冊，即無法修改選定幣別。</value>
   </data>
   <data name="lbl_PrefferedCurrency" xml:space="preserve">
     <value>首選貨幣</value>
@@ -1089,13 +1088,13 @@
     <value>請轉帳到該帳戶</value>
   </data>
   <data name="lbl_TransactionHistory" xml:space="preserve">
-    <value>交易歷史紀錄</value>
+    <value>交易歷史記錄</value>
   </data>
   <data name="lbl_TransferFunds" xml:space="preserve">
     <value>資金轉移</value>
   </data>
   <data name="lbl_TransferTo" xml:space="preserve">
-    <value>轉賬至</value>
+    <value>轉帳至</value>
   </data>
   <data name="lbl_TryMobile" xml:space="preserve">
     <value>使用手機遊覽我們的網站</value>
@@ -1191,7 +1190,7 @@
     <value>已取消</value>
   </data>
   <data name="lbl_WithdrawalStatus6" xml:space="preserve">
-    <value>已核準</value>
+    <value>已核准</value>
   </data>
   <data name="lbl_WithdrawalStatus7" xml:space="preserve">
     <value>已拒絕</value>
@@ -1216,11 +1215,11 @@
   </data>
   <data name="lbl_Forget" xml:space="preserve">
     <value>忘記您的用戶名或者密碼?</value>
-    <comment>00339.</comment>
+    <comment>00338.</comment>
   </data>
   <data name="lbl_ForgetNote" xml:space="preserve">
-    <value>如果您忘記了您的密碼，請提供您的電子郵箱地址，安全問題及答案，我們將會發送新的密碼到您登記的電子郵箱地址。</value>
-    <comment>00340. Deposit</comment>
+    <value>如果您忘記了您的密碼，請提供您的電子郵箱位址，安全問題及答案，我們將會發送新的密碼到您登記的電子郵箱位址。</value>
+    <comment>00339. Deposit</comment>
   </data>
   <data name="lbl_RealName" xml:space="preserve">
     <value>真實姓名</value>
@@ -1229,11 +1228,23 @@
     <value>上傳</value>
   </data>
   <data name="lbl_RemindForName" xml:space="preserve">
-    <value>*請填寫與您銀行賬戶一致的完整姓名，以加速存款和提款操作。</value>
+    <value>*請填寫與您銀行帳戶一致的完整姓名，以加速存款和提款操作。</value>
   </data>
   <data name="lbl_badminton" xml:space="preserve">
     <value>羽毛球</value>
     <comment>00132.</comment>
+  </data>
+  <data name="lbl_Promotions" xml:space="preserve">
+    <value>優惠促銷</value>
+  </data>
+  <data name="FTDPDescription" xml:space="preserve">
+    <value>在歐亞88完成第一筆存款以享受高達 馬幣500 的優惠回饋！立即加入！</value>
+  </data>
+  <data name="FTDPTitle" xml:space="preserve">
+    <value>50% 歡迎紅利，最高 馬幣500</value>
+  </data>
+  <data name="lbl_TC" xml:space="preserve">
+    <value>優惠專用條款和條件</value>
   </data>
   <data name="lbl_Bonus" xml:space="preserve">
     <value>優惠</value>
@@ -1259,15 +1270,6 @@
   <data name="lbl_RollOver" xml:space="preserve">
     <value>最低投注倍數</value>
   </data>
-  <data name="FTDPDescription" xml:space="preserve">
-    <value>在歐亞88完成第一筆存款以享受高達 馬幣500 的優惠回饋！立即加入！</value>
-  </data>
-  <data name="FTDPTitle" xml:space="preserve">
-    <value>50% 歡迎紅利，最高 馬幣500</value>
-  </data>
-  <data name="lbl_TC" xml:space="preserve">
-    <value>優惠專用條款和條件</value>
-  </data>
   <data name="PromotionCategory1" xml:space="preserve">
     <value>首次存款</value>
   </data>
@@ -1277,18 +1279,20 @@
   <data name="lbl_Later" xml:space="preserve">
     <value>稍後</value>
   </data>
-  <data name="lbl_BonusConfirm" xml:space="preserve">
-    <value>您已點選我司優惠回饋，請問是否要繼續？</value>
-  </data>
   <data name="lbl_DepositOver" xml:space="preserve">
     <value>您的提款申請超過您的餘額</value>
   </data>
   <data name="lbl_EligibleWithdrawal" xml:space="preserve">
     <value>提款限額</value>
   </data>
+  <data name="lbl_RolloverProgress" xml:space="preserve">
+    <value>流水金額進度</value>
+  </data>
+  <data name="lbl_BonusConfirm" xml:space="preserve">
+    <value>您已點選我司優惠回饋，請問是否要繼續？</value>
+  </data>
   <data name="lbl_EligibleWithdrawalAmount" xml:space="preserve">
-    <value>
-您可提款的金額為</value>
+    <value>您可提款的金額為</value>
   </data>
   <data name="lbl_Req" xml:space="preserve">
     <value>條件</value>
@@ -1296,14 +1300,17 @@
   <data name="lbl_RolloverOver" xml:space="preserve">
     <value>您的優惠回饋流水未達最低金額</value>
   </data>
-  <data name="lbl_RolloverProgress" xml:space="preserve">
-    <value>流水金額進度</value>
-  </data>
   <data name="lbl_WithdrawalOver" xml:space="preserve">
     <value>您的提款申請超過您可提款金額</value>
   </data>
+  <data name="lbl_AllbetCasino" xml:space="preserve">
+    <value>Platinum Suite</value>
+  </data>
   <data name="lbl_Clickhereforpromotion" xml:space="preserve">
     <value>點擊這裡查看您現有的優惠</value>
+  </data>
+  <data name="lbl_SACasino" xml:space="preserve">
+    <value>雅典娜廳</value>
   </data>
   <data name="lbl_Days" xml:space="preserve">
     <value>天</value>
@@ -1311,11 +1318,20 @@
   <data name="lbl_Hours" xml:space="preserve">
     <value>小時</value>
   </data>
+  <data name="lbl_FacebookAccount" xml:space="preserve">
+    <value>nova88official</value>
+  </data>
+  <data name="lbl_TwitterAccount" xml:space="preserve">
+    <value>nova88official</value>
+  </data>
   <data name="lbl_Balance" xml:space="preserve">
     <value>餘額</value>
   </data>
   <data name="lbl_DepositHistory" xml:space="preserve">
     <value>存款歷史記錄</value>
+  </data>
+  <data name="lbl_DreamGaming" xml:space="preserve">
+    <value>水晶廳</value>
   </data>
   <data name="lbl_MainWallet" xml:space="preserve">
     <value>中心錢包</value>
@@ -1324,16 +1340,16 @@
     <value>總金額</value>
   </data>
   <data name="lbl_OtherWallet" xml:space="preserve">
-    <value>其他錢包</value>
+    <value>其它錢包</value>
   </data>
   <data name="lbl_RetriveAllIn" xml:space="preserve">
     <value>一鍵轉入</value>
   </data>
   <data name="lbl_TransferAll" xml:space="preserve">
-    <value>轉入中心錢包</value>
+    <value>輸入中心錢包</value>
   </data>
   <data name="lbl_TransferFrom" xml:space="preserve">
-    <value>轉帳從</value>
+    <value>轉帳表格</value>
   </data>
   <data name="lbl_TransferHistory" xml:space="preserve">
     <value>轉帳歷史記錄</value>
@@ -1342,21 +1358,15 @@
     <value>資金轉入</value>
   </data>
   <data name="lbl_TransferOut" xml:space="preserve">
-    <value>資金轉出</value>
+    <value>轉出</value>
   </data>
   <data name="lbl_WalletDescription_Saba" xml:space="preserve">
-    <value>包含 OneRNG, PP 和 Platinum Suite(AB)</value>
+    <value>包含 OneRNG, PP 和 至尊廳(AB)</value>
   </data>
   <data name="lbl_Wallet_Saba" xml:space="preserve">
     <value>體育錢包</value>
   </data>
   <data name="lbl_WithdrawalHistory" xml:space="preserve">
     <value>提款歷史記錄</value>
-  </data>
-  <data name="lbl_FacebookAccount" xml:space="preserve">
-    <value>nova88official</value>
-  </data>
-  <data name="lbl_TwitterAccount" xml:space="preserve">
-    <value>nova88official</value>
   </data>
 </root>

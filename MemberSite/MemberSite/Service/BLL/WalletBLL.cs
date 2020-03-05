@@ -12,13 +12,13 @@ namespace MemberSite.Service.BLL
     {
         private readonly Tools tools;
         private readonly WalletService walletService;
-        private readonly ServerInfoService serverInfoService;
+        private readonly ServerInfoBLL serverInfoBLL;
 
-        public WalletBLL(Tools tools, WalletService walletService, ServerInfoService serverInfoService)
+        public WalletBLL(Tools tools, WalletService walletService, ServerInfoBLL serverInfoBLL)
         {
             this.tools = tools;
             this.walletService = walletService;
-            this.serverInfoService = serverInfoService;
+            this.serverInfoBLL = serverInfoBLL;
         }
         public decimal GetBalance(int custId)
         {
@@ -31,7 +31,7 @@ namespace MemberSite.Service.BLL
 
         public WalletInfo GetWalletInfo(int custId)
         {
-            var serverInfo = serverInfoService.GetModel();
+            var serverInfo = serverInfoBLL.GetServerInfo();
             return walletService.GetWalletInfo(custId, serverInfo.SiteId);
         }
     }

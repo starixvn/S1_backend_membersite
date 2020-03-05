@@ -218,4 +218,10 @@
 ฝากเงินเลย เพื่อเพลินเงินกับเกมและบริการของเร
 </value>
   </data>
+  <data name="msg_HasExist1" xml:space="preserve">
+    <value>มีอยู่ในระบบแล้ว</value>
+  </data>
+  <data name="msg_InsufficientFund" xml:space="preserve">
+    <value>จำนวนเงินไม่เพียงพอ!</value>
+  </data>
 </root>

@@ -17,9 +17,8 @@ namespace MemberSite.Service.DAL
         {
             this.configuration = configuration;
         }
-        public ServerInfo GetModel()
+        public ServerInfo GetModel(int siteId)
         {
-            int siteId = 1;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.QueryFirstOrDefault<ServerInfo>("ServerInfo_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
@@ -32,6 +31,12 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<Country>("Common_CountryList_Get", commandType: CommandType.StoredProcedure);
+        }
+
+        public int GetSite(string domain)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.QueryFirstOrDefault<int>("Member_SiteId_Get", new { Domain = domain }, commandType: CommandType.StoredProcedure);
         }
     }
 }

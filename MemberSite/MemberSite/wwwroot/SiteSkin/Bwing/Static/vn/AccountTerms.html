@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>Tài khoản</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../common/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="side-bar" role="desktop-drawer">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <a class="btn btn-icon" role="desktop-only">
+                        <i class="icon icon-clear"></i>
+                    </a>
+                </div>
+                <div class="side-nav__list">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn" href="/">
+                            <i class="icon icon-home"></i>
+                            <span class="text">Trang Chủ</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-info-outline"></i>
+                            <span class="text">Bwing</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="AboutUs.html" target="_self">
+                                <span class="text">Giới Thiệu</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Terms.html" target="_self">
+                                <span class="text">Điều khoản Sử dụng</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="ContactUs.html" target="_self">
+                                <span class="text">Liên hệ</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Affiliates.html" target="_self"
+                                <span class="text">Chi nhánh</span>
+                            </a>-->
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-help-outline"></i>
+                            <span class="text">Hỗ trợ</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="RulesandRegulations.html">
+                                <span class="text">Quy Tắc và Quy Định Đặt Cược</span>
+                            </a>
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Điều khoản về Tài khoản</span>
+                            </a>
+                            <a class="side-nav__subitem" href="FAQ.html" target="_self">
+                                <span class="text">Hỏi đáp</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="DepositWithdrawals.html" target="_self">
+                                <span class="text">Gửi tiền &amp; Rút tiền</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Downloads.html" target="_self">
+                                <span class="text">Tải xuống</span>
+                            </a>-->
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Điều khoản về Tài khoản</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-policy"></i>
+                            <span class="text">Chính sách của chúng tôi</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="ResposibleGaming.html" target="_self">
+                                <span class="text">Chơi có trách nhiệm</span>
+                            </a>
+                            <a class="side-nav__subitem" href="TermsConditions.html" target="_self">
+                                <span class="text">Điều Khoản và Điều Kiện</span>
+                            </a>
+                            <a class="side-nav__subitem" href="PrivacyPolicy.html" target="_self">
+                                <span class="text">Chính sách bảo mật</span>
+                            </a>
+                            <a class="side-nav__subitem" href="CookiePolicy.html" target="_self">
+                                <span class="text">Chính sách Cookie</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                    <a class="logo" href="/"></a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="help-page">
+                <div class="help-page__body">
+                    <div class="heading">
+                        <span class="text">Tài khoản</span>
+                    </div>
+                    <div class="article">
+                        <h3>
+                            Giới hạn áp dụng
+                        </h3>
+                        <p>
+                            Quy định và giới hạn cá cược thay đổi tùy theo quốc gia. Do đó, cá cược từ xa hoặc trò chơi trực tuyến có thể bất hợp pháp ở một số quốc gia và vùng tài phán nhất định, điều này có nghĩa là Công ty không chấp nhận việc đăng ký và đặt cược của các cá nhân tại các quốc gia hoặc vùng tài phán này.
+                        </p>
+                        <p>
+                            Điều quan trọng là mỗi cá nhân phải đảm bảo rằng luật liên quan đến cá cược từ xa hoặc trò chơi trực tuyến áp dụng cho mình không cấm việc mở tài khoản và đặt cược với Công ty.
+                        </p>
+                        <p>
+                            Để sử dụng dịch vụ cá cược của Công ty, trước hết, người chơi phải mở tài khoản. Mỗi người chơi chỉ được quyền mở một (1) tài khoản. Nếu Công ty phát hiện ra bất kỳ người chơi nào có nhiều tài khoản, Công ty có toàn quyền xử lý gộp mọi tài khoản như vậy thành một tài khoản chung hoặc đóng tất cả các tài khoản còn lại.
+                        </p>
+                        <p>
+                            Người chơi chỉ được quyền đặt cược tối đa tới giới hạn nhất định áp dụng cho tài khoản cá cược của họ.
+                        </p>
+                        <h3>
+                            Trách nhiệm
+                        </h3>
+                        <p>
+                            Khi mở tài khoản với chúng tôi, có nhiều trách nhiệm quan trọng mà người chơi phải luôn lưu ý.
+                        </p>
+                        <p>
+                            Người chơi luôn phải có trách nhiệm đảm bảo hồ sơ của mình với Công ty được cập nhật, đặc biệt là thông tin liên quan đến địa chỉ, số điện thoại và thông tin thanh toán/ngân hàng. Tuy nhiên Công ty có quyền yêu cầu người chơi thỉnh thoảng cập nhật thông tin của mình và cung cấp thông tin này cho Công ty. Nếu người chơi không thể cung cấp thông tin hoặc tài liệu được yêu cầu để xác minh danh tính của mình, công ty có quyền từ chối mở tài khoản hoặc chấm dứt mọi giao dịch với người chơi đó.
+                        </p>
+                        <p>
+                            Người chơi hoàn toàn chịu trách nhiệm đảm bảo giữ kín tên người dùng, mật khẩu và các thông tin bảo mật khác. Trong trường hợp người chơi nghĩ rằng tên người dùng và các thông tin bảo mật khác của mình bị vi phạm tính bảo mật, người đó nên đưa ra thông báo thích hợp cho Công ty và đổi mật khẩu mới. Mọi khoản cược được thực hiện trực tuyến bằng tên người dùng và mật khẩu chính xác sẽ được xem là hợp lệ và có ý nghĩa ràng buộc người chơi.
+                        </p>
+                        <p>
+                            Người chơi cũng nên thường xuyên kiểm tra số dư tài khoản của mình mỗi lần đăng nhập vào trang web trò chơi của Công ty. Trong trường hợp có sai lệch, người chơi có trách nhiệm thông báo cho Công ty và cung cấp hồ sơ giao dịch của mình kể từ lần gần nhất số dư được xác minh, cùng các giấy tờ chứng minh khác.
+                        </p>
+                        <p>
+                            Người chơi có thể rút tiền khỏi tài khoản của mình bất kỳ lúc nào miễn là số dư tài khoản đã được xác nhận, tùy theo các chính sách có thể áp dụng của Công ty về việc rút tiền.
+                        </p>
+                        <h3>
+                            Điều kiện hạn chế Quan trọng
+                        </h3>
+                        <p>
+                            Công ty có quyền từ chối mọi khoản cược hoặc một phần của khoản cược bất cứ lúc nào mà không cần đưa ra lý do.
+                        </p>
+                        <p>
+                            Công ty có quyền đóng tài khoản cá cược của người chơi và hoàn lại số dư trong tài khoản của người chơi mà không cần giải thích thêm.
+                        </p>
+                        <p>
+                            Nếu tài khoản cá cược không hoạt động trong một (1) năm trở lên, Công ty có quyền tịch thu số dư còn lại.
+                        </p>
+                        <p>
+                            Do đó, Công ty có toàn quyền hạn chế quyền truy cập của bạn vào trang web trò chơi của chúng tôi, treo hoặc chấm dứt tài khoản cá cược của bạn, từ chối các đề nghị cược của bạn và tịch thu bất kỳ khoản cược nào chưa thanh toán hoặc khoản cược đã so khớp theo quyền tự quyết của chúng tôi bất cứ lúc nào mà không cần đưa ra lý do.
+                        </p>
+                        <p>
+                            Để biết thêm thông tin về chính sách tài khoản người chơi của Công ty, vui lòng tham khảo các <a href="TermsConditions.html" target="_blank">Điều khoản và Điều kiện</a> được đăng trên trang web này.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2020. Bwing. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

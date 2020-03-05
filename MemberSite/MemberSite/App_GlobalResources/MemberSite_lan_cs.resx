@@ -190,8 +190,7 @@
     <value>欧亚体育</value>
   </data>
   <data name="lbl_AttachFile" xml:space="preserve">
-    <value>请附上您银行收据(非必要)
-</value>
+    <value>请附上您银行收据(非必要)</value>
   </data>
   <data name="lbl_Author" xml:space="preserve">
     <value>欧亚体育</value>
@@ -1236,7 +1235,16 @@
     <comment>00132.</comment>
   </data>
   <data name="lbl_Promotions" xml:space="preserve">
-    <value>Promotions</value>
+    <value>优惠促销</value>
+  </data>
+  <data name="FTDPDescription" xml:space="preserve">
+    <value>在歐亞88完成第一筆存款以享受高達 馬幣500 的優惠回饋！立即加入！</value>
+  </data>
+  <data name="FTDPTitle" xml:space="preserve">
+    <value>50% 欢迎红利，最高 马币500</value>
+  </data>
+  <data name="lbl_TC" xml:space="preserve">
+    <value>优惠专用条款和条件</value>
   </data>
   <data name="lbl_Bonus" xml:space="preserve">
     <value>优惠</value>
@@ -1262,15 +1270,6 @@
   <data name="lbl_RollOver" xml:space="preserve">
     <value>最低投注倍数</value>
   </data>
-  <data name="FTDPDescription" xml:space="preserve">
-    <value>在欧亚88完成第一笔存款以享受高达 马币500 的优惠回馈！立即加入！</value>
-  </data>
-  <data name="FTDPTitle" xml:space="preserve">
-    <value>50% 欢迎红利，最高 马币500</value>
-  </data>
-  <data name="lbl_TC" xml:space="preserve">
-    <value>优惠专用条款和条件</value>
-  </data>
   <data name="PromotionCategory1" xml:space="preserve">
     <value>首次存款</value>
   </data>
@@ -1286,6 +1285,12 @@
   <data name="lbl_EligibleWithdrawal" xml:space="preserve">
     <value>提款限额</value>
   </data>
+  <data name="lbl_RolloverProgress" xml:space="preserve">
+    <value>流水金额进度</value>
+  </data>
+  <data name="lbl_BonusConfirm" xml:space="preserve">
+    <value>您已点选我司优惠回馈，请问是否要继续？</value>
+  </data>
   <data name="lbl_EligibleWithdrawalAmount" xml:space="preserve">
     <value>您可提款的金额为</value>
   </data>
@@ -1295,17 +1300,17 @@
   <data name="lbl_RolloverOver" xml:space="preserve">
     <value>您的优惠回馈流水未达最低金额</value>
   </data>
-  <data name="lbl_RolloverProgress" xml:space="preserve">
-    <value>流水金额进度</value>
-  </data>
   <data name="lbl_WithdrawalOver" xml:space="preserve">
     <value>您的提款申请超过您可提款金额</value>
   </data>
-  <data name="lbl_BonusConfirm" xml:space="preserve">
-    <value>您已点选我司优惠回馈，请问是否要继续？</value>
+  <data name="lbl_AllbetCasino" xml:space="preserve">
+    <value>至尊厅</value>
   </data>
   <data name="lbl_Clickhereforpromotion" xml:space="preserve">
     <value>点击这里查看您现有的优惠</value>
+  </data>
+  <data name="lbl_SACasino" xml:space="preserve">
+    <value>雅典娜厅</value>
   </data>
   <data name="lbl_Days" xml:space="preserve">
     <value>天</value>
@@ -1318,5 +1323,50 @@
   </data>
   <data name="lbl_TwitterAccount" xml:space="preserve">
     <value>nova88official</value>
+  </data>
+  <data name="lbl_Balance" xml:space="preserve">
+    <value>余额</value>
+  </data>
+  <data name="lbl_DepositHistory" xml:space="preserve">
+    <value>存款历史记录</value>
+  </data>
+  <data name="lbl_DreamGaming" xml:space="preserve">
+    <value>水晶厅</value>
+  </data>
+  <data name="lbl_MainWallet" xml:space="preserve">
+    <value>中心钱包</value>
+  </data>
+  <data name="lbl_MaxAmount" xml:space="preserve">
+    <value>总金额</value>
+  </data>
+  <data name="lbl_OtherWallet" xml:space="preserve">
+    <value>其它钱包</value>
+  </data>
+  <data name="lbl_RetriveAllIn" xml:space="preserve">
+    <value>一键转入</value>
+  </data>
+  <data name="lbl_TransferAll" xml:space="preserve">
+    <value>输入中心钱包</value>
+  </data>
+  <data name="lbl_TransferFrom" xml:space="preserve">
+    <value>转账表格</value>
+  </data>
+  <data name="lbl_TransferHistory" xml:space="preserve">
+    <value>转账历史记录</value>
+  </data>
+  <data name="lbl_TransferIn" xml:space="preserve">
+    <value>资金转入</value>
+  </data>
+  <data name="lbl_TransferOut" xml:space="preserve">
+    <value>转出</value>
+  </data>
+  <data name="lbl_WalletDescription_Saba" xml:space="preserve">
+    <value>包含 OneRNG, PP 和 至尊厅 (AB)</value>
+  </data>
+  <data name="lbl_Wallet_Saba" xml:space="preserve">
+    <value>体育钱包</value>
+  </data>
+  <data name="lbl_WithdrawalHistory" xml:space="preserve">
+    <value>提款历史记录</value>
   </data>
 </root>

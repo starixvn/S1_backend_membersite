@@ -17,7 +17,7 @@
     i18n.Add("lbl_DepositRollOver", selLangBLL.GetResourceValue("lbl_DepositRollOver"));
     i18n.Add("lbl_BonusRollOver", selLangBLL.GetResourceValue("lbl_BonusRollOver"));
 
-    string[] lbl_Txts = new string[] { "lbl_TC" };
+    string[] lbl_Txts = new string[] { "lbl_TC","lbl_Days","lbl_Hours" };
     foreach (var lbl_Txt in lbl_Txts)
     {
         if (!i18n.ContainsKey(lbl_Txt))
@@ -36,9 +36,7 @@
     {
         <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
     }
-    <div class="page-title" role="mobile-only">
-        <span class="text">@selLangBLL.GetResourceValue("lbl_Promotions")</span>
-    </div>
+
     <div class="promotionsList-page page">
         <div class="heading">
             <span class="text">@selLangBLL.GetResourceValue("lbl_PromotionsList")</span>

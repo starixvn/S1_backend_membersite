@@ -63,6 +63,7 @@ namespace MemberSite.Service.Model
         public string LastLoginTime { set; get; }
         public string LastTransaction { set; get; }
         public bool IsHideBalance { set; get; }
+        public IEnumerable<TpWallet> tpWallets { set; get; }
     }
 
     public class CustInfoProfile
@@ -92,5 +93,13 @@ namespace MemberSite.Service.Model
     {
         public bool ReachedRollover { get; set; }
         public decimal Lack { get; set; }
+    }
+    public class TpWallet
+    {
+        public int TpId { set; get; }
+        public string TpName { set; get; }
+        public string Description { set; get; }
+        public decimal Balance { set; get; }
+        public bool Transfer { set; get; }
     }
 }

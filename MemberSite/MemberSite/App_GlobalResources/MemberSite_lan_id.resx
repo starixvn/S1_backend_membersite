@@ -1237,6 +1237,15 @@
   <data name="lbl_Promotions" xml:space="preserve">
     <value>Promotions</value>
   </data>
+  <data name="FTDPDescription" xml:space="preserve">
+    <value>Selamat menikmati maksimal bonus IDR 1,000,000 dengan deposit anda yang pertama pada Nova88! Mari bergabung SEKARANG!</value>
+  </data>
+  <data name="FTDPTitle" xml:space="preserve">
+    <value>50% Deposit Awal Bonus Hingga IDR 1,000,000</value>
+  </data>
+  <data name="c" xml:space="preserve">
+    <value>Syarat dan ketentuan khusus penawaran</value>
+  </data>
   <data name="lbl_Bonus" xml:space="preserve">
     <value>BONUS</value>
   </data>
@@ -1261,15 +1270,6 @@
   <data name="lbl_RollOver" xml:space="preserve">
     <value>PERPUTARAN / ROLLOVER</value>
   </data>
-  <data name="FTDPDescription" xml:space="preserve">
-    <value>Selamat menikmati maksimal bonus MYR 500 dengan deposit anda yang pertama pada Nova88! Mari bergabung SEKARANG!</value>
-  </data>
-  <data name="FTDPTitle" xml:space="preserve">
-    <value>50% Deposit Awal Bonus Hingga IDR 1,000,000</value>
-  </data>
-  <data name="lbl_TC" xml:space="preserve">
-    <value>Syarat dan ketentuan khusus penawaran</value>
-  </data>
   <data name="PromotionCategory1" xml:space="preserve">
     <value>Setoran pertama</value>
   </data>
@@ -1279,17 +1279,17 @@
   <data name="lbl_Later" xml:space="preserve">
     <value>Nanti</value>
   </data>
-  <data name="lbl_BonusConfirm" xml:space="preserve">
-    <value>Anda telah memilih bonus promosi kami, apakah anda mau melanjutkan?</value>
-  </data>
-  <data name="lbl_Clickhereforpromotion" xml:space="preserve">
-    <value>Klik disini untuk melihat promosi yang tersedia</value>
-  </data>
   <data name="lbl_DepositOver" xml:space="preserve">
     <value>Jumlah permintaan penarikan anda melebihi saldo di akun anda </value>
   </data>
   <data name="lbl_EligibleWithdrawal" xml:space="preserve">
     <value>Penarikan yang memenuhi syarat</value>
+  </data>
+  <data name="lbl_RolloverProgress" xml:space="preserve">
+    <value>Perkembangan Rollover</value>
+  </data>
+  <data name="lbl_BonusConfirm" xml:space="preserve">
+    <value>Anda telah memilih bonus promosi kami, apakah anda mau melanjutkan?</value>
   </data>
   <data name="lbl_EligibleWithdrawalAmount" xml:space="preserve">
     <value>Jumlah penarikan anda yang memenuhi syarat adalah</value>
@@ -1300,16 +1300,73 @@
   <data name="lbl_RolloverOver" xml:space="preserve">
     <value>Perputaran turnover anda belum mencukupi</value>
   </data>
-  <data name="lbl_RolloverProgress" xml:space="preserve">
-    <value>Perkembangan Rollover</value>
-  </data>
   <data name="lbl_WithdrawalOver" xml:space="preserve">
     <value>Jumlah permintaan penarikan anda melebihi ketentuan penarikan  </value>
+  </data>
+  <data name="lbl_AllbetCasino" xml:space="preserve">
+    <value>Lobby Platina</value>
+  </data>
+  <data name="lbl_Clickhereforpromotion" xml:space="preserve">
+    <value>Klik disini untuk melihat promosi yang tersedia</value>
+  </data>
+  <data name="lbl_SACasino" xml:space="preserve">
+    <value>Lobby Dewi Athena</value>
+  </data>
+  <data name="lbl_Days" xml:space="preserve">
+    <value>Hari</value>
+  </data>
+  <data name="lbl_Hours" xml:space="preserve">
+    <value>Jam</value>
   </data>
   <data name="lbl_FacebookAccount" xml:space="preserve">
     <value>nova88official</value>
   </data>
   <data name="lbl_TwitterAccount" xml:space="preserve">
     <value>nova88official</value>
+  </data>
+  <data name="lbl_Balance" xml:space="preserve">
+    <value>Saldo</value>
+  </data>
+  <data name="lbl_DepositHistory" xml:space="preserve">
+    <value>Riwayat Setoran</value>
+  </data>
+  <data name="lbl_DreamGaming" xml:space="preserve">
+    <value>Lobby Kristal</value>
+  </data>
+  <data name="lbl_MainWallet" xml:space="preserve">
+    <value>Dompet Utama</value>
+  </data>
+  <data name="lbl_MaxAmount" xml:space="preserve">
+    <value>Jumlah Maksimal</value>
+  </data>
+  <data name="lbl_OtherWallet" xml:space="preserve">
+    <value>Dompet lain</value>
+  </data>
+  <data name="lbl_RetriveAllIn" xml:space="preserve">
+    <value>Ambil kembali semua</value>
+  </data>
+  <data name="lbl_TransferAll" xml:space="preserve">
+    <value>Transfer ke dompet utama </value>
+  </data>
+  <data name="lbl_TransferFrom" xml:space="preserve">
+    <value>Transfer dari</value>
+  </data>
+  <data name="lbl_TransferHistory" xml:space="preserve">
+    <value>Riwayat Transfer </value>
+  </data>
+  <data name="lbl_TransferIn" xml:space="preserve">
+    <value>Dana Masuk</value>
+  </data>
+  <data name="lbl_TransferOut" xml:space="preserve">
+    <value>Transfer keluar</value>
+  </data>
+  <data name="lbl_WalletDescription_Saba" xml:space="preserve">
+    <value>Termasuk OneRNG, PP dan Lobby Platina (AB)</value>
+  </data>
+  <data name="lbl_Wallet_Saba" xml:space="preserve">
+    <value>Dompet Olahraga</value>
+  </data>
+  <data name="lbl_WithdrawalHistory" xml:space="preserve">
+    <value>Riwayat Penarikan</value>
   </data>
 </root>
