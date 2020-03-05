@@ -512,6 +512,22 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        [HttpPost]
+        public ApiResult<bool> CheckMainWellet()
+        {
+            var apiResult = new ApiResult<bool>(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var balance = walletBLL.GetBalance(custInfo.CustId);
+            if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
+            {
+                balance /= 1000;
+            }
+            apiResult.Data = balance > 1m;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
         //[HttpPost]
         //public ApiResult DelCustBankInfo(BankInfo bankInfo)
         //{

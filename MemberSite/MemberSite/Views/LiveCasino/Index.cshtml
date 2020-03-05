@@ -2,9 +2,11 @@
 @using MemberSite.Service.Library
 @using MemberSite.Service.BLL
 @using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @inject Tools tools
+@inject CustInfoBLL custInfoBLL
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
@@ -29,9 +31,54 @@
         else
         {
             entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
-            entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
+            if (tpId == 1)
+            {
+                entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
+            }
+            else
+            {
+                entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}');";
+            }
         }
         return entPageUrl;
+    }
+}
+@section Scripts{
+    @if (User.Identity.IsAuthenticated)
+    {
+        <script type="text/javascript">
+            $(function () {
+                $(".Js-WalletAlert").on("touchstart, click", function () {
+                    $("#WalletAlert").attr("data-open", false);
+                });
+
+                $(".Js-LiveCasino").on("touchstart, click", function () {
+                    $("#WalletAlert").attr("data-open", false);
+                    window.open($(".Js-LiveCasino").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-TpId"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                });
+            });
+
+            function LaunchGame(GameUrl, TpId) {
+                $(".app-loading").attr("data-open", true);
+                axios.post('/api/Account/CheckMainWellet')
+                    .then(
+                        function (response) {
+                            $(".app-loading").attr("data-open", false);
+                            var result = response.data;
+                            if (result.errorCode != null && result.errorCode == 0 && !result.data) {
+                                $(".Js-LiveCasino").attr("data-GameUrl", GameUrl);
+                                $(".Js-LiveCasino").attr("data-TpId", TpId);
+                                $("#WalletAlert").attr("data-open", true);
+                            } else {
+                                window.open(GameUrl, TpId, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                            }
+                        }
+                    ).catch(function (error) {
+                        alert(error);
+                        $(".app-loading").attr("data-open", false);
+                    });
+            }
+        </script>
     }
 }
 <div class="main ">
@@ -56,7 +103,7 @@
                         <div class="message-list__body">
                             <div>
                                 <div>
-                                    <a href="@Html.Raw(GetEntPageUrl(2, "SA"))" @(!User.Identity.IsAuthenticated? "class=loginBtn":string.Empty)>
+                                    <a href="@Html.Raw(GetEntPageUrl(2, "SA"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
                                         <img src="/common/images/LiveCasino/SA.png" />
                                     </a>
                                 </div>
@@ -64,7 +111,7 @@
                             </div>
                             <div>
                                 <div>
-                                    <a href="@Html.Raw(GetEntPageUrl(3, "AG"))" @(!User.Identity.IsAuthenticated? "class=loginBtn":string.Empty)>
+                                    <a href="@Html.Raw(GetEntPageUrl(3, "AG"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
                                         <img src="/common/images/LiveCasino/AG.png" />
                                     </a>
                                 </div>
@@ -72,7 +119,7 @@
                             </div>
                             <div>
                                 <div>
-                                    <a href="@Html.Raw(GetEntPageUrl(1,"211"))" @(!User.Identity.IsAuthenticated? "class=loginBtn":string.Empty)>
+                                    <a href="@Html.Raw(GetEntPageUrl(1,"211"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
                                         <img src="/common/images/LiveCasino/All-Bet.png" />
                                     </a>
                                 </div>
@@ -80,7 +127,7 @@
                             </div>
                             <div>
                                 <div>
-                                    <img src="/common/images/LiveCasino/DG.png"/>
+                                    <img src="/common/images/LiveCasino/DG.png" />
                                 </div>
                                 <div class="txt-blue">@selLangBLL.GetResourceValue("lbl_ComingSoon")</div>
                             </div>
@@ -91,3 +138,43 @@
         </div>
     </div>
 </div>
+@section PromptMsg{
+    @if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        var customer = custInfoBLL.GetCustInfoWithCache(custId);
+        var CurrencyId = customer.CurrencyId;
+        <div class="modal" id="WalletAlert" data-open="false">
+            <div class="overlay Js-WalletAlert"></div>
+            <div class="modal__dialog">
+                <div class="modal__header">
+                    <span class="text">提醒</span>
+                </div>
+                <div class="modal__body">
+                    <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlet"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), "0.0"))</p>
+                    <br>
+                </div>
+                <div class="modal__footer">
+                    <div class="btn-group">
+                        <button class="btn btn-primary Js-LiveCasino" type="button">
+                            <span class="text">直接進入</span>
+                        </button>
+                        <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                            <span class="text">Go to @selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="app-loading" data-open="false">
+            <div class="preloader">
+                <div class="preloader__spiner">
+                    <div class="preloader__circles">
+                        <div class="preloader__circle-1"></div>
+                        <div class="preloader__circle-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
