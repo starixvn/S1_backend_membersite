@@ -211,4 +211,15 @@
 Gửi tiền ngay để thưởng thức các trò chơi và dịch vụ của chúng tôi
 </value>
   </data>
+  <data name="msg_CreditSignUp" xml:space="preserve">
+    <value>Kính gửi quý khách hàng, &lt;br /&gt;&lt;br /&gt;Chào mừng đến với &lt;a href=""https://www.nova88.net"" target=""_new""&gt;www.nova88.net&lt;/a&gt;, vui lòng truy cập liên kết ở trên để đăng ký và trải nghiệm các trò chơi của chúng tôi.
+</value>
+  </data>
+  <data name="msg_HasExist" xml:space="preserve">
+    <value>đã tồn tại
+</value>
+  </data>
+  <data name="msg_InsufficientFund" xml:space="preserve">
+    <value>Không đủ tiền!</value>
+  </data>
 </root>

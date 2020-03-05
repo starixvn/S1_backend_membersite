@@ -1309,4 +1309,67 @@
   <data name="lbl_TwitterAccount" xml:space="preserve">
     <value>nova88official</value>
   </data>
+  <data name="lbl_AGCasino" xml:space="preserve">
+    <value>Phoenix Suite </value>
+  </data>
+  <data name="lbl_AllbetCasino" xml:space="preserve">
+    <value>Platinum Suite</value>
+  </data>
+  <data name="lbl_Balance" xml:space="preserve">
+    <value>Số dư</value>
+  </data>
+  <data name="lbl_ComingSoon" xml:space="preserve">
+    <value>Sớm Ra Mắt</value>
+  </data>
+  <data name="lbl_DepositHistory" xml:space="preserve">
+    <value>Lịch sử nạp tiền</value>
+  </data>
+  <data name="lbl_DreamGaming" xml:space="preserve">
+    <value>Crystal Suite</value>
+  </data>
+  <data name="lbl_GameList" xml:space="preserve">
+    <value>Danh sách trò chơi</value>
+  </data>
+  <data name="lbl_MainWallet" xml:space="preserve">
+    <value>Ví chính</value>
+  </data>
+  <data name="lbl_MaxAmount" xml:space="preserve">
+    <value>Tiền tối đa</value>
+  </data>
+  <data name="lbl_OtherWallet" xml:space="preserve">
+    <value>Ví khác</value>
+  </data>
+  <data name="lbl_RetriveAllIn" xml:space="preserve">
+    <value>Lấy tất cả</value>
+  </data>
+  <data name="lbl_RetriveAllIn1" xml:space="preserve">
+    <value>Lấy tất cả</value>
+  </data>
+  <data name="lbl_SACasino" xml:space="preserve">
+    <value>Athena Suite </value>
+  </data>
+  <data name="lbl_TransferAll" xml:space="preserve">
+    <value>Chuyển tiền vào ví chính</value>
+  </data>
+  <data name="lbl_TransferFrom" xml:space="preserve">
+    <value>Chuyển từ</value>
+  </data>
+  <data name="lbl_TransferHistory" xml:space="preserve">
+    <value>Lịch sử chuyển khoản</value>
+  </data>
+  <data name="lbl_TransferIn" xml:space="preserve">
+    <value>Nạp tiền</value>
+  </data>
+  <data name="lbl_TransferOut" xml:space="preserve">
+    <value>Chuyển đến</value>
+  </data>
+  <data name="lbl_WalletDescription_Saba" xml:space="preserve">
+    <value>Bao gồm OneRNG, PP and Platinum Suite(AB)</value>
+  </data>
+  <data name="lbl_Wallet_Saba" xml:space="preserve">
+    <value>Ví Sportsbook</value>
+  </data>
+  <data name="lbl_WithdrawalHistory" xml:space="preserve">
+    <value>Lịch sử rút tiền</value>
+  </data>
 </root>
