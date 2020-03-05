@@ -148,7 +148,7 @@
             <div class="overlay Js-WalletAlert"></div>
             <div class="modal__dialog">
                 <div class="modal__header">
-                    <span class="text">提醒</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Reminder")</span>
                 </div>
                 <div class="modal__body">
                     <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlet"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), "0.0"))</p>
@@ -157,10 +157,10 @@
                 <div class="modal__footer">
                     <div class="btn-group">
                         <button class="btn btn-primary Js-LiveCasino" type="button">
-                            <span class="text">直接進入</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Enter")</span>
                         </button>
                         <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                            <span class="text">Go to @selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
                         </a>
                     </div>
                 </div>

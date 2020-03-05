@@ -1238,10 +1238,10 @@
     <value>Promotions</value>
   </data>
   <data name="FTDPDescription" xml:space="preserve">
-    <value>Enjoy up to MYR 500 Bonus with your first deposit with Nova88! Join NOW!</value>
+    <value>Enjoy up to MYR 888 Bonus with your first deposit with Nova88! Join NOW!</value>
   </data>
   <data name="FTDPTitle" xml:space="preserve">
-    <value>50% WELCOME BONUS UP TO MYR 500</value>
+    <value>150% WELCOME BONUS UP TO MYR 888</value>
   </data>
   <data name="lbl_TC" xml:space="preserve">
     <value>Promotion-Specific Terms and Conditions</value>
@@ -1377,5 +1377,11 @@
   </data>
   <data name="lbl_TwitterAccount" xml:space="preserve">
     <value>nova88official</value>
+  </data>
+  <data name="lbl_Enter" xml:space="preserve">
+    <value>Direct Enter</value>
+  </data>
+  <data name="lbl_Reminder" xml:space="preserve">
+    <value>Reminder</value>
   </data>
 </root>
