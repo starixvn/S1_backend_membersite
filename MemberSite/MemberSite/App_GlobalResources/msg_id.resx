@@ -218,4 +218,7 @@
 Deposit sekarang dan nikmati permainan dan pelayanan kami
 </value>
   </data>
+  <data name="msg_InsufficientFund" xml:space="preserve">
+    <value>Dana tidak mencukupi!</value>
+  </data>
 </root>

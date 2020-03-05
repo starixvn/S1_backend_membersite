@@ -249,9 +249,6 @@
   <data name="lbl_ChargeFee" xml:space="preserve">
     <value>ค่าธรรมเนียม</value>
   </data>
-  <data name="lbl_Check18TC" xml:space="preserve">
-    <value>ฉันยอมรับ เงื่อนไข ข้อตกลง  กฎและข้อบังคับ ของ  {sitename}. ฉันรับทราบว่าฉันมีอายุอย่างน้อย 18 ปีบริบรูณ์</value>
-  </data>
   <data name="lbl_Check18TC1" xml:space="preserve">
     <value>ฉันตกลง</value>
   </data>
@@ -1148,8 +1145,7 @@
     <value>ชื่อผู้ใช้</value>
   </data>
   <data name="lbl_UsernameTooltip" xml:space="preserve">
-    <value>เพื่อความปลอดภัยเราแนะนำให้คุณใช้ชื่อผู้ใช้
-ที่ไม่มีชื่อจริงของคุณ</value>
+    <value>เพื่อความปลอดภัยเราแนะนำให้คุณใช้ชื่อผู้ใช้ที่ไม่มีชื่อจริงของคุณ</value>
   </data>
   <data name="lbl_VariousBankingOptions" xml:space="preserve">
     <value>ตัวเลือกธนาคารต่างๆ</value>
@@ -1217,6 +1213,10 @@
   <data name="lbl_YourEmail" xml:space="preserve">
     <value>อีเมลของคุณ</value>
   </data>
+  <data name="lbl_Forget" xml:space="preserve">
+    <value>หากคุณลืมชื่อผู้ใช้หรือรหัสผ่านโปรดระบุอีเมลของคุณและเราจะส่งรหัสผ่านใหม่ไปยังอีเมลที่คุณลงทะเบียนไว้</value>
+    <comment>00338.</comment>
+  </data>
   <data name="lbl_ForgetNote" xml:space="preserve">
     <value>ถ้าคุณได้ลืมรหัส กรุณาแจ้งอีเมลล์ของคุณ คำถามคำตอบเพื่อความปลอดภัย เราจะส่งรหัสใหม่ไปให้คุณที่อีเมลล์ที่คุณสมัครไว้กับเรา</value>
     <comment>00337. Deposit</comment>
@@ -1237,6 +1237,15 @@
   <data name="lbl_Promotions" xml:space="preserve">
     <value>Promotions</value>
   </data>
+  <data name="FTDPDescription" xml:space="preserve">
+    <value>รับโบนัสสูงสุดถึง THB5000 เมื่อคุณทำการฝากเงินครั้งแรกกับ Nova88! สมัครเลย</value>
+  </data>
+  <data name="FTDPTitle" xml:space="preserve">
+    <value>โบนัส 50% สำหรับการฝากเงินครั้งแรก ยอดเงินโบนัสสูงสุดไม่เกิน 5000 บาท</value>
+  </data>
+  <data name="lbl_TC" xml:space="preserve">
+    <value>ข้อกำหนดและเงื่อนไขเฉพาะของข้อเสนอ</value>
+  </data>
   <data name="lbl_Bonus" xml:space="preserve">
     <value>โบนัส</value>
   </data>
@@ -1245,12 +1254,6 @@
   </data>
   <data name="lbl_ExpiryTime" xml:space="preserve">
     <value>เวลาหมดอายุ</value>
-  </data>
-  <data name="lbl_ForgetNote1" xml:space="preserve">
-    <value>หากคุณลืมรหัสผ่าน กรุณาป้อนอีเมลคำถามและคำตอบของคุณ จากนั้นเราจะส่งรหัสผ่านใหม่ไปยังอีเมลที่คุณลงเคยทะเบียนไว้</value>
-  </data>
-  <data name="lbl_ForgetPassword1" xml:space="preserve">
-    <value>ลืมชื่อผู้ใช้ หรือ รหัสผ่าน</value>
   </data>
   <data name="lbl_MaxBonusAmount" xml:space="preserve">
     <value>จำนวนโบนัสสูงสุด</value>
@@ -1267,15 +1270,6 @@
   <data name="lbl_RollOver" xml:space="preserve">
     <value>ยอดหมุนเวียน</value>
   </data>
-  <data name="FTDPDescription" xml:space="preserve">
-    <value>รับโบนัสสูงสุดถึง RM500 เมื่อคุณทำการฝากเงินครั้งแรกกับ Nova88! สมัครเลย</value>
-  </data>
-  <data name="FTDPTitle" xml:space="preserve">
-    <value>โบนัส 50% สำหรับการฝากเงินครั้งแรก ยอดเงินโบนัสสูงสุดไม่เกิน 5000 บาท</value>
-  </data>
-  <data name="lbl_TC" xml:space="preserve">
-    <value>ข้อกำหนดและเงื่อนไขเฉพาะของข้อเสนอ</value>
-  </data>
   <data name="PromotionCategory1" xml:space="preserve">
     <value>ฝากครั้งแรก</value>
   </data>
@@ -1285,14 +1279,17 @@
   <data name="lbl_Later" xml:space="preserve">
     <value>ภายหลัง</value>
   </data>
-  <data name="lbl_BonusConfirm" xml:space="preserve">
-    <value>คุณเลือกโบนัสโปรโมชั่นของเรา คุณต้องการดำเนินการต่อหรือไม่?</value>
-  </data>
   <data name="lbl_DepositOver" xml:space="preserve">
     <value>จำนวนเงินที่คุณต้องการถอนมากกว่ายอดเงินคงหลือในบัญชีของคุณ</value>
   </data>
   <data name="lbl_EligibleWithdrawal" xml:space="preserve">
     <value>วงเงินถอน</value>
+  </data>
+  <data name="lbl_RolloverProgress" xml:space="preserve">
+    <value>ความคืบหน้าโรลโอเวอร์</value>
+  </data>
+  <data name="lbl_BonusConfirm" xml:space="preserve">
+    <value>คุณเลือกโบนัสโปรโมชั่นของเรา คุณต้องการดำเนินการต่อหรือไม่?</value>
   </data>
   <data name="lbl_EligibleWithdrawalAmount" xml:space="preserve">
     <value>ยอดเงินที่คุณมีสิทธิ์ถอนคือ</value>
@@ -1303,19 +1300,74 @@
   <data name="lbl_RolloverOver" xml:space="preserve">
     <value>ยอดโรลโอเวอร์ของคุณไม่เพียงพอ</value>
   </data>
-  <data name="lbl_RolloverProgress" xml:space="preserve">
-    <value>ความคืบหน้าโรลโอเวอร์</value>
-  </data>
   <data name="lbl_WithdrawalOver" xml:space="preserve">
     <value>จำนวนเงินที่คุณต้องการถอนมากกว่าจำนวนเงินที่คุณมีสิทธิ์ถอน</value>
   </data>
+  <data name="lbl_AllbetCasino" xml:space="preserve">
+    <value>Platinum Suite</value>
+  </data>
   <data name="lbl_Clickhereforpromotion" xml:space="preserve">
     <value>คลิกที่นี่ เพื่อตรวจสอบโปรโมชั่นของคุณ</value>
+  </data>
+  <data name="lbl_SACasino" xml:space="preserve">
+    <value>ห้องอะธีนา</value>
+  </data>
+  <data name="lbl_Days" xml:space="preserve">
+    <value>วันที่</value>
+  </data>
+  <data name="lbl_Hours" xml:space="preserve">
+    <value>เวลา</value>
   </data>
   <data name="lbl_FacebookAccount" xml:space="preserve">
     <value>nova88official</value>
   </data>
   <data name="lbl_TwitterAccount" xml:space="preserve">
     <value>nova88official</value>
+  </data>
+  <data name="lbl_Balance" xml:space="preserve">
+    <value>ยอดเงิน</value>
+  </data>
+  <data name="lbl_DepositHistory" xml:space="preserve">
+    <value>ประวัติการฝากเงิน</value>
+  </data>
+  <data name="lbl_DreamGaming" xml:space="preserve">
+    <value>ห้องคริสตัล</value>
+  </data>
+  <data name="lbl_MainWallet" xml:space="preserve">
+    <value>วอลเล็ทหลัก</value>
+  </data>
+  <data name="lbl_MaxAmount" xml:space="preserve">
+    <value>จำนวนเงินสูงสุด</value>
+  </data>
+  <data name="lbl_OtherWallet" xml:space="preserve">
+    <value>วอลเล็ทอื่น</value>
+  </data>
+  <data name="lbl_RetriveAllIn" xml:space="preserve">
+    <value>ถอนเงินทั้งหมด</value>
+  </data>
+  <data name="lbl_TransferAll" xml:space="preserve">
+    <value>โอนเงินทั้งหมดเข้า </value>
+  </data>
+  <data name="lbl_TransferFrom" xml:space="preserve">
+    <value>โอนเงินจาก</value>
+  </data>
+  <data name="lbl_TransferHistory" xml:space="preserve">
+    <value>ประวัติการโอนเงิน</value>
+  </data>
+  <data name="lbl_TransferIn" xml:space="preserve">
+    <value>ฝากเงิน</value>
+  </data>
+  <data name="lbl_TransferOut" xml:space="preserve">
+    <value>โอนเงินออก</value>
+  </data>
+  <data name="lbl_WalletDescription_Saba" xml:space="preserve">
+    <value>Include OneRNG, PP and Platinum Suite(AB)</value>
+  </data>
+  <data name="lbl_Wallet_Saba" xml:space="preserve">
+    <value>สปอร์ตบุค วอลเล็ท</value>
+  </data>
+  <data name="lbl_WithdrawalHistory" xml:space="preserve">
+    <value>ประวัติการถอนเงิน
+</value>
   </data>
 </root>

@@ -249,9 +249,6 @@
   <data name="lbl_ChargeFee" xml:space="preserve">
     <value>Charge Fee</value>
   </data>
-  <data name="lbl_Check18TC" xml:space="preserve">
-    <value>I agree to the Terms &amp; Conditions and the Rules &amp; Regulations of {sitename}. I acknowledge I am at least 18 years of age.</value>
-  </data>
   <data name="lbl_Check18TC1" xml:space="preserve">
     <value>I agree to the</value>
   </data>
@@ -860,7 +857,7 @@
     <value>ID</value>
   </data>
   <data name="lbl_Image" xml:space="preserve">
-    <value>httsp://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
+    <value>https://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
   </data>
   <data name="lbl_ImportantNote" xml:space="preserve">
     <value>Important Note</value>
@@ -1286,7 +1283,7 @@
     <value>ELIGIBLE WITHDRAWAL</value>
   </data>
   <data name="lbl_Req" xml:space="preserve">
-    <value>Req.</value>
+    <value>Req</value>
   </data>
   <data name="lbl_RolloverProgress" xml:space="preserve">
     <value>ROLLOVER PROGRESS</value>
