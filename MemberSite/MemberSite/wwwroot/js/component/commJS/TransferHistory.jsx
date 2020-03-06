@@ -9,11 +9,11 @@ class HistoryBody extends React.Component {
         let rows = data.map(function( item ,index ) { 
             let dateMonent = moment(item.createTime);
             let direction = "";
-            if(item.direction==1){
-                direction = "From " + "Main Wallet" + " To " + item.tpName;
-            } else {
-                direction = "From " + item.tpName + " To " + "Main Wallet";
-            }
+                if(item.direction==1){
+                    direction = <span className="text"><span>{i18n.lbl_MainWallet}</span><i className="icon icon-arrow-right"></i><span>{item.tpName}</span></span>;
+                } else {
+                    direction = <span className="text"><span>{item.tpName}</span><i className="icon icon-arrow-right"></i><span>{i18n.lbl_MainWallet}</span></span>;
+                }
 
             return <div className="tr" key={index}>
                     <div className="td-date" data-title="Date" role="mobile-click">
@@ -26,8 +26,8 @@ class HistoryBody extends React.Component {
                     <div className="td-id" data-title="ID">
                         <span className="text">{item.transId}</span>
                     </div>
-                    <div className="td-amount" data-title="Direction">
-                        <span className="text">{direction}</span>
+                    <div className="td-type" data-title="Direction">
+                        {direction}
                     </div>                    
                     <div className="td-amount" data-title="Amount">
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
@@ -35,7 +35,7 @@ class HistoryBody extends React.Component {
                     <div className="td-status" data-title="Status">
                         {TransferStatus[item.status]}
                     </div>
-                    <div className="td-status" data-title="Memo">
+                    <div className="td-method" data-title="Memo">
                         {item.memo}
                     </div>                             
             </div>;
@@ -110,16 +110,16 @@ export class TransferHistory extends React.Component {
                         <div className="td-id" data-title={i18n.lbl_ID}>
                             <span className=" text">{i18n.lbl_ID}</span>
                         </div>
-                        <div className="td-status" data-title={"Direction"}>
+                        <div className="td-type" data-title={"Direction"}>
                             <span className=" text">{"Direction"}</span>
-                        </div>                        
+                        </div>   
                         <div className="td-amount" data-title={i18n.lbl_Amount}>
                             <span className=" text">{i18n.lbl_Amount}</span>
                         </div>
                         <div className="td-status" data-title={i18n.lbl_Status}>
                             <span className=" text">{i18n.lbl_Status}</span>
                         </div>
-                        <div className="td-status" data-title={"Memo"}>
+                        <div className="td-method" data-title={"Memo"}>
                             <span className=" text">{"Memo"}</span>
                         </div>                        
                     </div>
