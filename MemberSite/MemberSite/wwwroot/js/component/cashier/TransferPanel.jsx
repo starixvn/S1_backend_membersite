@@ -14,9 +14,9 @@ import {number_format} from '../commJS/common';
                 let dateMonent = moment(item.createTime);
                 let direction = "";
                 if(item.direction==1){
-                    direction = <span className="text"><span>{i18n.lbl_MainWallet}</span> To <span>{item.tpName}</span></span>;
+                    direction = <span className="text"><span>{i18n.lbl_MainWallet}</span><i className="icon icon-arrow-right"></i><span>{item.tpName}</span></span>;
                 } else {
-                    direction = <span className="text"><span>{item.tpName}</span> To <span>{i18n.lbl_MainWallet}</span></span>;
+                    direction = <span className="text"><span>{item.tpName}</span><i className="icon icon-arrow-right"></i><span>{i18n.lbl_MainWallet}</span></span>;
                 }
 
                 return <div className="tr" key={index}>
@@ -30,7 +30,7 @@ import {number_format} from '../commJS/common';
                     <div className="td-id" data-title="ID">
                         <span className="text">{item.transId}</span>
                     </div>
-                    <div className="td-amount" data-title="Direction">
+                    <div className="td-type" data-title="Direction">
                         {direction}
                     </div>                    
                     <div className="td-amount" data-title="Amount">
@@ -39,7 +39,7 @@ import {number_format} from '../commJS/common';
                     <div className="td-status" data-title="Status">
                         {TransferStatus[item.status]}
                     </div>
-                    <div className="td-status" data-title="Memo">
+                    <div className="td-method" data-title="Memo">
                         {item.memo}
                     </div>   
             </div>;
@@ -116,14 +116,13 @@ import {number_format} from '../commJS/common';
                             <div className="td-id" data-title={i18n.lbl_ID}>
                                 <span className=" text">{i18n.lbl_ID}</span>
                             </div>
-                            
                             <div className="td-amount" data-title={i18n.lbl_Amount}>
                                 <span className=" text">{i18n.lbl_Amount}</span>
                             </div>
                             <div className="td-status" data-title={i18n.lbl_Status}>
                                 <span className=" text">{i18n.lbl_Status}</span>
                             </div>
-                            <div className="td-status" data-title={"Memo"}>
+                            <div className="td-method" data-title={"Memo"}>
                                 <span className=" text">{"Memo"}</span>
                             </div>                        
                         </div>
