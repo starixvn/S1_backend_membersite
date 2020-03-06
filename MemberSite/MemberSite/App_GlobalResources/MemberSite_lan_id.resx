@@ -1369,4 +1369,34 @@
   <data name="lbl_WithdrawalHistory" xml:space="preserve">
     <value>Riwayat Penarikan</value>
   </data>
+  <data name="lbl_AGCasino" xml:space="preserve">
+    <value>Lobby Burung Api </value>
+  </data>
+  <data name="lbl_ComingSoon" xml:space="preserve">
+    <value>Akan segera datang</value>
+  </data>
+  <data name="lbl_Enter" xml:space="preserve">
+    <value>Enter Langsung</value>
+  </data>
+  <data name="lbl_GameList" xml:space="preserve">
+    <value>Daftar permainan</value>
+  </data>
+  <data name="lbl_Reminder" xml:space="preserve">
+    <value>Peringatan</value>
+  </data>
+  <data name="lbl_Transfer" xml:space="preserve">
+    <value>Transfer</value>
+  </data>
+  <data name="lbl_Fail" xml:space="preserve">
+    <value>Gagal</value>
+  </data>
+  <data name="lbl_Pending" xml:space="preserve">
+    <value>Tertunda</value>
+  </data>
+  <data name="lbl_Success" xml:space="preserve">
+    <value>Keberhasilan</value>
+  </data>
+  <data name="lbl_WalletType" xml:space="preserve">
+    <value>Jenis dompet</value>
+  </data>
 </root>

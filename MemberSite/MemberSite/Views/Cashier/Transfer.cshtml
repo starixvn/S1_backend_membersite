@@ -19,16 +19,15 @@
     i18n.Add("lbl_TransferTo", selLangBLL.GetResourceValue("lbl_TransferTo"));
     i18n.Add("lbl_MaxAmount", selLangBLL.GetResourceValue("lbl_MaxAmount"));
     i18n.Add("lbl_TransferFunds", selLangBLL.GetResourceValue("lbl_TransferFunds"));
-    i18n.Add("lbl_MainWallet", selLangBLL.GetResourceValue("lbl_MainWallet"));
     i18n.Add("lbl_OtherWallet", selLangBLL.GetResourceValue("lbl_OtherWallet"));
-    i18n.Add("lbl_Balance", selLangBLL.GetResourceValue("lbl_Balance"));
     i18n.Add("lbl_RetriveAllIn", selLangBLL.GetResourceValue("lbl_RetriveAllIn"));
-    i18n.Add("lbl_Amount", selLangBLL.GetResourceValue("lbl_Amount"));
     i18n.Add("lbl_TransferIn", selLangBLL.GetResourceValue("lbl_TransferIn"));
     i18n.Add("lbl_TransferOut", selLangBLL.GetResourceValue("lbl_TransferOut"));
     i18n.Add("lbl_SabaWalletHint", selLangBLL.GetResourceValue("lbl_SabaWalletHint"));
 
-    string[] lbl_Txts = new string[] { "lbl_Close", "lbl_AllTranscations", "lbl_Status", "lbl_Amount", "lbl_ID", "lbl_Time", "lbl_Date", "lbl_RecentTransactions", "lbl_Wallet_Saba", "lbl_MainWallet", "lbl_Transfer" };
+    string[] lbl_Txts = new string[] { "lbl_Close", "lbl_AllTranscations", "lbl_Status", "lbl_Amount", "lbl_ID", "lbl_Time", "lbl_Date", 
+            "lbl_RecentTransactions", "lbl_Wallet_Saba", "lbl_MainWallet", "lbl_Transfer", "lbl_Balance", "lbl_Memo", "lbl_Direction",
+            "lbl_WalletType", "lbl_Success", "lbl_Fail", "lbl_Pending" };
     foreach (var lbl_Txt in lbl_Txts)
     {
         if (!i18n.ContainsKey(lbl_Txt))

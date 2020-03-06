@@ -1354,6 +1354,9 @@
   <data name="lbl_SACasino" xml:space="preserve">
     <value>Athena Suite </value>
   </data>
+  <data name="lbl_Transfer" xml:space="preserve">
+    <value>Chuyển khoản</value>
+  </data>
   <data name="lbl_TransferAll" xml:space="preserve">
     <value>Chuyển tiền vào ví chính</value>
   </data>
@@ -1377,5 +1380,20 @@
   </data>
   <data name="lbl_WithdrawalHistory" xml:space="preserve">
     <value>Lịch sử rút tiền</value>
+  </data>
+  <data name="lbl_Direction" xml:space="preserve">
+    <value>phương hướng</value>
+  </data>
+  <data name="lbl_Fail" xml:space="preserve">
+    <value>Thất bại</value>
+  </data>
+  <data name="lbl_Pending" xml:space="preserve">
+    <value>Đang chờ xử lý</value>
+  </data>
+  <data name="lbl_Success" xml:space="preserve">
+    <value>Sự thành công</value>
+  </data>
+  <data name="lbl_WalletType" xml:space="preserve">
+    <value>Loại ví</value>
   </data>
 </root>

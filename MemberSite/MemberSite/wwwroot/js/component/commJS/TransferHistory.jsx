@@ -1,8 +1,8 @@
 import {number_format} from '../commJS/common';
-const TransferStatus = {0:<span>Success</span>,
-                1:<span>Fail</span>,
-                2:<span>Pending</span>,
-                3:<span>Pending</span>};  
+const TransferStatus = {0:<span>{i18n.lbl_Success}</span>,
+                1:<span>{i18n.lbl_Fail}</span>,
+                2:<span>{i18n.lbl_Pending}</span>,
+                3:<span>{i18n.lbl_Pending}</span>};  
 class HistoryBody extends React.Component {
     render() {
         let data = this.props.Data;
@@ -16,26 +16,26 @@ class HistoryBody extends React.Component {
                 }
 
             return <div className="tr" key={index}>
-                    <div className="td-date" data-title="Date" role="mobile-click">
+                <div className="td-date" data-title={i18n.lbl_Date} role="mobile-click">
                         <span className="text">{dateMonent.format('l')} ({dateMonent.format('Z')})</span>
                         <i className="icon icon-caret"></i>
                     </div>
-                    <div className="td-time" data-title="Time">
+                <div className="td-time" data-title={i18n.lbl_Time}>
                         <span className="text">{dateMonent.format("hh:mm:ss A")}</span>
                     </div>
-                    <div className="td-id" data-title="ID">
+                <div className="td-id" data-title={i18n.lbl_ID}>
                         <span className="text">{item.transId}</span>
                     </div>
-                    <div className="td-type" data-title="Direction">
+                    <div className="td-type" data-title={i18n.lbl_Direction}>
                         {direction}
                     </div>                    
-                    <div className="td-amount" data-title="Amount">
+                <div className="td-amount" data-title={i18n.lbl_Amount}>
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
                     </div>
-                    <div className="td-status" data-title="Status">
+                <div className="td-status" data-title={i18n.lbl_Status}>
                         {TransferStatus[item.status]}
                     </div>
-                    <div className="td-method" data-title="Memo">
+                    <div className="td-method" data-title={i18n.lbl_Memo}>
                         {item.memo}
                     </div>                             
             </div>;
@@ -110,8 +110,8 @@ export class TransferHistory extends React.Component {
                         <div className="td-id" data-title={i18n.lbl_ID}>
                             <span className=" text">{i18n.lbl_ID}</span>
                         </div>
-                        <div className="td-type" data-title={"Direction"}>
-                            <span className=" text">{"Direction"}</span>
+                        <div className="td-type" data-title={i18n.lbl_Direction}>
+                            <span className=" text">{i18n.lbl_Direction}</span>
                         </div>   
                         <div className="td-amount" data-title={i18n.lbl_Amount}>
                             <span className=" text">{i18n.lbl_Amount}</span>
@@ -119,8 +119,8 @@ export class TransferHistory extends React.Component {
                         <div className="td-status" data-title={i18n.lbl_Status}>
                             <span className=" text">{i18n.lbl_Status}</span>
                         </div>
-                        <div className="td-method" data-title={"Memo"}>
-                            <span className=" text">{"Memo"}</span>
+                        <div className="td-method" data-title={i18n.lbl_Memo}>
+                            <span className=" text">{i18n.lbl_Memo}</span>
                         </div>                        
                     </div>
                 </div>

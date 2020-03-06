@@ -1369,4 +1369,37 @@
   <data name="lbl_WithdrawalHistory" xml:space="preserve">
     <value>提款历史记录</value>
   </data>
+  <data name="lbl_AGCasino" xml:space="preserve">
+    <value>凤凰厅</value>
+  </data>
+  <data name="lbl_ComingSoon" xml:space="preserve">
+    <value>即将推出</value>
+  </data>
+  <data name="lbl_Enter" xml:space="preserve">
+    <value>直接进入</value>
+  </data>
+  <data name="lbl_GameList" xml:space="preserve">
+    <value>游戏列表</value>
+  </data>
+  <data name="lbl_Reminder" xml:space="preserve">
+    <value>提醒</value>
+  </data>
+  <data name="lbl_Transfer" xml:space="preserve">
+    <value>转帐</value>
+  </data>
+  <data name="lbl_Direction" xml:space="preserve">
+    <value>方向</value>
+  </data>
+  <data name="lbl_Fail" xml:space="preserve">
+    <value>失败</value>
+  </data>
+  <data name="lbl_Pending" xml:space="preserve">
+    <value>待定</value>
+  </data>
+  <data name="lbl_Success" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="lbl_WalletType" xml:space="preserve">
+    <value>钱包种类</value>
+  </data>
 </root>

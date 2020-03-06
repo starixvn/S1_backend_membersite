@@ -1304,7 +1304,7 @@
     <value>จำนวนเงินที่คุณต้องการถอนมากกว่าจำนวนเงินที่คุณมีสิทธิ์ถอน</value>
   </data>
   <data name="lbl_AllbetCasino" xml:space="preserve">
-    <value>Platinum Suite</value>
+    <value>ห้องแพลทตินั่ม</value>
   </data>
   <data name="lbl_Clickhereforpromotion" xml:space="preserve">
     <value>คลิกที่นี่ เพื่อตรวจสอบโปรโมชั่นของคุณ</value>
@@ -1369,5 +1369,35 @@
   <data name="lbl_WithdrawalHistory" xml:space="preserve">
     <value>ประวัติการถอนเงิน
 </value>
+  </data>
+  <data name="lbl_AGCasino" xml:space="preserve">
+    <value>ห้องฟีนิกซ์</value>
+  </data>
+  <data name="lbl_ComingSoon" xml:space="preserve">
+    <value>เร็วๆนี้</value>
+  </data>
+  <data name="lbl_Enter" xml:space="preserve">
+    <value>เข้าสู่ไลฟ์คาสิโน</value>
+  </data>
+  <data name="lbl_Reminder" xml:space="preserve">
+    <value>แจ้งเตือน</value>
+  </data>
+  <data name="lbl_Transfer" xml:space="preserve">
+    <value>โอน</value>
+  </data>
+  <data name="lbl_Direction" xml:space="preserve">
+    <value>ทิศทาง</value>
+  </data>
+  <data name="lbl_Fail" xml:space="preserve">
+    <value>ล้มเหลว</value>
+  </data>
+  <data name="lbl_Pending" xml:space="preserve">
+    <value>รอดำเนินการ</value>
+  </data>
+  <data name="lbl_Success" xml:space="preserve">
+    <value>ความสำเร็จ</value>
+  </data>
+  <data name="lbl_WalletType" xml:space="preserve">
+    <value>ประเภทกระเป๋าเงิน</value>
   </data>
 </root>

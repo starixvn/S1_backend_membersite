@@ -12,13 +12,10 @@
     var i18n = new Dictionary<string, string>();
     i18n.Add("lbl_TransactionHistory", selLangBLL.GetResourceValue("lbl_TransactionHistory"));
 
-    i18n.Add("lbl_Date", selLangBLL.GetResourceValue("lbl_Date"));
-    i18n.Add("lbl_Time", selLangBLL.GetResourceValue("lbl_Time"));
+
     i18n.Add("lbl_From", selLangBLL.GetResourceValue("lbl_From"));
     i18n.Add("lbl_To", selLangBLL.GetResourceValue("lbl_To"));
-    i18n.Add("lbl_ID", selLangBLL.GetResourceValue("lbl_ID"));
     i18n.Add("lbl_Method", selLangBLL.GetResourceValue("lbl_Method"));
-    i18n.Add("lbl_Amount", selLangBLL.GetResourceValue("lbl_Amount"));
     i18n.Add("lbl_ChargeFee", selLangBLL.GetResourceValue("lbl_ChargeFee"));
     i18n.Add("lbl_Status", selLangBLL.GetResourceValue("lbl_Status"));
     i18n.Add("lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit"));
@@ -27,7 +24,8 @@
     i18n.Add("lbl_DateMissing", selLangBLL.GetResourceValue("lbl_DateMissing"));
     i18n.Add("msg_NoData", selLangBLL.GetMsg("msg_NoData"));
 
-    string[] lbl_Txts = new string[] { "lbl_TransferFunds", "lbl_MainWallet", "lbl_Status", "lbl_Amount", "lbl_ID", "lbl_Time", "lbl_Date" };
+    string[] lbl_Txts = new string[] { "lbl_TransferFunds", "lbl_Date", "lbl_Time", "lbl_ID", "lbl_Direction", "lbl_Amount",
+                                        "lbl_Status", "lbl_Memo", "lbl_Success", "lbl_Fail", "lbl_Pending", "lbl_MainWallet"};
     foreach (var lbl_Txt in lbl_Txts)
     {
         if (!i18n.ContainsKey(lbl_Txt))

@@ -2,10 +2,10 @@ import * as Loading from '../commJS/Loading.jsx';
 import {number_format} from '../commJS/common';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
-    const TransferStatus = {0:<span>Success</span>,
-                    1:<span>Fail</span>,
-                    2:<span>Pending</span>,
-                    3:<span>Pending</span>};      
+    const TransferStatus = {0:<span>{i18n.lbl_Success}</span>,
+                    1:<span>{i18n.lbl_Fail}</span>,
+                    2:<span>{i18n.lbl_Pending}</span>,
+                    3:<span>{i18n.lbl_Pending}</span>};      
 
     class RecentHistoryBody extends React.Component {
         render() {
@@ -20,26 +20,26 @@ import {number_format} from '../commJS/common';
                 }
 
                 return <div className="tr" key={index}>
-                    <div className="td-date" data-title="Date" role="mobile-click">
+                    <div className="td-date" data-title={i18n.lbl_Date} role="mobile-click">
                         <span className="text">{dateMonent.format('l')} ({dateMonent.format('Z')})</span>
                         <i className="icon icon-caret"></i>
                     </div>
-                    <div className="td-time" data-title="Time">
+                    <div className="td-time" data-title={i18n.lbl_Time}>
                         <span className="text">{dateMonent.format("hh:mm:ss A")}</span>
                     </div>
-                    <div className="td-id" data-title="ID">
+                    <div className="td-id" data-title={i18n.lbl_ID}>
                         <span className="text">{item.transId}</span>
                     </div>
-                    <div className="td-type" data-title="Direction">
+                    <div className="td-type" data-title={i18n.lbl_Direction}>
                         {direction}
                     </div>                    
-                    <div className="td-amount" data-title="Amount">
+                    <div className="td-amount" data-title={i18n.lbl_Amount}>
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
                     </div>
-                    <div className="td-status" data-title="Status">
+                    <div className="td-status" data-title={i18n.lbl_Status}>
                         {TransferStatus[item.status]}
                     </div>
-                    <div className="td-method" data-title="Memo">
+                    <div className="td-method" data-title={i18n.lbl_Memo}>
                         {item.memo}
                     </div>   
             </div>;
@@ -116,14 +116,17 @@ import {number_format} from '../commJS/common';
                             <div className="td-id" data-title={i18n.lbl_ID}>
                                 <span className=" text">{i18n.lbl_ID}</span>
                             </div>
+                            <div className="td-type" data-title={i18n.lbl_Direction}>
+                                <span className=" text">{i18n.lbl_Direction}</span>
+                            </div>
                             <div className="td-amount" data-title={i18n.lbl_Amount}>
                                 <span className=" text">{i18n.lbl_Amount}</span>
                             </div>
                             <div className="td-status" data-title={i18n.lbl_Status}>
                                 <span className=" text">{i18n.lbl_Status}</span>
                             </div>
-                            <div className="td-method" data-title={"Memo"}>
-                                <span className=" text">{"Memo"}</span>
+                            <div className="td-method" data-title={i18n.lbl_Memo}>
+                                <span className=" text">{i18n.lbl_Memo}</span>
                             </div>                        
                         </div>
                     </div>
@@ -483,11 +486,11 @@ import {number_format} from '../commJS/common';
                 <div className="table table-rwd table-primary">
                     <div className="thead" role="desktop-only">
                         <div className="tr">
-                            <div className="td-Main-wallet" data-title="Main wallet">
-                                <span className="text">Main Type</span>
+                            <div className="td-Main-wallet" data-title={i18n.lbl_MainWallet}>
+                                    <span className="text">{i18n.lbl_WalletType}</span>
                             </div>
-                            <div className="td-Balance" data-title="Balance">
-                                <span className="text">Balance
+                            <div className="td-Balance" data-title={i18n.lbl_Balance}>
+                                <span className="text">{i18n.lbl_Balance}
                                     {/*<a className="btn btn-icon" data-refresh={this.state.refresh} onClick={!this.state.refresh ? this.getWalletInfo.bind(this):null}>
                                         <i className="icon icon-refresh"></i>
                                         <div className="preloader">
