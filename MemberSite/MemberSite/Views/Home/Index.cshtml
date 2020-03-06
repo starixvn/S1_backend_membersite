@@ -90,34 +90,34 @@
                 @if (serverInfo.SiteId == 2)
                 {
                     <div class="swiper-slide">
-                        <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg"></a>
+                        <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg" asp-append-version="true"/></a>
                     </div>
                 }
                 else if(serverInfo.SiteId == 3)
                 {
                 <div class="swiper-slide">
-                    <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg"></a>
+                    <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg" asp-append-version="true"/></a>
                 </div>
                 <div class="swiper-slide">
-                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-FTDP.jpg"></a>
+                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-FTDP.jpg" asp-append-version="true"/></a>
                 </div>
                 }
                 else
                 {
                     <div class="swiper-slide">
-                        <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/banner-euro.jpg"></a>
+                        <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/banner-euro.jpg" asp-append-version="true"/></a>
                     </div>
                     @if (promotionCnt > 0)
                     {
                         <div class="swiper-slide">
-                            <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/banner-FTDP.jpg"></a>
+                            <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/banner-FTDP.jpg" asp-append-version="true"/></a>
                         </div>
                     }
                     <div class="swiper-slide">
-                        <a href="@GetEntPageUrl(1, "211")"><img src="@CmsPromotionPath/banner-Allbet.jpg"></a>
+                        <a href="@GetEntPageUrl(1, "211")"><img src="@CmsPromotionPath/banner-Allbet.jpg" asp-append-version="true"/></a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="@GetEntPageUrl(1, "208")"><img src="@CmsPromotionPath/banner-PP.jpg"></a>
+                        <a href="@GetEntPageUrl(1, "208")"><img src="@CmsPromotionPath/banner-PP.jpg" asp-append-version="true"/></a>
                     </div>
                             @*
                     <div class="swiper-slide">
@@ -144,7 +144,7 @@
             @*<div class="lobby-quicklink-download">
                     <div class="lobby-quicklink__info">
                         <i class="icon icon-download"></i>
-                        <span class="text-title">@selLangBLL.GetResourceValue("lbl_DownloadApp")</span>
+https://www.nova88.net/ch/Home/Register                        <span class="text-title">@selLangBLL.GetResourceValue("lbl_DownloadApp")</span>
                         <span class="text">@selLangBLL.GetResourceValue("lbl_RebatebonusonMobile")</span>
                     </div>
                     <img src="@SkinImgPath/UI/Download-App.png"><i class="icon icon-arrow-right"></i>
