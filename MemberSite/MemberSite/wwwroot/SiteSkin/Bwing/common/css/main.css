@@ -7561,8 +7561,7 @@ ul {
 
 [data-layout=desktop] .wt .form > div {
   float: left;
-  width: calc(50% - 2rem);
-  margin: 0 1rem;
+  width: 100%;
   min-height: auto;
   justify-content: flex-end;
 }

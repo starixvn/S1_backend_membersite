@@ -1118,7 +1118,7 @@
     <value>更新</value>
   </data>
   <data name="lbl_UpdateBankDetail" xml:space="preserve">
-    <value>更新银行资讯</value>
+    <value>D</value>
   </data>
   <data name="lbl_UpdateBankInfo" xml:space="preserve">
     <value>请在提款前完成更新银行资讯</value>
@@ -1349,7 +1349,7 @@
     <value>输入中心钱包</value>
   </data>
   <data name="lbl_TransferFrom" xml:space="preserve">
-    <value>转账表格</value>
+    <value>转帐从</value>
   </data>
   <data name="lbl_TransferHistory" xml:space="preserve">
     <value>转账历史记录</value>

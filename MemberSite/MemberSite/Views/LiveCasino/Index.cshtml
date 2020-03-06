@@ -156,8 +156,8 @@
                 </div>
                 <div class="modal__footer">
                     <div class="btn-group">
-                        <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
+                        <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
                         </a>
                         <button class="btn btn-primary Js-LiveCasino" type="button">
                             <span class="text">@selLangBLL.GetResourceValue("lbl_Enter")</span>
