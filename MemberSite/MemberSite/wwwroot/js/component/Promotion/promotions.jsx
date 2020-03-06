@@ -19,7 +19,7 @@ import {number_format} from '../commJS/common';
             return (
                 <a href={"/"+SiteLanguage+"/Promotion/Bonus?BonusCode="+Data.bonusCode} className="promotions-set">
                     <article>
-                        <div className="promotions-banner" style={{backgroundImage: "url(" + SkinRootPath + "/Promotion/"+Data.bonusCode+"/"+SiteLanguage+".png)", backgroundPosition: 'top center',backgroundRepeat: 'noRepeat',backgroundSize: 'cover'}}>
+                        <div className="promotions-banner" style={{backgroundImage: "url(" + SkinRootPath + "/Promotion/"+Data.bonusCode+"/"+SiteLanguage+".png?v=20200306)", backgroundPosition: 'top center',backgroundRepeat: 'noRepeat',backgroundSize: 'cover'}}>
                         </div>
                         <div className="promotions-txt">
                             <ul>
