@@ -248,7 +248,6 @@ import {number_format} from '../commJS/common';
         }
         
         onSelectFrom(value){
-            console.log(value);
             let to = this.state.To;
             let from = this.state.From;
             if(value != from){
@@ -262,7 +261,6 @@ import {number_format} from '../commJS/common';
         }
 
         onSelectTo(value){
-            console.log(value);
             let from = this.state.From;
             let to = this.state.To;
             if(value != to){
@@ -371,6 +369,7 @@ import {number_format} from '../commJS/common';
                     let result = response.data;
                     if (result.errorCode == 0) {
                         this.getWalletInfo();
+                        this.GetRecent();
                     } else {
                         alert(result.message);
                     }
@@ -436,7 +435,7 @@ import {number_format} from '../commJS/common';
             let WalletInfo = this.state.WalletInfo;
             let tpWallets = null;
             let data = [];
-            data.push({Text:i18n.lbl_Wallet_Saba, Value:1});
+            data.push({Text:i18n.lbl_MainWallet, Value:0});
             if(WalletInfo != null && WalletInfo.tpWallets !=null){
                 tpWallets = WalletInfo.tpWallets.map(function( item ,index ) { 
                     data.push({Text:item.tpName,Value:item.tpId});
@@ -508,8 +507,8 @@ import {number_format} from '../commJS/common';
                     </div>                
                     <div className="tbody">
                         <div className="tr">
-                            <div className="td-Main-wallet" data-title={i18n.lbl_Wallet_Saba}>
-                                <span className="text">{i18n.lbl_Wallet_Saba}</span>
+                            <div className="td-Main-wallet" data-title={i18n.lbl_MainWallet}>
+                                <span className="text">{i18n.lbl_MainWallet}</span>
                             </div>
                             <div className="td-Balance" data-title={i18n.lbl_Balance} onClick={!this.state.refresh ? this.getWalletInfo.bind(this):null}>
                                 <span className="text">{WalletInfo&&number_format(WalletInfo.balance.toFixed(2))}
@@ -546,13 +545,13 @@ import {number_format} from '../commJS/common';
                     <div className="panel__body" style={{"display":"block"}}>                
                         <form className="form" onSubmit={this.handleSubmit.bind(this)}>
                             <div className="form-group">
-                                <label className="form-title">{i18n.lbl_TransferTo}</label>
+                                <label className="form-title">{i18n.lbl_TransferFrom}</label>
                                 <div className="form-content">
                                     <DropdownList Data={data} Value={this.state.From} onSelect={this.onSelectFrom.bind(this)}/>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="form-title">{i18n.lbl_TransferFrom}</label>
+                                <label className="form-title">{i18n.lbl_TransferTo}</label>
                                 <div className="form-content">
                                     <DropdownList Data={data} Value={this.state.To} onSelect={this.onSelectTo.bind(this)}/>
                                 </div>

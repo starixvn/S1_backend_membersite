@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MemberSite.Service.Model.enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
@@ -101,5 +102,6 @@ namespace MemberSite.Service.Model
         public string Description { set; get; }
         public decimal Balance { set; get; }
         public bool Transfer { set; get; }
+        public WalletStatus walletStatus { set; get; }
     }
 }

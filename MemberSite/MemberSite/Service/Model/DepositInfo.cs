@@ -36,6 +36,8 @@ namespace MemberSite.Service.Model
     public class DepositInfo2_1 : IDepositInfo
     {
         public int Ver { get; set; }
+        public int PayId { get; set; }
+        public int ChannelId { get; set; }
         public int CurrencyId { get; set; }
     }
     public class DepositInfo3_1 : IDepositInfo

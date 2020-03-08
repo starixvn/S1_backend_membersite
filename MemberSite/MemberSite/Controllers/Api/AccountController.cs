@@ -12,6 +12,7 @@ using MemberSite.Service.Library;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Controllers.Api
 {
@@ -446,7 +447,19 @@ namespace MemberSite.Controllers.Api
                         if (tpWallet.Transfer)
                         {
                             var tpWalletBalance = await thirdPartyBLL.GetTpWalletBalanceAsync(tpWallet.TpId, authData.CustId);
-                            tpWallet.Balance = tpWalletBalance.Data;
+                            if (tpWalletBalance.ErrorCode == 0)
+                            {
+                                tpWallet.Balance = tpWalletBalance.Data;
+                                tpWallet.walletStatus = WalletStatus.Normal;
+                            }
+                            else if (tpWalletBalance.ErrorCode == 10)
+                            {
+                                tpWallet.walletStatus = WalletStatus.UM;
+                            }
+                            else
+                            {
+                                tpWallet.walletStatus = WalletStatus.Error;
+                            }
                         }
                     }
                 }
