@@ -54,8 +54,8 @@
         @RenderBody()
         @if (!string.Equals(ViewContext.RouteData.Values["controller"] as string, "sports", StringComparison.OrdinalIgnoreCase))
         {
-        <partial name="~/Views/Shared/_Footer.cshtml" />
-        <partial name="~/Views/Shared/_LeftMenu.cshtml" />
+            <partial name="~/Views/Shared/_Footer.cshtml" />
+            <partial name="~/Views/Shared/_LeftMenu.cshtml" />
         }
 
     </div>
@@ -65,25 +65,25 @@
     {
         if (!tools.IsMobile())
         {
-    <script src="~/lib/es6-promise.min.js"></script>
-    <script src="~/lib/es6-promise.auto.min.js"></script>
+            <script src="~/lib/es6-promise.min.js"></script>
+            <script src="~/lib/es6-promise.auto.min.js"></script>
         }
 
-    <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
-    <script src="~/lib/react.development.js"></script>
-    <script src="~/lib/react-dom.development.js"></script>
-    <script src="~/lib/babel.min.js"></script>
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>*@
+        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+        <script src="~/lib/react.development.js"></script>
+        <script src="~/lib/react-dom.development.js"></script>
+        <script src="~/lib/babel.min.js"></script>
+        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>*@
     }
     else
     {
-    <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
-    <script src="~/lib/react.production.min.js"></script>
-    <script src="~/lib/react-dom.production.min.js"></script>
+        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+        <script src="~/lib/react.production.min.js"></script>
+        <script src="~/lib/react-dom.production.min.js"></script>
         if (!tools.IsMobile())
         {
-    <script src="~/lib/es6-promise.min.js"></script>
-    <script src="~/lib/es6-promise.auto.min.js"></script>
+            <script src="~/lib/es6-promise.min.js"></script>
+            <script src="~/lib/es6-promise.auto.min.js"></script>
         }
     }
 
@@ -185,18 +185,59 @@
             });
         });
     </script>
-
     @if (User.Identity.IsAuthenticated)
     {
-    <script src="~/js/commJS/common.js"></script>
-    <script src="~/js/commJS/Account.js" asp-append-version="true"></script>
-    <script src="~/js/component/app/BalancePanel.min.js" asp-append-version="true"></script>
-    <script src="~/js/component/app/WalletInfo.min.js" asp-append-version="true"></script>
+        <script type="text/javascript">
+            $(function () {
+                $(".Js-Dialog").on("touchstart, click", function () {
+                    $("#Dialog").attr("data-open", false);
+                });
+
+                $(".Js-LiveCasino").on("touchstart, click", function () {
+                    $("#Dialog").attr("data-open", false);
+                    window.open($(".Js-LiveCasino").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                });
+            });
+
+            function LaunchGame(GameUrl, WindowKey, TpId) {
+                $(".app-loading").attr("data-open", true);
+                axios.post('/api/Account/CheckWellet', { TpId: TpId })
+                    .then(
+                        function (response) {
+                            $(".app-loading").attr("data-open", false);
+                            var result = response.data;
+                            if (result.errorCode != null && result.errorCode == 0 && result.data == 1) {
+                                $(".Js-LiveCasino").attr("data-GameUrl", GameUrl);
+                                $(".Js-LiveCasino").attr("data-WindowKey", WindowKey);
+                                $("#Dialog").attr("data-open", true);
+                            } else if (result.errorCode != null && result.errorCode == 0 && result.data == 2) {
+                                $(".Js-LiveCasino").attr("data-GameUrl", GameUrl);
+                                $(".Js-LiveCasino").attr("data-WindowKey", WindowKey);
+                                $("#Dialog").attr("data-open", true);
+                            } else if (result.errorCode != null && result.errorCode == 0 && result.data == 10) {
+                                window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                            } else {
+                                window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                            }
+                        }
+                    ).catch(function (error) {
+                        alert(error);
+                        $(".app-loading").attr("data-open", false);
+                    });
+            }
+        </script>
+    }
+    @if (User.Identity.IsAuthenticated)
+    {
+        <script src="~/js/commJS/common.js"></script>
+        <script src="~/js/commJS/Account.js" asp-append-version="true"></script>
+        <script src="~/js/component/app/BalancePanel.min.js" asp-append-version="true"></script>
+        <script src="~/js/component/app/WalletInfo.min.js" asp-append-version="true"></script>
     }
     else
     {
-    <script src="~/lib/runtime.min.js"></script>
-    <script src="~/js/component/app/loginForm.min.js" asp-append-version="true"></script>
+        <script src="~/lib/runtime.min.js"></script>
+        <script src="~/js/component/app/loginForm.min.js" asp-append-version="true"></script>
     }
     @* Start of LiveChat (www.livechatinc.com) code *@
     <script type="text/javascript">
@@ -213,5 +254,43 @@
     @*  End of LiveChat code*@
     @RenderSection("Scripts", required: false)
     @RenderSection("PromptMsg", required: false)
+    @if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        var customer = custInfoBLL.GetCustInfoWithCache(custId);
+        var CurrencyId = customer.CurrencyId;
+        <div class="modal" id="Dialog" data-open="false">
+            <div class="overlay Js-Dialog"></div>
+            <div class="modal__dialog">
+                <div class="modal__header">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Reminder")</span>
+                </div>
+                <div class="modal__body">
+                    <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlet"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), "0.0"))</p>
+                    <br>
+                </div>
+                <div class="modal__footer">
+                    <div class="btn-group">
+                        <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+                        </a>
+                        <button class="btn btn-primary Js-LiveCasino" type="button">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Enter")</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="app-loading" data-open="false">
+            <div class="preloader">
+                <div class="preloader__spiner">
+                    <div class="preloader__circles">
+                        <div class="preloader__circle-1"></div>
+                        <div class="preloader__circle-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </body>
 </html>
