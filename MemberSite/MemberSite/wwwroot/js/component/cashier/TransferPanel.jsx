@@ -305,7 +305,7 @@ import {number_format} from '../commJS/common';
             let amount = 0;
             if(WalletInfo!=null) {
                 // && WalletInfo.balance > 0
-                if(from==1) {
+                if(from==0) {
                     amount = WalletInfo.balance;
                 } else if(WalletInfo.tpWallets != null) {
                     let data = this.state.WalletInfo.tpWallets;
