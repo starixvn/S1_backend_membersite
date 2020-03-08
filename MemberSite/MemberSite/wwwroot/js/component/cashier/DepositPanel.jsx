@@ -36,6 +36,30 @@ import {number_format} from '../commJS/common';
         }
 
         render() {
+            let paymentLogo = null;
+            if(this.props.PickBankInfoOff != null){
+                let pickBankInfoOff = this.props.PickBankInfoOff;
+                paymentLogo = <div className="td-right payment">
+                                    <div className="payment__img">
+                                        <img src={"/common/images/BankLogo/" + pickBankInfoOff.bankLogo}/>
+                                    </div>
+                                    <div className="payment__name">
+                                        <span className="text">{pickBankInfoOff.bankName}</span>
+                                    </div>
+                                </div>;
+            } else if (this.props.MobilePayGroup != null) {
+
+                let mobilePayGroup = this.props.MobilePayGroup;
+                paymentLogo = <div className="td-right payment">
+                                    <div className="payment__img">
+                                        <img src={"/common/images/MobilePay/" + mobilePayGroup.groupName +".png"}/>
+                                    </div>
+                                    <div className="payment__name">
+                                        <span className="text">{mobilePayGroup.groupName}</span>
+                                    </div>
+                                </div>;
+            }
+
             return (
             <div className="modal" data-open={this.state.Show}>
                 <div className="overlay" onClick={this.onClose.bind(this)}></div>
@@ -48,14 +72,7 @@ import {number_format} from '../commJS/common';
                         <div className="table table-modal">
                             <div className="tbody">
                                 <div className="tr">
-                                    <div className="td-right payment">
-                                        <div className="payment__img">
-                                            <img src={"/common/images/BankLogo/" + this.props.PickBankInfoOff.bankLogo}/>
-                                        </div>
-                                        <div className="payment__name">
-                                            <span className="text">{this.props.PickBankInfoOff.bankName}</span>
-                                        </div>
-                                    </div>
+                                    {paymentLogo}
                                 </div>                                
                                 <div className="tr">
                                     <div className="td-left">
@@ -68,7 +85,7 @@ import {number_format} from '../commJS/common';
                             </div>
                         </div>
                         <div className="btn-group">
-                            <button className="btn btn-primary"  onClick={this.onClose.bind(this)} type="button">
+                            <button className="btn btn-primary" onClick={this.onClose.bind(this)} type="button">
                                 <div className="btn__inner">
                                     <span className="text">{i18n.lbl_Cancel}</span>
                                 </div>
@@ -616,6 +633,232 @@ import {number_format} from '../commJS/common';
         }
     }
 
+    class MobilePay extends React.Component {
+        constructor(props) {
+            super(props);
+
+            let formArr=[];
+
+            let amountDataField = new DataField("Amount");
+            amountDataField.placeholder=i18n.lbl_Amount;
+            amountDataField.displayName=i18n.lbl_Amount;
+            amountDataField.tooltip=i18n.lbl_AmountTooltip;
+            amountDataField.status=1;
+            amountDataField.objectType=5;
+            amountDataField.handleCheck = this.handleCheckAmount.bind(this);
+            amountDataField.Value="";
+            formArr.push(amountDataField);
+            this.MobilePayForm = React.createRef();
+
+            this.state = { MobilePayGroup:this.props.MobilePayGroup, showTodModal:false, channelId: 0, MobilePayInfoList:null, formArr: formArr, Amount: 0};
+        }       
+
+        onClose() {
+            this.setState({showTodModal:false});
+        }        
+
+        componentDidMount() {
+            this.getMobilePayInfoList();
+        }
+
+        getMobilePayInfoList() {
+            Loading.OnLoading();          
+            let data = {GroupId: this.state.MobilePayGroup.groupId};  
+            axios.post('/api/Payment/GetMobilePayInfoList', data)
+            .then(function (response) {
+                Loading.UnLoading();
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    let mobilePayInfoList=null;
+                    let channelId=0;
+                    if(result.data.length>0) {
+                        mobilePayInfoList = result.data;
+                        channelId=mobilePayInfoList[0].channelId;
+                    }
+                    this.setState({MobilePayInfoList: mobilePayInfoList, channelId:channelId},function(){
+                        this.MobilePayForm.current.scrollIntoView(true);
+                        var scrolledY = window.scrollY;
+                        window.scrollTo(0, scrolledY - $($(".header").get(0)).height());
+                    });
+                } else {
+                    alert(result.message);
+                }
+            }.bind(this)).catch(function (error) {
+                Loading.UnLoading();
+                alert(error);
+            }.bind(this));
+        }
+        
+        onChangeMobilePay(channelId) {
+            this.setState({channelId: channelId});
+        }
+
+        onDepositOptions() {
+            this.props.onDepositOptions();
+        }
+
+        async handleCheckAmount(value) {
+            let status = 1;
+            let message = "";
+            let mobilePayInfoList = this.state.MobilePayInfoList;
+            let channelId = this.state.channelId;            
+            let mobilePayInfo=null;
+
+            for(let i=0;i<mobilePayInfoList.length;i++){
+                if(mobilePayInfoList[i].channelId==channelId){
+                    mobilePayInfo = mobilePayInfoList[i];
+                    break;
+                }
+            }
+
+            if(isNaN(value)) {
+                status = 2;
+                message = i18n.lbl_AmountTooltip;
+            } else if(value <= 0) {
+                status = 2;
+                message = i18n.lbl_AmountTooltip;
+            } else if((mobilePayInfo.minAmount != 0 && mobilePayInfo.maxAmount != 0) && (value > mobilePayInfo.maxAmount || value < mobilePayInfo.minAmount) ) {
+                status = 2;
+                message = number_format(value) + " "+ i18n.lbl_NotinLimit;
+            } else {
+                status = 3;
+                message = "";
+            }
+    
+            return {status: status, message: message};
+        }
+
+        async handleSubmit(event) {
+            event.preventDefault();
+            let mobilePayInfoList = this.state.MobilePayInfoList;
+            let channelId = this.state.channelId;            
+            let mobilePayInfo=null;
+
+            for(let i=0;i<mobilePayInfoList.length;i++){
+                if(mobilePayInfoList[i].channelId==channelId){
+                    mobilePayInfo = mobilePayInfoList[i];
+                    break;
+                }
+            }
+
+            if(mobilePayInfo.amountRule != 3) {
+                let data = {};
+                let valid = true;
+                for(var i=0; i < this.state.formArr.length; i++){
+                    let dataField = this.state.formArr[i];
+                    await dataField.onCheck();
+                    if(valid) {
+                        if(dataField.status == 2) {
+                            valid = false;
+                        }
+                    }
+                    data[dataField.name] = dataField.Value;
+                }
+
+                if(!valid) {
+                    this.forceUpdate();
+                } else {
+                    this.setState({showTodModal:true, Amount: parseFloat(data["Amount"])});
+                }
+            } else {
+                this.setState({showTodModal:true});
+            }
+        }
+        
+        setAmount(amount) {
+            this.setState({Amount:amount});
+        }
+
+        onConfirm() {
+            this.setState({showTodModal:false});
+            let mobilePayInfoList = this.state.MobilePayInfoList;
+            let channelId = this.state.channelId;            
+            let mobilePayInfo=null;
+
+            for(let i=0;i<mobilePayInfoList.length;i++){
+                if(mobilePayInfoList[i].channelId==channelId){
+                    mobilePayInfo = mobilePayInfoList[i];
+                    break;
+                }
+            }
+
+            window.open(MobilePayUrl + "?ChannelId=" + mobilePayInfo.channelId +"&Amount="+this.state.Amount);
+        }
+
+        render() {
+            let mobilePayInfoList = this.state.MobilePayInfoList;
+            let InputPanel=null;
+             if(mobilePayInfoList!=null){
+                let channelId = this.state.channelId;
+                 mobilePayInfoList = mobilePayInfoList.map(function( mobilePayInfo ,index ) { 
+                 return <a key={mobilePayInfo.channelId} className="payment" onClick={mobilePayInfo.channelId != channelId ? this.onChangeMobilePay.bind(this, mobilePayInfo.channelId):null}>
+                                 <div className="payment__img">
+                                     <img src={"/common/images/MobilePay/" + mobilePayInfo.groupName +".png"} />
+                                 </div>
+                                 <span className="payment__name">{mobilePayInfo.channelName}</span>
+                                <div className="text-group">
+                                    {mobilePayInfo.minAmount == 0 && mobilePayInfo.maxAmount == 0 ? 
+                                        <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{i18n.lbl_Unlimited}</span>{" )"}</span>
+                                    : <span className="text">{i18n.lbl_Limit}{" : "}<span className="text-accent">{number_format(mobilePayInfo.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(mobilePayInfo.maxAmount)}</span></span>
+                                    }
+                                </div>                                 
+                             </a>;
+                 }.bind(this));
+
+                let mobilePayInfo=null;
+                let mobilePayInfoList1 = this.state.MobilePayInfoList;
+                 if(channelId > 0) {
+                    for(let i=0;i<mobilePayInfoList1.length;i++){
+                        if(mobilePayInfoList1[i].channelId==channelId){
+                            mobilePayInfo = mobilePayInfoList1[i];
+                            break;
+                        }
+                    }
+
+                    if(mobilePayInfo.amountRule==3){
+                        InputPanel=<div>{number_format(this.state.Amount)} {mobilePayInfo.amountList.map(function( amount ) {
+                            return <button key={amount} type="button" className="btn btn-secondary" onClick={this.setAmount.bind(this, amount)}>
+                                        <div className="btn__inner">
+                                            <span className="text">{number_format(amount)}</span>
+                                        </div>
+                                    </button>;
+                        }.bind(this))}</div>;
+                    } else {
+                        let dataField = this.state.formArr[0]
+                        InputPanel = <InputBox key={dataField.name} DataField={dataField}/>;
+                    }
+                 }
+             }
+ 
+             return (
+             <div>
+                <div className="heading" ref={this.MobilePayForm}>
+                    <span className="text">{i18n.lbl_MobileDeposit}</span>
+                </div>
+                {mobilePayInfoList != null ? <form className="form" onSubmit={this.handleSubmit.bind(this)}>
+                    {mobilePayInfoList != null ? <div className="payment-list">
+                    {mobilePayInfoList}
+                    </div>: null}
+                    {InputPanel}
+                    <div className="btn-group">
+                        <button className="btn btn-primary" type="button" onClick={this.onDepositOptions.bind(this)}>
+                            <div className="btn__inner">
+                                <span className="text">{i18n.lbl_Back}</span>
+                            </div>
+                        </button>
+                        <button className="btn btn-secondary" type="submit">
+                            <div className="btn__inner">
+                                <span className="text">{i18n.lbl_Submit}</span>
+                            </div>
+                        </button>
+                    </div>
+                </form> : null}
+                {this.state.showTodModal ? <TbdModal onConfirm={this.onConfirm.bind(this)} onClose={this.onClose.bind(this)} MobilePayGroup={this.state.MobilePayGroup} Amount={this.state.Amount} /> : null}
+            </div>
+             )
+         }
+    }    
+
     class OnlineBanking extends React.Component {
         constructor(props) {
             super(props);
@@ -645,24 +888,24 @@ import {number_format} from '../commJS/common';
                     let bankInfoPay=null;
                     if(result.data != null) {
                         bankInfoPay = result.data;
-                        if(bankInfoPay!=null){
+
+                        this.setState({BankInfoPay: bankInfoPay}, function(){
                             this.onlineBankingForm.current.scrollIntoView(true);
                             var scrolledY = window.scrollY;
                             window.scrollTo(0, scrolledY - $($(".header").get(0)).height());
-                        }
-                        this.setState({BankInfoPay: bankInfoPay});
+                        });
                     } else {
                         alert(sysId + "Not Found.");
-                        this.onDepositOptions();                        
+                        //this.onDepositOptions();
                     }
                 } else {
                     alert(result.message);
-                    this.onDepositOptions();
+                    //this.onDepositOptions();
                 }
             }.bind(this)).catch(function (error) {
                 Loading.UnLoading();
                 alert(error);
-                this.onDepositOptions();
+                //this.onDepositOptions();
             }.bind(this));
         }
 
@@ -730,7 +973,6 @@ import {number_format} from '../commJS/common';
                 dataField.LabelCommit = BankInfoPay !=null ? <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{number_format(BankInfoPay.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(BankInfoPay.maxAmount)}</span>{" )"}</span> : null;
                 return <InputBox key={dataField.name} DataField={dataField}/>;
             });
-            //let modalContaner = null;
 
             return (
             <div>
@@ -779,24 +1021,29 @@ import {number_format} from '../commJS/common';
             this.props.onWireTransfers();
         }
 
+        onMobilePay(mobilePayGroup) {
+            this.props.onMobilePay(mobilePayGroup);
+        }
+
         componentDidMount() {
             this.getLocalBank();
             this.getOnlinePayment();
+            this.getMobilePayGroup();
         }
 
-        getLocalBank() {
+        getMobilePayGroup() {
             Loading.OnLoading();            
-            axios.post('/api/Payment/GetBankInfoOffList')
+            axios.post('/api/Payment/GetMobilePayGroupList')
             .then(function (response) {
                 Loading.UnLoading();
                 let result = response.data;
                 if (result.errorCode == 0) {
-                    let localBank=false;
+                    let mobilePayGroupList=null;
                     if(result.data.length>0) {
-                        localBank = true;
+                        mobilePayGroupList = result.data;
                     }
 
-                    this.setState({LocalBank: localBank});
+                    this.setState({MobilePayGroupList: mobilePayGroupList});
                 } else {
                     //alert(result.message);
                 }
@@ -828,10 +1075,34 @@ import {number_format} from '../commJS/common';
             }.bind(this));
         }
 
+        getLocalBank() {
+            Loading.OnLoading();            
+            axios.post('/api/Payment/GetBankInfoOffList')
+            .then(function (response) {
+                Loading.UnLoading();
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    let localBank=false;
+                    if(result.data.length>0) {
+                        localBank = true;
+                    }
+
+                    this.setState({LocalBank: localBank});
+                } else {
+                    //alert(result.message);
+                }
+            }.bind(this)).catch(function (error) {
+                Loading.UnLoading();
+                //alert(error);
+            }.bind(this));
+        }        
+
         render() {
             let onlinePayment = this.state.OnlinePayment;
 
             let onlinePaymentList = null;
+
+            let mobilePayGroupList = this.state.MobilePayGroupList;
 
             if(onlinePayment!=null){
                 onlinePaymentList = onlinePayment.map(function( paymentInfo ,index ) { 
@@ -843,9 +1114,20 @@ import {number_format} from '../commJS/common';
                             <div className="text-group">
                                 {paymentInfo.minAmount == 0 && paymentInfo.maxAmount == 0 ? 
                                     <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{i18n.lbl_Unlimited}</span>{" )"}</span>
-                                : <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{number_format(paymentInfo.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(paymentInfo.maxAmount)}</span>{" )"}</span>
+                                : <span className="text">{i18n.lbl_Limit}{" : "}<span className="text-accent">{number_format(paymentInfo.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(paymentInfo.maxAmount)}</span></span>
                                 }
                             </div>
+                        </div>;
+                }.bind(this));
+            }
+
+            if(mobilePayGroupList != null){
+                mobilePayGroupList = mobilePayGroupList.map(function( mobilePayGroup ,index ) { 
+                return <div key={mobilePayGroup.groupId} className="payment" onClick={this.onMobilePay.bind(this, mobilePayGroup)}>
+                            <div className="payment__img">
+                                <img src={"/common/images/MobilePay/" + mobilePayGroup.groupName +".png"}  />
+                            </div>
+                            <span className="payment__name">{mobilePayGroup.groupName}</span>
                         </div>;
                 }.bind(this));
             }
@@ -885,29 +1167,18 @@ import {number_format} from '../commJS/common';
                         </div>
                     </div>
                 </div> : null}
-                {/*<div className="panel panel-primary panel--payment" data-open="true">
+                {mobilePayGroupList!=null ? <div className="panel panel-primary panel--payment" data-open="true">
                     <div className="panel__header">
                         <span className="text">{i18n.lbl_MobileDeposit} -</span>
                         <span className="text-accent">{i18n.lbl_CreditTime}: {i18n.lbl_Instant}</span>
                         <i className="icon icon-caret"></i>
                     </div>
                     <div className="panel__body">
-                        <div className="payment">
-                            <a className="payment" href="#">
-                                <div className="payment__img">
-                                    <img src="../../SiteSkin/Nova88/common/images/payment/alipay.png"/>
-                                </div>
-                                <span className="payment__name">Alipay</span>
-                            </a>
-                            <a className="payment__item" href="#">
-                                <div className="payment__img">
-                                    <img src="../../SiteSkin/Nova88/common/images/payment/wechat-pay.png"/>
-                                </div>
-                                <span className="payment__text">WeChat Pay</span>
-                            </a>
+                        <div className="payment-list">
+                            {mobilePayGroupList}
                         </div>
                     </div>
-                </div>*/}
+                </div> : null}
                 <RecentHistory onShowBankModal={this.props.onShowBankModal}/>
             </div>                
             )
@@ -921,8 +1192,12 @@ import {number_format} from '../commJS/common';
         }
 
         onOnlinePayment(payId) {
-            this.state.Select = false;
-            this.setState( {"DipositType": 1, PayId: payId});
+            //this.state.Select = false;
+            this.setState( {"DipositType": 1, PayId: payId, Select: false});
+        }
+
+        onMobilePay(mobilePayGroup) {
+            this.setState( {"DipositType": 2, MobilePayGroup: mobilePayGroup});
         }
 
         onOnlineBanking(sysId) {
@@ -950,11 +1225,13 @@ import {number_format} from '../commJS/common';
    
         render() {
             let panelObj=[];
-            let panelHolder = <DepositOptions key={1} PayId={this.state.PayId} onWireTransfers={this.onWireTransfers.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)} onOnlinePayment={this.onOnlinePayment.bind(this)} onOnlineBanking={this.onOnlineBanking.bind(this)}/>;
+            let panelHolder = <DepositOptions key={1} onMobilePay={this.onMobilePay.bind(this)} onWireTransfers={this.onWireTransfers.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)} onOnlinePayment={this.onOnlinePayment.bind(this)} onOnlineBanking={this.onOnlineBanking.bind(this)}/>;
             if (this.state.Select==true) {
                 panelHolder = <OnlineBanking key={1} SysId={this.state.SysId} PayId={this.state.PayId} onShowBankModal={this.onShowBankModal.bind(this)} onOnlinePayment={this.onOnlinePayment.bind(this)} />;
             } else if(this.state.DipositType == 1) {
                 panelHolder = <OnlinePayment key={1} PayId={this.state.PayId} onDepositOptions={this.onDepositOptions.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)} onOnlineBanking={this.onOnlineBanking.bind(this)}/>;
+            } else if(this.state.DipositType == 2) {
+                panelHolder = <MobilePay key={1}  MobilePayGroup={this.state.MobilePayGroup} onDepositOptions={this.onDepositOptions.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)} onOnlineBanking={this.onOnlineBanking.bind(this)}/>;                
             } else if(this.state.DipositType == 3) {
                 panelHolder = <WireTransfers key={1} onDepositOptions={this.onDepositOptions.bind(this)} onShowBankModal={this.onShowBankModal.bind(this)}/>;
             } 

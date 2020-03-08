@@ -19,8 +19,13 @@ namespace MemberSite.Service.DAL
         }
         public IEnumerable<PayCurrency> GetPayCurrency()
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<PayCurrency>("PayCurrency_Get", commandType: CommandType.StoredProcedure);
+        }
+        public IEnumerable<MobilePayInfo> GetMobilePayInfo()
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Query<MobilePayInfo>("Member_MobilePay_Get", commandType: CommandType.StoredProcedure);
         }
     }
 }

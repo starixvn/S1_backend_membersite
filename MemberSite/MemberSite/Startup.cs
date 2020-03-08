@@ -92,6 +92,7 @@ namespace MemberSite
             services.AddSingleton<AuthorizeBLL>();
             services.AddSingleton<BankInfoOffBLL>();
             services.AddSingleton<BankInfoBLL>();
+            services.AddSingleton<MobilePayInfoBLL>();
             services.AddSingleton<PaymentBLL>();
             services.AddSingleton<ThirdPartyBLL>();
             services.AddSingleton<MessageBLL>();
