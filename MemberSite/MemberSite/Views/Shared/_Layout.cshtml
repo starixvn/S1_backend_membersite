@@ -188,36 +188,85 @@
     @if (User.Identity.IsAuthenticated)
     {
         <script type="text/javascript">
-            $(function () {
-                $(".Js-Dialog").on("touchstart, click", function () {
-                    $("#Dialog").attr("data-open", false);
-                });
-
-                $(".Js-LiveCasino").on("touchstart, click", function () {
-                    $("#Dialog").attr("data-open", false);
-                    window.open($(".Js-LiveCasino").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-                });
+        $(function () {
+            $(".Js-Dialog").on("touchstart, click", function () {
+                $("#Dialog").attr("data-open", false);
+                $("#Dialog2").attr("data-open", false);
             });
 
-            function LaunchGame(GameUrl, WindowKey, TpId) {
+            $(".Js-LiveCasino").on("touchstart, click", function () {
+                $("#Dialog").attr("data-open", false);
+                window.open($(".Js-LiveCasino").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+            });
+
+            $(".Js-Sports").on("touchstart, click", function () {
+                $("#Dialog2").attr("data-open", false);
+                if (@tools.IsMobile())
+                {
+                    window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                }
+                else if ($(".Js-Sports").attr("data-GameId") == "202" || $(".Js-Sports").attr("data-GameId") == "208" || $(".Js-Sports").attr("data-GameId") == "211")
+                {
+                    window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                }
+                else {
+                    window.location.href = $(".Js-Sports").attr("data-GameUrl");
+                }
+            });
+        });
+
+        function LaunchGame(GameUrl, WindowKey, TpId, GameId) {
                 $(".app-loading").attr("data-open", true);
                 axios.post('/api/Account/CheckWellet', { TpId: TpId })
                     .then(
                         function (response) {
                             $(".app-loading").attr("data-open", false);
                             var result = response.data;
-                            if (result.errorCode != null && result.errorCode == 0 && result.data == 1) {
-                                $(".Js-LiveCasino").attr("data-GameUrl", GameUrl);
-                                $(".Js-LiveCasino").attr("data-WindowKey", WindowKey);
-                                $("#Dialog").attr("data-open", true);
-                            } else if (result.errorCode != null && result.errorCode == 0 && result.data == 2) {
-                                $(".Js-LiveCasino").attr("data-GameUrl", GameUrl);
-                                $(".Js-LiveCasino").attr("data-WindowKey", WindowKey);
-                                $("#Dialog").attr("data-open", true);
-                            } else if (result.errorCode != null && result.errorCode == 0 && result.data == 10) {
-                                window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-                            } else {
-                                window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                            if (TpId == 1)
+                            {
+                                if (result.errorCode != null && result.errorCode == 0 && result.data == 1) {
+                                    $(".Js-Sports").attr("data-GameId", GameId);
+                                    $(".Js-Sports").attr("data-GameUrl", GameUrl);
+                                    $(".Js-Sports").attr("data-WindowKey", WindowKey);
+                                    $("#Dialog2").attr("data-open", true);
+                                } else if (result.errorCode != null && result.errorCode == 0 && result.data == 2) {
+                                    $(".Js-Sports").attr("data-GameId", GameId);
+                                    $(".Js-Sports").attr("data-GameUrl", GameUrl);
+                                    $(".Js-Sports").attr("data-WindowKey", WindowKey);
+                                    $("#Dialog2").attr("data-open", true);
+                                } else if (result.errorCode != null && result.errorCode == 0 && result.data == 10) {
+                                    if (GameId == "202" || GameId == "208" || GameId == "211") {
+                                        window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                                    } else if (@tools.IsMobile()) {
+                                        window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                                    } else {
+                                        window.location.href = GameUrl;
+                                    }
+                                } else {
+                                    if (GameId == "202" || GameId == "208" || GameId == "211") {
+                                        window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                                    } else if (@tools.IsMobile()) {
+                                        window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                                    } else {
+                                        window.location.href = GameUrl;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (result.errorCode != null && result.errorCode == 0 && result.data == 1) {
+                                    $(".Js-LiveCasino").attr("data-GameUrl", GameUrl);
+                                    $(".Js-LiveCasino").attr("data-WindowKey", WindowKey);
+                                    $("#Dialog").attr("data-open", true);
+                                } else if (result.errorCode != null && result.errorCode == 0 && result.data == 2) {
+                                    $(".Js-LiveCasino").attr("data-GameUrl", GameUrl);
+                                    $(".Js-LiveCasino").attr("data-WindowKey", WindowKey);
+                                    $("#Dialog").attr("data-open", true);
+                                } else if (result.errorCode != null && result.errorCode == 0 && result.data == 10) {
+                                    window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                                } else {
+                                    window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                                }
                             }
                         }
                     ).catch(function (error) {
@@ -266,8 +315,7 @@
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Reminder")</span>
                 </div>
                 <div class="modal__body">
-                    <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlet"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), "0.0"))</p>
-                    <br>
+                    <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlert"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), "0.0"))</p>
                 </div>
                 <div class="modal__footer">
                     <div class="btn-group">
@@ -275,6 +323,27 @@
                             <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
                         </a>
                         <button class="btn btn-primary Js-LiveCasino" type="button">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Enter")</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="Dialog2" data-open="false">
+            <div class="overlay Js-Dialog"></div>
+            <div class="modal__dialog">
+                <div class="modal__header">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Reminder")</span>
+                </div>
+                <div class="modal__body">
+                    <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_TransferAlert"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), "0.0"))</p>
+                </div>
+                <div class="modal__footer">
+                    <div class="btn-group">
+                        <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Transfer")</span>
+                        </a>
+                        <button class="btn btn-primary Js-Sports" type="button">
                             <span class="text">@selLangBLL.GetResourceValue("lbl_Enter")</span>
                         </button>
                     </div>

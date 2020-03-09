@@ -12,20 +12,33 @@
         var entPageUrl = "";
         if (tpId == 1)
         {
-            if (!User.Identity.IsAuthenticated && (gameId == "202" || gameId == "208" || gameId == "211"))
+            if (!User.Identity.IsAuthenticated)
             {
-                if (tools.IsMobile())
+                if (gameId == "202" || gameId == "208" || gameId == "211")
                 {
-                    var message = selLangBLL.GetMsg("msg_LoginToAccess");
-                    entPageUrl = "javascript:alert('" + message + "');";
-                }
-                else if (gameId == "211")
-                {
-                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+                    if (tools.IsMobile())
+                    {
+                        var message = selLangBLL.GetMsg("msg_LoginToAccess");
+                        entPageUrl = "javascript:alert('" + message + "');";
+                    }
+                    else if (gameId == "211")
+                    {
+                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+                    }
+                    else
+                    {
+                        entPageUrl = Url.RouteUrl("desktop", new { action = "Static", controller = "Home", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                    }
                 }
                 else
                 {
-                    entPageUrl = Url.RouteUrl("desktop", new { action = "Static", controller = "Home", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                    if (tools.IsMobile())
+                    {
+                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                        entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
+                    }
+                    else
+                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
                 }
             }
             else
@@ -37,21 +50,30 @@
                 if (gameId == "202" || gameId == "208")
                 {
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
-                    entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
+                    //entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
+                    entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
                 }
                 else if (gameId == "211")
+                {
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+                }
                 else if (tools.IsMobile())
                 {
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+                    entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
                 }
                 else
                 {
                     @*IFrame*@
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                    entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
                 }
             }
         }
+        else
+        {
+            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+        }  
         return entPageUrl;
     }
 }

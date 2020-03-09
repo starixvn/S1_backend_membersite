@@ -213,12 +213,15 @@
     <value>Kepada Pelanggan Terhormat,&lt;br /&gt;&lt;br /&gt;Selamat datang di &lt;a href="https://www.nova88.net" target="_new"&gt;www.nova88.net&lt;/a&gt;, setelah pendaftaran silakan kunjungi link yang kami berikan dan selamat menikmati permainan kami.
 </value>
   </data>
-  <data name="msg_DepositAlet" xml:space="preserve">
+  <data name="msg_DepositAlert" xml:space="preserve">
     <value>Saldo anda saat ini: &lt;span class="popup-span"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
 Deposit sekarang dan nikmati permainan dan pelayanan kami
 </value>
   </data>
   <data name="msg_InsufficientFund" xml:space="preserve">
     <value>Dana tidak mencukupi!</value>
+  </data>
+  <data name="msg_TransferAlert" xml:space="preserve">
+    <value>Saldo yang tersedia di sportsbook saat ini adalah :&lt;span class="popup-span"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;Pindahkan saldo dari menu main wallet anda ke sportsbook sekarang dan nikmati permainan dan pelayanan kami.</value>
   </data>
 </root>

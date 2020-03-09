@@ -1396,4 +1396,7 @@
   <data name="lbl_WalletType" xml:space="preserve">
     <value>Loại ví</value>
   </data>
+  <data name="lbl_RemindForName" xml:space="preserve">
+    <value>Tên đầy đủ phải đúng với tên trên tài khoản Ngân Hàng của bạn để thực hiện việc nạp/ rút tiền nhanh</value>
+  </data>
 </root>
