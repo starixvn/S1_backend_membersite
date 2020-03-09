@@ -16,28 +16,28 @@ class HistoryBody extends React.Component {
                 }
 
             return <div className="tr" key={index}>
-                <div className="td-date" data-title={i18n.lbl_Date} role="mobile-click">
+                    <div className="td-date" data-title={i18n.lbl_Date} role="mobile-click">
                         <span className="text">{dateMonent.format('l')} ({dateMonent.format('Z')})</span>
                         <i className="icon icon-caret"></i>
                     </div>
-                <div className="td-time" data-title={i18n.lbl_Time}>
+                    <div className="td-time" data-title={i18n.lbl_Time}>
                         <span className="text">{dateMonent.format("hh:mm:ss A")}</span>
                     </div>
-                <div className="td-id" data-title={i18n.lbl_ID}>
+                    <div className="td-id" data-title={i18n.lbl_ID}>
                         <span className="text">{item.transId}</span>
                     </div>
                     <div className="td-type" data-title={i18n.lbl_Direction}>
                         {direction}
                     </div>                    
-                <div className="td-amount" data-title={i18n.lbl_Amount}>
+                    <div className="td-amount" data-title={i18n.lbl_Amount}>
                         <span className="text">{number_format(item.amount.toFixed(2))}</span>
                     </div>
-                <div className="td-status" data-title={i18n.lbl_Status}>
+                    <div className="td-status" data-title={i18n.lbl_Status}>
                         {TransferStatus[item.status]}
                     </div>
-                    <div className="td-method" data-title={i18n.lbl_Memo}>
+                    {/*<div className="td-method" data-title={i18n.lbl_Memo}>
                         {item.memo}
-                    </div>                             
+                    </div>*/}
             </div>;
             }.bind(this));
 
@@ -119,9 +119,9 @@ export class TransferHistory extends React.Component {
                         <div className="td-status" data-title={i18n.lbl_Status}>
                             <span className=" text">{i18n.lbl_Status}</span>
                         </div>
-                        <div className="td-method" data-title={i18n.lbl_Memo}>
+                        {/*<div className="td-method" data-title={i18n.lbl_Memo}>
                             <span className=" text">{i18n.lbl_Memo}</span>
-                        </div>                        
+                        </div>*/}
                     </div>
                 </div>
                 {bodyData}
