@@ -39,9 +39,9 @@ import {number_format} from '../commJS/common';
                     <div className="td-status" data-title={i18n.lbl_Status}>
                         {TransferStatus[item.status]}
                     </div>
-                    <div className="td-method" data-title={i18n.lbl_Memo}>
+                    {/*<div className="td-method" data-title={i18n.lbl_Memo}>
                         {item.memo}
-                    </div>   
+                    </div>*/}
             </div>;
                 }.bind(this));
 
@@ -125,9 +125,9 @@ import {number_format} from '../commJS/common';
                             <div className="td-status" data-title={i18n.lbl_Status}>
                                 <span className=" text">{i18n.lbl_Status}</span>
                             </div>
-                            <div className="td-method" data-title={i18n.lbl_Memo}>
+                            {/*<div className="td-method" data-title={i18n.lbl_Memo}>
                                 <span className=" text">{i18n.lbl_Memo}</span>
-                            </div>                        
+                            </div>*/}
                         </div>
                     </div>
                     {bodyData}
@@ -435,10 +435,12 @@ import {number_format} from '../commJS/common';
             let WalletInfo = this.state.WalletInfo;
             let tpWallets = null;
             let data = [];
-            data.push({Text:i18n.lbl_MainWallet, Value:0});
+            data.push({Text:<div><span>{i18n.lbl_MainWallet}</span><span>{WalletInfo&&number_format(WalletInfo.balance.toFixed(2))}</span></div>, Value:0});
             if(WalletInfo != null && WalletInfo.tpWallets !=null){
                 tpWallets = WalletInfo.tpWallets.map(function( item ,index ) { 
-                    data.push({Text:item.tpName,Value:item.tpId});
+                    
+                    data.push({Text:<div><span>{item.tpName}</span><span>{number_format(item.balance.toFixed(2))}</span></div>,Value:item.tpId});
+
                     return <div className="tr" key={item.tpId}>
                             <div className="td-Secondary-wallet" data-title={i18n.lbl_OtherWallet}>
                                 <span className="text">{item.tpName}</span>
