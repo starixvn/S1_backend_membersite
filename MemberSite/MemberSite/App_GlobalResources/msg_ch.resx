@@ -215,11 +215,15 @@
   <data name="msg_CreditSignUp" xml:space="preserve">
     <value>敬愛的客戶， &lt;br /&gt;&lt;br /&gt;歡迎來到&lt;a href="https://www.nova88.net" target="_new"&gt;www.nova88.net&lt;/a&gt;, 完成註冊後請遊覽此鏈接並享受我司的遊戲盤口。</value>
   </data>
-  <data name="msg_DepositAlet" xml:space="preserve">
-    <value>您的當前余額是：&lt;span class="popup-span"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
-立即存款以享有我司遊戲盤口及服務</value>
+  <data name="msg_DepositAlert" xml:space="preserve">
+    <value>您的當前餘額是：&lt;span class="popup-span"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
+立即存款以享有我司遊戲盤口及服務。</value>
   </data>
   <data name="msg_InsufficientFund" xml:space="preserve">
     <value>餘額不足!</value>
+  </data>
+  <data name="msg_TransferAlert" xml:space="preserve">
+    <value>您的當前體育錢包餘額是：&lt;span class=""popup-span""&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
+立即將中心錢包餘額轉移至體育錢包以享有我司遊戲盤口及服務。</value>
   </data>
 </root>

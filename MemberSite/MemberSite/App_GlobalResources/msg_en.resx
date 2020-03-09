@@ -213,7 +213,7 @@
     <value>Dear Valued customer, &lt;br /&gt;&lt;br /&gt;Welcome to &lt;a href="https://www.nova88.net" target="_new"&gt;www.nova88.net&lt;/a&gt;, upon registration please visit the said link and enjoy our games.
 </value>
   </data>
-  <data name="msg_DepositAlet" xml:space="preserve">
+  <data name="msg_DepositAlert" xml:space="preserve">
     <value>Your current balance is : &lt;span class="popup-span"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;Deposit now to enjoy our games and services.</value>
   </data>
   <data name="msg_InsufficientFund" xml:space="preserve">
@@ -221,5 +221,9 @@
   </data>
   <data name="mag_AffiliateNotExist" xml:space="preserve">
     <value>Your Affiliate Code is invaild. Please check again!</value>
+  </data>
+  <data name="msg_TransferAlert" xml:space="preserve">
+    <value>Your current sportsbook balance is : &lt;span class=""popup-span""&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
+Transfer from main wallet to sportsbook wallet now to enjoy our games and services.</value>
   </data>
 </root>
