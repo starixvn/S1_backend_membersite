@@ -107,7 +107,6 @@
         return entPageUrl;
     }
 }
-}
 <div class="main main--home">
     <div class="lobby-page">
         <div class="lobby-banner-swiper">
@@ -439,7 +438,7 @@
                 <span class="text">@selLangBLL.GetResourceValue("lbl_Notice")</span>
             </div>
             <div class="modal__body">
-                <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlet"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), balance.ToString("#,##0.##")))</p>
+                <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlert"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), balance.ToString("#,##0.##")))</p>
                 <br>
             </div>
             <div class="modal__footer">
