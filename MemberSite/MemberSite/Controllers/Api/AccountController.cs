@@ -547,9 +547,9 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult<int>> CheckWelletAsync(CheckWelletReq checkWelletReq)
+        public async Task<ApiResult<decimal>> CheckWelletAsync(CheckWelletReq checkWelletReq)
         {
-            var apiResult = new ApiResult<int>(selLangBLL);
+            var apiResult = new ApiResult<decimal>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             if (checkWelletReq.TpId == 1)
@@ -557,61 +557,25 @@ namespace MemberSite.Controllers.Api
                 var tpWalletBalanceData = await thirdPartyBLL.GetTpWalletBalanceAsync(checkWelletReq.TpId, authData.CustId);
                 if (tpWalletBalanceData.ErrorCode == 0)
                 {
-                    var tpWalletBalance = tpWalletBalanceData.Data;
-                    if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
-                    {
-                        tpWalletBalance /= 1000;
-                    }
-
-                    if (tpWalletBalance > 1m)
-                    {
-                        apiResult.Data = 0;
-                        apiResult.ErrorCode = 0;
-                    }
-                    else
-                    {
-                        var balance = walletBLL.GetBalance(custInfo.CustId);
-                        if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
-                        {
-                            balance /= 1000;
-                        }
-
-                        if (balance > 1m)
-                        {
-                            apiResult.Data = 1;
-                            apiResult.ErrorCode = 0;
-                        }
-                        else
-                        {
-                            apiResult.Data = 2;
-                            apiResult.ErrorCode = 0;
-                        }
-                    }
+                    apiResult.Data = tpWalletBalanceData.Data;
+                    apiResult.ErrorCode = 0;
                 }
                 else if(tpWalletBalanceData.ErrorCode == 10)
                 {
-                    apiResult.Data = 10;
-                    apiResult.ErrorCode = 0;
+                    apiResult.ErrorCode = 10;
+                    apiResult.Message = "維護中.";
+                }
+                else
+                {
+                    apiResult.ErrorCode = tpWalletBalanceData.ErrorCode;
+                    apiResult.Message = tpWalletBalanceData.Message;
                 }
             }
             else
             {
                 var balance = walletBLL.GetBalance(custInfo.CustId);
-                if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
-                {
-                    balance /= 1000;
-                }
-
-                if (balance > 1m)
-                {
-                    apiResult.Data = 0;
-                    apiResult.ErrorCode = 0;
-                }
-                else
-                {
-                    apiResult.Data = 1;
-                    apiResult.ErrorCode = 0;
-                }
+                apiResult.Data = balance;
+                apiResult.ErrorCode = 0;
             }
 
             return apiResult;

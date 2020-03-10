@@ -201,78 +201,45 @@
 
             $(".Js-Sports").on("touchstart, click", function () {
                 $("#Dialog2").attr("data-open", false);
-                if (@tools.IsMobile())
-                {
+                if (@tools.IsMobile()) {
                     window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-                }
-                else if ($(".Js-Sports").attr("data-GameId") == "202" || $(".Js-Sports").attr("data-GameId") == "208" || $(".Js-Sports").attr("data-GameId") == "211")
-                {
+                } else if ($(".Js-Sports").attr("data-GameId") == "202" || $(".Js-Sports").attr("data-GameId") == "208" || $(".Js-Sports").attr("data-GameId") == "211") {
                     window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-                }
-                else {
+                } else {
                     window.location.href = $(".Js-Sports").attr("data-GameUrl");
                 }
             });
         });
 
         function LaunchGame(GameUrl, WindowKey, TpId, GameId) {
-                $(".app-loading").attr("data-open", true);
-                axios.post('/api/Account/CheckWellet', { TpId: TpId })
-                    .then(
-                        function (response) {
-                            $(".app-loading").attr("data-open", false);
-                            var result = response.data;
-                            if (TpId == 1)
-                            {
-                                if (result.errorCode != null && result.errorCode == 0 && result.data == 1) {
-                                    $(".Js-Sports").attr("data-GameId", GameId);
-                                    $(".Js-Sports").attr("data-GameUrl", GameUrl);
-                                    $(".Js-Sports").attr("data-WindowKey", WindowKey);
-                                    $("#Dialog2").attr("data-open", true);
-                                } else if (result.errorCode != null && result.errorCode == 0 && result.data == 2) {
-                                    $(".Js-Sports").attr("data-GameId", GameId);
-                                    $(".Js-Sports").attr("data-GameUrl", GameUrl);
-                                    $(".Js-Sports").attr("data-WindowKey", WindowKey);
-                                    $("#Dialog2").attr("data-open", true);
-                                } else if (result.errorCode != null && result.errorCode == 0 && result.data == 10) {
-                                    if (GameId == "202" || GameId == "208" || GameId == "211") {
-                                        window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-                                    } else if (@tools.IsMobile()) {
-                                        window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-                                    } else {
-                                        window.location.href = GameUrl;
-                                    }
-                                } else {
-                                    if (GameId == "202" || GameId == "208" || GameId == "211") {
-                                        window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-                                    } else if (@tools.IsMobile()) {
-                                        window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-                                    } else {
-                                        window.location.href = GameUrl;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (result.errorCode != null && result.errorCode == 0 && result.data == 1) {
-                                    $(".Js-LiveCasino").attr("data-GameUrl", GameUrl);
-                                    $(".Js-LiveCasino").attr("data-WindowKey", WindowKey);
-                                    $("#Dialog").attr("data-open", true);
-                                } else if (result.errorCode != null && result.errorCode == 0 && result.data == 2) {
-                                    $(".Js-LiveCasino").attr("data-GameUrl", GameUrl);
-                                    $(".Js-LiveCasino").attr("data-WindowKey", WindowKey);
-                                    $("#Dialog").attr("data-open", true);
-                                } else if (result.errorCode != null && result.errorCode == 0 && result.data == 10) {
-                                    window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-                                } else {
-                                    window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-                                }
-                            }
-                        }
-                    ).catch(function (error) {
-                        alert(error);
-                        $(".app-loading").attr("data-open", false);
-                    });
+            $(".Js-Sports").attr("data-GameId", GameId);
+            $(".Js-Sports").attr("data-GameUrl", GameUrl);
+            $(".Js-Sports").attr("data-WindowKey", WindowKey);
+
+            var dialogId = "#Dialog";
+            var balanceId = ".Js-MainWallet-Balance";
+
+            if (TpId == 1) {
+                dialogId = "#Dialog2";
+                balanceId = ".Js-3RdWallet-Balance";
+            }
+            $(".app-loading").attr("data-open", true);
+            axios.post('/api/Account/CheckWellet', { TpId: TpId })
+            .then(function (response) {
+                $(".app-loading").attr("data-open", false);
+                let result = response.data;
+                if (result.errorCode == 0) {
+                    $(balanceId).html(number_format(result.data));
+                    $(dialogId).attr("data-open", true);
+                } else if (result.errorCode == 10) {
+                    alert(result.message);
+                } else {
+                    alert(result.message);
+                }
+            }).catch(function (error) {
+                $(".app-loading").attr("data-open", false);
+                alert(error);
+            });
             }
         </script>
     }
@@ -321,6 +288,9 @@
                     <div class="btn-group">
                         <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
                             <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+                        </a>
+                        <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Transfer")</span>
                         </a>
                         <button class="btn btn-primary Js-LiveCasino" type="button">
                             <span class="text">@selLangBLL.GetResourceValue("lbl_Enter")</span>
