@@ -12,6 +12,7 @@
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
+    var CurrencyId = 0;
 }
 <!DOCTYPE html>
 <html lang="@selLangBLL.GetLangId()" data-layout="@(tools.IsMobile() ? "mobile" : "desktop")">
@@ -91,7 +92,7 @@
         @if (User.Identity.IsAuthenticated)
         {
             var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            var CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
+            CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
             Dictionary<string, string> i18n = new Dictionary<string, string>();
             i18n.Add("lbl_LastTransaction", selLangBLL.GetResourceValue("lbl_LastTransaction"));
             i18n.Add("lbl_LastLogin", selLangBLL.GetResourceValue("lbl_LastLogin"));
@@ -127,7 +128,7 @@
             @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
             @:var joinNowUrl = '@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })';
             @:var forgetPassowrdUrl = '@Url.RouteUrl("desktop", new { action = "ForgetPassowrd", controller = "Home", LangId = selLangBLL.GetLangId() })';
-            var CurrencyId = selLangBLL.GetPreferCurrencyId();
+            CurrencyId = selLangBLL.GetPreferCurrencyId();
             @:var IsConvertRequired = @Newtonsoft.Json.JsonConvert.SerializeObject(custInfoBLL.IsConvertRequired(CurrencyId));
         }
 
@@ -201,12 +202,16 @@
 
             $(".Js-Sports").on("touchstart, click", function () {
                 $("#Dialog2").attr("data-open", false);
-                if (@tools.IsMobile()) {
-                    window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-                } else if ($(".Js-Sports").attr("data-GameId") == "202" || $(".Js-Sports").attr("data-GameId") == "208" || $(".Js-Sports").attr("data-GameId") == "211") {
-                    window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-                } else {
-                    window.location.href = $(".Js-Sports").attr("data-GameUrl");
+                @if(tools.IsMobile()){
+                @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                }
+                else
+                {
+                @:if ($(".Js-Sports").attr("data-GameId") == "202" || $(".Js-Sports").attr("data-GameId") == "208" || $(".Js-Sports").attr("data-GameId") == "211") {
+                    @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                @:} else {
+                    @:window.location.href = $(".Js-Sports").attr("data-GameUrl");
+                @:}
                 }
             });
         });
@@ -229,7 +234,7 @@
                 $(".app-loading").attr("data-open", false);
                 let result = response.data;
                 if (result.errorCode == 0) {
-                    $(balanceId).html(number_format(result.data));
+                    $(balanceId).html("@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") " + number_format(result.data));
                     $(dialogId).attr("data-open", true);
                 } else if (result.errorCode == 10) {
                     alert(result.message);
@@ -272,9 +277,6 @@
     @RenderSection("PromptMsg", required: false)
     @if (User.Identity.IsAuthenticated)
     {
-        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-        var customer = custInfoBLL.GetCustInfoWithCache(custId);
-        var CurrencyId = customer.CurrencyId;
         <div class="modal" id="Dialog" data-open="false">
             <div class="overlay Js-Dialog"></div>
             <div class="modal__dialog">
@@ -282,7 +284,7 @@
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Reminder")</span>
                 </div>
                 <div class="modal__body">
-                    <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlert"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), "0.0"))</p>
+                    <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlert"), "", ""))</p>
                 </div>
                 <div class="modal__footer">
                     <div class="btn-group">
@@ -306,7 +308,7 @@
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Reminder")</span>
                 </div>
                 <div class="modal__body">
-                    <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_TransferAlert"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), "0.0"))</p>
+                    <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_TransferAlert"), "", ""))</p>
                 </div>
                 <div class="modal__footer">
                     <div class="btn-group">
