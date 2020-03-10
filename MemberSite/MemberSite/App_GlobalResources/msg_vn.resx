@@ -206,11 +206,6 @@
     <value>Hệ thống gửi thư vào hộp thư của bạn. Vui lòng kiểm tra hộp thư!</value>
     <comment>0026. Deposit</comment>
   </data>
-  <data name="msg_DepositAlert" xml:space="preserve">
-    <value>Số dư hiện tại của bạn là: &lt;span class="popup-span"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
-Gửi tiền ngay để thưởng thức các trò chơi và dịch vụ của chúng tôi
-</value>
-  </data>
   <data name="msg_CreditSignUp" xml:space="preserve">
     <value>Kính gửi quý khách hàng, &lt;br /&gt;&lt;br /&gt;Chào mừng đến với &lt;a href=""https://www.nova88.net"" target=""_new""&gt;www.nova88.net&lt;/a&gt;, vui lòng truy cập liên kết ở trên để đăng ký và trải nghiệm các trò chơi của chúng tôi.
 </value>
@@ -221,9 +216,5 @@ Gửi tiền ngay để thưởng thức các trò chơi và dịch vụ của c
   </data>
   <data name="msg_InsufficientFund" xml:space="preserve">
     <value>Không đủ tiền!</value>
-  </data>
-  <data name="msg_TransferAlert" xml:space="preserve">
-    <value>Số dư hiện tại của bạn là: &lt;span class=""popup-span""&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
-Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm các trò chơi và dịch vụ của chúng tôi</value>
   </data>
 </root>

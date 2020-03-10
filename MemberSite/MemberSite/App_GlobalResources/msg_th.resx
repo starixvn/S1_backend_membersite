@@ -224,7 +224,4 @@
   <data name="msg_InsufficientFund" xml:space="preserve">
     <value>จำนวนเงินไม่เพียงพอ!</value>
   </data>
-  <data name="msg_TransferAlert" xml:space="preserve">
-    <value>จำนวนเงินใน Sportsbook ของคุณตอนนี้คือ :  &lt;span class="popup-span"&gt;{0} {1}&lt;/span&gt;&lt;br&gt;โอนเงินจาก Wallet ไปที่ Sportsbook wallet ตอนนี้เพื่อร่วมสนุกกับเกมและบริการอื่นๆจากเรา</value>
-  </data>
 </root>
