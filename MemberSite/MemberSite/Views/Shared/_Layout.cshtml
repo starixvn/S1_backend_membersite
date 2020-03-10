@@ -217,17 +217,20 @@
         });
 
         function LaunchGame(GameUrl, WindowKey, TpId, GameId) {
-            $(".Js-Sports").attr("data-GameId", GameId);
-            $(".Js-Sports").attr("data-GameUrl", GameUrl);
-            $(".Js-Sports").attr("data-WindowKey", WindowKey);
-
             var dialogId = "#Dialog";
             var balanceId = ".Js-MainWallet-Balance";
+            var enterBtn = ".Js-LiveCasino";
 
             if (TpId == 1) {
                 dialogId = "#Dialog2";
                 balanceId = ".Js-3RdWallet-Balance";
+                enterBtn = ".Js-Sports";
             }
+
+            $(enterBtn).attr("data-GameId", GameId);
+            $(enterBtn).attr("data-GameUrl", GameUrl);
+            $(enterBtn).attr("data-WindowKey", WindowKey);
+
             $(".app-loading").attr("data-open", true);
             axios.post('/api/Account/CheckWellet', { TpId: TpId })
             .then(function (response) {
