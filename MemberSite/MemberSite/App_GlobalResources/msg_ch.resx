@@ -124,8 +124,7 @@
     <value>您的帳戶遭鎖定，請聯繫客服人員。</value>
   </data>
   <data name="msg_DepositProcessLogin_LoginFailed" xml:space="preserve">
-    <value>登入失敗。用戶名/密碼錯誤或是用戶名不存在。
-</value>
+    <value>登入失敗。用戶名/密碼錯誤或是用戶名不存在。</value>
   </data>
   <data name="msg_ForceLogedout" xml:space="preserve">
     <value>已登出！請重新登入後再試！</value>
@@ -170,8 +169,7 @@
     <value>6到18個數字、英文字母大小寫或特殊符號(@$*!%#?&amp;)</value>
   </data>
   <data name="msg_SamePassword" xml:space="preserve">
-    <value>新密碼與舊密碼相同
-</value>
+    <value>新密碼與舊密碼相同</value>
   </data>
   <data name="msg_ThisCurrencyNotSupport" xml:space="preserve">
     <value>不支援您使用的貨幣。</value>
@@ -216,14 +214,14 @@
     <value>敬愛的客戶， &lt;br /&gt;&lt;br /&gt;歡迎來到&lt;a href="https://www.nova88.net" target="_new"&gt;www.nova88.net&lt;/a&gt;, 完成註冊後請遊覽此鏈接並享受我司的遊戲盤口。</value>
   </data>
   <data name="msg_DepositAlert" xml:space="preserve">
-    <value>您的當前餘額是：&lt;span class="popup-span"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
-立即存款以享有我司遊戲盤口及服務。</value>
+    <value>您的當前中心錢包餘額是：&lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
+立即存款或將中心錢包餘額轉移至體育錢包以享有我司遊戲盤口及服務。</value>
   </data>
   <data name="msg_InsufficientFund" xml:space="preserve">
     <value>餘額不足!</value>
   </data>
   <data name="msg_TransferAlert" xml:space="preserve">
-    <value>您的當前體育錢包餘額是：&lt;span class=""popup-span""&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
-立即將中心錢包餘額轉移至體育錢包以享有我司遊戲盤口及服務。</value>
+    <value>您的當前體育錢包餘額是：&lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
+立即存款並將中心錢包餘額轉移至體育錢包以享有我司遊戲盤口及服務。</value>
   </data>
 </root>
