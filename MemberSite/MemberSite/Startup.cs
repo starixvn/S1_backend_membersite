@@ -97,6 +97,7 @@ namespace MemberSite
             services.AddSingleton<ThirdPartyBLL>();
             services.AddSingleton<MessageBLL>();
             services.AddSingleton<PromotionBLL>();
+            services.AddSingleton<GamingBLL>();
 
             //var bll = AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())

@@ -6,77 +6,7 @@
 @inject PromotionBLL promotionBLL
 @inject CustInfoBLL custInfoBLL
 @inject Tools tools
-@functions{
-    string GetEntPageUrl(int tpId, string gameId)
-    {
-        var entPageUrl = "";
-        if (tpId == 1)
-        {
-            if (!User.Identity.IsAuthenticated)
-            {
-                if (gameId == "202" || gameId == "208" || gameId == "211")
-                {
-                    if (tools.IsMobile())
-                    {
-                        var message = selLangBLL.GetMsg("msg_LoginToAccess");
-                        entPageUrl = "javascript:alert('" + message + "');";
-                    }
-                    else if (gameId == "211")
-                    {
-                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
-                    }
-                    else
-                    {
-                        entPageUrl = Url.RouteUrl("desktop", new { action = "Static", controller = "Home", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
-                    }
-                }
-                else
-                {
-                    if (tools.IsMobile())
-                    {
-                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
-                        entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
-                    }
-                    else
-                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
-                }
-            }
-            else
-            {
-                var homeUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
-                var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
-                var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
-
-                if (gameId == "202" || gameId == "208")
-                {
-                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
-                    //entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
-                    entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
-                }
-                else if (gameId == "211")
-                {
-                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
-                }
-                else if (tools.IsMobile())
-                {
-                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
-                    entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
-                }
-                else
-                {
-                    @*IFrame*@
-                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
-                    entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
-                }
-            }
-        }
-        else
-        {
-            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
-        }   
-        return entPageUrl;
-    }
-}
+@inject GamingBLL gamingBLL
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     int CurrencyId = 0;
@@ -246,31 +176,31 @@
                     <i class="icon icon-home"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Home")</span>
                 </a>
-                <a class="side-nav__btn" href="@GetEntPageUrl(1,"1")">
+                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(1,"1",Url)">
                     <i class="icon icon-all-sports"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Sports")</span>
                 </a>
-                <a class="side-nav__btn" href="@GetEntPageUrl(1,"43")">
+                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(1,"43",Url)">
                     <i class="icon icon-sport43"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_eSports")</span>
                 </a>
-                <a class="side-nav__btn" href="@GetEntPageUrl(1,"161")">
+                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(1,"161",Url)">
                     <i class="icon icon-sport161"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_NumberGame")</span>
                 </a>
-                <a class="side-nav__btn" href="@GetEntPageUrl(1,"180")">
+                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(1,"180",Url)">
                     <i class="icon icon-sport18x"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>
                 </a>
-                <a class="side-nav__btn" href="@GetEntPageUrl(1,"208")">
+                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(1,"208",Url)">
                     <i class="icon icon-sport251"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
                 </a>
-                <a class="side-nav__btn" href="@GetEntPageUrl(2,"2")">
+                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(2,"2",Url)">
                     <i class="icon icon-sport162"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
                 </a>
-                <a class="side-nav__btn" href="@GetEntPageUrl(1,"202")">
+                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(1,"202",Url)">
                     <i class="icon icon-sport202"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Keno")</span>
                 </a>
