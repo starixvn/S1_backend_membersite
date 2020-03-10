@@ -181,9 +181,7 @@ import {number_format} from '../commJS/common';
             let DesplayText="";
             let DropdownItem= data.map(function( item ) { 
                 return <div className="dropdown__item" key={item.Value} onClick={this.onSelect.bind(this, item.Value)} data-selected={item.Value==value}>
-                            <div className="text-group">
-                                <span className="text">{item.Text}</span>
-                            </div>
+                            {item.Text}
                         </div>
                 }.bind(this));
 
@@ -199,9 +197,7 @@ import {number_format} from '../commJS/common';
             return (
                 <div className="dropdown dropdown-default" data-open={this.state.dropdown} ref={this.Dropdown}>
                     <a className="btn" onClick={this.onDropdown.bind(this)}>
-                        <div className="text-group">
-                            <span className="text">{DesplayText}</span>
-                        </div>
+                        {DesplayText}
                         <i className="icon icon-caret"></i>
                     </a>
                     <div className="dropdown__container">
@@ -435,48 +431,32 @@ import {number_format} from '../commJS/common';
             let WalletInfo = this.state.WalletInfo;
             let tpWallets = null;
             let data = [];
-            data.push({Text:<div><span>{i18n.lbl_MainWallet}</span><span>{WalletInfo&&number_format(WalletInfo.balance.toFixed(2))}</span></div>, Value:0});
+            data.push({Text:<div className="text-group"><span className="text">{i18n.lbl_MainWallet}</span><span className="text">({WalletInfo&&number_format(WalletInfo.balance.toFixed(2))})</span></div>, Value:0});
             if(WalletInfo != null && WalletInfo.tpWallets !=null){
                 tpWallets = WalletInfo.tpWallets.map(function( item ,index ) { 
                     
-                    data.push({Text:<div><span>{item.tpName}</span><span>{number_format(item.balance.toFixed(2))}</span></div>,Value:item.tpId});
+                    data.push({Text:<div className="text-group"><span className="text">{item.tpName}</span><span className="text">({number_format(item.balance.toFixed(2))})</span></div>,Value:item.tpId});
 
                     return <div className="tr" key={item.tpId}>
-                            <div className="td-Secondary-wallet" data-title={i18n.lbl_OtherWallet}>
-                                <span className="text">{item.tpName}</span>
-                                {/*<br />
-                                <span className="text">{item.description}</span>*/}
-                            </div>
-                            <div className="td-Balance" data-title={i18n.lbl_Balance} onClick={!this.state.refresh ? this.getWalletInfo.bind(this):null}>
-                                <span className="text">{number_format(item.balance)}
-                                    <a className="btn btn-icon" data-refresh={this.state.refresh}>
-                                        <i className="icon icon-refresh"></i>
-                                        <div className="preloader">
-                                            <div className="preloader__spiner">
-                                                <div className="preloader__circles">
-                                                    <div className="preloader__circle-1"></div>
-                                                    <div className="preloader__circle-2"></div>
+                                <div className="td-Secondary-wallet" data-title={item.tpName}>
+                                    <span className="text">{item.tpName}</span>
+                                </div>
+                                <div className="td-Balance" data-title={i18n.lbl_Balance} onClick={!this.state.refresh ? this.getWalletInfo.bind(this):null}>
+                                    <span className="text">{number_format(item.balance)}
+                                        <a className="btn btn-icon" data-refresh={this.state.refresh}>
+                                            <i className="icon icon-refresh"></i>
+                                            <div className="preloader">
+                                                <div className="preloader__spiner">
+                                                    <div className="preloader__circles">
+                                                        <div className="preloader__circle-1"></div>
+                                                        <div className="preloader__circle-2"></div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </a>                                
-                                </span>
-                            </div>
-                            {/*<div className="td-status">
-                                <div className="btn-group">
-                                    <button className="btn btn-highlight" type="button" onClick={this.onAllTransferOut.bind(this,item.tpId)}>
-                                        <div className="btn__inner">
-                                            <span className="text">{i18n.lbl_TransferOut}</span>
-                                        </div>
-                                    </button>
-                                    <button className="btn btn-secondary" type="button" onClick={this.onAllTransferIn.bind(this,item.tpId)}>
-                                        <div className="btn__inner">
-                                            <span className="text">{i18n.lbl_TransferIn}</span>
-                                        </div>
-                                    </button>
+                                        </a>                                
+                                    </span>
                                 </div>
-                            </div>*/}
-                        </div>;
+                            </div>;
                 }.bind(this));
             }
 
@@ -484,32 +464,10 @@ import {number_format} from '../commJS/common';
 
             return (
             <div>
-                <div className="table table-rwd table-primary">
-                    <div className="thead" role="desktop-only">
-                        <div className="tr">
-                            <div className="td-Main-wallet" data-title={i18n.lbl_MainWallet}>
-                                    <span className="text">{i18n.lbl_WalletType}</span>
-                            </div>
-                            <div className="td-Balance" data-title={i18n.lbl_Balance}>
-                                <span className="text">{i18n.lbl_Balance}
-                                    {/*<a className="btn btn-icon" data-refresh={this.state.refresh} onClick={!this.state.refresh ? this.getWalletInfo.bind(this):null}>
-                                        <i className="icon icon-refresh"></i>
-                                        <div className="preloader">
-                                            <div className="preloader__spiner">
-                                                <div className="preloader__circles">
-                                                    <div className="preloader__circle-1"></div>
-                                                    <div className="preloader__circle-2"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>*/}
-                                </span>
-                            </div>
-                        </div>
-                    </div>                
+                <div className="table table-rwd table-primary2" style={{border:"2px #ccc solid",borderRadius:"10px"}}>
                     <div className="tbody">
                         <div className="tr">
-                            <div className="td-Main-wallet" data-title={i18n.lbl_MainWallet}>
+                            <div className="td-Secondary-wallet" data-title={i18n.lbl_MainWallet}>
                                 <span className="text">{i18n.lbl_MainWallet}</span>
                             </div>
                             <div className="td-Balance" data-title={i18n.lbl_Balance} onClick={!this.state.refresh ? this.getWalletInfo.bind(this):null}>
@@ -527,20 +485,11 @@ import {number_format} from '../commJS/common';
                                     </a>
                                 </span>
                             </div>
-                            {/*<div className="td-status">
-                                <div className="btn-group">
-                                    <button className="btn btn btn-primary" onClick={this.onRetrieveAll.bind(this)}>
-                                        <div className="btn__inner">
-                                            <span className="text">{i18n.lbl_TransferIn}</span>
-                                        </div>
-                                    </button>
-                                </div>
-                            </div>*/}
                         </div>
                         {tpWallets}
                     </div>
                 </div>
-                <div className="panel panel-primary panel--payment" style={{marginTop:"1rem","display":"block"}}>
+                <div className="panel panel-primary panel--payment" data-open="true" style={{marginTop:"1rem"}}>
                     <div className="panel__header">
                         <span className="text">{i18n.lbl_TransferFunds}</span>
                     </div>
