@@ -431,11 +431,11 @@ import {number_format} from '../commJS/common';
             let WalletInfo = this.state.WalletInfo;
             let tpWallets = null;
             let data = [];
-            data.push({Text:<div className="text-group"><span className="text">{i18n.lbl_MainWallet}</span><span className="text">({WalletInfo&&number_format(WalletInfo.balance.toFixed(2))})</span></div>, Value:0});
+            data.push({Text:<div className="text-group"><span className="text">{i18n.lbl_MainWallet}</span><span className="text">{WalletInfo&&number_format(WalletInfo.balance.toFixed(2))}</span></div>, Value:0});
             if(WalletInfo != null && WalletInfo.tpWallets !=null){
                 tpWallets = WalletInfo.tpWallets.map(function( item ,index ) { 
                     
-                    data.push({Text:<div className="text-group"><span className="text">{item.tpName}</span><span className="text">({number_format(item.balance.toFixed(2))})</span></div>,Value:item.tpId});
+                    data.push({Text:<div className="text-group"><span className="text">{item.tpName}</span><span className="text">{number_format(item.balance.toFixed(2))}</span></div>,Value:item.tpId});
 
                     return <div className="tr" key={item.tpId}>
                                 <div className="td-Secondary-wallet" data-title={item.tpName}>
