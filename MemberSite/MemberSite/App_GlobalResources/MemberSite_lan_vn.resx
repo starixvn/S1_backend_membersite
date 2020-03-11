@@ -1327,6 +1327,12 @@
   <data name="lbl_DreamGaming" xml:space="preserve">
     <value>Crystal Suite</value>
   </data>
+<<<<<<< HEAD
+=======
+  <data name="lbl_Enter" xml:space="preserve">
+    <value>Vào Chơi Ngay</value>
+  </data>
+>>>>>>> DEV
   <data name="lbl_GameList" xml:space="preserve">
     <value>Danh sách trò chơi</value>
   </data>
@@ -1339,6 +1345,12 @@
   <data name="lbl_OtherWallet" xml:space="preserve">
     <value>Ví khác</value>
   </data>
+<<<<<<< HEAD
+=======
+  <data name="lbl_Reminder" xml:space="preserve">
+    <value>Nhắc Nhở</value>
+  </data>
+>>>>>>> DEV
   <data name="lbl_RetriveAllIn" xml:space="preserve">
     <value>Lấy tất cả</value>
   </data>
@@ -1348,6 +1360,12 @@
   <data name="lbl_SACasino" xml:space="preserve">
     <value>Athena Suite </value>
   </data>
+<<<<<<< HEAD
+=======
+  <data name="lbl_Transfer" xml:space="preserve">
+    <value>Chuyển khoản</value>
+  </data>
+>>>>>>> DEV
   <data name="lbl_TransferAll" xml:space="preserve">
     <value>Chuyển tiền vào ví chính</value>
   </data>
@@ -1371,5 +1389,26 @@
   </data>
   <data name="lbl_WithdrawalHistory" xml:space="preserve">
     <value>Lịch sử rút tiền</value>
+<<<<<<< HEAD
+=======
+  </data>
+  <data name="lbl_Direction" xml:space="preserve">
+    <value>phương hướng</value>
+  </data>
+  <data name="lbl_Fail" xml:space="preserve">
+    <value>Thất bại</value>
+  </data>
+  <data name="lbl_Pending" xml:space="preserve">
+    <value>Đang chờ xử lý</value>
+  </data>
+  <data name="lbl_Success" xml:space="preserve">
+    <value>Sự thành công</value>
+  </data>
+  <data name="lbl_WalletType" xml:space="preserve">
+    <value>Loại ví</value>
+  </data>
+  <data name="lbl_RemindForName" xml:space="preserve">
+    <value>Tên đầy đủ phải đúng với tên trên tài khoản Ngân Hàng của bạn để thực hiện việc nạp/ rút tiền nhanh</value>
+>>>>>>> DEV
   </data>
 </root>

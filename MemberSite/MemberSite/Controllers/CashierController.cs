@@ -19,20 +19,26 @@ namespace MemberSite.Controllers
         private readonly Tools tools;
         private readonly AuthorizeBLL authorizeBLL;
         private readonly PaymentBLL paymentBLL;
+        private readonly MobilePayInfoBLL mobilePayInfoBLL;
 
-        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL)
+        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL)
         {
             this.courierAdapter = courierAdapter;
             payApiUrl = configuration.GetValue<string>("PayService");
             this.tools = tools;
             this.authorizeBLL = authorizeBLL;
             this.paymentBLL = paymentBLL;
+            this.mobilePayInfoBLL = mobilePayInfoBLL;
         }
         public IActionResult Deposit()
         {
             return View();
         }
         public IActionResult Withdrawal()
+        {
+            return View();
+        }
+        public IActionResult Transfer()
         {
             return View();
         }
@@ -71,6 +77,40 @@ namespace MemberSite.Controllers
                 apiResult.Message = "Error.";
             }
 
+            return View(apiResult);
+        }
+        public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount)
+        {
+            var apiResult = new ApiResult<PayResult>();
+            var authData = authorizeBLL.GetAuthData();
+            string transId = null;
+            MobilePayInfo mobilePayInfo = null;
+            var result = mobilePayInfoBLL.DepositReqMobilePay(authData.CustId, ChannelId, Amount, out transId, out mobilePayInfo);
+            if (result == 0)
+            {
+                var reqDepositMobile = new ReqDepositMobile
+                {
+                    TransId = transId,
+                    CustId = authData.CustId,
+                    Amount = Amount,
+                    ChannelId = mobilePayInfo.ChannelId,
+                    PayId = mobilePayInfo.PayId,
+                    ClientIP = tools.GetClientIP(),
+                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", authData.LangId }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                };
+
+                var myUrl = $"{payApiUrl}ReqDepositMobile";
+                apiResult = await courierAdapter.MyPostAsync<PayResult, ReqDepositMobile>(myUrl, reqDepositMobile);
+                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
+                {
+                    return Redirect(apiResult.Data.Url);
+                }
+            }
+            else
+            {
+                apiResult.ErrorCode = result;
+                apiResult.Message = "Error.";
+            }
             return View(apiResult);
         }
 

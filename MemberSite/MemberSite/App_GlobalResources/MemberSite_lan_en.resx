@@ -1378,4 +1378,22 @@
   <data name="lbl_TwitterAccount" xml:space="preserve">
     <value>nova88official</value>
   </data>
+<<<<<<< HEAD
+=======
+  <data name="lbl_Enter" xml:space="preserve">
+    <value>Direct Enter</value>
+  </data>
+  <data name="lbl_Reminder" xml:space="preserve">
+    <value>Reminder</value>
+  </data>
+  <data name="lbl_Transfer" xml:space="preserve">
+    <value>Transfer</value>
+  </data>
+  <data name="lbl_Direction" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="lbl_WalletType" xml:space="preserve">
+    <value>Wallet Type</value>
+  </data>
+>>>>>>> DEV
 </root>

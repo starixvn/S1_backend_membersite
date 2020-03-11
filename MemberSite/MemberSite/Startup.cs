@@ -92,10 +92,12 @@ namespace MemberSite
             services.AddSingleton<AuthorizeBLL>();
             services.AddSingleton<BankInfoOffBLL>();
             services.AddSingleton<BankInfoBLL>();
+            services.AddSingleton<MobilePayInfoBLL>();
             services.AddSingleton<PaymentBLL>();
             services.AddSingleton<ThirdPartyBLL>();
             services.AddSingleton<MessageBLL>();
             services.AddSingleton<PromotionBLL>();
+            services.AddSingleton<GamingBLL>();
 
             //var bll = AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())

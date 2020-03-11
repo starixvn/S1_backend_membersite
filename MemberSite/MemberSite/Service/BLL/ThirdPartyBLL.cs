@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -19,6 +20,12 @@ namespace MemberSite.Service.BLL
         private ConcurrentDictionary<string, ThirdPartyModel> ThirdPartyModelContainer;
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly CustInfoBLL custInfoBLL;
+<<<<<<< HEAD
+=======
+        private readonly CourierAdapter courierAdapter;
+        private readonly string apiUrl;
+
+>>>>>>> DEV
         Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
             {"1","soccer" },
             {"2","basketball" },
@@ -31,7 +38,11 @@ namespace MemberSite.Service.BLL
             {"161","numbergame" },
             {"180","virtualsports" }
         };
+<<<<<<< HEAD
         public ThirdPartyBLL(ThirdPartyService thirdPartyService, SelLangBLL selLangBLL, Tools tools, ServerInfoBLL serverInfoBLL, CustInfoBLL custInfoBLL)
+=======
+        public ThirdPartyBLL(IConfiguration configuration, CourierAdapter courierAdapter, ThirdPartyService thirdPartyService, SelLangBLL selLangBLL, Tools tools, ServerInfoBLL serverInfoBLL, CustInfoBLL custInfoBLL)
+>>>>>>> DEV
         {
             this.thirdPartyService = thirdPartyService;
             this.selLangBLL = selLangBLL;
@@ -40,6 +51,11 @@ namespace MemberSite.Service.BLL
             ThirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
             this.serverInfoBLL = serverInfoBLL;
             this.custInfoBLL = custInfoBLL;
+<<<<<<< HEAD
+=======
+            this.courierAdapter = courierAdapter;
+            apiUrl = configuration.GetValue<string>("TpService");
+>>>>>>> DEV
         }
 
         public string GetTpLanId(int tpId)
@@ -124,7 +140,11 @@ namespace MemberSite.Service.BLL
             var tpTransferInfoHistory = thirdPartyService.GetTransferHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
             if (tpTransferInfoHistory != null)
             {
+<<<<<<< HEAD
                 foreach(var tpTransferInfo in tpTransferInfoHistory)
+=======
+                foreach (var tpTransferInfo in tpTransferInfoHistory)
+>>>>>>> DEV
                 {
                     tpTransferInfo.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{GetThirdPartyModel(tpTransferInfo.TpId, CustInfo.SiteId).TpName}");
                 }
@@ -144,5 +164,78 @@ namespace MemberSite.Service.BLL
             }
             return tpTransferInfoHistory;
         }
+<<<<<<< HEAD
+=======
+
+        private class TpInfo
+        {
+            public int TpId { set; get; }
+            public int CustId { set; get; }
+            public Dictionary<string, string> inputs { set; get; }
+        }
+
+        /*Sports Wallet*/
+        public async Task<ApiResult<decimal>> GetSportsBalanceAsync(int custId)
+        {
+            var myUrl = $"{apiUrl}GetBalance";
+            ApiResult<decimal> apiResult = new ApiResult<decimal>();
+            var oTpInfo = new TpInfo
+            {
+                TpId = 1,
+                CustId = custId,
+                inputs = new Dictionary<string, string>()
+            };
+
+            try
+            {
+                var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
+                apiResult.Data = data.Data.balance;
+                apiResult.ErrorCode = data.ErrorCode;
+                apiResult.RawErrorCode = data.RawErrorCode;
+                apiResult.RawMessage = data.RawMessage;
+            }
+            catch (Exception ex)
+            {
+                apiResult.ErrorCode = 9000;
+                apiResult.RawMessage = ex.Message;
+            }
+
+            return apiResult;
+        }
+        /*Sports Wallet*/
+        public async Task<ApiResult<decimal>> GetTpWalletBalanceAsync(int tpId, int custId)
+        {
+            var myUrl = $"{apiUrl}GetBalance";
+            ApiResult<decimal> apiResult = new ApiResult<decimal>();
+            var oTpInfo = new TpInfo
+            {
+                TpId = tpId,
+                CustId = custId,
+                inputs = new Dictionary<string, string>()
+            };
+
+            try
+            {
+                var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
+                apiResult.Data = data.Data.balance;
+                apiResult.ErrorCode = data.ErrorCode;
+                apiResult.RawErrorCode = data.RawErrorCode;
+                apiResult.RawMessage = data.RawMessage;
+            }
+            catch (Exception ex)
+            {
+                apiResult.ErrorCode = 9000;
+                apiResult.RawMessage = ex.Message;
+            }
+
+            return apiResult;
+        }
+        private class UserBalance
+        {
+            public decimal balance { get; set; }
+            public decimal outstanding { get; set; }
+            public byte Currency { get; set; }
+        }
+>>>>>>> DEV
     }
 }

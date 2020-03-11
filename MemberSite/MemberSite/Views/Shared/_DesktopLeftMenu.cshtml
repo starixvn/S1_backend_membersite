@@ -8,10 +8,40 @@
         var entPageUrl = "";
         if (tpId == 1)
         {
-            if (!User.Identity.IsAuthenticated && (gameId == "202" || gameId == "208" || gameId == "211"))
+            if (!User.Identity.IsAuthenticated)
             {
-                var message = selLangBLL.GetMsg("msg_LoginToAccess");
-                entPageUrl = "javascript:alert('" + message + "');";
+                if (gameId == "202" || gameId == "208" || gameId == "211")
+                {
+                    if (tools.IsMobile())
+                    {
+                        var message = selLangBLL.GetMsg("msg_LoginToAccess");
+                        entPageUrl = "javascript:alert('" + message + "');";
+                    }
+                    else if (gameId == "211")
+                    {
+                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+                    }
+                    else
+                    {
+                        if (tools.IsMobile())
+                        {
+                            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                            entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
+                        }
+                    else
+                        entPageUrl = Url.RouteUrl("desktop", new { action = "Static", controller = "Home", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                    }
+                }
+                else
+                {
+                    if (tools.IsMobile())
+                    {
+                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                        entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
+                    }
+                    else
+                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                }
             }
             else
             {
@@ -19,22 +49,37 @@
                 var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
                 var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
 
-                if (gameId == "202" || gameId == "208" || gameId == "211")
+                if (gameId == "202" || gameId == "208")
                 {
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+<<<<<<< HEAD
                     entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
+=======
+                    //entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
+                    entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
+                }
+                else if (gameId == "211")
+                {
+                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+>>>>>>> DEV
                 }
                 else if (tools.IsMobile())
                 {
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+                    entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
                 }
                 else
                 {
-                    @*IFrame*@
+                     @*IFrame*@
                     entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                    entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
                 }
             }
         }
+        else
+        {
+            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+        }  
         return entPageUrl;
     }
 }
@@ -82,11 +127,19 @@
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
                     </a>
                 </div>
+<<<<<<< HEAD
                 @*<div class="page-nav__subitem" data-selected=@((SelectAction.Equals("Transfer", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Cashier", StringComparison.OrdinalIgnoreCase))?"true":"false")>
                     <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
                         <span class="text">@selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
                     </a>
                 </div>*@
+=======
+                <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("Transfer", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Cashier", StringComparison.OrdinalIgnoreCase))?"true":"false")>
+                    <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
+                    </a>
+                </div>
+>>>>>>> DEV
                 <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("Withdrawal", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Cashier", StringComparison.OrdinalIgnoreCase))?"true":"false")>
                     <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
@@ -104,11 +157,19 @@
                             <span class="text">@selLangBLL.GetResourceValue("lbl_DepositHistory")</span>
                         </a>
                     </div>
+<<<<<<< HEAD
                     @*<div class="page-nav__subitem" data-selected=@((SelectAction.Equals("Transfer", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("History", StringComparison.OrdinalIgnoreCase))?"true":"false")>
                         <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "History", LangId = selLangBLL.GetLangId() })">
                             <span class="text">@selLangBLL.GetResourceValue("lbl_TransferHistory")</span>
                         </a>
                     </div>*@
+=======
+                    <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("Transfer", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("History", StringComparison.OrdinalIgnoreCase))?"true":"false")>
+                        <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "History", LangId = selLangBLL.GetLangId() })">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_TransferHistory")</span>
+                        </a>
+                    </div>
+>>>>>>> DEV
                     <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("Withdrawal", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("History", StringComparison.OrdinalIgnoreCase))?"true":"false")>
                         <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })">
                             <span class="text">@selLangBLL.GetResourceValue("lbl_WithdrawalHistory")</span>

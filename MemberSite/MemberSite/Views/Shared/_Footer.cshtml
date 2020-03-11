@@ -3,9 +3,11 @@
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @inject Tools tools
+@inject GamingBLL gamingBLL
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
+<<<<<<< HEAD
 }
 @functions{
     string GetEntPageUrl(int tpId, string gameId)
@@ -47,6 +49,8 @@
         }
         return entPageUrl;
     }
+=======
+>>>>>>> DEV
 }
 <div class="footer">
     <div class="footer__nav">
@@ -54,28 +58,28 @@
             <div class="footer__heading">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_SportsBetting")</span>
             </div>
-            <a class="footer__item" href="@GetEntPageUrl(1,"1")">
+            <a class="footer__item" href="@gamingBLL.GetEntPageUrl(1,"1",Url)">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_SoccerBetting")</span>
             </a>
-            <a class="footer__item" href="@GetEntPageUrl(1,"2")">
+            <a class="footer__item" href="@gamingBLL.GetEntPageUrl(1,"2",Url)">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_BasketballBetting")</span>
             </a>
             @*<a class="footer__item" href="@GetEntPageUrl(1,"8")">
                     <span class="text">@selLangBLL.GetResourceValue("lbl_BaseballBetting")</span>
                 </a>*@
-            <a class="footer__item" href="@GetEntPageUrl(1,"9")">
+            <a class="footer__item" href="@gamingBLL.GetEntPageUrl(1,"9",Url)">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_badminton")</span>
             </a>
-            <a class="footer__item" href="@GetEntPageUrl(1,"3")">
+            <a class="footer__item" href="@gamingBLL.GetEntPageUrl(1,"3",Url)">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_FootballBetting")</span>
             </a>
-            <a class="footer__item" href="@GetEntPageUrl(1,"5")">
+            <a class="footer__item" href="@gamingBLL.GetEntPageUrl(1,"5",Url)">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_TennisBetting")</span>
             </a>
-            <a class="footer__item" href="@GetEntPageUrl(1,"4")">
+            <a class="footer__item" href="@gamingBLL.GetEntPageUrl(1,"4",Url)">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_HockeyBetting")</span>
             </a>
-            <a class="footer__item" href="@GetEntPageUrl(1,"43")">
+            <a class="footer__item" href="@gamingBLL.GetEntPageUrl(1,"43",Url)">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_eSportsBetting")</span>
             </a>
         </div>

@@ -46,10 +46,17 @@ namespace MemberSite.Service.DAL
             {
                 return -2;
             }
+<<<<<<< HEAD
             else if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
             {
                 //return -3; Remark for MainWalletType = 2
             }
+=======
+            //else if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
+            //{
+            //    return -3;
+            //}
+>>>>>>> DEV
 
             byte is1stDepoist = 0;
             int result = -99;

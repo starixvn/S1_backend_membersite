@@ -1,54 +1,62 @@
 import {number_format} from '../commJS/common';
 
 (function ($, React, ReactDOM, i18n, axios) {
+var _this = this;
+  var GetRolloverPanelData = function() {
+    axios
+      .post("/api/Account/GetRolloverPanelData")
+      .then(
+        function(response) {
+          var result = response.data;
+          if (result.errorCode == 0) {
+            if(result.data.promotions != null && result.data.promotions > 0) {
+                $(".Js-dropdown-rollover").show();
+
+            } else {
+                $(".Js-dropdown-rollover").hide();
+            }
+          }
+
+          setTimeout(GetRolloverPanelData.bind(this), 30000);
+        }.bind(_this)
+      )
+      .catch(
+        function(error) {
+          setTimeout(GetRolloverPanelData.bind(this), 30000);
+        }.bind(_this)
+      );
+  };
+
+    $(function() {
+        setTimeout(GetRolloverPanelData.bind(this), 30000);
+    });
 
     class RolloverPanel extends React.Component {
-        //data-status="error" 1.info, 2.error,3.valid
         constructor(props) {
             super(props);
-            this.state = { refresh: false, amount: null};
         }
     
-        getUserBalance() {
-            this.setState({ refresh: true});
-            axios.post('/api/Account/GetBalance')
-            .then(
-                function(response) {
-                    var result = response.data;
-                    if (result.errorCode != null && result.errorCode == 0) {
-                        this.setState({ refresh: false, amount: number_format(result.data.toFixed(2))});
-                    } else {
-                        this.setState({ refresh: false});
-                    }
-                }.bind(this)
-              ).catch(function (error) {
-                alert(error);
-                this.setState({ refresh: false});                
-            }.bind(this));
-        }
-
         componentDidMount() {
-            this.getUserBalance();
+            
         }
     
         render() {
             let amount = this.state.amount;
 
             return (
-                <div className="account-info__row">
-                    <span className="account-info__currency">{i18n.lbl_Currency}</span>
-                    <span className="account-info__amount">{amount}</span>
-                    <button className="btn btn-icon" data-refresh={this.state.refresh} onClick={this.state.refresh?null:this.getUserBalance.bind(this)}>
-                        <i className="icon icon-refresh"></i>
-                        <div className="preloader">
-                            <div className="preloader__spiner">
-                                <div className="preloader__circles">
-                                    <div className="preloader__circle-1"></div>
-                                    <div className="preloader__circle-2"></div>
-                                </div>
-                            </div>
+                <div className="rollover-info">
+
+                    <div className="rollover-info__item">
+                        <span className="text">@promotion.Title</span>
+                        <div className="schedule">
+                            <div className="schedule-bg" style="width: @(tools.Floor((promotion.custRollOver.TurnOver / promotion.custRollOver.RollOver*100),2).ToString("0.##"))%"></div>
                         </div>
-                    </button>
+                        <div className="schedule-info">
+                            <span className="text">@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") $@promotion.custRollOver.TurnOver.ToString("#,#0.##")</span>
+                            <span className="text">(@selLangBLL.GetResourceValue("lbl_Req") @selLangBLL.GetResourceValue($"Currency_{CurrencyId}")) $@promotion.custRollOver.RollOver.ToString("#,#0.##")) @((Math.Floor(totalturnover / totalRollover * 10000)/100).ToString("0.##"))%</span>
+                        </div>
+                    </div>
+                    
                 </div>
             )
         }

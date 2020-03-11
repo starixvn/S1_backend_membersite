@@ -1304,7 +1304,11 @@
     <value>您的提款申請超過您可提款金額</value>
   </data>
   <data name="lbl_AllbetCasino" xml:space="preserve">
+<<<<<<< HEAD
     <value>Platinum Suite</value>
+=======
+    <value>至尊廳</value>
+>>>>>>> DEV
   </data>
   <data name="lbl_Clickhereforpromotion" xml:space="preserve">
     <value>點擊這裡查看您現有的優惠</value>
@@ -1369,4 +1373,37 @@
   <data name="lbl_WithdrawalHistory" xml:space="preserve">
     <value>提款歷史記錄</value>
   </data>
+<<<<<<< HEAD
+=======
+  <data name="lbl_AGCasino" xml:space="preserve">
+    <value>鳳凰廳</value>
+  </data>
+  <data name="lbl_ComingSoon" xml:space="preserve">
+    <value>即將推出</value>
+  </data>
+  <data name="lbl_Enter" xml:space="preserve">
+    <value>直接進入</value>
+  </data>
+  <data name="lbl_Reminder" xml:space="preserve">
+    <value>提醒</value>
+  </data>
+  <data name="lbl_Transfer" xml:space="preserve">
+    <value>轉帳</value>
+  </data>
+  <data name="lbl_Direction" xml:space="preserve">
+    <value>方向</value>
+  </data>
+  <data name="lbl_Fail" xml:space="preserve">
+    <value>失敗</value>
+  </data>
+  <data name="lbl_Pending" xml:space="preserve">
+    <value>待定</value>
+  </data>
+  <data name="lbl_Success" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="lbl_WalletType" xml:space="preserve">
+    <value>錢包種類</value>
+  </data>
+>>>>>>> DEV
 </root>

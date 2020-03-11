@@ -1,6 +1,5 @@
 import {number_format} from '../commJS/common';
-
-(function ($, React, ReactDOM, i18n, axios, moment) {
+(function ($, React, ReactDOM, i18n, axios, moment, window) {
 
     class WalletInfo extends React.Component {
         //data-status="error" 1.info, 2.error,3.valid
@@ -16,13 +15,7 @@ import {number_format} from '../commJS/common';
                 function(response) {
                     var result = response.data;
                     if (result.errorCode != null && result.errorCode == 0) {
-                        this.setState({ refresh: false, WalletInfo: result.data}, function() {
-                            let balance = i18n.lbl_Currency;
-                            if(!result.data.isHideBalance){
-                                balance = balance + ' ' +number_format(result.data.balance.toFixed(2));
-                            }
-                            $(".WalletInfo").html(balance);
-                        });
+                        this.setWalletInfo(result.data);
                     } else {
                         this.setState({ refresh: false});
                     }
@@ -31,6 +24,16 @@ import {number_format} from '../commJS/common';
                 alert(error);
                 this.setState({ refresh: false});      
             }.bind(this));
+        }
+
+        setWalletInfo(walletInfo) {
+            this.setState({ refresh: false, WalletInfo: walletInfo}, function() {
+                let balance = i18n.lbl_Currency;
+                if(!walletInfo.isHideBalance){
+                    balance = balance + ' ' +number_format(walletInfo.balance.toFixed(2));
+                }
+                $(".WalletInfo").html(balance);
+            });
         }
 
         componentDidMount() {
@@ -54,6 +57,15 @@ import {number_format} from '../commJS/common';
     
         render() {
             let walletInfo = this.state.WalletInfo;
+            let tpWallets = null;
+            if(this.state.WalletInfo != null && this.state.WalletInfo.tpWallets!=null) {
+                tpWallets = this.state.WalletInfo.tpWallets.map(function( item ,index ) { 
+                    return <div key={item.tpId} className="wallet-info__item">
+                        <span className="text">{item.tpName}</span>
+                        <span className="text-amount">{number_format(item.balance.toFixed(2))}</span>
+                    </div>
+                });
+            }
 
             return (
                 <div className="balance-info">
@@ -80,23 +92,16 @@ import {number_format} from '../commJS/common';
                                 </div>
                             </a>
                         </div>
-                    {/*<div className="wallet-info__item">
-                            <span className="text">Sportsbook</span>
-                            <span className="text-amount">9,975.40</span>
-                        </div>
-                        <div className="wallet-info__item">
-                            <span className="text">Gold Deluxe</span>
-                            <span className="text-amount">583,521.84</span>
-                        </div>*/}
+                        {tpWallets}
                     </div>
-                        {/*<div className="btn-group">
-                            <a className="btn btn-secondary" href="Deposit.html">
-                                <span className="text">Cashier</span>
+                        {<div className="btn-group">
+                            <a className="btn btn-secondary" href="/Cashier/Deposit">
+                                <span className="text">{i18n.lbl_Deposit}</span>
                             </a>
-                            <a className="btn btn-secondary" href="Deposit.html">
-                                    <span className="text">Transfer Funds</span>
+                            <a className="btn btn-secondary" href="/Cashier/Transfer">
+                                    <span className="text">{i18n.lbl_TransferFunds}</span>
                                 </a>
-                        </div>*/}
+                        </div>}
                     <div className="login-info">
                         <div className="login-info__item">
                             <span className="text">{i18n.lbl_LastLogin}</span>
@@ -107,11 +112,13 @@ import {number_format} from '../commJS/common';
                             <span className="text">{walletInfo != null && walletInfo.lastTransaction != null ? moment(walletInfo.lastTransaction).format('l LTS'):null}</span>
                         </div>
                     </div>
-                </div>                
+                </div>
             )
         }
     }
-    let _walletInfo = <WalletInfo/>;
-    ReactDOM.render(_walletInfo, document.getElementById('Top_WalletInfo'));
+    let _walletInfo = ReactDOM.render(<WalletInfo/>, document.getElementById('Top_WalletInfo'));
+    window.setWalletInfo = _walletInfo.setWalletInfo.bind(_walletInfo);
+    //exports["setWalletInfo"] = _walletInfo.setWalletInfo;
+    //console.log(_walletInfo.setWalletInfo);
     
-    })(jQuery, React, ReactDOM, i18n, axios, moment);
+    })(jQuery, React, ReactDOM, i18n, axios, moment, window);
