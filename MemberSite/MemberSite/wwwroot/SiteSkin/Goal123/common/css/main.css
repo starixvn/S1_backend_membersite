@@ -2194,6 +2194,10 @@ button.btn .btn__inner > .text {
   z-index: -1;
 }
 
+[data-layout=mobile] .wt .textfield__input {
+  text-align: center;
+}
+
 .heading {
   display: flex;
   align-items: center;
@@ -3037,6 +3041,50 @@ form + .table-rwd {
   align-items: flex-end;
 }
 
+[data-layout=desktop] .table-rwd [class^=td].td-type {
+  flex: 3.6;
+  align-items: flex-start;
+}
+
+[data-layout=desktop] .table-rwd [class^=td].td-type .text {
+  display: flex;
+  justify-content: center;
+  line-height: 24px;
+}
+
+[data-layout=desktop] .table-rwd [class^=td].td-type .text span {
+  background: #c2a667;
+  color: #000;
+  border-radius: 3px;
+  padding: 0 0.3rem;
+}
+
+[data-layout=desktop] .table-rwd [class^=td].td-type .text .icon {
+  border-radius: 3px;
+  margin: 0 0.3rem;
+}
+
+[data-layout=mobile] .table-rwd [class^=td].td-type {
+  width: 100%;
+  padding: .5rem 1rem;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+[data-layout=mobile] .table-rwd [class^=td].td-type .text {
+  display: flex;
+  justify-content: center;
+  line-height: 24px;
+}
+
+[data-layout=mobile] .table-rwd [class^=td].td-type .text span {
+  background: #c2a667;
+  color: #000;
+  border-radius: 3px;
+  padding: 0 0.3rem;
+}
+
 [data-layout=desktop] .table-rwd [data-open] .icon-caret {
   display: none;
 }
@@ -3068,7 +3116,7 @@ form + .table-rwd {
 }
 
 [data-layout=desktop] .table-rwd .td-id {
-  flex: 1.5;
+  /* flex: 1.5; */
   align-items: flex-start;
 }
 
@@ -3162,6 +3210,14 @@ form + .table-rwd {
 
 [data-layout=mobile] .table-rwd .tr[role=mobile-flow-column] {
   flex-direction: column;
+}
+
+[data-layout=mobile] .table-rwd [class^=td].td-type::before {
+  content: 'Action';
+  align-self: flex-start;
+  padding-right: .5rem;
+  opacity: .54;
+  margin: 0.8rem 0;
 }
 
 [data-layout=mobile] .table-rwd [class^=td][data-title] {
@@ -3305,6 +3361,16 @@ form + .table-rwd {
 
 .table + .form {
   margin-top: .75rem;
+}
+
+[data-layout=desktop] .wt .table-rwd [class^=td] > [class^=text],
+[data-layout=mobile] .wt .table-rwd [class^=td][data-title]:not([role=mobile-click]) > [class^=text] {
+  align-items: center;
+  display: flex;
+}
+
+.td-Balance {
+  align-items: flex-end;
 }
 
 /* 內容由基本文章格式組成，如 <h1> <p> <ul> ... 可用這個 */
@@ -5012,6 +5078,9 @@ button.swiper-pagination-bullet {
   flex-wrap: nowrap;
 }
 
+[data-layout=mobile] .header__option > a.btn {
+  margin: 6px 0;
+}
 [data-layout=mobile] .header__option .btn{
   padding: .125rem .35rem;
 }
@@ -6121,10 +6190,14 @@ a.lobby-quicklink:hover {
   min-width: 1024px;
 }
 
+[data-layout=mobile] .main.main {
+  margin-top: 72px;
+}
+
 [data-layout=mobile] .main:not(.main--home) {
   display: flex;
   flex-direction: column;
-  margin-top: 60px;
+  margin-top: 72px;
 }
 
 [data-layout=mobile] .main{
@@ -7599,4 +7672,66 @@ ul {
 }
 .btn-gold1:hover{
   background: #c9ac5e;
+}
+
+.table.table-rwd.table-primary2 {
+  border: 2px solid #c2a667;
+  border-radius: 10px;
+  background: #121212;
+}
+
+.table.table-rwd.table-primary2 .tbody {
+  border-radius: 10px;
+}
+
+.table.table-rwd.table-primary2 .td-Secondary-wallet, .table.table-rwd.table-primary2 .td-Balance {
+  border-left-width: 0;
+}
+
+.table-rwd.table-primary2 [class^=td][data-title] {
+  width: auto;
+  flex-flow: column;
+  border-radius: 10px;
+  padding: .5rem 0 .5rem 1rem;
+}
+
+.table-rwd.table-primary2 [class^=td][data-title='Balance'] {
+  padding: .5rem 1rem .5rem 1rem;
+}
+
+[data-layout=mobile] .table-rwd.table-primary2 [class^=td][data-title]::before {
+  content: '';
+}
+
+[data-layout=mobile] .wt .table-rwd.table-primary2 [class^=td][data-title='Secondary wallet']:not([role=mobile-click]) > [class^=text] {
+  text-align: left;
+}
+
+[data-layout=mobile] .wt .table-rwd.table-primary2 [class^=td][data-title='Balance']:not([role=mobile-click]) > [class^=text] {
+  align-self: flex-end;
+}
+.wt .dropdown .text-group {
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.wt .table-primary2 .tbody .tr {
+  justify-content: space-between;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.wt .table-primary2 .tbody .tr:last-child {
+  border-bottom-width: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+[data-layout=mobile] .wt .panel--payment[data-open="true"] > .panel__body {
+  padding-top: 0;
+}
+
+[data-layout=mobile] .wt .panel--payment[data-open="true"] > .panel__body .form .form-group {
+  min-height: auto;
+  padding: 0;
 }

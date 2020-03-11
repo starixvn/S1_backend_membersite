@@ -214,12 +214,12 @@
 </value>
   </data>
   <data name="msg_DepositAlert" xml:space="preserve">
-    <value>Saldo Dompet Utama anda saat ini : &lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt; Setor sekarang atau transfer dari Dompet Olahraga ke Dompet Utama untuk menikmati permainan dan layanan kami.</value>
+    <value>Saldo Dompet Utama Anda adalah: &lt;span class = "popup-span Js-MainWallet-Balance"&gt; {0} {1} &lt;/span&gt; &lt;br&gt; Deposit sekarang atau transfer dari Sportsbook Wallet ke Dompet Utama untuk menikmati permainan dan layanan kami .</value>
   </data>
   <data name="msg_InsufficientFund" xml:space="preserve">
     <value>Dana tidak mencukupi!</value>
   </data>
   <data name="msg_TransferAlert" xml:space="preserve">
-    <value>Dompet Olahraga anda saat ini : &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt; Setoran dan transfer dari dompet utama ke Dompet Olahraga sekarang untuk menikmati permainan dan layanan kami.</value>
+    <value>Dompet Sportsbook Anda saat ini adalah: &lt;span class = "popup-span Js-3RdWallet-Balance"&gt; {0} {1} &lt;/span&gt; &lt;br&gt; Setor dan transfer dari Dompet Utama ke Dompet Sportsbook sekarang untuk menikmati permainan dan layanan kami .</value>
   </data>
 </root>

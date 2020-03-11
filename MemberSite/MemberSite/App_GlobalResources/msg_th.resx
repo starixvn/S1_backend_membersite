@@ -214,14 +214,15 @@
 </value>
   </data>
   <data name="msg_DepositAlert" xml:space="preserve">
-    <value>ยอดคงเหลือปัจจุบันของคุณคือ: &lt;span class="popup-span"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
-ฝากเงินเลย เพื่อเพลินเงินกับเกมและบริการของเร
-</value>
+    <value>ยอดเงินคงเหลือใน Wallet หลักของคุณคือ:&lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;ฝากตอนนี้หรือโอนจาก Sportsbook Wallet ไปยังกระเป๋าเงินหลักเพื่อสนุกกับเกมและบริการของเรา</value>
   </data>
   <data name="msg_HasExist1" xml:space="preserve">
     <value>มีอยู่ในระบบแล้ว</value>
   </data>
   <data name="msg_InsufficientFund" xml:space="preserve">
     <value>จำนวนเงินไม่เพียงพอ!</value>
+  </data>
+  <data name="msg_TransferAlert" xml:space="preserve">
+    <value>Sportsbook Wallet ปัจจุบันของคุณคือ:&lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;ฝากและโอนจากกระเป๋าเงินหลักไปยัง Sportsbook Wallet ได้ทันทีเพื่อเพลิดเพลินกับเกมและบริการของเรา</value>
   </data>
 </root>

@@ -211,12 +211,12 @@
     <value>敬爱的客户， &lt;br /&gt;&lt;br /&gt;欢迎来到&lt;a href="https://www.nova88.net" target="_new"&gt;www.nova88.net&lt;/a&gt;, 完成注册后请游览此链接并享受我司的游戏盘口。</value>
   </data>
   <data name="msg_DepositAlert" xml:space="preserve">
-    <value>您的当前中心钱包余额是：&lt;span class="popup-span Js-MainWallet-Balance"&gt; {0} {1} &lt;/span&gt; &lt;br&gt;立即存款或将中心钱包余额转移至体育钱包以所有权我司游戏盘口及服务。</value>
+    <value>您的当前中心钱包余额是：&lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;立即存款或将体育钱包余额转移至中心钱包以享有我司游戏盘口及服务。</value>
   </data>
   <data name="msg_InsufficientFund" xml:space="preserve">
     <value>余额不足！</value>
   </data>
   <data name="msg_TransferAlert" xml:space="preserve">
-    <value>您的当前体育钱包余额是：&lt;span class="popup-span Js-3RdWallet-Balance"&gt; {0} {1} &lt;/span&gt; &lt;br&gt;立即存款合并中心钱包余额转移至体育钱包以所有权我司游戏盘口及服务。</value>
+    <value>您的当前体育钱包余额是：&lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;立即存款并将中心钱包余额转移至体育钱包以享有我司游戏盘口及服务。</value>
   </data>
 </root>

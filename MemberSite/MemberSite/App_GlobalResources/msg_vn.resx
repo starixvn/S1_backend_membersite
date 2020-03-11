@@ -217,4 +217,11 @@
   <data name="msg_InsufficientFund" xml:space="preserve">
     <value>Không đủ tiền!</value>
   </data>
+  <data name="msg_DepositAlert" xml:space="preserve">
+    <value>Số tiền trong ví chính : &lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;Nạp tiền bây giờ hoặc chuyển tiền từ ví Sportsbook sang ví chính để trải nghiệm các trò chơi và dịch vụ của chúng tôi.</value>
+  </data>
+  <data name="msg_TransferAlert" xml:space="preserve">
+    <value>Số dư hiện tại của bạn là: &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
+Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm các trò chơi và dịch vụ của chúng tôi</value>
+  </data>
 </root>
