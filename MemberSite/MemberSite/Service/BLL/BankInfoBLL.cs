@@ -184,7 +184,7 @@ namespace MemberSite.Service.BLL
 
                 if (bankInfoPayList != null)
                 {
-                    cache.Set(key, bankInfoPayList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)));
+                    cache.Set(key, bankInfoPayList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)));
                 }
             }
 
