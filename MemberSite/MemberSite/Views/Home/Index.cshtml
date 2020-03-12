@@ -63,8 +63,8 @@
                     <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-promo125.jpg" asp-append-version="true" /></a>
                 </div>
                 @*<div class="swiper-slide">
-                    <a href="https://direct.lc.chat/11638088/" target="_blank"><img src="@CmsPromotionPath/Banner-promo.jpg" asp-append-version="true" /></a>
-                </div>*@
+                        <a href="https://direct.lc.chat/11638088/" target="_blank"><img src="@CmsPromotionPath/Banner-promo.jpg" asp-append-version="true" /></a>
+                    </div>*@
                 }
                 else
                 {
@@ -81,11 +81,16 @@
                     </a>
                 </div>
                     }
-                <div class="swiper-slide">
-                    <a href="https://direct.lc.chat/11638088/" target="_blank">
-                        <img src="@CmsPromotionPath/banner-promo10.png" asp-append-version="true" />
-                    </a>
-                </div>
+            <div class="swiper-slide">
+                    <a href="@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=10Pbonus">
+                    <img src="@CmsPromotionPath/banner-promo10.jpg" asp-append-version="true" />
+                </a>
+            </div>
+            <div class="swiper-slide">
+                <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Referfriend">
+                    <img src="@CmsPromotionPath/banner-ref.jpg" asp-append-version="true" />
+                </a>
+            </div>
                 <div class="swiper-slide">
                     <a href="@gamingBLL.GetEntPageUrl(0, "livecasino",Url)">
                         <img src="@CmsPromotionPath/banner-sa.jpg" asp-append-version="true" />

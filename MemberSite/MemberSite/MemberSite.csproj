@@ -80,6 +80,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Promotion\FTDP2\" />
     <Folder Include="wwwroot\CMS\Goal123\Keno\en\" />
     <Folder Include="wwwroot\CMS\Goal123\Keno\vn\" />
     <Folder Include="wwwroot\CMS\Goal123\LiveCasino\en\" />

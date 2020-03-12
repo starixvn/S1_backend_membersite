@@ -1,0 +1,143 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@inject AuthorizeBLL authorizeBLL
+@inject PromotionBLL promotionBLL
+@inject CustInfoBLL custInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
+    int CurrencyId = 0;
+    long ExpiryTime = 0;
+    Promotion promotion = null;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
+
+        promotion = promotionBLL.GetPromotionListByCustId(custId).FirstOrDefault();
+    }
+    else
+    {
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+        promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
+    }
+
+    if (promotion.BonusInfoStatus == 0)
+    {
+        ExpiryTime = promotion.PeriodTo;
+    }
+    else
+    {
+        ExpiryTime = new DateTimeOffset(promotion.ExpiryTime.ToUniversalTime(), TimeSpan.Zero).ToUnixTimeSeconds();
+    }
+    var Currency = selLangBLL.GetResourceValue($"lbl_Currency_{CurrencyId}");
+}
+<div class="main ">
+            <div class="promotionsInfo-page page">
+                <div class="heading">
+                    <span class="text">Promotion Info</span>
+                </div>
+                <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+                    <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-ref.jpg" alt="" style="display: block;width: 100%;" />
+                </div><br><br>
+                <div class="promotions-module">
+                    <article>
+                        <div class="promotions-txt">
+                            <ul>
+                                <li class="txt-blue">REFER A FRIEND GET UP TO MYR280</li>
+                                <li class="txt-gray">
+                                </li>
+                                <li>
+                                    <div class="promotions-type">
+                                        <ul class="txt-gray">
+                                            <li>
+                                                <i class="icon icon-gototop"></i>MAX BONUS AMOUNT
+                                                <span class="txt-org"> MYR 280</span>
+                                            </li>
+                                            <li>
+                                                <i class="icon icon-sport252"></i>ROLLOVER
+                                                <span class="txt-org"> 1x</span>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+                <div class="promotions-module">
+                    <span class="promotions-title">Significant Conditions</span>
+                    <article>
+                        <ol type="i">
+                            <li>a.The referral will need to inform our support team " LIVE CHAT "</li>
+                            <li>b.Present to our support team ( New user ID , Name of account & 1st deposit with MYR180 for verification )</li>
+                            <li>c.MYR28 bonus will be credit to the referral after the verification within 24 hours.</li>
+                            <li>d.Nova88 Affiliates partner is excluded from this promotion.</li>
+                            <li>e.New member must make the 1st deposit with  a minimum requirement of MYR180 to enjoy the promotion.</li>
+                        </ol>
+                    </article>
+                    <div class="panel panel-primary panel--payment" data-open="true">
+                        <div class="panel__header">
+                            <span class="txt-blue">FULL PROMOTION SPECIFIC TERMS AND CONDITIONS</span>
+                            <i class="icon icon-caret"></i>
+                        </div>
+                        <div class="panel__body">
+                            <article>
+                                <ol type="i">
+                                    <li>Referral bonus MYR28 , subject to one time (1x) rollover in All Nova88 Products, except Casino and Cash Out.</li>
+                                    <li>Each referral can invite up to 10 new members only during the promotion period.</li>
+                                    <li>
+                                        The bonus must be rollover within 30 days , or else Nova88 reserves the right to forfeit all the bonus and winnings
+                                        (IF ANY) if bonus rollover requirement are not met within 30 days of bonus credit.
+                                    </li>
+                                    <li>Promotion end 11:59AM on 1st April 2020 (GMT+8)</li>
+                                    <li>
+                                        NOVA88 reserves the right to cancel this promotion at any time, either for all players or individual player and its subjected
+                                        Nova88 Standard Terms and Conditions apply.
+                                    </li>
+                                </ol>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+
+            const diff = moment.duration(moment.unix(@promotion.PeriodTo).diff(new Date()))
+            $("#REMAINING").html(diff.days() + " 天" + diff.hours() + " 小時" );
+            $("#ExpiryTime").html(moment.unix(@ExpiryTime).format('lll'));
+
+
+            $("#JOIN").on("touchstart, click", function () {
+                if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {
+                    axios.post('/api/Promotion/SetClaimPromotion/@selLangBLL.GetLangId()', { BonusCode:"@promotion.BonusCode"})
+                        .then(function (response) {
+                            var result = response.data;
+                            if (result.errorCode == 0) {
+                                alert("@Html.Raw(selLangBLL.GetMsg("msg_Updatesuccessful"))");
+                                window.location.replace("@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })");
+                            } else {
+                                alert(result.message);
+                            }
+                        }.bind(this)).catch(function (error) {
+                            alert(error);
+                        }.bind(this));
+                }
+            });
+        });
+    </script>
+}

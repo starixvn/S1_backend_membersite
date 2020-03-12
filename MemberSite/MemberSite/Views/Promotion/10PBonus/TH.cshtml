@@ -1,0 +1,135 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@inject AuthorizeBLL authorizeBLL
+@inject PromotionBLL promotionBLL
+@inject CustInfoBLL custInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
+    int CurrencyId = 0;
+    long ExpiryTime = 0;
+    Promotion promotion = null;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
+
+        promotion = promotionBLL.GetPromotionListByCustId(custId).FirstOrDefault();
+    }
+    else
+    {
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+        promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
+    }
+
+    if (promotion.BonusInfoStatus == 0)
+    {
+        ExpiryTime = promotion.PeriodTo;
+    }
+    else
+    {
+        ExpiryTime = new DateTimeOffset(promotion.ExpiryTime.ToUniversalTime(), TimeSpan.Zero).ToUnixTimeSeconds();
+    }
+    var Currency = selLangBLL.GetResourceValue($"lbl_Currency_{CurrencyId}");
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">Promotion Info</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-promo10.png" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <article>
+                <div class="promotions-txt">
+                    <ul>
+                        <li class="txt-blue">ฝากเงินครั้งแรก รับโบนัส 10% สูงสุดถึง  THB5000</li>
+
+                        <li>
+                            <div class="promotions-type">
+                                <ul class="txt-gray">
+                                    <li>
+                                        <i class="icon icon-transaction"></i>โบนัส
+                                        <span class="txt-org"> 10%</span>
+                                    </li>
+                                    <li>
+                                        <i class="icon icon-gototop"></i>จำนวนโบนัสสูงสุด
+                                        <span class="txt-org"> THB 5000</span>
+                                    </li>
+                                    <li>
+                                        <i class="icon icon-sport252"></i>ยอดหมุนเวียน
+                                        <span class="txt-org"> 1x</span>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </article>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">ข้อตกลงและเงื่อนไข</span>
+            <article>
+                <ol type="i">
+                    <li>รับทันทีโบนัส 10% สำหรับสมาชิกใหม่ที่เพิ่งฝากเงินกับเรา</li>
+                    <li>คลิ๊กที่ สมัครที่นี่ เพื่อร่วมสนุกกับโปรโมชั่นนี้</li>
+                    <li>โบนัสสูงสุด 5000 บาทสำหรับการฝากเงินครั้งแรกจะถูกโอนไปยังบัญชีที่ผ่านการพิจารณาภายใน 48 ชั่วโมงหลังฝาก</li>
+                    <li>โบนัสและเงินฝากที่มีคุณสมบัติตามที่กำหนดนั้น ขึ้นอยู่กับการทำยอดเดิมพันหมุนเวียนให้ครบ 1 ครั้ง ในเกมทั้งหมดของ NOVA88 ยกเว้นคาสิโนและการแลกเงินสด (Cash Out) </li>
+                    <li>ผู้เล่นมีสิทธิ์เข้าร่วมโปรโมชั่น (1) โบนัสเงินฝากครั้งแรกที่ได้รับอนุมัติโดย NOVA88 เพียงครั้งเดียวเท่านั้น</li>
+                    <li>โปรโมชั่น เริ่มตั้งแต่ วันที่ 5 มีนาคม 12:01 (GMT+8) จนถึง 1 เมษายน 23:59 (GMT+8)</li>
+                    <li>NOVA88 ขอสงวนสิทธิ์ในการแก้ไขหรือยกเลิกโปรโมชั่นได้ตลอดเวลา</li>
+                </ol>
+            </article>
+            <div class="panel panel-primary panel--payment" data-open="true">
+                <div class="panel__header">
+                    <span class="txt-blue">3 ขั้นตอนง่ายๆที่จะได้รับโปรโมชั่นนี้</span>
+                    <i class="icon icon-caret"></i>
+                </div>
+                <div class="panel__body">
+                    <p>1. สมัครกับ NOVA88</p>
+                    <p>2. ฝากเงินกับเรา</p>
+                    <p>3. ติดต่อ Live Chat</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function() {
+            const diff = moment.duration(moment.unix(@promotion.PeriodTo).diff(new Date()))
+            $("#REMAINING").html(diff.days() + " days" + diff.hours() + " hours" );
+            $("#ExpiryTime").html(moment.unix(@ExpiryTime).format('lll'));
+
+            $("#JOIN").on("touchstart, click", function () {
+                  if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {
+                    axios.post('/api/Promotion/SetClaimPromotion/@selLangBLL.GetLangId()', { BonusCode:"@promotion.BonusCode"})
+                        .then(function (response) {
+                            var result = response.data;
+                            if (result.errorCode == 0) {
+                                alert("@Html.Raw(selLangBLL.GetMsg("msg_Updatesuccessful"))");
+                                window.location.replace("@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })");
+                            } else {
+                                alert(result.message);
+                            }
+                        }.bind(this)).catch(function (error) {
+                            alert(error);
+                        }.bind(this));
+                }
+            });
+        });
+    </script>
+}

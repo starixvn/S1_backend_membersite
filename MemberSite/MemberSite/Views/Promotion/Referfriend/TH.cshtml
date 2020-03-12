@@ -1,0 +1,140 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@inject AuthorizeBLL authorizeBLL
+@inject PromotionBLL promotionBLL
+@inject CustInfoBLL custInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
+    int CurrencyId = 0;
+    long ExpiryTime = 0;
+    Promotion promotion = null;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
+
+        promotion = promotionBLL.GetPromotionListByCustId(custId).FirstOrDefault();
+    }
+    else
+    {
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+        promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
+    }
+
+    if (promotion.BonusInfoStatus == 0)
+    {
+        ExpiryTime = promotion.PeriodTo;
+    }
+    else
+    {
+        ExpiryTime = new DateTimeOffset(promotion.ExpiryTime.ToUniversalTime(), TimeSpan.Zero).ToUnixTimeSeconds();
+    }
+    var Currency = selLangBLL.GetResourceValue($"lbl_Currency_{CurrencyId}");
+}
+
+ <div class="main ">
+        <div class="promotionsInfo-page page">
+            <div class="heading">
+                <span class="text">Promotion Info</span>
+            </div>
+            <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-ref.jpg" alt="" style="display: block;width: 100%;" />
+            </div><br><br>
+            <div class="promotions-module">
+                <article>
+                    <div class="promotions-txt">
+                        <ul>
+                            <li class="txt-blue">แนะนำเพื่อน รับโบนัสสูงสุดถึง 2,000 บาท</li>
+                            <li class="txt-gray">
+                            </li>
+                            <li>
+                                <div class="promotions-type">
+                                    <ul class="txt-gray">
+                                        <li>
+                                            <i class="icon icon-gototop"></i>จำนวนโบนัสสูงสุด
+                                            <span class="txt-org"> 2,000 บาท</span>
+                                        </li>
+                                        <li>
+                                            <i class="icon icon-sport252"></i>ยอดหมุนเวียน
+                                            <span class="txt-org"> 1x</span>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+            <div class="promotions-module">
+                <span class="promotions-title">เงื่อนไขที่สำคัญ</span>
+                <article>
+                    <ol type="i">
+                        <li>a. ผู้แนะนำจะต้องติดต่อกับทีมของเราที่ Live Chat </li>
+                        <li>b. กรุณาบอกชื่อ User ID, ชื่อแอคเคาน์, และฝากเงินครั้งแรกเป็นจำนวน 2,000 บาทเพื่อการตรวจสอบ</li>
+                        <li>c. คุณจะได้รับเครดิตโบนัสจำนวน 200 บาทภายใน 24 ชั่วโมงหลังจากที่เราได้ทำการตรวจสอบข้อมูลแล้ว</li>
+                        <li>d. พาร์ทเนอร์ของ Nova88  ไม่สามารถร่วมรายการโปรโมชั่นนี้ได้</li>
+                        <li>e. สมาชิกใหม่ต้องมีการฝากเงินครั้งแรกขั้นต่ำ 2,000 บาท ถึงจะมีสิทธิ์ร่วมในรายการโปรโมชั่นนี้</li>
+                    </ol>
+                </article>
+                <div class="panel panel-primary panel--payment" data-open="true">
+                    <div class="panel__header">
+                        <span class="txt-blue">ข้อตกลงและเงื่อนไข</span>
+                        <i class="icon icon-caret"></i>
+                    </div>
+                    <div class="panel__body">
+                        <article>
+                            <ol type="i">
+                                <li>คุณจะได้เครดิตโบนัสจำนวน 200 บาท เมื่อมีการทำยอดหมุนเวียน 1 ครั้งในเกมทั้งหมดของ Nova88 ยกเว้น คาสิโน และ การแลกเงินสด (Cash Out)</li>
+                                <li>ผู้แนะนำแต่ละคนสามารถแนะนำเพื่อนได้สูงสุด 10 คนในช่วงระยะเวลาโปรโมชั่น</li>
+                                <li>
+                                    โบนัสที่ได้จะต้องมีการทำยอดหมุนเวียนภายใน 30 วัน มิฉะนั้น Nova88 ขอสงวนสิทธิ์ในการริบโบนัสและเงินรางวัลทั้งหมด
+                                    (ถ้ามี) หากไม่ปฏิบัติตามข้อกำหนดการหมุนเวียนโบนัสภายใน 30 วันนับจากวันที่เครดิตโบนัส
+                                </li>
+                                <li>โปรโมชันสิ้นสุด 11:59 น. ในวันที่ 1 เมษายน 2020 (GMT + 8)</li>
+                                <li>NOVA88 ขอสงวนสิทธิ์ในการยกเลิกโปรโมชั่นนี้ได้ตลอดเวลาไม่ว่าจะสำหรับผู้เล่นทุกคนหรือผู้เล่นเดี่ยวตามข้อกำหนดและเงื่อนไขมาตรฐานของ Nova88</li>
+                            </ol>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+
+            const diff = moment.duration(moment.unix(@promotion.PeriodTo).diff(new Date()))
+            $("#REMAINING").html(diff.days() + " 天" + diff.hours() + " 小時" );
+            $("#ExpiryTime").html(moment.unix(@ExpiryTime).format('lll'));
+
+
+            $("#JOIN").on("touchstart, click", function () {
+                if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {
+                    axios.post('/api/Promotion/SetClaimPromotion/@selLangBLL.GetLangId()', { BonusCode:"@promotion.BonusCode"})
+                        .then(function (response) {
+                            var result = response.data;
+                            if (result.errorCode == 0) {
+                                alert("@Html.Raw(selLangBLL.GetMsg("msg_Updatesuccessful"))");
+                                window.location.replace("@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })");
+                            } else {
+                                alert(result.message);
+                            }
+                        }.bind(this)).catch(function (error) {
+                            alert(error);
+                        }.bind(this));
+                }
+            });
+        });
+    </script>
+}

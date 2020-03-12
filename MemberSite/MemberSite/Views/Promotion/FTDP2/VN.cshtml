@@ -59,19 +59,19 @@
                             <div class="promotions-type">
                                 <ul class="txt-gray">
                                     <li>
-                                        <i class="icon icon-transaction"></i>BONUS
-                                        <span class="txt-org">@Currency @promotion.Bonus.ToString("#,##0")%</span>
+                                        <i class="icon icon-transaction"></i>Tặng Thưởng 
+                                        <span class="txt-org"> @promotion.Bonus.ToString("#,##0")%</span>
                                     </li>
                                     <li>
-                                        <i class="icon icon-gototop"></i>MAX BONUS AMOUNT
-                                        <span class="txt-org">@Currency @promotion.MaxBonus.ToString("#,##0")</span>
+                                        <i class="icon icon-gototop"></i>Số Tiền Thưởng Tối Đa 
+                                        <span class="txt-org"> @promotion.MaxBonus.ToString("#,##0") @Currency</span>
                                     </li>
                                     <li>
-                                        <i class="icon icon-sport252"></i>ROLLOVER
+                                        <i class="icon icon-sport252"></i>Yêu Cầu Doanh Thu Cược  
                                         <span class="txt-org">@(promotion.RollOver)x</span>
                                     </li>
                                     <li>
-                                        <i class="icon icon-race"></i>REMAINING TIME
+                                        <i class="icon icon-race"></i>Thời Gian Còn Lại
                                         <span class="txt-org" id="REMAINING"></span>
                                     </li>
                                     @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
@@ -94,7 +94,7 @@
             </article>
         </div>
         <div class="promotions-module">
-            <span class="promotions-title">Significant Conditions</span>
+            <span class="promotions-title">Điều Kiện Chính</span>
             <article>
                 <ol type="i">
                     <li>Chương trình khuyến mãi chỉ áp dụng cho khách hàng Việt Nam</li>
@@ -122,7 +122,7 @@
                                 </li>
                             </ol>
                             <li>
-                                Người chơi thỏa điều kiện sẽ được nhận thưởng  @promotion.Bonus.ToString("#,##0")%, lên tới  @Currency @promotion.MaxBonus.ToString("#,##0") dựa trên số tiền của lần nạp đầu tiên, được thực hiện trong thời gian diễn ra khuyến mãi, như ví dụ sau đây:
+							Người chơi thỏa điều kiện sẽ được nhận thưởng  @promotion.Bonus.ToString("#,##0")%, lên tới  @Currency @promotion.MaxBonus.ToString("#,##0") dựa trên số tiền của lần nạp đầu tiên, được thực hiện trong thời gian diễn ra khuyến mãi, như ví dụ sau đây: 
                                 <div class="table table-rwd table-primary">
                                     <div class="thead">
                                         <div class="tr">
@@ -159,29 +159,29 @@
                                 </div>
                             </li>
                             <li>
-                                Người chơi thỏa điều kiện sẽ được yêu cầu bấm vào nút "Tham gia ngay" trong mục "Điều khoản và Điều kiện nhận thưởng" để nhận thưởng, ngay sau khi họ đăng nhập vào tài khoản cá cược tại trang at www.@(serverInfo.SiteName).com.
+							    Người chơi thỏa điều kiện sẽ được yêu cầu bấm vào nút "Tham gia ngay" trong mục "Điều khoản và Điều kiện nhận thưởng" để nhận thưởng, ngay sau khi họ đăng nhập vào tài khoản cá cược tại trang at www.@(serverInfo.SiteName).com.
                             </li>
                             <li>
-                                Người chơi thỏa điều kiện không được phép bỏ giải thưởng một khi tiền thưởng đã được chuyển vào tài khoản cá cược của họ tại trang @serverInfo.SiteName.
+							    Người chơi thỏa điều kiện không được phép bỏ giải thưởng một khi tiền thưởng đã được chuyển vào tài khoản cá cược của họ tại trang @serverInfo.SiteName.
                             </li>
                             <li>
-                                Người chơi thỏa điều kiện có thể rút tiền nạp vào và tiền thưởng sau khi đã hoàn tất yêu cầu doanh thu cược @promotion.RollOver lần đối với bất kỳ sản phẩm cá cược nào của @serverInfo.SiteName ngoại trừ Casino and Cash Out. Quy định về rút tiền sẽ được áp dụng cho tất cả các khoản tiền nạp khác không dùng cho khuyến mãi.
+							    Người chơi thỏa điều kiện có thể rút tiền nạp vào và tiền thưởng sau khi đã hoàn tất yêu cầu doanh thu cược @promotion.RollOver lần đối với bất kỳ sản phẩm cá cược nào của @serverInfo.SiteName ngoại trừ Casino and Cash Out. Quy định về rút tiền sẽ được áp dụng cho tất cả các khoản tiền nạp khác không dùng cho khuyến mãi.                               
                             </li>
                             <li>
-                                Người chơi đủ điều kiện chỉ được phép tham gia một (1) chương trình khuyến mãi 'Thưởng Lần Đầu Nạp' do @serverInfo.SiteName cung cấp. Nếu Người chơi đủ điều kiện tham gia nhiều hơn một (1), thì người chơi chỉ nhận được tiền thưởng mà @serverInfo.SiteName duyệt đầu tiên và việc tham gia vào các chương trình khuyến mãi liên quan đến 'Thưởng Lần Đầu Nạp' khác sẽ không có hiệu lực.
+							    Người chơi đủ điều kiện chỉ được phép tham gia một (1) chương trình khuyến mãi 'Thưởng Lần Đầu Nạp' do @serverInfo.SiteName cung cấp. Nếu Người chơi đủ điều kiện tham gia nhiều hơn một (1), thì người chơi chỉ nhận được tiền thưởng mà @serverInfo.SiteName duyệt đầu tiên và việc tham gia vào các chương trình khuyến mãi liên quan đến 'Thưởng Lần Đầu Nạp' khác sẽ không có hiệu lực.
                             </li>
                             <li>
-                                Người chơi đủ điều kiện vẫn sẽ bị loại khỏi Chương trình khuyến mãi, nếu có bất kỳ khoản rút tiền nào được thực hiện trước khi Tiền thưởng được chuyển vào tài khoản của họ tại trang @serverInfo.SiteName.
+							Người chơi đủ điều kiện vẫn sẽ bị loại khỏi Chương trình khuyến mãi, nếu có bất kỳ khoản rút tiền nào được thực hiện trước khi Tiền thưởng được chuyển vào tài khoản của họ tại trang @serverInfo.SiteName. 
                             </li>
                             <li>
-                                Chỉ những cược có thắng/thua trong @serverInfo.SiteName mới được cộng dồn vào Yêu cầu doanh thu cược. Rút tiền, hủy hoặc bỏ cược, cược với tỷ lệ cược nhỏ hơn 1,5 (Odds thập phân); 0,5 (Odds Trung Quốc); 0,5 (Odds dương Malay); -2.0 (Odds Indo); -200 (Odds Mỹ) hoặc cược cả hai cửa trong một trò chơi và cược trên Casino sẽ không được tính vào tổng cược này.
+								Chỉ những cược có thắng/thua trong @serverInfo.SiteName mới được cộng dồn vào Yêu cầu doanh thu cược. Rút tiền, hủy hoặc bỏ cược, cược với tỷ lệ cược nhỏ hơn 1,5 (Odds thập phân); 0,5 (Odds Trung Quốc); 0,5 (Odds dương Malay); -2.0 (Odds Indo); -200 (Odds Mỹ) hoặc cược cả hai cửa trong một trò chơi và cược trên Casino sẽ không được tính vào tổng cược này.                               
                             </li>
                             <li>
-                                Yêu cầu doanh thu cược sẽ được xem là đủ điều kiện, nếu số dư tài khoản Người chơi đủ điều kiện thấp hơn số tiền cược tối thiểu được phép (ví dụ: 25,000 Việt Nam Đồng)
+							    Yêu cầu doanh thu cược sẽ được xem là đủ điều kiện, nếu số dư tài khoản Người chơi đủ điều kiện thấp hơn số tiền cược tối thiểu được phép (ví dụ: 25,	 Việt Nam Đồng)
                             </li>
                             <li>@serverInfo.SiteName có quyền sửa đổi hoặc kết thúc Khuyến mãi bất cứ lúc nào. </li>
                             <li>Chương trình khuyến mãi đang được cung cấp và tiến hành bởi @serverInfo.SiteName có hiệu lực chỉ ở những nơi mà pháp luật địa phương hoặc quốc gia cho phép, và nơi mà mọi người có thể đủ điều kiện hợp pháp để tham gia theo quy định của pháp luật hiện hành. Người chơi thừa nhận rằng @serverInfo.SiteName hoạt động từ một vùng tài phán mà công ty được cấp phép, được điều chỉnh và được pháp luật cho phép tiến hành các chương trình khuyến mãi như vậy và @serverInfo.SiteName thực hiện các nỗ lực hợp lý để không cung cấp chương trình khuyến mãi như vậy ở những vùng tài phán bị cấm hoặc cung cấp cho Người chơi ở tại, hoặc từ các vùng tài phán bị cấm. Người chơi hoàn toàn chịu trách nhiệm đảm bảo tuân thủ pháp luật địa phương hoặc quốc gia trước khi tham gia vào các chương trình khuyến mãi của @serverInfo.SiteName. Ngoài ra, bằng việc tham gia vào các chương trình khuyến mãi như vậy, Người chơi cũng đảm bảo rằng mình đã tìm kiếm tư vấn pháp lý và/hoặc đủ quen thuộc với luật pháp hiện hành để xác minh rằng việc tham gia không trái với luật pháp đó.</li>
-                            <li>@serverInfo.SiteName <a class="text-link" href="@StaticRootPath/Promotion.html" target="_blank">Điều Khoản Và Điều Kiện Tiêu Chuẩn</a> apply.</li>
+                            <li>@serverInfo.SiteName <a class="text-link" href="@StaticRootPath/Promotion.html" target="_blank">Điều Khoản Và Điều Kiện Tiêu Chuẩn</a> được áp dụng.</li>
                         </ol>
                     </article>
                 </div>

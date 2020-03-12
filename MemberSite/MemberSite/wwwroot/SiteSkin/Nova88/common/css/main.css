@@ -7069,3 +7069,8 @@ ul {
   min-height: auto;
   padding: 0;
 }
+
+#TransferPanel form.form {
+  display: inline-block;
+  width: 100%;
+}

@@ -101,18 +101,17 @@
                     <li>This promotion starts at until <span id="ExpiryTime"></span> (“Promotion Period”).</li>
                     <li>To qualify, the player must have made their First Deposit and have not made any withdrawal requests before.</li>
                     <li>A Bonus of up to @Currency @promotion.MaxBonus.ToString("#,##0") based on the First Deposit amount will be credited to qualified players within 48 hours;</li>
-                    <li>
-                        The Bonus and Qualifying Deposit amount used are subject to a @promotion.RollOver times rollover requirement within 30 days on any @serverInfo.SiteName products, except Casino and Cash Out products.
+                    <li>The Bonus and Qualifying Deposit amount used are subject to a @promotion.RollOver times rollover requirement within 30 days on any @serverInfo.SiteName products, except Casino and Cash Out products.
                         <br>
                         @*<br> Example:
-                            <br>
-                            <em>
-                                - Deposit amount: @Currency 1,500
-                                <br> - Bonus amount = @Currency 1,500 x @promotion.Bonus.ToString("#,##0")% = @Currency 500 Capped MAX
-                                <br> - Deposit amount used to generate the bonus = @Currency 500 / @promotion.Bonus.ToString("#,##0")% = @Currency 1,000
-                                <br> - Deposit amount not used for the promotion = @Currency 1,500 – @Currency 1,000 = @Currency 500
-                                <br> - Rollover requirement = (@Currency 1,000 + @Currency 500) x 15 + @Currency 500 = @Currency 23,000
-                            </em>*@
+                        <br>
+                        <em>
+                            - Deposit amount: @Currency 1,500
+                            <br> - Bonus amount = @Currency 1,500 x @promotion.Bonus.ToString("#,##0")% = @Currency 500 Capped MAX
+                            <br> - Deposit amount used to generate the bonus = @Currency 500 / @promotion.Bonus.ToString("#,##0")% = @Currency 1,000
+                            <br> - Deposit amount not used for the promotion = @Currency 1,500 – @Currency 1,000 = @Currency 500
+                            <br> - Rollover requirement = (@Currency 1,000 + @Currency 500) x 15 + @Currency 500 = @Currency 23,000
+                        </em>*@
                     </li>
                 </ol>
             </article>
@@ -130,7 +129,7 @@
                             <ol>
                                 <li>Have chosen @Currency as their preferred currency,</li>
                                 <li>
-                                    Have made their first approved deposit to their @serverInfo.SiteName account during the promotion period.
+                                   Have made their first approved deposit to their @serverInfo.SiteName account during the promotion period.
                                 </li>
                             </ol>
                             <li>
@@ -180,15 +179,15 @@
                             <li>
                                 The bonus received and deposit amount used to generate the bonus (“Qualifying Deposit”) by the Qualified Player from the Promotion are subject to a @promotion.RollOver times rollover requirement in all @serverInfo.SiteName products, except Casino and Cash Out products, before any withdrawals can be made. General withdrawal rule applies for all other deposit amounts not used for the Promotion.
                                 @*<p>
-                                        Example: <br>
-                                        Qualified Player A has made the first approved deposit with an amount of @Currency 1,500. Player A is now eligible to claim the deposit bonus.
-                                        <br>
-                                        <br> - Bonus amount = @Currency 1,500 x @promotion.Bonus.ToString("#,##0")% = capped to @Currency 500
-                                        <br> - Deposit amount used to generate the bonus = @Currency 500 / @promotion.Bonus.ToString("#,##0")% = @Currency 1,000
-                                        <br> - Deposit amounts not used for the promotion = @Currency 1,500 – @Currency 1,000 = @Currency 500
-                                        <br>
-                                        <br> Before any withdrawals can be made, Qualified Member A is subjected to rollover = (@Currency 1,000 + @Currency 500) x @promotion.RollOver + @Currency 500 = @Currency 23,000
-                                    </p>*@
+                                    Example: <br>
+                                    Qualified Player A has made the first approved deposit with an amount of @Currency 1,500. Player A is now eligible to claim the deposit bonus.
+                                    <br>
+                                    <br> - Bonus amount = @Currency 1,500 x @promotion.Bonus.ToString("#,##0")% = capped to @Currency 500
+                                    <br> - Deposit amount used to generate the bonus = @Currency 500 / @promotion.Bonus.ToString("#,##0")% = @Currency 1,000
+                                    <br> - Deposit amounts not used for the promotion = @Currency 1,500 – @Currency 1,000 = @Currency 500
+                                    <br>
+                                    <br> Before any withdrawals can be made, Qualified Member A is subjected to rollover = (@Currency 1,000 + @Currency 500) x @promotion.RollOver + @Currency 500 = @Currency 23,000
+                                </p>*@
                             </li>
                             <li>
                                 The Qualified Player is allowed to participate in only one (1) ‘First Time Deposit Bonus’ related promotion offered by @serverInfo.SiteName. Should the Qualified Player participate in more than one (1), only the first approved ‘First Time Deposit Bonus’ related promotion received by @serverInfo.SiteName from such Qualified Player will be considered valid and participation in all other ‘First Time Deposit Bonus’ related promotions will be void.
