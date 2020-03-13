@@ -1,0 +1,72 @@
+@charset "UTF-8";
+.MobileDeposit .dropdown.dropdown-default{
+    display:none;
+}
+[data-layout="mobile"] .MobileDeposit .dropdown.dropdown-default{
+    display:block;
+    width:100%;
+}
+.MobileDeposit .dropdown.dropdown-default > .btn >.text-group{
+    text-align:left;
+}
+.MobileDeposit .payment-list{
+    display:none;
+}
+[data-layout="desktop"] .MobileDeposit .payment-list{
+    display:flex;
+}
+.MobileDeposit .payment-list .payment {
+    box-shadow: 0px 3px #649d00;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+}
+.MobileDeposit .payment-list .payment:hover {
+    transform: scale(1.05);
+}
+.MobileDeposit .payment-list .payment.ac {
+    background-color: #caeb91;
+    box-shadow: 0px 0 #DBEAFC;
+    border-color: #76b900;
+    top: 3px;
+}
+.MobileDeposit .payment-list .payment.ac:hover{
+    transform: scale(1);
+}
+.MobileDeposit .payment-list .payment.ac img{
+    filter:grayscale(1);
+}
+[data-layout="desktop"] .MobileDeposit .form-group,[data-layout="mobile"] .form-group{
+    display: none;
+    min-height: auto;
+    width: 100%;
+    justify-content: space-between;
+}
+[data-layout="desktop"] .MobileDeposit .form-group{
+    padding: .5rem;
+}
+.MobileDeposit .btn-group.btnbg{
+    display: none;
+}
+.MobileDeposit .btn-group.btnbg > button{
+    flex:1;
+    min-width: auto;
+    margin:0 .25rem .5rem;
+}
+.MobileDeposit .nutest{
+    padding: .5rem;
+    background-color: #121212;
+    border-radius: 5px;
+    text-align: center;
+    margin: .5rem 0;
+    font-weight: bold;
+    color:#76b900;
+}
+[data-layout=desktop] .MobileDeposit .form .form-title{
+    width: auto;
+    margin-right:1rem;
+}
+[data-layout=desktop] .MobileDeposit .form .form-content{
+    width: auto;
+}

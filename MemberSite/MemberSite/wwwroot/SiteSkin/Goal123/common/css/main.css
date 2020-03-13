@@ -1823,6 +1823,31 @@ button.btn .btn__inner > .text {
   background-color: #fff5be;
 }
 
+.btn-primarys {
+  /* color: #ffe771; */
+  background-color: #222;
+  border-color: #c2a667;
+  box-shadow: 0px 3px #b79750;
+  position: relative;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.btn-primarys:hover {
+  transform: scale(1.05);
+}
+
+.btn-primarys.ac {
+  background-color: #121212;
+  box-shadow: 0px 0 #999;
+  border-color: #c2a667;
+  top: 3px;
+}
+
+.btn-primarys.ac:hover {
+  transform: scale(1);
+}
+
 .btn-secondary {
   color: white;
   background-color: #a52fc4;

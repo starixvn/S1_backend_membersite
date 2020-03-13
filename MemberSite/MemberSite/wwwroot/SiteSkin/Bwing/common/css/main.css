@@ -1823,6 +1823,32 @@ button.btn .btn__inner > .text {
   background-color: #aaa;
 }
 
+.btn-primarys {
+  color: #fff;
+  background-color: #76b900;
+  border-color: #649d00;
+  box-shadow: 0px 3px #649d00;
+  position: relative;
+  font-size: 12px;
+  display: inline-block; 
+}
+
+.btn-primarys:hover {
+  transform: scale(1.05);
+}
+
+.btn-primarys.ac {
+  background-color: #caeb91;
+  box-shadow: 0px 0 #999;
+  border-color: #76b900;
+  top: 3px;
+  color: #000;
+}
+
+.btn-primarys.ac:hover {
+  transform: scale(1);
+}
+
 .btn-secondary {
   color: white;
   background-color: #76b900;
@@ -4338,7 +4364,7 @@ button.swiper-pagination-bullet {
   padding: .5rem .25rem;
   width: 100%;
   background-color: white;
-  border-color: #DBEAFC;
+  border-color: #76b900;
   border-width: 1px;
   border-radius: 16px;
 }
