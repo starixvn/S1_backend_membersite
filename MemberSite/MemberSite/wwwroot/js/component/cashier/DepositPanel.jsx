@@ -633,6 +633,80 @@ import {number_format} from '../commJS/common';
         }
     }
 
+    class MobilePayInfoDropdown extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = { dropdown: false};
+            this.Dropdown = React.createRef();
+        }        
+        onChangeMobilePay(channelId){
+            let SelMobilePayInfo=this.props.SelMobilePayInfo;
+            if(SelMobilePayInfo.channelId != channelId) {
+                this.props.onChangeMobilePay(channelId);
+            }
+            this.setState({dropdown:false});
+        }
+        
+        onDropdown(event) {
+            let node = event.target;
+            let parentNode = node.parentNode;
+            if(node.className != "btn btn-icon btn-form-status" && (parentNode!=undefined && parentNode.className != "btn btn-icon btn-form-status")) {
+                let dropdownVal = !this.state.dropdown;
+                let $target = $(this.Dropdown.current);
+
+                if(typeof($target.attr("data-open"))=="undefined") {
+                    $target.attr("data-open",true);
+                    dropdownVal = true;
+                }
+
+                this.setState({dropdown: dropdownVal});
+            }
+        }
+
+        render() {
+            let SelMobilePayInfo=this.props.SelMobilePayInfo;
+            let DropdownItem=this.props.MobilePayInfoList.map(function( mobilePayInfo ) { 
+                return <div className="dropdown__item" key={mobilePayInfo.channelId} onClick={this.onChangeMobilePay.bind(this, mobilePayInfo.channelId)} data-selected={mobilePayInfo.channelId == SelMobilePayInfo.channelId}>
+                    <div className="payment-thumbnail">
+                        <img src={"/common/images/MobilePay/" + mobilePayInfo.groupName +".png"} />
+                    </div>    
+                    <div className="text-group">
+                        {mobilePayInfo.minAmount == 0 && mobilePayInfo.maxAmount == 0 ? 
+                            <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{i18n.lbl_Unlimited}</span>{" )"}</span>
+                        : <span className="text">{i18n.lbl_Limit}{" : "}<span className="text-accent">{number_format(mobilePayInfo.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(mobilePayInfo.maxAmount)}</span></span>
+                        }
+                    </div>
+                </div>                
+                }.bind(this));
+
+            return (
+                <div className="form-group">
+                    <label className="form-title">{"select channel"}</label>
+                    <div className="form-content">
+                        <div className="dropdown dropdown-default" data-open={this.state.dropdown} ref={this.Dropdown}>
+                            <a className="btn" onClick={this.onDropdown.bind(this)}>
+                                <div className="payment-thumbnail">
+                                    <img src={"/common/images/MobilePay/" + SelMobilePayInfo.groupName +".png"} />
+                                </div>   
+                                <div className="text-group">
+                                    <span className="text">{SelMobilePayInfo.bankName}</span>
+                                    {SelMobilePayInfo.minAmount == 0 && SelMobilePayInfo.maxAmount == 0 ? 
+                                    <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{i18n.lbl_Unlimited}</span>{" )"}</span>
+                                    : <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{number_format(SelMobilePayInfo.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(SelMobilePayInfo.maxAmount)}</span>{" )"}</span>
+                                    }
+                                </div>
+                                <i className="icon icon-caret"></i>
+                            </a>
+                            <div className="dropdown__container">
+                                {DropdownItem}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+    }    
+
     class MobilePay extends React.Component {
         constructor(props) {
             super(props);
@@ -690,7 +764,7 @@ import {number_format} from '../commJS/common';
         }
         
         onChangeMobilePay(channelId) {
-            this.setState({channelId: channelId});
+            this.setState({channelId: channelId, Amount: 0});
         }
 
         onDepositOptions() {
@@ -761,7 +835,11 @@ import {number_format} from '../commJS/common';
                     this.setState({showTodModal:true, Amount: parseFloat(data["Amount"])});
                 }
             } else {
-                this.setState({showTodModal:true});
+                if(this.state.Amount > 0) {
+                    this.setState({showTodModal:true});
+                } else {
+                    alert("Please select an amount");
+                }
             }
         }
         
@@ -787,11 +865,13 @@ import {number_format} from '../commJS/common';
 
         render() {
             let mobilePayInfoList = this.state.MobilePayInfoList;
+            let mobilePayInfoList1 = this.state.MobilePayInfoList;            
             let InputPanel=null;
+            let refMobilePayInfo = null;
              if(mobilePayInfoList!=null){
                 let channelId = this.state.channelId;
                  mobilePayInfoList = mobilePayInfoList.map(function( mobilePayInfo ,index ) { 
-                 return <a key={mobilePayInfo.channelId} className="payment" onClick={mobilePayInfo.channelId != channelId ? this.onChangeMobilePay.bind(this, mobilePayInfo.channelId):null}>
+                 return <a key={mobilePayInfo.channelId} className={"payment" + (mobilePayInfo.channelId == channelId ? " ac":"")} onClick={mobilePayInfo.channelId != channelId ? this.onChangeMobilePay.bind(this, mobilePayInfo.channelId):null}>
                                  <div className="payment__img">
                                      <img src={"/common/images/MobilePay/" + mobilePayInfo.groupName +".png"} />
                                  </div>
@@ -805,24 +885,22 @@ import {number_format} from '../commJS/common';
                              </a>;
                  }.bind(this));
 
-                let mobilePayInfo=null;
-                let mobilePayInfoList1 = this.state.MobilePayInfoList;
                  if(channelId > 0) {
                     for(let i=0;i<mobilePayInfoList1.length;i++){
                         if(mobilePayInfoList1[i].channelId==channelId){
-                            mobilePayInfo = mobilePayInfoList1[i];
+                            refMobilePayInfo = mobilePayInfoList1[i];
                             break;
                         }
                     }
 
-                    if(mobilePayInfo.amountRule==3){
-                        InputPanel=<div>{number_format(this.state.Amount)} {mobilePayInfo.amountList.map(function( amount ) {
-                            return <button key={amount} type="button" className="btn btn-secondary" onClick={this.setAmount.bind(this, amount)}>
+                    if(refMobilePayInfo.amountRule==3){
+                        InputPanel=<div><div className="btn-group btnbg" style={{display: "flex"}}>{refMobilePayInfo.amountList.map(function( amount ) {
+                            return <button key={amount} type="button" className={"btn btn-primarys"+ (amount==this.state.Amount ? " ac":"") } onClick={this.setAmount.bind(this, amount)}>
                                         <div className="btn__inner">
                                             <span className="text">{number_format(amount)}</span>
                                         </div>
                                     </button>;
-                        }.bind(this))}</div>;
+                        }.bind(this))}</div><div className="nutest">{number_format(this.state.Amount)}</div></div>;
                     } else {
                         let dataField = this.state.formArr[0]
                         InputPanel = <InputBox key={dataField.name} DataField={dataField}/>;
@@ -835,7 +913,8 @@ import {number_format} from '../commJS/common';
                 <div className="heading" ref={this.MobilePayForm}>
                     <span className="text">{i18n.lbl_MobileDeposit}</span>
                 </div>
-                {mobilePayInfoList != null ? <form className="form" onSubmit={this.handleSubmit.bind(this)}>
+                {mobilePayInfoList != null ? <form className="form MobileDeposit" onSubmit={this.handleSubmit.bind(this)}>
+                    {mobilePayInfoList != null ? <MobilePayInfoDropdown MobilePayInfoList={mobilePayInfoList1} SelMobilePayInfo={refMobilePayInfo} onChangeMobilePay={this.onChangeMobilePay.bind(this)}/> : null}
                     {mobilePayInfoList != null ? <div className="payment-list">
                     {mobilePayInfoList}
                     </div>: null}
@@ -857,7 +936,7 @@ import {number_format} from '../commJS/common';
             </div>
              )
          }
-    }    
+    }
 
     class OnlineBanking extends React.Component {
         constructor(props) {

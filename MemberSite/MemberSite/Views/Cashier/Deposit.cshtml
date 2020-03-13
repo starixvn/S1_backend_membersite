@@ -13,6 +13,8 @@
     var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
 }
 @{
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
     var i18n = new Dictionary<string, string>();
     i18n.Add("lbl_Deposit", selLangBLL.GetResourceValue("lbl_Deposit"));
     i18n.Add("lbl_Transaction", selLangBLL.GetResourceValue("lbl_Transaction"));
@@ -78,7 +80,7 @@
     }
 }
 @section Style{
-
+    <link href="@SkinRootPath/css/MobileDeposit.css" rel="stylesheet" asp-append-version="true" />
 }
 <div class="main">
     <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
@@ -123,14 +125,14 @@
     }
     else
     {
-<script type="text/javascript">
+        <script type="text/javascript">
 $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
 var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })";
 var OnlineBankingUrl = "@Url.RouteUrl("desktop", new { action = "DepositReqOnlineBanking", controller = "Cashier", LangId = selLangBLL.GetLangId() })";
 var MobilePayUrl = "@Url.RouteUrl("desktop", new { action = "DepositReqMobilePay", controller = "Cashier", LangId = selLangBLL.GetLangId() })";
-</script>
-<script src="~/lib/runtime.min.js"></script>
-<script src="~/lib/clipboard.min.js"></script>
-<script src="~/js/component/cashier/depositPanel.min.js" asp-append-version="true"></script>
+        </script>
+        <script src="~/lib/runtime.min.js"></script>
+        <script src="~/lib/clipboard.min.js"></script>
+        <script src="~/js/component/cashier/depositPanel.min.js" asp-append-version="true"></script>
     }
 }
