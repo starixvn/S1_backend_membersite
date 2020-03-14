@@ -77,18 +77,21 @@
                             </div>
                             <div>
                                 <div>
+                                    <a href="@Html.Raw(GetEntPageUrl(4, "4"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                                        <img src="/common/images/LiveCasino/DG.png" />
+                                    </a>
+                                </div>
+                                <div class="txt-blue">@selLangBLL.GetResourceValue("lbl_ComingSoon")</div>
+                            </div>
+                            <div>
+                                <div>
                                     <a href="@Html.Raw(GetEntPageUrl(1,"211"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
                                         <img src="/common/images/LiveCasino/All-Bet.png" />
                                     </a>
                                 </div>
                                 <div class="txt-blue">@selLangBLL.GetResourceValue("lbl_AllbetCasino")</div>
                             </div>
-                            @*<div>
-                                <div>
-                                    <img src="/common/images/LiveCasino/DG.png" />
-                                </div>
-                                <div class="txt-blue">@selLangBLL.GetResourceValue("lbl_ComingSoon")</div>
-                            </div>*@
+
                         </div>
                     </div>
                 </div>
