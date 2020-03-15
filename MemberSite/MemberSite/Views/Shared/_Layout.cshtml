@@ -13,6 +13,8 @@
     var serverInfo = serverInfoBLL.GetServerInfo();
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
     var CurrencyId = 0;
+    var iSwitch = 2;
+
 }
 <!DOCTYPE html>
 <html lang="@selLangBLL.GetLangId()" data-layout="@(tools.IsMobile() ? "mobile" : "desktop")">
@@ -92,7 +94,12 @@
         @if (User.Identity.IsAuthenticated)
         {
             var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            CurrencyId = custInfoBLL.GetCustInfoWithCache(custId).CurrencyId;
+            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            if (custInfo.ActStatus == 2)
+            {
+                
+            }
+            CurrencyId = custInfo.CurrencyId;
             Dictionary<string, string> i18n = new Dictionary<string, string>();
             i18n.Add("lbl_LastTransaction", selLangBLL.GetResourceValue("lbl_LastTransaction"));
             i18n.Add("lbl_LastLogin", selLangBLL.GetResourceValue("lbl_LastLogin"));
@@ -188,68 +195,91 @@
     </script>
     @if (User.Identity.IsAuthenticated)
     {
-        <script type="text/javascript">
-        $(function () {
-            $(".Js-Dialog").on("touchstart, click", function () {
-                $("#Dialog").attr("data-open", false);
-                $("#Dialog2").attr("data-open", false);
-            });
+        if (iSwitch == 1)
+        {
+            <script type="text/javascript">
+                $(function () {
+                    $(".Js-Dialog").on("touchstart, click", function () {
+                        $("#Dialog").attr("data-open", false);
+                        $("#Dialog2").attr("data-open", false);
+                    });
 
-            $(".Js-LiveCasino").on("touchstart, click", function () {
-                $("#Dialog").attr("data-open", false);
-                window.open($(".Js-LiveCasino").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-            });
+                    $(".Js-LiveCasino").on("touchstart, click", function () {
+                        $("#Dialog").attr("data-open", false);
+                        window.open($(".Js-LiveCasino").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                    });
 
-            $(".Js-Sports").on("touchstart, click", function () {
-                $("#Dialog2").attr("data-open", false);
-                @if(tools.IsMobile()){
-                @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                    $(".Js-Sports").on("touchstart, click", function () {
+                        $("#Dialog2").attr("data-open", false);
+                        @if (tools.IsMobile())
+                        {
+                        @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                        }
+                        else
+                        {
+                        @:if ($(".Js-Sports").attr("data-GameId") == "202" || $(".Js-Sports").attr("data-GameId") == "208" || $(".Js-Sports").attr("data-GameId") == "211") {
+                            @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                        @:} else {
+                            @:window.location.href = $(".Js-Sports").attr("data-GameUrl");
+                        @:}
+                        }
+                    });
+                });
+
+                function LaunchGame(GameUrl, WindowKey, TpId, GameId) {
+                    var dialogId = "#Dialog";
+                    var balanceId = ".Js-MainWallet-Balance";
+                    var enterBtn = ".Js-LiveCasino";
+
+                    if (TpId == 1) {
+                        dialogId = "#Dialog2";
+                        balanceId = ".Js-3RdWallet-Balance";
+                        enterBtn = ".Js-Sports";
+                    }
+
+                    $(enterBtn).attr("data-GameId", GameId);
+                    $(enterBtn).attr("data-GameUrl", GameUrl);
+                    $(enterBtn).attr("data-WindowKey", WindowKey);
+
+                    $(".app-loading").attr("data-open", true);
+                    axios.post('/api/Account/CheckWellet', { TpId: TpId })
+                    .then(function (response) {
+                        $(".app-loading").attr("data-open", false);
+                        let result = response.data;
+                        if (result.errorCode == 0) {
+                            $(balanceId).html("@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") " + number_format(result.data));
+                            $(dialogId).attr("data-open", true);
+                        } else if (result.errorCode == 10) {
+                            alert(result.message);
+                        } else {
+                            alert(result.message);
+                        }
+                    }).catch(function (error) {
+                        $(".app-loading").attr("data-open", false);
+                        alert(error);
+                    });
+                }
+            </script>
+        }
+        else
+        {
+            <script type="text/javascript">
+                function LaunchGame(GameUrl, WindowKey, TpId, GameId) {
+                @if (tools.IsMobile())
+                {
+                @:window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
                 }
                 else
                 {
-                @:if ($(".Js-Sports").attr("data-GameId") == "202" || $(".Js-Sports").attr("data-GameId") == "208" || $(".Js-Sports").attr("data-GameId") == "211") {
-                    @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                @:if (GameId == "202" || GameId == "208" || GameId == "211") {
+                    @:window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
                 @:} else {
-                    @:window.location.href = $(".Js-Sports").attr("data-GameUrl");
+                    @:window.location.href = GameUrl;
                 @:}
                 }
-            });
-        });
-
-        function LaunchGame(GameUrl, WindowKey, TpId, GameId) {
-            var dialogId = "#Dialog";
-            var balanceId = ".Js-MainWallet-Balance";
-            var enterBtn = ".Js-LiveCasino";
-
-            if (TpId == 1) {
-                dialogId = "#Dialog2";
-                balanceId = ".Js-3RdWallet-Balance";
-                enterBtn = ".Js-Sports";
-            }
-
-            $(enterBtn).attr("data-GameId", GameId);
-            $(enterBtn).attr("data-GameUrl", GameUrl);
-            $(enterBtn).attr("data-WindowKey", WindowKey);
-
-            $(".app-loading").attr("data-open", true);
-            axios.post('/api/Account/CheckWellet', { TpId: TpId })
-            .then(function (response) {
-                $(".app-loading").attr("data-open", false);
-                let result = response.data;
-                if (result.errorCode == 0) {
-                    $(balanceId).html("@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") " + number_format(result.data));
-                    $(dialogId).attr("data-open", true);
-                } else if (result.errorCode == 10) {
-                    alert(result.message);
-                } else {
-                    alert(result.message);
                 }
-            }).catch(function (error) {
-                $(".app-loading").attr("data-open", false);
-                alert(error);
-            });
-            }
-        </script>
+            </script>
+        }
     }
     @if (User.Identity.IsAuthenticated)
     {
@@ -278,7 +308,7 @@
     @*  End of LiveChat code*@
     @RenderSection("Scripts", required: false)
     @RenderSection("PromptMsg", required: false)
-    @if (User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated && iSwitch == 1)
     {
         <div class="modal" id="Dialog" data-open="false">
             <div class="overlay Js-Dialog"></div>
