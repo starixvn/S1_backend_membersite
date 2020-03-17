@@ -1,0 +1,107 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">Promotion Info</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-8PBonus.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <article>
+                <div class="promotions-txt">
+                    <ul>
+                        <li class="txt-blue">體育博彩 現金返還8％</li>
+                        <li class="txt-gray">
+                            此促銷活動於2020年3月9日12:00 AM開始，直到另行通知。
+                        </li>
+                        <li>
+                            <div class="promotions-type">
+                                <ul class="txt-gray">
+                                    <li>
+                                        <i class="icon icon-transaction"></i>優惠
+                                        <span class="txt-org"> MYR 8%</span>
+                                    </li>
+                                    <li>
+                                        <i class="icon icon-gototop"></i>最高獎金
+                                        <span class="txt-org"> MYR 3000</span>
+                                    </li>
+                                    <li>
+                                        <i class="icon icon-sport252"></i>最低投注倍數
+                                        <span class="txt-org"> 1x</span>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </article>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">重要條件</span>
+            <article>
+                <ol type="i">
+                    <li>此優惠僅適用於馬來西亞馬幣賬戶玩家；</li>
+                    <li>此促銷的截止時間是每個星期壹的11:59:59（GMT + 8）</li>
+                    <li>體育博彩現金返還8％是根據會員每周從星期壹11:59:59（GMT + 8）到星期日11:59:59（GMT + 8）的總損失計算的</li>
+                    <li>所有Nova88會員每周僅可根據Nova88 Sportsbook中的“ 負”狀態獲得8％的現金返還。</li>
+                    <li>最低現金返還金額為MYR 10，最高支付金額為MYR 3000。</li>
+                    <li>現金返還將在每個星期壹48小時內記入合格玩家Nova88帳戶。</li>
+                    <li>提現之前，現金返還信用額度必須達到1倍滾動。</li>
+
+
+                </ol>
+            </article>
+
+            <div class="table table-rwd table-primary">
+                <div class="thead">
+                    <div class="tr">
+                        <div class="td-date">
+                            <span class="text">產品</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">最低支出</span>
+                        </div>
+                        <div class="td-time">
+                            <span class="text">最高支出</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">所有運動項目，電競和活力運動除外</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">馬幣10</span>
+                        </div>
+                        <div class="td-time">
+                            <span class="text">馬幣3000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <p>Nova88保留隨時修改或取消促銷的權利。</p>
+            <p>Nova88是此次促銷活動的唯壹仲裁人，其決定為最終決定。</p>
+            <p>適用Nova88標準條款和條件。</p>
+
+
+
+        </div>
+    </div>
+</div>

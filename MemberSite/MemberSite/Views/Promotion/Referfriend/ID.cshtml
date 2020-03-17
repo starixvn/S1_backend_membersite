@@ -5,139 +5,80 @@
 @using MemberSite.Service.Model
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
-@inject AuthorizeBLL authorizeBLL
-@inject PromotionBLL promotionBLL
-@inject CustInfoBLL custInfoBLL
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var serverInfo = serverInfoBLL.GetServerInfo();
-    var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
-    int CurrencyId = 0;
-    long ExpiryTime = 0;
-    Promotion promotion = null;
-
-    if (User.Identity.IsAuthenticated)
-    {
-        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-        CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
-
-        promotion = promotionBLL.GetPromotionListByCustId(custId).FirstOrDefault();
-    }
-    else
-    {
-        CurrencyId = selLangBLL.GetPreferCurrencyId();
-        promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
-    }
-
-    if (promotion.BonusInfoStatus == 0)
-    {
-        ExpiryTime = promotion.PeriodTo;
-    }
-    else
-    {
-        ExpiryTime = new DateTimeOffset(promotion.ExpiryTime.ToUniversalTime(), TimeSpan.Zero).ToUnixTimeSeconds();
-    }
-    var Currency = selLangBLL.GetResourceValue($"lbl_Currency_{CurrencyId}");
 }
 
- <div class="main ">
-        <div class="promotionsInfo-page page">
-            <div class="heading">
-                <span class="text">Promotion Info</span>
-            </div>
-            <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
-                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-ref.jpg" alt="" style="display: block;width: 100%;" />
-            </div><br><br>
-            <div class="promotions-module">
-                <article>
-                    <div class="promotions-txt">
-                        <ul>
-                            <li class="txt-blue">REFERENSIKAN TEMAN ANDA DAPATKAN HINGGA RP. 1,000,000,-</li>
-                            <li class="txt-gray">
-                            </li>
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">Promotion Info</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-ref.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <article>
+                <div class="promotions-txt">
+                    <ul>
+                        <li class="txt-blue">REFERENSIKAN TEMAN ANDA DAPATKAN HINGGA RP. 1,000,000,-</li>
+                        <li class="txt-gray">
+                        </li>
+                        <li>
+                            <div class="promotions-type">
+                                <ul class="txt-gray">
+                                    <li>
+                                        <i class="icon icon-gototop"></i>JUMLAH MAKSIMAL BONUS
+                                        <span class="txt-org"> RP. 1,000,000,-</span>
+                                    </li>
+                                    <li>
+                                        <i class="icon icon-sport252"></i>PERPUTARAN
+                                        <span class="txt-org"> 1x</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </article>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">Ketentuan yang berlaku</span>
+            <article>
+                <ol type="i">
+                    <li>a. Pemberi referensi harus berikan informasi  kepada Pusat Layanan kami via live chat</li>
+                    <li>b. Berikan informasi kepada Pusat Layanan kami (Kata penggunan Baru ,Nama Akun Bank, dan Setoran pertama Rp.600,000,-  untuk verifikasi)</li>
+                    <li>c. Bonus Rp.100,000,- akan dikreditkan kepada pemberi referensi dalam waktu 24jam setelah verifikasi dilakukan</li>
+                    <li>d. Affiliasi Nova88 tidak diikut sertakan dalam promosi ini</li>
+                    <li>e. Untuk mengikuti Promosi ini Member baru harus melakukan Setoran pertama dengan syaratan minimum setoran adalah Rp.600,000</li>
+                </ol>
+            </article>
+            <div class="panel panel-primary panel--payment" data-open="true">
+                <div class="panel__header">
+                    <span class="txt-blue">Syarat dan Ketentuan</span>
+                    <i class="icon icon-caret"></i>
+                </div>
+                <div class="panel__body">
+                    <article>
+                        <ol type="i">
+                            <li>Bonus Referensi Rp.100.000,- .Anda cukup lakukan 1x Turnover saja berlaku untuk semua  produk Nova88, Kecuali Casino dan Cash out </li>
+                            <li>Bagi yang mereferensikan hanya bisa mengundang 10 Member baru selama masa periode promosi berlaku</li>
                             <li>
-                                <div class="promotions-type">
-                                    <ul class="txt-gray">
-                                        <li>
-                                            <i class="icon icon-gototop"></i>JUMLAH MAKSIMAL BONUS
-                                            <span class="txt-org"> RP. 1,000,000,-</span>
-                                        </li>
-                                        <li>
-                                            <i class="icon icon-sport252"></i>PERPUTARAN
-                                            <span class="txt-org"> 1x</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                                Jika rollover tidak terpenuhi dalam waktu maksimal 90 hari maka bonus dan kemenangan akan dibatalkan.
+                                (Jika ada) JIka Bonus rollover tidak terpenuhi dalam waktu 30 hari sejak bonus diberikan
                             </li>
-                        </ul>
-                    </div>
-                </article>
-            </div>
-            <div class="promotions-module">
-                <span class="promotions-title">Ketentuan yang berlaku</span>
-                <article>
-                    <ol type="i">
-                        <li>a. Pemberi referensi harus berikan informasi  kepada Pusat Layanan kami via live chat</li>
-                        <li>b. Berikan informasi kepada Pusat Layanan kami (Kata penggunan Baru ,Nama Akun Bank, dan Setoran pertama Rp.600,000,-  untuk verifikasi)</li>
-                        <li>c. Bonus Rp.100,000,- akan dikreditkan kepada pemberi referensi dalam waktu 24jam setelah verifikasi dilakukan</li>
-                        <li>d. Affiliasi Nova88 tidak diikut sertakan dalam promosi ini</li>
-                        <li>e. Untuk mengikuti Promosi ini Member baru harus melakukan Setoran pertama dengan syaratan minimum setoran adalah Rp.600,000</li>
-                    </ol>
-                </article>
-                <div class="panel panel-primary panel--payment" data-open="true">
-                    <div class="panel__header">
-                        <span class="txt-blue">Syarat dan Ketentuan</span>
-                        <i class="icon icon-caret"></i>
-                    </div>
-                    <div class="panel__body">
-                        <article>
-                            <ol type="i">
-                                <li>Bonus Referensi Rp.100.000,- .Anda cukup lakukan 1x Turnover saja berlaku untuk semua  produk Nova88, Kecuali Casino dan Cash out </li>
-                                <li>Bagi yang mereferensikan hanya bisa mengundang 10 Member baru selama masa periode promosi berlaku</li>
-                                <li>
-                                    Jika rollover tidak terpenuhi dalam waktu maksimal 90 hari maka bonus dan kemenangan akan dibatalkan.
-                                    (Jika ada) JIka Bonus rollover tidak terpenuhi dalam waktu 30 hari sejak bonus diberikan
-                                </li>
-                                <li>Promosi berakhir pada Tanggal 1 April 2020 Pukul 11.59AM  (GMT +8)</li>
-                                <li>
-                                    NOVA88 Berhak membatalkan Promosi kapan saja, untuk semua member dan member individual yang tidak memenuhi sayrat
-                                    Nova88 syarat dan ketentuan standar berlaku.
-                                </li>
-                            </ol>
-                        </article>
-                    </div>
+                            <li>Promosi berakhir pada Tanggal 1 April 2020 Pukul 11.59AM  (GMT +8)</li>
+                            <li>
+                                NOVA88 Berhak membatalkan Promosi kapan saja, untuk semua member dan member individual yang tidak memenuhi sayrat
+                                Nova88 syarat dan ketentuan standar berlaku.
+                            </li>
+                        </ol>
+                    </article>
                 </div>
             </div>
         </div>
     </div>
-
-@section Scripts{
-    <script type="text/javascript">
-        $(function () {
-
-            const diff = moment.duration(moment.unix(@promotion.PeriodTo).diff(new Date()))
-            $("#REMAINING").html(diff.days() + " 天" + diff.hours() + " 小時" );
-            $("#ExpiryTime").html(moment.unix(@ExpiryTime).format('lll'));
-
-
-            $("#JOIN").on("touchstart, click", function () {
-                if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {
-                    axios.post('/api/Promotion/SetClaimPromotion/@selLangBLL.GetLangId()', { BonusCode:"@promotion.BonusCode"})
-                        .then(function (response) {
-                            var result = response.data;
-                            if (result.errorCode == 0) {
-                                alert("@Html.Raw(selLangBLL.GetMsg("msg_Updatesuccessful"))");
-                                window.location.replace("@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })");
-                            } else {
-                                alert(result.message);
-                            }
-                        }.bind(this)).catch(function (error) {
-                            alert(error);
-                        }.bind(this));
-                }
-            });
-        });
-    </script>
-}
+</div>

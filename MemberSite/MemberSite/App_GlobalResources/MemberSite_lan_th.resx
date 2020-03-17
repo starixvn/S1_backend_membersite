@@ -1400,4 +1400,7 @@
   <data name="lbl_WalletType" xml:space="preserve">
     <value>ประเภทกระเป๋าเงิน</value>
   </data>
+  <data name="lbl_DGCasino" xml:space="preserve">
+    <value>ห้องคริสตัล</value>
+  </data>
 </root>

@@ -5,139 +5,80 @@
 @using MemberSite.Service.Model
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
-@inject AuthorizeBLL authorizeBLL
-@inject PromotionBLL promotionBLL
-@inject CustInfoBLL custInfoBLL
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var serverInfo = serverInfoBLL.GetServerInfo();
-    var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
-    int CurrencyId = 0;
-    long ExpiryTime = 0;
-    Promotion promotion = null;
-
-    if (User.Identity.IsAuthenticated)
-    {
-        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-        CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
-
-        promotion = promotionBLL.GetPromotionListByCustId(custId).FirstOrDefault();
-    }
-    else
-    {
-        CurrencyId = selLangBLL.GetPreferCurrencyId();
-        promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
-    }
-
-    if (promotion.BonusInfoStatus == 0)
-    {
-        ExpiryTime = promotion.PeriodTo;
-    }
-    else
-    {
-        ExpiryTime = new DateTimeOffset(promotion.ExpiryTime.ToUniversalTime(), TimeSpan.Zero).ToUnixTimeSeconds();
-    }
-    var Currency = selLangBLL.GetResourceValue($"lbl_Currency_{CurrencyId}");
 }
 
- <div class="main ">
-        <div class="promotionsInfo-page page">
-            <div class="heading">
-                <span class="text">Promotion Info</span>
-            </div>
-            <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
-                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-ref.jpg" alt="" style="display: block;width: 100%;" />
-            </div><br><br>
-            <div class="promotions-module">
-                <article>
-                    <div class="promotions-txt">
-                        <ul>
-                            <li class="txt-blue">推荐朋友奖金高达MYR 280</li>
-                            <li class="txt-gray">
-                            </li>
-                            <li>
-                                <div class="promotions-type">
-                                    <ul class="txt-gray">
-                                        <li>
-                                            <i class="icon icon-gototop"></i>最高奖金
-                                            <span class="txt-org"> MYR 280</span>
-                                        </li>
-                                        <li>
-                                            <i class="icon icon-sport252"></i>最低投注倍数
-                                            <span class="txt-org"> 1x</span>
-                                        </li>
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">Promotion Info</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-ref.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <article>
+                <div class="promotions-txt">
+                    <ul>
+                        <li class="txt-blue">推荐朋友奖金高达MYR 280</li>
+                        <li class="txt-gray">
+                        </li>
+                        <li>
+                            <div class="promotions-type">
+                                <ul class="txt-gray">
+                                    <li>
+                                        <i class="icon icon-gototop"></i>最高奖金
+                                        <span class="txt-org"> MYR 280</span>
+                                    </li>
+                                    <li>
+                                        <i class="icon icon-sport252"></i>最低投注倍数
+                                        <span class="txt-org"> 1x</span>
+                                    </li>
 
-                                    </ul>
-                                </div>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </article>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">
+                优惠标准规则
+            </span>
+            <article>
+                <ol type="i">
+                    <li>a. 参与此优惠推荐人请在 "Live Chat" 联系我们的客服团队。</li>
+                    <li>b. 向客服提供您推荐的新会员用户名，真实姓名，以及新会员第一次存款记录（MYR180起）以便进行验证</li>
+                    <li>c.MYR28 将在24小时内汇入推荐人的账号</li>
+                    <li>d.Nova88合营代理无法参与此次促销</li>
+                    <li>e.新会员必须进行最低存款MYR 180的第一笔存款才能享受此优惠</li>
+                </ol>
+            </article>
+            <div class="panel panel-primary panel--payment" data-open="true">
+                <div class="panel__header">
+                    <span class="txt-blue">优惠标准规则</span>
+                    <i class="icon icon-caret"></i>
+                </div>
+                <div class="panel__body">
+                    <article>
+                        <ol type="i">
+                            <li>此优惠奖金MYR28有效投注额在Nova88产品（除了娱乐城与实时兑现）进行1倍投注后，才可申请提款。</li>
+                            <li>优惠期间每个推荐人的新会员名额上限为10人。</li>
+                            <li>优惠奖金必须在30天内完成投注，否则Nova88有权没收所有奖金和赢利。</li>
+                            <li>优惠结束于2020年4月1日上午11:59（GMT + 8）</li>
+                            <li>
+                                此优惠促销只适用于拥有一个独立账户的玩家，如有发现违反 Nova88 有权取消玩家此优惠活动权力
+                                Nova88 标准规则和条款适用。
                             </li>
-                        </ul>
-                    </div>
-                </article>
-            </div>
-            <div class="promotions-module">
-                <span class="promotions-title">
-                    优惠标准规则
-                </span>
-                <article>
-                    <ol type="i">
-                        <li>a. 参与此优惠推荐人请在 "Live Chat" 联系我们的客服团队。</li>
-                        <li>b. 向客服提供您推荐的新会员用户名，真实姓名，以及新会员第一次存款记录（MYR180起）以便进行验证</li>
-                        <li>c.MYR28 将在24小时内汇入推荐人的账号</li>
-                        <li>d.Nova88合营代理无法参与此次促销</li>
-                        <li>e.新会员必须进行最低存款MYR 180的第一笔存款才能享受此优惠</li>
-                    </ol>
-                </article>
-                <div class="panel panel-primary panel--payment" data-open="true">
-                    <div class="panel__header">
-                        <span class="txt-blue">优惠标准规则</span>
-                        <i class="icon icon-caret"></i>
-                    </div>
-                    <div class="panel__body">
-                        <article>
-                            <ol type="i">
-                                <li>此优惠奖金MYR28有效投注额在Nova88产品（除了娱乐城与实时兑现）进行1倍投注后，才可申请提款。</li>
-                                <li>优惠期间每个推荐人的新会员名额上限为10人。</li>
-                                <li>优惠奖金必须在30天内完成投注，否则Nova88有权没收所有奖金和赢利。</li>
-                                <li>优惠结束于2020年4月1日上午11:59（GMT + 8）</li>
-                                <li>
-                                    此优惠促销只适用于拥有一个独立账户的玩家，如有发现违反 Nova88 有权取消玩家此优惠活动权力
-                                    Nova88 标准规则和条款适用。
-                                </li>
-                            </ol>
-                        </article>
-                    </div>
+                        </ol>
+                    </article>
                 </div>
             </div>
         </div>
     </div>
-
-@section Scripts{
-    <script type="text/javascript">
-        $(function () {
-
-            const diff = moment.duration(moment.unix(@promotion.PeriodTo).diff(new Date()))
-            $("#REMAINING").html(diff.days() + " 天" + diff.hours() + " 小時" );
-            $("#ExpiryTime").html(moment.unix(@ExpiryTime).format('lll'));
-
-
-            $("#JOIN").on("touchstart, click", function () {
-                if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {
-                    axios.post('/api/Promotion/SetClaimPromotion/@selLangBLL.GetLangId()', { BonusCode:"@promotion.BonusCode"})
-                        .then(function (response) {
-                            var result = response.data;
-                            if (result.errorCode == 0) {
-                                alert("@Html.Raw(selLangBLL.GetMsg("msg_Updatesuccessful"))");
-                                window.location.replace("@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })");
-                            } else {
-                                alert(result.message);
-                            }
-                        }.bind(this)).catch(function (error) {
-                            alert(error);
-                        }.bind(this));
-                }
-            });
-        });
-    </script>
-}
+</div>

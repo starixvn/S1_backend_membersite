@@ -55,7 +55,7 @@ import {number_format} from '../commJS/common';
                                         <img src={"/common/images/MobilePay/" + mobilePayGroup.groupName +".png"}/>
                                     </div>
                                     <div className="payment__name">
-                                        <span className="text">{mobilePayGroup.groupName}</span>
+                                        <span className="text">{i18n["lbl_"+mobilePayGroup.groupName]}</span>
                                     </div>
                                 </div>;
             }
@@ -689,7 +689,7 @@ import {number_format} from '../commJS/common';
                                     <img src={"/common/images/MobilePay/" + SelMobilePayInfo.groupName +".png"} />
                                 </div>   
                                 <div className="text-group">
-                                    <span className="text">{SelMobilePayInfo.bankName}</span>
+                                    <span className="text">{i18n["lbl_"+SelMobilePayInfo.groupName]}</span>
                                     {SelMobilePayInfo.minAmount == 0 && SelMobilePayInfo.maxAmount == 0 ? 
                                     <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{i18n.lbl_Unlimited}</span>{" )"}</span>
                                     : <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{number_format(SelMobilePayInfo.minAmount)}</span>{" ~ "}<span className="text-accent">{number_format(SelMobilePayInfo.maxAmount)}</span>{" )"}</span>
@@ -875,7 +875,7 @@ import {number_format} from '../commJS/common';
                                  <div className="payment__img">
                                      <img src={"/common/images/MobilePay/" + mobilePayInfo.groupName +".png"} />
                                  </div>
-                                 <span className="payment__name">{mobilePayInfo.channelName}</span>
+                                 <span className="payment__name">{i18n["lbl_"+mobilePayInfo.groupName]}</span>
                                 <div className="text-group">
                                     {mobilePayInfo.minAmount == 0 && mobilePayInfo.maxAmount == 0 ? 
                                         <span className="text">{"( "}{i18n.lbl_Limit}{" : "}<span className="text-accent">{i18n.lbl_Unlimited}</span>{" )"}</span>
@@ -1206,7 +1206,7 @@ import {number_format} from '../commJS/common';
                             <div className="payment__img">
                                 <img src={"/common/images/MobilePay/" + mobilePayGroup.groupName +".png"}  />
                             </div>
-                            <span className="payment__name">{mobilePayGroup.groupName}</span>
+                            <span className="payment__name">{i18n["lbl_"+mobilePayGroup.groupName]}</span>
                         </div>;
                 }.bind(this));
             }

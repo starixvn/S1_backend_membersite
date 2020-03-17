@@ -65,6 +65,15 @@
     i18n.Add("lbl_AttachFile", selLangBLL.GetResourceValue("lbl_AttachFile"));
     i18n.Add("lbl_SubmitProof", selLangBLL.GetResourceValue("lbl_SubmitProof"));
     i18n.Add("lbl_CancelConfirm", selLangBLL.GetResourceValue("lbl_CancelConfirm"));
+    i18n.Add("lbl_MOMO", selLangBLL.GetResourceValue("lbl_MOMO"));
+    i18n.Add("lbl_ZALO", selLangBLL.GetResourceValue("lbl_ZALO"));
+    i18n.Add("lbl_VIETTELPAY", selLangBLL.GetResourceValue("lbl_VIETTELPAY"));
+    i18n.Add("lbl_ThaiQR", selLangBLL.GetResourceValue("lbl_ThaiQR"));
+    i18n.Add("lbl_Alipay", selLangBLL.GetResourceValue("lbl_Alipay"));
+    i18n.Add("lbl_WeChatPay", selLangBLL.GetResourceValue("lbl_WeChatPay"));
+    i18n.Add("lbl_QQpay", selLangBLL.GetResourceValue("lbl_QQpay"));
+    i18n.Add("lbl_JDpay", selLangBLL.GetResourceValue("lbl_JDpay"));
+    i18n.Add("lbl_Unionpay", selLangBLL.GetResourceValue("lbl_Unionpay"));
 
     for (int depositStatus = 0; depositStatus <= 8; depositStatus++)
     {
@@ -126,10 +135,10 @@
     else
     {
         <script type="text/javascript">
-$.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
-var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })";
-var OnlineBankingUrl = "@Url.RouteUrl("desktop", new { action = "DepositReqOnlineBanking", controller = "Cashier", LangId = selLangBLL.GetLangId() })";
-var MobilePayUrl = "@Url.RouteUrl("desktop", new { action = "DepositReqMobilePay", controller = "Cashier", LangId = selLangBLL.GetLangId() })";
+            $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
+            var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })";
+            var OnlineBankingUrl = "@Url.RouteUrl("desktop", new { action = "DepositReqOnlineBanking", controller = "Cashier", LangId = selLangBLL.GetLangId() })";
+            var MobilePayUrl = "@Url.RouteUrl("desktop", new { action = "DepositReqMobilePay", controller = "Cashier", LangId = selLangBLL.GetLangId() })";
         </script>
         <script src="~/lib/runtime.min.js"></script>
         <script src="~/lib/clipboard.min.js"></script>

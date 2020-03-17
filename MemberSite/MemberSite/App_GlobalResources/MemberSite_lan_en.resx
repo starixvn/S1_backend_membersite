@@ -1393,4 +1393,34 @@
   <data name="lbl_WalletType" xml:space="preserve">
     <value>Wallet Type</value>
   </data>
+  <data name="lbl_DGCasino" xml:space="preserve">
+    <value>Crystal Suite</value>
+  </data>
+  <data name="lbl_Alipay" xml:space="preserve">
+    <value>Alipay</value>
+  </data>
+  <data name="lbl_JDpay" xml:space="preserve">
+    <value>JDpay</value>
+  </data>
+  <data name="lbl_MOMO" xml:space="preserve">
+    <value>Momo</value>
+  </data>
+  <data name="lbl_QQpay" xml:space="preserve">
+    <value>QQpay</value>
+  </data>
+  <data name="lbl_ThaiQR" xml:space="preserve">
+    <value>Thai QR</value>
+  </data>
+  <data name="lbl_Unionpay" xml:space="preserve">
+    <value>Unionpay</value>
+  </data>
+  <data name="lbl_WeChatPay" xml:space="preserve">
+    <value>WeChat Pay</value>
+  </data>
+  <data name="lbl_ZALO" xml:space="preserve">
+    <value>Zalo</value>
+  </data>
+  <data name="lbl_VIETTELPAY" xml:space="preserve">
+    <value>Viettel Pay</value>
+  </data>
 </root>

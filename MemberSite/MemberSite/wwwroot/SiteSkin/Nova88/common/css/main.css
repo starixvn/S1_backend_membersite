@@ -1033,12 +1033,6 @@ button.btn .btn__inner > .text {
   padding-bottom: .125rem;
 }
 
-.btn[data-disabled=true] {
-  color: white !important;
-  background-color: #cfcfcf !important;
-  border-color: #cfcfcf !important;
-}
-
 .btn[class*="text-"][data-disabled=true] {
   color: #cfcfcf !important;
   background-color: transparent !important;

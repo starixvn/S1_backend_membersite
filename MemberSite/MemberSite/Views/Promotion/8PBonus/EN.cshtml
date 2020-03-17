@@ -1,0 +1,106 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">Promotion Info</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-8PBonus.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <article>
+                <div class="promotions-txt">
+                    <ul>
+                        <li class="txt-blue">Sportsbook Cashback 8% MYR</li>
+                        <li class="txt-gray">
+                            This promotion starts at Mar 09, 2020 12:00 AM until further notice.
+                        </li>
+                        <li>
+                            <div class="promotions-type">
+                                <ul class="txt-gray">
+                                    <li>
+                                        <i class="icon icon-transaction"></i>BONUS
+                                        <span class="txt-org"> MYR 8%</span>
+                                    </li>
+                                    <li>
+                                        <i class="icon icon-gototop"></i>MAX BONUS AMOUNT
+                                        <span class="txt-org"> MYR 3000</span>
+                                    </li>
+                                    <li>
+                                        <i class="icon icon-sport252"></i>ROLLOVER
+                                        <span class="txt-org"> 1x</span>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </article>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">Significant Conditions</span>
+            <article>
+                <ol type="i">
+                    <li>This promotion applies only to Malaysian Ringgit account players</li>
+                    <li>The cut-off time for this promotion is on every Monday at 11:59:59 (GMT+8)</li>
+                    <li>The Sportsbook Cashback 8% is calculated from member total loss weekly from Monday 11:59:59 (GMT+8) to Sunday 11:59:59 (GMT+8).</li>
+                    <li>All Nova88 Members are entitled to 8% cashback based on “LOSS” status in Nova88 Sportsbook by weekly only.</li>
+                    <li>The minimum cashback payout is MYR 10 and the maximum payout capped at MYR 3000.</li>
+                    <li>The cashback will be credited to qualified players Nova88 account every Monday within 48 hours.</li>
+                    <li>Cashback credit subjected to 1X Rollover only before make a withdrawal.</li>
+
+
+                </ol>
+            </article>
+            <div class="table table-rwd table-primary">
+                <div class="thead">
+                    <div class="tr">
+                        <div class="td-date">
+                            <span class="text">Product</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">Minimum Pay-out</span>
+                        </div>
+                        <div class="td-time">
+                            <span class="text">Maximum Pay-out</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">All Sports, except E-Sport and Virtual Sports</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">MYR 10</span>
+                        </div>
+                        <div class="td-time">
+                            <span class="text">MYR3000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <p>Nova88 reserves the right to amend or withdraw the Promotion at any time.</p>
+            <p>Nova88 is the sole arbiter of the Promotion and its decision is final.</p>
+            <p>Nova88 Standard Terms and Conditions apply.</p>
+
+
+
+        </div>
+    </div>
+</div>

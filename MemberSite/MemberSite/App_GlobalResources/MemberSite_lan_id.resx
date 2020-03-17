@@ -1399,4 +1399,34 @@
   <data name="lbl_WalletType" xml:space="preserve">
     <value>Jenis dompet</value>
   </data>
+  <data name="lbl_Alipay" xml:space="preserve">
+    <value>Alipay</value>
+  </data>
+  <data name="lbl_DGCasino" xml:space="preserve">
+    <value>Crystal Suite</value>
+  </data>
+  <data name="lbl_JDPay" xml:space="preserve">
+    <value>Pembayaran JDpay</value>
+  </data>
+  <data name="lbl_MOMO" xml:space="preserve">
+    <value>Pembayaran MoMopay</value>
+  </data>
+  <data name="lbl_QQpay" xml:space="preserve">
+    <value>Pembayaran QQpay</value>
+  </data>
+  <data name="lbl_ThaiQR" xml:space="preserve">
+    <value>Pembayaran Thai QR</value>
+  </data>
+  <data name="lbl_Unionpay" xml:space="preserve">
+    <value>Pembayaran Unionpay</value>
+  </data>
+  <data name="lbl_VIETTELPAY" xml:space="preserve">
+    <value>Pembayaran Viettel Pay</value>
+  </data>
+  <data name="lbl_WeChatPay" xml:space="preserve">
+    <value>Pembayaran WeChatPay</value>
+  </data>
+  <data name="lbl_ZALO" xml:space="preserve">
+    <value>Pembayaran Zalopay</value>
+  </data>
 </root>

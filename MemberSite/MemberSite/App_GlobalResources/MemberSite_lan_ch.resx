@@ -1399,4 +1399,22 @@
   <data name="lbl_WalletType" xml:space="preserve">
     <value>錢包種類</value>
   </data>
+  <data name="lbl_Alipay" xml:space="preserve">
+    <value>支付寶</value>
+  </data>
+  <data name="lbl_JDpay" xml:space="preserve">
+    <value>京東錢包</value>
+  </data>
+  <data name="lbl_QQpay" xml:space="preserve">
+    <value>QQ錢包</value>
+  </data>
+  <data name="lbl_Unionpay" xml:space="preserve">
+    <value>雲閃付</value>
+  </data>
+  <data name="lbl_WeChatPay" xml:space="preserve">
+    <value>微信支付</value>
+  </data>
+  <data name="lbl_DGCasino" xml:space="preserve">
+    <value>水晶廳</value>
+  </data>
 </root>

@@ -1402,4 +1402,22 @@
   <data name="lbl_WalletType" xml:space="preserve">
     <value>钱包种类</value>
   </data>
+  <data name="lbl_Alipay" xml:space="preserve">
+    <value>支付宝</value>
+  </data>
+  <data name="lbl_JDpay" xml:space="preserve">
+    <value>京东钱包</value>
+  </data>
+  <data name="lbl_QQpay" xml:space="preserve">
+    <value>QQ钱包</value>
+  </data>
+  <data name="lbl_Unionpay" xml:space="preserve">
+    <value>云闪付</value>
+  </data>
+  <data name="lbl_WeChatPay" xml:space="preserve">
+    <value>微信支付</value>
+  </data>
+  <data name="lbl_DGCasino" xml:space="preserve">
+    <value>水晶厅</value>
+  </data>
 </root>
