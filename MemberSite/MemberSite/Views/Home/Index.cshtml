@@ -68,11 +68,11 @@
                 }
                 else
                 {
-                    <div class="swiper-slide">
-                        <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                            <img src="@CmsPromotionPath/banner-euro.jpg" asp-append-version="true" />
-                        </a>
-                    </div>
+                    @*<div class="swiper-slide">
+                <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
+                    <img src="@CmsPromotionPath/banner-euro.jpg" asp-append-version="true" />
+                </a>
+            </div>*@
                     @if (promotionCnt > 0)
                     {
                         <div class="swiper-slide">
@@ -96,17 +96,23 @@
                             <img src="@CmsPromotionPath/banner-8PBonus.jpg" asp-append-version="true" />
                         </a>
                     </div>
-                    <div class="swiper-slide">
-                        <a href="@gamingBLL.GetEntPageUrl(0, "livecasino",Url)">
-                            <img src="@CmsPromotionPath/banner-sa.jpg" asp-append-version="true" />
-                        </a>
-                    </div>
+                    @*
+            <div class="swiper-slide">
+                <a href="@gamingBLL.GetEntPageUrl(0, "livecasino",Url)">
+                    <img src="@CmsPromotionPath/banner-sa.jpg" asp-append-version="true" />
+                </a>
+            </div>
+                    *@
                     <div class="swiper-slide">
                         <a href="@gamingBLL.GetEntPageUrl(0, "livecasino",Url)">
                             <img src="@CmsPromotionPath/banner-ag.jpg" asp-append-version="true" />
                         </a>
                     </div>
-
+                    <div class="swiper-slide">
+                        <a href="@gamingBLL.GetEntPageUrl(0, "livecasino",Url)">
+                            <img src="@CmsPromotionPath/banner-dg.jpg" asp-append-version="true" />
+                        </a>
+                    </div>
                     @*<div class="swiper-slide">
                 <a href="@GetEntPageUrl(0, "livecasino")"><img src="@CmsPromotionPath/banner-Allbet.jpg"></a>
             </div>

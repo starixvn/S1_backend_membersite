@@ -1423,4 +1423,10 @@
   <data name="lbl_VIETTELPAY" xml:space="preserve">
     <value>Viettel Pay</value>
   </data>
+  <data name="lbl_Games" xml:space="preserve">
+    <value>Games</value>
+  </data>
+  <data name="lbl_KenoAndLottery" xml:space="preserve">
+    <value>Keno &amp; Lottery</value>
+  </data>
 </root>
