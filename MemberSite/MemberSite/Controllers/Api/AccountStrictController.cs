@@ -115,25 +115,41 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult SetProfile(Dictionary<string, string> custProfile)
+        public ApiResult<object> SetProfile(Dictionary<string, string> custProfile)
         {
-            var apiResult = new ApiResult(selLangBLL);
+            var apiResult = new ApiResult<object>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
 
             string AreaCode = custProfile[nameof(AreaCode)];
             string PhoneNo = custProfile[nameof(PhoneNo)];
             if(custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
             {
+                apiResult.ErrorCode = 21;
                 apiResult.Message = $"({AreaCode}){PhoneNo} "+ selLangBLL.GetMsg("msg_HasExist");
                 return apiResult;
             }
 
-            string AccountName = custProfile[nameof(AccountName)];
-            var result = custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
+            string RealName = custProfile[nameof(RealName)];
+            var result = custInfoBLL.SetCustBankInfo(authData.CustId, RealName, null);
             apiResult.ErrorCode = custInfoBLL.SetProfile(authData.CustId, custProfile);
             if (apiResult.ErrorCode == 0)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+
+                var custInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
+                apiResult.Data = new { 
+                    LangCode = selLangBLL.GetLangId(), 
+                    custInfo.UserName, 
+                    custInfo.Email, 
+                    custInfo.RealName, 
+                    custInfo.Birth_d,
+                    custInfo.Birth_m,
+                    custInfo.Birth_y,
+                    custInfo.RegTime,
+                    LastLogin = custInfo.LastLoginTime,
+                    Country = custInfo.CountryCode, 
+                    custInfo.PhoneNo 
+                };
             }
             else
             {

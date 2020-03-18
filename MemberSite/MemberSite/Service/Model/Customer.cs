@@ -83,6 +83,10 @@ namespace MemberSite.Service.Model
         public string CountryCode { get; set; }
         public string AreaCode { get; set; }
         public string PhoneNo { get; set; }
+        public string Birth_d { get; set; }
+        public string Birth_m { get; set; }
+        public string Birth_y { get; set; }
+        public string RealName { get; set; }
     }
     public class CustRollOver
     {

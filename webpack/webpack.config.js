@@ -3,12 +3,19 @@ var webpack = require('webpack');
 //const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
+  mode:'production',
   entry:{
 		"js/component/home/registerForm.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/home/RegisterForm.jsx'
     ],
     "js/component/account/Profile.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/account/Profile.jsx'
+		],
+    "js/component/account/Profile.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/account/Profile/NormalProfile/index.js'
+		],
+    "js/component/account/UpdProfile.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/account/Profile/UpdProfile/index.js'
 		],
     "js/component/app/loginForm.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/app/LoginForm.jsx'
@@ -57,7 +64,8 @@ module.exports = {
 		],
     "js/component/history/Transfer.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/history/Transfer.jsx'
-		]},
+		]
+  },
   output: {
     path:  path.resolve(__dirname,'../MemberSite/MemberSite/wwwroot/'),
     filename: "[name].js",

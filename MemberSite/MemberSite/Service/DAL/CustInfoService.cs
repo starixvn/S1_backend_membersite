@@ -108,10 +108,10 @@ namespace MemberSite.Service.DAL
         {
             int result = 0;
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            string Email = profile[nameof(Email)];
+            //string Email = profile[nameof(Email)];
             string AreaCode = profile[nameof(AreaCode)];
             string PhoneNo = profile[nameof(PhoneNo)];
-            result = conn.Execute("Member_CustProfile_Set", new { CustId = custId, SiteId = siteId, Email, AreaCode, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
+            result = conn.Execute("Member_CustProfile_Set", new { CustId = custId, SiteId = siteId, AreaCode, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
 
