@@ -22,7 +22,8 @@
     i18n.Add("msg_EnterPhoneNumber", selLangBLL.GetMsg("msg_EnterPhoneNumber"));
     i18n.Add("lbl_ReModify", selLangBLL.GetResourceValue("lbl_ReModify"));
     i18n.Add("lbl_ConfirmAndUpdate", selLangBLL.GetResourceValue("lbl_ConfirmAndUpdate"));
-    
+    i18n.Add("msg_ConfirmRealNameAlert", selLangBLL.GetMsg("msg_ConfirmRealNameAlert"));
+
     i18n.Add("lbl_Month1", selLangBLL.GetResourceValue("lbl_Month1"));
     i18n.Add("lbl_Month2", selLangBLL.GetResourceValue("lbl_Month2"));
     i18n.Add("lbl_Month3", selLangBLL.GetResourceValue("lbl_Month3"));
@@ -111,20 +112,6 @@
     }
     else
     {
-<script type="text/javascript">
-            var custInfo = {
-                UserName: '@custInfoProfile.UserName',
-                Email: '@custInfoProfile.Email',
-                RealName: '@custInfoProfile.RealName',
-                Birth_d: '@custInfoProfile.Birth_d',
-                Birth_m: '@custInfoProfile.Birth_m',
-                Birth_y: '@custInfoProfile.Birth_y',
-                RegTime: '@custInfoProfile.RegTime',
-                LastLogin: '@custInfoProfile.LastLoginTime',
-                Country:'@custInfoProfile.CountryCode',
-                PhoneNo:'@custInfoProfile.PhoneNo'
-            }
-    </script>
         <script src="~/js/component/account/Profile.min.js" asp-append-version="true"></script>
     }
 }

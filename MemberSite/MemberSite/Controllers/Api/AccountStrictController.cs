@@ -129,8 +129,8 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            string RealName = custProfile[nameof(RealName)];
-            var result = custInfoBLL.SetCustBankInfo(authData.CustId, RealName, null);
+            string AccountName = custProfile[nameof(AccountName)];
+            var result = custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
             apiResult.ErrorCode = custInfoBLL.SetProfile(authData.CustId, custProfile);
             if (apiResult.ErrorCode == 0)
             {
@@ -141,7 +141,7 @@ namespace MemberSite.Controllers.Api
                     LangCode = selLangBLL.GetLangId(), 
                     custInfo.UserName, 
                     custInfo.Email, 
-                    custInfo.RealName, 
+                    custInfo.AccountName,
                     custInfo.Birth_d,
                     custInfo.Birth_m,
                     custInfo.Birth_y,
@@ -155,6 +155,40 @@ namespace MemberSite.Controllers.Api
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
             }
+
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<object> GetCustProfile()
+        {
+            var apiResult = new ApiResult<object>(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+
+            try
+            {
+                var custInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
+                apiResult.Data = new
+                {
+                    custInfo.UserName,
+                    custInfo.Email,
+                    custInfo.AccountName,
+                    custInfo.Birth_d,
+                    custInfo.Birth_m,
+                    custInfo.Birth_y,
+                    custInfo.RegTime,
+                    LastLogin = custInfo.LastLoginTime,
+                    Country = custInfo.CountryCode,
+                    custInfo.PhoneNo
+                };
+
+                apiResult.ErrorCode = 0;
+            }
+            catch (Exception ex)
+            {
+                apiResult.RawMessage = ex.Message;
+            }
+
             return apiResult;
         }
 

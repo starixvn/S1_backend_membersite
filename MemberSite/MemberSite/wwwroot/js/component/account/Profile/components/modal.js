@@ -31,7 +31,7 @@ export const ConfirmRealName = (props)=>{
 
     let content = (
         <>
-            <p><b>{props.RealName}</b></p>
+            <p><b>{props.AccountName}</b></p>
             <p>{i18n.msg_ConfirmRealNameAlert}</p>
         </>
     )

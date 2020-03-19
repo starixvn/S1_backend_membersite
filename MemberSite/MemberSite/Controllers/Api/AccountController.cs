@@ -563,7 +563,6 @@ namespace MemberSite.Controllers.Api
                 else if(tpWalletBalanceData.ErrorCode == 10)
                 {
                     apiResult.ErrorCode = 10;
-                    apiResult.Message = "維護中.";
                 }
                 else
                 {

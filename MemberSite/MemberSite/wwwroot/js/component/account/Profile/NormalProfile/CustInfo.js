@@ -6,7 +6,7 @@ export const CustInfo = (props)=>{
         { dataColumn:'Country', columnTitle:i18n.lbl_Country, format:GetDefaultCountry },
         { dataColumn:'PhoneNo', columnTitle:i18n.lbl_Phone, format:phone_format, bindingColumn:['Country']},
         { dataColumn:'Email', columnTitle:i18n.lbl_Email },
-        { dataColumn:'RealName', columnTitle:i18n.lbl_RealName },
+        { dataColumn:'AccountName', columnTitle:i18n.lbl_RealName },
         { dataColumn:'Birth_d', columnTitle:i18n.lbl_Birthday, format:birthday_format, bindingColumn:['Birth_m', 'Birth_y'] },
         { dataColumn:'RegTime', columnTitle:i18n.lbl_RegisterTime, format:date_format},
         { dataColumn:'LastLogin', columnTitle:i18n.lbl_LastLogin, format:date_format}
@@ -37,12 +37,11 @@ export const CustInfo = (props)=>{
 }
 
 const birthday_format = (v, bindingItem)=>{
-    return `${v}/${bindingItem.Birth_m}/${bindingItem.Birth_y}`
+    return v===null ? '- / - / -' : `${v}/${bindingItem.Birth_m}/${bindingItem.Birth_y}`
 }
 
 const date_format = (v)=>{
-    let result = moment(new Date(v)).format('lll');
-    return result === 'Invalid date' ? v : result;
+    return moment(new Date(v)).format('lll');
 }
 
 const phone_format = (v, bindingItem)=>{

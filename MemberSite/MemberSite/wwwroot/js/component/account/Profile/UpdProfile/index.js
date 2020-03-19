@@ -27,7 +27,7 @@ import {CustInfo} from '../NormalProfile//CustInfo';
 
         return [
             {
-                dataColumn:'RealName', 
+                dataColumn:'AccountName', 
                 columnTitle:i18n.lbl_RealName, 
                 placeHolder:i18n.lbl_RemindForName,
                 elemType:elemType.inputBox
@@ -134,7 +134,7 @@ import {CustInfo} from '../NormalProfile//CustInfo';
         let columns = props.ColumnDefs;
 
         const [stateDatas, updateDatas] = React.useState({
-            'RealName':'',
+            'AccountName':'',
             'Birthday':{},
             'Country':props.DefaultCountry
         });
@@ -183,7 +183,7 @@ import {CustInfo} from '../NormalProfile//CustInfo';
             Loading.OnLoading();
             props.CloseModal();
             let data = {
-                RealName:stateDatas.RealName,
+                AccountName:stateDatas.AccountName,
                 Birth_d:`${stateDatas.Birthday.day.value}`,
                 Birth_m:`${stateDatas.Birthday.month.value+1}`,
                 Birth_y:`${stateDatas.Birthday.year.value}`,
@@ -202,7 +202,7 @@ import {CustInfo} from '../NormalProfile//CustInfo';
                     props.UpdateCustInfo({
                         UserName:rest.userName,
                         Email:rest.email,
-                        RealName:rest.realName,
+                        AccountName:rest.accountName,
                         Birth_d:rest.birth_d,
                         Birth_m:rest.birth_m,
                         Birth_y:rest.birth_y,
@@ -248,9 +248,9 @@ import {CustInfo} from '../NormalProfile//CustInfo';
                 errors = {...errors, Birthday:i18n.msg_SelectBirthDay};
             }
             
-            if(!stateDatas.RealName){
+            if(!stateDatas.AccountName){
                 valid = false;
-                errors = {...errors, RealName:i18n.msg_EnterRealName};
+                errors = {...errors, AccountName:i18n.msg_EnterRealName};
             }
             
             if(!stateDatas.PhoneNo){
@@ -261,7 +261,7 @@ import {CustInfo} from '../NormalProfile//CustInfo';
             valid = valid ? check_phone.status === 0 : valid;
             
             if (valid) {
-                let modalInfo = ConfirmRealName({CloseModal: props.CloseModal, ConfirmProfile:ExecuteUpdate, RealName:stateDatas.RealName});
+                let modalInfo = ConfirmRealName({CloseModal: props.CloseModal, ConfirmProfile:ExecuteUpdate, AccountName:stateDatas.AccountName});
                 
                 props.OpenModal(modalInfo.title, modalInfo.content, modalInfo.btnBar);
             }else{
