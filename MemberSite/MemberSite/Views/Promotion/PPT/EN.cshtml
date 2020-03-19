@@ -1,0 +1,193 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+    <div class="main">
+        <div class="promotionsInfo-page page">
+            <div class="heading">
+                <span class="text">Promotion Info</span>
+            </div>
+            <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-PPT.jpg" alt="" style="display: block;width: 100%;" />
+            </div><br><br>
+            <div class="promotions-module">
+                <article>
+                    <div class="promotions-txt">
+                        <ul>
+                            <li class="txt-blue">The Royal Campaign</li>
+                            <li class="txt-gray">
+                                MAR 30-APR 20
+                                <br>APR 20-MAY 11
+                            </li>
+
+                        </ul>
+                    </div>
+                </article>
+            </div>
+            <div class="promotions-module">
+                <span class="promotions-title">ROYAL TOURNAMENT PRIZE TABLE</span>
+                Mar 30 Apr 2020
+                <br>
+                ROYAL TOURNAMENT PRIZE TABLE PER WEEK
+                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-PPT2.jpg" />
+                <br><br>
+
+
+
+                <span class="promotions-title">ROYAL TOURNAMENT TOTAL PRIZE</span>
+                Mar 30-Apr 20
+                <br>
+                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-PPT3.jpg" />
+                <br><br>
+                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-PPT4.jpg" />
+                <br><br>
+
+                <span class="promotions-title">Royal Tournament T&C</span>
+                <ol type="1">
+                    <li>The Royal Tournament winners are based on highest single spin win amount adjusted to bet amount.<br><br></li>
+                    <li>Scores =Highest single winning amount/ bet amount x 1000<br><br></li>
+                    <li>
+                        The Royal Tournament is running weekly, starts from Monday to Monday between 30 March 2020 18:00 to 20 April 2020 17:59 Beijing Time.<br>
+                        There are 3 Royal Tournaments during promotion period:<br>
+                        - 30 March 2020 18:00 to 6 April 2020 17:59 Beijing Time<br>
+                        - 6 April 2020 18:00 to 13 April 2020 17:59 Beijing Time<br>
+                        - 13 April 2020 18:00 to 20 April 2020 17:59 Beijing Time<br><br>
+                    </li>
+                    <li>Qualified Games: All Pragmatic Play games except Money Roll, Irish Charms, 888 Gold, Diamonds are Forever 3 lines, Queen of Gold, Table Games, Video Poker<br><br></li>
+                    <li>Min bet to participate is $0.25 or currency equivalent<br><br></li>
+                    <li>If there are two or more players with identical score in tournament leaderboard, the player who scores it first will get the higher position on the leader board.<br><br></li>
+                    <li>The tournament leaderboard is built in the qualifying games and updates in real time.<br><br></li>
+                    <li>Pragmatic Play reserves the right to amend, suspend or cancel the promotion at any time and without prior notice<br><br></li>
+                </ol>
+
+                <span class="promotions-title">Royal Cash Drop Multiplier Table</span>
+                Mar 30 - Apr 20
+                <br>
+                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-PPT5.jpg" />
+
+                <br><br>
+                <span class="promotions-title">Royal Cash Drop Multiplier Table</span>
+                Mar 30 – Apr 20
+                <br>
+                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-PPT6.jpg" />
+                <br><br>
+                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-PPT7.jpg" />
+                <br><br>
+                <span class="promotions-title">Royal Cash Drop Multiplier T&C</span>
+                <ol type="1">
+                    <li>You can win up 1,000 times your bet in the Daily Cash Drops Multiplier<br><br></li>
+                    <li>
+                        The prize multiplier will be used to determine the final prize amount ( bet amount x multiplier won). Bet big to have a chance to win up to 5,000 USD cash in a single spin<br><br>
+                        Example:<br>
+                        Bet amount 0.5 USD<br>
+                        Multiplier won: X 500<br>
+                        PRIZE WON : 250 USD<br><br>
+                    </li>
+                    <li>
+                        The prize will be calculated multiplying the bet amount with the multiplier. The max bet amount eligible for the prize calculation is 5 USD. If the bet exceeds 5 USD the extra value over 5,000
+                        USD will not be used for the prize calculation.<br><br>
+                        Example:<br>
+                        Bet amount: 8 USD<br>
+                        Bet amount eligible for prize calculation: 5 USD<br>
+                        Multiplier won: X 1000<br>
+                        PRIZE WON : 5 X 1000 = 5,000 USD<br><br>
+                    </li>
+                    <li>Min bet to participate is $0.25 or currency equivalent<br><br></li>
+                    <li>There are 488 prizes worth 10,000 USD to be given to the lucky players.<br><br></li>
+                    <li>
+                        The Royal Cash Drop Multiplier is running weekly, starts from Monday to Monday between 30 March 2020 18:00 to 20 April 2020 17:59 Beijing Time. There are 3 Royal Cash Drop Multiplier during promotion period:<br><br>
+                        - 30 March 2020 18:00 to 6 April 2020 17:59 Beijing Time<br>
+                        - 6 April 2020 18:00 to 13 April 2020 17:59 Beijing Time<br>
+                        - 13 April 2020 18:00 to 20 April 2020 17:59 Beijing Time<br><br>
+                    </li>
+                    <li>All Pragmatic Play games are qualified for this promotion except for All table games, All video poker, Money Roll, Irish Charms, 888 Gold, Diamonds are Forever 3 Lines, Keno, Queen of Gold, KTV, Hockey League, Aladdin’s Treasure, Lady Of The Moon, Tales Of Egypt, Sugar Rush, Sugar Rush Winter, Sugar Rush Valentine ’s Day, Sugar Rush Summer Time, Spooky Fortune, Great Reef, Glorious Rome, Fruity Blast, Dwarven Gold, Devil’s 13, Crazy 7s, Busy Bee.<br><br></li>
+                    <li>Pragmatic Play reserve the right to amend, suspend or cancel the promotion at any time and without prior notice.<br><br></li>
+                </ol>
+                <span class="promotions-title">ROYAL TOURNAMENT MULTIPLIER PRIZE Table</span>
+                APR 20 MAY 11
+                <br><br>
+                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-PPT8.jpg" />
+                <br><br>
+                <span class="promotions-title">ROYAL TOURNAMENT MULTIPLIER TOTAL PRIZE</span>
+                APR 20-MAY 11
+                <br><br>
+                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-PPT9.jpg" />
+                <br><br>
+                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-PPT10.jpg" />
+
+                <span class="promotions-title">Royal Tournament Multiplier T&C</span>
+                <ol type="1">
+                    <li>The Royal Tournament Multiplier winners are based on highest single spin win amount adjusted to bet amount.<br><br></li>
+                    <li>Scores = Highest single winning amount/ bet amount x 1000<br><br></li>
+                    <li>The player who has highest score, wins the highest multiplier of the leaderboard.<br><br></li>
+                    <li>
+                        The multiplier will be used to determine the final prize amount (winning spin amount x multiplier won). Multiplier won is from 20 up to 2,000<br><br>
+                        Example:<br>
+                        Bet amount: 0.5 USD<br>
+                        Multiplier won from leader board: X 1,000<br>
+                        PRIZE WON: 500 USD<br><br>
+                    </li>
+                    <li>
+                        The prize will be calculated multiplying the bet amount with the multiplier. The max bet amount eligible for the prize calculation is 5 USD. If the bet exceeds 5 USD the extra value over 10,000 USD will not be used for the prize calculation.<br><br>
+                        Example:<br>
+                        Bet amount: 8 USD<br>
+                        Bet amount eligible for prize calculation: 5 USD<br>
+                        Multiplier won from leader board: X 2000<br>
+                        PRIZE WON : 5 X 2000 = 10,000 USD<br><br>
+                    </li>
+                    <li>You can see your expected win amount in the Prizes ’ tab.<br><br></li>
+                    <li>
+                        The Royal Tournament Multiplier is running weekly, starts from Monday to Monday between 20 April 2020 18:00 to 11 May 2020 17:59 Beijing Time. There are 3 Royal Tournament Multiplier during promotion period:<br><br>
+                        -20 April 2020 18:00 to 27 April 2020 17:59 Beijing Time<br>
+                        -27 April 2020 18:00 to 4 May 2020 17:59 Beijing Time<br>
+                        -4 May 2020 18:00 to 11 May 2020 17:59 Beijing Time<br><br>
+                    </li>
+                    <li>Qualified Games: All Pragmatic Play games except Money Roll, Irish Charms, 888 Gold, Diamonds are Forever 3 lines, Queen of Gold, Table Games, Video Poker<br><br></li>
+                    <li>Min bet to participate is $ 0.25 or currency equivalent<br><br></li>
+                    <li>If there are two or more players with identical score in tournament leaderboard, the player who scores it first will get the higher position on the leader board.<br><br></li>
+                    <li>The tournament leaderboard is built in the qualifying games and updates in real time.<br><br></li>
+                    <li>Pragmatic Play reserve the right to amend, suspend or cancel the promotion at any time and without prior notice<br><br></li>
+                </ol>
+
+                <span class="promotions-title">ROYAL CASH DROP PRIZE TABLE</span>
+                APR 20 - MAY 11
+                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-PPT11.jpg" />
+                <br><br>
+
+                <span class="promotions-title">ROYAL CASH DROP TOTAL PRIZE</span> APR 20-MAY11
+                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-PPT12.jpg" />
+                <br><br>
+                <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-PPT13.jpg" />
+
+                <br><br>
+
+                <span class="promotions-title">Royal Cash Drop T&C</span>
+                <ol type="1">
+                    <li>Play on Pragmatic Play games during the promotion period will have the chance to receive Red Pocket with a random cash prize<br><br></li>
+                    <li>
+                        The Royal Cash Drop is running weekly, starts from Monday to Monday between 20 April 2020 18:00 to 11 May 2020 17:59 Beijing Time. There are 3 Royal Cash Drop during promotion period<br><br>
+                        -20 April 2020 18:00 to 27 April 2020 17:59 Beijing Time<br>
+                        -27 April 2020 18:00 to 4 May 2020 17:59 Beijing Time<br>
+                        -4 May 2020 18:00 to 11 May 2020 17:59 Beijing Time
+                        <br><br>
+                    </li>
+                    <li>There are 510 prizes worth $ 10,000 which will be given to lucky players per week during promotion period<br><br></li>
+                    <li>Min bet to participate is 0.25 or currency equivalent<br><br></li>
+                    <li>All Pragmatic Play games are qualified for this promotion except for All table games, All video poker, Money Roll, Irish Ch arm s, 888 Gold, Diamonds are Forever 3 Lines, Keno, Queen of Gold, KTV, Hockey League, Aladdin s Treasure, Lady Of The Moon, Tales Of Egypt, Sugar Rush, Sugar Rush Winter, Sugar Rush Valentine s Day, Sugar Rush Summer Time, Spooky Fortune, Great Reef, Glorious Rome, Fruity Blast, Dwarven Gold, Devil s 13 , Crazy 7 s, Busy Bee.<br><br></li>
+                    <li>Pragmatic Play reserve the right to amend, suspend or cancel the promotion at any time and without prior<br><br></li>
+                </ol>
+
+
+            </div>
+        </div>
+    </div>
