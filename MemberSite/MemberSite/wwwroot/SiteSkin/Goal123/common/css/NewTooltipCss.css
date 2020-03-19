@@ -1,0 +1,14 @@
+@charset "UTF-8";
+.tooltip-primary, .form-content[data-status="info"] .tooltip {
+    background-color: transparent;
+  }
+  .tooltip {
+    color: #F1002A;
+    background: transparent;
+  }
+  .tooltip::before {
+    content: none;
+  }
+  .tooltip::after {
+    content: none;
+  }

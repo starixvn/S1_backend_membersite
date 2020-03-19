@@ -2346,8 +2346,17 @@ button.btn .btn__inner > .text {
   cursor: default;
 }
 
-.form-content[data-status="error"] .textfield__bg {
-  border-color: #a9001d;
+.form-content[data-status="error"] .textfield__bg, .form-content[data-status="error"] .dropdown {
+  border-color: #76b900;
+  color: #76b900;
+}
+
+.form-content[data-status="error"] .textfield__bg > .btn, .form-content[data-status="error"] .dropdown > .btn {
+  border-color: #76b900;
+}
+
+.form-content[data-status="error"] .textfield__input {
+  color: #76b900;
 }
 
 .form-content[data-status="valid"] .btn-form-status {
@@ -2380,6 +2389,18 @@ button.btn .btn__inner > .text {
 }
 
 .form-content--mobile .textfield {
+  flex: 1;
+  margin-left: .5rem;
+  width: auto;
+}
+
+.form-content--birthday .dropdown {
+  display: flex;
+  flex: 1;
+  height: 36px;
+}
+
+.form-content--birthday .textfield {
   flex: 1;
   margin-left: .5rem;
   width: auto;
@@ -2428,9 +2449,30 @@ p + .form {
   margin-bottom: -.25rem;
 }
 
-.form--list .form-group {
-  border-bottom-width: 1px;
-  border-bottom-color: #e7e7e7;
+@media (min-width: 769px) {
+  .form--list.profileUpdate .form-group {
+    min-height: 80px;
+  }
+  .form--list .form-group {
+    width: 50%;
+    float: left;
+  }
+  .form--list .form-group .form-title {
+    width: 25%;
+  }
+  .form--list .form-group:nth-child(even) {
+    padding-left: 40px;
+  }
+  .form--list .form-group:nth-child(even) .form-title {
+    width: 21%;
+  }
+  .form--list .btn-group {
+    clear: both;
+    justify-content: flex-end;
+    float: right;
+    margin-top: 0.5rem;
+    width: 100%;
+  }
 }
 
 .form-row {
@@ -2454,6 +2496,18 @@ p + .form {
   padding: 1rem;
   background-color: #121212;
   border-radius: 16px;
+}
+
+input:focus + .textfield__bg {
+  border-color: #76b900;
+}
+
+div.form--list .form-group {
+  padding: 0;
+}
+
+div.form--list .form-group .form-title {
+  font-weight: bold;
 }
 
 .iframe-page {
