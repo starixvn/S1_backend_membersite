@@ -193,13 +193,13 @@
     <value>仅限6到18个数字、英文字母大小写</value>
   </data>
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
-    <value>余额不足！申请提款失败。</value>
+    <value>余额不足！申请提现失败。</value>
   </data>
   <data name="msg_WithdrawalFailed" xml:space="preserve">
-    <value>申请提款失败。请联系客服了解详情。</value>
+    <value>申请提现失败。请联系客服了解详情。</value>
   </data>
   <data name="msg_WithdrawalSuccessful" xml:space="preserve">
-    <value>申请提款成功。核准后会及时通知。</value>
+    <value>申请提现成功。核准后会及时通知。</value>
   </data>
   <data name="ForgetPwdFail" xml:space="preserve">
     <value>您输入的电子邮件或是安全问题回答不正确，请确认!</value>
@@ -220,18 +220,18 @@
     <value>您的当前体育钱包余额是：&lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;立即存款并将中心钱包余额转移至体育钱包以享有我司游戏盘口及服务。</value>
   </data>
   <data name="msg_ConfirmRealNameAlert" xml:space="preserve">
-    <value>請確保您的真實姓名和您的銀行帳戶名字相同，以避免您的交易出現問題</value>
+    <value>请确保您的真实姓名与您的银行帐户名称相同，以免影响您的提现</value>
   </data>
   <data name="msg_EnterPhoneNumber" xml:space="preserve">
-    <value>Please enter phone number.</value>
+    <value>请输入手机号码</value>
   </data>
   <data name="msg_EnterRealName" xml:space="preserve">
-    <value>Please enter your real name.</value>
+    <value>请输入您的真实姓名</value>
   </data>
   <data name="msg_GoToDepositPage" xml:space="preserve">
-    <value>Go to deposit page?</value>
+    <value>立即充值?</value>
   </data>
   <data name="msg_SelectBirthDay" xml:space="preserve">
-    <value>Please select your birthday.</value>
+    <value>请选择您的生日</value>
   </data>
 </root>

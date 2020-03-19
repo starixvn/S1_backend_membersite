@@ -289,10 +289,10 @@
     <value>确认</value>
   </data>
   <data name="lbl_ConfirmDeposit" xml:space="preserve">
-    <value>请确认存款资讯。</value>
+    <value>请确认充值资讯。</value>
   </data>
   <data name="lbl_ConfirmWithdrawal" xml:space="preserve">
-    <value>请确认提款资讯。</value>
+    <value>请确认提现资讯。</value>
   </data>
   <data name="lbl_ContactCSD" xml:space="preserve">
     <value>如有任何修改需求，请联系客服。</value>
@@ -736,16 +736,16 @@
     <value>请输入咨询日期</value>
   </data>
   <data name="lbl_Deposit" xml:space="preserve">
-    <value>存款</value>
+    <value>充值</value>
   </data>
   <data name="lbl_DepositAmount" xml:space="preserve">
-    <value>存款金额</value>
+    <value>充值金额</value>
   </data>
   <data name="lbl_DepositNow" xml:space="preserve">
-    <value>马上存款</value>
+    <value>马上充值</value>
   </data>
   <data name="lbl_DepositOptionHint" xml:space="preserve">
-    <value>从下方选出最符合您需求的存款方式：</value>
+    <value>从下方选出最符合您需求的充值方式：</value>
   </data>
   <data name="lbl_DepositStatus0" xml:space="preserve">
     <value>草稿</value>
@@ -778,22 +778,22 @@
     <value>错误</value>
   </data>
   <data name="lbl_DepositTime" xml:space="preserve">
-    <value>存款时间</value>
+    <value>充值时间</value>
   </data>
   <data name="lbl_DepositTimeToolTip" xml:space="preserve">
-    <value>請提交您的存款存入時間。</value>
+    <value>請提交您的充值存入時間。</value>
   </data>
   <data name="lbl_DepositType1" xml:space="preserve">
     <value>网络银行</value>
   </data>
   <data name="lbl_DepositType2" xml:space="preserve">
-    <value>移动支付</value>
+    <value>手机支付</value>
   </data>
   <data name="lbl_DepositType3" xml:space="preserve">
     <value>银行卡</value>
   </data>
   <data name="lbl_DepositWithdrawals" xml:space="preserve">
-    <value>存款與提款</value>
+    <value>充值與提现</value>
   </data>
   <data name="lbl_Description" xml:space="preserve">
     <value>欧亚体育是世界领先的体育博彩，提供最佳的博彩体验，涵盖所有体育，娱乐城，老虎机，快乐彩，电子竞技，rng娱乐城，梦幻对垒，虚拟体育，彩票，真人娱乐场，真人荷官，宾果游戏和赛车。</value>
@@ -808,7 +808,7 @@
     <value>下载</value>
   </data>
   <data name="lbl_Email" xml:space="preserve">
-    <value>电子邮件</value>
+    <value>邮箱地址</value>
   </data>
   <data name="lbl_EmailToolTip" xml:space="preserve">
     <value>提交后无法变更电子邮件地址。</value>
@@ -833,7 +833,7 @@
     <comment>00340. Deposit</comment>
   </data>
   <data name="lbl_ForgetPwdHint" xml:space="preserve">
-    <value>若您忘记您的用户名或密码，请提供您的电子邮件后我们将寄新密码至您的邮箱。</value>
+    <value>若您忘记您的用户名或密码，请提供您的邮箱地址后我们将寄新密码至您的邮箱。</value>
   </data>
   <data name="lbl_From" xml:space="preserve">
     <value>从</value>
@@ -860,7 +860,7 @@
     <value>https://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
   </data>
   <data name="lbl_ImportantNote" xml:space="preserve">
-    <value>重要讯息</value>
+    <value>温馨提醒</value>
   </data>
   <data name="lbl_Instant" xml:space="preserve">
     <value>即时</value>
@@ -917,10 +917,10 @@
     <value>方式</value>
   </data>
   <data name="lbl_MobileDeposit" xml:space="preserve">
-    <value>手机存款</value>
+    <value>手机充值</value>
   </data>
   <data name="lbl_MomoHint" xml:space="preserve">
-    <value>如欲快速存款，请在此处留下您的银行账户姓名及银行账户号码。</value>
+    <value>如欲快速充值，请在此处留下您的银行账户姓名及银行账户号码。</value>
   </data>
   <data name="lbl_MyAccount" xml:space="preserve">
     <value>我的账户</value>
@@ -962,10 +962,10 @@
     <value>支付方式</value>
   </data>
   <data name="lbl_Phone" xml:space="preserve">
-    <value>电话号码</value>
+    <value>手机号码</value>
   </data>
   <data name="lbl_PhoneTooltip" xml:space="preserve">
-    <value>请输入您的电话号码，输入后将无法更改！</value>
+    <value>请输入您的手机号码，输入后将无法更改！</value>
   </data>
   <data name="lbl_PhotoID" xml:space="preserve">
     <value>附有照片的身份证</value>
@@ -974,7 +974,7 @@
     <value>验证码</value>
   </data>
   <data name="lbl_PostscriptHint" xml:space="preserve">
-    <value>输入验证码立即存款</value>
+    <value>输入验证码立即充值</value>
   </data>
   <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
     <value>一旦完成注册，即无法修改选定币别。</value>
@@ -989,7 +989,7 @@
     <value>个人资料</value>
   </data>
   <data name="lbl_Promotion" xml:space="preserve">
-    <value>优惠促销</value>
+    <value>优惠活动</value>
   </data>
   <data name="lbl_RebatebonusonMobile" xml:space="preserve">
     <value>手机返水红利</value>
@@ -1031,7 +1031,7 @@
     <value>足球投注</value>
   </data>
   <data name="lbl_SocialMedia" xml:space="preserve">
-    <value>社群媒体</value>
+    <value>社交媒体</value>
   </data>
   <data name="lbl_Sports" xml:space="preserve">
     <value>体育博彩</value>
@@ -1049,7 +1049,7 @@
     <value>提交附有照片的身份证</value>
   </data>
   <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
-    <value>提款前请提交您附有照片的身份证！</value>
+    <value>提现前请提交您附有照片的身份证！</value>
   </data>
   <data name="lbl_SubmitProof" xml:space="preserve">
     <value>提交银行收据</value>
@@ -1121,13 +1121,13 @@
     <value>D</value>
   </data>
   <data name="lbl_UpdateBankInfo" xml:space="preserve">
-    <value>请在提款前完成更新银行资讯</value>
+    <value>请在提现前完成更新银行资讯</value>
   </data>
   <data name="lbl_UpdatePersonalDetail" xml:space="preserve">
     <value>更新个人资料</value>
   </data>
   <data name="lbl_UpdatePersonalInfo" xml:space="preserve">
-    <value>请在存款前更新您的个人资料。</value>
+    <value>请在充值前更新您的个人资料。</value>
   </data>
   <data name="lbl_UpdateSuccess" xml:space="preserve">
     <value>更新成功。我们会尽快处理您的要求！</value>
@@ -1166,10 +1166,10 @@
     <value>银行卡转帐</value>
   </data>
   <data name="lbl_Withdrawal" xml:space="preserve">
-    <value>提款</value>
+    <value>提现</value>
   </data>
   <data name="lbl_WithdrawalAmount" xml:space="preserve">
-    <value>提款金额</value>
+    <value>提现金额</value>
   </data>
   <data name="lbl_WithdrawalStatus0" xml:space="preserve">
     <value>草稿</value>
@@ -1199,7 +1199,7 @@
     <value>错误</value>
   </data>
   <data name="lbl_WithdrawalTo" xml:space="preserve">
-    <value>提款至</value>
+    <value>提现至</value>
   </data>
   <data name="lbl_WithdrawalType0" xml:space="preserve">
     <value>无法定义</value>
@@ -1211,7 +1211,7 @@
     <value>银行卡</value>
   </data>
   <data name="lbl_YourEmail" xml:space="preserve">
-    <value>您的电子邮件</value>
+    <value>您的邮箱地址</value>
   </data>
   <data name="lbl_Forget" xml:space="preserve">
     <value>忘记您的用户名或者密码?</value>
@@ -1228,41 +1228,41 @@
     <value>上传</value>
   </data>
   <data name="lbl_RemindForName" xml:space="preserve">
-    <value>*请填写与您银行账户一致的完整姓名，以加速存款和提款操作。</value>
+    <value>*请填写与您银行账户一致的完整姓名，以加速充值和提现操作。</value>
   </data>
   <data name="lbl_badminton" xml:space="preserve">
     <value>羽毛球</value>
     <comment>00132.</comment>
   </data>
   <data name="lbl_Promotions" xml:space="preserve">
-    <value>优惠促销</value>
+    <value>优惠活动</value>
   </data>
   <data name="FTDPDescription" xml:space="preserve">
-    <value>在歐亞88完成第一筆存款以享受高達 馬幣888 的優惠回饋！立即加入！</value>
+    <value>在歐亞88完成第一筆充值以享受高達 馬幣888 的優惠回饋！立即加入！</value>
   </data>
   <data name="FTDPTitle" xml:space="preserve">
-    <value>150% 欢迎红利，最高 马币888</value>
+    <value>150% 首存红利，最高 马币888</value>
   </data>
   <data name="lbl_TC" xml:space="preserve">
-    <value>优惠专用条款和条件</value>
+    <value>优惠活动专用条款和条件</value>
   </data>
   <data name="lbl_Bonus" xml:space="preserve">
     <value>优惠</value>
   </data>
   <data name="lbl_BonusAmount" xml:space="preserve">
-    <value>优惠金额</value>
+    <value>红利金额</value>
   </data>
   <data name="lbl_ExpiryTime" xml:space="preserve">
     <value>到期时间</value>
   </data>
   <data name="lbl_MaxBonusAmount" xml:space="preserve">
-    <value>最高奖金</value>
+    <value>最高红利</value>
   </data>
   <data name="lbl_Product" xml:space="preserve">
     <value>产品</value>
   </data>
   <data name="lbl_PromotionsList" xml:space="preserve">
-    <value>优惠促销清单</value>
+    <value>红利活动清单</value>
   </data>
   <data name="lbl_RemainingTime" xml:space="preserve">
     <value>剩余时间</value>
@@ -1271,7 +1271,7 @@
     <value>最低投注倍数</value>
   </data>
   <data name="PromotionCategory1" xml:space="preserve">
-    <value>首次存款</value>
+    <value>首次充值</value>
   </data>
   <data name="lbl_Notice" xml:space="preserve">
     <value>通知</value>
@@ -1280,7 +1280,7 @@
     <value>稍后</value>
   </data>
   <data name="lbl_DepositOver" xml:space="preserve">
-    <value>您的提款申请超过您的馀额</value>
+    <value>您的提现申请超过您的馀额</value>
   </data>
   <data name="lbl_EligibleWithdrawal" xml:space="preserve">
     <value>提款限额</value>
@@ -1289,25 +1289,25 @@
     <value>流水金额进度</value>
   </data>
   <data name="lbl_BonusConfirm" xml:space="preserve">
-    <value>您已点选我司优惠回馈，请问是否要继续？</value>
+    <value>您点选了加入优惠活动，请问是否确定要参加？</value>
   </data>
   <data name="lbl_EligibleWithdrawalAmount" xml:space="preserve">
-    <value>您可提款的金额为</value>
+    <value>您可提现的金额为</value>
   </data>
   <data name="lbl_Req" xml:space="preserve">
     <value>条件</value>
   </data>
   <data name="lbl_RolloverOver" xml:space="preserve">
-    <value>您的优惠回馈流水未达最低金额</value>
+    <value>您的红利回馈流水未达最低金额</value>
   </data>
   <data name="lbl_WithdrawalOver" xml:space="preserve">
-    <value>您的提款申请超过您可提款金额</value>
+    <value>您的提现申请超过您可提现金额</value>
   </data>
   <data name="lbl_AllbetCasino" xml:space="preserve">
     <value>至尊厅</value>
   </data>
   <data name="lbl_Clickhereforpromotion" xml:space="preserve">
-    <value>点击这里查看您现有的优惠</value>
+    <value>点击这里查看您现有的优惠活动</value>
   </data>
   <data name="lbl_SACasino" xml:space="preserve">
     <value>雅典娜厅</value>
@@ -1328,7 +1328,7 @@
     <value>余额</value>
   </data>
   <data name="lbl_DepositHistory" xml:space="preserve">
-    <value>存款历史记录</value>
+    <value>充值历史记录</value>
   </data>
   <data name="lbl_DreamGaming" xml:space="preserve">
     <value>水晶厅</value>
@@ -1367,7 +1367,7 @@
     <value>体育钱包</value>
   </data>
   <data name="lbl_WithdrawalHistory" xml:space="preserve">
-    <value>提款历史记录</value>
+    <value>提现历史记录</value>
   </data>
   <data name="lbl_AGCasino" xml:space="preserve">
     <value>凤凰厅</value>

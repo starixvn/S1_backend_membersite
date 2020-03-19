@@ -223,18 +223,18 @@
     <value>Dompet Sportsbook Anda saat ini adalah: &lt;span class = "popup-span Js-3RdWallet-Balance"&gt; {0} {1} &lt;/span&gt; &lt;br&gt; Setor dan transfer dari Dompet Utama ke Dompet Sportsbook sekarang untuk menikmati permainan dan layanan kami .</value>
   </data>
   <data name="msg_ConfirmRealNameAlert" xml:space="preserve">
-    <value>To ensure all transations correct, please make sure your real name is same with your bank account name</value>
+    <value>Untuk memastikan semua transaksi benar, pastikan nama asli anda sama dengan nama rekening bank anda</value>
   </data>
   <data name="msg_EnterPhoneNumber" xml:space="preserve">
-    <value>Please enter phone number.</value>
+    <value>Silakan masukkan nomor telepon anda</value>
   </data>
   <data name="msg_EnterRealName" xml:space="preserve">
-    <value>Please enter your real name.</value>
+    <value>Silakan masukkan nama asli anda</value>
   </data>
   <data name="msg_GoToDepositPage" xml:space="preserve">
-    <value>Go to deposit page?</value>
+    <value>Pergi ke halaman deposit?</value>
   </data>
   <data name="msg_SelectBirthDay" xml:space="preserve">
-    <value>Please select your birthday.</value>
+    <value>Silakan pilih tanggal ulang tahun anda</value>
   </data>
 </root>
