@@ -225,4 +225,19 @@
   <data name="msg_TransferAlert" xml:space="preserve">
     <value>Sportsbook Wallet ปัจจุบันของคุณคือ:&lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;ฝากและโอนจากกระเป๋าเงินหลักไปยัง Sportsbook Wallet ได้ทันทีเพื่อเพลิดเพลินกับเกมและบริการของเรา</value>
   </data>
+  <data name="msg_ConfirmRealNameAlert" xml:space="preserve">
+    <value>To ensure all transations correct, please make sure your real name is same with your bank account name</value>
+  </data>
+  <data name="msg_EnterPhoneNumber" xml:space="preserve">
+    <value>โปรดใส่เบอร์โทรศัพท์</value>
+  </data>
+  <data name="msg_EnterRealName" xml:space="preserve">
+    <value>โปรดใส่ชื่อจริง</value>
+  </data>
+  <data name="msg_GoToDepositPage" xml:space="preserve">
+    <value>ต้องการไปที่หน้าฝากเงิน?</value>
+  </data>
+  <data name="msg_SelectBirthDay" xml:space="preserve">
+    <value>โปรดเลือกวันเกิด</value>
+  </data>
 </root>

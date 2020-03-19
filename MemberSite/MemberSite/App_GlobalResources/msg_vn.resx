@@ -224,4 +224,19 @@
     <value>Số dư hiện tại của bạn là: &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
 Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm các trò chơi và dịch vụ của chúng tôi</value>
   </data>
+  <data name="msg_ConfirmRealNameAlert" xml:space="preserve">
+    <value>To ensure all transations correct, please make sure your real name is same with your bank account name</value>
+  </data>
+  <data name="msg_EnterPhoneNumber" xml:space="preserve">
+    <value>Please enter phone number.</value>
+  </data>
+  <data name="msg_EnterRealName" xml:space="preserve">
+    <value>Please enter your real name.</value>
+  </data>
+  <data name="msg_GoToDepositPage" xml:space="preserve">
+    <value>Go to deposit page?</value>
+  </data>
+  <data name="msg_SelectBirthDay" xml:space="preserve">
+    <value>Please select your birthday.</value>
+  </data>
 </root>

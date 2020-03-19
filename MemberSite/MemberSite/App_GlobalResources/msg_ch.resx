@@ -222,4 +222,19 @@
   <data name="msg_TransferAlert" xml:space="preserve">
     <value>您的當前體育錢包餘額是：&lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;立即存款並將中心錢包餘額轉移至體育錢包以享有我司遊戲盤口及服務。</value>
   </data>
+  <data name="msg_ConfirmRealNameAlert" xml:space="preserve">
+    <value>請確保您的真實姓名和您的銀行帳戶名字相同，以避免您的交易出現問題</value>
+  </data>
+  <data name="msg_EnterPhoneNumber" xml:space="preserve">
+    <value>Please enter phone number.</value>
+  </data>
+  <data name="msg_EnterRealName" xml:space="preserve">
+    <value>Please enter your real name.</value>
+  </data>
+  <data name="msg_GoToDepositPage" xml:space="preserve">
+    <value>Go to deposit page?</value>
+  </data>
+  <data name="msg_SelectBirthDay" xml:space="preserve">
+    <value>Please select your birthday.</value>
+  </data>
 </root>
