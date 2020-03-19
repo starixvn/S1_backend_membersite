@@ -1403,4 +1403,49 @@
   <data name="lbl_DGCasino" xml:space="preserve">
     <value>ห้องคริสตัล</value>
   </data>
+  <data name="lbl_Birthday" xml:space="preserve">
+    <value>วันเกิด</value>
+  </data>
+  <data name="lbl_ConfirmAndUpdate" xml:space="preserve">
+    <value>Conrim for update</value>
+  </data>
+  <data name="lbl_Month1" xml:space="preserve">
+    <value>มกราคม</value>
+  </data>
+  <data name="lbl_Month10" xml:space="preserve">
+    <value>ตุลาคม</value>
+  </data>
+  <data name="lbl_Month11" xml:space="preserve">
+    <value>พฤศจิกายน</value>
+  </data>
+  <data name="lbl_Month12" xml:space="preserve">
+    <value>ธันวาคม</value>
+  </data>
+  <data name="lbl_Month2" xml:space="preserve">
+    <value>กุมภาพันธ์</value>
+  </data>
+  <data name="lbl_Month3" xml:space="preserve">
+    <value>มีนาคม</value>
+  </data>
+  <data name="lbl_Month4" xml:space="preserve">
+    <value>เมษายน</value>
+  </data>
+  <data name="lbl_Month5" xml:space="preserve">
+    <value>พฤษภาคม</value>
+  </data>
+  <data name="lbl_Month6" xml:space="preserve">
+    <value>มิถุนายน</value>
+  </data>
+  <data name="lbl_Month7" xml:space="preserve">
+    <value>กรกฎาคม</value>
+  </data>
+  <data name="lbl_Month8" xml:space="preserve">
+    <value>สิงหาคม</value>
+  </data>
+  <data name="lbl_Month9" xml:space="preserve">
+    <value>กันยายน</value>
+  </data>
+  <data name="lbl_ReModify" xml:space="preserve">
+    <value>Modify Again</value>
+  </data>  
 </root>
