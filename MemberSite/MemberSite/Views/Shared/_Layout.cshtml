@@ -97,7 +97,7 @@
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             if (custInfo.ActStatus == 2)
             {
-                
+
             }
             CurrencyId = custInfo.CurrencyId;
             Dictionary<string, string> i18n = new Dictionary<string, string>();
@@ -265,22 +265,15 @@
         {
             <script type="text/javascript">
                 function LaunchGame(GameUrl, WindowKey, TpId, GameId) {
-                @if (tools.IsMobile())
-                {
-                @:window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-                }
-                else
-                {
-                    @:if (TpId == 1) {
-                        @:if (GameId == "202" || GameId == "208" || GameId == "211") {
-                            @:window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-                        @:} else {
-                            @:window.location.href = GameUrl;
-                        @:}
-                    @:} else {
-                        @:window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
-                    @:}
-                }
+                    if (TpId == 1) {
+                        if (GameId == "202" || GameId == "208" || GameId == "211") {
+                            window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                        } else {
+                            window.location.href = GameUrl;
+                        }
+                    } else {
+                        window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                    }
                 }
             </script>
         }
