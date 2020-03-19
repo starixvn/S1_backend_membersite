@@ -1429,4 +1429,49 @@
   <data name="lbl_ZALO" xml:space="preserve">
     <value>Pembayaran Zalopay</value>
   </data>
+  <data name="lbl_Birthday" xml:space="preserve">
+    <value>Ulang tahun</value>
+  </data>
+  <data name="lbl_ConfirmAndUpdate" xml:space="preserve">
+    <value>Konfirmasikan untuk pembaruan</value>
+  </data>
+  <data name="lbl_Month1" xml:space="preserve">
+    <value>Januari</value>
+  </data>
+  <data name="lbl_Month10" xml:space="preserve">
+    <value>Oktober</value>
+  </data>
+  <data name="lbl_Month11" xml:space="preserve">
+    <value>November</value>
+  </data>
+  <data name="lbl_Month12" xml:space="preserve">
+    <value>Desember</value>
+  </data>
+  <data name="lbl_Month2" xml:space="preserve">
+    <value>Febuari</value>
+  </data>
+  <data name="lbl_Month3" xml:space="preserve">
+    <value>Maret</value>
+  </data>
+  <data name="lbl_Month4" xml:space="preserve">
+    <value>April</value>
+  </data>
+  <data name="lbl_Month5" xml:space="preserve">
+    <value>Mei</value>
+  </data>
+  <data name="lbl_Month6" xml:space="preserve">
+    <value>Juni</value>
+  </data>
+  <data name="lbl_Month7" xml:space="preserve">
+    <value>Juli</value>
+  </data>
+  <data name="lbl_Month8" xml:space="preserve">
+    <value>Agustus</value>
+  </data>
+  <data name="lbl_Month9" xml:space="preserve">
+    <value>September</value>
+  </data>
+  <data name="lbl_ReModify" xml:space="preserve">
+    <value>Ubah Ulang</value>
+  </data>    
 </root>

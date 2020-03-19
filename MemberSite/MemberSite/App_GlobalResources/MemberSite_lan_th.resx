@@ -1407,7 +1407,7 @@
     <value>วันเกิด</value>
   </data>
   <data name="lbl_ConfirmAndUpdate" xml:space="preserve">
-    <value>Conrim for update</value>
+    <value>ยืนยันการอัพเดท</value>
   </data>
   <data name="lbl_Month1" xml:space="preserve">
     <value>มกราคม</value>
@@ -1446,6 +1446,6 @@
     <value>กันยายน</value>
   </data>
   <data name="lbl_ReModify" xml:space="preserve">
-    <value>Modify Again</value>
+    <value>แก้ไขอีกครั้ง</value>
   </data>  
 </root>
