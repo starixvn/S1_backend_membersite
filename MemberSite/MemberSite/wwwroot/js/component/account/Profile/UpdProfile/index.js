@@ -15,7 +15,8 @@ import {CustInfo} from '../NormalProfile//CustInfo';
         'inputBox':'inputBox',
         'birthday':'birthday',
         'phone':'phone',
-        'dropdownBox':'dropdownBox'
+        'dropdownBox':'dropdownBox',
+        'countryBox':'countryBox'
     }
 
     const columnDefs = ()=>{
@@ -64,8 +65,7 @@ import {CustInfo} from '../NormalProfile//CustInfo';
             {
                 dataColumn:'Country',
                 columnTitle:i18n.lbl_Country,
-                options:Country.map(item=>{ return{value: item.Code, displayText:item.CountryName}}),
-                elemType:elemType.dropDownBox
+                elemType:elemType.countryBox
             },
             {
                 dataColumn:'PhoneNo',
@@ -351,16 +351,12 @@ import {CustInfo} from '../NormalProfile//CustInfo';
                     );
                     break;
 
-                case elemType.dropDownBox:
+                case elemType.countryBox:
                     result=(
-                        <DropdownBox
+                        <CountryBox
                             key={key}
                             ColumnTitle={item.columnTitle}
-                            DataColumn={item.dataColumn}
-                            OnSelectItem={EditField}
-                            Options={item.options}
-                            SelectedItem={stateDatas.Country}
-                            ErrorMsg={stateErrors[item.dataColumn]}
+                            Country={stateDatas.Country.displayText}
                         />
                     );
                     break;
@@ -419,6 +415,21 @@ import {CustInfo} from '../NormalProfile//CustInfo';
     const GetDayOfMonth = (year, month)=>{
         let d = new Date(year, month,0);
         return d.getDate();
+    }
+
+    const CountryBox = (props)=>{
+        return(
+            <div className="form-group">
+                <label className="form-title">{props.ColumnTitle}</label>
+                <div className="form-content" data-status="info">
+                    <div className="dropdown dropdown-default">
+                        <a className="btn">
+                            <span className="text">{props.Country}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     ReactDOM.render(<Panel />, document.getElementById('Profile'));
