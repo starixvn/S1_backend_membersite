@@ -1118,7 +1118,7 @@
     <value>更新</value>
   </data>
   <data name="lbl_UpdateBankDetail" xml:space="preserve">
-    <value>D</value>
+    <value>更新银行资讯</value>
   </data>
   <data name="lbl_UpdateBankInfo" xml:space="preserve">
     <value>请在提现前完成更新银行资讯</value>
@@ -1464,5 +1464,5 @@
   </data>
   <data name="lbl_ReModify" xml:space="preserve">
     <value>重新更改</value>
-  </data>  
+  </data>
 </root>

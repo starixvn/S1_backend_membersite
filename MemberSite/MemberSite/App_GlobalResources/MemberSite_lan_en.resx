@@ -1433,7 +1433,7 @@
     <value>Birthday</value>
   </data>
   <data name="lbl_ConfirmAndUpdate" xml:space="preserve">
-    <value>Conrim for update</value>
+    <value>Confirm for update</value>
   </data>
   <data name="lbl_Month1" xml:space="preserve">
     <value>JAN</value>
@@ -1473,5 +1473,5 @@
   </data>
   <data name="lbl_ReModify" xml:space="preserve">
     <value>Modify Again</value>
-  </data>  
+  </data>
 </root>
