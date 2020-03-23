@@ -14,7 +14,7 @@ background: linear-gradient(#000,#070d19,#242e49,#070d19,#000);
     font-weight: bold;
     width: 100%;
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
 }
 .page.CasinoSelect .CasinoSelect_nav > a span,.page.CasinoSelect .CasModule span,.page.CasinoSelect .SM span,.page.CasinoLobby .CasModule span,.page.CasinoLobby .title{
     background: -webkit-linear-gradient(top,#a67636 0%,#feffc0 50%,#a67636 100%);
@@ -25,7 +25,7 @@ background: linear-gradient(#000,#070d19,#242e49,#070d19,#000);
     flex: 0 0 auto;
     display: flex;
     align-items: center;
-    z-index: 2;
+    z-index: 1;
     margin: 0 auto 1rem;
     width: 100%;
 }
@@ -192,7 +192,7 @@ flex: 1 0 auto;
 .SM > div:nth-child(5),.SM > div:nth-child(9),.SM > div:nth-child(13){
     background-image: url(../images/Lobby/casino/S-banner1.png)
 }
-@media (max-width: 1051px) {
+@media (max-width: 1248px) {
     .CasModule .MI{
         flex: initial;
         margin-top:.5rem;
@@ -295,4 +295,11 @@ flex: 1 0 auto;
     position: absolute;
     bottom: 37px;
     z-index: 1;
+}
+.not-found{
+    font-size: 2rem;
+    background: -webkit-linear-gradient(top,#a67636 0%,#feffc0 50%,#a67636 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: none;
 }

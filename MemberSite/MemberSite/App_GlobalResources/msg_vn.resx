@@ -225,18 +225,18 @@
 Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm các trò chơi và dịch vụ của chúng tôi</value>
   </data>
   <data name="msg_ConfirmRealNameAlert" xml:space="preserve">
-    <value>To ensure all transations correct, please make sure your real name is same with your bank account name</value>
+    <value>Để đảm bảo giao dịch chính xác, vui lòng đảm bảo tên thật của bạn giống với tên trên tài khoản ngân hàng.</value>
   </data>
   <data name="msg_EnterPhoneNumber" xml:space="preserve">
-    <value>Please enter phone number.</value>
+    <value>Vui lòng nhập số điện thoại.</value>
   </data>
   <data name="msg_EnterRealName" xml:space="preserve">
-    <value>Please enter your real name.</value>
+    <value>Vui lòng nhập tên thật của bạn.</value>
   </data>
   <data name="msg_GoToDepositPage" xml:space="preserve">
-    <value>Go to deposit page?</value>
+    <value>Vào trang nạp tiền?</value>
   </data>
   <data name="msg_SelectBirthDay" xml:space="preserve">
-    <value>Please select your birthday.</value>
+    <value>Vui lòng chọn ngày sinh của bạn.</value>
   </data>
 </root>

@@ -1443,5 +1443,86 @@
   </data>
   <data name="lbl_ReModify" xml:space="preserve">
     <value>Modify Again</value>
-  </data>  
+  </data>
+  <data name="lbl_Alipay" xml:space="preserve">
+    <value>Alipay</value>
+  </data>
+  <data name="lbl_Birthday1" xml:space="preserve">
+    <value>Sinh Nhật</value>
+  </data>
+  <data name="lbl_ConfirmAndUpdate1" xml:space="preserve">
+    <value>Xác nhận thay đổi</value>
+  </data>
+  <data name="lbl_DGCasino" xml:space="preserve">
+    <value>Crystal Suite</value>
+  </data>
+  <data name="lbl_Games" xml:space="preserve">
+    <value>Trò Chơi</value>
+  </data>
+  <data name="lbl_JDPay" xml:space="preserve">
+    <value>JDpay</value>
+  </data>
+  <data name="lbl_KenoAndLottery" xml:space="preserve">
+    <value>Keno &amp; Xổ Số</value>
+  </data>
+  <data name="lbl_MOMO" xml:space="preserve">
+    <value>Momo</value>
+  </data>
+  <data name="lbl_Month101" xml:space="preserve">
+    <value>Tháng 10</value>
+  </data>
+  <data name="lbl_Month111" xml:space="preserve">
+    <value>Tháng 11</value>
+  </data>
+  <data name="lbl_Month121" xml:space="preserve">
+    <value>Tháng 12</value>
+  </data>
+  <data name="lbl_Month13" xml:space="preserve">
+    <value>Tháng 1</value>
+  </data>
+  <data name="lbl_Month21" xml:space="preserve">
+    <value>Tháng 2</value>
+  </data>
+  <data name="lbl_Month31" xml:space="preserve">
+    <value>Tháng 3</value>
+  </data>
+  <data name="lbl_Month41" xml:space="preserve">
+    <value>Tháng 4</value>
+  </data>
+  <data name="lbl_Month51" xml:space="preserve">
+    <value>Tháng 5</value>
+  </data>
+  <data name="lbl_Month61" xml:space="preserve">
+    <value>Tháng 6</value>
+  </data>
+  <data name="lbl_Month71" xml:space="preserve">
+    <value>Tháng 7</value>
+  </data>
+  <data name="lbl_Month81" xml:space="preserve">
+    <value>Tháng 8</value>
+  </data>
+  <data name="lbl_Month91" xml:space="preserve">
+    <value>Tháng 9</value>
+  </data>
+  <data name="lbl_QQpay" xml:space="preserve">
+    <value>QQpay</value>
+  </data>
+  <data name="lbl_ReModify1" xml:space="preserve">
+    <value>Sửa lại</value>
+  </data>
+  <data name="lbl_ThaiQR" xml:space="preserve">
+    <value>Thai QR</value>
+  </data>
+  <data name="lbl_Unionpay" xml:space="preserve">
+    <value>Unionpay</value>
+  </data>
+  <data name="lbl_VIETTELPAY" xml:space="preserve">
+    <value>Viettel Pay</value>
+  </data>
+  <data name="lbl_WeChatPay" xml:space="preserve">
+    <value>WeChat Pay</value>
+  </data>
+  <data name="lbl_ZALO" xml:space="preserve">
+    <value>Zalo</value>
+  </data>
 </root>

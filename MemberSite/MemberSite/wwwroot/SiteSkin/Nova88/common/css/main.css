@@ -5483,11 +5483,11 @@ button.swiper-pagination-bullet {
   overflow: hidden;
 }
 
-[data-layout=mobile] .lobby-product {
-  height: 163px;
+[data-layout=mobile] .lobby-product img {
+  width: 100%;
 }
 
-[data-layout=mobile] .lobby-product img {
+[data-layout=mobile] .lobby-product a {
   width: 100%;
 }
 
@@ -5497,7 +5497,6 @@ button.swiper-pagination-bullet {
   justify-content: space-between;
   position: relative;
   margin: 0 .25rem;
-  height: 112px;
   color: white;
   border-radius: 6px;
   background-color: #5574a7;
