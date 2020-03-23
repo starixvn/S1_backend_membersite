@@ -27,14 +27,13 @@
         var entPageUrl = "";
        
     
-      
         if (!User.Identity.IsAuthenticated)
         {
             entPageUrl = "javascript:void();";
         }
         else
         {
-            if (tpId == 2||tpId == 1)
+            if (tpId == 1)
             {
                 var msg =  @selLangBLL.GetErrMsg(10);
                 entPageUrl = $"javascript:alert('{msg}');";

@@ -5203,6 +5203,10 @@ button.swiper-pagination-bullet {
   font-weight: normal;
 }
 
+.VirtualGames {
+  width: 1.5rem;
+}
+
 .lobby-banner-swiper {
   position: relative;
   z-index: 0;
@@ -5479,32 +5483,24 @@ button.swiper-pagination-bullet {
   overflow: hidden;
 }
 
+[data-layout=mobile] .lobby-product {
+  height: 163px;
+}
+
+[data-layout=mobile] .lobby-product img {
+  width: 100%;
+}
+
 .lobby-product {
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
   margin: 0 .25rem;
-  padding: 0 .75rem;
-  padding-left: 2.75rem;
   height: 112px;
   color: white;
   border-radius: 6px;
   background-color: #5574a7;
-}
-
-.lobby-product::before {
-  content: "";
-  position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
-  width: 0;
-  height: 0;
-  border: 0.75rem solid;
-  border-color: transparent;
-  border-top-color: currentColor;
-  border-left-color: currentColor;
-  opacity: .24;
 }
 
 .lobby-product__info > .text-title {
@@ -5523,10 +5519,6 @@ button.swiper-pagination-bullet {
 .lobby-product__info .btn {
   min-width: 6rem;
   min-height: 1.75rem;
-}
-
-.lobby-product img {
-  height: 125%;
 }
 
 .main {

@@ -96,6 +96,7 @@ flex: 1 0 auto;
     border-bottom: 3px solid #8c6431;
     /* margin: 0 auto; */
     box-shadow: 1px 1px 6px 2px #000;
+    cursor: pointer;
 }
 .CasModule .BIG > div:nth-child(1),.CasModule .MI div div:nth-child(1),.SM div div:nth-child(1){
     width: 100%;

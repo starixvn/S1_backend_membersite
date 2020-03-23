@@ -1,6 +1,7 @@
 ﻿@using MemberSite.Service.BLL
 @using MemberSite.Service.Library
 @using System.Security.Claims
+@using MemberSite.Service.Model.enums
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @inject PromotionBLL promotionBLL
@@ -10,7 +11,8 @@
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     int CurrencyId = 0;
-
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
+    var SkinImgPath = $"{SkinRootPath}/images";
     int promotionCnt = 0;
 
     if (User.Identity.IsAuthenticated)
@@ -188,6 +190,10 @@
                     <i class="icon icon-sport161"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_NumberGame")</span>
                 </a>
+                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(1, "245", Url)">
+                    <i class="icon VirtualGames"><img src="@SkinImgPath/svg/VirtualGames.svg"></i>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualGames")</span>
+                </a>
                 <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(1,"180",Url)">
                     <i class="icon icon-sport18x"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>
@@ -196,7 +202,7 @@
                     <i class="icon icon-sport251"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
                 </a>
-                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(2,"2",Url)">
+                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(2,"LiveCasino",Url, GameType.LiveCasinoLobby)">
                     <i class="icon icon-sport162"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
                 </a>

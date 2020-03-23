@@ -1465,4 +1465,7 @@
   <data name="lbl_ReModify" xml:space="preserve">
     <value>重新更改</value>
   </data>
+  <data name="lbl_VirtualGames" xml:space="preserve">
+    <value>虚拟娱乐城</value>
+  </data>
 </root>

@@ -5889,6 +5889,10 @@ button.swiper-pagination-bullet {
   font-weight: normal;
 }
 
+.VirtualGames {
+  width: 1.5rem;
+}
+
 .lobby-banner-swiper {
   position: relative;
   z-index: 0;

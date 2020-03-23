@@ -202,15 +202,16 @@
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Soccer")</span>
                 </div>
             </a>
-            <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "2",Url)">
-                <img src="@SkinImgPath/Lobby/Home/Sport-Basketball.png">
-                <img src="@SkinImgPath/Lobby/Home/d_Sport-Basketball.png">
-                <div class="lobby-sport__info">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_Basketball")</span>
-                </div>
-            </a>
+
             @if (serverInfo.SiteId == 2 || serverInfo.SiteId == 3)
             {
+                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "2",Url)">
+                    <img src="@SkinImgPath/Lobby/Home/Sport-Basketball.png">
+                    <img src="@SkinImgPath/Lobby/Home/d_Sport-Basketball.png">
+                    <div class="lobby-sport__info">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Basketball")</span>
+                    </div>
+                </a>
                 <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1,"208",Url)">
                     <img src="@SkinImgPath/Lobby/Home/Casino.png">
                     <img src="@SkinImgPath/Lobby/Home/d_Casino.png">
@@ -218,74 +219,123 @@
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
                     </div>
                 </a>
-            }
-            else
-            {
-                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "9",Url)">
-                    <img src="@SkinImgPath/Lobby/Home/Sport-Badminton.png">
-                    <img src="@SkinImgPath/Lobby/Home/d_Sport-Badminton.png">
+                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "43",Url)">
+                    <img src="@SkinImgPath/Lobby/Home/Sport-E-Sports.png">
+                    <img src="@SkinImgPath/Lobby/Home/d_Sport-E-Sports.png">
                     <div class="lobby-sport__info">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_badminton")</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_eSports")</span>
+                    </div>
+                </a>
+                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "5",Url)">
+                    <img src="@SkinImgPath/Lobby/Home/Sport-Tennis.png">
+                    <img src="@SkinImgPath/Lobby/Home/d_Sport-Tennis.png">
+                    <div class="lobby-sport__info">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Tennis")</span>
                     </div>
                 </a>
             }
-            <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "43",Url)">
-                <img src="@SkinImgPath/Lobby/Home/Sport-E-Sports.png">
-                <img src="@SkinImgPath/Lobby/Home/d_Sport-E-Sports.png">
-                <div class="lobby-sport__info">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_eSports")</span>
-                </div>
-            </a>
-            <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "5",Url)">
-                <img src="@SkinImgPath/Lobby/Home/Sport-Tennis.png">
-                <img src="@SkinImgPath/Lobby/Home/d_Sport-Tennis.png">
-                <div class="lobby-sport__info">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_Tennis")</span>
-                </div>
-            </a>
+            else
+            {
+                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "208",Url)">
+                    <img src="@SkinImgPath/Lobby/Home/Sport-Casino.png">
+                    <img src="@SkinImgPath/Lobby/Home/d_Sport-Casino.png">
+                    <div class="lobby-sport__info">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
+                    </div>
+                </a>
+                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(4, "4",Url)">
+                    <img src="@SkinImgPath/Lobby/Home/Sport-Live_Casino.png">
+                    <img src="@SkinImgPath/Lobby/Home/d_Sport-Live_Casino.png">
+                    <div class="lobby-sport__info">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_DreamGaming")</span>
+                    </div>
+                </a>
+
+                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "43",Url)">
+                    <img src="@SkinImgPath/Lobby/Home/Sport-E-Sports.png">
+                    <img src="@SkinImgPath/Lobby/Home/d_Sport-E-Sports.png">
+                    <div class="lobby-sport__info">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_eSports")</span>
+                    </div>
+                </a>
+
+                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "180",Url)">
+                    <img src="@SkinImgPath/Lobby/Home/Sport-Virtual_Sports.png">
+                    <img src="@SkinImgPath/Lobby/Home/d_Sport-Virtual_Sports.png">
+                    <div class="lobby-sport__info">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>
+                    </div>
+                </a>
+            }
+
         </div>
         <div class="lobby-product-swiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="lobby-product">
-                        <div class="lobby-product__info">
-                            <span class="text-title">@selLangBLL.GetResourceValue("lbl_Casino")</span>
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_CasinoSlogon")</span>
-                            <a class="btn btn-secondary" href="@gamingBLL.GetEntPageUrl(1, "208",Url)"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
-                        </div>
-                        <img src="@SkinImgPath/Lobby/Home/Product-Casino.png">
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="lobby-product">
-                        <div class="lobby-product__info">
-                            <span class="text-title">@selLangBLL.GetResourceValue("lbl_Keno")</span>
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_KenoSlogon")</span>
-                            <a class="btn btn-secondary" href="@gamingBLL.GetEntPageUrl(1, "202",Url)"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
-                        </div>
-                        <img src="@SkinImgPath/Lobby/Home/Product-Keno.png">
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="lobby-product">
-                        <div class="lobby-product__info">
-                            <span class="text-title">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasinoSlogon")</span>
-                            <a class="btn btn-secondary" href="@gamingBLL.GetEntPageUrl(0, "livecasino",Url)"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
-                        </div>
-                        <img src="@SkinImgPath/Lobby/Home/Product-LiveCasino.png">
-                    </div>
-                </div>
-                @if (serverInfo.SiteId != 2 || serverInfo.SiteId != 3)
+                @if (serverInfo.SiteId == 2 || serverInfo.SiteId == 3)
                 {
                     <div class="swiper-slide">
                         <div class="lobby-product">
                             <div class="lobby-product__info">
-                                <span class="text-title">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>
-                                <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualSportsSlogon")</span>
-                                <a class="btn btn-secondary" href="@gamingBLL.GetEntPageUrl(1, "180",Url)"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
+                                <span class="text-title">@selLangBLL.GetResourceValue("lbl_Casino")</span>
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_CasinoSlogon")</span>
+                                <a class="btn btn-secondary" href="@gamingBLL.GetEntPageUrl(1, "208", Url)"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
                             </div>
-                            <img src="@SkinImgPath/Lobby/Home/Product-VirtualSports.png">
+                            <img src="@SkinImgPath/Lobby/Home/Product-Casino.png">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="lobby-product">
+                            <div class="lobby-product__info">
+                                <span class="text-title">@selLangBLL.GetResourceValue("lbl_Keno")</span>
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_KenoSlogon")</span>
+                                <a class="btn btn-secondary" href="@gamingBLL.GetEntPageUrl(1, "202", Url)"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
+                            </div>
+                            <img src="@SkinImgPath/Lobby/Home/Product-Keno.png">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="lobby-product">
+                            <div class="lobby-product__info">
+                                <span class="text-title">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasinoSlogon")</span>
+                                <a class="btn btn-secondary" href="@gamingBLL.GetEntPageUrl(0, "livecasino", Url)"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
+                            </div>
+                            <img src="@SkinImgPath/Lobby/Home/Product-LiveCasino.png">
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="lobby-product-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="lobby-product">
+                                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
+                                        <img src="@SkinImgPath/Lobby/Home/Product-150.png">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="lobby-product">
+                                    <a href="@gamingBLL.GetEntPageUrl(1, "245", Url)">
+                                        <img src="@SkinImgPath/Lobby/Home/Product-Virtual_Game.png">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="lobby-product">
+                                    <a href="@gamingBLL.GetEntPageUrl(1, "202", Url)">
+                                        <img src="@SkinImgPath/Lobby/Home/Product-Keno.png">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="lobby-product">
+                                    <a href="@gamingBLL.GetEntPageUrl(3, "3",Url)">
+                                        <img src="@SkinImgPath/Lobby/Home/Product-AG.png">
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 }
@@ -319,7 +369,7 @@
                 autoplay: {
                     delay: 6000,
                 },
-                slidesPerView: 3,
+                slidesPerView: 4,
                 breakpoints: {
                     768: {
                         slidesPerView: 1,
