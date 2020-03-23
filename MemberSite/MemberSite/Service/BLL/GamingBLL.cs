@@ -19,24 +19,25 @@ namespace MemberSite.Service.BLL
         }
         public string GetEntPageUrl(int tpId, string gameId, IUrlHelper urlHelper)
         {
-            var entPageUrl = "";
             var routeData = urlHelper.ActionContext.RouteData;
             var homeUrl = urlHelper.RouteUrl("desktop", new { action = routeData.Values["action"], controller = routeData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
             var signupUrl = urlHelper.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
             var LoginUrl = urlHelper.RouteUrl("desktop", new { action = routeData.Values["action"], controller = routeData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
 
+            string entPageUrl;
             if (tpId == 1)
             {
+                int.TryParse(gameId, out int iGameId);
                 if (!urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
                 {
-                    if (gameId == "202" || gameId == "208" || gameId == "211")
+                    if (iGameId > 200)/*3RD Game or RNG Game*/
                     {
                         if (tools.IsMobile())
                         {
                             var message = selLangBLL.GetMsg("msg_LoginToAccess");
                             entPageUrl = $"javascript:alert('{message}');";
                         }
-                        else if (gameId == "211")/*AllBet*/
+                        else if (iGameId == 211)/*AllBet*/
                         {
                             entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
                         }
@@ -59,13 +60,13 @@ namespace MemberSite.Service.BLL
                 }
                 else
                 {
-                    if (gameId == "202" || gameId == "208")/*Keno*/
+                    if (iGameId > 200 && iGameId != 211)/*3RD Game or RNG Game*/
                     {
                         entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
                         //entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
                         entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
                     }
-                    else if (gameId == "211")/*AllBet*/
+                    else if (iGameId == 211)/*All Bet*/
                     {
                         entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
                     }
