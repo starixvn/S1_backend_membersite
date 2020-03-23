@@ -32,14 +32,14 @@ namespace MemberSite.Service.BLL
                 {
                     if (iGameId > 200)/*3RD Game or RNG Game*/
                     {
-                        if (tools.IsMobile())
+                        if (iGameId == 211)/*AllBet*/
+                        {
+                            entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+                        }
+                        else if (tools.IsMobile())
                         {
                             var message = selLangBLL.GetMsg("msg_LoginToAccess");
                             entPageUrl = $"javascript:alert('{message}');";
-                        }
-                        else if (iGameId == 211)/*AllBet*/
-                        {
-                            entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
                         }
                         else
                         {
@@ -60,15 +60,15 @@ namespace MemberSite.Service.BLL
                 }
                 else
                 {
-                    if (iGameId > 200 && iGameId != 211)/*3RD Game or RNG Game*/
+                    if (iGameId == 211)/*All Bet*/
+                    {
+                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+                    }
+                    else if (iGameId > 200)/*3RD Game or RNG Game*/
                     {
                         entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
                         //entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
                         entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
-                    }
-                    else if (iGameId == 211)/*All Bet*/
-                    {
-                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
                     }
                     else if (tools.IsMobile())
                     {
