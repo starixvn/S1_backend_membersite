@@ -1,5 +1,6 @@
 ﻿@using MemberSite.Service.BLL
 @using MemberSite.Service.Library
+@using MemberSite.Service.Model.enums
 @using System.Security.Claims
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
@@ -246,7 +247,7 @@
         <a class="header__col" data-selected="false" href="@gamingBLL.GetEntPageUrl(1,"208",Url)">
             <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
         </a>
-        <a class="header__col" data-selected="false" href="@gamingBLL.GetEntPageUrl(1,"211",Url)">
+        <a class="header__col" data-selected="false" href="@gamingBLL.GetEntPageUrl(1,"211",Url, GameType.LiveCasinoLobby)">
             <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
         </a>
         @*<a class="header__col" data-selected="false" href="@gamingBLL.GetEntPageUrl(1,"211",Url)">

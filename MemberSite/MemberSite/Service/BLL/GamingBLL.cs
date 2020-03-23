@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace MemberSite.Service.BLL
             this.tools = tools;
             this.selLangBLL = selLangBLL;
         }
-        public string GetEntPageUrl(int tpId, string gameId, IUrlHelper urlHelper)
+        public string GetEntPageUrl(int tpId, string gameId, IUrlHelper urlHelper, GameType gameType = GameType.LiveCasino/*for Except TpId = 1*/)
         {
             var routeData = urlHelper.ActionContext.RouteData;
             var homeUrl = urlHelper.RouteUrl("desktop", new { action = routeData.Values["action"], controller = routeData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
@@ -84,14 +85,29 @@ namespace MemberSite.Service.BLL
             }
             else
             {
-                if (gameId == "LiveCasino")
-                { 
+                if (gameType == GameType.LiveCasinoLobby)
+                {
                     entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
                 }
                 else
                 {
-                    entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
-                    entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
+                    if (urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
+                    {
+                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId, gameType = gameType.ToString() });
+                        entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
+                    }
+                    else
+                    {
+                        if (tools.IsMobile())
+                        {
+                            var message = selLangBLL.GetMsg("msg_LoginToAccess");
+                            entPageUrl = $"javascript:alert('{message}');";
+                        }
+                        else
+                        {
+                            entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Static", controller = "Home", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                        }
+                    }
                 }
             }
             return entPageUrl;

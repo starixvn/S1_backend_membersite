@@ -151,4 +151,11 @@ namespace MemberSite.Service.Model.enums
         SA = 2,
         AG = 3
     }
+    public enum GameType
+    {
+        SlotsLobby = 1,
+        LiveCasinoLobby = 2,
+        LiveCasino = 3,
+        Slots = 4,
+    }
 }
