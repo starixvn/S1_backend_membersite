@@ -98,15 +98,8 @@ namespace MemberSite.Service.BLL
                     }
                     else
                     {
-                        if (tools.IsMobile())
-                        {
-                            var message = selLangBLL.GetMsg("msg_LoginToAccess");
-                            entPageUrl = $"javascript:alert('{message}');";
-                        }
-                        else
-                        {
-                            entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Static", controller = "Home", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
-                        }
+                        var message = selLangBLL.GetMsg("msg_LoginToAccess");
+                        entPageUrl = $"javascript:alert('{message}');";
                     }
                 }
             }
