@@ -95,6 +95,9 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Update="wwwroot\CMS\Nova88\Promotion\en\banner-cashbackrebet.jpg">
+      <CopyToOutputDirectory>banner-cashbackrebet</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\js\component\account\ChangePwd.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
