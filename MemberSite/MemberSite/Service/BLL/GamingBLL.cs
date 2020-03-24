@@ -37,6 +37,10 @@ namespace MemberSite.Service.BLL
                         {
                             entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
                         }
+                        else if (iGameId == 245)
+                        {
+                            entPageUrl = "javascript:void();";
+                        }
                         else if (tools.IsMobile())
                         {
                             var message = selLangBLL.GetMsg("msg_LoginToAccess");
