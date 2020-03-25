@@ -198,7 +198,7 @@
                     <i class="icon icon-sport18x"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>
                 </a>
-                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(1,"208",Url)">
+                <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
                     <i class="icon icon-sport251"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
                 </a>

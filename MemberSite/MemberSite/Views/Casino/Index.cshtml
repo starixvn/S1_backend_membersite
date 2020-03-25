@@ -27,7 +27,7 @@
                     <span>NOVA CASINO</span>
                 </div>
             </a>
-            <a class="BIG" onclick="@gamingBLL.GetEntPageUrl(1,"208",Url)">
+            <a class="BIG @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" onclick="@(!User.Identity.IsAuthenticated ? "javascript:void(0);" : @gamingBLL.GetEntPageUrl(1,"208",Url))">
                 <img src="@SkinRootPath/images/Lobby/casino/lobbyEntrance2.png" />
                 <div>
                     <span>OW CASINO</span>
