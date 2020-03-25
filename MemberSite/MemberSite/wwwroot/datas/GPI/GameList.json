@@ -1,0 +1,2021 @@
+{
+  "imgUrl": "",
+  "data": [
+    {
+      "name": {
+        "en": "4 Guardians",
+        "cs": "四大神兽"
+      },
+      "appId": "fourguardians",
+      "gameId": "fourguardians",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "96.99",
+      "imgName": {
+        "ch": "4-Guardians-cs.jpg",
+        "en": "4-Guardians-en.jpg",
+        "cs": "4-Guardians-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "7 Brothers",
+        "cs": "福禄娃"
+      },
+      "appId": "sevenbrothers",
+      "gameId": "sevenbrothers",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "94.93",
+      "imgName": {
+        "ch": "7-Brothers-cs.jpg",
+        "en": "7-Brothers-en.jpg",
+        "cs": "7-Brothers-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "7 Wonders",
+        "cs": "七大奇观"
+      },
+      "appId": "sevenwonders",
+      "gameId": "sevenwonders",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "95.16",
+      "imgName": {
+        "ch": "7-Wonders-cs.jpg",
+        "en": "7-Wonders-en.jpg",
+        "cs": "7-Wonders-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "777 Golden Wheel",
+        "cs": "777 幸运大转盘"
+      },
+      "appId": "goldenwheel",
+      "gameId": "goldenwheel",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "95.06",
+      "imgName": {
+        "ch": "777-Golden-Wheel-cs.jpg",
+        "en": "777-Golden-Wheel-en.jpg",
+        "cs": "777-Golden-Wheel-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Alchemists Spell",
+        "cs": "魔幻炼金"
+      },
+      "appId": "alchemistsspell",
+      "gameId": "alchemistsspell",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "125 ways",
+      "RTP": "96.52",
+      "imgName": {
+        "ch": "Alchemists-Spell-cs.jpg",
+        "en": "Alchemists-Spell-en.jpg",
+        "cs": "Alchemists-Spell-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Baseball",
+        "cs": "热血棒球"
+      },
+      "appId": "baseball",
+      "gameId": "baseball",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "95.36",
+      "imgName": {
+        "ch": "Baseball-cs.jpg",
+        "en": "Baseball-en.jpg",
+        "cs": "Baseball-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Bikini Beach",
+        "cs": "沙滩比基尼"
+      },
+      "appId": "bikinibeach",
+      "gameId": "bikinibeach",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "97.00",
+      "imgName": {
+        "ch": "Bikini-Beach-cs.jpg",
+        "en": "Bikini-Beach-en.jpg",
+        "cs": "Bikini-Beach-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Blossom Garden",
+        "cs": "桃源秘境"
+      },
+      "appId": "blossomgarden",
+      "gameId": "blossomgarden",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "96.50",
+      "imgName": {
+        "ch": "Blossom-Garden-cs.jpg",
+        "en": "Blossom-Garden-en.jpg",
+        "cs": "Blossom-Garden-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Boxing",
+        "cs": "拳击"
+      },
+      "appId": "boxing",
+      "gameId": "boxing",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "95.30",
+      "imgName": {
+        "ch": "Boxing-cs.jpg",
+        "en": "Boxing-en.jpg",
+        "cs": "Boxing-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Candylicious",
+        "cs": "甜蜜蜜"
+      },
+      "appId": "candylicious",
+      "gameId": "candylicious",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "96.82",
+      "imgName": {
+        "ch": "Candylicious-cs.jpg",
+        "en": "Candylicious-en.jpg",
+        "cs": "Candylicious-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Captain Rabbit",
+        "cs": "宝兔队长"
+      },
+      "appId": "captainrabbit",
+      "gameId": "captainrabbit",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "96.49%",
+      "imgName": {
+        "ch": "Captain-Rabbit-cs.jpg",
+        "en": "Captain-Rabbit-en.jpg",
+        "cs": "Captain-Rabbit-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Casino Royale",
+        "cs": "皇家赌场"
+      },
+      "appId": "casinoroyale",
+      "gameId": "casinoroyale",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "92.41",
+      "imgName": {
+        "ch": "Casino-Royale-cs.jpg",
+        "en": "Casino-Royale-en.jpg",
+        "cs": "Casino-Royale-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Chess Royale",
+        "cs": "至尊棋王"
+      },
+      "appId": "chessroyale",
+      "gameId": "chessroyale",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "10",
+      "RTP": "96.08",
+      "imgName": {
+        "ch": "Chess-Royale-cs.jpg",
+        "en": "Chess-Royale-en.jpg",
+        "cs": "Chess-Royale-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Cleopatra",
+        "cs": "埃及艳后"
+      },
+      "appId": "cleopatra",
+      "gameId": "cleopatra",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "50",
+      "RTP": "97.01",
+      "imgName": {
+        "ch": "Cleopatra-cs.jpg",
+        "en": "Cleopatra-en.jpg",
+        "cs": "Cleopatra-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Desert Oasis",
+        "cs": "沙漠寻宝"
+      },
+      "appId": "desertoasis",
+      "gameId": "desertoasis",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "95.15",
+      "imgName": {
+        "ch": "Desert-Oasis-cs.jpg",
+        "en": "Desert-Oasis-en.jpg",
+        "cs": "Desert-Oasis-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dimsumlicious",
+        "cs": "舌尖上的点心"
+      },
+      "appId": "dimsumlicious",
+      "gameId": "dimsumlicious",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "8",
+      "RTP": "95.04",
+      "imgName": {
+        "ch": "Dimsumlicious-cs.jpg",
+        "en": "Dimsumlicious-en.jpg",
+        "cs": "Dimsumlicious-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dino Age",
+        "cs": "恐龙时代"
+      },
+      "appId": "dinoage",
+      "gameId": "dinoage",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "97.00%",
+      "imgName": {
+        "ch": "Dino-Age-cs.jpg",
+        "en": "Dino-Age-en.jpg",
+        "cs": "Dino-Age-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Fa Fa Zhu",
+        "cs": "发发猪"
+      },
+      "appId": "fafazhu",
+      "gameId": "fafazhu",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "96.50%",
+      "imgName": {
+        "ch": "Fa-Fa-Zhu-cs.jpg",
+        "en": "Fa-Fa-Zhu-en.jpg",
+        "cs": "Fa-Fa-Zhu-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Floras Secret",
+        "cs": "秘密花园"
+      },
+      "appId": "florassecret",
+      "gameId": "florassecret",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "95.00",
+      "imgName": {
+        "ch": "Floras-Secret-cs.jpg",
+        "en": "Floras-Secret-en.jpg",
+        "cs": "Floras-Secret-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Forbidden Chamber",
+        "cs": "金瓶梅"
+      },
+      "appId": "forbiddenchamber",
+      "gameId": "forbiddenchamber",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "95.17",
+      "imgName": {
+        "ch": "Forbidden-Chamber-cs.jpg",
+        "en": "Forbidden-Chamber-en.jpg",
+        "cs": "Forbidden-Chamber-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Fortune Cat",
+        "cs": "招财猫"
+      },
+      "appId": "fortunecat",
+      "gameId": "fortunecat",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "8",
+      "RTP": "96.00",
+      "imgName": {
+        "ch": "Fortune-Cat-cs.jpg",
+        "en": "Fortune-Cat-en.jpg",
+        "cs": "Fortune-Cat-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Fortune Dice",
+        "cs": "幸运骰子"
+      },
+      "appId": "fortunedice",
+      "gameId": "fortunedice",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "50",
+      "RTP": "96.80",
+      "imgName": {
+        "ch": "Fortune-Dice-cs.jpg",
+        "en": "Fortune-Dice-en.jpg",
+        "cs": "Fortune-Dice-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Fortune Hong Bao",
+        "cs": "旺旺红包"
+      },
+      "appId": "fortunehongbao",
+      "gameId": "fortunehongbao",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "8",
+      "RTP": "97.03%",
+      "imgName": {
+        "ch": "Fortune-Hong-Bao-cs.jpg",
+        "en": "Fortune-Hong-Bao-en.jpg",
+        "cs": "Fortune-Hong-Bao-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Deep Blue",
+        "cs": "深海探险"
+      },
+      "appId": "deepblue",
+      "gameId": "deepblue",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "94.99",
+      "imgName": {
+        "ch": "Deep-Blue-cs.jpg",
+        "en": "Deep-Blue-en.jpg",
+        "cs": "Deep-Blue-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Fortune Koi",
+        "cs": "锦鲤纳福"
+      },
+      "appId": "fortunekoi",
+      "gameId": "fortunekoi",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "10",
+      "RTP": "96.00",
+      "imgName": {
+        "ch": "Fortune-Koi-cs.jpg",
+        "en": "Fortune-Koi-en.jpg",
+        "cs": "Fortune-Koi-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Fountain of Fortune",
+        "cs": "财富之泉"
+      },
+      "appId": "fountainoffortune",
+      "gameId": "fountainoffortune",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "97%",
+      "imgName": {
+        "ch": "Fountain-of-Fortune-cs.jpg",
+        "en": "Fountain-of-Fortune-en.jpg",
+        "cs": "Fountain-of-Fortune-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Four Beauties",
+        "cs": "四大美人"
+      },
+      "appId": "fourbeauties",
+      "gameId": "fourbeauties",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "96.09",
+      "imgName": {
+        "ch": "Four-Beauties-cs.jpg",
+        "en": "Four-Beauties-en.jpg",
+        "cs": "Four-Beauties-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Frost Dragon",
+        "cs": "冰雪藏龙"
+      },
+      "appId": "frostdragon",
+      "gameId": "frostdragon",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "96.49",
+      "imgName": {
+        "ch": "Frost-Dragon-cs.jpg",
+        "en": "Frost-Dragon-en.jpg",
+        "cs": "Frost-Dragon-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Fruitilicious",
+        "cs": "水果乐园"
+      },
+      "appId": "fruitilicious",
+      "gameId": "fruitilicious",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "8",
+      "RTP": "95.04",
+      "imgName": {
+        "ch": "Fruitilicious-cs.jpg",
+        "en": "Fruitilicious-en.jpg",
+        "cs": "Fruitilicious-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Fu Lu Shou",
+        "cs": "福禄寿"
+      },
+      "appId": "fulushou",
+      "gameId": "fulushou",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "95.16",
+      "imgName": {
+        "ch": "Fu-Lu-Shou-cs.jpg",
+        "en": "Fu-Lu-Shou-en.jpg",
+        "cs": "Fu-Lu-Shou-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Gem Forest",
+        "cs": "宝石赢家"
+      },
+      "appId": "gemforest",
+      "gameId": "gemforest",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "27 ways",
+      "RTP": "96.07",
+      "imgName": {
+        "ch": "Gem-Forest-cs.jpg",
+        "en": "Gem-Forest-en.jpg",
+        "cs": "Gem-Forest-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Genisys",
+        "cs": "创世纪"
+      },
+      "appId": "genisys",
+      "gameId": "genisys",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "92.03",
+      "imgName": {
+        "ch": "Genisys-cs.jpg",
+        "en": "Genisys-en.jpg",
+        "cs": "Genisys-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Genies Luck",
+        "cs": "精灵寻宝"
+      },
+      "appId": "geniesluck",
+      "gameId": "geniesluck",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "40",
+      "RTP": "96.46",
+      "imgName": {
+        "ch": "Genies-Luck-cs.jpg",
+        "en": "Genies-Luck-en.jpg",
+        "cs": "Genies-Luck-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Assault on Titan",
+        "cs": "侵袭的巨人"
+      },
+      "appId": "assaultontitan",
+      "gameId": "assaultontitan",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "95.01",
+      "imgName": {
+        "ch": "Assault-on-Titan-cs.jpg",
+        "en": "Assault-on-Titan-en.jpg",
+        "cs": "Assault-on-Titan-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "God of Fortune",
+        "cs": "财神到"
+      },
+      "appId": "godoffortune",
+      "gameId": "godoffortune",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "8",
+      "RTP": "97.03",
+      "imgName": {
+        "ch": "God-of-Fortune-cs.jpg",
+        "en": "God-of-Fortune-en.jpg",
+        "cs": "God-of-Fortune-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "God of Gamblers",
+        "cs": "赌神"
+      },
+      "appId": "godofgamblers",
+      "gameId": "godofgamblers",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "94.99",
+      "imgName": {
+        "ch": "God-of-Gamblers-cs.jpg",
+        "en": "God-of-Gamblers-en.jpg",
+        "cs": "God-of-Gamblers-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Golden Eggs",
+        "cs": "金蛋鹅"
+      },
+      "appId": "goldeneggs",
+      "gameId": "goldeneggs",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "94.99",
+      "imgName": {
+        "ch": "Golden-Eggs-cs.jpg",
+        "en": "Golden-Eggs-en.jpg",
+        "cs": "Golden-Eggs-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Hula Girl",
+        "cs": "花夏女孩"
+      },
+      "appId": "hulagirl",
+      "gameId": "hulagirl",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "96.10",
+      "imgName": {
+        "ch": "Hula-Girl-cs.jpg",
+        "en": "Hula-Girl-en.jpg",
+        "cs": "Hula-Girl-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Jewel Land",
+        "cs": "取宝乐园"
+      },
+      "appId": "jewelland",
+      "gameId": "jewelland",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "5",
+      "RTP": "96.49",
+      "imgName": {
+        "ch": "Jewel-Land-cs.jpg",
+        "en": "Jewel-Land-en.jpg",
+        "cs": "Jewel-Land-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "KlassiK (only HTML5)",
+        "cs": "经典老虎机"
+      },
+      "appId": "klassik",
+      "gameId": "klassik",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "97.00",
+      "imgName": {
+        "ch": "KlassiK-only-HTML5-cs.jpg",
+        "en": "KlassiK-only-HTML5-en.jpg",
+        "cs": "KlassiK-only-HTML5-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Kung Fu Furry",
+        "cs": "猫犬之争"
+      },
+      "appId": "kungfufurry",
+      "gameId": "kungfufurry",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "16",
+      "RTP": "96.53",
+      "imgName": {
+        "ch": "Kung-Fu-Furry-cs.jpg",
+        "en": "Kung-Fu-Furry-en.jpg",
+        "cs": "Kung-Fu-Furry-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lady Fortune",
+        "cs": "财富女神"
+      },
+      "appId": "ladyfortune",
+      "gameId": "ladyfortune",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1",
+      "RTP": "97.46",
+      "imgName": {
+        "ch": "Lady-Fortune-cs.jpg",
+        "en": "Lady-Fortune-en.jpg",
+        "cs": "Lady-Fortune-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lantern Festival",
+        "cs": "闹花灯"
+      },
+      "appId": "lanternfestival",
+      "gameId": "lanternfestival",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "95.36",
+      "imgName": {
+        "ch": "Lantern-Festival-cs.jpg",
+        "en": "Lantern-Festival-en.jpg",
+        "cs": "Lantern-Festival-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Leap of Fortune",
+        "cs": "聚宝金蟾 "
+      },
+      "appId": "leapoffortune",
+      "gameId": "leapoffortune",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "8",
+      "RTP": "97.11%",
+      "imgName": {
+        "ch": "Leap-of-Fortune-cs.jpg",
+        "en": "Leap-of-Fortune-en.jpg",
+        "cs": "Leap-of-Fortune-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Legend of Nezha",
+        "cs": "哪吒闹海"
+      },
+      "appId": "legendofnezha",
+      "gameId": "legendofnezha",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "97.00",
+      "imgName": {
+        "ch": "Legend-of-Nezha-cs.jpg",
+        "en": "Legend-of-Nezha-en.jpg",
+        "cs": "Legend-of-Nezha-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Little Monsters",
+        "cs": "顽皮小怪兽"
+      },
+      "appId": "littlemonsters",
+      "gameId": "littlemonsters",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "94.99",
+      "imgName": {
+        "ch": "Little-Monsters-cs.jpg",
+        "en": "Little-Monsters-en.jpg",
+        "cs": "Little-Monsters-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lucky Royale",
+        "cs": "至尊扑克"
+      },
+      "appId": "luckyroyale",
+      "gameId": "luckyroyale",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "96.99",
+      "imgName": {
+        "ch": "Lucky-Royale-cs.jpg",
+        "en": "Lucky-Royale-en.jpg",
+        "cs": "Lucky-Royale-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lucky Tarot",
+        "cs": "吉星塔罗"
+      },
+      "appId": "luckytarot",
+      "gameId": "luckytarot",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "97.04%",
+      "imgName": {
+        "ch": "Lucky-Tarot-cs.jpg",
+        "en": "Lucky-Tarot-en.jpg",
+        "cs": "Lucky-Tarot-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Pirates Treasure",
+        "cs": "海盗寻宝"
+      },
+      "appId": "piratestreasure",
+      "gameId": "piratestreasure",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "96.00",
+      "imgName": {
+        "ch": "Pirates-Treasure-cs.jpg",
+        "en": "Pirates-Treasure-en.jpg",
+        "cs": "Pirates-Treasure-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lunar Legends",
+        "cs": "月光传奇"
+      },
+      "appId": "lunarlegends",
+      "gameId": "lunarlegends",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "250",
+      "RTP": "96.46%",
+      "imgName": {
+        "ch": "Lunar-Legends-cs.jpg",
+        "en": "Lunar-Legends-en.jpg",
+        "cs": "Lunar-Legends-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Mafia",
+        "cs": "黑手党"
+      },
+      "appId": "mafia",
+      "gameId": "mafia",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "95.36",
+      "imgName": {
+        "ch": "Mafia-cs.jpg",
+        "en": "Mafia-en.jpg",
+        "cs": "Mafia-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Magic Paper",
+        "cs": "神奇折纸"
+      },
+      "appId": "magicpaper",
+      "gameId": "magicpaper",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1",
+      "RTP": "96.82%",
+      "imgName": {
+        "ch": "Magic-Paper-cs.jpg",
+        "en": "Magic-Paper-en.jpg",
+        "cs": "Magic-Paper-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lady Luck",
+        "cs": "幸运女神"
+      },
+      "appId": "ladyluck",
+      "gameId": "ladyluck",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1",
+      "RTP": "97.46",
+      "imgName": {
+        "ch": "Lady-Luck-cs.jpg",
+        "en": "Lady-Luck-en.jpg",
+        "cs": "Lady-Luck-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Casino Royale Pro",
+        "cs": "皇家赌场 Pro"
+      },
+      "appId": "casinoroyalepro",
+      "gameId": "casinoroyalepro",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "95.53",
+      "imgName": {
+        "ch": "Casino-Royale-Pro-cs.jpg",
+        "en": "Casino-Royale-Pro-en.jpg",
+        "cs": "Casino-Royale-Pro-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Boxing Pro",
+        "cs": "拳击 Pro"
+      },
+      "appId": "boxingpro",
+      "gameId": "boxingpro",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "95.3",
+      "imgName": {
+        "ch": "Boxing-Pro-cs.jpg",
+        "en": "Boxing-Pro-en.jpg",
+        "cs": "Boxing-Pro-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Underwater World Pro",
+        "cs": "海底世界 Pro"
+      },
+      "appId": "underwaterworldpro",
+      "gameId": "underwaterworldpro",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "95.3",
+      "imgName": {
+        "ch": "Underwater-World-Pro-cs.jpg",
+        "en": "Underwater-World-Pro-en.jpg",
+        "cs": "Underwater-World-Pro-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lantern Festival Pro",
+        "cs": "闹花灯 Pro"
+      },
+      "appId": "lanternfestivalpro",
+      "gameId": "lanternfestivalpro",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "95.36",
+      "imgName": {
+        "ch": "Lantern-Festival-Pro-cs.jpg",
+        "en": "Lantern-Festival-Pro-en.jpg",
+        "cs": "Lantern-Festival-Pro-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Baseball Pro",
+        "cs": "热血棒球 Pro"
+      },
+      "appId": "baseballpro",
+      "gameId": "baseballpro",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "95.36",
+      "imgName": {
+        "ch": "Baseball-Pro-cs.jpg",
+        "en": "Baseball-Pro-en.jpg",
+        "cs": "Baseball-Pro-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Roman Empire Pro",
+        "cs": "罗马帝国 Pro"
+      },
+      "appId": "romanempirepro",
+      "gameId": "romanempirepro",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "95.09",
+      "imgName": {
+        "ch": "Roman-Empire-Pro-cs.jpg",
+        "en": "Roman-Empire-Pro-en.jpg",
+        "cs": "Roman-Empire-Pro-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Money Monkey",
+        "cs": "铁锤金星"
+      },
+      "appId": "moneymonkey",
+      "gameId": "moneymonkey",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "243 ways",
+      "RTP": "96.33",
+      "imgName": {
+        "ch": "Money-Monkey-cs.jpg",
+        "en": "Money-Monkey-en.jpg",
+        "cs": "Money-Monkey-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Monkey King",
+        "cs": "齐天大圣"
+      },
+      "appId": "monkeyking",
+      "gameId": "monkeyking",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "95.36",
+      "imgName": {
+        "ch": "Monkey-King-cs.jpg",
+        "en": "Monkey-King-en.jpg",
+        "cs": "Monkey-King-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Monsters Cash",
+        "cs": "魔物赏金"
+      },
+      "appId": "monsterscash",
+      "gameId": "monsterscash",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "10",
+      "RTP": "96.97",
+      "imgName": {
+        "ch": "Monsters-Cash-cs.jpg",
+        "en": "Monsters-Cash-en.jpg",
+        "cs": "Monsters-Cash-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Moon Rabbit",
+        "cs": "月光宝兔"
+      },
+      "appId": "moonrabbit",
+      "gameId": "moonrabbit",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "8",
+      "RTP": "96.64",
+      "imgName": {
+        "ch": "Moon-Rabbit-cs.jpg",
+        "en": "Moon-Rabbit-en.jpg",
+        "cs": "Moon-Rabbit-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Nation - Double Play",
+        "cs": "快乐国度 - 双赢"
+      },
+      "appId": "nationdoubleplay",
+      "gameId": "nationdoubleplay",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "96.64%",
+      "imgName": {
+        "ch": "Nation-Double-Play-cs.jpg",
+        "en": "Nation-Double-Play-en.jpg",
+        "cs": "Nation-Double-Play-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Nuwa and the Five Elements",
+        "cs": "女娲与五行"
+      },
+      "appId": "nuwaandthefiveelements",
+      "gameId": "nuwaandthefiveelements",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "77",
+      "RTP": "96.50%",
+      "imgName": {
+        "ch": "Nuwa-and-the-Five-Elements-cs.jpg",
+        "en": "Nuwa-and-the-Five-Elements-en.jpg",
+        "cs": "Nuwa-and-the-Five-Elements-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Panda",
+        "cs": "熊猫萌萌哒"
+      },
+      "appId": "panda",
+      "gameId": "panda",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1",
+      "RTP": "96.82",
+      "imgName": {
+        "ch": "Panda-cs.jpg",
+        "en": "Panda-en.jpg",
+        "cs": "Panda-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Phantom Thief",
+        "cs": "幻影神偷"
+      },
+      "appId": "phantomthief",
+      "gameId": "phantomthief",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "96.36",
+      "imgName": {
+        "ch": "Phantom-Thief-cs.jpg",
+        "en": "Phantom-Thief-en.jpg",
+        "cs": "Phantom-Thief-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Pharaoh",
+        "cs": "法老王"
+      },
+      "appId": "pharaoh",
+      "gameId": "pharaoh",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "95.57",
+      "imgName": {
+        "ch": "Pharaoh-cs.jpg",
+        "en": "Pharaoh-en.jpg",
+        "cs": "Pharaoh-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Phoenix",
+        "cs": "神火凤凰"
+      },
+      "appId": "phoenix",
+      "gameId": "phoenix",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "96.98",
+      "imgName": {
+        "ch": "Phoenix-cs.jpg",
+        "en": "Phoenix-en.jpg",
+        "cs": "Phoenix-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Qi Xi",
+        "cs": "七夕情缘"
+      },
+      "appId": "qixi",
+      "gameId": "qixi",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "96.00",
+      "imgName": {
+        "ch": "Qi-Xi-cs.jpg",
+        "en": "Qi-Xi-en.jpg",
+        "cs": "Qi-Xi-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Kings of Highway",
+        "cs": "高速之王"
+      },
+      "appId": "kingsofhighway",
+      "gameId": "kingsofhighway",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "95.45",
+      "imgName": {
+        "ch": "Kings-of-Highway-cs.jpg",
+        "en": "Kings-of-Highway-en.jpg",
+        "cs": "Kings-of-Highway-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Golf Tour",
+        "cs": "高尔夫巡回赛"
+      },
+      "appId": "golftour",
+      "gameId": "golftour",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "5",
+      "RTP": "96.04",
+      "imgName": {
+        "ch": "Golf-Tour-cs.jpg",
+        "en": "Golf-Tour-en.jpg",
+        "cs": "Golf-Tour-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Queen Bee",
+        "cs": "蜜花园"
+      },
+      "appId": "queenbee",
+      "gameId": "queenbee",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "96.00",
+      "imgName": {
+        "ch": "Queen-Bee-cs.jpg",
+        "en": "Queen-Bee-en.jpg",
+        "cs": "Queen-Bee-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Red Chamber",
+        "cs": "红楼梦"
+      },
+      "appId": "redchamber",
+      "gameId": "redchamber",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "95.50",
+      "imgName": {
+        "ch": "Red-Chamber-cs.jpg",
+        "en": "Red-Chamber-en.jpg",
+        "cs": "Red-Chamber-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Roman Empire",
+        "cs": "罗马帝国"
+      },
+      "appId": "romanempire",
+      "gameId": "romanempire",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "92.31",
+      "imgName": {
+        "ch": "Roman-Empire-cs.jpg",
+        "en": "Roman-Empire-en.jpg",
+        "cs": "Roman-Empire-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Samurai Sushi",
+        "cs": "寿司武士"
+      },
+      "appId": "samuraisushi",
+      "gameId": "samuraisushi",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "50",
+      "RTP": "97.01",
+      "imgName": {
+        "ch": "Samurai-Sushi-cs.jpg",
+        "en": "Samurai-Sushi-en.jpg",
+        "cs": "Samurai-Sushi-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Sky Strikers",
+        "cs": "致命雄鹰"
+      },
+      "appId": "skystrikers",
+      "gameId": "skystrikers",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "97.33",
+      "imgName": {
+        "ch": "Sky-Strikers-cs.jpg",
+        "en": "Sky-Strikers-en.jpg",
+        "cs": "Sky-Strikers-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Space Neon",
+        "cs": "霓虹空间"
+      },
+      "appId": "spaceneon",
+      "gameId": "spaceneon",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "96.94%",
+      "imgName": {
+        "ch": "Space-Neon-cs.jpg",
+        "en": "Space-Neon-en.jpg",
+        "cs": "Space-Neon-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Strip n Roll",
+        "cs": "脱金俱乐部"
+      },
+      "appId": "stripnroll",
+      "gameId": "stripnroll",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "96.99%",
+      "imgName": {
+        "ch": "Strip-n-Roll-cs.jpg",
+        "en": "Strip-n-Roll-en.jpg",
+        "cs": "Strip-n-Roll-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Sweet Treats",
+        "cs": "甜蜜相待"
+      },
+      "appId": "sweettreats",
+      "gameId": "sweettreats",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "8",
+      "RTP": "96.67",
+      "imgName": {
+        "ch": "Sweet-Treats-cs.jpg",
+        "en": "Sweet-Treats-en.jpg",
+        "cs": "Sweet-Treats-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "The Nutcracker",
+        "cs": "胡桃夹欢乐夜"
+      },
+      "appId": "nutcracker",
+      "gameId": "nutcracker",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "5",
+      "RTP": "95.00",
+      "imgName": {
+        "ch": "The-Nutcracker-cs.jpg",
+        "en": "The-Nutcracker-en.jpg",
+        "cs": "The-Nutcracker-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Three Beauties",
+        "cs": "桃花三仙"
+      },
+      "appId": "threebeauties",
+      "gameId": "threebeauties",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1",
+      "RTP": "96.82%",
+      "imgName": {
+        "ch": "Three-Beauties-cs.jpg",
+        "en": "Three-Beauties-en.jpg",
+        "cs": "Three-Beauties-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Three Kingdoms",
+        "cs": "转三国"
+      },
+      "appId": "threekingdoms",
+      "gameId": "threekingdoms",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "96.09",
+      "imgName": {
+        "ch": "Three-Kingdoms-cs.jpg",
+        "en": "Three-Kingdoms-en.jpg",
+        "cs": "Three-Kingdoms-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Tokyo Hunter",
+        "cs": "东京猎人"
+      },
+      "appId": "tokyohunter",
+      "gameId": "tokyohunter",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "95.00",
+      "imgName": {
+        "ch": "Tokyo-Hunter-cs.jpg",
+        "en": "Tokyo-Hunter-en.jpg",
+        "cs": "Tokyo-Hunter-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Trick or Treat",
+        "cs": "万圣惊魂夜"
+      },
+      "appId": "trickortreat",
+      "gameId": "trickortreat",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "97.02",
+      "imgName": {
+        "ch": "Trick-or-Treat-cs.jpg",
+        "en": "Trick-or-Treat-en.jpg",
+        "cs": "Trick-or-Treat-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Under Water World",
+        "cs": "海底世界"
+      },
+      "appId": "underwaterworld",
+      "gameId": "underwaterworld",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "95.30",
+      "imgName": {
+        "ch": "Under-Water-World-cs.jpg",
+        "en": "Under-Water-World-en.jpg",
+        "cs": "Under-Water-World-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Vikings: Mega Reels",
+        "cs": "万金: 百万大轮"
+      },
+      "appId": "vikingsmegareels",
+      "gameId": "vikingsmegareels",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "250",
+      "RTP": "96.02%",
+      "imgName": {
+        "ch": "Vikings:-Mega-Reels-cs.jpg",
+        "en": "Vikings:-Mega-Reels-en.jpg",
+        "cs": "Vikings:-Mega-Reels-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Wilds and the Beanstalk",
+        "cs": "疯狂豌豆"
+      },
+      "appId": "wildsandthebeanstalk",
+      "gameId": "wildsandthebeanstalk",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "96.53",
+      "imgName": {
+        "ch": "Wilds-and-the-Beanstalk-cs.jpg",
+        "en": "Wilds-and-the-Beanstalk-en.jpg",
+        "cs": "Wilds-and-the-Beanstalk-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Wind Chimes",
+        "cs": "风中奇铃"
+      },
+      "appId": "windchimes",
+      "gameId": "windchimes",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "96.50%",
+      "imgName": {
+        "ch": "Wind-Chimes-cs.jpg",
+        "en": "Wind-Chimes-en.jpg",
+        "cs": "Wind-Chimes-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "World of Warlords",
+        "cs": "英雄崛起"
+      },
+      "appId": "worldofwarlords",
+      "gameId": "worldofwarlords",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "95.17",
+      "imgName": {
+        "ch": "World-of-Warlords-cs.jpg",
+        "en": "World-of-Warlords-en.jpg",
+        "cs": "World-of-Warlords-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "World Soccer Slot 2",
+        "cs": "世界足球老虎机2"
+      },
+      "appId": "worldsoccerslot2",
+      "gameId": "worldsoccerslot2",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "243 ways",
+      "RTP": "96.49",
+      "imgName": {
+        "ch": "World-Soccer-Slot-2-cs.jpg",
+        "en": "World-Soccer-Slot-2-en.jpg",
+        "cs": "World-Soccer-Slot-2-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Wuxia Princess Mega Reels",
+        "cs": "武俠公主 百万大轮"
+      },
+      "appId": "wuxiaprincessmegareels",
+      "gameId": "wuxiaprincessmegareels",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "250",
+      "RTP": "96.46",
+      "imgName": {
+        "ch": "Wuxia-Princess-Mega-Reels-cs.jpg",
+        "en": "Wuxia-Princess-Mega-Reels-en.jpg",
+        "cs": "Wuxia-Princess-Mega-Reels-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Xuan Wu Blessing",
+        "cs": "玄武赐福"
+      },
+      "appId": "xuanwublessing",
+      "gameId": "xuanwublessing",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "97.00%",
+      "imgName": {
+        "ch": "Xuan-Wu-Blessing-cs.jpg",
+        "en": "Xuan-Wu-Blessing-en.jpg",
+        "cs": "Xuan-Wu-Blessing-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lucky Giant",
+        "cs": "幸运钢巨人"
+      },
+      "appId": "luckygiant",
+      "gameId": "luckygiant",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "243 ways",
+      "RTP": "96.47%",
+      "imgName": {
+        "ch": "Lucky-Giant-cs.jpg",
+        "en": "Lucky-Giant-en.jpg",
+        "cs": "Lucky-Giant-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Zeus",
+        "cs": "宙斯 - 众神之王"
+      },
+      "appId": "zeus",
+      "gameId": "zeus",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "95.16",
+      "imgName": {
+        "ch": "Zeus-cs.jpg",
+        "en": "Zeus-en.jpg",
+        "cs": "Zeus-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Zodiac",
+        "cs": "十二生肖"
+      },
+      "appId": "zodiac",
+      "gameId": "zodiac",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "97.03",
+      "imgName": {
+        "ch": "Zodiac-cs.jpg",
+        "en": "Zodiac-en.jpg",
+        "cs": "Zodiac-cs.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    }
+  ]
+}

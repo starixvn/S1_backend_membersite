@@ -9,12 +9,14 @@
 @inject WalletBLL walletBLL
 @inject CustInfoBLL custInfoBLL
 @inject Tools tools
+@inject SelLangBLL selLangBLL
+@inject AuthorizeBLL authorizeBLL
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
     var CurrencyId = 0;
     var iSwitch = 2;
-
+    var showResetPwdAlert = false;
 }
 <!DOCTYPE html>
 <html lang="@selLangBLL.GetLangId()" data-layout="@(tools.IsMobile() ? "mobile" : "desktop")">
@@ -46,11 +48,25 @@
     <script>
         var SiteLanguage = "@selLangBLL.GetLangId()";
         var SkinRootPath = "@Url.Content($"~/SiteSkin/{serverInfo.SiteName}")";
-        var SiteName =  "@serverInfo.SiteName";
+        var SiteName = "@serverInfo.SiteName";
+        var ResetPwdAlert = 0;
+        var DepositAlert = 0;
     </script>
     @RenderSection("Style", required: false)
 </head>
 <body>
+    @{if (User.Identity.IsAuthenticated && !Context.Request.Cookies.ContainsKey("Initialization"))
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
+            if (custInfo.IsResetPwd)
+            {
+                showResetPwdAlert = true;
+                @:<script>ResetPwdAlert = 1</script>
+                <div id="ResetPwdAlert"></div>
+            }
+        }
+    }
     <div class="app">
         <partial name="~/Views/Shared/_Header.cshtml" />
         @*Url.RouteUrl(new { action = "Index", controller = "Home", area = "Mobile", LangId = selLangBLL.GetLangId() });*@
@@ -112,6 +128,21 @@
                 if (!i18n.ContainsKey(lbl_Txt))
                     i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
             }
+
+            if (!Context.Request.Cookies.ContainsKey("Initialization"))
+            {
+                i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
+                i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
+                i18n.Add("msg_PasswordVaildate", selLangBLL.GetMsg("msg_PasswordVaildate"));
+
+                i18n.Add("lbl_ChangePassword", selLangBLL.GetResourceValue("lbl_ChangePassword"));
+                i18n.Add("lbl_OldPassword", selLangBLL.GetResourceValue("lbl_OldPassword"));
+                i18n.Add("lbl_NewPassword", selLangBLL.GetResourceValue("lbl_NewPassword"));
+                i18n.Add("lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip"));
+                i18n.Add("lbl_Later", selLangBLL.GetResourceValue("lbl_Later"));
+                i18n.Add("lbl_Update", selLangBLL.GetResourceValue("lbl_Update"));
+            }
+
             @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
             @:var IsConvertRequired = @Newtonsoft.Json.JsonConvert.SerializeObject(custInfoBLL.IsConvertRequired(CurrencyId));
         }
@@ -191,6 +222,12 @@
 
                 $target.attr("data-open", $target.attr("data-open") === "true" ? "false" : "true");
             });
+
+            if (ResetPwdAlert === 1) {
+                $("#ResetPwdAlert").attr("data-open", true);
+            } else if (DepositAlert===1) {
+                $("#DepositAlet").attr("data-open", true);
+            }
         });
     </script>
     @if (User.Identity.IsAuthenticated)
@@ -290,6 +327,10 @@
         <script src="~/js/commJS/Account.js" asp-append-version="true"></script>
         <script src="~/js/component/app/BalancePanel.min.js" asp-append-version="true"></script>
         <script src="~/js/component/app/WalletInfo.min.js" asp-append-version="true"></script>
+        if (showResetPwdAlert && !Context.Request.Cookies.ContainsKey("Initialization"))
+        {
+            <script src="~/js/component/account/ChangePwdAlert.min.js" asp-append-version="true"></script>
+        }
     }
     else
     {

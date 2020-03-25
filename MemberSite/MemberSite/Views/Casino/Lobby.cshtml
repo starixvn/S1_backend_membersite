@@ -1,0 +1,45 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Hosting
+@using MemberSite.Service.BLL
+@using MemberSite.Service.Model
+@inject IWebHostEnvironment environment
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@inject GamingBLL gamingBLL
+@inject AuthorizeBLL authorizeBLL
+@inject CustInfoBLL custInfoBLL
+@inject CasinoBLL casinoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Title") + '|' + @selLangBLL.GetResourceValue("lbl_TitleDesc") + "|" + @selLangBLL.GetResourceValue("lbl_Casino");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
+}
+@section Style{
+    <link rel="stylesheet" href="@SkinRootPath/css/CasinoLobby.css" asp-append-version="true">
+}
+
+<div class="main" id="casino_content">
+</div>
+@{
+    IEnumerable<dynamic> result = null;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var authData = authorizeBLL.GetAuthData();
+        var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+        var data = casinoBLL.GetFavoriteGames(custInfo.CustId);
+        result = data != null && data.Any() ? data.Select(x => new { x.ProviderId, x.GameId }) : null;
+    }
+}
+@section Scripts{
+    <script>
+        var entPageUrl = '@Html.Raw(gamingBLL.GetEntPageUrl(0,"",Url, MemberSite.Service.Model.enums.GameType.Slots))';
+        var langCode = '@selLangBLL.GetLangId()';
+        var FavoriteGames = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(result));
+        var isLogin = '@(User.Identity.IsAuthenticated ? 1 : 0)';
+    </script>
+
+    <script src="~/js/component/casino/lobby.min.js" asp-append-version="true"></script>
+}

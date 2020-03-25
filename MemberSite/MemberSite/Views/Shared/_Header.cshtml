@@ -244,7 +244,7 @@
         <a class="header__col" data-selected="false" href="@gamingBLL.GetEntPageUrl(1,"180",Url)">
             <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>
         </a>
-        <a class="header__col" data-selected="false" href="@gamingBLL.GetEntPageUrl(1,"208",Url)">
+        <a class="header__col" data-selected="false" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
             <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
         </a>
         <a class="header__col" data-selected="false" href="@gamingBLL.GetEntPageUrl(1,"211",Url, GameType.LiveCasinoLobby)">

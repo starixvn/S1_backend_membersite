@@ -34,8 +34,9 @@ namespace MemberSite.Controllers.Api
         private readonly PaymentBLL paymentBLL;
         private readonly PromotionBLL promotionBLL;
         private readonly ThirdPartyBLL thirdPartyBLL;
+        private readonly CasinoBLL casinoBLL;
 
-        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter, MessageBLL messageBLL, PaymentBLL paymentBLL, PromotionBLL promotionBLL, ThirdPartyBLL thirdPartyBLL)
+        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter, MessageBLL messageBLL, PaymentBLL paymentBLL, PromotionBLL promotionBLL, ThirdPartyBLL thirdPartyBLL, CasinoBLL casinoBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -50,6 +51,7 @@ namespace MemberSite.Controllers.Api
             this.paymentBLL = paymentBLL;
             this.promotionBLL = promotionBLL;
             this.thirdPartyBLL = thirdPartyBLL;
+            this.casinoBLL = casinoBLL;
         }
 
         [HttpPost]
@@ -578,6 +580,47 @@ namespace MemberSite.Controllers.Api
             }
 
             return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<object> GetFavoriteGame()
+        {
+            var result = new ApiResult<object>();
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    var authData = authorizeBLL.GetAuthData();
+                    var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                    var data = casinoBLL.GetFavoriteGames(custInfo.CustId);
+                    result.Data = data != null && data.Any() ? data.Select(x => new { x.ProviderId, x.GameId }) : null;
+                    result.ErrorCode = 0;
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return result;
+        }
+
+        [HttpPost]
+        public void SetFavoriteGame(MemberFavorite FavoriteInfo)
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    var authData = authorizeBLL.GetAuthData();
+                    var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                    casinoBLL.SetFavoriteGames(custInfo.CustId, FavoriteInfo.ProviderId, FavoriteInfo.GameId, FavoriteInfo.IsRemove);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         //[HttpPost]

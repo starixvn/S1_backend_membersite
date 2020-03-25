@@ -100,7 +100,7 @@ namespace MemberSite.Service.BLL
                 {
                     if (urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
                     {
-                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, CashierUrl = cashierUrl, LobbyUrl = slotsLobbyUrl });
+                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, CashierUrl = cashierUrl, LobbyUrl = slotsLobbyUrl, gameType = gameType.ToString() });
                     }
                     else
                     {

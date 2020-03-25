@@ -14,12 +14,14 @@ background: linear-gradient(#000,#070d19,#242e49,#070d19,#000);
     font-weight: bold;
     width: 100%;
     display: flex;
-    justify-content: center;
 }
-.page.CasinoSelect .CasinoSelect_nav > a span,.page.CasinoSelect .CasModule span,.page.CasinoSelect .SM span,.page.CasinoLobby .CasModule span,.page.CasinoLobby .title{
+.page.CasinoSelect .CasinoSelect_nav > a span,.page.CasinoSelect .CasModule span,.page.CasinoLobby .CasModule span,.page.CasinoLobby .title{
     background: -webkit-linear-gradient(top,#a67636 0%,#feffc0 50%,#a67636 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    overflow : hidden;
+    text-overflow : ellipsis;
+    white-space : nowrap;
 }
 .page.CasinoSelect .CasinoSelect_nav{
     flex: 0 0 auto;
@@ -72,7 +74,7 @@ flex: 1 0 auto;
     width: 100px;
     padding: 0;
 }
-/**/
+
 .CasModule{
     display: flex;
     width: 100%;
@@ -83,123 +85,42 @@ flex: 1 0 auto;
 .CasModule > div{
     float: left;
 }
-.CasModule .BIG{
-    position: relative;
-    background: url(../images/Lobby/casino/B-banner.png)no-repeat top center;
-    height: 272px;
-    max-width: 335px;
-    font-size: 24px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    flex: 1;
-    border-bottom: 3px solid #8c6431;
-    /* margin: 0 auto; */
-    box-shadow: 1px 1px 6px 2px #000;
-    cursor: pointer;
-}
-.CasModule .BIG > div:nth-child(1),.CasModule .MI div div:nth-child(1),.SM div div:nth-child(1){
+
+.CasModule .MI div div:nth-child(1){
     width: 100%;
-    height: 46px;
+    height: 23px;
     background: url(../images/Lobby/casino/title-bg.png)no-repeat top center / cover;
     display: flex;
     align-items: center;
-    justify-content: center;
-}
-.CasModule .MI div div:nth-child(1){
-    height: 22px;
-}
-.SM div div:nth-child(1){
-    height: 18px;
+    justify-content: space-around;
 }
 .CasModule .MI{
-    flex: 2;
-    display: flex;
-    flex-wrap: wrap;
+    display: inline-block;
+    width: 100%;
 }
 .CasModule .MI > div{
-    /* background-color: #000;
-    margin: 0 5px 5px;
-    height: 133.5px;
-    min-width: 157px;
-    border-bottom: 1px solid #8c6431;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    flex: 1 1 20%;
-    flex-wrap: wrap; */
-    background-color: #000;
-    margin: 0 0 10px 8px;
-    height: 131px;
     min-width: 174px;
     max-width: 174px;
-    border-bottom: 1px solid #8c6431;
+    margin: 0 4px 10px 0;
+    height: 131px;
+    float: left;
+    position: relative;
     display: flex;
     align-items: flex-end;
-    /* justify-content: center; */
-    flex: 1 1 20%;
-    /* flex-wrap: wrap; */    
-    background: url(../images/Lobby/casino/M-banner1.png)no-repeat top center / 100% auto; 
-    box-shadow: 1px 2px 3px 0 #000;
-    position: relative;
-}
-.SM{
-    display: flex;
-    flex-wrap: wrap;
-}
-.SM > div{
-    margin: 0 5px 10px;
-    height: 108px;
-    min-width: 146px;
-    max-width: 146px;
-    border-bottom: 1px solid #8c6431;
-    display: flex;
-    align-items: flex-end;
-    /* justify-content: center; */
-    flex: 1;
-    /* flex-wrap: wrap; */
-    background: url(../images/Lobby/casino/S-banner1.png)no-repeat top center / 100% auto;
-    box-shadow: 1px 3px 3px 2px #000;
-    position: relative;
-}
-.CasModule .MI > div:nth-child(2),.CasModule .MI > div:nth-child(8){
-    background-image: url(../images/Lobby/casino/M-banner2.png)
-}
-.CasModule .MI > div:nth-child(3),.CasModule .MI > div:nth-child(9){
-    background-image: url(../images/Lobby/casino/M-banner3.png)
-}
-.CasModule .MI > div:nth-child(4),.CasModule .MI > div:nth-child(10){
-    background-image: url(../images/Lobby/casino/M-banner4.png)
-}
-.CasModule .MI > div:nth-child(5){
-    background-image: url(../images/Lobby/casino/M-banner5.png)
-}
-.CasModule .MI > div:nth-child(6){
-    background-image: url(../images/Lobby/casino/M-banner6.png)
-}
-.CasModule .MI > div:nth-child(7){
-    background-image: url(../images/Lobby/casino/M-banner1.png)
-}
-.SM > div:nth-child(2),.SM > div:nth-child(6),.SM > div:nth-child(10),.SM > div:nth-child(14){
-    background-image: url(../images/Lobby/casino/S-banner2.png)
-}
-.SM > div:nth-child(3),.SM > div:nth-child(7),.SM > div:nth-child(11),.SM > div:nth-child(15){
-    background-image: url(../images/Lobby/casino/S-banner3.png)
-}
-.SM > div:nth-child(4),.SM > div:nth-child(8),.SM > div:nth-child(12),.SM > div:nth-child(16){
-    background-image: url(../images/Lobby/casino/S-banner4.png)
-}
-.SM > div:nth-child(5),.SM > div:nth-child(9),.SM > div:nth-child(13){
-    background-image: url(../images/Lobby/casino/S-banner1.png)
-}
-@media (max-width: 1248px) {
-    .CasModule .MI{
-        flex: initial;
-        margin-top:.5rem;
-    }
+    background-color: #1d263f;
+    box-shadow: 0px 2px 7px 0 #000;
 }
 
-.BIG div a,.MI div a,.SM div a{
+.CasModule .MI .BIG{
+    height: 272px;
+    min-width: 352px;
+    font-size: 24px;
+    margin-left: 0;
+}
+.CasModule .MI .BIG > div:nth-child(1){
+    height: 50px;
+}
+.MI div a{
     display: block;
     background: #1d2740;
     border-radius: 5px;
@@ -221,22 +142,25 @@ flex: 1 0 auto;
     align-items: center;
     flex-direction: column;
 }
+.playNow a{
+    cursor: pointer;
+}
+.page.CasinoSelect .CasModule span:nth-child(1){
+    width: 70%;
+}
 [data-layout="desktop"] .mobile-sort-select{
     display: none;
 }
 [data-layout="mobile"] .CasModule{
     margin: 1rem 0 0;
 }
-[data-layout="mobile"] .CasModule .BIG{
-    max-width: 358px;
-}
-[data-layout="mobile"] .CasModule .MI > div{
-    margin: 0 auto 10px;
-}
-[data-layout="mobile"] .SM > div{
-    margin: 0 auto 10px;
-    min-width: 174px;
-    max-width: 174px;
+
+@media (max-width: 550px) {
+    .CasModule .MI{
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 }
 [data-layout="mobile"] .page.CasinoSelect .CasinoSelect_nav{
     padding: 1rem 0.5rem 0;
@@ -249,6 +173,10 @@ flex: 1 0 auto;
     margin: 0 .5rem;
 }
 /*CasinoLobby*/
+.page.CasinoLobby{
+    align-items: center;
+    justify-content: center;
+}
 [data-layout="mobile"] .page.CasinoLobby{
     margin: 0.5rem auto;
 }
@@ -268,7 +196,6 @@ flex: 1 0 auto;
     margin: 0 auto;
 }
 [data-layout="desktop"] .page.CasinoLobby .CasModule{
-    width: 70%;
     margin: 3rem auto;
 }
 [data-layout="mobile"] .page.CasinoLobby .CasModule{
@@ -276,10 +203,15 @@ flex: 1 0 auto;
 }
 .page.CasinoLobby .CasModule .BIG{
     background: #0c1828;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    position: relative;
+    max-width: 358px;
 }
 [data-layout="mobile"] .page.CasinoLobby .CasModule .BIG{
     flex: 1 1 100%;
-    margin: 0 0.5rem 0.5rem;
+    margin: 0 0.5rem 5rem;
 }
 .page.CasinoLobby .CasModule .BIG > div{
     position: absolute;
@@ -290,14 +222,16 @@ flex: 1 0 auto;
     align-items: center;
     justify-content: center;
     box-shadow: 0px -3px 3px 0 #000;
+    margin-top: 37px;
 }
 .page.CasinoLobby .CasModule .BIG > img{
-    position: absolute;
-    bottom: 37px;
     z-index: 1;
 }
-.CasinoSelect .dropdown-default{
-    background-color: #fff;
+.page.CasinoLobby .CasModule a.BIG{
+    cursor: pointer;
+}
+.page.CasinoLobby .CasModule span{
+    font-size: 24px;
 }
 .not-found{
     font-size: 2rem;

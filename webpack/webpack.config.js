@@ -30,7 +30,7 @@ module.exports = {
 			'../MemberSite/MemberSite/wwwroot/js/component/cashier/DepositPanel.jsx'
 		],
     "js/component/account/ChangePwd.min":[
-			'../MemberSite/MemberSite/wwwroot/js/component/account/ChangePwd.jsx'
+			'../MemberSite/MemberSite/wwwroot/js/component/account/ChangePwd/ChangePwd.jsx'
 		],
     "js/component/account/CustBankInfo.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/account/CustBankInfo.jsx'
@@ -64,6 +64,12 @@ module.exports = {
 		],
     "js/component/history/Transfer.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/history/Transfer.jsx'
+		],
+    "js/component/account/ChangePwdAlert.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/account/ChangePwd/ChangePwdAlert/index.js'
+		],
+    "js/component/casino/lobby.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/casino/lobby/index.js'
 		]
   },
   output: {
