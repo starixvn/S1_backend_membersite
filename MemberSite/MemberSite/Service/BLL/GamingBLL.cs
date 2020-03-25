@@ -39,7 +39,7 @@ namespace MemberSite.Service.BLL
                         {
                             entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
                         }
-                        else if (iGameId == 245)
+                        else if (iGameId == 245 || iGameId == 208)
                         {
                             entPageUrl = "javascript:void(0);";
                         }
