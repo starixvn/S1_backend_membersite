@@ -1,7 +1,7 @@
 ﻿import {DataField, InputBox} from '../commJS/InputBox.jsx';
 import * as Loading from '../commJS/Loading.jsx';
 import {getUrlParameter} from '../commJS/common';
-(function ($, React, ReactDOM, i18n, axios) {
+(function ($, React, ReactDOM, i18n, axios, window) {
 
 class LoginForm extends React.Component {
     //data-status="error" 1.info, 2.error,3.valid
@@ -138,6 +138,10 @@ class LoginForm extends React.Component {
         this.setState({ShowPwd:!this.state.ShowPwd});
     }
 
+    onShowLoginForm() {
+        this.setState({popLoginForm: true});
+    }
+
     render() {
         //let Inputs=this.state.formArr.map(dataField => <InputBox key={dataField.name} DataField={dataField}/>);
         let userNameDataField = null;
@@ -215,8 +219,9 @@ class LoginForm extends React.Component {
     }
 }
 
-let loginPanel = $("<div/>").get(0);
-$("body").append(loginPanel);
+    let loginPanel = $("<div/>").get(0);
+    $("body").append(loginPanel);
 
-ReactDOM.render(<LoginForm/>, loginPanel);
-})(jQuery, React, ReactDOM, i18n, axios);
+    let _loginForm = ReactDOM.render(<LoginForm/>, loginPanel);
+    window.ShowLogin = _loginForm.onShowLoginForm.bind(_loginForm);
+})(jQuery, React, ReactDOM, i18n, axios, window);

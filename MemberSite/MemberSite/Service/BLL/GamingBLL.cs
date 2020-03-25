@@ -24,6 +24,8 @@ namespace MemberSite.Service.BLL
             var homeUrl = urlHelper.RouteUrl("desktop", new { action = routeData.Values["action"], controller = routeData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
             var signupUrl = urlHelper.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
             var LoginUrl = urlHelper.RouteUrl("desktop", new { action = routeData.Values["action"], controller = routeData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
+            var cashierUrl = urlHelper.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
+            var slotsLobbyUrl = urlHelper.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
 
             string entPageUrl;
             if (tpId == 1)
@@ -93,6 +95,18 @@ namespace MemberSite.Service.BLL
                 if (gameType == GameType.LiveCasinoLobby)
                 {
                     entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+                }
+                else if (gameType == GameType.Slots)
+                {
+                    if (urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
+                    {
+                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, CashierUrl = cashierUrl, LobbyUrl = slotsLobbyUrl });
+                    }
+                    else
+                    {
+                        var message = selLangBLL.GetMsg("msg_LoginToAccess");
+                        entPageUrl = $"javascript:alert('{message}');";
+                    }
                 }
                 else
                 {
