@@ -5,6 +5,7 @@
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Configuration
 @using System.Security.Claims
+@using MemberSite.Service.Model.enums
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @inject IWebHostEnvironment environment
@@ -112,17 +113,17 @@
                         </a>
                     </div>
                    <div class="swiper-slide">
-                        <a href="@gamingBLL.GetEntPageUrl(0, "livecasino",Url)">
+                        <a href="@gamingBLL.GetEntPageUrl(0, "livecasino",Url,GameType.LiveCasinoLobby)">
                             <img src="@CmsPromotionPath/banner-sa.jpg" asp-append-version="true" />
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="@gamingBLL.GetEntPageUrl(0, "livecasino",Url)">
+                        <a href="@gamingBLL.GetEntPageUrl(0, "livecasino",Url,GameType.LiveCasinoLobby)">
                             <img src="@CmsPromotionPath/banner-ag.jpg" asp-append-version="true" />
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="@gamingBLL.GetEntPageUrl(0, "livecasino",Url)">
+                        <a href="@gamingBLL.GetEntPageUrl(0, "livecasino",Url,GameType.LiveCasinoLobby)">
                             <img src="@CmsPromotionPath/banner-dg.jpg" asp-append-version="true" />
                         </a>
                     </div>
@@ -246,21 +247,20 @@
             }
             else
             {
-                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "208",Url)">
+                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(0, "LiveCasino",Url,GameType.LiveCasinoLobby)">
                     <img src="@SkinImgPath/Lobby/Home/Sport-Casino.png?v20200323">
                     <img src="@SkinImgPath/Lobby/Home/d_Sport-Casino.png?v20200323">
                     <div class="lobby-sport__info">
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
                     </div>
                 </a>
-                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(4, "4",Url)">
+                <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(4, "4",Url)" >
                     <img src="@SkinImgPath/Lobby/Home/Sport-Live_Casino.png?v20200323">
                     <img src="@SkinImgPath/Lobby/Home/d_Sport-Live_Casino.png?v20200323">
                     <div class="lobby-sport__info">
                         <span class="text">@selLangBLL.GetResourceValue("lbl_DreamGaming")</span>
                     </div>
                 </a>
-
                 <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "43",Url)">
                     <img src="@SkinImgPath/Lobby/Home/Sport-E-Sports.png?v20200323">
                     <img src="@SkinImgPath/Lobby/Home/d_Sport-E-Sports.png?v20200323">
@@ -298,7 +298,7 @@
                             <div class="lobby-product__info">
                                 <span class="text-title">@selLangBLL.GetResourceValue("lbl_Keno")</span>
                                 <span class="text">@selLangBLL.GetResourceValue("lbl_KenoSlogon")</span>
-                                <a class="btn btn-secondary" href="@gamingBLL.GetEntPageUrl(1, "202", Url)"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
+                                <a class="btn btn-secondary @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "202", Url)"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
                             </div>
                             <img src="@SkinImgPath/Lobby/Home/Product-Keno.png">
                         </div>
@@ -308,7 +308,7 @@
                             <div class="lobby-product__info">
                                 <span class="text-title">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
                                 <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasinoSlogon")</span>
-                                <a class="btn btn-secondary" href="@gamingBLL.GetEntPageUrl(0, "livecasino", Url)"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
+                                <a class="btn btn-secondary" href="@gamingBLL.GetEntPageUrl(0, "livecasino", Url,GameType.LiveCasinoLobby)"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
                             </div>
                             <img src="@SkinImgPath/Lobby/Home/Product-LiveCasino.png?v20200323">
                         </div>
@@ -327,14 +327,14 @@
                             </div>
                             <div class="swiper-slide">
                                 <div class="lobby-product">
-                                    <a href="@gamingBLL.GetEntPageUrl(1, "245", Url)">
+                                    <a href="@gamingBLL.GetEntPageUrl(1, "245", Url)" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
                                         <img src="@SkinImgPath/Lobby/Home/Product-Virtual_Game-@(selLangBLL.GetLangId()).png">
                                     </a>
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="lobby-product">
-                                    <a href="@gamingBLL.GetEntPageUrl(1, "202", Url)">
+                                    <a href="@gamingBLL.GetEntPageUrl(1, "202", Url)" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
                                         <img src="@SkinImgPath/Lobby/Home/Product-Keno.png?v20200323">
                                     </a>
                                 </div>
@@ -396,8 +396,8 @@
                 observeParents: true,
                 updateTranslate: true,
             });
-            productSwiper.updateSize();
-            productSwiper.updateSlides();
+            //productSwiper.updateSize();
+            //productSwiper.updateSlides();
         });
     </script>
     <script type="text/javascript">

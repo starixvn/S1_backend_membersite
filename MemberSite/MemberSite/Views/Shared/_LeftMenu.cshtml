@@ -190,7 +190,7 @@
                     <i class="icon icon-sport161"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_NumberGame")</span>
                 </a>
-                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(1, "245", Url)">
+                <a class="side-nav__btn @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "245", Url)">
                     <i class="icon VirtualGames"><img src="@SkinImgPath/svg/VirtualGames.svg"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualGames")</span>
                 </a>
@@ -202,7 +202,7 @@
                     <i class="icon icon-sport251"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
                 </a>
-                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(2,"LiveCasino",Url, GameType.LiveCasinoLobby)">
+                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(0,"LiveCasino",Url, GameType.LiveCasinoLobby)">
                     <i class="icon icon-sport162"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
                 </a>

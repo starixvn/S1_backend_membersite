@@ -39,12 +39,13 @@ namespace MemberSite.Service.BLL
                         }
                         else if (iGameId == 245)
                         {
-                            entPageUrl = "javascript:void();";
+                            entPageUrl = "javascript:void(0);";
                         }
                         else if (tools.IsMobile())
                         {
-                            var message = selLangBLL.GetMsg("msg_LoginToAccess");
-                            entPageUrl = $"javascript:alert('{message}');";
+                            //var message = selLangBLL.GetMsg("msg_LoginToAccess");
+                            //entPageUrl = $"javascript:alert('{message}');";
+                            entPageUrl = "javascript:void(0);";
                         }
                         else
                         {
@@ -102,8 +103,9 @@ namespace MemberSite.Service.BLL
                     }
                     else
                     {
-                        var message = selLangBLL.GetMsg("msg_LoginToAccess");
-                        entPageUrl = $"javascript:alert('{message}');";
+                        //var message = selLangBLL.GetMsg("msg_LoginToAccess");
+                        //entPageUrl = $"javascript:alert('{message}');";
+                        entPageUrl = "javascript:void(0);";
                     }
                 }
             }
