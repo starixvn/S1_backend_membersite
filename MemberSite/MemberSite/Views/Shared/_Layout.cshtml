@@ -55,7 +55,7 @@
     @RenderSection("Style", required: false)
 </head>
 <body>
-    @{if (User.Identity.IsAuthenticated && !Context.Request.Cookies.ContainsKey("Initialization"))
+    @{if (User.Identity.IsAuthenticated && !Context.Request.Cookies.ContainsKey($"Initialization{User.Identity.Name}"))
         {
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
@@ -129,7 +129,7 @@
                     i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
             }
 
-            if (!Context.Request.Cookies.ContainsKey("Initialization"))
+            if (!Context.Request.Cookies.ContainsKey($"Initialization{User.Identity.Name}"))
             {
                 i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
                 i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
@@ -327,7 +327,7 @@
         <script src="~/js/commJS/Account.js" asp-append-version="true"></script>
         <script src="~/js/component/app/BalancePanel.min.js" asp-append-version="true"></script>
         <script src="~/js/component/app/WalletInfo.min.js" asp-append-version="true"></script>
-        if (showResetPwdAlert && !Context.Request.Cookies.ContainsKey("Initialization"))
+        if (showResetPwdAlert && !Context.Request.Cookies.ContainsKey($"Initialization{User.Identity.Name}"))
         {
             <script src="~/js/component/account/ChangePwdAlert.min.js" asp-append-version="true"></script>
         }
