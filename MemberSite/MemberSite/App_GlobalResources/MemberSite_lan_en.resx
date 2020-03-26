@@ -1511,7 +1511,7 @@
     <value>Provider</value>
   </data>
   <data name="lbl_SelfCasino" xml:space="preserve">
-    <value>{0} Casino</value>
+    <value>Nova Casino</value>
   </data>
   <data name="lbl_Slots" xml:space="preserve">
     <value>Slots</value>

@@ -141,6 +141,9 @@
   <data name="lbl_Keywords" xml:space="preserve">
     <value>Bwing là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value>
   </data>
+  <data name="lbl_SelfCasino" xml:space="preserve">
+    <value>Sòng bạc Bwing</value>
+  </data>
   <data name="lbl_Title" xml:space="preserve">
     <value>Bwing</value>
   </data>

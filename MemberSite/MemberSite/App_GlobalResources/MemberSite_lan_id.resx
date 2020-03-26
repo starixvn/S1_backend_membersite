@@ -1473,5 +1473,44 @@
   </data>
   <data name="lbl_ReModify" xml:space="preserve">
     <value>Ubah Ulang</value>
-  </data>    
+  </data>
+  <data name="lbl_All" xml:space="preserve">
+    <value>Semua</value>
+  </data>
+  <data name="lbl_AllGames" xml:space="preserve">
+    <value>Semua Permainan</value>
+  </data>
+  <data name="lbl_CasinoLobby" xml:space="preserve">
+    <value>lobi kasino</value>
+  </data>
+  <data name="lbl_Favourite" xml:space="preserve">
+    <value>Kesukaan</value>
+  </data>
+  <data name="lbl_Feature" xml:space="preserve">
+    <value>Fitur</value>
+  </data>
+  <data name="lbl_Free" xml:space="preserve">
+    <value>Gratis</value>
+  </data>
+  <data name="lbl_GPI" xml:space="preserve">
+    <value>GPI</value>
+  </data>
+  <data name="lbl_NoMatching" xml:space="preserve">
+    <value>Tidak ditemukan produk yang sesuai</value>
+  </data>
+  <data name="lbl_OWCasino" xml:space="preserve">
+    <value>OW kasino</value>
+  </data>
+  <data name="lbl_PlayNow" xml:space="preserve">
+    <value>Main Sekarang</value>
+  </data>
+  <data name="lbl_Provider" xml:space="preserve">
+    <value>Provider</value>
+  </data>
+  <data name="lbl_SelfCasino" xml:space="preserve">
+    <value>Nova kasino</value>
+  </data>
+  <data name="lbl_Slots" xml:space="preserve">
+    <value>Slots</value>
+  </data>
 </root>

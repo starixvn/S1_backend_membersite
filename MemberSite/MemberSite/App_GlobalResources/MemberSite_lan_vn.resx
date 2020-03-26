@@ -1525,4 +1525,43 @@
   <data name="lbl_ZALO" xml:space="preserve">
     <value>Zalo</value>
   </data>
+  <data name="lbl_All" xml:space="preserve">
+    <value>Tất cả</value>
+  </data>
+  <data name="lbl_AllGames" xml:space="preserve">
+    <value>Tất cả trò chơi</value>
+  </data>
+  <data name="lbl_CasinoLobby" xml:space="preserve">
+    <value>Hội trường Sòng bạc</value>
+  </data>
+  <data name="lbl_Favourite" xml:space="preserve">
+    <value>Ưa chuộng</value>
+  </data>
+  <data name="lbl_Feature" xml:space="preserve">
+    <value>Đặc điểm</value>
+  </data>
+  <data name="lbl_Free" xml:space="preserve">
+    <value>Miễn phí</value>
+  </data>
+  <data name="lbl_GPI" xml:space="preserve">
+    <value>GPI</value>
+  </data>
+  <data name="lbl_NoMatching" xml:space="preserve">
+    <value>Không tìm thấy sản phẩm không phù hợp</value>
+  </data>
+  <data name="lbl_OWCasino" xml:space="preserve">
+    <value>Sòng bạc OW</value>
+  </data>
+  <data name="lbl_PlayNow" xml:space="preserve">
+    <value>Tham gia</value>
+  </data>
+  <data name="lbl_Provider" xml:space="preserve">
+    <value>Nhà cung cấp</value>
+  </data>
+  <data name="lbl_SelfCasino" xml:space="preserve">
+    <value>Sòng bạc Nova</value>
+  </data>
+  <data name="lbl_Slots" xml:space="preserve">
+    <value>Máy đánh bạc</value>
+  </data>
 </root>

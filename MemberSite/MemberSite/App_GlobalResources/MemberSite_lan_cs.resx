@@ -1468,4 +1468,43 @@
   <data name="lbl_VirtualGames" xml:space="preserve">
     <value>虚拟娱乐城</value>
   </data>
+  <data name="lbl_All" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="lbl_AllGames" xml:space="preserve">
+    <value>所有游戏</value>
+  </data>
+  <data name="lbl_CasinoLobby" xml:space="preserve">
+    <value>娱乐城大厅</value>
+  </data>
+  <data name="lbl_Favourite" xml:space="preserve">
+    <value>我的最爱</value>
+  </data>
+  <data name="lbl_Feature" xml:space="preserve">
+    <value>特色</value>
+  </data>
+  <data name="lbl_Free" xml:space="preserve">
+    <value>免费</value>
+  </data>
+  <data name="lbl_GPI" xml:space="preserve">
+    <value>优品</value>
+  </data>
+  <data name="lbl_NoMatching" xml:space="preserve">
+    <value>搜索相符产品结果不符</value>
+  </data>
+  <data name="lbl_OWCasino" xml:space="preserve">
+    <value>OW 娱乐城</value>
+  </data>
+  <data name="lbl_PlayNow" xml:space="preserve">
+    <value>立即游戏</value>
+  </data>
+  <data name="lbl_Provider" xml:space="preserve">
+    <value>供应商</value>
+  </data>
+  <data name="lbl_SelfCasino" xml:space="preserve">
+    <value>欧亚娱乐城</value>
+  </data>
+  <data name="lbl_Slots" xml:space="preserve">
+    <value>老虎机</value>
+  </data>
 </root>

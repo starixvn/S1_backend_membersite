@@ -1447,5 +1447,44 @@
   </data>
   <data name="lbl_ReModify" xml:space="preserve">
     <value>แก้ไขอีกครั้ง</value>
-  </data>  
+  </data>
+  <data name="lbl_All" xml:space="preserve">
+    <value>ทั้งหมด</value>
+  </data>
+  <data name="lbl_AllGames" xml:space="preserve">
+    <value>เกมทั้งหมด</value>
+  </data>
+  <data name="lbl_CasinoLobby" xml:space="preserve">
+    <value>คาสิโนล็อบบี้</value>
+  </data>
+  <data name="lbl_Favourite" xml:space="preserve">
+    <value>เกมโปรด</value>
+  </data>
+  <data name="lbl_Feature" xml:space="preserve">
+    <value>ลักษณะพิเศษ</value>
+  </data>
+  <data name="lbl_Free" xml:space="preserve">
+    <value>ฟรี</value>
+  </data>
+  <data name="lbl_GPI" xml:space="preserve">
+    <value>GPI</value>
+  </data>
+  <data name="lbl_NoMatching" xml:space="preserve">
+    <value>ไม่พบเกมที่ตรงกัน</value>
+  </data>
+  <data name="lbl_OWCasino" xml:space="preserve">
+    <value>OW คาสิโน</value>
+  </data>
+  <data name="lbl_PlayNow" xml:space="preserve">
+    <value>เล่นเดี๋ยวนี้</value>
+  </data>
+  <data name="lbl_Provider" xml:space="preserve">
+    <value>ผู้ให้บริการ</value>
+  </data>
+  <data name="lbl_SelfCasino" xml:space="preserve">
+    <value>Nova คาสิโน</value>
+  </data>
+  <data name="lbl_Slots" xml:space="preserve">
+    <value>สล็อต</value>
+  </data>
 </root>
