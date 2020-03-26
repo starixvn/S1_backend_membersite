@@ -50,14 +50,12 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
         get RowsPerPage(){return 24;}
 
         setMouseEvent = ()=>{
-            if(!IsMobileAndTablet){
-                $(".BIG,.MI > div,.SM > div").mouseover(function () {
-                    $(this).children(".playNow").show()
-                });
-                $(".BIG,.MI > div,.SM > div").mouseout(function () {
-                    $(this).children(".playNow").hide()
-                });
-            }
+            $(".BIG,.MI > div,.SM > div").mouseover(function () {
+                $(this).children(".playNow").show();
+            });
+            $(".BIG,.MI > div,.SM > div").mouseout(function () {
+                $(this).children(".playNow").hide()
+            });
         }
         componentDidMount=()=>{
             this.setMouseEvent();
@@ -71,50 +69,44 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
         componentWillUnmount=()=>{
             window.removeEventListener('scroll', this.MoreGames);
         }
-        SetGames = (providerGames, _favorite)=>{
+        SetGames = (games, _favorite)=>{
             let first = [];
             let second = [];
 
             let idx = 0;
             let endPoint = 1+10+this.RowsPerPage;
-            let _break = false;
-            for(let p in providerGames){
-                let games = providerGames[p].data;
-                for(let i in games){
-                    let isFavorite = _favorite !== null && _favorite.find(x=> x.ProviderId==providerGames[p].provider && x.GameId==games[i].gameId) !== undefined;
-                    let elem = (
-                        <GameElem
-                            key={`P-${providerGames[p].provider}-Game-${games[i].gameId}`}
-                            GameName={games[i].name[langCode] ?? games[i].name['en']}
-                            ProviderId={providerGames[p].provider}
-                            ProviderName={providerGames[p].providerName}
-                            ImgUrl={games[i].imgName[langCode] ?? games[i].imgName['en']}
-                            GameId={games[i].gameId}
-                            HandleFavourite={this.HandleFavourite.bind(null, providerGames[p].provider, games[i].gameId)}
-                            IsFavorite={isFavorite}
-                            BigItem={first.length === 0}
-                            IsMobileAndTablet={IsMobileAndTablet}
-                        />
-                    );
+            
+            for(let i in games){
+                let isFavorite = _favorite !== null && _favorite.find(x=> x.ProviderId==games[i].provider && x.GameId==games[i].gameId) !== undefined;
+                let elem = (
+                    <GameElem
+                        key={`P-${games[i].provider}-Game-${games[i].gameId}`}
+                        GameName={games[i].name[langCode] ?? games[i].name['en']}
+                        ProviderId={games[i].provider}
+                        ProviderName={games[i].providerName}
+                        ImgUrl={games[i].imgName[langCode] ?? games[i].imgName['en']}
+                        GameId={games[i].gameId}
+                        HandleFavourite={this.HandleFavourite.bind(null, games[i].provider, games[i].gameId)}
+                        IsFavorite={isFavorite}
+                        BigItem={first.length === 0}
+                        IsMobileAndTablet={IsMobileAndTablet}
+                    />
+                );
 
-                    if(first.length === 0){
-                        first.push(elem);
-                    }else{
-                        second.push(elem);
-                    }
-
-                    idx += 1;
-                    if(idx === endPoint){
-                        _break = true;
-                        break;
-                    }
+                if(first.length === 0){
+                    first.push(elem);
+                }else{
+                    second.push(elem);
                 }
 
-                if(_break) break;
+                idx += 1;
+                if(idx === endPoint){
+                    break;
+                }
             }
 
             let loadedCount = first.length + second.length;
-            let matchCount = this.GameLength(providerGames);
+            let matchCount = games.length;
             return {first:first, second:second, loadedCount:loadedCount, hasMore:matchCount > loadedCount}
         }
         HandleFilter = (v, dataColumn)=>{
@@ -147,52 +139,23 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
             let allGames = _provider.value === 'All' || _provider.value === 'Provider' ? AllGames() : GamesByProvider(_provider);
             switch(_page) {
                 case Page.ALLGAMES.displayText:
-                    return _keyword === "" ? allGames : allGames.map(p=> {
-                        return {
-                            providerName:p.providerName,
-                            provider:p.provider,
-                            data: p.data.filter(g=>{
-                                return this.matchKeyword(g.name, _keyword);
-                            })
-                        }
+                    return _keyword === "" ? allGames : allGames.filter(g=>{
+                        return this.matchKeyword(g.name, _keyword);
                     });
 
                 case Page.SLOTS.displayText:
-                    return allGames.map(p=> {
-                        return {
-                            providerName:p.providerName,
-                            provider:p.provider,
-                            data: p.data.filter(g=>{
-                                return g.category1==="Slots" && (_keyword === "" || this.matchKeyword(g.name, _keyword));
-                            })
-                        }
+                    return allGames.filter(g=>{
+                        return g.category1==="Slots" && (_keyword === "" || this.matchKeyword(g.name, _keyword));
                     });
 
                 case Page.FEATURED.displayText:
-                    return allGames.map(p=> {
-                        return {
-                            providerName:p.providerName,
-                            provider:p.provider,
-                            data: p.data.filter(g=>{
-                                return g.featured===true && (_keyword === "" || this.matchKeyword(g.name, _keyword));
-                            })
-                        }
+                    return allGames.filter(g=>{
+                        return g.featured===true && (_keyword === "" || this.matchKeyword(g.name, _keyword));
                     });
 
                 case Page.FAVOURITE.displayText:
-                    return allGames.map(p=> {
-                        return {
-                            providerName:p.providerName,
-                            provider:p.provider,
-                            data: p.data.filter(g=>{
-                                return _favorite !== null && _favorite.find(x=> x.ProviderId==p.provider && x.GameId==g.gameId) !== undefined;
-                            }).map(item=>{
-                                return {
-                                    ...item,
-                                    ProviderId: p.providerId
-                                }
-                            })
-                        }
+                    return allGames.filter(g=>{
+                        return _favorite !== null && _favorite.find(x=> x.ProviderId==g.provider && x.GameId==g.gameId) !== undefined;
                     });
 
                 default:
@@ -217,71 +180,34 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
                 }
             });
         }
-        GameLength=(providerGames)=>{
-            let result = 0;
-            for(let p in providerGames){
-                result += providerGames[p].data.length
-            }
-
-            return result;
-        }
         MoreGames=()=>{
             if ((window.innerHeight + document.documentElement.scrollTop + $($(".footer").get(0)).height()) >= document.scrollingElement.scrollHeight && this.state.Games.hasMore) {
-                let providerGames = this.GetGameList(this.state.Filter.Page, this.state.Filter.Keyword, this.state.Filter.Provider, this.state.Favorite);
-                let currIdx = this.state.Games.loadedCount-1;
-                let gameLength = this.GameLength(providerGames);
+                let games = this.GetGameList(this.state.Filter.Page, this.state.Filter.Keyword, this.state.Filter.Provider, this.state.Favorite);
+                let gameLength = games.length;
                 let restItemCount = gameLength - this.state.Games.loadedCount;
                 let getItem = this.RowsPerPage >= restItemCount ? restItemCount : this.RowsPerPage;
                 let SecondSection = [];
 
-                let pivot = 0;
-                let startIdx = currIdx;
-                let endPoint = currIdx+getItem;
-                let _break = false;
-                for(let p in providerGames){
-                    let games = providerGames[p].data;
-                    let idx = pivot + games.length - 1;
-                    let start = 0;
-                    let end = 0;
+                let startIdx = this.state.Games.loadedCount;
+                let endIdx = startIdx + getItem;
 
-                    if(idx >= startIdx){
-                        start = Math.abs(idx-games.length-startIdx);
-                        end = games.length > endPoint ? endPoint+1 : games.length;
-                    }
-
-                    if(start !== end){
-                        for(let i=start; i<end; i++){
-                            let key=`P-${providerGames[p].provider}-Game-${games[i].gameId}`;
-                            let isFavorite = this.state.Favorite !== null && this.state.Favorite.find(x=> x.ProviderId==providerGames[p].provider && x.GameId==games[i].gameId) !== undefined;;
-                            SecondSection.push(
-                                <GameElem
-                                    key={key}
-                                    GameName={games[i].name[langCode] ?? games[i].name['en']}
-                                    ProviderId={providerGames[p].provider}
-                                    ProviderName={providerGames[p].providerName}
-                                    ImgUrl={games[i].imgName[langCode] ?? games[i].imgName['en']}
-                                    GameId={games[i].gameId}
-                                    HandleFavourite={this.HandleFavourite.bind(null, providerGames[p].provider, games[i].gameId)}
-                                    IsFavorite={isFavorite}
-                                    BigItem={false}
-                                    IsMobileAndTablet={IsMobileAndTablet}
-                                />
-                            );
-
-                            if(i===endPoint){
-                                _break = true;
-                                break;
-                            }
-                        }
-
-                        if(_break){ 
-                            break; 
-                        }else{
-                            pivot += games.length - SecondSection.length;
-                        }
-                    }else{
-                        pivot += games.length;
-                    }
+                for(let i=startIdx; i<endIdx; i++){
+                    let key=`P-${games[i].provider}-Game-${games[i].gameId}`;
+                    let isFavorite = this.state.Favorite !== null && this.state.Favorite.find(x=> x.ProviderId==games[i].provider && x.GameId==games[i].gameId) !== undefined;;
+                    SecondSection.push(
+                        <GameElem
+                            key={key}
+                            GameName={games[i].name[langCode] ?? games[i].name['en']}
+                            ProviderId={games[i].provider}
+                            ProviderName={games[i].providerName}
+                            ImgUrl={games[i].imgName[langCode] ?? games[i].imgName['en']}
+                            GameId={games[i].gameId}
+                            HandleFavourite={this.HandleFavourite.bind(null, games[i].provider, games[i].gameId)}
+                            IsFavorite={isFavorite}
+                            BigItem={false}
+                            IsMobileAndTablet={IsMobileAndTablet}
+                        />
+                    );
                 }
 
                 let loadedCount = this.state.Games.loadedCount + getItem;

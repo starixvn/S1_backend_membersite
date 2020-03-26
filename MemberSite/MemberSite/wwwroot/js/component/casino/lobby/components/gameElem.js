@@ -3,7 +3,6 @@ export class GameElem extends React.Component{
         super(props);
         this.state = {IsFavorite: this.props.IsFavorite===true, IsOpen:false}
         this.HandleFavourite = this.HandleFavourite.bind(this);
-        this.HandleBtnBar = this.HandleBtnBar.bind(this);
     }
     HandleFavourite=()=>{
         this.setState({
@@ -16,7 +15,7 @@ export class GameElem extends React.Component{
         if(isLogin==='1'){
             let tpId = this.props.ProviderId;
             let gameId = this.props.GameId;
-            window.open(`${entPageUrl}&fun=${0}&gameId=${gameId}&tpId=${tpId}&gameType=slots`, `Tp_${tpId}_${gameId}`, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus()
+            window.open(`${entPageUrl}&fun=${0}&gameId=${gameId}&tpId=${tpId}&gameType=slots`, `Tp_${tpId}`, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus()
         }else{
             ShowLogin();
         }
@@ -25,16 +24,9 @@ export class GameElem extends React.Component{
         if(isLogin==='1'){
             let tpId = this.props.ProviderId;
             let gameId = this.props.GameId;
-            window.open(`${entPageUrl}&fun=${1}&gameId=${gameId}&tpId=${tpId}&gameType=slots`, `Tp_${tpId}_${gameId}`, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus()
+            window.open(`${entPageUrl}&fun=${1}&gameId=${gameId}&tpId=${tpId}&gameType=slots`, `Tp_${tpId}`, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus()
         }else{
             ShowLogin();
-        }
-    }
-    HandleBtnBar=()=>{
-        if(this.props.IsMobileAndTablet){
-            this.setState({
-                IsOpen: !this.state.IsOpen
-            })
         }
     }
     render(){
@@ -46,7 +38,7 @@ export class GameElem extends React.Component{
                         this.state.IsFavorite === true ? <span>★</span> : null
                     }
                 </div>
-                <div className="playNow" style={this.props.IsMobileAndTablet ? {display : this.state.IsOpen ? 'block' : 'none'} : {display : 'none'}} onClick={this.HandleBtnBar}>
+                <div className="playNow" style={{display : 'none'}}>
                     <a onClick={this.PlayNow}>
                         <span>{i18n.lbl_PlayNow}</span>
                     </a>
