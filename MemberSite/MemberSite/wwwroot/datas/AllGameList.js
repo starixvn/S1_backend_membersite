@@ -11,7 +11,7 @@ export const GamesByProvider = (_provider)=>{
             providerName:_provider.name,
             provider:_provider.value, 
         }
-    });
+    }).sort((a,b) => a.hot&&a.hot ? -1 : 1 );
 }
 
 export const AllGames = ()=>{
@@ -30,7 +30,7 @@ export const AllGames = ()=>{
         }
     }
 
-    result.sort((a,b) => a.hot&&a.hot ? 1 : -1 );
+    result.sort((a,b) => a.hot&&a.hot ? -1 : 1 );
 
     return result;
 }
