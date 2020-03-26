@@ -1481,10 +1481,10 @@
     <value>我的最爱</value>
   </data>
   <data name="lbl_Feature" xml:space="preserve">
-    <value>特色</value>
+    <value>特色游戏</value>
   </data>
   <data name="lbl_Free" xml:space="preserve">
-    <value>免费</value>
+    <value>免费试玩</value>
   </data>
   <data name="lbl_GPI" xml:space="preserve">
     <value>优品</value>
