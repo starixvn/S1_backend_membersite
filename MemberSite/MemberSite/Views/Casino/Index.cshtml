@@ -18,19 +18,19 @@
 
 <div class="main ">
     <div class="page CasinoLobby">
-        <span class="title">CASINO LOBBY</span>
+        <span class="title">@selLangBLL.GetResourceValue("lbl_CasinoLobby")</span>
         <div class="line"></div>
         <div class="CasModule">
             <a class="BIG" onclick="location.href='@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })'">
                 <img src="@SkinRootPath/images/Lobby/casino/lobbyEntrance1.png" />
                 <div>
-                    <span>NOVA CASINO</span>
+                    <span>@selLangBLL.GetResourceValue("lbl_SelfCasino")</span>
                 </div>
             </a>
             <a class="BIG @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" onclick="@(!User.Identity.IsAuthenticated ? "javascript:void(0);" : @gamingBLL.GetEntPageUrl(1,"208",Url))">
                 <img src="@SkinRootPath/images/Lobby/casino/lobbyEntrance2.png" />
                 <div>
-                    <span>OW CASINO</span>
+                    <span>@selLangBLL.GetResourceValue("lbl_OWCasino")</span>
                 </div>
             </a>
         </div>

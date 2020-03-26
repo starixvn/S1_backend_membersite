@@ -8,7 +8,7 @@ export const GamesByProvider = (_provider)=>{
     return [{
         providerName:_provider.name,
         provider:_provider.value, 
-        data:dataList[_provider.displayText].data
+        data:dataList[_provider.name].data
     }];
 }
 
@@ -19,7 +19,7 @@ export const AllGames = ()=>{
         return {
             providerName:Provider[key].name,
             provider:Provider[key].value,
-            data:dataList[Provider[key].displayText].data
+            data:dataList[Provider[key].name].data
         }
     });
 

@@ -32,6 +32,18 @@
         var data = casinoBLL.GetFavoriteGames(custInfo.CustId);
         result = data != null && data.Any() ? data.Select(x => new { x.ProviderId, x.GameId }) : null;
     }
+
+    var i18n = new Dictionary<string, string>();
+    i18n.Add("lbl_Feature", selLangBLL.GetResourceValue("lbl_Feature"));
+    i18n.Add("lbl_AllGames", selLangBLL.GetResourceValue("lbl_AllGames"));
+    i18n.Add("lbl_Favourite", selLangBLL.GetResourceValue("lbl_Favourite"));
+    i18n.Add("lbl_Slots", selLangBLL.GetResourceValue("lbl_Slots"));
+    i18n.Add("lbl_Provider", selLangBLL.GetResourceValue("lbl_Provider"));
+    i18n.Add("lbl_GPI", selLangBLL.GetResourceValue("lbl_GPI"));
+    i18n.Add("lbl_PlayNow", selLangBLL.GetResourceValue("lbl_PlayNow"));
+    i18n.Add("lbl_Free", selLangBLL.GetResourceValue("lbl_Free"));
+    i18n.Add("lbl_NoMatching", selLangBLL.GetResourceValue("lbl_NoMatching"));
+    i18n.Add("lbl_All", selLangBLL.GetResourceValue("lbl_All"));
 }
 @section Scripts{
     <script>
@@ -42,6 +54,7 @@
         var langCode = '@selLangBLL.GetLangId()';
         var FavoriteGames = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(result));
         var isLogin = '@(User.Identity.IsAuthenticated ? 1 : 0)';
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
     </script>
 
     <script src="~/js/component/casino/lobby.min.js" asp-append-version="true"></script>

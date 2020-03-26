@@ -1,8 +1,9 @@
 export class GameElem extends React.Component{
     constructor(props){
         super(props);
-        this.state = {IsFavorite: this.props.IsFavorite===true}
+        this.state = {IsFavorite: this.props.IsFavorite===true, IsOpen:false}
         this.HandleFavourite = this.HandleFavourite.bind(this);
+        this.HandleBtnBar = this.HandleBtnBar.bind(this);
     }
     HandleFavourite=()=>{
         this.setState({
@@ -29,6 +30,13 @@ export class GameElem extends React.Component{
             ShowLogin();
         }
     }
+    HandleBtnBar=()=>{
+        if(this.props.IsMobileAndTablet){
+            this.setState({
+                IsOpen: !this.state.IsOpen
+            })
+        }
+    }
     render(){
         let elem = (
             <>
@@ -38,12 +46,12 @@ export class GameElem extends React.Component{
                         this.state.IsFavorite === true ? <span>★</span> : null
                     }
                 </div>
-                <div className="playNow" style={{display : 'none'}}>
+                <div className="playNow" style={this.props.IsMobileAndTablet ? {display : this.state.IsOpen ? 'block' : 'none'} : {display : 'none'}} onClick={this.HandleBtnBar}>
                     <a onClick={this.PlayNow}>
-                        <span>PLAY NOW</span>
+                        <span>{i18n.lbl_PlayNow}</span>
                     </a>
                     <a onClick={this.PlayFree}>
-                        <span>FREE</span>
+                        <span>{i18n.lbl_Free}</span>
                     </a>
                     <a onClick={this.HandleFavourite}>
                         <span>{this.state.IsFavorite === true ? '★' : '☆' }</span>

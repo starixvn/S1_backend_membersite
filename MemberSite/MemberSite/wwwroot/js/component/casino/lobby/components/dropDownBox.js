@@ -26,11 +26,11 @@ export class DropdownBox extends React.Component{
     }
     render(){
         let selectedValue = this.props.SelectedItem !== undefined && this.props.SelectedItem !== null ? typeof(this.props.SelectedItem) === 'object' ? this.props.SelectedItem.value : this.props.SelectedItem : '';
-        let rows = this.props.Options && this.props.Options.map(item=>{
-            let value = typeof(item) === 'object' ? item.value : item;
-            let displayText = typeof(item) === 'object' ? item.displayText : item;
+        let rows = this.props.Options && this.props.Options.map((item, idx)=>{            
+            let value = item && typeof(item) === 'object' ? item.value : item;
+            let displayText = item && typeof(item) === 'object' ? item.displayText : item;
             return(
-                <div key={`dp-${value}`} className="dropdown__item" onClick={this.SelectItem.bind(null, item)} data-selected={selectedValue === value}>
+                <div key={`dp-${value}-${idx}`} className="dropdown__item" onClick={this.SelectItem.bind(null, item)} data-selected={selectedValue === value}>
                     <span className="text">{displayText}</span>
                 </div>
             );

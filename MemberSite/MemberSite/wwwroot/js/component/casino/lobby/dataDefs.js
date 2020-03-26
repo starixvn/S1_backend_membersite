@@ -1,14 +1,14 @@
 export const Page = {
     'FEATURED':{
-        displayText:'FEATURED'
+        displayText:i18n.lbl_Feature
     },
     'ALLGAMES':{
-        displayText:'ALL GAMES'
+        displayText:i18n.lbl_AllGames
     },
     'FAVOURITE':{
-        displayText:'FAVOURITE'
+        displayText:i18n.lbl_Favourite
     },
     'SLOTS':{
-        displayText:'SLOTS'
+        displayText:i18n.lbl_Slots
     }
 }
