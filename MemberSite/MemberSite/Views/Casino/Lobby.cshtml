@@ -35,7 +35,10 @@
 }
 @section Scripts{
     <script>
-        var entPageUrl = '@Html.Raw(gamingBLL.GetEntPageUrl(0,"",Url, MemberSite.Service.Model.enums.GameType.Slots))';
+        @if (User.Identity.IsAuthenticated)
+        {
+            @:var entPageUrl = '@Html.Raw(gamingBLL.GetEntPageUrl(0,"",Url, MemberSite.Service.Model.enums.GameType.Slots))';
+        }
         var langCode = '@selLangBLL.GetLangId()';
         var FavoriteGames = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(result));
         var isLogin = '@(User.Identity.IsAuthenticated ? 1 : 0)';
