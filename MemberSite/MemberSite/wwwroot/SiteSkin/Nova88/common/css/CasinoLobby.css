@@ -6,6 +6,9 @@ background: -moz-linear-gradient(#000,#070d19,#242e49,#070d19,#000);
 background: linear-gradient(#000,#070d19,#242e49,#070d19,#000);
 }
 /*CasinoSelect*/
+.main:not(.main--home) .page {
+    height: auto;
+}
 .page.CasinoSelect,.page.CasinoLobby{
     padding: 0;
     border-radius:0;
@@ -81,7 +84,7 @@ flex: 1 0 auto;
     width: 100%;
     flex-wrap: wrap;
     margin: 1rem 0;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 .CasModule > div{
     float: left;
@@ -224,6 +227,7 @@ flex: 1 0 auto;
     align-items: flex-end;
     position: relative;
     max-width: 358px;
+    margin:3vw 3vw;
 }
 [data-layout="mobile"] .page.CasinoLobby .CasModule .BIG{
     flex: 1 1 100%;
@@ -239,6 +243,9 @@ flex: 1 0 auto;
     justify-content: center;
     box-shadow: 0px -3px 3px 0 #000;
     margin-top: 37px;
+    /* z-index: 2; */
+    bottom: -40px;
+    left: 0;
 }
 .page.CasinoLobby .CasModule .BIG > img{
     z-index: 1;
@@ -303,4 +310,22 @@ flex: 1 0 auto;
 }
 .page.CasinoSelect .CasModule .MI div .mobilepop div ~ a span{
     width: auto;
+}
+@media screen and (min-width:768px) and (max-width:1024px){
+    .MI div a.close{
+        margin-bottom: 0.5rem;
+    }
+    .MI div .mobilepop div ~ a{
+        margin: 0.5rem auto 1rem;
+        max-width: 30%;
+        display: inline-flex;
+        height: 30px;
+    }
+    .mobilepop .close +img {
+        width: 97%;
+    }
+    .mobilepop > div {
+        width: 97%;
+        margin: auto;
+    }
 }
