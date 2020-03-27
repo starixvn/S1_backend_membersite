@@ -38,6 +38,7 @@ flex: 1 0 auto;
     justify-content: center;
     height: inherit;
     text-align: center;
+    font-size: 0.9rem;
 }
 .CasinoSelect_nav > a:after{
     content: "";
@@ -127,7 +128,7 @@ flex: 1 0 auto;
     text-align: center;
     font-size: 15px;
     padding: .3rem;
-    width: 6rem;
+    width: 10rem;
     border: 1px solid #d4bd7e;
     margin: 0.2rem auto;
 }
@@ -285,6 +286,9 @@ flex: 1 0 auto;
 }
 .mobilepop > div{
     background: url(../images/Lobby/casino/title-bg.png)no-repeat top center / cover;
+}
+.mobilepop > div > span{
+    font-size: 24px;
 }
 .MI div .mobilepop a{
     cursor: pointer;
