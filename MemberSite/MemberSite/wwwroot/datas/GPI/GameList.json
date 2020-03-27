@@ -87,6 +87,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -175,6 +176,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -393,8 +395,9 @@
         "ch": "Fa-Fa-Zhu-CS.jpg"
       },
       "launchDate": "",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -505,6 +508,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -703,6 +707,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1011,6 +1016,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1187,6 +1193,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1671,6 +1678,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1760,6 +1768,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
