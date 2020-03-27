@@ -1705,6 +1705,28 @@
     },
     {
       "name": {
+        "en": "World Soccer Slot",
+        "cs": "世界足球老虎机",
+        "ch": "世界足球老虎機2"
+      },
+      "appId": "worldsoccerslot",
+      "gameId": "worldsoccerslot",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "243 ways",
+      "RTP": "96.49",
+      "imgName": {
+        "en": "World-Soccer-Slot-EN.jpg",
+        "cs": "World-Soccer-Slot-CS.jpg",
+        "ch": "World-Soccer-Slot-CS.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },    
+    {
+      "name": {
         "en": "Wuxia Princess Mega Reels",
         "cs": "武俠公主 百万大轮",
         "ch": "武俠公主 百萬大輪"

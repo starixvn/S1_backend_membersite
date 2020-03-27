@@ -8,7 +8,7 @@ export const Nav = (props)=>{
     Object.keys(Page).forEach((key, idx) => {
         let pageInfo = Page[key];
         desktopPages.push(
-            <a href="#" key={`d-p-${idx}`} onClick={props.HandleFilter.bind(null, pageInfo.displayText, 'Page')}>
+            <a key={`d-p-${idx}`} onClick={props.HandleFilter.bind(null, pageInfo.displayText, 'Page')} style={{ cursor: "pointer"}}>
                 <span>{pageInfo.displayText}</span>
             </a>
         );

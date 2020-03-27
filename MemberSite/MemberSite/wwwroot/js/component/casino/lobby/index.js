@@ -78,7 +78,7 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
 
             let idx = 0;
             let endPoint = 1+10+this.RowsPerPage;
-            
+
             for(let i in games){
                 let isFavorite = _favorite !== null && _favorite.find(x=> x.ProviderId==games[i].provider && x.GameId==games[i].gameId) !== undefined;
                 let elem = (
@@ -102,10 +102,10 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
                     second.push(elem);
                 }
 
-                idx += 1;
+                /*idx += 1;
                 if(idx === endPoint){
                     break;
-                }
+                }*/
             }
 
             let loadedCount = first.length + second.length;
@@ -146,11 +146,11 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
                         return this.matchKeyword(g.name, _keyword);
                     });
 
-                case Page.SLOTS.displayText:
+                /*case Page.SLOTS.displayText:
                     return allGames.filter(g=>{
                         return g.category1==="Slots" && (_keyword === "" || this.matchKeyword(g.name, _keyword));
                     });
-
+                */
                 case Page.FEATURED.displayText:
                     return allGames.filter(g=>{
                         return g.featured===true && (_keyword === "" || this.matchKeyword(g.name, _keyword));
