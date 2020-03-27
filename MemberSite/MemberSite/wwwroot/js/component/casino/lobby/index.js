@@ -61,16 +61,17 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
         }
         componentDidMount=()=>{
             this.setMouseEvent();
+            this.intervalId = setInterval(this.MoreGames.bind(this), 200);
         }
         componentDidUpdate=()=>{
             this.setMouseEvent();
         }
-        componentWillMount=()=>{
-            window.addEventListener('scroll', this.MoreGames);
-        }
-        componentWillUnmount=()=>{
-            window.removeEventListener('scroll', this.MoreGames);
-        }
+        // componentWillMount=()=>{
+        //     window.addEventListener('scroll', this.MoreGames);
+        // }
+        // componentWillUnmount=()=>{
+        //     window.removeEventListener('scroll', this.MoreGames);
+        // }
         SetGames = (games, _favorite)=>{
             let first = [];
             let second = [];
@@ -183,7 +184,8 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
             });
         }
         MoreGames=()=>{
-            if ((window.innerHeight + document.documentElement.scrollTop + $($(".footer").get(0)).height()) >= document.scrollingElement.scrollHeight && this.state.Games.hasMore) {
+            // if ((window.innerHeight + document.documentElement.scrollTop + $($(".footer").get(0)).height()) >= document.scrollingElement.scrollHeight && this.state.Games.hasMore) {
+            if(this.state.Games.hasMore){
                 let games = this.GetGameList(this.state.Filter.Page, this.state.Filter.Keyword, this.state.Filter.Provider, this.state.Favorite);
                 let gameLength = games.length;
                 let restItemCount = gameLength - this.state.Games.loadedCount;
@@ -221,7 +223,10 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
                         hasMore:gameLength !== loadedCount
                     }
                 })
+            }else{
+                clearInterval(this.intervalId);
             }
+            // }
         }
         HandleFavourite = (providerId, gameId)=>{
             let _fav = this.state.Favorite ?? [];
