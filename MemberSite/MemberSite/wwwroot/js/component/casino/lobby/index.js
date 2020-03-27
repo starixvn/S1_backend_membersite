@@ -50,12 +50,14 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
         get RowsPerPage(){return 24;}
 
         setMouseEvent = ()=>{
-            $(".BIG,.MI > div,.SM > div").mouseover(function () {
-                $(this).children(".playNow").show();
-            });
-            $(".BIG,.MI > div,.SM > div").mouseout(function () {
-                $(this).children(".playNow").hide()
-            });
+            if(!IsMobileAndTablet){
+                $(".BIG,.MI > div,.SM > div").mouseover(function () {
+                    $(this).children(".playNow").show();
+                });
+                $(".BIG,.MI > div,.SM > div").mouseout(function () {
+                    $(this).children(".playNow").hide()
+                });
+            }
         }
         componentDidMount=()=>{
             this.setMouseEvent();
@@ -164,7 +166,7 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
         }
         matchKeyword = (name, _keyword)=>{
             let keyword = _keyword.toLowerCase();
-            return Object.keys(name).filter(key=>{return name[key].indexOf(keyword) !== -1}).length > 0;
+            return Object.keys(name).filter(key=>{return name[key].toLowerCase().indexOf(keyword) !== -1}).length > 0;
         }
         SearchGame = ()=>{
             let keyword = this.state.Filter.Keyword;

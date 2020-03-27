@@ -800,7 +800,7 @@
     },
     {
       "name": {
-        "en": "KlassiK only HTML5",
+        "en": "KlassiK",
         "cs": "经典老虎机",
         "ch": "經典老虎機"
       },
@@ -811,9 +811,9 @@
       "paylines": "9",
       "RTP": "97.00",
       "imgName": {
-        "en": "KlassiK-only-HTML5-EN.jpg",
-        "cs": "KlassiK-only-HTML5-CS.jpg",
-        "ch": "KlassiK-only-HTML5-CS.jpg"
+        "en": "KlassiK-EN.jpg",
+        "cs": "KlassiK-CS.jpg",
+        "ch": "KlassiK-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -1164,9 +1164,9 @@
       "paylines": "30",
       "RTP": "96.64%",
       "imgName": {
-        "en": "Nation---Double-Play-EN.jpg",
-        "cs": "Nation---Double-Play-CS.jpg",
-        "ch": "Nation---Double-Play-CS.jpg"
+        "en": "Nation-Double-Play-EN.jpg",
+        "cs": "Nation-Double-Play-CS.jpg",
+        "ch": "Nation-Double-Play-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
