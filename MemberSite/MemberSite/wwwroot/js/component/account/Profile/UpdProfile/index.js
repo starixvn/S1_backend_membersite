@@ -31,7 +31,8 @@ import {CustInfo} from '../NormalProfile//CustInfo';
                 dataColumn:'AccountName', 
                 columnTitle:i18n.lbl_RealName, 
                 placeHolder:i18n.lbl_RemindForName,
-                elemType:elemType.inputBox
+                elemType:elemType.inputBox,
+                readOnly:SetStatus == 3
             },
             {
                 dataColumn:'Birthday', 
@@ -60,7 +61,8 @@ import {CustInfo} from '../NormalProfile//CustInfo';
                     dataColumn:'year',
                     options:yearOptions
                 },
-                elemType:elemType.birthday
+                elemType:elemType.birthday,
+                readOnly:SetStatus == 2
             },
             {
                 dataColumn:'Country',
@@ -71,7 +73,8 @@ import {CustInfo} from '../NormalProfile//CustInfo';
                 dataColumn:'PhoneNo',
                 columnTitle:i18n.lbl_Phone,
                 elemType:elemType.phone,
-                regex:/^[0-9]*$/
+                regex:/^[0-9]*$/,
+                readOnly:SetStatus == 2
             }
         ]
     }
@@ -133,8 +136,21 @@ import {CustInfo} from '../NormalProfile//CustInfo';
     const FormContent = (props)=>{
         let columns = props.ColumnDefs;
 
-        const [stateDatas, updateDatas] = React.useState({
+        const [stateDatas, updateDatas] = React.useState(SetStatus == 1 ? {
             'AccountName':'',
+            'Birthday':{},
+            'Country':props.DefaultCountry
+        } : SetStatus == 2 ? {
+            'AccountName':'',
+            'Birthday':{
+                day:{value:custdata.Birthday.day, displayText:custdata.Birthday.day},
+                month:{value:Number(custdata.Birthday.month)-1, displayText:i18n['lbl_Month'+custdata.Birthday.month]},
+                year:{value:custdata.Birthday.year, displayText:custdata.Birthday.year}
+            },
+            'Country':props.DefaultCountry,
+            'PhoneNo':custdata.PhoneNo
+        } : {
+            'AccountName':custdata.AccountName,
             'Birthday':{},
             'Country':props.DefaultCountry
         });
@@ -143,33 +159,34 @@ import {CustInfo} from '../NormalProfile//CustInfo';
             'Birthday':''
         });
 
-        const EditField = (value, dataColumn, parent)=>{
+        const EditField = (value, dataColumn, bindingCol)=>{
             let check = true;
             let message = '';
+            
             if(value !== '' && vaildFunc[dataColumn]){
-                if(vaildFunc[dataColumn].bindingValue && stateDatas[vaildFunc[dataColumn].parent]){    
-                    let result = vaildFunc[dataColumn].func(value, vaildFunc[dataColumn].parent ? stateDatas[vaildFunc[dataColumn].parent].value : null);
+                if(vaildFunc[dataColumn].bindingValue && stateDatas[vaildFunc[dataColumn].bindingCol]){    
+                    let result = vaildFunc[dataColumn].func(value, vaildFunc[dataColumn].bindingCol ? stateDatas[vaildFunc[dataColumn].bindingCol].value : null);
                     check = result.status === 0;
                     message = result.message;
                 }
             }
 
             if(check){
-                if(stateErrors[dataColumn] || stateErrors[parent]){
+                if(stateErrors[dataColumn] || stateErrors[bindingCol]){
                     let tmp = {...stateErrors};
                     if(tmp[dataColumn]){
                         tmp[dataColumn] = '';
                     }
-                    if(tmp[parent]){
-                        tmp[parent] = '';
+                    if(tmp[bindingCol]){
+                        tmp[bindingCol] = '';
                     }
                     updateErrors({...tmp});
                 }
 
-                updateDatas(parent ? {
+                updateDatas(bindingCol ? {
                     ...stateDatas,
-                    [parent]:{
-                        ...stateDatas[parent],
+                    [bindingCol]:{
+                        ...stateDatas[bindingCol],
                         [dataColumn]:value
                     }
                 } : {
@@ -286,6 +303,7 @@ import {CustInfo} from '../NormalProfile//CustInfo';
                             onChange={EditField}
                             value={stateDatas[item.dataColumn] === undefined || stateDatas[item.dataColumn] === null ? '' : stateDatas[item.dataColumn] }
                             ErrorMsg={stateErrors[item.dataColumn]}
+                            ReadOnly={item.readOnly}
                         />
                     );
                     break;
@@ -332,6 +350,7 @@ import {CustInfo} from '../NormalProfile//CustInfo';
                                 Options:item.year.options
                             }}
                             ErrorMsg={stateErrors[item.dataColumn]}
+                            ReadOnly={item.readOnly}
                         />
                     )
                     break;
@@ -347,6 +366,7 @@ import {CustInfo} from '../NormalProfile//CustInfo';
                             regex={item.regex}
                             value={stateDatas[item.dataColumn] === undefined || stateDatas[item.dataColumn] === null ? '' : stateDatas[item.dataColumn] }
                             ErrorMsg={stateErrors[item.dataColumn]}
+                            ReadOnly={item.readOnly}
                         />
                     );
                     break;
@@ -391,16 +411,19 @@ import {CustInfo} from '../NormalProfile//CustInfo';
                         {...props.Day}
                         BindingValue={props.DataColumn}
                         OnSelectItem={props.OnSelectItem}
+                        ReadOnly={props.ReadOnly}
                     />
                     <DropdownBox
                         {...props.Month}
                         BindingValue={props.DataColumn}
                         OnSelectItem={props.OnSelectItem}
+                        ReadOnly={props.ReadOnly}
                     />
                     <DropdownBox
                         {...props.Year}
                         BindingValue={props.DataColumn}
                         OnSelectItem={props.OnSelectItem}
+                        ReadOnly={props.ReadOnly}
                     />
                     <ErrorTips ErrorMsg={props.ErrorMsg} />
                 </div>

@@ -12,15 +12,22 @@ export const InputBox = (props)=>{
 
     let elem = (
         <div className="textfield">
-            <input type='text' className="textfield__input" placeholder={props.placeHolder ? props.placeHolder : ''} value={props.value} onChange={onChange}/>
+            {
+                props.ReadOnly ? 
+                <input type='text' className="textfield__input" placeholder={props.placeHolder ? props.placeHolder : ''} value={props.value} onChange={onChange} readOnly/> :
+                <input type='text' className="textfield__input" placeholder={props.placeHolder ? props.placeHolder : ''} value={props.value} onChange={onChange}/>
+            }
             <span className="textfield__bg"></span>
+            {
+                props.ReadOnly ? <a className="btn btn-icon btn-form-status"><i className="icon icon--lg"></i></a> : null
+            }
         </div>
     );
 
     return props.columnTitle ? (
         <div className="form-group">
             <label className="form-title">{props.columnTitle}</label>
-            <div className="form-content">
+            <div className="form-content" data-status={props.ReadOnly ? "readonly" : 'info'}>
                 {elem}
                 <ErrorTips ErrorMsg={props.ErrorMsg} />
             </div>

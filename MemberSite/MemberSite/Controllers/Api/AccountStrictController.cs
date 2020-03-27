@@ -120,17 +120,39 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<object>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
 
-            string AreaCode = custProfile[nameof(AreaCode)];
-            string PhoneNo = custProfile[nameof(PhoneNo)];
-            if(custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
+            var beforeCustInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
+            if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
             {
-                apiResult.ErrorCode = 21;
-                apiResult.Message = $"({AreaCode}){PhoneNo} "+ selLangBLL.GetMsg("msg_HasExist");
-                return apiResult;
+                string AccountName = custProfile[nameof(AccountName)];
+                var result = custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
+                custProfile["Birth_d"] = beforeCustInfo.Birth_d;
+                custProfile["Birth_m"] = beforeCustInfo.Birth_m;
+                custProfile["Birth_y"] = beforeCustInfo.Birth_y;
+                custProfile["CountryCode"] = beforeCustInfo.CountryCode;
+                custProfile["AreaCode"] = beforeCustInfo.AreaCode;
+                custProfile["PhoneNo"] = beforeCustInfo.PhoneNo;
             }
+            else
+            {
+                string AreaCode = custProfile[nameof(AreaCode)];
+                string PhoneNo = custProfile[nameof(PhoneNo)];
+                if (custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
+                {
+                    apiResult.ErrorCode = 21;
+                    apiResult.Message = $"({AreaCode}){PhoneNo} " + selLangBLL.GetMsg("msg_HasExist");
+                    return apiResult;
+                }
 
-            string AccountName = custProfile[nameof(AccountName)];
-            var result = custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
+                if (!string.IsNullOrEmpty(beforeCustInfo.AccountName))
+                {
+                    custProfile["AccountName"] = beforeCustInfo.AccountName;
+                }
+                else
+                {
+                    var result = custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"], null);
+                }
+            }
+            
             apiResult.ErrorCode = custInfoBLL.SetProfile(authData.CustId, custProfile);
             if (apiResult.ErrorCode == 0)
             {

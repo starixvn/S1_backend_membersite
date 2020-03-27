@@ -18,7 +18,9 @@ export class DropdownBox extends React.Component{
         this.wrapper = node;
     }
     ClickDropdown=()=>{
-        this.setState({isOpen: !this.state.isOpen})
+        if(!this.props.ReadOnly){
+            this.setState({isOpen: !this.state.isOpen});
+        }
     }
     SelectItem=(v)=>{
         this.setState({isOpen:false})
@@ -27,25 +29,34 @@ export class DropdownBox extends React.Component{
         }
     }
     render(){
-        let rows = this.props.Options && this.props.Options.map(item=>{
-            return(
-                <div key={`dp-${item.value}`} className="dropdown__item" onClick={this.SelectItem.bind(null, item)} data-selected={this.props.SelectedItem !== undefined && this.props.SelectedItem !== null && this.props.SelectedItem.value === item.value}>
-                    <span className="text">{item.displayText}</span>
-                </div>
-            );
-        });
 
-        let elem = (
-            <div className="dropdown dropdown-default" ref={this.SetOuterDivRef} data-open={this.state.isOpen}>
-                <a className="btn" onClick={this.ClickDropdown}>
-                    <span className="text">{this.props.SelectedItem ? this.props.SelectedItem.displayText : ''}</span>
-                    <i className="icon icon-caret"></i>
-                </a>
+        let content = null
+
+        if(!this.props.ReadOnly){
+            let rows = this.props.Options && this.props.Options.map(item=>{
+                return(
+                    <div key={`dp-${item.value}`} className="dropdown__item" onClick={this.SelectItem.bind(null, item)} data-selected={this.props.SelectedItem !== undefined && this.props.SelectedItem !== null && this.props.SelectedItem.value === item.value}>
+                        <span className="text">{item.displayText}</span>
+                    </div>
+                );
+            });
+
+            content = (
                 <div className="dropdown__container">
                     <div className="dropdown__list">
                         {rows}
                     </div>
                 </div>
+            )
+        }
+        
+        let elem = (
+            <div className="dropdown dropdown-default" ref={this.SetOuterDivRef} data-open={this.state.isOpen}>
+                <a className="btn" onClick={this.ClickDropdown}>
+                    <span className="text">{this.props.SelectedItem ? this.props.SelectedItem.displayText : ''}</span>
+                    {!this.props.ReadOnly ? <i className="icon icon-caret"></i> : null}
+                </a>
+                {content}
             </div>
         );
 

@@ -108,6 +108,19 @@
     <script src="~/lib/runtime.min.js"></script>
     @if (custInfoProfile == null || custInfoProfile.AccountName == null || custInfoProfile.CountryCode == null || custInfoProfile.PhoneNo == null)
     {
+        <script>
+            var SetStatus = '@(custInfoProfile == null || string.IsNullOrEmpty(custInfoProfile.AccountName) && string.IsNullOrEmpty(custInfoProfile.PhoneNo) ? 1 : string.IsNullOrEmpty(custInfoProfile.AccountName) ? 2 : 3)';
+            var custdata = {
+                AccountName:'@custInfoProfile.AccountName',
+                Birthday: {
+                    day:'@custInfoProfile.Birth_d',
+                    month: '@custInfoProfile.Birth_m',
+                    year:'@custInfoProfile.Birth_y'
+                },
+                PhoneNo: '@custInfoProfile.PhoneNo'
+            }
+
+        </script>
         <script src="~/js/component/account/UpdProfile.min.js" asp-append-version="true"></script>
     }
     else
