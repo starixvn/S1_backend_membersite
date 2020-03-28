@@ -238,7 +238,7 @@
     <value>收银</value>
   </data>
   <data name="lbl_Casino" xml:space="preserve">
-    <value>娱乐城</value>
+    <value>电子游戏</value>
   </data>
   <data name="lbl_CasinoSlogon" xml:space="preserve">
     <value>亚洲市场的多种主题</value>
@@ -1475,7 +1475,7 @@
     <value>所有游戏</value>
   </data>
   <data name="lbl_CasinoLobby" xml:space="preserve">
-    <value>娱乐城大厅</value>
+    <value>电子游戏大厅</value>
   </data>
   <data name="lbl_Favourite" xml:space="preserve">
     <value>我的最爱</value>

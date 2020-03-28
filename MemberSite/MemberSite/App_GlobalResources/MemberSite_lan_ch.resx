@@ -238,7 +238,7 @@
     <value>收銀</value>
   </data>
   <data name="lbl_Casino" xml:space="preserve">
-    <value>娛樂城</value>
+    <value>電子遊戲</value>
   </data>
   <data name="lbl_CasinoSlogon" xml:space="preserve">
     <value>亞洲市場的多種主題</value>
@@ -1472,7 +1472,7 @@
     <value>所有遊戲</value>
   </data>
   <data name="lbl_CasinoLobby" xml:space="preserve">
-    <value>娛樂城大廳</value>
+    <value>電子遊戲大廳</value>
   </data>
   <data name="lbl_Favourite" xml:space="preserve">
     <value>我的最愛</value>
