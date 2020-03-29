@@ -82,6 +82,11 @@ namespace MemberSite.Controllers
                     string entryUrl = data.Message;
                     return Redirect(entryUrl);
                 }
+                else if (tpId == 1 && data.ErrorCode == 10)
+                {
+                    string entryUrl = thirdPartyBLL.getEntryUrl(tpId, inputs);
+                    return Redirect(entryUrl);
+                }
                 else
                 {
                     throw new Exception(data.RawMessage);
