@@ -4979,7 +4979,7 @@ button.swiper-pagination-bullet {
   color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.26);
   width: 100%;
-  z-index: 1;
+  z-index: 2;
   background: url(../images/Lobby/Home/head_bg.jpg);
   background-size: 100% 100%;
 }
@@ -5901,7 +5901,7 @@ button.swiper-pagination-bullet {
   font-weight: normal;
 }
 
-.VirtualGames {
+.VirtualGames, .FishingGames {
   width: 1.5rem;
 }
 

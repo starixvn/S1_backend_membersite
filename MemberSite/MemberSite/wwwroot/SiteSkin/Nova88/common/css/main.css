@@ -5203,7 +5203,7 @@ button.swiper-pagination-bullet {
   font-weight: normal;
 }
 
-.VirtualGames {
+.VirtualGames, .FishingGames {
   width: 1.5rem;
 }
 

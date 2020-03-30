@@ -10,6 +10,19 @@
 @inject GamingBLL gamingBLL
 @{
     int CurrencyId = selLangBLL.GetPreferCurrencyId();
+
+
+    var entFishingPageUrl="";
+    if (User.Identity.IsAuthenticated)
+    {
+        entFishingPageUrl = gamingBLL.GetEntPageUrl(7, "10", Url, GameType.Fishing);
+        entFishingPageUrl = $"javascript:window.open('{entFishingPageUrl}', 'Tp_7_10', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus()";
+    }
+    else
+    {
+        entFishingPageUrl = "javascript:void(0);";
+    }
+
 }
 <div class="header">
     <div class="header__main">
@@ -258,6 +271,9 @@
         </a>*@
         <a class="header__col" data-selected="false" href="@gamingBLL.GetEntPageUrl(1,"202",Url)">
             <span class="text">@selLangBLL.GetResourceValue("lbl_Keno")</span>
+        </a>
+        <a class="header__col @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" data-selected="false" onclick="@entFishingPageUrl">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_Fishing")</span>
         </a>
     </div>
 </div>
