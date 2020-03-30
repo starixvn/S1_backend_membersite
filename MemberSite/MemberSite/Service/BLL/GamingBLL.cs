@@ -108,6 +108,18 @@ namespace MemberSite.Service.BLL
                         entPageUrl = $"javascript:alert('{message}');";
                     }
                 }
+                else if (gameType == GameType.Fishing)
+                {
+                    if (urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
+                    {
+                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, CashierUrl = cashierUrl, LobbyUrl = slotsLobbyUrl, tpId = tpId, gameId = gameId, gameType = gameType.ToString() });
+                    }
+                    else
+                    {
+                        var message = selLangBLL.GetMsg("msg_LoginToAccess");
+                        entPageUrl = $"javascript:alert('{message}');";
+                    }
+                }
                 else
                 {
                     if (urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)

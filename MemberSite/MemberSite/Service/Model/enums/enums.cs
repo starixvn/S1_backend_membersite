@@ -157,5 +157,6 @@ namespace MemberSite.Service.Model.enums
         LiveCasinoLobby = 2,
         LiveCasino = 3,
         Slots = 4,
+        Fishing = 5
     }
 }

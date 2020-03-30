@@ -1487,4 +1487,7 @@
   <data name="lbl_Slots" xml:space="preserve">
     <value>สล็อต</value>
   </data>
+  <data name="lbl_Fishing" xml:space="preserve">
+    <value>ยิงปลา</value>
+  </data>
 </root>

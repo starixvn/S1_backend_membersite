@@ -1513,4 +1513,7 @@
   <data name="lbl_Slots" xml:space="preserve">
     <value>Slots</value>
   </data>
+  <data name="lbl_Fishing" xml:space="preserve">
+    <value>Tembak ikan</value>
+  </data>
 </root>
