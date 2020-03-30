@@ -272,7 +272,7 @@
         <a class="header__col" data-selected="false" href="@gamingBLL.GetEntPageUrl(1,"202",Url)">
             <span class="text">@selLangBLL.GetResourceValue("lbl_Keno")</span>
         </a>
-        <a class="header__col @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" data-selected="false" onclick="@entFishingPageUrl">
+        <a class="header__col @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" data-selected="false" href="@entFishingPageUrl">
             <span class="text">@selLangBLL.GetResourceValue("lbl_Fishing")</span>
         </a>
     </div>
