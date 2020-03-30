@@ -75,21 +75,27 @@ namespace MemberSite.Controllers
                     AppType = tools.IsMobile() ? 2 : 1,
                     inputs = inputs
                 };
-
-                var data = await courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
-                if (data.ErrorCode == 0)
+                try
                 {
-                    string entryUrl = data.Message;
-                    return Redirect(entryUrl);
+                    var data = await courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
+                    if (data.ErrorCode == 0)
+                    {
+                        string entryUrl = data.Message;
+                        return Redirect(entryUrl);
+                    }
+                    else if (tpId == 1 && data.RawErrorCode == "10")
+                    {
+                        string entryUrl = thirdPartyBLL.getEntryUrl(tpId, inputs);
+                        return Redirect(entryUrl);
+                    }
+                    else
+                    {
+                        return Content(data.RawMessage);
+                    }
                 }
-                else if (tpId == 1 && data.ErrorCode == 10)
+                catch (Exception ex)
                 {
-                    string entryUrl = thirdPartyBLL.getEntryUrl(tpId, inputs);
-                    return Redirect(entryUrl);
-                }
-                else
-                {
-                    throw new Exception(data.RawMessage);
+                    return Content(ex.Message);
                 }
             }
             else if (hasBf(tpId))
