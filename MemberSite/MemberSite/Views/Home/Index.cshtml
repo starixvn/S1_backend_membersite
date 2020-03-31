@@ -423,7 +423,7 @@
 
             if (balance < 1m)
             {
-                <div class="modal" id="DepositAlet" data-open="true">
+                <div class="modal" id="DepositAlet" data-open="false">
                     <div class="overlay Js-DepositAlet"></div>
                     <div class="modal__dialog">
                         <div class="modal__header">
@@ -445,6 +445,8 @@
                         </div>
                     </div>
                 </div>
+
+                @:<script>DepositAlert = 1;</script>
             }
             var option = new Microsoft.AspNetCore.Http.CookieOptions();
             option.Expires = DateTime.Now.AddDays(1);

@@ -61,7 +61,7 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
         }
         componentDidMount=()=>{
             this.setMouseEvent();
-            this.intervalId = setInterval(this.MoreGames.bind(this), 200);
+            this.intervalIds = setInterval(this.MoreGames.bind(this), 2000);
         }
         componentDidUpdate=()=>{
             this.setMouseEvent();
@@ -70,7 +70,7 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
         //     window.addEventListener('scroll', this.MoreGames);
         // }
         // componentWillUnmount=()=>{
-        //     window.removeEventListener('scroll', this.MoreGames);
+        //     //window.removeEventListener('scroll', this.MoreGames);
         // }
         SetGames = (games, _favorite)=>{
             let first = [];
@@ -102,10 +102,10 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
                     second.push(elem);
                 }
 
-                /*idx += 1;
+                idx += 1;
                 if(idx === endPoint){
                     break;
-                }*/
+                }
             }
 
             let loadedCount = first.length + second.length;
@@ -129,6 +129,15 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
                             SecondSection:gameResult.second
                         }
                     });
+
+                    if(dataColumn==='Page'){
+                        if(this.intervalIds === null || this.intervalIds === undefined){
+                            this.intervalIds = setInterval(this.MoreGames.bind(this), 2000);
+                        }else{
+                            clearInterval(this.intervalIds);
+                            this.intervalIds = setInterval(this.MoreGames.bind(this), 2000);
+                        }
+                    }
                 }else{
                     this.setState({
                         Filter:{
@@ -145,12 +154,7 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
                     return _keyword === "" ? allGames : allGames.filter(g=>{
                         return this.matchKeyword(g.name, _keyword);
                     });
-
-                /*case Page.SLOTS.displayText:
-                    return allGames.filter(g=>{
-                        return g.category1==="Slots" && (_keyword === "" || this.matchKeyword(g.name, _keyword));
-                    });
-                */
+                
                 case Page.FEATURED.displayText:
                     return allGames.filter(g=>{
                         return g.featured===true && (_keyword === "" || this.matchKeyword(g.name, _keyword));
@@ -161,6 +165,11 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
                         return _favorite !== null && _favorite.find(x=> x.ProviderId==g.provider && x.GameId==g.gameId) !== undefined;
                     });
 
+                // case Page.SLOTS.displayText:
+                //     return allGames.filter(g=>{
+                //         return g.category1==="Slots" && (_keyword === "" || this.matchKeyword(g.name, _keyword));
+                //     });
+                
                 default:
                     return allGames;
             }
@@ -224,7 +233,8 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
                     }
                 })
             }else{
-                clearInterval(this.intervalId);
+                clearInterval(this.intervalIds);
+                this.intervalIds = null;
             }
             // }
         }

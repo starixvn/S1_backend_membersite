@@ -85,6 +85,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             bool result = authorizeBLL.Logout();
 
+            Response.Cookies.Delete($"InitializationReset{ User.Identity.Name}");
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             apiResult.ErrorCode = 0;
             apiResult.Message = selLangBLL.GetMsg("msg_loggedout");

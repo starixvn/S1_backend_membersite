@@ -665,28 +665,7 @@
       "new": true,
       "imageExist": true
     },
-    // {
-    //   "name": {
-    //     "en": "Genies Luck",
-    //     "cs": "精灵寻宝",
-    //     "ch": "精靈尋寶"
-    //   },
-    //   "appId": "geniesluck",
-    //   "gameId": "geniesluck",
-    //   "category1": "Slots",
-    //   "Reels": "",
-    //   "paylines": "40",
-    //   "RTP": "96.46",
-    //   "imgName": {
-    //     "en": "Genies-Luck-EN.jpg",
-    //     "cs": "Genies-Luck-CS.jpg",
-    //     "ch": "Genies-Luck-CS.jpg"
-    //   },
-    //   "launchDate": "",
-    //   "hot": false,
-    //   "new": true,
-    //   "imageExist": true
-    //},
+
     {
       "name": {
         "en": "God of Fortune",
@@ -886,28 +865,6 @@
       "new": true,
       "imageExist": true
     },
-    //{
-    //  "name": {
-    //    "en": "Leap of Fortune",
-    //    "cs": "聚宝金蟾 ",
-    //    "ch": "聚寶金蟾 "
-    //  },
-    //  "appId": "leapoffortune",
-    //  "gameId": "leapoffortune",
-    //  "category1": "Slots",
-    //  "Reels": "",
-    //  "paylines": "8",
-    //  "RTP": "97.11%",
-    //  "imgName": {
-    //    "en": "Leap-of-Fortune-EN.jpg",
-    //    "cs": "Leap-of-Fortune-CS.jpg",
-    //    "ch": "Leap-of-Fortune-CS.jpg"
-    //  },
-    //  "launchDate": "",
-    //  "hot": false,
-    //  "new": true,
-    //  "imageExist": true
-    //},
     {
       "name": {
         "en": "Legend of Nezha",
