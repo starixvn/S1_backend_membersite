@@ -43,6 +43,17 @@
         CurrencyId = selLangBLL.GetPreferCurrencyId();
         promotionCnt = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).Count();
     }
+
+    var entFishingPageUrl="";
+    if (User.Identity.IsAuthenticated)
+    {
+        entFishingPageUrl = gamingBLL.GetEntPageUrl(7, "10", Url, GameType.Fishing);
+        entFishingPageUrl = $"javascript:window.open('{entFishingPageUrl}', 'Tp_7_10', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus()";
+    }
+    else
+    {
+        entFishingPageUrl = "javascript:void(0);";
+    }
 }
 
 <div class="main main--home">
@@ -51,18 +62,18 @@
             <div class="swiper-wrapper">
                 @if (serverInfo.SiteId == 2)
                 {
-                    <div class="swiper-slide">
-                        <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg" asp-append-version="true" /></a>
-                    </div>
+                <div class="swiper-slide">
+                    <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg" asp-append-version="true" /></a>
+                </div>
                 }
                 else if (serverInfo.SiteId == 3)
                 {
-                    <div class="swiper-slide">
-                        <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg" asp-append-version="true" /></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-promo125.jpg" asp-append-version="true" /></a>
-                    </div>
+                <div class="swiper-slide">
+                    <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg" asp-append-version="true" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-promo125.jpg" asp-append-version="true" /></a>
+                </div>
                 }
                 else
                 {
@@ -110,6 +121,11 @@
                         </a>
                     </div>
                 }
+                <div class="swiper-slide">
+                    <a @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty) data-selected="false" href="@entFishingPageUrl">
+                        <img src="@CmsPromotionPath/banner-fishing.jpg" asp-append-version="true" />
+                    </a>
+                </div>
             </div>
             <div class="swiper-pagination"></div>
         </div>
