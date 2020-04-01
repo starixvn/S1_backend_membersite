@@ -53,6 +53,11 @@ namespace MemberSite.Service.DAL
 
             if (result > 0)
             {
+                conn.Execute("Member_VNAffiliate_Ins", new { CustId = custId, customer.SiteId, AffId = customer.Aff }, commandType: CommandType.StoredProcedure);
+            }
+
+            if (result > 0)
+            {
                 trans.Commit();
             }
 

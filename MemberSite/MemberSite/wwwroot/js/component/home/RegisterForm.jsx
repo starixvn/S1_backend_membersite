@@ -164,6 +164,8 @@ class RegisterForm extends React.Component {
 
             data["affId"] = getUrlParameter("affId")||getCookie("affId");
 
+            data["aff"] = getUrlParameter("aff");
+
             if(data["affId"] != "") {
                 data["CurrencyId"]=0;
             }
