@@ -1516,4 +1516,31 @@
   <data name="lbl_Fishing" xml:space="preserve">
     <value>Tembak ikan</value>
   </data>
+  <data name="lbl_AfterAmount" xml:space="preserve">
+    <value>Jumlah sesudah</value>
+  </data>
+  <data name="lbl_BeforeAmount" xml:space="preserve">
+    <value>Jumlah terdahulu</value>
+  </data>
+  <data name="lbl_ChangeAmount" xml:space="preserve">
+    <value>Ganti jumlah</value>
+  </data>
+  <data name="lbl_RefTransId" xml:space="preserve">
+    <value>Referensi nomor transaksi</value>
+  </data>
+  <data name="lbl_Refund" xml:space="preserve">
+    <value>Dikembalikan</value>
+  </data>
+  <data name="lbl_Settled" xml:space="preserve">
+    <value>Diselesaikan</value>
+  </data>
+  <data name="lbl_Stake" xml:space="preserve">
+    <value>Taruhan</value>
+  </data>
+  <data name="lbl_Statement" xml:space="preserve">
+    <value>Pernyataan</value>
+  </data>
+  <data name="lbl_TypeName" xml:space="preserve">
+    <value>Ketik nama</value>
+  </data>  
 </root>

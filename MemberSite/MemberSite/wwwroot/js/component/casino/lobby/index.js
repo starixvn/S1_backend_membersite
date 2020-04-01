@@ -3,7 +3,7 @@ import {Provider} from '../../../../datas/Provider';
 import {GameElem} from './components/gameElem';
 import {GameList} from './gameList';
 import {Nav} from './nav';
-import {GamesByProvider, AllGames} from '../../../../datas/AllGameList'
+import {GamesByProvider, AllGames} from '../../../../datas/AllGameList';
 
 (function ($, React, ReactDOM, i18n) {
 

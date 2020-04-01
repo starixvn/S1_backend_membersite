@@ -10,7 +10,8 @@
 @inject GamingBLL gamingBLL
 @{
     int CurrencyId = selLangBLL.GetPreferCurrencyId();
-
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
 
     var entFishingPageUrl="";
     if (User.Identity.IsAuthenticated)
@@ -120,6 +121,12 @@
                                 <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })">
                                     <i class="icon icon-statement"></i>
                                     <span class="text">@selLangBLL.GetResourceValue("lbl_TransactionHistory")</span>
+                                </a>
+                                <a class="dropdown__item" href="@Url.RouteUrl("desktop", new { action = "Statement", controller = "History", LangId = selLangBLL.GetLangId() })">
+                                    <i class="icon Statement">
+                                        <img src="@SkinRootPath/images/svg/Statement.svg">
+                                    </i>
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Statement")</span>
                                 </a>
                             </div>
                         </div>

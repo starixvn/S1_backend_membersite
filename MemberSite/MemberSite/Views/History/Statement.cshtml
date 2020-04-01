@@ -1,0 +1,62 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Hosting
+@using MemberSite.Service.BLL
+@inject IWebHostEnvironment environment
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = "Statement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var i18n = new Dictionary<string, string>();
+    i18n.Add("lbl_TransactionHistory", selLangBLL.GetResourceValue("lbl_TransactionHistory"));
+
+
+    i18n.Add("lbl_From", selLangBLL.GetResourceValue("lbl_From"));
+    i18n.Add("lbl_To", selLangBLL.GetResourceValue("lbl_To"));
+    
+    i18n.Add("lbl_Status", selLangBLL.GetResourceValue("lbl_Status"));
+    i18n.Add("lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit"));
+    i18n.Add("lbl_Page", selLangBLL.GetResourceValue("lbl_Page"));
+    i18n.Add("lbl_Of", selLangBLL.GetResourceValue("lbl_Of"));
+    i18n.Add("lbl_DateMissing", selLangBLL.GetResourceValue("lbl_DateMissing"));
+    i18n.Add("msg_NoData", selLangBLL.GetMsg("msg_NoData"));
+    i18n.Add("lbl_Statement", selLangBLL.GetResourceValue("lbl_Statement"));
+    i18n.Add("lbl_Date", selLangBLL.GetResourceValue("lbl_Date"));
+    i18n.Add("lbl_Time", selLangBLL.GetResourceValue("lbl_Time"));
+    i18n.Add("lbl_TypeName", selLangBLL.GetResourceValue("lbl_TypeName"));
+    i18n.Add("lbl_ChangeAmount", selLangBLL.GetResourceValue("lbl_ChangeAmount"));
+    i18n.Add("lbl_BeforeAmount", selLangBLL.GetResourceValue("lbl_BeforeAmount"));
+    i18n.Add("lbl_AfterAmount", selLangBLL.GetResourceValue("lbl_AfterAmount"));
+    i18n.Add("lbl_RefTransId", selLangBLL.GetResourceValue("lbl_RefTransId"));
+}
+    <div class="main">
+        <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
+        <div class="page-title" role="mobile-only">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_Statement")</span>
+        </div>
+        <div class="page-tabs" role="mobile-only">
+            <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+            </a>
+            <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "History", LangId = selLangBLL.GetLangId() })">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
+            </a>
+            <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
+            </a>
+            <a class="page-tabs__btn" data-selected="true">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Statement")</span>
+            </a>
+        </div>
+        <div id="StatementPanel" class="page"></div>
+    </div>
+@section Scripts{
+    <script type="text/javascript">
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
+    </script>
+    <script src="~/lib/runtime.min.js"></script>
+    <script src="~/js/component/history/Statement/Statement.min.js" asp-append-version="true"></script>
+}
+

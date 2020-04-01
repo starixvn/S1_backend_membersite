@@ -53,6 +53,9 @@ export class GameElem extends React.Component{
         let elem = (
             <>
                 <div>
+                    <h3>
+                        <span>{this.props.ProviderName}</span>
+                    </h3>
                     <span>{this.props.GameName}</span>
                     {
                         this.state.IsFavorite === true ? <span>★</span> : null

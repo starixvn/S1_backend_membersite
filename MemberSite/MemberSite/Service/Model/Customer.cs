@@ -23,8 +23,8 @@ namespace MemberSite.Service.Model
         public DateTime LastLoginTime { get; set; }
         public DateTime RegTime { get; set; }
         public int Status { get; set; }
-
         public bool IsResetPwd { get; set; }
+        public string Aff { get; set; }
     }
 
     public class CustProfile

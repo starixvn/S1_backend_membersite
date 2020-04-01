@@ -52,7 +52,7 @@ namespace MemberSite.Service.BLL
         {
             return isConvert.ContainsKey(CurrencyId);
         }
-        public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang, string refId, string affId, out int custId)
+        public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang, string refId, string affId, string aff, out int custId)
         {
             //int custId = 0;
             var serverInfo = serverInfoBLL.GetServerInfo();
@@ -114,6 +114,7 @@ namespace MemberSite.Service.BLL
                 regCustInfo.SiteId = serverInfo.SiteId;
                 regCustInfo.UserLevel = 1;
                 regCustInfo.UserLang = UserLang;
+                regCustInfo.Aff = aff;
                 /**/
                 var result = custInfoService.AddCustInfo(regCustInfo, Email, out custId);
                 if (result != 0)

@@ -18,8 +18,10 @@ namespace MemberSite.Service.BLL
         private readonly WithdrawalService withdrawalService;
         private readonly BankInfoBLL bankInfoBLL;
         private readonly RolloverService rollOverService;
+        private readonly StatementService statementService;
+        private readonly SelLangBLL selLangBLL;
 
-        public PaymentBLL(BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService, RolloverService rollOverService)
+        public PaymentBLL(BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService, RolloverService rollOverService, StatementService statementService, SelLangBLL selLangBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.custInfoBLL = custInfoBLL;
@@ -27,6 +29,8 @@ namespace MemberSite.Service.BLL
             this.withdrawalService = withdrawalService;
             this.bankInfoBLL = bankInfoBLL;
             this.rollOverService = rollOverService;
+            this.statementService = statementService;
+            this.selLangBLL = selLangBLL;
         }
 
         public int DepositReqWireTransfer(int custId, int sysId, decimal amount, string memo, out DepositRep3 depositRep3)
@@ -215,6 +219,46 @@ namespace MemberSite.Service.BLL
             var withdrawalInfoHistory = withdrawalService.GetWithdrawalInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
             return withdrawalInfoHistory;
         }
+
+        public IEnumerable<Statement> GetStatement(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
+        {
+            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var datas = statementService.GetStatement(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
+
+            var tpList = statementService.GetTpList();
+
+            Dictionary<string, string> singleWalletTransType = new Dictionary<string, string>()
+            {
+                {"1",  selLangBLL.GetResourceValue("lbl_Stake") }, {"2", selLangBLL.GetResourceValue("lbl_Refund") }, {"3", selLangBLL.GetResourceValue("lbl_Settled")}
+            };
+
+            return datas.Select(x=> new Statement{ 
+                BeforeAmount = x.BeforeAmount,  
+                ChangeAmount = x.ChangeAmount, 
+                CreateTime = x.CreateTime, 
+                Direction = x.Direction,
+                RefTransId = x.RefTransId,
+                AfterAmount = x.AfterAmount,
+                TypeName = GetTransTypeName(x.Type, x.TypeName, ref tpList, ref singleWalletTransType) 
+            });
+        }
+
+        private string GetTransTypeName(string Type, string TypeName, ref IEnumerable<TpList> TpList, ref Dictionary<string, string> WalletTransType)
+        {
+            if (Type.Length < 5)
+            {
+                return TypeName;
+            }
+            else
+            {
+                WalletTransType.TryGetValue(Type.Substring(1, 1), out string TransType);
+                int.TryParse(Type.Substring(2), out int tpId);
+
+                var tpName = TpList.Where(x => x.Id == tpId).FirstOrDefault()?.TpName;
+                return $"{tpName} {TransType}";
+            }
+        }
+
         public int SetDepositReceipt(int custId, string transId, string refNo, long depositTime)
         {
             int depositId = 0;

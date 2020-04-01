@@ -51,6 +51,11 @@ namespace MemberSite.Service.DAL
                 result = conn.Execute("Member_CustProfile_Ins", new { CustId = custId, customer.SiteId, Email, Profile = (string)null }, trans, commandType: CommandType.StoredProcedure);
             }
 
+            if (!string.IsNullOrEmpty(customer.Aff) && result > 0)
+            {
+                result = conn.Execute("Member_VNAffiliate_Ins", new { CustId = custId, customer.SiteId, AffId = customer.Aff }, trans, commandType: CommandType.StoredProcedure);
+            }
+
             if (result > 0)
             {
                 trans.Commit();
