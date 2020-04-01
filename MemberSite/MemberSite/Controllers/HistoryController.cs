@@ -22,5 +22,10 @@ namespace MemberSite.Controllers
         {
             return View();
         }
+
+        public IActionResult Statement()
+        {
+            return View();
+        }
     }
 }

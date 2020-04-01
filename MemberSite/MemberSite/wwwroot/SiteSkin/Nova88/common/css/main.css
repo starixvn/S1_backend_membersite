@@ -2523,6 +2523,11 @@ form + .table-rwd {
   border-right-width: 0;
 }
 
+[data-layout=mobile] .table-rwd .td-time {
+  background: #DBEAFC;
+  color: #5574a7;
+}
+
 [data-layout=mobile] .table-rwd .td, [data-layout=mobile] .table-rwd [class^=td-] {
   border-left-width: 0;
 }
@@ -5203,8 +5208,17 @@ button.swiper-pagination-bullet {
   font-weight: normal;
 }
 
-.VirtualGames, .FishingGames {
+.VirtualGames, .FishingGames, .Statement {
   width: 1.5rem;
+}
+
+.Statement {
+  margin: 0.2rem;
+  width: 1.1rem;
+}
+
+.svg-w{
+  filter: invert(1);
 }
 
 .lobby-banner-swiper {

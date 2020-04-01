@@ -77,6 +77,7 @@ namespace MemberSite
             services.AddSingleton<RolloverService>();
             services.AddSingleton<PromotionService>();
             services.AddSingleton<CasinoService>();
+            services.AddSingleton<StatementService>();
             // foreach (var s in AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())
             //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.DAL"))

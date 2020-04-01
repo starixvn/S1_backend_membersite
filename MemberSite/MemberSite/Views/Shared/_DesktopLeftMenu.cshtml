@@ -155,6 +155,11 @@
                             <span class="text">@selLangBLL.GetResourceValue("lbl_WithdrawalHistory")</span>
                         </a>
                     </div>
+                    <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("Statement", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("History", StringComparison.OrdinalIgnoreCase))?"true":"false")>
+                        <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Statement", controller = "History", LangId = selLangBLL.GetLangId() })">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Statement")</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

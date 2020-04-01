@@ -1490,4 +1490,31 @@
   <data name="lbl_Fishing" xml:space="preserve">
     <value>ยิงปลา</value>
   </data>
+  <data name="lbl_AfterAmount" xml:space="preserve">
+    <value>จำนวนเงินที่เหลือ</value>
+  </data>
+  <data name="lbl_BeforeAmount" xml:space="preserve">
+    <value>จำนวนเงินก่อนหน้า</value>
+  </data>
+  <data name="lbl_ChangeAmount" xml:space="preserve">
+    <value>เปลี่ยนจำนวนเงิน</value>
+  </data>
+  <data name="lbl_RefTransId" xml:space="preserve">
+    <value>รหัส ID อ้างอิง</value>
+  </data>
+  <data name="lbl_Refund" xml:space="preserve">
+    <value>คืนเงิน</value>
+  </data>
+  <data name="lbl_Settled" xml:space="preserve">
+    <value>ตัดสินแล้ว</value>
+  </data>
+  <data name="lbl_Stake" xml:space="preserve">
+    <value>ยอดเดิมพัน</value>
+  </data>
+  <data name="lbl_Statement" xml:space="preserve">
+    <value>รายการฝากถอน</value>
+  </data>
+  <data name="lbl_TypeName" xml:space="preserve">
+    <value>ประเภท</value>
+  </data>  
 </root>

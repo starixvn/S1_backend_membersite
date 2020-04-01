@@ -180,6 +180,7 @@ flex: 1 0 auto;
         max-width: none;
         flex: none;
         width: 100%;
+        min-width: 346px;
     }
     .CasModule .MI > div{
         max-width: initial;
@@ -331,4 +332,18 @@ flex: 1 0 auto;
         width: 97%;
         margin: auto;
     }
+}
+h3{
+    background: #26416E;
+    padding: 0 3px;
+    border-radius: 3px;
+    margin: 0 .5rem;
+    flex: 1;
+    text-align: center;
+}
+h3 + span{
+    flex: 8;
+}
+h3 + span + span{
+    flex: 1;
 }

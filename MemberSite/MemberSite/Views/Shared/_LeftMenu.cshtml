@@ -281,6 +281,14 @@
                         </span>
                         <span class="text">@selLangBLL.GetResourceValue("lbl_TransactionHistory")</span>
                     </a>
+                    <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Statement", controller = "History", LangId = selLangBLL.GetLangId() })">
+                        <span class="side-nav__icon">
+                            <i class="icon Statement svg-w">
+                                <img src="@SkinRootPath/images/svg/Statement.svg">
+                            </i>
+                        </span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Statement")</span>
+                    </a>
                 }
                 @*<a class="side-nav__btn">
                         <span class="side-nav__icon">

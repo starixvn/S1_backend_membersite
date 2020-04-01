@@ -70,6 +70,9 @@ module.exports = {
 		],
     "js/component/casino/lobby.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/casino/lobby/index.js'
+		],
+    "js/component/history/Statement/Statement.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/history/Statement/Statement.js'
 		]
   },
   output: {
