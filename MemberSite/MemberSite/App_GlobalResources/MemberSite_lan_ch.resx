@@ -1508,13 +1508,13 @@
     <value>捕魚</value>
   </data>
   <data name="lbl_AfterAmount" xml:space="preserve">
-    <value>後期余額</value>
+    <value>賬變後余額</value>
   </data>
   <data name="lbl_BeforeAmount" xml:space="preserve">
-    <value>前期余額</value>
+    <value>賬變前余額</value>
   </data>
   <data name="lbl_ChangeAmount" xml:space="preserve">
-    <value>余額轉換</value>
+    <value>賬變金額</value>
   </data>
   <data name="lbl_RefTransId" xml:space="preserve">
     <value>註單編號</value>

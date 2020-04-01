@@ -1511,13 +1511,13 @@
     <value>捕鱼</value>
   </data>
   <data name="lbl_AfterAmount" xml:space="preserve">
-    <value>后期余额</value>
+    <value>账变后余额</value>
   </data>
   <data name="lbl_BeforeAmount" xml:space="preserve">
-    <value>前期余额</value>
+    <value>账变前余额</value>
   </data>
   <data name="lbl_ChangeAmount" xml:space="preserve">
-    <value>余额转换</value>
+    <value>账变金额</value>
   </data>
   <data name="lbl_RefTransId" xml:space="preserve">
     <value>注单编号</value>
