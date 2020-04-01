@@ -581,7 +581,7 @@ namespace MemberSite.Controllers.Api
             int pageNumber = historyReq.PageNumber;
             int totalPages;
             int rowCount;
-            apiResult.Data = paymentBLL.GetStatement(257, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
+            apiResult.Data = paymentBLL.GetStatement(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
             apiResult.PageNumber = pageNumber;
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;
