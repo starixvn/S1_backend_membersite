@@ -573,6 +573,22 @@ namespace MemberSite.Controllers.Api
             return data.ErrorCode == 0 ? data.Data.balance : 0;
         }
 
+        [HttpPost]
+        public ApiResult GetStatement(HistoryReq historyReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiListResult<Statement>();
+            int pageNumber = historyReq.PageNumber;
+            int totalPages;
+            int rowCount;
+            apiResult.Data = paymentBLL.GetStatement(257, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
+            apiResult.PageNumber = pageNumber;
+            apiResult.TotalPages = totalPages;
+            apiResult.RowCount = rowCount;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
         public class TpTransfer
         {
             public int TpId { set; get; }
