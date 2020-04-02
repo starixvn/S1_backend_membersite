@@ -37,8 +37,9 @@
         "en": "African-EN.jpg"
       },
       "launchDate": "",
-      "hot": false,
-      "new": false,
+      "hot": true,
+      "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -237,8 +238,9 @@
         "en": "Beanstalk-EN.jpg"
       },
       "launchDate": "",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -618,7 +620,8 @@
       },
       "launchDate": "",
       "hot": true,
-      "new": false,
+      "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1137,8 +1140,9 @@
         "en": "Huga-EN.jpg"
       },
       "launchDate": "",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1297,8 +1301,9 @@
         "en": "Lucky-God-EN.jpg"
       },
       "launchDate": "",
-      "hot": false,
-      "new": false,
+      "hot": true,
+      "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1317,8 +1322,9 @@
         "en": "Lucky-God-Progressive-EN.jpg"
       },
       "launchDate": "",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1338,7 +1344,8 @@
       },
       "launchDate": "",
       "hot": true,
-      "new": false,
+      "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1797,8 +1804,9 @@
         "en": "Roma-EN.jpg"
       },
       "launchDate": "",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1898,7 +1906,8 @@
       },
       "launchDate": "",
       "hot": true,
-      "new": false,
+      "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -2197,8 +2206,9 @@
         "en": "Zhao-Cai-Jin-Bao-EN.jpg"
       },
       "launchDate": "",
-      "hot": false,
-      "new": false,
+      "hot": true,
+      "new": true,
+      "featured": true,
       "imageExist": true
     }
   ]
