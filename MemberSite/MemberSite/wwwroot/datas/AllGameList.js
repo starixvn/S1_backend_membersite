@@ -1,7 +1,8 @@
 import {Provider} from './Provider';
 
 const dataList = {
-    GPI:require('./GPI/GameList.json')
+    GPI:require('./GPI/GameList.json'),
+    Joker:require('./Joker/GameList.json')
 }
 
 export const GamesByProvider = (_provider)=>{
