@@ -61,7 +61,7 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList';
         }
         componentDidMount=()=>{
             this.setMouseEvent();
-            this.intervalIds = setInterval(this.MoreGames.bind(this), 2000);
+            this.intervalIds = setInterval(this.MoreGames.bind(this), 200);
         }
         componentDidUpdate=()=>{
             this.setMouseEvent();
@@ -132,10 +132,10 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList';
 
                     if(dataColumn==='Page'){
                         if(this.intervalIds === null || this.intervalIds === undefined){
-                            this.intervalIds = setInterval(this.MoreGames.bind(this), 2000);
+                            this.intervalIds = setInterval(this.MoreGames.bind(this), 200);
                         }else{
                             clearInterval(this.intervalIds);
-                            this.intervalIds = setInterval(this.MoreGames.bind(this), 2000);
+                            this.intervalIds = setInterval(this.MoreGames.bind(this), 200);
                         }
                     }
                 }else{

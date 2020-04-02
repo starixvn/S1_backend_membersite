@@ -50,6 +50,7 @@ export class GameElem extends React.Component{
         }
     }
     render(){
+        let tpId = this.props.ProviderId;
         let elem = (
             <>
                 <div>
@@ -75,9 +76,11 @@ export class GameElem extends React.Component{
                             <a onClick={this.PlayNow}>
                                 <span>{i18n.lbl_PlayNow}</span>
                             </a>
+                            {tpId == 6 ?
                             <a onClick={this.PlayFree}>
                                 <span>{i18n.lbl_Free}</span>
                             </a>
+                            : null}
                             <a onClick={this.HandleFavourite}>
                                 <span>{this.state.IsFavorite === true ? '★' : '☆' }</span>
                             </a>
@@ -88,9 +91,11 @@ export class GameElem extends React.Component{
                     <a onClick={this.PlayNow}>
                         <span>{i18n.lbl_PlayNow}</span>
                     </a>
+                    {tpId == 6 ?
                     <a onClick={this.PlayFree}>
                         <span>{i18n.lbl_Free}</span>
                     </a>
+                    : null}
                     <a onClick={this.HandleFavourite}>
                         <span>{this.state.IsFavorite === true ? '★' : '☆' }</span>
                     </a>
