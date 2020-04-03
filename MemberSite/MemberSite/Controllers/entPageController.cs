@@ -86,7 +86,7 @@ namespace MemberSite.Controllers
                         string entryUrl = data.Message;
                         if (tpId == 9 && environment.IsDevelopment())
                         {
-                            return Content($@"<a href=""{entryUrl}"" target=""_blank"">Enter Game(VPN outside PH)</a>");
+                            return Content(entryUrl);
                         }
                         else
                         {
