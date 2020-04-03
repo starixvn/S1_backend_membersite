@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using MemberSite.Service.Model.enums;
+using Microsoft.Extensions.Hosting;
 
 namespace MemberSite.Controllers
 {
@@ -21,8 +22,9 @@ namespace MemberSite.Controllers
         private readonly WalletBLL walletBLL;
         private readonly CustInfoBLL custInfoBLL;
         private readonly string apiUrl;
+        private readonly IHostEnvironment environment;
 
-        public entPageController(IConfiguration configuration, ThirdPartyBLL thirdPartyBLL, CourierAdapter courierAdapter, AuthorizeBLL authorizeBLL, Tools tools, SelLangBLL selLangBLL, WalletBLL walletBLL, CustInfoBLL custInfoBLL)
+        public entPageController(IHostEnvironment environment, IConfiguration configuration, ThirdPartyBLL thirdPartyBLL, CourierAdapter courierAdapter, AuthorizeBLL authorizeBLL, Tools tools, SelLangBLL selLangBLL, WalletBLL walletBLL, CustInfoBLL custInfoBLL)
         {
             this.thirdPartyBLL = thirdPartyBLL;
             this.courierAdapter = courierAdapter;
@@ -32,6 +34,7 @@ namespace MemberSite.Controllers
             this.walletBLL = walletBLL;
             this.custInfoBLL = custInfoBLL;
             apiUrl = configuration.GetValue<string>("TpService");
+            this.environment = environment;
         }
         public class TpInfo
         {
@@ -81,7 +84,14 @@ namespace MemberSite.Controllers
                     if (data.ErrorCode == 0)
                     {
                         string entryUrl = data.Message;
-                        return Redirect(entryUrl);
+                        if (tpId == 9 && environment.IsDevelopment())
+                        {
+                            return Content($@"<a href=""{entryUrl}"" target=""_blank"">Enter Game(VPN outside PH)</a>");
+                        }
+                        else
+                        {
+                            return Redirect(entryUrl);
+                        }
                     }
                     else if (tpId == 1 && data.RawErrorCode == "10")
                     {
