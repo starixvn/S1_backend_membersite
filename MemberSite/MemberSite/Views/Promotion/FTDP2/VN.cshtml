@@ -101,7 +101,7 @@
                     <li>Thời gian khuyến mãi bắt đầu từ ngày <span id="ExpiryTime"></span></li>
                     <li>Để thỏa điều kiện nhận thưởng, người chơi phải thực hiện việc nạp tiền lần đầu trong thời gian diễn ra khuyến mãi và trước đó chưa thực hiện việc rút tiền.</li>
                     <li>Tặng thưởng lên tới @promotion.MaxBonus.ToString("#,##0") @Currency dựa trên số tiền nạp cho những khách hàng thỏa điều kiện, tiền thưởng sẽ được chuyển vào tài khoản trong vòng 48 tiếng;</li>
-                    <li>Người chơi có thể rút tiền nạp vào và tiền thưởng sau khi đã hoàn tất yêu cầu doanh thu cược @promotion.RollOver lần trong vòng 30 ngày đối với bất kỳ sản phẩm cá cược của @serverInfo.SiteName ngoại trừ Casino and sản phẩm Cash Out .</li>
+                    <li>Người chơi có thể rút tiền nạp vào và tiền thưởng sau khi đã hoàn tất yêu cầu doanh thu cược @promotion.RollOver lần trong vòng 30 ngày đối với bất kỳ sản phẩm cá cược của @serverInfo.SiteName ngoại trừ Casino, Sòng bài trực tuyến, Virtual Games, Poker, Bắn Cá, Chess Games và Cash Out .</li>
                 </ol>
             </article>
             <div class="panel panel-primary panel--payment" data-open="true">
@@ -146,7 +146,7 @@
                                                 <span class="text">@promotion.Bonus.ToString("#,##0")%</span>
                                             </div>
                                             <div class="td-date">
-                                                <span class="text">Tất các các sản phẩm cá cược của @serverInfo.SiteName ngoại trừ Casino và Cash Out.</span>
+                                                <span class="text">Tất các các sản phẩm cá cược của @serverInfo.SiteName ngoại trừ Casino, Sòng bài trực tuyến, Virtual Games, Poker, Bắn Cá, Chess Games và Cash Out.</span>
                                             </div>
                                             <div class="td-time">
                                                 <span class="text">@promotion.MaxBonus.ToString("#,##0")</span>
@@ -165,7 +165,7 @@
 							    Người chơi thỏa điều kiện không được phép bỏ giải thưởng một khi tiền thưởng đã được chuyển vào tài khoản cá cược của họ tại trang @serverInfo.SiteName.
                             </li>
                             <li>
-							    Người chơi thỏa điều kiện có thể rút tiền nạp vào và tiền thưởng sau khi đã hoàn tất yêu cầu doanh thu cược @promotion.RollOver lần đối với bất kỳ sản phẩm cá cược nào của @serverInfo.SiteName ngoại trừ Casino and Cash Out. Quy định về rút tiền sẽ được áp dụng cho tất cả các khoản tiền nạp khác không dùng cho khuyến mãi.                               
+							    Người chơi thỏa điều kiện có thể rút tiền nạp vào và tiền thưởng sau khi đã hoàn tất yêu cầu doanh thu cược @promotion.RollOver lần đối với bất kỳ sản phẩm cá cược nào của @serverInfo.SiteName ngoại trừ Casino, Sòng bài trực tuyến, Virtual Games, Poker, Bắn Cá, Chess Games và Cash Out. Quy định về rút tiền sẽ được áp dụng cho tất cả các khoản tiền nạp khác không dùng cho khuyến mãi.                               
                             </li>
                             <li>
 							    Người chơi đủ điều kiện chỉ được phép tham gia một (1) chương trình khuyến mãi 'Thưởng Lần Đầu Nạp' do @serverInfo.SiteName cung cấp. Nếu Người chơi đủ điều kiện tham gia nhiều hơn một (1), thì người chơi chỉ nhận được tiền thưởng mà @serverInfo.SiteName duyệt đầu tiên và việc tham gia vào các chương trình khuyến mãi liên quan đến 'Thưởng Lần Đầu Nạp' khác sẽ không có hiệu lực.
