@@ -73,12 +73,14 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
 
             for(let i in games){
                 let isFavorite = _favorite !== null && _favorite.find(x=> x.ProviderId==games[i].provider && x.GameId==games[i].gameId) !== undefined;
+                let {value, name, displayText, ...providerProps} = Provider.find(x=> x.value === games[i].provider);
                 let elem = (
                     <GameElem
                         key={`P-${games[i].provider}-Game-${games[i].gameId}`}
                         GameName={games[i].name[langCode] ?? games[i].name['en']}
                         ProviderId={games[i].provider}
                         ProviderName={games[i].providerName}
+                        ProviderProps={providerProps}
                         ImgUrl={games[i].imgName[langCode] ?? games[i].imgName['en']}
                         GameId={games[i].gameId}
                         HandleFavourite={this.HandleFavourite.bind(null, games[i].provider, games[i].gameId)}
@@ -192,6 +194,7 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
                 for(let i=startIdx; i<endIdx; i++){
                     let key=`P-${games[i].provider}-Game-${games[i].gameId}`;
                     let isFavorite = this.state.Favorite !== null && this.state.Favorite.find(x=> x.ProviderId==games[i].provider && x.GameId==games[i].gameId) !== undefined;
+                    let {value, name, displayText, ...providerProps} = Provider.find(x=> x.value === games[i].provider);
                     if(TopSection.length === 0){
                         TopSection.push(
                             <GameElem
@@ -199,6 +202,7 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
                                 GameName={games[i].name[langCode] ?? games[i].name['en']}
                                 ProviderId={games[i].provider}
                                 ProviderName={games[i].providerName}
+                                ProviderProps={providerProps}
                                 ImgUrl={games[i].imgName[langCode] ?? games[i].imgName['en']}
                                 GameId={games[i].gameId}
                                 HandleFavourite={this.HandleFavourite.bind(null, games[i].provider, games[i].gameId)}
@@ -214,6 +218,7 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
                                 GameName={games[i].name[langCode] ?? games[i].name['en']}
                                 ProviderId={games[i].provider}
                                 ProviderName={games[i].providerName}
+                                ProviderProps={providerProps}
                                 ImgUrl={games[i].imgName[langCode] ?? games[i].imgName['en']}
                                 GameId={games[i].gameId}
                                 HandleFavourite={this.HandleFavourite.bind(null, games[i].provider, games[i].gameId)}
@@ -271,6 +276,11 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
                             TopSection:TopSection,
                             SecondSection:SecondSection
                         },
+                        Favorite:_fav
+                    });
+                }else{
+                    _fav.splice(idx, 1);
+                    this.setState({
                         Favorite:_fav
                     });
                 }
