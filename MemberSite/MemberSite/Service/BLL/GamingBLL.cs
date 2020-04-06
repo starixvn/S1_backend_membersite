@@ -49,6 +49,10 @@ namespace MemberSite.Service.BLL
                             //entPageUrl = $"javascript:alert('{message}');";
                             entPageUrl = "javascript:void(0);";
                         }
+                        else if (iGameId == 43)/*esports*/
+                        {
+                            entPageUrl = "javascript:void(0);";
+                        }
                         else
                         {
                             entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Static", controller = "Home", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
