@@ -1,14 +1,19 @@
 import * as Loading from '../../commJS/Loading.jsx';
 import {Pagination} from '../../commJS/Pagination.jsx';
 import {number_format} from '../../commJS/common';
+import {QuickPicker, QuickPickDefs} from '../component/DateQuickPicker'
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
     const Header = ()=> <div className="heading"><span className="text">{i18n.lbl_Statement}</span></div>
-    
+
     const Filter = (props)=>{
         return(
             <form>
                 <div className="form-row form-row--bg">
+                    <QuickPicker 
+                        QuickPickOnSelect={props.QuickPickOnSelect}
+                        QuickPick={props.QuickPick}
+                    />
                     <div className="form-group flex-3">
                         <label className="form-title">{i18n.lbl_Date}</label>
                         <div className="form-content form-content--date">
@@ -61,7 +66,6 @@ import {number_format} from '../../commJS/common';
     }
     
     const TimeFormat = (time)=>{
-        console.log(time);
         return moment(time).format("hh:mm:ss A");
     }
 
@@ -176,8 +180,9 @@ import {number_format} from '../../commJS/common';
 
     const Panel = ()=>{
         const [stateFilter, setState] = React.useState({
-            StartDate:'',
-            EndDate:''
+            StartDate:moment().format('YYYY-MM-DD'),
+            EndDate:moment().format('YYYY-MM-DD'),
+            QuickPick:QuickPickDefs.Today
         });
 
         const [stateData, setData] = React.useState({
@@ -209,6 +214,56 @@ import {number_format} from '../../commJS/common';
             }.bind(this));
         }
 
+        const QuickPickOnSelect = (v, datacolumn)=>{
+            let StartDate = '';
+            let EndDate = '';
+
+            switch (v.value) {
+                case QuickPickDefs.Today.value:
+                    StartDate = moment().format('YYYY-MM-DD');
+                    EndDate = moment().format('YYYY-MM-DD');
+                    break;
+                
+                case QuickPickDefs.YesterDay.value:
+                    StartDate = moment().add(-1, 'days').format('YYYY-MM-DD');
+                    EndDate = moment().add(-1, 'days').format('YYYY-MM-DD');
+                    break;
+
+                case QuickPickDefs.LastWeek.value:
+                    StartDate = moment().subtract(1, 'weeks').startOf('week').format('YYYY-MM-DD');
+                    EndDate = moment().subtract(1, 'weeks').endOf('week').format('YYYY-MM-DD');
+                
+                    break;
+
+                case QuickPickDefs.ThisWeek.value:
+                    StartDate = moment().subtract(1, 'weeks').endOf('week').add(1, 'days').format('YYYY-MM-DD');
+                    EndDate = moment().format('YYYY-MM-DD');
+                    break;
+
+                case QuickPickDefs.ThisMonth.value:
+                    StartDate = moment().subtract(1,'months').endOf('month').add(1, 'days').format('YYYY-MM-DD');
+                    EndDate = moment().format('YYYY-MM-DD');
+                    break;
+
+                case QuickPickDefs.LastMonth.value:
+                    StartDate = moment().subtract(1,'months').startOf('month').format('YYYY-MM-DD');
+                    EndDate = moment().subtract(1,'months').endOf('month').format('YYYY-MM-DD');
+                    break;
+
+                default:
+                    StartDate = stateFilter.StartDate;
+                    EndDate = stateFilter.EndDate;
+                    break;
+            }
+
+            setState({
+                ...stateFilter,
+                StartDate:StartDate,
+                EndDate:EndDate,
+                [datacolumn]:v
+            })
+        }
+
         return(
             <>
                 <Header />
@@ -217,6 +272,7 @@ import {number_format} from '../../commJS/common';
                     SetStartDate={(e)=>{setState({...stateFilter, StartDate:e.target.value})}}
                     SetEndDate={(e)=>{setState({...stateFilter, EndDate:e.target.value})}}
                     QueryData={QueryData.bind(null, stateData.PageNumber)}
+                    QuickPickOnSelect={QuickPickOnSelect}
                 />
                 {
                     stateData.Datas === null ? null : (

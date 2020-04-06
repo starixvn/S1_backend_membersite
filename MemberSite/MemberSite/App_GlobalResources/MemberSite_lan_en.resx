@@ -1545,5 +1545,26 @@
   </data>
   <data name="lbl_Stake" xml:space="preserve">
     <value>Stake</value>
-  </data>  
+  </data>
+  <data name="lbl_LastMonth" xml:space="preserve">
+    <value>Last Month</value>
+  </data>
+  <data name="lbl_LastWeek" xml:space="preserve">
+    <value>Last Week</value>
+  </data>
+  <data name="lbl_QuickPick" xml:space="preserve">
+    <value>Quick Pick</value>
+  </data>
+  <data name="lbl_ThisMonth" xml:space="preserve">
+    <value>This Month</value>
+  </data>
+  <data name="lbl_ThisWeek" xml:space="preserve">
+    <value>This Week</value>
+  </data>
+  <data name="lbl_Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="lbl_YesterDay" xml:space="preserve">
+    <value>YesterDay</value>
+  </data>
 </root>

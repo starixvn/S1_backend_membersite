@@ -2,12 +2,14 @@ import * as Loading from '../commJS/Loading.jsx';
 import {Pagination} from '../commJS/Pagination.jsx';
 import {WithdrawalHistory} from '../commJS/WithdrawalHistory.jsx';
 import {number_format} from '../commJS/common';
+import {QuickPicker, QuickPickDefs} from './component/DateQuickPicker';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
     class History_Withdrawal extends React.Component {
         constructor(props) {
             super(props);
-            this.state={StartDate:"", EndDate:"", GetData: false};
+            this.state={StartDate:moment().format('YYYY-MM-DD'), EndDate:moment().format('YYYY-MM-DD'), GetData: false, QuickPick:QuickPickDefs.Today};
+            this.QuickPickOnSelect = this.QuickPickOnSelect.bind(this);
         }
 
         onCloseModal() {
@@ -63,6 +65,55 @@ import {number_format} from '../commJS/common';
                 this.setState({showTodModal:true});                    
             }.bind(this));
         }
+
+        QuickPickOnSelect(v, datacolumn){
+            let StartDate = '';
+            let EndDate = '';
+
+            switch (v.value) {
+                case QuickPickDefs.Today.value:
+                    StartDate = moment().format('YYYY-MM-DD');
+                    EndDate = moment().format('YYYY-MM-DD');
+                    break;
+                
+                case QuickPickDefs.YesterDay.value:
+                    StartDate = moment().add(-1, 'days').format('YYYY-MM-DD');
+                    EndDate = moment().add(-1, 'days').format('YYYY-MM-DD');
+                    break;
+
+                case QuickPickDefs.LastWeek.value:
+                    StartDate = moment().subtract(1, 'weeks').startOf('week').format('YYYY-MM-DD');
+                    EndDate = moment().subtract(1, 'weeks').endOf('week').format('YYYY-MM-DD');
+                
+                    break;
+
+                case QuickPickDefs.ThisWeek.value:
+                    StartDate = moment().subtract(1, 'weeks').endOf('week').add(1, 'days').format('YYYY-MM-DD');
+                    EndDate = moment().format('YYYY-MM-DD');
+                    break;
+
+                case QuickPickDefs.ThisMonth.value:
+                    StartDate = moment().subtract(1,'months').endOf('month').add(1, 'days').format('YYYY-MM-DD');
+                    EndDate = moment().format('YYYY-MM-DD');
+                    break;
+
+                case QuickPickDefs.LastMonth.value:
+                    StartDate = moment().subtract(1,'months').startOf('month').format('YYYY-MM-DD');
+                    EndDate = moment().subtract(1,'months').endOf('month').format('YYYY-MM-DD');
+                    break;
+
+                default:
+                    StartDate = stateFilter.StartDate;
+                    EndDate = stateFilter.EndDate;
+                    break;
+            }
+
+            this.setState({
+                StartDate:StartDate,
+                EndDate:EndDate,
+                QuickPick:v
+            })
+        }
    
         render() {
             let modalContaner=null;
@@ -76,6 +127,10 @@ import {number_format} from '../commJS/common';
                 </div>
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="form-row form-row--bg">
+                        <QuickPicker 
+                            QuickPickOnSelect={this.QuickPickOnSelect}
+                            QuickPick={this.state.QuickPick}
+                        />
                      <div className="form-group flex-3">
                             <label className="form-title">{i18n.lbl_Date}</label>
                             <div className="form-content form-content--date">

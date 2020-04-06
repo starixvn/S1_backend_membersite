@@ -1546,6 +1546,7 @@ button.btn .btn__inner > .text {
   flex-wrap: wrap;
   min-height: 36px;
   align-items: center;
+  margin: 0 0.5rem;
 }
 
 .form-title > * {
@@ -5217,7 +5218,7 @@ button.swiper-pagination-bullet {
   width: 1.1rem;
 }
 
-.svg-w{
+.svg-w {
   filter: invert(1);
 }
 
