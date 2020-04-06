@@ -87,8 +87,15 @@ namespace MemberSite.Service.BLL
                     if (tools.IsMobile())
                     {
                         string types = $"{SportType},0,l";
-
-                        entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}#Sports/s={SportType}_0&d=l";
+                        if (SportType == "43")
+                        {
+                            sportTypeDic.TryGetValue(SportType, out types);
+                            entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}&types={types}";
+                        }
+                        else
+                        {
+                            entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}#Sports/s={SportType}_0&d=l";
+                        }
                     }
                     else
                     {
@@ -100,7 +107,14 @@ namespace MemberSite.Service.BLL
                             sportTypeDic.TryGetValue(gameId, out act);
                         }
 
-                        entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}";
+                        if (SportType == "43")
+                        {
+                            entryUrl = $"{entryUrl}?lang={tpLanId}&game={act}";
+                        }
+                        else
+                        {
+                            entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}";
+                        }
                     }
 
                     return entryUrl;
