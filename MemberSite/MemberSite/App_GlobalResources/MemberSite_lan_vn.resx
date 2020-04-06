@@ -1593,5 +1593,26 @@
   </data>
   <data name="lbl_TypeName" xml:space="preserve">
     <value>Nhập tên</value>
-  </data>  
+  </data>
+  <data name="lbl_LastMonth" xml:space="preserve">
+    <value>Tháng sau</value>
+  </data>
+  <data name="lbl_LastWeek" xml:space="preserve">
+    <value>Tuần sau</value>
+  </data>
+  <data name="lbl_QuickPick" xml:space="preserve">
+    <value>Chon nhanh</value>
+  </data>
+  <data name="lbl_ThisMonth" xml:space="preserve">
+    <value>Tháng này</value>
+  </data>
+  <data name="lbl_ThisWeek" xml:space="preserve">
+    <value>Tuần này</value>
+  </data>
+  <data name="lbl_Today" xml:space="preserve">
+    <value>Hôm nay</value>
+  </data>
+  <data name="lbl_YesterDay" xml:space="preserve">
+    <value>Ngày mai</value>
+  </data>
 </root>
