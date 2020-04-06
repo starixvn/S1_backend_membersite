@@ -198,7 +198,7 @@
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
                     </div>
                 </a>
-                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "43",Url)">
+                <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" " href="@gamingBLL.GetEntPageUrl(1, "43",Url)">
                     <img src="@SkinImgPath/Lobby/Home/Sport-E-Sports.png">
                     <img src="@SkinImgPath/Lobby/Home/d_Sport-E-Sports.png">
                     <div class="lobby-sport__info">
@@ -229,7 +229,7 @@
                         <span class="text">@selLangBLL.GetResourceValue("lbl_DreamGaming")</span>
                     </div>
                 </a>
-                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "43",Url)">
+                <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "43",Url)">
                     <img src="@SkinImgPath/Lobby/Home/Sport-E-Sports.png?v20200323">
                     <img src="@SkinImgPath/Lobby/Home/d_Sport-E-Sports.png?v20200323">
                     <div class="lobby-sport__info">
