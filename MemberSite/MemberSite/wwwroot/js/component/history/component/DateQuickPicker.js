@@ -12,11 +12,11 @@ export const QuickPickDefs = {
 export const QuickPicker = (props)=>{
     return(
         <DropdownBox 
-            OnSelectItem={props.QuickPickOnSelect}
-            DataColumn="QuickPick"
-            ColumnTitle="时间快选"
-            Options={Object.keys(QuickPickDefs).map(key=>{return {...QuickPickDefs[key]}})}
-            SelectedItem={props.QuickPick}
+            OnSelectItem = {props.QuickPickOnSelect}
+            DataColumn = "QuickPick"
+            ColumnTitle = {i18n.lbl_QuickPick}
+            Options = {Object.keys(QuickPickDefs).map(key=>{return {...QuickPickDefs[key]}})}
+            SelectedItem = {props.QuickPick}
         />
     )
 }
