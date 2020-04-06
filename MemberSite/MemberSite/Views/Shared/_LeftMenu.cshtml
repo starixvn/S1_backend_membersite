@@ -194,7 +194,7 @@
                     <i class="icon icon-all-sports"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Sports")</span>
                 </a>
-                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(1,"43",Url)">
+                <a class="side-nav__btn @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"43",Url)">
                     <i class="icon icon-sport43"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_eSports")</span>
                 </a>
