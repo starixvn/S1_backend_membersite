@@ -88,14 +88,7 @@ namespace MemberSite.Controllers
                     if (data.ErrorCode == 0)
                     {
                         string entryUrl = data.Message;
-                        if (tpId == 9 && environment.IsDevelopment())
-                        {
-                            return Content(entryUrl);
-                        }
-                        else
-                        {
-                            return Redirect(entryUrl);
-                        }
+                        return Redirect(entryUrl);
                     }
                     else if (tpId == 1 && data.RawErrorCode == "10")
                     {
