@@ -149,7 +149,12 @@ namespace MemberSite.Service.Model.enums
     {
         Saba = 1,
         SA = 2,
-        AG = 3
+        AG = 3,
+        DG = 4,
+        GPI = 6,
+        YL = 7,
+        YGG = 8,
+        Joker = 9
     }
     public enum GameType
     {

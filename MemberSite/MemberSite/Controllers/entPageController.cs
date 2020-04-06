@@ -68,6 +68,10 @@ namespace MemberSite.Controllers
                     inputs.Add("Balance", tools.Floor(balance, 2).ToString());
                     inputs.Add("Token", authData.Token);
                 }
+                else if (tpId == (int)Tp.YGG)
+                {
+                    inputs.Add("Token", authData.Token);
+                }
 
                 var myUrl = $"{apiUrl}GotoGame";
                 var tpInfo = new TpInfo

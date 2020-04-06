@@ -4,6 +4,10 @@ var webpack = require('webpack');
 
 module.exports = {
   mode:'production',
+  externals:{
+      'react': 'React',
+      'react-dom': 'ReactDOM'
+  },
   entry:{
 		"js/component/home/registerForm.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/home/RegisterForm.jsx'

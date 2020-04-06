@@ -4,6 +4,7 @@ import {GameElem} from './components/gameElem';
 import {GameList} from './gameList';
 import {Nav} from './nav';
 import {GamesByProvider, AllGames} from '../../../../datas/AllGameList';
+import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infinite-scroller/dist/InfiniteScroll';
 
 (function ($, React, ReactDOM, i18n) {
 
@@ -22,9 +23,6 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList';
             const defaultPage = Page.ALLGAMES.displayText;
             const defaultProvider = {value:'Provider', displayText:i18n.lbl_Provider};
 
-            let games = this.GetGameList(defaultPage, "", defaultProvider, FavoriteGames);
-            let gameResult = this.SetGames(games, FavoriteGames===null? [] : FavoriteGames);
-            
             this.state = {
                 Filter:{
                     Page:defaultPage,
@@ -32,10 +30,11 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList';
                     Keyword:""
                 },
                 Games:{
-                    hasMore:gameResult.hasMore,
-                    loadedCount:gameResult.loadedCount,
-                    TopSection:gameResult.first,
-                    SecondSection:gameResult.second
+                    init:true,
+                    hasMore:true,
+                    loadedCount:0,
+                    TopSection:[],
+                    SecondSection:[]
                 },
                 Favorite:FavoriteGames
             };
@@ -47,7 +46,7 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList';
             this.GetGameList = this.GetGameList.bind(this);
             this.HandleFavourite = this.HandleFavourite.bind(this);
         }
-        get RowsPerPage(){return 24;}
+        get RowsPerPage(){return 12;}
 
         setMouseEvent = ()=>{
             if(!IsMobileAndTablet){
@@ -61,17 +60,10 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList';
         }
         componentDidMount=()=>{
             this.setMouseEvent();
-            this.intervalIds = setInterval(this.MoreGames.bind(this), 200);
         }
         componentDidUpdate=()=>{
             this.setMouseEvent();
         }
-        // componentWillMount=()=>{
-        //     window.addEventListener('scroll', this.MoreGames);
-        // }
-        // componentWillUnmount=()=>{
-        //     //window.removeEventListener('scroll', this.MoreGames);
-        // }
         SetGames = (games, _favorite)=>{
             let first = [];
             let second = [];
@@ -123,21 +115,13 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList';
                             [dataColumn]:v,
                         },
                         Games:{
+                            ...this.state.Games,
                             hasMore:gameResult.hasMore,
                             loadedCount:gameResult.loadedCount,
                             TopSection:gameResult.first,
                             SecondSection:gameResult.second
                         }
                     });
-
-                    if(dataColumn==='Page'){
-                        if(this.intervalIds === null || this.intervalIds === undefined){
-                            this.intervalIds = setInterval(this.MoreGames.bind(this), 200);
-                        }else{
-                            clearInterval(this.intervalIds);
-                            this.intervalIds = setInterval(this.MoreGames.bind(this), 200);
-                        }
-                    }
                 }else{
                     this.setState({
                         Filter:{
@@ -185,6 +169,7 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList';
             let gameResult = this.SetGames(game, this.state.Favorite);
             this.setState({
                 Games:{
+                    ...this.state.Games,
                     hasMore:gameResult.hasMore,
                     loadedCount:gameResult.loadedCount,
                     TopSection:gameResult.first,
@@ -193,50 +178,65 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList';
             });
         }
         MoreGames=()=>{
-            // if ((window.innerHeight + document.documentElement.scrollTop + $($(".footer").get(0)).height()) >= document.scrollingElement.scrollHeight && this.state.Games.hasMore) {
             if(this.state.Games.hasMore){
                 let games = this.GetGameList(this.state.Filter.Page, this.state.Filter.Keyword, this.state.Filter.Provider, this.state.Favorite);
                 let gameLength = games.length;
                 let restItemCount = gameLength - this.state.Games.loadedCount;
                 let getItem = this.RowsPerPage >= restItemCount ? restItemCount : this.RowsPerPage;
                 let SecondSection = [];
+                let TopSection = [...this.state.Games.TopSection];
 
                 let startIdx = this.state.Games.loadedCount;
                 let endIdx = startIdx + getItem;
 
                 for(let i=startIdx; i<endIdx; i++){
                     let key=`P-${games[i].provider}-Game-${games[i].gameId}`;
-                    let isFavorite = this.state.Favorite !== null && this.state.Favorite.find(x=> x.ProviderId==games[i].provider && x.GameId==games[i].gameId) !== undefined;;
-                    SecondSection.push(
-                        <GameElem
-                            key={key}
-                            GameName={games[i].name[langCode] ?? games[i].name['en']}
-                            ProviderId={games[i].provider}
-                            ProviderName={games[i].providerName}
-                            ImgUrl={games[i].imgName[langCode] ?? games[i].imgName['en']}
-                            GameId={games[i].gameId}
-                            HandleFavourite={this.HandleFavourite.bind(null, games[i].provider, games[i].gameId)}
-                            IsFavorite={isFavorite}
-                            BigItem={false}
-                            IsMobileAndTablet={IsMobileAndTablet}
-                        />
-                    );
+                    let isFavorite = this.state.Favorite !== null && this.state.Favorite.find(x=> x.ProviderId==games[i].provider && x.GameId==games[i].gameId) !== undefined;
+                    if(TopSection.length === 0){
+                        TopSection.push(
+                            <GameElem
+                                key={key}
+                                GameName={games[i].name[langCode] ?? games[i].name['en']}
+                                ProviderId={games[i].provider}
+                                ProviderName={games[i].providerName}
+                                ImgUrl={games[i].imgName[langCode] ?? games[i].imgName['en']}
+                                GameId={games[i].gameId}
+                                HandleFavourite={this.HandleFavourite.bind(null, games[i].provider, games[i].gameId)}
+                                IsFavorite={isFavorite}
+                                BigItem={true}
+                                IsMobileAndTablet={IsMobileAndTablet}
+                            />
+                        );
+                    }else{
+                        SecondSection.push(
+                            <GameElem
+                                key={key}
+                                GameName={games[i].name[langCode] ?? games[i].name['en']}
+                                ProviderId={games[i].provider}
+                                ProviderName={games[i].providerName}
+                                ImgUrl={games[i].imgName[langCode] ?? games[i].imgName['en']}
+                                GameId={games[i].gameId}
+                                HandleFavourite={this.HandleFavourite.bind(null, games[i].provider, games[i].gameId)}
+                                IsFavorite={isFavorite}
+                                BigItem={false}
+                                IsMobileAndTablet={IsMobileAndTablet}
+                            />
+                        );
+                    }
                 }
 
                 let loadedCount = this.state.Games.loadedCount + getItem;
                 this.setState({
                     Games:{
                         ...this.state.Games,
+                        init:false,
+                        TopSection:[...TopSection],
                         SecondSection:[...this.state.Games.SecondSection, ...SecondSection],
                         loadedCount:loadedCount,
                         hasMore:gameLength !== loadedCount
                     }
                 })
-            }else{
-                clearInterval(this.intervalIds);
-                this.intervalIds = null;
             }
-            // }
         }
         HandleFavourite = (providerId, gameId)=>{
             let _fav = this.state.Favorite ?? [];
@@ -266,6 +266,7 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList';
                     _fav.splice(idx, 1);
                     this.setState({
                         Games:{
+                            ...this.state.Games,
                             loadedCount:TopSection.length+SecondSection.length,
                             TopSection:TopSection,
                             SecondSection:SecondSection
@@ -281,6 +282,7 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList';
             }
         }
         render(){
+            const loader = <div className="loader" key={`load-${this.state.Games.loadedCount}`}>Loading ...</div>;
             return(
                 <div className="page CasinoSelect">
                     <Nav
@@ -290,8 +292,14 @@ import {GamesByProvider, AllGames} from '../../../../datas/AllGameList';
                         SearchGame={this.SearchGame}
                     />
                     {
-                        this.state.Games.loadedCount === 0 ? <NoData /> : (
-                            <GameList TopSection={this.state.Games.TopSection} SecondSection={this.state.Games.SecondSection}/>
+                        !this.state.Games.init && this.state.Games.loadedCount === 0 ? <NoData /> : (
+                            <InfiniteScroll
+                                pageStart={0}
+                                loadMore={this.MoreGames}
+                                hasMore={this.state.Games.hasMore}
+                                loader={loader}>
+                                <GameList TopSection={this.state.Games.TopSection} SecondSection={this.state.Games.SecondSection}/>
+                            </InfiniteScroll>
                         )
                     }
                 </div>
