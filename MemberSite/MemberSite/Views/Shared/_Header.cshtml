@@ -255,7 +255,7 @@
         <a class="header__col" data-selected="false" href="@gamingBLL.GetEntPageUrl(1,"1",Url)">
             <span class="text">@selLangBLL.GetResourceValue("lbl_Sports")</span>
         </a>
-        <a class="header__col" data-selected="false" href="@gamingBLL.GetEntPageUrl(1,"43",Url)">
+        <a class="header__col @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" data-selected="false" href="@gamingBLL.GetEntPageUrl(1,"43",Url)">
             <span class="text">@selLangBLL.GetResourceValue("lbl_eSports")</span>
         </a>
         <a class="header__col" data-selected="false" href="@gamingBLL.GetEntPageUrl(1,"161",Url)">
