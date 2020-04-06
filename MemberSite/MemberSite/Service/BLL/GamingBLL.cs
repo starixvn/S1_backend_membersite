@@ -56,7 +56,11 @@ namespace MemberSite.Service.BLL
                     }
                     else
                     {
-                        if (tools.IsMobile() || iGameId == 43)
+                        if (iGameId == 43)/*New version eSports*/
+                        {
+                            entPageUrl = "javascript:void(0);";
+                        }
+                        else if (tools.IsMobile())
                         {
                             entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
                         }
@@ -78,7 +82,7 @@ namespace MemberSite.Service.BLL
                         //entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();";
                         entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
                     }
-                    else if (tools.IsMobile())
+                    else if (tools.IsMobile() || iGameId == 43)
                     {
                         entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
                         entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
