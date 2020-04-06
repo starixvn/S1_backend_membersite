@@ -1595,10 +1595,10 @@
     <value>Nhập tên</value>
   </data>
   <data name="lbl_LastMonth" xml:space="preserve">
-    <value>Tháng sau</value>
+    <value>Tháng trước</value>
   </data>
   <data name="lbl_LastWeek" xml:space="preserve">
-    <value>Tuần sau</value>
+    <value>Tuần trước</value>
   </data>
   <data name="lbl_QuickPick" xml:space="preserve">
     <value>Chon nhanh</value>
@@ -1613,6 +1613,6 @@
     <value>Hôm nay</value>
   </data>
   <data name="lbl_YesterDay" xml:space="preserve">
-    <value>Ngày mai</value>
+    <value>Hom qua</value>
   </data>
 </root>
