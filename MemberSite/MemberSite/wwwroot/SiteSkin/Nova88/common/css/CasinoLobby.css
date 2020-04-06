@@ -315,7 +315,25 @@ flex: 1 0 auto;
 .page.CasinoSelect .CasModule .MI div .mobilepop div ~ a span{
     width: auto;
 }
-@media screen and (min-width:768px) and (max-width:1024px){
+/* @media screen and (min-width:768px) and (max-width:1024px){
+    .MI div a.close{
+        margin-bottom: 0.5rem;
+    }
+    .MI div .mobilepop div ~ a{
+        margin: 0.5rem auto 1rem;
+        max-width: 30%;
+        display: inline-flex;
+        height: 30px;
+    }
+    .mobilepop .close +img {
+        width: 97%;
+    }
+    .mobilepop > div {
+        width: 97%;
+        margin: auto;
+    }
+} */
+@media screen and  (orientation: portrait) {
     .MI div a.close{
         margin-bottom: 0.5rem;
     }
@@ -346,4 +364,54 @@ h3 + span{
 }
 h3 + span + span{
     flex: 1;
+}
+/* @media screen and (min-width:667px) and (max-width:812px){
+    .MI div .mobilepop div ~ a {
+        margin: 0.5rem auto 1rem;
+        max-width: 30%;
+        display: inline-flex;
+        height: 30px;
+    }
+    .MI div a.close {
+        position: absolute;
+        right: 3rem;
+    }
+    .mobilepop .close +img {
+        width: 100%;
+        max-width: 360px;
+        max-height: 270px;
+    }
+    .mobilepop{
+        overflow-y: auto;
+        padding-top: 3vw;
+    }
+    .mobilepop > div {
+        max-width: 360px;
+        margin: auto;
+    }
+} */
+@media screen and  (orientation: landscape) {
+    .MI div .mobilepop div ~ a {
+        margin: 0.5rem auto 1rem;
+        max-width: 30%;
+        display: inline-flex;
+        height: 30px;
+    }
+    .MI div a.close {
+        position: absolute;
+        right: 3rem;
+    }
+    .mobilepop .close +img {
+        width: 100%;
+        max-width: 360px;
+        max-height: 270px;
+    }
+    .mobilepop{
+        overflow-y: auto;
+        padding-top: 3vw;
+    }
+    .mobilepop > div {
+        max-width: 360px;
+        margin: auto;
+    }
 }
