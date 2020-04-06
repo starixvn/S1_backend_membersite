@@ -1565,6 +1565,6 @@
     <value>Today</value>
   </data>
   <data name="lbl_YesterDay" xml:space="preserve">
-    <value>YesterDay</value>
+    <value>Yesterday</value>
   </data>
 </root>
