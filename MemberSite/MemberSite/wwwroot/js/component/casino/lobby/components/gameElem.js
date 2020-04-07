@@ -50,7 +50,7 @@ export class GameElem extends React.Component{
         }
     }
     render(){
-        let playFree = this.props.ProviderProps.PlayFree === true || this.props.Isfun !== 0;
+        let playFree = this.props.ProviderProps.PlayFree === false ? false : this.props.Isfun !== 0;
         let elem = (
             <>
                 <div>
