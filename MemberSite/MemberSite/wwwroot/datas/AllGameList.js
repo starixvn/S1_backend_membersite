@@ -32,7 +32,44 @@ export const AllGames = ()=>{
         }
     }
 
-    result.sort((a,b) => a.hot&&a.hot ? -1 : 1 );
+    let aa = [];
+    let bb = [];
+
+    result.forEach(element => {
+        if(element.hot&&element.hot){
+            aa.push(element);
+        } else {
+            bb.push(element);
+        }
+    });
+
+    for(let i=0;i<aa.length;i++) {
+        let idx = Math.floor(Math.random()*aa.length);
+        let tempEle1 = aa[i];
+        let tempEle2 = aa[idx];
+
+        aa[i] = tempEle2;
+        aa[idx] = tempEle1;
+    }
+
+    for(let i=0;i<bb.length;i++) {
+        let idx = Math.floor(Math.random()*bb.length);
+        let tempEle1 = bb[i];
+        let tempEle2 = bb[idx];
+
+        bb[i] = tempEle2;
+        bb[idx] = tempEle1;        
+    }
+
+    result = [];
+
+    aa.forEach(element => {
+        result.push(element);
+    });
+
+    bb.forEach(element => {
+        result.push(element);
+    });    
 
     return result;
 }
