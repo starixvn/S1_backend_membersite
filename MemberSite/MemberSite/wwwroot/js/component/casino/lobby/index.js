@@ -135,7 +135,7 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
             }
         }
         GetGameList = (_page, _keyword, _provider, _favorite)=>{
-            let allGames = _provider.value === 'All' || _provider.value === 'Provider' ? AllGames() : GamesByProvider(_provider);
+            let allGames = _provider.value === 'All' || _provider.value === 'Provider' ? AllGames().filter(g=>{return TpIds === null ? isLogin === '1' ? false : true : TpIds.includes(g.provider)}) : GamesByProvider(_provider);
             switch(_page) {
                 case Page.ALLGAMES.displayText:
                     return _keyword === "" ? allGames : allGames.filter(g=>{

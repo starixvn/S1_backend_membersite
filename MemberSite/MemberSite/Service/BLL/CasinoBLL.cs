@@ -24,5 +24,10 @@ namespace MemberSite.Service.BLL
         {
             casinoService.SetFavoriteGames(CustId, ProviderId, GameId, IsRemove);
         }
+
+        public IEnumerable<int> GetProviderIdByCurrency(int CurrencyId)
+        {
+            return casinoService.GetProviderIdByCurrency(CurrencyId);
+        }
     }
 }

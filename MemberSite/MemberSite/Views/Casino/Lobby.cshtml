@@ -24,6 +24,7 @@
 </div>
 @{
     IEnumerable<dynamic> result = null;
+    IEnumerable<int> tpIds = null;
 
     if (User.Identity.IsAuthenticated)
     {
@@ -31,6 +32,7 @@
         var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
         var data = casinoBLL.GetFavoriteGames(custInfo.CustId);
         result = data != null && data.Any() ? data.Select(x => new { x.ProviderId, x.GameId }) : null;
+        tpIds = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId);
     }
 
     var i18n = new Dictionary<string, string>();
@@ -56,6 +58,7 @@
         var langCode = '@selLangBLL.GetLangId()';
         var FavoriteGames = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(result));
         var isLogin = '@(User.Identity.IsAuthenticated ? 1 : 0)';
+        var TpIds = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(tpIds));
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
     </script>
 
