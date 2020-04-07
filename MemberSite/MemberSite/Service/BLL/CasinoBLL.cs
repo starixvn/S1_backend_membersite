@@ -1,5 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,11 @@ namespace MemberSite.Service.BLL
     public class CasinoBLL
     {
         private readonly CasinoService casinoService;
-        public CasinoBLL(CasinoService casinoService)
+        private readonly IMemoryCache cache;
+        public CasinoBLL(IMemoryCache cache, CasinoService casinoService)
         {
             this.casinoService = casinoService;
+            this.cache = cache;
         }
 
         public IEnumerable<MemberFavorite> GetFavoriteGames(int CustId)
@@ -27,7 +30,20 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<int> GetProviderIdByCurrency(int CurrencyId)
         {
-            return casinoService.GetProviderIdByCurrency(CurrencyId);
+            string key = $"ProviderIdByCurrency_{CurrencyId}";
+            var providerIdByCurrency = cache.Get<IEnumerable<int>>(key);
+
+            if (providerIdByCurrency == null)
+            {
+                providerIdByCurrency = casinoService.GetProviderIdByCurrency(CurrencyId);
+                if (providerIdByCurrency != null)
+                {
+                    var expireTime = TimeSpan.FromMinutes(10);
+                    cache.Set(key, providerIdByCurrency, new MemoryCacheEntryOptions().SetAbsoluteExpiration(expireTime));
+                }
+            }
+
+            return providerIdByCurrency;
         }
     }
 }
