@@ -16,6 +16,9 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
 
     const IsMobileAndTablet = MobileAndTabletCheck();
 
+    const _AllGames = AllGames().filter(g=>{return TpIds === null ? isLogin === '1' ? false : true : TpIds.includes(g.provider)});
+    const _GamesByProvider = {};
+
     class Panel extends React.Component {
         constructor(props) {
             super(props);
@@ -135,7 +138,16 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
             }
         }
         GetGameList = (_page, _keyword, _provider, _favorite)=>{
-            let allGames = _provider.value === 'All' || _provider.value === 'Provider' ? AllGames().filter(g=>{return TpIds === null ? isLogin === '1' ? false : true : TpIds.includes(g.provider)}) : GamesByProvider(_provider);
+            let allGames = [];
+            if(_provider.value === 'All' || _provider.value === 'Provider'){
+                allGames = [..._AllGames];
+            }else if(_GamesByProvider[_provider.value]){
+                allGames = [..._GamesByProvider[_provider.value]];
+            }else{
+                allGames = GamesByProvider(_provider);
+                _GamesByProvider[_provider.value] = [...allGames];
+            }
+
             switch(_page) {
                 case Page.ALLGAMES.displayText:
                     return _keyword === "" ? allGames : allGames.filter(g=>{
