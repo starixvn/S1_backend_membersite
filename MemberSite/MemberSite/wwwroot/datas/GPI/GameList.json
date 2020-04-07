@@ -83,7 +83,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true
     },
     {
@@ -168,7 +168,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true
     },
     {
@@ -381,7 +381,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true
     },
     {
@@ -490,7 +490,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true
     },
     {
@@ -937,7 +937,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true
     },
     {

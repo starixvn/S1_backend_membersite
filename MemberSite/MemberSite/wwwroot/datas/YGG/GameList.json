@@ -187,7 +187,7 @@
       "launchDate": "2020/02/20",
       "hot": true,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -1072,8 +1072,9 @@
         "en": "Sonya-Blackjack-EN.jpg"
       },
       "launchDate": "2018/07/02",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "feature":  true,
       "imageExist": true,
       "Isfun": 0
     },
@@ -1497,7 +1498,7 @@
       "launchDate": "2020/03/11",
       "hot": true,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1
     },
