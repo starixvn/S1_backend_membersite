@@ -7,8 +7,11 @@ export const Page = {
     },
     'FAVOURITE':{
         displayText:i18n.lbl_Favourite
+    },
+    'SLOTS':{
+        displayText:i18n.lbl_Slots
+    },
+    'TABLE':{
+        displayText:i18n.lbl_Table
     }
-    // ,'SLOTS':{
-    //     displayText:i18n.lbl_Slots
-    // }
 }

@@ -1567,4 +1567,7 @@
   <data name="lbl_YesterDay" xml:space="preserve">
     <value>Yesterday</value>
   </data>
+  <data name="lbl_Table" xml:space="preserve">
+    <value>Table</value>
+  </data>
 </root>

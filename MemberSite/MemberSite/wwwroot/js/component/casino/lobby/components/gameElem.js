@@ -50,6 +50,7 @@ export class GameElem extends React.Component{
         }
     }
     render(){
+        let playFree = this.props.ProviderProps.PlayFree === true || this.props.Isfun !== 0;
         let elem = (
             <>
                 <div>
@@ -76,7 +77,7 @@ export class GameElem extends React.Component{
                                 <span>{i18n.lbl_PlayNow}</span>
                             </a>
                             {
-                                this.props.ProviderProps.PlayFree === true ? (
+                                playFree ? (
                                     <a onClick={this.PlayFree}>
                                         <span>{i18n.lbl_Free}</span>
                                     </a>
@@ -93,7 +94,7 @@ export class GameElem extends React.Component{
                         <span>{i18n.lbl_PlayNow}</span>
                     </a>
                     {
-                        this.props.ProviderProps.PlayFree === true ? (
+                        playFree ? (
                             <a onClick={this.PlayFree}>
                                 <span>{i18n.lbl_Free}</span>
                             </a>

@@ -87,6 +87,7 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
                         IsFavorite={isFavorite}
                         BigItem={first.length === 0}
                         IsMobileAndTablet={IsMobileAndTablet}
+                        Isfun={games[i].Isfun}
                     />
                 );
 
@@ -151,10 +152,15 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
                         return _favorite !== null && _favorite.find(x=> x.ProviderId==g.provider && x.GameId==g.gameId) !== undefined;
                     });
 
-                // case Page.SLOTS.displayText:
-                //     return allGames.filter(g=>{
-                //         return g.category1==="Slots" && (_keyword === "" || this.matchKeyword(g.name, _keyword));
-                //     });
+                case Page.SLOTS.displayText:
+                    return allGames.filter(g=>{
+                        return g.category1==="Slots" && (_keyword === "" || this.matchKeyword(g.name, _keyword));
+                    });
+
+                case Page.TABLE.displayText:
+                    return allGames.filter(g=>{
+                        return g.category1==="Table" && (_keyword === "" || this.matchKeyword(g.name, _keyword));
+                    });
                 
                 default:
                     return allGames;
@@ -209,6 +215,7 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
                                 IsFavorite={isFavorite}
                                 BigItem={true}
                                 IsMobileAndTablet={IsMobileAndTablet}
+                                Isfun={games[i].Isfun}
                             />
                         );
                     }else{
@@ -225,6 +232,7 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
                                 IsFavorite={isFavorite}
                                 BigItem={false}
                                 IsMobileAndTablet={IsMobileAndTablet}
+                                Isfun={games[i].Isfun}
                             />
                         );
                     }
