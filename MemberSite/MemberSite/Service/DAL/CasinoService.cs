@@ -29,5 +29,11 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Execute("Member_Favorite_Set", new { CustId, ProviderId, GameId, IsRemove}, commandType: CommandType.StoredProcedure);
         }
+
+        public IEnumerable<int> GetProviderIdByCurrency(int CurrencyId)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Query<int>("Member_TpList_GetByCurrency", new { CurrencyId }, commandType: CommandType.StoredProcedure);
+        }
     }
 }

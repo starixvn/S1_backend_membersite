@@ -47,7 +47,7 @@ export const Nav = (props)=>{
             <DropdownBox 
                 OnSelectItem={props.HandleFilter}
                 DataColumn="Provider"
-                Options={[{value:'All', name:'All', displayText:i18n.lbl_All}, ...Provider]}
+                Options={[{value:'All', name:'All', displayText:i18n.lbl_All}, ...Provider.filter(p=>{return TpIds === null ? isLogin === '1' ? false : true : TpIds.includes(p.value)})]}
                 SelectedItem={props.SelectedProvider.displayText}
                 HasAll={true}
             />
