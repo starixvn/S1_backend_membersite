@@ -14,15 +14,13 @@
       "paylines": "4096",
       "RTP": "97.00%",
       "imgName": {
-        "en": "9K-Yeti-EN.jpg",
-        "cs": "9K-Yeti-CS.jpg",
-        "ch": "9K-Yeti-CS.jpg"
+        "en": "9K-Yeti-EN.jpg"
       },
       "launchDate": "2019/11/14",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -37,15 +35,13 @@
       "paylines": "40",
       "RTP": "96.20%",
       "imgName": {
-        "en": "Age-of-Asgard-EN.jpg",
-        "cs": "Age-of-Asgard-CS.jpg",
-        "ch": "Age-of-Asgard-CS.jpg"
+        "en": "Age-of-Asgard-EN.jpg"
       },
       "launchDate": "2019/10/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -60,9 +56,7 @@
       "paylines": "30+30",
       "RTP": "96.10%",
       "imgName": {
-        "en": "Alchymedes-EN.jpg",
-        "cs": "Alchymedes-CS.jpg",
-        "ch": "Alchymedes-CS.jpg"
+        "en": "Alchymedes-EN.jpg"
       },
       "launchDate": "2017/01/24",
       "hot": false,
@@ -83,15 +77,13 @@
       "paylines": "65",
       "RTP": "96.10%",
       "imgName": {
-        "en": "Aldos-Journey-EN.jpg",
-        "cs": "Aldos-Journey-CS.jpg",
-        "ch": "Aldos-Journey-CS.jpg"
+        "en": "Aldos-Journey-EN.jpg"
       },
       "launchDate": "2019/11/21",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -106,15 +98,13 @@
       "paylines": "25",
       "RTP": "97.00%",
       "imgName": {
-        "en": "Baron-Samedi-EN.jpg",
-        "cs": "Baron-Samedi-CS.jpg",
-        "ch": "Baron-Samedi-CS.jpg"
+        "en": "Baron-Samedi-EN.jpg"
       },
       "launchDate": "2018/11/22",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -129,15 +119,13 @@
       "paylines": "20",
       "RTP": "96.3-97.1%",
       "imgName": {
-        "en": "Beauty-and-the-Beast-EN.jpg",
-        "cs": "Beauty-and-the-Beast-CS.jpg",
-        "ch": "Beauty-and-the-Beast-CS.jpg"
+        "en": "Beauty-and-the-Beast-EN.jpg"
       },
       "launchDate": "2017/02/23",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -152,15 +140,13 @@
       "paylines": "25",
       "RTP": "96.30%",
       "imgName": {
-        "en": "Bicicleta-EN.jpg",
-        "cs": "Bicicleta-CS.jpg",
-        "ch": "Bicicleta-CS.jpg"
+        "en": "Bicicleta-EN.jpg"
       },
       "launchDate": "2016/06/09",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -175,9 +161,7 @@
       "paylines": "243 ways",
       "RTP": "96.20%",
       "imgName": {
-        "en": "Big-Blox-EN.jpg",
-        "cs": "Big-Blox-CS.jpg",
-        "ch": "Big-Blox-CS.jpg"
+        "en": "Big-Blox-EN.jpg"
       },
       "launchDate": "2016/08/24",
       "hot": false,
@@ -198,15 +182,13 @@
       "paylines": "6X8",
       "RTP": "96.30%",
       "imgName": {
-        "en": "Brazil-Bomba-EN.jpg",
-        "cs": "Brazil-Bomba-CS.jpg",
-        "ch": "Brazil-Bomba-CS.jpg"
+        "en": "Brazil-Bomba-EN.jpg"
       },
       "launchDate": "2020/02/20",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -221,15 +203,13 @@
       "paylines": "20",
       "RTP": "96.00%",
       "imgName": {
-        "en": "Cazino-Cosmos-EN.jpg",
-        "cs": "Cazino-Cosmos-CS.jpg",
-        "ch": "Cazino-Cosmos-CS.jpg"
+        "en": "Cazino-Cosmos-EN.jpg"
       },
       "launchDate": "2019/01/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -244,15 +224,13 @@
       "paylines": "20",
       "RTP": "96.00%",
       "imgName": {
-        "en": "Cazino-Zeppelin-EN.jpg",
-        "cs": "Cazino-Zeppelin-CS.jpg",
-        "ch": "Cazino-Zeppelin-CS.jpg"
+        "en": "Cazino-Zeppelin-EN.jpg"
       },
       "launchDate": "2015/10/15",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -267,15 +245,13 @@
       "paylines": "20",
       "RTP": "96.40%",
       "imgName": {
-        "en": "Champions-of-Rome-EN.jpg",
-        "cs": "Champions-of-Rome-CS.jpg",
-        "ch": "Champions-of-Rome-CS.jpg"
+        "en": "Champions-of-Rome-EN.jpg"
       },
       "launchDate": "2019/02/21",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -290,15 +266,13 @@
       "paylines": "20",
       "RTP": "96.20%",
       "imgName": {
-        "en": "Chibeasties-EN.jpg",
-        "cs": "Chibeasties-CS.jpg",
-        "ch": "Chibeasties-CS.jpg"
+        "en": "Chibeasties-EN.jpg"
       },
       "launchDate": "2015/06/01",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -313,15 +287,13 @@
       "paylines": "20",
       "RTP": "96.20%",
       "imgName": {
-        "en": "Chibeasties-2-EN.jpg",
-        "cs": "Chibeasties-2-CS.jpg",
-        "ch": "Chibeasties-2-CS.jpg"
+        "en": "Chibeasties-2-EN.jpg"
       },
       "launchDate": "2017/03/18",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -336,9 +308,7 @@
       "paylines": "5+5",
       "RTP": "96.30%",
       "imgName": {
-        "en": "Cyrus-the-Virus-EN.jpg",
-        "cs": "Cyrus-the-Virus-CS.jpg",
-        "ch": "Cyrus-the-Virus-CS.jpg"
+        "en": "Cyrus-the-Virus-EN.jpg"
       },
       "launchDate": "2015/05/01",
       "hot": false,
@@ -359,15 +329,13 @@
       "paylines": "243-3125",
       "RTP": "96.5 (97.0 w buy-bonus)%",
       "imgName": {
-        "en": "Dark-Vortex-EN.jpg",
-        "cs": "Dark-Vortex-CS.jpg",
-        "ch": "Dark-Vortex-CS.jpg"
+        "en": "Dark-Vortex-EN.jpg"
       },
       "launchDate": "2018/10/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -382,15 +350,13 @@
       "paylines": "25",
       "RTP": "96.10%",
       "imgName": {
-        "en": "Double-Dragons-EN.jpg",
-        "cs": "Double-Dragons-CS.jpg",
-        "ch": "Double-Dragons-CS.jpg"
+        "en": "Double-Dragons-EN.jpg"
       },
       "launchDate": "2016/09/22",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -405,15 +371,13 @@
       "paylines": "243 ways",
       "RTP": "96.00%",
       "imgName": {
-        "en": "Doubles-EN.jpg",
-        "cs": "Doubles-CS.jpg",
-        "ch": "Doubles-CS.jpg"
+        "en": "Doubles-EN.jpg"
       },
       "launchDate": "2015/10/01",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -428,15 +392,13 @@
       "paylines": "20",
       "RTP": "96.20%",
       "imgName": {
-        "en": "Dr-Fortuno-EN.jpg",
-        "cs": "Dr-Fortuno-CS.jpg",
-        "ch": "Dr-Fortuno-CS.jpg"
+        "en": "Dr-Fortuno-EN.jpg"
       },
       "launchDate": "2019/04/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -446,14 +408,12 @@
       },
       "appId": "21003",
       "gameId": "21003",
-      "category1": "Slots",
+      "category1": "table",
       "Reels": "",
       "paylines": "Blackjack Table Game",
       "RTP": "the main game is 99.54%\ninsurance is 92.60%\nthe Bonus bet with Jackpot is 96.5%",
       "imgName": {
-        "en": "Dr-Fortuno-Blackjack-EN.jpg",
-        "cs": "Dr-Fortuno-Blackjack-CS.jpg",
-        "ch": "Dr-Fortuno-Blackjack-CS.jpg"
+        "en": "Dr-Fortuno-Blackjack-EN.jpg"
       },
       "launchDate": "2019/04/24",
       "hot": false,
@@ -474,15 +434,13 @@
       "paylines": "1024 - 16807 ways",
       "RTP": "96.80%",
       "imgName": {
-        "en": "Dwarf-Mine-EN.jpg",
-        "cs": "Dwarf-Mine-CS.jpg",
-        "ch": "Dwarf-Mine-CS.jpg"
+        "en": "Dwarf-Mine-EN.jpg"
       },
       "launchDate": "2019/03/21",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -497,9 +455,7 @@
       "paylines": "27-103",
       "RTP": "96.10%",
       "imgName": {
-        "en": "Easter-Island-EN.jpg",
-        "cs": "Easter-Island-CS.jpg",
-        "ch": "Easter-Island-CS.jpg"
+        "en": "Easter-Island-EN.jpg"
       },
       "launchDate": "2018/03/22",
       "hot": false,
@@ -520,9 +476,7 @@
       "paylines": "25",
       "RTP": "96.70%",
       "imgName": {
-        "en": "Fruitoids-EN.jpg",
-        "cs": "Fruitoids-CS.jpg",
-        "ch": "Fruitoids-CS.jpg"
+        "en": "Fruitoids-EN.jpg"
       },
       "launchDate": "2018/05/15",
       "hot": false,
@@ -543,9 +497,7 @@
       "paylines": "4096 ways",
       "RTP": "96.20%",
       "imgName": {
-        "en": "Gem-Rocks-EN.jpg",
-        "cs": "Gem-Rocks-CS.jpg",
-        "ch": "Gem-Rocks-CS.jpg"
+        "en": "Gem-Rocks-EN.jpg"
       },
       "launchDate": "2018/02/22",
       "hot": false,
@@ -566,9 +518,7 @@
       "paylines": "European Roulette Table Game",
       "RTP": "With Regular chips is 97.3%.\nWith Golden chips is 96.8%.",
       "imgName": {
-        "en": "Golden-Chip-Roulette-EN.jpg",
-        "cs": "Golden-Chip-Roulette-CS.jpg",
-        "ch": "Golden-Chip-Roulette-CS.jpg"
+        "en": "Golden-Chip-Roulette-EN.jpg"
       },
       "launchDate": "2019/09/30",
       "hot": false,
@@ -589,15 +539,13 @@
       "paylines": "20",
       "RTP": "96.40%",
       "imgName": {
-        "en": "Golden-Fish-Tank-EN.jpg",
-        "cs": "Golden-Fish-Tank-CS.jpg",
-        "ch": "Golden-Fish-Tank-CS.jpg"
+        "en": "Golden-Fish-Tank-EN.jpg"
       },
       "launchDate": "2016/02/01",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -612,15 +560,13 @@
       "paylines": "25",
       "RTP": "96.10%",
       "imgName": {
-        "en": "Hanzos-Dojo-EN.jpg",
-        "cs": "Hanzos-Dojo-CS.jpg",
-        "ch": "Hanzos-Dojo-CS.jpg"
+        "en": "Hanzos-Dojo-EN.jpg"
       },
       "launchDate": "2018/08/23",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -635,15 +581,13 @@
       "paylines": "20",
       "RTP": "96.80%",
       "imgName": {
-        "en": "Holmes-and-the-Stolen-Stones-EN.jpg",
-        "cs": "Holmes-and-the-Stolen-Stones-CS.jpg",
-        "ch": "Holmes-and-the-Stolen-Stones-CS.jpg"
+        "en": "Holmes-and-the-Stolen-Stones-EN.jpg"
       },
       "launchDate": "2015/09/09",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -658,15 +602,13 @@
       "paylines": "150",
       "RTP": "96.64%",
       "imgName": {
-        "en": "Ice-and-Fire-EN.jpg",
-        "cs": "Ice-and-Fire-CS.jpg",
-        "ch": "Ice-and-Fire-CS.jpg"
+        "en": "Ice-and-Fire-EN.jpg"
       },
       "launchDate": "2020/02/06",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -681,9 +623,7 @@
       "paylines": "20",
       "RTP": "96.20%",
       "imgName": {
-        "en": "Incinerator-EN.jpg",
-        "cs": "Incinerator-CS.jpg",
-        "ch": "Incinerator-CS.jpg"
+        "en": "Incinerator-EN.jpg"
       },
       "launchDate": "2016/01/01",
       "hot": false,
@@ -704,15 +644,13 @@
       "paylines": "20",
       "RTP": "96.30%",
       "imgName": {
-        "en": "Jackpot-Raiders-EN.jpg",
-        "cs": "Jackpot-Raiders-CS.jpg",
-        "ch": "Jackpot-Raiders-CS.jpg"
+        "en": "Jackpot-Raiders-EN.jpg"
       },
       "launchDate": "2019/05/23",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -727,9 +665,7 @@
       "paylines": "5+5",
       "RTP": "98.00%",
       "imgName": {
-        "en": "Jokerizer-EN.jpg",
-        "cs": "Jokerizer-CS.jpg",
-        "ch": "Jokerizer-CS.jpg"
+        "en": "Jokerizer-EN.jpg"
       },
       "launchDate": "2016/03/01",
       "hot": false,
@@ -750,9 +686,7 @@
       "paylines": "58-68",
       "RTP": "96.10%",
       "imgName": {
-        "en": "Jungle-Books-EN.jpg",
-        "cs": "Jungle-Books-CS.jpg",
-        "ch": "Jungle-Books-CS.jpg"
+        "en": "Jungle-Books-EN.jpg"
       },
       "launchDate": "2017/09/20",
       "hot": false,
@@ -773,15 +707,13 @@
       "paylines": "All Ways",
       "RTP": "96.10%",
       "imgName": {
-        "en": "Legend-of-the-Golden-Monkey-EN.jpg",
-        "cs": "Legend-of-the-Golden-Monkey-CS.jpg",
-        "ch": "Legend-of-the-Golden-Monkey-CS.jpg"
+        "en": "Legend-of-the-Golden-Monkey-EN.jpg"
       },
       "launchDate": "2016/05/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -796,9 +728,7 @@
       "paylines": "All Ways",
       "RTP": "96.10%",
       "imgName": {
-        "en": "Legend-of-the-White-Snake-Lady-EN.jpg",
-        "cs": "Legend-of-the-White-Snake-Lady-CS.jpg",
-        "ch": "Legend-of-the-White-Snake-Lady-CS.jpg"
+        "en": "Legend-of-the-White-Snake-Lady-EN.jpg"
       },
       "launchDate": "2016/07/21",
       "hot": false,
@@ -819,15 +749,13 @@
       "paylines": "20",
       "RTP": "96.1-96.2%",
       "imgName": {
-        "en": "Lucha-Maniacs-EN.jpg",
-        "cs": "Lucha-Maniacs-CS.jpg",
-        "ch": "Lucha-Maniacs-CS.jpg"
+        "en": "Lucha-Maniacs-EN.jpg"
       },
       "launchDate": "2018/04/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -837,14 +765,12 @@
       },
       "appId": "21002",
       "gameId": "21002",
-      "category1": "Slots",
+      "category1": "table",
       "Reels": "",
       "paylines": "Blackjack Table Game",
       "RTP": "the main game is 99.54%.\nwith insurance is 92.60%.",
       "imgName": {
-        "en": "Lucky-Blackjack-EN.jpg",
-        "cs": "Lucky-Blackjack-CS.jpg",
-        "ch": "Lucky-Blackjack-CS.jpg"
+        "en": "Lucky-Blackjack-EN.jpg"
       },
       "launchDate": "2019/01/15",
       "hot": false,
@@ -865,15 +791,13 @@
       "paylines": "20",
       "RTP": "96.17%",
       "imgName": {
-        "en": "Niagara-Falls-EN.jpg",
-        "cs": "Niagara-Falls-CS.jpg",
-        "ch": "Niagara-Falls-CS.jpg"
+        "en": "Niagara-Falls-EN.jpg"
       },
       "launchDate": "2019/05/09",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -888,15 +812,13 @@
       "paylines": "25",
       "RTP": "96.22%",
       "imgName": {
-        "en": "Nikola-Teslas-Incredible-Machine-EN.jpg",
-        "cs": "Nikola-Teslas-Incredible-Machine-CS.jpg",
-        "ch": "Nikola-Teslas-Incredible-Machine-CS.jpg"
+        "en": "Nikola-Teslas-Incredible-Machine-EN.jpg"
       },
       "launchDate": "2019/09/05",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -911,15 +833,13 @@
       "paylines": "20",
       "RTP": "96.20%",
       "imgName": {
-        "en": "Nirvana-EN.jpg",
-        "cs": "Nirvana-CS.jpg",
-        "ch": "Nirvana-CS.jpg"
+        "en": "Nirvana-EN.jpg"
       },
       "launchDate": "2016/10/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -934,15 +854,13 @@
       "paylines": "20",
       "RTP": "96.20%",
       "imgName": {
-        "en": "Orient-Express-EN.jpg",
-        "cs": "Orient-Express-CS.jpg",
-        "ch": "Orient-Express-CS.jpg"
+        "en": "Orient-Express-EN.jpg"
       },
       "launchDate": "2017/11/30",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -957,15 +875,13 @@
       "paylines": "20",
       "RTP": "96.80%",
       "imgName": {
-        "en": "Ozwins-Jackpots-EN.jpg",
-        "cs": "Ozwins-Jackpots-CS.jpg",
-        "ch": "Ozwins-Jackpots-CS.jpg"
+        "en": "Ozwins-Jackpots-EN.jpg"
       },
       "launchDate": "2018/01/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -980,9 +896,7 @@
       "paylines": "All Ways",
       "RTP": "96.20%",
       "imgName": {
-        "en": "Penguin-City-EN.jpg",
-        "cs": "Penguin-City-CS.jpg",
-        "ch": "Penguin-City-CS.jpg"
+        "en": "Penguin-City-EN.jpg"
       },
       "launchDate": "2018/07/24",
       "hot": false,
@@ -1003,9 +917,7 @@
       "paylines": "82",
       "RTP": "96.10%",
       "imgName": {
-        "en": "Power-Plant-EN.jpg",
-        "cs": "Power-Plant-CS.jpg",
-        "ch": "Power-Plant-CS.jpg"
+        "en": "Power-Plant-EN.jpg"
       },
       "launchDate": "2017/04/24",
       "hot": false,
@@ -1026,15 +938,13 @@
       "paylines": "20",
       "RTP": "96.20%",
       "imgName": {
-        "en": "Pumpkin-Smash-EN.jpg",
-        "cs": "Pumpkin-Smash-CS.jpg",
-        "ch": "Pumpkin-Smash-CS.jpg"
+        "en": "Pumpkin-Smash-EN.jpg"
       },
       "launchDate": "2017/10/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1049,15 +959,13 @@
       "paylines": "4096 ways",
       "RTP": "96.30%",
       "imgName": {
-        "en": "Rainbow-Ryan-EN.jpg",
-        "cs": "Rainbow-Ryan-CS.jpg",
-        "ch": "Rainbow-Ryan-CS.jpg"
+        "en": "Rainbow-Ryan-EN.jpg"
       },
       "launchDate": "2017/07/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1072,15 +980,13 @@
       "paylines": "20",
       "RTP": "96.10%",
       "imgName": {
-        "en": "Reef-Run-EN.jpg",
-        "cs": "Reef-Run-CS.jpg",
-        "ch": "Reef-Run-CS.jpg"
+        "en": "Reef-Run-EN.jpg"
       },
       "launchDate": "2014/10/01",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1095,15 +1001,13 @@
       "paylines": "20",
       "RTP": "96.10%",
       "imgName": {
-        "en": "Reptoids-EN.jpg",
-        "cs": "Reptoids-CS.jpg",
-        "ch": "Reptoids-CS.jpg"
+        "en": "Reptoids-EN.jpg"
       },
       "launchDate": "2017/11/23",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1118,15 +1022,13 @@
       "paylines": "20",
       "RTP": "96.20%",
       "imgName": {
-        "en": "Sahara-Nights-EN.jpg",
-        "cs": "Sahara-Nights-CS.jpg",
-        "ch": "Sahara-Nights-CS.jpg"
+        "en": "Sahara-Nights-EN.jpg"
       },
       "launchDate": "2019/09/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1141,15 +1043,13 @@
       "paylines": "20",
       "RTP": "96.20%",
       "imgName": {
-        "en": "Seasons-EN.jpg",
-        "cs": "Seasons-CS.jpg",
-        "ch": "Seasons-CS.jpg"
+        "en": "Seasons-EN.jpg"
       },
       "launchDate": "2016/03/01",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1159,14 +1059,12 @@
       },
       "appId": "21001",
       "gameId": "21001",
-      "category1": "Slots",
+      "category1": "table",
       "Reels": "",
       "paylines": "Blackjack Table Game",
       "RTP": "the main game is 99.54%.\nwith insurance is 92.60%.",
       "imgName": {
-        "en": "Sonya-Blackjack-EN.jpg",
-        "cs": "Sonya-Blackjack-CS.jpg",
-        "ch": "Sonya-Blackjack-CS.jpg"
+        "en": "Sonya-Blackjack-EN.jpg"
       },
       "launchDate": "2018/07/02",
       "hot": false,
@@ -1187,15 +1085,13 @@
       "paylines": "25",
       "RTP": "96.30%",
       "imgName": {
-        "en": "Spina-Colada-EN.jpg",
-        "cs": "Spina-Colada-CS.jpg",
-        "ch": "Spina-Colada-CS.jpg"
+        "en": "Spina-Colada-EN.jpg"
       },
       "launchDate": "2017/06/22",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1210,9 +1106,7 @@
       "paylines": "27",
       "RTP": "96.20%",
       "imgName": {
-        "en": "Sunny-Shores-EN.jpg",
-        "cs": "Sunny-Shores-CS.jpg",
-        "ch": "Sunny-Shores-CS.jpg"
+        "en": "Sunny-Shores-EN.jpg"
       },
       "launchDate": "2017/05/24",
       "hot": false,
@@ -1233,15 +1127,13 @@
       "paylines": "20",
       "RTP": "96.10%",
       "imgName": {
-        "en": "Super-Heroes-EN.jpg",
-        "cs": "Super-Heroes-CS.jpg",
-        "ch": "Super-Heroes-CS.jpg"
+        "en": "Super-Heroes-EN.jpg"
       },
       "launchDate": "2016/10/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1256,15 +1148,13 @@
       "paylines": "243+ Ways",
       "RTP": "96.10%",
       "imgName": {
-        "en": "Temple-Stacks-Splitz-EN.jpg",
-        "cs": "Temple-Stacks-Splitz-CS.jpg",
-        "ch": "Temple-Stacks-Splitz-CS.jpg"
+        "en": "Temple-Stacks-Splitz-EN.jpg"
       },
       "launchDate": "2020/01/22",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1279,9 +1169,7 @@
       "paylines": "5+5",
       "RTP": "96.30%",
       "imgName": {
-        "en": "The-Dark-Joker-Rizes-EN.jpg",
-        "cs": "The-Dark-Joker-Rizes-CS.jpg",
-        "ch": "The-Dark-Joker-Rizes-CS.jpg"
+        "en": "The-Dark-Joker-Rizes-EN.jpg"
       },
       "launchDate": "2015/01/01",
       "hot": false,
@@ -1302,15 +1190,13 @@
       "paylines": "20",
       "RTP": "96.30%",
       "imgName": {
-        "en": "The-One-Armed-Bandit-EN.jpg",
-        "cs": "The-One-Armed-Bandit-CS.jpg",
-        "ch": "The-One-Armed-Bandit-CS.jpg"
+        "en": "The-One-Armed-Bandit-EN.jpg"
       },
       "launchDate": "2019/07/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1325,15 +1211,13 @@
       "paylines": "25",
       "RTP": "96.30%",
       "imgName": {
-        "en": "Time-Travel-Tigers-EN.jpg",
-        "cs": "Time-Travel-Tigers-CS.jpg",
-        "ch": "Time-Travel-Tigers-CS.jpg"
+        "en": "Time-Travel-Tigers-EN.jpg"
       },
       "launchDate": "2020/02/12",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1348,15 +1232,13 @@
       "paylines": "20",
       "RTP": "96.0-96.3 (golden bet)%",
       "imgName": {
-        "en": "Trolls-Bridge-EN.jpg",
-        "cs": "Trolls-Bridge-CS.jpg",
-        "ch": "Trolls-Bridge-CS.jpg"
+        "en": "Trolls-Bridge-EN.jpg"
       },
       "launchDate": "2019/01/08",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1371,15 +1253,13 @@
       "paylines": "25",
       "RTP": "97.10%",
       "imgName": {
-        "en": "Tuts-Twister-EN.jpg",
-        "cs": "Tuts-Twister-CS.jpg",
-        "ch": "Tuts-Twister-CS.jpg"
+        "en": "Tuts-Twister-EN.jpg"
       },
       "launchDate": "2018/06/21",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1394,9 +1274,7 @@
       "paylines": "3125 ways",
       "RTP": "96.20%",
       "imgName": {
-        "en": "Valley-of-the-Gods-EN.jpg",
-        "cs": "Valley-of-the-Gods-CS.jpg",
-        "ch": "Valley-of-the-Gods-CS.jpg"
+        "en": "Valley-of-the-Gods-EN.jpg"
       },
       "launchDate": "2017/08/24",
       "hot": false,
@@ -1417,15 +1295,13 @@
       "paylines": "25",
       "RTP": "96.10%",
       "imgName": {
-        "en": "Vikings-go-Berzerk-EN.jpg",
-        "cs": "Vikings-go-Berzerk-CS.jpg",
-        "ch": "Vikings-go-Berzerk-CS.jpg"
+        "en": "Vikings-go-Berzerk-EN.jpg"
       },
       "launchDate": "2016/11/23",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1440,15 +1316,13 @@
       "paylines": "25",
       "RTP": "96.10%",
       "imgName": {
-        "en": "Vikings-Go-To-Hell-EN.jpg",
-        "cs": "Vikings-Go-To-Hell-CS.jpg",
-        "ch": "Vikings-Go-To-Hell-CS.jpg"
+        "en": "Vikings-Go-To-Hell-EN.jpg"
       },
       "launchDate": "2018/05/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1463,15 +1337,13 @@
       "paylines": "25",
       "RTP": "96.30%",
       "imgName": {
-        "en": "Vikings-go-Wild-EN.jpg",
-        "cs": "Vikings-go-Wild-CS.jpg",
-        "ch": "Vikings-go-Wild-CS.jpg"
+        "en": "Vikings-go-Wild-EN.jpg"
       },
       "launchDate": "2015/08/01",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1486,9 +1358,7 @@
       "paylines": "5+5",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Wicked-Circus-EN.jpg",
-        "cs": "Wicked-Circus-CS.jpg",
-        "ch": "Wicked-Circus-CS.jpg"
+        "en": "Wicked-Circus-EN.jpg"
       },
       "launchDate": "2016/04/01",
       "hot": false,
@@ -1509,15 +1379,13 @@
       "paylines": "25",
       "RTP": "96.40%",
       "imgName": {
-        "en": "Wild-Robo-Factory-EN.jpg",
-        "cs": "Wild-Robo-Factory-CS.jpg",
-        "ch": "Wild-Robo-Factory-CS.jpg"
+        "en": "Wild-Robo-Factory-EN.jpg"
       },
       "launchDate": "2019/06/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1532,9 +1400,7 @@
       "paylines": "25",
       "RTP": "96.75%",
       "imgName": {
-        "en": "Winterberries-EN.jpg",
-        "cs": "Winterberries-CS.jpg",
-        "ch": "Winterberries-CS.jpg"
+        "en": "Winterberries-EN.jpg"
       },
       "launchDate": "2016/01/14",
       "hot": false,
@@ -1555,15 +1421,13 @@
       "paylines": "20",
       "RTP": "96.30%",
       "imgName": {
-        "en": "Wolf-Hunters-EN.jpg",
-        "cs": "Wolf-Hunters-CS.jpg",
-        "ch": "Wolf-Hunters-CS.jpg"
+        "en": "Wolf-Hunters-EN.jpg"
       },
       "launchDate": "2018/09/03",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1578,15 +1442,13 @@
       "paylines": "243 ways",
       "RTP": "96.30%",
       "imgName": {
-        "en": "Yokozuna-Clash-EN.jpg",
-        "cs": "Yokozuna-Clash-CS.jpg",
-        "ch": "Yokozuna-Clash-CS.jpg"
+        "en": "Yokozuna-Clash-EN.jpg"
       },
       "launchDate": "2019/08/22",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1601,15 +1463,13 @@
       "paylines": "25",
       "RTP": "96.10%",
       "imgName": {
-        "en": "THE-ROYAL-FAMILY-EN.jpg",
-        "cs": "THE-ROYAL-FAMILY-CS.jpg",
-        "ch": "THE-ROYAL-FAMILY-CS.jpg"
+        "en": "THE-ROYAL-FAMILY-EN.jpg"
       },
       "launchDate": "2020/03/04",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1624,15 +1484,13 @@
       "paylines": "20",
       "RTP": "96.09%",
       "imgName": {
-        "en": "ALL-STAR-KNOCKOUT-EN.jpg",
-        "cs": "ALL-STAR-KNOCKOUT-CS.jpg",
-        "ch": "ALL-STAR-KNOCKOUT-CS.jpg"
+        "en": "ALL-STAR-KNOCKOUT-EN.jpg"
       },
       "launchDate": "2020/03/11",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1647,15 +1505,13 @@
       "paylines": "N/A CLUSTER WINS",
       "RTP": "96.30%",
       "imgName": {
-        "en": "PIRATES-SMUGGLERS-PARADISE-EN.jpg",
-        "cs": "PIRATES-SMUGGLERS-PARADISE-CS.jpg",
-        "ch": "PIRATES-SMUGGLERS-PARADISE-CS.jpg"
+        "en": "PIRATES-SMUGGLERS-PARADISE-EN.jpg"
       },
       "launchDate": "2020/03/18",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     },
     {
       "name": {
@@ -1670,15 +1526,13 @@
       "paylines": "243",
       "RTP": "96.30%",
       "imgName": {
-        "en": "MULTIFLY-EN.jpg",
-        "cs": "MULTIFLY-CS.jpg",
-        "ch": "MULTIFLY-CS.jpg"
+        "en": "MULTIFLY-EN.jpg"
       },
       "launchDate": "2020/03/24",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 1
     }
   ]
 }
