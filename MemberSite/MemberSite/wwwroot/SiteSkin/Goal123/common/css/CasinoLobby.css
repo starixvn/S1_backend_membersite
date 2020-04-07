@@ -193,6 +193,7 @@ flex: 1 0 auto;
         max-width: initial;
         min-width: initial;
         width: calc(50% - 2px);
+        height: calc(50vw - 2px);
     }
     .CasModule .MI > div:nth-child(odd){
         margin-right: 0;
