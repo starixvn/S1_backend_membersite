@@ -68,7 +68,7 @@ export class GameElem extends React.Component{
                             <a className="close" onClick={this.ClosePopup}>
                                 <span>X</span>
                             </a>
-                            <img src={`/common/images/Casino/${this.props.ProviderName}/${this.props.ImgUrl}`} />
+                            <img src={`/common/images/Casino/${this.props.ProviderName}/${this.props.ImgUrl}?v=202004073`} />
                             <div>
                                 <span>{this.props.GameName}</span>
                                 <span>{this.state.IsFavorite === true ? '★' : '☆' }</span>
@@ -108,11 +108,11 @@ export class GameElem extends React.Component{
         );
 
         return this.props.BigItem ? (
-                <div style={{background: `url(/common/images/Casino/${this.props.ProviderName}/${this.props.ImgUrl})no-repeat top center / cover`}} className="BIG" onClick={this.OpenPopup}>
+                <div style={{background: `url(/common/images/Casino/${this.props.ProviderName}/${this.props.ImgUrl}?v=202004073)no-repeat top center / cover`}} className="BIG" onClick={this.OpenPopup}>
                     {elem}
                 </div>
             ) : (
-            <div style={{background: `url(/common/images/Casino/${this.props.ProviderName}/${this.props.ImgUrl})no-repeat top center / cover`}} onClick={this.OpenPopup}>
+            <div style={{background: `url(/common/images/Casino/${this.props.ProviderName}/${this.props.ImgUrl}?v=202004073)no-repeat top center / cover`}} onClick={this.OpenPopup}>
                 {elem}
             </div>
         )

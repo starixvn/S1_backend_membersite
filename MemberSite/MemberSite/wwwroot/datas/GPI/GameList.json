@@ -1210,7 +1210,9 @@
       "paylines": "9",
       "RTP": "96.00",
       "imgName": {
-        "en": "Qi-Xi-EN.jpg"
+        "en": "Qixi-Festival-EN.jpg",
+        "cs": "Qixi-Festival-CS.jpg",
+        "ch": "Qixi-Festival-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
