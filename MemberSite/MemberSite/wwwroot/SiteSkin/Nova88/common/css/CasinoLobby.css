@@ -46,7 +46,7 @@ flex: 1 0 auto;
     text-align: center;
     font-size: 0.9rem;
     position: relative;
-    padding :0.5rem 0;
+    padding:0.5rem 0;
     border-left: 1px solid transparent;
 }
 .CasinoSelect_nav > a.active{
@@ -109,33 +109,37 @@ flex: 1 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-around;
+    position: absolute;
+    bottom: -23px;
 }
 .CasModule .MI{
     display: inline-block;
     width: 100%;
 }
 .CasModule .MI > div{
-    min-width: 204px;
-    max-width: 204px;
-    margin: 0 4px 10px 0;
-    height: 156px;
+    min-width: 152px;
+    max-width: 152px;
+    margin: 0 4px 33px 0;
+    height: 152px;
     float: left;
     position: relative;
     display: flex;
     align-items: flex-end;
     background-color: #1d263f;
     box-shadow: 0px 2px 7px 0 #000;
-    border-radius: 7px;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
 }
 
 .CasModule .MI .BIG{
-    height: 322px;
-    min-width: 412px;
+    height: 308px;
+    min-width: 308px;
     font-size: 24px;
-    margin-left: 0;
+    margin-left: 0;    
 }
 .CasModule .MI .BIG > div:nth-child(1){
     height: 50px;
+    bottom: -50px;
 }
 .MI div a{
     display: block;
@@ -144,7 +148,7 @@ flex: 1 0 auto;
     text-align: center;
     font-size: 15px;
     padding: .3rem;
-    width: 10rem;
+    width: 9rem;
     border: 1px solid #d4bd7e;
     margin: 0.2rem auto;
 }
@@ -182,6 +186,8 @@ flex: 1 0 auto;
         flex: none;
         width: 100%;
         min-width: 346px;
+        margin-bottom: 60px;
+        height: calc(100vw - 6.4vw);
     }
     .CasModule .MI > div{
         max-width: initial;
