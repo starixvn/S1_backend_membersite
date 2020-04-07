@@ -627,8 +627,8 @@
     {
       "name": {
         "en": "Dynamite Reels",
-        "cs": "Dynamite Reels",
-        "ch": "Dynamite Reels"
+        "cs": "炸弹王",
+        "ch": "炸彈王"
       },
       "appId": "8u9r4tj48chd1",
       "gameId": "8u9r4tj48chd1",
@@ -807,8 +807,8 @@
     {
       "name": {
         "en": "Four Dragons",
-        "cs": "五龙吐珠",
-        "ch": "五龍吐珠"
+        "cs": "四龙",
+        "ch": "四龍"
       },
       "appId": "wykepsq659qp4",
       "gameId": "wykepsq659qp4",
@@ -1351,8 +1351,8 @@
     {
       "name": {
         "en": "Lucky Lady Charm",
-        "cs": "幸运女人的魅力",
-        "ch": "幸運女人的魅力"
+        "cs": "幸运女人的护身符",
+        "ch": "幸運女人的護身符"
       },
       "appId": "7f9h9fwz11kaw",
       "gameId": "7f9h9fwz11kaw",
@@ -1771,7 +1771,7 @@
     {
       "name": {
         "en": "Robin Hood",
-        "cs": "羅賓漢",
+        "cs": "罗宾汉",
         "ch": "羅賓漢"
       },
       "appId": "i4rc816e388c6",
@@ -1833,7 +1833,7 @@
       "name": {
         "en": "Santa Surprise",
         "cs": "圣诞老人",
-        "ch": "圣誕老人"
+        "ch": "聖誕老人"
       },
       "appId": "ufc6t3z8hu17w",
       "gameId": "ufc6t3z8hu17w",
@@ -2193,7 +2193,7 @@
     {
       "name": {
         "en": "Zhao Cai Jin Bao",
-        "cs": "招財進寶",
+        "cs": "招财进宝",
         "ch": "招財進寶"
       },
       "appId": "aodmmxp1sqamn",
@@ -2209,6 +2209,106 @@
       "hot": true,
       "new": true,
       "featured": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dragon Tiger",
+        "cs": "龙虎斗",
+        "ch": "龍虎鬥"
+      },
+      "appId": "dc7sh3dfmjpio",
+      "gameId": "dc7sh3dfmjpio",
+      "category1": "Table",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Dragon-Tiger-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": false,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Belangkai",
+        "cs": "鱼虾蟹骰宝",
+        "ch": "魚蝦蟹骰寶"
+      },
+      "appId": "3uim5ppkiqwk1",
+      "gameId": "3uim5ppkiqwk1",
+      "category1": "Table",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Belangkai-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": false,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Baccarat",
+        "cs": "百家乐",
+        "ch": "百家樂"
+      },
+      "appId": "j3wngk3efrzn6",
+      "gameId": "j3wngk3efrzn6",
+      "category1": "Table",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Baccarat-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": false,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "HuLu",
+        "cs": "葫芦",
+        "ch": "葫蘆"
+      },
+      "appId": "yr1zy9u9xt6zr",
+      "gameId": "yr1zy9u9xt6zr",
+      "category1": "Table",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "HuLu-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": false,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Sicbo",
+        "cs": "骰宝",
+        "ch": "骰寶"
+      },
+      "appId": "hxb3p8r71kj3y",
+      "gameId": "hxb3p8r71kj3y",
+      "category1": "Table",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Sicbo-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": false,
       "imageExist": true
     }
   ]
