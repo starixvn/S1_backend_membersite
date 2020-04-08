@@ -14,9 +14,7 @@
       "paylines": "20",
       "RTP": "96.99",
       "imgName": {
-        "en": "4-Guardians-EN.jpg",
-        "cs": "4-Guardians-CS.jpg",
-        "ch": "4-Guardians-CS.jpg"
+        "en": "4-Guardians-EN.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -78,7 +76,9 @@
       "paylines": "20",
       "RTP": "95.06",
       "imgName": {
-        "en": "777-Golden-Wheel-EN.jpg"
+        "en": "777-Golden-Wheel-EN.jpg",
+        "cs": "777-Golden-Wheel-CS.jpg",
+        "ch": "777-Golden-Wheel-CS.jpg"
       },
       "launchDate": "",
       "hot": true,
@@ -121,7 +121,9 @@
       "paylines": "30",
       "RTP": "95.36",
       "imgName": {
-        "en": "Baseball-EN.jpg"
+        "en": "Baseball-EN.jpg",
+        "cs": "Baseball-CS.jpg",
+        "ch": "Baseball-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -141,7 +143,9 @@
       "paylines": "30",
       "RTP": "97.00",
       "imgName": {
-        "en": "Bikini-Beach-EN.jpg"
+        "en": "Bikini-Beach-EN.jpg",
+        "cs": "Bikini-Beach-CS.jpg",
+        "ch": "Bikini-Beach-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -162,8 +166,8 @@
       "RTP": "96.50",
       "imgName": {
         "en": "Blossom-Garden-EN.jpg",
-        "cs": "Blossom-Garden-CS.jpg",
-        "ch": "Blossom-Garden-CS.jpg"
+        "cs": "Blossom-Garden-EN.jpg",
+        "ch": "Blossom-Garden-EN.jpg"
       },
       "launchDate": "",
       "hot": true,
@@ -184,7 +188,9 @@
       "paylines": "15",
       "RTP": "95.30",
       "imgName": {
-        "en": "Boxing-EN.jpg"
+        "en": "Boxing-EN.jpg",
+        "cs": "Boxing-CS.jpg",
+        "ch": "Boxing-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -204,7 +210,9 @@
       "paylines": "9",
       "RTP": "96.82",
       "imgName": {
-        "en": "Candylicious-EN.jpg"
+        "en": "Candylicious-EN.jpg",
+        "cs": "Candylicious-CS.jpg",
+        "ch": "Candylicious-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -246,7 +254,9 @@
       "paylines": "30",
       "RTP": "92.41",
       "imgName": {
-        "en": "Casino-Royale-EN.jpg"
+        "en": "Casino-Royale-EN.jpg",
+        "cs": "Casino-Royale-CS.jpg",
+        "ch": "Casino-Royale-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -300,8 +310,8 @@
     {
       "name": {
         "en": "Desert Oasis",
-        "cs": "沙漠寻宝",
-        "ch": "沙漠尋寶"
+        "cs": "沙漠绿洲",
+        "ch": "沙漠綠洲"
       },
       "appId": "desertoasis",
       "gameId": "desertoasis",
@@ -310,7 +320,9 @@
       "paylines": "20",
       "RTP": "95.15",
       "imgName": {
-        "en": "Desert-Oasis-EN.jpg"
+        "en": "Desert-Oasis-EN.jpg",
+        "cs": "Desert-Oasis-CS.jpg",
+        "ch": "Desert-Oasis-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -374,9 +386,7 @@
       "paylines": "9",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Fa-Fa-Zhu-EN.jpg",
-        "cs": "Fa-Fa-Zhu-CS.jpg",
-        "ch": "Fa-Fa-Zhu-CS.jpg"
+        "en": "Fa-Fa-Zhu-EN.jpg"
       },
       "launchDate": "",
       "hot": true,
@@ -590,7 +600,9 @@
       "paylines": "8",
       "RTP": "95.04",
       "imgName": {
-        "en": "Fruitilicious-EN.jpg"
+        "en": "Fruitilicious-EN.jpg",
+        "cs": "Fruitilicious-CS.jpg",
+        "ch": "Fruitilicious-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -630,9 +642,7 @@
       "paylines": "27 ways",
       "RTP": "96.07",
       "imgName": {
-        "en": "Gem-Forest-EN.jpg",
-        "cs": "Gem-Forest-CS.jpg",
-        "ch": "Gem-Forest-CS.jpg"
+        "en": "Gem-Forest-EN.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -696,7 +706,9 @@
       "paylines": "25",
       "RTP": "94.99",
       "imgName": {
-        "en": "Golden-Eggs-EN.jpg"
+        "en": "Golden-Eggs-EN.jpg",
+        "cs": "Golden-Eggs-CS.jpg",
+        "ch": "Golden-Eggs-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -866,7 +878,9 @@
       "paylines": "25",
       "RTP": "94.99",
       "imgName": {
-        "en": "Little-Monsters-EN.jpg"
+        "en": "Little-Monsters-EN.jpg",
+        "cs": "Little-Monsters-CS.jpg",
+        "ch": "Little-Monsters-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -953,7 +967,9 @@
       "paylines": "30",
       "RTP": "95.36",
       "imgName": {
-        "en": "Mafia-EN.jpg"
+        "en": "Mafia-EN.jpg",
+        "cs": "Mafia-CS.jpg",
+        "ch": "Mafia-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -985,8 +1001,8 @@
     {
       "name": {
         "en": "Money Monkey",
-        "cs": "铁锤金星",
-        "ch": "鐵錘金星"
+        "cs": "铁锤金猩",
+        "ch": "鐵錘金猩"
       },
       "appId": "moneymonkey",
       "gameId": "moneymonkey",
@@ -1059,9 +1075,7 @@
       "paylines": "8",
       "RTP": "96.64",
       "imgName": {
-        "en": "Moon-Rabbit-EN.jpg",
-        "cs": "Moon-Rabbit-CS.jpg",
-        "ch": "Moon-Rabbit-CS.jpg"
+        "en": "Moon-Rabbit-EN.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -1126,7 +1140,9 @@
       "paylines": "1",
       "RTP": "96.82",
       "imgName": {
-        "en": "Panda-EN.jpg"
+        "en": "Panda-EN.jpg",
+        "cs": "Panda-CS.jpg",
+        "ch": "Panda-CS.jpg"
       },
       "launchDate": "",
       "hot": true,
@@ -1190,7 +1206,9 @@
       "paylines": "30",
       "RTP": "96.98",
       "imgName": {
-        "en": "Phoenix-EN.jpg"
+        "en": "Phoenix-EN.jpg",
+        "cs": "Phoenix-CS.jpg",
+        "ch": "Phoenix-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -1210,9 +1228,7 @@
       "paylines": "9",
       "RTP": "96.00",
       "imgName": {
-        "en": "Qixi-Festival-EN.jpg",
-        "cs": "Qixi-Festival-CS.jpg",
-        "ch": "Qixi-Festival-CS.jpg"
+        "en": "Qixi-Festival-EN.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -1232,7 +1248,9 @@
       "paylines": "9",
       "RTP": "96.00",
       "imgName": {
-        "en": "Queen-Bee-EN.jpg"
+        "en": "Queen-Bee-EN.jpg",
+        "cs": "Queen-Bee-CS.jpg",
+        "ch": "Queen-Bee-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -1314,7 +1332,9 @@
       "paylines": "20",
       "RTP": "97.33",
       "imgName": {
-        "en": "Sky-Strikers-EN.jpg"
+        "en": "Sky-Strikers-EN.jpg",
+        "cs": "Sky-Strikers-CS.jpg",
+        "ch": "Sky-Strikers-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -1422,9 +1442,7 @@
       "paylines": "1",
       "RTP": "96.82%",
       "imgName": {
-        "en": "Three-Beauties-EN.jpg",
-        "cs": "Three-Beauties-CS.jpg",
-        "ch": "Three-Beauties-CS.jpg"
+        "en": "Three-Beauties-EN.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -1464,7 +1482,9 @@
       "paylines": "25",
       "RTP": "95.00",
       "imgName": {
-        "en": "Tokyo-Hunter-EN.jpg"
+        "en": "Tokyo-Hunter-EN.jpg",
+        "cs": "Tokyo-Hunter-CS.jpg",
+        "ch": "Tokyo-Hunter-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -1484,7 +1504,9 @@
       "paylines": "20",
       "RTP": "97.02",
       "imgName": {
-        "en": "Trick-or-Treat-EN.jpg"
+        "en": "Trick-or-Treat-EN.jpg",
+        "cs": "Trick-or-Treat-CS.jpg",
+        "ch": "Trick-or-Treat-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -1504,7 +1526,9 @@
       "paylines": "15",
       "RTP": "95.30",
       "imgName": {
-        "en": "Under-Water-World-EN.jpg"
+        "en": "Under-Water-World-EN.jpg",
+        "cs": "Under-Water-World-CS.jpg",
+        "ch": "Under-Water-World-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -1591,7 +1615,9 @@
       "paylines": "30",
       "RTP": "95.17",
       "imgName": {
-        "en": "World-of-Warlords-EN.jpg"
+        "en": "World-of-Warlords-EN.jpg",
+        "cs": "World-of-Warlords-CS.jpg",
+        "ch": "World-of-Warlords-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
@@ -1699,7 +1725,9 @@
       "paylines": "30",
       "RTP": "97.03",
       "imgName": {
-        "en": "Zodiac-EN.jpg"
+        "en": "Zodiac-EN.jpg",
+        "cs": "Zodiac-CS.jpg",
+        "ch": "Zodiac-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
