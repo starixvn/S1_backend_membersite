@@ -11,6 +11,7 @@
 
     var serverInfo = serverInfoBLL.GetServerInfo();
 }
+
 @section Style{
     <style>
         /* Style the tab */
@@ -49,18 +50,19 @@
         }
     </style>
 }
-<div class="main">
+<div class="main ">
     <div class="promotionsInfo-page page">
         <div class="heading">
             <span class="text">Promotion Info</span>
         </div>
         <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
-            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-cashbackrebet.jpg" alt="" style="display: block;width: 100%;" />
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-promo08.jpg" alt="" style="display: block;width: 100%;" />
         </div><br><br>
 
         <div class="tab">
-            <button class="tablinks" onclick="openPromo(event, 'Promo1')">Cash back 8%</button>
-            <button class="tablinks" onclick="openPromo(event, 'Promo2')">Rebate 0.8%</button>
+            <button class="tablinks" onclick="openPromo(event, 'Promo1')">คาสิโนส่วนลด 0.8%</button>
+            <button class="tablinks" onclick="openPromo(event, 'Promo2')">เกมยิงปลา รับส่วนลด 0.8%</button>
+            <button class="tablinks" onclick="openPromo(event, 'Promo3')">Live Casino ส่วนลด 0.8%</button>
           </div>
           <br><br>
 
@@ -69,9 +71,9 @@
             <article>
                 <div class="promotions-txt">
                     <ul>
-                        <li class="txt-blue">Live Casino คืนเงินสูงสุด 8%</li>
+                        <li class="txt-blue">คาสิโนส่วนลด 0.8%</li>
                         <li class="txt-gray">
-                            โปรโมชั่นเริ่มตั้งแต่เที่ยงคืนวันที่ 16 มีนาคม 2563 
+                            โปรโมชั่นนี้เริ่มต้นที่ 30 มีนาคม 2020 12:00 น. จนกว่าจะมีประกาศเปลี่ยนแปลง
                         </li>
                         
                     </ul>
@@ -84,12 +86,12 @@
                 <article>
                     <ol type="i">
                         <li>โปรโมชั่นนี้ใช้ได้กับผู้เล่นที่ใช้สกุลเงินไทยบาทเท่านั้น</li>
-                        <li>ช่วงเวลา cut-off สำหรับโปรโมชั่นนี้คือ ทุกวันจันทร์เวลา 11:59:59 AM (GMT+8)</li>
-                        <li>โปรโมชั่นนี้ คำนวณจากยอดรวมการเสียของสมาชิกเป็นรายสัปดาห์ตั้งแต่วันจันทร์ 12:00:00 PM (GMT + 8) ถึงวันจันทร์ 11:59:59 AM (GMT + 8)</li>
-                        <li>สมาชิก Nova88 ทุกคนมีสิทธิ์ได้รับเงินคืน 8% จากสถานะ“ LOSS” ใน Nova88 Live Casino รายสัปดาห์เท่านั้น</li>
-                        <li>การคืนเงินขั้นต่ำคือ 100 บาทและการจ่ายเงินสูงสุดต่อยอด 20,000 บาท</li>
-                        <li>เงินคืนจะนำเข้าบัญชีโนวา 88 ของผู้เล่นที่มีคุณสมบัติเหมาะสมทุกวันจันทร์ภายใน 48 ชั่วโมง</li>
-                        <li>เครดิตเงินคืนภายใต้โรลโอเวอร์ 1 เท่าเท่านั้นก่อนทำการถอนเงิน</li>
+                        <li>ช่วงเวลา cut-off สำหรับโปรโมชั่นนี้คือ ทุกวันอังคารเวลา 11:59:59 AM (GMT+8)</li>
+                        <li>ส่วนลด 0.8% คำนวณจากยอดเทิร์นโอเวอร์ประจำสัปดาห์ของผู้เล่นตั้งแต่วันอังคาร 12:00 น. PM (GMT + 8) ถึงวันอังคาร 11:59:59 AM (GMT + 8)</li>
+                        <li>ตัวอย่าง: ยอดเทิร์นโอเวอร์ทั้งหมดรายสัปดาห์คือ 100,000 x 0.8% = โบนัสทั้งหมด 800 บาท</li>
+                        <li>การจ่ายเงินคืนขั้นต่ำคือ 100 บาทและการจ่ายเงินสูงสุดต่อยอด 20,000 บาท</li>
+                        <li>ส่วนลดจะนำเข้าบัญชีโนวา 88 ของผู้เล่นที่มีคุณสมบัติตามข้อกำหนดของโปรโมชั่นทุกวันอังคาร ภายใน 48 ชั่วโมง</li>
+                        <li>เครดิตส่วนลดภายใต้ 1X โรลโอเวอร์เท่านั้นก่อนทำการถอนเงิน</li>
                     </ol>
                 </article>
                         <div class="table table-rwd table-primary">
@@ -109,7 +111,7 @@
                                         <div class="tbody">
                                             <div class="tr row-even">
                                                 <div class="td-date">
-                                                    <span class="text">Live Casino เท่านั้น</span>
+                                                    <span class="text">คาสิโนและเกมเสมือนจริง (เวอร์ชวลเกม)</span>
                                                 </div>
                                                 <div class="td-date">
                                                     <span class="text">100 บาท</span>
@@ -129,6 +131,70 @@
     </div>
 
     <div id="Promo2" class="tabcontent">
+        <div class="promotions-module">
+            <article>
+                <div class="promotions-txt">
+                    <ul>
+                        <li class="txt-blue">เกมยิงปลา รับส่วนลด 0.8%</li>
+                        <li class="txt-gray">
+                            โปรโมชั่นนี้เริ่มต้นที่ 30 มีนาคม 2020 12:00 น. จนกว่าจะมีประกาศเปลี่ยนแปลง
+                        </li>
+                        
+                    </ul>
+                </div>
+            </article>
+        </div>
+            <div class="promotions-module">
+                
+                <span class="promotions-title">เงื่อนไขที่สำคัญ</span>
+                <article>
+                    <ol type="i">
+                        <li>โปรโมชั่นนี้ใช้ได้กับผู้เล่นที่ใช้สกุลเงินไทยบาทเท่านั้น</li>
+                        <li>ช่วงเวลา cut-off สำหรับโปรโมชั่นนี้คือ ทุกวันอังคารเวลา 11:59:59 AM (GMT+8)</li>
+                        <li>เกมยิงปลา รับส่วนลด 0.8% คำนวณจากยอดเทิร์นโอเวอร์ประจำสัปดาห์ของผู้เล่นตั้งแต่วันอังคาร 12:00 น. PM (GMT + 8) ถึงวันอังคาร 11:59:59 AM (GMT + 8)</li>
+                        <li>ตัวอย่าง: ยอดเทิร์นโอเวอร์ทั้งหมดรายสัปดาห์คือ 100,000 x 0.8% = โบนัสทั้งหมด 800 บาท</li>
+                        <li>การจ่ายเงินคืนขั้นต่ำคือ 100 บาทและการจ่ายเงินสูงสุดต่อยอด 20,000 บาท</li>
+                        <li>ส่วนลดจะนำเข้าบัญชีโนวา 88 ของผู้เล่นที่มีคุณสมบัติตามข้อกำหนดของโปรโมชั่นทุกวันอังคาร ภายใน 48 ชั่วโมง</li>
+                        <li>เครดิตส่วนลดภายใต้ 1X โรลโอเวอร์เท่านั้นก่อนทำการถอนเงิน</li>
+                    </ol>
+                </article>
+                        <div class="table table-rwd table-primary">
+                                        <div class="thead">
+                                            <div class="tr">
+                                                <div class="td-date">
+                                                    <span class="text">ผลิตภัณฑ์</span>
+                                                </div>
+                                                <div class="td-date">
+                                                    <span class="text">การจ่ายขั้นต่ำ</span>
+                                                </div>
+                                                <div class="td-time">
+                                                    <span class="text">การจ่ายเงินสูงสุด</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tbody">
+                                            <div class="tr row-even">
+                                                <div class="td-date">
+                                                    <span class="text">เกมยิงปลา</span>
+                                                </div>
+                                                <div class="td-date">
+                                                    <span class="text">100 บาท</span>
+                                                </div>
+                                                <div class="td-time">
+                                                    <span class="text">20,000 บาท</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                        </div>
+                        <br>
+                        <p>Nova88 ขอสงวนสิทธิ์ในการแก้ไขหรือถอนโปรโมชั่นได้ตลอดเวลา</p>
+                        <p>Nova88 เป็นผู้ตัดสินแต่เพียงผู้เดียวของโปรโมชั่นและการตัดสินใจของเราถือเป็นที่สิ้นสุด</p>
+                        <p>Nova88 ใช้ข้อกำหนดและเงื่อนไขมาตรฐานของ Nova88</p>
+        </div>
+      </div>
+
+
+      <div id="Promo3" class="tabcontent">
         <div class="promotions-module">
             <article>
                 <div class="promotions-txt">
@@ -173,7 +239,7 @@
                                         <div class="tbody">
                                             <div class="tr row-even">
                                                 <div class="td-date">
-                                                    <span class="text">Live Casino เท่านั้น</span>
+                                                    <span class="text">Live Casino</span>
                                                 </div>
                                                 <div class="td-date">
                                                     <span class="text">100 บาท</span>
@@ -188,6 +254,7 @@
                         <p>Nova88 ขอสงวนสิทธิ์ในการแก้ไขหรือถอนโปรโมชั่นได้ตลอดเวลา</p>
                         <p>Nova88 เป็นผู้ตัดสินแต่เพียงผู้เดียวของโปรโมชั่นและการตัดสินใจของเราถือเป็นที่สิ้นสุด</p>
                         <p>Nova88 ใช้ข้อกำหนดและเงื่อนไขมาตรฐานของ Nova88</p>
+
         </div>
       </div>
 
