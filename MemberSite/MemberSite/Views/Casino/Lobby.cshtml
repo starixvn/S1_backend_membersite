@@ -32,11 +32,11 @@
         var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
         var data = casinoBLL.GetFavoriteGames(custInfo.CustId);
         result = data != null && data.Any() ? data.Select(x => new { x.ProviderId, x.GameId }) : null;
-        tpIds = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId);
+        tpIds = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId, serverInfo.SiteId);
     }
     else
     {
-        tpIds = casinoBLL.GetProviderIdByCurrency(0);
+        tpIds = casinoBLL.GetProviderIdByCurrency(0, serverInfo.SiteId);
     }
 
     var i18n = new Dictionary<string, string>();

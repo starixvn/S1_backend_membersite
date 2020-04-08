@@ -28,14 +28,14 @@ namespace MemberSite.Service.BLL
             casinoService.SetFavoriteGames(CustId, ProviderId, GameId, IsRemove);
         }
 
-        public IEnumerable<int> GetProviderIdByCurrency(int CurrencyId)
+        public IEnumerable<int> GetProviderIdByCurrency(int CurrencyId, int SiteId)
         {
             string key = $"ProviderIdByCurrency_{CurrencyId}";
             var providerIdByCurrency = cache.Get<IEnumerable<int>>(key);
 
             if (providerIdByCurrency == null)
             {
-                providerIdByCurrency = casinoService.GetProviderIdByCurrency(CurrencyId);
+                providerIdByCurrency = casinoService.GetProviderIdByCurrency(CurrencyId, SiteId);
                 if (providerIdByCurrency != null)
                 {
                     var expireTime = TimeSpan.FromMinutes(10);

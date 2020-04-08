@@ -30,10 +30,10 @@ namespace MemberSite.Service.DAL
             conn.Execute("Member_Favorite_Set", new { CustId, ProviderId, GameId, IsRemove}, commandType: CommandType.StoredProcedure);
         }
 
-        public IEnumerable<int> GetProviderIdByCurrency(int CurrencyId)
+        public IEnumerable<int> GetProviderIdByCurrency(int CurrencyId, int SiteId)
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<int>("Member_TpList_GetByCurrency", new { CurrencyId }, commandType: CommandType.StoredProcedure);
+            return conn.Query<int>("Member_TpList_GetByCurrency", new { CurrencyId, SiteId}, commandType: CommandType.StoredProcedure);
         }
     }
 }
