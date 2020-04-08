@@ -1538,4 +1538,10 @@
   <data name="lbl_YesterDay" xml:space="preserve">
     <value>เมื่อวานนี้</value>
   </data>
+  <data name="lbl_Table" xml:space="preserve">
+    <value>เทเบิลเกมส์</value>
+  </data>
+  <data name="lbl_WithdrawalLimit" xml:space="preserve">
+    <value>ไม่สามารถถอนเงินได้ เพราะยอดเงินคงเหลือไม่ถึงจำนวนที่กำหนดไว้</value>
+  </data>
 </root>

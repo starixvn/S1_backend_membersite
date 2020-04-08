@@ -1570,4 +1570,7 @@
   <data name="lbl_Table" xml:space="preserve">
     <value>Table</value>
   </data>
+  <data name="lbl_WithdrawalLimit" xml:space="preserve">
+    <value>Withdrawal denied, to reach required turnover remaining </value>
+  </data>
 </root>

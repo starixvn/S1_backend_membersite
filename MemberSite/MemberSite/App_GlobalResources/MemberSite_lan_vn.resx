@@ -1615,4 +1615,10 @@
   <data name="lbl_YesterDay" xml:space="preserve">
     <value>Hom qua</value>
   </data>
+  <data name="lbl_Table" xml:space="preserve">
+    <value>Bàn cược</value>
+  </data>
+  <data name="lbl_WithdrawalLimit" xml:space="preserve">
+    <value>Cấm rút tiền ,Lượng doanh thu cần đạt được vẫn còn thiếu</value>
+  </data>
 </root>
