@@ -1558,4 +1558,10 @@
   <data name="lbl_YesterDay" xml:space="preserve">
     <value>昨日</value>
   </data>
+  <data name="lbl_Table" xml:space="preserve">
+    <value>牌桌</value>
+  </data>
+  <data name="lbl_WithdrawalLimit" xml:space="preserve">
+    <value>提款禁止，距离流水门槛尚差</value>
+  </data>
 </root>

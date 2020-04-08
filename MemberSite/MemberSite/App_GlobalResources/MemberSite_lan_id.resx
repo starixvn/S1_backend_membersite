@@ -1564,4 +1564,10 @@
   <data name="lbl_YesterDay" xml:space="preserve">
     <value>Kemarin</value>
   </data>
+  <data name="lbl_Table" xml:space="preserve">
+    <value>Meja</value>
+  </data>
+  <data name="lbl_WithdrawalLimit" xml:space="preserve">
+    <value>Penarikan ditolak, silahkan capai sisa turnover yang dibutuhkan sebesar</value>
+  </data>
 </root>
