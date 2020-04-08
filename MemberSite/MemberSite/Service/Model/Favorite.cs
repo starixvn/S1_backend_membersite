@@ -12,4 +12,10 @@ namespace MemberSite.Service.Model
         public string GameId { get; set; }
         public bool IsRemove { get; set; }
     }
+
+    public class FavoriteGames
+    {
+        public int CustId { get; set; }
+        public string Favorite { get; set; }
+    }
 }

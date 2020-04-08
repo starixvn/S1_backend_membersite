@@ -18,16 +18,16 @@ namespace MemberSite.Service.DAL
             this.configuration = configuration;
         }
 
-        public IEnumerable<MemberFavorite> GetFavoriteGames(int CustId)
+        public FavoriteGames GetFavoriteGames(int CustId)
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<MemberFavorite>("Member_Favorite_Get", new { CustId }, commandType: CommandType.StoredProcedure);
+            return conn.Query<FavoriteGames>("Member_Favorite_Get", new { CustId }, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
 
-        public void SetFavoriteGames(int CustId, int ProviderId, string GameId, bool IsRemove)
+        public void SetFavoriteGames(int CustId, string GameInfo, bool IsRemove)
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            conn.Execute("Member_Favorite_Set", new { CustId, ProviderId, GameId, IsRemove}, commandType: CommandType.StoredProcedure);
+            conn.Execute("Member_Favorite_Set", new { CustId, GameInfo, IsRemove}, commandType: CommandType.StoredProcedure);
         }
 
         public IEnumerable<int> GetProviderIdByCurrency(int CurrencyId, int SiteId)
