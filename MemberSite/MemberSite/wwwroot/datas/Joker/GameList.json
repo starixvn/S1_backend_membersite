@@ -1948,7 +1948,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
-      "feature":  true,
+      "featured":  true,
       "imageExist": true
     },
     {
@@ -2290,7 +2290,7 @@
       "launchDate": "",
       "hot": true,
       "new": false,
-      "feature":  true,
+      "featured":  true,
       "imageExist": true
     },
     {
