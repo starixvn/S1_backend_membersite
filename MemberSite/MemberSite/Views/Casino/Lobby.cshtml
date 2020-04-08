@@ -34,6 +34,10 @@
         result = data != null && data.Any() ? data.Select(x => new { x.ProviderId, x.GameId }) : null;
         tpIds = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId);
     }
+    else
+    {
+        tpIds = casinoBLL.GetProviderIdByCurrency(0);
+    }
 
     var i18n = new Dictionary<string, string>();
     i18n.Add("lbl_Feature", selLangBLL.GetResourceValue("lbl_Feature"));
@@ -47,7 +51,7 @@
     i18n.Add("lbl_NoMatching", selLangBLL.GetResourceValue("lbl_NoMatching"));
     i18n.Add("lbl_All", selLangBLL.GetResourceValue("lbl_All"));
     i18n.Add("lbl_Table", selLangBLL.GetResourceValue("lbl_Table"));
-    
+
 }
 @section Scripts{
     <script>
