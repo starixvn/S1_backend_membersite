@@ -202,7 +202,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
 
 
-            if(mainWalletType == 1)
+            if (mainWalletType == 1)
             {
                 apiResult.Data = walletBLL.GetBalance(authData.CustId);
             }
@@ -563,7 +563,7 @@ namespace MemberSite.Controllers.Api
                     apiResult.Data = tpWalletBalanceData.Data;
                     apiResult.ErrorCode = 0;
                 }
-                else if(tpWalletBalanceData.ErrorCode == 10)
+                else if (tpWalletBalanceData.ErrorCode == 10)
                 {
                     apiResult.ErrorCode = 10;
                 }
@@ -609,18 +609,10 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public void SetFavoriteGame(MemberFavorite FavoriteInfo)
         {
-            try
+            if (User.Identity.IsAuthenticated)
             {
-                if (User.Identity.IsAuthenticated)
-                {
-                    var authData = authorizeBLL.GetAuthData();
-                    var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                    casinoBLL.SetFavoriteGames(custInfo.CustId, FavoriteInfo.ProviderId, FavoriteInfo.GameId, FavoriteInfo.IsRemove);
-                }
-            }
-            catch (Exception)
-            {
-
+                var authData = authorizeBLL.GetAuthData();
+                casinoBLL.SetFavoriteGames(authData.CustId, FavoriteInfo.ProviderId, FavoriteInfo.GameId, FavoriteInfo.IsRemove);
             }
         }
 
