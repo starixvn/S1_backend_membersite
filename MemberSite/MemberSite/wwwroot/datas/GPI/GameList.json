@@ -642,7 +642,9 @@
       "paylines": "27 ways",
       "RTP": "96.07",
       "imgName": {
-        "en": "Gem-Forest-EN.jpg"
+        "en": "Gem-Forest-EN.jpg",
+        "cs": "Gem-Forest-CS.jpg",
+        "ch": "Gem-Forest-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
