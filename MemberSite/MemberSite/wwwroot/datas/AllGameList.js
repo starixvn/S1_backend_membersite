@@ -2,12 +2,14 @@ import {Provider} from './Provider';
 
 const dataList = {
     GPI:require('./GPI/GameList.json'),
-    YGG:require('./YGG/GameList.json'),
-    Joker:require('./Joker/GameList.json')
+    YGG:require('./YGG/GameList.json')/*,
+    Joker:require('./Joker/GameList.json')*/
 }
 
 export const GamesByProvider = (_provider)=>{
-    return dataList[_provider.name].data.map(game=>{
+    return dataList[_provider.name].data.filter(function (game) {
+  return game.disabled == null || game.disabled != 1;
+}).map(game=>{
         return{
             ...game,
             providerName:_provider.name,
@@ -23,11 +25,13 @@ export const AllGames = ()=>{
         if(_provider.value !== 'All'){
             let games = dataList[_provider.name].data;
             for(let g in games){
-                result.push({
-                    ...games[g],
-                    provider:_provider.value,
-                    providerName:_provider.name
-                })
+                if(games[g].disabled == null || games[g].disabled != 1) {
+                    result.push({
+                        ...games[g],
+                        provider:_provider.value,
+                        providerName:_provider.name
+                    });
+                }
             }
         }
     }

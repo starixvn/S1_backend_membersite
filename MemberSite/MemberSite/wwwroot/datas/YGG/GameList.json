@@ -125,7 +125,8 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "disabled":1
     },
     {
       "name": {
@@ -401,7 +402,8 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "disabled":1
     },
     {
       "name": {
@@ -527,7 +529,8 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 0,
+      "disabled":1
     },
     {
       "name": {
@@ -676,7 +679,8 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 0,
+      "disabled":1
     },
     {
       "name": {
@@ -1244,7 +1248,8 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "disabled":1
     },
     {
       "name": {
@@ -1372,7 +1377,8 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 0,
+      "disabled":1
     },
     {
       "name": {
