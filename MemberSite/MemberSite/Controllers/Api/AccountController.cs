@@ -218,20 +218,43 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-        [HttpPost]
-        public async Task<ApiResult<decimal>> GetWithdrawalAvailableBalanceAsync()
-        {
-            var apiResult = new ApiResult<decimal>(selLangBLL);
-            var authData = authorizeBLL.GetAuthData();
-            var withdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
+        //[HttpPost]
+        //public async Task<ApiResult<decimal>> GetWithdrawalAvailableBalanceAsync()
+        //{
+        //    var apiResult = new ApiResult<decimal>(selLangBLL);
+        //    var authData = authorizeBLL.GetAuthData();
+        //    var withdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
 
-            apiResult.Data = withdrawalAvailableBalance;
-            var rollover = paymentBLL.ReachedRollover(authData.CustId);
-            if (!rollover.ReachedRollover)
+        //    apiResult.Data = withdrawalAvailableBalance;
+        //    var rollover = paymentBLL.ReachedRollover(authData.CustId);
+        //    if (!rollover.ReachedRollover)
+        //    {
+        //        apiResult.Data = 0;
+        //    }
+        //    apiResult.ErrorCode = 0;
+        //    return apiResult;
+        //}
+
+        [HttpPost]
+        public async Task<ApiResult<dynamic>> GetWithdrawalAvailableBalanceAsync()
+        {
+            var apiResult = new ApiResult<dynamic>(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+            var limitInfo = paymentBLL.GetWithdrawalLimitInfo(authData.CustId);
+            if (limitInfo != null && (limitInfo.WithdrawalLimit <= limitInfo.TurnOver))
             {
-                apiResult.Data = 0;
+                var withdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
+                apiResult.Data = new { Balance = withdrawalAvailableBalance, IsLack = false };
+                apiResult.ErrorCode = 0;
             }
-            apiResult.ErrorCode = 0;
+            else
+            {
+                apiResult.Data = limitInfo == null ?
+                    new { Balance = (decimal)0, IsLack = false }
+                    : new { Balance = limitInfo.WithdrawalLimit - limitInfo.TurnOver, IsLack = true }; 
+                apiResult.ErrorCode = 0;
+            }
+
             return apiResult;
         }
 

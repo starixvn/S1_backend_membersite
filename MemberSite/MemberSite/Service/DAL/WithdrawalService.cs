@@ -46,10 +46,10 @@ namespace MemberSite.Service.DAL
             {
                 return -2;
             }
-            //else if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
-            //{
-            //    return -3;
-            //}
+            else if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
+            {
+                return -3;
+            }
 
             byte is1stDepoist = 0;
             int result = -99;
@@ -154,6 +154,12 @@ namespace MemberSite.Service.DAL
         public decimal GetWithdrawalAvailableBalance(int custId, MySqlConnection conn, MySqlTransaction trans)
         {
             return conn.ExecuteScalar<decimal>("Common_WithdrawalAvailableBalance_Get", new { CustId = custId }, transaction: trans, commandType: CommandType.StoredProcedure);
+        }
+
+        public WithdrawalLimitInfo GetWithdrawalLimitInfo(int custId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Query<WithdrawalLimitInfo>("Member_CustWithdrawalLimit_Get", new { custId }, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
     }
 }

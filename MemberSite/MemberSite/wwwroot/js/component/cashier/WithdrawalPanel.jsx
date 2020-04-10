@@ -351,7 +351,7 @@ import {ShowModal} from '../commJS/Modal.jsx';
                 Loading.UnLoading();
                 let result = response.data;
                 if (result.errorCode == 0) {
-                    this.setState({WithdrawalAvailableBalance: result.data});
+                    this.setState({WithdrawalAvailableBalance: result.data.balance, IsLack: result.data.isLack});
                 } else {
                     alert(result.message);
                 }
@@ -506,34 +506,50 @@ import {ShowModal} from '../commJS/Modal.jsx';
             }
 
             let modalContaner=null;
+            let _balance = this.state.WithdrawalAvailableBalance!=null ? this.state.WithdrawalAvailableBalance :0;
 
-            return (
+            return this.state.IsLack === undefined && this.state.WithdrawalAvailableBalance === undefined ? <div /> : (
                     <div>
                         <div className="heading">
                             <span className="text">{i18n.lbl_Withdrawal}</span>
                         </div>
-                        <div className="form-group WAB">
-                            <label className="form-title">{i18n.lbl_EligibleWithdrawalAmount} </label>
-                            <div className="form-content form-content--text">
-                                <span className="text">{i18n.lbl_Currency} {this.state.WithdrawalAvailableBalance!=null ? number_format(this.state.WithdrawalAvailableBalance):0}</span>
-                            </div>
-                        </div>                        
-                        <form className="form" onSubmit={this.handleSubmit.bind(this)}>
-                            <div className="form-group">
-                                <label className="form-title">{i18n.lbl_BankAccountName}</label>
-                                <div className="form-content form-content--text">
-                                        <span className="text">{this.state.AcountName}</span>
-                                </div>
-                            </div>
-                            {Inputs}
-                            <div className="btn-group">
-                                <button className="btn btn-secondary" type="submit">
-                                    <div className="btn__inner">
-                                        <span className="text">{i18n.lbl_Submit}</span>
+                        {
+                            this.state.IsLack ? (
+                                <>
+                                    <div className="form-group WAB">
+                                        <label className="form-title">{i18n.lbl_WithdrawalLimit}</label>
+                                        <div className="form-content form-content--text">
+                                            <span className="text">{i18n.lbl_Currency} {number_format(_balance)}</span>
+                                        </div>
                                     </div>
-                                </button>
-                            </div>
-                        </form>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="form-group WAB">
+                                        <label className="form-title">{i18n.lbl_EligibleWithdrawalAmount} </label>
+                                        <div className="form-content form-content--text">
+                                            <span className="text">{i18n.lbl_Currency} {number_format(_balance)}</span>
+                                        </div>
+                                    </div>
+                                    <form className="form" onSubmit={this.handleSubmit.bind(this)}>
+                                        <div className="form-group">
+                                            <label className="form-title">{i18n.lbl_BankAccountName}</label>
+                                            <div className="form-content form-content--text">
+                                                    <span className="text">{this.state.AcountName}</span>
+                                            </div>
+                                        </div>
+                                        {Inputs}
+                                        <div className="btn-group">
+                                            <button className="btn btn-secondary" type="submit">
+                                                <div className="btn__inner">
+                                                    <span className="text">{i18n.lbl_Submit}</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </>
+                            )
+                        }
                         {this.state.showTodModal ? <TbdModal setMemo={this.setMemo.bind(this)} onConfirm={this.onConfirm.bind(this)} onClose={this.onClose.bind(this)} PickBankInfo={this.state.PickBankInfo} Amount={this.state.Amount} Memo={this.state.Memo} AcountName={this.state.AcountName} /> : null}                        
                         <RecentHistory GetWithdrawalInfoRecent={this.GetWithdrawalInfoRecent.bind(this)} onCancel={this.onCancel.bind(this)} Data={this.state.WithdrawalInfoRecent} refresh={this.state.refresh}/>
                         {modalContaner}

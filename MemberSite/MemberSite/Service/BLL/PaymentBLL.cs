@@ -305,5 +305,10 @@ namespace MemberSite.Service.BLL
         {
             return withdrawalService.GetWithdrawalAvailableBalance(custId);
         }
+        
+        public WithdrawalLimitInfo GetWithdrawalLimitInfo(int custId)
+        {
+            return withdrawalService.GetWithdrawalLimitInfo(custId);
+        }
     }
 }
