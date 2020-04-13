@@ -1544,4 +1544,19 @@
   <data name="lbl_WithdrawalLimit" xml:space="preserve">
     <value>ไม่สามารถถอนเงินได้ เพราะยอดเงินคงเหลือไม่ถึงจำนวนที่กำหนดไว้</value>
   </data>
+  <data name="lbl_Announcement" xml:space="preserve">
+    <value>ประกาศ</value>
+  </data>
+  <data name="lbl_Licensee" xml:space="preserve">
+    <value>ผู้รับใบอนุญาต</value>
+  </data>
+  <data name="lbl_Payment" xml:space="preserve">
+    <value>การชำระเงิน</value>
+  </data>
+  <data name="lbl_PersonalMsg" xml:space="preserve">
+    <value>ข้อความส่วนตัว</value>
+  </data>
+  <data name="lbl_Platform" xml:space="preserve">
+    <value>ผู้ให้บริการ</value>
+  </data>
 </root>

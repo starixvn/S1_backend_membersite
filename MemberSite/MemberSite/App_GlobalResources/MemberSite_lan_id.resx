@@ -1570,4 +1570,19 @@
   <data name="lbl_WithdrawalLimit" xml:space="preserve">
     <value>Penarikan ditolak, silahkan capai sisa turnover yang dibutuhkan sebesar</value>
   </data>
+  <data name="lbl_Announcement" xml:space="preserve">
+    <value>Pengumuman</value>
+  </data>
+  <data name="lbl_Licensee" xml:space="preserve">
+    <value>Mekanisme Monitor</value>
+  </data>
+  <data name="lbl_Payment" xml:space="preserve">
+    <value>Metode pembayaran</value>
+  </data>
+  <data name="lbl_PersonalMsg" xml:space="preserve">
+    <value>Pesan pribadi</value>
+  </data>
+  <data name="lbl_Platform" xml:space="preserve">
+    <value>Platform permainan</value>
+  </data>
 </root>
