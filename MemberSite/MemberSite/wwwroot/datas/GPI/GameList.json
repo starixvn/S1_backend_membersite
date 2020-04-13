@@ -1735,6 +1735,28 @@
       "hot": false,
       "new": true,
       "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Chilli Surprise",
+        "cs": "火辣惊喜",
+        "ch": "火辣驚喜"
+      },
+      "appId": "chillisurprise",
+      "gameId": "chillisurprise",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "96.97%",
+      "imgName": {
+        "en": "Chilli-Surprise-EN.jpg",
+        "cs": "Chilli-Surprise-CS.jpg",
+        "ch": "Chilli-Surprise-CS.jpg"
+      },
+      "launchDate": "2020-04-01",
+      "hot": false,
+      "new": true,
+      "imageExist": true
     }
   ]
 }

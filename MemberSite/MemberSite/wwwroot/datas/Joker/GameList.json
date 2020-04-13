@@ -1948,7 +1948,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
-      "featured":  true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -2290,7 +2290,7 @@
       "launchDate": "",
       "hot": true,
       "new": false,
-      "featured":  true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -2310,6 +2310,86 @@
       },
       "launchDate": "",
       "hot": false,
+      "new": false,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dragon Of The Eastern Sea",
+        "cs": "东海龙王",
+        "ch": "東海龍王"
+      },
+      "appId": "fqho1inijjfwo",
+      "gameId": "fqho1inijjfwo",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Dragon-Of-The-Eastern-Sea-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": false,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Wild Protector",
+        "cs": "荒野守护者",
+        "ch": "荒野守護者"
+      },
+      "appId": "pxcw1fyibefoo",
+      "gameId": "pxcw1fyibefoo",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Wild-Protectors-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": false,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Burning Pearl Bingo",
+        "cs": "火焰珍珠宾果",
+        "ch": "火焰珍珠賓果"
+      },
+      "appId": "tocki7xk7xwq1",
+      "gameId": "tocki7xk7xwq1",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Burning-Pearl-Bingo-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": true,
+      "new": false,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Crypto Mania Bingo",
+        "cs": "加密躁狂者宾果",
+        "ch": "加密躁狂者賓果"
+      },
+      "appId": "z7k6mqf3z495a",
+      "gameId": "z7k6mqf3z495a",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Crypto-Mania-Bingo-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": true,
       "new": false,
       "imageExist": true
     }
