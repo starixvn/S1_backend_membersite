@@ -3842,19 +3842,51 @@ button.swiper-pagination-bullet {
 
 .message-list__header {
   display: flex;
-  align-items: center;
-  padding: .5rem .25rem;
+  align-items: flex-end;
+  padding: .5rem .25rem 0;
   color: #5574a7;
   border-bottom-width: 1px;
   border-bottom-color: currentColor;
+  flex-wrap: wrap;
+}
+
+.message-list__header .tag a {
+  background: #DBEAFC;
+  color: #5574a7;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  min-width: 100px;
+  padding: .5rem 1rem;
+  text-align: center;
+  display: inline-block;
+}
+
+.message-list__header .tag a.active {
+  color: white;
+  background-color: #5574a7;
+}
+
+[data-layout=mobile] .message-list__header .tag {
+  width: 100%;
+  border-bottom: 1px solid #5574a7;
+  display: flex;
+}
+
+[data-layout=mobile] .message-list__header .tag a {
+  flex: 1;
 }
 
 .message-list__header .checkbox {
-  margin-right: auto;
+  margin-left: auto;
 }
 
 .message-list__header .checkbox .text {
   margin-left: .75rem;
+}
+
+[data-layout=mobile] .message-list__header .checkbox {
+  margin-right: auto;
+  margin-left: initial;
 }
 
 .message {
@@ -3923,6 +3955,126 @@ button.swiper-pagination-bullet {
   padding: .125rem .75rem .125rem 3.25rem;
   width: 100%;
   background-color: #f3f3f3;
+}
+
+[data-layout=mobile] .message {
+  padding: .5rem;
+}
+
+[data-layout=mobile] .message .heading {
+  margin: 1rem auto;
+  width: calc(100% - 1rem);
+}
+
+[data-layout=mobile] .message-list__header {
+  padding: .5rem 0 0;
+}
+
+[data-layout=mobile] .message-list__body .message {
+  padding: 0;
+}
+
+[data-layout=mobile] .message-list__body .message .message__item {
+  padding: .5rem 0;
+}
+
+.announcement-list__header {
+  display: flex;
+  align-items: center;
+  padding: .5rem .25rem 0;
+  color: #5574a7;
+  border-bottom-width: 1px;
+  border-bottom-color: #5574a7;
+}
+
+.announcement-list__header .tag a {
+  background: #DBEAFC;
+  color: #5574a7;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  min-width: 100px;
+  padding: .5rem 1rem;
+  text-align: center;
+  display: inline-block;
+}
+
+.announcement-list__header .tag a.active {
+  color: white;
+  background-color: #5574a7;
+}
+
+[data-layout=mobile] .announcement-list__header .tag {
+  width: 100%;
+  display: flex;
+}
+
+[data-layout=mobile] .announcement-list__header .tag a {
+  flex: 1;
+}
+
+.announcement-list__body {
+  padding-top: 2rem;
+}
+
+.announcement-list__body .announcement {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.announcement__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: .5rem .25rem;
+}
+
+.announcement__title {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  line-height: 1.5;
+  min-width: 0;
+}
+
+.announcement__title .text {
+  width: 100%;
+  padding-right: .5rem;
+  color: #5574a7;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+[data-layout=desktop] .announcement__title .text {
+  flex: 1;
+}
+
+.announcement__content {
+  padding: .5rem;
+  width: 100%;
+  background-color: #f3f3f3;
+}
+
+[data-layout=mobile] .announcement {
+  padding: .5rem;
+}
+
+[data-layout=mobile] .announcement .heading {
+  margin: 1rem auto;
+  width: calc(100% - 1rem);
+}
+
+[data-layout=mobile] .announcement-list__header {
+  padding: .5rem 0 0;
+}
+
+[data-layout=mobile] .announcement-list__body .announcement {
+  padding: 0;
+}
+
+[data-layout=mobile] .announcement-list__body .announcement .message__item {
+  padding: .5rem 0;
 }
 
 .account-info {

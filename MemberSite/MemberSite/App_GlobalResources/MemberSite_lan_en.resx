@@ -1573,4 +1573,10 @@
   <data name="lbl_WithdrawalLimit" xml:space="preserve">
     <value>Withdrawal denied, to reach required turnover remaining </value>
   </data>
+  <data name="lbl_Announcement" xml:space="preserve">
+    <value>Announcement</value>
+  </data>
+  <data name="lbl_PersonalMsg" xml:space="preserve">
+    <value>Personal Message</value>
+  </data>
 </root>

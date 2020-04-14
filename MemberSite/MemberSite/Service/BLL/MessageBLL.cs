@@ -41,5 +41,10 @@ namespace MemberSite.Service.BLL
         {
             return messageService.GetMsgCount(custId);
         }
+
+        public IEnumerable<Announcement> GetAnnouncement(int SiteId, string LangCode, string DefaultLangCode, int LimitRow, bool IsTest)
+        {
+            return messageService.GetAnnouncement(SiteId, LangCode, DefaultLangCode, LimitRow, IsTest);
+        }
     }
 }
