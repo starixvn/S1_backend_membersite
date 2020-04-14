@@ -1,0 +1,95 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">Promotion Info</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-promo10friday.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <article>
+                <div class="promotions-txt">
+                    <ul>
+                        <li class="txt-blue">JUMAT BAHAGIA 10%</li>
+                        <li class="txt-gray">
+                            Promosi ini dimulai pada Tanggal 10 April 2020 Pukul 12:00 pagi  hingga 01 Mei 2020 11:59 sore
+                        </li>
+                        
+                    </ul>
+                </div>
+            </article>
+        </div>
+        <div class="promotions-module">
+             <span class="promotions-title">Berlaku syarat & ketentuan</span>
+                <ol type="1">
+                    <li>Promosi ini hanya berlaku untuk pemain akun Rupiah Indonesia;</li>
+                    <li>Promosi ini hanya berlaku di hari Jumat saja</li>
+                    <li>Bonus akan didasarkan pada jumlah Setoran Pertama di hari Jumat maka akan memenuhi syarat promosi ini.</li>
+                    <li>Setiap pemain hanya dapat mengklaim bonus satu kali di setiap hari jumat</li>
+                    <li>Setoran Pertama hari Jumat  Bonus yang diklaim hanya dikenakan 1X Rollover sebelum melakukan penarikan.
+                        <br><br>
+                        Contoh perhitungan :<br>
+                        Deposit IDR 200,000  + Bonus 10%  IDR 20,000  1X Rollover  =  Rollover IDR 220,000<br><br>
+                        <div class="table table-rwd table-primary">
+                            <div class="thead">
+                                <div class="tr">
+                                    <div class="td-date">
+                                        <span class="text">Produk</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">Maximum bonus</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tbody">
+                                <div class="tr row-even">
+                                    <div class="td-date">
+                                        <span class="text">Semua Produk Nova88 , Kecuali cash out.</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">IDR 1,000,000</span>
+                                    </div>
+                                </div>
+                            </div>
+            </div>
+            <br>
+                    </li>
+                    <li>Bonus maksimum dibatasi pada IDR 1.000.000</li>
+                    <li>Promosi ini TIDAK memenuhi syarat jika digabungkan dengan  150% Bonus Selamat Datang.</li>
+                    <li>Promosi ini TIDAK memenuhi syarat bagi pemain yang memiliki riwayat penarikan tunai</li>
+                    <li>Bagi member yang memenuhi syarat  Bonus akan dikreditkan ke Akun Member Nova88 dalam waktu 48 jam </li>
+                </ol>
+                <br>
+                    <p>Nova88 berhak untuk mengubah atau menarik promosi setiap saat.</p>
+                    <p>Nova88 adalah penyelenggara tunggal Promosi dan keputusannya adalah final.</p>
+                    <p>Nova88 syarat dan ketentuan standar berlaku.</p>
+                <br>
+            <div class="panel panel-primary panel--payment" data-open="true">
+                <div class="panel__header">
+                    <span class="txt-blue">Panduan 3 langkah Mudah</span>
+                    <i class="icon icon-caret"></i>
+                </div>
+                <div class="panel__body">
+                    <p>Langkah 1 :  Lakukan depsoti di nova88</p>
+                    <p>Langkah 2 : Hubungi Pusat layanan kami Via live chat</p>
+                    <p>Langkah 3 : untuk klaim silahkan Tunjukin Bukti slip setoran anda</p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

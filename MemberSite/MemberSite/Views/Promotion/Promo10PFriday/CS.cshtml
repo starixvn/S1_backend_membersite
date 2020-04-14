@@ -1,0 +1,96 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">Promotion Info</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-promo10friday.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <article>
+                <div class="promotions-txt">
+                    <ul>
+                        <li class="txt-blue">快乐星期五 10%</li>
+                        <li class="txt-gray">
+                            此促销活动开始于2020年4月10日上午12:00至2020年5月01日下午11:59
+                        </li>
+                        
+                    </ul>
+                </div>
+            </article>
+        </div>
+        <div class="promotions-module">
+             <span class="promotions-title">优惠标准规则</span>
+                <ol type="1">
+                    <li>此优惠活动使用于货币为马币的客户</li>
+                    <li>此促销仅在每个星期五有效。</li>
+                    <li>符合此促销奖金条件将根据您每个星期五的首次存款金额计算。</li>
+                    <li>每个星期五玩家只能申请一次奖金。</li>
+                    <li>每个星期五的首次存款与红利只需要进行1倍流水投注便可提款
+
+                        <br><br>
+                        计算示例:<br>
+                        存款 MYR 50 +  奖金 (10%)  MYR5 1X 流水投注  =  流水投注 MYR 55<br><br>
+                        <div class="table table-rwd table-primary">
+                            <div class="thead">
+                                <div class="tr">
+                                    <div class="td-date">
+                                        <span class="text">产品</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">最高奖金</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tbody">
+                                <div class="tr row-even">
+                                    <div class="td-date">
+                                        <span class="text">所有 Nova88 除了即时兑现</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">MYR500</span>
+                                    </div>
+                                </div>
+                            </div>
+            </div>
+            <br>
+                    </li>
+                    <li>最高奖金上限为MYR 500</li>
+                    <li>此促销将无法与150%欢迎红利同时进行。</li>
+                    <li>玩家没进行过提款将不符合此促销条件。</li>
+                    <li>奖金将在48小时内存入合格的Nova88帐户。</li>
+                </ol>
+                <br>
+                <p>Nova88 有权随时中止或取消本优惠。</p>
+                <p>Nova88 保留对本优惠的最终解释权。</p>
+                <p>Nova88 标准规则和条款适用。</p>
+
+                <br>
+            <div class="panel panel-primary panel--payment" data-open="true">
+                <div class="panel__header">
+                    <span class="txt-blue">3简单的步骤</span>
+                    <i class="icon icon-caret"></i>
+                </div>
+                <div class="panel__body">
+                    <p>步骤1：在Nova88进行存款</p>
+                    <p>步骤2：联系Nova88在线客服</p>
+                    <p>步骤3：出示存款收据索取红利</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

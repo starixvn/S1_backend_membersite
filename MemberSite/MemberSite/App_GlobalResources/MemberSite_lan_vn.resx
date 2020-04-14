@@ -1621,4 +1621,19 @@
   <data name="lbl_WithdrawalLimit" xml:space="preserve">
     <value>Cấm rút tiền ,Lượng doanh thu cần đạt được vẫn còn thiếu</value>
   </data>
+  <data name="lbl_Announcement" xml:space="preserve">
+    <value>thông báo</value>
+  </data>
+  <data name="lbl_License" xml:space="preserve">
+    <value>Cơ chế giám sát</value>
+  </data>
+  <data name="lbl_Payment" xml:space="preserve">
+    <value>phương thức thanh toán</value>
+  </data>
+  <data name="lbl_PersonalMsg" xml:space="preserve">
+    <value>Tin nhắn khách hàng</value>
+  </data>
+  <data name="lbl_Platform" xml:space="preserve">
+    <value>Giao diện trò chơi</value>
+  </data>
 </root>

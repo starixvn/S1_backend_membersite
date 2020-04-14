@@ -25,6 +25,7 @@
 }
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
+    var CmsPromotionPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Promotion/{selLangBLL.GetLangId()}");
     List<dynamic> currencyList = new List<dynamic>();
     foreach (var currencyId in serverInfo.ICurrencyList)
     {
@@ -93,6 +94,49 @@
             });
         });
     </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
+    <script>
+        // 主 Banner 輪播
+        $(function () {
+            var bannerSwiper = new Swiper('.lobby-banner-swiper', {
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+                observer: true,
+                observeParents: true,
+                updateTranslate: true,
+            });
+            bannerSwiper.updateSize();
+            bannerSwiper.updateSlides();
+        });
+
+        // 產品輪播
+        $(function () {
+            var productSwiper = new Swiper('.lobby-product-swiper', {
+                loop: true,
+                autoplay: {
+                    delay: 6000,
+                },
+                slidesPerView: 4, // 預設顯示 3個
+                breakpoints: {
+                    //當寬度小於等於 768 則顯示 1個
+                    768: {
+                        slidesPerView: 1,
+                    }
+                },
+                observer: true,
+                observeParents: true,
+                updateTranslate: true,
+            });
+            productSwiper.updateSize();
+            productSwiper.updateSlides();
+        });
+    </script>
 }
 @section PromptMsg{
     @if ((Context.Request.Query.ContainsKey("refId") && Context.Request.Query["refId"].ToString().StartsWith("Nova88", StringComparison.OrdinalIgnoreCase)) || (!Context.Request.Query.ContainsKey("refId") && Context.Request.Cookies["refId"] != null && Context.Request.Cookies["refId"].StartsWith("Nova88", StringComparison.OrdinalIgnoreCase)))
@@ -104,6 +148,22 @@
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Welcome")</span>
                 </div>
                 <div class="modal__body">
+                    <div class="lobby-banner-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <a href="~/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promo8PBonus">
+                                    <img src="@CmsPromotionPath/banner-promo8.jpg" asp-append-version="true" />
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="~/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promo08PBonus">
+                                    <img src="@CmsPromotionPath/banner-promo08.jpg" asp-append-version="true" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                    <br />
                     @Html.Raw(selLangBLL.GetMsg("msg_CreditSignUp"))
                 </div>
                 <div class="modal__footer">
