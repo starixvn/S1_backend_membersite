@@ -1,0 +1,96 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">Promotion Info</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-promo10friday.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <article>
+                <div class="promotions-txt">
+                    <ul>
+                        <li class="txt-blue">HAPPY FRIDAY 10%</li>
+                        <li class="txt-gray">
+                            This promotion starts at Apr 10, 2020 12:00 AM till May 01, 2020 11:59 PM
+                        </li>
+                        
+                    </ul>
+                </div>
+            </article>
+        </div>
+        <div class="promotions-module">
+             <span class="promotions-title">Significant Conditions</span>
+                <ol type="1">
+                    <li>This promotion applies only to Malaysian Ringgit account players;</li>
+                    <li>This promotion only valid on Friday only.</li>
+                    <li>Bonus will based on Friday First Deposit amount to eligible this promotion.</li>
+                    <li>Every friday each player can only claim the bonus once.</li>
+                    <li>Friday First Deposit with Bonus claimed is subjected to 1X Rollover only before making a withdrawal.(Period 30 days)
+                        <br><br>
+                        Example of calculation:<br>
+                        Deposit MYR 50 + Bonus 10% MYR5 1X Rollover  =  Rollover  MYR 55<br><br>
+                        <div class="table table-rwd table-primary">
+                            <div class="thead">
+                                <div class="tr">
+                                    <div class="td-date">
+                                        <span class="text">Product</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">Maximum bonus</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tbody">
+                                <div class="tr row-even">
+                                    <div class="td-date">
+                                        <span class="text">All Nova88 Products, except cash out.</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">MYR500</span>
+                                    </div>
+                                </div>
+                            </div>
+            </div>
+            <br>
+                    </li>
+                    <li>Maximum bonus capped at MYR 500</li>
+                    <li>This promotion is NOT eligible combine with welcome bonus 150%. </li>
+                    <li>This promotion is NOT eligible for player non withdraw record transaction.</li>
+                    <li>The bonus will be credited to qualified players Nova88 account within 48 hours.</li>
+                </ol>
+                <br>
+                <p>Nova88 reserves the right to amend or withdraw the Promotion at any time.</p>
+                <p>Nova88 is the sole arbiter of the Promotion and its decision is final.</p>
+                <p>Nova88 Standard Terms and Conditions apply.</p>
+                <br>
+            <div class="panel panel-primary panel--payment" data-open="true">
+                <div class="panel__header">
+                    <span class="txt-blue">3 Easy step</span>
+                    <i class="icon icon-caret"></i>
+                </div>
+                <div class="panel__body">
+
+                    <p>Step 1 : Make a deposit on Nova88</p>
+                    <p>Step 2 : Contact our Live chat</p>
+                    <p>Step 3 : Show deposit receipt to claim</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

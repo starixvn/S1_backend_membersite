@@ -1,0 +1,95 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">Promotion Info</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-promo10friday.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <article>
+                <div class="promotions-txt">
+                    <ul>
+                        <li class="txt-blue">วันศุกร์หรรษา 10%</li>
+                        <li class="txt-gray">
+                            โปรโมชั่นนี้เริ่มตั้งแต่วันที่ 10 เม.ย. 2563 12:00 น. จนถึง 1 พฤษภาคม 2563 23:59 น
+                        </li>
+                        
+                    </ul>
+                </div>
+            </article>
+        </div>
+        <div class="promotions-module">
+             <span class="promotions-title">ข้อกำหนดและเงื่อนไข</span>
+                <ol type="1">
+                    <li>โปรโมชั่นนี้ใช้ได้กับผู้เล่นบัญชีเงินบาทเท่านั้น</li>
+                    <li>โปรโมชั่นนี้ใช้ได้เฉพาะวันศุกร์เท่านั้น</li>
+                    <li>โบนัสจะพิจารณาจากจำนวนเงินฝากครั้งแรกของวันศุกร์เพื่อรับสิทธิ์โปรโมชันนี้</li>
+                    <li>ทุกวันศุกร์ผู้เล่นแต่ละคนสามารถรับโบนัสได้เพียงครั้งเดียวเท่านั้น</li>
+                    <li>เงินฝากของคุณบวกกับโบนัสที่มีสิทธิ์ได้รับจะต้องอยู่ที่ 1X โรลโอเวอร์เท่านั้นก่อนที่จะทำการถอน
+
+                        <br><br>
+                        ตัวอย่างการคำนวณ:<br>
+                        เงินฝาก THB500 + โบนัส 10% THB50  1X โรลโอเวอร์  = โรลโอเวอร์ THB 550<br><br>
+                        <div class="table table-rwd table-primary">
+                            <div class="thead">
+                                <div class="tr">
+                                    <div class="td-date">
+                                        <span class="text">ผลิตภัณฑ์</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">โบนัสสูงสุด</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tbody">
+                                <div class="tr row-even">
+                                    <div class="td-date">
+                                        <span class="text">ผลิตภัณฑ์ทั้งหมดของ Nova88 ยกเว้น Cash out</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">THB5,000</span>
+                                    </div>
+                                </div>
+                            </div>
+            </div>
+            <br>
+                    </li>
+                    <li>โบนัสสูงสุดต่อยอด 5,000 บาท</li>
+                    <li>โปรโมชั่นนี้ไม่สามารถใช้ร่วมกับ "โบนัส 150% สำหรับการฝากเงินครั้งแรก"</li>
+                    <li>โปรโมชั่นนี้ไม่สามารถใช้ได้กับผู้เล่นที่ไม่มีรายการบันทึกการถอนเงิน</li>
+                    <li>โบนัสจะมอบให้กับผู้เล่นบัญชี Nova88 ที่มีคุณสมบัติ ภายใน 48 ชั่วโมง</li>
+                </ol>
+                <br>
+                <p>Nova88 ขอสงวนสิทธิ์ในการแก้ไขหรือถอนโปรโมชั่นได้ตลอดเวลา</p>
+                <p>Nova88 เป็นผู้ตัดสินแต่เพียงผู้เดียวของโปรโมชั่นและการตัดสินใจของ Nova88 ถือเป็นที่สิ้นสุด</p>
+                <p>ข้อกำหนดและเงื่อนไขมาตรฐาน Nova88</p>
+                <br>
+            <div class="panel panel-primary panel--payment" data-open="true">
+                <div class="panel__header">
+                    <span class="txt-blue">3 ขั้นตอนง่าย ๆ</span>
+                    <i class="icon icon-caret"></i>
+                </div>
+                <div class="panel__body">
+                    <p>ขั้นตอนที่ 1: ทำการฝากเงินกับ Nova88</p>
+                    <p>ขั้นตอนที่ 2: ติดต่อการฝ่ายลูกค้าสัมพันธ์ของเรา</p>
+                    <p>ขั้นตอนที่ 3: แสดงสลิปการฝากเงินเพื่ออ้างสิทธิ์</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

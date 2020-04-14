@@ -1561,4 +1561,19 @@
   <data name="lbl_WithdrawalLimit" xml:space="preserve">
     <value>提款禁止，距離流水門檻尚差</value>
   </data>
+  <data name="lbl_Announcement" xml:space="preserve">
+    <value>公告</value>
+  </data>
+  <data name="lbl_License" xml:space="preserve">
+    <value>監管機構</value>
+  </data>
+  <data name="lbl_Payment" xml:space="preserve">
+    <value>支付方式</value>
+  </data>
+  <data name="lbl_PersonalMsg" xml:space="preserve">
+    <value>站內信</value>
+  </data>
+  <data name="lbl_Platform" xml:space="preserve">
+    <value>遊戲平台</value>
+  </data>
 </root>

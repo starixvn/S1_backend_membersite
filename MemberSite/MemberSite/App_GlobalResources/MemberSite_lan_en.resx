@@ -1579,4 +1579,16 @@
   <data name="lbl_PersonalMsg" xml:space="preserve">
     <value>Personal Message</value>
   </data>
+  <data name="lbl_License" xml:space="preserve">
+    <value>License</value>
+  </data>
+  <data name="lbl_Payment" xml:space="preserve">
+    <value>Payment</value>
+  </data>
+  <data name="lbl_PersonalMsg" xml:space="preserve">
+    <value>Personal Message</value>
+  </data>
+  <data name="lbl_Platform" xml:space="preserve">
+    <value>Platform</value>
+  </data>
 </root>

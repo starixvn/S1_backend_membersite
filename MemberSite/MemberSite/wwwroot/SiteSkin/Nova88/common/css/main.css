@@ -4012,10 +4012,6 @@ button.swiper-pagination-bullet {
   flex: 1;
 }
 
-.announcement-list__body {
-  padding-top: 2rem;
-}
-
 .announcement-list__body .announcement {
   margin-bottom: 1rem;
   border-bottom: 1px solid #ccc;
@@ -4871,7 +4867,7 @@ button.swiper-pagination-bullet {
 
 .footer__nav {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
   margin: 0 auto;
   padding: 0 1rem;
@@ -4937,6 +4933,27 @@ button.swiper-pagination-bullet {
   text-align: center;
   font-size: 0.75rem;
   opacity: .6;
+}
+
+.footer__col.col1 {
+  flex: 10;
+}
+
+.footer__col.col2 {
+  flex: 1;
+  width: initial;
+}
+
+.footer__col.col1 > a.footer__item, .footer__col.col2 > a.footer__item {
+  float: left;
+  padding-bottom: 0;
+  padding-top: 0;
+  opacity: 1;
+}
+
+[data-layout=mobile] .footer__col.col1, [data-layout=mobile] .footer__col.col2 {
+  width: 100%;
+  flex: auto;
 }
 
 .side-bar {
@@ -5599,7 +5616,7 @@ button.swiper-pagination-bullet {
 
 [data-layout=desktop] .lobby-sport {
   flex: 1;
-  min-height: 200px;
+  min-height: 250px;
   margin: 0 .25rem;
 }
 
@@ -5708,8 +5725,8 @@ button.swiper-pagination-bullet {
 [data-layout=desktop] .main--home .lobby-page {
   display: flex;
   flex-wrap: wrap;
-  max-width: 1024px;
-  min-width: 1024px;
+  max-width: 1240px;
+  min-width: 1240px;
 }
 
 [data-layout=mobile] .main.main {
