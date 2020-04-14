@@ -1564,7 +1564,7 @@
   <data name="lbl_Announcement" xml:space="preserve">
     <value>公告</value>
   </data>
-  <data name="lbl_Licensee" xml:space="preserve">
+  <data name="lbl_License" xml:space="preserve">
     <value>監管機構</value>
   </data>
   <data name="lbl_Payment" xml:space="preserve">
