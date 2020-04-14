@@ -1547,9 +1547,6 @@
   <data name="lbl_Announcement" xml:space="preserve">
     <value>ประกาศ</value>
   </data>
-  <data name="lbl_Licensee" xml:space="preserve">
-    <value>ผู้รับใบอนุญาต</value>
-  </data>
   <data name="lbl_Payment" xml:space="preserve">
     <value>การชำระเงิน</value>
   </data>
@@ -1558,5 +1555,8 @@
   </data>
   <data name="lbl_Platform" xml:space="preserve">
     <value>ผู้ให้บริการ</value>
+  </data>
+  <data name="lbl_License" xml:space="preserve">
+    <value>ใบอนุญาต</value>
   </data>
 </root>
