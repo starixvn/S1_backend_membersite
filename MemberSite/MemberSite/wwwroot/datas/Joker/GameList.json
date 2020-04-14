@@ -2392,6 +2392,26 @@
       "hot": false,
       "new": true,
       "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Neptune Treasure Bingo",
+        "cs": "海王宾果",
+        "ch": "海王賓果"
+      },
+      "appId": "cz3wgrounyetc",
+      "gameId": "cz3wgrounyetc",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Neptune-Treasure-Bingo-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
     }
   ]
 }
