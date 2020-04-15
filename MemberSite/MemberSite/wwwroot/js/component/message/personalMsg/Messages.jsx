@@ -1,5 +1,5 @@
-import * as Loading from '../commJS/Loading.jsx';
-import {Pagination} from '../commJS/Pagination.jsx';
+import * as Loading from '../../commJS/Loading.jsx';
+import {Pagination} from '../../commJS/Pagination.jsx';
 
 (function ($, React, ReactDOM, i18n, axios, moment) {
     class MessagesBody extends React.Component {
@@ -165,7 +165,7 @@ import {Pagination} from '../commJS/Pagination.jsx';
             return (
             <div className="page">
                 <div className="heading">
-                    <span className="text">Message</span>
+                    <span className="text">{i18n.lbl_PersonalMsg}</span>
                 </div>
                 <div className="message-list">
                     <div className="message-list__header">

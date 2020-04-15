@@ -48,8 +48,14 @@ module.exports = {
     "js/component/history/Withdrawal.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/history/Withdrawal.jsx'
 		],
-    "js/component/account/Messages.min":[
-			'../MemberSite/MemberSite/wwwroot/js/component/account/Messages.jsx'
+    "js/component/message/personalMsg/personalMsg.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/message/personalMsg/Messages.jsx'
+		],
+    "js/component/message/announcement/announcement.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/message/announcement/announcement.js'
+		],
+    "js/component/message/announcement/marquee.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/message/announcement/marquee.js'
 		],
     "js/component/account/UploadPhotoId.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/account/UploadPhotoId.jsx'

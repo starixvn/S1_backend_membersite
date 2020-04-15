@@ -43,6 +43,7 @@
     <meta name="copyright" content="@string.Format(selLangBLL.GetResourceValue("lbl_Copyright"), DateTime.Now.Year)" />
     <meta name="application-name" content="@selLangBLL.GetResourceValue("lbl_Applicationname")" />
     <meta name="keywords" content="@selLangBLL.GetResourceValue("lbl_Keywords")">
+    <link href="@SkinRootPath/css/Marquee.css" rel="stylesheet" asp-append-version="true" />
     <link href="@SkinRootPath/css/main.css" rel="stylesheet" asp-append-version="true" />
 
     <script>
@@ -356,63 +357,95 @@
     @*  End of LiveChat code*@
     @RenderSection("Scripts", required: false)
     @RenderSection("PromptMsg", required: false)
-    @if (User.Identity.IsAuthenticated && iSwitch == 1)
+    @if (User.Identity.IsAuthenticated)
     {
-        <div class="modal" id="Dialog" data-open="false">
-            <div class="overlay Js-Dialog"></div>
-            <div class="modal__dialog">
-                <div class="modal__header">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_Reminder")</span>
-                </div>
-                <div class="modal__body">
-                    <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlert"), "", ""))</p>
-                </div>
-                <div class="modal__footer">
-                    <div class="btn-group">
-                        <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+        if (tools.IsMobile())
+        {
+            <script>
+                function CloseAnnouncementDialog() {
+                    $("#AnnouncementDialog").attr('class', 'modal');
+                    $("#AnnouncementDialog").attr('data-open', 'false');
+                }
+            </script>
+            <div id="AnnouncementDialog" class="modal">
+                <div class="overlay"></div>
+                <div class="modal__dialog">
+                    <div class="modal__header">
+                        <span class="text" id="AnnouncementDialogTitle"></span>
+                        <a class="btn btn-icon" onclick="CloseAnnouncementDialog()">
+                            <i class="icon icon-clear"></i>
                         </a>
-                        <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_Transfer")</span>
-                        </a>
-                        <button class="btn btn-primary Js-LiveCasino" type="button">
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_Enter")</span>
-                        </button>
+                    </div>
+                    <div class="modal__body" id="AnnouncementDialogContent"></div>
+                    <div class="modal__footer">
+                        <div class="btn-group">
+                            <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Announcement", controller = "Message", LangId = selLangBLL.GetLangId() })">
+                                <span class="text">@selLangBLL.GetResourceValue($"lbl_More")</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="modal" id="Dialog2" data-open="false">
-            <div class="overlay Js-Dialog"></div>
-            <div class="modal__dialog">
-                <div class="modal__header">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_Reminder")</span>
-                </div>
-                <div class="modal__body">
-                    <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_TransferAlert"), "", ""))</p>
-                </div>
-                <div class="modal__footer">
-                    <div class="btn-group">
-                        <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_Transfer")</span>
-                        </a>
-                        <button class="btn btn-primary Js-Sports" type="button">
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_Enter")</span>
-                        </button>
+        }
+
+        if (iSwitch == 1)
+        {
+            <div class="modal" id="Dialog" data-open="false">
+                <div class="overlay Js-Dialog"></div>
+                <div class="modal__dialog">
+                    <div class="modal__header">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Reminder")</span>
+                    </div>
+                    <div class="modal__body">
+                        <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlert"), "", ""))</p>
+                    </div>
+                    <div class="modal__footer">
+                        <div class="btn-group">
+                            <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+                            </a>
+                            <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Transfer")</span>
+                            </a>
+                            <button class="btn btn-primary Js-LiveCasino" type="button">
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Enter")</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="app-loading" data-open="false">
-            <div class="preloader">
-                <div class="preloader__spiner">
-                    <div class="preloader__circles">
-                        <div class="preloader__circle-1"></div>
-                        <div class="preloader__circle-2"></div>
+            <div class="modal" id="Dialog2" data-open="false">
+                <div class="overlay Js-Dialog"></div>
+                <div class="modal__dialog">
+                    <div class="modal__header">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Reminder")</span>
+                    </div>
+                    <div class="modal__body">
+                        <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_TransferAlert"), "", ""))</p>
+                    </div>
+                    <div class="modal__footer">
+                        <div class="btn-group">
+                            <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Transfer")</span>
+                            </a>
+                            <button class="btn btn-primary Js-Sports" type="button">
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Enter")</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="app-loading" data-open="false">
+                <div class="preloader">
+                    <div class="preloader__spiner">
+                        <div class="preloader__circles">
+                            <div class="preloader__circle-1"></div>
+                            <div class="preloader__circle-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     }
 </body>
 </html>

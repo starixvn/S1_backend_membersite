@@ -186,10 +186,23 @@
                 </div>
             </div>
         </div>
-        <div class="page-nav__item">
-            <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Messages", controller = "Account", LangId = selLangBLL.GetLangId() })">
+        <div class="page-nav__item has-submenu" data-open="true">
+            <a class="page-nav__btn">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_Message")</span>
+                <i class="icon icon-caret"></i>
             </a>
+            <div class="page-nav__submenu">
+                <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("PersonalMsg", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Message", StringComparison.OrdinalIgnoreCase))?"true":"false")>
+                    <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "PersonalMsg", controller = "Message", LangId = selLangBLL.GetLangId() })">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_PersonalMsg")</span>
+                    </a>
+                </div>
+                <div class="page-nav__subitem" data-selected=@((SelectAction.Equals("Announcement", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Message", StringComparison.OrdinalIgnoreCase))?"true":"false")>
+                    <a class="page-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Announcement", controller = "Message", LangId = selLangBLL.GetLangId() })">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Announcement")</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
