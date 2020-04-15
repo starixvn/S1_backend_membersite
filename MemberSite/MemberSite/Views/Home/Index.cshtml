@@ -62,68 +62,68 @@
             <div class="swiper-wrapper">
                 @if (serverInfo.SiteId == 2)
                 {
-                    <div class="swiper-slide">
-                        <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg" asp-append-version="true" /></a>
-                    </div>
+                <div class="swiper-slide">
+                    <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg" asp-append-version="true" /></a>
+                </div>
                 }
                 else if (serverInfo.SiteId == 3)
                 {
-                    <div class="swiper-slide">
-                        <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg" asp-append-version="true" /></a>
-                    </div>
-                    @if (promotionCnt > 0)
+                <div class="swiper-slide">
+                    <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg" asp-append-version="true" /></a>
+                </div>
+                @if (promotionCnt > 0)
                     {
-                        <div class="swiper-slide">
-                            <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-promo125.jpg" asp-append-version="true" /></a>
-                        </div>
+                <div class="swiper-slide">
+                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-promo125.jpg" asp-append-version="true" /></a>
+                </div>
                     }
                 }
                 else
                 {
-                    <div class="swiper-slide">
-                        <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(1,"1",Url)">
-                            <img src="@CmsPromotionPath/banner-virtualeuro.jpg" asp-append-version="true" />
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                            <img src="@CmsPromotionPath/banner-covid.jpg" asp-append-version="true" />
-                        </a>
-                    </div>
+                <div class="swiper-slide">
+                    <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(1,"1",Url)">
+                        <img src="@CmsPromotionPath/banner-virtualeuro.jpg" asp-append-version="true" />
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
+                        <img src="@CmsPromotionPath/banner-covid.jpg" asp-append-version="true" />
+                    </a>
+                </div>
 
-                    @if (promotionCnt > 0)
+                @if (promotionCnt > 0)
                     {
-                        <div class="swiper-slide">
-                            <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
-                                <img src="@CmsPromotionPath/banner-FTDP.jpg" asp-append-version="true" />
-                            </a>
-                        </div>
+                <div class="swiper-slide">
+                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
+                        <img src="@CmsPromotionPath/banner-FTDP.jpg" asp-append-version="true" />
+                    </a>
+                </div>
                     }
-                    <div class="swiper-slide">
-                        <a href="@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promo8PBonus">
-                            <img src="@CmsPromotionPath/banner-promo8.jpg" asp-append-version="true" />
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promo08PBonus">
-                            <img src="@CmsPromotionPath/banner-promo08.jpg" asp-append-version="true" />
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promo10PFriday">
-                            <img src="@CmsPromotionPath/banner-promo10friday.jpg" asp-append-version="true" />
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=PPT">
-                            <img src="@CmsPromotionPath/banner-PPT.jpg" asp-append-version="true" />
-                        </a>
-                    </div>
-                    @*<div class="swiper-slide">
-                        <a href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
-                            <img src="@CmsPromotionPath/banner-gpiyggjoker.jpg" asp-append-version="true" />
-                        </a>
-                    </div>*@
+                <div class="swiper-slide">
+                    <a href="@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promo8PBonus">
+                        <img src="@CmsPromotionPath/banner-promo8.jpg" asp-append-version="true" />
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promo08PBonus">
+                        <img src="@CmsPromotionPath/banner-promo08.jpg" asp-append-version="true" />
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promo10PFriday">
+                        <img src="@CmsPromotionPath/banner-promo10friday.jpg" asp-append-version="true" />
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=PPT">
+                        <img src="@CmsPromotionPath/banner-PPT.jpg" asp-append-version="true" />
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                        <img src="@CmsPromotionPath/banner-gpiyggjoker.jpg" asp-append-version="true" />
+                    </a>
+                </div>
                 }
                 <div class="swiper-slide">
                     <a @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty) data-selected="false" href="@entFishingPageUrl">
@@ -330,19 +330,19 @@
                                     </a>
                                 </div>
                             </div>
-                            @*<div class="swiper-slide">
-                <div class="lobby-product">
-                    <a href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
-                        <img src="@SkinImgPath/Lobby/Home/banner-gpi.jpg" asp-append-version="true" />
-                    </a>
-                </div>
-            </div>*@
-                            <div class="swiper-slide">
-                                <div class="lobby-product">
-                                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() })">
-                                        <img src="@SkinImgPath/Lobby/Home/cashbackrebet-@(selLangBLL.GetLangId()).png" asp-append-version="true" />
-                                    </a>
-                                </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="lobby-product">
+                                <a href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                                    <img src="@SkinImgPath/Lobby/Home/Product-gpiyggjoker.jpg" asp-append-version="true" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="lobby-product">
+                                <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() })">
+                                    <img src="@SkinImgPath/Lobby/Home/cashbackrebet-@(selLangBLL.GetLangId()).png" asp-append-version="true" />
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -350,22 +350,22 @@
             </div>
         </div>
         @*@if (serverInfo.SiteId == 1)
-        {
-    <div class="logo">
-        <img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/saba.png" width="150" />
-        <a href="https://www.allbetgaming.com/en/" target="_blank"><img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/allbet.png" width="150" /></a>
-        <a href="http://www.agpromotion.net/live.php" target="_blank"><img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/ag.png" width="150" /></a>
-        <a href="https://www.sagaming.com/" target="_blank"><img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/sa.png" width="150" /></a>
-        <a href="https://www.dg99.info/" target="_blank"><img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/dg.png" width="150" /></a>
-        <a href="http://gameplayint.com/en-us/index.shtml" target="_blank"><img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/gpi.png" width="150" /></a>
-        <img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/joker.png" width="150" />
-        <a href="https://www.yggdrasilgaming.com/" target="_blank"><img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/ygg.png" width="150" /></a>
-        <img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/pp.png" width="150" />
-        <img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/yl.png" width="150"/>
-        <a href="https://help2pay.com/" target="_blank"><img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/help2pay.png" width="150" /></a>
-        <img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/eeziepay.png" width="150"/>
-    </div>
-        }*@
+                {
+            <div class="logo">
+                <img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/saba.png" width="150" />
+                <a href="https://www.allbetgaming.com/en/" target="_blank"><img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/allbet.png" width="150" /></a>
+                <a href="http://www.agpromotion.net/live.php" target="_blank"><img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/ag.png" width="150" /></a>
+                <a href="https://www.sagaming.com/" target="_blank"><img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/sa.png" width="150" /></a>
+                <a href="https://www.dg99.info/" target="_blank"><img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/dg.png" width="150" /></a>
+                <a href="http://gameplayint.com/en-us/index.shtml" target="_blank"><img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/gpi.png" width="150" /></a>
+                <img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/joker.png" width="150" />
+                <a href="https://www.yggdrasilgaming.com/" target="_blank"><img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/ygg.png" width="150" /></a>
+                <img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/pp.png" width="150" />
+                <img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/yl.png" width="150"/>
+                <a href="https://help2pay.com/" target="_blank"><img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/help2pay.png" width="150" /></a>
+                <img src="~/SiteSkin/Nova88/common/images/Lobby/Logo/eeziepay.png" width="150"/>
+            </div>
+                }*@
     </div>
 
 </div>
@@ -498,11 +498,11 @@
                         </div>
                     </div>
 
-        @:<script>DepositAlert = 1;</script>
+    @:<script>DepositAlert = 1;</script>
             }
         var option = new Microsoft.AspNetCore.Http.CookieOptions();
         option.Expires = DateTime.Now.AddDays(1);
         Context.Response.Cookies.Append($"Initialization{User.Identity.Name}", "1", option);
         }
         }
-        }
+}
