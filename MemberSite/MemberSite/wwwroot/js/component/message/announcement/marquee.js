@@ -41,7 +41,7 @@
                 pauseOnHover: true,
                 direction:'up',
                 startVisible:true,
-                delayBeforeStart:4000
+                delayBeforeStart:2000
             }).bind('finished', function(){
                 $(this).marquee('destroy');
                 currentIdx = currentIdx >= (datas.length-1) ? 0 : currentIdx + 1;
@@ -52,10 +52,15 @@
         ClickMarquee(){
             if(announcementUrl){
                 if(MobileAndTabletCheck()){
+                    let content = "";
+                    this.state.datas[currentIdx].content.split('\\n').forEach((c)=>{
+                        content += `<p>${c}</p>`;
+                    });
+
                     $("#AnnouncementDialog").attr('class', 'modal modalOpen');
                     $("#AnnouncementDialog").attr('data-open', 'true');
                     $("#AnnouncementDialogTitle").html(this.state.datas[currentIdx].subject);
-                    $("#AnnouncementDialogContent").html(`<p>${this.state.datas[currentIdx].content}</p>`);
+                    $("#AnnouncementDialogContent").html(`<div>${content}</div>`);
                 }else{
                     window.location.href = announcementUrl;
                 }

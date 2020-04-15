@@ -380,7 +380,7 @@
                     <div class="modal__footer">
                         <div class="btn-group">
                             <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Announcement", controller = "Message", LangId = selLangBLL.GetLangId() })">
-                                <span class="text">more</span>
+                                <span class="text">@selLangBLL.GetResourceValue($"lbl_More")</span>
                             </a>
                         </div>
                     </div>
