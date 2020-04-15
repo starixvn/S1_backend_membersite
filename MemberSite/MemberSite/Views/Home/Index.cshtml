@@ -304,44 +304,45 @@
                 }
                 else
                 {
-                <div class="lobby-product-swiper">
-                    <div class="swiper-wrapper">
-                        @if (promotionCnt > 0)
-                        {
-                        <div class="swiper-slide">
-                            <div class="lobby-product">
-                                <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
-                                    <img src="@SkinImgPath/Lobby/Home/Product-150-@(selLangBLL.GetLangId()).png" asp-append-version="true">
-                                </a>
+                    <div class="lobby-product-swiper">
+                        <div class="swiper-wrapper">
+                            @if (promotionCnt > 0)
+                            {
+                            <div class="swiper-slide">
+                                <div class="lobby-product">
+                                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
+                                        <img src="@SkinImgPath/Lobby/Home/Product-150-@(selLangBLL.GetLangId()).png" asp-append-version="true">
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        }
-                        <div class="swiper-slide">
-                            <div class="lobby-product">
-                                <a href="@gamingBLL.GetEntPageUrl(1, "245", Url)" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
-                                    <img src="@SkinImgPath/Lobby/Home/Product-Virtual_Game-@(selLangBLL.GetLangId()).png" asp-append-version="true">
-                                </a>
+                            }
+                            <div class="swiper-slide">
+                                <div class="lobby-product">
+                                    <a href="@gamingBLL.GetEntPageUrl(1, "245", Url)" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                                        <img src="@SkinImgPath/Lobby/Home/Product-Virtual_Game-@(selLangBLL.GetLangId()).png" asp-append-version="true">
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="lobby-product">
-                                <a href="@gamingBLL.GetEntPageUrl(1, "202", Url)" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
-                                    <img src="@SkinImgPath/Lobby/Home/Product-Keno.png" asp-append-version="true">
-                                </a>
+                            <div class="swiper-slide">
+                                <div class="lobby-product">
+                                    <a href="@gamingBLL.GetEntPageUrl(1, "202", Url)" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                                        <img src="@SkinImgPath/Lobby/Home/Product-Keno.png" asp-append-version="true">
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        @*<div class="swiper-slide">
-            <div class="lobby-product">
-                <a href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
-                    <img src="@SkinImgPath/Lobby/Home/banner-gpi.jpg" asp-append-version="true" />
-                </a>
-            </div>
-        </div>*@
-                        <div class="swiper-slide">
-                            <div class="lobby-product">
-                                <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() })">
-                                    <img src="@SkinImgPath/Lobby/Home/cashbackrebet-@(selLangBLL.GetLangId()).png" asp-append-version="true" />
-                                </a>
+                            @*<div class="swiper-slide">
+                <div class="lobby-product">
+                    <a href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                        <img src="@SkinImgPath/Lobby/Home/banner-gpi.jpg" asp-append-version="true" />
+                    </a>
+                </div>
+            </div>*@
+                            <div class="swiper-slide">
+                                <div class="lobby-product">
+                                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() })">
+                                        <img src="@SkinImgPath/Lobby/Home/cashbackrebet-@(selLangBLL.GetLangId()).png" asp-append-version="true" />
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

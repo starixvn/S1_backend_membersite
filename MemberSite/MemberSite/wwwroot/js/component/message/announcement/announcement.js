@@ -5,13 +5,14 @@ import * as Loading from '../../commJS/Loading.jsx';
         const [stateData, updateData] = React.useState();
         React.useEffect(() => {
             Loading.OnLoading();
-            axios.post('/api/Account/GetAnnouncement',  `LimitRow=${15}`).then((res)=>{
+            axios.post('/api/Message/GetAnnouncement', {}).then((res)=>{
                 Loading.UnLoading();
                 let result = res.data.data;
                 updateData(result.map((item, idx)=>{
                     return(
                         <Announcement
                             key={`announce-${idx}`}
+                            mainIdx={idx}
                             subject={item.subject}
                             startTime={moment(item.startTime).format("l hh:mm:ss A")}
                             content={item.content}
@@ -36,16 +37,24 @@ import * as Loading from '../../commJS/Loading.jsx';
     }
 
     const Announcement = (props)=>{
+        let content = props.content.substring(1, props.content.length-1).split('\\n');
+        
         return(
             <div className="announcement">
                 <div className="announcement__item">
                     <div className="announcement__title">
-                        <span className="text">{props.subject}</span>
+                        <span className="text">{props.subject.substring(1, props.subject.length-1)}</span>
                         <span className="text-lowlight">{props.startTime}</span>
                     </div>
                 </div>
                 <div className="announcement__content">
-                    <pre>{props.content}</pre>
+                    <pre>
+                    {
+                        content.map((c, idx)=>{
+                            return <p key={`content-${props.mainIdx}-${idx}`}>{c}</p>
+                        })
+                    }
+                    </pre>
                 </div>
             </div>
         )

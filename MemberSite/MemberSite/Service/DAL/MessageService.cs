@@ -66,10 +66,10 @@ namespace MemberSite.Service.DAL
             return conn.ExecuteScalar<int>("MsgCount_Get", new { CustId = custId, IsUnread = 1 }, commandType: CommandType.StoredProcedure);
         }
 
-        public IEnumerable<Announcement> GetAnnouncement(int SiteId, string LangCode, string DefaultLangCode, int LimitRow, bool IsTest)
+        public IEnumerable<Announcement> GetAnnouncement(string LangCode, string DefaultLangCode, int LimitRow, bool IsTest, int SiteId)
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<Announcement>("Member_Announcement_Get", new { SiteId, DefaultLangCode, LangCode, LimitRow, IsTest }, commandType: CommandType.StoredProcedure);
+            return conn.Query<Announcement>("Member_Announcement_Get", new { DefaultLangCode, LangCode, LimitRow, IsTest, SiteId}, commandType: CommandType.StoredProcedure);
         }
     }
 }

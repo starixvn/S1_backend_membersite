@@ -35,9 +35,8 @@ namespace MemberSite.Controllers.Api
         private readonly PromotionBLL promotionBLL;
         private readonly ThirdPartyBLL thirdPartyBLL;
         private readonly CasinoBLL casinoBLL;
-        private readonly ServerInfoBLL serverInfoBLL;
 
-        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter, MessageBLL messageBLL, PaymentBLL paymentBLL, PromotionBLL promotionBLL, ThirdPartyBLL thirdPartyBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL)
+        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter, MessageBLL messageBLL, PaymentBLL paymentBLL, PromotionBLL promotionBLL, ThirdPartyBLL thirdPartyBLL, CasinoBLL casinoBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -53,7 +52,6 @@ namespace MemberSite.Controllers.Api
             this.promotionBLL = promotionBLL;
             this.thirdPartyBLL = thirdPartyBLL;
             this.casinoBLL = casinoBLL;
-            this.serverInfoBLL = serverInfoBLL;
         }
 
         [HttpPost]
@@ -616,21 +614,6 @@ namespace MemberSite.Controllers.Api
                 var authData = authorizeBLL.GetAuthData();
                 casinoBLL.SetFavoriteGames(authData.CustId, FavoriteInfo.ProviderId, FavoriteInfo.GameId, FavoriteInfo.IsRemove);
             }
-        }
-
-        [HttpPost]
-        public ApiResult<IEnumerable<Announcement>> GetAnnouncement([FromForm]int LimitRow)
-        {
-            var result = new ApiResult<IEnumerable<Announcement>>();
-            if (User.Identity.IsAuthenticated)
-            {
-                var _serverInfo = serverInfoBLL.GetServerInfo();
-                result.Data = messageBLL.GetAnnouncement(_serverInfo.SiteId, selLangBLL.GetLangId(), _serverInfo.DefLang, LimitRow, false);
-            }
-
-            result.ErrorCode = 0;
-
-            return result;
         }
 
         //[HttpPost]

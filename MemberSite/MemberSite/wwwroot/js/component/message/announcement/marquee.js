@@ -16,21 +16,32 @@
             this.ClickMarquee = this.ClickMarquee.bind(this);
         }
         GetAnnouncement(){
-            let res = axios.post('/api/Account/GetAnnouncement',`LimitRow=${3}`).then(res=>{
+            let res = axios.post('/api/Message/GetAnnouncement',{}).then(res=>{
                 currentIdx = 0;
-                this.setState({datas:res.data.data});
+                this.setState({
+                    datas:res.data.data.map(item=>{
+                        return {
+                            ...item,
+                            subject: item.subject.substring(1, item.subject.length-1),
+                            content: item.content.substring(1, item.content.length-1)
+                        }
+                    })
+                });
             });
         }
         componentDidUpdate(){
             this.SetMarquee();
         }
         SetMarquee(){
-            let timer = MobileAndTabletCheck() ? 4500 : 8000;
+            let timer = MobileAndTabletCheck() ? 1000 : 1000;
             let _this = this;
             let datas = this.state.datas;
             $(this.refs.content).marquee({
                 duration: timer,
-                pauseOnHover: true
+                pauseOnHover: true,
+                direction:'up',
+                startVisible:true,
+                delayBeforeStart:4000
             }).bind('finished', function(){
                 $(this).marquee('destroy');
                 currentIdx = currentIdx >= (datas.length-1) ? 0 : currentIdx + 1;
