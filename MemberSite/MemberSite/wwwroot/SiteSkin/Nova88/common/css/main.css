@@ -5391,6 +5391,10 @@ button.swiper-pagination-bullet {
   filter: invert(1);
 }
 
+.Instagram {
+  width: 1rem;
+}
+
 .lobby-banner-swiper {
   position: relative;
   z-index: 0;
@@ -5399,6 +5403,7 @@ button.swiper-pagination-bullet {
 
 .lobby-banner-swiper img {
   width: 100%;
+  height: 100%;
 }
 
 [data-layout=desktop] .lobby-banner-swiper {

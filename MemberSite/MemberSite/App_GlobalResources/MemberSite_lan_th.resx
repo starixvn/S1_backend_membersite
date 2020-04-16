@@ -1556,7 +1556,13 @@
   <data name="lbl_Platform" xml:space="preserve">
     <value>ผู้ให้บริการ</value>
   </data>
+  <data name="lbl_Instagram" xml:space="preserve">
+    <value>อินสตาแกรม</value>
+  </data>
   <data name="lbl_License" xml:space="preserve">
     <value>ใบอนุญาต</value>
+  </data>
+  <data name="lbl_More" xml:space="preserve">
+    <value>ข้อมูลเพิ่มเติม</value>
   </data>
 </root>

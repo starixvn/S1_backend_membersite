@@ -1624,8 +1624,14 @@
   <data name="lbl_Announcement" xml:space="preserve">
     <value>thông báo</value>
   </data>
+  <data name="lbl_Instagram" xml:space="preserve">
+    <value>Instagram</value>
+  </data>
   <data name="lbl_License" xml:space="preserve">
     <value>Cơ chế giám sát</value>
+  </data>
+  <data name="lbl_More" xml:space="preserve">
+    <value>nhiều</value>
   </data>
   <data name="lbl_Payment" xml:space="preserve">
     <value>phương thức thanh toán</value>

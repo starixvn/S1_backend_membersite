@@ -203,7 +203,9 @@
                     <span class="text">@selLangBLL.GetResourceValue("lbl_NumberGame")</span>
                 </a>
                 <a class="side-nav__btn @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "245", Url)">
-                    <i class="icon VirtualGames"><img src="@SkinImgPath/svg/VirtualGames.svg"></i>
+                    <i class="icon VirtualGames">
+                        <img src="~/common/images/svg/VirtualGames.svg" />
+                    </i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualGames")</span>
                 </a>
                 <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(1,"180",Url)">
@@ -223,7 +225,9 @@
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Keno")</span>
                 </a>
                 <a class="side-nav__btn @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" onclick="@entFishingPageUrl">
-                    <i class="icon FishingGames"><img src="@SkinImgPath/svg/FishingGames.svg"></i>
+                    <i class="icon FishingGames">
+                        <img src="~/common/images/svg/FishingGames.svg" />
+                    </i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Fishing")</span>
                 </a>
             </div>
@@ -284,7 +288,7 @@
                     <a class="side-nav__btn" href="@Url.RouteUrl("desktop", new { action = "Statement", controller = "History", LangId = selLangBLL.GetLangId() })">
                         <span class="side-nav__icon">
                             <i class="icon Statement svg-w">
-                                <img src="@SkinRootPath/images/svg/Statement.svg">
+                                <img src="~/common/images/svg/Statement.svg" />
                             </i>
                         </span>
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Statement")</span>

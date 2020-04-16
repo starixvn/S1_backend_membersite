@@ -1573,8 +1573,14 @@
   <data name="lbl_Announcement" xml:space="preserve">
     <value>Pengumuman</value>
   </data>
+  <data name="lbl_Instagram" xml:space="preserve">
+    <value>Instagram</value>
+  </data>
   <data name="lbl_License" xml:space="preserve">
     <value>Mekanisme Monitor</value>
+  </data>
+  <data name="lbl_More" xml:space="preserve">
+    <value>Lebih</value>
   </data>
   <data name="lbl_Payment" xml:space="preserve">
     <value>Metode pembayaran</value>

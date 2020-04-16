@@ -1,0 +1,62 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">Promotion Info</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-sabaworldcup.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+
+        
+        <div class="promotions-module">
+            <article>
+                    <span class="promotions-title txt-blue">SABA World Cup 2020 – Free Spin Bonus</span>
+            </article>
+        </div>
+            <div class="promotions-module">
+                
+                <span class="promotions-title">Significant Conditions</span>
+                    <ol type="1">
+                        <li>All active members will be automatically entitled on this SABA world cup 2020 free spin bonus during the promotion period at Nova88 only.<br><br></li>
+                        <li>Free bonus 10 spins on selected games for every single match on SABA world cup matches.<br><br></li>
+                        <li>One winner for every single match on SABA world cup tournament from 16th April to 22nd April 2020<br><br></li>
+                        <li>We are giving away total 640 free spin within the SABA world cup period for every currency member , subject to MYR , IDR & THB , (640x3) total 1920 free spin prizes is waiting for you.<br><br></li>
+                    </ol>
+
+                <span class="promotions-title">Bonus Play Conditions</span>
+                    <ol type="a">
+                        <li>Every single match winner with the highest turnover on SABA world cup matches only.<br><br></li>
+                        <li>Winner bonus will be count in the end of the day and will be released within 48 hours.<br><br></li>
+                        <li>Our customer service will inform the winning members to claim the free spin in our Nova88 selected game.<br><br></li>
+                        <li>The selected free game will pop up Awarded 10 SPINS once you entered the following game which provided by our customer service.<br><br></li>
+                    </ol>
+                
+                <span class="promotions-title">Terms and Conditions</span>
+                    <ol type="1">
+                        <li>Any cancelled or voided bets placed, hence will not count as a valid turnover.<br><br></li>
+                        <li>Bonus must be claimed within (7 days) a week , after bonus credited.<br><br></li>
+                        <li>Bonus spin will be forfeited after the claim period of (7 days) a week later.<br><br></li>
+                        <li>This promotion will automatic apply to all Nova88 members.<br><br></li>
+                        <li>Participating members must accept and comply with all the terms mentioned above as well as all relevant rules and regulations stated on the Nova88 website.<br><br></li>
+                        <li>Nova88 reserves the right to amend or withdraw the Promotion at any time.<br><br></li>
+                        <li>Nova88 is the sole arbiter of the Promotion and its decision is final.<br><br></li>
+                        <li>Nova88 Standard Terms and Conditions apply.<br><br></li>
+                    </ol>
+            </div>       
+        
+    </div>
+</div>
