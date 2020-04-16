@@ -1,0 +1,62 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">Promotion Info</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-sabaworldcup.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+
+
+        <div class="promotions-module">
+            <article>
+                    <span class="promotions-title txt-blue">SABA World Cup 2020 - ฟรีสปินโบนัส</span>
+            </article>
+        </div>
+            <div class="promotions-module">
+                
+                <span class="promotions-title">รายละเอียดเงื่อนไข</span>
+                    <ol type="1">
+                        <li>สมาชิกทั้งหมดจะได้รับสิทธิ์นี้โดยอัตโนมัติในการหมุนฟรีโบนัสฟุตบอลโลก 2020 SABA ในช่วงระยะเวลาโปรโมชั่นที่ Nova88 กำหนดเท่านั้น<br><br></li>
+                        <li>โบนัสฟรี 10 สปินในเกมที่เลือกสำหรับทุกการแข่งขันในการแข่งขันฟุตบอลโลก SABA<br><br></li>
+                        <li>มีผู้ชนะหนึ่งคนสำหรับการแข่งขันทุกนัดในการแข่งขันฟุตบอลโลก SABA ระหว่างวันที่ 16 เมษายนถึง 22 เมษายน 2563<br><br></li>
+                        <li>เรามอบฟรีสปินทั้งหมด 640 ครั้งภายในช่วงเวลาการแข่งขันฟุตบอลโลกของ SABA สำหรับสมาชิกทุกสกุลเงินโดยขึ้นอยู่กับ MYR, IDR & THB, (640x3) รวมรางวัลสปินฟรี 1920 ครั้งซึ่งกำลังรอคุณอยู่<br><br></li>
+                    </ol>
+
+                <span class="promotions-title">ข้อกำหนดในการร่วมเล่นโบนัส</span>
+                    <ol type="a">
+                        <li>ผู้ชนะการแข่งขันที่มีผลเทิร์นโอเวอร์สูงสุดในการแข่งขันฟุตบอลโลก SABA เท่านั้น<br><br></li>
+                        <li>ผู้ชนะโบนัสจะถูกนับในตอนสุดท้ายของวันและจะออกรางวัลภายใน 48 ชั่วโมง<br><br></li>                        
+                        <li>ฝ่ายบริการลูกค้าของเราจะแจ้งให้สมาชิกที่ชนะทราบเพื่อรับสิทธิ์หมุนฟรีในเกมที่เลือกไว้ Nova88<br><br></li>                       
+                        <li>เกมฟรีที่เลือกไว้จะ Pop Up รางวัลฟรี 10 สปิน เมื่อคุณเข้าสู่เกมต่อไปนี้ซึ่งฝ่ายบริการลูกค้าของเราเป็นคนกำหนดให้<br><br></li>
+                    </ol>
+                
+                <span class="promotions-title">ข้อกำหนดและเงื่อนไข</span>
+                    <ol type="1">
+                        <li>การเดิมพันที่ถูกยกเลิกหรือโมฆะใด ๆ ที่วางไว้ดังนั้นจะไม่นับรวมเป็นยอดเทิร์นโอเวอร์ที่ถูกต้อง<br><br></li>
+                        <li>โบนัสจะต้องทำการเคลมภายใน 7 วันหลังจากได้รับโบนัส<br><br></li>
+                        <li>การหมุนโบนัสจะเป็นโมฆะถ้าสมาชิกเคลมหลังจากระยะเวลา (7 วัน) ที่กำหนดไว้หรือ 1 สัปดาห์<br><br></li>
+                        <li>สมาชิกทุกคนสามารถร่วมเล่นเพื่อรับโบนัสนี้ได้โดยอัตโนมัติ<br><br></li>
+                        <li>สมาชิกที่เข้าร่วมจะต้องยอมรับและปฏิบัติตามข้อกำหนดทั้งหมดที่กล่าวมาข้างต้นรวมถึงกฎและระเบียบที่เกี่ยวข้องทั้งหมดที่ระบุไว้ในเว็บไซต์ Nova88<br><br></li>
+                        <li>Nova88 ขอสงวนสิทธิ์ในการแก้ไขหรือถอนโปรโมชั่นได้ตลอดเวลา<br><br></li>
+                        <li>Nova88 เป็นผู้ชี้ขาดแต่เพียงผู้เดียวของโปรโมชั่นและการตัดสินของเราถือเป็นที่สิ้นสุด<br><br></li>
+                        <li>มีข้อกำหนดและเงื่อนไขตามมาตรฐานของ Nova88<br><br></li>
+                    </ol>
+            </div>       
+        
+    </div>
+</div>

@@ -1591,4 +1591,13 @@
   <data name="lbl_More" xml:space="preserve">
     <value>More</value>
   </data>
+  <data name="lbl_IGAccount" xml:space="preserve">
+    <value>nova88official</value>
+  </data>
+  <data name="lbl_Instagram" xml:space="preserve">
+    <value>Instagram</value>
+  </data>
+  <data name="lbl_More1" xml:space="preserve">
+    <value>More</value>
+  </data>
 </root>

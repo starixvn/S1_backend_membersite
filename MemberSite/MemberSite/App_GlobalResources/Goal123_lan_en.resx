@@ -129,6 +129,9 @@
   <data name="lbl_FacebookAccount" xml:space="preserve">
     <value>goal123official</value>
   </data>
+  <data name="lbl_IGAccount" xml:space="preserve">
+    <value>goal123official</value>
+  </data>
   <data name="lbl_Image" xml:space="preserve">
     <value>https://www.goal123.com/SiteSkin/Goal123/common/images/logo.png</value>
   </data>

@@ -135,6 +135,9 @@
   <data name="lbl_FacebookAccount" xml:space="preserve">
     <value>bwingofficial</value>
   </data>
+  <data name="lbl_IGAccount" xml:space="preserve">
+    <value>bwingofficial</value>
+  </data>
   <data name="lbl_Image" xml:space="preserve">
     <value>https://www.bwing.com/SiteSkin/Bwing/common/images/logo.png</value>
   </data>

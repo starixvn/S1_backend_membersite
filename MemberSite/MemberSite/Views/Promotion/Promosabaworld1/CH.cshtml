@@ -1,0 +1,62 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">Promotion Info</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-sabaworldcup1.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+
+        
+        <div class="promotions-module">
+            <article>
+                    <span class="promotions-title txt-blue">沙巴世界杯2020 - 免費旋轉優惠</span>
+            </article>
+        </div>
+            <div class="promotions-module">
+                
+                <span class="promotions-title">優惠標準規則</span>
+                    <ol type="1">
+                        <li>所有Nova88玩家在促銷活動期間會自動獲得參與沙巴世界杯2020免費旋轉優惠.<br><br></li>
+                        <li>每場沙巴世界杯2020球賽都將在指定的老虎機贈送10次免費旋轉.<br><br></li>
+                        <li>從2020年4月17日至2020年4月28日，每場沙巴世界杯2020球賽都有一名優勝者.<br><br></li>
+                        <li>沙巴世界杯2020期間每個貨幣 (MYR, IDR 和 THB) 我們將送出640次免費旋轉, (640 x 3) 總共1920次免費旋轉等著您！<br><br></li>
+                    </ol>
+
+                <span class="promotions-title">優惠獎勵條件</span>
+                    <ol type="a">
+                        <li>每場沙巴世界杯2020球賽最高投注額的玩家將會贏取該場的贈送優惠.<br><br></li>
+                        <li>獲獎者的優惠將在當天計算後 48小時內匯入Nova88合格玩家帳戶.<br><br></li>
+                        <li>我們的客服將會通知獲獎者去指定Nova88老虎機內領取免費旋轉.<br><br></li>
+                        <li>當您進入客服指定的Nova88老虎機遊戲後將顯示你獲得的“10次免費旋轉”.<br><br></li>
+                    </ol>
+                
+                <span class="promotions-title">優惠標準規則</span>
+                    <ol type="1">
+                        <li>任何取消或作廢的投注，將不被視為有效投注額.<br><br></li>
+                        <li>得獎者必須在一周（7天）內領取您的獎勵.<br><br></li>
+                        <li>贈送的獎勵一周（7天）內沒領取將自動取消.<br><br></li>
+                        <li>此促銷活動適用於所有Nova88會員.<br><br></li>
+                        <li>參加會員必須接受並遵守上述所有條款以及Nova88網站上規定的所有相關規則和規定.<br><br></li>
+                        <li>Nova88有權隨時中止或取消本優惠.<br><br></li>
+                        <li>Nova88保留對本優惠的最終解釋權.<br><br></li>
+                        <li>Nova88標準規則和條款適用.<br><br></li>
+                    </ol>
+            </div>       
+        
+    </div>
+</div>
