@@ -1,0 +1,1945 @@
+{
+  "imgUrl": "",
+  "data": [
+    {
+      "name": {
+        "en": "Book of Myth",
+        "cs": "埃及古宝",
+        "ch": "埃及古寶"
+      },
+      "appId": "S-BM01",
+      "gameId": "S-BM01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "10",
+      "RTP": "97",
+      "imgName": {
+        "en": "Book-of-Myth-EN.jpg"
+      },
+      "launchDate": "2017/03/20",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Wong Choy",
+        "cs": "旺财",
+        "ch": "旺財"
+      },
+      "appId": "S-WC02",
+      "gameId": "S-WC02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "95",
+      "imgName": {
+        "en": "Wong-Choy-EN.jpg"
+      },
+      "launchDate": "2026/03/20",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Money Mouse",
+        "cs": "鼠来宝",
+        "ch": "鼠來寶"
+      },
+      "appId": "S-MM01",
+      "gameId": "S-MM01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "243",
+      "RTP": "97",
+      "imgName": {
+        "en": "Money-Mouse-EN.jpg"
+      },
+      "launchDate": "2016/12/19",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dragon Empire",
+        "cs": "龙飞凤舞",
+        "ch": "龍飛鳳舞"
+      },
+      "appId": "S-DE01",
+      "gameId": "S-DE01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "243",
+      "RTP": "97",
+      "imgName": {
+        "en": "Dragon-Empire-EN.jpg"
+      },
+      "launchDate": "2019/11/19",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "888",
+        "cs": "888",
+        "ch": "888"
+      },
+      "appId": "S-BA01",
+      "gameId": "S-BA01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1",
+      "RTP": "97",
+      "imgName": {
+        "en": "888-EN.jpg"
+      },
+      "launchDate": "2022/10/19",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Three Lucky Stars",
+        "cs": "三福星",
+        "ch": "三福星"
+      },
+      "appId": "S-LS02",
+      "gameId": "S-LS02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1",
+      "RTP": "97",
+      "imgName": {
+        "en": "Three-Lucky-Stars-EN.jpg"
+      },
+      "launchDate": "2017/09/19",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Heroes",
+        "cs": "英雄",
+        "ch": "英雄"
+      },
+      "appId": "S-HE01",
+      "gameId": "S-HE01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "50",
+      "RTP": "97",
+      "imgName": {
+        "en": "Heroes-EN.jpg"
+      },
+      "launchDate": "2014/08/19",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Sweet Bakery",
+        "cs": "梦幻甜点",
+        "ch": "夢幻甜點"
+      },
+      "appId": "S-SB01",
+      "gameId": "S-SB01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "10",
+      "RTP": "97",
+      "imgName": {
+        "en": "Sweet-Bakery-EN.jpg"
+      },
+      "launchDate": "2023/07/19",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dancing Fever",
+        "cs": "跳跳舞",
+        "ch": "跳跳舞"
+      },
+      "appId": "S-DF02",
+      "gameId": "S-DF02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "243",
+      "RTP": "97",
+      "imgName": {
+        "en": "Dancing-Fever-EN.jpg"
+      },
+      "launchDate": "2025/06/19",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Magical Lamp",
+        "cs": "神灯",
+        "ch": "神燈"
+      },
+      "appId": "S-ML01",
+      "gameId": "S-ML01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "50",
+      "RTP": "97",
+      "imgName": {
+        "en": "Magical-Lamp-EN.jpg"
+      },
+      "launchDate": "2021/05/19",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Triple Panda",
+        "cs": "三倍熊猫",
+        "ch": "三倍熊貓"
+      },
+      "appId": "S-TP02",
+      "gameId": "S-TP02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "5",
+      "RTP": "97",
+      "imgName": {
+        "en": "Triple-Panda-EN.jpg"
+      },
+      "launchDate": "2014/04/19",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Gold Panther",
+        "cs": "黑金豹",
+        "ch": "黑金豹"
+      },
+      "appId": "S-GP01",
+      "gameId": "S-GP01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "4096",
+      "RTP": "97",
+      "imgName": {
+        "en": "Gold-Panther-EN.jpg"
+      },
+      "launchDate": "2012/03/19",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Mr Chu Tycoon",
+        "cs": "朱大富",
+        "ch": "朱大富"
+      },
+      "appId": "S-CH01",
+      "gameId": "S-CH01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "40",
+      "RTP": "97",
+      "imgName": {
+        "en": "Mr-Chu-Tycoon-EN.jpg"
+      },
+      "launchDate": "2016/01/19",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Brothers kingdom",
+        "cs": "桃园三兄弟",
+        "ch": "桃園三兄弟"
+      },
+      "appId": "S-GK01",
+      "gameId": "S-GK01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "97",
+      "imgName": {
+        "en": "Brothers-kingdom-EN.jpg"
+      },
+      "launchDate": "2027/11/18",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Prosperity Gods",
+        "cs": "四大财神",
+        "ch": "四大財神"
+      },
+      "appId": "S-PG01",
+      "gameId": "S-PG01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "97",
+      "imgName": {
+        "en": "Prosperity-Gods-EN.jpg"
+      },
+      "launchDate": "2024/10/18",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Candy Pop",
+        "cs": "糖果泡泡",
+        "ch": "糖果泡泡"
+      },
+      "appId": "S-CP01",
+      "gameId": "S-CP01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Candy-Pop-EN.jpg"
+      },
+      "launchDate": "2031/07/18",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Golden Fist",
+        "cs": "金武门",
+        "ch": "金武門"
+      },
+      "appId": "S-GF01",
+      "gameId": "S-GF01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "97",
+      "imgName": {
+        "en": "Golden-Fist-EN.jpg"
+      },
+      "launchDate": "2003/07/18",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "FaFaFa2",
+        "cs": "发发发2",
+        "ch": "發發發2"
+      },
+      "appId": "S-LY02",
+      "gameId": "S-LY02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1",
+      "RTP": "97",
+      "imgName": {
+        "en": "FaFaFa2-EN.jpg"
+      },
+      "launchDate": "2016/01/18",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Gangster Axe ",
+        "cs": "斧头帮",
+        "ch": "斧頭幫"
+      },
+      "appId": "S-GA01",
+      "gameId": "S-GA01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "100",
+      "RTP": "97",
+      "imgName": {
+        "en": "Gangster-Axe--EN.jpg"
+      },
+      "launchDate": "2016/01/18",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Princess Wang",
+        "cs": "旺旺公主",
+        "ch": "旺旺公主"
+      },
+      "appId": "S-PW02",
+      "gameId": "S-PW02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "97",
+      "imgName": {
+        "en": "Princess-Wang-EN.jpg"
+      },
+      "launchDate": "2016/01/18",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Wow Prosperity",
+        "cs": "汪旺财",
+        "ch": "汪旺財"
+      },
+      "appId": "S-WP02",
+      "gameId": "S-WP02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1024",
+      "RTP": "97",
+      "imgName": {
+        "en": "Wow-Prosperity-EN.jpg"
+      },
+      "launchDate": "2016/01/18",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "First Love ",
+        "cs": "初恋",
+        "ch": "初戀"
+      },
+      "appId": "S-FL02",
+      "gameId": "S-FL02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "243",
+      "RTP": "97",
+      "imgName": {
+        "en": "First-Love--EN.jpg"
+      },
+      "launchDate": "2031/10/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Golden Monkey",
+        "cs": "齐天大胜",
+        "ch": "齊天大勝"
+      },
+      "appId": "S-FM02",
+      "gameId": "S-FM02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "50",
+      "RTP": "97",
+      "imgName": {
+        "en": "Golden-Monkey-EN.jpg"
+      },
+      "launchDate": "2031/10/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Pan Fairy",
+        "cs": "潘精灵",
+        "ch": "潘精靈"
+      },
+      "appId": "S-PP01",
+      "gameId": "S-PP01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "97",
+      "imgName": {
+        "en": "Pan-Fairy-EN.jpg"
+      },
+      "launchDate": "2031/10/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "ShangHai 008",
+        "cs": "上海 00发",
+        "ch": "上海 00發"
+      },
+      "appId": "S-SH01",
+      "gameId": "S-SH01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "97",
+      "imgName": {
+        "en": "ShangHai-008-EN.jpg"
+      },
+      "launchDate": "2031/10/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Jungle King",
+        "cs": "森林之王",
+        "ch": "森林之王"
+      },
+      "appId": "S-TZ01",
+      "gameId": "S-TZ01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1024",
+      "RTP": "97",
+      "imgName": {
+        "en": "Jungle-King-EN.jpg"
+      },
+      "launchDate": "2031/10/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Fist of Gold ",
+        "cs": "新霸天下",
+        "ch": "新霸天下"
+      },
+      "appId": "S-FG01",
+      "gameId": "S-FG01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "243",
+      "RTP": "95",
+      "imgName": {
+        "en": "Fist-of-Gold--EN.jpg"
+      },
+      "launchDate": "2001/06/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Tiger Warrior ",
+        "cs": "虎大天王 ",
+        "ch": "虎大天王 "
+      },
+      "appId": "S-TW01",
+      "gameId": "S-TW01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "243",
+      "RTP": "96",
+      "imgName": {
+        "en": "Tiger-Warrior--EN.jpg"
+      },
+      "launchDate": "2001/06/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Sea Emperor ",
+        "cs": "海龙王",
+        "ch": "海龍王"
+      },
+      "appId": "S-NT01",
+      "gameId": "S-NT01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "97",
+      "imgName": {
+        "en": "Sea-Emperor--EN.jpg"
+      },
+      "launchDate": "2018/04/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "ZEUS",
+        "cs": "天通雷神",
+        "ch": "天通雷神"
+      },
+      "appId": "S-ZE01",
+      "gameId": "S-ZE01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "97",
+      "imgName": {
+        "en": "ZEUS-EN.jpg"
+      },
+      "launchDate": "2018/04/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Ho Yeah Monkey ",
+        "cs": "猴爷到",
+        "ch": "猴爺到"
+      },
+      "appId": "S-HY01",
+      "gameId": "S-HY01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1",
+      "RTP": "97",
+      "imgName": {
+        "en": "Ho-Yeah-Monkey--EN.jpg"
+      },
+      "launchDate": "2001/03/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Golden Chicken",
+        "cs": "金鸡",
+        "ch": "金雞"
+      },
+      "appId": "S-GC03",
+      "gameId": "S-GC03",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1024",
+      "RTP": "97",
+      "imgName": {
+        "en": "Golden-Chicken-EN.jpg"
+      },
+      "launchDate": "2009/01/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dragon Gold SA",
+        "cs": "金龙赐福 SA",
+        "ch": "金龍賜福 SA"
+      },
+      "appId": "S-DG04",
+      "gameId": "S-DG04",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "95",
+      "imgName": {
+        "en": "Dragon-Gold-SA-EN.jpg"
+      },
+      "launchDate": "2005/01/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Emperor Gate SA",
+        "cs": "斩五门SA",
+        "ch": "斬五門SA"
+      },
+      "appId": "S-EG03",
+      "gameId": "S-EG03",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "50",
+      "RTP": "95",
+      "imgName": {
+        "en": "Emperor-Gate-SA-EN.jpg"
+      },
+      "launchDate": "2005/01/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Big Prosperity SA",
+        "cs": "发大财 SA",
+        "ch": "發大財 SA"
+      },
+      "appId": "S-FC03",
+      "gameId": "S-FC03",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "95",
+      "imgName": {
+        "en": "Big-Prosperity-SA-EN.jpg"
+      },
+      "launchDate": "2005/01/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Great Stars SA",
+        "cs": "吉星 SA",
+        "ch": "吉星 SA"
+      },
+      "appId": "S-GS04",
+      "gameId": "S-GS04",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "95",
+      "imgName": {
+        "en": "Great-Stars-SA-EN.jpg"
+      },
+      "launchDate": "2005/01/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Iceland SA",
+        "cs": "雪冰世界SA",
+        "ch": "雪冰世界SA"
+      },
+      "appId": "S-IL03",
+      "gameId": "S-IL03",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "50",
+      "RTP": "97",
+      "imgName": {
+        "en": "Iceland-SA-EN.jpg"
+      },
+      "launchDate": "2005/01/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Wong Choy SA",
+        "cs": "旺财 SA",
+        "ch": "旺財 SA"
+      },
+      "appId": "S-WC03",
+      "gameId": "S-WC03",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "95",
+      "imgName": {
+        "en": "Wong-Choy-SA-EN.jpg"
+      },
+      "launchDate": "2005/01/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "5 Fortune SA",
+        "cs": "五福门 SA",
+        "ch": "五福門 SA"
+      },
+      "appId": "S-WM03",
+      "gameId": "S-WM03",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "95",
+      "imgName": {
+        "en": "5-Fortune-SA-EN.jpg"
+      },
+      "launchDate": "2005/01/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Baby Cai Shen ",
+        "cs": "财神宝宝",
+        "ch": "財神寶寶"
+      },
+      "appId": "S-BC01",
+      "gameId": "S-BC01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "97",
+      "imgName": {
+        "en": "Baby-Cai-Shen--EN.jpg"
+      },
+      "launchDate": "2027/10/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "168 Fortunes",
+        "cs": "一路发发",
+        "ch": "一路發發"
+      },
+      "appId": "S-FO01",
+      "gameId": "S-FO01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "243",
+      "RTP": "97",
+      "imgName": {
+        "en": "168-Fortunes-EN.jpg"
+      },
+      "launchDate": "2027/10/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Golden Lotus SE",
+        "cs": "潘金莲 特别版",
+        "ch": "潘金蓮 特別版"
+      },
+      "appId": "S-GL02",
+      "gameId": "S-GL02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "97",
+      "imgName": {
+        "en": "Golden-Lotus-SE-EN.jpg"
+      },
+      "launchDate": "2027/10/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Mermaid",
+        "cs": "美人鱼",
+        "ch": "美人魚"
+      },
+      "appId": "S-MR01",
+      "gameId": "S-MR01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "97",
+      "imgName": {
+        "en": "Mermaid-EN.jpg"
+      },
+      "launchDate": "2027/10/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "King Pharaoh",
+        "cs": "法老宝藏",
+        "ch": "法老寶藏"
+      },
+      "appId": "S-PH02",
+      "gameId": "S-PH02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "97",
+      "imgName": {
+        "en": "King-Pharaoh-EN.jpg"
+      },
+      "launchDate": "2027/10/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Pocket Mon Go",
+        "cs": "宝袋精灵",
+        "ch": "寶袋精靈"
+      },
+      "appId": "S-PO01",
+      "gameId": "S-PO01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "243",
+      "RTP": "97",
+      "imgName": {
+        "en": "Pocket-Mon-Go-EN.jpg"
+      },
+      "launchDate": "2027/10/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Wong Po",
+        "cs": "旺宝",
+        "ch": "旺寶"
+      },
+      "appId": "S-WP01",
+      "gameId": "S-WP01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "97",
+      "imgName": {
+        "en": "Wong-Po-EN.jpg"
+      },
+      "launchDate": "2027/10/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Alibaba ",
+        "cs": "阿里巴巴",
+        "ch": "阿里巴巴"
+      },
+      "appId": "S-AL01",
+      "gameId": "S-AL01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "97",
+      "imgName": {
+        "en": "Alibaba--EN.jpg"
+      },
+      "launchDate": "2031/05/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Cai Shen 888",
+        "cs": "财神888",
+        "ch": "財神888"
+      },
+      "appId": "S-CS01",
+      "gameId": "S-CS01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1024",
+      "RTP": "97",
+      "imgName": {
+        "en": "Cai-Shen-888-EN.jpg"
+      },
+      "launchDate": "2031/05/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Double Fortune",
+        "cs": "青龙白虎",
+        "ch": "青龍白虎"
+      },
+      "appId": "S-DF01",
+      "gameId": "S-DF01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "97",
+      "imgName": {
+        "en": "Double-Fortune-EN.jpg"
+      },
+      "launchDate": "2031/05/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "5 Fortune Dragons",
+        "cs": "五龙吐珠",
+        "ch": "五龍吐珠"
+      },
+      "appId": "S-FD01",
+      "gameId": "S-FD01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "243",
+      "RTP": "97",
+      "imgName": {
+        "en": "5-Fortune-Dragons-EN.jpg"
+      },
+      "launchDate": "2031/05/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Gods Kitchen ",
+        "cs": "厨神",
+        "ch": "廚神"
+      },
+      "appId": "S-GO01",
+      "gameId": "S-GO01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "97",
+      "imgName": {
+        "en": "Gods-Kitchen--EN.jpg"
+      },
+      "launchDate": "2031/05/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Adventure Iceland",
+        "cs": "雪冰世界",
+        "ch": "雪冰世界"
+      },
+      "appId": "S-IL02",
+      "gameId": "S-IL02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "50",
+      "RTP": "97",
+      "imgName": {
+        "en": "Adventure-Iceland-EN.jpg"
+      },
+      "launchDate": "2031/05/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lucky Koi",
+        "cs": "运财鲤鱼",
+        "ch": "運財鯉魚"
+      },
+      "appId": "S-LK01",
+      "gameId": "S-LK01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "97",
+      "imgName": {
+        "en": "Lucky-Koi-EN.jpg"
+      },
+      "launchDate": "2031/05/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Amazing Thailand",
+        "cs": "泰国神游",
+        "ch": "泰國神游"
+      },
+      "appId": "S-AT02",
+      "gameId": "S-AT02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "93",
+      "imgName": {
+        "en": "Amazing-Thailand-EN.jpg"
+      },
+      "launchDate": "2031/01/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Drunken Jungle",
+        "cs": "森林狂欢季",
+        "ch": "森林狂歡季"
+      },
+      "appId": "S-CM01",
+      "gameId": "S-CM01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1",
+      "RTP": "97",
+      "imgName": {
+        "en": "Drunken-Jungle-EN.jpg"
+      },
+      "launchDate": "2031/01/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dragon Gold",
+        "cs": "金龙赐福",
+        "ch": "金龍賜福"
+      },
+      "appId": "S-DG03",
+      "gameId": "S-DG03",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "95",
+      "imgName": {
+        "en": "Dragon-Gold-EN.jpg"
+      },
+      "launchDate": "2031/01/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Emperor Gate",
+        "cs": "斩五门",
+        "ch": "斬五門"
+      },
+      "appId": "S-EG02",
+      "gameId": "S-EG02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "50",
+      "RTP": "95",
+      "imgName": {
+        "en": "Emperor-Gate-EN.jpg"
+      },
+      "launchDate": "2031/01/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Big Prosperity",
+        "cs": "发大财",
+        "ch": "發大財"
+      },
+      "appId": "S-FC02",
+      "gameId": "S-FC02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "95",
+      "imgName": {
+        "en": "Big-Prosperity-EN.jpg"
+      },
+      "launchDate": "2031/01/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Great Stars",
+        "cs": "吉星",
+        "ch": "吉星"
+      },
+      "appId": "S-GS03",
+      "gameId": "S-GS03",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "95",
+      "imgName": {
+        "en": "Great-Stars-EN.jpg"
+      },
+      "launchDate": "2031/01/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Honey Hunter",
+        "cs": "熊之蜜",
+        "ch": "熊之蜜"
+      },
+      "appId": "S-HH01",
+      "gameId": "S-HH01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "8",
+      "RTP": "95",
+      "imgName": {
+        "en": "Honey-Hunter-EN.jpg"
+      },
+      "launchDate": "2031/01/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "FaFaFa",
+        "cs": "发发发",
+        "ch": "發發發"
+      },
+      "appId": "S-LY01",
+      "gameId": "S-LY01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1",
+      "RTP": "95",
+      "imgName": {
+        "en": "FaFaFa-EN.jpg"
+      },
+      "launchDate": "2031/01/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "5 Fortune",
+        "cs": "五福门",
+        "ch": "五福門"
+      },
+      "appId": "S-WM02",
+      "gameId": "S-WM02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "95",
+      "imgName": {
+        "en": "5-Fortune-EN.jpg"
+      },
+      "launchDate": "2031/01/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lucky Feng Shui ",
+        "cs": "风生水起",
+        "ch": "風生水起"
+      },
+      "appId": "S-LF01",
+      "gameId": "S-LF01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "97",
+      "imgName": {
+        "en": "Lucky-Feng-Shui--EN.jpg"
+      },
+      "launchDate": "2003/01/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Pirate King",
+        "cs": "海盗霸王",
+        "ch": "海盜霸王"
+      },
+      "appId": "S-PK01",
+      "gameId": "S-PK01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "97",
+      "imgName": {
+        "en": "Pirate-King-EN.jpg"
+      },
+      "launchDate": "2003/01/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Golf Champions ",
+        "cs": "冠军高尔夫",
+        "ch": "冠軍高爾夫"
+      },
+      "appId": "S-GP02",
+      "gameId": "S-GP02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "5",
+      "RTP": "97",
+      "imgName": {
+        "en": "Golf-Champions--EN.jpg"
+      },
+      "launchDate": "2003/01/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Highway Fortune",
+        "cs": "极速王者",
+        "ch": "極速王者"
+      },
+      "appId": "S-HF01",
+      "gameId": "S-HF01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "97",
+      "imgName": {
+        "en": "Highway-Fortune-EN.jpg"
+      },
+      "launchDate": "2003/01/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Festive Lion",
+        "cs": "金狮拜年",
+        "ch": "金獅拜年"
+      },
+      "appId": "S-BB01",
+      "gameId": "S-BB01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "97",
+      "imgName": {
+        "en": "Festive-Lion-EN.jpg"
+      },
+      "launchDate": "2001/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Master Chef",
+        "cs": "至尊厨师",
+        "ch": "至尊廚師"
+      },
+      "appId": "S-CC01",
+      "gameId": "S-CC01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "97",
+      "imgName": {
+        "en": "Master-Chef-EN.jpg"
+      },
+      "launchDate": "2001/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Cai Yuan Guang Jin",
+        "cs": "财源广进",
+        "ch": "財源廣進"
+      },
+      "appId": "S-CY01",
+      "gameId": "S-CY01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "97",
+      "imgName": {
+        "en": "Cai-Yuan-Guang-Jin-EN.jpg"
+      },
+      "launchDate": "2001/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Daddys Vacation",
+        "cs": "爸爸飞哪儿",
+        "ch": "爸爸飛哪兒"
+      },
+      "appId": "S-DV01",
+      "gameId": "S-DV01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "8",
+      "RTP": "97",
+      "imgName": {
+        "en": "Daddys-Vacation-EN.jpg"
+      },
+      "launchDate": "2001/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Da Fu Xiao Fu ",
+        "cs": "大福小福",
+        "ch": "大福小福"
+      },
+      "appId": "S-DX01",
+      "gameId": "S-DX01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "15",
+      "RTP": "95",
+      "imgName": {
+        "en": "Da-Fu-Xiao-Fu--EN.jpg"
+      },
+      "launchDate": "2001/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Golden Whale",
+        "cs": "黄金鲸鱼",
+        "ch": "黃金鯨魚"
+      },
+      "appId": "S-GW01",
+      "gameId": "S-GW01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "97",
+      "imgName": {
+        "en": "Golden-Whale-EN.jpg"
+      },
+      "launchDate": "2001/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lucky Cai Shen",
+        "cs": "天降财神",
+        "ch": "天降財神"
+      },
+      "appId": "S-LC01",
+      "gameId": "S-LC01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "1",
+      "RTP": "95",
+      "imgName": {
+        "en": "Lucky-Cai-Shen-EN.jpg"
+      },
+      "launchDate": "2001/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lucky  Meow",
+        "cs": "超吉猫",
+        "ch": "超吉貓"
+      },
+      "appId": "S-LM01",
+      "gameId": "S-LM01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "97",
+      "imgName": {
+        "en": "Lucky--Meow-EN.jpg"
+      },
+      "launchDate": "2001/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lucky Strike",
+        "cs": "马上赢",
+        "ch": "馬上贏"
+      },
+      "appId": "S-LS01",
+      "gameId": "S-LS01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "8",
+      "RTP": "95",
+      "imgName": {
+        "en": "Lucky-Strike-EN.jpg"
+      },
+      "launchDate": "2001/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Railway King",
+        "cs": "铁路王",
+        "ch": "鐵路王"
+      },
+      "appId": "S-RK01",
+      "gameId": "S-RK01",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "9",
+      "RTP": "95",
+      "imgName": {
+        "en": "Railway-King-EN.jpg"
+      },
+      "launchDate": "2001/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Spin Stone",
+        "cs": "石器时代",
+        "ch": "石器時代"
+      },
+      "appId": "S-SA02",
+      "gameId": "S-SA02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "97",
+      "imgName": {
+        "en": "Spin-Stone-EN.jpg"
+      },
+      "launchDate": "2001/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Santa Gifts",
+        "cs": "圣诞大礼",
+        "ch": "圣誕大禮"
+      },
+      "appId": "S-SG02",
+      "gameId": "S-SG02",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "97",
+      "imgName": {
+        "en": "Santa-Gifts-EN.jpg"
+      },
+      "launchDate": "2001/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Rob Stars ",
+        "cs": "小偷星星",
+        "ch": "小偷星星"
+      },
+      "appId": "A-RB01",
+      "gameId": "A-RB01",
+      "category1": "Arcade",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Rob-Stars--EN.jpg"
+      },
+      "launchDate": "2016/01/18",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Derby Night",
+        "cs": "德比夜赛 ",
+        "ch": "德比夜賽 "
+      },
+      "appId": "A-DN02",
+      "gameId": "A-DN02",
+      "category1": "Arcade",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Derby-Night-EN.jpg"
+      },
+      "launchDate": "2021/09/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Golden Journey",
+        "cs": "西游金",
+        "ch": "西游金"
+      },
+      "appId": "A-GJ01",
+      "gameId": "A-GJ01",
+      "category1": "Arcade",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Golden-Journey-EN.jpg"
+      },
+      "launchDate": "2016/08/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Goblin Treasure",
+        "cs": "积宝小精灵 ",
+        "ch": "積寶小精靈 "
+      },
+      "appId": "A-GL02",
+      "gameId": "A-GL02",
+      "category1": "Arcade",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Goblin-Treasure-EN.jpg"
+      },
+      "launchDate": "2016/08/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "PinBall Fortune ",
+        "cs": "单球致富 ",
+        "ch": "單球致富 "
+      },
+      "appId": "A-PF02",
+      "gameId": "A-PF02",
+      "category1": "Arcade",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "PinBall-Fortune--EN.jpg"
+      },
+      "launchDate": "2005/06/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dragon Clan ",
+        "cs": "龙会 ",
+        "ch": "龍會 "
+      },
+      "appId": "A-SC02",
+      "gameId": "A-SC02",
+      "category1": "Arcade",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Dragon-Clan--EN.jpg"
+      },
+      "launchDate": "2005/06/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Shinobi Hamster ",
+        "cs": "仓鼠忍者 ",
+        "ch": "倉鼠忍者 "
+      },
+      "appId": "A-SH02",
+      "gameId": "A-SH02",
+      "category1": "Arcade",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Shinobi-Hamster--EN.jpg"
+      },
+      "launchDate": "2005/06/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "3 Kingdom The Dragon Boat",
+        "cs": "三国龙舟战 ",
+        "ch": "三國龍舟戰 "
+      },
+      "appId": "A-DB06",
+      "gameId": "A-DB06",
+      "category1": "Arcade",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "3-Kingdom-The-Dragon-Boat-EN.jpg"
+      },
+      "launchDate": "2018/04/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Animal Paradise",
+        "cs": "动物奇园",
+        "ch": "動物奇園"
+      },
+      "appId": "A-AP02",
+      "gameId": "A-AP02",
+      "category1": "Arcade",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Animal-Paradise-EN.jpg"
+      },
+      "launchDate": "2001/03/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Bicycle Race",
+        "cs": "职业赛单车",
+        "ch": "職業賽單車"
+      },
+      "appId": "A-DB04",
+      "gameId": "A-DB04",
+      "category1": "Arcade",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Bicycle-Race-EN.jpg"
+      },
+      "launchDate": "2001/03/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dirt Bike",
+        "cs": "越野赛车",
+        "ch": "越野賽車"
+      },
+      "appId": "A-DB05",
+      "gameId": "A-DB05",
+      "category1": "Arcade",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Dirt-Bike-EN.jpg"
+      },
+      "launchDate": "2001/03/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dog Racing",
+        "cs": "极速赛狗",
+        "ch": "極速賽狗"
+      },
+      "appId": "A-DD02",
+      "gameId": "A-DD02",
+      "category1": "Arcade",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Dog-Racing-EN.jpg"
+      },
+      "launchDate": "2001/03/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Derby Express",
+        "cs": "德比直通",
+        "ch": "德比直通"
+      },
+      "appId": "A-DE02",
+      "gameId": "A-DE02",
+      "category1": "Arcade",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Derby-Express-EN.jpg"
+      },
+      "launchDate": "2001/03/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Magic Journey",
+        "cs": "仙桃演义",
+        "ch": "仙桃演義"
+      },
+      "appId": "A-JW02",
+      "gameId": "A-JW02",
+      "category1": "Arcade",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Magic-Journey-EN.jpg"
+      },
+      "launchDate": "2001/03/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lucky Baby ",
+        "cs": "幸运宝贝",
+        "ch": "幸運寶貝"
+      },
+      "appId": "A-LB02",
+      "gameId": "A-LB02",
+      "category1": "Arcade",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Lucky-Baby--EN.jpg"
+      },
+      "launchDate": "2001/03/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Bull Fighting",
+        "cs": "通比牛牛",
+        "ch": "通比牛牛"
+      },
+      "appId": "C-BF01",
+      "gameId": "C-BF01",
+      "category1": "Table",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Bull-Fighting-EN.jpg"
+      },
+      "launchDate": "2018/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Banker Bull",
+        "cs": "抢庄牛牛",
+        "ch": "搶莊牛牛"
+      },
+      "appId": "C-BB01",
+      "gameId": "C-BB01",
+      "category1": "Table",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Banker-Bull-EN.jpg"
+      },
+      "launchDate": "2018/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Two Eight Bars",
+        "cs": "二八杠",
+        "ch": "二八杠"
+      },
+      "appId": "C-TE01",
+      "gameId": "C-TE01",
+      "category1": "Table",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Two-Eight-Bars-EN.jpg"
+      },
+      "launchDate": "2018/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Win Three Cards",
+        "cs": "炸金花",
+        "ch": "炸金花"
+      },
+      "appId": "C-WT01",
+      "gameId": "C-WT01",
+      "category1": "Table",
+      "Reels": "",
+      "paylines": "N/A",
+      "RTP": "97",
+      "imgName": {
+        "en": "Win-Three-Cards-EN.jpg"
+      },
+      "launchDate": "2018/11/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    }
+  ]
+}
