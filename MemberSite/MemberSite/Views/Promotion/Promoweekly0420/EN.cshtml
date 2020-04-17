@@ -1,0 +1,298 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+@section Style{
+    <style>
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            /* Style the buttons that are used to open the tab content */
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                transition: 0.3s;
+            }
+
+                /* Change background color of buttons on hover */
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                /* Create an active/current tablink class */
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border-top: none;
+        }
+    </style>
+}
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-weekly0420.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+
+        <div class="tab">
+            <button class="tablinks" onclick="openPromo(event, 'Promo1')">CASINO WEEKLY CASH GIVEAWAY</button>
+            <button class="tablinks" onclick="openPromo(event, 'Promo2')">LIVE CASINO WEEKLY CASH GIVEAWAY</button>
+          </div>
+          <br><br>
+
+        <div id="Promo1" class="tabcontent">
+            <div class="promotions-module">
+                <article>
+                    <div class="promotions-txt">
+                        <ul>
+                            <li class="txt-blue">CASINO WEEKLY CASH GIVEAWAY</li>
+                            <li class="txt-gray">
+                                This promotion starts at Apr 20, 2020 12:00 AM till May 25, 2020 11:59 PM
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </article>
+            </div>
+                <div class="promotions-module">
+                    <span class="promotions-title">How to Qualify:</span>
+                    <ol type="1">
+                        <li>Play Casino and reach a turnover seven (7) days to get the Weekly Cash Giveaway.</li>
+                    </ol>
+                    
+                    <span class="promotions-title">Significant Conditions</span>
+                    
+                        <ol type="1">
+                            <li>This promotion applies only to Malaysian Ringgit account players;<br><br></li>
+                            <li>Only three (3) winners will receive prizes each week. If there are more than 3 winners per week, Nova88 will choose the top 3 players with the highest turnover value.<br><br></li>
+                            <li>Players who got the prizes on previous period still can qualified again for the next period.<br><br></li>
+                            <li>Players should reach the required turnover within seven (7) days from Monday 12:00:00 PM (GMT+8) to Monday 11:59:59 AM (GMT+8) to qualify the prizes. Players who did not reach the minimum turnover can try again for the next period.<br><br></li>
+                            <li>This promotion turnover calculation based on the turnover casino only.<br><br></li>
+                            <li>Winner prizes will send to your bank account directly which the bank detail registered with our Nova88 within 48 hours from Monday.<br><br></li>
+                            <div class="table table-rwd table-primary">
+                                <div class="thead">
+                                    <div class="tr">
+                                        <div class="td-date">
+                                            <span class="text">PERIOD</span>
+                                        </div>
+                                        <div class="td-date">
+                                            <span class="text">WEEKLY TURNOVER</span>
+                                        </div>
+                                        <div class="td-time">
+                                            <span class="text">CASH PRIZE(MYR)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tbody">
+                                    <div class="tr row-even">
+                                        <div class="td-date">
+                                            <span class="text">Monday-Sunday</span>
+                                        </div>
+                                        <div class="td-date">
+                                            <span class="text">500,000</span>
+                                        </div>
+                                        <div class="td-time">
+                                            <span class="text">1,000</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tbody">
+                                    <div class="tr row-even">
+                                        <div class="td-date">
+                                            <span class="text">Monday-Sunday</span>
+                                        </div>
+                                        <div class="td-date">
+                                            <span class="text">250,000</span>
+                                        </div>
+                                        <div class="td-time">
+                                            <span class="text">500</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tbody">
+                                    <div class="tr row-even">
+                                        <div class="td-date">
+                                            <span class="text">Monday-Sunday</span>
+                                        </div>
+                                        <div class="td-date">
+                                            <span class="text">100,000</span>
+                                        </div>
+                                        <div class="td-time">
+                                            <span class="text">250</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            Example of Top three (3) winners:<br>
+                            Top 1 Turnover 580,000 get 1,000 Cash<br>
+                            Top 2 Turnover 530,000 get 500 Cash<br>
+                            Top 3 Turnover 510,000 get 250 Cash<br><br>
+    
+                    <li>This promotion is NOT eligible combine with welcome bonus 150%.<br><br></li>
+                    <li>This promotion is NOT eligible for player non withdraw record transaction.<br><br></li>
+                        </ol>
+                    
+                            
+                            <br>
+                            <p>Nova88 reserves the right to amend or withdraw the Promotion at any time.</p>
+                            <p>Nova88 is the sole arbiter of the Promotion and its decision is final.</p>
+                            <p>Nova88 Standard Terms and Conditions apply.</p>
+            </div>
+    </div>
+
+    <div id="Promo2" class="tabcontent">
+        <div class="promotions-module">
+            <article>
+                <div class="promotions-txt">
+                    <ul>
+                        <li class="txt-blue">LIVE CASINO WEEKLY CASH GIVEAWAY</li>
+                        <li class="txt-gray">
+                            This promotion starts at Apr 20, 2020 12:00 AM till May 25, 2020 11:59 PM
+                        </li>
+                        
+                    </ul>
+                </div>
+            </article>
+        </div>
+            <div class="promotions-module">
+                <span class="promotions-title">How to Qualify:</span>
+                <ol type="1">
+                    <li>Play Live Casino and reach a turnover seven (7) days to get the Weekly Cash Giveaway.</li>
+                </ol>
+                
+                <span class="promotions-title">Significant Conditions</span>
+                
+                    <ol type="1">
+                        <li>This promotion applies only to Malaysian Ringgit account players;<br><br></li>
+                        <li>Only three (3) winners will receive prizes each week. If there are more than 3 winners per week, Nova88 will choose the top 3 players with the highest turnover value.<br><br></li>
+                        <li>Players who got the prizes on previous period still can qualified again for the next period. <br><br></li>
+                        <li>Players should reach the required turnover within seven (7) days from Monday 12:00:00 PM (GMT+8) to Monday 11:59:59 AM (GMT+8) to qualify the prizes. Players who did not reach the minimum turnover can try again for the next period.<br><br></li>
+                        <li>This promotion turnover calculation based on the turnover live casino only.<br><br></li>
+                        <li>Winner prizes will send to your bank account directly which the bank detail registered with our Nova88 within 48 hours from Monday.<br><br></li>
+
+                        <div class="table table-rwd table-primary">
+                            <div class="thead">
+                                <div class="tr">
+                                    <div class="td-date">
+                                        <span class="text">PERIOD</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">WEEKLY TURNOVER</span>
+                                    </div>
+                                    <div class="td-time">
+                                        <span class="text">CASH PRIZE(MYR)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tbody">
+                                <div class="tr row-even">
+                                    <div class="td-date">
+                                        <span class="text">Monday-Sunday</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">1,000,000</span>
+                                    </div>
+                                    <div class="td-time">
+                                        <span class="text">2,888</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tbody">
+                                <div class="tr row-even">
+                                    <div class="td-date">
+                                        <span class="text">Monday-Sunday</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">500,000</span>
+                                    </div>
+                                    <div class="td-time">
+                                        <span class="text">1,288</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tbody">
+                                <div class="tr row-even">
+                                    <div class="td-date">
+                                        <span class="text">Monday-Sunday</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">250,000</span>
+                                    </div>
+                                    <div class="td-time">
+                                        <span class="text">888</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        Example of Top three (3) winners:<br>
+                        Top 1 Turnover 1,300,000 get 2888 Cash<br>
+                        Top 2 Turnover 1,200,000 get 1,288 Cash<br>
+                        Top 3 Turnover 1,000,000 get 888 Cash<br><br>
+
+                        <li>This promotion is NOT eligible combine with welcome bonus 150%. <br><br></li>
+                        <li>This promotion is NOT eligible for player non withdraw record transaction.<br><br></li>
+                    </ol>
+                
+                        
+                        <br>
+                        <p>Nova88 reserves the right to amend or withdraw the Promotion at any time.</p>
+                        <p>Nova88 is the sole arbiter of the Promotion and its decision is final.</p>
+                        <p>Nova88 Standard Terms and Conditions apply.</p>
+        </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        openPromo(event, "Promo1");
+        //document.getElementById('Promo1').focus();
+        function openPromo(evt, PromoName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(PromoName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+    </script>
+}
