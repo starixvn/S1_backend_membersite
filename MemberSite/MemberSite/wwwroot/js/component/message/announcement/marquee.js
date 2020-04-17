@@ -71,7 +71,7 @@
                 delayBeforeStart:2000
             }).bind('finished', function(){
                 $(this).marquee('destroy');
-                currentIdx = currentIdx === (datas.length-1) ? 0 : currentIdx + 1;
+                currentIdx = currentIdx >= (datas.length-1) ? 0 : currentIdx + 1;
                 $(this).html(datas[currentIdx].subject);
                 _this.SetMarquee();
             });
