@@ -154,7 +154,8 @@ namespace MemberSite.Service.Model.enums
         GPI = 6,
         YL = 7,
         YGG = 8,
-        Joker = 9
+        Joker = 9,
+        SG = 10
     }
     public enum GameType
     {
