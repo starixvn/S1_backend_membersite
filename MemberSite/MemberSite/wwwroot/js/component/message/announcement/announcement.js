@@ -14,7 +14,7 @@ import * as Loading from '../../commJS/Loading.jsx';
                             key={`announce-${idx}`}
                             mainIdx={idx}
                             subject={item.subject}
-                            startTime={moment(item.startTime).format("l hh:mm:ss A")}
+                            startTime={moment(item.startTime).format("l")}
                             content={item.content}
                         />
                     )

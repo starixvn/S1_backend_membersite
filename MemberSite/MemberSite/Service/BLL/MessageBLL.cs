@@ -1,5 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,12 @@ namespace MemberSite.Service.BLL
     public class MessageBLL
     {
         private readonly MessageService messageService;
+        private readonly IMemoryCache cache;
 
-        public MessageBLL(MessageService messageService)
+        public MessageBLL(MessageService messageService, IMemoryCache cache)
         {
             this.messageService = messageService;
+            this.cache = cache;
         }
         public IEnumerable<Msg> GetMsgList(int custId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
@@ -44,7 +47,22 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<Announcement> GetAnnouncement(string LangCode, string DefaultLangCode, int LimitRow, bool IsTest, int SiteId)
         {
-            return messageService.GetAnnouncement(LangCode, DefaultLangCode, LimitRow, IsTest, SiteId);
+            string key = $"Announcement_{SiteId}";
+            var cacheData = cache.Get<IEnumerable<Announcement>>(key);
+            if (cacheData != null)
+            {
+                return cacheData;
+            }
+
+            cacheData = messageService.GetAnnouncement(LangCode, DefaultLangCode, LimitRow, IsTest, SiteId);
+            if (cacheData != null)
+            {
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetSlidingExpiration(TimeSpan.FromSeconds(30));
+                cache.Set(key, cacheData, cacheEntryOptions);
+            }
+
+            return cacheData;
         }
     }
 }

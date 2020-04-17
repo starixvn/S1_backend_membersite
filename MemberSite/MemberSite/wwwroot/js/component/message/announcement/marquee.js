@@ -10,23 +10,50 @@
     class Panel extends React.Component {
         constructor(props){
             super(props);
-            this.state = {datas: []}
-            this.GetAnnouncement();
+            this.state = {datas: []};
             this.SetMarquee = this.SetMarquee.bind(this);
             this.ClickMarquee = this.ClickMarquee.bind(this);
+            this.GetAnnouncement = this.GetAnnouncement.bind(this);
+            this.GetAnnouncement();
+            this.intervalId = setInterval(this.GetAnnouncement, 60000);
+            this.SetMarquee();
         }
         GetAnnouncement(){
             let res = axios.post('/api/Message/GetAnnouncement',{}).then(res=>{
-                currentIdx = 0;
-                this.setState({
-                    datas:res.data.data.map(item=>{
-                        return {
-                            ...item,
-                            subject: item.subject.substring(1, item.subject.length-1),
-                            content: item.content.substring(1, item.content.length-1)
+                let resData = res.data.data;
+                let stateData = this.state.datas;
+                let upd = false;
+                if(resData.length !== 0 && stateData.length !== 0){
+                    for(let d in resData){
+                        let find = stateData.find(x=> x.id === resData[d].id 
+                            && x.subject===resData[d].subject.substring(1, resData[d].subject.length-1) 
+                            && x.content===resData[d].content.substring(1, resData[d].content.length-1)
+                        );
+
+                        if(!find){
+                            upd = true;
+                            break;
                         }
-                    })
-                });
+                    }
+                }else{
+                    upd = true;
+                }
+
+                if(upd){
+                    if(stateData.length===0){
+                        currentIdx = 0;
+                    }
+
+                    this.setState({
+                        datas:res.data.data.map(item=>{
+                            return {
+                                ...item,
+                                subject: item.subject.substring(1, item.subject.length-1),
+                                content: item.content.substring(1, item.content.length-1)
+                            }
+                        })
+                    });
+                }
             });
         }
         componentDidUpdate(){
@@ -44,7 +71,7 @@
                 delayBeforeStart:2000
             }).bind('finished', function(){
                 $(this).marquee('destroy');
-                currentIdx = currentIdx >= (datas.length-1) ? 0 : currentIdx + 1;
+                currentIdx = currentIdx === (datas.length-1) ? 0 : currentIdx + 1;
                 $(this).html(datas[currentIdx].subject);
                 _this.SetMarquee();
             });
