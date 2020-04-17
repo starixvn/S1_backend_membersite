@@ -1,0 +1,300 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+@section Style{
+    <style>
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            /* Style the buttons that are used to open the tab content */
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                transition: 0.3s;
+            }
+
+                /* Change background color of buttons on hover */
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                /* Create an active/current tablink class */
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border-top: none;
+        }
+    </style>
+}
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-weekly0420.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+
+        <div class="tab">
+            <button class="tablinks" onclick="openPromo(event, 'Promo1')">คาสิโน โบนัสเงินสดรายสัปดาห์</button>
+            <button class="tablinks" onclick="openPromo(event, 'Promo2')">ไลฟ์คาสิโน โบนัสเงินสดรายสัปดาห์</button>
+          </div>
+          <br><br>
+
+        <div id="Promo1" class="tabcontent">
+            <div class="promotions-module">
+                <article>
+                    <div class="promotions-txt">
+                        <ul>
+                            <li class="txt-blue">คาสิโน โบนัสเงินสดรายสัปดาห์</li>
+                            <li class="txt-gray">
+                                โปรโมชั่นนี้เริ่มต้นที่ 20 เมษายน 2020 12:00 น. ถึง 25 พฤษภาคม 2020 23:59 น
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </article>
+            </div>
+                <div class="promotions-module">
+                    <span class="promotions-title">เงื่อนไขในการรับโปรโมชั่น</span>
+                    <ol type="1">
+                        <li>เล่นคาสิโนและมีการทำยอดสะสมจากการเดิมพัน ( เทิร์นโอเวอร์ ) ภายใน  7 วันเพื่อรับรางวัลโบนัสเงินสดรายสัปดาห์</li>
+                    </ol>
+                    
+                    <span class="promotions-title">ข้อตกลงและเงื่อนไข</span>
+                    
+                        <ol type="1">
+                            <li>โปรโมชั่นนี้ใช้ได้กับผู้เล่นบัญชีเงินบาทเท่านั้น<br><br></li>
+                            <li>ผู้ชนะสามคนเท่านั้นที่จะได้รับรางวัลในแต่ละสัปดาห์ หากมีผู้ชนะมากกว่า 3 รายต่อสัปดาห์ Nova88 จะเลือกผู้เล่น 3 อันดับแรกที่มีการทำยอดสะสมจากการเดิมพัน ( เทิร์นโอเวอร์ ) สูงสุด<br><br></li>
+                            <li>ผู้เล่นที่ได้รับรางวัลในช่วงก่อนหน้านี้ยังคงสามารถเล่นรอบต่อไปได้<br><br></li>
+                            <li>ผู้เล่นควรมียอดเทิร์นโอเวอร์ตามที่กำหนดไว้ภายในเจ็ด (7) วันจากวันจันทร์ 12:00:00 น. (GMT + 8) ถึงวันจันทร์ 11:59:59 น. (GMT + 8) เพื่อรับรางวัล ผู้เล่นที่ไม่ถึงการหมุนเวียนขั้นต่ำสามารถลองอีกครั้งในช่วงเวลาต่อไป<br><br></li>
+                            <li>การคำนวนโปรโมชั่นนี้จะคำนวนจากยอดเทิร์นโอเวอร์ของคาสิโนเท่านั้น<br><br></li>
+                            <li>รางวัลสำหรับผู้ชนะจะถูกโอนไปยังบัญชีธนาคารของคุณโดยตรงตามรายละเอียดธนาคารที่คุณได้ลงทะเบียนไว้กับ Nova88 ภายใน 48 ชั่วโมงนับจากวันจันทร์<br><br></li>
+                            <div class="table table-rwd table-primary">
+                                <div class="thead">
+                                    <div class="tr">
+                                        <div class="td-date">
+                                            <span class="text">ระยะเวลา</span>
+                                        </div>
+                                        <div class="td-date">
+                                            <span class="text">ยอดเทิร์นโอเวอร์ใน 1 สัปดาห์</span>
+                                        </div>
+                                        <div class="td-time">
+                                            <span class="text">รางวัลเงินสด (บาท)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tbody">
+                                    <div class="tr row-even">
+                                        <div class="td-date">
+                                            <span class="text">วันจันทร์ - วันอาทิตย์</span>
+                                        </div>
+                                        <div class="td-date">
+                                            <span class="text">3,800,000</span>
+                                        </div>
+                                        <div class="td-time">
+                                            <span class="text">7,500</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tbody">
+                                    <div class="tr row-even">
+                                        <div class="td-date">
+                                            <span class="text">วันจันทร์ - วันอาทิตย์</span>
+                                        </div>
+                                        <div class="td-date">
+                                            <span class="text">1,900,000</span>
+                                        </div>
+                                        <div class="td-time">
+                                            <span class="text">3,800</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tbody">
+                                    <div class="tr row-even">
+                                        <div class="td-date">
+                                            <span class="text">วันจันทร์ - วันอาทิตย์</span>
+                                        </div>
+                                        <div class="td-date">
+                                            <span class="text">750,000</span>
+                                        </div>
+                                        <div class="td-time">
+                                            <span class="text">1,900</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            ตัวอย่างผู้ชนะสามอันดับแรก:<br>
+                            ผู้ชนะอันดับ 1 มียอดเทิร์นโอเวอร์ 4,400,000 รับเงินสด 7,500 <br>
+                            ผู้ชนะอันดับ 2 มียอดเทิร์นโอเวอร์ 4,000,000 รับเงินสด 3,800<br>
+                            ผู้ชนะอันดับ 3 มียอดเทิร์นโอเวอร์ 3,900,000 รับเงินสด 1,900<br><br>
+    
+                            <li>โปรโมชั่นนี้ไม่สามารถใช้ร่วมกับโบนัส 150% ได้<br><br></li>
+                            <li>โปรโมชั่นนี้ไม่สามารถใช้ได้กับผู้เล่นที่ไม่มีรายการบันทึกการถอนเงิน<br><br></li>                            
+                            
+                        </ol>
+                    
+                            
+                            <br>
+                            <p>Nova88 ขอสงวนสิทธิ์ในการแก้ไขหรือถอนโปรโมชั่นได้ตลอดเวลา</p>
+                            <p>Nova88 เป็นผู้ตัดสินแต่เพียงผู้เดียวของโปรโมชั่นและการตัดสินใจของ Nova88 ถือเป็นที่สิ้นสุด</p>
+                            <p>ข้อกำหนดและเงื่อนไขมาตรฐาน Nova88</p>
+            </div>
+    </div>
+
+    <div id="Promo2" class="tabcontent">
+        <div class="promotions-module">
+            <article>
+                <div class="promotions-txt">
+                    <ul>
+                        <li class="txt-blue">ไลฟ์คาสิโน โบนัสเงินสดรายสัปดาห์</li>
+                        <li class="txt-gray">
+                            โปรโมชั่นนี้เริ่มต้นที่ 20 เมษายน 2020 12:00 น. ถึง 25 พฤษภาคม 2020 23:59 น
+                        </li>
+                        
+                    </ul>
+                </div>
+            </article>
+        </div>
+            <div class="promotions-module">
+                <span class="promotions-title">เงื่อนไขในการรับโปรโมชั่น</span>
+                <ol type="1">
+                    <li>เล่น ไลฟ์คาสิโนและมีการทำยอดสะสมจากการเดิมพัน ( เทิร์นโอเวอร์ ) ภายใน  7 วันเพื่อรับรางวัลโบนัสเงินสดรายสัปดาห์</li>
+                </ol>
+                
+                <span class="promotions-title">ข้อตกลงและเงื่อนไข</span>
+                
+                    <ol type="1">
+                        <li>โปรโมชั่นนี้ใช้ได้กับผู้เล่นบัญชีเงินบาทเท่านั้น<br><br></li>
+                        <li>ผู้ชนะสามคนเท่านั้นที่จะได้รับรางวัลในแต่ละสัปดาห์ หากมีผู้ชนะมากกว่า 3 รายต่อสัปดาห์ Nova88 จะเลือกผู้เล่น 3 อันดับแรกที่มีการทำยอดสะสมจากการเดิมพัน ( เทิร์นโอเวอร์ ) สูงสุด<br><br></li>
+                        <li>ผู้เล่นที่ได้รับรางวัลในช่วงก่อนหน้านี้ยังคงสามารถเล่นรอบต่อไปได้<br><br></li>
+                        <li>ผู้เล่นควรมียอดเทิร์นโอเวอร์ตามที่กำหนดไว้ภายในเจ็ด (7) วันจากวันจันทร์ 12:00:00 น. (GMT + 8) ถึงวันจันทร์ 11:59:59 น. (GMT + 8) เพื่อรับรางวัล ผู้เล่นที่ไม่ถึงการหมุนเวียนขั้นต่ำสามารถลองอีกครั้งในช่วงเวลาต่อไป<br><br></li>
+                        <li>การคำนวนโปรโมชั่นนี้จะคำนวนจากยอดเทิร์นโอเวอร์ของคาสิโนสดเท่านั้น<br><br></li>
+                        <li>รางวัลสำหรับผู้ชนะจะถูกโอนไปยังบัญชีธนาคารของคุณโดยตรงตามรายละเอียดธนาคารที่คุณได้ลงทะเบียนไว้กับ Nova88 ภายใน 48 ชั่วโมงนับจากวันจันทร์<br><br></li>
+
+                        <div class="table table-rwd table-primary">
+                            <div class="thead">
+                                <div class="tr">
+                                    <div class="td-date">
+                                        <span class="text">ระยะเวลา</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">ยอดเทิร์นโอเวอร์ใน 1 สัปดาห์</span>
+                                    </div>
+                                    <div class="td-time">
+                                        <span class="text">รางวัลเงินสด (บาท)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tbody">
+                                <div class="tr row-even">
+                                    <div class="td-date">
+                                        <span class="text">วันจันทร์ - วันอาทิตย์</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">7,600,000</span>
+                                    </div>
+                                    <div class="td-time">
+                                        <span class="text">21,888</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tbody">
+                                <div class="tr row-even">
+                                    <div class="td-date">
+                                        <span class="text">วันจันทร์ - วันอาทิตย์</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">3,800,000</span>
+                                    </div>
+                                    <div class="td-time">
+                                        <span class="text">9,888</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tbody">
+                                <div class="tr row-even">
+                                    <div class="td-date">
+                                        <span class="text">วันจันทร์ - วันอาทิตย์</span>
+                                    </div>
+                                    <div class="td-date">
+                                        <span class="text">1,900,000</span>
+                                    </div>
+                                    <div class="td-time">
+                                        <span class="text">6,888</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        ตัวอย่างผู้ชนะสามอันดับแรก:<br>
+                        ผู้ชนะอันดับ 1 มียอดเทิร์นโอเวอร์ 7,800,000 รับเงินสด 21,888<br>
+                        ผู้ชนะอันดับ 2 มียอดเทิร์นโอเวอร์ 7,700,000 รับเงินสด 9,888<br>
+                        ผู้ชนะอันดับ 3 มียอดเทิร์นโอเวอร์ 7,600,000 รับเงินสด 6,888<br><br>
+
+                        <li>โปรโมชั่นนี้ไม่สามารถใช้ร่วมกับโบนัส 150% ได้<br><br></li>
+                        <li>โปรโมชั่นนี้ไม่สามารถใช้ได้กับผู้เล่นที่ไม่มีรายการบันทึกการถอนเงิน<br><br></li>
+                    </ol>
+                
+                        
+                        <br>
+                        <p>Nova88 ขอสงวนสิทธิ์ในการแก้ไขหรือถอนโปรโมชั่นได้ตลอดเวลา</p>
+                        <p>Nova88 เป็นผู้ตัดสินแต่เพียงผู้เดียวของโปรโมชั่นและการตัดสินใจของ Nova88 ถือเป็นที่สิ้นสุด</p>
+                        <p>ข้อกำหนดและเงื่อนไขมาตรฐาน Nova88</p>
+
+        </div>
+</div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        openPromo(event, "Promo1");
+        //document.getElementById('Promo1').focus();
+        function openPromo(evt, PromoName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(PromoName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+    </script>
+}
