@@ -47,7 +47,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<Announcement> GetAnnouncement(string LangCode, string DefaultLangCode, int LimitRow, bool IsTest, int SiteId)
         {
-            string key = $"Announcement_{SiteId}";
+            string key = $"Announcement_{SiteId}_{LangCode}";
             var cacheData = cache.Get<IEnumerable<Announcement>>(key);
             if (cacheData != null)
             {
