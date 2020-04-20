@@ -23,12 +23,14 @@ namespace MemberSite.Controllers.Api
         private readonly CustInfoBLL custInfoBLL;
         private readonly Tools tools;
         private readonly SelLangBLL selLangBLL;
+        private readonly CommonBLL commonBLL;
 
-        public SiteController(CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools)
+        public SiteController(CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
             this.selLangBLL = selLangBLL;
+            this.commonBLL = commonBLL;
         }
 
         public class LoginModel
@@ -169,6 +171,8 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
+                commonBLL.SendWelcomeMail(custId);
+
                 Customer customer = null;
                 string token = null;
                 var userLoginResult = custInfoBLL.UserLogin(registeredModel.UserName, registeredModel.Userpwd, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);

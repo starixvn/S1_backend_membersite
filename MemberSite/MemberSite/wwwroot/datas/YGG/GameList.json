@@ -1549,8 +1549,7 @@
       "new": true,
       "featured": true,
       "imageExist": true,
-      "Isfun": 1,
-      "disabled": 1
+      "Isfun": 1
     }
   ]
 }

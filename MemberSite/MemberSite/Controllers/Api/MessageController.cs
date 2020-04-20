@@ -30,7 +30,7 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<IEnumerable<Announcement>>();
             int LimitRow = User.Identity.IsAuthenticated ? 15 : 3;
             var serverInfo = serverInfoBLL.GetServerInfo();
-            result.Data = messageBLL.GetAnnouncement(selLangBLL.GetLangId(), "en", LimitRow, !environment.IsProduction(), serverInfo.SiteId);
+            result.Data = messageBLL.GetAnnouncement(selLangBLL.GetLangId(), serverInfo.DefLang, LimitRow, !environment.IsProduction(), serverInfo.SiteId);
             result.ErrorCode = 0;
 
             return result;

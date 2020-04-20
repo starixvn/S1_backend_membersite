@@ -14,13 +14,14 @@
       "paylines": "10",
       "RTP": "97",
       "imgName": {
-        "en": "Book-of-Myth-EN.jpg"
+        "en": "Book-of-Myth-EN.jpg",
+        "cs": "Book-of-Myth-CS.jpg",
+        "ch": "Book-of-Myth-CS.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -35,13 +36,15 @@
       "paylines": "15",
       "RTP": "95",
       "imgName": {
-        "en": "Wong-Choy-EN.jpg"
+        "en": "Wong-Choy-EN.jpg",
+        "cs": "Wong-Choy-CS.jpg",
+        "ch": "Wong-Choy-CS.jpg"
       },
       "launchDate": "2026/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "featured": false,
+      "imageExist": true
     },
     {
       "name": {
@@ -56,13 +59,14 @@
       "paylines": "243",
       "RTP": "97",
       "imgName": {
-        "en": "Money-Mouse-EN.jpg"
+        "en": "Money-Mouse-EN.jpg",
+        "cs": "Money-Mouse-CS.jpg",
+        "ch": "Money-Mouse-CS.jpg"
       },
       "launchDate": "2016/12/19",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -77,13 +81,14 @@
       "paylines": "243",
       "RTP": "97",
       "imgName": {
-        "en": "Dragon-Empire-EN.jpg"
+        "en": "Dragon-Empire-EN.jpg",
+        "cs": "Dragon-Empire-CS.jpg",
+        "ch": "Dragon-Empire-CS.jpg"
       },
       "launchDate": "2019/11/19",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -98,13 +103,14 @@
       "paylines": "1",
       "RTP": "97",
       "imgName": {
-        "en": "888-EN.jpg"
+        "en": "888-EN.jpg",
+        "cs": "888-CS.jpg",
+        "ch": "888-CS.jpg"
       },
       "launchDate": "2022/10/19",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":0
+      "imageExist": true
     },
     {
       "name": {
@@ -119,13 +125,14 @@
       "paylines": "1",
       "RTP": "97",
       "imgName": {
-        "en": "Three-Lucky-Stars-EN.jpg"
+        "en": "Three-Lucky-Stars-EN.jpg",
+        "cs": "Three-Lucky-Stars-CS.jpg",
+        "ch": "Three-Lucky-Stars-CS.jpg"
       },
       "launchDate": "2017/09/19",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":0
+      "imageExist": true
     },
     {
       "name": {
@@ -140,13 +147,14 @@
       "paylines": "50",
       "RTP": "97",
       "imgName": {
-        "en": "Heroes-EN.jpg"
+        "en": "Heroes-EN.jpg",
+        "cs": "Heroes-CS.jpg",
+        "ch": "Heroes-CS.jpg"
       },
       "launchDate": "2014/08/19",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -161,13 +169,14 @@
       "paylines": "10",
       "RTP": "97",
       "imgName": {
-        "en": "Sweet-Bakery-EN.jpg"
+        "en": "Sweet-Bakery-EN.jpg",
+        "cs": "Sweet-Bakery-CS.jpg",
+        "ch": "Sweet-Bakery-CS.jpg"
       },
       "launchDate": "2023/07/19",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -182,13 +191,14 @@
       "paylines": "243",
       "RTP": "97",
       "imgName": {
-        "en": "Dancing-Fever-EN.jpg"
+        "en": "Dancing-Fever-EN.jpg",
+        "cs": "Dancing-Fever-CS.jpg",
+        "ch": "Dancing-Fever-CS.jpg"
       },
       "launchDate": "2025/06/19",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -203,13 +213,14 @@
       "paylines": "50",
       "RTP": "97",
       "imgName": {
-        "en": "Magical-Lamp-EN.jpg"
+        "en": "Magical-Lamp-EN.jpg",
+        "cs": "Magical-Lamp-CS.jpg",
+        "ch": "Magical-Lamp-CS.jpg"
       },
       "launchDate": "2021/05/19",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -224,13 +235,14 @@
       "paylines": "5",
       "RTP": "97",
       "imgName": {
-        "en": "Triple-Panda-EN.jpg"
+        "en": "Triple-Panda-EN.jpg",
+        "cs": "Triple-Panda-CS.jpg",
+        "ch": "Triple-Panda-CS.jpg"
       },
       "launchDate": "2014/04/19",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -245,13 +257,14 @@
       "paylines": "4096",
       "RTP": "97",
       "imgName": {
-        "en": "Gold-Panther-EN.jpg"
+        "en": "Gold-Panther-EN.jpg",
+        "cs": "Gold-Panther-CS.jpg",
+        "ch": "Gold-Panther-CS.jpg"
       },
       "launchDate": "2012/03/19",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -266,13 +279,14 @@
       "paylines": "40",
       "RTP": "97",
       "imgName": {
-        "en": "Mr-Chu-Tycoon-EN.jpg"
+        "en": "Mr-Chu-Tycoon-EN.jpg",
+        "cs": "Mr-Chu-Tycoon-CS.jpg",
+        "ch": "Mr-Chu-Tycoon-CS.jpg"
       },
       "launchDate": "2016/01/19",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -287,13 +301,14 @@
       "paylines": "20",
       "RTP": "97",
       "imgName": {
-        "en": "Brothers-kingdom-EN.jpg"
+        "en": "Brothers-kingdom-EN.jpg",
+        "cs": "Brothers-kingdom-CS.jpg",
+        "ch": "Brothers-kingdom-CS.jpg"
       },
       "launchDate": "2027/11/18",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -308,13 +323,14 @@
       "paylines": "20",
       "RTP": "97",
       "imgName": {
-        "en": "Prosperity-Gods-EN.jpg"
+        "en": "Prosperity-Gods-EN.jpg",
+        "cs": "Prosperity-Gods-CS.jpg",
+        "ch": "Prosperity-Gods-CS.jpg"
       },
       "launchDate": "2024/10/18",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -329,13 +345,14 @@
       "paylines": "N/A",
       "RTP": "97",
       "imgName": {
-        "en": "Candy-Pop-EN.jpg"
+        "en": "Candy-Pop-EN.jpg",
+        "cs": "Candy-Pop-CS.jpg",
+        "ch": "Candy-Pop-CS.jpg"
       },
       "launchDate": "2031/07/18",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -350,13 +367,14 @@
       "paylines": "25",
       "RTP": "97",
       "imgName": {
-        "en": "Golden-Fist-EN.jpg"
+        "en": "Golden-Fist-EN.jpg",
+        "cs": "Golden-Fist-CS.jpg",
+        "ch": "Golden-Fist-CS.jpg"
       },
       "launchDate": "2003/07/18",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -371,17 +389,18 @@
       "paylines": "1",
       "RTP": "97",
       "imgName": {
-        "en": "FaFaFa2-EN.jpg"
+        "en": "FaFaFa2-EN.jpg",
+        "cs": "FaFaFa2-CS.jpg",
+        "ch": "FaFaFa2-CS.jpg"
       },
       "launchDate": "2016/01/18",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":0
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Gangster Axe ",
+        "en": "Gangster Axe",
         "cs": "斧头帮",
         "ch": "斧頭幫"
       },
@@ -392,13 +411,14 @@
       "paylines": "100",
       "RTP": "97",
       "imgName": {
-        "en": "Gangster-Axe--EN.jpg"
+        "en": "Gangster-Axe-EN.jpg",
+        "cs": "Gangster-Axe-CS.jpg",
+        "ch": "Gangster-Axe-CS.jpg"
       },
       "launchDate": "2016/01/18",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -413,13 +433,14 @@
       "paylines": "15",
       "RTP": "97",
       "imgName": {
-        "en": "Princess-Wang-EN.jpg"
+        "en": "Princess-Wang-EN.jpg",
+        "cs": "Princess-Wang-CS.jpg",
+        "ch": "Princess-Wang-CS.jpg"
       },
       "launchDate": "2016/01/18",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -434,17 +455,18 @@
       "paylines": "1024",
       "RTP": "97",
       "imgName": {
-        "en": "Wow-Prosperity-EN.jpg"
+        "en": "Wow-Prosperity-EN.jpg",
+        "cs": "Wow-Prosperity-CS.jpg",
+        "ch": "Wow-Prosperity-CS.jpg"
       },
       "launchDate": "2016/01/18",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
-        "en": "First Love ",
+        "en": "First Love",
         "cs": "初恋",
         "ch": "初戀"
       },
@@ -455,13 +477,14 @@
       "paylines": "243",
       "RTP": "97",
       "imgName": {
-        "en": "First-Love--EN.jpg"
+        "en": "First-Love-EN.jpg",
+        "cs": "First-Love-CS.jpg",
+        "ch": "First-Love-CS.jpg"
       },
       "launchDate": "2031/10/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -476,13 +499,14 @@
       "paylines": "50",
       "RTP": "97",
       "imgName": {
-        "en": "Golden-Monkey-EN.jpg"
+        "en": "Golden-Monkey-EN.jpg",
+        "cs": "Golden-Monkey-CS.jpg",
+        "ch": "Golden-Monkey-CS.jpg"
       },
       "launchDate": "2031/10/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -497,13 +521,14 @@
       "paylines": "9",
       "RTP": "97",
       "imgName": {
-        "en": "Pan-Fairy-EN.jpg"
+        "en": "Pan-Fairy-EN.jpg",
+        "cs": "Pan-Fairy-CS.jpg",
+        "ch": "Pan-Fairy-CS.jpg"
       },
       "launchDate": "2031/10/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -518,13 +543,14 @@
       "paylines": "25",
       "RTP": "97",
       "imgName": {
-        "en": "ShangHai-008-EN.jpg"
+        "en": "ShangHai-008-EN.jpg",
+        "cs": "ShangHai-008-CS.jpg",
+        "ch": "ShangHai-008-CS.jpg"
       },
       "launchDate": "2031/10/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -539,17 +565,18 @@
       "paylines": "1024",
       "RTP": "97",
       "imgName": {
-        "en": "Jungle-King-EN.jpg"
+        "en": "Jungle-King-EN.jpg",
+        "cs": "Jungle-King-CS.jpg",
+        "ch": "Jungle-King-CS.jpg"
       },
       "launchDate": "2031/10/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Fist of Gold ",
+        "en": "Fist of Gold",
         "cs": "新霸天下",
         "ch": "新霸天下"
       },
@@ -560,17 +587,18 @@
       "paylines": "243",
       "RTP": "95",
       "imgName": {
-        "en": "Fist-of-Gold--EN.jpg"
+        "en": "Fist-of-Gold-EN.jpg",
+        "cs": "Fist-of-Gold-CS.jpg",
+        "ch": "Fist-of-Gold-CS.jpg"
       },
       "launchDate": "2001/06/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Tiger Warrior ",
+        "en": "Tiger Warrior",
         "cs": "虎大天王 ",
         "ch": "虎大天王 "
       },
@@ -581,17 +609,18 @@
       "paylines": "243",
       "RTP": "96",
       "imgName": {
-        "en": "Tiger-Warrior--EN.jpg"
+        "en": "Tiger-Warrior-EN.jpg",
+        "cs": "Tiger-Warrior-CS.jpg",
+        "ch": "Tiger-Warrior-CS.jpg"
       },
       "launchDate": "2001/06/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Sea Emperor ",
+        "en": "Sea Emperor",
         "cs": "海龙王",
         "ch": "海龍王"
       },
@@ -602,13 +631,14 @@
       "paylines": "25",
       "RTP": "97",
       "imgName": {
-        "en": "Sea-Emperor--EN.jpg"
+        "en": "Sea-Emperor-EN.jpg",
+        "cs": "Sea-Emperor-CS.jpg",
+        "ch": "Sea-Emperor-CS.jpg"
       },
       "launchDate": "2018/04/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -623,17 +653,18 @@
       "paylines": "25",
       "RTP": "97",
       "imgName": {
-        "en": "ZEUS-EN.jpg"
+        "en": "ZEUS-EN.jpg",
+        "cs": "ZEUS-CS.jpg",
+        "ch": "ZEUS-CS.jpg"
       },
       "launchDate": "2018/04/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Ho Yeah Monkey ",
+        "en": "Ho Yeah Monkey",
         "cs": "猴爷到",
         "ch": "猴爺到"
       },
@@ -644,13 +675,14 @@
       "paylines": "1",
       "RTP": "97",
       "imgName": {
-        "en": "Ho-Yeah-Monkey--EN.jpg"
+        "en": "Ho-Yeah-Monkey-EN.jpg",
+        "cs": "Ho-Yeah-Monkey-CS.jpg",
+        "ch": "Ho-Yeah-Monkey-CS.jpg"
       },
       "launchDate": "2001/03/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":0
+      "imageExist": true
     },
     {
       "name": {
@@ -665,13 +697,14 @@
       "paylines": "1024",
       "RTP": "97",
       "imgName": {
-        "en": "Golden-Chicken-EN.jpg"
+        "en": "Golden-Chicken-EN.jpg",
+        "cs": "Golden-Chicken-CS.jpg",
+        "ch": "Golden-Chicken-CS.jpg"
       },
       "launchDate": "2009/01/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -686,13 +719,14 @@
       "paylines": "15",
       "RTP": "95",
       "imgName": {
-        "en": "Dragon-Gold-SA-EN.jpg"
+        "en": "Dragon-Gold-EN.jpg",
+        "cs": "Dragon-Gold-CS.jpg",
+        "ch": "Dragon-Gold-CS.jpg"
       },
       "launchDate": "2005/01/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -707,13 +741,14 @@
       "paylines": "50",
       "RTP": "95",
       "imgName": {
-        "en": "Emperor-Gate-SA-EN.jpg"
+        "en": "Emperor-Gate-EN.jpg",
+        "cs": "Emperor-Gate-CS.jpg",
+        "ch": "Emperor-Gate-CS.jpg"
       },
       "launchDate": "2005/01/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -728,13 +763,14 @@
       "paylines": "15",
       "RTP": "95",
       "imgName": {
-        "en": "Big-Prosperity-SA-EN.jpg"
+        "en": "Big-Prosperity-EN.jpg",
+        "cs": "Big-Prosperity-CS.jpg",
+        "ch": "Big-Prosperity-CS.jpg"
       },
       "launchDate": "2005/01/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -749,13 +785,14 @@
       "paylines": "15",
       "RTP": "95",
       "imgName": {
-        "en": "Great-Stars-SA-EN.jpg"
+        "en": "Great-Stars-EN.jpg",
+        "cs": "Great-Stars-CS.jpg",
+        "ch": "Great-Stars-CS.jpg"
       },
       "launchDate": "2005/01/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -770,13 +807,14 @@
       "paylines": "50",
       "RTP": "97",
       "imgName": {
-        "en": "Iceland-SA-EN.jpg"
+        "en": "Iceland-EN.jpg",
+        "cs": "Iceland-CS.jpg",
+        "ch": "Iceland-CS.jpg"
       },
       "launchDate": "2005/01/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -791,17 +829,18 @@
       "paylines": "15",
       "RTP": "95",
       "imgName": {
-        "en": "Wong-Choy-SA-EN.jpg"
+        "en": "Wong-Choy-EN.jpg",
+        "cs": "Wong-Choy-CS.jpg",
+        "ch": "Wong-Choy-CS.jpg"
       },
       "launchDate": "2005/01/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
-        "en": "5 Fortune SA",
+        "en": "5Fortune SA",
         "cs": "五福门 SA",
         "ch": "五福門 SA"
       },
@@ -812,17 +851,18 @@
       "paylines": "15",
       "RTP": "95",
       "imgName": {
-        "en": "5-Fortune-SA-EN.jpg"
+        "en": "5Fortune-EN.jpg",
+        "cs": "5Fortune-CS.jpg",
+        "ch": "5Fortune-CS.jpg"
       },
       "launchDate": "2005/01/17",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Baby Cai Shen ",
+        "en": "Baby Cai Shen",
         "cs": "财神宝宝",
         "ch": "財神寶寶"
       },
@@ -833,13 +873,14 @@
       "paylines": "9",
       "RTP": "97",
       "imgName": {
-        "en": "Baby-Cai-Shen--EN.jpg"
+        "en": "Baby-Cai-Shen-EN.jpg",
+        "cs": "Baby-Cai-Shen-CS.jpg",
+        "ch": "Baby-Cai-Shen-CS.jpg"
       },
       "launchDate": "2027/10/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -854,13 +895,14 @@
       "paylines": "243",
       "RTP": "97",
       "imgName": {
-        "en": "168-Fortunes-EN.jpg"
+        "en": "168-Fortunes-EN.jpg",
+        "cs": "168-Fortunes-CS.jpg",
+        "ch": "168-Fortunes-CS.jpg"
       },
       "launchDate": "2027/10/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -875,13 +917,14 @@
       "paylines": "20",
       "RTP": "97",
       "imgName": {
-        "en": "Golden-Lotus-SE-EN.jpg"
+        "en": "Golden-Lotus-SE-EN.jpg",
+        "cs": "Golden-Lotus-SE-CS.jpg",
+        "ch": "Golden-Lotus-SE-CS.jpg"
       },
       "launchDate": "2027/10/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -896,13 +939,14 @@
       "paylines": "15",
       "RTP": "97",
       "imgName": {
-        "en": "Mermaid-EN.jpg"
+        "en": "Mermaid-EN.jpg",
+        "cs": "Mermaid-CS.jpg",
+        "ch": "Mermaid-CS.jpg"
       },
       "launchDate": "2027/10/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -917,13 +961,14 @@
       "paylines": "20",
       "RTP": "97",
       "imgName": {
-        "en": "King-Pharaoh-EN.jpg"
+        "en": "King-Pharaoh-EN.jpg",
+        "cs": "King-Pharaoh-CS.jpg",
+        "ch": "King-Pharaoh-CS.jpg"
       },
       "launchDate": "2027/10/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -938,13 +983,14 @@
       "paylines": "243",
       "RTP": "97",
       "imgName": {
-        "en": "Pocket-Mon-Go-EN.jpg"
+        "en": "Pocket-Mon-Go-EN.jpg",
+        "cs": "Pocket-Mon-Go-CS.jpg",
+        "ch": "Pocket-Mon-Go-CS.jpg"
       },
       "launchDate": "2027/10/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -959,17 +1005,18 @@
       "paylines": "25",
       "RTP": "97",
       "imgName": {
-        "en": "Wong-Po-EN.jpg"
+        "en": "Wong-Po-EN.jpg",
+        "cs": "Wong-Po-CS.jpg",
+        "ch": "Wong-Po-CS.jpg"
       },
       "launchDate": "2027/10/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Alibaba ",
+        "en": "Alibaba",
         "cs": "阿里巴巴",
         "ch": "阿里巴巴"
       },
@@ -980,13 +1027,14 @@
       "paylines": "9",
       "RTP": "97",
       "imgName": {
-        "en": "Alibaba--EN.jpg"
+        "en": "Alibaba-EN.jpg",
+        "cs": "Alibaba-CS.jpg",
+        "ch": "Alibaba-CS.jpg"
       },
       "launchDate": "2031/05/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":0
+      "imageExist": true
     },
     {
       "name": {
@@ -1001,17 +1049,18 @@
       "paylines": "1024",
       "RTP": "97",
       "imgName": {
-        "en": "Cai-Shen-888-EN.jpg"
+        "en": "Cai-Shen-888-EN.jpg",
+        "cs": "Cai-Shen-888-CS.jpg",
+        "ch": "Cai-Shen-888-CS.jpg"
       },
       "launchDate": "2031/05/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Double Fortune",
+        "en": "Double Fortunes",
         "cs": "青龙白虎",
         "ch": "青龍白虎"
       },
@@ -1022,17 +1071,18 @@
       "paylines": "25",
       "RTP": "97",
       "imgName": {
-        "en": "Double-Fortune-EN.jpg"
+        "en": "Double-Fortunes-EN.jpg",
+        "cs": "Double-Fortunes-CS.jpg",
+        "ch": "Double-Fortunes-CS.jpg"
       },
       "launchDate": "2031/05/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
-        "en": "5 Fortune Dragons",
+        "en": "5Fortune Dragons",
         "cs": "五龙吐珠",
         "ch": "五龍吐珠"
       },
@@ -1043,17 +1093,18 @@
       "paylines": "243",
       "RTP": "97",
       "imgName": {
-        "en": "5-Fortune-Dragons-EN.jpg"
+        "en": "5Fortune-Dragons-EN.jpg",
+        "cs": "5Fortune-Dragons-CS.jpg",
+        "ch": "5Fortune-Dragons-CS.jpg"
       },
       "launchDate": "2031/05/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Gods Kitchen ",
+        "en": "Gods Kitchen",
         "cs": "厨神",
         "ch": "廚神"
       },
@@ -1064,17 +1115,18 @@
       "paylines": "20",
       "RTP": "97",
       "imgName": {
-        "en": "Gods-Kitchen--EN.jpg"
+        "en": "Gods-Kitchen-EN.jpg",
+        "cs": "Gods-Kitchen-CS.jpg",
+        "ch": "Gods-Kitchen-CS.jpg"
       },
       "launchDate": "2031/05/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Adventure Iceland",
+        "en": "Iceland",
         "cs": "雪冰世界",
         "ch": "雪冰世界"
       },
@@ -1085,13 +1137,14 @@
       "paylines": "50",
       "RTP": "97",
       "imgName": {
-        "en": "Adventure-Iceland-EN.jpg"
+        "en": "Iceland-EN.jpg",
+        "cs": "Iceland-CS.jpg",
+        "ch": "Iceland-CS.jpg"
       },
       "launchDate": "2031/05/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1106,13 +1159,14 @@
       "paylines": "20",
       "RTP": "97",
       "imgName": {
-        "en": "Lucky-Koi-EN.jpg"
+        "en": "Lucky-Koi-EN.jpg",
+        "cs": "Lucky-Koi-CS.jpg",
+        "ch": "Lucky-Koi-CS.jpg"
       },
       "launchDate": "2031/05/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1127,13 +1181,14 @@
       "paylines": "30",
       "RTP": "93",
       "imgName": {
-        "en": "Amazing-Thailand-EN.jpg"
+        "en": "Amazing-Thailand-EN.jpg",
+        "cs": "Amazing-Thailand-CS.jpg",
+        "ch": "Amazing-Thailand-CS.jpg"
       },
       "launchDate": "2031/01/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1148,13 +1203,14 @@
       "paylines": "1",
       "RTP": "97",
       "imgName": {
-        "en": "Drunken-Jungle-EN.jpg"
+        "en": "Drunken-Jungle-EN.jpg",
+        "cs": "Drunken-Jungle-CS.jpg",
+        "ch": "Drunken-Jungle-CS.jpg"
       },
       "launchDate": "2031/01/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":0
+      "imageExist": true
     },
     {
       "name": {
@@ -1169,13 +1225,14 @@
       "paylines": "15",
       "RTP": "95",
       "imgName": {
-        "en": "Dragon-Gold-EN.jpg"
+        "en": "Dragon-Gold-EN.jpg",
+        "cs": "Dragon-Gold-CS.jpg",
+        "ch": "Dragon-Gold-CS.jpg"
       },
       "launchDate": "2031/01/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1190,13 +1247,14 @@
       "paylines": "50",
       "RTP": "95",
       "imgName": {
-        "en": "Emperor-Gate-EN.jpg"
+        "en": "Emperor-Gate-EN.jpg",
+        "cs": "Emperor-Gate-CS.jpg",
+        "ch": "Emperor-Gate-CS.jpg"
       },
       "launchDate": "2031/01/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1211,13 +1269,14 @@
       "paylines": "15",
       "RTP": "95",
       "imgName": {
-        "en": "Big-Prosperity-EN.jpg"
+        "en": "Big-Prosperity-EN.jpg",
+        "cs": "Big-Prosperity-CS.jpg",
+        "ch": "Big-Prosperity-CS.jpg"
       },
       "launchDate": "2031/01/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1232,13 +1291,14 @@
       "paylines": "15",
       "RTP": "95",
       "imgName": {
-        "en": "Great-Stars-EN.jpg"
+        "en": "Great-Stars-EN.jpg",
+        "cs": "Great-Stars-CS.jpg",
+        "ch": "Great-Stars-CS.jpg"
       },
       "launchDate": "2031/01/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1253,13 +1313,14 @@
       "paylines": "8",
       "RTP": "95",
       "imgName": {
-        "en": "Honey-Hunter-EN.jpg"
+        "en": "Honey-Hunter-EN.jpg",
+        "cs": "Honey-Hunter-CS.jpg",
+        "ch": "Honey-Hunter-CS.jpg"
       },
       "launchDate": "2031/01/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":0
+      "imageExist": true
     },
     {
       "name": {
@@ -1274,17 +1335,18 @@
       "paylines": "1",
       "RTP": "95",
       "imgName": {
-        "en": "FaFaFa-EN.jpg"
+        "en": "FaFaFa-EN.jpg",
+        "cs": "FaFaFa-CS.jpg",
+        "ch": "FaFaFa-CS.jpg"
       },
       "launchDate": "2031/01/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":0
+      "imageExist": true
     },
     {
       "name": {
-        "en": "5 Fortune",
+        "en": "5Fortune",
         "cs": "五福门",
         "ch": "五福門"
       },
@@ -1295,13 +1357,14 @@
       "paylines": "15",
       "RTP": "95",
       "imgName": {
-        "en": "5-Fortune-EN.jpg"
+        "en": "5Fortune-EN.jpg",
+        "cs": "5Fortune-CS.jpg",
+        "ch": "5Fortune-CS.jpg"
       },
       "launchDate": "2031/01/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1316,13 +1379,14 @@
       "paylines": "15",
       "RTP": "97",
       "imgName": {
-        "en": "Lucky-Feng-Shui--EN.jpg"
+        "en": "Lucky-Feng-Shui-EN.jpg",
+        "cs": "Lucky-Feng-Shui-CS.jpg",
+        "ch": "Lucky-Feng-Shui-CS.jpg"
       },
       "launchDate": "2003/01/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1337,17 +1401,18 @@
       "paylines": "9",
       "RTP": "97",
       "imgName": {
-        "en": "Pirate-King-EN.jpg"
+        "en": "Pirate-King-EN.jpg",
+        "cs": "Pirate-King-CS.jpg",
+        "ch": "Pirate-King-CS.jpg"
       },
       "launchDate": "2003/01/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":0
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Golf Champions ",
+        "en": "Golf Champions",
         "cs": "冠军高尔夫",
         "ch": "冠軍高爾夫"
       },
@@ -1358,13 +1423,14 @@
       "paylines": "5",
       "RTP": "97",
       "imgName": {
-        "en": "Golf-Champions--EN.jpg"
+        "en": "Golf-Champions-EN.jpg",
+        "cs": "Golf-Champions-CS.jpg",
+        "ch": "Golf-Champions-CS.jpg"
       },
       "launchDate": "2003/01/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1379,17 +1445,18 @@
       "paylines": "9",
       "RTP": "97",
       "imgName": {
-        "en": "Highway-Fortune-EN.jpg"
+        "en": "Highway-Fortune-EN.jpg",
+        "cs": "Highway-Fortune-CS.jpg",
+        "ch": "Highway-Fortune-CS.jpg"
       },
       "launchDate": "2003/01/16",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":0
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Festive Lion",
+        "en": "Festival Lion",
         "cs": "金狮拜年",
         "ch": "金獅拜年"
       },
@@ -1400,13 +1467,14 @@
       "paylines": "25",
       "RTP": "97",
       "imgName": {
-        "en": "Festive-Lion-EN.jpg"
+        "en": "Festival-Lion-EN.jpg",
+        "cs": "Festival-Lion-CS.jpg",
+        "ch": "Festival-Lion-CS.jpg"
       },
       "launchDate": "2001/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1421,13 +1489,14 @@
       "paylines": "25",
       "RTP": "97",
       "imgName": {
-        "en": "Master-Chef-EN.jpg"
+        "en": "Master-Chef-EN.jpg",
+        "cs": "Master-Chef-CS.jpg",
+        "ch": "Master-Chef-CS.jpg"
       },
       "launchDate": "2001/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1442,17 +1511,18 @@
       "paylines": "9",
       "RTP": "97",
       "imgName": {
-        "en": "Cai-Yuan-Guang-Jin-EN.jpg"
+        "en": "Cai-Yuan-Guang-Jin-EN.jpg",
+        "cs": "Cai-Yuan-Guang-Jin-CS.jpg",
+        "ch": "Cai-Yuan-Guang-Jin-CS.jpg"
       },
       "launchDate": "2001/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":0
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Daddys Vacation",
+        "en": "Daddy Vacation",
         "cs": "爸爸飞哪儿",
         "ch": "爸爸飛哪兒"
       },
@@ -1463,17 +1533,18 @@
       "paylines": "8",
       "RTP": "97",
       "imgName": {
-        "en": "Daddys-Vacation-EN.jpg"
+        "en": "Daddy-Vacation-EN.jpg",
+        "cs": "Daddy-Vacation-CS.jpg",
+        "ch": "Daddy-Vacation-CS.jpg"
       },
       "launchDate": "2001/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":0
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Da Fu Xiao Fu ",
+        "en": "Da Fu Xiao Fu",
         "cs": "大福小福",
         "ch": "大福小福"
       },
@@ -1484,13 +1555,14 @@
       "paylines": "15",
       "RTP": "95",
       "imgName": {
-        "en": "Da-Fu-Xiao-Fu--EN.jpg"
+        "en": "Da-Fu-Xiao-Fu-EN.jpg",
+        "cs": "Da-Fu-Xiao-Fu-CS.jpg",
+        "ch": "Da-Fu-Xiao-Fu-CS.jpg"
       },
       "launchDate": "2001/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1505,13 +1577,14 @@
       "paylines": "25",
       "RTP": "97",
       "imgName": {
-        "en": "Golden-Whale-EN.jpg"
+        "en": "Golden-Whale-EN.jpg",
+        "cs": "Golden-Whale-CS.jpg",
+        "ch": "Golden-Whale-CS.jpg"
       },
       "launchDate": "2001/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1526,17 +1599,18 @@
       "paylines": "1",
       "RTP": "95",
       "imgName": {
-        "en": "Lucky-Cai-Shen-EN.jpg"
+        "en": "Lucky-Cai-Shen-EN.jpg",
+        "cs": "Lucky-Cai-Shen-CS.jpg",
+        "ch": "Lucky-Cai-Shen-CS.jpg"
       },
       "launchDate": "2001/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":0
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Lucky  Meow",
+        "en": "Lucky Meow",
         "cs": "超吉猫",
         "ch": "超吉貓"
       },
@@ -1547,13 +1621,14 @@
       "paylines": "20",
       "RTP": "97",
       "imgName": {
-        "en": "Lucky--Meow-EN.jpg"
+        "en": "Lucky-Meow-EN.jpg",
+        "cs": "Lucky-Meow-CS.jpg",
+        "ch": "Lucky-Meow-CS.jpg"
       },
       "launchDate": "2001/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1568,13 +1643,14 @@
       "paylines": "8",
       "RTP": "95",
       "imgName": {
-        "en": "Lucky-Strike-EN.jpg"
+        "en": "Lucky-Strike-EN.jpg",
+        "cs": "Lucky-Strike-CS.jpg",
+        "ch": "Lucky-Strike-CS.jpg"
       },
       "launchDate": "2001/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1589,17 +1665,18 @@
       "paylines": "9",
       "RTP": "95",
       "imgName": {
-        "en": "Railway-King-EN.jpg"
+        "en": "Railway-King-EN.jpg",
+        "cs": "Railway-King-CS.jpg",
+        "ch": "Railway-King-CS.jpg"
       },
       "launchDate": "2001/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Spin Stone",
+        "en": "Spins Stone",
         "cs": "石器时代",
         "ch": "石器時代"
       },
@@ -1610,13 +1687,14 @@
       "paylines": "25",
       "RTP": "97",
       "imgName": {
-        "en": "Spin-Stone-EN.jpg"
+        "en": "Spins-Stone-EN.jpg",
+        "cs": "Spins-Stone-CS.jpg",
+        "ch": "Spins-Stone-CS.jpg"
       },
       "launchDate": "2001/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
@@ -1631,17 +1709,18 @@
       "paylines": "20",
       "RTP": "97",
       "imgName": {
-        "en": "Santa-Gifts-EN.jpg"
+        "en": "Santa-Gifts-EN.jpg",
+        "cs": "Santa-Gifts-CS.jpg",
+        "ch": "Santa-Gifts-CS.jpg"
       },
       "launchDate": "2001/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true,
-      "disabled":1
+      "imageExist": true
     },
     {
       "name": {
-        "en": "Rob Stars ",
+        "en": "Rob Stars",
         "cs": "小偷星星",
         "ch": "小偷星星"
       },
@@ -1652,13 +1731,16 @@
       "paylines": "N/A",
       "RTP": "97",
       "imgName": {
-        "en": "Rob-Stars--EN.jpg"
+        "en": "Rob-Stars-EN.jpg",
+        "cs": "Rob-Stars-CS.jpg",
+        "ch": "Rob-Stars-CS.jpg"
       },
       "launchDate": "2016/01/18",
       "hot": false,
       "new": true,
+      "featured": false,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
@@ -1678,8 +1760,9 @@
       "launchDate": "2021/09/17",
       "hot": false,
       "new": true,
+      "featured": false,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
@@ -1699,8 +1782,9 @@
       "launchDate": "2016/08/17",
       "hot": false,
       "new": true,
+      "featured": false,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
@@ -1720,12 +1804,13 @@
       "launchDate": "2016/08/17",
       "hot": false,
       "new": true,
+      "featured": false,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
-        "en": "PinBall Fortune ",
+        "en": "PinBall Fortune",
         "cs": "单球致富 ",
         "ch": "單球致富 "
       },
@@ -1736,17 +1821,17 @@
       "paylines": "N/A",
       "RTP": "97",
       "imgName": {
-        "en": "PinBall-Fortune--EN.jpg"
+        "en": "PinBall-Fortune-EN.jpg"
       },
       "launchDate": "2005/06/17",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
-        "en": "Dragon Clan ",
+        "en": "Dragon Clan",
         "cs": "龙会 ",
         "ch": "龍會 "
       },
@@ -1757,17 +1842,17 @@
       "paylines": "N/A",
       "RTP": "97",
       "imgName": {
-        "en": "Dragon-Clan--EN.jpg"
+        "en": "Dragon-Clan-EN.jpg"
       },
       "launchDate": "2005/06/17",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
-        "en": "Shinobi Hamster ",
+        "en": "Shinobi Hamster",
         "cs": "仓鼠忍者 ",
         "ch": "倉鼠忍者 "
       },
@@ -1778,17 +1863,17 @@
       "paylines": "N/A",
       "RTP": "97",
       "imgName": {
-        "en": "Shinobi-Hamster--EN.jpg"
+        "en": "Shinobi-Hamster-EN.jpg"
       },
       "launchDate": "2005/06/17",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
-        "en": "3 Kingdom The Dragon Boat",
+        "en": "3Kingdom The Dragon Boat",
         "cs": "三国龙舟战 ",
         "ch": "三國龍舟戰 "
       },
@@ -1799,13 +1884,13 @@
       "paylines": "N/A",
       "RTP": "97",
       "imgName": {
-        "en": "3-Kingdom-The-Dragon-Boat-EN.jpg"
+        "en": "3Kingdom-The-Dragon-Boat-EN.jpg"
       },
       "launchDate": "2018/04/17",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
@@ -1826,7 +1911,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
@@ -1847,7 +1932,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
@@ -1868,7 +1953,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
@@ -1889,7 +1974,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
@@ -1910,7 +1995,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
@@ -1931,11 +2016,11 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
-        "en": "Lucky Baby ",
+        "en": "Lucky Baby",
         "cs": "幸运宝贝",
         "ch": "幸運寶貝"
       },
@@ -1946,13 +2031,13 @@
       "paylines": "N/A",
       "RTP": "97",
       "imgName": {
-        "en": "Lucky-Baby--EN.jpg"
+        "en": "Lucky-Baby-EN.jpg"
       },
       "launchDate": "2001/03/17",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
@@ -1973,7 +2058,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
@@ -1994,7 +2079,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
@@ -2015,7 +2100,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
@@ -2036,7 +2121,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "disabled":1
+      "disabled": 1
     }
   ]
 }
