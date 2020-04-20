@@ -196,7 +196,7 @@
         "ch": "Dancing-Fever-CS.jpg"
       },
       "launchDate": "2025/06/19",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -262,7 +262,7 @@
         "ch": "Gold-Panther-CS.jpg"
       },
       "launchDate": "2012/03/19",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -306,8 +306,9 @@
         "ch": "Brothers-kingdom-CS.jpg"
       },
       "launchDate": "2027/11/18",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -394,7 +395,7 @@
         "ch": "FaFaFa2-CS.jpg"
       },
       "launchDate": "2016/01/18",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -438,7 +439,7 @@
         "ch": "Princess-Wang-CS.jpg"
       },
       "launchDate": "2016/01/18",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -658,8 +659,9 @@
         "ch": "ZEUS-CS.jpg"
       },
       "launchDate": "2018/04/17",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -922,8 +924,9 @@
         "ch": "Golden-Lotus-SE-CS.jpg"
       },
       "launchDate": "2027/10/16",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1054,7 +1057,7 @@
         "ch": "Cai-Shen-888-CS.jpg"
       },
       "launchDate": "2031/05/16",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -1098,8 +1101,9 @@
         "ch": "5Fortune-Dragons-CS.jpg"
       },
       "launchDate": "2031/05/16",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1164,8 +1168,9 @@
         "ch": "Lucky-Koi-CS.jpg"
       },
       "launchDate": "2031/05/16",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1738,7 +1743,10 @@
       "launchDate": "2016/01/18",
       "hot": false,
       "new": true,
+<<<<<<< HEAD
       "featured": false,
+=======
+>>>>>>> PRD
       "imageExist": true,
       "disabled": 1
     },
@@ -1760,7 +1768,10 @@
       "launchDate": "2021/09/17",
       "hot": false,
       "new": true,
+<<<<<<< HEAD
       "featured": false,
+=======
+>>>>>>> PRD
       "imageExist": true,
       "disabled": 1
     },
@@ -1782,7 +1793,10 @@
       "launchDate": "2016/08/17",
       "hot": false,
       "new": true,
+<<<<<<< HEAD
       "featured": false,
+=======
+>>>>>>> PRD
       "imageExist": true,
       "disabled": 1
     },
@@ -1804,7 +1818,10 @@
       "launchDate": "2016/08/17",
       "hot": false,
       "new": true,
+<<<<<<< HEAD
       "featured": false,
+=======
+>>>>>>> PRD
       "imageExist": true,
       "disabled": 1
     },
