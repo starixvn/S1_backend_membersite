@@ -177,7 +177,7 @@
         "en": "Dancing-Fever-EN.jpg"
       },
       "launchDate": "2025/06/19",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -237,7 +237,7 @@
         "en": "Gold-Panther-EN.jpg"
       },
       "launchDate": "2012/03/19",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -277,8 +277,9 @@
         "en": "Brothers-kingdom-EN.jpg"
       },
       "launchDate": "2027/11/18",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -357,7 +358,7 @@
         "en": "FaFaFa2-EN.jpg"
       },
       "launchDate": "2016/01/18",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -397,7 +398,7 @@
         "en": "Princess-Wang-EN.jpg"
       },
       "launchDate": "2016/01/18",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -597,8 +598,9 @@
         "en": "ZEUS-EN.jpg"
       },
       "launchDate": "2018/04/17",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -837,8 +839,9 @@
         "en": "Golden-Lotus-SE-EN.jpg"
       },
       "launchDate": "2027/10/16",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -957,7 +960,7 @@
         "en": "Cai-Shen-888-EN.jpg"
       },
       "launchDate": "2031/05/16",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -997,8 +1000,9 @@
         "en": "5-Fortune-Dragons-EN.jpg"
       },
       "launchDate": "2031/05/16",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1057,8 +1061,9 @@
         "en": "Lucky-Koi-EN.jpg"
       },
       "launchDate": "2031/05/16",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1579,7 +1584,8 @@
       "launchDate": "2016/01/18",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1599,7 +1605,8 @@
       "launchDate": "2021/09/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1619,7 +1626,8 @@
       "launchDate": "2016/08/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1639,7 +1647,8 @@
       "launchDate": "2016/08/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1659,7 +1668,8 @@
       "launchDate": "2005/06/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1679,7 +1689,8 @@
       "launchDate": "2005/06/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1699,7 +1710,8 @@
       "launchDate": "2005/06/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1719,7 +1731,8 @@
       "launchDate": "2018/04/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1739,7 +1752,8 @@
       "launchDate": "2001/03/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1759,7 +1773,8 @@
       "launchDate": "2001/03/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1779,7 +1794,8 @@
       "launchDate": "2001/03/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1799,7 +1815,8 @@
       "launchDate": "2001/03/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1819,7 +1836,8 @@
       "launchDate": "2001/03/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1839,7 +1857,8 @@
       "launchDate": "2001/03/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1859,7 +1878,8 @@
       "launchDate": "2001/03/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1879,7 +1899,8 @@
       "launchDate": "2018/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1899,7 +1920,8 @@
       "launchDate": "2018/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1919,7 +1941,8 @@
       "launchDate": "2018/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1939,7 +1962,8 @@
       "launchDate": "2018/11/15",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     }
   ]
 }
