@@ -5,7 +5,7 @@ import * as Loading from '../../commJS/Loading.jsx';
         const [stateData, updateData] = React.useState();
         React.useEffect(() => {
             Loading.OnLoading();
-            axios.post('/api/Message/GetAnnouncement', {}).then((res)=>{
+            axios.post(`/api/Message/GetAnnouncement/${SiteLanguage}`, {}).then((res)=>{
                 Loading.UnLoading();
                 let result = res.data.data;
                 updateData(result.map((item, idx)=>{

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace MemberSite.Controllers.Api
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]/[action]/{LangId}")]
     [ApiController]
     public class MessageController : Controller
     {
@@ -28,7 +28,7 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<Announcement>> GetAnnouncement()
         {
             var result = new ApiResult<IEnumerable<Announcement>>();
-            int LimitRow = User.Identity.IsAuthenticated ? 15 : 3;
+            int LimitRow = 15;
             var serverInfo = serverInfoBLL.GetServerInfo();
             result.Data = messageBLL.GetAnnouncement(selLangBLL.GetLangId(), serverInfo.DefLang, LimitRow, !environment.IsProduction(), serverInfo.SiteId);
             result.ErrorCode = 0;
