@@ -17,6 +17,20 @@
     var CurrencyId = 0;
     var iSwitch = 2;
     var showResetPwdAlert = false;
+
+    var google_id = "";
+    if (serverInfo.SiteId == 1)
+    {
+        google_id = "UA-163834722-1";
+    }
+    else if (serverInfo.SiteId == 2)
+    {
+        google_id = "UA-163812389-1";
+    }
+    else if (serverInfo.SiteId == 3)
+    {
+        google_id = "UA-163766925-1";
+    }
 }
 <!DOCTYPE html>
 <html lang="@selLangBLL.GetLangId()" data-layout="@(tools.IsMobile() ? "mobile" : "desktop")">
@@ -355,6 +369,16 @@
         })();
     </script>
     @*  End of LiveChat code*@
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=@google_id"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', '@google_id');
+    </script>
+
     @RenderSection("Scripts", required: false)
     @RenderSection("PromptMsg", required: false)
     @if (User.Identity.IsAuthenticated)
