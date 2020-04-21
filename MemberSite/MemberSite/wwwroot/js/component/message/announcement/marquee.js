@@ -14,12 +14,14 @@
             this.SetMarquee = this.SetMarquee.bind(this);
             this.ClickMarquee = this.ClickMarquee.bind(this);
             this.GetAnnouncement = this.GetAnnouncement.bind(this);
+        }
+        componentDidMount(){
             this.GetAnnouncement();
-            this.intervalId = setInterval(this.GetAnnouncement, 60000);
             this.SetMarquee();
+            this.intervalId = setInterval(this.GetAnnouncement, 60000);
         }
         GetAnnouncement(){
-            let res = axios.post('/api/Message/GetAnnouncement',{}).then(res=>{
+            let res = axios.post(`/api/Message/GetAnnouncement/${SiteLanguage}`,{}).then(res=>{
                 let resData = res.data.data;
                 let stateData = this.state.datas;
                 let upd = false;
@@ -63,18 +65,20 @@
             let timer = MobileAndTabletCheck() ? 1000 : 1000;
             let _this = this;
             let datas = this.state.datas;
-            $(this.refs.content).marquee({
-                duration: timer,
-                pauseOnHover: true,
-                direction:'up',
-                startVisible:true,
-                delayBeforeStart:2000
-            }).bind('finished', function(){
-                $(this).marquee('destroy');
-                currentIdx = currentIdx >= (datas.length-1) ? 0 : currentIdx + 1;
-                $(this).html(datas[currentIdx].subject);
-                _this.SetMarquee();
-            });
+            if(datas && datas.length !== 0){
+                $(this.refs.content).marquee({
+                    duration: timer,
+                    pauseOnHover: true,
+                    direction:'up',
+                    startVisible:true,
+                    delayBeforeStart:2000
+                }).bind('finished', function(){
+                    $(this).marquee('destroy');
+                    currentIdx = currentIdx >= (datas.length-1) ? 0 : currentIdx + 1;
+                    $(this).html(datas[currentIdx].subject);
+                    _this.SetMarquee();
+                });
+            }
         }
         ClickMarquee(){
             if(announcementUrl){
@@ -102,7 +106,7 @@
                         <div>
                             <i className="icon icon-volume-on"></i>
                         </div>
-                        <div ref="content">{currentIdx === null ? null : this.state.datas[currentIdx].subject}</div>
+                        <div ref="content">{currentIdx === null || this.state.datas === null || this.state.datas.length === 0 ? null : this.state.datas[currentIdx].subject}</div>
                         <div>●●●</div>
                     </a>
                 </>
