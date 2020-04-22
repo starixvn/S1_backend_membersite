@@ -4,7 +4,8 @@ const dataList = {
     GPI:require('./GPI/GameList.json'),
     YGG:require('./YGG/GameList.json'),
     Joker:require('./Joker/GameList.json'),
-    SG:require('./SG/GameList.json')
+    SG:require('./SG/GameList.json'),
+    PP:require('./PP/GameList.json')
 }
 
 export const GamesByProvider = (_provider)=>{

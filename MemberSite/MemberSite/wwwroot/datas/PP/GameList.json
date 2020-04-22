@@ -1,0 +1,3041 @@
+{
+  "imgUrl": "",
+  "data": [
+    {
+      "name": {
+        "en": "John Hunter and the Book of Tut",
+        "cs": "约翰·亨特之图特书",
+        "ch": "約翰·亨特之圖特書",
+        "id": "John Hunter dan Harta Karun Aztec",
+        "th": "จอห์น ฮันเตอร์ กับขุมทรัพย์แห่งแอซเท็ค",
+        "vn": "John Hunter và Kho Báu Aztec"
+      },
+      "appId": "vs10bookoftut",
+      "gameId": "vs10bookoftut",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "10",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "John-Hunter-and-the-Book-of-Tut-EN.jpg"
+      },
+      "launchDate": "2020/04/28",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Three Star Fortune",
+        "cs": "三星报喜",
+        "ch": "三星報喜",
+        "id": "Keberuntungan Tiga Bintang",
+        "th": "ทรีสตาร์ ฟอร์จูน",
+        "vn": "Ba Ngôi Sao May Mắn"
+      },
+      "appId": "vs10threestar",
+      "gameId": "vs10threestar",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "10",
+      "RTP": "96.27%",
+      "imgName": {
+        "en": "Three-Star-Fortune-EN.jpg"
+      },
+      "launchDate": "2020/04/21",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Great Rhino Megaways",
+        "cs": "巨大犀牛Megaways",
+        "ch": "巨大犀牛Megaways",
+        "id": "Megaways Badak Besar",
+        "th": "เกรตไรโน Megaways",
+        "vn": "Tê giác Khổng lồ Megaways"
+      },
+      "appId": "vswaysrhino",
+      "gameId": "vswaysrhino",
+      "category1": "Slots",
+      "Reels": "6",
+      "paylines": "200704",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Great-Rhino-Megaways-EN.jpg"
+      },
+      "launchDate": "2020/04/14",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Hot to Burn",
+        "cs": "热火燃烧",
+        "ch": "熱火燃燒",
+        "id": "Panas hingga Terbakar",
+        "th": "ฮ็อตทูเบิร์น",
+        "vn": "Nóng Bỏng"
+      },
+      "appId": "vs5hotburn",
+      "gameId": "vs5hotburn",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "5",
+      "RTP": "96.71%",
+      "imgName": {
+        "en": "Hot-to-Burn-EN.jpg"
+      },
+      "launchDate": "2020/04/14",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dance Party",
+        "cs": "跳舞趴",
+        "ch": "跳舞趴",
+        "id": "Pesta Dansa",
+        "th": "แดนซ์ปาร์ตี้",
+        "vn": "Bữa Tiệc Khiêu Vũ"
+      },
+      "appId": "vs243dancingpar",
+      "gameId": "vs243dancingpar",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "243",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Dance-Party-EN.jpg"
+      },
+      "launchDate": "2020/04/07",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Wild West Gold",
+        "cs": "西部牛仔黄金地段",
+        "ch": "西部牛仔黃金地段",
+        "id": "Emas dari Wild West",
+        "th": "ไวลด์เวสต์โกลด์",
+        "vn": "Vàng Miền Tây Hoang Dã"
+      },
+      "appId": "vs40wildwest",
+      "gameId": "vs40wildwest",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "40",
+      "RTP": "96.51%",
+      "imgName": {
+        "en": "Wild-West-Gold-EN.jpg"
+      },
+      "launchDate": "2020/03/31",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lucky Dragon Ball",
+        "cs": "金龙吐珠",
+        "ch": "金龍吐珠",
+        "id": "Bola Naga Beruntung",
+        "th": "ลัคกี้ ดราก้อนบอล",
+        "vn": "Ngọc Rồng May Mắn"
+      },
+      "appId": "vs1ball",
+      "gameId": "vs1ball",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "1",
+      "RTP": "96.51%",
+      "imgName": {
+        "en": "Lucky-Dragon-Ball-EN.jpg"
+      },
+      "launchDate": "2020/03/24",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Fruit Rainbow",
+        "cs": "彩虹水果",
+        "ch": "彩虹水果",
+        "id": "Pelangi Buah",
+        "th": "ฟรุตเรนโบว์",
+        "vn": "Cầu Vồng Trái Cây"
+      },
+      "appId": "vs40frrainbow",
+      "gameId": "vs40frrainbow",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "40",
+      "RTP": "96.53%",
+      "imgName": {
+        "en": "Fruit-Rainbow-EN.jpg"
+      },
+      "launchDate": "2020/03/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "The Wild Machine",
+        "cs": "疯狂机器",
+        "ch": "瘋狂機器",
+        "id": "Mesin Liar",
+        "th": "เดอะไวลด์แมชชีน",
+        "vn": "Cỗ Máy Wild"
+      },
+      "appId": "vs40madwheel",
+      "gameId": "vs40madwheel",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "40",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "The-Wild-Machine-EN.jpg"
+      },
+      "launchDate": "2020/03/10",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Aztec Bonanza",
+        "cs": "阿兹特克获利之道",
+        "ch": "阿茲特克獲利之道",
+        "id": "Sumber Kemakmuran Aztec",
+        "th": "แอซเท็กโบนันซ่า",
+        "vn": "Đá quý của Người Aztec"
+      },
+      "appId": "vs7776aztec",
+      "gameId": "vs7776aztec",
+      "category1": "Slots",
+      "Reels": "6",
+      "paylines": "7776",
+      "RTP": "96.53%",
+      "imgName": {
+        "en": "Aztec-Bonanza-EN.jpg"
+      },
+      "launchDate": "2020/03/02",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Mysterious",
+        "cs": "神秘之城",
+        "ch": "神秘之城",
+        "id": "Misterius",
+        "th": "มิสทีเรียส",
+        "vn": "Thần bí"
+      },
+      "appId": "vs4096mystery",
+      "gameId": "vs4096mystery",
+      "category1": "Slots",
+      "Reels": "4",
+      "paylines": "4096",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Mysterious-EN.jpg"
+      },
+      "launchDate": "2020/02/24",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Golden Beauty",
+        "cs": "贵妃美人",
+        "ch": "貴妃美人",
+        "id": "Jelita Emas",
+        "th": "โกลเด้นบิวตี้",
+        "vn": "Sắc đẹp vàng"
+      },
+      "appId": "vs75empress",
+      "gameId": "vs75empress",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "75",
+      "RTP": "96.44%",
+      "imgName": {
+        "en": "Golden-Beauty-EN.jpg"
+      },
+      "launchDate": "2020/02/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Master Joker",
+        "cs": "杰克大师",
+        "ch": "杰克大師",
+        "id": "Joker Master",
+        "th": "มาสเตอร์โจ๊กเกอร์",
+        "vn": "Ông chủ Joker"
+      },
+      "appId": "vs1masterjoker",
+      "gameId": "vs1masterjoker",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "1",
+      "RTP": "96.51%",
+      "imgName": {
+        "en": "Master-Joker-EN.jpg"
+      },
+      "launchDate": "2020/02/10",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Super 7s ",
+        "cs": "超级7s",
+        "ch": "超級7s",
+        "id": "7s Super",
+        "th": "ซูเปอร์เซเว่น",
+        "vn": "Siêu 7s"
+      },
+      "appId": "vs5super7",
+      "gameId": "vs5super7",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "5",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Super-7s--EN.jpg"
+      },
+      "launchDate": "2020/02/03",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Release the Kraken",
+        "cs": "解放大海怪",
+        "ch": "解放大海怪",
+        "id": "Bebaskan Kraken",
+        "th": "ปล่อยคราเคน",
+        "vn": "Giải Phóng Kraken"
+      },
+      "appId": "vs20kraken",
+      "gameId": "vs20kraken",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Release-the-Kraken-EN.jpg"
+      },
+      "launchDate": "2020/01/20",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Buffalo King",
+        "cs": "王者野牛",
+        "ch": "王者野牛",
+        "id": "Raja Banteng",
+        "th": "ราชาควาย",
+        "vn": "Vua Trâu"
+      },
+      "appId": "vs4096bufking",
+      "gameId": "vs4096bufking",
+      "category1": "Slots",
+      "Reels": "6",
+      "paylines": "4096",
+      "RTP": "96.06%",
+      "imgName": {
+        "en": "Buffalo-King-EN.jpg"
+      },
+      "launchDate": "2020/01/13",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Magic Journey",
+        "cs": "西游争霸",
+        "ch": "西游爭霸",
+        "id": "Perjalanan Ajaib",
+        "th": "การเดินทางด้วยอาคม",
+        "vn": "Hành Trình Kỳ Diệu"
+      },
+      "appId": "vs8magicjourn",
+      "gameId": "vs8magicjourn",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "8",
+      "RTP": "96.54%",
+      "imgName": {
+        "en": "Magic-Journey-EN.jpg"
+      },
+      "launchDate": "2020/01/06",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Money Mouse",
+        "cs": "招财鼠",
+        "ch": "招財鼠",
+        "id": "Tikus Uang ",
+        "th": "มันนี่เมาส์",
+        "vn": "Chuột Kim Tiền"
+      },
+      "appId": "vs25mmouse",
+      "gameId": "vs25mmouse",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.01%",
+      "imgName": {
+        "en": "Money-Mouse-EN.jpg"
+      },
+      "launchDate": "2019/12/10",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Aladdin and the Sorcerer",
+        "cs": "阿拉丁和巫师",
+        "ch": "阿拉丁和巫師",
+        "id": "Aladin dan Penyihir",
+        "th": "อะลาดินกับผู้วิเศษ",
+        "vn": "Alladin và Lão Phù Thủy"
+      },
+      "appId": "vs20aladdinsorc",
+      "gameId": "vs20aladdinsorc",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.23%",
+      "imgName": {
+        "en": "Aladdin-and-the-Sorcerer-EN.jpg"
+      },
+      "launchDate": "2019/12/10",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Greek Gods",
+        "cs": "希腊众神",
+        "ch": "希臘眾神",
+        "id": "Dewa Yunani",
+        "th": "เทพเจ้ากรีก",
+        "vn": "Các Vị Thần Hy Lạp"
+      },
+      "appId": "vs243fortseren",
+      "gameId": "vs243fortseren",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "243",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Greek-Gods-EN.jpg"
+      },
+      "launchDate": "2019/11/25",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Sweet Bonanza Xmas",
+        "cs": "甜心盛宴圣诞",
+        "ch": "甜心盛宴圣誕",
+        "id": "Natal Bonanza nan Indah",
+        "th": "สวีตโบนันซ่า คริสต์มาส",
+        "vn": "Giáng Sinh May Mắn Ngọt Ngào"
+      },
+      "appId": "vs20sbxmas",
+      "gameId": "vs20sbxmas",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.48%",
+      "imgName": {
+        "en": "Sweet-Bonanza-Xmas-EN.jpg"
+      },
+      "launchDate": "2019/11/18",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Hercules and Pegasus",
+        "cs": "大力神和飞马",
+        "ch": "大力神和飛馬",
+        "id": "Herucles dan Pegasus",
+        "th": "เฮอร์คิวลีสกับเปกาซัส",
+        "vn": "HERCULES VÀ PEGASUS"
+      },
+      "appId": "vs20hercpeg",
+      "gameId": "vs20hercpeg",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Hercules-and-Pegasus-EN.jpg"
+      },
+      "launchDate": "2019/11/11",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Fire Strike",
+        "cs": "红火暴击",
+        "ch": "紅火暴擊",
+        "id": "Serangan Api",
+        "th": "เพลิงจู่โจม",
+        "vn": "Biển Lửa"
+      },
+      "appId": "vs10firestrike",
+      "gameId": "vs10firestrike",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "10",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Fire-Strike-EN.jpg"
+      },
+      "launchDate": "2019/10/28",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Honey Honey Honey",
+        "cs": "甜蜜蜜",
+        "ch": "甜蜜蜜",
+        "id": "Madu Madu Madu",
+        "th": "ฮันนี่ ฮันนี่ ฮันนี่",
+        "vn": "Mật Mật Mật"
+      },
+      "appId": "vs20honey",
+      "gameId": "vs20honey",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Honey-Honey-Honey-EN.jpg"
+      },
+      "launchDate": "2019/10/07",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Super Joker",
+        "cs": "超炫小丑",
+        "ch": "超炫小丑",
+        "id": "Joker Super",
+        "th": "ซูเปอร์โจ๊กเกอร์",
+        "vn": "Siêu Joker"
+      },
+      "appId": "vs5spjoker",
+      "gameId": "vs5spjoker",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "5",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "Super-Joker-EN.jpg"
+      },
+      "launchDate": "2019/09/30",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "John Hunter and the Tomb of the Scarab Queen",
+        "cs": "金龟子女王",
+        "ch": "金龜子女王",
+        "id": "John Hunter dan Pemburu Makam Ratu Kumbang",
+        "th": "จอห์น ฮันเทอร์ กับสุสานราชินีสคารับ",
+        "vn": "John Hunter và Lăng Mộ của Nữ Hoàng Scarab"
+      },
+      "appId": "vs25scarabqueen",
+      "gameId": "vs25scarabqueen",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "John-Hunter-and-the-Tomb-of-the-Scarab-Queen-EN.jpg"
+      },
+      "launchDate": "2019/09/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Tree of Riches",
+        "cs": "发发树",
+        "ch": "發發樹",
+        "id": "Pohon Kekayaan",
+        "th": "ต้นไม้แห่งความมั่งคั่ง",
+        "vn": "Cây Tài Phú"
+      },
+      "appId": "vs1fortunetree",
+      "gameId": "vs1fortunetree",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "1",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Tree-of-Riches-EN.jpg"
+      },
+      "launchDate": "2019/08/26",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "The Great Chicken Escape",
+        "cs": "小鸡大逃亡",
+        "ch": "小雞大逃亡",
+        "id": "Kaburnya Ayam Terbaik",
+        "th": "แผนหนีตายครั้งใหญ่ของเจ้าไก่",
+        "vn": "Cuộc Tẩu Thoát Vĩ Đại Của Gà"
+      },
+      "appId": "vs20chicken",
+      "gameId": "vs20chicken",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "The-Great-Chicken-Escape-EN.jpg"
+      },
+      "launchDate": "2019/08/19",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Vampires VS Wolves",
+        "cs": "吸血鬼vs狼",
+        "ch": "吸血鬼vs狼",
+        "id": "Vampir lawan Serigala",
+        "th": "แวมไพร์ปะทะหมาป่า",
+        "vn": "Ma Cà Rồng vs Sói"
+      },
+      "appId": "vs10vampwolf",
+      "gameId": "vs10vampwolf",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "10",
+      "RTP": "96.49%",
+      "imgName": {
+        "en": "Vampires-VS-Wolves-EN.jpg"
+      },
+      "launchDate": "2019/08/12",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Hot Chilli",
+        "cs": "超级辣",
+        "ch": "超級辣",
+        "id": "Cabe Pedas ",
+        "th": "พริกเผ็ดจี๊ด",
+        "vn": "Ớt Cay"
+      },
+      "appId": "vs9hotroll",
+      "gameId": "vs9hotroll",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "9",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "Hot-Chilli-EN.jpg"
+      },
+      "launchDate": "2019/07/29",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Aztec Treasure",
+        "cs": "阿兹特克秘宝",
+        "ch": "阿茲特克秘寶",
+        "id": "John Hunter dan Harta Karun Aztec",
+        "th": "จอห์น ฮันเตอร์ กับขุมทรัพย์แห่งแอซเท็ค",
+        "vn": "John Hunter và Kho Báu Aztec"
+      },
+      "appId": "vs7776secrets",
+      "gameId": "vs7776secrets",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "7776",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Aztec-Treasure-EN.jpg"
+      },
+      "launchDate": "2019/07/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Monkey Warrior",
+        "cs": "酷猴战士",
+        "ch": "酷猴戰士",
+        "id": "Pejuang Monyet",
+        "th": "นักรบลิง",
+        "vn": "Chiến Binh Khỉ"
+      },
+      "appId": "vs243mwarrior",
+      "gameId": "vs243mwarrior",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "243",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Monkey-Warrior-EN.jpg"
+      },
+      "launchDate": "2019/06/24",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dragon Tiger",
+        "cs": "龙虎斗",
+        "ch": "龍虎斗",
+        "id": "Naga Harimau",
+        "th": "พยัคฆ์มังกร ",
+        "vn": "Long Hổ"
+      },
+      "appId": "bndt",
+      "gameId": "bndt",
+      "category1": "Table Games",
+      "Reels": "--",
+      "paylines": "--",
+      "RTP": "96.26%",
+      "imgName": {
+        "en": "Dragon-Tiger-EN.jpg"
+      },
+      "launchDate": "2019/06/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Triple Jokers",
+        "cs": "3倍小丑",
+        "ch": "3倍小丑",
+        "id": "Joker Bertiga",
+        "th": "ทริปเปิลโจ๊กเกอร์",
+        "vn": "Bộ Ba Joker"
+      },
+      "appId": "vs5trjokers",
+      "gameId": "vs5trjokers",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "5",
+      "RTP": "96.51%",
+      "imgName": {
+        "en": "Triple-Jokers-EN.jpg"
+      },
+      "launchDate": "2019/06/10",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "5 Lions Gold",
+        "cs": "5金狮",
+        "ch": "5金獅",
+        "id": "Emas 5 Singa",
+        "th": "5 สิงโตทองคำ",
+        "vn": "5 Sư Tử Vàng"
+      },
+      "appId": "vs243lionsgold",
+      "gameId": "vs243lionsgold",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "243",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "5-Lions-Gold-EN.jpg"
+      },
+      "launchDate": "2019/05/27",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Wild Pixies",
+        "cs": "野精灵",
+        "ch": "野精靈",
+        "id": "Pari Liar",
+        "th": "ไวลด์พิกซี่",
+        "vn": "Các Nàng tiên Hoang dã"
+      },
+      "appId": "vs20wildpix",
+      "gameId": "vs20wildpix",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Wild-Pixies-EN.jpg"
+      },
+      "launchDate": "2019/05/13",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Sweet Bonanza",
+        "cs": "甜入心扉",
+        "ch": "甜入心扉",
+        "id": "Bonanza Manis",
+        "th": "สวีตโบนันซ่า",
+        "vn": "Vận May Ngọt Ngào"
+      },
+      "appId": "vs20fruitsw",
+      "gameId": "vs20fruitsw",
+      "category1": "Slots",
+      "Reels": "6",
+      "paylines": "20",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Sweet-Bonanza-EN.jpg"
+      },
+      "launchDate": "2019/04/29",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Caishens Cash",
+        "cs": "财神运财",
+        "ch": "財神運財",
+        "id": "Uang Tunai Caishen",
+        "th": "รับทรัพย์กับไฉ่ซิงเอี้ย",
+        "vn": "Tiền của Caishen"
+      },
+      "appId": "vs243caishien",
+      "gameId": "vs243caishien",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "243",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Caishens-Cash-EN.jpg"
+      },
+      "launchDate": "2019/04/05",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Pirate Gold",
+        "cs": "夺金海贼",
+        "ch": "奪金海賊",
+        "id": "Emas Lanun",
+        "th": "ทองคำโจรสลัด",
+        "vn": "Vàng Hải Tặc"
+      },
+      "appId": "vs40pirate",
+      "gameId": "vs40pirate",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "40",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Pirate-Gold-EN.jpg"
+      },
+      "launchDate": "2019/03/18",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "The Dog House",
+        "cs": "汪汪之家",
+        "ch": "汪汪之家",
+        "id": "Rumah Anjing",
+        "th": "บ้านสุนัข",
+        "vn": "Nhà Của Chó"
+      },
+      "appId": "vs20doghouse",
+      "gameId": "vs20doghouse",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.51%",
+      "imgName": {
+        "en": "The-Dog-House-EN.jpg"
+      },
+      "launchDate": "2019/03/04",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Egyptian Fortunes",
+        "cs": "埃及宿命",
+        "ch": "埃及宿命",
+        "id": "Kekayaan Mesir",
+        "th": "ขุมทรัพย์อียิปต์",
+        "vn": "Ai Cập Phồn Vinh"
+      },
+      "appId": "vs20egypttrs",
+      "gameId": "vs20egypttrs",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Egyptian-Fortunes-EN.jpg"
+      },
+      "launchDate": "2019/02/20",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Extra Juicy",
+        "cs": "额外多汁",
+        "ch": "額外多汁",
+        "id": "Ekstra Jus",
+        "th": "เอ็กซ์ตร้าจุซซี่",
+        "vn": "Siêu Kỳ Thú"
+      },
+      "appId": "vs10fruity2",
+      "gameId": "vs10fruity2",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "10",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "Extra-Juicy-EN.jpg"
+      },
+      "launchDate": "2019/02/11",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dragon Bonus Baccarat",
+        "cs": "龙宝百家乐",
+        "ch": "龍寶百家樂",
+        "id": "Baccarat Bonus Naga ",
+        "th": "ไพ่บาคาร่าโบนัสมังกร",
+        "vn": "Baccarat Thưởng Rồng"
+      },
+      "appId": "bnadvanced",
+      "gameId": "bnadvanced",
+      "category1": "Table Games",
+      "Reels": "--",
+      "paylines": "--",
+      "RTP": "98.94%",
+      "imgName": {
+        "en": "Dragon-Bonus-Baccarat-EN.jpg"
+      },
+      "launchDate": "2019/01/28",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Wild Gladiator",
+        "cs": "狂野角斗士",
+        "ch": "狂野角斗士",
+        "id": "Gladiator Liar",
+        "th": "นักสู้แดนเถื่อน",
+        "vn": "Đấu Sĩ Cừ Khôi"
+      },
+      "appId": "vs25gladiator",
+      "gameId": "vs25gladiator",
+      "category1": "Slots",
+      "Reels": "6",
+      "paylines": "25",
+      "RTP": "96.17%",
+      "imgName": {
+        "en": "Wild-Gladiator-EN.jpg"
+      },
+      "launchDate": "2019/01/24",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Golden Pig",
+        "cs": "招财福猪",
+        "ch": "招財福豬",
+        "id": "Babi Emas",
+        "th": "หมูทองคำ",
+        "vn": "Chú Heo Vàng"
+      },
+      "appId": "vs25goldpig",
+      "gameId": "vs25goldpig",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.00%",
+      "imgName": {
+        "en": "Golden-Pig-EN.jpg"
+      },
+      "launchDate": "2019/01/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Treasure Horse",
+        "cs": "马上有钱",
+        "ch": "馬上有錢",
+        "id": "Kuda Emas",
+        "th": "รวยทันใจ",
+        "vn": "Tiền Về Liền Tay"
+      },
+      "appId": "vs18mashang",
+      "gameId": "vs18mashang",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "18",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "Treasure-Horse-EN.jpg"
+      },
+      "launchDate": "2019/01/07",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Safari King",
+        "cs": "狩猎之王",
+        "ch": "狩獵之王",
+        "id": "Raja Safari",
+        "th": "ราชาซาฟารี",
+        "vn": "Chúa Tể Muôn Thú"
+      },
+      "appId": "vs50safariking",
+      "gameId": "vs50safariking",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "50",
+      "RTP": "96.49%\t",
+      "imgName": {
+        "en": "Safari-King-EN.jpg"
+      },
+      "launchDate": "2018/12/27",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Leprechaun Carol",
+        "cs": "小妖之歌圣诞版",
+        "ch": "小妖之歌圣誕版",
+        "id": "Lagu Karol Leprechaun ",
+        "th": "บทเพลงแห่งเลพรีคอน",
+        "vn": "Bài hát Giáng sinh của Yêu tinh"
+      },
+      "appId": "vs20leprexmas",
+      "gameId": "vs20leprexmas",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.53%",
+      "imgName": {
+        "en": "Leprechaun-Carol-EN.jpg"
+      },
+      "launchDate": "2018/11/19",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Mustang Gold",
+        "cs": "黄金野马",
+        "ch": "黃金野馬",
+        "id": "Emas Mustang",
+        "th": "ทองคำมัสแตง",
+        "vn": "Sự giàu có của Ngựa hoang dã"
+      },
+      "appId": "vs25mustang",
+      "gameId": "vs25mustang",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.53%",
+      "imgName": {
+        "en": "Mustang-Gold-EN.jpg"
+      },
+      "launchDate": "2018/11/06",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Triple Dragons",
+        "cs": "龙龙龙",
+        "ch": "龍龍龍",
+        "id": "Naga Bertiga",
+        "th": "ไตรมังกร",
+        "vn": "Ba Chú rồng"
+      },
+      "appId": "vs5trdragons",
+      "gameId": "vs5trdragons",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "5",
+      "RTP": "96.51%",
+      "imgName": {
+        "en": "Triple-Dragons-EN.jpg"
+      },
+      "launchDate": "2018/10/29",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Baccarat",
+        "cs": "百家乐",
+        "ch": "百家樂",
+        "id": "Baccarat",
+        "th": "บาคาร่า",
+        "vn": "Bài cào"
+      },
+      "appId": "bca",
+      "gameId": "bca",
+      "category1": "Table Games",
+      "Reels": "--",
+      "paylines": "--",
+      "RTP": "98.76%",
+      "imgName": {
+        "en": "Baccarat-EN.jpg"
+      },
+      "launchDate": "2018/10/22",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Ancient Egypt Classic",
+        "cs": "古代埃及经典版",
+        "ch": "古代埃及經典版",
+        "id": "Asgard",
+        "th": " แอสการ์ด",
+        "vn": "Ngôi nhà của các vị thần"
+      },
+      "appId": "vs10egyptcls",
+      "gameId": "vs10egyptcls",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "10",
+      "RTP": "96.51%",
+      "imgName": {
+        "en": "Ancient-Egypt-Classic-EN.jpg"
+      },
+      "launchDate": "2018/10/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Vegas Magic",
+        "cs": "魔力维加斯",
+        "ch": "魔力維加斯",
+        "id": "Keajaiban Vegas",
+        "th": "มนตราเวกัส",
+        "vn": "Sức lôi cuốn của Vegas"
+      },
+      "appId": "vs20vegasmagic",
+      "gameId": "vs20vegasmagic",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.08%",
+      "imgName": {
+        "en": "Vegas-Magic-EN.jpg"
+      },
+      "launchDate": "2018/09/25",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Master Chens Fortune",
+        "cs": "陈师傅的财富",
+        "ch": "陳師傅的財富",
+        "id": "Kekayaan Tuan Chen",
+        "th": "อาจารย์เฉินมหาโชค",
+        "vn": "Vận mệnh của Master Chen"
+      },
+      "appId": "vs9chen",
+      "gameId": "vs9chen",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "9",
+      "RTP": "96.48%",
+      "imgName": {
+        "en": "Master-Chens-Fortune-EN.jpg"
+      },
+      "launchDate": "2018/09/11",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Da Vincis Treasure",
+        "cs": "达芬奇宝藏",
+        "ch": "達芬奇寶藏",
+        "id": "Harta DaVinci",
+        "th": "ขุมทรัพย์ดาวินซี",
+        "vn": "Kho báu của DaVinci"
+      },
+      "appId": "vs25davinci",
+      "gameId": "vs25davinci",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.53%",
+      "imgName": {
+        "en": "Da-Vincis-Treasure-EN.jpg"
+      },
+      "launchDate": "2018/08/13",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Peking Luck",
+        "cs": "好运北京",
+        "ch": "好運北京",
+        "id": "Tuah Peking",
+        "th": "ปักกิ่งมหาโชค",
+        "vn": "Vận may Bắc Kinh"
+      },
+      "appId": "vs25peking",
+      "gameId": "vs25peking",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Peking-Luck-EN.jpg"
+      },
+      "launchDate": "2018/08/02",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Leprechaun Song",
+        "cs": "小妖之歌",
+        "ch": "小妖之歌",
+        "id": "Lagu Dondang Sayang",
+        "th": "มนต์เพลงภูต",
+        "vn": "Bài hát Yêu tinh"
+      },
+      "appId": "vs20leprechaun",
+      "gameId": "vs20leprechaun",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.46%",
+      "imgName": {
+        "en": "Leprechaun-Song-EN.jpg"
+      },
+      "launchDate": "2018/07/18",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Jade Butterfly",
+        "cs": "玉蝴蝶",
+        "ch": "玉蝴蝶",
+        "id": "Kupu-Kupu Jed",
+        "th": "ผีเสื้อหยก",
+        "vn": "Bướm ngọc"
+      },
+      "appId": "vs1024butterfly",
+      "gameId": "vs1024butterfly",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "1024",
+      "RTP": "96.47%",
+      "imgName": {
+        "en": "Jade-Butterfly-EN.jpg"
+      },
+      "launchDate": "2018/07/02",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Madame Destiny",
+        "cs": "命运女士",
+        "ch": "命運女士",
+        "id": "Dewi Takdir",
+        "th": "มาดามเดสตินี",
+        "vn": "Vận mệnh Quý bà"
+      },
+      "appId": "vs10madame",
+      "gameId": "vs10madame",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "10",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Madame-Destiny-EN.jpg"
+      },
+      "launchDate": "2018/06/18",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Asgard",
+        "cs": "仙宫",
+        "ch": "仙宮",
+        "id": "Asgard",
+        "th": " แอสการ์ด",
+        "vn": "Ngôi nhà của các vị thần"
+      },
+      "appId": "vs25asgard",
+      "gameId": "vs25asgard",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.48%",
+      "imgName": {
+        "en": "Asgard-EN.jpg"
+      },
+      "launchDate": "2018/06/04",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "5 Lions",
+        "cs": "5雄狮",
+        "ch": "5雄獅",
+        "id": "5 Singa",
+        "th": "5สิงห์ ",
+        "vn": "5 Chú sư tử"
+      },
+      "appId": "vs243lions",
+      "gameId": "vs243lions",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "243",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "5-Lions-EN.jpg"
+      },
+      "launchDate": "2018/05/14",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "The Champions",
+        "cs": "冠军杯",
+        "ch": "冠軍杯",
+        "id": "Juara",
+        "th": " แชมเปี้ยน",
+        "vn": "Nhà vô địch"
+      },
+      "appId": "vs25champ",
+      "gameId": "vs25champ",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.51%",
+      "imgName": {
+        "en": "The-Champions-EN.jpg"
+      },
+      "launchDate": "2018/05/01",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Great Rhino",
+        "cs": "巨大犀牛",
+        "ch": "巨大犀牛",
+        "id": "Badak Hebat",
+        "th": "เกรทไรโน",
+        "vn": "Tê giác Khổng lồ"
+      },
+      "appId": "vs20rhino",
+      "gameId": "vs20rhino",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.53%",
+      "imgName": {
+        "en": "Great-Rhino-EN.jpg"
+      },
+      "launchDate": "2018/04/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Jokers Jewels",
+        "cs": "小丑珠宝",
+        "ch": "小丑珠寶",
+        "id": "Permata Joker",
+        "th": "เพชรโจ๊กเกอร์",
+        "vn": "Viên đá quý của Chú hề"
+      },
+      "appId": "vs5joker",
+      "gameId": "vs5joker",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "5",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Jokers-Jewels-EN.jpg"
+      },
+      "launchDate": "2018/04/02",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Fairytale Fortune",
+        "cs": "童话财富",
+        "ch": "童話財富",
+        "id": "Kekayaan Cerita Dogeng",
+        "th": "เทพธิดาพาโชค",
+        "vn": "Vận mệnh Cổ tích"
+      },
+      "appId": "vs15fairytale",
+      "gameId": "vs15fairytale",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "15",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "Fairytale-Fortune-EN.jpg"
+      },
+      "launchDate": "2018/03/19",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Fire 88",
+        "cs": "88火 ",
+        "ch": "88火 ",
+        "id": "Api 88",
+        "th": "เพลิงพาโชค",
+        "vn": "Ngọn lửa 88"
+      },
+      "appId": "vs7fire88",
+      "gameId": "vs7fire88",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "7",
+      "RTP": "96.45%",
+      "imgName": {
+        "en": "Fire-88-EN.jpg"
+      },
+      "launchDate": "2018/03/02",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Chilli Heat",
+        "cs": "火辣辣",
+        "ch": "火辣辣",
+        "id": "Pedas Cili",
+        "th": "ชิลลิฮีต",
+        "vn": "Ớt cay"
+      },
+      "appId": "vs25chilli",
+      "gameId": "vs25chilli",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Chilli-Heat-EN.jpg"
+      },
+      "launchDate": "2018/02/26",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "American Blackjack",
+        "cs": "美式二十一点",
+        "ch": "美式二十一點",
+        "id": "Mesir Purba",
+        "th": "อียิปต์โบราณ",
+        "vn": "Ai Cập Cổ đại"
+      },
+      "appId": "bjmb",
+      "gameId": "bjmb",
+      "category1": "Table Games",
+      "Reels": "",
+      "paylines": "--",
+      "RTP": "99.60%",
+      "imgName": {
+        "en": "American-Blackjack-EN.jpg"
+      },
+      "launchDate": "2018/04/10",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Aztec Gems",
+        "cs": "古时代宝石",
+        "ch": "古時代寶石",
+        "id": "Permata Aztez",
+        "th": "เพชรแอสเท็ค",
+        "vn": ""
+      },
+      "appId": "vs5aztecgems",
+      "gameId": "vs5aztecgems",
+      "category1": "Slots",
+      "Reels": "3+1",
+      "paylines": "5",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "Aztec-Gems-EN.jpg"
+      },
+      "launchDate": "2018/02/05",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Ancient Egypt",
+        "cs": "古代埃及",
+        "ch": "古代埃及",
+        "id": "Mesir Purba Klasik",
+        "th": "อียิปต์โบราณคลาสสิก",
+        "vn": "Ai Cập Cổ đại Cổ điển"
+      },
+      "appId": "vs10egypt",
+      "gameId": "vs10egypt",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "10",
+      "RTP": "96.13%",
+      "imgName": {
+        "en": "Ancient-Egypt-EN.jpg"
+      },
+      "launchDate": "2018/01/14",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lucky New Year",
+        "cs": "幸运新年",
+        "ch": "幸運新年",
+        "id": "Tahun Baru Bertuah",
+        "th": "โชคดีปีใหม่",
+        "vn": "Năm mới May mắn"
+      },
+      "appId": "vs25newyear",
+      "gameId": "vs25newyear",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.00%",
+      "imgName": {
+        "en": "Lucky-New-Year-EN.jpg"
+      },
+      "launchDate": "2018/01/15",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Triple Tigers",
+        "cs": "三只老虎",
+        "ch": "三只老虎",
+        "id": "Harimau Bertiga",
+        "th": "สามพยัคฆ์",
+        "vn": "Ba Chú Hổ"
+      },
+      "appId": "vs1tigers",
+      "gameId": "vs1tigers",
+      "category1": "Classic Games",
+      "Reels": "3",
+      "paylines": "1",
+      "RTP": "97.52%",
+      "imgName": {
+        "en": "Triple-Tigers-EN.jpg"
+      },
+      "launchDate": "2018/01/03",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Monkey Madness",
+        "cs": "猴子疯狂",
+        "ch": "猴子瘋狂",
+        "id": "Keedanan Monyet",
+        "th": "วานรเพี้ยน",
+        "vn": "Chú khỉ Điên cuồng"
+      },
+      "appId": "vs9madmonkey",
+      "gameId": "vs9madmonkey",
+      "category1": "Classic Games",
+      "Reels": "3",
+      "paylines": "9",
+      "RTP": "96.53%",
+      "imgName": {
+        "en": "Monkey-Madness-EN.jpg"
+      },
+      "launchDate": "2017/12/12",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Gold Rush",
+        "cs": "淘金热",
+        "ch": "淘金熱",
+        "id": "Buruan Emas",
+        "th": "โกลด์รัช",
+        "vn": "Cuộc đổ xô đi tìm Vàng"
+      },
+      "appId": "vs25goldrush",
+      "gameId": "vs25goldrush",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Gold-Rush-EN.jpg"
+      },
+      "launchDate": "2018/01/31",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Santa",
+        "cs": "圣诞老人",
+        "ch": "圣誕老人",
+        "id": "Santa",
+        "th": "ซานต้า",
+        "vn": "Ông già Nôen"
+      },
+      "appId": "vs20santa",
+      "gameId": "vs20santa",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "95.92%",
+      "imgName": {
+        "en": "Santa-EN.jpg"
+      },
+      "launchDate": "2017/11/29",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Pandas Fortune",
+        "cs": "熊猫财富",
+        "ch": "熊貓財富",
+        "id": "Kekayaan Panda",
+        "th": "แพนด้ามหาโชค",
+        "vn": "Vận may của Gấu trúc"
+      },
+      "appId": "vs25pandagold",
+      "gameId": "vs25pandagold",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.17%",
+      "imgName": {
+        "en": "Pandas-Fortune-EN.jpg"
+      },
+      "launchDate": "2017/07/11",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Money Roll",
+        "cs": "财源滚滚",
+        "ch": "財源滾滾",
+        "id": "Gulungan Wang",
+        "th": "มันนี่โรลล์",
+        "vn": "Cuộn tiền"
+      },
+      "appId": "cs5moneyroll",
+      "gameId": "cs5moneyroll",
+      "category1": "Classic Games",
+      "Reels": "3",
+      "paylines": "5",
+      "RTP": "96.93%",
+      "imgName": {
+        "en": "Money-Roll-EN.jpg"
+      },
+      "launchDate": "2017/07/11",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "7 Piggies",
+        "cs": "7只小猪",
+        "ch": "7只小豬",
+        "id": "7 Babi",
+        "th": "ลูกหมู 7 ตัว",
+        "vn": "7 Chú lợn con"
+      },
+      "appId": "vs7pigs",
+      "gameId": "vs7pigs",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "7",
+      "RTP": "95.99%",
+      "imgName": {
+        "en": "7-Piggies-EN.jpg"
+      },
+      "launchDate": "2017/10/24",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Diamond Strike",
+        "cs": "钻石罢工",
+        "ch": "鉆石罷工",
+        "id": "Serbuan Berlian",
+        "th": "ไดมอนด์สไตร้ค์",
+        "vn": "Cuộc chiến giành Kim cương"
+      },
+      "appId": "vs15diamond",
+      "gameId": "vs15diamond",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "15",
+      "RTP": "96.96%",
+      "imgName": {
+        "en": "Diamond-Strike-EN.jpg"
+      },
+      "launchDate": "2017/09/10",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Vegas Nights",
+        "cs": "维加斯之夜",
+        "ch": "維加斯之夜",
+        "id": "Malam Vegas",
+        "th": "เวกัสราตรี",
+        "vn": "Đêm Vegas"
+      },
+      "appId": "vs25vegas",
+      "gameId": "vs25vegas",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.03%",
+      "imgName": {
+        "en": "Vegas-Nights-EN.jpg"
+      },
+      "launchDate": "2017/09/26",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Wild Spells",
+        "cs": "法力无边",
+        "ch": "法力無邊",
+        "id": "Mantera Liar",
+        "th": "ป่าเวทย์มนต์",
+        "vn": "Câu thần chú Wild"
+      },
+      "appId": "vs25wildspells",
+      "gameId": "vs25wildspells",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.40%",
+      "imgName": {
+        "en": "Wild-Spells-EN.jpg"
+      },
+      "launchDate": "2017/09/26",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Caishens Gold",
+        "cs": "财神黄金",
+        "ch": "財神黃金",
+        "id": "Emas Caishen",
+        "th": "ทองคำของไข้วเฉิน",
+        "vn": "Kho Báu Thần Tài"
+      },
+      "appId": "vs243fortune",
+      "gameId": "vs243fortune",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "243",
+      "RTP": "97.08%",
+      "imgName": {
+        "en": "Caishens-Gold-EN.jpg"
+      },
+      "launchDate": "2016/08/23",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Pixie Wings",
+        "cs": "精灵翅膀",
+        "ch": "精靈翅膀",
+        "id": "Sayap Peri",
+        "th": "ปีกของพิกซี่",
+        "vn": "Đôi cánh của Nàng tiên"
+      },
+      "appId": "vs50pixie",
+      "gameId": "vs50pixie",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "50",
+      "RTP": "96.51%",
+      "imgName": {
+        "en": "Pixie-Wings-EN.jpg"
+      },
+      "launchDate": "2016/08/23",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Gold Train",
+        "cs": "黄金列车",
+        "ch": "黃金列車",
+        "id": "Tren Emas",
+        "th": "รถไฟทองคำ",
+        "vn": "Con tàu Vàng"
+      },
+      "appId": "vs3train",
+      "gameId": "vs3train",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "3",
+      "RTP": "97.16%",
+      "imgName": {
+        "en": "Gold-Train-EN.jpg"
+      },
+      "launchDate": "2017/04/07",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "888 Dragons",
+        "cs": "发发发龙",
+        "ch": "發發發龍",
+        "id": "888 Naga",
+        "th": "มังกร 888",
+        "vn": "888 Con rồng"
+      },
+      "appId": "vs1dragon8",
+      "gameId": "vs1dragon8",
+      "category1": "Classic Games",
+      "Reels": "3",
+      "paylines": "1",
+      "RTP": "96.84%",
+      "imgName": {
+        "en": "888-Dragons-EN.jpg"
+      },
+      "launchDate": "2017/10/07",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Jurassic Giants",
+        "cs": "侏罗纪巨兽",
+        "ch": "侏羅紀巨獸",
+        "id": "Gergasi Jurasik",
+        "th": "ยักษ์จูราสสิค",
+        "vn": "Động vật khổng lồ Kỷ jura"
+      },
+      "appId": "vs4096jurassic",
+      "gameId": "vs4096jurassic",
+      "category1": "Slots",
+      "Reels": "6",
+      "paylines": "4096",
+      "RTP": "96.01%",
+      "imgName": {
+        "en": "Jurassic-Giants-EN.jpg"
+      },
+      "launchDate": "2017/07/27",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "8 Dragons",
+        "cs": "8条龙",
+        "ch": "8條龍",
+        "id": "8 Naga",
+        "th": "8 มังกร",
+        "vn": "8 Con rồng"
+      },
+      "appId": "vs20eightdragons",
+      "gameId": "vs20eightdragons",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.37%",
+      "imgName": {
+        "en": "8-Dragons-EN.jpg"
+      },
+      "launchDate": "2017/05/30",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "3 Kingdoms - Battle of Red Cliffs",
+        "cs": "三国",
+        "ch": "三國",
+        "id": "3 Kerajaan - Pertempuran Cenuram Merah",
+        "th": "สาม อาณาจักร",
+        "vn": "Tam quốc "
+      },
+      "appId": "vs25kingdoms",
+      "gameId": "vs25kingdoms",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "3-Kingdoms-Battle-of-Red-Cliffs-EN.jpg"
+      },
+      "launchDate": "2017/04/27",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Wolf Gold",
+        "cs": "野狼黄金",
+        "ch": "野狼黃金",
+        "id": "Emas Serigala",
+        "th": "หมาป่าทองคำ",
+        "vn": "Sói vàng "
+      },
+      "appId": "vs25wolfgold",
+      "gameId": "vs25wolfgold",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.00%",
+      "imgName": {
+        "en": "Wolf-Gold-EN.jpg"
+      },
+      "launchDate": "2017/05/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Panther Queen",
+        "cs": "黑豹女王",
+        "ch": "黑豹女王",
+        "id": "Ratu Harimau Kumbang",
+        "th": "ราชินีเสือดำ",
+        "vn": "Nữ hoàng Panther"
+      },
+      "appId": "vs25pantherqueen",
+      "gameId": "vs25pantherqueen",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Panther-Queen-EN.jpg"
+      },
+      "launchDate": "2017/04/18",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Queen Of Atlantis",
+        "cs": "亚特兰蒂斯女王",
+        "ch": "亞特蘭蒂斯女王",
+        "id": "Ratu Atlantis",
+        "th": "ราชินีแอตแลนติส",
+        "vn": "Nữ hoàng Atlantis"
+      },
+      "appId": "vs1024atlantis",
+      "gameId": "vs1024atlantis",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "1024",
+      "RTP": "96.41%",
+      "imgName": {
+        "en": "Queen-Of-Atlantis-EN.jpg"
+      },
+      "launchDate": "2017/03/13",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Irish Charms",
+        "cs": "爱尔兰的魅力",
+        "ch": "愛爾蘭的魅力",
+        "id": "Pesona Irish",
+        "th": "สาวงามไอริช",
+        "vn": "Bùa mê Ai-len"
+      },
+      "appId": "cs3irishcharms",
+      "gameId": "cs3irishcharms",
+      "category1": "Classic Games",
+      "Reels": "3",
+      "paylines": "3",
+      "RTP": "96.96%",
+      "imgName": {
+        "en": "Irish-Charms-EN.jpg"
+      },
+      "launchDate": "2016/01/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Queen Of Gold",
+        "cs": "黄金女王",
+        "ch": "黃金女王",
+        "id": "Ratu Emas",
+        "th": "ราชินีทองคำ",
+        "vn": "Nữ hoàng Vàng"
+      },
+      "appId": "vs25queenofgold",
+      "gameId": "vs25queenofgold",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Queen-Of-Gold-EN.jpg"
+      },
+      "launchDate": "2017/07/03",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "888 Gold",
+        "cs": "富贵888",
+        "ch": "富貴888",
+        "id": "888 Emas",
+        "th": "888 ทองคำ",
+        "vn": "Vàng 888"
+      },
+      "appId": "cs5triple8gold",
+      "gameId": "cs5triple8gold",
+      "category1": "Classic Games",
+      "Reels": "3",
+      "paylines": "5",
+      "RTP": "97.52%",
+      "imgName": {
+        "en": "888-Gold-EN.jpg"
+      },
+      "launchDate": "2017/03/02",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Multihand Blackjack",
+        "cs": "21点之富贵临门",
+        "ch": "21點之富貴臨門",
+        "id": "Blackjack Multitangan",
+        "th": "มัลติแฮนด์แบล็คแจ็ค",
+        "vn": "Blackjack Nhiều tay"
+      },
+      "appId": "bjma",
+      "gameId": "bjma",
+      "category1": "Table Games",
+      "Reels": "",
+      "paylines": "--",
+      "RTP": "99.62%",
+      "imgName": {
+        "en": "Multihand-Blackjack-EN.jpg"
+      },
+      "launchDate": "2016/01/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Diamonds are Forever 3 Lines",
+        "cs": "永恒钻石3线",
+        "ch": "永恒鉆石3線",
+        "id": "Intan Abadi 3 Garis",
+        "th": "เพชรอมตะ 3 แถว",
+        "vn": "Kim cương Vĩnh cửu 3 Dòng"
+      },
+      "appId": "cs3w",
+      "gameId": "cs3w",
+      "category1": "Classic Games",
+      "Reels": "3",
+      "paylines": "3",
+      "RTP": "96.96%",
+      "imgName": {
+        "en": "Diamonds-are-Forever-3-Lines-EN.jpg"
+      },
+      "launchDate": "2017/12/27",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dragon Kingdom",
+        "cs": "龙之国度",
+        "ch": "龍之國度",
+        "id": "Kerajaan Naga",
+        "th": "อาณาจักรมังกร",
+        "vn": "Vương quốc rồng"
+      },
+      "appId": "vs25dragonkingdom",
+      "gameId": "vs25dragonkingdom",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.47%",
+      "imgName": {
+        "en": "Dragon-Kingdom-EN.jpg"
+      },
+      "launchDate": "2017/05/01",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Hercules Son Of Zeus",
+        "cs": "宙斯之子赫拉克勒斯",
+        "ch": "宙斯之子赫拉克勒斯",
+        "id": "Hercules Anak Zeus",
+        "th": "เฮอร์คิวลิส",
+        "vn": "Héc Quyn"
+      },
+      "appId": "vs50hercules",
+      "gameId": "vs50hercules",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "50",
+      "RTP": "95.19%",
+      "imgName": {
+        "en": "Hercules-Son-Of-Zeus-EN.jpg"
+      },
+      "launchDate": "2016/12/20",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "3 Genie Wishes",
+        "cs": "3个精灵愿望",
+        "ch": "3個精靈愿望",
+        "id": "3 Hajat Jin",
+        "th": "3 คำอธิษฐานของจีนี่",
+        "vn": "3 Điều ước của Thần linh"
+      },
+      "appId": "vs50aladdin",
+      "gameId": "vs50aladdin",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "50",
+      "RTP": "96.53%",
+      "imgName": {
+        "en": "3-Genie-Wishes-EN.jpg"
+      },
+      "launchDate": "2016/05/12",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "The Catfather Part II",
+        "cs": "猫爸第二部分",
+        "ch": "貓爸第二部分",
+        "id": "Bapa Kucing Bhg II",
+        "th": "เดอะแค็ทฟาเธอร์ภาค 2",
+        "vn": "Bố mèo phần 2"
+      },
+      "appId": "vs30catz",
+      "gameId": "vs30catz",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "30",
+      "RTP": "96.07%",
+      "imgName": {
+        "en": "The-Catfather-Part-II-EN.jpg"
+      },
+      "launchDate": "2016/11/14",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Journey to the West",
+        "cs": "西游记",
+        "ch": "西游記",
+        "id": "Kembara ke Barat",
+        "th": "ไซอิ๋วผจญภัย",
+        "vn": "Tây Du Ký"
+      },
+      "appId": "vs25journey",
+      "gameId": "vs25journey",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.47%",
+      "imgName": {
+        "en": "Journey-to-the-West-EN.jpg"
+      },
+      "launchDate": "2016/10/18",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Beowulf",
+        "cs": "贝奥武夫",
+        "ch": "貝奧武夫",
+        "id": "Beowulf",
+        "th": "บีโอวูลฟ์",
+        "vn": "Beowulf"
+      },
+      "appId": "vs40beowulf",
+      "gameId": "vs40beowulf",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "40",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Beowulf-EN.jpg"
+      },
+      "launchDate": "2016/09/26",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lucky Dragons",
+        "cs": "飞龙在天",
+        "ch": "飛龍在天",
+        "id": "Naga Bertuah",
+        "th": "มังกรโชคลาภ",
+        "vn": "Những chú rồng may mắn"
+      },
+      "appId": "vs50chinesecharms",
+      "gameId": "vs50chinesecharms",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "50",
+      "RTP": "95.19%",
+      "imgName": {
+        "en": "Lucky-Dragons-EN.jpg"
+      },
+      "launchDate": "2016/09/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Hockey League Wild Match",
+        "cs": "狂野冰球赛",
+        "ch": "狂野冰球賽",
+        "id": "Liga Hoki Perlawanan Liar",
+        "th": "ฮอกกี้ลีกสายโหด",
+        "vn": "Giải đấu Hockey Trận đấu Cuồng nhiệt"
+      },
+      "appId": "vs9hockey",
+      "gameId": "vs9hockey",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "9",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "Hockey-League-Wild-Match-EN.jpg"
+      },
+      "launchDate": "2016/03/10",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dwarven Gold Deluxe",
+        "cs": "矮人黄金豪华版",
+        "ch": "矮人黃金豪華版",
+        "id": "Emas Kerdil Deluxe",
+        "th": "ทองคำคนแคระดีลักซ์",
+        "vn": "Vàng của Người lùn Cao cấp"
+      },
+      "appId": "vs25dwarves_new",
+      "gameId": "vs25dwarves_new",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.47%",
+      "imgName": {
+        "en": "Dwarven-Gold-Deluxe-EN.jpg"
+      },
+      "launchDate": "2016/01/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Romeo And Juliet",
+        "cs": "罗密欧与朱丽叶",
+        "ch": "羅密歐與朱麗葉",
+        "id": "Romeo dan Juliet",
+        "th": "โรเมโอและจูเลียต",
+        "vn": "Romeo và Juliet"
+      },
+      "appId": "vs25romeoandjuliet",
+      "gameId": "vs25romeoandjuliet",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.18%",
+      "imgName": {
+        "en": "Romeo-And-Juliet-EN.jpg"
+      },
+      "launchDate": "2016/01/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Hot Safari",
+        "cs": "野生动物园",
+        "ch": "野生動物園",
+        "id": "Safari Panas",
+        "th": "ซาฟารีสุดฮ็อต",
+        "vn": "Cuộc săn Nóng bỏng"
+      },
+      "appId": "vs25safari",
+      "gameId": "vs25safari",
+      "category1": "Slots",
+      "Reels": "6",
+      "paylines": "25",
+      "RTP": "96.17%",
+      "imgName": {
+        "en": "Hot-Safari-EN.jpg"
+      },
+      "launchDate": "2016/01/07",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "The Catfather",
+        "cs": "猫咪派对",
+        "ch": "貓咪派對",
+        "id": "Bapa Kucing",
+        "th": "เจ้าพ่อเหมียวแค็ทฟาเธอร์",
+        "vn": "Lão mèo"
+      },
+      "appId": "vs9catz",
+      "gameId": "vs9catz",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "9",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "The-Catfather-EN.jpg"
+      },
+      "launchDate": "2016/01/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Mighty Kong",
+        "cs": "无敌金刚",
+        "ch": "無敵金剛",
+        "id": "Kong Perkasa",
+        "th": "ไม้ท์ตี้คอง",
+        "vn": "King Kong Phi thường"
+      },
+      "appId": "vs50kingkong",
+      "gameId": "vs50kingkong",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "50",
+      "RTP": "96.64%",
+      "imgName": {
+        "en": "Mighty-Kong-EN.jpg"
+      },
+      "launchDate": "2016/01/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lady Godiva",
+        "cs": "女神戈帝梵",
+        "ch": "女神戈帝梵",
+        "id": "Lady Godiva",
+        "th": "เลดี้โกไดว่า",
+        "vn": "Quý bà Godiva"
+      },
+      "appId": "vs20godiva",
+      "gameId": "vs20godiva",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.54%",
+      "imgName": {
+        "en": "Lady-Godiva-EN.jpg"
+      },
+      "launchDate": "2016/01/07",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "KTV",
+        "cs": "歌厅",
+        "ch": "歌廳",
+        "id": "KTV",
+        "th": "เคทีวี",
+        "vn": "KTV"
+      },
+      "appId": "vs15ktv",
+      "gameId": "vs15ktv",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "15",
+      "RTP": "96.38%",
+      "imgName": {
+        "en": "KTV-EN.jpg"
+      },
+      "launchDate": "2016/01/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Magic Crystals",
+        "cs": "魔幻水晶",
+        "ch": "魔幻水晶",
+        "id": "Kristal Ajaib",
+        "th": "คริสตัลเวทมนตร์",
+        "vn": "Pha lê Kỳ diệu"
+      },
+      "appId": "vs243crystalcave",
+      "gameId": "vs243crystalcave",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "243",
+      "RTP": "96.36%",
+      "imgName": {
+        "en": "Magic-Crystals-EN.jpg"
+      },
+      "launchDate": "2016/01/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Hockey League",
+        "cs": "曲棍球联盟",
+        "ch": "曲棍球聯盟",
+        "id": "Liga Hoki",
+        "th": "ฮ็อกกี้ลีก",
+        "vn": "Khúc côn cầu trên băng"
+      },
+      "appId": "vs20hockey",
+      "gameId": "vs20hockey",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "94.11%",
+      "imgName": {
+        "en": "Hockey-League-EN.jpg"
+      },
+      "launchDate": "2017/10/01",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Aladdins Treasure",
+        "cs": "阿拉丁宝藏",
+        "ch": "阿拉丁寶藏",
+        "id": "Harta Karun Aladdin",
+        "th": "ขุมทรัพย์อาละดิน",
+        "vn": "Kho báu của Aladdin"
+      },
+      "appId": "vs50amt",
+      "gameId": "vs50amt",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "50",
+      "RTP": "96.58%",
+      "imgName": {
+        "en": "Aladdins-Treasure-EN.jpg"
+      },
+      "launchDate": "2016/01/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Lady Of The Moon",
+        "cs": "月之女神",
+        "ch": "月之女神",
+        "id": "Gadis Bulan",
+        "th": "จันทรานารี",
+        "vn": "Quý bà Mặt trăng"
+      },
+      "appId": "vs13ladyofmoon",
+      "gameId": "vs13ladyofmoon",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "13",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "Lady-Of-The-Moon-EN.jpg"
+      },
+      "launchDate": "2016/01/07",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Tales Of Egypt",
+        "cs": "埃及传说",
+        "ch": "埃及傳說",
+        "id": "Kisah Mesir",
+        "th": "ตำนานแห่งอียิปต์",
+        "vn": "Câu chuyện Ai Cập"
+      },
+      "appId": "vs20egypt",
+      "gameId": "vs20egypt",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "91.93%",
+      "imgName": {
+        "en": "Tales-Of-Egypt-EN.jpg"
+      },
+      "launchDate": "2016/08/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Sugar Rush",
+        "cs": "极速糖果",
+        "ch": "極速糖果",
+        "id": "Serbuan Gula",
+        "th": "ซูการ์รัช",
+        "vn": "Đua xe Ô tô"
+      },
+      "appId": "vs20cm",
+      "gameId": "vs20cm",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "Sugar-Rush-EN.jpg"
+      },
+      "launchDate": "2016/01/07",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Sugar Rush Winter",
+        "cs": "极速糖果冬日版",
+        "ch": "極速糖果冬日版",
+        "id": "Serbuan Gula Musim Sejuk",
+        "th": "ซูการ์รัชวินเทอร์",
+        "vn": "Đua xe Ô tô Mùa đông"
+      },
+      "appId": "vs20cw",
+      "gameId": "vs20cw",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "Sugar-Rush-Winter-EN.jpg"
+      },
+      "launchDate": "2016/05/12",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Sugar Rush Valentines Day",
+        "cs": "极速糖果情人版",
+        "ch": "極速糖果情人版",
+        "id": "Serbuan Gula Hari Kekasih",
+        "th": "ซูการ์รัชวันวาเลนไทน์",
+        "vn": "Đua xe Ô tô Ngày Valentine"
+      },
+      "appId": "vs20cmv",
+      "gameId": "vs20cmv",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "Sugar-Rush-Valentines-Day-EN.jpg"
+      },
+      "launchDate": "2016/12/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Sugar Rush Summer Time",
+        "cs": "极速糖果夏日版",
+        "ch": "極速糖果夏日版",
+        "id": "Serbuan Gula Musim Panas",
+        "th": "ซูการ์รัชซัมเมอร์ไทม์",
+        "vn": "Đua xe Ô tô Mùa hè"
+      },
+      "appId": "vs20cms",
+      "gameId": "vs20cms",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "Sugar-Rush-Summer-Time-EN.jpg"
+      },
+      "launchDate": "2016/08/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Spooky Fortune",
+        "cs": "幽灵财富",
+        "ch": "幽靈財富",
+        "id": "Kekayaan Seram",
+        "th": "ผีพารวย",
+        "vn": "Vận mệnh Ma quỷ"
+      },
+      "appId": "vs20gg",
+      "gameId": "vs20gg",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.00%",
+      "imgName": {
+        "en": "Spooky-Fortune-EN.jpg"
+      },
+      "launchDate": "2016/09/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Roulette",
+        "cs": "轮盘",
+        "ch": "輪盤",
+        "id": "Rolet",
+        "th": "รูเล็ต",
+        "vn": "Cò quay"
+      },
+      "appId": "rla",
+      "gameId": "rla",
+      "category1": "Table Games",
+      "Reels": "",
+      "paylines": "--",
+      "RTP": "97.30%",
+      "imgName": {
+        "en": "Roulette-EN.jpg"
+      },
+      "launchDate": "2016/01/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Keno",
+        "cs": "基诺",
+        "ch": "基諾",
+        "id": "Keno",
+        "th": "คีโน",
+        "vn": "Keno"
+      },
+      "appId": "kna",
+      "gameId": "kna",
+      "category1": "Others Game",
+      "Reels": "",
+      "paylines": "--",
+      "RTP": "94.01%",
+      "imgName": {
+        "en": "Keno-EN.jpg"
+      },
+      "launchDate": "2016/01/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Jacks or Better",
+        "cs": "杰克扑克",
+        "ch": "杰克撲克",
+        "id": "Jack atau Lebih Baik",
+        "th": "แจ็คหรือดีกว่า",
+        "vn": "Lá J hay Tốt hơn"
+      },
+      "appId": "vpa",
+      "gameId": "vpa",
+      "category1": "Video Poker",
+      "Reels": "",
+      "paylines": "--",
+      "RTP": "97.63%",
+      "imgName": {
+        "en": "Jacks-or-Better-EN.jpg"
+      },
+      "launchDate": "2016/01/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Great Reef",
+        "cs": "大堡礁",
+        "ch": "大堡礁",
+        "id": "Terumbu Besar",
+        "th": "ปะการังมหัศจรรย์",
+        "vn": "Rặng san hô Hùng vĩ"
+      },
+      "appId": "vs25sea",
+      "gameId": "vs25sea",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.64%",
+      "imgName": {
+        "en": "Great-Reef-EN.jpg"
+      },
+      "launchDate": "2016/08/23",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Glorious Rome",
+        "cs": "荣耀罗马",
+        "ch": "榮耀羅馬",
+        "id": "Rom Gemilang",
+        "th": "รุ่งโรจน์โรม",
+        "vn": "Thành Rome Huy hoàng"
+      },
+      "appId": "vs20rome",
+      "gameId": "vs20rome",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "94.11%",
+      "imgName": {
+        "en": "Glorious-Rome-EN.jpg"
+      },
+      "launchDate": "2016/08/30",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Fruity Blast",
+        "cs": "水果爆破",
+        "ch": "水果爆破",
+        "id": "Letupan Buah",
+        "th": "ระเบิดฟรุ๊ตตี้",
+        "vn": "Chém hoa quả"
+      },
+      "appId": "vs25h",
+      "gameId": "vs25h",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.30%",
+      "imgName": {
+        "en": "Fruity-Blast-EN.jpg"
+      },
+      "launchDate": "2016/12/09",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dwarven Gold",
+        "cs": "矮人黄金",
+        "ch": "矮人黃金",
+        "id": "Emas Kerdil",
+        "th": "ทองคำคนแคระ 25 แถว",
+        "vn": "Vàng của Người lùn 25 Dòng"
+      },
+      "appId": "vs25dwarves",
+      "gameId": "vs25dwarves",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.64%",
+      "imgName": {
+        "en": "Dwarven-Gold-EN.jpg"
+      },
+      "launchDate": "2016/01/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Devils 13",
+        "cs": "恶魔13",
+        "ch": "惡魔13",
+        "id": "13 Syaitan",
+        "th": "13 ปีศาจ",
+        "vn": "Sự trả thù của quỷ 13"
+      },
+      "appId": "vs13g",
+      "gameId": "vs13g",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "13",
+      "RTP": "95.06%",
+      "imgName": {
+        "en": "Devils-13-EN.jpg"
+      },
+      "launchDate": "2016/10/17",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Crazy 7s",
+        "cs": "疯狂7s",
+        "ch": "瘋狂7s",
+        "id": "7s Gila",
+        "th": "7s สุดคลั่ง",
+        "vn": "7s Điên cuồng"
+      },
+      "appId": "vs15b",
+      "gameId": "vs15b",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "15",
+      "RTP": "93.15%",
+      "imgName": {
+        "en": "Crazy-7s-EN.jpg"
+      },
+      "launchDate": "2016/09/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Busy Bees",
+        "cs": "勤劳蜜蜂",
+        "ch": "勤勞蜜蜂",
+        "id": "Lebah Sibuk",
+        "th": "ผึ้งงานจอมยุ่ง",
+        "vn": "Những chú ong Bận rộn"
+      },
+      "appId": "vs20bl",
+      "gameId": "vs20bl",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.00%",
+      "imgName": {
+        "en": "Busy-Bees-EN.jpg"
+      },
+      "launchDate": "2016/01/08",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "7 Monkeys",
+        "cs": "7只猴子",
+        "ch": "7只猴子",
+        "id": "7 Monyet",
+        "th": "7 วานร",
+        "vn": "7 Chú khỉ"
+      },
+      "appId": "vs7monkeys",
+      "gameId": "vs7monkeys",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "7",
+      "RTP": "92.71%",
+      "imgName": {
+        "en": "7-Monkeys-EN.jpg"
+      },
+      "launchDate": "2016/01/07",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    }
+  ]
+}
