@@ -1585,4 +1585,7 @@
   <data name="lbl_Platform" xml:space="preserve">
     <value>游戏平台</value>
   </data>
+  <data name="lbl_Deduction" xml:space="preserve">
+    <value>相抵流水缺欠金额</value>
+  </data>
 </root>

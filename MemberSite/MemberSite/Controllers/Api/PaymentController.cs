@@ -241,18 +241,17 @@ namespace MemberSite.Controllers.Api
             {
                 if (WithdrawalAvailableBalance < withdrawalReqModel.amount)
                 {
+                    //decimal DiffWithdrawalAvailableBalance = 0;
+                    //if (WithdrawalAvailableBalance > 0)
+                    //{
+                    //    DiffWithdrawalAvailableBalance = withdrawalReqModel.amount - WithdrawalAvailableBalance;
+                    //}
+                    //else
+                    //{
+                    //    DiffWithdrawalAvailableBalance = withdrawalReqModel.amount;
+                    //}
 
-                    decimal DiffWithdrawalAvailableBalance = 0;
-                    if (WithdrawalAvailableBalance > 0)
-                    {
-                        DiffWithdrawalAvailableBalance = withdrawalReqModel.amount - WithdrawalAvailableBalance;
-                    }
-                    else
-                    {
-                        DiffWithdrawalAvailableBalance = withdrawalReqModel.amount;
-                    }
-
-                    apiResult.Message = $"{DiffWithdrawalAvailableBalance}";
+                    apiResult.Message = $"{(WithdrawalAvailableBalance < 0 ? 0 : WithdrawalAvailableBalance)}";
                     apiResult.ErrorCode = -3;
                     return apiResult;
                 }

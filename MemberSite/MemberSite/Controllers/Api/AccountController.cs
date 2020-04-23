@@ -236,22 +236,23 @@ namespace MemberSite.Controllers.Api
         //}
 
         [HttpPost]
-        public async Task<ApiResult<dynamic>> GetWithdrawalAvailableBalanceAsync()
+        public ApiResult<dynamic> GetWithdrawalAvailableBalanceAsync()
         {
             var apiResult = new ApiResult<dynamic>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
             var limitInfo = paymentBLL.GetWithdrawalLimitInfo(authData.CustId);
-            if (limitInfo != null && (limitInfo.WithdrawalLimit <= limitInfo.TurnOver))
+            if (limitInfo != null)
             {
-                var withdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
-                apiResult.Data = new { Balance = withdrawalAvailableBalance, IsLack = false };
+                //var withdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
+                decimal tmpDeduction = limitInfo.WithdrawalLimit - limitInfo.TurnOver;
+                decimal deduction = tmpDeduction < 0 ? 0 : tmpDeduction;
+                decimal balance = limitInfo.Balance - (deduction);
+                apiResult.Data = new { limitInfo.Balance, Deduction = deduction, AvailableBalance = balance < 0 ? 0 : balance };
                 apiResult.ErrorCode = 0;
             }
             else
             {
-                apiResult.Data = limitInfo == null ?
-                    new { Balance = (decimal)0, IsLack = false }
-                    : new { Balance = limitInfo.WithdrawalLimit - limitInfo.TurnOver, IsLack = true }; 
+                apiResult.Data = new { Balance = (decimal)0, Deduction = (decimal)0, AvailableBalance = (decimal)0 };
                 apiResult.ErrorCode = 0;
             }
 
