@@ -262,19 +262,19 @@
 
                     $(".Js-LiveCasino").on("touchstart, click", function () {
                         $("#Dialog").attr("data-open", false);
-                        window.open($(".Js-LiveCasino").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                        window.open($(".Js-LiveCasino").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
                     });
 
                     $(".Js-Sports").on("touchstart, click", function () {
                         $("#Dialog2").attr("data-open", false);
                         @if (tools.IsMobile())
                         {
-                        @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                        @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
                         }
                         else
                         {
                         @:if ($(".Js-Sports").attr("data-GameId") == "202" || $(".Js-Sports").attr("data-GameId") == "208" || $(".Js-Sports").attr("data-GameId") == "211") {
-                            @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                            @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
                         @:} else {
                             @:window.location.href = $(".Js-Sports").attr("data-GameUrl");
                         @:}
@@ -329,12 +329,12 @@
                         }
 
                         if (iGameId > 200 || iGameId == 43) {
-                            window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                            window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
                         } else {
                             window.location.href = GameUrl;
                         }
                     } else {
-                        window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus();
+                        window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
                     }
                 }
             </script>

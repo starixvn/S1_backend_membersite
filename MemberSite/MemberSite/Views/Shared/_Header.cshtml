@@ -17,7 +17,7 @@
     if (User.Identity.IsAuthenticated)
     {
         entFishingPageUrl = gamingBLL.GetEntPageUrl(7, "10", Url, GameType.Fishing);
-        entFishingPageUrl = $"javascript:window.open('{entFishingPageUrl}', 'Tp_7_10', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus()";
+        entFishingPageUrl = $"javascript:window.open('{entFishingPageUrl}', 'Tp_7_10', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus()";
     }
     else
     {

@@ -17,7 +17,7 @@ export class GameElem extends React.Component{
         if(isLogin==='1'){
             let tpId = this.props.ProviderId;
             let gameId = this.props.GameId;
-            window.open(`${entPageUrl}&fun=${0}&gameId=${gameId}&tpId=${tpId}&gameType=slots`, `Tp_${tpId}`, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus()
+            window.open(`${entPageUrl}&fun=${0}&gameId=${gameId}&tpId=${tpId}&gameType=slots`, `Tp_${tpId}`, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus()
         }else{
             ShowLogin();
         }
@@ -26,7 +26,7 @@ export class GameElem extends React.Component{
         if(isLogin==='1'){
             let tpId = this.props.ProviderId;
             let gameId = this.props.GameId;
-            window.open(`${entPageUrl}&fun=${1}&gameId=${gameId}&tpId=${tpId}&gameType=slots`, `Tp_${tpId}`, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no').focus()
+            window.open(`${entPageUrl}&fun=${1}&gameId=${gameId}&tpId=${tpId}&gameType=slots`, `Tp_${tpId}`, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus()
         }else{
             ShowLogin();
         }
