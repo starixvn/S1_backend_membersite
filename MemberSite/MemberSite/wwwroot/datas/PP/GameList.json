@@ -17,7 +17,9 @@
       "paylines": "10",
       "RTP": "96.50%",
       "imgName": {
-        "en": "John-Hunter-and-the-Book-of-Tut-EN.jpg"
+        "en": "John-Hunter-and-the-Book-of-Tut-EN.jpg",
+        "cs": "John-Hunter-and-the-Book-of-Tut-CS.jpg",
+        "ch": "John-Hunter-and-the-Book-of-Tut-CS.jpg"
       },
       "launchDate": "2020/04/28",
       "hot": false,
@@ -40,7 +42,9 @@
       "paylines": "10",
       "RTP": "96.27%",
       "imgName": {
-        "en": "Three-Star-Fortune-EN.jpg"
+        "en": "Three-Star-Fortune-EN.jpg",
+        "cs": "Three-Star-Fortune-CS.jpg",
+        "ch": "Three-Star-Fortune-CS.jpg"
       },
       "launchDate": "2020/04/21",
       "hot": false,
@@ -63,7 +67,9 @@
       "paylines": "200704",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Great-Rhino-Megaways-EN.jpg"
+        "en": "Great-Rhino-Megaways-EN.jpg",
+        "cs": "Great-Rhino-Megaways-CS.jpg",
+        "ch": "Great-Rhino-Megaways-CS.jpg"
       },
       "launchDate": "2020/04/14",
       "hot": false,
@@ -86,7 +92,9 @@
       "paylines": "5",
       "RTP": "96.71%",
       "imgName": {
-        "en": "Hot-to-Burn-EN.jpg"
+        "en": "Hot-to-Burn-EN.jpg",
+        "cs": "Hot-to-Burn-CS.jpg",
+        "ch": "Hot-to-Burn-CS.jpg"
       },
       "launchDate": "2020/04/14",
       "hot": false,
@@ -109,11 +117,14 @@
       "paylines": "243",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Dance-Party-EN.jpg"
+        "en": "Dance-Party-EN.jpg",
+        "cs": "Dance-Party-CS.jpg",
+        "ch": "Dance-Party-CS.jpg"
       },
       "launchDate": "2020/04/07",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -132,7 +143,9 @@
       "paylines": "40",
       "RTP": "96.51%",
       "imgName": {
-        "en": "Wild-West-Gold-EN.jpg"
+        "en": "Wild-West-Gold-EN.jpg",
+        "cs": "Wild-West-Gold-CS.jpg",
+        "ch": "Wild-West-Gold-CS.jpg"
       },
       "launchDate": "2020/03/31",
       "hot": false,
@@ -155,10 +168,12 @@
       "paylines": "1",
       "RTP": "96.51%",
       "imgName": {
-        "en": "Lucky-Dragon-Ball-EN.jpg"
+        "en": "Lucky-Dragon-Ball-EN.jpg",
+        "cs": "Lucky-Dragon-Ball-CS.jpg",
+        "ch": "Lucky-Dragon-Ball-CS.jpg"
       },
       "launchDate": "2020/03/24",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -178,7 +193,9 @@
       "paylines": "40",
       "RTP": "96.53%",
       "imgName": {
-        "en": "Fruit-Rainbow-EN.jpg"
+        "en": "Fruit-Rainbow-EN.jpg",
+        "cs": "Fruit-Rainbow-CS.jpg",
+        "ch": "Fruit-Rainbow-CS.jpg"
       },
       "launchDate": "2020/03/17",
       "hot": false,
@@ -201,7 +218,9 @@
       "paylines": "40",
       "RTP": "96.52%",
       "imgName": {
-        "en": "The-Wild-Machine-EN.jpg"
+        "en": "The-Wild-Machine-EN.jpg",
+        "cs": "The-Wild-Machine-CS.jpg",
+        "ch": "The-Wild-Machine-CS.jpg"
       },
       "launchDate": "2020/03/10",
       "hot": false,
@@ -224,7 +243,9 @@
       "paylines": "7776",
       "RTP": "96.53%",
       "imgName": {
-        "en": "Aztec-Bonanza-EN.jpg"
+        "en": "Aztec-Bonanza-EN.jpg",
+        "cs": "Aztec-Bonanza-CS.jpg",
+        "ch": "Aztec-Bonanza-CS.jpg"
       },
       "launchDate": "2020/03/02",
       "hot": false,
@@ -247,7 +268,9 @@
       "paylines": "4096",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Mysterious-EN.jpg"
+        "en": "Mysterious-EN.jpg",
+        "cs": "Mysterious-CS.jpg",
+        "ch": "Mysterious-CS.jpg"
       },
       "launchDate": "2020/02/24",
       "hot": false,
@@ -270,7 +293,9 @@
       "paylines": "75",
       "RTP": "96.44%",
       "imgName": {
-        "en": "Golden-Beauty-EN.jpg"
+        "en": "Golden-Beauty-EN.jpg",
+        "cs": "Golden-Beauty-CS.jpg",
+        "ch": "Golden-Beauty-CS.jpg"
       },
       "launchDate": "2020/02/17",
       "hot": false,
@@ -293,7 +318,9 @@
       "paylines": "1",
       "RTP": "96.51%",
       "imgName": {
-        "en": "Master-Joker-EN.jpg"
+        "en": "Master-Joker-EN.jpg",
+        "cs": "Master-Joker-CS.jpg",
+        "ch": "Master-Joker-CS.jpg"
       },
       "launchDate": "2020/02/10",
       "hot": false,
@@ -316,7 +343,9 @@
       "paylines": "5",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Super-7s--EN.jpg"
+        "en": "Super-7s--EN.jpg",
+        "cs": "Super-7s--CS.jpg",
+        "ch": "Super-7s--CS.jpg"
       },
       "launchDate": "2020/02/03",
       "hot": false,
@@ -339,7 +368,9 @@
       "paylines": "20",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Release-the-Kraken-EN.jpg"
+        "en": "Release-the-Kraken-EN.jpg",
+        "cs": "Release-the-Kraken-CS.jpg",
+        "ch": "Release-the-Kraken-CS.jpg"
       },
       "launchDate": "2020/01/20",
       "hot": false,
@@ -362,7 +393,9 @@
       "paylines": "4096",
       "RTP": "96.06%",
       "imgName": {
-        "en": "Buffalo-King-EN.jpg"
+        "en": "Buffalo-King-EN.jpg",
+        "cs": "Buffalo-King-CS.jpg",
+        "ch": "Buffalo-King-CS.jpg"
       },
       "launchDate": "2020/01/13",
       "hot": false,
@@ -385,7 +418,9 @@
       "paylines": "8",
       "RTP": "96.54%",
       "imgName": {
-        "en": "Magic-Journey-EN.jpg"
+        "en": "Magic-Journey-EN.jpg",
+        "cs": "Magic-Journey-CS.jpg",
+        "ch": "Magic-Journey-CS.jpg"
       },
       "launchDate": "2020/01/06",
       "hot": false,
@@ -408,7 +443,9 @@
       "paylines": "25",
       "RTP": "96.01%",
       "imgName": {
-        "en": "Money-Mouse-EN.jpg"
+        "en": "Money-Mouse-EN.jpg",
+        "cs": "Money-Mouse-CS.jpg",
+        "ch": "Money-Mouse-CS.jpg"
       },
       "launchDate": "2019/12/10",
       "hot": false,
@@ -431,7 +468,9 @@
       "paylines": "20",
       "RTP": "96.23%",
       "imgName": {
-        "en": "Aladdin-and-the-Sorcerer-EN.jpg"
+        "en": "Aladdin-and-the-Sorcerer-EN.jpg",
+        "cs": "Aladdin-and-the-Sorcerer-CS.jpg",
+        "ch": "Aladdin-and-the-Sorcerer-CS.jpg"
       },
       "launchDate": "2019/12/10",
       "hot": false,
@@ -454,7 +493,9 @@
       "paylines": "243",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Greek-Gods-EN.jpg"
+        "en": "Greek-Gods-EN.jpg",
+        "cs": "Greek-Gods-CS.jpg",
+        "ch": "Greek-Gods-CS.jpg"
       },
       "launchDate": "2019/11/25",
       "hot": false,
@@ -477,7 +518,9 @@
       "paylines": "20",
       "RTP": "96.48%",
       "imgName": {
-        "en": "Sweet-Bonanza-Xmas-EN.jpg"
+        "en": "Sweet-Bonanza-Xmas-EN.jpg",
+        "cs": "Sweet-Bonanza-Xmas-CS.jpg",
+        "ch": "Sweet-Bonanza-Xmas-CS.jpg"
       },
       "launchDate": "2019/11/18",
       "hot": false,
@@ -500,7 +543,9 @@
       "paylines": "20",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Hercules-and-Pegasus-EN.jpg"
+        "en": "Hercules-and-Pegasus-EN.jpg",
+        "cs": "Hercules-and-Pegasus-CS.jpg",
+        "ch": "Hercules-and-Pegasus-CS.jpg"
       },
       "launchDate": "2019/11/11",
       "hot": false,
@@ -523,10 +568,12 @@
       "paylines": "10",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Fire-Strike-EN.jpg"
+        "en": "Fire-Strike-EN.jpg",
+        "cs": "Fire-Strike-CS.jpg",
+        "ch": "Fire-Strike-CS.jpg"
       },
       "launchDate": "2019/10/28",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -546,7 +593,9 @@
       "paylines": "20",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Honey-Honey-Honey-EN.jpg"
+        "en": "Honey-Honey-Honey-EN.jpg",
+        "cs": "Honey-Honey-Honey-CS.jpg",
+        "ch": "Honey-Honey-Honey-CS.jpg"
       },
       "launchDate": "2019/10/07",
       "hot": false,
@@ -569,7 +618,9 @@
       "paylines": "5",
       "RTP": "96.52%",
       "imgName": {
-        "en": "Super-Joker-EN.jpg"
+        "en": "Super-Joker-EN.jpg",
+        "cs": "Super-Joker-CS.jpg",
+        "ch": "Super-Joker-CS.jpg"
       },
       "launchDate": "2019/09/30",
       "hot": false,
@@ -592,7 +643,9 @@
       "paylines": "25",
       "RTP": "96.50%",
       "imgName": {
-        "en": "John-Hunter-and-the-Tomb-of-the-Scarab-Queen-EN.jpg"
+        "en": "John-Hunter-and-the-Tomb-of-the-Scarab-Queen-EN.jpg",
+        "cs": "John-Hunter-and-the-Tomb-of-the-Scarab-Queen-CS.jpg",
+        "ch": "John-Hunter-and-the-Tomb-of-the-Scarab-Queen-CS.jpg"
       },
       "launchDate": "2019/09/16",
       "hot": false,
@@ -615,7 +668,9 @@
       "paylines": "1",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Tree-of-Riches-EN.jpg"
+        "en": "Tree-of-Riches-EN.jpg",
+        "cs": "Tree-of-Riches-CS.jpg",
+        "ch": "Tree-of-Riches-CS.jpg"
       },
       "launchDate": "2019/08/26",
       "hot": false,
@@ -638,7 +693,9 @@
       "paylines": "20",
       "RTP": "96.50%",
       "imgName": {
-        "en": "The-Great-Chicken-Escape-EN.jpg"
+        "en": "The-Great-Chicken-Escape-EN.jpg",
+        "cs": "The-Great-Chicken-Escape-CS.jpg",
+        "ch": "The-Great-Chicken-Escape-CS.jpg"
       },
       "launchDate": "2019/08/19",
       "hot": false,
@@ -661,7 +718,9 @@
       "paylines": "10",
       "RTP": "96.49%",
       "imgName": {
-        "en": "Vampires-VS-Wolves-EN.jpg"
+        "en": "Vampires-VS-Wolves-EN.jpg",
+        "cs": "Vampires-VS-Wolves-CS.jpg",
+        "ch": "Vampires-VS-Wolves-CS.jpg"
       },
       "launchDate": "2019/08/12",
       "hot": false,
@@ -684,7 +743,9 @@
       "paylines": "9",
       "RTP": "96.52%",
       "imgName": {
-        "en": "Hot-Chilli-EN.jpg"
+        "en": "Hot-Chilli-EN.jpg",
+        "cs": "Hot-Chilli-CS.jpg",
+        "ch": "Hot-Chilli-CS.jpg"
       },
       "launchDate": "2019/07/29",
       "hot": false,
@@ -707,7 +768,9 @@
       "paylines": "7776",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Aztec-Treasure-EN.jpg"
+        "en": "Aztec-Treasure-EN.jpg",
+        "cs": "Aztec-Treasure-CS.jpg",
+        "ch": "Aztec-Treasure-CS.jpg"
       },
       "launchDate": "2019/07/08",
       "hot": false,
@@ -730,7 +793,9 @@
       "paylines": "243",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Monkey-Warrior-EN.jpg"
+        "en": "Monkey-Warrior-EN.jpg",
+        "cs": "Monkey-Warrior-CS.jpg",
+        "ch": "Monkey-Warrior-CS.jpg"
       },
       "launchDate": "2019/06/24",
       "hot": false,
@@ -748,12 +813,14 @@
       },
       "appId": "bndt",
       "gameId": "bndt",
-      "category1": "Table Games",
+      "category1": "Table",
       "Reels": "--",
       "paylines": "--",
       "RTP": "96.26%",
       "imgName": {
-        "en": "Dragon-Tiger-EN.jpg"
+        "en": "Dragon-Tiger-EN.jpg",
+        "cs": "Dragon-Tiger-CS.jpg",
+        "ch": "Dragon-Tiger-CS.jpg"
       },
       "launchDate": "2019/06/17",
       "hot": false,
@@ -776,7 +843,9 @@
       "paylines": "5",
       "RTP": "96.51%",
       "imgName": {
-        "en": "Triple-Jokers-EN.jpg"
+        "en": "Triple-Jokers-EN.jpg",
+        "cs": "Triple-Jokers-CS.jpg",
+        "ch": "Triple-Jokers-CS.jpg"
       },
       "launchDate": "2019/06/10",
       "hot": false,
@@ -799,7 +868,9 @@
       "paylines": "243",
       "RTP": "96.50%",
       "imgName": {
-        "en": "5-Lions-Gold-EN.jpg"
+        "en": "5-Lions-Gold-EN.jpg",
+        "cs": "5-Lions-Gold-CS.jpg",
+        "ch": "5-Lions-Gold-CS.jpg"
       },
       "launchDate": "2019/05/27",
       "hot": false,
@@ -822,7 +893,9 @@
       "paylines": "20",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Wild-Pixies-EN.jpg"
+        "en": "Wild-Pixies-EN.jpg",
+        "cs": "Wild-Pixies-CS.jpg",
+        "ch": "Wild-Pixies-CS.jpg"
       },
       "launchDate": "2019/05/13",
       "hot": false,
@@ -845,7 +918,9 @@
       "paylines": "20",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Sweet-Bonanza-EN.jpg"
+        "en": "Sweet-Bonanza-EN.jpg",
+        "cs": "Sweet-Bonanza-CS.jpg",
+        "ch": "Sweet-Bonanza-CS.jpg"
       },
       "launchDate": "2019/04/29",
       "hot": false,
@@ -868,7 +943,9 @@
       "paylines": "243",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Caishens-Cash-EN.jpg"
+        "en": "Caishens-Cash-EN.jpg",
+        "cs": "Caishens-Cash-CS.jpg",
+        "ch": "Caishens-Cash-CS.jpg"
       },
       "launchDate": "2019/04/05",
       "hot": false,
@@ -891,7 +968,9 @@
       "paylines": "40",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Pirate-Gold-EN.jpg"
+        "en": "Pirate-Gold-EN.jpg",
+        "cs": "Pirate-Gold-CS.jpg",
+        "ch": "Pirate-Gold-CS.jpg"
       },
       "launchDate": "2019/03/18",
       "hot": false,
@@ -914,7 +993,9 @@
       "paylines": "20",
       "RTP": "96.51%",
       "imgName": {
-        "en": "The-Dog-House-EN.jpg"
+        "en": "The-Dog-House-EN.jpg",
+        "cs": "The-Dog-House-CS.jpg",
+        "ch": "The-Dog-House-CS.jpg"
       },
       "launchDate": "2019/03/04",
       "hot": false,
@@ -937,7 +1018,9 @@
       "paylines": "20",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Egyptian-Fortunes-EN.jpg"
+        "en": "Egyptian-Fortunes-EN.jpg",
+        "cs": "Egyptian-Fortunes-CS.jpg",
+        "ch": "Egyptian-Fortunes-CS.jpg"
       },
       "launchDate": "2019/02/20",
       "hot": false,
@@ -960,7 +1043,9 @@
       "paylines": "10",
       "RTP": "96.52%",
       "imgName": {
-        "en": "Extra-Juicy-EN.jpg"
+        "en": "Extra-Juicy-EN.jpg",
+        "cs": "Extra-Juicy-CS.jpg",
+        "ch": "Extra-Juicy-CS.jpg"
       },
       "launchDate": "2019/02/11",
       "hot": false,
@@ -978,12 +1063,14 @@
       },
       "appId": "bnadvanced",
       "gameId": "bnadvanced",
-      "category1": "Table Games",
+      "category1": "Table",
       "Reels": "--",
       "paylines": "--",
       "RTP": "98.94%",
       "imgName": {
-        "en": "Dragon-Bonus-Baccarat-EN.jpg"
+        "en": "Dragon-Bonus-Baccarat-EN.jpg",
+        "cs": "Dragon-Bonus-Baccarat-CS.jpg",
+        "ch": "Dragon-Bonus-Baccarat-CS.jpg"
       },
       "launchDate": "2019/01/28",
       "hot": false,
@@ -1006,7 +1093,9 @@
       "paylines": "25",
       "RTP": "96.17%",
       "imgName": {
-        "en": "Wild-Gladiator-EN.jpg"
+        "en": "Wild-Gladiator-EN.jpg",
+        "cs": "Wild-Gladiator-CS.jpg",
+        "ch": "Wild-Gladiator-CS.jpg"
       },
       "launchDate": "2019/01/24",
       "hot": false,
@@ -1029,7 +1118,9 @@
       "paylines": "25",
       "RTP": "96.00%",
       "imgName": {
-        "en": "Golden-Pig-EN.jpg"
+        "en": "Golden-Pig-EN.jpg",
+        "cs": "Golden-Pig-CS.jpg",
+        "ch": "Golden-Pig-CS.jpg"
       },
       "launchDate": "2019/01/15",
       "hot": false,
@@ -1052,7 +1143,9 @@
       "paylines": "18",
       "RTP": "96.52%",
       "imgName": {
-        "en": "Treasure-Horse-EN.jpg"
+        "en": "Treasure-Horse-EN.jpg",
+        "cs": "Treasure-Horse-CS.jpg",
+        "ch": "Treasure-Horse-CS.jpg"
       },
       "launchDate": "2019/01/07",
       "hot": false,
@@ -1075,7 +1168,9 @@
       "paylines": "50",
       "RTP": "96.49%\t",
       "imgName": {
-        "en": "Safari-King-EN.jpg"
+        "en": "Safari-King-EN.jpg",
+        "cs": "Safari-King-CS.jpg",
+        "ch": "Safari-King-CS.jpg"
       },
       "launchDate": "2018/12/27",
       "hot": false,
@@ -1098,7 +1193,9 @@
       "paylines": "20",
       "RTP": "96.53%",
       "imgName": {
-        "en": "Leprechaun-Carol-EN.jpg"
+        "en": "Leprechaun-Carol-EN.jpg",
+        "cs": "Leprechaun-Carol-CS.jpg",
+        "ch": "Leprechaun-Carol-CS.jpg"
       },
       "launchDate": "2018/11/19",
       "hot": false,
@@ -1121,7 +1218,9 @@
       "paylines": "25",
       "RTP": "96.53%",
       "imgName": {
-        "en": "Mustang-Gold-EN.jpg"
+        "en": "Mustang-Gold-EN.jpg",
+        "cs": "Mustang-Gold-CS.jpg",
+        "ch": "Mustang-Gold-CS.jpg"
       },
       "launchDate": "2018/11/06",
       "hot": false,
@@ -1144,7 +1243,9 @@
       "paylines": "5",
       "RTP": "96.51%",
       "imgName": {
-        "en": "Triple-Dragons-EN.jpg"
+        "en": "Triple-Dragons-EN.jpg",
+        "cs": "Triple-Dragons-CS.jpg",
+        "ch": "Triple-Dragons-CS.jpg"
       },
       "launchDate": "2018/10/29",
       "hot": false,
@@ -1162,12 +1263,14 @@
       },
       "appId": "bca",
       "gameId": "bca",
-      "category1": "Table Games",
+      "category1": "Table",
       "Reels": "--",
       "paylines": "--",
       "RTP": "98.76%",
       "imgName": {
-        "en": "Baccarat-EN.jpg"
+        "en": "Baccarat-EN.jpg",
+        "cs": "Baccarat-CS.jpg",
+        "ch": "Baccarat-CS.jpg"
       },
       "launchDate": "2018/10/22",
       "hot": false,
@@ -1190,7 +1293,9 @@
       "paylines": "10",
       "RTP": "96.51%",
       "imgName": {
-        "en": "Ancient-Egypt-Classic-EN.jpg"
+        "en": "Ancient-Egypt-Classic-EN.jpg",
+        "cs": "Ancient-Egypt-Classic-CS.jpg",
+        "ch": "Ancient-Egypt-Classic-CS.jpg"
       },
       "launchDate": "2018/10/08",
       "hot": false,
@@ -1213,7 +1318,9 @@
       "paylines": "20",
       "RTP": "96.08%",
       "imgName": {
-        "en": "Vegas-Magic-EN.jpg"
+        "en": "Vegas-Magic-EN.jpg",
+        "cs": "Vegas-Magic-CS.jpg",
+        "ch": "Vegas-Magic-CS.jpg"
       },
       "launchDate": "2018/09/25",
       "hot": false,
@@ -1236,7 +1343,9 @@
       "paylines": "9",
       "RTP": "96.48%",
       "imgName": {
-        "en": "Master-Chens-Fortune-EN.jpg"
+        "en": "Master-Chens-Fortune-EN.jpg",
+        "cs": "Master-Chens-Fortune-CS.jpg",
+        "ch": "Master-Chens-Fortune-CS.jpg"
       },
       "launchDate": "2018/09/11",
       "hot": false,
@@ -1259,7 +1368,9 @@
       "paylines": "25",
       "RTP": "96.53%",
       "imgName": {
-        "en": "Da-Vincis-Treasure-EN.jpg"
+        "en": "Da-Vincis-Treasure-EN.jpg",
+        "cs": "Da-Vincis-Treasure-CS.jpg",
+        "ch": "Da-Vincis-Treasure-CS.jpg"
       },
       "launchDate": "2018/08/13",
       "hot": false,
@@ -1282,7 +1393,9 @@
       "paylines": "25",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Peking-Luck-EN.jpg"
+        "en": "Peking-Luck-EN.jpg",
+        "cs": "Peking-Luck-CS.jpg",
+        "ch": "Peking-Luck-CS.jpg"
       },
       "launchDate": "2018/08/02",
       "hot": false,
@@ -1305,7 +1418,9 @@
       "paylines": "20",
       "RTP": "96.46%",
       "imgName": {
-        "en": "Leprechaun-Song-EN.jpg"
+        "en": "Leprechaun-Song-EN.jpg",
+        "cs": "Leprechaun-Song-CS.jpg",
+        "ch": "Leprechaun-Song-CS.jpg"
       },
       "launchDate": "2018/07/18",
       "hot": false,
@@ -1328,7 +1443,9 @@
       "paylines": "1024",
       "RTP": "96.47%",
       "imgName": {
-        "en": "Jade-Butterfly-EN.jpg"
+        "en": "Jade-Butterfly-EN.jpg",
+        "cs": "Jade-Butterfly-CS.jpg",
+        "ch": "Jade-Butterfly-CS.jpg"
       },
       "launchDate": "2018/07/02",
       "hot": false,
@@ -1351,7 +1468,9 @@
       "paylines": "10",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Madame-Destiny-EN.jpg"
+        "en": "Madame-Destiny-EN.jpg",
+        "cs": "Madame-Destiny-CS.jpg",
+        "ch": "Madame-Destiny-CS.jpg"
       },
       "launchDate": "2018/06/18",
       "hot": false,
@@ -1374,7 +1493,9 @@
       "paylines": "25",
       "RTP": "96.48%",
       "imgName": {
-        "en": "Asgard-EN.jpg"
+        "en": "Asgard-EN.jpg",
+        "cs": "Asgard-CS.jpg",
+        "ch": "Asgard-CS.jpg"
       },
       "launchDate": "2018/06/04",
       "hot": false,
@@ -1397,7 +1518,9 @@
       "paylines": "243",
       "RTP": "96.50%",
       "imgName": {
-        "en": "5-Lions-EN.jpg"
+        "en": "5-Lions-EN.jpg",
+        "cs": "5-Lions-CS.jpg",
+        "ch": "5-Lions-CS.jpg"
       },
       "launchDate": "2018/05/14",
       "hot": false,
@@ -1420,7 +1543,9 @@
       "paylines": "25",
       "RTP": "96.51%",
       "imgName": {
-        "en": "The-Champions-EN.jpg"
+        "en": "The-Champions-EN.jpg",
+        "cs": "The-Champions-CS.jpg",
+        "ch": "The-Champions-CS.jpg"
       },
       "launchDate": "2018/05/01",
       "hot": false,
@@ -1443,7 +1568,9 @@
       "paylines": "20",
       "RTP": "96.53%",
       "imgName": {
-        "en": "Great-Rhino-EN.jpg"
+        "en": "Great-Rhino-EN.jpg",
+        "cs": "Great-Rhino-CS.jpg",
+        "ch": "Great-Rhino-CS.jpg"
       },
       "launchDate": "2018/04/16",
       "hot": false,
@@ -1466,7 +1593,9 @@
       "paylines": "5",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Jokers-Jewels-EN.jpg"
+        "en": "Jokers-Jewels-EN.jpg",
+        "cs": "Jokers-Jewels-CS.jpg",
+        "ch": "Jokers-Jewels-CS.jpg"
       },
       "launchDate": "2018/04/02",
       "hot": false,
@@ -1489,7 +1618,9 @@
       "paylines": "15",
       "RTP": "96.52%",
       "imgName": {
-        "en": "Fairytale-Fortune-EN.jpg"
+        "en": "Fairytale-Fortune-EN.jpg",
+        "cs": "Fairytale-Fortune-CS.jpg",
+        "ch": "Fairytale-Fortune-CS.jpg"
       },
       "launchDate": "2018/03/19",
       "hot": false,
@@ -1512,10 +1643,12 @@
       "paylines": "7",
       "RTP": "96.45%",
       "imgName": {
-        "en": "Fire-88-EN.jpg"
+        "en": "Fire-88-EN.jpg",
+        "cs": "Fire-88-CS.jpg",
+        "ch": "Fire-88-CS.jpg"
       },
       "launchDate": "2018/03/02",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -1553,7 +1686,7 @@
       },
       "appId": "bjmb",
       "gameId": "bjmb",
-      "category1": "Table Games",
+      "category1": "Table",
       "Reels": "",
       "paylines": "--",
       "RTP": "99.60%",
@@ -1572,7 +1705,7 @@
         "ch": "古時代寶石",
         "id": "Permata Aztez",
         "th": "เพชรแอสเท็ค",
-        "vn": ""
+        "vn": "Aztec Gems"
       },
       "appId": "vs5aztecgems",
       "gameId": "vs5aztecgems",
@@ -1584,7 +1717,7 @@
         "en": "Aztec-Gems-EN.jpg"
       },
       "launchDate": "2018/02/05",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -1645,7 +1778,7 @@
       },
       "appId": "vs1tigers",
       "gameId": "vs1tigers",
-      "category1": "Classic Games",
+      "category1": "Slots",
       "Reels": "3",
       "paylines": "1",
       "RTP": "97.52%",
@@ -1668,7 +1801,7 @@
       },
       "appId": "vs9madmonkey",
       "gameId": "vs9madmonkey",
-      "category1": "Classic Games",
+      "category1": "Slots",
       "Reels": "3",
       "paylines": "9",
       "RTP": "96.53%",
@@ -1745,8 +1878,9 @@
         "en": "Pandas-Fortune-EN.jpg"
       },
       "launchDate": "2017/07/11",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1760,7 +1894,7 @@
       },
       "appId": "cs5moneyroll",
       "gameId": "cs5moneyroll",
-      "category1": "Classic Games",
+      "category1": "Slots",
       "Reels": "3",
       "paylines": "5",
       "RTP": "96.93%",
@@ -1837,7 +1971,7 @@
         "en": "Vegas-Nights-EN.jpg"
       },
       "launchDate": "2017/09/26",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -1860,8 +1994,9 @@
         "en": "Wild-Spells-EN.jpg"
       },
       "launchDate": "2017/09/26",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1944,7 +2079,7 @@
       },
       "appId": "vs1dragon8",
       "gameId": "vs1dragon8",
-      "category1": "Classic Games",
+      "category1": "Slots",
       "Reels": "3",
       "paylines": "1",
       "RTP": "96.84%",
@@ -1952,8 +2087,9 @@
         "en": "888-Dragons-EN.jpg"
       },
       "launchDate": "2017/10/07",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -2004,7 +2140,7 @@
     },
     {
       "name": {
-        "en": "3 Kingdoms - Battle of Red Cliffs",
+        "en": "3 Kingdoms Battle of Red Cliffs",
         "cs": "三国",
         "ch": "三國",
         "id": "3 Kerajaan - Pertempuran Cenuram Merah",
@@ -2041,7 +2177,9 @@
       "paylines": "25",
       "RTP": "96.00%",
       "imgName": {
-        "en": "Wolf-Gold-EN.jpg"
+        "en": "Wolf-Gold-EN.jpg",
+        "cs": "Wolf-Gold-CS.jpg",
+        "ch": "Wolf-Gold-CS.jpg"
       },
       "launchDate": "2017/05/16",
       "hot": false,
@@ -2105,7 +2243,7 @@
       },
       "appId": "cs3irishcharms",
       "gameId": "cs3irishcharms",
-      "category1": "Classic Games",
+      "category1": "Slots",
       "Reels": "3",
       "paylines": "3",
       "RTP": "96.96%",
@@ -2151,7 +2289,7 @@
       },
       "appId": "cs5triple8gold",
       "gameId": "cs5triple8gold",
-      "category1": "Classic Games",
+      "category1": "Slots",
       "Reels": "3",
       "paylines": "5",
       "RTP": "97.52%",
@@ -2159,8 +2297,9 @@
         "en": "888-Gold-EN.jpg"
       },
       "launchDate": "2017/03/02",
-      "hot": false,
+      "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -2174,7 +2313,7 @@
       },
       "appId": "bjma",
       "gameId": "bjma",
-      "category1": "Table Games",
+      "category1": "Table",
       "Reels": "",
       "paylines": "--",
       "RTP": "99.62%",
@@ -2197,7 +2336,7 @@
       },
       "appId": "cs3w",
       "gameId": "cs3w",
-      "category1": "Classic Games",
+      "category1": "Slots",
       "Reels": "3",
       "paylines": "3",
       "RTP": "96.96%",
@@ -2795,7 +2934,7 @@
       },
       "appId": "rla",
       "gameId": "rla",
-      "category1": "Table Games",
+      "category1": "Table",
       "Reels": "",
       "paylines": "--",
       "RTP": "97.30%",
@@ -2841,7 +2980,7 @@
       },
       "appId": "vpa",
       "gameId": "vpa",
-      "category1": "Video Poker",
+      "category1": "Table",
       "Reels": "",
       "paylines": "--",
       "RTP": "97.63%",
@@ -2915,7 +3054,9 @@
       "paylines": "25",
       "RTP": "96.30%",
       "imgName": {
-        "en": "Fruity-Blast-EN.jpg"
+        "en": "Fruity-Blast-EN.jpg",
+        "cs": "Fruity-Blast-CS.jpg",
+        "ch": "Fruity-Blast-CS.jpg"
       },
       "launchDate": "2016/12/09",
       "hot": false,
@@ -2938,7 +3079,9 @@
       "paylines": "25",
       "RTP": "96.64%",
       "imgName": {
-        "en": "Dwarven-Gold-EN.jpg"
+        "en": "Dwarven-Gold-EN.jpg",
+        "cs": "Dwarven-Gold-CS.jpg",
+        "ch": "Dwarven-Gold-CS.jpg"
       },
       "launchDate": "2016/01/08",
       "hot": false,
@@ -3033,6 +3176,328 @@
         "en": "7-Monkeys-EN.jpg"
       },
       "launchDate": "2016/01/07",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Wolf Gold 1000000",
+        "cs": "野狼黄金 1,000,000",
+        "ch": "野狼黃金 1,000,000",
+        "id": "Emas Serigala 1,000,000",
+        "th": "หมาป่าทองคำ 1,000,000",
+        "vn": "Sói vàng 1,000,000"
+      },
+      "appId": "scwolfgoldai",
+      "gameId": "scwolfgoldai",
+      "category1": "ScratchCard",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Wolf-Gold-1000000-EN.jpg"
+      },
+      "launchDate": "2017/05/16",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Hot Safari 75000",
+        "cs": "野生动物园 75,000",
+        "ch": "野生動物園 75,000",
+        "id": "Safari Panas 75,000",
+        "th": "ซาฟารีสุดฮ็อต 75,000",
+        "vn": "Cuộc săn Nóng bỏng 75,000"
+      },
+      "appId": "scsafariai",
+      "gameId": "scsafariai",
+      "category1": "ScratchCard",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Hot-Safari-75000-EN.jpg"
+      },
+      "launchDate": "2016/01/07",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Queen of Gold 100000",
+        "cs": "黄金女王 100,000",
+        "ch": "黃金女王 100,000",
+        "id": "Ratu Emas 100,000",
+        "th": "ราชินีทองคำ 100,000",
+        "vn": "Nữ hoàng Vàng 100,000"
+      },
+      "appId": "scqogai",
+      "gameId": "scqogai",
+      "category1": "ScratchCard",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Queen-of-Gold-100000-EN.jpg"
+      },
+      "launchDate": "2017/07/03",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Panda Gold 50000",
+        "cs": "熊猫财富 50,000",
+        "ch": "熊貓財富 50,000",
+        "id": "Kekayaan Panda 50,000",
+        "th": "แพนด้ามหาโชค 50,000",
+        "vn": "Vận may của Gấu trúc 50,000"
+      },
+      "appId": "scpandai",
+      "gameId": "scpandai",
+      "category1": "ScratchCard",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Panda-Gold-50000-EN.jpg"
+      },
+      "launchDate": "2017/07/11",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Gold Rush 500000",
+        "cs": "淘金热 500,000",
+        "ch": "淘金熱 500,000",
+        "id": "Buruan Emas 500,000",
+        "th": "โกลด์รัช 500,000",
+        "vn": "Cuộc đổ xô đi tìm Vàng 500,000"
+      },
+      "appId": "scgoldrushai",
+      "gameId": "scgoldrushai",
+      "category1": "ScratchCard",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Gold-Rush-500000-EN.jpg"
+      },
+      "launchDate": "2018/01/31",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Diamond Strike 250000",
+        "cs": "钻石罢工 250,000",
+        "ch": "鉆石罷工 250,000",
+        "id": "Serbuan Berlian 250,000",
+        "th": "ไดมอนด์สไตร้ค์ 250,000",
+        "vn": "Cuộc chiến giành Kim cương 250,000"
+      },
+      "appId": "scdiamondai",
+      "gameId": "scdiamondai",
+      "category1": "ScratchCard",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Diamond-Strike-250000-EN.jpg"
+      },
+      "launchDate": "2017/09/10",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "7 Piggies 25000",
+        "cs": "7只小猪 25,000",
+        "ch": "7只小豬 25,000",
+        "id": "7 Babi 25,000",
+        "th": "ลูกหมู 7 ตัว 25,000",
+        "vn": "7 Chú lợn con 25,000"
+      },
+      "appId": "sc7piggiesai",
+      "gameId": "sc7piggiesai",
+      "category1": "ScratchCard",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "7-Piggies-25000-EN.jpg"
+      },
+      "launchDate": "2017/10/24",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Wolf Gold 1 Million",
+        "cs": "Wolf Gold 1 Million",
+        "ch": "Wolf Gold 1 Million",
+        "id": "Wolf Gold 1 Million",
+        "th": "Wolf Gold 1 Million",
+        "vn": "Wolf Gold 1 Million"
+      },
+      "appId": "scwolfgold",
+      "gameId": "scwolfgold",
+      "category1": "ScratchCard",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Wolf-Gold-1-Million-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Queen of Gold 100000",
+        "cs": "Queen of Gold 100,000",
+        "ch": "Queen of Gold 100,000",
+        "id": "Queen of Gold 100,000",
+        "th": "Queen of Gold 100,000",
+        "vn": "Queen of Gold 100,000"
+      },
+      "appId": "scqog",
+      "gameId": "scqog",
+      "category1": "ScratchCard",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Queen-of-Gold-100000-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Panda Gold 10000",
+        "cs": "Panda Gold 10,000",
+        "ch": "Panda Gold 10,000",
+        "id": "Panda Gold 10,000",
+        "th": "Panda Gold 10,000",
+        "vn": "Panda Gold 10,000"
+      },
+      "appId": "scpanda",
+      "gameId": "scpanda",
+      "category1": "ScratchCard",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Panda-Gold-10000-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Hot Safari 50000",
+        "cs": "Hot Safari 50,000",
+        "ch": "Hot Safari 50,000",
+        "id": "Hot Safari 50,000",
+        "th": "Hot Safari 50,000",
+        "vn": "Hot Safari 50,000"
+      },
+      "appId": "scsafari",
+      "gameId": "scsafari",
+      "category1": "ScratchCard",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Hot-Safari-50000-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Gold Rush 250000",
+        "cs": "Gold Rush 250,000",
+        "ch": "Gold Rush 250,000",
+        "id": "Gold Rush 250,000",
+        "th": "Gold Rush 250,000",
+        "vn": "Gold Rush 250,000"
+      },
+      "appId": "scgoldrush",
+      "gameId": "scgoldrush",
+      "category1": "ScratchCard",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Gold-Rush-250000-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Diamond Strike 100000",
+        "cs": "Diamond Strike 100,000",
+        "ch": "Diamond Strike 100,000",
+        "id": "Diamond Strike 100,000",
+        "th": "Diamond Strike 100,000",
+        "vn": "Diamond Strike 100,000"
+      },
+      "appId": "scdiamond",
+      "gameId": "scdiamond",
+      "category1": "ScratchCard",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Diamond-Strike-100000-EN.jpg"
+      },
+      "launchDate": "",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "7 Piggies 5000",
+        "cs": "7 Piggies 5,000",
+        "ch": "7 Piggies 5,000",
+        "id": "7 Piggies 5,000",
+        "th": "7 Piggies 5,000",
+        "vn": "7 Piggies 5,000"
+      },
+      "appId": "sc7piggies",
+      "gameId": "sc7piggies",
+      "category1": "ScratchCard",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "7-Piggies-5000-EN.jpg"
+      },
+      "launchDate": "",
       "hot": false,
       "new": true,
       "imageExist": true
