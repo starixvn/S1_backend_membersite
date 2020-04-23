@@ -1642,4 +1642,7 @@
   <data name="lbl_Platform" xml:space="preserve">
     <value>Giao diện trò chơi</value>
   </data>
+  <data name="lbl_Deduction" xml:space="preserve">
+    <value>khấu trừ doanh số</value>
+  </data>
 </root>

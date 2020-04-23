@@ -1601,6 +1601,6 @@
     <value>More</value>
   </data>
   <data name="lbl_Deduction" xml:space="preserve">
-    <value>扣抵額</value>
+    <value>Offset rollover difference amount</value>
   </data>
 </root>

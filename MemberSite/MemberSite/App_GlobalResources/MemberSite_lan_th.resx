@@ -1565,4 +1565,7 @@
   <data name="lbl_More" xml:space="preserve">
     <value>ข้อมูลเพิ่มเติม</value>
   </data>
+  <data name="lbl_Deduction" xml:space="preserve">
+    <value>หักยอดเดิมพันหมุนเวียน</value>
+  </data>
 </root>

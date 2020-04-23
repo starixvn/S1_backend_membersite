@@ -1591,4 +1591,7 @@
   <data name="lbl_Platform" xml:space="preserve">
     <value>Platform permainan</value>
   </data>
+  <data name="lbl_Deduction" xml:space="preserve">
+    <value>Ganti rugi jumlah putaran</value>
+  </data>
 </root>
