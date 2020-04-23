@@ -1790,6 +1790,63 @@ div.form--list .form-group .form-title {
   font-weight: bold;
 }
 
+.Calculation {
+  flex-direction: column;
+  padding: 10px 0;
+}
+
+.Calculation .row {
+  padding: 0 10px 10px 0;
+}
+
+.Calculation .form-content--text > span.text {
+  padding: 0;
+}
+
+.Calculation .row:last-child {
+  background: #F6FAFC;
+  border-radius: 5px;
+  margin: 10px auto;
+}
+
+.Calculation .row:nth-child(3) {
+  border-bottom: 1px solid #26416E;
+  color: #F77A00;
+}
+
+.Calculation .row > div {
+  justify-content: flex-end;
+  white-space: nowrap;
+  align-items: center;
+  flex: 1;
+}
+
+/**/
+[data-layout=desktop] .Calculation .row {
+  display: inline-block;
+  padding: 0 10px 5px 0;
+}
+
+[data-layout=desktop] .Calculation .row:last-child {
+  margin: 0;
+}
+
+.Calculation .row > div:nth-child(1) {
+  margin-right: 0;
+}
+
+[data-layout=desktop] .Calculation .row:nth-child(3) {
+  border: 0;
+}
+
+[data-layout=mobile] .Calculation .row > div:nth-child(1) {
+  min-width: 158px;
+}
+
+[data-layout=mobile] .symbol {
+  display: none;
+}
+
 .iframe-page {
   flex: 1 0 auto;
   margin: -1rem;

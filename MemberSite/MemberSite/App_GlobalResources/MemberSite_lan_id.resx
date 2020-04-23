@@ -1292,7 +1292,7 @@
     <value>Anda telah memilih bonus promosi kami, apakah anda mau melanjutkan?</value>
   </data>
   <data name="lbl_EligibleWithdrawalAmount" xml:space="preserve">
-    <value>Jumlah penarikan anda yang memenuhi syarat adalah</value>
+    <value>Hak atas penarikan anda</value>
   </data>
   <data name="lbl_Req" xml:space="preserve">
     <value>Permintaan </value>
