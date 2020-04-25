@@ -24,7 +24,8 @@
       "launchDate": "2020/04/28",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1400,7 +1401,8 @@
       "launchDate": "2018/08/02",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1450,7 +1452,8 @@
       "launchDate": "2018/07/02",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
@@ -1630,8 +1633,8 @@
     {
       "name": {
         "en": "Fire 88",
-        "cs": "88火 ",
-        "ch": "88火 ",
+        "cs": "88火",
+        "ch": "88火",
         "id": "Api 88",
         "th": "เพลิงพาโชค",
         "vn": "Ngọn lửa 88"
@@ -1737,7 +1740,9 @@
       "paylines": "10",
       "RTP": "96.13%",
       "imgName": {
-        "en": "Ancient-Egypt-EN.jpg"
+        "en": "Ancient-Egypt-EN.jpg",
+        "cs": "Ancient-Egypt-CS.jpg",
+        "ch": "Ancient-Egypt-CS.jpg"
       },
       "launchDate": "2018/01/14",
       "hot": false,
@@ -1771,7 +1776,7 @@
       "name": {
         "en": "Triple Tigers",
         "cs": "三只老虎",
-        "ch": "三只老虎",
+        "ch": "三隻老虎",
         "id": "Harimau Bertiga",
         "th": "สามพยัคฆ์",
         "vn": "Ba Chú Hổ"
@@ -1829,7 +1834,9 @@
       "paylines": "25",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Gold-Rush-EN.jpg"
+        "en": "Gold-Rush-EN.jpg",
+        "cs": "Gold-Rush-CS.jpg",
+        "ch": "Gold-Rush-CS.jpg"
       },
       "launchDate": "2018/01/31",
       "hot": false,
@@ -1852,7 +1859,9 @@
       "paylines": "20",
       "RTP": "95.92%",
       "imgName": {
-        "en": "Santa-EN.jpg"
+        "en": "Santa-EN.jpg",
+        "cs": "Santa-CS.jpg",
+        "ch": "Santa-CS.jpg"
       },
       "launchDate": "2017/11/29",
       "hot": false,
@@ -1899,7 +1908,9 @@
       "paylines": "5",
       "RTP": "96.93%",
       "imgName": {
-        "en": "Money-Roll-EN.jpg"
+        "en": "Money-Roll-EN.jpg",
+        "cs": "Money-Roll-CS.jpg",
+        "ch": "Money-Roll-CS.jpg"
       },
       "launchDate": "2017/07/11",
       "hot": false,
@@ -1922,7 +1933,9 @@
       "paylines": "7",
       "RTP": "95.99%",
       "imgName": {
-        "en": "7-Piggies-EN.jpg"
+        "en": "7-Piggies-EN.jpg",
+        "cs": "7-Piggies-CS.jpg",
+        "ch": "7-Piggies-CS.jpg"
       },
       "launchDate": "2017/10/24",
       "hot": false,
@@ -1968,7 +1981,9 @@
       "paylines": "25",
       "RTP": "96.03%",
       "imgName": {
-        "en": "Vegas-Nights-EN.jpg"
+        "en": "Vegas-Nights-EN.jpg",
+        "cs": "Vegas-Nights-CS.jpg",
+        "ch": "Vegas-Nights-CS.jpg"
       },
       "launchDate": "2017/09/26",
       "hot": true,
@@ -2038,7 +2053,9 @@
       "paylines": "50",
       "RTP": "96.51%",
       "imgName": {
-        "en": "Pixie-Wings-EN.jpg"
+        "en": "Pixie-Wings-EN.jpg",
+        "cs": "Pixie-Wings-CS.jpg",
+        "ch": "Pixie-Wings-CS.jpg"
       },
       "launchDate": "2016/08/23",
       "hot": false,
@@ -2061,7 +2078,9 @@
       "paylines": "3",
       "RTP": "97.16%",
       "imgName": {
-        "en": "Gold-Train-EN.jpg"
+        "en": "Gold-Train-EN.jpg",
+        "cs": "Gold-Train-CS.jpg",
+        "ch": "Gold-Train-CS.jpg"
       },
       "launchDate": "2017/04/07",
       "hot": false,
@@ -2108,7 +2127,9 @@
       "paylines": "4096",
       "RTP": "96.01%",
       "imgName": {
-        "en": "Jurassic-Giants-EN.jpg"
+        "en": "Jurassic-Giants-EN.jpg",
+        "cs": "Jurassic-Giants-CS.jpg",
+        "ch": "Jurassic-Giants-CS.jpg"
       },
       "launchDate": "2017/07/27",
       "hot": false,
@@ -2131,7 +2152,9 @@
       "paylines": "20",
       "RTP": "96.37%",
       "imgName": {
-        "en": "8-Dragons-EN.jpg"
+        "en": "8-Dragons-EN.jpg",
+        "cs": "8-Dragons-CS.jpg",
+        "ch": "8-Dragons-CS.jpg"
       },
       "launchDate": "2017/05/30",
       "hot": false,
@@ -2202,7 +2225,9 @@
       "paylines": "25",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Panther-Queen-EN.jpg"
+        "en": "Panther-Queen-EN.jpg",
+        "cs": "Panther-Queen-CS.jpg",
+        "ch": "Panther-Queen-CS.jpg"
       },
       "launchDate": "2017/04/18",
       "hot": false,
@@ -2225,7 +2250,9 @@
       "paylines": "1024",
       "RTP": "96.41%",
       "imgName": {
-        "en": "Queen-Of-Atlantis-EN.jpg"
+        "en": "Queen-Of-Atlantis-EN.jpg",
+        "cs": "Queen-Of-Atlantis-CS.jpg",
+        "ch": "Queen-Of-Atlantis-CS.jpg"
       },
       "launchDate": "2017/03/13",
       "hot": false,
@@ -2248,7 +2275,9 @@
       "paylines": "3",
       "RTP": "96.96%",
       "imgName": {
-        "en": "Irish-Charms-EN.jpg"
+        "en": "Irish-Charms-EN.jpg",
+        "cs": "Irish-Charms-CS.jpg",
+        "ch": "Irish-Charms-CS.jpg"
       },
       "launchDate": "2016/01/08",
       "hot": false,
@@ -2271,7 +2300,9 @@
       "paylines": "25",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Queen-Of-Gold-EN.jpg"
+        "en": "Queen-Of-Gold-EN.jpg",
+        "cs": "Queen-Of-Gold-CS.jpg",
+        "ch": "Queen-Of-Gold-CS.jpg"
       },
       "launchDate": "2017/07/03",
       "hot": false,
@@ -2294,7 +2325,9 @@
       "paylines": "5",
       "RTP": "97.52%",
       "imgName": {
-        "en": "888-Gold-EN.jpg"
+        "en": "888-Gold-EN.jpg",
+        "cs": "888-Gold-CS.jpg",
+        "ch": "888-Gold-CS.jpg"
       },
       "launchDate": "2017/03/02",
       "hot": true,
@@ -2364,7 +2397,9 @@
       "paylines": "25",
       "RTP": "96.47%",
       "imgName": {
-        "en": "Dragon-Kingdom-EN.jpg"
+        "en": "Dragon-Kingdom-EN.jpg",
+        "cs": "Dragon-Kingdom-CS.jpg",
+        "ch": "Dragon-Kingdom-CS.jpg"
       },
       "launchDate": "2017/05/01",
       "hot": false,
@@ -2410,7 +2445,9 @@
       "paylines": "50",
       "RTP": "96.53%",
       "imgName": {
-        "en": "3-Genie-Wishes-EN.jpg"
+        "en": "3-Genie-Wishes-EN.jpg",
+        "cs": "3-Genie-Wishes-CS.jpg",
+        "ch": "3-Genie-Wishes-CS.jpg"
       },
       "launchDate": "2016/05/12",
       "hot": false,
@@ -2479,7 +2516,9 @@
       "paylines": "40",
       "RTP": "96.50%",
       "imgName": {
-        "en": "Beowulf-EN.jpg"
+        "en": "Beowulf-EN.jpg",
+        "cs": "Beowulf-CS.jpg",
+        "ch": "Beowulf-CS.jpg"
       },
       "launchDate": "2016/09/26",
       "hot": false,
@@ -2686,7 +2725,9 @@
       "paylines": "15",
       "RTP": "96.38%",
       "imgName": {
-        "en": "KTV-EN.jpg"
+        "en": "KTV-EN.jpg",
+        "cs": "KTV-CS.jpg",
+        "ch": "KTV-CS.jpg"
       },
       "launchDate": "2016/01/08",
       "hot": false,
@@ -2939,7 +2980,9 @@
       "paylines": "--",
       "RTP": "97.30%",
       "imgName": {
-        "en": "Roulette-EN.jpg"
+        "en": "Roulette-EN.jpg",
+        "cs": "Roulette-CS.jpg",
+        "ch": "Roulette-CS.jpg"
       },
       "launchDate": "2016/01/08",
       "hot": false,
@@ -2962,7 +3005,9 @@
       "paylines": "--",
       "RTP": "94.01%",
       "imgName": {
-        "en": "Keno-EN.jpg"
+        "en": "Keno-EN.jpg",
+        "cs": "Keno-CS.jpg",
+        "ch": "Keno-CS.jpg"
       },
       "launchDate": "2016/01/08",
       "hot": false,
@@ -3127,7 +3172,9 @@
       "paylines": "15",
       "RTP": "93.15%",
       "imgName": {
-        "en": "Crazy-7s-EN.jpg"
+        "en": "Crazy-7s-EN.jpg",
+        "cs": "Crazy-7s-CS.jpg",
+        "ch": "Crazy-7s-CS.jpg"
       },
       "launchDate": "2016/09/08",
       "hot": false,
@@ -3150,7 +3197,9 @@
       "paylines": "20",
       "RTP": "96.00%",
       "imgName": {
-        "en": "Busy-Bees-EN.jpg"
+        "en": "Busy-Bees-EN.jpg",
+        "cs": "Busy-Bees-CS.jpg",
+        "ch": "Busy-Bees-CS.jpg"
       },
       "launchDate": "2016/01/08",
       "hot": false,
@@ -3173,7 +3222,9 @@
       "paylines": "7",
       "RTP": "92.71%",
       "imgName": {
-        "en": "7-Monkeys-EN.jpg"
+        "en": "7-Monkeys-EN.jpg",
+        "cs": "7-Monkeys-CS.jpg",
+        "ch": "7-Monkeys-CS.jpg"
       },
       "launchDate": "2016/01/07",
       "hot": false,
@@ -3182,7 +3233,7 @@
     },
     {
       "name": {
-        "en": "Wolf Gold 1000000",
+        "en": "Wolf Gold 1,000,000",
         "cs": "野狼黄金 1,000,000",
         "ch": "野狼黃金 1,000,000",
         "id": "Emas Serigala 1,000,000",
@@ -3201,11 +3252,12 @@
       "launchDate": "2017/05/16",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
-        "en": "Hot Safari 75000",
+        "en": "Hot Safari 75,000",
         "cs": "野生动物园 75,000",
         "ch": "野生動物園 75,000",
         "id": "Safari Panas 75,000",
@@ -3228,7 +3280,7 @@
     },
     {
       "name": {
-        "en": "Queen of Gold 100000",
+        "en": "Queen of Gold 100,000",
         "cs": "黄金女王 100,000",
         "ch": "黃金女王 100,000",
         "id": "Ratu Emas 100,000",
@@ -3251,7 +3303,7 @@
     },
     {
       "name": {
-        "en": "Panda Gold 50000",
+        "en": "Panda Gold 50,000",
         "cs": "熊猫财富 50,000",
         "ch": "熊貓財富 50,000",
         "id": "Kekayaan Panda 50,000",
@@ -3274,7 +3326,7 @@
     },
     {
       "name": {
-        "en": "Gold Rush 500000",
+        "en": "Gold Rush 500,000",
         "cs": "淘金热 500,000",
         "ch": "淘金熱 500,000",
         "id": "Buruan Emas 500,000",
@@ -3293,11 +3345,12 @@
       "launchDate": "2018/01/31",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
-        "en": "Diamond Strike 250000",
+        "en": "Diamond Strike 250,000",
         "cs": "钻石罢工 250,000",
         "ch": "鉆石罷工 250,000",
         "id": "Serbuan Berlian 250,000",
@@ -3316,11 +3369,12 @@
       "launchDate": "2017/09/10",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
-        "en": "7 Piggies 25000",
+        "en": "7 Piggies 25,000",
         "cs": "7只小猪 25,000",
         "ch": "7只小豬 25,000",
         "id": "7 Babi 25,000",
@@ -3362,16 +3416,12 @@
       "launchDate": "",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
-        "en": "Queen of Gold 100000",
-        "cs": "Queen of Gold 100,000",
-        "ch": "Queen of Gold 100,000",
-        "id": "Queen of Gold 100,000",
-        "th": "Queen of Gold 100,000",
-        "vn": "Queen of Gold 100,000"
+        "en": "Queen of Gold 100,000"
       },
       "appId": "scqog",
       "gameId": "scqog",
@@ -3385,16 +3435,12 @@
       "launchDate": "",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
-        "en": "Panda Gold 10000",
-        "cs": "Panda Gold 10,000",
-        "ch": "Panda Gold 10,000",
-        "id": "Panda Gold 10,000",
-        "th": "Panda Gold 10,000",
-        "vn": "Panda Gold 10,000"
+        "en": "Panda Gold 10,000"
       },
       "appId": "scpanda",
       "gameId": "scpanda",
@@ -3408,16 +3454,12 @@
       "launchDate": "",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
-        "en": "Hot Safari 50000",
-        "cs": "Hot Safari 50,000",
-        "ch": "Hot Safari 50,000",
-        "id": "Hot Safari 50,000",
-        "th": "Hot Safari 50,000",
-        "vn": "Hot Safari 50,000"
+        "en": "Hot Safari 50,000"
       },
       "appId": "scsafari",
       "gameId": "scsafari",
@@ -3431,16 +3473,12 @@
       "launchDate": "",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
-        "en": "Gold Rush 250000",
-        "cs": "Gold Rush 250,000",
-        "ch": "Gold Rush 250,000",
-        "id": "Gold Rush 250,000",
-        "th": "Gold Rush 250,000",
-        "vn": "Gold Rush 250,000"
+        "en": "Gold Rush 250,000"
       },
       "appId": "scgoldrush",
       "gameId": "scgoldrush",
@@ -3454,16 +3492,12 @@
       "launchDate": "",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
-        "en": "Diamond Strike 100000",
-        "cs": "Diamond Strike 100,000",
-        "ch": "Diamond Strike 100,000",
-        "id": "Diamond Strike 100,000",
-        "th": "Diamond Strike 100,000",
-        "vn": "Diamond Strike 100,000"
+        "en": "Diamond Strike 100,000"
       },
       "appId": "scdiamond",
       "gameId": "scdiamond",
@@ -3477,16 +3511,12 @@
       "launchDate": "",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
-        "en": "7 Piggies 5000",
-        "cs": "7 Piggies 5,000",
-        "ch": "7 Piggies 5,000",
-        "id": "7 Piggies 5,000",
-        "th": "7 Piggies 5,000",
-        "vn": "7 Piggies 5,000"
+        "en": "7 Piggies 5,000"
       },
       "appId": "sc7piggies",
       "gameId": "sc7piggies",
@@ -3500,7 +3530,8 @@
       "launchDate": "",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     }
   ]
 }
