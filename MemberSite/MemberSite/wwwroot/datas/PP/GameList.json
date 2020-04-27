@@ -3012,7 +3012,8 @@
       "launchDate": "2016/01/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "disabled": 1
     },
     {
       "name": {
