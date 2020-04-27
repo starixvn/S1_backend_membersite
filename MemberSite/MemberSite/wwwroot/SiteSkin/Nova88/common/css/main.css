@@ -1796,7 +1796,7 @@ div.form--list .form-group .form-title {
 }
 
 .Calculation .row {
-  padding: 0 10px 10px 0;
+  padding: 0 10px 5px 0;
 }
 
 .Calculation .form-content--text > span.text {
@@ -1809,7 +1809,7 @@ div.form--list .form-group .form-title {
   margin: 10px auto;
 }
 
-.Calculation .row:nth-child(3) {
+.Calculation .row:nth-child(2) {
   border-bottom: 1px solid #26416E;
   color: #F77A00;
 }
@@ -1835,7 +1835,7 @@ div.form--list .form-group .form-title {
   margin-right: 0;
 }
 
-[data-layout=desktop] .Calculation .row:nth-child(3) {
+[data-layout=desktop] .Calculation .row:nth-child(2) {
   border: 0;
 }
 

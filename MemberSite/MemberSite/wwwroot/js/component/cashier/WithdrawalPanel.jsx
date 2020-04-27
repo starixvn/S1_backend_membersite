@@ -520,20 +520,25 @@ import {ShowModal} from '../commJS/Modal.jsx';
                         </div>
                         <div className="form-group WAB">
                             <div className="Calculation">
-                                <div className="row">
-                                    <div className="form-title">{i18n.lbl_Balance}：{i18n.lbl_Currency}</div>
-                                    <div className="form-content form-content--text">
-                                        <span className="text">{number_format(_balance)}</span>
-                                    </div>
-                                </div>
-                                <div className="row symbol">-</div>
-                                <div className="row">
-                                    <div className="form-title">{i18n.lbl_Deduction}：{i18n.lbl_Currency}</div>
-                                    <div className="form-content form-content--text">
-                                        <span className="text">{_deduction === 0 ? '-' : Math.sign(_deduction) === 1 ? '-' : '+'}{number_format(Math.abs(_deduction))}</span>
-                                    </div>
-                                </div>
-                                <div className="row symbol">=</div>
+                                {
+                                    _deduction <= 0 ? null : (
+                                        <>
+                                            <div className="row">
+                                                <div className="form-title">{i18n.lbl_Balance}：{i18n.lbl_Currency}</div>
+                                                <div className="form-content form-content--text">
+                                                    <span className="text">{number_format(_balance)}</span>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="form-title">{i18n.lbl_Deduction}：{i18n.lbl_Currency}</div>
+                                                <div className="form-content form-content--text">
+                                                    <span className="text">- {number_format(Math.abs(_deduction))}</span>
+                                                </div>
+                                            </div>
+                                            <div className="row symbol">=</div>
+                                        </>
+                                    )
+                                }
                                 <div className="row">
                                     <div className="form-title">{i18n.lbl_EligibleWithdrawalAmount}：{i18n.lbl_Currency}</div>
                                     <div className="form-content form-content--text">
