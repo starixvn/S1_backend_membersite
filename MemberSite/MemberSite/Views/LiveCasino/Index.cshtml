@@ -22,6 +22,8 @@
         var homeUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
         var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
         var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+        var cashierUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+        var lobbyUrl =  Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
         var entPageUrl = "";
 
 
@@ -38,7 +40,7 @@
             //    return entPageUrl;
             //}
 
-            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, CashierUrl = cashierUrl, LobbyUrl = lobbyUrl, tpId = tpId, gameId = gameId });
             entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
         }
         return entPageUrl;
@@ -69,22 +71,6 @@
                         <div class="message-list__body">
                             <div>
                                 <div>
-                                    <a href="@Html.Raw(GetEntPageUrl(2, "2"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
-                                        <img src="/common/images/LiveCasino/SA.png" />
-                                    </a>
-                                </div>
-                                <div class="txt-blue">@selLangBLL.GetResourceValue("lbl_SACasino")</div>
-                            </div>
-                            <div>
-                                <div>
-                                    <a href="@Html.Raw(GetEntPageUrl(3, "3"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
-                                        <img src="/common/images/LiveCasino/AG.png" />
-                                    </a>
-                                </div>
-                                <div class="txt-blue">@selLangBLL.GetResourceValue("lbl_AGCasino")</div>
-                            </div>
-                            <div>
-                                <div>
                                     <a href="@Html.Raw(GetEntPageUrl(4, "4"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
                                         <img src="/common/images/LiveCasino/DG.png" />
                                     </a>
@@ -98,6 +84,30 @@
                                     </a>
                                 </div>
                                 <div class="txt-blue">@selLangBLL.GetResourceValue("lbl_AllbetCasino")</div>
+                            </div>
+                            <div>
+                                <div>
+                                    <a href="@Html.Raw(GetEntPageUrl(3, "3"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                                        <img src="/common/images/LiveCasino/AG.png" />
+                                    </a>
+                                </div>
+                                <div class="txt-blue">@selLangBLL.GetResourceValue("lbl_AGCasino")</div>
+                            </div>
+                            <div>
+                                <div>
+                                    <a href="@Html.Raw(GetEntPageUrl(5, "101"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                                        <img src="/common/images/LiveCasino/PP.png" />
+                                    </a>
+                                </div>
+                                <div class="txt-blue">@selLangBLL.GetResourceValue("lbl_PPCasino")</div>
+                            </div>
+                            <div>
+                                <div>
+                                    <a href="@Html.Raw(GetEntPageUrl(2, "2"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                                        <img src="/common/images/LiveCasino/SA.png" />
+                                    </a>
+                                </div>
+                                <div class="txt-blue">@selLangBLL.GetResourceValue("lbl_SACasino")</div>
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,99 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-promo10p.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+
+
+            <div class="promotions-module">
+                <article>
+                    <div class="promotions-txt">
+                        <ul>
+                            <li class="txt-blue">รีโหลดโบนัส  10% สูงสุดถึง 3,888 บาท</li>
+                            
+                            
+                        </ul>
+                    </div>
+                </article>
+            </div>
+                <div class="promotions-module">
+                    <span class="promotions-title">รายละเอียดโบนัส</span>
+                    <ol type="1">
+                        <li>โปรโมชั่นนี้ใช้ได้เมื่อสมาชิกมีการฝากเงินในยอดเงินขั้นต่ำตามที่กำหนด<br><br></li>
+                        <li>ไปที่หน้า [แคชเชียร์] คลิ๊กที่ [ฝากเงิน]<br><br></li>
+                        <li>เลือก [วิธีการฝากเงิน] เพื่อทำการฝาก หลังจากทำการฝากเงินเข้าสู่ [ สปอร์ตบุค วอลเล็ท ] เรียบร้อยแล้ว<br><br></li>
+                        <li>โบนัสจะถูกเพิ่มเข้าไปในบัญชีของท่านภายใน 24 ชั่วโมงหลังจากทำการฝากเงินเรียบร้อย<br><br></li>
+                    </ol>
+
+                    <span class="promotions-title">ข้อตกลงสำหรับโบนัสนี้</span>
+                    <p>สมาชิกจะต้องมีการทำเทิร์นโอเวอร์หนึ่งครั้ง (1x) (ฝาก + โบนัส 1x) ก่อนทำการถอน</p>
+                    <p>
+                        ตามรายละเอียดดังต่อไปนี้
+                    </p>
+                    <div class="table table-rwd table-primary">
+                        <div class="thead">
+                            <div class="tr">
+                                <div class="td-time">
+                                    <span class="text">ผู้ให้บริการ</span>
+                                </div>
+                                <div class="td-time">
+                                    <span class="text">โบนัส%</span>
+                                </div>
+                                <div class="td-time">
+                                    <span class="text">จ่ายสูงสุด</span>
+                                </div>
+                                <div class="td-time">
+                                    <span class="text">เทิร์นโอเวอร์</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tbody">
+                            <div class="tr row-even">
+                                <div class="td-time">
+                                    <span class="text">Nova88.net</span>
+                                </div>
+                                <div class="td-time">
+                                    <span class="text">10%</span>
+                                </div>
+                                <div class="td-time">
+                                    <span class="text">THB 3,888</span>
+                                </div>
+                                <div class="td-time">
+                                    <span class="text">1x</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <br>
+                    <span class="promotions-title">ข้อกำหนดและเงื่อนไข</span>
+                    
+                        <ol type="1">
+                            <li>โปรโมชั่นนี้ใช้ได้เฉพาะวันพุธเท่านั้น<br><br></li>
+                            <li>โปรโมชั่นนี้จะสะสมยอด การฝากในวันพุธทั้งหมดภายในระยะเวลาโปรโมชั่น<br><br></li>
+                            <li>โปรโมชั่นนี้สิ้นสุด 31 พฤษภาคม 2020 11:59:59PM (GMT + 8)<br><br></li>
+                            <li>โปรโมชั่นนี้ใช้ได้กับสมาชิก Nova88 ทุกคนเท่านั้น<br><br></li>
+                            <li>โบนัสที่ได้รับจากโปรโมชั่นนี้สามารถใช้ได้เป็นเวลาสามสิบ (30) วันเมื่อมีการออกเว้นแต่จะระบุไว้เป็นอย่างอื่น สมาชิกที่เข้าร่วมจะไม่สามารถทำตามข้อกำหนดเบื้องต้นที่จำเป็นได้<br><br></li>
+                            <li>เฉพาะการเดิมพันที่วางเดิมพันกับผลิตภัณฑ์ของ NOVA88 ที่มีผลชนะ / แพ้เท่านั้นที่จะนำไปนับในการทำเทิร์นโอเวอร์หนึ่งครั้ง (1x)  การเดิมพันที่ยกเลิกหรือเป็นโมฆะจะไม่ถูกนับรวมในข้อกำหนดนี้<br><br></li>
+                            <li>สมาชิกที่เข้าร่วมต้องยอมรับและปฏิบัติตามข้อกำหนดทั้งหมดที่กล่าวถึงข้างต้นรวมถึงกฎและระเบียบที่เกี่ยวข้องทั้งหมดที่ใช้โดย NOVA 88<br><br></li>
+                            <li>Nova88 ขอสงวนสิทธิ์ในการแก้ไขหรือถอนโปรโมชั่นได้ตลอดเวลา<br><br></li>
+                            <li>Nova88 เป็นผู้ชี้ขาดแต่เพียงผู้เดียวของโปรโมชั่นและการตัดสินของ NOVA88 ถือเป็นที่สิ้นสุด<br><br></li>
+                            <li>ข้อกำหนดและเงื่อนไขของ Nova88<br><br></li>
+                        </ol>
+        </div>
+
+    </div>
+</div>

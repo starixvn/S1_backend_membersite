@@ -1360,9 +1360,6 @@
   <data name="lbl_TransferOut" xml:space="preserve">
     <value>โอนเงินออก</value>
   </data>
-  <data name="lbl_WalletDescription_Saba" xml:space="preserve">
-    <value>Include OneRNG, PP and Platinum Suite(AB)</value>
-  </data>
   <data name="lbl_Wallet_Saba" xml:space="preserve">
     <value>สปอร์ตบุค วอลเล็ท</value>
   </data>
@@ -1567,5 +1564,14 @@
   </data>
   <data name="lbl_Deduction" xml:space="preserve">
     <value>หักยอดเดิมพันหมุนเวียน</value>
+  </data>
+  <data name="lbl_Arcade" xml:space="preserve">
+    <value>เกมอาเขต</value>
+  </data>
+  <data name="lbl_PPCasino" xml:space="preserve">
+    <value>เวสเทิร์น สวีท </value>
+  </data>
+  <data name="lbl_Scratch" xml:space="preserve">
+    <value>เกมขูดบัตร</value>
   </data>
 </root>

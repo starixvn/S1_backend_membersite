@@ -1,0 +1,101 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-promo10p.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+
+
+            <div class="promotions-module">
+                <article>
+                    <div class="promotions-txt">
+                        <ul>
+                            <li class="txt-blue">LIMIT TAK TERBATAS x 10% Reload hingga IDR 1,800,000</li>
+                            
+                            
+                        </ul>
+                    </div>
+                </article>
+            </div>
+                <div class="promotions-module">
+                    <span class="promotions-title">Keterangan promosi</span>
+                    <ol type="1">
+                        <li>Promosi berlaku ketika Member melakukan Setoran dengan Jumlah minimum<br><br></li>
+                        <li>Di halaman [Kasir], klik [Setoran].<br><br></li>
+                        <li>Pilih [Jenis Deposit ] untuk melakukan setoran, setelah setoran berhasil dilakukan ke [Dompet Olahraga]<br><br></li>
+                        <li>Bonus akan dikreditkan ke dompet akun Nova88 dalam waktu 24 jam setelah setoran anda berhasil.<br><br></li>
+                    </ol>
+
+                    <span class="promotions-title">Ketentuan Bermain Bonus</span>
+                    <p>Member diharuskan untuk melakukan sekali turnover (1x) (Setoran + Bonus 1x) sebelum melakukan penarikan.</p>
+                    <p>
+                        Informasi promosi seperti diilustrasikan di bawah ini:
+                    </p>
+                    <div class="table table-rwd table-primary">
+                        <div class="thead">
+                            <div class="tr">
+                                <div class="td-time">
+                                    <span class="text">Provider</span>
+                                </div>
+                                <div class="td-time">
+                                    <span class="text">Bonus %</span>
+                                </div>
+                                <div class="td-time">
+                                    <span class="text">maksimum pembayaran (dibatasi)</span>
+                                </div>
+                                <div class="td-time">
+                                    <span class="text">Turnover</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tbody">
+                            <div class="tr row-even">
+                                <div class="td-time">
+                                    <span class="text">Nova88.net</span>
+                                </div>
+                                <div class="td-time">
+                                    <span class="text">10%</span>
+                                </div>
+                                <div class="td-time">
+                                    <span class="text">IDR 1,800,000</span>
+                                </div>
+                                <div class="td-time">
+                                    <span class="text">1x</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <br>
+                    <span class="promotions-title">Syarat & Ketentuan Promosi</span>
+                    
+                        <ol type="1">
+                            <li>Promosi ini hanya beraku pada Hari Rabu saja.<br><br></li>
+                            <li>Promosi adalah akumulasi total Re-deposit di Hari Rabu dalam periode promosi.<br><br></li>
+                            <li>Promosi ini berakhir pada Tanggal 31 Mei 2020 11:59:59PM (GMT + 8)<br><br></li>
+                            <li>Promosi hanya berlaku untuk semua Member Nova88.<br><br></li>
+                            <li>Bonus yang diperoleh dari promosi ini berlaku selama tiga puluh (30) hari setelah penerbitan, kecuali dinyatakan lain. Jika member yang berpartisipasi gagal  dalam
+                            memenuhi persyaratan yang diperlukan dalam jangka waktu tertentu, maka semua dana yang dimenangkan dengan menggunakan dana bonus akan dihangus.<br><br></li>
+                            <li>Hanya taruhan yang ditempatkan pada produk Nova88 yang menghasilkan hasil win-loss yang berkontribusi pada persyaratan turnover satu kali (1x). 
+                            Taruhan yang dibatalkan atau dibatalkan tidak akan dihitung terhadap persyaratan ini.<br><br></li>
+                            <li>Member yang berpartisipasi harus menerima dan mematuhi semua persyaratan yang disebutkan di atas serta semua peraturan dan ketentuan terkait yang diterapkan oleh Nova88.<br><br></li>
+                            <li>Nova88 berhak untuk mengubah atau menarik Promosi kapan saja.<br><br></li>
+                            <li>Nova88 adalah penyelenggara tunggal Promosi dan keputusannya adalah final.<br><br></li>
+                            <li>Berlaku syarAT dan ketentuan Umum  Nova88.<br><br></li>
+                        </ol>
+        </div>
+
+    </div>
+</div>

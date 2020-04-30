@@ -1594,4 +1594,13 @@
   <data name="lbl_Deduction" xml:space="preserve">
     <value>Ganti rugi jumlah putaran</value>
   </data>
+  <data name="lbl_Arcade" xml:space="preserve">
+    <value>Arcade</value>
+  </data>
+  <data name="lbl_PPCasino" xml:space="preserve">
+    <value>Barat Lobby</value>
+  </data>
+  <data name="lbl_Scratch" xml:space="preserve">
+    <value>Gosok kartu</value>
+  </data>
 </root>

@@ -90,11 +90,11 @@
                     <img src="@CmsPromotionPath/banner-sabaworldcup1.jpg" asp-append-version="true" />
                 </a>
             </div>*@
-                    <div class="swiper-slide">
+                    @*<div class="swiper-slide">
                         <a class="swiper-slide" href="@gamingBLL.GetEntPageUrl(1,"1",Url)">
                             <img src="@CmsPromotionPath/banner-worldcup.jpg" asp-append-version="true" />
                         </a>
-                    </div>
+                    </div>*@
                     <div class="swiper-slide">
                         <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
                             <img src="@CmsPromotionPath/banner-covid.jpg" asp-append-version="true" />
@@ -109,6 +109,11 @@
                             </a>
                         </div>
                     }
+                    <div class="swiper-slide">
+                        <a href="@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promo10PBonus">
+                            <img src="@CmsPromotionPath/banner-promo10p.jpg" asp-append-version="true" />
+                        </a>
+                    </div>
                     <div class="swiper-slide">
                         <a href="@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promo8PBonus">
                             <img src="@CmsPromotionPath/banner-promo8.jpg" asp-append-version="true" />
@@ -137,6 +142,11 @@
                     <div class="swiper-slide">
                         <a href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
                             <img src="@CmsPromotionPath/banner-gpiyggjokersg.jpg" asp-append-version="true" />
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() })">
+                            <img src="@CmsPromotionPath/banner-pplc.jpg" asp-append-version="true" />
                         </a>
                     </div>
                 }

@@ -26,6 +26,7 @@
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     var CmsPromotionPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Promotion/{selLangBLL.GetLangId()}");
+    var SkinrootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Promotion");
     List<dynamic> currencyList = new List<dynamic>();
     foreach (var currencyId in serverInfo.ICurrencyList)
     {
@@ -150,6 +151,13 @@
                 <div class="modal__body">
                     <div class="lobby-banner-swiper">
                         <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="lobby-product">
+                                    <a href="~/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=FTDP">
+                                        <img src="@CmsPromotionPath/banner-FTDP.jpg" asp-append-version="true">
+                                    </a>
+                                </div>
+                            </div>
                             <div class="swiper-slide">
                                 <a href="~/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promo8PBonus">
                                     <img src="@CmsPromotionPath/banner-promo8.jpg" asp-append-version="true" />

@@ -1645,4 +1645,13 @@
   <data name="lbl_Deduction" xml:space="preserve">
     <value>khấu trừ doanh số</value>
   </data>
+  <data name="lbl_Arcade" xml:space="preserve">
+    <value>Trò chơi điện tử</value>
+  </data>
+  <data name="lbl_PPCasino" xml:space="preserve">
+    <value>Hội trường phương Tây</value>
+  </data>
+  <data name="lbl_Scratch" xml:space="preserve">
+    <value>trò chơi cào số</value>
+  </data>
 </root>

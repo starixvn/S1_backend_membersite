@@ -1597,10 +1597,19 @@
   <data name="lbl_Instagram" xml:space="preserve">
     <value>Instagram</value>
   </data>
-  <data name="lbl_More1" xml:space="preserve">
-    <value>More</value>
-  </data>
   <data name="lbl_Deduction" xml:space="preserve">
     <value>Offset rollover difference amount</value>
+  </data>
+  <data name="lbl_Arcade" xml:space="preserve">
+    <value>Arcade</value>
+  </data>
+  <data name="lbl_PPCasino" xml:space="preserve">
+    <value>Western Suite</value>
+  </data>
+  <data name="lbl_Scratch" xml:space="preserve">
+    <value>Scratch Card</value>
+  </data>
+  <data name="lbl_SG" xml:space="preserve">
+    <value>SG</value>
   </data>
 </root>

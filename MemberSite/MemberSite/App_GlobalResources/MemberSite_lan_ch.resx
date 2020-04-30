@@ -1585,4 +1585,13 @@
   <data name="lbl_Deduction" xml:space="preserve">
     <value>相抵流水缺欠金額</value>
   </data>
+  <data name="lbl_Arcade" xml:space="preserve">
+    <value>街機</value>
+  </data>
+  <data name="lbl_PPCasino" xml:space="preserve">
+    <value>西式廳</value>
+  </data>
+  <data name="lbl_Scratch" xml:space="preserve">
+    <value>刮刮卡</value>
+  </data>
 </root>

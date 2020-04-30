@@ -128,7 +128,7 @@ namespace MemberSite.Service.BLL
                 {
                     if (urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
                     {
-                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId, gameType = gameType.ToString() });
+                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, CashierUrl = cashierUrl, tpId = tpId, gameId = gameId, gameType = gameType.ToString() });
                         entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
                     }
                     else
