@@ -49,17 +49,16 @@ namespace MemberSite.Service.BLL
         {
             string key = $"Announcement_{SiteId}_{LangCode}";
             var cacheData = cache.Get<IEnumerable<Announcement>>(key);
-            if (cacheData != null)
+            if (cacheData == null)
             {
-                return cacheData;
-            }
+                cacheData = messageService.GetAnnouncement(LangCode, DefaultLangCode, LimitRow, IsTest, SiteId);
 
-            cacheData = messageService.GetAnnouncement(LangCode, DefaultLangCode, LimitRow, IsTest, SiteId);
-            if (cacheData != null)
-            {
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetSlidingExpiration(TimeSpan.FromSeconds(30));
-                cache.Set(key, cacheData, cacheEntryOptions);
+                if (cacheData != null)
+                {
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(3));
+                    cache.Set(key, cacheData, cacheEntryOptions);
+                }
             }
 
             return cacheData;
