@@ -6,22 +6,19 @@
         return check;
     };
 
-    let currentIdx = null;
     class Panel extends React.Component {
         constructor(props){
             super(props);
-            this.state = {datas: []};
-            this.SetMarquee = this.SetMarquee.bind(this);
+            this.state = {datas: [], hover:false};
             this.ClickMarquee = this.ClickMarquee.bind(this);
             this.GetAnnouncement = this.GetAnnouncement.bind(this);
         }
         componentDidMount(){
             this.GetAnnouncement();
-            this.SetMarquee();
             this.intervalId = setInterval(this.GetAnnouncement, 60000);
         }
         GetAnnouncement(){
-            let res = axios.post(`/api/Message/GetAnnouncement/${SiteLanguage}`,{}).then(res=>{
+            axios.post(`/api/Message/GetAnnouncement/${SiteLanguage}`,{}).then(res=>{
                 let resData = res.data.data;
                 let stateData = this.state.datas;
                 let upd = false;
@@ -42,10 +39,6 @@
                 }
 
                 if(upd){
-                    if(stateData.length===0){
-                        currentIdx = 0;
-                    }
-
                     this.setState({
                         datas:res.data.data.map(item=>{
                             return {
@@ -58,39 +51,17 @@
                 }
             });
         }
-        componentDidUpdate(){
-            this.SetMarquee();
-        }
-        SetMarquee(){
-            let timer = MobileAndTabletCheck() ? 1000 : 1000;
-            let _this = this;
-            let datas = this.state.datas;
-            if(datas && datas.length !== 0){
-                $(this.refs.content).marquee({
-                    duration: timer,
-                    pauseOnHover: true,
-                    direction:'up',
-                    startVisible:true,
-                    delayBeforeStart:2000
-                }).bind('finished', function(){
-                    $(this).marquee('destroy');
-                    currentIdx = currentIdx >= (datas.length-1) ? 0 : currentIdx + 1;
-                    $(this).html(datas[currentIdx].subject);
-                    _this.SetMarquee();
-                });
-            }
-        }
-        ClickMarquee(){
+        ClickMarquee(item){
             if(announcementUrl){
                 if(MobileAndTabletCheck()){
                     let content = "";
-                    this.state.datas[currentIdx].content.split('\\n').forEach((c)=>{
+                    item.content.split('\\n').forEach((c)=>{
                         content += `<p>${c}</p>`;
                     });
 
                     $("#AnnouncementDialog").attr('class', 'modal modalOpen');
                     $("#AnnouncementDialog").attr('data-open', 'true');
-                    $("#AnnouncementDialogTitle").html(this.state.datas[currentIdx].subject);
+                    $("#AnnouncementDialogTitle").html(item.subject);
                     $("#AnnouncementDialogContent").html(`<div>${content}</div>`);
                 }else{
                     window.location.href = announcementUrl;
@@ -100,16 +71,25 @@
             }
         }
         render () {
+            let  inlineStyle = MobileAndTabletCheck() ? {'animationDuration':'20s'} : {'animationDuration':'30s'};
             return(
-                <>
-                    <a className="marquee" onClick={this.ClickMarquee}>
-                        <div>
-                            <i className="icon icon-volume-on"></i>
+                <a className="marquee">
+                    <div>
+                        <i className="icon icon-volume-on"></i>
+                    </div>
+                    <div ref="content" className="marquee-box">
+                        <div className="marquee-run" style={inlineStyle}>
+                            {
+                                this.state.datas.map((item, idx)=>{
+                                    return (
+                                        <button key={`announcement-${idx}`} style={{'paddingLeft':'2rem'}} onClick={this.ClickMarquee.bind(this, item)}>{item.subject}</button>
+                                    )
+                                })
+                            }
                         </div>
-                        <div ref="content">{currentIdx === null || this.state.datas === null || this.state.datas.length === 0 ? null : this.state.datas[currentIdx].subject}</div>
-                        <div>●●●</div>
-                    </a>
-                </>
+                    </div>
+                    <div>●●●</div>
+                </a>
             );
         }
     }
