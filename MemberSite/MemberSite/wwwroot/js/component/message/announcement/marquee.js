@@ -71,7 +71,19 @@
             }
         }
         render () {
-            let  inlineStyle = MobileAndTabletCheck() ? {'animationDuration':'20s'} : {'animationDuration':'30s'};
+            let total_char = 0;
+            
+            let rows = this.state.datas.map((item, idx)=>{
+                total_char += item.subject.length;
+                return (
+                    <button key={`announcement-${idx}`} style={{'paddingLeft':'2rem'}} onClick={this.ClickMarquee.bind(this, item)}>{item.subject}</button>
+                )
+            });
+
+            let s = SiteLanguage == 'cs' || SiteLanguage == 'ch' ? total_char * 0.2 : total_char * 0.15;
+            s = s < 30 ? 30 : s;
+            let inlineStyle = {'animationDuration':`${s}s`};
+
             return(
                 <a className="marquee">
                     <div>
@@ -79,13 +91,7 @@
                     </div>
                     <div ref="content" className="marquee-box">
                         <div className="marquee-run" style={inlineStyle}>
-                            {
-                                this.state.datas.map((item, idx)=>{
-                                    return (
-                                        <button key={`announcement-${idx}`} style={{'paddingLeft':'2rem'}} onClick={this.ClickMarquee.bind(this, item)}>{item.subject}</button>
-                                    )
-                                })
-                            }
+                            { rows }
                         </div>
                     </div>
                     <div>●●●</div>
