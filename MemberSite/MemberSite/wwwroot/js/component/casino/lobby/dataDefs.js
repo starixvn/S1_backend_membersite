@@ -16,8 +16,8 @@ export const Page = {
         displayText:i18n.lbl_Table,
         category1:'Table'
     },
-    'ARCADE':{
-        displayText:i18n.lbl_Arcade,
-        category1:'Arcade'
-    }
+    // 'ARCADE':{
+    //     displayText:i18n.lbl_Arcade,
+    //     category1:'Arcade'
+    // }
 }
