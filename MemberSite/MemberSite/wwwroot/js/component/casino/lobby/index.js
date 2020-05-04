@@ -23,7 +23,7 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
         constructor(props) {
             super(props);
 
-            const defaultPage = Page.ALLGAMES.displayText;
+            const defaultPage = Page.ALLGAMES;
             const defaultProvider = {value:'Provider', displayText:i18n.lbl_Provider};
 
             this.state = {
@@ -148,7 +148,7 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
                 _GamesByProvider[_provider.value] = [...allGames];
             }
 
-            switch(_page) {
+            switch(_page.displayText) {
                 case Page.ALLGAMES.displayText:
                     return _keyword === "" ? allGames : allGames.filter(g=>{
                         return this.matchKeyword(g.name, _keyword);
@@ -163,19 +163,11 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
                     return allGames.filter(g=>{
                         return _favorite !== null && _favorite.find(x=> x.ProviderId==g.provider && x.GameId==g.gameId) !== undefined;
                     });
-
-                case Page.SLOTS.displayText:
-                    return allGames.filter(g=>{
-                        return g.category1==="Slots" && (_keyword === "" || this.matchKeyword(g.name, _keyword));
-                    });
-
-                case Page.TABLE.displayText:
-                    return allGames.filter(g=>{
-                        return g.category1==="Table" && (_keyword === "" || this.matchKeyword(g.name, _keyword));
-                    });
                 
                 default:
-                    return allGames;
+                    return allGames.filter(g=>{
+                        return g.category1===_page.category1 && (_keyword === "" || this.matchKeyword(g.name, _keyword));
+                    });;
             }
         }
         matchKeyword = (name, _keyword)=>{
@@ -273,7 +265,7 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
             }
 
             if(isRemove){
-                if(this.state.Filter.Page === Page.FAVOURITE.displayText){
+                if(this.state.Filter.Page.displayText === Page.FAVOURITE.displayText){
                     let datas = [...this.state.Games.TopSection, ...this.state.Games.SecondSection].filter(item=>{
                         return item.key !== `P-${providerId}-Game-${gameId}`;
                     });

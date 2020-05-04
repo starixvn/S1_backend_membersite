@@ -7,9 +7,9 @@ export const Nav = (props)=>{
     let mobilePages = [];
     Object.keys(Page).forEach((key, idx) => {
         let pageInfo = Page[key];
-        let active = props.SelectedPage === pageInfo.displayText;
+        let active = props.SelectedPage.displayText === pageInfo.displayText;
         desktopPages.push(
-            <a key={`d-p-${idx}`} onClick={props.HandleFilter.bind(null, pageInfo.displayText, 'Page')} className={active ? 'active' : ''}>
+            <a key={`d-p-${idx}`} onClick={props.HandleFilter.bind(null, pageInfo, 'Page')} className={active ? 'active' : ''}>
                 <span>{pageInfo.displayText}</span>
             </a>
         );

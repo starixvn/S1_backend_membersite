@@ -9,9 +9,15 @@ export const Page = {
         displayText:i18n.lbl_Favourite
     },
     'SLOTS':{
-        displayText:i18n.lbl_Slots
+        displayText:i18n.lbl_Slots,
+        category1:'Slots'
     },
     'TABLE':{
-        displayText:i18n.lbl_Table
+        displayText:i18n.lbl_Table,
+        category1:'Table'
+    },
+    'ARCADE':{
+        displayText:i18n.lbl_Arcade,
+        category1:'Arcade'
     }
 }
