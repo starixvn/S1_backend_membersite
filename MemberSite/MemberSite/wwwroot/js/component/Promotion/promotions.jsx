@@ -35,7 +35,7 @@ import {number_format} from '../commJS/common';
                                         <ul className="txt-gray">
                                             <li>
                                                 <i className="icon icon-transaction"></i>{i18n.lbl_Bonus}
-                                                <span className="txt-org">{i18n["Currency_"+Data.currencyId]} {Data.bonus}%</span>
+                                                <span className="txt-org">{i18n["Currency_"+Data.currencyId]} {Data.bonus}% </span>
                                             </li>
                                             <li>
                                                 <i className="icon icon-gototop"></i>{i18n.lbl_MaxBonusAmount}
@@ -43,15 +43,15 @@ import {number_format} from '../commJS/common';
                                             </li>
                                             <li>
                                                 <i className="icon icon-sport252"></i>{i18n.lbl_RollOver}
-                                                <span className="txt-org">{Data.rollOver}x</span>
+                                                <span className="txt-org">{Data.rollOver}x </span>
                                             </li>
                                             {Data.bonusInfoStatus!=1 ?
                                             <li>
-                                                <i className="icon icon-race"></i>{i18n.lbl_RemainingTime}
-                                                <span className="txt-org">{moment.unix(Data.periodTo).format('lll')}</span>
-                                            </li>:<li>
                                                 <i className="icon icon-race"></i>{i18n.lbl_ExpiryTime}
-                                            <span className="txt-org">{diff.days()} {i18n.lbl_Days}{diff.hours()} {i18n.lbl_Hours}</span>
+                                                <span className="txt-org">{diff.days()} {i18n.lbl_Days}{diff.hours()} {i18n.lbl_Hours}</span>
+                                            </li>:<li>
+                                                <i className="icon icon-race"></i>{i18n.lbl_RemainingTime}
+                                                <span className="txt-org">{moment.unix(Data.periodTo).format('lll')}</span>                                            
                                             </li>}
                                             {Data.bonusInfoStatus==1 ?
                                             <li>
