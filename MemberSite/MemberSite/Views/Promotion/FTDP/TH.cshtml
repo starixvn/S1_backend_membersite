@@ -31,7 +31,7 @@
         promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
     }
 
-    if (promotion.BonusInfoStatus == 0)
+    if (promotion.BonusInfoStatus != 1)
     {
         ExpiryTime = promotion.PeriodTo;
     }
@@ -214,7 +214,9 @@
         $(function() {
             const diff = moment.duration(moment.unix(@promotion.PeriodTo).diff(new Date()))
             $("#REMAINING").html(diff.days() + " วัน" + diff.hours() + " ชั่วโมง" );
-            $("#ExpiryTime").html(moment.unix(@ExpiryTime).format('lll'));
+           var sExpiryTime = moment.unix(@ExpiryTime).date() +' วัน '+ (parseInt(moment.unix(@ExpiryTime).get('month'),10) + 1 ) +' เดือน '+ moment.unix(@ExpiryTime).year() +' ปี';
+            sExpiryTime += moment.unix(@ExpiryTime).format(' HH:mm');
+            $("#ExpiryTime").html(sExpiryTime);
 
             $("#JOIN").on("touchstart, click", function () {
                   if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {
