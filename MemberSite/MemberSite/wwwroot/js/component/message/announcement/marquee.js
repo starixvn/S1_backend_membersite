@@ -25,8 +25,8 @@
                 if(resData.length !== 0 && stateData.length !== 0){
                     for(let d in resData){
                         let find = stateData.find(x=> x.id === resData[d].id 
-                            && x.subject===resData[d].subject.substring(1, resData[d].subject.length-1) 
-                            && x.content===resData[d].content.substring(1, resData[d].content.length-1)
+                            && x.subject===resData[d].subject
+                            && x.content===resData[d].content
                         );
 
                         if(!find){
@@ -43,8 +43,8 @@
                         datas:res.data.data.map(item=>{
                             return {
                                 ...item,
-                                subject: item.subject.substring(1, item.subject.length-1),
-                                content: item.content.substring(1, item.content.length-1)
+                                subject: item.subject,
+                                content: item.content
                             }
                         })
                     });

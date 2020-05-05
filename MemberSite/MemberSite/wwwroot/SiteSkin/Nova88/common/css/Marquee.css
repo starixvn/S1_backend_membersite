@@ -44,7 +44,9 @@
 .marquee-run{
     animation: marquee 30s linear infinite;
     position: absolute;
-    transform: translateX(-100%)
+    transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    
 }
 .modalOpen{
     display: flex;
@@ -72,10 +74,12 @@
 @keyframes marquee {
     0% {
         left: 100%;
-		transform: translateX(0%);
+        transform: translateX(0%);
+        -ms-transform: translateX(0%);
     }
     100%{
         left: 0;
-		transform: translateX(-100%);
+        transform: translateX(-100%);
+        -ms-transform: translateX(-100%);
     }
 }
