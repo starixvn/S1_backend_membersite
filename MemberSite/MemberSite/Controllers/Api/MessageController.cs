@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,13 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<IEnumerable<Announcement>>();
             int LimitRow = 15;
             var serverInfo = serverInfoBLL.GetServerInfo();
-            result.Data = messageBLL.GetAnnouncement(selLangBLL.GetLangId(), serverInfo.DefLang, LimitRow, !environment.IsProduction(), serverInfo.SiteId);
+            result.Data = messageBLL.GetAnnouncement(selLangBLL.GetLangId(), serverInfo.DefLang, LimitRow, !environment.IsProduction(), serverInfo.SiteId)
+                .Select(x=> new Announcement() { 
+                    Content = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(x.Content), 
+                    Subject = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(x.Subject), 
+                    Id = x.Id, 
+                    StartTime = x.StartTime  
+                });
             result.ErrorCode = 0;
 
             return result;

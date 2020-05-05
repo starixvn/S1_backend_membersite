@@ -37,13 +37,13 @@ import * as Loading from '../../commJS/Loading.jsx';
     }
 
     const Announcement = (props)=>{
-        let content = props.content.substring(1, props.content.length-1).split('\\n');
+        let content = props.content.split('\\n');
         
         return(
             <div className="announcement">
                 <div className="announcement__item">
                     <div className="announcement__title">
-                        <span className="text">{props.subject.substring(1, props.subject.length-1)}</span>
+                        <span className="text">{props.subject}</span>
                         <span className="text-lowlight">{props.startTime}</span>
                     </div>
                 </div>

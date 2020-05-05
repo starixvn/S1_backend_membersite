@@ -25,8 +25,8 @@
                 if(resData.length !== 0 && stateData.length !== 0){
                     for(let d in resData){
                         let find = stateData.find(x=> x.id === resData[d].id 
-                            && x.subject===resData[d].subject.substring(1, resData[d].subject.length-1) 
-                            && x.content===resData[d].content.substring(1, resData[d].content.length-1)
+                            && x.subject===resData[d].subject
+                            && x.content===resData[d].content
                         );
 
                         if(!find){
@@ -43,8 +43,8 @@
                         datas:res.data.data.map(item=>{
                             return {
                                 ...item,
-                                subject: item.subject.substring(1, item.subject.length-1),
-                                content: item.content.substring(1, item.content.length-1)
+                                subject: item.subject,
+                                content: item.content
                             }
                         })
                     });
@@ -71,7 +71,19 @@
             }
         }
         render () {
-            let  inlineStyle = MobileAndTabletCheck() ? {'animationDuration':'20s'} : {'animationDuration':'30s'};
+            let total_char = 0;
+            
+            let rows = this.state.datas.map((item, idx)=>{
+                total_char += item.subject.length;
+                return (
+                    <button key={`announcement-${idx}`} style={{'paddingLeft':'2rem'}} onClick={this.ClickMarquee.bind(this, item)}>{item.subject}</button>
+                )
+            });
+
+            let s = SiteLanguage == 'cs' || SiteLanguage == 'ch' ? total_char * 0.2 : total_char * 0.15;
+            s = s < 30 ? 30 : s;
+            let inlineStyle = {'animationDuration':`${s}s`};
+
             return(
                 <a className="marquee">
                     <div>
@@ -79,13 +91,7 @@
                     </div>
                     <div ref="content" className="marquee-box">
                         <div className="marquee-run" style={inlineStyle}>
-                            {
-                                this.state.datas.map((item, idx)=>{
-                                    return (
-                                        <button key={`announcement-${idx}`} style={{'paddingLeft':'2rem'}} onClick={this.ClickMarquee.bind(this, item)}>{item.subject}</button>
-                                    )
-                                })
-                            }
+                            { rows }
                         </div>
                     </div>
                     <div>●●●</div>
