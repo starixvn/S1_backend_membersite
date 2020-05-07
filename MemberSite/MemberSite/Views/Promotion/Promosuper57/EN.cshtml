@@ -1,0 +1,94 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-super57.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <article>
+                <div class="promotions-txt">
+                    <ul>
+                        <li class="txt-blue">Super Friday & Sunday redeposit bonus up to MYR300 ( 5% )</li>
+                        
+                        
+                    </ul>
+                </div>
+            </article>
+        </div>
+        <div class="promotions-module">
+             <span class="promotions-title">Promotion Details</span>
+                <ol type="a">
+                    <li>Promotion applied when members made a minimum deposit amount.<br><br></li>
+                    <li>Bonus will be credited to account wallet within 24 hours upon successful deposit.<br><br></li>
+                </ol>
+
+            <span class="promotions-title">Bonus Play Conditions</span>
+               <p>
+                Members are required to one time (1x) turnover (Deposit + Bonus 1x) before make a withdrawal.
+               </p>
+               <p>
+                Promotion particulars are as illustrated below:<br>
+                <div class="table table-rwd table-primary">
+                    <div class="thead">
+                        <div class="tr">
+                            <div class="td-date">
+                                <span class="text">Bonus %</span>
+                            </div>
+                            <div class="td-date">
+                                <span class="text">Max Payout (capped)</span>
+                            </div>
+                            <div class="td-date">
+                                <span class="text">Turnover</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tbody">
+                        <div class="tr row-even">
+                            <div class="td-date">
+                                <span class="text">5%</span>
+                            </div>
+                            <div class="td-date">
+                                <span class="text">MYR 300</span>
+                            </div>
+                            <div class="td-date">
+                                <span class="text">1x</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               </p>
+
+            <span class="promotions-title">Bonus Play Conditions</span>
+            <ol type="1">
+                <li>This promotion available on every Friday & Sunday only.<br><br></li>
+                <li>This Promotion start on 8th May 2020 (Friday) & 10th May 2020 (Sunday)<br><br></li>
+                <li>Promotion is accumulate total of unlimited redeposit on the day of promotion (Friday & Sunday)<br><br></li>
+                <li>Promotion applies to all Nova88 members.<br><br></li>
+                <li>Bonus acquired from this promotion is valid for thirty (30) days upon issuance, unless stated otherwise. Shall the participating member fail to fulfill required 
+                prerequisites within given time frame, all money won using bonus funds will be revoked.<br><br></li>
+                <li>Only wagers placed on Nova88 products that generate a win/loss outcome will contribute to the one time (1x) turnover requirement in all Nova88 product 
+                except cash out. Cancelled or voided wagers will not count toward this requirement.<br><br></li>
+                <li>Participating members must accept and comply with all the terms mentioned above as well as all relevant rules and regulations implemented by Nova88.<br><br></li>
+                <li>Nova88 reserves the right to amend or withdraw the Promotion at any time.<br><br></li>
+                <li>Nova88 is the sole arbiter of the Promotion and its decision is final.<br><br></li>
+                <li>Nova88 Terms & Conditions apply.<br><br></li>
+            </ol>
+                
+            
+        </div>
+    </div>
+</div>
