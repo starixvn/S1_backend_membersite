@@ -1,0 +1,748 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using MemberSite.Service.Library
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@inject IWebHostEnvironment environment
+@inject WalletBLL walletBLL
+@inject CustInfoBLL custInfoBLL
+@inject Tools tools
+@inject SelLangBLL selLangBLL
+@inject AuthorizeBLL authorizeBLL
+@{
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
+    var CmsEventPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Casino/{selLangBLL.GetLangId()}");
+    var CurrencyId = 0;
+    if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
+    }
+    else
+    {
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+    }
+    var Currency = selLangBLL.GetResourceValue($"lbl_Currency_{CurrencyId}");
+
+    //ViewData["Title"].ToString("#,##0") = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = null;
+
+    Dictionary<int, decimal> FruitPrizeComm = new Dictionary<int, decimal>() {
+        {1,7000},
+        {2,4900},
+        {3,3500},
+        {4,2800},
+        {5,1400},
+        {6,700},
+        {7, 210 },
+        {8, 70 },
+        {9, 70000 }
+    };
+    Dictionary<int, decimal> FruitPrizeCash = new Dictionary<int, decimal>() {
+        {1, 4200 },
+        {2, 2100 },
+        {3, 700 },
+        {4, 140 },
+        {5, 70 },
+        {6, 35 },
+        {7, 42000 }
+    };
+
+    Dictionary<int, decimal> FruitPrizeFin = new Dictionary<int, decimal>() {
+        {1, 10500 },
+        {2, 7000 },
+        {3, 4900 },
+        {4, 2800 },
+        {5, 1400 },
+        {6, 700 },
+        {7, 280 },
+        {8, 140 },
+        {9, 84000 }
+    };
+
+    Dictionary<int, decimal> MoneyPrizeComm = new Dictionary<int, decimal>() {
+        {1, 7000 },
+        {2, 4900 },
+        {3, 3500 },
+        {4, 2800 },
+        {5, 1400 },
+        {6, 700 },
+        {7, 210 },
+        {8, 70 },
+        {9, 70000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeCash = new Dictionary<int, decimal>() {
+        {1, 4200 },
+        {2, 2100 },
+        {3, 700 },
+        {4, 140 },
+        {5, 70 },
+        {6, 35 },
+        {7, 42000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeFin = new Dictionary<int, decimal>() {
+        {1, 10500 },
+        {2, 7000 },
+        {3, 4900 },
+        {4, 2800 },
+        {5, 1400 },
+        {6, 700 },
+        {7, 280 },
+        {8, 140 },
+        {9, 84000 }
+    };
+
+    double MinBet = 2.5;
+    //天天赢 - 老虎机冠军
+    decimal FinBet = 2660000;
+}
+
+<html lang="@selLangBLL.GetLangId()" data-layout="@(tools.IsMobile() ? "mobile" : "desktop")">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="@SkinRootPath/images/favicon.ico" type="image/x-icon">
+
+    <title>Event-PP</title>
+    <link href="@SkinRootPath/css/main.css" rel="stylesheet" asp-append-version="true" />
+    <link href="@SkinRootPath/css/event-pp.css" rel="stylesheet" asp-append-version="true" />
+</head>
+<body>
+    @if (environment.EnvironmentName == "Development")
+    {
+        if (!tools.IsMobile())
+        {
+            <script src="~/lib/es6-promise.min.js"></script>
+            <script src="~/lib/es6-promise.auto.min.js"></script>
+        }
+        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+        <script src="~/lib/react.development.js"></script>
+        <script src="~/lib/react-dom.development.js"></script>
+        <script src="~/lib/babel.min.js"></script>
+    }
+    else
+    {
+        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+        <script src="~/lib/react.production.min.js"></script>
+        <script src="~/lib/react-dom.production.min.js"></script>
+        if (!tools.IsMobile())
+        {
+            <script src="~/lib/es6-promise.min.js"></script>
+            <script src="~/lib/es6-promise.auto.min.js"></script>
+        }
+    }
+    <script type="text/javascript">
+        $(function () {
+            $('.point').click(function () {
+                $('.point').removeClass('open')
+                $(this).addClass('open')
+            })
+            $('.terms').click(function () {
+                $(this).siblings('.terms-list').toggle()
+                $(this).children('i').toggleClass('open')
+            })
+        });
+    </script>
+    <div class="app app--help">
+        <div class="header">
+            <div class="header__main">
+                <div class="header__logo">
+                    <a class="logo" href="HelpCenter.html"></a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="evn-banner">
+                <img src="@CmsEventPath/event-pp-20200508.png" />
+            </div>
+            <div class="info">
+                <div class="evn-time">
+                    <h1>“天天送”老虎机锦标赛</h1>
+                    <h2>老虎机锦标赛时间表</h2>
+                    <h4 class="start">即将开始</h4>
+                    <h3>水果派对: 锦标赛,现金空投& 冠军赛</h3>
+                    <h4>2020/5/12 (18:00) ~  2020/6/8 (17:59) 北京时间</h4>
+                    <h3>钱多多: 锦标赛,现金空投& 冠军赛</h3>
+                    <h4>2020/6/2/ (18:00) ~ 2020/6/29 (17:59) 北京时间</h4>
+                    <h3>更多天天送-老虎机锦标赛详情</h3>
+                    <h4>2020/6/23 (18:00) ~ 2020/10/27 (17:59) 北京时间</h4>
+                </div>
+                <div class="evn-time-line">
+                    <div class="point">
+                        <div class="Round"></div>
+                        <h1 class="text">START</h1>
+                    </div>
+                    <h4>2020/05/12 18:00</h4>
+                    <div class="point open" id="div1">
+                        <div class="Round"></div>
+                        <h1 class="text">水果派对锦标赛</h1>
+                    </div>
+                    <h4>2020/05/12 18:00</h4>
+                    <div class="evn-list">
+                        <h1>单次最高旋转奖金金额</h1>
+                        <span> @FruitPrizeComm[9].ToString("#,##0")  @Currency / 周</span>
+                        <div class="evn-img">
+                            <ul>
+                                <li><img src="@SkinRootPath/images/event/pp-evn1.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn2.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn3.jpg" /></li>
+                            </ul>
+                            <ul>
+                                <li><img src="@SkinRootPath/images/event/pp-evn4.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn5.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn6.jpg" /></li>
+                            </ul>
+                        </div>
+                        <h1>奖池</h1>
+                        <div class="rank">
+                            <div class="rank-list">
+                                <div class="table-header">
+                                    <div>排名</div>
+                                    <div>奖金</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>1</div>
+                                    <div>@FruitPrizeComm[1].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>2</div>
+                                    <div>@FruitPrizeComm[2].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>3</div>
+                                    <div>@FruitPrizeComm[3].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>4-5</div>
+                                    <div>@FruitPrizeComm[4].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>6-10</div>
+                                    <div>@FruitPrizeComm[5].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>11-50</div>
+                                    <div>@FruitPrizeComm[6].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>51-100</div>
+                                    <div>@FruitPrizeComm[7].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>101-150</div>
+                                    <div>@FruitPrizeComm[8].ToString("#,##0")</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="terms">条款与规则<i class="icon icon-caret"></i></button>
+                        <div class="terms-list">
+                            <ul>
+                                <li>锦标赛是比拼在活动期间最高单次旋转奖金金额。</li>
+                                <li>积分规则：积分=单局最高中奖金额/投注金额。</li>
+                                <li>在每周排行榜上排名前5000名的玩家将会赢得2020年6月5日18点举行的终极锦标赛的门票。</li>
+                                <li>
+                                    锦标赛将于2020年5月12日至2020年6月02日每周二18:00至下周二17:59 GMT+8 举行，一共3场：
+                                    <ul>
+                                        <li>2020年5月12日18:00至2020年5月19日17:59 GMT+8（北京时间）</li>
+                                        <li>2020年5月19日18:00至2020年5月26日17:59 GMT+8（北京时间）</li>
+                                        <li>2020年5月26日18:00至2020年6月02日17:59 GMT+8（北京时间）</li>
+                                    </ul>
+                                </li>
+                                <li>参赛游戏：所有PP王者电子老虎机游戏 除 财源滚滚，爱尔兰的魅力，富贵888，永恒钻石3线，黄金女王，桌面游戏和视频扑克游戏。</li>
+                                <li>每局最小投注额：@MinBet  @Currency 或等值货币。</li>
+                                <li>如果有两位或更多玩家的积分相同，则首先达到该积分的玩家将在排行榜上排名靠前, 获得更高名次奖金。</li>
+                                <li>锦标赛排行榜将会在活动指定游戏页面实时更新。</li>
+                                <li>PP王者电子保留随时修改、暂停或取消推广活动的权利，恕不另行通知。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="point" id="div2">
+                        <div class="Round"></div>
+                        <h1 class="text">水果派对现金空投</h1>
+                    </div>
+                    <h4>2020/05/12 18:00</h4>
+                    <div class="evn-list">
+                        <h1>随机获得PP现金礼盒</h1>
+                        <span> @FruitPrizeCash[7].ToString("#,##0")  @Currency /周</span>
+                        <div class="evn-img">
+                            <ul>
+                                <li><img src="@SkinRootPath/images/event/pp-evn4.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn8.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn1.jpg" /></li>
+                            </ul>
+                            <ul>
+                                <li><img src="@SkinRootPath/images/event/pp-evn7.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn6.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn5.jpg" /></li>
+                            </ul>
+                        </div>
+                        <h1>奖池</h1>
+                        <div class="rank">
+                            <div class="rank-list">
+                                <div class="table-header">
+                                    <div>排名</div>
+                                    <div>奖金</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>1X</div>
+                                    <div>@FruitPrizeCash[1].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>2X</div>
+                                    <div>@FruitPrizeCash[2].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>10X</div>
+                                    <div>@FruitPrizeCash[3].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>55X</div>
+                                    <div>@FruitPrizeCash[4].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>120X</div>
+                                    <div>@FruitPrizeCash[5].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>300X</div>
+                                    <div>@FruitPrizeCash[6].ToString("#,##0")</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="terms">条款与规则<i class="icon icon-caret"></i></button>
+                        <div class="terms-list">
+                            <ul>
+                                <li>在活动期间玩PP王者电子游戏将有机会随机获得PP现金礼盒。</li>
+                                <li>活动期间共有488个礼盒奖励，价值 @FruitPrizeCash[1].ToString("#,##0")  @Currency 随机发放。</li>
+                                <li>每局最小投注额：@MinBet  @Currency 或等值货币。</li>
+                                <li>
+                                    王者锦标赛将于2020年5月12日至2020年6月02日每周一18:00至下周一17:59 GMT+8 举行，一共3场：
+                                    <ul>
+                                        <li>2020年5月12日18:00至2020年5月19日17:59 GMT+8 (北京时间)</li>
+                                        <li>2020年5月19日18:00至2020年5月26日17:59 GMT+8 (北京时间)</li>
+                                        <li>2020年5月26日18:00至2020年6月02日17:59 GMT+8 (北京时间)</li>
+                                    </ul>
+                                </li>
+                                <li>参赛游戏： 所有PP王者电子老虎机游戏 除桌面游戏，视频扑克，富贵888，永恒钻石3线，爱尔兰的魅力，财源滚滚，黄金女王，歌厅，曲棍球联盟，阿拉丁宝藏，月之女神，埃及传说，极速糖果，极速糖果冬日版，极速糖果情人版，极速糖果夏日版，幽灵财富，大堡礁，荣耀罗马，水果爆破，矮人黄金，恶魔13，疯狂7s，勤劳蜜蜂。</li>
+                                <li>PP王者电子保留随时修改、暂停或取消推广活动的权利，恕不另行通知。</li>
+                            </ul>
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="point" id="div3">
+                        <div class="Round"></div>
+                        <h1 class="text">水果派对锦标赛 - 终极赛</h1>
+                    </div>
+                    <h4>2020/06/05 18:00</h4>
+                    <div class="evn-list">
+                        <h1>最高单次旋转奖金金额</h1>
+                        <span>@FruitPrizeFin[9].ToString("#,##0")  @Currency </span>
+                        <div class="evn-img">
+                            <ul>
+                                <li><img src="@SkinRootPath/images/event/pp-evn7.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn5.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn4.jpg" /></li>
+                            </ul>
+                            <ul>
+                                <li><img src="@SkinRootPath/images/event/pp-evn8.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn2.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn3.jpg" /></li>
+                            </ul>
+                        </div>
+                        <h1>奖池</h1>
+                        <div class="rank">
+                            <div class="rank-list">
+                                <div class="table-header">
+                                    <div>排名</div>
+                                    <div>奖金</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>1</div>
+                                    <div>@FruitPrizeFin[1].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>2</div>
+                                    <div>@FruitPrizeFin[2].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>3</div>
+                                    <div>@FruitPrizeFin[3].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>4-5</div>
+                                    <div>@FruitPrizeFin[4].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>6-10</div>
+                                    <div>@FruitPrizeFin[5].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>11-50</div>
+                                    <div>@FruitPrizeFin[6].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>51-100</div>
+                                    <div>@FruitPrizeFin[7].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>101-150</div>
+                                    <div>@FruitPrizeFin[8].ToString("#,##0")</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="terms">条款与规则<i class="icon icon-caret"></i></button>
+                        <div class="terms-list">
+                            <ul>
+                                <li>恭喜您已被邀请进入水果派对锦标赛-终极赛。</li>
+                                <li>水果派对锦标赛-终极赛是比拼在活动期间最高单次旋转奖金金额。</li>
+                                <li>积分规则：积分=单局最高中奖金额/投注金额。</li>
+                                <li>锦标赛将于北京时间2020年6月5日18:00至2020年6月8日17:59举行。</li>
+                                <li>参赛游戏：所有PP王者电子老虎机游戏 除 财源滚滚，爱尔兰的魅力，富贵888，永恒钻石3线，黄金女王，桌面游戏和视频扑克游戏。</li>
+                                <li>每局最小投注额：@MinBet  @Currency 或等值货币。</li>
+                                <li>如果有两位或更多玩家的积分相同，则首先达到该积分的玩家将在排行榜上排名靠前, 获得更高名次奖金。</li>
+                                <li>锦标赛排行榜将会在活动指定游戏页面实时更新。</li>
+                                <li>PP王者电子保留随时修改、暂停或取消推广活动的权利，恕不另行通知。</li>
+                            </ul>
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="point" id="div4">
+                        <div class="Round"></div>
+                        <h1 class="text">钱多多锦标赛</h1>
+                    </div>
+                    <h4>2020/06/02 18:00</h4>
+                    <div class="evn-list">
+                        <h1>最高总投注金额</h1>
+                        <span>@MoneyPrizeComm[9].ToString("#,##0")  @Currency / 周</span>
+                        <div class="evn-img">
+                            <ul>
+                                <li><img src="@SkinRootPath/images/event/pp-evn8.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn4.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn5.jpg" /></li>
+                            </ul>
+                            <ul>
+                                <li><img src="@SkinRootPath/images/event/pp-evn7.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn6.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn2.jpg" /></li>
+                            </ul>
+                        </div>
+                        <h1>奖池</h1>
+                        <div class="rank">
+                            <div class="rank-list">
+                                <div class="table-header">
+                                    <div>排名</div>
+                                    <div>奖金</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>1</div>
+                                    <div>@MoneyPrizeComm[1].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>2</div>
+                                    <div>@MoneyPrizeComm[2].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>3</div>
+                                    <div>@MoneyPrizeComm[3].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>4-5</div>
+                                    <div>@MoneyPrizeComm[4].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>6-10</div>
+                                    <div>@MoneyPrizeComm[5].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>11-50</div>
+                                    <div>@MoneyPrizeComm[6].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>51-100</div>
+                                    <div>@MoneyPrizeComm[7].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>101-150</div>
+                                    <div>@MoneyPrizeComm[8].ToString("#,##0")</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="terms">条款与规则<i class="icon icon-caret"></i></button>
+                        <div class="terms-list">
+                            <ul>
+                                <li>锦标赛优胜者以最高总投注金额为准。</li>
+                                <li>积分=总下注金额转换为美金x 1000。</li>
+                                <li>在每周排行榜上排名前5000名的玩家将会赢得2020年6月26日18点举行的钱多多锦标赛-终极赛门票。</li>
+                                <li>
+                                    锦标赛将于2020年6月2日至2020年6月26日每周二18:00至下周二17:59 GMT+8 举行，一共3场：
+                                    <ul>
+                                        <li>2020年6月02日18:00至2020年6月09日17:69 GMT+8 (北京时间)</li>
+                                        <li>2020年6月09日18:00至2020年6月16日17:69 GMT+8 (北京时间)</li>
+                                        <li>2020年6月16日18:00至2020年6月23日17:69 GMT+8 (北京时间)</li>
+                                    </ul>
+                                </li>
+                                <li>参赛游戏：所有PP王者电子老虎机游戏 除 财源滚滚，爱尔兰的魅力，富贵888，永恒钻石3线，黄金女王，桌面游戏和视频扑克游戏。</li>
+                                <li>每局最小投注额：@MinBet  @Currency 或等值货币。</li>
+                                <li>如果有两位或更多玩家的积分相同，则首先达到该积分的玩家将在排行榜上排名靠前, 获得更高名次奖金。</li>
+                                <li>锦标赛排行榜将会在活动指定游戏页面实时更新。</li>
+                                <li>PP王者电子保留随时修改、暂停或取消推广活动的权利，恕不另行通知。</li>
+                            </ul>
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="point" id="div5">
+                        <div class="Round"></div>
+                        <h1 class="text">钱多多现金空投 多倍乘数</h1>
+                    </div>
+                    <h4>2020/06/02 18:00</h4>
+                    <div class="evn-list">
+                        <h1>最高可赢得投注金额1000倍的红包奖金</h1>
+                        <span> @MoneyPrizeCash[7].ToString("#,##0")  @Currency  /周</span>
+                        <div class="evn-img">
+                            <ul>
+                                <li><img src="@SkinRootPath/images/event/pp-evn4.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn8.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn6.jpg" /></li>
+                            </ul>
+                            <ul>
+                                <li><img src="@SkinRootPath/images/event/pp-evn3.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn2.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn5.jpg" /></li>
+                            </ul>
+                        </div>
+                        <h1>奖池</h1>
+                        <div class="rank">
+                            <div class="rank-list">
+                                <div class="table-header">
+                                    <div>排名</div>
+                                    <div>奖金</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>1X</div>
+                                    <div>X 1000</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>2X</div>
+                                    <div>X 500</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>10X</div>
+                                    <div>X 200</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>55X</div>
+                                    <div>X 30</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>120X</div>
+                                    <div>X 15</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>300X</div>
+                                    <div>X 10</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="terms">条款与规则<i class="icon icon-caret"></i></button>
+                        <div class="terms-list">
+                            <ul>
+                                <li>玩家最高可赢得投注金额1000倍的红包奖金。</li>
+                                <li>
+                                    玩家最终的中奖金额将由中奖倍数决定（投注金额x中奖倍数）。玩家将有机会在单局投注的情况下，获得最高为35,000  @Currency 的奖金。
+                                    <ul>
+                                        <li>举例:</li>
+                                        <li>投注金额: 3.5 @Currency </li>
+                                        <li>中奖倍数: X 500</li>
+                                        <li>中奖奖金: 1,750 @Currency </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    红包奖金将会由下注金额乘以中奖倍数得出。 符合奖金计算条件的最大下注金额为35 @Currency 。 如果下注金额超过35 @Currency ，则超过35,000 @Currency 的额外价值将不被用于奖金计算。
+                                    <ul>
+                                        <li>举例:</li>
+                                        <li>实际投注金额: 40 @Currency </li>
+                                        <li>计算最高投注金额: 35 @Currency </li>
+                                        <li>中奖倍数: X 1000</li>
+                                        <li>中奖奖金: 35 X 1000 = 35,000 @Currency </li>
+                                    </ul>
+                                </li>
+                                <li>每局最小投注额：@MinBet @Currency 或等值货币。</li>
+                                <li>在活动期间488个红包奖金价值 @MoneyPrizeCash[7].ToString("#,##0") @Currency 随机发放。</li>
+                                <li>
+                                    锦标赛将于2020年6月2日至2020年6月23日每周二18:00至下周二17:59 GMT+8 举行，一共3场：
+                                    <ul>
+                                        <li>2020年6月02日18:00至2020年6月09日17:69 GMT+8 (北京时间)</li>
+                                        <li>2020年6月09日18:00至2020年6月16日17:69 GMT+8 (北京时间)</li>
+                                        <li>2020年6月16日18:00至2020年6月23日17:69 GMT+8 (北京时间)</li>
+                                    </ul>
+                                </li>
+                                <li>参赛游戏： 所有PP王者电子老虎机游戏 除桌面游戏，视频扑克，富贵888，永恒钻石3线，爱尔兰的魅力，财源滚滚，黄金女王，歌厅，曲棍球联盟，阿拉丁宝藏，月之女神，埃及传说，极速糖果，极速糖果冬日版，极速糖果情人版，极速糖果夏日版，幽灵财富，大堡礁，荣耀罗马，水果爆破，矮人黄金，恶魔13，疯狂7s，勤劳蜜蜂。</li>
+                                <li>PP王者电子保留随时修改、暂停或取消推广活动的权利，恕不另行通知。</li>
+                            </ul>
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="point" id="div6">
+                        <div class="Round"></div>
+                        <h1 class="text">钱多多锦标赛 - 终极赛</h1>
+                    </div>
+                    <h4>2020/06/26 18:00</h4>
+                    <div class="evn-list">
+                        <h1>最高单次旋转奖金金额</h1>
+                        <span> @MoneyPrizeFin[9].ToString("#,##0")  @Currency </span>
+                        <div class="evn-img">
+                            <ul>
+                                <li><img src="@SkinRootPath/images/event/pp-evn3.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn4.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn2.jpg" /></li>
+                            </ul>
+                            <ul>
+                                <li><img src="@SkinRootPath/images/event/pp-evn1.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn5.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn7.jpg" /></li>
+                            </ul>
+                        </div>
+                        <h1>奖池</h1>
+                        <div class="rank">
+                            <div class="rank-list">
+                                <div class="table-header">
+                                    <div>排名</div>
+                                    <div>奖金</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>1</div>
+                                    <div>@MoneyPrizeFin[1].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>2</div>
+                                    <div>@MoneyPrizeFin[2].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>3</div>
+                                    <div>@MoneyPrizeFin[3].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>4-5</div>
+                                    <div>@MoneyPrizeFin[4].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>6-10</div>
+                                    <div>@MoneyPrizeFin[5].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>11-50</div>
+                                    <div>@MoneyPrizeFin[6].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>51-100</div>
+                                    <div>@MoneyPrizeFin[7].ToString("#,##0")</div>
+                                </div>
+                                <div class="table-body">
+                                    <div>101-150</div>
+                                    <div>@MoneyPrizeFin[8].ToString("#,##0")</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="terms">条款与规则<i class="icon icon-caret"></i></button>
+                        <div class="terms-list">
+                            <ul>
+                                <li>恭喜您已被邀请进入钱多多锦标赛-终极赛。</li>
+                                <li>PP王者锦标赛是比拼在活动期间最高单次旋转奖金金额。</li>
+                                <li>积分规则：积分=单局最高中奖金额/投注金额。</li>
+                                <li>锦标赛将于北京时间2020年6月26日18:00至2020年6月29日17:59举行。</li>
+                                <li>参赛游戏：所有PP王者电子老虎机游戏 除 财源滚滚，爱尔兰的魅力，富贵888，永恒钻石3线，黄金女王，桌面游戏和视频扑克游戏。</li>
+                                <li>每局最小投注额：@MinBet  @Currency 或等值货币。</li>
+                                <li>如果有两位或更多玩家的积分相同，则首先达到该积分的玩家将在排行榜上排名靠前, 获得更高名次奖金。</li>
+                                <li>锦标赛排行榜将会在活动指定游戏页面实时更新。</li>
+                                <li>PP王者电子保留随时修改、暂停或取消推广活动的权利，恕不另行通知。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="point" id="div7">
+                        <div class="Round"></div>
+                        <h1 class="text">天天赢 - 老虎机冠军</h1>
+                    </div>
+                    <h4>2020/06/26 18:00</h4>
+                    <div class="evn-list">
+                        <h1>天天赢 - 老虎机冠军</h1>
+                        <span> @FinBet @Currency </span>
+                        <div class="evn-img">
+                            <ul>
+                                <li><img src="@SkinRootPath/images/event/pp-evn1.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn2.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn3.jpg" /></li>
+                            </ul>
+                            <ul>
+                                <li><img src="@SkinRootPath/images/event/pp-evn4.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn5.jpg" /></li>
+                                <li><img src="@SkinRootPath/images/event/pp-evn6.jpg" /></li>
+                            </ul>
+                        </div>
+                        <button class="terms">条款与规则<i class="icon icon-caret"></i></button>
+                        <div class="terms-list">将于2020年6月1日公布!</div>
+                    </div>
+                    <div class="point">
+                        <div class="Round"></div>
+                        <h1 class="text">THE END</h1>
+                    </div>
+                    <h4>2020/10/27 17:59</h4>
+                </div>
+                <div class="evn-rules">
+                    <h3>活動条款与规则</h3>
+                    <ul>
+                        <li>每局最小投注额：@MinBet.ToString("#,##0") @Currency 或等值货币</li>
+                        <li>锦标赛参赛游戏：所有PP王者电子老虎机游戏 除 财源滚滚，爱尔兰的魅力，富贵888，永恒钻石3线，黄金女王，桌面游戏和视频扑克游戏。</li>
+                        <li>现金空投参赛游戏： 所有PP王者电子老虎机游戏 除桌面游戏，视频扑克，富贵888，永恒钻石3线，爱尔兰的魅力，财源滚滚，黄金女王，歌厅，曲棍球联盟，阿拉丁宝藏，月之女神，埃及传说，极速糖果，极速糖果冬日版，极速糖果情人版，极速糖果夏日版，幽灵财富，大堡礁，荣耀罗马，水果爆破，矮人黄金，恶魔13，疯狂7s，勤劳蜜蜂。</li>
+                        <li>玩家可以同时获得锦标赛和红包奖励</li>
+                        <li>如果有两位或更多玩家的积分相同，则首先达到该积分的玩家将在排行榜上排名靠前,将获得奖金。</li>
+                        <li>锦标赛排行榜将会在活动指定游戏页面实时更新。</li>
+                        <li>PP王者电子保留随时修改、暂停或取消推广活动的权利，恕不另行通知。</li>
+                    </ul>
+                </div>
+                <div class="min-bet">
+                    <h3>最低投注额</h3>
+                    <div class="rank-list">
+                        <div class="table-body">
+                            <div>
+                                <img src="@SkinRootPath/images/event/country/myr.png" />
+                                <span>MYR</span>
+                                <span>1.5</span>
+                            </div>
+                            <div>
+                                <img src="@SkinRootPath/images/event/country/usd.png" />
+                                <span>USD</span>
+                                <span>0.35</span>
+                            </div>
+                        </div>
+                        <div class="table-body">
+                            <div>
+                                <img src="@SkinRootPath/images/event/country/idr.png" />
+                                <span>IDR</span>
+                                <span>2000</span>
+                            </div>
+                            <div>
+                                <img src="@SkinRootPath/images/event/country/thb.png" />
+                                <span>THB</span>
+                                <span>10</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2020. Nova88. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
