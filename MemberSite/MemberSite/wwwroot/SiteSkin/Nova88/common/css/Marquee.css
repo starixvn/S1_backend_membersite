@@ -41,13 +41,6 @@
     border-color: transparent #ffffff transparent transparent;
     margin-left:20px;
 }
-.marquee-run{
-    animation: marquee 30s linear infinite;
-    position: absolute;
-    transform: translateX(-100%);
-    -ms-transform: translateX(-100%);
-    
-}
 .modalOpen{
     display: flex;
     justify-content: center;
@@ -67,19 +60,7 @@
 }
 .modal__header > .text{
     word-break: break-word;
-}
-.marquee-box > div:hover{
-    animation-play-state:paused;
-  }
-@keyframes marquee {
-    0% {
-        left: 100%;
-        transform: translateX(0%);
-        -ms-transform: translateX(0%);
-    }
-    100%{
-        left: 0;
-        transform: translateX(-100%);
-        -ms-transform: translateX(-100%);
-    }
+}  
+.marquee-run{
+    position: absolute;
 }

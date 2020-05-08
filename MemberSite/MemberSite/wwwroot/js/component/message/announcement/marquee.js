@@ -1,3 +1,4 @@
+
 (function ($, React, ReactDOM, i18n) {
 
     const MobileAndTabletCheck = ()=>{
@@ -9,13 +10,31 @@
     class Panel extends React.Component {
         constructor(props){
             super(props);
-            this.state = {datas: [], hover:false};
+            this.state = {datas: [], hover:false, pos:null, initWidth:0};
             this.ClickMarquee = this.ClickMarquee.bind(this);
             this.GetAnnouncement = this.GetAnnouncement.bind(this);
         }
         componentDidMount(){
             this.GetAnnouncement();
             this.intervalId = setInterval(this.GetAnnouncement, 60000);
+        }
+        SetPos=()=>{
+            if(this.state.prev!==null){
+                let outerBox = $(this.refs.content).width();
+                this.setState((prev)=>{
+                    if(prev.pos >= outerBox){
+                        return {pos:-prev.initWidth}
+                    }else{
+                        return  {pos:prev.pos+1.5}
+                    }
+                });
+            }
+        }
+        componentDidUpdate=()=>{
+            if(this.state.pos === null){
+                let pos = $(this.refs.marquee).width();
+                this.setState({pos:-pos, initWidth:pos});
+            }
         }
         GetAnnouncement(){
             axios.post(`/api/Message/GetAnnouncement/${SiteLanguage}`,{}).then(res=>{
@@ -39,6 +58,10 @@
                 }
 
                 if(upd){
+                    if(this.intervalId_Pos === undefined){
+                        this.intervalId_Pos = setInterval(this.SetPos, 25);
+                    }
+
                     this.setState({
                         datas:res.data.data.map(item=>{
                             return {
@@ -70,27 +93,31 @@
                 ShowLogin();
             }
         }
+        MarqueeOnMouseOver=()=>{
+            clearInterval(this.intervalId_Pos);
+        }
+        MarqueeOnMouseOut=()=>{
+            clearInterval(this.intervalId_Pos);
+            this.intervalId_Pos = setInterval(this.SetPos, 25);
+        }
         render () {
-            let total_char = 0;
-            
-            let rows = this.state.datas.map((item, idx)=>{
-                total_char += item.subject.length;
+            let rows = this.state.datas.map((item)=>{
+                
                 return (
-                    <button key={`announcement-${idx}`} style={{'paddingLeft':'2rem'}} onClick={this.ClickMarquee.bind(this, item)}>{item.subject}</button>
+                    <button
+                        onMouseOut={this.MarqueeOnMouseOut}
+                        onMouseOver={this.MarqueeOnMouseOver} key={`announcement-${item.id}`} style={{'paddingLeft':'2rem'}} onClick={this.ClickMarquee.bind(this, item)}>{item.subject}</button>
                 )
             });
 
-            let s = SiteLanguage == 'cs' || SiteLanguage == 'ch' ? total_char * 0.2 : total_char * 0.15;
-            s = s < 30 ? 30 : s;
-            let inlineStyle = {'animationDuration':`${s}s`};
-
+            let style = this.state.pos === null ? {} : {right:this.state.pos};
             return(
                 <a className="marquee">
                     <div>
                         <i className="icon icon-volume-on"></i>
                     </div>
                     <div ref="content" className="marquee-box">
-                        <div className="marquee-run" style={inlineStyle}>
+                        <div className="marquee-run" ref='marquee' style={style} >
                             { rows }
                         </div>
                     </div>
