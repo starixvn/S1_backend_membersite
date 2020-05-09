@@ -61,7 +61,7 @@
                     <h1>TRAVEL WITH YGGDRASIL</h1>
                     <h2>PROMOTION SCHEDULE</h2>
                     <h4 class="start">
-                        <div>Up Coming Promotion</div>
+                        Up Coming Promotion
                     </h4>
                     <h3>[ Enjoy the Sunshine ] Prize Drop</h3>
                     <h4>2020/5/11 (14:00) ~  2020/5/18 (23:59)  GMT+8</h4>
@@ -232,7 +232,7 @@
                             <div>
                                 <img src="@SkinRootPath/images/event/country/idr.png" />
                                 <span>IDR</span>
-                                <span>2000</span>
+                                <span>2,000</span>
                             </div>
                             <div>
                                 <img src="@SkinRootPath/images/event/country/thb.png" />
@@ -246,9 +246,22 @@
         </div>
         <div class="footer">
             <div class="footer__cpr">
-                <span class="text">© Copyright 2020. Nova88. All Rights Reserved.</span>
+                <span class="text">© Copyright 2020. @serverInfo.SiteName. All Rights Reserved.</span>
             </div>
         </div>
     </div>
+    <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.point').click(function () {
+                $('.point').removeClass('open')
+                $(this).addClass('open')
+            })
+            $('.terms').click(function () {
+                $(this).siblings('.terms-list').toggle()
+                $(this).children('i').toggleClass('open')
+            })
+        });
+    </script>
 </body>
 </html>
