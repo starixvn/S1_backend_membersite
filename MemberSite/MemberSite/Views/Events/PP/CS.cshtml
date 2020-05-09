@@ -14,7 +14,6 @@
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
-    var CmsEventPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Casino/{selLangBLL.GetLangId()}");
     var CurrencyId = 0;
     if (User.Identity.IsAuthenticated)
     {
@@ -30,6 +29,17 @@
     //ViewData["Title"].ToString("#,##0") = @selLangBLL.GetResourceValue("lbl_Promotions");
     Layout = null;
 
+    Dictionary<int, string> CurrencyDic = new Dictionary<int, string>() {
+           {2,"MYR"},
+           {3,"USD" },
+           {4,"THB" },
+           {13,"CNY" },
+           {15,"IDR" },
+           {51,"VND" }
+    };
+    string TpCurrency = CurrencyDic[CurrencyId];
+
+    //最低投注額
     Dictionary<int, double> MinBetDic = new Dictionary<int, double>() {
            {2,1.5},       //MYR
            {3,0.35 },     //USD
@@ -38,8 +48,10 @@
            {15,2000 },   //IDR
            {51,8000 }    //VND
     };
+    double MinBet = MinBetDic[CurrencyId];
 
-    Dictionary<int, decimal> FruitPrizeComm = new Dictionary<int, decimal>() {
+    //MYR
+    Dictionary<int, decimal> FruitPrizeComm_2 = new Dictionary<int, decimal>() {
         {1, 4000 },
         {2, 2800},
         {3, 2000 },
@@ -50,7 +62,7 @@
         {8, 40 },
         {9, 40000 }
     };
-    Dictionary<int, decimal> FruitPrizeCash = new Dictionary<int, decimal>() {
+    Dictionary<int, decimal> FruitPrizeCash_2 = new Dictionary<int, decimal>() {
         {1, 2400 },
         {2, 1200 },
         {3, 400 },
@@ -59,8 +71,7 @@
         {6, 20 },
         {7, 24000 }
     };
-
-    Dictionary<int, decimal> FruitPrizeFin = new Dictionary<int, decimal>() {
+    Dictionary<int, decimal> FruitPrizeFin_2 = new Dictionary<int, decimal>() {
         {1, 6000 },
         {2, 4000 },
         {3, 2800 },
@@ -71,8 +82,7 @@
         {8, 80 },
         {9, 48000 }
     };
-
-    Dictionary<int, decimal> MoneyPrizeComm = new Dictionary<int, decimal>() {
+    Dictionary<int, decimal> MoneyPrizeComm_2 = new Dictionary<int, decimal>() {
         {1, 4000 },
         {2, 2800 },
         {3, 2000 },
@@ -83,7 +93,7 @@
         {8, 40 },
         {9, 40000 }
     };
-    Dictionary<int, decimal> MoneyPrizeCash = new Dictionary<int, decimal>() {
+    Dictionary<int, decimal> MoneyPrizeCash_2 = new Dictionary<int, decimal>() {
         {1, 2400 },
         {2, 1200 },
         {3, 400 },
@@ -92,7 +102,7 @@
         {6, 20 },
         {7, 24000 }
     };
-    Dictionary<int, decimal> MoneyPrizeFin = new Dictionary<int, decimal>() {
+    Dictionary<int, decimal> MoneyPrizeFin_2 = new Dictionary<int, decimal>() {
         {1, 6000 },
         {2, 4000 },
         {3, 2800 },
@@ -103,7 +113,378 @@
         {8, 80 },
         {9, 48000 }
     };
-    double MinBet = MinBetDic[CurrencyId];
+    //USD
+    Dictionary<int, decimal> FruitPrizeComm_3 = new Dictionary<int, decimal>() {
+        {1, 1000 },
+        {2, 700 },
+        {3, 500 },
+        {4, 400 },
+        {5, 200 },
+        {6, 100 },
+        {7, 30 },
+        {8, 10 },
+        {9, 10000 }
+    };
+    Dictionary<int, decimal> FruitPrizeCash_3 = new Dictionary<int, decimal>() {
+        {1, 600 },
+        {2, 300 },
+        {3, 100 },
+        {4, 20 },
+        {5, 10 },
+        {6, 5 },
+        {7, 6000 }
+    };
+    Dictionary<int, decimal> FruitPrizeFin_3 = new Dictionary<int, decimal>() {
+        {1, 1500 },
+        {2, 1000 },
+        {3, 700 },
+        {4, 400 },
+        {5, 200 },
+        {6, 100 },
+        {7, 40 },
+        {8, 20 },
+        {9, 12000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeComm_3 = new Dictionary<int, decimal>() {
+        {1, 1000 },
+        {2, 700 },
+        {3, 500 },
+        {4, 400 },
+        {5, 200 },
+        {6, 100 },
+        {7, 30 },
+        {8, 10 },
+        {9, 10000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeCash_3 = new Dictionary<int, decimal>() {
+        {1, 600 },
+        {2, 300 },
+        {3, 100 },
+        {4, 20 },
+        {5, 10 },
+        {6, 5 },
+        {7, 6000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeFin_3 = new Dictionary<int, decimal>() {
+        {1, 1500 },
+        {2, 1000 },
+        {3, 700 },
+        {4, 400 },
+        {5, 200 },
+        {6, 100 },
+        {7, 40 },
+        {8, 20 },
+        {9, 12000 }
+    };
+    //THB
+    Dictionary<int, decimal> FruitPrizeComm_4 = new Dictionary<int, decimal>() {
+        {1,7000},
+        {2,4900},
+        {3,3500},
+        {4,2800},
+        {5,1400},
+        {6,700},
+        {7, 210 },
+        {8, 70 },
+        {9, 70000 }
+    };
+    Dictionary<int, decimal> FruitPrizeCash_4 = new Dictionary<int, decimal>() {
+        {1, 4200 },
+        {2, 2100 },
+        {3, 700 },
+        {4, 140 },
+        {5, 70 },
+        {6, 35 },
+        {7, 42000 }
+    };
+    Dictionary<int, decimal> FruitPrizeFin_4 = new Dictionary<int, decimal>() {
+        {1, 10500 },
+        {2, 7000 },
+        {3, 4900 },
+        {4, 2800 },
+        {5, 1400 },
+        {6, 700 },
+        {7, 280 },
+        {8, 140 },
+        {9, 84000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeComm_4 = new Dictionary<int, decimal>() {
+        {1, 7000 },
+        {2, 4900 },
+        {3, 3500 },
+        {4, 2800 },
+        {5, 1400 },
+        {6, 700 },
+        {7, 210 },
+        {8, 70 },
+        {9, 70000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeCash_4 = new Dictionary<int, decimal>() {
+        {1, 4200 },
+        {2, 2100 },
+        {3, 700 },
+        {4, 140 },
+        {5, 70 },
+        {6, 35 },
+        {7, 42000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeFin_4 = new Dictionary<int, decimal>() {
+        {1, 10500 },
+        {2, 7000 },
+        {3, 4900 },
+        {4, 2800 },
+        {5, 1400 },
+        {6, 700 },
+        {7, 280 },
+        {8, 140 },
+        {9, 84000 }
+    };
+    //CNY
+    Dictionary<int, decimal> FruitPrizeComm_13 = new Dictionary<int, decimal>() {
+        {1,7000},
+        {2,4900},
+        {3,3500},
+        {4,2800},
+        {5,1400},
+        {6,700},
+        {7, 210 },
+        {8, 70 },
+        {9, 70000 }
+    };
+    Dictionary<int, decimal> FruitPrizeCash_13 = new Dictionary<int, decimal>() {
+        {1, 4200 },
+        {2, 2100 },
+        {3, 700 },
+        {4, 140 },
+        {5, 70 },
+        {6, 35 },
+        {7, 42000 }
+    };
+    Dictionary<int, decimal> FruitPrizeFin_13 = new Dictionary<int, decimal>() {
+        {1, 10500 },
+        {2, 7000 },
+        {3, 4900 },
+        {4, 2800 },
+        {5, 1400 },
+        {6, 700 },
+        {7, 280 },
+        {8, 140 },
+        {9, 84000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeComm_13 = new Dictionary<int, decimal>() {
+        {1, 7000 },
+        {2, 4900 },
+        {3, 3500 },
+        {4, 2800 },
+        {5, 1400 },
+        {6, 700 },
+        {7, 210 },
+        {8, 70 },
+        {9, 70000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeCash_13 = new Dictionary<int, decimal>() {
+        {1, 4200 },
+        {2, 2100 },
+        {3, 700 },
+        {4, 140 },
+        {5, 70 },
+        {6, 35 },
+        {7, 42000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeFin_13 = new Dictionary<int, decimal>() {
+        {1, 10500 },
+        {2, 7000 },
+        {3, 4900 },
+        {4, 2800 },
+        {5, 1400 },
+        {6, 700 },
+        {7, 280 },
+        {8, 140 },
+        {9, 84000 }
+    };
+    //IDR
+    Dictionary<int, decimal> FruitPrizeComm_15 = new Dictionary<int, decimal>() {
+        {1,15000000},
+        {2,10500000},
+        {3,7500000},
+        {4,6000000},
+        {5,3000000},
+        {6,1500000},
+        {7,450000},
+        {8,150000},
+        {9,150000000}
+    };
+    Dictionary<int, decimal> FruitPrizeCash_15 = new Dictionary<int, decimal>() {
+        {1,9000000},
+        {2,4500000},
+        {3,1500000},
+        {4,300000},
+        {5,150000},
+        {6,75000},
+        {7,90000000}
+    };
+    Dictionary<int, decimal> FruitPrizeFin_15 = new Dictionary<int, decimal>() {
+        {1,22500000},
+        {2,15000000},
+        {3,10500000},
+        {4,6000000},
+        {5,3000000},
+        {6,1500000},
+        {7,600000},
+        {8,300000},
+        {9,180000000}
+    };
+    Dictionary<int, decimal> MoneyPrizeComm_15 = new Dictionary<int, decimal>() {
+        {1,15000000},
+        {2,10500000},
+        {3,7500000},
+        {4,6000000},
+        {5,3000000},
+        {6,1500000},
+        {7,450000},
+        {8,150000},
+        {9,150000000}
+    };
+    Dictionary<int, decimal> MoneyPrizeCash_15 = new Dictionary<int, decimal>() {
+        {1,9000000},
+        {2,4500000},
+        {3,1500000},
+        {4,300000},
+        {5,150000},
+        {6,75000},
+        {7,90000000}
+    };
+    Dictionary<int, decimal> MoneyPrizeFin_15 = new Dictionary<int, decimal>() {
+        {1,15000000},
+        {2,10500000},
+        {3,7500000},
+        {4,6000000},
+        {5,3000000},
+        {6,1500000},
+        {7,450000},
+        {8,150000},
+        {9,150000000}
+    };
+
+    //VND
+    Dictionary<int, decimal> FruitPrizeComm_51 = new Dictionary<int, decimal>() {
+        {1,23000000},
+        {2,16100000},
+        {3,11500000},
+        {4,9200000},
+        {5,4600000},
+        {6,2300000},
+        {7,690000},
+        {8,230000},
+        {9,230000000}
+    };
+    Dictionary<int, decimal> FruitPrizeCash_51 = new Dictionary<int, decimal>() {
+        {1, 13800000    },
+        {2, 6900000 },
+        {3, 2300000 },
+        {4, 460000  },
+        {5, 230000  },
+        {6, 115000  },
+        {7, 138000000   }
+    };
+    Dictionary<int, decimal> FruitPrizeFin_51 = new Dictionary<int, decimal>() {
+        {1, 34500000    },
+        {2, 23000000    },
+        {3, 16100000    },
+        {4, 9200000 },
+        {5, 4600000 },
+        {6, 2300000 },
+        {7, 920000  },
+        {8, 460000  },
+        {9, 276000000   }
+    };
+    Dictionary<int, decimal> MoneyPrizeComm_51 = new Dictionary<int, decimal>() {
+        {1,23000000},
+        {2,16100000},
+        {3,11500000},
+        {4,9200000},
+        {5,4600000},
+        {6,2300000},
+        {7,690000},
+        {8,230000},
+        {9,230000000}
+    };
+    Dictionary<int, decimal> MoneyPrizeCash_51 = new Dictionary<int, decimal>() {
+        {1, 13800000    },
+        {2, 6900000 },
+        {3, 2300000 },
+        {4, 460000  },
+        {5, 230000  },
+        {6, 115000  },
+        {7, 138000000   }
+    };
+    Dictionary<int, decimal> MoneyPrizeFin_51 = new Dictionary<int, decimal>() {
+        {1, 34500000    },
+        {2, 23000000    },
+        {3, 16100000    },
+        {4, 9200000 },
+        {5, 4600000 },
+        {6, 2300000 },
+        {7, 920000  },
+        {8, 460000  },
+        {9, 276000000   }
+    };
+
+    Dictionary<int, Dictionary<int, decimal>> MappingCurr_FPComm = new Dictionary<int, Dictionary<int, decimal>>();
+    MappingCurr_FPComm.Add(2, FruitPrizeComm_2);
+    MappingCurr_FPComm.Add(3, FruitPrizeComm_3);
+    MappingCurr_FPComm.Add(4, FruitPrizeComm_4);
+    MappingCurr_FPComm.Add(13, FruitPrizeComm_13);
+    MappingCurr_FPComm.Add(15, FruitPrizeComm_15);
+    MappingCurr_FPComm.Add(51, FruitPrizeComm_51);
+
+    Dictionary<int, Dictionary<int, decimal>> MappingCurr_FPCash = new Dictionary<int, Dictionary<int, decimal>>();
+    MappingCurr_FPCash.Add(2, FruitPrizeCash_2);
+    MappingCurr_FPCash.Add(3, FruitPrizeCash_3);
+    MappingCurr_FPCash.Add(4, FruitPrizeCash_4);
+    MappingCurr_FPCash.Add(13, FruitPrizeCash_13);
+    MappingCurr_FPCash.Add(15, FruitPrizeCash_15);
+    MappingCurr_FPCash.Add(51, FruitPrizeCash_51);
+
+    Dictionary<int, Dictionary<int, decimal>> MappingCurr_FPFin = new Dictionary<int, Dictionary<int, decimal>>();
+    MappingCurr_FPFin.Add(2, FruitPrizeFin_2);
+    MappingCurr_FPFin.Add(3, FruitPrizeFin_3);
+    MappingCurr_FPFin.Add(4, FruitPrizeFin_4);
+    MappingCurr_FPFin.Add(13, FruitPrizeFin_13);
+    MappingCurr_FPFin.Add(15, FruitPrizeFin_15);
+    MappingCurr_FPFin.Add(51, FruitPrizeFin_51);
+
+    Dictionary<int, Dictionary<int, decimal>> MappingCurr_MPComm = new Dictionary<int, Dictionary<int, decimal>>();
+    MappingCurr_MPComm.Add(2, MoneyPrizeComm_2);
+    MappingCurr_MPComm.Add(3, MoneyPrizeComm_3);
+    MappingCurr_MPComm.Add(4, MoneyPrizeComm_4);
+    MappingCurr_MPComm.Add(13, MoneyPrizeComm_13);
+    MappingCurr_MPComm.Add(15, MoneyPrizeComm_15);
+    MappingCurr_MPComm.Add(51, MoneyPrizeComm_51);
+
+    Dictionary<int, Dictionary<int, decimal>> MappingCurr_MPCash = new Dictionary<int, Dictionary<int, decimal>>();
+    MappingCurr_MPCash.Add(2, MoneyPrizeCash_2);
+    MappingCurr_MPCash.Add(3, MoneyPrizeCash_3);
+    MappingCurr_MPCash.Add(4, MoneyPrizeCash_4);
+    MappingCurr_MPCash.Add(13, MoneyPrizeCash_13);
+    MappingCurr_MPCash.Add(15, MoneyPrizeCash_15);
+    MappingCurr_MPCash.Add(51, MoneyPrizeCash_51);
+
+    Dictionary<int, Dictionary<int, decimal>> MappingCurr_MPFin = new Dictionary<int, Dictionary<int, decimal>>();
+    MappingCurr_MPFin.Add(2, MoneyPrizeFin_2);
+    MappingCurr_MPFin.Add(3, MoneyPrizeFin_3);
+    MappingCurr_MPFin.Add(4, MoneyPrizeFin_4);
+    MappingCurr_MPFin.Add(13, MoneyPrizeFin_13);
+    MappingCurr_MPFin.Add(15, MoneyPrizeFin_15);
+    MappingCurr_MPFin.Add(51, MoneyPrizeFin_51);
+
+    Dictionary<int, decimal> FruitPrizeComm = MappingCurr_FPComm[CurrencyId];
+    Dictionary<int, decimal> FruitPrizeCash = MappingCurr_FPCash[CurrencyId];
+    Dictionary<int, decimal> FruitPrizeFin = MappingCurr_FPFin[CurrencyId];
+    Dictionary<int, decimal> MoneyPrizeComm = MappingCurr_MPComm[CurrencyId];
+    Dictionary<int, decimal> MoneyPrizeCash = MappingCurr_MPCash[CurrencyId];
+    Dictionary<int, decimal> MoneyPrizeFin = MappingCurr_MPFin[CurrencyId];
+
     //天天赢 - 老虎机冠军
     decimal FinBet = 2660000;
 }
@@ -120,41 +501,6 @@
     <link href="@SkinRootPath/css/event-pp.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
-    @if (environment.EnvironmentName == "Development")
-    {
-        if (!tools.IsMobile())
-        {
-            <script src="~/lib/es6-promise.min.js"></script>
-            <script src="~/lib/es6-promise.auto.min.js"></script>
-        }
-        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
-        <script src="~/lib/react.development.js"></script>
-        <script src="~/lib/react-dom.development.js"></script>
-        <script src="~/lib/babel.min.js"></script>
-    }
-    else
-    {
-        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
-        <script src="~/lib/react.production.min.js"></script>
-        <script src="~/lib/react-dom.production.min.js"></script>
-        if (!tools.IsMobile())
-        {
-            <script src="~/lib/es6-promise.min.js"></script>
-            <script src="~/lib/es6-promise.auto.min.js"></script>
-        }
-    }
-    <script type="text/javascript">
-        $(function () {
-            $('.point').click(function () {
-                $('.point').removeClass('open')
-                $(this).addClass('open')
-            })
-            $('.terms').click(function () {
-                $(this).siblings('.terms-list').toggle()
-                $(this).children('i').toggleClass('open')
-            })
-        });
-    </script>
     <div class="app app--help">
         <div class="header">
             <div class="header__main">
@@ -165,7 +511,7 @@
         </div>
         <div class="main">
             <div class="evn-banner">
-                <img src="@CmsEventPath/event-pp-20200508.png" />
+                <img src="@SkinRootPath/images/event/@TpCurrency-banner_pp.jpg" />
             </div>
             <div class="info">
                 <div class="evn-time">
@@ -748,9 +1094,22 @@
         </div>
         <div class="footer">
             <div class="footer__cpr">
-                <span class="text">© Copyright 2020. Nova88. All Rights Reserved.</span>
+                <span class="text">© Copyright 2020. @serverInfo.SiteName. All Rights Reserved.</span>
             </div>
         </div>
     </div>
+    <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.point').click(function () {
+                $('.point').removeClass('open');
+                $(this).addClass('open');
+            });
+            $('.terms').click(function () {
+                $(this).siblings('.terms-list').toggle();
+                $(this).children('i').toggleClass('open');
+            });
+        });
+    </script>
 </body>
 </html>

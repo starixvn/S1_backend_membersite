@@ -29,7 +29,6 @@
 
     //ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
     Layout = null;
-
 }
 
 <html lang="@selLangBLL.GetLangId()" data-layout="@(tools.IsMobile() ? "mobile" : "desktop")">
@@ -254,13 +253,13 @@
     <script type="text/javascript">
         $(function () {
             $('.point').click(function () {
-                $('.point').removeClass('open')
-                $(this).addClass('open')
-            })
+                $('.point').removeClass('open');
+                $(this).addClass('open');
+            });
             $('.terms').click(function () {
-                $(this).siblings('.terms-list').toggle()
-                $(this).children('i').toggleClass('open')
-            })
+                $(this).siblings('.terms-list').toggle();
+                $(this).children('i').toggleClass('open');
+            });
         });
     </script>
 </body>

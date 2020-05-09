@@ -14,8 +14,8 @@
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
-    var CmsEventPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Casino/{selLangBLL.GetLangId()}");
     var CurrencyId = 0;
+
     if (User.Identity.IsAuthenticated)
     {
         var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
@@ -30,7 +30,154 @@
     //ViewData["Title"].ToString("#,##0") = @selLangBLL.GetResourceValue("lbl_Promotions");
     Layout = null;
 
-    Dictionary<int, decimal> FruitPrizeComm = new Dictionary<int, decimal>() {
+    Dictionary<int, string> CurrencyDic = new Dictionary<int, string>() {
+           {2,"MYR"},
+           {3,"USD" },
+           {4,"THB" },
+           {13,"CNY" },
+           {15,"IDR" },
+           {51,"VND" }
+    };
+    string TpCurrency = CurrencyDic[CurrencyId];
+    //最低投注額
+    Dictionary<int, double> MinBetDic = new Dictionary<int, double>() {
+           {2,1.5},       //MYR
+           {3,0.35 },     //USD
+           {4,10 },       //THB
+           {13,2.5 },     //CNY
+           {15,2000 },   //IDR
+           {51,8000 }    //VND
+    };
+    double MinBet = MinBetDic[CurrencyId];
+
+    //MYR
+    Dictionary<int, decimal> FruitPrizeComm_2 = new Dictionary<int, decimal>() {
+        {1, 4000 },
+        {2, 2800},
+        {3, 2000 },
+        {4, 1600 },
+        {5, 800 },
+        {6, 400 },
+        {7, 120 },
+        {8, 40 },
+        {9, 40000 }
+    };
+    Dictionary<int, decimal> FruitPrizeCash_2 = new Dictionary<int, decimal>() {
+        {1, 2400 },
+        {2, 1200 },
+        {3, 400 },
+        {4, 80 },
+        {5, 40 },
+        {6, 20 },
+        {7, 24000 }
+    };
+    Dictionary<int, decimal> FruitPrizeFin_2 = new Dictionary<int, decimal>() {
+        {1, 6000 },
+        {2, 4000 },
+        {3, 2800 },
+        {4, 1600 },
+        {5, 800 },
+        {6, 400 },
+        {7, 160 },
+        {8, 80 },
+        {9, 48000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeComm_2 = new Dictionary<int, decimal>() {
+        {1, 4000 },
+        {2, 2800 },
+        {3, 2000 },
+        {4, 1600 },
+        {5, 800 },
+        {6, 400 },
+        {7, 120 },
+        {8, 40 },
+        {9, 40000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeCash_2 = new Dictionary<int, decimal>() {
+        {1, 2400 },
+        {2, 1200 },
+        {3, 400 },
+        {4, 80 },
+        {5, 40 },
+        {6, 20 },
+        {7, 24000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeFin_2 = new Dictionary<int, decimal>() {
+        {1, 6000 },
+        {2, 4000 },
+        {3, 2800 },
+        {4, 1600 },
+        {5, 800 },
+        {6, 400 },
+        {7, 160 },
+        {8, 80 },
+        {9, 48000 }
+    };
+    //USD
+    Dictionary<int, decimal> FruitPrizeComm_3 = new Dictionary<int, decimal>() {
+        {1, 1000 },
+        {2, 700 },
+        {3, 500 },
+        {4, 400 },
+        {5, 200 },
+        {6, 100 },
+        {7, 30 },
+        {8, 10 },
+        {9, 10000 }
+    };
+    Dictionary<int, decimal> FruitPrizeCash_3 = new Dictionary<int, decimal>() {
+        {1, 600 },
+        {2, 300 },
+        {3, 100 },
+        {4, 20 },
+        {5, 10 },
+        {6, 5 },
+        {7, 6000 }
+    };
+    Dictionary<int, decimal> FruitPrizeFin_3 = new Dictionary<int, decimal>() {
+        {1, 1500 },
+        {2, 1000 },
+        {3, 700 },
+        {4, 400 },
+        {5, 200 },
+        {6, 100 },
+        {7, 40 },
+        {8, 20 },
+        {9, 12000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeComm_3 = new Dictionary<int, decimal>() {
+        {1, 1000 },
+        {2, 700 },
+        {3, 500 },
+        {4, 400 },
+        {5, 200 },
+        {6, 100 },
+        {7, 30 },
+        {8, 10 },
+        {9, 10000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeCash_3 = new Dictionary<int, decimal>() {
+        {1, 600 },
+        {2, 300 },
+        {3, 100 },
+        {4, 20 },
+        {5, 10 },
+        {6, 5 },
+        {7, 6000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeFin_3 = new Dictionary<int, decimal>() {
+        {1, 1500 },
+        {2, 1000 },
+        {3, 700 },
+        {4, 400 },
+        {5, 200 },
+        {6, 100 },
+        {7, 40 },
+        {8, 20 },
+        {9, 12000 }
+    };
+    //THB
+    Dictionary<int, decimal> FruitPrizeComm_4 = new Dictionary<int, decimal>() {
         {1,7000},
         {2,4900},
         {3,3500},
@@ -41,7 +188,7 @@
         {8, 70 },
         {9, 70000 }
     };
-    Dictionary<int, decimal> FruitPrizeCash = new Dictionary<int, decimal>() {
+    Dictionary<int, decimal> FruitPrizeCash_4 = new Dictionary<int, decimal>() {
         {1, 4200 },
         {2, 2100 },
         {3, 700 },
@@ -50,8 +197,7 @@
         {6, 35 },
         {7, 42000 }
     };
-
-    Dictionary<int, decimal> FruitPrizeFin = new Dictionary<int, decimal>() {
+    Dictionary<int, decimal> FruitPrizeFin_4 = new Dictionary<int, decimal>() {
         {1, 10500 },
         {2, 7000 },
         {3, 4900 },
@@ -62,8 +208,7 @@
         {8, 140 },
         {9, 84000 }
     };
-
-    Dictionary<int, decimal> MoneyPrizeComm = new Dictionary<int, decimal>() {
+    Dictionary<int, decimal> MoneyPrizeComm_4 = new Dictionary<int, decimal>() {
         {1, 7000 },
         {2, 4900 },
         {3, 3500 },
@@ -74,7 +219,7 @@
         {8, 70 },
         {9, 70000 }
     };
-    Dictionary<int, decimal> MoneyPrizeCash = new Dictionary<int, decimal>() {
+    Dictionary<int, decimal> MoneyPrizeCash_4 = new Dictionary<int, decimal>() {
         {1, 4200 },
         {2, 2100 },
         {3, 700 },
@@ -83,7 +228,7 @@
         {6, 35 },
         {7, 42000 }
     };
-    Dictionary<int, decimal> MoneyPrizeFin = new Dictionary<int, decimal>() {
+    Dictionary<int, decimal> MoneyPrizeFin_4 = new Dictionary<int, decimal>() {
         {1, 10500 },
         {2, 7000 },
         {3, 4900 },
@@ -94,8 +239,252 @@
         {8, 140 },
         {9, 84000 }
     };
+    //CNY
+    Dictionary<int, decimal> FruitPrizeComm_13 = new Dictionary<int, decimal>() {
+        {1,7000},
+        {2,4900},
+        {3,3500},
+        {4,2800},
+        {5,1400},
+        {6,700},
+        {7, 210 },
+        {8, 70 },
+        {9, 70000 }
+    };
+    Dictionary<int, decimal> FruitPrizeCash_13 = new Dictionary<int, decimal>() {
+        {1, 4200 },
+        {2, 2100 },
+        {3, 700 },
+        {4, 140 },
+        {5, 70 },
+        {6, 35 },
+        {7, 42000 }
+    };
+    Dictionary<int, decimal> FruitPrizeFin_13 = new Dictionary<int, decimal>() {
+        {1, 10500 },
+        {2, 7000 },
+        {3, 4900 },
+        {4, 2800 },
+        {5, 1400 },
+        {6, 700 },
+        {7, 280 },
+        {8, 140 },
+        {9, 84000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeComm_13 = new Dictionary<int, decimal>() {
+        {1, 7000 },
+        {2, 4900 },
+        {3, 3500 },
+        {4, 2800 },
+        {5, 1400 },
+        {6, 700 },
+        {7, 210 },
+        {8, 70 },
+        {9, 70000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeCash_13 = new Dictionary<int, decimal>() {
+        {1, 4200 },
+        {2, 2100 },
+        {3, 700 },
+        {4, 140 },
+        {5, 70 },
+        {6, 35 },
+        {7, 42000 }
+    };
+    Dictionary<int, decimal> MoneyPrizeFin_13 = new Dictionary<int, decimal>() {
+        {1, 10500 },
+        {2, 7000 },
+        {3, 4900 },
+        {4, 2800 },
+        {5, 1400 },
+        {6, 700 },
+        {7, 280 },
+        {8, 140 },
+        {9, 84000 }
+    };
+    //IDR
+    Dictionary<int, decimal> FruitPrizeComm_15 = new Dictionary<int, decimal>() {
+        {1,15000000},
+        {2,10500000},
+        {3,7500000},
+        {4,6000000},
+        {5,3000000},
+        {6,1500000},
+        {7,450000},
+        {8,150000},
+        {9,150000000}
+    };
+    Dictionary<int, decimal> FruitPrizeCash_15 = new Dictionary<int, decimal>() {
+        {1,9000000},
+        {2,4500000},
+        {3,1500000},
+        {4,300000},
+        {5,150000},
+        {6,75000},
+        {7,90000000}
+    };
+    Dictionary<int, decimal> FruitPrizeFin_15 = new Dictionary<int, decimal>() {
+        {1,22500000},
+        {2,15000000},
+        {3,10500000},
+        {4,6000000},
+        {5,3000000},
+        {6,1500000},
+        {7,600000},
+        {8,300000},
+        {9,180000000}
+    };
+    Dictionary<int, decimal> MoneyPrizeComm_15 = new Dictionary<int, decimal>() {
+        {1,15000000},
+        {2,10500000},
+        {3,7500000},
+        {4,6000000},
+        {5,3000000},
+        {6,1500000},
+        {7,450000},
+        {8,150000},
+        {9,150000000}
+    };
+    Dictionary<int, decimal> MoneyPrizeCash_15 = new Dictionary<int, decimal>() {
+        {1,9000000},
+        {2,4500000},
+        {3,1500000},
+        {4,300000},
+        {5,150000},
+        {6,75000},
+        {7,90000000}
+    };
+    Dictionary<int, decimal> MoneyPrizeFin_15 = new Dictionary<int, decimal>() {
+        {1,15000000},
+        {2,10500000},
+        {3,7500000},
+        {4,6000000},
+        {5,3000000},
+        {6,1500000},
+        {7,450000},
+        {8,150000},
+        {9,150000000}
+    };
 
-    double MinBet = 2.5;
+    //VND
+    Dictionary<int, decimal> FruitPrizeComm_51 = new Dictionary<int, decimal>() {
+        {1,23000000},
+        {2,16100000},
+        {3,11500000},
+        {4,9200000},
+        {5,4600000},
+        {6,2300000},
+        {7,690000},
+        {8,230000},
+        {9,230000000}
+    };
+    Dictionary<int, decimal> FruitPrizeCash_51 = new Dictionary<int, decimal>() {
+        {1, 13800000    },
+        {2, 6900000 },
+        {3, 2300000 },
+        {4, 460000  },
+        {5, 230000  },
+        {6, 115000  },
+        {7, 138000000   }
+    };
+    Dictionary<int, decimal> FruitPrizeFin_51 = new Dictionary<int, decimal>() {
+        {1, 34500000    },
+        {2, 23000000    },
+        {3, 16100000    },
+        {4, 9200000 },
+        {5, 4600000 },
+        {6, 2300000 },
+        {7, 920000  },
+        {8, 460000  },
+        {9, 276000000   }
+    };
+    Dictionary<int, decimal> MoneyPrizeComm_51 = new Dictionary<int, decimal>() {
+        {1,23000000},
+        {2,16100000},
+        {3,11500000},
+        {4,9200000},
+        {5,4600000},
+        {6,2300000},
+        {7,690000},
+        {8,230000},
+        {9,230000000}
+    };
+    Dictionary<int, decimal> MoneyPrizeCash_51 = new Dictionary<int, decimal>() {
+        {1, 13800000    },
+        {2, 6900000 },
+        {3, 2300000 },
+        {4, 460000  },
+        {5, 230000  },
+        {6, 115000  },
+        {7, 138000000   }
+    };
+    Dictionary<int, decimal> MoneyPrizeFin_51 = new Dictionary<int, decimal>() {
+        {1, 34500000    },
+        {2, 23000000    },
+        {3, 16100000    },
+        {4, 9200000 },
+        {5, 4600000 },
+        {6, 2300000 },
+        {7, 920000  },
+        {8, 460000  },
+        {9, 276000000   }
+    };
+
+    Dictionary<int, Dictionary<int, decimal>> MappingCurr_FPComm = new Dictionary<int, Dictionary<int, decimal>>();
+    MappingCurr_FPComm.Add(2, FruitPrizeComm_2);
+    MappingCurr_FPComm.Add(3, FruitPrizeComm_3);
+    MappingCurr_FPComm.Add(4, FruitPrizeComm_4);
+    MappingCurr_FPComm.Add(13, FruitPrizeComm_13);
+    MappingCurr_FPComm.Add(15, FruitPrizeComm_15);
+    MappingCurr_FPComm.Add(51, FruitPrizeComm_51);
+
+    Dictionary<int, Dictionary<int, decimal>> MappingCurr_FPCash = new Dictionary<int, Dictionary<int, decimal>>();
+    MappingCurr_FPCash.Add(2, FruitPrizeCash_2);
+    MappingCurr_FPCash.Add(3, FruitPrizeCash_3);
+    MappingCurr_FPCash.Add(4, FruitPrizeCash_4);
+    MappingCurr_FPCash.Add(13, FruitPrizeCash_13);
+    MappingCurr_FPCash.Add(15, FruitPrizeCash_15);
+    MappingCurr_FPCash.Add(51, FruitPrizeCash_51);
+
+    Dictionary<int, Dictionary<int, decimal>> MappingCurr_FPFin = new Dictionary<int, Dictionary<int, decimal>>();
+    MappingCurr_FPFin.Add(2, FruitPrizeFin_2);
+    MappingCurr_FPFin.Add(3, FruitPrizeFin_3);
+    MappingCurr_FPFin.Add(4, FruitPrizeFin_4);
+    MappingCurr_FPFin.Add(13, FruitPrizeFin_13);
+    MappingCurr_FPFin.Add(15, FruitPrizeFin_15);
+    MappingCurr_FPFin.Add(51, FruitPrizeFin_51);
+
+    Dictionary<int, Dictionary<int, decimal>> MappingCurr_MPComm = new Dictionary<int, Dictionary<int, decimal>>();
+    MappingCurr_MPComm.Add(2, MoneyPrizeComm_2);
+    MappingCurr_MPComm.Add(3, MoneyPrizeComm_3);
+    MappingCurr_MPComm.Add(4, MoneyPrizeComm_4);
+    MappingCurr_MPComm.Add(13, MoneyPrizeComm_13);
+    MappingCurr_MPComm.Add(15, MoneyPrizeComm_15);
+    MappingCurr_MPComm.Add(51, MoneyPrizeComm_51);
+
+    Dictionary<int, Dictionary<int, decimal>> MappingCurr_MPCash = new Dictionary<int, Dictionary<int, decimal>>();
+    MappingCurr_MPCash.Add(2, MoneyPrizeCash_2);
+    MappingCurr_MPCash.Add(3, MoneyPrizeCash_3);
+    MappingCurr_MPCash.Add(4, MoneyPrizeCash_4);
+    MappingCurr_MPCash.Add(13, MoneyPrizeCash_13);
+    MappingCurr_MPCash.Add(15, MoneyPrizeCash_15);
+    MappingCurr_MPCash.Add(51, MoneyPrizeCash_51);
+
+    Dictionary<int, Dictionary<int, decimal>> MappingCurr_MPFin = new Dictionary<int, Dictionary<int, decimal>>();
+    MappingCurr_MPFin.Add(2, MoneyPrizeFin_2);
+    MappingCurr_MPFin.Add(3, MoneyPrizeFin_3);
+    MappingCurr_MPFin.Add(4, MoneyPrizeFin_4);
+    MappingCurr_MPFin.Add(13, MoneyPrizeFin_13);
+    MappingCurr_MPFin.Add(15, MoneyPrizeFin_15);
+    MappingCurr_MPFin.Add(51, MoneyPrizeFin_51);
+
+    Dictionary<int, decimal> FruitPrizeComm = MappingCurr_FPComm[CurrencyId];
+    Dictionary<int, decimal> FruitPrizeCash = MappingCurr_FPCash[CurrencyId];
+    Dictionary<int, decimal> FruitPrizeFin = MappingCurr_FPFin[CurrencyId];
+    Dictionary<int, decimal> MoneyPrizeComm = MappingCurr_MPComm[CurrencyId];
+    Dictionary<int, decimal> MoneyPrizeCash = MappingCurr_MPCash[CurrencyId];
+    Dictionary<int, decimal> MoneyPrizeFin = MappingCurr_MPFin[CurrencyId];
+
     //天天赢 - 老虎机冠军
     decimal FinBet = 2660000;
 }
@@ -112,41 +501,6 @@
     <link href="@SkinRootPath/css/event-pp.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
-    @if (environment.EnvironmentName == "Development")
-    {
-        if (!tools.IsMobile())
-        {
-            <script src="~/lib/es6-promise.min.js"></script>
-            <script src="~/lib/es6-promise.auto.min.js"></script>
-        }
-        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
-        <script src="~/lib/react.development.js"></script>
-        <script src="~/lib/react-dom.development.js"></script>
-        <script src="~/lib/babel.min.js"></script>
-    }
-    else
-    {
-        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
-        <script src="~/lib/react.production.min.js"></script>
-        <script src="~/lib/react-dom.production.min.js"></script>
-        if (!tools.IsMobile())
-        {
-            <script src="~/lib/es6-promise.min.js"></script>
-            <script src="~/lib/es6-promise.auto.min.js"></script>
-        }
-    }
-    <script type="text/javascript">
-        $(function () {
-            $('.point').click(function () {
-                $('.point').removeClass('open')
-                $(this).addClass('open')
-            })
-            $('.terms').click(function () {
-                $(this).siblings('.terms-list').toggle()
-                $(this).children('i').toggleClass('open')
-            })
-        });
-    </script>
     <div class="app app--help">
         <div class="header">
             <div class="header__main">
@@ -157,19 +511,25 @@
         </div>
         <div class="main">
             <div class="evn-banner">
-                <img src="@CmsEventPath/event-pp-20200508.png" />
+                <img src="@SkinRootPath/images/event/@TpCurrency-banner_pp.jpg" />
             </div>
             <div class="info">
                 <div class="evn-time">
-                    <h1>“天天送”老虎机锦标赛</h1>
-                    <h2>老虎机锦标赛时间表</h2>
-                    <h4 class="start">即将开始</h4>
-                    <h3>水果派对: 锦标赛,现金空投& 冠军赛</h3>
-                    <h4>2020/5/12 (18:00) ~  2020/6/8 (17:59) 北京时间</h4>
-                    <h3>钱多多: 锦标赛,现金空投& 冠军赛</h3>
-                    <h4>2020/6/2/ (18:00) ~ 2020/6/29 (17:59) 北京时间</h4>
-                    <h3>更多天天送-老虎机锦标赛详情</h3>
-                    <h4>2020/6/23 (18:00) ~ 2020/10/27 (17:59) 北京时间</h4>
+                    <h1>
+                        “天天送”老虎機錦標賽
+                    </h1>
+                    <h2>老虎機錦標賽時間表</h2>
+                    <h4 class="start">
+                        即將開始
+                    </h4>
+                    <h3>水果派對: 錦標賽,現金空投& 冠軍賽</h3>
+                    <h4>2020/5/12 (18:00) ~  2020/6/8 (17:59) 北京時間</h4>
+                    <h3>錢多多: 錦標賽,現金空投& 冠軍賽</h3>
+                    <h4>2020/6/2/ (18:00) ~ 2020/6/29 (17:59) 北京時間</h4>
+                    <h3>
+                        更多天天送-老虎機錦標賽詳情
+                    </h3>
+                    <h4>2020/6/23 (18:00) ~ 2020/10/27 (17:59) 北京時間</h4>
                 </div>
                 <div class="evn-time-line">
                     <div class="point">
@@ -179,11 +539,13 @@
                     <h4>2020/05/12 18:00</h4>
                     <div class="point open" id="div1">
                         <div class="Round"></div>
-                        <h1 class="text">水果派对锦标赛</h1>
+                        <h1 class="text">水果派對錦標賽</h1>
                     </div>
                     <h4>2020/05/12 18:00</h4>
                     <div class="evn-list">
-                        <h1>单次最高旋转奖金金额</h1>
+                        <h1>
+                            單次最高旋轉獎金金額
+                        </h1>
                         <span> @FruitPrizeComm[9].ToString("#,##0")  @Currency / 周</span>
                         <div class="evn-img">
                             <ul>
@@ -197,12 +559,14 @@
                                 <li><img src="@SkinRootPath/images/event/pp-evn6.jpg" /></li>
                             </ul>
                         </div>
-                        <h1>奖池</h1>
+                        <h1>獎池</h1>
                         <div class="rank">
                             <div class="rank-list">
                                 <div class="table-header">
                                     <div>排名</div>
-                                    <div>奖金</div>
+                                    <div>
+                                        獎金
+                                    </div>
                                 </div>
                                 <div class="table-body">
                                     <div>1</div>
@@ -238,35 +602,47 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="terms">条款与规则<i class="icon icon-caret"></i></button>
+                        <button class="terms">條款與規則<i class="icon icon-caret"></i></button>
                         <div class="terms-list">
                             <ul>
-                                <li>锦标赛是比拼在活动期间最高单次旋转奖金金额。</li>
-                                <li>积分规则：积分=单局最高中奖金额/投注金额。</li>
-                                <li>在每周排行榜上排名前5000名的玩家将会赢得2020年6月5日18点举行的终极锦标赛的门票。</li>
+                                <li>錦標賽是比拼在活動期間最高單次旋轉獎金金額。</li>
+                                <li>積分規則：積分=單局最高中獎金額/投注金額。</li>
                                 <li>
-                                    锦标赛将于2020年5月12日至2020年6月02日每周二18:00至下周二17:59 GMT+8 举行，一共3场：
+                                    在每週排行榜上排名前5000名的玩家將會贏得2020年6月5日18點舉行的終極錦標賽的門票。
+                                </li>
+                                <li>
+                                    錦標賽將於2020年5月12日至2020年6月02日每週二18:00至下週二17:59 GMT+8 舉行，一共3場：
                                     <ul>
-                                        <li>2020年5月12日18:00至2020年5月19日17:59 GMT+8（北京时间）</li>
-                                        <li>2020年5月19日18:00至2020年5月26日17:59 GMT+8（北京时间）</li>
-                                        <li>2020年5月26日18:00至2020年6月02日17:59 GMT+8（北京时间）</li>
+                                        <li>2020年5月12日18:00至2020年5月19日17:59 GMT+8（北京時間）</li>
+                                        <li>2020年5月19日18:00至2020年5月26日17:59 GMT+8（北京時間）</li>
+                                        <li>2020年5月26日18:00至2020年6月02日17:59 GMT+8（北京時間）</li>
                                     </ul>
                                 </li>
-                                <li>参赛游戏：所有PP王者电子老虎机游戏 除 财源滚滚，爱尔兰的魅力，富贵888，永恒钻石3线，黄金女王，桌面游戏和视频扑克游戏。</li>
-                                <li>每局最小投注额：@MinBet  @Currency 或等值货币。</li>
-                                <li>如果有两位或更多玩家的积分相同，则首先达到该积分的玩家将在排行榜上排名靠前, 获得更高名次奖金。</li>
-                                <li>锦标赛排行榜将会在活动指定游戏页面实时更新。</li>
-                                <li>PP王者电子保留随时修改、暂停或取消推广活动的权利，恕不另行通知。</li>
+                                <li>
+                                    參賽遊戲：所有PP王者電子老虎機遊戲 除 財源滾滾，愛爾蘭的魅力，富貴888，永恆鑽石3線，黃金女王，桌面遊戲和視頻撲克遊戲。
+                                </li>
+                                <li>每局最小投注額：@MinBet  @Currency 或等值貨幣。</li>
+                                <li>
+                                    如果有兩位或更多玩家的積分相同，則首先達到該積分的玩家將在排行榜上排名靠前, 獲得更高名次獎金。
+                                </li>
+                                <li>
+                                    錦標賽排行榜將會在活動指定遊戲頁面實時更新。
+                                </li>
+                                <li>
+                                    PP王者電子保留隨時修改、暫停或取消推廣活動的權利，恕不另行通知。
+                                </li>
                             </ul>
                         </div>
                     </div>
                     <div class="point" id="div2">
                         <div class="Round"></div>
-                        <h1 class="text">水果派对现金空投</h1>
+                        <h1 class="text">水果派對現金空投</h1>
                     </div>
                     <h4>2020/05/12 18:00</h4>
                     <div class="evn-list">
-                        <h1>随机获得PP现金礼盒</h1>
+                        <h1>
+                            隨機獲得PP現金禮盒
+                        </h1>
                         <span> @FruitPrizeCash[7].ToString("#,##0")  @Currency /周</span>
                         <div class="evn-img">
                             <ul>
@@ -280,12 +656,12 @@
                                 <li><img src="@SkinRootPath/images/event/pp-evn5.jpg" /></li>
                             </ul>
                         </div>
-                        <h1>奖池</h1>
+                        <h1>獎池</h1>
                         <div class="rank">
                             <div class="rank-list">
                                 <div class="table-header">
                                     <div>排名</div>
-                                    <div>奖金</div>
+                                    <div>獎金</div>
                                 </div>
                                 <div class="table-body">
                                     <div>1X</div>
@@ -313,22 +689,26 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="terms">条款与规则<i class="icon icon-caret"></i></button>
+                        <button class="terms">條款與規則<i class="icon icon-caret"></i></button>
                         <div class="terms-list">
                             <ul>
-                                <li>在活动期间玩PP王者电子游戏将有机会随机获得PP现金礼盒。</li>
-                                <li>活动期间共有488个礼盒奖励，价值 @FruitPrizeCash[1].ToString("#,##0")  @Currency 随机发放。</li>
-                                <li>每局最小投注额：@MinBet  @Currency 或等值货币。</li>
+                                <li>在活動期間玩PP王者電子遊戲將有機會隨機獲得PP現金禮盒。</li>
                                 <li>
-                                    王者锦标赛将于2020年5月12日至2020年6月02日每周一18:00至下周一17:59 GMT+8 举行，一共3场：
+                                    活動期間共有488個禮盒獎勵，價值 @FruitPrizeCash[1].ToString("#,##0")  @Currency 隨機發放。
+                                </li>
+                                <li>每局最小投注额：@MinBet  @Currency 或等值貨幣。</li>
+                                <li>
+                                    王者錦標賽將於2020年5月12日至2020年6月02日每週一18:00至下週一17:59 GMT+8 舉行，一共3場：
                                     <ul>
-                                        <li>2020年5月12日18:00至2020年5月19日17:59 GMT+8 (北京时间)</li>
-                                        <li>2020年5月19日18:00至2020年5月26日17:59 GMT+8 (北京时间)</li>
-                                        <li>2020年5月26日18:00至2020年6月02日17:59 GMT+8 (北京时间)</li>
+                                        <li>2020年5月12日18:00至2020年5月19日17:59 GMT+8 (北京時間)</li>
+                                        <li>2020年5月19日18:00至2020年5月26日17:59 GMT+8 (北京時間)</li>
+                                        <li>2020年5月26日18:00至2020年6月02日17:59 GMT+8 (北京時間)</li>
                                     </ul>
                                 </li>
-                                <li>参赛游戏： 所有PP王者电子老虎机游戏 除桌面游戏，视频扑克，富贵888，永恒钻石3线，爱尔兰的魅力，财源滚滚，黄金女王，歌厅，曲棍球联盟，阿拉丁宝藏，月之女神，埃及传说，极速糖果，极速糖果冬日版，极速糖果情人版，极速糖果夏日版，幽灵财富，大堡礁，荣耀罗马，水果爆破，矮人黄金，恶魔13，疯狂7s，勤劳蜜蜂。</li>
-                                <li>PP王者电子保留随时修改、暂停或取消推广活动的权利，恕不另行通知。</li>
+                                <li>
+                                    參賽遊戲： 所有PP王者電子老虎機遊戲除桌面遊戲，視頻撲克，富貴888，永恆鑽石3線，愛爾蘭的魅力，財源滾滾，黃金女王，歌廳，曲棍球聯盟，阿拉丁寶藏，月之女神，埃及傳說，極速糖果，極速糖果冬日版，極速糖果情人版，極速糖果夏日版，幽靈財富，大堡礁，榮耀羅馬，水果爆破，矮人黃金，惡魔13，瘋狂7s，勤勞蜜蜂。
+                                </li>
+                                <li>PP王者電子保留隨時修改、暫停或取消推廣活動的權利，恕不另行通知。</li>
                             </ul>
                             <ul>
                             </ul>
@@ -336,11 +716,13 @@
                     </div>
                     <div class="point" id="div3">
                         <div class="Round"></div>
-                        <h1 class="text">水果派对锦标赛 - 终极赛</h1>
+                        <h1 class="text">水果派對錦標賽 - 終極賽</h1>
                     </div>
                     <h4>2020/06/05 18:00</h4>
                     <div class="evn-list">
-                        <h1>最高单次旋转奖金金额</h1>
+                        <h1>
+                            最高單次旋轉獎金金額
+                        </h1>
                         <span>@FruitPrizeFin[9].ToString("#,##0")  @Currency </span>
                         <div class="evn-img">
                             <ul>
@@ -354,12 +736,12 @@
                                 <li><img src="@SkinRootPath/images/event/pp-evn3.jpg" /></li>
                             </ul>
                         </div>
-                        <h1>奖池</h1>
+                        <h1>獎池</h1>
                         <div class="rank">
                             <div class="rank-list">
                                 <div class="table-header">
                                     <div>排名</div>
-                                    <div>奖金</div>
+                                    <div>獎金</div>
                                 </div>
                                 <div class="table-body">
                                     <div>1</div>
@@ -395,18 +777,30 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="terms">条款与规则<i class="icon icon-caret"></i></button>
+                        <button class="terms">條款與規則<i class="icon icon-caret"></i></button>
                         <div class="terms-list">
                             <ul>
-                                <li>恭喜您已被邀请进入水果派对锦标赛-终极赛。</li>
-                                <li>水果派对锦标赛-终极赛是比拼在活动期间最高单次旋转奖金金额。</li>
-                                <li>积分规则：积分=单局最高中奖金额/投注金额。</li>
-                                <li>锦标赛将于北京时间2020年6月5日18:00至2020年6月8日17:59举行。</li>
-                                <li>参赛游戏：所有PP王者电子老虎机游戏 除 财源滚滚，爱尔兰的魅力，富贵888，永恒钻石3线，黄金女王，桌面游戏和视频扑克游戏。</li>
-                                <li>每局最小投注额：@MinBet  @Currency 或等值货币。</li>
-                                <li>如果有两位或更多玩家的积分相同，则首先达到该积分的玩家将在排行榜上排名靠前, 获得更高名次奖金。</li>
-                                <li>锦标赛排行榜将会在活动指定游戏页面实时更新。</li>
-                                <li>PP王者电子保留随时修改、暂停或取消推广活动的权利，恕不另行通知。</li>
+                                <li>
+                                    恭喜您已被邀請進入水果派對錦標賽-終極賽。
+                                </li>
+                                <li>
+                                    水果派對錦標賽-終極賽是比拼在活動期間最高單次旋轉獎金金額。
+                                </li>
+                                <li>積分規則：積分=單局最高中獎金額/投注金額。</li>
+                                <li>
+                                    錦標賽將於北京時間2020年6月5日18:00至2020年6月8日17:59舉行。
+                                </li>
+                                <li>
+                                    參賽遊戲：所有PP王者電子老虎機遊戲 除 財源滾滾，愛爾蘭的魅力，富貴888，永恆鑽石3線，黃金女王，桌面遊戲和視頻撲克遊戲。
+                                </li>
+                                <li>每局最小投注額：@MinBet  @Currency 或等值貨幣。</li>
+                                <li>
+                                    如果有兩位或更多玩家的積分相同，則首先達到該積分的玩家將在排行榜上排名靠前, 獲得更高名次獎金。
+                                </li>
+                                <li>
+                                    錦標賽排行榜將會在活動指定遊戲頁面實時更新。
+                                </li>
+                                <li>PP王者電子保留隨時修改、暫停或取消推廣活動的權利，恕不另行通知。</li>
                             </ul>
                             <ul>
                             </ul>
@@ -414,11 +808,11 @@
                     </div>
                     <div class="point" id="div4">
                         <div class="Round"></div>
-                        <h1 class="text">钱多多锦标赛</h1>
+                        <h1 class="text">錢多多錦標賽</h1>
                     </div>
                     <h4>2020/06/02 18:00</h4>
                     <div class="evn-list">
-                        <h1>最高总投注金额</h1>
+                        <h1>最高總投注金額</h1>
                         <span>@MoneyPrizeComm[9].ToString("#,##0")  @Currency / 周</span>
                         <div class="evn-img">
                             <ul>
@@ -432,12 +826,12 @@
                                 <li><img src="@SkinRootPath/images/event/pp-evn2.jpg" /></li>
                             </ul>
                         </div>
-                        <h1>奖池</h1>
+                        <h1>獎池</h1>
                         <div class="rank">
                             <div class="rank-list">
                                 <div class="table-header">
                                     <div>排名</div>
-                                    <div>奖金</div>
+                                    <div>獎金</div>
                                 </div>
                                 <div class="table-body">
                                     <div>1</div>
@@ -473,25 +867,27 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="terms">条款与规则<i class="icon icon-caret"></i></button>
+                        <button class="terms">條款與規則<i class="icon icon-caret"></i></button>
                         <div class="terms-list">
                             <ul>
-                                <li>锦标赛优胜者以最高总投注金额为准。</li>
-                                <li>积分=总下注金额转换为美金x 1000。</li>
-                                <li>在每周排行榜上排名前5000名的玩家将会赢得2020年6月26日18点举行的钱多多锦标赛-终极赛门票。</li>
+                                <li>錦標賽優勝者以最高總投注金額為準。</li>
+                                <li>積分=總下注金額轉換為美金x 1000。</li>
+                                <li>在每週排行榜上排名前5000名的玩家將會贏得2020年6月26日18點舉行的錢多多錦標賽-終極賽門票。</li>
                                 <li>
-                                    锦标赛将于2020年6月2日至2020年6月26日每周二18:00至下周二17:59 GMT+8 举行，一共3场：
+                                    錦標賽將於2020年6月2日至2020年6月26日每週二18:00至下週二17:59 GMT+8 舉行，一共3場：
                                     <ul>
-                                        <li>2020年6月02日18:00至2020年6月09日17:69 GMT+8 (北京时间)</li>
-                                        <li>2020年6月09日18:00至2020年6月16日17:69 GMT+8 (北京时间)</li>
-                                        <li>2020年6月16日18:00至2020年6月23日17:69 GMT+8 (北京时间)</li>
+                                        <li>2020年6月02日18:00至2020年6月09日17:69 GMT+8 (北京時間)</li>
+                                        <li>2020年6月09日18:00至2020年6月16日17:69 GMT+8 (北京時間)</li>
+                                        <li>2020年6月16日18:00至2020年6月23日17:69 GMT+8 (北京時間)</li>
                                     </ul>
                                 </li>
-                                <li>参赛游戏：所有PP王者电子老虎机游戏 除 财源滚滚，爱尔兰的魅力，富贵888，永恒钻石3线，黄金女王，桌面游戏和视频扑克游戏。</li>
-                                <li>每局最小投注额：@MinBet  @Currency 或等值货币。</li>
-                                <li>如果有两位或更多玩家的积分相同，则首先达到该积分的玩家将在排行榜上排名靠前, 获得更高名次奖金。</li>
-                                <li>锦标赛排行榜将会在活动指定游戏页面实时更新。</li>
-                                <li>PP王者电子保留随时修改、暂停或取消推广活动的权利，恕不另行通知。</li>
+                                <li>
+                                    參賽遊戲：所有PP王者電子老虎機遊戲 除 財源滾滾，愛爾蘭的魅力，富貴888，永恆鑽石3線，黃金女王，桌面遊戲和視頻撲克遊戲。
+                                </li>
+                                <li>每局最小投注额：@MinBet  @Currency 或等值貨幣。</li>
+                                <li>如果有兩位或更多玩家的積分相同，則首先達到該積分的玩家將在排行榜上排名靠前, 獲得更高名次獎金。</li>
+                                <li>錦標賽排行榜將會在活動指定遊戲頁面實時更新。</li>
+                                <li>PP王者電子保留隨時修改、暫停或取消推廣活動的權利，恕不另行通知。</li>
                             </ul>
                             <ul>
                             </ul>
@@ -499,11 +895,13 @@
                     </div>
                     <div class="point" id="div5">
                         <div class="Round"></div>
-                        <h1 class="text">钱多多现金空投 多倍乘数</h1>
+                        <h1 class="text">錢多多現金空投 多倍乘數</h1>
                     </div>
                     <h4>2020/06/02 18:00</h4>
                     <div class="evn-list">
-                        <h1>最高可赢得投注金额1000倍的红包奖金</h1>
+                        <h1>
+                            最高可贏得投注金額1000倍的紅包​​獎金
+                        </h1>
                         <span> @MoneyPrizeCash[7].ToString("#,##0")  @Currency  /周</span>
                         <div class="evn-img">
                             <ul>
@@ -517,12 +915,12 @@
                                 <li><img src="@SkinRootPath/images/event/pp-evn5.jpg" /></li>
                             </ul>
                         </div>
-                        <h1>奖池</h1>
+                        <h1>獎池</h1>
                         <div class="rank">
                             <div class="rank-list">
                                 <div class="table-header">
                                     <div>排名</div>
-                                    <div>奖金</div>
+                                    <div>獎金</div>
                                 </div>
                                 <div class="table-body">
                                     <div>1X</div>
@@ -550,41 +948,43 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="terms">条款与规则<i class="icon icon-caret"></i></button>
+                        <button class="terms">條款與規則<i class="icon icon-caret"></i></button>
                         <div class="terms-list">
                             <ul>
-                                <li>玩家最高可赢得投注金额1000倍的红包奖金。</li>
+                                <li>玩家最高可贏得投注金額1000倍的紅包​​獎金。</li>
                                 <li>
-                                    玩家最终的中奖金额将由中奖倍数决定（投注金额x中奖倍数）。玩家将有机会在单局投注的情况下，获得最高为35,000  @Currency 的奖金。
+                                    玩家最終的中獎金額將由中獎倍數決定（投注金額x中獎倍數）。玩家將有機會在單局投注的情況下，獲得最高為35,000  @Currency 的獎金。
                                     <ul>
-                                        <li>举例:</li>
-                                        <li>投注金额: 3.5 @Currency </li>
-                                        <li>中奖倍数: X 500</li>
-                                        <li>中奖奖金: 1,750 @Currency </li>
+                                        <li>舉例:</li>
+                                        <li>投注金額: 3.5 @Currency </li>
+                                        <li>中獎倍數: X 500</li>
+                                        <li>中獎獎金: 1,750 @Currency </li>
                                     </ul>
                                 </li>
                                 <li>
-                                    红包奖金将会由下注金额乘以中奖倍数得出。 符合奖金计算条件的最大下注金额为35 @Currency 。 如果下注金额超过35 @Currency ，则超过35,000 @Currency 的额外价值将不被用于奖金计算。
+                                    紅包獎金將會由下注金額乘以中獎倍數得出。符合獎金計算條件的最大下注金額為35 @Currency 。 如果下注金額超過35 @Currency ，則超過35,000 @Currency 的額外價值將不被用於獎金計算。
                                     <ul>
-                                        <li>举例:</li>
-                                        <li>实际投注金额: 40 @Currency </li>
-                                        <li>计算最高投注金额: 35 @Currency </li>
-                                        <li>中奖倍数: X 1000</li>
-                                        <li>中奖奖金: 35 X 1000 = 35,000 @Currency </li>
+                                        <li>舉例:</li>
+                                        <li>實際投注金額: 40 @Currency </li>
+                                        <li>計算最高投注金額: 35 @Currency </li>
+                                        <li>中獎倍數: X 1000</li>
+                                        <li>中獎獎金: 35 X 1000 = 35,000 @Currency </li>
                                     </ul>
                                 </li>
-                                <li>每局最小投注额：@MinBet @Currency 或等值货币。</li>
-                                <li>在活动期间488个红包奖金价值 @MoneyPrizeCash[7].ToString("#,##0") @Currency 随机发放。</li>
+                                <li>每局最小投注额：@MinBet @Currency 或等值貨幣。</li>
+                                <li>在活動期間488個紅包獎金價值 @MoneyPrizeCash[7].ToString("#,##0") @Currency 隨機發放。</li>
                                 <li>
-                                    锦标赛将于2020年6月2日至2020年6月23日每周二18:00至下周二17:59 GMT+8 举行，一共3场：
+                                    錦標賽將於2020年6月2日至2020年6月23日每週二18:00至下週二17:59 GMT+8 舉行，一共3場：
                                     <ul>
-                                        <li>2020年6月02日18:00至2020年6月09日17:69 GMT+8 (北京时间)</li>
-                                        <li>2020年6月09日18:00至2020年6月16日17:69 GMT+8 (北京时间)</li>
-                                        <li>2020年6月16日18:00至2020年6月23日17:69 GMT+8 (北京时间)</li>
+                                        <li>2020年6月02日18:00至2020年6月09日17:69 GMT+8 (北京時間)</li>
+                                        <li>2020年6月09日18:00至2020年6月16日17:69 GMT+8 (北京時間)</li>
+                                        <li>2020年6月16日18:00至2020年6月23日17:69 GMT+8 (北京時間)</li>
                                     </ul>
                                 </li>
-                                <li>参赛游戏： 所有PP王者电子老虎机游戏 除桌面游戏，视频扑克，富贵888，永恒钻石3线，爱尔兰的魅力，财源滚滚，黄金女王，歌厅，曲棍球联盟，阿拉丁宝藏，月之女神，埃及传说，极速糖果，极速糖果冬日版，极速糖果情人版，极速糖果夏日版，幽灵财富，大堡礁，荣耀罗马，水果爆破，矮人黄金，恶魔13，疯狂7s，勤劳蜜蜂。</li>
-                                <li>PP王者电子保留随时修改、暂停或取消推广活动的权利，恕不另行通知。</li>
+                                <li>
+                                    參賽遊戲： 所有PP王者電子老虎機遊戲除桌面遊戲，視頻撲克，富貴888，永恆鑽石3線，愛爾蘭的魅力，財源滾滾，黃金女王，歌廳，曲棍球聯盟，阿拉丁寶藏，月之女神，埃及傳說，極速糖果，極速糖果冬日版，極速糖果情人版，極速糖果夏日版，幽靈財富，大堡礁，榮耀羅馬，水果爆破，矮人黃金，惡魔13，瘋狂7s，勤勞蜜蜂。
+                                </li>
+                                <li>PP王者電子保留隨時修改、暫停或取消推廣活動的權利，恕不另行通知。</li>
                             </ul>
                             <ul>
                             </ul>
@@ -592,11 +992,11 @@
                     </div>
                     <div class="point" id="div6">
                         <div class="Round"></div>
-                        <h1 class="text">钱多多锦标赛 - 终极赛</h1>
+                        <h1 class="text">錢多多錦標賽 - 終極賽</h1>
                     </div>
                     <h4>2020/06/26 18:00</h4>
                     <div class="evn-list">
-                        <h1>最高单次旋转奖金金额</h1>
+                        <h1>最高單次旋轉獎金金額</h1>
                         <span> @MoneyPrizeFin[9].ToString("#,##0")  @Currency </span>
                         <div class="evn-img">
                             <ul>
@@ -610,12 +1010,12 @@
                                 <li><img src="@SkinRootPath/images/event/pp-evn7.jpg" /></li>
                             </ul>
                         </div>
-                        <h1>奖池</h1>
+                        <h1>獎池</h1>
                         <div class="rank">
                             <div class="rank-list">
                                 <div class="table-header">
                                     <div>排名</div>
-                                    <div>奖金</div>
+                                    <div>獎金</div>
                                 </div>
                                 <div class="table-body">
                                     <div>1</div>
@@ -651,28 +1051,30 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="terms">条款与规则<i class="icon icon-caret"></i></button>
+                        <button class="terms">條款與規則<i class="icon icon-caret"></i></button>
                         <div class="terms-list">
                             <ul>
-                                <li>恭喜您已被邀请进入钱多多锦标赛-终极赛。</li>
-                                <li>PP王者锦标赛是比拼在活动期间最高单次旋转奖金金额。</li>
-                                <li>积分规则：积分=单局最高中奖金额/投注金额。</li>
-                                <li>锦标赛将于北京时间2020年6月26日18:00至2020年6月29日17:59举行。</li>
-                                <li>参赛游戏：所有PP王者电子老虎机游戏 除 财源滚滚，爱尔兰的魅力，富贵888，永恒钻石3线，黄金女王，桌面游戏和视频扑克游戏。</li>
-                                <li>每局最小投注额：@MinBet  @Currency 或等值货币。</li>
-                                <li>如果有两位或更多玩家的积分相同，则首先达到该积分的玩家将在排行榜上排名靠前, 获得更高名次奖金。</li>
-                                <li>锦标赛排行榜将会在活动指定游戏页面实时更新。</li>
-                                <li>PP王者电子保留随时修改、暂停或取消推广活动的权利，恕不另行通知。</li>
+                                <li>恭喜您已被邀請進入錢多多錦標賽-終極賽。</li>
+                                <li>PP王者錦標賽是比拼在活動期間最高單次旋轉獎金金額。</li>
+                                <li>積分規則：積分=單局最高中獎金額/投注金額。</li>
+                                <li>錦標賽將於北京時間2020年6月26日18:00至2020年6月29日17:59舉行。</li>
+                                <li>
+                                    參賽遊戲：所有PP王者電子老虎機遊戲 除 財源滾滾，愛爾蘭的魅力，富貴888，永恆鑽石3線，黃金女王，桌面遊戲和視頻撲克遊戲。
+                                </li>
+                                <li>每局最小投注額：@MinBet  @Currency 或等值貨幣。</li>
+                                <li>如果有兩位或更多玩家的積分相同，則首先達到該積分的玩家將在排行榜上排名靠前, 獲得更高名次獎金。</li>
+                                <li>錦標賽排行榜將會在活動指定遊戲頁面實時更新。</li>
+                                <li>PP王者電子保留隨時修改、暫停或取消推廣活動的權利，恕不另行通知。</li>
                             </ul>
                         </div>
                     </div>
                     <div class="point" id="div7">
                         <div class="Round"></div>
-                        <h1 class="text">天天赢 - 老虎机冠军</h1>
+                        <h1 class="text">天天贏 - 老虎機冠軍</h1>
                     </div>
                     <h4>2020/06/26 18:00</h4>
                     <div class="evn-list">
-                        <h1>天天赢 - 老虎机冠军</h1>
+                        <h1>天天贏 - 老虎機冠軍</h1>
                         <span> @FinBet @Currency </span>
                         <div class="evn-img">
                             <ul>
@@ -686,7 +1088,7 @@
                                 <li><img src="@SkinRootPath/images/event/pp-evn6.jpg" /></li>
                             </ul>
                         </div>
-                        <button class="terms">条款与规则<i class="icon icon-caret"></i></button>
+                        <button class="terms">條款與規則<i class="icon icon-caret"></i></button>
                         <div class="terms-list">将于2020年6月1日公布!</div>
                     </div>
                     <div class="point">
@@ -696,19 +1098,25 @@
                     <h4>2020/10/27 17:59</h4>
                 </div>
                 <div class="evn-rules">
-                    <h3>活動条款与规则</h3>
+                    <h3>活動條款與規則</h3>
                     <ul>
-                        <li>每局最小投注额：@MinBet.ToString("#,##0") @Currency 或等值货币</li>
-                        <li>锦标赛参赛游戏：所有PP王者电子老虎机游戏 除 财源滚滚，爱尔兰的魅力，富贵888，永恒钻石3线，黄金女王，桌面游戏和视频扑克游戏。</li>
-                        <li>现金空投参赛游戏： 所有PP王者电子老虎机游戏 除桌面游戏，视频扑克，富贵888，永恒钻石3线，爱尔兰的魅力，财源滚滚，黄金女王，歌厅，曲棍球联盟，阿拉丁宝藏，月之女神，埃及传说，极速糖果，极速糖果冬日版，极速糖果情人版，极速糖果夏日版，幽灵财富，大堡礁，荣耀罗马，水果爆破，矮人黄金，恶魔13，疯狂7s，勤劳蜜蜂。</li>
-                        <li>玩家可以同时获得锦标赛和红包奖励</li>
-                        <li>如果有两位或更多玩家的积分相同，则首先达到该积分的玩家将在排行榜上排名靠前,将获得奖金。</li>
-                        <li>锦标赛排行榜将会在活动指定游戏页面实时更新。</li>
-                        <li>PP王者电子保留随时修改、暂停或取消推广活动的权利，恕不另行通知。</li>
+                        <li>每局最小投注额：@MinBet.ToString("#,##0") @Currency 或等值貨幣</li>
+                        <li>
+                            錦標賽參賽遊戲：所有PP王者電子老虎機遊戲 除 財源滾滾，愛爾蘭的魅力，富貴888，永恆鑽石3線，黃金女王，桌面遊戲和視頻撲克遊戲。
+                        </li>
+                        <li>
+                            現金空投參賽遊戲： 所有PP王者電子老虎機遊戲除桌面遊戲，視頻撲克，富貴888，永恆鑽石3線，愛爾蘭的魅力，財源滾滾，黃金女王，歌廳，曲棍球聯盟，阿拉丁寶藏，月之女神，埃及傳說，極速糖果，極速糖果冬日版，極速糖果情人版，極速糖果夏日版，幽靈財富，大堡礁，榮耀羅馬，水果爆破，矮人黃金，惡魔13，瘋狂7s，勤勞蜜蜂。
+                        </li>
+                        <li>玩家可以同時獲得錦標賽和紅包獎勵</li>
+                        <li>
+                            如果有兩位或更多玩家的積分相同，則首先達到該積分的玩家將在排行榜上排名靠前,將獲得獎金。
+                        </li>
+                        <li>錦標賽排行榜將會在活動指定遊戲頁面實時更新。</li>
+                        <li>PP王者電子保留隨時修改、暫停或取消推廣活動的權利，恕不另行通知。</li>
                     </ul>
                 </div>
                 <div class="min-bet">
-                    <h3>最低投注额</h3>
+                    <h3>最低投注額</h3>
                     <div class="rank-list">
                         <div class="table-body">
                             <div>
@@ -740,9 +1148,22 @@
         </div>
         <div class="footer">
             <div class="footer__cpr">
-                <span class="text">© Copyright 2020. Nova88. All Rights Reserved.</span>
+                <span class="text">© Copyright 2020. @serverInfo.SiteName. All Rights Reserved.</span>
             </div>
         </div>
     </div>
+    <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.point').click(function () {
+                $('.point').removeClass('open');
+                $(this).addClass('open');
+            });
+            $('.terms').click(function () {
+                $(this).siblings('.terms-list').toggle();
+                $(this).children('i').toggleClass('open');
+            });
+        });
+    </script>
 </body>
 </html>
