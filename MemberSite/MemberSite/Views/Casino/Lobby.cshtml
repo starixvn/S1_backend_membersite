@@ -23,8 +23,6 @@
 <div class="main">
     <div class="lobby-banner-swiper">
         <div class="swiper-wrapper">
-            @if (serverInfo.SiteId == 1)
-        {
             <div class="swiper-slide">
                 <a href="@Url.RouteUrl("desktop", new { action = "event", controller = "events", LangId = selLangBLL.GetLangId(), eventName="PP" })" target="_eventPP">
                     <img src="@CmsEventPath/event-pp-20200508.png" asp-append-version="true" />
@@ -35,8 +33,6 @@
                     <img src="@CmsEventPath/event-ygg-20200508.png" asp-append-version="true" />
                 </a>
             </div>
-
-        }
         </div>
         <div class="swiper-pagination"></div>
     </div>

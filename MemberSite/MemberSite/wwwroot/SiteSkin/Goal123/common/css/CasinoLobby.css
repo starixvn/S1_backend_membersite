@@ -46,7 +46,7 @@ flex: 1 0 auto;
     text-align: center;
     font-size: 0.9rem;
     position: relative;
-    padding:0.5rem 0;
+    padding :0.5rem 0;
     border-left: 1px solid transparent;
 }
 .CasinoSelect_nav > a.active{
@@ -136,6 +136,7 @@ flex: 1 0 auto;
     min-width: 308px;
     font-size: 24px;
     margin-left: 0;
+
 }
 .CasModule .MI .BIG > div:nth-child(1){
     height: 50px;
@@ -148,7 +149,7 @@ flex: 1 0 auto;
     text-align: center;
     font-size: 15px;
     padding: .3rem;
-    width: 9rem;
+    width: 90%;
     border: 1px solid #d4bd7e;
     margin: 0.2rem auto;
 }
@@ -193,7 +194,6 @@ flex: 1 0 auto;
         max-width: initial;
         min-width: initial;
         width: calc(50% - 2px);
-        height: calc(50vw - 2px);
     }
     .CasModule .MI > div:nth-child(odd){
         margin-right: 0;
@@ -421,5 +421,21 @@ h3 + span + span{
     .mobilepop > div {
         max-width: 360px;
         margin: auto;
+    }
+}
+
+[data-layout=desktop] .main{
+    flex-direction: column;
+}
+[data-layout=desktop] .lobby-banner-swiper{
+    width: 100%;
+    margin-bottom: 1vw;
+}
+.lobby-banner-swiper img{
+    height: auto;
+}
+@media (min-width: 1025px){
+    .lobby-banner-swiper {
+        max-height: 420px;
     }
 }
