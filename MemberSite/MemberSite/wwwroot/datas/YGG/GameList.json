@@ -183,14 +183,15 @@
       "paylines": "6X8",
       "RTP": "96.30%",
       "imgName": {
-        "en": "Brazil-Bomba-EN.jpg"
+        "en": "Brazil-Bomba-EN.jpg",
       },
       "launchDate": "2020/02/20",
       "hot": true,
       "new": true,
       "featured": false,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion":  1
     },
     {
       "name": {
@@ -551,7 +552,8 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 1
     },
     {
       "name": {
@@ -1037,7 +1039,8 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 1
     },
     {
       "name": {
@@ -1122,7 +1125,8 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 0,
+      "promotion": 1
     },
     {
       "name": {
@@ -1292,7 +1296,8 @@
       "new": true,
       "featured": true,
       "imageExist": true,
-      "Isfun": 0
+      "Isfun": 0,
+      "promotion": 1
     },
     {
       "name": {

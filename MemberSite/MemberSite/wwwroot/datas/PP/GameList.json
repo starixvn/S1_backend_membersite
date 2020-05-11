@@ -451,7 +451,8 @@
       "launchDate": "2019/12/10",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -951,7 +952,8 @@
       "launchDate": "2019/04/05",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1578,7 +1580,8 @@
       "launchDate": "2018/04/16",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1603,7 +1606,8 @@
       "launchDate": "2018/04/02",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1722,7 +1726,8 @@
       "launchDate": "2018/02/05",
       "hot": true,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2109,7 +2114,8 @@
       "hot": true,
       "new": true,
       "featured": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
