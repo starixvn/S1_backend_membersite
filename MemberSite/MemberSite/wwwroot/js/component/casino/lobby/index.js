@@ -14,6 +14,13 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
         return check;
     };
 
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)','i');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
     const IsMobileAndTablet = MobileAndTabletCheck();
 
     const _AllGames = AllGames().filter(g=>{return TpIds === null ? isLogin === '1' ? false : true : TpIds.includes(g.provider)});
@@ -23,8 +30,15 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
         constructor(props) {
             super(props);
 
-            const defaultPage = Page.ALLGAMES;
-            const defaultProvider = {value:'Provider', displayText:i18n.lbl_Provider};
+            let defaultTpId = getUrlParameter('tpid');
+            let _defaultProvider = null;
+            if(defaultTpId && defaultTpId !== '0'){
+                let _provider = Provider.find(x=> x.value == defaultTpId);
+                _defaultProvider = _provider ? _provider : i18n.lbl_Provider;
+            }
+            
+            const defaultPage = _defaultProvider || defaultTpId==='0' ? Page.PROMO : Page.ALLGAMES;
+            const defaultProvider = _defaultProvider ? _defaultProvider : {value: 'Provider', displayText:i18n.lbl_Provider};
 
             this.state = {
                 Filter:{
@@ -164,6 +178,11 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
                         return _favorite !== null && _favorite.find(x=> x.ProviderId==g.provider && x.GameId==g.gameId) !== undefined;
                     });
                 
+                case Page.PROMO.displayText:
+                    return allGames.filter(g=>{
+                        return g.promotion==1 && (_keyword === "" || this.matchKeyword(g.name, _keyword));
+                    });
+
                 default:
                     return allGames.filter(g=>{
                         return g.category1===_page.category1 && (_keyword === "" || this.matchKeyword(g.name, _keyword));
@@ -200,7 +219,7 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
 
                 let startIdx = this.state.Games.loadedCount;
                 let endIdx = startIdx + getItem;
-
+                
                 for(let i=startIdx; i<endIdx; i++){
                     let key=`P-${games[i].provider}-Game-${games[i].gameId}`;
                     let isFavorite = this.state.Favorite !== null && this.state.Favorite.find(x=> x.ProviderId==games[i].provider && x.GameId==games[i].gameId) !== undefined;
@@ -241,7 +260,7 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
                         );
                     }
                 }
-
+                
                 let loadedCount = this.state.Games.loadedCount + getItem;
                 this.setState({
                     Games:{

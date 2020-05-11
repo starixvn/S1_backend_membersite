@@ -1654,4 +1654,7 @@
   <data name="lbl_Scratch" xml:space="preserve">
     <value>trò chơi cào số</value>
   </data>
+  <data name="lbl_Promo" xml:space="preserve">
+    <value>khuyến mãi</value>
+  </data>
 </root>

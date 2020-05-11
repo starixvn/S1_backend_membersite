@@ -1597,4 +1597,7 @@
   <data name="lbl_Scratch" xml:space="preserve">
     <value>刮刮卡</value>
   </data>
+  <data name="lbl_Promo" xml:space="preserve">
+    <value>优惠</value>
+  </data>
 </root>

@@ -1612,4 +1612,7 @@
   <data name="lbl_SG" xml:space="preserve">
     <value>SG</value>
   </data>
+  <data name="lbl_Promo" xml:space="preserve">
+    <value>Promo</value>
+  </data>
 </root>

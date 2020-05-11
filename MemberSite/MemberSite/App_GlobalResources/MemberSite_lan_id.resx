@@ -1603,4 +1603,7 @@
   <data name="lbl_Scratch" xml:space="preserve">
     <value>Gosok kartu</value>
   </data>
+  <data name="lbl_Promo" xml:space="preserve">
+    <value>Promosi</value>
+  </data>
 </root>

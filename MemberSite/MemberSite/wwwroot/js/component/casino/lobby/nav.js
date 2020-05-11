@@ -18,7 +18,7 @@ export const Nav = (props) => {
             </a>
         );
 
-        mobilePages.push(pageInfo.displayText);
+        mobilePages.push(pageInfo);
     });
 
     const InputKeyword = (e) => {
@@ -38,7 +38,7 @@ export const Nav = (props) => {
                 OnSelectItem={props.HandleFilter}
                 DataColumn="Page"
                 Options={mobilePages}
-                SelectedItem={props.SelectedPage}
+                SelectedItem={props.SelectedPage.displayText}
                 SubClass="mobile-sort-select"
             />
             <div className="textfield">

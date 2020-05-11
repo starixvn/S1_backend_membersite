@@ -1574,4 +1574,7 @@
   <data name="lbl_Scratch" xml:space="preserve">
     <value>เกมขูดบัตร</value>
   </data>
+  <data name="lbl_Promo" xml:space="preserve">
+    <value>โปรโม</value>
+  </data>
 </root>
