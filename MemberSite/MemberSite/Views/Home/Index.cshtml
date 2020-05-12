@@ -81,20 +81,20 @@
                 else
                 {
                 @*<div class="swiper-slide">
-            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promosabaworld">
-                <img src="@CmsPromotionPath/banner-sabaworldcup.jpg" asp-append-version="true" />
-            </a>
-        </div>*@
+                        <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promosabaworld">
+                            <img src="@CmsPromotionPath/banner-sabaworldcup.jpg" asp-append-version="true" />
+                        </a>
+                    </div>*@
                 @*<div class="swiper-slide">
-            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promosabaworld1">
-                <img src="@CmsPromotionPath/banner-sabaworldcup1.jpg" asp-append-version="true" />
-            </a>
-        </div>*@
+                        <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promosabaworld1">
+                            <img src="@CmsPromotionPath/banner-sabaworldcup1.jpg" asp-append-version="true" />
+                        </a>
+                    </div>*@
                 @*<div class="swiper-slide">
-            <a class="swiper-slide" href="@gamingBLL.GetEntPageUrl(1,"1",Url)">
-                <img src="@CmsPromotionPath/banner-worldcup.jpg" asp-append-version="true" />
-            </a>
-        </div>*@
+                        <a class="swiper-slide" href="@gamingBLL.GetEntPageUrl(1,"1",Url)">
+                            <img src="@CmsPromotionPath/banner-worldcup.jpg" asp-append-version="true" />
+                        </a>
+                    </div>*@
                 <div class="swiper-slide">
                     <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
                         <img src="@CmsPromotionPath/banner-covid.jpg" asp-append-version="true" />
@@ -165,52 +165,52 @@
             </div>
             @if (User.Identity.IsAuthenticated)
             {
-                <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                    <div class="lobby-quicklink__info">
-                        <i class="icon icon-deposit-bank"></i>
-                        <span class="text-title">@selLangBLL.GetResourceValue("lbl_DepositNow")</span>
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_VariousBankingOptions")</span>
-                    </div>
-                    <i class="icon icon-arrow-right"></i>
-                </a>
+            <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                <div class="lobby-quicklink__info">
+                    <i class="icon icon-deposit-bank"></i>
+                    <span class="text-title">@selLangBLL.GetResourceValue("lbl_DepositNow")</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_VariousBankingOptions")</span>
+                </div>
+                <i class="icon icon-arrow-right"></i>
+            </a>
             }
             else
             {
-                <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                    <div class="lobby-quicklink__info">
-                        <i class="icon icon-join-now"></i>
-                        <span class="text-title">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforjoin")</span>
-                    </div>
-                    <i class="icon icon-arrow-right"></i>
-                </a>
+            <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
+                <div class="lobby-quicklink__info">
+                    <i class="icon icon-join-now"></i>
+                    <span class="text-title">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforjoin")</span>
+                </div>
+                <i class="icon icon-arrow-right"></i>
+            </a>
             }
             @if (promotionCnt > 0)
             {
-                <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
-                    <div class="lobby-quicklink__info">
-                        <i class="icon icon-promotion"></i>
-                        <span class="text-title">@selLangBLL.GetResourceValue("lbl_Promotion")</span>
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforpromotion")</span>
-                    </div>
-                    <i class="icon icon-arrow-right"></i>
-                </a>
+            <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
+                <div class="lobby-quicklink__info">
+                    <i class="icon icon-promotion"></i>
+                    <span class="text-title">@selLangBLL.GetResourceValue("lbl_Promotion")</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforpromotion")</span>
+                </div>
+                <i class="icon icon-arrow-right"></i>
+            </a>
             }
             else
             {
-                <a class="lobby-quicklink" href="https://direct.lc.chat/11638088/" target="_blank">
-                    <div class="lobby-quicklink__info">
-                        <i class="icon icon-deposit-CSD"></i>
-                        <span class="text-title">@selLangBLL.GetResourceValue("lbl_LiveSupport")</span>
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforsupport")</span>
-                    </div>
-                    <i class="icon icon-arrow-right"></i>
-                </a>
+            <a class="lobby-quicklink" href="https://direct.lc.chat/11638088/" target="_blank">
+                <div class="lobby-quicklink__info">
+                    <i class="icon icon-deposit-CSD"></i>
+                    <span class="text-title">@selLangBLL.GetResourceValue("lbl_LiveSupport")</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforsupport")</span>
+                </div>
+                <i class="icon icon-arrow-right"></i>
+            </a>
             }
         </div>
         @if (serverInfo.SiteId == 1)
         {
-            <div id="Marquee"></div>
+        <div id="Marquee"></div>
         }
         <div class="lobby-sport-list">
             <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "1",Url)">
@@ -223,65 +223,65 @@
 
             @if (serverInfo.SiteId == 2 || serverInfo.SiteId == 3)
             {
-                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "2",Url)">
-                    <img src="@SkinImgPath/Lobby/Home/Sport-Basketball.png">
-                    <img src="@SkinImgPath/Lobby/Home/d_Sport-Basketball.png">
-                    <div class="lobby-sport__info">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_Basketball")</span>
-                    </div>
-                </a>
-                <a class="lobby-sport" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
-                    <img src="@SkinImgPath/Lobby/Home/Casino.png">
-                    <img src="@SkinImgPath/Lobby/Home/d_Casino.png">
-                    <div class="lobby-sport__info">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
-                    </div>
-                </a>
-                <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" " href="@gamingBLL.GetEntPageUrl(1, "43",Url)">
-                    <img src="@SkinImgPath/Lobby/Home/Sport-E-Sports.png">
-                    <img src="@SkinImgPath/Lobby/Home/d_Sport-E-Sports.png">
-                    <div class="lobby-sport__info">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_eSports")</span>
-                    </div>
-                </a>
-                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "5",Url)">
-                    <img src="@SkinImgPath/Lobby/Home/Sport-Tennis.png">
-                    <img src="@SkinImgPath/Lobby/Home/d_Sport-Tennis.png">
-                    <div class="lobby-sport__info">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_Tennis")</span>
-                    </div>
-                </a>
+            <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "2",Url)">
+                <img src="@SkinImgPath/Lobby/Home/Sport-Basketball.png">
+                <img src="@SkinImgPath/Lobby/Home/d_Sport-Basketball.png">
+                <div class="lobby-sport__info">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Basketball")</span>
+                </div>
+            </a>
+            <a class="lobby-sport" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                <img src="@SkinImgPath/Lobby/Home/Casino.png">
+                <img src="@SkinImgPath/Lobby/Home/d_Casino.png">
+                <div class="lobby-sport__info">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
+                </div>
+            </a>
+            <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" " href="@gamingBLL.GetEntPageUrl(1, "43",Url)">
+                <img src="@SkinImgPath/Lobby/Home/Sport-E-Sports.png">
+                <img src="@SkinImgPath/Lobby/Home/d_Sport-E-Sports.png">
+                <div class="lobby-sport__info">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_eSports")</span>
+                </div>
+            </a>
+            <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "5",Url)">
+                <img src="@SkinImgPath/Lobby/Home/Sport-Tennis.png">
+                <img src="@SkinImgPath/Lobby/Home/d_Sport-Tennis.png">
+                <div class="lobby-sport__info">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Tennis")</span>
+                </div>
+            </a>
             }
             else
             {
-                <a class="lobby-sport" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
-                    <img src="@SkinImgPath/Lobby/Home/Sport-Casino.png?v20200323">
-                    <img src="@SkinImgPath/Lobby/Home/d_Sport-Casino.png?v20200323">
-                    <div class="lobby-sport__info">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
-                    </div>
-                </a>
-                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(0, "livecasino", Url,GameType.LiveCasinoLobby)">
-                    <img src="@SkinImgPath/Lobby/Home/Sport-Live_Casino.png?v20200323">
-                    <img src="@SkinImgPath/Lobby/Home/d_Sport-Live_Casino.png?v20200323">
-                    <div class="lobby-sport__info">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
-                    </div>
-                </a>
-                <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "43",Url)">
-                    <img src="@SkinImgPath/Lobby/Home/Sport-E-Sports.png?v20200323">
-                    <img src="@SkinImgPath/Lobby/Home/d_Sport-E-Sports.png?v20200323">
-                    <div class="lobby-sport__info">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_eSports")</span>
-                    </div>
-                </a>
-                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "180",Url)">
-                    <img src="@SkinImgPath/Lobby/Home/Sport-Virtual_Sports.png">
-                    <img src="@SkinImgPath/Lobby/Home/d_Sport-Virtual_Sports.png">
-                    <div class="lobby-sport__info">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>
-                    </div>
-                </a>
+            <a class="lobby-sport" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                <img src="@SkinImgPath/Lobby/Home/Sport-Casino.png?v20200323">
+                <img src="@SkinImgPath/Lobby/Home/d_Sport-Casino.png?v20200323">
+                <div class="lobby-sport__info">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
+                </div>
+            </a>
+            <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(0, "livecasino", Url,GameType.LiveCasinoLobby)">
+                <img src="@SkinImgPath/Lobby/Home/Sport-Live_Casino.png?v20200323">
+                <img src="@SkinImgPath/Lobby/Home/d_Sport-Live_Casino.png?v20200323">
+                <div class="lobby-sport__info">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
+                </div>
+            </a>
+            <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "43",Url)">
+                <img src="@SkinImgPath/Lobby/Home/Sport-E-Sports.png?v20200323">
+                <img src="@SkinImgPath/Lobby/Home/d_Sport-E-Sports.png?v20200323">
+                <div class="lobby-sport__info">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_eSports")</span>
+                </div>
+            </a>
+            <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "180",Url)">
+                <img src="@SkinImgPath/Lobby/Home/Sport-Virtual_Sports.png">
+                <img src="@SkinImgPath/Lobby/Home/d_Sport-Virtual_Sports.png">
+                <div class="lobby-sport__info">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>
+                </div>
+            </a>
             }
 
         </div>
@@ -289,83 +289,84 @@
             <div class="swiper-wrapper">
                 @if (serverInfo.SiteId == 2 || serverInfo.SiteId == 3)
                 {
-                    <div class="swiper-slide">
-                        <div class="lobby-product">
-                            <div class="lobby-product__info">
-                                <span class="text-title">@selLangBLL.GetResourceValue("lbl_Casino")</span>
-                                <span class="text">@selLangBLL.GetResourceValue("lbl_CasinoSlogon")</span>
-                                <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
-                                    <span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span>
-                                </a>
-                            </div>
-                            <img src="@SkinImgPath/Lobby/Home/Product-Casino.png" asp-append-version="true">
+                <div class="swiper-slide">
+                    <div class="lobby-product">
+                        <div class="lobby-product__info">
+                            <span class="text-title">@selLangBLL.GetResourceValue("lbl_Casino")</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_CasinoSlogon")</span>
+                            <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span>
+                            </a>
                         </div>
+                        <img src="@SkinImgPath/Lobby/Home/Product-Casino.png" asp-append-version="true">
                     </div>
-                    <div class="swiper-slide">
-                        <div class="lobby-product">
-                            <div class="lobby-product__info">
-                                <span class="text-title">@selLangBLL.GetResourceValue("lbl_Keno")</span>
-                                <span class="text">@selLangBLL.GetResourceValue("lbl_KenoSlogon")</span>
-                                <a class="btn btn-secondary @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "202", Url)"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
-                            </div>
-                            <img src="@SkinImgPath/Lobby/Home/Product-Keno.png" asp-append-version="true">
+                </div>
+                <div class="swiper-slide">
+                    <div class="lobby-product">
+                        <div class="lobby-product__info">
+                            <span class="text-title">@selLangBLL.GetResourceValue("lbl_Keno")</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_KenoSlogon")</span>
+                            <a class="btn btn-secondary @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "202", Url)"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
                         </div>
+                        <img src="@SkinImgPath/Lobby/Home/Product-Keno.png" asp-append-version="true">
                     </div>
-                    <div class="swiper-slide">
-                        <div class="lobby-product">
-                            <div class="lobby-product__info">
-                                <span class="text-title">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
-                                <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasinoSlogon")</span>
-                                <a class="btn btn-secondary" href="@gamingBLL.GetEntPageUrl(0, "livecasino", Url,GameType.LiveCasinoLobby)"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
-                            </div>
-                            <img src="@SkinImgPath/Lobby/Home/Product-LiveCasino.png" asp-append-version="true">
+                </div>
+                <div class="swiper-slide">
+                    <div class="lobby-product">
+                        <div class="lobby-product__info">
+                            <span class="text-title">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasinoSlogon")</span>
+                            <a class="btn btn-secondary" href="@gamingBLL.GetEntPageUrl(0, "livecasino", Url,GameType.LiveCasinoLobby)"><span class="text">@selLangBLL.GetResourceValue("lbl_TryNow")</span></a>
                         </div>
+                        <img src="@SkinImgPath/Lobby/Home/Product-LiveCasino.png" asp-append-version="true">
                     </div>
+                </div>
                 }
                 else
                 {
-                    <div class="lobby-product-swiper">
-                        <div class="swiper-wrapper">
-                            @if (promotionCnt > 0)
+                <div class="lobby-product-swiper">
+                    <div class="swiper-wrapper">
+                        @if (promotionCnt > 0)
                             {
-                                <div class="swiper-slide">
-                                    <div class="lobby-product">
-                                        <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
-                                            <img src="@SkinImgPath/Lobby/Home/Product-150-@(selLangBLL.GetLangId()).png" asp-append-version="true">
-                                        </a>
-                                    </div>
-                                </div>
-                            }
-                            <div class="swiper-slide">
-                                <div class="lobby-product">
-                                    <a href="@gamingBLL.GetEntPageUrl(1, "245", Url)" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
-                                        <img src="@SkinImgPath/Lobby/Home/Product-Virtual_Game-@(selLangBLL.GetLangId()).png" asp-append-version="true">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="lobby-product">
-                                    <a href="@gamingBLL.GetEntPageUrl(1, "202", Url)" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
-                                        <img src="@SkinImgPath/Lobby/Home/Product-Keno.png" asp-append-version="true">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="lobby-product">
-                                    <a href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
-                                        <img src="@SkinImgPath/Lobby/Home/Product-gpiyggjokersg-@(selLangBLL.GetLangId()).jpg" asp-append-version="true" />
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="lobby-product">
-                                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() })">
-                                        <img src="@SkinImgPath/Lobby/Home/cashbackrebet-@(selLangBLL.GetLangId()).png" asp-append-version="true" />
-                                    </a>
-                                </div>
+                        <div class="swiper-slide">
+                            <div class="lobby-product">
+                                <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
+                                    <img src="@SkinImgPath/Lobby/Home/Product-150-@(selLangBLL.GetLangId()).png" asp-append-version="true">
+                                </a>
                             </div>
                         </div>
+                            }
+                        <div class="swiper-slide">
+                            <div class="lobby-product">
+                                <a href="@gamingBLL.GetEntPageUrl(1, "245", Url)" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                                    <img src="@SkinImgPath/Lobby/Home/Product-Virtual_Game-@(selLangBLL.GetLangId()).png" asp-append-version="true">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="lobby-product">
+                                <a href="@gamingBLL.GetEntPageUrl(1, "202", Url)" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                                    <img src="@SkinImgPath/Lobby/Home/Product-Keno.png" asp-append-version="true">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="lobby-product">
+                                <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
+                                    <img src="@SkinImgPath/Lobby/Home/Product-150-@(selLangBLL.GetLangId()).png" asp-append-version="true">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="lobby-product">
+                                <a href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                                    <img src="@SkinImgPath/Lobby/Home/Product-gpiyggjokersg-@(selLangBLL.GetLangId()).jpg" asp-append-version="true" />
+                                </a>
+                            </div>
+                        </div>
+
                     </div>
+                </div>
                 }
             </div>
         </div>
@@ -475,30 +476,30 @@
 
             if (balance < 1m)
             {
-                <div class="modal" id="DepositAlet" data-open="false">
-                    <div class="overlay Js-DepositAlet"></div>
-                    <div class="modal__dialog">
-                        <div class="modal__header">
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_Notice")</span>
-                        </div>
-                        <div class="modal__body">
-                            <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlert"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), balance.ToString("#,##0.##")))</p>
-                            <br>
-                        </div>
-                        <div class="modal__footer">
-                            <div class="btn-group">
-                                <button class="btn btn-primary Js-DepositAlet" type="button">
-                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Later")</span>
-                                </button>
-                                <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                                    <span class="text">@selLangBLL.GetResourceValue("lbl_DepositNow")</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+    <div class="modal" id="DepositAlet" data-open="false">
+        <div class="overlay Js-DepositAlet"></div>
+        <div class="modal__dialog">
+            <div class="modal__header">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Notice")</span>
+            </div>
+            <div class="modal__body">
+                <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlert"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), balance.ToString("#,##0.##")))</p>
+                <br>
+            </div>
+            <div class="modal__footer">
+                <div class="btn-group">
+                    <button class="btn btn-primary Js-DepositAlet" type="button">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Later")</span>
+                    </button>
+                    <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_DepositNow")</span>
+                    </a>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                @:<script>DepositAlert = 1;</script>
+    @:<script>DepositAlert = 1;</script>
             }
             var option = new Microsoft.AspNetCore.Http.CookieOptions();
             option.Expires = DateTime.Now.AddDays(1);
