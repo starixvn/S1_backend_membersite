@@ -5,6 +5,7 @@ import { Provider } from "../../../../datas/Provider";
 export const Nav = (props) => {
     let desktopPages = [];
     let mobilePages = [];
+    let propmoDisplayText = window.langCode === 'cs' || window.langCode === 'ch' ? '熱!' : 'HOT!';
     Object.keys(Page).forEach((key) => {
         let pageInfo = Page[key];
         let active = props.SelectedPage.displayText === pageInfo.displayText;
@@ -14,7 +15,10 @@ export const Nav = (props) => {
                 onClick={props.HandleFilter.bind(null, pageInfo, "Page")}
                 className={active ? "active" : ""}
             >
-                <span>{pageInfo.displayText}</span>
+                <span>{pageInfo.displayText}</span>      
+                {
+                    pageInfo.hot === true ? <div className="hot">{propmoDisplayText}</div> : null
+                }
             </a>
         );
 

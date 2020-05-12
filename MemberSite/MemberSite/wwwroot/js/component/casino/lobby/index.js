@@ -37,7 +37,7 @@ import InfiniteScroll from '../../../../../../../webpack/node_modules/react-infi
                 _defaultProvider = _provider ? _provider : i18n.lbl_Provider;
             }
             
-            const defaultPage = _defaultProvider || defaultTpId==='0' ? Page.PROMO : Page.ALLGAMES;
+            const defaultPage = _defaultProvider || defaultTpId==='0' ? Page.PROMO : Page.PROMO;
             const defaultProvider = _defaultProvider ? _defaultProvider : {value: 'Provider', displayText:i18n.lbl_Provider};
 
             this.state = {

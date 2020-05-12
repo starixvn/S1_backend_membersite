@@ -1,4 +1,8 @@
 export const Page = {
+    'PROMO':{
+        displayText:i18n.lbl_Promo,
+        hot:true
+    },
     'FEATURED':{
         displayText:i18n.lbl_Feature
     },
@@ -15,9 +19,6 @@ export const Page = {
     'TABLE':{
         displayText:i18n.lbl_Table,
         category1:'Table'
-    },
-    'PROMO':{
-        displayText:i18n.lbl_Promo
     }
     // 'ARCADE':{
     //     displayText:i18n.lbl_Arcade,
