@@ -20,8 +20,9 @@ namespace MemberSite.Controllers
         private readonly AuthorizeBLL authorizeBLL;
         private readonly PaymentBLL paymentBLL;
         private readonly MobilePayInfoBLL mobilePayInfoBLL;
+        private readonly CustInfoBLL custInfoBLL;
 
-        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL)
+        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL, CustInfoBLL custInfoBLL)
         {
             this.courierAdapter = courierAdapter;
             payApiUrl = configuration.GetValue<string>("PayService");
@@ -29,14 +30,27 @@ namespace MemberSite.Controllers
             this.authorizeBLL = authorizeBLL;
             this.paymentBLL = paymentBLL;
             this.mobilePayInfoBLL = mobilePayInfoBLL;
+            this.custInfoBLL = custInfoBLL;
         }
         public IActionResult Deposit()
         {
-            return View();
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
+
+            if (!custInfo.IsTest)
+                return View();
+            else
+                return BadRequest("This account does not allow deposit. Please contact CSD for more information!");
         }
         public IActionResult Withdrawal()
         {
-            return View();
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
+
+            if (!custInfo.IsTest)
+                return View();
+            else
+                return BadRequest("This account does not allow withdrawal. Please contact CSD for more information!");
         }
         public IActionResult Transfer()
         {
