@@ -1606,4 +1606,7 @@
   <data name="lbl_Promo" xml:space="preserve">
     <value>Promosi</value>
   </data>
+  <data name="lbl_Lottery" xml:space="preserve">
+    <value>Lotere</value>
+  </data>
 </root>

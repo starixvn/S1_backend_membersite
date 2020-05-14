@@ -25,6 +25,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
+      "promotion": 1,
       "disabled": 1
     },
     {
@@ -50,7 +51,8 @@
       "launchDate": "2020/04/21",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -75,7 +77,8 @@
       "launchDate": "2020/04/14",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -100,7 +103,8 @@
       "launchDate": "2020/04/14",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -126,7 +130,8 @@
       "hot": true,
       "new": true,
       "featured": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -151,7 +156,8 @@
       "launchDate": "2020/03/31",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -176,7 +182,8 @@
       "launchDate": "2020/03/24",
       "hot": true,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -201,7 +208,8 @@
       "launchDate": "2020/03/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -226,7 +234,8 @@
       "launchDate": "2020/03/10",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -251,7 +260,8 @@
       "launchDate": "2020/03/02",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -276,7 +286,8 @@
       "launchDate": "2020/02/24",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -301,7 +312,8 @@
       "launchDate": "2020/02/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -326,7 +338,8 @@
       "launchDate": "2020/02/10",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -351,7 +364,8 @@
       "launchDate": "2020/02/03",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -376,7 +390,8 @@
       "launchDate": "2020/01/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -401,7 +416,8 @@
       "launchDate": "2020/01/13",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -426,7 +442,8 @@
       "launchDate": "2020/01/06",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -477,7 +494,8 @@
       "launchDate": "2019/12/10",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -502,7 +520,8 @@
       "launchDate": "2019/11/25",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -527,7 +546,8 @@
       "launchDate": "2019/11/18",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -552,7 +572,8 @@
       "launchDate": "2019/11/11",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -577,7 +598,8 @@
       "launchDate": "2019/10/28",
       "hot": true,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -602,7 +624,8 @@
       "launchDate": "2019/10/07",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -627,7 +650,8 @@
       "launchDate": "2019/09/30",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -652,7 +676,8 @@
       "launchDate": "2019/09/16",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -677,7 +702,8 @@
       "launchDate": "2019/08/26",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -702,7 +728,8 @@
       "launchDate": "2019/08/19",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -727,7 +754,8 @@
       "launchDate": "2019/08/12",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -752,7 +780,8 @@
       "launchDate": "2019/07/29",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -777,7 +806,8 @@
       "launchDate": "2019/07/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -802,7 +832,8 @@
       "launchDate": "2019/06/24",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -827,7 +858,8 @@
       "launchDate": "2019/06/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -852,7 +884,8 @@
       "launchDate": "2019/06/10",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -877,7 +910,8 @@
       "launchDate": "2019/05/27",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -902,7 +936,8 @@
       "launchDate": "2019/05/13",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -927,7 +962,8 @@
       "launchDate": "2019/04/29",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -978,7 +1014,8 @@
       "launchDate": "2019/03/18",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1003,7 +1040,8 @@
       "launchDate": "2019/03/04",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1028,7 +1066,8 @@
       "launchDate": "2019/02/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1053,7 +1092,8 @@
       "launchDate": "2019/02/11",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1078,7 +1118,8 @@
       "launchDate": "2019/01/28",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -1103,7 +1144,8 @@
       "launchDate": "2019/01/24",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1128,7 +1170,8 @@
       "launchDate": "2019/01/15",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1153,7 +1196,8 @@
       "launchDate": "2019/01/07",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1178,7 +1222,8 @@
       "launchDate": "2018/12/27",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1203,7 +1248,8 @@
       "launchDate": "2018/11/19",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1228,7 +1274,8 @@
       "launchDate": "2018/11/06",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1253,7 +1300,8 @@
       "launchDate": "2018/10/29",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1278,7 +1326,8 @@
       "launchDate": "2018/10/22",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -1286,7 +1335,7 @@
         "cs": "古代埃及经典版",
         "ch": "古代埃及經典版",
         "id": "Asgard",
-        "th": " แอสการ์ด",
+        "th": "แอสการ์ด",
         "vn": "Ngôi nhà của các vị thần"
       },
       "appId": "vs10egyptcls",
@@ -1303,7 +1352,8 @@
       "launchDate": "2018/10/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1328,7 +1378,8 @@
       "launchDate": "2018/09/25",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1353,7 +1404,8 @@
       "launchDate": "2018/09/11",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1378,7 +1430,8 @@
       "launchDate": "2018/08/13",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1404,6 +1457,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
+      "promotion": 1,
       "disabled": 1
     },
     {
@@ -1429,7 +1483,8 @@
       "launchDate": "2018/07/18",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1455,6 +1510,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
+      "promotion": 1,
       "disabled": 1
     },
     {
@@ -1480,7 +1536,8 @@
       "launchDate": "2018/06/18",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1505,7 +1562,8 @@
       "launchDate": "2018/06/04",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1530,7 +1588,8 @@
       "launchDate": "2018/05/14",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1555,7 +1614,8 @@
       "launchDate": "2018/05/01",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1632,7 +1692,8 @@
       "launchDate": "2018/03/19",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1657,7 +1718,8 @@
       "launchDate": "2018/03/02",
       "hot": true,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1680,7 +1742,8 @@
       "launchDate": "2018/02/26",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1703,7 +1766,8 @@
       "launchDate": "2018/04/10",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -1752,7 +1816,8 @@
       "launchDate": "2018/01/14",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1775,7 +1840,8 @@
       "launchDate": "2018/01/15",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1798,7 +1864,8 @@
       "launchDate": "2018/01/03",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1821,7 +1888,8 @@
       "launchDate": "2017/12/12",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1846,7 +1914,8 @@
       "launchDate": "2018/01/31",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1871,7 +1940,8 @@
       "launchDate": "2017/11/29",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1895,7 +1965,8 @@
       "hot": true,
       "new": true,
       "featured": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1920,7 +1991,8 @@
       "launchDate": "2017/07/11",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -1945,7 +2017,8 @@
       "launchDate": "2017/10/24",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1968,7 +2041,8 @@
       "launchDate": "2017/09/10",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -1993,7 +2067,8 @@
       "launchDate": "2017/09/26",
       "hot": true,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2017,7 +2092,8 @@
       "hot": true,
       "new": true,
       "featured": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2040,7 +2116,8 @@
       "launchDate": "2016/08/23",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2065,7 +2142,8 @@
       "launchDate": "2016/08/23",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2090,7 +2168,8 @@
       "launchDate": "2017/04/07",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2140,7 +2219,8 @@
       "launchDate": "2017/07/27",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2165,7 +2245,8 @@
       "launchDate": "2017/05/30",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2188,7 +2269,8 @@
       "launchDate": "2017/04/27",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2213,7 +2295,8 @@
       "launchDate": "2017/05/16",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2238,7 +2321,8 @@
       "launchDate": "2017/04/18",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2263,7 +2347,8 @@
       "launchDate": "2017/03/13",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2288,7 +2373,8 @@
       "launchDate": "2016/01/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -2313,7 +2399,8 @@
       "launchDate": "2017/07/03",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -2339,7 +2426,8 @@
       "hot": true,
       "new": true,
       "featured": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -2362,7 +2450,8 @@
       "launchDate": "2016/01/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -2385,7 +2474,8 @@
       "launchDate": "2017/12/27",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -2410,7 +2500,8 @@
       "launchDate": "2017/05/01",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2433,7 +2524,8 @@
       "launchDate": "2016/12/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2458,7 +2550,8 @@
       "launchDate": "2016/05/12",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2481,7 +2574,8 @@
       "launchDate": "2016/11/14",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2504,7 +2598,8 @@
       "launchDate": "2016/10/18",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2529,7 +2624,8 @@
       "launchDate": "2016/09/26",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2552,7 +2648,8 @@
       "launchDate": "2016/09/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2575,7 +2672,8 @@
       "launchDate": "2016/03/10",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2598,7 +2696,8 @@
       "launchDate": "2016/01/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2621,7 +2720,8 @@
       "launchDate": "2016/01/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2644,7 +2744,8 @@
       "launchDate": "2016/01/07",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2667,7 +2768,8 @@
       "launchDate": "2016/01/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2690,7 +2792,8 @@
       "launchDate": "2016/01/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2713,7 +2816,8 @@
       "launchDate": "2016/01/07",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2738,7 +2842,8 @@
       "launchDate": "2016/01/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2761,7 +2866,8 @@
       "launchDate": "2016/01/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2784,7 +2890,8 @@
       "launchDate": "2017/10/01",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2807,7 +2914,8 @@
       "launchDate": "2016/01/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2830,7 +2938,8 @@
       "launchDate": "2016/01/07",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2853,7 +2962,8 @@
       "launchDate": "2016/08/16",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2876,7 +2986,8 @@
       "launchDate": "2016/01/07",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2899,7 +3010,8 @@
       "launchDate": "2016/05/12",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2922,7 +3034,8 @@
       "launchDate": "2016/12/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2945,7 +3058,8 @@
       "launchDate": "2016/08/16",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2968,7 +3082,8 @@
       "launchDate": "2016/09/16",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -2993,7 +3108,8 @@
       "launchDate": "2016/01/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -3019,6 +3135,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
+      "promotion": 1,
       "disabled": 1
     },
     {
@@ -3042,7 +3159,8 @@
       "launchDate": "2016/01/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -3065,7 +3183,8 @@
       "launchDate": "2016/08/23",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -3088,7 +3207,8 @@
       "launchDate": "2016/08/30",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -3113,7 +3233,8 @@
       "launchDate": "2016/12/09",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -3138,7 +3259,8 @@
       "launchDate": "2016/01/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -3161,7 +3283,8 @@
       "launchDate": "2016/10/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -3186,7 +3309,8 @@
       "launchDate": "2016/09/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -3211,7 +3335,8 @@
       "launchDate": "2016/01/08",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -3236,7 +3361,8 @@
       "launchDate": "2016/01/07",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 1
     },
     {
       "name": {
@@ -3260,6 +3386,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
+      "promotion": 1,
       "disabled": 1
     },
     {
@@ -3283,7 +3410,8 @@
       "launchDate": "2016/01/07",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -3306,7 +3434,8 @@
       "launchDate": "2017/07/03",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -3329,7 +3458,8 @@
       "launchDate": "2017/07/11",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -3353,6 +3483,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
+      "promotion": 1,
       "disabled": 1
     },
     {
@@ -3377,6 +3508,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
+      "promotion": 1,
       "disabled": 1
     },
     {
@@ -3400,7 +3532,8 @@
       "launchDate": "2017/10/24",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "promotion": 0
     },
     {
       "name": {
@@ -3424,6 +3557,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
+      "promotion": 1,
       "disabled": 1
     },
     {
@@ -3443,6 +3577,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
+      "promotion": 1,
       "disabled": 1
     },
     {
@@ -3462,6 +3597,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
+      "promotion": 1,
       "disabled": 1
     },
     {
@@ -3481,6 +3617,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
+      "promotion": 1,
       "disabled": 1
     },
     {
@@ -3500,6 +3637,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
+      "promotion": 1,
       "disabled": 1
     },
     {
@@ -3519,6 +3657,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
+      "promotion": 1,
       "disabled": 1
     },
     {
@@ -3538,6 +3677,7 @@
       "hot": false,
       "new": true,
       "imageExist": true,
+      "promotion": 1,
       "disabled": 1
     }
   ]

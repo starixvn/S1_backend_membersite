@@ -4916,6 +4916,10 @@ button.swiper-pagination-bullet {
   text-align: center;
 }
 
+.header__nav .dropdown .dropdown__container {
+  transform: translateX(-25%);
+}
+
 .footer {
   flex: 0 0 auto;
   color: white;
@@ -5435,7 +5439,7 @@ button.swiper-pagination-bullet {
   font-weight: normal;
 }
 
-.VirtualGames, .FishingGames, .Statement {
+.VirtualGames, .FishingGames, .Statement, .icon-sport223 {
   width: 1.5rem;
 }
 
@@ -5450,6 +5454,10 @@ button.swiper-pagination-bullet {
 
 .Instagram {
   width: 1rem;
+}
+
+.icon-sport223 {
+  opacity: 0.6;
 }
 
 .lobby-banner-swiper {

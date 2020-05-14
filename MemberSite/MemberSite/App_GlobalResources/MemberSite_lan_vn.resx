@@ -1657,4 +1657,7 @@
   <data name="lbl_Promo" xml:space="preserve">
     <value>khuyến mãi</value>
   </data>
+  <data name="lbl_Lottery" xml:space="preserve">
+    <value>Xổ số</value>
+  </data>
 </root>

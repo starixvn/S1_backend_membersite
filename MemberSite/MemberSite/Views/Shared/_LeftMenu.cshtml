@@ -220,10 +220,23 @@
                     <i class="icon icon-sport162"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
                 </a>
-                <a class="side-nav__btn" href="@gamingBLL.GetEntPageUrl(1,"202",Url)">
+                <a class="side-nav__btn @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"202",Url)">
                     <i class="icon icon-sport202"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Keno")</span>
                 </a>
+                @*<a class="side-nav__btn @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"220",Url)">
+                    <i class="icon icon-sport220"></i>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Lottery")</span>
+                </a>*@
+                @if (CurrencyId == 4 || CurrencyId == 15)
+                {
+                    <a class="side-nav__btn @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "223", Url)">
+                        <i class="icon icon-sport223">
+                            <img src="~/common/images/svg/4D.svg" />
+                        </i>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Indo4d")</span>
+                    </a>
+                }
                 <a class="side-nav__btn @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" onclick="@entFishingPageUrl">
                     <i class="icon FishingGames">
                         <img src="~/common/images/svg/FishingGames.svg" />

@@ -1615,4 +1615,10 @@
   <data name="lbl_Promo" xml:space="preserve">
     <value>Promo</value>
   </data>
+  <data name="lbl_Indo4d" xml:space="preserve">
+    <value>Indo 4D</value>
+  </data>
+  <data name="lbl_Lottery" xml:space="preserve">
+    <value>Lottery</value>
+  </data>
 </root>
