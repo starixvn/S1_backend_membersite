@@ -1621,4 +1621,13 @@
   <data name="lbl_Lottery" xml:space="preserve">
     <value>Lottery</value>
   </data>
+  <data name="lbl_PromotionInfo" xml:space="preserve">
+    <value>Promotion Info</value>
+  </data>
+  <data name="FTDPDescription13" xml:space="preserve">
+    <value>Enjoy up to RMB 588 Bonus with your first deposit with Nova88! Join NOW!</value>
+  </data>
+  <data name="FTDPTitle13" xml:space="preserve">
+    <value>100% WELCOME BONUS UP TO RMB 588</value>
+  </data>
 </root>

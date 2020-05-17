@@ -78,6 +78,12 @@ namespace MemberSite.Controllers.Api
                     {
                         promotion.Title = selLangBLL.GetResourceValue($"{promotion.BonusCode}Title");
                         promotion.Description = selLangBLL.GetResourceValue($"{promotion.BonusCode}Description");
+                        if (promotion.CurrencyId == 13)
+                        {
+                            promotion.Title = selLangBLL.GetResourceValue($"{promotion.BonusCode}Title13");
+                            promotion.Description = selLangBLL.GetResourceValue($"{promotion.BonusCode}Description13");
+                        }
+
                         promotion.CategoryName = selLangBLL.GetResourceValue($"PromotionCategory{promotion.CategoryId}");
                     }
                 }

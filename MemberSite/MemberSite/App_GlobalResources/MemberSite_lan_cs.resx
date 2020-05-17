@@ -1606,4 +1606,10 @@
   <data name="lbl_Lottery" xml:space="preserve">
     <value>彩票</value>
   </data>
+  <data name="FTDPDescription13" xml:space="preserve">
+    <value>在欧亚88完成第一笔存款以享受高达人民币588的优惠回馈！立即加入！</value>
+  </data>
+  <data name="FTDPTitle13" xml:space="preserve">
+    <value>100％欢迎红利，最高人民币588</value>
+  </data>
 </root>
