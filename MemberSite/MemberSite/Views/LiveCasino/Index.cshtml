@@ -23,7 +23,7 @@
         var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
         var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
         var cashierUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
-        var lobbyUrl =  Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+        var lobbyUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
         var entPageUrl = "";
 
 
@@ -79,7 +79,7 @@
                             </div>
                             <div>
                                 <div>
-                                    <a href="@Html.Raw(GetEntPageUrl(1,"211"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                                    <a href="@Html.Raw(GetEntPageUrl(12,"12"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
                                         <img src="/common/images/LiveCasino/All-Bet.png" />
                                     </a>
                                 </div>
