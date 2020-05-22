@@ -270,7 +270,7 @@
         <a class="header__col" data-selected="false" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
             <span class="text">@selLangBLL.GetResourceValue("lbl_Casino")</span>
         </a>
-        <a class="header__col" data-selected="false" href="@gamingBLL.GetEntPageUrl(1,"211",Url, GameType.LiveCasinoLobby)">
+        <a class="header__col" data-selected="false" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() })">
             <span class="text">@selLangBLL.GetResourceValue("lbl_LiveCasino")</span>
         </a>
         @*<a class="header__col" data-selected="false" href="@gamingBLL.GetEntPageUrl(1,"211",Url)">
