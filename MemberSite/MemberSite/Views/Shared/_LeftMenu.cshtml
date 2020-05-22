@@ -228,7 +228,7 @@
                     <i class="icon icon-sport220"></i>
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Lottery")</span>
                 </a>
-                @*@if (CurrencyId == 4 || CurrencyId == 15)
+                @if (CurrencyId == 4 || CurrencyId == 15)
                 {
                     <a class="side-nav__btn @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "223", Url)">
                         <i class="icon icon-sport223">
@@ -236,7 +236,7 @@
                         </i>
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Indo4d")</span>
                     </a>
-                }*@
+                }
                 <a class="side-nav__btn @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" onclick="@entFishingPageUrl">
                     <i class="icon FishingGames">
                         <img src="~/common/images/svg/FishingGames.svg" />
