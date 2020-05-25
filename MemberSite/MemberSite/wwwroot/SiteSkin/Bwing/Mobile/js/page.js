@@ -34,8 +34,8 @@ $(document).ready(function () {
   });
 
   $("#is-login").click(function () {
-    $(".header").addClass("is-login");
-    $(".wrap-content").addClass("is-login")
+      $(".header").addClass("is-login");
+      $(".wrap-content").addClass("is-login");
   });  
   
 });

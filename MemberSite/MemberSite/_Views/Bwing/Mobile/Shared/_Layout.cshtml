@@ -93,93 +93,98 @@
     }
     <div class="page">
         <partial name="~/_Views/Bwing/Mobile/Shared/_Header.cshtml" />
-        @*Url.RouteUrl(new { action = "Index", controller = "Home", area = "Mobile", LangId = selLangBLL.GetLangId() });*@
-        @RenderBody()
+        <div class="wrap-content @(User.Identity.IsAuthenticated ? "is-login":"")">
+            @RenderBody()
+        </div>
         <partial name="~/_Views/Bwing/Mobile/Shared/_Footer.cshtml" />
     </div>
 
     <div class="remodal-bg"></div>
+    @if (User.Identity.IsAuthenticated)
+    {
 
-    <!-- Modal Login -->
-    <div class="remodal" data-remodal-id="modal-login"
-         data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
-        <button data-remodal-action="close" class="remodal-close"></button>
-        <div class="popup-header">Login</div>
-        <div class="popup-body">
-            <p>
-                Don't have an account?
-                <span class="link" data-remodal-target="modal-register">Join Now</span>
-            </p>
-            <div class="form">
-                <div class="form-group">
-                    <label>Username:</label><input class="input-field" type="text" />
+    }
+    else
+    {
+        @*<!-- Modal Login -->*@
+        <div class="remodal" data-remodal-id="modal-login"
+             data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
+            <button data-remodal-action="close" class="remodal-close"></button>
+            <div class="popup-header">Login</div>
+            <form id="LoginForm">
+                <div class="popup-body">
+                    <p>
+                        Don't have an account?
+                        <span class="link" data-remodal-target="modal-register">Join Now</span>
+                    </p>
+                    <div class="form">
+                        <div class="form-group">
+                            <label>Username:</label><input id="Login_UserName" class="input-field" type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label>Password:</label><input id="Login_Userpwd" class="input-field" type="text" />
+                        </div>
+                        <span class="link">Forgot Password?</span>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Password:</label><input class="input-field" type="text" />
+                <div class="popup-footer">
+                    <button type="submit" class="btn btn-login">
+                        Login
+                    </button>
                 </div>
-                <span class="link">Forgot Password?</span>
-            </div>
+            </form>
         </div>
-
-        <div class="popup-footer">
-            <button class="btn btn-login" data-remodal-action="confirm" id="is-login">
-                Login
-            </button>
-        </div>
-    </div>
-
-    <!-- Modal Resigter -->
-    <div class="remodal" data-remodal-id="modal-register"
-         data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
-        <button data-remodal-action="close" class="remodal-close"></button>
-        <div class="popup-header">Register</div>
-        <div class="popup-body">
-            <p>
-                Please note that we do not permit members to own more than(1) account.
-                <span class="link" data-remodal-target="modal-login">
-                    Login Here
-                </span>
-            </p>
-
-            <div class="form">
-                <div class="form-group">
-                    <label>Username:</label>
-                    <input class="input-field" type="text" />
-                </div>
-
-                <div class="form-group">
-                    <label>Password:</label>
-                    <input class="input-field" type="text" />
-                </div>
-
-                <div class="form-group">
-                    <label>Email:</label>
-                    <input class="input-field" type="text" />
-                </div>
-
-                <div class="checkbox">
-                    <input id="check" type="checkbox" value="true" />
-                    <label for="check">
-                        I agree to the
-                        <span class="text-link">
-                            Terms and Conditions
-                        </span> and the
-                        <span class="text-link">
-                            Rules and Regulations
+        @*<!-- Modal Resigter -->*@
+        <div class="remodal" data-remodal-id="modal-register"
+             data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
+            <button data-remodal-action="close" class="remodal-close"></button>
+            <div class="popup-header">Register</div>
+            <form id="RegisterForm">
+                <div class="popup-body">
+                    <p>
+                        Please note that we do not permit members to own more than(1) account.
+                        <span class="link" data-remodal-target="modal-login">
+                            Login Here
                         </span>
-                        of Bwing. I acknowledge I am at least 21 years of age.
-                    </label>
+                    </p>
+                    <div class="form">
+                        <div class="form-group">
+                            <label>Username:</label>
+                            <input class="input-field" type="text" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password:</label>
+                            <input class="input-field" type="text" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email:</label>
+                            <input class="input-field" type="text" />
+                        </div>
+                        <div class="checkbox">
+                            <input id="check" type="checkbox" value="true" />
+                            <label for="check">
+                                I agree to the
+                                <span class="text-link">
+                                    Terms and Conditions
+                                </span> and the
+                                <span class="text-link">
+                                    Rules and Regulations
+                                </span>
+                                of Bwing. I acknowledge I am at least 21 years of age.
+                            </label>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <div class="popup-footer">
+                    <button class="btn btn-login" type="submit">
+                        Complete Registration
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <div class="popup-footer">
-            <button class="btn btn-login" data-remodal-action="confirm">
-                Complete Registration
-            </button>
-        </div>
-    </div>
-
+    }
     <script src="~/lib/moment.min.js"></script>
     <script src="~/lib/axios.min.js"></script>
     <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
@@ -192,218 +197,205 @@
 
     @if (environment.EnvironmentName == "Development")
     {
-        if (!tools.IsMobile())
-        {
-            <script src="~/lib/es6-promise.min.js"></script>
-            <script src="~/lib/es6-promise.auto.min.js"></script>
-        }
-
         <script src="~/lib/react.development.js"></script>
         <script src="~/lib/react-dom.development.js"></script>
         <script src="~/lib/babel.min.js"></script>
-        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>*@
     }
     else
     {
         <script src="~/lib/react.production.min.js"></script>
         <script src="~/lib/react-dom.production.min.js"></script>
-        if (!tools.IsMobile())
+    }
+    <script>
+    @if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+        if (custInfo.ActStatus == 2)
         {
-            <script src="~/lib/es6-promise.min.js"></script>
-            <script src="~/lib/es6-promise.auto.min.js"></script>
+
         }
+        CurrencyId = custInfo.CurrencyId;
+        Dictionary<string, string> i18n = new Dictionary<string, string>();
+        i18n.Add("lbl_LastTransaction", selLangBLL.GetResourceValue("lbl_LastTransaction"));
+        i18n.Add("lbl_LastLogin", selLangBLL.GetResourceValue("lbl_LastLogin"));
+        i18n.Add("lbl_ShowBalance", selLangBLL.GetResourceValue("lbl_ShowBalance"));
+        i18n.Add("lbl_Currency", selLangBLL.GetResourceValue($"Currency_{CurrencyId}"));
+
+        string[] lbl_Txts = new string[] { "lbl_Deposit", "lbl_TransferFunds" };
+        foreach (var lbl_Txt in lbl_Txts)
+        {
+            if (!i18n.ContainsKey(lbl_Txt))
+                i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
+        }
+
+        if (showResetPwdAlert)
+        {
+            i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
+            i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
+            i18n.Add("msg_PasswordVaildate", selLangBLL.GetMsg("msg_PasswordVaildate"));
+
+            i18n.Add("lbl_ChangePassword", selLangBLL.GetResourceValue("lbl_ChangePassword"));
+            i18n.Add("lbl_OldPassword", selLangBLL.GetResourceValue("lbl_OldPassword"));
+            i18n.Add("lbl_NewPassword", selLangBLL.GetResourceValue("lbl_NewPassword"));
+            i18n.Add("lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip"));
+            i18n.Add("lbl_Later", selLangBLL.GetResourceValue("lbl_Later"));
+            i18n.Add("lbl_Update", selLangBLL.GetResourceValue("lbl_Update"));
+        }
+
+        @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
+        @:var IsConvertRequired = @Newtonsoft.Json.JsonConvert.SerializeObject(custInfoBLL.IsConvertRequired(CurrencyId));
+    }
+    else
+    {
+        Dictionary<string, string> i18n = new Dictionary<string, string>();
+        i18n.Add("lbl_JoinNow", selLangBLL.GetResourceValue("lbl_JoinNow"));
+        i18n.Add("lbl_DontHaveAccount", selLangBLL.GetResourceValue("lbl_DontHaveAccount"));
+        i18n.Add("lbl_ForgetPassword", selLangBLL.GetResourceValue("lbl_ForgetPassword"));
+        i18n.Add("lbl_Login", selLangBLL.GetResourceValue("lbl_Login"));
+        i18n.Add("lbl_Username", selLangBLL.GetResourceValue("lbl_Username"));
+        i18n.Add("lbl_UsernameTooltip", selLangBLL.GetResourceValue("lbl_UsernameTooltip"));
+        i18n.Add("lbl_Password", selLangBLL.GetResourceValue("lbl_Password"));
+        i18n.Add("lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip"));
+        i18n.Add("msg_PasswordVaildate", selLangBLL.GetMsg("msg_PasswordVaildate"));
+        i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
+        i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
+        i18n.Add("msg_UsernameVaildate", selLangBLL.GetMsg("msg_UsernameVaildate"));
+        i18n.Add("msg_UsernameLength", selLangBLL.GetMsg("msg_UsernameLength"));
+        i18n.Add("msg_UsernameReq", selLangBLL.GetMsg("msg_UsernameReq"));
+        @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
+        @:var joinNowUrl = '@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })';
+        @:var forgetPassowrdUrl = '@Url.RouteUrl("desktop", new { action = "ForgetPassowrd", controller = "Home", LangId = selLangBLL.GetLangId() })';
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+        @:var IsConvertRequired = @Newtonsoft.Json.JsonConvert.SerializeObject(custInfoBLL.IsConvertRequired(CurrencyId));
     }
 
-    <script>
-        @if (User.Identity.IsAuthenticated)
-        {
-            var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            if (custInfo.ActStatus == 2)
-            {
-
-            }
-            CurrencyId = custInfo.CurrencyId;
-            Dictionary<string, string> i18n = new Dictionary<string, string>();
-            i18n.Add("lbl_LastTransaction", selLangBLL.GetResourceValue("lbl_LastTransaction"));
-            i18n.Add("lbl_LastLogin", selLangBLL.GetResourceValue("lbl_LastLogin"));
-            i18n.Add("lbl_ShowBalance", selLangBLL.GetResourceValue("lbl_ShowBalance"));
-            i18n.Add("lbl_Currency", selLangBLL.GetResourceValue($"Currency_{CurrencyId}"));
-
-            string[] lbl_Txts = new string[] { "lbl_Deposit", "lbl_TransferFunds" };
-            foreach (var lbl_Txt in lbl_Txts)
-            {
-                if (!i18n.ContainsKey(lbl_Txt))
-                    i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
-            }
-
-            if (showResetPwdAlert)
-            {
-                i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
-                i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
-                i18n.Add("msg_PasswordVaildate", selLangBLL.GetMsg("msg_PasswordVaildate"));
-
-                i18n.Add("lbl_ChangePassword", selLangBLL.GetResourceValue("lbl_ChangePassword"));
-                i18n.Add("lbl_OldPassword", selLangBLL.GetResourceValue("lbl_OldPassword"));
-                i18n.Add("lbl_NewPassword", selLangBLL.GetResourceValue("lbl_NewPassword"));
-                i18n.Add("lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip"));
-                i18n.Add("lbl_Later", selLangBLL.GetResourceValue("lbl_Later"));
-                i18n.Add("lbl_Update", selLangBLL.GetResourceValue("lbl_Update"));
-            }
-
-            @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
-            @:var IsConvertRequired = @Newtonsoft.Json.JsonConvert.SerializeObject(custInfoBLL.IsConvertRequired(CurrencyId));
-        }
-        else
-        {
-            Dictionary<string, string> i18n = new Dictionary<string, string>();
-            i18n.Add("lbl_JoinNow", selLangBLL.GetResourceValue("lbl_JoinNow"));
-            i18n.Add("lbl_DontHaveAccount", selLangBLL.GetResourceValue("lbl_DontHaveAccount"));
-            i18n.Add("lbl_ForgetPassword", selLangBLL.GetResourceValue("lbl_ForgetPassword"));
-            i18n.Add("lbl_Login", selLangBLL.GetResourceValue("lbl_Login"));
-            i18n.Add("lbl_Username", selLangBLL.GetResourceValue("lbl_Username"));
-            i18n.Add("lbl_UsernameTooltip", selLangBLL.GetResourceValue("lbl_UsernameTooltip"));
-            i18n.Add("lbl_Password", selLangBLL.GetResourceValue("lbl_Password"));
-            i18n.Add("lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip"));
-            i18n.Add("msg_PasswordVaildate", selLangBLL.GetMsg("msg_PasswordVaildate"));
-            i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
-            i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
-            i18n.Add("msg_UsernameVaildate", selLangBLL.GetMsg("msg_UsernameVaildate"));
-            i18n.Add("msg_UsernameLength", selLangBLL.GetMsg("msg_UsernameLength"));
-            i18n.Add("msg_UsernameReq", selLangBLL.GetMsg("msg_UsernameReq"));
-            @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
-            @:var joinNowUrl = '@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })';
-            @:var forgetPassowrdUrl = '@Url.RouteUrl("desktop", new { action = "ForgetPassowrd", controller = "Home", LangId = selLangBLL.GetLangId() })';
-            CurrencyId = selLangBLL.GetPreferCurrencyId();
-            @:var IsConvertRequired = @Newtonsoft.Json.JsonConvert.SerializeObject(custInfoBLL.IsConvertRequired(CurrencyId));
-        }
-
-        $(function () {
-                var breakpoint;
-                var getBreakpoint = function () {
-                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
-                };
-
-            var displayBreakpoint = function () {
-                document.querySelector('html').dataset.layout = breakpoint;
+    $(function () {
+            var breakpoint;
+            var getBreakpoint = function () {
+                return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
             };
+
+        var displayBreakpoint = function () {
+            document.querySelector('html').dataset.layout = breakpoint;
+        };
+
+        breakpoint = getBreakpoint();
+
+        displayBreakpoint();
+
+        window.addEventListener('resize', function () {
 
             breakpoint = getBreakpoint();
 
             displayBreakpoint();
 
-            window.addEventListener('resize', function () {
+        }, false);
 
-                breakpoint = getBreakpoint();
+        $(".btn-toggle-nav").on("touchstart, click", function () {
+            $(".side-bar").attr("data-open", "true");
+        });
 
-                displayBreakpoint();
+        $(".side-bar .overlay").on("touchstart, click", function () {
+            $(".side-bar").removeAttr("data-open");
+        });
 
-            }, false);
+        //$(".side-nav__item > .dropdown > .btn").on("touchstart, click", function () {
+        //    var $dropdown = $(this).parent();
+        //    $dropdown.attr("data-open") == "true" ? $dropdown.removeAttr("data-open") : $dropdown.attr("data-open", "true");
+        //});
 
-            $(".btn-toggle-nav").on("touchstart, click", function () {
-                $(".side-bar").attr("data-open", "true");
-            });
-
-            $(".side-bar .overlay").on("touchstart, click", function () {
-                $(".side-bar").removeAttr("data-open");
-            });
-
-            //$(".side-nav__item > .dropdown > .btn").on("touchstart, click", function () {
-            //    var $dropdown = $(this).parent();
-            //    $dropdown.attr("data-open") == "true" ? $dropdown.removeAttr("data-open") : $dropdown.attr("data-open", "true");
-            //});
-
-            $(document.body).on("touchstart, mousedown", function (e) {
-                var container = $(".dropdown");
-                if (!container.is(e.target) && container.has(e.target).length === 0) {
-                   container.removeAttr("data-open");
-                }
-            });
-
-            $(".dropdown > .btn").on("touchstart, click", function (e) {
-                var $target = $(this).parent();
-
-                var container = $(".dropdown");
-                if (!container.is($target) && container.has($target).length === 0) {
-                    container.removeAttr("data-open");
-                }
-
-                $target.attr("data-open", $target.attr("data-open") === "true" ? "false" : "true");
-            });
-
-            if (ResetPwdAlert === 1) {
-                $("#ResetPwdAlert").attr("data-open", true);
-            } else if (DepositAlert===1) {
-                $("#DepositAlet").attr("data-open", true);
+        $(document.body).on("touchstart, mousedown", function (e) {
+            var container = $(".dropdown");
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                container.removeAttr("data-open");
             }
         });
+
+        $(".dropdown > .btn").on("touchstart, click", function (e) {
+            var $target = $(this).parent();
+
+            var container = $(".dropdown");
+            if (!container.is($target) && container.has($target).length === 0) {
+                container.removeAttr("data-open");
+            }
+
+            $target.attr("data-open", $target.attr("data-open") === "true" ? "false" : "true");
+        });
+
+        if (ResetPwdAlert === 1) {
+            $("#ResetPwdAlert").attr("data-open", true);
+        } else if (DepositAlert===1) {
+            $("#DepositAlet").attr("data-open", true);
+        }
+    });
     </script>
     @if (User.Identity.IsAuthenticated)
     {
         if (iSwitch == 1)
         {
             <script type="text/javascript">
-                $(function () {
-                    $(".Js-Dialog").on("touchstart, click", function () {
-                        $("#Dialog").attr("data-open", false);
-                        $("#Dialog2").attr("data-open", false);
-                    });
+                        $(function () {
+                            $(".Js-Dialog").on("touchstart, click", function () {
+                                $("#Dialog").attr("data-open", false);
+                                $("#Dialog2").attr("data-open", false);
+                            });
 
-                    $(".Js-LiveCasino").on("touchstart, click", function () {
-                        $("#Dialog").attr("data-open", false);
-                        window.open($(".Js-LiveCasino").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
-                    });
+                            $(".Js-LiveCasino").on("touchstart, click", function () {
+                                $("#Dialog").attr("data-open", false);
+                                window.open($(".Js-LiveCasino").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
+                            });
 
-                    $(".Js-Sports").on("touchstart, click", function () {
-                        $("#Dialog2").attr("data-open", false);
-                        @if (tools.IsMobile())
-                        {
-                        @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
+                            $(".Js-Sports").on("touchstart, click", function () {
+                                $("#Dialog2").attr("data-open", false);
+                                @if (tools.IsMobile())
+                                {
+                                @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
+                                }
+                                else
+                                {
+                                @:if ($(".Js-Sports").attr("data-GameId") == "202" || $(".Js-Sports").attr("data-GameId") == "208" || $(".Js-Sports").attr("data-GameId") == "211") {
+                                    @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
+                                @:} else {
+                                    @:window.location.href = $(".Js-Sports").attr("data-GameUrl");
+                                @:}
+                                }
+                            });
+                        });
+
+                        function LaunchGame(GameUrl, WindowKey, TpId, GameId) {
+                            var dialogId = "#Dialog";
+                            var balanceId = ".Js-MainWallet-Balance";
+                            var enterBtn = ".Js-LiveCasino";
+
+                            if (TpId == 1) {
+                                dialogId = "#Dialog2";
+                                balanceId = ".Js-3RdWallet-Balance";
+                                enterBtn = ".Js-Sports";
+                            }
+
+                            $(enterBtn).attr("data-GameId", GameId);
+                            $(enterBtn).attr("data-GameUrl", GameUrl);
+                            $(enterBtn).attr("data-WindowKey", WindowKey);
+
+                            $(".app-loading").attr("data-open", true);
+                            axios.post('/api/Account/CheckWellet', { TpId: TpId })
+                            .then(function (response) {
+                                $(".app-loading").attr("data-open", false);
+                                let result = response.data;
+                                if (result.errorCode == 0) {
+                                    $(balanceId).html("@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") " + number_format(result.data));
+                                    $(dialogId).attr("data-open", true);
+                                } else if (result.errorCode == 10) {
+                                    alert(result.message);
+                                } else {
+                                    alert(result.message);
+                                }
+                            }).catch(function (error) {
+                                $(".app-loading").attr("data-open", false);
+                                alert(error);
+                            });
                         }
-                        else
-                        {
-                        @:if ($(".Js-Sports").attr("data-GameId") == "202" || $(".Js-Sports").attr("data-GameId") == "208" || $(".Js-Sports").attr("data-GameId") == "211") {
-                            @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
-                        @:} else {
-                            @:window.location.href = $(".Js-Sports").attr("data-GameUrl");
-                        @:}
-                        }
-                    });
-                });
-
-                function LaunchGame(GameUrl, WindowKey, TpId, GameId) {
-                    var dialogId = "#Dialog";
-                    var balanceId = ".Js-MainWallet-Balance";
-                    var enterBtn = ".Js-LiveCasino";
-
-                    if (TpId == 1) {
-                        dialogId = "#Dialog2";
-                        balanceId = ".Js-3RdWallet-Balance";
-                        enterBtn = ".Js-Sports";
-                    }
-
-                    $(enterBtn).attr("data-GameId", GameId);
-                    $(enterBtn).attr("data-GameUrl", GameUrl);
-                    $(enterBtn).attr("data-WindowKey", WindowKey);
-
-                    $(".app-loading").attr("data-open", true);
-                    axios.post('/api/Account/CheckWellet', { TpId: TpId })
-                    .then(function (response) {
-                        $(".app-loading").attr("data-open", false);
-                        let result = response.data;
-                        if (result.errorCode == 0) {
-                            $(balanceId).html("@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") " + number_format(result.data));
-                            $(dialogId).attr("data-open", true);
-                        } else if (result.errorCode == 10) {
-                            alert(result.message);
-                        } else {
-                            alert(result.message);
-                        }
-                    }).catch(function (error) {
-                        $(".app-loading").attr("data-open", false);
-                        alert(error);
-                    });
-                }
             </script>
         }
         else
@@ -431,32 +423,33 @@
     }
     @if (User.Identity.IsAuthenticated)
     {
-        <script src="~/js/commJS/common.js"></script>
-        <script src="~/js/commJS/Account.js" asp-append-version="true"></script>
-        <script src="~/js/component/app/BalancePanel.min.js" asp-append-version="true"></script>
-        <script src="~/js/component/app/WalletInfo.min.js" asp-append-version="true"></script>
-        if (showResetPwdAlert)
-        {
-            <script src="~/js/component/account/ChangePwdAlert.min.js" asp-append-version="true"></script>
-        }
+        <script src="~/SiteSkin/Bwing/Mobile/js/after.js" asp-append-version="true"></script>
+        @*<script src="~/js/commJS/common.js"></script>
+            <script src="~/js/commJS/Account.js" asp-append-version="true"></script>
+            <script src="~/js/component/app/BalancePanel.min.js" asp-append-version="true"></script>
+            <script src="~/js/component/app/WalletInfo.min.js" asp-append-version="true"></script>
+            if (showResetPwdAlert)
+            {
+                <script src="~/js/component/account/ChangePwdAlert.min.js" asp-append-version="true"></script>
+            }*@
     }
     else
     {
         <script src="~/lib/runtime.min.js"></script>
-        @*<script src="~/js/component/app/loginForm.min.js" asp-append-version="true"></script>*@
+        <script src="~/SiteSkin/Bwing/Mobile/js/before.js" asp-append-version="true"></script>
     }
     @* Start of LiveChat (www.livechatinc.com) code *@
-    <script type="text/javascript">
-        window.__lc = window.__lc || {};
-        window.__lc.license = 11638088;
-        window.__lc.chat_between_groups = false;
+    @*<script type="text/javascript">
+            window.__lc = window.__lc || {};
+            window.__lc.license = 11638088;
+            window.__lc.chat_between_groups = false;
 
-        (function () {
-            var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
-            lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
-        })();
-    </script>
+            (function () {
+                var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
+                lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
+            })();
+        </script>*@
     @*  End of LiveChat code*@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=@google_id"></script>

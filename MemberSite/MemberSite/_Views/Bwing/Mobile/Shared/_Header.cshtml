@@ -28,7 +28,7 @@
         CurrencyId = selLangBLL.GetPreferCurrencyId();
     }
 }
-<header class="header">
+<header class="header @(User.Identity.IsAuthenticated ? "is-login":"")">
     <span class="btn-menu" id="btn-menu"><span class="line"></span></span>
     <a class="logo-header" href="index.html">
         <img src="~/SiteSkin/Bwing/Mobile/assets/images/logo.png" alt="Logo" />
@@ -78,7 +78,7 @@
                             Welcome, <span class="link">@User.Identity.Name</span>
                             <p class="balance">0('000) <i class="icon icon-refresh-white"></i></p>
                         </div>
-                        <i class="icon icon-logout"></i>
+                        <i id="logout" class="icon icon-logout"></i>
                     </div>
                     <div class="nav-button">
                         <a class="btn btn-primary" href="views/systems/deposit.html">Deposit</a>
