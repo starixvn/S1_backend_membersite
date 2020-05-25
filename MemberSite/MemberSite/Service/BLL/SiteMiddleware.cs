@@ -96,7 +96,7 @@ namespace MemberSite.Service.BLL
             string[] IPs = configuration.GetSection("BlockIP").Get<string[]>();
             if (IPs == null)
             {
-                return true;
+                return false;
             }
             else
             {
