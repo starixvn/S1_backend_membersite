@@ -18,3 +18,21 @@
         }
     });
 });
+
+$("ul.lang-list > .lang:not(.selected)").on("touchstart, click", function (e) {
+    axios.post('/api/Account/SetLanguage',{LangId:$(this).attr("Js-lang-id")})
+    .then(function (response) {
+        var result = response.data;
+        if (result.errorCode == 0) {
+            window.location.replace(window.location.href);
+        } else {
+            alert(result.message);
+        }
+    }).catch(function (error) {
+        if (error.response !=null &&  error.response.status == 401) {
+            window.location.replace(window.location.href);
+        } else {
+            alert(result.message);
+        }
+    });
+});
