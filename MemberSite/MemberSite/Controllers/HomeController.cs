@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MemberSite.Service.BLL;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -6,6 +7,12 @@ namespace MemberSite.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly TemplateBLL templateBLL;
+
+        public HomeController(TemplateBLL templateBLL)
+        {
+            this.templateBLL = templateBLL;
+        }
         public IActionResult Index(string refId, string affId, string aff)
         {
             if (!User.Identity.IsAuthenticated)
@@ -50,7 +57,7 @@ namespace MemberSite.Controllers
                 }
             }
 
-            return View();
+            return View(templateBLL.GetTemplatePath(Url));
         }
 
         public IActionResult Register(string refId, string affId, string aff)

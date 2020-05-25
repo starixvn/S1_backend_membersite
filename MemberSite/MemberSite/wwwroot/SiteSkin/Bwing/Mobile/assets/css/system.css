@@ -1,0 +1,766 @@
+.text-bold {
+  font-weight: 600;
+}
+
+.text-italic {
+  font-style: italic;
+  font-weight: normal;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-green {
+  color: #63d127 !important;
+}
+
+.text-red {
+  color: #ce2c2c;
+}
+
+.text-gray {
+  color: #585858;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.note {
+  padding-bottom: 1.5rem;
+  padding-top: 1rem;
+}
+
+.green {
+  color: #208412;
+}
+
+.txt-note {
+  margin-bottom: 20px;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+table thead th,
+table tbody td {
+  padding: 1.1rem 0.5rem;
+  text-align: center;
+}
+
+table thead th {
+  font-weight: normal;
+  border-bottom: 1px solid #0e2d4d;
+}
+
+table tbody td {
+  border-bottom: 1px solid #0e2d4d;
+}
+
+.form+.table-content {
+  margin-top: 1.5rem;
+}
+
+.table-content .button-block {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.status-completed {
+  color: #63d127;
+}
+
+.status-fail {
+  color: #f63e3e;
+}
+
+.status-inprogress {
+  color: #fdc53e;
+}
+
+.options-method .collapsible-body {
+  padding: 1rem 0 1rem;
+  background-color: transparent;
+  color: #fff;
+}
+
+.options-method .options-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+  margin-bottom: 1rem;
+}
+.options-method .options-card .card {
+  background: #fff;
+}
+
+.options-method .option-item {
+  position: relative;
+  padding: 0;
+}
+
+.options-method .option-item img {
+  width: 100%;
+}
+
+.options-method .option-item .radio-button {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+.options-method .option-item .value {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  text-align: center;
+  border-top: 1px solid #d9d9d9;
+}
+
+/* Form group */
+
+.form .button-group {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.form .button-group .btn:last-child {
+  margin-left: 1rem;
+}
+
+.form-group {
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
+  width: 100%;
+  align-items: center;
+  grid-row-gap: 1rem;
+}
+
+.form-group .label {
+  padding-right: 2rem;
+}
+
+.form-group .input-group {
+  display: flex;
+  height: 5rem;
+  border: 1px solid #257cd4;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.5rem;
+}
+
+.form-group .input-group .icon {
+  margin-right: 1rem;
+}
+
+.form-group .input-group .bank-limit {
+  position: relative;
+}
+
+.form-group .input-group .bank-limit>* {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0.5rem;
+}
+
+.form-group .input-group .bank-limit .icon {
+  margin-top: -1rem;
+}
+
+.form-group .input-field {
+  position: relative;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  -ms-flex-preferred-size: 0;
+  flex-basis: 0;
+  max-width: 100%;
+  border-radius: 0;
+}
+
+.form-group .input-field .icon-lock {
+  position: absolute;
+  right: 1rem;
+  top: 1.3rem;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.form-group .input-field .input-control, 
+.form-group .input-field .languages {
+  width: 100%;
+  height: 5rem;
+  padding: 0 1.5rem;
+  border: 1px solid #257cd4;
+  background: transparent;
+  font-family: inherit;
+  color: #fff;
+  border-radius: 0;
+  font-size: 1.6rem;
+}
+
+.form-group .input-field .languages {
+  padding-left: 0;
+  border-left: none;
+}
+
+.form-group .input-field .languages-box {
+  width: 100%;
+  height: 100%;
+  padding-top: 1.6rem;
+}
+
+.form-group .languages-box .lang-list {
+  left: 0;
+  right: unset;
+  top: 4rem;
+} 
+
+.form-group .input-field .languages-box:after {
+  top: 2.2rem;
+  right: -.4rem;
+}
+
+.form-group .input-field .input-control:disabled {
+  color: #b9bcbf;
+}
+
+.form-group.mobile-input .input-group {
+  padding: 0 2rem;
+}
+
+.form-group.mobile-input .input-control {
+  background-color: transparent;
+  border: 0;
+  font-family: inherit;
+  text-align: right;
+  height: 5rem;
+}
+
+.form-group.mobile-input .input-control:focus {
+  outline: none;
+}
+
+.form-group .flag-select {
+  width: 100%;
+  border: 1px solid #257cd4;
+  height: 5rem;
+}
+
+.form-group .flag-select__btn {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.form-group .flag-select__option--placeholder {
+  display: flex;
+  align-items: center;
+}
+
+.form-group .flag-select__option__icon {
+  top: 0;
+}
+
+.form-group .flag-select__option--placeholder .flag-select__option__label {
+  color: #fff;
+  font-family: inherit;
+}
+
+.form-group .flag-select__btn:after {
+  position: absolute;
+  top: 2rem;
+  right: 1rem;
+}
+
+.form-group .bank-note {
+  font-style: italic;
+  font-size: 1.4rem;
+}
+
+.form-horizontal {
+  display: flex;
+}
+
+.form-horizontal .form-group {
+  grid-template-columns: 12rem 1fr;
+  margin-bottom: 1rem;
+}
+
+.form-horizontal .form-group:first-child {
+  margin-right: 5rem;
+}
+
+
+.calendar-group .select-day {
+  position: absolute;
+  top: 0;
+  left: auto;
+  right: 0;
+  width: 5rem;
+  height: 5rem;
+  padding: 1.3rem;
+  background: rgb(55, 130, 196);
+  background: linear-gradient(180deg,
+      rgba(55, 130, 196, 1) 0%,
+      rgba(16, 91, 157, 1) 100%);
+  border: 1px solid #1368ac;
+  cursor: pointer;
+}
+
+
+.calendar-group .input-field{
+  width: 100%;
+  position: relative;
+}
+
+/*.calendar-group .picker-input__icon {
+  left: auto !important;
+  right: 0;
+  width: 5rem;
+  height: 5rem;
+  padding: 1.3rem;
+  background: rgb(55, 130, 196);
+  background: linear-gradient(180deg,
+      rgba(55, 130, 196, 1) 0%,
+      rgba(16, 91, 157, 1) 100%);
+  border: 1px solid #1368ac;
+  cursor: pointer;
+}
+
+.calendar-group .picker-input__icon path {
+  display: none;
+}*/
+
+.calendar-group .input-control {
+  width: 100%;
+  height: 5rem;
+  background-color: transparent;
+  border: 1px solid #257cd4;
+  padding-left: 1.5rem !important;
+  font-size: inherit;
+  font-family: inherit;
+  color: #fff;
+  font-size: 1.6rem;
+}
+
+/*.calendar-group .picker__container {
+  left: auto !important;
+  right: 0;
+  z-index: 80;
+}
+
+.calendar-group .calendar__item {
+  border: 1px solid #257cd4;
+}
+
+.calendar-group .calendar__head {
+  background: rgb(55, 130, 196);
+  background: linear-gradient(180deg,
+      rgba(55, 130, 196, 1) 0%,
+      rgba(16, 91, 157, 1) 100%);
+}
+
+.calendar-group .calendar__head--prev {
+  left: 1.5rem;
+}
+
+.calendar-group .calendar__head--next {
+  right: 1.5rem;
+}
+
+.calendar-group .calendar__body--table th {
+  color: #fff;
+  background-color: #103255;
+}
+
+.calendar table tbody td {
+  background: var(--headerBg);
+}
+
+.calendar .calendar__day--today {
+  background: rgb(55, 130, 196);
+  background: linear-gradient(180deg,
+      rgba(55, 130, 196, 1) 0%,
+      rgba(16, 91, 157, 1) 100%);
+}
+
+.calendar .calendar__day--start,
+.calendar .calendar__day--end,
+.calendar .calendar__day--selected {
+  background: rgb(250, 206, 86);
+  background: linear-gradient(0deg,
+      rgba(250, 206, 86, 1) 0%,
+      rgba(255, 175, 18, 1) 54%);
+}
+
+.calendar-group .calendar__day {
+  padding-top: 9px;
+}
+
+.calendar-group .calendar__day--6 {
+  color: red;
+}
+*/
+
+.calendar-group .form-input {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4rem 20rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* --------------- */
+
+.link-back {
+  cursor: pointer;
+}
+
+.link-back:hover {
+  text-decoration: underline;
+}
+
+.link-back:after {
+  content: "";
+  display: inline-block;
+  margin: 0 1rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  background-color: transparent;
+  transform: rotate(-45deg);
+}
+
+/* --- announcement-block ----- */
+.announcement-block .checkbox label {
+  line-height: 1.5;
+  height: 2.4rem;
+}
+
+.announcement-block .checkbox label:before,
+.checkbox label:after {
+  border: 1px solid transparent;
+  background-color: #fff;
+}
+
+.announcement-block .option-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 1.5rem !important;
+}
+
+.announcement-block .action-group .icon-delete {
+  margin-right: 2rem;
+}
+
+.announcement-block .action-col {
+  width: 5rem;
+  text-align: center;
+}
+
+/* --- Transfer Funds Page ----- */
+
+.transferFunds-block .collapsible-body {
+  padding: 0;
+  margin-bottom: 3rem;
+  background-color: transparent;
+  color: #fff;
+}
+
+.transferFunds-block .grid {
+  margin-bottom: 3rem;
+}
+
+.transferFunds-block .grid .wallet-group {
+  margin-bottom: 1rem;
+}
+
+.form-transfer {
+  grid-template-columns: 1fr;
+}
+
+.wallet-group {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #257cd4;
+  height: 5rem;
+  padding: 0 6rem 0 2rem;
+}
+
+.wallet-group .icon-action {
+  position: absolute;
+  display: block;
+  width: 5rem;
+  height: 4.8rem;
+  top: 0;
+  right: 0;
+  padding: 1.5rem;
+  background: rgb(55, 130, 196);
+  background: linear-gradient(180deg,
+      rgba(55, 130, 196, 1) 0%,
+      rgba(16, 91, 157, 1) 100%);
+  cursor: pointer;
+}
+
+/* ------- Deposit page ------  */
+.deposit-block .option-item {
+  background-color: #fff;
+}
+
+.option-bank::before,
+.option-bank:after {
+  content: '';
+  position: absolute;
+}
+
+.option-bank::before {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  border: 4px solid transparent;
+}
+
+.option-bank:after {
+  top: .8rem;
+  left: .8rem;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  border: 1px solid #264768;
+}
+
+.bank-selected::before {
+  border-color: #257cd4;
+}
+
+.bank-selected::after {
+  background-color: #257cd4;
+  border-color: #257cd4;
+}
+
+.options-method .mobile-options {
+  display: flex;
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #0f3154;
+}
+
+.options-method .mobile-options .card {
+  margin-right: 1.5rem;
+}
+
+.mobile-input {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mobile-input .input-group {
+  width: 30rem;
+}
+
+.options-method .mobile-options .value-item {
+  display: inline-block;
+  width: 8.2rem;
+  height: 4rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  line-height: 4rem;
+  background-color: #fff;
+  border-radius: 3px;
+  color: #0f3255;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1.3rem;
+}
+
+.options-method .mobile-options .value-item.selected {
+  background-color: #63d127;
+}
+
+.mobile-options .option-item {
+  width: 12rem;
+}
+
+.popup-body {
+  padding: 3rem 0rem 2rem;
+  color: #fff;
+  text-align: center;
+}
+
+.popup-body .announcement-text {
+  padding: 0 2rem;
+  line-height: 1.5;
+}
+
+.confirm-value {
+  width: 25rem;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  height: 5rem;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ddd;
+}
+
+.confirm-value .value {
+  color: #63d127
+}
+
+.img-wallet {
+  padding: 1rem;
+}
+
+.rodal-dialog .button-group {
+  text-align: center;
+}
+
+.rodal-dialog .button-group .btn {
+  width: 10rem;
+}
+
+/* ----------------- Pagination ---------------------*/
+.paging {
+  text-align: center;
+  border-top: 1px solid #0f3255;
+}
+
+.pagination {
+  padding: 30px 0;
+}
+
+.pagination ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.pagination a {
+  cursor: pointer;
+  display: inline-block;
+  color: #fff;
+  padding: 3px 9px 1px;
+  border-radius: 2px;
+}
+
+.square-fill a:first-of-type,
+.square-fill a:last-of-type {
+  background-color: transparent;
+}
+
+.square-fill .is-active {
+  background-color: #1066b1 !important;
+}
+
+/* -------------- Datepicker ----------------- */
+.daterangepicker {
+  margin-top: 2px;
+  border: 0;
+  font-family: inherit;
+}
+
+.daterangepicker.show-calendar .ranges {
+  margin-top: 0;
+}
+
+.daterangepicker .drp-calendar {
+  max-width: unset;
+}
+
+.daterangepicker:before,
+.daterangepicker:after {
+  content: none;
+}
+
+.daterangepicker .drp-calendar.left {
+  padding: 0;
+}
+
+.daterangepicker .calendar-table th {
+  background-color: rgba(16, 91, 157, 1);
+  border-radius: 0;
+  color: #fff;
+  border: 0;
+  border-bottom: 1px solid transparent;
+}
+
+.daterangepicker .calendar-table th,
+.daterangepicker .calendar-table td {
+  padding: 5px 9px;
+  font-size: 1.4rem;
+}
+
+.daterangepicker .drp-calendar.left .calendar-table {
+  padding: 0;
+}
+
+.daterangepicker select.monthselect,
+.daterangepicker select.yearselect {
+  height: 30px;
+  border: 0;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.daterangepicker td.available:hover,
+.daterangepicker th.available:hover {
+  background-color: rgba(55, 130, 196, 1);
+  color: #fff;
+}
+
+/* -------------- Media query ---------------- */
+@media screen and (max-width: 500px) {
+  .form-group .bank-selection {
+    height: 7rem;
+  }
+
+  .bank-selection .bank-detail {
+    margin-right: 2rem;
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  .options-method .options-card {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .form-transfer {
+    grid-template-columns: auto 1fr;
+  }
+
+  .mobile-options .option-item {
+    width: 20rem;
+  }
+
+  .options-method .mobile-options .value-item {
+    width: 10rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .system-content {
+    max-width: 1170px;
+  }
+}

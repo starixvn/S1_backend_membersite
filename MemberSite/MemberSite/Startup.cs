@@ -102,6 +102,7 @@ namespace MemberSite
             services.AddSingleton<GamingBLL>();
             services.AddSingleton<CasinoBLL>();
             services.AddSingleton<CommonBLL>();
+            services.AddSingleton<TemplateBLL>();
 
             //var bll = AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())
