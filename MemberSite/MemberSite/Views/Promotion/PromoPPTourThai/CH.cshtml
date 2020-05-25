@@ -1,0 +1,140 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="evn-banner">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-PPTour.jpg" alt="" style="display: block;width: 100%;" />
+    </div>
+    <div class="info">
+        <div class="evn-time">
+            <h1>ทัวร์นาเมนท์หกชั่วโมงแห่งความสุขทุกวัน</h1>
+            <h2>ทัวร์นาเมนท์หกชั่วโมงแห่งความสุขทุกวัน</h2>
+            <h4 class="start"><div>โปรโมชั่นค่าย Pragmatic</div></h4>
+            <h1>เงินรางวัลรวมกว่า 157,500 บาท</h1>
+            <h4>26 พฤษภาคม 2563 – 9 มิถุนายน 2563</h4>
+            <h3>ร่วมสนุกกับเกม Pragmatic Play ทุกวัน !! ท่านก็มีโอกาสที่จะชนะ Cash Drops มากมาย <br>เพียงแค่ท่านปั่นสล็อตให้ได้จำนวนรอบมากที่สุดในเวลาที่กำหนดก็มีโอกาสชนะเงินสดแล้ว!! แจกทุกวัน</h3>
+            <h4>ทัวร์นาเมนต์จะเริ่มตั้งแต่เวลา 18:00 น. – 23:59 น. ทุกวันเป็นเวลา 6 ชั่วโมงตั้งแต่วันที่ 26 พฤษภาคม 2563 – 9 มิถุนายน 2563</h4>
+            <h3>แจกทุกวัน เงินสดมูลค่ารวม 10,500 บาท</h3>
+            <h4>ติดตามเพื่อรับข่าวสารเพิ่มเติม</h4>
+        </div>
+        <div class="evn-time-line">
+            <div class="point">
+                <div class="Round"></div>
+                <h1 class="text">เริ่ม</h1>
+            </div>
+            <h4>2020/05/26 18:00</h4>
+            <div class="point">
+                <div class="Round"></div>
+                <h1 class="text">จนถึง</h1>
+            </div>
+            <h4>2020/06/09 23:59</h4>
+        </div>
+        <div class="evn-rules">
+            <h3>ข้อตกลงและเงื่อนไข</h3>
+            <ul>
+                <li>
+                    นี่คือโปรโมชั่นเครือข่ายสำหรับสกุลเงินไทยและผู้เล่นที่มี ไอพีไทยเท่านั้น
+                </li>
+                <li>
+                    ผู้เล่นจะต้องเดิมพันขั้นต่ำ 6 บาทถึงจะนับเข้าระบบ
+                </li>
+                <li>
+                    ผู้เล่นที่มีจำนวนการหมุนสูงสุดจะได้รับรางวัลเงินสดตามตารางด้านล่าง
+                    <br><br>
+                    
+                    <div class="rank">
+                        <div class="rank-list">
+                            <div class="table-header">
+                                <div>อันดับ</div>
+                                <div>เงินรางวัล</div>
+                            </div>
+                            <div class="table-body">
+                                <div>1st</div>
+                                <div>2500</div>
+                            </div>
+                            <div class="table-body">
+                                <div>2nd</div>
+                                <div>1500</div>
+                            </div>
+                            <div class="table-body">
+                                <div>3rd</div>
+                                <div>1000</div>
+                            </div>
+                            <div class="table-body">
+                                <div>4th & 5th</div>
+                                <div>500</div>
+                            </div>
+                            <div class="table-body">
+                                <div>6th – 50th</div>
+                                <div>100</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </li>
+                <li>
+                    ผู้ชนะจะอัปเดตบนลีเดอร์บอรด์แบบเรียลไทม์
+                </li>
+                <li>
+                    ผู้เล่นจะได้รับรางวัลทันทีหลังจบทัวร์นาเมนต์
+                </li>
+                <li>
+                    ในกรณีที่เสมอกันผู้เล่นที่ได้จำนวนสปินที่สูงกว่าก่อนจะชนะรางวัล
+                </li>
+                <li>
+                    ผู้เล่นที่เข้าร่วมทั้งหมดไม่ควรใช่บัญชีธนาคารจากประเทศอื่น ๆ ยกเว้นประเทศไทยไม่งั้นอาจจะถูกตัดสิทธิ์
+                </li>
+                <li>
+                    โปรโมชั่นนี้ให้บริการทุกวันเวลา 18:00 น. (GMT + 7) – 23:59 (GMT +7) ตั้งแต่ 26 พฤษภาคม 2563 – 9 มิถุนายน 2563
+                </li>
+                <li>
+                    เกม Pragmatic Play ทั้งหมดสามารถเขัาร่วมได้นอกจาก Money Roll, Irish Charms, 888 Gold, Diamonds are Forever 3 Lines, Queen of Gold, และเกมเทเบิลทุกแบบ
+                </li>
+                <li>
+                    Pragmatic Play ขอสงวนสิทธิ์ในการแก้ไขระงับหรือยกเลิกโปรโมชั่นได้ตลอดเวลา
+                </li>
+
+            </ul>
+        </div>
+        <div class="min-bet">
+            <h3>จำนวนเงินเดิมพันขั้นต่ำ</h3>
+            <div class="rank-list">
+                <div class="table-body">
+                    
+                    <div>
+                        สกุลเงิน
+                       
+                    </div>
+                    <div>
+                        เดิมพันขั้นต่ำ
+                    </div>
+                </div>
+                <div class="table-body">
+                    
+                    <div>
+                        <img src="thb.png">
+                        <span>THB</span>
+                       
+                    </div>
+                    <div>
+                        <br>
+                        <span>10</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
