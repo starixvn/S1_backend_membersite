@@ -1,0 +1,175 @@
+﻿@using MemberSite.Service.BLL
+@using MemberSite.Service.Library
+@using MemberSite.Service.Model.enums
+@using System.Security.Claims
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@inject CustInfoBLL custInfoBLL
+@inject PromotionBLL promotionBLL
+@inject Tools tools
+@inject GamingBLL gamingBLL
+@inject AuthorizeBLL authorizeBLL
+@{
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
+
+    var entFishingPageUrl = "";
+    int CurrencyId = 0;
+    if (User.Identity.IsAuthenticated)
+    {
+        entFishingPageUrl = gamingBLL.GetEntPageUrl(7, "10", Url, GameType.Fishing);
+        entFishingPageUrl = $"javascript:window.open('{entFishingPageUrl}', 'Tp_7_10', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus()";
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
+    }
+    else
+    {
+        entFishingPageUrl = "javascript:void(0);";
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+    }
+}
+<header class="header">
+    <span class="btn-menu" id="btn-menu"><span class="line"></span></span>
+    <a class="logo-header" href="index.html">
+        <img src="assets/images/logo.png" alt="Logo" />
+    </a>
+    <div class="header-top-right">
+        <div class="before-login">
+            <button class="btn btn-login" data-remodal-target="modal-login">
+                Login
+            </button>
+            <button class="btn btn-register" data-remodal-target="modal-register">
+                Register
+            </button>
+        </div>
+        <div class="languages">
+            <div class="languages-box">
+                <div id="lang_selector" class="language-dropdown">
+                    <label for="toggle" class="lang-flag lang-en" title="Click to select the language">
+                        <span class="flag"></span>
+                    </label>
+                    <ul class="lang-list">
+                        <li class="lang lang-en selected" title="English">
+                            <span class="flag"></span>
+                            <span class="text">English</span>
+                        </li>
+                        <li class="lang lang-vn" title="Tiếng Việt">
+                            <span class="flag"></span>
+                            <span class="text">Tiếng Việt</span>
+                        </li>
+                    </ul>
+                </div>
+                <div id="lang_selected" class="lang_selected">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nav-mobile-overlay">
+        <div class="nav-mobile">
+            <span class="btn-menu bt-menu-close" id="btn-menu-close"><span class="line"></span></span>
+            <div class="nav-top-before">
+                <button class="btn btn-login" data-remodal-target="modal-login">Login</button>
+                <button class="btn btn-register" data-remodal-target="modal-register">Register</button>
+            </div>
+            <div class="nav-top-after">
+                <div class="nav-info">
+                    <div class="info">
+                        Welcome, <span class="link">username</span>
+                        <p class="balance">0('000) <i class="icon icon-refresh-white"></i></p>
+                    </div>
+                    <i class="icon icon-logout"></i>
+                </div>
+                <div class="nav-button">
+                    <a class="btn btn-primary" href="views/systems/deposit.html">Deposit</a>
+                    <a class="btn btn-primary" href="views/systems/transfer.html">Transfer</a>
+                    <a class="btn btn-primary" href="views/systems/withdrawal.html">Withdrawal</a>
+                </div>
+            </div>
+            <div class="nav-mobile-main">
+                <ul class="main-nav-mobile">
+                    <li class="nav-item"><a href="index.html"><i class="icon icon-menu-home"></i>Home</a></li>
+                    <li class="nav-item"><a href="views/sport.html"><i class="icon icon-menu-sport"></i>Sports</a></li>
+                    <li class="nav-item"><a href="views/esport.html"><i class="icon icon-menu-esport"></i>ESports</a></li>
+                    <li class="nav-item">
+                        <a href="views/number-game.html"><i class="icon icon-menu-number"></i>Number Game</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="views/virtual-sport.html">
+                            <i class="icon icon-menu-virtual"></i>Virtual
+                            Sports
+                        </a>
+                    </li>
+                    <li class="nav-item"><a href="views/casino.html"><i class="icon icon-menu-casino"></i>Casino</a></li>
+                    <li class="nav-item">
+                        <a href="views/live-casino.html"><i class="icon icon-menu-live"></i>Live Casino</a>
+                    </li>
+                    <li class="nav-item"><a href="views/keno.html"><i class="icon icon-menu-live"></i>Keno</a></li>
+                    <li class="nav-item">
+                        <a href="views/slot.html"><i class="icon icon-menu-fishing"></i>Fishing World</a>
+                    </li>
+                </ul>
+                <div class="languages">
+                    <div class="languages-box">
+                        <div id="lang_selector" class="language-dropdown">
+                            <label for="toggle" class="lang-flag lang-en" title="Click to select the language">
+                                <span class="flag"></span>
+                            </label>
+                            <ul class="lang-list">
+                                <li class="lang lang-en selected" title="English">
+                                    <span class="flag"></span>
+                                    <span class="text">English</span>
+                                </li>
+                                <li class="lang lang-vn" title="Tiếng Việt">
+                                    <span class="flag"></span>
+                                    <span class="text">Tiếng Việt</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="lang_selected" class="lang_selected">
+                            <p>English</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-system">
+                    <div class="system-mob">
+                        <a href="views/systems/announcement.html" class="system-item">
+                            <span class="system-icon">
+                                <i class="icon icon-info"></i>
+                            </span><span>Message</span>
+                        </a>
+                        <a href="views/systems/profile.html" class="system-item">
+                            <span class="system-icon">
+                                <i class="icon icon-account"></i>
+                            </span><span>Profile</span>
+                        </a>
+                        <a href="views/systems/promotions.html" class="system-item">
+                            <span class="system-icon">
+                                <i class="icon icon-promotion"></i>
+                            </span><span>Promotion</span>
+                        </a>
+                        <a href="views/systems/change-password.html" class="system-item">
+                            <span class="system-icon">
+                                <i class="icon icon-key"></i>
+                            </span><span>Change password</span>
+                        </a>
+                        <a href="views/systems/transfer.html" class="system-item">
+                            <span class="system-icon">
+                                <i class="icon icon-dola"></i>
+                            </span><span>Transfer</span>
+                        </a>
+                        <a href="views/systems/deposit-history.html" class="system-item">
+                            <span class="system-icon">
+                                <i class="icon icon-history"></i>
+                            </span><span>Transaction History</span>
+                        </a>
+                        <a href="views/systems/statement.html" class="system-item">
+                            <span class="system-icon">
+                                <i class="icon icon-profile"></i>
+                            </span><span>Statement</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

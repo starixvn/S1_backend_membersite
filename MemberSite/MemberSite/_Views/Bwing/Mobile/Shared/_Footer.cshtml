@@ -1,0 +1,148 @@
+﻿@using MemberSite.Service.BLL
+@using MemberSite.Service.Library
+@using MemberSite.Service.Model.enums
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@inject Tools tools
+@inject GamingBLL gamingBLL
+@{
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
+
+    var entFishingPageUrl = "";
+    if (User.Identity.IsAuthenticated)
+    {
+        entFishingPageUrl = gamingBLL.GetEntPageUrl(7, "10", Url, GameType.Fishing);
+        entFishingPageUrl = $"javascript:window.open('{entFishingPageUrl}', 'Tp_7_10', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus()";
+    }
+    else
+    {
+        entFishingPageUrl = "javascript:void(0);";
+    }
+}
+@functions{
+    string GetEntPageUrl(int tpId, string gameId)
+    {
+        var homeUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+        var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+        var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+        var entPageUrl = "";
+
+
+        if (!User.Identity.IsAuthenticated)
+        {
+            entPageUrl = "javascript:void();";
+        }
+        else
+        {
+            //if (tpId == 1)
+            //{
+            //    var msg =  @selLangBLL.GetErrMsg(10);
+            //    entPageUrl = $"javascript:alert('{msg}');";
+            //    return entPageUrl;
+            //}
+
+            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+            entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
+        }
+        return entPageUrl;
+    }
+}
+<footer class="footer">
+    <div class="container">
+        <div class="menu-footer">
+            <div class="item footer-product">
+                <p class="title">Sports Betting</p>
+                <ul class="item-list">
+                    <li><a class="link-footer" href="#">Soccer Betting</a></li>
+                    <li><a class="link-footer" href="#">Basketball Betting</a></li>
+                    <li><a class="link-footer" href="#">Badminton Betting</a></li>
+                    <li><a class="link-footer" href="#">Football Betting</a></li>
+                    <li><a class="link-footer" href="#">Tennis Betting</a></li>
+                    <li><a class="link-footer" href="#">Hockey Betting</a></li>
+                    <li><a class="link-footer" href="#">E-Sports Betting</a></li>
+                </ul>
+            </div>
+            <div class="item">
+                <p class="title">OUR POLICIES</p>
+                <ul class="item-list">
+                    <li><a class="link-footer" href="#">Responsible Gaming</a></li>
+                    <li><a class="link-footer" href="#">Terms and Conditions</a></li>
+                    <li><a class="link-footer" href="#">Privacy Policy</a></li>
+                    <li><a class="link-footer" href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="menu-footer">
+            <div class="item footer-support">
+                <p class="title">Help & Support</p>
+                <ul class="item-list">
+                    <li><a class="link-footer" href="#">Rules and Regulations</a></li>
+                    <li><a class="link-footer" href="#">Account Terms</a></li>
+                    <li><a class="link-footer" href="#"></a>FAQ</li>
+                </ul>
+            </div>
+            <div class="item about-us">
+                <div class="footer-social">
+                    <p class="title">Socials</p>
+                    <ul class="item-list">
+                        <li><a class="link-footer" href="#"><i class="icon icon-facebook-circle"></i>Facebook</a></li>
+                        <li><a class="link-footer" href="#"><i class="icon icon-twitter-circle"></i>Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-footer">
+            <div class="item">
+                <div class="title">@serverInfo.SiteName</div>
+                <ul class="item-list">
+                    <li><a class="link-footer" href="#">About Us</a></li>
+                    <li><a class="link-footer" href="#">Terms of Use</a></li>
+                    <li><a class="link-footer" href="#">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="item footer-contact">
+                <div>
+                    <div class="title">Contact Us</div>
+                    <div class="text">
+                        Our 24/7 online support team is always available to listen and answer your questions.
+                        We support via online chat, phone, email and many other popular channels such as: Zalo, Viber, Skype,
+                        Facebook ...
+                    </div>
+                </div>
+
+                <div class="languages">
+                    <div class="languages-box">
+                        <div id="lang_selector" class="language-dropdown">
+                            <label for="toggle" class="lang-flag lang-en" title="Click to select the language">
+                                <span class="flag"></span>
+                            </label>
+                            <ul class="lang-list">
+                                <li class="lang lang-en selected" title="English">
+                                    <span class="flag"></span>
+                                    <span class="text">English</span>
+                                </li>
+                                <li class="lang lang-vn" title="Tiếng Việt">
+                                    <span class="flag"></span>
+                                    <span class="text">Tiếng Việt</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="lang_selected" class="lang_selected">
+                            <p>English</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="copy-right">
+        <p>© Copyright @DateTime.Now.Year. @serverInfo.SiteName. All Rights Reserved.</p>
+        <button class="btn btn-view">
+            <i class="icon icon-desktop"></i>Full version
+        </button>
+    </div>
+</footer>
