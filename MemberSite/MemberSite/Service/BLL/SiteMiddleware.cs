@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Routing;
+﻿using MemberSite.Service.Library;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Template;
-using Microsoft.Extensions.Primitives;
+using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
@@ -15,11 +14,15 @@ namespace MemberSite.Service.BLL
     {
         private readonly RequestDelegate _next;
         private readonly SelLangBLL selLangBLL;
+        private readonly Tools tools;
+        private readonly IConfiguration configuration;
 
-        public SiteMiddleware(RequestDelegate next, SelLangBLL selLangBLL)
+        public SiteMiddleware(IConfiguration configuration, RequestDelegate next, SelLangBLL selLangBLL, Tools tools)
         {
             _next = next;
             this.selLangBLL = selLangBLL;
+            this.tools = tools;
+            this.configuration = configuration;
         }
         public RouteValueDictionary Match(string routeTemplate, string requestPath)
         {
@@ -45,7 +48,12 @@ namespace MemberSite.Service.BLL
         {
             try
             {
-                if (IsGetMethod(context) && IsSupportContentType(context))
+                if (IsBlockIP(context))
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    return;
+                }
+                else if (IsGetMethod(context) && IsSupportContentType(context))
                 {
                     await _next.Invoke(context);
                     if (context.Response.StatusCode == 404)
@@ -82,6 +90,19 @@ namespace MemberSite.Service.BLL
         private bool IsSupportContentType(HttpContext context)
         {
             return true;
+        }
+        private bool IsBlockIP(HttpContext context)
+        {
+            string[] IPs = configuration.GetSection("BlockIP").Get<string[]>();
+            if (IPs == null)
+            {
+                return true;
+            }
+            else
+            {
+                var clientIP = tools.GetClientIP(context);
+                return IPs.Any(x => x == clientIP);
+            }
         }
     }
 }

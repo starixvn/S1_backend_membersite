@@ -96,14 +96,18 @@ namespace MemberSite.Service.Library
         /// <returns></returns>
         public string GetClientIP()
         {
+            return GetClientIP(httpContextAccessor.HttpContext);
+        }
+        public string GetClientIP(HttpContext httpContext)
+        {
             string[] HeaderNames = new string[] { "X-Forwarded-For", "HTTP_X_FORWARDED_FOR", "HTTP_INCAP_CLIENT_IP", "HTTP_TRUE_CLIENT_IP", "HTTP_X_REAL_IP", "REMOTE_ADDR" };
 
             foreach (string Header in HeaderNames)
             {
 
-                if (httpContextAccessor.HttpContext.Request.Headers.ContainsKey(Header))
+                if (httpContext.Request.Headers.ContainsKey(Header))
                 {
-                    string sServerVariables = httpContextAccessor.HttpContext.Request.Headers[Header];
+                    string sServerVariables = httpContext.Request.Headers[Header];
                     string ip = GetIPAddress(sServerVariables.Split(','));
                     if (!string.IsNullOrEmpty(ip))
                     {
@@ -112,7 +116,7 @@ namespace MemberSite.Service.Library
                 }
             }
 
-            return httpContextAccessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            return httpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
         }
 
         private string GetIPAddress(string[] IPArry)

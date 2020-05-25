@@ -10,6 +10,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Promotion\Promo5PBonus\**" />
+    <Content Remove="Views\Promotion\Promo5PBonus\**" />
+    <EmbeddedResource Remove="Views\Promotion\Promo5PBonus\**" />
+    <None Remove="Views\Promotion\Promo5PBonus\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\CMS\Nova88\Promotion\ch\banner-promo5p.jpg" />
+    <Content Remove="wwwroot\CMS\Nova88\Promotion\cs\banner-promo5p.jpg" />
+    <Content Remove="wwwroot\CMS\Nova88\Promotion\en\banner-promo5p.jpg" />
+    <Content Remove="wwwroot\CMS\Nova88\Promotion\id\banner-promo5p.jpg" />
+    <Content Remove="wwwroot\CMS\Nova88\Promotion\th\banner-promo5p.jpg" />
     <Content Remove="wwwroot\js\commJS\onlineCheck.js" />
     <Content Remove="wwwroot\js\component\account\BalancePanel.jsx" />
     <Content Remove="wwwroot\js\component\account\ChangePwd.jsx" />
