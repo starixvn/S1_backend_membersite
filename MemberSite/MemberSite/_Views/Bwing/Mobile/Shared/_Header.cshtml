@@ -34,14 +34,17 @@
         <img src="~/SiteSkin/Bwing/Mobile/assets/images/logo.png" alt="Logo" />
     </a>
     <div class="header-top-right">
-        <div class="before-login">
-            <button class="btn btn-login" data-remodal-target="modal-login">
-                Login
-            </button>
-            <button class="btn btn-register" data-remodal-target="modal-register">
-                Register
-            </button>
-        </div>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="before-login">
+                <button class="btn btn-login" data-remodal-target="modal-login">
+                    Login
+                </button>
+                <button class="btn btn-register" data-remodal-target="modal-register">
+                    Register
+                </button>
+            </div>
+        }
         <div class="languages">
             <div class="languages-box">
                 <div id="lang_selector" class="language-dropdown">
@@ -67,24 +70,30 @@
     <div class="nav-mobile-overlay">
         <div class="nav-mobile">
             <span class="btn-menu bt-menu-close" id="btn-menu-close"><span class="line"></span></span>
-            <div class="nav-top-before">
-                <button class="btn btn-login" data-remodal-target="modal-login">Login</button>
-                <button class="btn btn-register" data-remodal-target="modal-register">Register</button>
-            </div>
-            <div class="nav-top-after">
-                <div class="nav-info">
-                    <div class="info">
-                        Welcome, <span class="link">username</span>
-                        <p class="balance">0('000) <i class="icon icon-refresh-white"></i></p>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="nav-top-after">
+                    <div class="nav-info">
+                        <div class="info">
+                            Welcome, <span class="link">@User.Identity.Name</span>
+                            <p class="balance">0('000) <i class="icon icon-refresh-white"></i></p>
+                        </div>
+                        <i class="icon icon-logout"></i>
                     </div>
-                    <i class="icon icon-logout"></i>
+                    <div class="nav-button">
+                        <a class="btn btn-primary" href="views/systems/deposit.html">Deposit</a>
+                        <a class="btn btn-primary" href="views/systems/transfer.html">Transfer</a>
+                        <a class="btn btn-primary" href="views/systems/withdrawal.html">Withdrawal</a>
+                    </div>
                 </div>
-                <div class="nav-button">
-                    <a class="btn btn-primary" href="views/systems/deposit.html">Deposit</a>
-                    <a class="btn btn-primary" href="views/systems/transfer.html">Transfer</a>
-                    <a class="btn btn-primary" href="views/systems/withdrawal.html">Withdrawal</a>
+            }
+            else
+            {
+                <div class="nav-top-before">
+                    <button class="btn btn-login" data-remodal-target="modal-login">Login</button>
+                    <button class="btn btn-register" data-remodal-target="modal-register">Register</button>
                 </div>
-            </div>
+            }
             <div class="nav-mobile-main">
                 <ul class="main-nav-mobile">
                     <li class="nav-item"><a href="index.html"><i class="icon icon-menu-home"></i>Home</a></li>

@@ -91,12 +91,95 @@
             }
         }
     }
-    <div class="app">
+    <div class="page">
         <partial name="~/_Views/Bwing/Mobile/Shared/_Header.cshtml" />
         @*Url.RouteUrl(new { action = "Index", controller = "Home", area = "Mobile", LangId = selLangBLL.GetLangId() });*@
         @RenderBody()
         <partial name="~/_Views/Bwing/Mobile/Shared/_Footer.cshtml" />
     </div>
+
+    <div class="remodal-bg"></div>
+
+    <!-- Modal Login -->
+    <div class="remodal" data-remodal-id="modal-login"
+         data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
+        <button data-remodal-action="close" class="remodal-close"></button>
+        <div class="popup-header">Login</div>
+        <div class="popup-body">
+            <p>
+                Don't have an account?
+                <span class="link" data-remodal-target="modal-register">Join Now</span>
+            </p>
+            <div class="form">
+                <div class="form-group">
+                    <label>Username:</label><input class="input-field" type="text" />
+                </div>
+                <div class="form-group">
+                    <label>Password:</label><input class="input-field" type="text" />
+                </div>
+                <span class="link">Forgot Password?</span>
+            </div>
+        </div>
+
+        <div class="popup-footer">
+            <button class="btn btn-login" data-remodal-action="confirm" id="is-login">
+                Login
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal Resigter -->
+    <div class="remodal" data-remodal-id="modal-register"
+         data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
+        <button data-remodal-action="close" class="remodal-close"></button>
+        <div class="popup-header">Register</div>
+        <div class="popup-body">
+            <p>
+                Please note that we do not permit members to own more than(1) account.
+                <span class="link" data-remodal-target="modal-login">
+                    Login Here
+                </span>
+            </p>
+
+            <div class="form">
+                <div class="form-group">
+                    <label>Username:</label>
+                    <input class="input-field" type="text" />
+                </div>
+
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input class="input-field" type="text" />
+                </div>
+
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input class="input-field" type="text" />
+                </div>
+
+                <div class="checkbox">
+                    <input id="check" type="checkbox" value="true" />
+                    <label for="check">
+                        I agree to the
+                        <span class="text-link">
+                            Terms and Conditions
+                        </span> and the
+                        <span class="text-link">
+                            Rules and Regulations
+                        </span>
+                        of Bwing. I acknowledge I am at least 21 years of age.
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="popup-footer">
+            <button class="btn btn-login" data-remodal-action="confirm">
+                Complete Registration
+            </button>
+        </div>
+    </div>
+
     <script src="~/lib/moment.min.js"></script>
     <script src="~/lib/axios.min.js"></script>
     <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
