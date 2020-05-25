@@ -9,6 +9,7 @@ using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ namespace MemberSite.Controllers.Api
 {
     [AllowAnonymous]
     [Route("api/[controller]/[action]")]
-    //[Route("api/[controller]/[action]/{LangId}")]
+    [Route("api/[controller]/[action]/{LangId}")]
     [ApiController]
     public class SiteController : ControllerBase
     {
@@ -24,19 +25,22 @@ namespace MemberSite.Controllers.Api
         private readonly Tools tools;
         private readonly SelLangBLL selLangBLL;
         private readonly CommonBLL commonBLL;
+        private readonly ServerInfoBLL serverInfoBLL;
 
-        public SiteController(CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL)
+        public SiteController(CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, ServerInfoBLL serverInfoBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
             this.selLangBLL = selLangBLL;
             this.commonBLL = commonBLL;
+            this.serverInfoBLL = serverInfoBLL;
         }
 
         public class LoginModel
         {
             public string UserName { get; set; }
             public string Userpwd { get; set; }
+            public bool isPersistent { get; set; }
         }
 
         [HttpPost]
@@ -89,7 +93,7 @@ namespace MemberSite.Controllers.Api
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30)
             };
 
-            if (tools.IsMobile())
+            if (tools.IsMobile() || loginModel.isPersistent)
             {
                 authProperties = new AuthenticationProperties
                 {
@@ -267,6 +271,52 @@ namespace MemberSite.Controllers.Api
             }
 
             return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<Dictionary<string, string>> GetTranslationData(string[] keys)
+        {
+            var result = new ApiResult<Dictionary<string, string>>();
+            try
+            {
+                Dictionary<string, string> datas = new Dictionary<string, string>();
+                foreach(var k in keys)
+                {
+                    var lang = selLangBLL.GetResourceValue(k) ?? selLangBLL.GetMsg(k);
+                    if (!datas.ContainsKey(k))
+                    {
+                        datas.Add(k, lang);
+                    }
+                }
+
+                result.Data = datas;
+                result.ErrorCode = 0;
+            }
+            catch (Exception ex)
+            {
+                result.ErrorCode = 999;
+            }
+
+            return result;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<int>> GetSiteCurrencyList()
+        {
+            var result = new ApiResult<IEnumerable<int>>();
+            try
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                result.Data = serverInfo.ICurrencyList;
+                result.ErrorCode = 0;
+            }
+            catch (Exception ex)
+            {
+                result.ErrorCode = 999;
+                result.RawMessage = ex.ToString();
+            }
+
+            return result;
         }
     }
 }

@@ -40,6 +40,7 @@ namespace MemberSite
     }
     public class Startup
     {
+        private readonly string AllowSpecificOrigins = "AllowAllOriginsPolicy";
         private IConfiguration configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -125,6 +126,7 @@ namespace MemberSite
                 option.Cookie.Name = ".ES";
                 option.ExpireTimeSpan = TimeSpan.FromMinutes(30);//沒給預設14天
                 option.EventsType = typeof(CustomCookieAuthenticationEvents);
+                option.Cookie.SameSite = SameSiteMode.None;
             });
             services.AddDataProtection().DisableAutomaticKeyGeneration();
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("CookieKeys")).SetApplicationName("SharedCookieApp");
@@ -136,6 +138,20 @@ namespace MemberSite
             {
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
             });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: AllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:8000", "http://localhost:3000", "http://10.168.11.11:8080", "http://10.168.11.14:8080")
+                                      .AllowAnyHeader()
+                                        .AllowAnyMethod()
+                                        .AllowCredentials();
+                                  });
+            });
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -151,11 +167,14 @@ namespace MemberSite
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 //app.UseHsts();
             }
+
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
 
             app.UseRouting();
+            
+            app.UseCors(AllowSpecificOrigins);
 
             app.UseAuthentication();
             app.UseAuthorization();
