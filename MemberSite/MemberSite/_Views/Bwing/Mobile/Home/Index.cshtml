@@ -174,7 +174,7 @@
 @section Scripts{
 
     <script>
-            var announcementUrl = '@(User.Identity.IsAuthenticated ?　Url.RouteUrl("desktop", new { action = "Announcement", controller = "Message", LangId = selLangBLL.GetLangId() }) : "")';
+        var announcementUrl = '@(User.Identity.IsAuthenticated ?　Url.RouteUrl("desktop", new { action = "Announcement", controller = "Message", LangId = selLangBLL.GetLangId() }) : "")';
     </script>
 
     <script src="~/js/component/message/announcement/marquee.min.js" asp-append-version="true"></script>
