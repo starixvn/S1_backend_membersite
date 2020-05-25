@@ -92,18 +92,21 @@
         }
     }
     <div class="app">
-        <partial name="~/Views/Shared/_Header.cshtml" />
+        <partial name="~/_Views/Bwing/Mobile/Shared/_Header.cshtml" />
         @*Url.RouteUrl(new { action = "Index", controller = "Home", area = "Mobile", LangId = selLangBLL.GetLangId() });*@
         @RenderBody()
-        @if (!string.Equals(ViewContext.RouteData.Values["controller"] as string, "sports", StringComparison.OrdinalIgnoreCase))
-        {
-            <partial name="~/Views/Shared/_Footer.cshtml" />
-            <partial name="~/Views/Shared/_LeftMenu.cshtml" />
-        }
-
+        <partial name="~/_Views/Bwing/Mobile/Shared/_Footer.cshtml" />
     </div>
     <script src="~/lib/moment.min.js"></script>
     <script src="~/lib/axios.min.js"></script>
+    <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
+    <script src="~/SiteSkin/Bwing/Mobile/js/lib/moment.min.js"></script>
+    <script src="~/SiteSkin/Bwing/Mobile/js/lib/slick.js"></script>
+    <script src="~/SiteSkin/Bwing/Mobile/js/page.js"></script>
+    <script type="text/javascript">
+        $(".home-slider").slick({ dots: true });
+    </script>
+
     @if (environment.EnvironmentName == "Development")
     {
         if (!tools.IsMobile())
@@ -112,7 +115,6 @@
             <script src="~/lib/es6-promise.auto.min.js"></script>
         }
 
-        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
         <script src="~/lib/react.development.js"></script>
         <script src="~/lib/react-dom.development.js"></script>
         <script src="~/lib/babel.min.js"></script>
@@ -120,7 +122,6 @@
     }
     else
     {
-        <script src="~/lib/jquery-3.4.1.slim.min.js"></script>
         <script src="~/lib/react.production.min.js"></script>
         <script src="~/lib/react-dom.production.min.js"></script>
         if (!tools.IsMobile())
@@ -380,7 +381,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', '@google_id');
     </script>
 
