@@ -1,7 +1,6 @@
 ﻿$("#LoginForm").submit(function(event) {
     event.preventDefault();
     let data = {UserName:$("#Login_UserName").val() ,Userpwd:$("#Login_Userpwd").val()};
-    console.log(data);
     axios.post('/api/Site/SignIn', data)
     .then(function (response) {
         let result = response.data;
