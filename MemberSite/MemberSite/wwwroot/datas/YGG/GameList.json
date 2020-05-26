@@ -553,7 +553,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -660,7 +660,8 @@
       "new": true,
       "featured": true,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 1
     },
     {
       "name": {
@@ -1040,7 +1041,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -1126,7 +1127,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 0,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -1169,7 +1170,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion":  1
+      "promotion":  0
     },
     {
       "name": {
@@ -1298,7 +1299,7 @@
       "featured": true,
       "imageExist": true,
       "Isfun": 0,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -1363,7 +1364,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion":  1
+      "promotion":  0
     },
     {
       "name": {
@@ -1470,7 +1471,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion":  1
+      "promotion":  0
     },
     {
       "name": {
@@ -1492,7 +1493,8 @@
       "new": true,
       "featured": true,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 1
     },
     {
       "name": {
@@ -1514,7 +1516,8 @@
       "new": true,
       "featured": false,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 1
     },
     {
       "name": {
@@ -1536,7 +1539,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion":  1
+      "promotion":  0
     },
     {
       "name": {
@@ -1559,7 +1562,7 @@
       "featured": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion":  1
+      "promotion":  0
     }
   ]
 }
