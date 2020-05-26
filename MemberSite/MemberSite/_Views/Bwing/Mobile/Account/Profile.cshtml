@@ -109,7 +109,7 @@
         i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
         var Country = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(selLangBLL.GetCountryList()));
     </script>
-<script src="~/SiteSkin/Bwing/Mobile/js/lib/daterangepicker.min.js"></script>
+    <script src="~/SiteSkin/Bwing/Mobile/js/lib/daterangepicker.min.js"></script>
     <script src="~/lib/runtime.min.js"></script>
     @if (custInfoProfile == null || custInfoProfile.AccountName == null || custInfoProfile.CountryCode == null || custInfoProfile.PhoneNo == null)
     {
@@ -124,7 +124,6 @@
                 },
                 PhoneNo: '@custInfoProfile.PhoneNo'
             }
-
         </script>
         <script src="~/js/Bwing/component/account/UpdProfile.min.js" asp-append-version="true"></script>
     }
