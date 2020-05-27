@@ -38,10 +38,10 @@
         {
             <div class="before-login">
                 <button class="btn btn-login" data-remodal-target="modal-login">
-                    Login
+                    @selLangBLL.GetResourceValue("lbl_Login")
                 </button>
                 <button class="btn btn-register" data-remodal-target="modal-register">
-                    Register
+                    @selLangBLL.GetResourceValue("lbl_Register")
                 </button>
             </div>
         }
@@ -85,52 +85,51 @@
                 <div class="nav-top-after">
                     <div class="nav-info">
                         <div class="info">
-                            Welcome, <span class="link">@User.Identity.Name</span>
+                            @selLangBLL.GetResourceValue("lbl_Welcome"), <span class="link">@User.Identity.Name</span>
                             <p class="balance">0('000) <i class="icon icon-refresh-white"></i></p>
                         </div>
                         <i id="logout" class="icon icon-logout"></i>
                     </div>
                     <div class="nav-button">
-                        <a class="btn btn-primary" href="views/systems/deposit.html">Deposit</a>
-                        <a class="btn btn-primary" href="views/systems/transfer.html">Transfer</a>
-                        <a class="btn btn-primary" href="views/systems/withdrawal.html">Withdrawal</a>
+                        <a class="btn btn-primary" href="views/systems/deposit.html">@selLangBLL.GetResourceValue("lbl_Deposit")</a>
+                        <a class="btn btn-primary" href="views/systems/transfer.html"> @selLangBLL.GetResourceValue("lbl_Transfer")</a>
+                        <a class="btn btn-primary" href="views/systems/withdrawal.html"> @selLangBLL.GetResourceValue("lbl_Withdrawal")</a>
                     </div>
                 </div>
             }
             else
             {
                 <div class="nav-top-before">
-                    <button class="btn btn-login" data-remodal-target="modal-login">Login</button>
-                    <button class="btn btn-register" data-remodal-target="modal-register">Register</button>
+                    <button class="btn btn-login" data-remodal-target="modal-login"> @selLangBLL.GetResourceValue("lbl_Login")</button>
+                    <button class="btn btn-register" data-remodal-target="modal-register"> @selLangBLL.GetResourceValue("lbl_Register")</button>
                 </div>
             }
             <div class="nav-mobile-main">
                 <ul class="main-nav-mobile">
-                    <li class="nav-item"><a href="index.html"><i class="icon icon-menu-home"></i>Home</a></li>
-                    <li class="nav-item"><a href="views/sport.html"><i class="icon icon-menu-sport"></i>Sports</a></li>
-                    <li class="nav-item"><a href="views/esport.html"><i class="icon icon-menu-esport"></i>ESports</a></li>
+                    <li class="nav-item"><a href="index.html"><i class="icon icon-menu-home"></i> @selLangBLL.GetResourceValue("lbl_Home")</a></li>
+                    <li class="nav-item"><a href="views/sport.html"><i class="icon icon-menu-sport"></i> @selLangBLL.GetResourceValue("lbl_Sports")</a></li>
+                    <li class="nav-item"><a href="views/esport.html"><i class="icon icon-menu-esport"></i> @selLangBLL.GetResourceValue("lbl_eSports")</a></li>
                     <li class="nav-item">
-                        <a href="views/number-game.html"><i class="icon icon-menu-number"></i>Number Game</a>
+                        <a href="views/number-game.html"><i class="icon icon-menu-number"></i>@selLangBLL.GetResourceValue("lbl_NumberGame")</a>
                     </li>
                     <li class="nav-item">
                         <a href="views/virtual-sport.html">
-                            <i class="icon icon-menu-virtual"></i>Virtual
-                            Sports
+                            <i class="icon icon-menu-virtual"></i>@selLangBLL.GetResourceValue("lbl_VirtualSports")
                         </a>
                     </li>
-                    <li class="nav-item"><a href="views/casino.html"><i class="icon icon-menu-casino"></i>Casino</a></li>
+                    <li class="nav-item"><a href="views/casino.html"><i class="icon icon-menu-casino"></i>@selLangBLL.GetResourceValue("lbl_Casino")</a></li>
                     <li class="nav-item">
-                        <a href="views/live-casino.html"><i class="icon icon-menu-live"></i>Live Casino</a>
+                        <a href="views/live-casino.html"><i class="icon icon-menu-live"></i>@selLangBLL.GetResourceValue("lbl_LiveCasino")</a>
                     </li>
-                    <li class="nav-item"><a href="views/keno.html"><i class="icon icon-menu-live"></i>Keno</a></li>
+                    <li class="nav-item"><a href="views/keno.html"><i class="icon icon-menu-live"></i>@selLangBLL.GetResourceValue("lbl_Keno")</a></li>
                     <li class="nav-item">
-                        <a href="views/slot.html"><i class="icon icon-menu-fishing"></i>Fishing World</a>
+                        <a href="views/slot.html"><i class="icon icon-menu-fishing"></i>@selLangBLL.GetResourceValue("lbl_Fishing")</a>
                     </li>
                 </ul>
                 <div class="languages">
                     <div class="languages-box">
                         <div id="lang_selector" class="language-dropdown">
-                            <label for="toggle" class="lang-flag lang-@selLangBLL.GetLangId()" title="Click to select the language">
+                            <label for="toggle" class="lang-flag lang-@selLangBLL.GetLangId()" title="@selLangBLL.GetResourceValue("lbl_SelectLanguage")">
                                 <span class="flag"></span>
                             </label>
                             <ul class="lang-list">
@@ -164,37 +163,37 @@
                         <a href="views/systems/announcement.html" class="system-item">
                             <span class="system-icon">
                                 <i class="icon icon-info"></i>
-                            </span><span>Message</span>
+                            </span><span>@selLangBLL.GetResourceValue("lbl_Message")</span>
                         </a>
                         <a href="views/systems/profile.html" class="system-item">
                             <span class="system-icon">
                                 <i class="icon icon-account"></i>
-                            </span><span>Profile</span>
+                            </span><span>@selLangBLL.GetResourceValue("lbl_Profile")</span>
                         </a>
                         <a href="views/systems/promotions.html" class="system-item">
                             <span class="system-icon">
                                 <i class="icon icon-promotion"></i>
-                            </span><span>Promotion</span>
+                            </span><span>@selLangBLL.GetResourceValue("lbl_Promotion")</span>
                         </a>
                         <a href="views/systems/change-password.html" class="system-item">
                             <span class="system-icon">
                                 <i class="icon icon-key"></i>
-                            </span><span>Change password</span>
+                            </span><span>@selLangBLL.GetResourceValue("lbl_ChangePassword")</span>
                         </a>
                         <a href="views/systems/transfer.html" class="system-item">
                             <span class="system-icon">
                                 <i class="icon icon-dola"></i>
-                            </span><span>Transfer</span>
+                            </span><span>@selLangBLL.GetResourceValue("lbl_Transfer")</span>
                         </a>
                         <a href="views/systems/deposit-history.html" class="system-item">
                             <span class="system-icon">
                                 <i class="icon icon-history"></i>
-                            </span><span>Transaction History</span>
+                            </span><span>@selLangBLL.GetResourceValue("lbl_TransferHistory")</span>
                         </a>
                         <a href="views/systems/statement.html" class="system-item">
                             <span class="system-icon">
                                 <i class="icon icon-profile"></i>
-                            </span><span>Statement</span>
+                            </span><span>@selLangBLL.GetResourceValue("lbl_Statement")</span>
                         </a>
                     </div>
                 </div>

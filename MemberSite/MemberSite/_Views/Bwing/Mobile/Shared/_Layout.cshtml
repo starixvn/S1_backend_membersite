@@ -110,26 +110,26 @@
         <div class="remodal" data-remodal-id="modal-login"
              data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
             <button data-remodal-action="close" class="remodal-close"></button>
-            <div class="popup-header">Login</div>
+            <div class="popup-header">@selLangBLL.GetResourceValue("lbl_Login")</div>
             <form id="LoginForm">
                 <div class="popup-body">
                     <p>
-                        Don't have an account?
-                        <span class="link" data-remodal-target="modal-register">Join Now</span>
+                        @selLangBLL.GetResourceValue("lbl_NoAccount")
+                        <span class="link" data-remodal-target="modal-register">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
                     </p>
                     <div class="form">
                         <div class="form-group">
-                            <label>Username:</label><input id="Login_UserName" class="input-field" type="text" />
+                            <label>@selLangBLL.GetResourceValue("lbl_Username"):</label><input id="Login_UserName" class="input-field" type="text" />
                         </div>
                         <div class="form-group">
-                            <label>Password:</label><input id="Login_Userpwd" class="input-field" type="text" />
+                            <label>@selLangBLL.GetResourceValue("lbl_Password"):</label><input id="Login_Userpwd" class="input-field" type="text" />
                         </div>
-                        <span class="link">Forgot Password?</span>
+                        <span class="link">@selLangBLL.GetResourceValue("Forgot Password")</span>
                     </div>
                 </div>
                 <div class="popup-footer">
                     <button type="submit" class="btn btn-login">
-                        Login
+                        @selLangBLL.GetResourceValue("lbl_Login")
                     </button>
                 </div>
             </form>
@@ -138,53 +138,49 @@
         <div class="remodal" data-remodal-id="modal-register"
              data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
             <button data-remodal-action="close" class="remodal-close"></button>
-            <div class="popup-header">Register</div>
+            <div class="popup-header">@selLangBLL.GetResourceValue("lbl_Register")</div>
             <form id="RegisterForm">
                 <div class="popup-body">
                     <p>
-                        Please note that we do not permit members to own more than(1) account.
+                        @selLangBLL.GetResourceValue("lbl_LoginMsg")
                         <span class="link" data-remodal-target="modal-login">
-                            Login Here
+                            @selLangBLL.GetResourceValue("lbl_LoginHere")
                         </span>
                     </p>
                     <div class="form">
                         <div class="form-group">
-                            <label>Username:</label>
+                            <label>@selLangBLL.GetResourceValue("lbl_Username"):</label>
                             <input class="input-field" type="text" />
-                            <div class="invalid-mess">The account name is duplicate.</div>
+                            <div class="invalid-mess">@selLangBLL.GetResourceValue("lbl_UsernameTooltip")</div>
                         </div>
                         <div class="form-group">
-                            <label>Password:</label>
+                            <label>@selLangBLL.GetResourceValue("lbl_Password"):</label>
                             <input class="input-field" type="text" />
-                            <div class="invalid-mess">The account name is duplicate.</div>
+                            <div class="invalid-mess">@selLangBLL.GetResourceValue("lbl_PasswordTooltip")</div>
                         </div>
                         <div class="form-group">
-                            <label>Email:</label>
+                            <label>@selLangBLL.GetResourceValue("lbl_Email"):</label>
                             <input class="input-field" type="email" />
-                            <div class="invalid-mess">The account name is duplicate.</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Email:</label>
-                            <input class="input-field" type="email" />
+                            <div class="invalid-mess">@selLangBLL.GetResourceValue("lbl_EmailToolTip")</div>
                         </div>
                         <div class="checkbox">
                             <input id="check" type="checkbox" value="true" />
                             <label for="check">
-                                I agree to the
+                                @selLangBLL.GetResourceValue("lbl_Check18TC1")
                                 <span class="text-link">
-                                    Terms and Conditions
-                                </span> and the
+                                    @selLangBLL.GetResourceValue("lbl_TermsConditions") 
+                                </span>@selLangBLL.GetResourceValue("lbl_Check18TC2")
                                 <span class="text-link">
-                                    Rules and Regulations
+                                    @selLangBLL.GetResourceValue("lbl_RuleRegulations") 
                                 </span>
-                                of @serverInfo.SiteName. I acknowledge I am at least 21 years of age.
+                                @selLangBLL.GetResourceValue("lbl_Check18TC3") @serverInfo.SiteName.@selLangBLL.GetResourceValue("lbl_Check18TC4")
                             </label>
                         </div>
                     </div>
                 </div>
                 <div class="popup-footer">
                     <button class="btn btn-login" type="submit">
-                        Complete Registration
+                        @selLangBLL.GetResourceValue("lbl_CompleteRegistration")
                     </button>
                 </div>
             </form>

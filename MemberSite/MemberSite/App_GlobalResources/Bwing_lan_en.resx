@@ -129,11 +129,44 @@
   <data name="lbl_Author" xml:space="preserve">
     <value>Bwing</value>
   </data>
+  <data name="lbl_ContactUsHint" xml:space="preserve">
+    <value>Our 24/7 online support team is always available to listen and answer your questions. We support via online chat, phone, email and many other popular channels such as: Zalo, Viber, Skype, Facebook ...</value>
+  </data>
   <data name="lbl_Description" xml:space="preserve">
     <value>Bwing is the world leading sportsbook offering one of the kind gambling experience in live betting covering all sports, casino, slots, keno, esports, rng casino, fantasy sports, virtual sports, lottery, live casino, live dealer, bingo, and racing.</value>
   </data>
   <data name="lbl_FacebookAccount" xml:space="preserve">
     <value>bwingofficial</value>
+  </data>
+  <data name="lbl_FAQ" xml:space="preserve">
+    <value>FREQUENTLY ASKED QUESTIONS</value>
+  </data>
+  <data name="lbl_FAQHint" xml:space="preserve">
+    <value>How to create an account, transaction fees, how to change passwords, ...</value>
+  </data>
+  <data name="lbl_Fishing" xml:space="preserve">
+    <value>Fish World</value>
+  </data>
+  <data name="lbl_Fullversion" xml:space="preserve">
+    <value>Full version</value>
+  </data>
+  <data name="lbl_HowToDepoist" xml:space="preserve">
+    <value>HOW TO DEPOSIT</value>
+  </data>
+  <data name="lbl_HowToDepoistHint" xml:space="preserve">
+    <value>Support multiple payment channels, absolute safety</value>
+  </data>
+  <data name="lbl_HowToPlay" xml:space="preserve">
+    <value>HOW TO PLAY</value>
+  </data>
+  <data name="lbl_HowToPlayHint" xml:space="preserve">
+    <value>Easy, attractive, diverse games, attractive incentives</value>
+  </data>
+  <data name="lbl_HowToWithdraw" xml:space="preserve">
+    <value>HOW TO WITHDRAW</value>
+  </data>
+  <data name="lbl_HowToWithdrawHint" xml:space="preserve">
+    <value>Quickly money transaction, information security</value>
   </data>
   <data name="lbl_IGAccount" xml:space="preserve">
     <value>bwingofficial</value>
@@ -143,6 +176,12 @@
   </data>
   <data name="lbl_Keywords" xml:space="preserve">
     <value>Bwing is the world leading sportsbook offering one of the kind gambling experience in live betting covering all sports, casino, slots, keno, esports, rng casino, fantasy sports, virtual sports, lottery, live casino, live dealer, bingo, and racing.</value>
+  </data>
+  <data name="lbl_NoAccount" xml:space="preserve">
+    <value> Don't have an account?</value>
+  </data>
+  <data name="lbl_SelectLanguage" xml:space="preserve">
+    <value>Click to select the language</value>
   </data>
   <data name="lbl_SelfCasino" xml:space="preserve">
     <value>Bwing Casino</value>
