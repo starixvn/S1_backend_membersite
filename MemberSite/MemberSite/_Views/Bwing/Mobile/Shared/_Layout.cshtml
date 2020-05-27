@@ -193,6 +193,11 @@
     <script src="~/SiteSkin/Bwing/Mobile/js/page.js"></script>
     <script type="text/javascript">
         $(".home-slider").slick({ dots: true });
+        @if (ViewContext.RouteData.Values["action"].ToString().Equals("Register", StringComparison.OrdinalIgnoreCase))
+        {
+        @:var registerForm = $('[data-remodal-id=modal-register]').remodal();
+        @:registerForm.open();
+        }
     </script>
 
     @if (environment.EnvironmentName == "Development")
