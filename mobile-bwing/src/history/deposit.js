@@ -109,7 +109,9 @@ class Panel extends Component {
 						</button>
 					</div>
 				</div>
-				<History Data={this.state.DepositInfoHistory} />
+				{this.state.GetData ? (
+					<History Data={this.state.DepositInfoHistory} />
+				) : null}
 				<Pagination
 					PageNumber={this.state.PageNumber}
 					TotalPages={this.state.TotalPages}

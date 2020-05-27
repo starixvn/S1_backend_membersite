@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./withdrawal";
+import App from "./fundTransfer";
 
 const Wrapper = () => {
 	return (
