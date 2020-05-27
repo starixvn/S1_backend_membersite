@@ -32,11 +32,12 @@ namespace MemberSite.Controllers.Api
             int LimitRow = 15;
             var serverInfo = serverInfoBLL.GetServerInfo();
             result.Data = messageBLL.GetAnnouncement(selLangBLL.GetLangId(), serverInfo.DefLang, LimitRow, !environment.IsProduction(), serverInfo.SiteId)
-                .Select(x=> new Announcement() { 
-                    Content = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(x.Content), 
-                    Subject = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(x.Subject), 
-                    Id = x.Id, 
-                    StartTime = x.StartTime  
+                .Select(x => new Announcement()
+                {
+                    Content = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(x.Content ?? ""),
+                    Subject = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(x.Subject ?? ""),
+                    Id = x.Id,
+                    StartTime = x.StartTime
                 });
             result.ErrorCode = 0;
 
