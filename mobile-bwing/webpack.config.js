@@ -18,7 +18,8 @@ module.exports = {
 	entry: {
 		"account/Profile.min": ["./src/profile/viewProfile.js"],
 		"account/UpdProfile.min": ["./src/profile/updProfile.js"],
-		"history/Deposit.min": ["./src/history/deposit.js"]
+		"history/Deposit.min": ["./src/history/deposit.js"],
+		"history/Withdrawal.min": ["./src/history/withdrawal.js"]
 	},
 	output: {
 		path: path.resolve(

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Deposit from "./deposit";
+import App from "./withdrawal";
 
 const Wrapper = () => {
 	return (
@@ -25,7 +25,7 @@ const Wrapper = () => {
 	);
 };
 
-const Panel = () => <Deposit />;
+const Panel = () => <App />;
 
 export default Wrapper;
 
