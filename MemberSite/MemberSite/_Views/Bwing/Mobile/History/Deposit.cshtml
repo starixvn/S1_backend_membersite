@@ -76,7 +76,7 @@
 }
 
 <div class="system-content">
-    <div class="page-title">Transaction History</div>
+    <div class="page-title">@selLangBLL.GetResourceValue("lbl_History")</div>
     <div class="sub-page">
         <div class="sub-title active">
             <a>@selLangBLL.GetResourceValue("lbl_Deposit")</a>
@@ -88,7 +88,7 @@
             <a href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_Withdrawal")</a>
         </div>
         <div class="sub-title">
-            <a href="#">Statement</a>
+            <a href="@Url.RouteUrl("desktop", new { action = "Statement", controller = "History", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_Statement")</a>
         </div>
     </div>
     <div id="content"></div>

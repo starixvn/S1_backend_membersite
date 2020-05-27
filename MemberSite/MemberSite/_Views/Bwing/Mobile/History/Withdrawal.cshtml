@@ -48,7 +48,7 @@
     <link href="~/SiteSkin/Bwing/Mobile/assets/css/system.css" rel="stylesheet" />
 }
 <div class="system-content">
-    <div class="page-title">Transaction History</div>
+    <div class="page-title">@selLangBLL.GetResourceValue("lbl_History")</div>
     <div class="sub-page">
         <div class="sub-title">
             <a href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_Deposit")</a>
@@ -60,7 +60,7 @@
             <a>@selLangBLL.GetResourceValue("lbl_Withdrawal")</a>
         </div>
         <div class="sub-title">
-            <a href="#">Statement</a>
+            <a href="@Url.RouteUrl("desktop", new { action = "Statement", controller = "History", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_Statement")</a>
         </div>
     </div>
     <div id="content"></div>
