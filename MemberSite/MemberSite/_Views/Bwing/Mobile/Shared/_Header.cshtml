@@ -64,11 +64,9 @@
                             else
                             {
                                 var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
-                                <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language">
-                                    <a href="@(siteLanguage.LangId == selLangBLL.GetLangId() ? "javascript:void(0);":LangUrl)">
-                                        <span class="flag"></span>
-                                        <span class="text">@siteLanguage.Language</span>
-                                    </a>
+                                <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language" onclick="location.href='@LangUrl';">
+                                    <span class="flag"></span>
+                                    <span class="text">@siteLanguage.Language</span>
                                 </li>
                             }
                         }
@@ -148,11 +146,9 @@
                                     else
                                     {
                                         var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
-                                        <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language">
-                                            <a href="@(siteLanguage.LangId == selLangBLL.GetLangId() ? "javascript:void(0);":LangUrl)">
-                                                <span class="flag"></span>
-                                                <span class="text">@siteLanguage.Language</span>
-                                            </a>
+                                        <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language" onclick="location.href='@LangUrl';">
+                                            <span class="flag"></span>
+                                            <span class="text">@siteLanguage.Language</span>
                                         </li>
                                     }
                                 }
