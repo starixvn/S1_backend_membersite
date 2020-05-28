@@ -11,9 +11,16 @@ namespace MemberSite.Controllers
 {
     public class LiveCasinoController : Controller
     {
+        private TemplateBLL templateBLL;
+
+        public LiveCasinoController(TemplateBLL templateBLL)
+        {
+            this.templateBLL = templateBLL;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            return View(templateBLL.GetTemplatePath(Url));
         }
     }
 }
