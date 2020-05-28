@@ -131,12 +131,6 @@
         dataField.handleCheck = handleCheckEmail.bind(this);
         formArr.push(dataField);   
 
-        if(getUrlParameter("affId") == "" && getCookie("affId") == ""){
-            dataField = {};
-            dataField.name="CurrencyId";
-            formArr.push(dataField);
-        }
-
         let data = {};
         let valid = true;
         for(var i=0; i < formArr.length; i++){
@@ -144,6 +138,7 @@
             let fieldInput = $("#Register_"+dataField.name);
 
             let validRe = await dataField.handleCheck(fieldInput.val());
+            console.log(validRe);
             if(validRe.status == 2) {
                 fieldInput.addClass("invalid");
                 fieldInput.next().show();
@@ -155,6 +150,13 @@
             }
 
             data[dataField.name] = fieldInput.val();
+        }
+
+        if(!$("#Register_agreeterm").prop("checked")) {
+            valid = false;
+            $("#Register_agreeterm").addClass("invalid");
+        } else {
+            $("#Register_agreeterm").removeClass("invalid");
         }
 
         if(!valid) {
@@ -170,6 +172,8 @@
 
             if(data["affId"] != "") {
                 data["CurrencyId"] = 0;
+            } else {
+                data["CurrencyId"] = $("#Register_CurrencyId").val();
             }
 
             axios.post('/api/Site/Register', data)
@@ -188,8 +192,7 @@
         }
     });
 
-$(function() {
-    $(".loginBtn").attr("data-remodal-target", "modal-login");
-});
-
+    $(function() {
+        $(".loginBtn").attr("data-remodal-target", "modal-login");
+    });
 })(jQuery, i18n, axios);

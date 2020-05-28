@@ -168,14 +168,14 @@
                             <select class="input-field">
                                 @foreach (var currencyId in serverInfo.ICurrencyList)
                                 {
-                                    <option value="@currencyId">@selLangBLL.GetResourceValue($"Currency_{currencyId}")</option>
+                                    @:<option value="@currencyId" @(selLangBLL.GetPreferCurrencyId() == currencyId ? "selected='selected'" : "")>@selLangBLL.GetResourceValue($"Currency_{currencyId}")</option>
                                 }
                             </select>
                             <div class="invalid-mess"></div>
                         </div>
                         <div class="checkbox">
-                            <input id="check" type="checkbox" value="true" />
-                            <label for="check">
+                            <input id="Register_agreeterm" type="checkbox" />
+                            <label for="Register_agreeterm">
                                 @selLangBLL.GetResourceValue("lbl_Check18TC1")
                                 <a class="text-link" target="_blank" href="about:blank">
                                     @selLangBLL.GetResourceValue("lbl_TermsConditions")
@@ -269,11 +269,20 @@
 
         string[] lbl_Txts = new string[] { "lbl_JoinNow", "lbl_DontHaveAccount", "lbl_ForgetPassword", "lbl_Login", "lbl_Username", "lbl_UsernameTooltip", "lbl_Password",
                                             "lbl_PasswordTooltip", "msg_PasswordVaildate", "msg_PasswordLength", "msg_PasswordReq", "msg_UsernameVaildate", "msg_UsernameLength",
-                                            "msg_UsernameReq"};
+                                            "msg_UsernameReq","msg_UsernameNotAvailable","msg_MailReq","msg_MailWrongFormat","msg_MailExisted"};
         foreach (var lbl_Txt in lbl_Txts)
         {
             if (!i18n.ContainsKey(lbl_Txt))
-                i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
+            {
+                if (lbl_Txt.StartsWith("msg_"))
+                {
+                    i18n.Add(lbl_Txt, selLangBLL.GetMsg(lbl_Txt));
+                }
+                else
+                {
+                    i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
+                }
+            }
         }
 
         @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
