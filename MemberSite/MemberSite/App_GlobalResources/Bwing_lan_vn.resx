@@ -129,17 +129,56 @@
   <data name="lbl_Author" xml:space="preserve">
     <value>Bwing</value>
   </data>
+  <data name="lbl_ContactUsHint" xml:space="preserve">
+    <value>Bộ phận hỗ trợ trực tuyến 24/7 luôn sẵn sàng lắng nghe và giải đáp những thắc mắc của thành viên. Chúng tôi hỗ trợ thông qua chat hỗ trợ trực tuyến, điện thoại, email và nhiều kênh thông dụng khác như : Zalo, Viber, Skype, Facebook...</value>
+  </data>
   <data name="lbl_Description" xml:space="preserve">
     <value>Bwing là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value>
   </data>
   <data name="lbl_FacebookAccount" xml:space="preserve">
     <value>bwingofficial</value>
   </data>
+  <data name="lbl_FAQ" xml:space="preserve">
+    <value>CÂU HỎI THƯỜNG GẶP</value>
+  </data>
+  <data name="lbl_FAQHint" xml:space="preserve">
+    <value>Cách tạo tài khoản, phí giao dịch, cách đổi mật khẩu,...</value>
+  </data>
+  <data name="lbl_Fishing" xml:space="preserve">
+    <value>Bắn Cá</value>
+  </data>
+  <data name="lbl_Fullversion" xml:space="preserve">
+    <value>Phiên bản đầy đủ</value>
+  </data>
+  <data name="lbl_HowToDepoist" xml:space="preserve">
+    <value>HƯỚNG DẪN NẠP TIỀN</value>
+  </data>
+  <data name="lbl_HowToDepoistHint" xml:space="preserve">
+    <value>Hỗ trợ nhiều kênh thanh toán, an toàn tuyệt đối</value>
+  </data>
+  <data name="lbl_HowToPlay" xml:space="preserve">
+    <value>HƯỚNG DẪN CÁCH CHƠI</value>
+  </data>
+  <data name="lbl_HowToPlayHint" xml:space="preserve">
+    <value>Dễ dàng, lôi cuốn, đa dạng trò chơi, ưu đãi hấp dẫn</value>
+  </data>
+  <data name="lbl_HowToWithdraw" xml:space="preserve">
+    <value>HƯỚNG DẪN RÚT TIỀN</value>
+  </data>
+  <data name="lbl_HowToWithdrawHint" xml:space="preserve">
+    <value>Giao dịch tiền về nhanh chóng, bảo mật thông tin</value>
+  </data>
   <data name="lbl_Image" xml:space="preserve">
     <value>https://www.bwing.com/SiteSkin/Bwing/common/images/logo.png</value>
   </data>
   <data name="lbl_Keywords" xml:space="preserve">
     <value>Bwing là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value>
+  </data>
+  <data name="lbl_NoAccount" xml:space="preserve">
+    <value>Chưa có tài khoản?</value>
+  </data>
+  <data name="lbl_SelectLanguage" xml:space="preserve">
+    <value>Chọn ngôn ngữ</value>
   </data>
   <data name="lbl_SelfCasino" xml:space="preserve">
     <value>Sòng bạc Bwing</value>
