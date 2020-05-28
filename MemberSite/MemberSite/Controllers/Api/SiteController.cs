@@ -318,5 +318,23 @@ namespace MemberSite.Controllers.Api
 
             return result;
         }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<SiteLanguage>> GetSiteLangList()
+        {
+            var result = new ApiResult<IEnumerable<SiteLanguage>>();
+            try
+            {
+                result.Data = selLangBLL.GetLangIdList();
+                result.ErrorCode = 0;
+            }
+            catch (Exception ex)
+            {
+                result.ErrorCode = 999;
+                result.RawMessage = ex.ToString();
+            }
+
+            return result;
+        }
     }
 }
