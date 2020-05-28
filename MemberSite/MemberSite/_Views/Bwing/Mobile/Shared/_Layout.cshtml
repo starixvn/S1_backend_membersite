@@ -265,22 +265,11 @@
     else
     {
         Dictionary<string, string> i18n = new Dictionary<string, string>();
-        i18n.Add("lbl_JoinNow", selLangBLL.GetResourceValue("lbl_JoinNow"));
-        i18n.Add("lbl_DontHaveAccount", selLangBLL.GetResourceValue("lbl_DontHaveAccount"));
-        i18n.Add("lbl_ForgetPassword", selLangBLL.GetResourceValue("lbl_ForgetPassword"));
-        i18n.Add("lbl_Login", selLangBLL.GetResourceValue("lbl_Login"));
-        i18n.Add("lbl_Username", selLangBLL.GetResourceValue("lbl_Username"));
-        i18n.Add("lbl_UsernameTooltip", selLangBLL.GetResourceValue("lbl_UsernameTooltip"));
-        i18n.Add("lbl_Password", selLangBLL.GetResourceValue("lbl_Password"));
-        i18n.Add("lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip"));
-        i18n.Add("msg_PasswordVaildate", selLangBLL.GetMsg("msg_PasswordVaildate"));
-        i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
-        i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
-        i18n.Add("msg_UsernameVaildate", selLangBLL.GetMsg("msg_UsernameVaildate"));
-        i18n.Add("msg_UsernameLength", selLangBLL.GetMsg("msg_UsernameLength"));
-        i18n.Add("msg_UsernameReq", selLangBLL.GetMsg("msg_UsernameReq"));
 
-        string[] lbl_Txts = new string[] { "" };
+
+        string[] lbl_Txts = new string[] { "lbl_JoinNow", "lbl_DontHaveAccount", "lbl_ForgetPassword", "lbl_Login", "lbl_Username", "lbl_UsernameTooltip", "lbl_Password",
+                                            "lbl_PasswordTooltip", "msg_PasswordVaildate", "msg_PasswordLength", "msg_PasswordReq", "msg_UsernameVaildate", "msg_UsernameLength",
+                                            "msg_UsernameReq"};
         foreach (var lbl_Txt in lbl_Txts)
         {
             if (!i18n.ContainsKey(lbl_Txt))
