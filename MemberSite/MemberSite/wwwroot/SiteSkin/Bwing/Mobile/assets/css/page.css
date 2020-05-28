@@ -184,6 +184,19 @@ body {
   flex-basis: 50%;
   max-width: 50%;
   margin-bottom: 1rem;
+  text-align: center;
+}
+
+.game-list .item .game-title {
+  display: block;
+  padding-top: .5rem;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 15px;
+  background: -webkit-linear-gradient(#f8f8f8, #ffb415);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .game-list .item img {
@@ -196,7 +209,7 @@ body {
   color: #fff;
 }
 
-.system-content.remodal{
+.system-content.remodal {
   padding: 0;
   padding-bottom: 3rem;
 }
@@ -385,10 +398,12 @@ body {
   justify-content: space-between;
   line-height: 2;
 }
+
 /* -------------- Transfer -------------------*/
 .transfer-body {
   margin-bottom: 3rem;
 }
+
 /* -------------- Media query ---------------- */
 @media screen and (min-width: 500px) {
   .promotion-page .promotion-item {
@@ -408,6 +423,10 @@ body {
   .options-method .options-card {
     grid-template-columns: 1fr 1fr 1fr;
   }
+
+  .game-list .item .game-title {
+    font-size: 20px;
+  }
 }
 
 @media screen and (min-width: 800px) {
@@ -423,4 +442,6 @@ body {
   .casino-title img {
     width: auto;
   }
+
+
 }
