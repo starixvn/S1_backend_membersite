@@ -1,4 +1,22 @@
 ﻿(function($, i18n, axios) {
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)','i');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    function getCookie(cookieName) {
+        var name = cookieName + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+        }
+        return "";
+    }    
+    
     $("#LoginForm").submit(function(event) {
         event.preventDefault();
         let data = {UserName:$("#Login_UserName").val() ,Userpwd:$("#Login_Userpwd").val()};
@@ -97,44 +115,46 @@
 
     $("#RegisterForm").submit(async function(event) {
         event.preventDefault();
-
-        let dataField = new DataField("UserName");
-        dataField.handleCheck = this.handleCheckUserName.bind(this);
-        dataField.Value = "";
+        let formArr = [];
+        let dataField = {};
+        dataField.name="UserName";
+        dataField.handleCheck = handleCheckUserName.bind(this);
         formArr.push(dataField);
 
-        dataField = new DataField("Userpwd");
-        dataField.status = 1;
-        dataField.Value = "";
+        dataField = {};
+        dataField.name="Userpwd";        
+        dataField.handleCheck = handleCheckUserpwd.bind(this);
         formArr.push(dataField);
 
-        dataField = new DataField("Email");
-        dataField.handleCheck = this.handleCheckEmail.bind(this);
-        dataField.Value = "";
+        dataField = {};
+        dataField.name="Email";
+        dataField.handleCheck = handleCheckEmail.bind(this);
         formArr.push(dataField);   
 
         if(getUrlParameter("affId") == "" && getCookie("affId") == ""){
-            dataField = new DataField("CurrencyId");
-            dataField.displayName = i18n.lbl_PrefferedCurrency;
-            dataField.tooltip = i18n.lbl_PreferredCurrencyToolTip;
-            dataField.status = 1;
-            dataField.objectType = 3;
-            dataField.Value = defCurrencyId;
-            dataField.dropdownList = currencyList;
+            dataField = {};
+            dataField.name="CurrencyId";
             formArr.push(dataField);
         }
 
         let data = {};
         let valid = true;
-        for(var i=0; i < this.state.formArr.length; i++){
-            let dataField = this.state.formArr[i];
-            await dataField.onCheck();
-            if(valid) {
-                if(dataField.status == 2) {
-                    valid = false;
-                }
+        for(var i=0; i < formArr.length; i++){
+            let dataField = formArr[i];
+            let fieldInput = $("#Register_"+dataField.name);
+
+            let validRe = await dataField.handleCheck(fieldInput.val());
+            if(validRe.status == 2) {
+                fieldInput.addClass("invalid");
+                fieldInput.next().show();
+                fieldInput.next().html(validRe.message);
+                valid = false;
+            } else {
+                fieldInput.next().hide();
+                fieldInput.removeClass("invalid");
             }
-            data[dataField.name] = dataField.Value;
+
+            data[dataField.name] = fieldInput.val();
         }
 
         if(!valid) {

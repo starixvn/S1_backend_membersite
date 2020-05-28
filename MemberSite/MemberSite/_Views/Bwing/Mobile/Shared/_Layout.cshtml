@@ -150,29 +150,39 @@
                     <div class="form">
                         <div class="form-group">
                             <label>@selLangBLL.GetResourceValue("lbl_Username"):</label>
-                            <input class="input-field invalid" type="text" id="Register_UserName" />
-                            <div class="invalid-mess">@selLangBLL.GetResourceValue("lbl_UsernameTooltip")</div>
+                            <input class="input-field" type="text" id="Register_UserName" />
+                            <div class="invalid-mess"></div>
                         </div>
-                        <div class="form-group" id="Register_UserName">
+                        <div class="form-group">
                             <label>@selLangBLL.GetResourceValue("lbl_Password"):</label>
-                            <input class="input-field" type="text" />
-                            <div class="invalid-mess">@selLangBLL.GetResourceValue("lbl_PasswordTooltip")</div>
+                            <input class="input-field" type="text" id="Register_Userpwd" />
+                            <div class="invalid-mess"></div>
                         </div>
                         <div class="form-group">
                             <label>@selLangBLL.GetResourceValue("lbl_Email"):</label>
-                            <input class="input-field" type="email" />
-                            <div class="invalid-mess">@selLangBLL.GetResourceValue("lbl_EmailToolTip")</div>
+                            <input class="input-field" type="email" id="Register_Email" />
+                            <div class="invalid-mess"></div>
+                        </div>
+                        <div class="form-group" id="Register_CurrencyId">
+                            <label>@selLangBLL.GetResourceValue("lbl_PrefferedCurrency"):</label>
+                            <select class="input-field">
+                                @foreach (var currencyId in serverInfo.ICurrencyList)
+                                {
+                                    <option value="@currencyId">@selLangBLL.GetResourceValue($"Currency_{currencyId}")</option>
+                                }
+                            </select>
+                            <div class="invalid-mess"></div>
                         </div>
                         <div class="checkbox">
                             <input id="check" type="checkbox" value="true" />
                             <label for="check">
                                 @selLangBLL.GetResourceValue("lbl_Check18TC1")
-                                <span class="text-link">
+                                <a class="text-link" target="_blank" href="about:blank">
                                     @selLangBLL.GetResourceValue("lbl_TermsConditions")
-                                </span>@selLangBLL.GetResourceValue("lbl_Check18TC2")
-                                <span class="text-link">
+                                </a>@selLangBLL.GetResourceValue("lbl_Check18TC2")
+                                <a class="text-link" target="_blank" href="about:blank">
                                     @selLangBLL.GetResourceValue("lbl_RuleRegulations")
-                                </span>
+                                </a>
                                 @selLangBLL.GetResourceValue("lbl_Check18TC3") @serverInfo.SiteName.@selLangBLL.GetResourceValue("lbl_Check18TC4")
                             </label>
                         </div>
@@ -269,6 +279,14 @@
         i18n.Add("msg_UsernameVaildate", selLangBLL.GetMsg("msg_UsernameVaildate"));
         i18n.Add("msg_UsernameLength", selLangBLL.GetMsg("msg_UsernameLength"));
         i18n.Add("msg_UsernameReq", selLangBLL.GetMsg("msg_UsernameReq"));
+
+        string[] lbl_Txts = new string[] { "" };
+        foreach (var lbl_Txt in lbl_Txts)
+        {
+            if (!i18n.ContainsKey(lbl_Txt))
+                i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
+        }
+
         @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
         @:var joinNowUrl = '@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })';
         @:var forgetPassowrdUrl = '@Url.RouteUrl("desktop", new { action = "ForgetPassowrd", controller = "Home", LangId = selLangBLL.GetLangId() })';
