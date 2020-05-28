@@ -48,26 +48,26 @@
         <div class="languages">
             <div class="languages-box">
                 <div id="lang_selector" class="language-dropdown">
-                    <label for="toggle" class="lang-flag lang-@selLangBLL.GetLangId()" title="Click to select the language">
+                    <label for="toggle" class="lang-flag lang-@selLangBLL.GetLangId()" title="@selLangBLL.GetResourceValue("lbl_SelectLanguage")">
                         <span class="flag"></span>
                     </label>
                     <ul class="lang-list">
                         @foreach (var siteLanguage in selLangBLL.GetLangIdList())
                         {
-                        @if (User.Identity.IsAuthenticated)
+                            @if (User.Identity.IsAuthenticated)
                             {
-                        <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" Js-lang-id="@siteLanguage.LangId" title="@siteLanguage.Language">
-                            <span class="flag"></span>
-                            <span class="text">@siteLanguage.Language</span>
-                        </li>
+                                <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" Js-lang-id="@siteLanguage.LangId" title="@siteLanguage.Language">
+                                    <span class="flag"></span>
+                                    <span class="text">@siteLanguage.Language</span>
+                                </li>
                             }
                             else
                             {
                                 var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
-                        <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language" onclick="location.href='@LangUrl';">
-                            <span class="flag"></span>
-                            <span class="text">@siteLanguage.Language</span>
-                        </li>
+                                <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language" onclick="location.href='@LangUrl';">
+                                    <span class="flag"></span>
+                                    <span class="text">@siteLanguage.Language</span>
+                                </li>
                             }
                         }
                     </ul>
@@ -82,27 +82,27 @@
             <span class="btn-menu bt-menu-close" id="btn-menu-close"><span class="line"></span></span>
             @if (User.Identity.IsAuthenticated)
             {
-            <div class="nav-top-after">
-                <div class="nav-info">
-                    <div class="info">
-                        @selLangBLL.GetResourceValue("lbl_Welcome"), <span class="link">@User.Identity.Name</span>
-                        <p class="balance">0('000) <i class="icon icon-refresh-white"></i></p>
+                <div class="nav-top-after">
+                    <div class="nav-info">
+                        <div class="info">
+                            @selLangBLL.GetResourceValue("lbl_Welcome"), <span class="link">@User.Identity.Name</span>
+                            <p class="balance">0('000) <i class="icon icon-refresh-white"></i></p>
+                        </div>
+                        <i id="logout" class="icon icon-logout"></i>
                     </div>
-                    <i id="logout" class="icon icon-logout"></i>
+                    <div class="nav-button">
+                        <a class="btn btn-primary" href="@Url.RouteUrl("desktop", new { action="Deposit" , controller="Cashier" , LangId=selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_Deposit")</a>
+                        <a class="btn btn-primary" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })"> @selLangBLL.GetResourceValue("lbl_Transfer")</a>
+                        <a class="btn btn-primary" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })"> @selLangBLL.GetResourceValue("lbl_Withdrawal")</a>
+                    </div>
                 </div>
-                <div class="nav-button">
-                    <a class="btn btn-primary" href="@Url.RouteUrl("desktop", new { action="Deposit" , controller="Cashier" , LangId=selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_Deposit")</a>
-                    <a class="btn btn-primary" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })"> @selLangBLL.GetResourceValue("lbl_Transfer")</a>
-                    <a class="btn btn-primary" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })"> @selLangBLL.GetResourceValue("lbl_Withdrawal")</a>
-                </div>
-            </div>
             }
             else
             {
-            <div class="nav-top-before">
-                <button class="btn btn-login" data-remodal-target="modal-login"> @selLangBLL.GetResourceValue("lbl_Login")</button>
-                <button class="btn btn-register" data-remodal-target="modal-register"> @selLangBLL.GetResourceValue("lbl_Register")</button>
-            </div>
+                <div class="nav-top-before">
+                    <button class="btn btn-login" data-remodal-target="modal-login"> @selLangBLL.GetResourceValue("lbl_Login")</button>
+                    <button class="btn btn-register" data-remodal-target="modal-register"> @selLangBLL.GetResourceValue("lbl_Register")</button>
+                </div>
             }
             <div class="nav-mobile-main">
                 <ul class="main-nav-mobile">
