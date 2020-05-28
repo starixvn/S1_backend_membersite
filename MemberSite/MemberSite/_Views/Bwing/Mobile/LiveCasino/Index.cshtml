@@ -48,11 +48,12 @@
 @section Scripts{
 
 }
+@section Style{
+    <link rel="stylesheet" href="@SkinRootPath/assets/css/page.css" asp-append-version="true">
+}
 
 <div class="top-page-banner">
-    <img class=""
-         src="@SkinRootPath/assets/images/page/live-casino-banner.jpg"
-         alt="product" />
+    <img class="" src="@SkinRootPath/assets/images/page/live-casino-banner.jpg" alt="product" />
 </div>
 <div class="container">
     <div class="notification">
@@ -69,21 +70,25 @@
                 <a href="@Html.Raw(GetEntPageUrl(2, "2"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
                     <img src="@SkinRootPath/assets/images/page/live-game-1.png" alt="product" />
                 </a>
+                <span class="game-title">@selLangBLL.GetResourceValue("lbl_SACasino")</span>
             </div>
             <div class="item">
                 <a href="@Html.Raw(GetEntPageUrl(3, "3"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
                     <img src="@SkinRootPath/assets/images/page/live-game-2.png" alt="product" />
                 </a>
+                <span class="game-title">@selLangBLL.GetResourceValue("lbl_AGCasino")</span>
             </div>
             <div class="item">
                 <a href="@Html.Raw(GetEntPageUrl(4, "4"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
                     <img src="@SkinRootPath/assets/images/page/live-game-3.png" alt="product" />
                 </a>
+                <span class="game-title">@selLangBLL.GetResourceValue("lbl_DGCasino")</span>
             </div>
             <div class="item">
                 <a href="@Html.Raw(GetEntPageUrl(12,"12"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
                     <img src="@SkinRootPath/assets/images/page/live-game-4.png" alt="product" />
                 </a>
+                <span class="game-title">@selLangBLL.GetResourceValue("lbl_AllbetCasino")</span>
             </div>
         </div>
     </div>
