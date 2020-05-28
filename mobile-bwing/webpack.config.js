@@ -21,7 +21,8 @@ module.exports = {
 		"history/Deposit.min": ["./src/history/deposit.js"],
 		"history/Withdrawal.min": ["./src/history/withdrawal.js"],
 		"history/Transfer.min": ["./src/history/fundTransfer.js"],
-		"history/Statement/Statement.min": ["./src/history/statement.js"]
+		"history/Statement/Statement.min": ["./src/history/statement.js"],
+		"message/personalMsg/personalMsg.min": ["./src/message/personalMsg.js"]
 	},
 	output: {
 		path: path.resolve(

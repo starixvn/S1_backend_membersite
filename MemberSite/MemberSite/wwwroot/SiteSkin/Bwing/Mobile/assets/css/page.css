@@ -384,7 +384,7 @@ body {
   transform-origin: 0 0;
 }
 
-.option-header.active .icon-arrow-down {
+.option-header.active .icon-arrow-down{
   transform: rotate(135deg) translateY(-50%);
   right: .7rem;
 }

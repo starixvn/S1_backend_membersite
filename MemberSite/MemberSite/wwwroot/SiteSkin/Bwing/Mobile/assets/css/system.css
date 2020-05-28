@@ -447,34 +447,6 @@ input[type="number"]::-webkit-outer-spin-button {
   transform: rotate(-45deg);
 }
 
-/* --- announcement-block ----- */
-.announcement-block .checkbox label {
-  line-height: 1.5;
-  height: 2.4rem;
-}
-
-.announcement-block .checkbox label:before,
-.checkbox label:after {
-  border: 1px solid transparent;
-  background-color: #fff;
-}
-
-.announcement-block .option-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 1.5rem !important;
-}
-
-.announcement-block .action-group .icon-delete {
-  margin-right: 2rem;
-}
-
-.announcement-block .action-col {
-  width: 5rem;
-  text-align: center;
-}
-
 /* --- Transfer Funds Page ----- */
 
 .transferFunds-block .collapsible-body {
@@ -729,6 +701,128 @@ input[type="number"]::-webkit-outer-spin-button {
   color: #fff;
 }
 
+/********* Personal Message Page **************/
+.personal-block .checkbox label {
+  line-height: 1.5;
+  height: 2.4rem;
+}
+
+.personal-block .checkbox label:before,
+.checkbox label:after {
+  border: 1px solid transparent;
+  background-color: #fff;
+}
+
+.personal-block .option-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 0 !important;  
+  background: transparent;
+  border-bottom: 1px solid #103c66;
+  margin: 0;
+}
+
+.msg-item .action.active .icon-arrow-down {
+  transform: rotate(135deg) translateY(-50%);
+  right: .7rem;
+}
+
+.personal-block .action-group .icon-delete {
+  margin-right: 2rem;
+}
+
+.personal-msg .msg-item {
+  display: grid;
+  grid-template-columns: 40px 1fr 30px;
+  align-items: center;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid #103c66;
+}
+
+.personal-msg .description {
+  padding: 1.2rem 0;
+  padding-left: 40px;
+  grid-column: 1/4;
+}
+
+.personal-msg .content {
+  padding: 0;
+  margin: 0;
+  line-height: 1.5;
+}
+.personal-msg .action {
+  text-align: center;
+}
+.personal-msg .title {
+  font-size: 1.5rem;
+}
+
+.personal-msg .time {
+  color: #31619c;
+}
+
+.personal-msg .title.read {
+  font-weight: normal;
+}
+
+.personal-msg .title.unread {
+  font-weight: bold;
+}
+/********* Annoucement Page **************/
+.announcement-item {
+  border-bottom: 1px solid #103c66;
+  padding: 1.2rem 0;
+}
+.announcement-item .title {
+  color: #fdc53e;
+  font-size: 1.5rem;
+}
+
+.announcement-item .date {
+  color: #31619c;
+  padding: .3rem 0 .8rem;
+  text-decoration: underline;
+}
+
+.announcement-item .content {
+  padding: 0;
+  line-height: 1.5;
+}
+
+/************** Transfer page *******************/
+.dropdown {
+  position: relative;
+}
+.dropdown-container {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  z-index: 99;
+  background-color: #0c1e34;
+  width: 100%;
+  border: 1px solid #257cd4;
+}
+.dropdown-container .item {
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.selected-text {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.dropdown .icon-arrow-down {
+  position: relative;
+  left: 5px;
+}
+.dropdown .icon-action.active .icon-arrow-down {
+  transform: rotate(135deg) translateY(-50%);
+  right: .7rem;
+}
+
 /* -------------- Media query ---------------- */
 @media screen and (max-width: 500px) {
   .form-group .bank-selection {
@@ -757,6 +851,15 @@ input[type="number"]::-webkit-outer-spin-button {
   .options-method .mobile-options .value-item {
     width: 10rem;
   }
+}
+
+.form-group .input-field .input-control.invalid {
+  border-color: red;
+}
+
+.form-group .invalid-mess {
+  color: red;
+  padding-top: 4px;
 }
 
 @media (min-width: 1200px) {
