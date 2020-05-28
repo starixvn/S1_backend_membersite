@@ -91,7 +91,7 @@
     <div class="page-title">@selLangBLL.GetResourceValue("lbl_MyAccount")</div>
     <div class="sub-page">
         <div class="sub-title">
-            <a href="@Url.RouteUrl("desktop", new { action = "ChangePwd", controller = "Account", LangId = selLangBLL.GetLangId() })">Change Password</a>
+            <a href="@Url.RouteUrl("desktop", new { action = "ChangePwd", controller = "Account", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_ChangePassword")</a>
         </div>
         <div class="sub-title active">
             <a href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_Profile")</a>
