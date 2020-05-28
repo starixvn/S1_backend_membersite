@@ -757,7 +757,7 @@ body {
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .after-login {
@@ -1451,6 +1451,7 @@ body {
   grid-column: 1 / span 2;
   text-align: left;
   padding-left: 10rem;
+  padding-top: 4px;
 }
 
 .popup-body .checkbox label:before,
@@ -1761,3 +1762,22 @@ body {
     width: 55rem;
   }
 }
+
+.icon-loading {
+  position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(../images/Preloader_2.gif) center no-repeat #fff;
+}
+
+body.loading .icon-loading {
+  overflow: hidden;   
+}
+
+body.loading .icon-loading {
+  display: block;
+}
+
