@@ -30,8 +30,14 @@
 @section Style{
     <link href="~/SiteSkin/Bwing/Mobile/assets/css/page.css" rel="stylesheet" />
     <link href="~/SiteSkin/Bwing/Mobile/assets/css/system.css" rel="stylesheet" />
+    <link href="~/SiteSkin/Bwing/Mobile/assets/css/select2.css" rel="stylesheet" />
 }
-<div class="main">
+
+@*$.extend(i18n, {"lbl_BankName":"Bank Name","lbl_BankAccountName":"Account Name","lbl_BankAccountNameHint":"Please use your real name for account name. This field cannot be changed once entered!","lbl_BankNumber":"Account Number","lbl_NewAccountName":null,"lbl_CustBankInfo":"Update Bank Information","lbl_Back":"Back","lbl_Submit":"Submit","lbl_BankInfo":"Bank Info","lbl_ContactCSD":"For any request of modification, please contact CSD.","lbl_AddNewAccount":"Add New Account","lbl_CheckConfirm":"Are you sure you want to delete? It cannot restore after deletion!","lbl_BankAccount":"Bank Account","msg_NeedAccountName":"Need Account Name","msg_NeedAccountNo":"Need Account Number"});*@
+
+
+
+<div class="system-content">
     <div class="page-title">@selLangBLL.GetResourceValue("lbl_MyAccount")</div>
     <div class="sub-page">
         <div class="sub-title">
@@ -44,13 +50,203 @@
             <a href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_CustBank")</a>
         </div>
     </div>
-    <div id="CustBankInfo" class="page"></div>
+    <div class="content">
+        <div class="form form-account">
+            <div class="form-group">
+                <div class="label">
+                    <span class="text-bold">@selLangBLL.GetResourceValue("lbl_BankAccountName"): </span>
+                </div>
+                <div class="input-field">
+                    <input class="input-control text-bold AccountName" type="text" value="" placeholder="@selLangBLL.GetResourceValue("lbl_BankAccountName")" />
+                </div>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-primary" id="btn-add-username">@selLangBLL.GetResourceValue("lbl_AddNewAccount")</button>
+            </div>
+        </div>
+        <div class="table-content">
+            <div class="option-header">
+                <span class="text-bold">@selLangBLL.GetResourceValue("lbl_BankAccount")</span>
+            </div>
+            <table class="tbl-account">
+                <tbody id="Bank_Account_List"></tbody>
+            </table>
+        </div>
+        <div class="form form-add-user hide">
+            <div class="form-group">
+                <div class="label">
+                    <span class="text-bold">@selLangBLL.GetResourceValue("lbl_BankAccountName"): </span>
+                </div>
+                <div class="input-field">
+                    <input class="input-control text-bold AccountName" type="text" value="" placeholder="@selLangBLL.GetResourceValue("lbl_BankAccountName")" />
+                </div>
+                <span></span>
+                <p class="bank-note">@selLangBLL.GetResourceValue("lbl_ContactCSD")</p>
+                <div class="label">
+                    <span class="text-bold">@selLangBLL.GetResourceValue("lbl_BankName"): </span>
+                </div>
+                <div class="input-field bank-wrapper" id="BankInfoSysList"></div>
+                <div class="label">
+                    <span class="text-bold">@selLangBLL.GetResourceValue("lbl_BankNumber"): </span>
+                </div>
+                <div class="input-field">
+                    <input id="BankNumber" class="input-control text-bold" type="text" value="" placeholder="@selLangBLL.GetResourceValue("lbl_BankNumber")" />
+                    <div class="invalid-mess"></div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" id="btn-back">
+                    Back
+                </button>
+                <button class="btn btn-secondary">Submit</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+@*<div class="main">
+        <div class="page-title">@selLangBLL.GetResourceValue("lbl_MyAccount")</div>
+        <div class="sub-page">
+            <div class="sub-title">
+                <a href="@Url.RouteUrl("desktop", new { action = "ChangePwd", controller = "Account", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_ChangePassword")</a>
+            </div>
+            <div class="sub-title">
+                <a href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_Profile")</a>
+            </div>
+            <div class="sub-title active">
+                <a href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_CustBank")</a>
+            </div>
+        </div>
+        <div id="CustBankInfo" class="page"></div>
+    </div>*@
+
 @section Scripts{
     <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
     </script>
-
+    <script src="~/js/Bwing/component/account/select2.js"></script>
     <script src="~/lib/runtime.min.js"></script>
-    <script src="~/js/component/account/CustBankInfo.min.js" asp-append-version="true"></script>
+    @*<script src="~/js/component/account/CustBankInfo.min.js" asp-append-version="true"></script>*@
+    <script>
+        function formatState(opt) {
+            if (!opt.id) {
+                return opt.text;
+            }
+            var optimage = $(opt.element).attr('data-image');
+            if (!optimage) {
+                return opt.text;
+            } else {
+                var $opt = $(
+                    '<span class="bank"><img src="' + optimage + '"/>' + opt.text + '</span>'
+                );
+                return $opt;
+            }
+        };
+
+        function GetCustBankInfo() {
+            axios.post('/api/Account/GetCustBankInfo')
+                .then(function (response) {
+                    let result = response.data;
+                    if (result.errorCode == 0) {
+                        if (result.data) {
+                            let list = "";
+                            $.each(result.data.bankInfoDetail, function (key, value) {
+                                list += '<tr>' +
+                                    '<td class="text-center"> <img src="../common/images/BankLogo/"' + value.bankLogo + '" alt="vcb - logo" /></td>' +
+                                    '<td class= "text-left">' +
+                                    '<p class="bank-name">' + value.bankName + '</p>' +
+                                    '<p>' + value.accountNo + '</p>' +
+                                    '</td >' +
+                                    '<td class="text-center"><span class="icon icon-delete" data-bankInfo="' + value + '"></span></td>' +
+                                    '</tr >'
+                            });
+                            $(".AccountName").val(result.data.accountName).attr('disabled', 'true');
+                            $(".AccountName").parent().append('<i class="icon icon - lock"></i>');
+                            $("#Bank_Account_List").html(list);
+                        }
+                    } else {
+                        alert(result.message);
+                    }
+                }.bind(this)).catch(function (error) {
+                    alert(error);
+                }.bind(this));
+        }
+
+        function GetBankInfoSysList() {
+            axios.post('/api/Payment/GetBankInfoSysList')
+                .then(function (response) {
+                    let result = response.data;
+                    if (result.errorCode == 0) {
+                        if (result.data && result.data.length > 0) {
+                            let BankInfo = '<select class="ddl-bank">';
+                            $.each(result.data, function (key, value) {
+                                BankInfo += '<option value="' + value.sysId + '" data-image="/common/images/BankLogo/' + value.bankLogo + '"><span class="">' + value.bankName + '</span></option>';
+                            });
+                            BankInfo += '</select>';
+                            $("#BankInfoSysList").html(BankInfo).promise().done(function () {
+                                $('.ddl-bank').select2({
+                                    templateResult: formatState,
+                                    templateSelection: formatState
+                                });
+                            });
+                        }
+                    } else {
+                        alert(result.message);
+                    }
+                }.bind(this)).catch(function (error) {
+                    alert(error);
+                }.bind(this));
+        }
+
+        $(function () {
+            GetCustBankInfo();
+            $(".icon-delete").on("click", function () {
+                let bankInfo = $(this).data("bankInfo");
+                if (confirm(i18n.lbl_CheckConfirm) && bankInfo) {
+                    axios.post('/api/AccountStrict/DelCustBankInfo', bankInfo)
+                        .then(function (response) {
+                            let result = response.data;
+                            if (result.errorCode == 0) {
+                                alert(result.message);
+                                GetCustBankInfo();
+                            } else {
+                                alert(result.message);
+                            }
+                            Loading.UnLoading();
+                        }.bind(this)).catch(function (error) {
+                            Loading.UnLoading();
+                            alert(error);
+                        }.bind(this));
+                }
+            })
+
+            
+
+            $('#btn-add-username').click(function () {
+                GetBankInfoSysList();
+                $('.form-account').addClass('hide');
+                $('.form-add-user').removeClass('hide');
+                $('.tbl-account').addClass('hide');
+            });
+
+            $('#btn-back').click(function () {
+                GetCustBankInfo();
+                $('.form-account').removeClass('hide');
+                $('.tbl-account').removeClass('hide');
+                $('.form-add-user').addClass('hide');
+            });
+
+            $("#BankNumber").on("blur", function () {
+                let field = $(this),
+                    fieldval = $.trim($(this).val());
+                if (!fieldval) {
+                    field.addClass("invalid");
+                    field.next(".invalid-mess").html(i18n.msg_NeedAccountNo);
+                }
+            });
+
+
+        });
+    </script>
 }

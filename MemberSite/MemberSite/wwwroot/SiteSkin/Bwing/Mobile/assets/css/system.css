@@ -44,6 +44,11 @@
   margin-bottom: 20px;
 }
 
+.bank-name {
+  font-size: 15px;
+  padding-bottom: 3px;
+}
+
 /* Table */
 table {
   width: 100%;
@@ -59,7 +64,7 @@ table tbody td {
 
 table thead th {
   font-weight: normal;
-  border-bottom: 1px solid #0e2d4d;
+  background: #0e2d4d;
 }
 
 table tbody td {
@@ -99,6 +104,7 @@ table tbody td {
   grid-gap: 1rem;
   margin-bottom: 1rem;
 }
+
 .options-method .options-card .card {
   background: #fff;
 }
@@ -193,13 +199,20 @@ table tbody td {
   top: 1.3rem;
 }
 
+.form-group .input-field .postfix {
+  position: absolute;
+  right: 1rem;
+  top: 1.7rem;
+  color: #63d127;
+}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.form-group .input-field .input-control, 
+.form-group .input-field .input-control,
 .form-group .input-field .languages {
   width: 100%;
   height: 5rem;
@@ -227,7 +240,7 @@ input[type="number"]::-webkit-outer-spin-button {
   left: 0;
   right: unset;
   top: 4rem;
-} 
+}
 
 .form-group .input-field .languages-box:after {
   top: 2.2rem;
@@ -323,28 +336,11 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 
-.calendar-group .input-field{
+.calendar-group .input-field {
   width: 100%;
   position: relative;
 }
 
-/*.calendar-group .picker-input__icon {
-  left: auto !important;
-  right: 0;
-  width: 5rem;
-  height: 5rem;
-  padding: 1.3rem;
-  background: rgb(55, 130, 196);
-  background: linear-gradient(180deg,
-      rgba(55, 130, 196, 1) 0%,
-      rgba(16, 91, 157, 1) 100%);
-  border: 1px solid #1368ac;
-  cursor: pointer;
-}
-
-.calendar-group .picker-input__icon path {
-  display: none;
-}*/
 
 .calendar-group .input-control {
   width: 100%;
@@ -358,64 +354,6 @@ input[type="number"]::-webkit-outer-spin-button {
   font-size: 1.6rem;
 }
 
-/*.calendar-group .picker__container {
-  left: auto !important;
-  right: 0;
-  z-index: 80;
-}
-
-.calendar-group .calendar__item {
-  border: 1px solid #257cd4;
-}
-
-.calendar-group .calendar__head {
-  background: rgb(55, 130, 196);
-  background: linear-gradient(180deg,
-      rgba(55, 130, 196, 1) 0%,
-      rgba(16, 91, 157, 1) 100%);
-}
-
-.calendar-group .calendar__head--prev {
-  left: 1.5rem;
-}
-
-.calendar-group .calendar__head--next {
-  right: 1.5rem;
-}
-
-.calendar-group .calendar__body--table th {
-  color: #fff;
-  background-color: #103255;
-}
-
-.calendar table tbody td {
-  background: var(--headerBg);
-}
-
-.calendar .calendar__day--today {
-  background: rgb(55, 130, 196);
-  background: linear-gradient(180deg,
-      rgba(55, 130, 196, 1) 0%,
-      rgba(16, 91, 157, 1) 100%);
-}
-
-.calendar .calendar__day--start,
-.calendar .calendar__day--end,
-.calendar .calendar__day--selected {
-  background: rgb(250, 206, 86);
-  background: linear-gradient(0deg,
-      rgba(250, 206, 86, 1) 0%,
-      rgba(255, 175, 18, 1) 54%);
-}
-
-.calendar-group .calendar__day {
-  padding-top: 9px;
-}
-
-.calendar-group .calendar__day--6 {
-  color: red;
-}
-*/
 
 .calendar-group .form-input {
   position: relative;
@@ -717,7 +655,7 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.2rem 0 !important;  
+  padding: 1.2rem 0 !important;
   background: transparent;
   border-bottom: 1px solid #103c66;
   margin: 0;
@@ -751,9 +689,11 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
   line-height: 1.5;
 }
+
 .personal-msg .action {
   text-align: center;
 }
+
 .personal-msg .title {
   font-size: 1.5rem;
 }
@@ -769,11 +709,13 @@ input[type="number"]::-webkit-outer-spin-button {
 .personal-msg .title.unread {
   font-weight: bold;
 }
+
 /********* Annoucement Page **************/
 .announcement-item {
   border-bottom: 1px solid #103c66;
   padding: 1.2rem 0;
 }
+
 .announcement-item .title {
   color: #fdc53e;
   font-size: 1.5rem;
@@ -794,6 +736,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .dropdown {
   position: relative;
 }
+
 .dropdown-container {
   position: absolute;
   top: 50px;
@@ -803,6 +746,7 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 100%;
   border: 1px solid #257cd4;
 }
+
 .dropdown-container .item {
   padding: 8px 16px;
   display: flex;
@@ -814,10 +758,12 @@ input[type="number"]::-webkit-outer-spin-button {
   justify-content: space-between;
   width: 100%;
 }
+
 .dropdown .icon-arrow-down {
   position: relative;
   left: 5px;
 }
+
 .dropdown .icon-action.active .icon-arrow-down {
   transform: rotate(135deg) translateY(-50%);
   right: .7rem;
@@ -865,5 +811,87 @@ input[type="number"]::-webkit-outer-spin-button {
 @media (min-width: 1200px) {
   .system-content {
     max-width: 1170px;
+  }
+}
+
+/************** Bank Info Page ********************/
+.form-account .button-group {
+  margin: 1rem 0;
+}
+
+
+/*---------- select2 --------------*/
+.select2-container {
+  width: 100% !important;
+  height: 5rem;
+  padding: 0 3rem 0 .4rem;
+  border: 1px solid #257cd4;
+  background: transparent;
+  font-family: inherit;
+  color: #fff;
+  border-radius: 0;
+  font-size: 1.6rem;
+}
+
+.select2-selection {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  height: 100% !important;
+}
+.select2-selection:focus {
+  outline: none;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  padding: 0;
+}
+
+.select2-search--dropdown {
+  display: none;
+}
+
+.select2-results {
+  background-color: #0c1e34;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  top: 8px;
+  right: 4px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {  
+  border: none;
+  width: 1rem;
+  height: 1rem;
+  transform: rotate(-45deg);
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+  border: none;
+  border-right: 2px solid #fff;
+  border-top: 2px solid #fff;
+}
+
+ .bank {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  padding-top: 10px;
+  white-space: normal;
+  line-height: 1;
+}
+
+ .bank img {
+  width: 26px;
+  height: 24px;
+  padding-right: 6px;
+}
+
+@media screen and  (max-width: 480px) {
+  .form-group {
+    grid-template-columns: 1fr;
   }
 }
