@@ -115,6 +115,10 @@
 
     $("#RegisterForm").submit(async function(event) {
         event.preventDefault();
+        $.blockUI({
+            message: $(".icon-loading")
+        });
+
         let formArr = [];
         let dataField = {};
         dataField.name="UserName";
@@ -138,7 +142,7 @@
             let fieldInput = $("#Register_"+dataField.name);
 
             let validRe = await dataField.handleCheck(fieldInput.val());
-            console.log(validRe);
+
             if(validRe.status == 2) {
                 fieldInput.addClass("invalid");
                 fieldInput.next().show();
@@ -160,7 +164,7 @@
         }
 
         if(!valid) {
-            //Loading.UnLoading();
+            $.unblockUI();
         } else {
             data["UserLang"] = SiteLanguage;
 
@@ -178,7 +182,7 @@
 
             axios.post('/api/Site/Register', data)
             .then(function (response) {
-                //Loading.UnLoading();
+                $.unblockUI();
                 let result = response.data;
                 if (result.errorCode == 0) {
                     window.location.replace(result.message);
@@ -186,7 +190,7 @@
                     alert(result.message);
                 }
             }).catch(function (error) {
-                //Loading.UnLoading();
+                $.unblockUI();
                 alert(error);
             });
         }
