@@ -26,7 +26,8 @@ module.exports = {
 		"message/announcement/announcement.min": [
 			"./src/message/announcement.js"
 		],
-		"cashier/TransferPanel.min": ["./src/cashier/transfer.js"]
+		"cashier/TransferPanel.min": ["./src/cashier/transfer.js"],
+		"cashier/WithdrawalPanel.min": ["./src/cashier/withdrawal.js"]
 	},
 	output: {
 		path: path.resolve(
