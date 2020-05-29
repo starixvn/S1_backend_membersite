@@ -384,7 +384,7 @@ body {
   transform-origin: 0 0;
 }
 
-.option-header.active .icon-arrow-down{
+.option-header.active .icon-arrow-down {
   transform: rotate(135deg) translateY(-50%);
   right: .7rem;
 }
@@ -397,6 +397,15 @@ body {
   display: flex;
   justify-content: space-between;
   line-height: 2;
+}
+
+.history-section .button-group {
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.history-section .button-group .btn:last-child {
+  margin-left: 1rem
 }
 
 /* -------------- Transfer -------------------*/

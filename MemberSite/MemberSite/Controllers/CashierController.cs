@@ -40,7 +40,7 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
 
             if (!custInfo.IsTest)
-                return View();
+                return View(templateBLL.GetTemplatePath(Url));
             else
                 return BadRequest("This account does not allow deposit. Please contact CSD for more information!");
         }
