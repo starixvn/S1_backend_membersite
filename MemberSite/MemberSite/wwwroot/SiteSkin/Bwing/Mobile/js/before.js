@@ -17,6 +17,10 @@
         return "";
     }    
     
+    $("#Login_show-password").change(function(event) {
+        $("#Login_Userpwd").prop('type', $(this).prop("checked") ? "password" : "text");
+    });
+    
     $("#LoginForm").submit(function(event) {
         event.preventDefault();
         let data = {UserName:$("#Login_UserName").val() ,Userpwd:$("#Login_Userpwd").val()};
