@@ -1589,7 +1589,7 @@
     <value>Tiền vốn</value>
   </data>
   <data name="lbl_Statement" xml:space="preserve">
-    <value>Hồ sơ thay đổi tài khoản</value>
+    <value>Sao Kê</value>
   </data>
   <data name="lbl_TypeName" xml:space="preserve">
     <value>Nhập tên</value>
