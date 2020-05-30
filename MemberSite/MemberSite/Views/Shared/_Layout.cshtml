@@ -14,6 +14,7 @@
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
+    var CMSSkinRootPath = Url.Content($"~/CMS/SiteSkin/{serverInfo.SiteName}/");
     var CurrencyId = 0;
     var iSwitch = 2;
     var showResetPwdAlert = false;
@@ -63,6 +64,8 @@
     <script>
         var SiteLanguage = "@selLangBLL.GetLangId()";
         var SkinRootPath = "@Url.Content($"~/SiteSkin/{serverInfo.SiteName}")";
+        var CMSSkinRootPath = "@Url.Content($"~/CMS/{serverInfo.SiteName}/")";
+
         var SiteName = "@serverInfo.SiteName";
         var ResetPwdAlert = 0;
         var DepositAlert = 0;
