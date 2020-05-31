@@ -20,15 +20,15 @@ namespace MemberSite.Service.BLL
 
         public string GetTemplatePath(IUrlHelper urlHelper)
         {
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            if (/*tools.IsMobile() && */serverInfo.SiteId == 3)
-            {
-                return $"/_Views/{serverInfo.SiteName}/Mobile/{urlHelper.ActionContext.RouteData.Values["Controller"]}/{urlHelper.ActionContext.RouteData.Values["action"]}.cshtml";
-            }
-            else
-            {
+            //var serverInfo = serverInfoBLL.GetServerInfo();
+            //if (/*tools.IsMobile() && */serverInfo.SiteId == 3)
+            //{
+            //    return $"/_Views/{serverInfo.SiteName}/Mobile/{urlHelper.ActionContext.RouteData.Values["Controller"]}/{urlHelper.ActionContext.RouteData.Values["action"]}.cshtml";
+            //}
+            //else
+            //{
                 return null;
-            }
+            //}
         }
     }
 }
