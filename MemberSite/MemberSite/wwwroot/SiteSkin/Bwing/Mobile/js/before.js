@@ -17,6 +17,10 @@
         return "";
     }    
     
+    $("#Login_show-password").change(function(event) {
+        $("#Login_Userpwd").prop('type', $(this).prop("checked") ? "password" : "text");
+    });
+    
     $("#LoginForm").submit(function(event) {
         event.preventDefault();
         let data = {UserName:$("#Login_UserName").val() ,Userpwd:$("#Login_Userpwd").val()};
@@ -115,9 +119,9 @@
 
     $("#RegisterForm").submit(async function(event) {
         event.preventDefault();
-        $.blockUI({
+        /*$.blockUI({
             message: $(".icon-loading")
-        });
+        });*/
 
         let formArr = [];
         let dataField = {};
@@ -164,7 +168,7 @@
         }
 
         if(!valid) {
-            $.unblockUI();
+            //$.unblockUI();
         } else {
             data["UserLang"] = SiteLanguage;
 
@@ -182,7 +186,7 @@
 
             axios.post('/api/Site/Register', data)
             .then(function (response) {
-                $.unblockUI();
+                //$.unblockUI();
                 let result = response.data;
                 if (result.errorCode == 0) {
                     window.location.replace(result.message);
@@ -190,7 +194,7 @@
                     alert(result.message);
                 }
             }).catch(function (error) {
-                $.unblockUI();
+                //$.unblockUI();
                 alert(error);
             });
         }
@@ -198,5 +202,44 @@
 
     $(function() {
         $(".loginBtn").attr("data-remodal-target", "modal-login");
+
+        $( "#Register_UserName" ).blur(async function() {
+            let validRe = await handleCheckUserName($(this).val());
+
+            if(validRe.status == 2) {
+                $(this).addClass("invalid");
+                $(this).next().show();
+                $(this).next().html(validRe.message);
+            } else {
+                $(this).next().hide();
+                $(this).removeClass("invalid");
+            }         
+        });
+
+        $( "#Register_Userpwd" ).blur(async function() {
+            let validRe = await handleCheckUserpwd($(this).val());
+
+            if(validRe.status == 2) {
+                $(this).addClass("invalid");
+                $(this).next().show();
+                $(this).next().html(validRe.message);
+            } else {
+                $(this).next().hide();
+                $(this).removeClass("invalid");
+            }            
+        });
+
+        $( "#Register_Email" ).blur(async function() {
+            let validRe = await handleCheckEmail($(this).val());
+
+            if(validRe.status == 2) {
+                $(this).addClass("invalid");
+                $(this).next().show();
+                $(this).next().html(validRe.message);
+            } else {
+                $(this).next().hide();
+                $(this).removeClass("invalid");
+            }            
+        });        
     });
 })(jQuery, i18n, axios);

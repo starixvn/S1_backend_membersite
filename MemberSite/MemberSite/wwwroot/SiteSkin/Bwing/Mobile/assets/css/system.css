@@ -255,13 +255,13 @@ input[type="number"]::-webkit-outer-spin-button {
   padding: 0 2rem;
 }
 
-.form-group.mobile-input .input-control {
+/* .form-group.mobile-input .input-control {
   background-color: transparent;
   border: 0;
   font-family: inherit;
   text-align: right;
   height: 5rem;
-}
+} */
 
 .form-group.mobile-input .input-control:focus {
   outline: none;
@@ -822,8 +822,9 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /*---------- select2 --------------*/
 .select2-container {
-  width: 100% !important;
-  height: 5rem;
+  width: calc(100% - 32px - 16px) !important;
+  min-height: 5rem;
+  height: auto;
   padding: 0 3rem 0 .4rem;
   border: 1px solid #257cd4;
   background: transparent;
@@ -832,7 +833,9 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 0;
   font-size: 1.6rem;
 }
-
+.select2-dropdown  {
+  width: 100% !important;
+}
 .select2-selection {
   background: transparent !important;
   border: none !important;
@@ -875,6 +878,13 @@ input[type="number"]::-webkit-outer-spin-button {
   border-top: 2px solid #fff;
 }
 
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+  background-color: #0c1e34;
+}
+
+.bank-wrapper .select2-container {
+  width: 100% !important;
+}
  .bank {
   display: flex;
   align-items: center;
@@ -889,9 +899,52 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 24px;
   padding-right: 6px;
 }
+.deposit-block .bank .limit,
+.select2-dropdown .bank .limit{
+  padding-left: 1.2rem;
+}
+.deposit-block .bank .limit:before,
+.select2-dropdown .bank .limit:before {
+  content: '(';
+  padding-right: 4px;
+}
+.deposit-block .bank .limit:after,
+.select2-dropdown .bank .limit:after {
+  content: ')';
+  padding-left: 4px;
+}
+
 
 @media screen and  (max-width: 480px) {
   .form-group {
     grid-template-columns: 1fr;
   }
+  .deposit-block .bank,
+  .select2-dropdown .bank{
+    display: grid;
+    grid-template-columns: 30px 1fr;
+  }
+
+  .deposit-block .bank .limit, .select2-dropdown .bank .limit {
+    grid-column: 2/3;
+    padding-left: 0;
+  }
+
+  .deposit-block .bank .logo-bank,
+  .select2-dropdown .bank .logo-bank
+  {
+    grid-row: 1/3;
+  }
 }
+
+.deposit-block .mobile-options .card {
+  margin-right: 0;
+}
+
+
+.momo-method .mobile-options {
+  display: block;
+}
+ .momo-method .card {
+   padding-bottom: 1.2rem;;
+ }

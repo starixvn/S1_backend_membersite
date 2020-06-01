@@ -1609,4 +1609,10 @@
   <data name="lbl_Lottery" xml:space="preserve">
     <value>Lotere</value>
   </data>
+  <data name="FTDP3Description" xml:space="preserve">
+    <value>BERGABUNG SEKARANG ! Nikmati Bonus hingga IDR 1.000.000 dengan setoran pertama Anda di Nova88!</value>
+  </data>
+  <data name="FTDP3Title" xml:space="preserve">
+    <value>100% WELCOME BONUS Hingga IDR 1,000,000</value>
+  </data>
 </root>

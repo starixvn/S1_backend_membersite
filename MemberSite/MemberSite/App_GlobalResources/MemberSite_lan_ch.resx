@@ -1609,4 +1609,10 @@
   <data name="FTDPTitle13" xml:space="preserve">
     <value>100% 歡迎紅利，最高人民幣588</value>
   </data>
+  <data name="FTDP3Description" xml:space="preserve">
+    <value>立即加入！在 “Nova88“ 完成第一筆存款以享受高達 MYR388 的優惠獎金！</value>
+  </data>
+  <data name="FTDP3Title" xml:space="preserve">
+    <value>100% 歡迎紅利，高達 MYR 388</value>
+  </data>
 </root>
