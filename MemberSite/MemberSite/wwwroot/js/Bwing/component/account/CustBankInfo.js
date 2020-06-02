@@ -7,6 +7,23 @@ let BankAccount = [];
 $(function () {
     GetCustBankInfo();
 
+    $("#BankInfoSysList").on("click",".selected-text",function () {
+        var $this = $(this);
+        var dropdownContainer = $this.next(".dropdown-container");
+        dropdownContainer.toggleClass("hide");
+        $this.children(".icon-action").toggleClass("active");
+    });
+    $("#BankInfoSysList").on("click", ".dropdown-container .item",function () {
+        var $this = $(this);
+        var dropdownContainer = $this.parent();
+        const selectedText = $("#" + dropdownContainer.data("id"));
+        selectedText.children(".name").attr('src', $this.children(".name").attr('src'));
+        selectedText.children(".value").text($this.children(".value").text());
+        dropdownContainer.addClass("hide");
+        selectedText.children(".icon-action").toggleClass("active");
+        selectedText.data("value", $this.data("value"));
+    });
+
     $("#Bank_Account_List").on("click", ".icon-delete", function () {
         let bankInfo = BankAccount[$(this).data("bankinfo")];
         if (confirm(i18n.lbl_CheckConfirm) && bankInfo) {
@@ -69,7 +86,7 @@ $(function () {
 
         let data = {},
             AccountName = $.trim($("#SetAccountName").val()),
-            SysId = parseInt($.trim($("#BankInfoSysList .ddl-bank").val())),
+            SysId = parseInt($.trim($("#BankInfoSysList .selected-text").data("value"))),
             BankNumber = $.trim($("#BankNumber").val());
 
         if (!BankNumber) {
@@ -166,17 +183,13 @@ $(function () {
                 let result = response.data;
                 if (result.errorCode == 0) {
                     if (result.data && result.data.length > 0) {
-                        let BankInfo = '<select class="ddl-bank">';
+                        let BankInfo = '<div class="selected-text input-control" id="id-1" data-value=""><img src ="/common/images/BankLogo/' + result.data[0].bankLogo + '" alt="acb-logo" class="name"><span class="value">' + result.data[0].bankName + '</span><span class="icon-action"><i class="icon icon-arrow-down"></i></span></div>';
+                        BankInfo += '<div class="dropdown-container hide" data-id="id-1">';
                         $.each(result.data, function (key, value) {
-                            BankInfo += '<option value="' + value.sysId + '" data-image="/common/images/BankLogo/' + value.bankLogo + '"><span class="">' + value.bankName + '</span></option>';
+                            BankInfo += '<div class="item" data-value="' + value.sysId + '"><img src="/common/images/BankLogo/' + value.bankLogo + '" alt="acb-logo" class="name" /><span class="value">' + value.bankName + '</span></div>';
                         });
-                        BankInfo += '</select>';
-                        $("#BankInfoSysList").html(BankInfo).promise().done(function () {
-                            $('.ddl-bank').select2({
-                                templateResult: formatState,
-                                templateSelection: formatState
-                            });
-                        });
+                        BankInfo += '</div>';
+                        $("#BankInfoSysList").html(BankInfo);
                     }
                 } else {
                     alert(result.message);

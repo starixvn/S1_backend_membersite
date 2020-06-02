@@ -15,6 +15,10 @@
   text-align: left;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .text-green {
   color: #63d127 !important;
 }
@@ -550,6 +554,66 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 10rem;
 }
 
+.modal-transaction {
+  text-align: left;
+  padding: 2rem 1.5rem;
+}
+
+.modal-transaction .recipe {
+  background-color: #103C66;
+}
+
+.modal-transaction .recipe .item {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #0C1E34;
+}
+
+.modal-transaction .recipe .item.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-transaction .recipe .btn-secondary {
+  min-width: 3rem;
+  padding: 0.2rem 1rem;
+}
+
+.modal-transaction .label {
+  margin-bottom: .5rem;
+}
+
+.modal-transaction .form {
+  padding-top: 1.5rem;
+}
+
+.modal-transaction .form .input-control {
+  height: 4rem;
+  background-color: transparent;
+  width: 100%;
+  border: 1px solid #257cd4;
+}
+
+.modal-transaction .form .upload-file {
+  padding: 0.9rem 1.5rem;
+  border: 1px solid #257cd4;
+}
+
+.modal-transaction .form .upload-file .input-control {
+  height: auto;
+  border: 0;
+}
+
+.modal-transaction .form .calendar-group {
+  position: relative;
+}
+
+.modal-transaction .form .calendar-group .select-day {
+  width: 4rem;
+  height: 4rem;
+  padding: .9rem;
+}
+
 /* ----------------- Pagination ---------------------*/
 .paging {
   text-align: center;
@@ -588,6 +652,7 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-top: 2px;
   border: 0;
   font-family: inherit;
+  z-index: 10005;
 }
 
 .daterangepicker.show-calendar .ranges {
@@ -741,7 +806,7 @@ input[type="number"]::-webkit-outer-spin-button {
   position: absolute;
   top: 50px;
   left: 0;
-  z-index: 99;
+  z-index: 12;
   background-color: #0c1e34;
   width: 100%;
   border: 1px solid #257cd4;
@@ -821,7 +886,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 
 /*---------- select2 --------------*/
-.select2-container {
+/* .select2-container {
   width: calc(100% - 32px - 16px) !important;
   min-height: 5rem;
   height: auto;
@@ -833,15 +898,18 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 0;
   font-size: 1.6rem;
 }
-.select2-dropdown  {
+
+.select2-dropdown {
   width: 100% !important;
 }
+
 .select2-selection {
   background: transparent !important;
   border: none !important;
   border-radius: 0 !important;
   height: 100% !important;
 }
+
 .select2-selection:focus {
   outline: none;
 }
@@ -863,7 +931,7 @@ input[type="number"]::-webkit-outer-spin-button {
   right: 4px;
 }
 
-.select2-container--default .select2-selection--single .select2-selection__arrow b {  
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
   border: none;
   width: 1rem;
   height: 1rem;
@@ -884,8 +952,9 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .bank-wrapper .select2-container {
   width: 100% !important;
-}
- .bank {
+} */
+
+.ddl-default {
   display: flex;
   align-items: center;
   color: #fff;
@@ -893,21 +962,86 @@ input[type="number"]::-webkit-outer-spin-button {
   white-space: normal;
   line-height: 1;
 }
+.ddl-default .dropdown-container {
+  top: 60px;
+  max-height: 18rem;
+  overflow: auto;
+}
+.ddl-default .icon-action {
+  position: absolute;
+  right: 20px;
+  top: 24px;
+}
 
- .bank img {
+.ddl-default .dropdown-container .item,
+.ddl-default .selected-text {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.ddl-default .selected-text .value {
+  padding-right: 16px;
+}
+
+.ddl-default .item  img, .ddl-default .selected-text img{
   width: 26px;
   height: 24px;
   padding-right: 6px;
 }
+
+.form-local-transfer .ddl-default .selected-text,
+.form-local-transfer .ddl-default .item, 
+.form-mobile-banking .ddl-default .selected-text,
+.form-mobile-banking .ddl-default .item {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+}
+.form-local-transfer .ddl-default .selected-text, 
+.form-mobile-banking .ddl-default .selected-text{
+  padding: .6rem 1.5rem;
+}
+
+.form-local-transfer .selected-text .limit,
+.form-local-transfer .item .limit,
+.form-mobile-banking .selected-text .limit,
+.form-mobile-banking .item .limit {
+  grid-column: 2/3;
+}
+
+.form-local-transfer .selected-text .name,
+.form-local-transfer .item .name,
+.form-mobile-banking .selected-text .name,
+.form-mobile-banking .item .name {
+  grid-row: 1/3;
+}
+
+@media screen and (min-width: 667px) {
+  .form-local-transfer .ddl-default .selected-text,
+  .form-local-transfer .ddl-default .item,
+  .form-mobile-banking .ddl-default .selected-text,
+  .form-mobile-banking .ddl-default .item {
+    display: flex;
+  }
+
+  .form-local-transfer .item .limit,
+  .form-mobile-banking .item .limit {
+    padding-left: 1.2rem;
+  }
+
+}
+
 .deposit-block .bank .limit,
-.select2-dropdown .bank .limit{
+.select2-dropdown .bank .limit {
   padding-left: 1.2rem;
 }
+
 .deposit-block .bank .limit:before,
 .select2-dropdown .bank .limit:before {
   content: '(';
   padding-right: 4px;
 }
+
 .deposit-block .bank .limit:after,
 .select2-dropdown .bank .limit:after {
   content: ')';
@@ -915,24 +1049,25 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 
-@media screen and  (max-width: 480px) {
+@media screen and (max-width: 480px) {
   .form-group {
     grid-template-columns: 1fr;
   }
+
   .deposit-block .bank,
-  .select2-dropdown .bank{
+  .select2-dropdown .bank {
     display: grid;
     grid-template-columns: 30px 1fr;
   }
 
-  .deposit-block .bank .limit, .select2-dropdown .bank .limit {
+  .deposit-block .bank .limit,
+  .select2-dropdown .bank .limit {
     grid-column: 2/3;
     padding-left: 0;
   }
 
   .deposit-block .bank .logo-bank,
-  .select2-dropdown .bank .logo-bank
-  {
+  .select2-dropdown .bank .logo-bank {
     grid-row: 1/3;
   }
 }
@@ -945,6 +1080,8 @@ input[type="number"]::-webkit-outer-spin-button {
 .momo-method .mobile-options {
   display: block;
 }
- .momo-method .card {
-   padding-bottom: 1.2rem;;
- }
+
+.momo-method .card {
+  padding-bottom: 1.2rem;
+  ;
+}
