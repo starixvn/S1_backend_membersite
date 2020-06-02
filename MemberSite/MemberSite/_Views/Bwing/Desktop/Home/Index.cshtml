@@ -24,7 +24,7 @@
     var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
 
     ViewData["Title"] = "Index";
-    Layout = $"~/_Views/{serverInfo.SiteName}/Mobile/Shared/_Layout.cshtml";
+    Layout = $"~/_Views/{serverInfo.SiteName}/Desktop/Shared/_Layout.cshtml";
 
     int CurrencyId = 0;
     int promotionCnt = 0;
@@ -55,131 +55,123 @@
         entFishingPageUrl = "javascript:void(0);";
     }
 }
-
+<!-- Slider -->
 <div class="home-slider">
     <div class="slide-item">
-        <img alt="" src="~/SiteSkin/Bwing/Mobile/assets/images/banner/slider-1.png" />
+        <img alt="" src="~/SiteSkin/Bwing/Desktop/images/slider-1.png" />
         <div class="slide-inside container">
-            <a class="btn button-action" href="javascript:void(0);" data-remodal-target="modal-register">
-                @selLangBLL.GetResourceValue("lbl_JoinNow")
+            <a class="btn button-action" href="#">
+                Join Now
             </a>
         </div>
     </div>
 
     <div class="slide-item">
-        <img alt="" src="~/SiteSkin/Bwing/Mobile/assets/images/banner/slider-1.png" />
+        <img alt="" src="~/SiteSkin/Bwing/Desktop/images/slider-1.png" />
         <div class="slide-inside container">
-            <a class="btn button-action" href="javascript:void(0);" data-remodal-target="modal-register">
-                @selLangBLL.GetResourceValue("lbl_JoinNow")
+            <a class="btn button-action" href="#">
+                Join Now
             </a>
         </div>
     </div>
 </div>
+
+<!-- Notification -->
 <div class="notification container">
     <span class="icon icon-noti"></span>
-        <div id="Marquee"></div>
+    <span>
+        Casino is about to carry out maintenance and upgrade. BWING will
+        announce when the game is back.
+    </span>
 </div>
-
+<!--  -->
 <div class="container center-content">
     <div class="product">
-        <div class="item item-soccer">
-            <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "1",Url)">
-                <div class="card">
-                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/img-soccer.jpg" alt="product" />
-                    <span class="product-name">@selLangBLL.GetResourceValue("lbl_Soccer")</span>
-                </div>
-            </a>
+        <div class="item">
+            <div class="card">
+                <img src="~/SiteSkin/Bwing/Desktop/images/img-soccer.jpg" alt="product" />
+                <span class="product-name">Soccer</span>
+            </div>
         </div>
 
-        <div class="item item-basketball">
-            <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "2",Url)">
-                <div class="card">
-                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/img-basketball.jpg" alt="product" />
-                    <span class="product-name">@selLangBLL.GetResourceValue("lbl_Basketball")</span>
-                </div>
-            </a>
+        <div class="item">
+            <div class="card">
+                <img src="~/SiteSkin/Bwing/Desktop/images/img-basketball.jpg" alt="product" />
+                <span class="product-name">Basketball</span>
+            </div>
         </div>
 
-        <div class="item item-casino">
-            <a class="lobby-sport" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
-                <div class="card">
-                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/img-casino.jpg" alt="product" />
-                    <span class="product-name">@selLangBLL.GetResourceValue("lbl_Casino")</span>
-                </div>
-            </a>
+        <div class="item">
+            <div class="card">
+                <img src="~/SiteSkin/Bwing/Desktop/images/img-casino.jpg" alt="product" />
+                <span class="product-name">Casino</span>
+            </div>
         </div>
 
-        <div class="item item-esport">
-            <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "43",Url)">
-                <div class="card">
-                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/img-esport.jpg" alt="product" />
-                    <span class="product-name">@selLangBLL.GetResourceValue("lbl_eSports")</span>
-                </div>
-            </a>
+        <div class="item">
+            <div class="card">
+                <img src="~/SiteSkin/Bwing/Desktop/images/img-esport.jpg" alt="product" />
+                <span class="product-name">E-Sports</span>
+            </div>
         </div>
     </div>
 
-    <div class="product-banner">
+    <div class="product">
         <div class="item-banner">
-            <a class="lobby-sport" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
-                <div class="card">
-                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/banner-casino.jpg" alt="product" />
-                </div>
-            </a>
+            <div class="card">
+                <img src="~/SiteSkin/Bwing/Desktop/images/banner-casino.jpg" alt="product" />
+            </div>
         </div>
 
         <div class="item-banner">
-            <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(0, "livecasino", Url,GameType.LiveCasinoLobby)">
-                <div class="card">
-                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/banner-live-casino.jpg" alt="product" />
-                </div>
-            </a>
+            <div class="card">
+                <img src="~/SiteSkin/Bwing/Desktop/images/banner-live-casino.jpg" alt="product" />
+            </div>
         </div>
 
         <div class="item-banner">
-            <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "202", Url)">
-                <div class="card">
-                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/banner-keno.jpg" alt="product" />
-                </div>
-            </a>
+            <div class="card">
+                <img src="~/SiteSkin/Bwing/Desktop/images/banner-keno.jpg" alt="product" />
+            </div>
         </div>
     </div>
 
     <div class="home-support">
         <div class="item">
             <i class="icon icon-deposit"></i>
-            <p class="title">@selLangBLL.GetResourceValue("lbl_HowToDepoist")</p>
+            <p class="title">HOW TO DEPOSIT</p>
             <p class="description">
-                @selLangBLL.GetResourceValue("lbl_HowToDepoistHint")
+                Support multiple payment channels, absolute safety
             </p>
-            <a class="more"> @selLangBLL.GetResourceValue("lbl_More")</a>
+            <a class="more">More</a>
         </div>
 
         <div class="item">
             <i class="icon icon-withdraw"></i>
-            <p class="title">@selLangBLL.GetResourceValue("lbl_HowToWithdraw")</p>
+            <p class="title">HOW TO WITHDRAW</p>
             <p class="description">
-                @selLangBLL.GetResourceValue("lbl_HowToWithdrawHint")
+                Quickly money transaction, information security
             </p>
-            <a class="more">@selLangBLL.GetResourceValue("lbl_More")</a>
+            <a class="more">More</a>
         </div>
 
         <div class="item">
             <i class="icon icon-play"></i>
-            <p class="title">@selLangBLL.GetResourceValue("lbl_HowToPlay")</p>
+            <p class="title">HOW TO PLAY</p>
             <p class="description">
-                @selLangBLL.GetResourceValue("lbl_HowToPlayHint")
+                Easy, attractive, diverse games, attractive incentives
             </p>
-            <a class="more">@selLangBLL.GetResourceValue("lbl_More")</a>
+            <a class="more">More</a>
         </div>
 
         <div class="item">
             <i class="icon icon-question"></i>
-            <p class="title">@selLangBLL.GetResourceValue("lbl_FAQ")</p>
+            <p class="title">FREQUENTLY ASKED QUESTIONS</p>
             <p class="description">
-                @selLangBLL.GetResourceValue("lbl_FAQHint")
+                How to create an account, transaction fees, how to change
+                passwords, ...
             </p>
-            <a class="more">@selLangBLL.GetResourceValue("lbl_More")</a>
+            <a class="more">More</a>
         </div>
     </div>
 </div>
@@ -287,30 +279,30 @@
 
             if (balance < 1m)
             {
-    <div class="modal" id="DepositAlet" data-open="false">
-        <div class="overlay Js-DepositAlet"></div>
-        <div class="modal__dialog">
-            <div class="modal__header">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_Notice")</span>
-            </div>
-            <div class="modal__body">
-                <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlert"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), balance.ToString("#,##0.##")))</p>
-                <br>
-            </div>
-            <div class="modal__footer">
-                <div class="btn-group">
-                    <button class="btn btn-primary Js-DepositAlet" type="button">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_Later")</span>
-                    </button>
-                    <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_DepositNow")</span>
-                    </a>
+                <div class="modal" id="DepositAlet" data-open="false">
+                    <div class="overlay Js-DepositAlet"></div>
+                    <div class="modal__dialog">
+                        <div class="modal__header">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Notice")</span>
+                        </div>
+                        <div class="modal__body">
+                            <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlert"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), balance.ToString("#,##0.##")))</p>
+                            <br>
+                        </div>
+                        <div class="modal__footer">
+                            <div class="btn-group">
+                                <button class="btn btn-primary Js-DepositAlet" type="button">
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Later")</span>
+                                </button>
+                                <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_DepositNow")</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    @:<script>DepositAlert = 1;</script>
+                @:<script>DepositAlert = 1;</script>
             }
             var option = new Microsoft.AspNetCore.Http.CookieOptions();
             option.Expires = DateTime.Now.AddDays(1);

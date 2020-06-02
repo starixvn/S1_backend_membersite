@@ -29,201 +29,170 @@
     }
 }
 <header class="header @(User.Identity.IsAuthenticated ? "is-login":"")">
-    <span class="btn-menu" id="btn-menu"><span class="line"></span></span>
-    <a class="logo-header" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() })">
-        <img src="~/SiteSkin/Bwing/Mobile/assets/images/logo.png" alt="Logo" />
-    </a>
-    <div class="header-top-right">
+    <div class="header-top-right container">
         @if (!User.Identity.IsAuthenticated)
         {
-        <div class="before-login">
-            <button class="btn btn-login" data-remodal-target="modal-login">
-                @selLangBLL.GetResourceValue("lbl_Login")
-            </button>
-            <button class="btn btn-register" data-remodal-target="modal-register">
-                @selLangBLL.GetResourceValue("lbl_Register")
-            </button>
-        </div>
+            <div class="before-login">
+                <button class="btn btn-login" data-remodal-target="modal-login">
+                    @selLangBLL.GetResourceValue("lbl_Login")
+                </button>
+                <button class="btn btn-register" data-remodal-target="modal-register">
+                    @selLangBLL.GetResourceValue("lbl_Register")
+                </button>
+            </div>
+        }
+        else
+        {
+            <div class="after-login">
+                <div class="dropdown-hover">
+                    <a href="" class="btn btn-header-secondary">
+                        <i class="icon icon-circle icon-cash"></i>Cashier<i class="icon icon-arrow-down"></i>
+                    </a>
+                    <div class="dropdown">
+                        <ul>
+                            <li>
+                                <a href="views/system/cashier/deposit.html">Deposit</a>
+                            </li>
+                            <li>
+                                <a href="views/system/cashier/transfer.html">Transfer</a>
+                            </li>
+                            <li>
+                                <a href="views/system/cashier/withdrawal.html">Withdrawal</a>
+                            </li>
+                            <li>
+                                <a href="views/system/history/deposit.html">Transaction History</a>
+                            </li>
+                            <li>
+                                <a href="views/system/history/statement.html">Statement</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="dropdown-hover">
+                    <a href="" class="btn btn-header-primary">
+                        <i class="icon icon-circle icon-wallet"></i><span>VND</span><span class="cash-detail">59,243,834</span><i class="icon icon-arrow-down"></i>
+                    </a>
+                    <div class="dropdown dropdown-wallet">
+                        <div class="checkbox">
+                            <input id="show-cash" type="checkbox" value="true" /><label for="show-cash">Show Balance</label>
+                        </div>
+                        <div class="wallet-item wallet-main">
+                            <label class="text-bold">VND</label><span>0 ('000)<i class="icon icon-refresh"></i></span>
+                        </div>
+                        <div class="wallet-item">
+                            <label>Sportsbook Wallet</label><span>0 ('000)</span>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary" type="button">
+                                Deposit
+                            </button><button class="btn btn-primary" type="button">
+                                Transfer
+                            </button>
+                        </div>
+                        <div class="history">
+                            <div class="flex between">
+                                <span>Last Login</span><span>4/10/2020 10:05:58 PM</span>
+                            </div>
+                            <div class="flex between">
+                                <span>Last Transaction</span><span>4/10/2020 10:05:58 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown-hover">
+                    <a href="" class="btn btn-header-primary">
+                        <i class="icon icon-circle icon-user"></i><span>Tôn Nữ Phong</span><i class="icon icon-arrow-down"></i>
+                    </a>
+                    <div class="dropdown">
+                        <ul>
+                            <li>
+                                <a href="views/system/account/change-password.html">Change Password</a>
+                            </li>
+                            <li>
+                                <a href="views/system/account/profile.html">Profile</a>
+                            </li>
+                            <li>
+                                <a href="views/system/account/bank-info.html">Bank</a>
+                            </li>
+                            <li>
+                                <a href="views/system/notification/promotion.html">Promotion</a>
+                            </li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="header-icon">
+                    <a href="views/system/notification/announcement.html"><i class="icon icon-bell has-new"></i></a><a href="#/"><i class="icon icon-logout"></i></a>
+                </div>
+            </div>
         }
         <div class="languages">
-            <div class="languages-box">
-                <div id="lang_selector" class="language-dropdown">
-                    <label for="toggle" class="lang-flag lang-@selLangBLL.GetLangId()" title="@selLangBLL.GetResourceValue("lbl_SelectLanguage")">
-                        <span class="flag"></span>
-                    </label>
-                    <ul class="lang-list">
-                        @foreach (var siteLanguage in selLangBLL.GetLangIdList())
+            <div id="lang_selector" class="language-dropdown">
+                <label for="toggle"
+                       class="lang-flag lang-@selLangBLL.GetLangId()"
+                       title="@selLangBLL.GetResourceValue("lbl_SelectLanguage")">
+                    <span class="flag"></span>
+                </label>
+                <ul class="lang-list">
+                    @foreach (var siteLanguage in selLangBLL.GetLangIdList())
+                    {
+                        @if (User.Identity.IsAuthenticated)
                         {
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" Js-lang-id="@siteLanguage.LangId" title="@siteLanguage.Language">
-                                    <span class="flag"></span>
-                                    <span class="text">@siteLanguage.Language</span>
-                                </li>
-                            }
-                            else
-                            {
-                                var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
-                                <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language" onclick="location.href='@LangUrl';">
-                                    <span class="flag"></span>
-                                    <span class="text">@siteLanguage.Language</span>
-                                </li>
-                            }
-                        }
-                    </ul>
-                </div>
-                <div id="lang_selected" class="lang_selected">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="nav-mobile-overlay">
-        <div class="nav-mobile">
-            <span class="btn-menu bt-menu-close" id="btn-menu-close"><span class="line"></span></span>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <div class="nav-top-after">
-                    <div class="nav-info">
-                        <div class="info">
-                            @selLangBLL.GetResourceValue("lbl_Welcome"), <span class="link">@User.Identity.Name</span>
-                            <p class="balance">0('000) <i class="icon icon-refresh-white"></i></p>
-                        </div>
-                        <i id="logout" class="icon icon-logout"></i>
-                    </div>
-                    <div class="nav-button">
-                        <a class="btn btn-primary" href="@Url.RouteUrl("desktop", new { action="Deposit" , controller="Cashier" , LangId=selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_Deposit")</a>
-                        <a class="btn btn-primary" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })"> @selLangBLL.GetResourceValue("lbl_Transfer")</a>
-                        <a class="btn btn-primary" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })"> @selLangBLL.GetResourceValue("lbl_Withdrawal")</a>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="nav-top-before">
-                    <button class="btn btn-login" data-remodal-target="modal-login"> @selLangBLL.GetResourceValue("lbl_Login")</button>
-                    <button class="btn btn-register" data-remodal-target="modal-register"> @selLangBLL.GetResourceValue("lbl_Register")</button>
-                </div>
-            }
-            <div class="nav-mobile-main">
-                <ul class="main-nav-mobile">
-                    <li class="nav-item">
-                        <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                            <i class="icon icon-menu-home"></i> @selLangBLL.GetResourceValue("lbl_Home")
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="@gamingBLL.GetEntPageUrl(1,"1",Url)">
-                            <i class="icon icon-menu-sport"></i> @selLangBLL.GetResourceValue("lbl_Sports")
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="@(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"43",Url)">
-                            <i class="icon icon-menu-esport"></i> @selLangBLL.GetResourceValue("lbl_eSports")
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="@gamingBLL.GetEntPageUrl(1,"161",Url)">
-                            <i class="icon icon-menu-number"></i>@selLangBLL.GetResourceValue("lbl_NumberGame")
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="@gamingBLL.GetEntPageUrl(1,"180",Url)">
-                            <i class="icon icon-menu-virtual"></i>@selLangBLL.GetResourceValue("lbl_VirtualSports")
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
-                            <i class="icon icon-menu-casino"></i>@selLangBLL.GetResourceValue("lbl_Casino")
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() })">
-                            <i class="icon icon-menu-live"></i>@selLangBLL.GetResourceValue("lbl_LiveCasino")
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class=" @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"202",Url)">
-                            <i class="icon icon-menu-live"></i>@selLangBLL.GetResourceValue("lbl_Keno")
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="@(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@entFishingPageUrl">
-                            <i class="icon icon-menu-fishing"></i>@selLangBLL.GetResourceValue("lbl_Fishing")
-                        </a>
-                    </li>
-                </ul>
-                <div class="languages">
-                    <div class="languages-box">
-                        <div id="lang_selector" class="language-dropdown">
-                            <label for="toggle" class="lang-flag lang-@selLangBLL.GetLangId()" title="@selLangBLL.GetResourceValue("lbl_SelectLanguage")">
+                            <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" Js-lang-id="@siteLanguage.LangId" title="@siteLanguage.Language">
                                 <span class="flag"></span>
-                            </label>
-                            <ul class="lang-list">
-                                @foreach (var siteLanguage in selLangBLL.GetLangIdList())
-                                {
-                                    @if (User.Identity.IsAuthenticated)
-                                    {
-                                        <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" Js-lang-id="@siteLanguage.LangId" title="@siteLanguage.Language">
-                                            <span class="flag"></span>
-                                            <span class="text">@siteLanguage.Language</span>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
-                                        <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language" onclick="location.href='@LangUrl';">
-                                            <span class="flag"></span>
-                                            <span class="text">@siteLanguage.Language</span>
-                                        </li>
-                                    }
-                                }
-                            </ul>
-                        </div>
-                        <div id="lang_selected" class="lang_selected">
-                            <p>@selLangBLL.GetLangIdList().Where(x => x.LangId == selLangBLL.GetLangId()).FirstOrDefault().Language</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="nav-system">
-                    <div class="system-mob">
-                        <a href="@Url.RouteUrl("desktop", new { action="PersonalMsg" , controller="Message" , LangId=selLangBLL.GetLangId() })" class="system-item">
-                            <span class="system-icon">
-                                <i class="icon icon-info"></i>
-                            </span><span>@selLangBLL.GetResourceValue("lbl_Message")</span>
-                        </a>
-                        <a href="@Url.RouteUrl("desktop", new { action="Profile" , controller="Account" , LangId=selLangBLL.GetLangId() })" class="system-item">
-                            <span class="system-icon">
-                                <i class="icon icon-account"></i>
-                            </span><span>@selLangBLL.GetResourceValue("lbl_Profile")</span>
-                        </a>
-                        <a href="@Url.RouteUrl("desktop", new { action="Index" , controller="Promotion" , LangId=selLangBLL.GetLangId() })" class="system-item">
-                            <span class="system-icon">
-                                <i class="icon icon-promotion"></i>
-                            </span><span>@selLangBLL.GetResourceValue("lbl_Promotion")</span>
-                        </a>
-                        <a href="@Url.RouteUrl("desktop", new { action="ChangePwd" , controller="Account" , LangId=selLangBLL.GetLangId() })" class="system-item">
-                            <span class="system-icon">
-                                <i class="icon icon-key"></i>
-                            </span><span>@selLangBLL.GetResourceValue("lbl_ChangePassword")</span>
-                        </a>
-                        <a href="@Url.RouteUrl("desktop", new { action="Deposit" , controller="Cashier" , LangId=selLangBLL.GetLangId() })" class="system-item">
-                            <span class="system-icon">
-                                <i class="icon icon-dola"></i>
-                            </span><span>@selLangBLL.GetResourceValue("lbl_Transfer")</span>
-                        </a>
-                        <a href="@Url.RouteUrl("desktop", new { action="Transfer" , controller="History" , LangId=selLangBLL.GetLangId() })" class="system-item">
-                            <span class="system-icon">
-                                <i class="icon icon-history"></i>
-                            </span><span>@selLangBLL.GetResourceValue("lbl_TransferHistory")</span>
-                        </a>
-                        <a href="@Url.RouteUrl("desktop", new { action = "Statement", controller = "History", LangId = selLangBLL.GetLangId() })" class="system-item">
-                            <span class="system-icon">
-                                <i class="icon icon-profile"></i>
-                            </span><span>@selLangBLL.GetResourceValue("lbl_Statement")</span>
-                        </a>
-                    </div>
-                </div>
+                                <span class="text">@siteLanguage.Language</span>
+                            </li>
+                        }
+                        else
+                        {
+                            var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
+                            <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language" onclick="location.href='@LangUrl';">
+                                <span class="flag"></span>
+                                <span class="text">@siteLanguage.Language</span>
+                            </li>
+                        }
+                    }
+                </ul>
             </div>
+            <div id="lang_selected" class="lang_selected">
+                <p>@selLangBLL.GetLangIdList().Where(x => x.LangId == selLangBLL.GetLangId()).FirstOrDefault().Language</p>
+            </div>
+            <span class="icon-arrow"></span>
         </div>
+        <span class="btn-menu" id="menu-toggle">
+            <span class="line"></span>
+        </span>
     </div>
+    <nav class="header-nav">
+        <div class="container">
+            <ul class="main-nav">
+                <li class="nav-logo">
+                    <a aria-current="page"
+                       class="logo-header active"
+                       href="index.html">
+                        <img src="~/SiteSkin/Bwing/Desktop/images/logo.png" alt="@serverInfo.SiteName"/>
+
+                    </a>
+                </li>
+                <li class="nav-item"><a href="views/sport.html">Sports</a></li>
+                <li class="nav-item">
+                    <a href="views/esport.html">E-Sports</a>
+                </li>
+                <li class="nav-item">
+                    <a href="views/number-game.html">Number game</a>
+                </li>
+                <li class="nav-item">
+                    <a href="views/virtual-sport.html">Virtual Sports</a>
+                </li>
+                <li class="nav-item"><a href="views/casino.html">Casino</a></li>
+                <li class="nav-item">
+                    <a href="views/live-casino.html">Live casino</a>
+                </li>
+                <li class="nav-item"><a href="views/keno.html">Keno</a></li>
+                <li class="nav-item">
+                    <a href="views/slot.html">Fishing World</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </header>

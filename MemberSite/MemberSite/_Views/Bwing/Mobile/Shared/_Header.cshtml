@@ -73,6 +73,7 @@
                     </ul>
                 </div>
                 <div id="lang_selected" class="lang_selected">
+                    <p>@selLangBLL.GetLangIdList().Where(x => x.LangId == selLangBLL.GetLangId()).FirstOrDefault().Language</p>
                 </div>
             </div>
         </div>

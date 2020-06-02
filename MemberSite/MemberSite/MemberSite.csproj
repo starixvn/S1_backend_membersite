@@ -80,6 +80,13 @@
     <None Include="wwwroot\js\component\account\Profile.jsx" />
     <None Include="wwwroot\js\component\commJS\common.js" />
     <None Include="wwwroot\js\component\commJS\InputBox.jsx" />
+    <None Include="wwwroot\SiteSkin\Bwing\Desktop\images\rectangle.svg" />
+    <None Include="wwwroot\SiteSkin\Bwing\Desktop\js\lib\daterangepicker.min.js" />
+    <None Include="wwwroot\SiteSkin\Bwing\Desktop\js\lib\jquery-3.5.1.min.js" />
+    <None Include="wwwroot\SiteSkin\Bwing\Desktop\js\lib\moment.min.js" />
+    <None Include="wwwroot\SiteSkin\Bwing\Desktop\js\lib\remodal.min.js" />
+    <None Include="wwwroot\SiteSkin\Bwing\Desktop\js\lib\slick.js" />
+    <None Include="wwwroot\SiteSkin\Bwing\Desktop\js\page.js" />
     <None Include="wwwroot\SiteSkin\Bwing\Mobile\assets\css\lib\slick\fonts\slick.svg" />
     <None Include="wwwroot\SiteSkin\Bwing\Mobile\assets\fonts\icon\demo-files\demo.js" />
     <None Include="wwwroot\SiteSkin\Bwing\Mobile\assets\fonts\icon\fonts\icomoon.svg" />

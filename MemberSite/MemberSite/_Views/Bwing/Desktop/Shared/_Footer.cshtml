@@ -49,108 +49,179 @@
     }
 }
 <footer class="footer">
-    <div class="container">
-        <div class="menu-footer">
-            <div class="item footer-product">
-                <p class="title">Sports Betting</p>
+    <div class="container menu-footer">
+        <div class="item footer-product">
+            <p class="title">SPORTS BETTING</p>
+            <ul class="item-list">
+                <li>
+                    <a class="link-footer" href="#">
+                        Soccer Betting
+                    </a>
+                </li>
+                <li>
+                    <a class="link-footer" href="#">
+                        Basketball Betting
+                    </a>
+                </li>
+                <li>
+                    <a class="link-footer" href="#">
+                        Badminton Betting
+                    </a>
+                </li>
+                <li>
+                    <a class="link-footer" href="#">
+                        Football Betting
+                    </a>
+                </li>
+                <li>
+                    <a class="link-footer" href="#">
+                        Tennis Betting
+                    </a>
+                </li>
+                <li>
+                    <a class="link-footer" href="#">
+                        Hockey Betting
+                    </a>
+                </li>
+                <li>
+                    <a class="link-footer" href="#">
+                        E-Sports Betting
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="item">
+            <p class="title">OUR POLICIES</p>
+            <ul class="item-list">
+                <li>
+                    <a class="link-footer" href="#">
+                        Responsible Gaming
+                    </a>
+                </li>
+                <li>
+                    <a class="link-footer" href="#">
+                        Terms and Conditions
+                    </a>
+                </li>
+                <li>
+                    <a class="link-footer" href="#">
+                        Privacy Policy
+                    </a>
+                </li>
+                <li>
+                    <a class="link-footer" href="#">
+                        Cookie Policy
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="item footer-support">
+            <p class="title">Help & Support</p>
+            <ul class="item-list">
+                <li>
+                    <a class="link-footer" href="#">
+                        Rules and Regulations
+                    </a>
+                </li>
+                <li>
+                    <a class="link-footer" href="#">
+                        Account Terms
+                    </a>
+                </li>
+                <li>
+                    <a class="link-footer" href="#">
+                        FAQ
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="item about-us">
+            <div>
+                <p class="title">Bwing</p>
                 <ul class="item-list">
-                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"1",Url)">@selLangBLL.GetResourceValue("lbl_SportsBetting")</a></li>
-                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"2",Url)">@selLangBLL.GetResourceValue("lbl_BasketballBetting")</a></li>
-                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"8",Url)">@selLangBLL.GetResourceValue("lbl_BaseballBetting")</a></li>
-                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"3",Url)">@selLangBLL.GetResourceValue("lbl_FootballBetting")</a></li>
-                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"5",Url)">@selLangBLL.GetResourceValue("lbl_TennisBetting")</a></li>
-                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"4",Url)">@selLangBLL.GetResourceValue("lbl_HockeyBetting")</a></li>
-                    <li><a class="link-footer @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"43",Url)">@selLangBLL.GetResourceValue("lbl_eSportsBetting")</a></li>
+                    <li>
+                        <a class="link-footer" href="#">
+                            About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a class="link-footer" href="#">
+                            Terms of Use
+                        </a>
+                    </li>
+                    <li>
+                        <a class="link-footer" href="#">
+                            Contact us
+                        </a>
+                    </li>
                 </ul>
             </div>
-            <div class="item">
-                <p class="title">@selLangBLL.GetResourceValue("lbl_OurPolicies")</p>
+
+            <div class="footer-social">
+                <p class="title">Contact us</p>
                 <ul class="item-list">
-                    <li><a class="link-footer" href="@StaticRootPath/ResposibleGaming.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_ResposibleGaming")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/TermsConditions.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_TermsConditions")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/PrivacyPolicy.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_PrivacyPolicy")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/CookiePolicy.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_CookiePolicy")</a></li>
+                    <li>
+                        <a class="link-footer" href="#">
+                            <i class="icon icon-facebook-circle"></i>Facebook
+                        </a>
+                    </li>
+                    <li>
+                        <a class="link-footer" href="#">
+                            <i class="icon icon-twitter-circle"></i>Twitter
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
-        <div class="menu-footer">
-            <div class="item footer-support">
-                <p class="title">@selLangBLL.GetResourceValue("lbl_HelpSupport")</p>
-                <ul class="item-list">
-                    <li><a class="link-footer" href="@StaticRootPath/RulesandRegulations.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_RuleRegulations")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/AccountTerms.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_AccountTerms")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/FAQ.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_FAQ")</a></li>
-                </ul>
-            </div>
-            <div class="item about-us">
-                <div class="footer-social">
-                    <p class="title">@selLangBLL.GetResourceValue("lbl_SocialMedia")</p>
-                    <ul class="item-list">
-                        <li><a class="link-footer" href="https://www.facebook.com/@(selLangBLL.GetResourceValue("lbl_FacebookAccount"))" target="_temp"><i class="icon icon-facebook-circle"></i>@selLangBLL.GetResourceValue("lbl_Facebook")</a></li>
-                        <li><a class="link-footer" href="https://twitter.com/@(selLangBLL.GetResourceValue("lbl_TwitterAccount"))" target="_temp"><i class="icon icon-twitter-circle"></i>@selLangBLL.GetResourceValue("lbl_Twitter")</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
 
-        <div class="menu-footer">
-            <div class="item">
-                <div class="title">@serverInfo.SiteName</div>
-                <ul class="item-list">
-                    <li><a class="link-footer" href="@StaticRootPath/AboutUs.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_AboutUs")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/Terms.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_Terms")</a></li>
-                    <li><a class="link-footer" hreff="@StaticRootPath/ContactUs.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_ContactUs")</a></li>
-                </ul>
+        <div class="item footer-contact">
+            <div>
+                <p class="title">Contact Us</p>
+                <p class="text">
+                    Our 24/7 online support team is always available to listen and
+                    answer your questions. We support via online chat, phone, email
+                    and many other popular channels such as: Zalo, Viber, Skype,
+                    Facebook ...
+                </p>
             </div>
-
-            <div class="item footer-contact">
-                <div>
-                    <div class="title">@selLangBLL.GetResourceValue("lbl_ContactUs")</div>
-                    <div class="text">
-                        @selLangBLL.GetResourceValue("lbl_ContactUsHint")
-                    </div>
-                </div>
-
-                <div class="languages">
-                    <div class="languages-box">
-                        <div id="lang_selector" class="language-dropdown">
-                            <label for="toggle" class="lang-flag lang-@selLangBLL.GetLangId()" title="@selLangBLL.GetResourceValue("lbl_SelectLanguage")">
-                                <span class="flag"></span>
-                            </label>
-                            <ul class="lang-list">
-                                @foreach (var siteLanguage in selLangBLL.GetLangIdList())
+            <div class="languages">
+                <div class="languages-box">
+                    <div id="lang_selector" class="language-dropdown">
+                        <label for="toggle" class="lang-flag lang-@selLangBLL.GetLangId()" title="@selLangBLL.GetResourceValue("lbl_SelectLanguage")">
+                            <span class="flag"></span>
+                        </label>
+                        <ul class="lang-list">
+                            @foreach (var siteLanguage in selLangBLL.GetLangIdList())
+                            {
+                                @if (User.Identity.IsAuthenticated)
                                 {
-                                    @if (User.Identity.IsAuthenticated)
-                                    {
-                                        <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" Js-lang-id="@siteLanguage.LangId" title="@siteLanguage.Language">
-                                            <span class="flag"></span>
-                                            <span class="text">@siteLanguage.Language</span>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
-                                        <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language" onclick="location.href='@LangUrl';">
-                                            <span class="flag"></span>
-                                            <span class="text">@siteLanguage.Language</span>
-                                        </li>
-                                    }
+                                    <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" Js-lang-id="@siteLanguage.LangId" title="@siteLanguage.Language">
+                                        <span class="flag"></span>
+                                        <span class="text">@siteLanguage.Language</span>
+                                    </li>
                                 }
-                            </ul>
-                        </div>
-                        <div id="lang_selected" class="lang_selected">
-                            <p>@selLangBLL.GetLangIdList().Where(x => x.LangId == selLangBLL.GetLangId()).FirstOrDefault().Language</p>
-                        </div>
+                                else
+                                {
+                                    var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
+                                    <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language" onclick="location.href='@LangUrl';">
+                                        <span class="flag"></span>
+                                        <span class="text">@siteLanguage.Language</span>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    <div id="lang_selected" class="lang_selected">
+                        <p>@selLangBLL.GetLangIdList().Where(x => x.LangId == selLangBLL.GetLangId()).FirstOrDefault().Language</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="copy-right">
-        <p>© Copyright @DateTime.Now.Year. @serverInfo.SiteName. All Rights Reserved.</p>
-        <button class="btn btn-view">
-            <i class="icon icon-desktop"></i>@selLangBLL.GetResourceValue("lbl_Fullversion")
-        </button>
+        © Copyright @DateTime.Now.Year. @serverInfo.SiteName. All Rights Reserved.
     </div>
 </footer>
