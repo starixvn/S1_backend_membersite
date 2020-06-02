@@ -408,6 +408,12 @@ body {
   margin-left: 1rem
 }
 
+.history>.history {
+  border-bottom: 1px solid #103c66;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
 /* -------------- Transfer -------------------*/
 .transfer-body {
   margin-bottom: 3rem;

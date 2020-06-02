@@ -120,7 +120,7 @@
 
 .nav-mobile .lang-list {
   bottom: 28px;
-  left: -9px; 
+  left: -9px;
 }
 
 
@@ -256,7 +256,7 @@
 
 @media screen and (max-width: 520px) {
   .header-top-right {
-    padding-top: 6.5rem;
+    /* padding-top: 6.5rem; */
   }
 
   .sticky-popup {
@@ -275,13 +275,5 @@
     height: 4.5rem;
     padding-bottom: 0.5rem;
     font-size: 2rem;
-  }
-
-  .is-login .header-top-right {
-    padding-top: 1.3rem;
-  }
-
-  .is-login.wrap-content {
-    padding-top: 5.8rem;
   }
 }

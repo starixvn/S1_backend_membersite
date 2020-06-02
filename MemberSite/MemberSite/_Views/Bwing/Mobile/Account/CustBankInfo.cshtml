@@ -30,7 +30,6 @@
 @section Style{
     <link href="~/SiteSkin/Bwing/Mobile/assets/css/page.css" rel="stylesheet" />
     <link href="~/SiteSkin/Bwing/Mobile/assets/css/system.css" rel="stylesheet" />
-    <link href="~/SiteSkin/Bwing/Mobile/assets/css/select2.css" rel="stylesheet" />
 }
 
 @*$.extend(i18n, {"lbl_BankName":"Bank Name","lbl_BankAccountName":"Account Name","lbl_BankAccountNameHint":"Please use your real name for account name. This field cannot be changed once entered!","lbl_BankNumber":"Account Number","lbl_NewAccountName":null,"lbl_CustBankInfo":"Update Bank Information","lbl_Back":"Back","lbl_Submit":"Submit","lbl_BankInfo":"Bank Info","lbl_ContactCSD":"For any request of modification, please contact CSD.","lbl_AddNewAccount":"Add New Account","lbl_CheckConfirm":"Are you sure you want to delete? It cannot restore after deletion!","lbl_BankAccount":"Bank Account","msg_NeedAccountName":"Need Account Name","msg_NeedAccountNo":"Need Account Number"});*@
@@ -87,7 +86,7 @@
                     <div class="label">
                         <span class="text-bold">@selLangBLL.GetResourceValue("lbl_BankName"): </span>
                     </div>
-                    <div class="input-field bank-wrapper" id="BankInfoSysList"></div>
+                    <div class="input-field dropdown ddl-default" id="BankInfoSysList"></div>
                     <div class="label">
                         <span class="text-bold">@selLangBLL.GetResourceValue("lbl_BankNumber"): </span>
                     </div>
@@ -126,7 +125,6 @@
     <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
     </script>
-    <script src="~/js/Bwing/component/account/select2.js"></script>
     <script src="~/lib/runtime.min.js"></script>
     @*<script src="~/js/component/account/CustBankInfo.min.js" asp-append-version="true"></script>*@
     <script src="~/js/Bwing/component/account/CustBankInfo.js" asp-append-version="true"></script>
