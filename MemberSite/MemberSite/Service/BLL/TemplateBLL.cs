@@ -21,15 +21,22 @@ namespace MemberSite.Service.BLL
         public string GetTemplatePath(IUrlHelper urlHelper)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
-            if (/*tools.IsMobile() && */serverInfo.SiteId == 3)
+            if (serverInfo.SiteId == 3)
             {
+                string deviceName = "Desktop";
+
+                if (tools.IsMobile())
+                {
+                    deviceName = "Mobile";
+                }
+
                 if (urlHelper.ActionContext.RouteData.Values["action"].ToString().Equals("Register", StringComparison.OrdinalIgnoreCase))
                 {
-                    return $"/_Views/{serverInfo.SiteName}/Mobile/{urlHelper.ActionContext.RouteData.Values["Controller"]}/Index.cshtml";
+                    return $"/_Views/{serverInfo.SiteName}/{deviceName}/{urlHelper.ActionContext.RouteData.Values["Controller"]}/Index.cshtml";
                 }
                 else
                 {
-                    return $"/_Views/{serverInfo.SiteName}/Mobile/{urlHelper.ActionContext.RouteData.Values["Controller"]}/{urlHelper.ActionContext.RouteData.Values["action"]}.cshtml";
+                    return $"/_Views/{serverInfo.SiteName}/{deviceName}/{urlHelper.ActionContext.RouteData.Values["Controller"]}/{urlHelper.ActionContext.RouteData.Values["action"]}.cshtml";
                 }
             }
             else
