@@ -28,7 +28,24 @@ module.exports = {
 		],
 		"cashier/TransferPanel.min": ["./src/cashier/transfer.js"],
 		"cashier/WithdrawalPanel.min": ["./src/cashier/withdrawal.js"],
-		"cashier/DepositPanel.min": ["./src/cashier/deposit.js"]
+		"cashier/DepositPanel.min": ["./src/cashier/deposit.js"],
+		"desktop/history/Deposit.min": ["./src/desktop/history/deposit.js"],
+		"desktop/history/Withdrawal.min": [
+			"./src/desktop/history/withdrawal.js"
+		],
+		"desktop/history/Transfer.min": [
+			"./src/desktop/history/fundTransfer.js"
+		],
+		"desktop/history/Statement/Statement.min": [
+			"./src/desktop/history/statement.js"
+		],
+		"desktop/account/Profile.min": ["./src/desktop/profile/viewProfile.js"],
+		"desktop/account/UpdProfile.min": [
+			"./src/desktop/profile/updProfile.js"
+		],
+		"desktop/cashier/WithdrawalPanel.min": [
+			"./src/desktop/cashier/withdrawal.js"
+		]
 	},
 	output: {
 		path: path.resolve(
