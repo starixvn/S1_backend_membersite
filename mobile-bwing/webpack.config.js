@@ -38,6 +38,10 @@ module.exports = {
 		],
 		"desktop/history/Statement/Statement.min": [
 			"./src/desktop/history/statement.js"
+		],
+		"desktop/account/Profile.min": ["./src/desktop/profile/viewProfile.js"],
+		"desktop/account/UpdProfile.min": [
+			"./src/desktop/profile/updProfile.js"
 		]
 	},
 	output: {
