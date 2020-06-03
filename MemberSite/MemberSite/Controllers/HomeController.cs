@@ -17,13 +17,24 @@ namespace MemberSite.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
+                // VN Affiliate
                 if (aff != null)
                 {
                     CookieOptions option = new CookieOptions();
                     option.Expires = DateTime.Now.AddMonths(1);
                     Response.Cookies.Append(nameof(aff), aff, option);
+
+                    if (affId == null)
+                    {
+                        Response.Cookies.Delete(nameof(affId));
+                    }
+                    if (refId == null)
+                    {
+                        Response.Cookies.Delete(nameof(refId));
+                    }
                 }
 
+                // Marketing Affiliate
                 if (refId != null)
                 {
                     CookieOptions option = new CookieOptions();
@@ -40,6 +51,7 @@ namespace MemberSite.Controllers
                     }
                 }
 
+                // Affiliate
                 if (affId != null)
                 {
                     CookieOptions option = new CookieOptions();
@@ -67,13 +79,24 @@ namespace MemberSite.Controllers
                 return RedirectToRoute(new { action = "Index", controller = "Home" });
             }
 
+            // VN Affiliate
             if (aff != null)
             {
                 CookieOptions option = new CookieOptions();
                 option.Expires = DateTime.Now.AddMonths(1);
                 Response.Cookies.Append(nameof(aff), aff, option);
+
+                if (affId == null)
+                {
+                    Response.Cookies.Delete(nameof(affId));
+                }
+                if (refId == null)
+                {
+                    Response.Cookies.Delete(nameof(refId));
+                }
             }
             
+            // Marketing Affiliate
             if (refId != null)
             {
                 CookieOptions option = new CookieOptions();
@@ -90,6 +113,7 @@ namespace MemberSite.Controllers
                 }
             }
 
+            //Affiliate
             if (affId != null)
             {
                 CookieOptions option = new CookieOptions();

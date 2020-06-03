@@ -51,126 +51,57 @@
 <footer class="footer">
     <div class="container menu-footer">
         <div class="item footer-product">
-            <p class="title">SPORTS BETTING</p>
+            <p class="title">@selLangBLL.GetResourceValue("lbl_SportsBetting")</p>
             <ul class="item-list">
-                <li>
-                    <a class="link-footer" href="#">
-                        Soccer Betting
-                    </a>
-                </li>
-                <li>
-                    <a class="link-footer" href="#">
-                        Basketball Betting
-                    </a>
-                </li>
-                <li>
-                    <a class="link-footer" href="#">
-                        Badminton Betting
-                    </a>
-                </li>
-                <li>
-                    <a class="link-footer" href="#">
-                        Football Betting
-                    </a>
-                </li>
-                <li>
-                    <a class="link-footer" href="#">
-                        Tennis Betting
-                    </a>
-                </li>
-                <li>
-                    <a class="link-footer" href="#">
-                        Hockey Betting
-                    </a>
-                </li>
-                <li>
-                    <a class="link-footer" href="#">
-                        E-Sports Betting
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="item">
-            <p class="title">OUR POLICIES</p>
-            <ul class="item-list">
-                <li>
-                    <a class="link-footer" href="#">
-                        Responsible Gaming
-                    </a>
-                </li>
-                <li>
-                    <a class="link-footer" href="#">
-                        Terms and Conditions
-                    </a>
-                </li>
-                <li>
-                    <a class="link-footer" href="#">
-                        Privacy Policy
-                    </a>
-                </li>
-                <li>
-                    <a class="link-footer" href="#">
-                        Cookie Policy
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="item footer-support">
-            <p class="title">Help & Support</p>
-            <ul class="item-list">
-                <li>
-                    <a class="link-footer" href="#">
-                        Rules and Regulations
-                    </a>
-                </li>
-                <li>
-                    <a class="link-footer" href="#">
-                        Account Terms
-                    </a>
-                </li>
-                <li>
-                    <a class="link-footer" href="#">
-                        FAQ
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="item about-us">
-            <div>
-                <p class="title">Bwing</p>
-                <ul class="item-list">
-                    <li>
-                        <a class="link-footer" href="#">
-                            About Us
-                        </a>
-                    </li>
-                    <li>
-                        <a class="link-footer" href="#">
-                            Terms of Use
-                        </a>
-                    </li>
-                    <li>
-                        <a class="link-footer" href="#">
-                            Contact us
-                        </a>
-                    </li>
+                <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"1",Url)">@selLangBLL.GetResourceValue("lbl_SportsBetting")</a></li>
+                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"2",Url)">@selLangBLL.GetResourceValue("lbl_BasketballBetting")</a></li>
+                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"8",Url)">@selLangBLL.GetResourceValue("lbl_BaseballBetting")</a></li>
+                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"3",Url)">@selLangBLL.GetResourceValue("lbl_FootballBetting")</a></li>
+                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"5",Url)">@selLangBLL.GetResourceValue("lbl_TennisBetting")</a></li>
+                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"4",Url)">@selLangBLL.GetResourceValue("lbl_HockeyBetting")</a></li>
+                    <li><a class="link-footer @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"43",Url)">@selLangBLL.GetResourceValue("lbl_eSportsBetting")</a></li>
                 </ul>
+            </div>
+            <div class="item">
+                <p class="title">@selLangBLL.GetResourceValue("lbl_OurPolicies")</p>
+                <ul class="item-list">
+                    <li><a class="link-footer" href="@StaticRootPath/ResposibleGaming.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_ResposibleGaming")</a></li>
+                    <li><a class="link-footer" href="@StaticRootPath/TermsConditions.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_TermsConditions")</a></li>
+                    <li><a class="link-footer" href="@StaticRootPath/PrivacyPolicy.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_PrivacyPolicy")</a></li>
+                    <li><a class="link-footer" href="@StaticRootPath/CookiePolicy.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_CookiePolicy")</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="menu-footer">
+            <div class="item footer-support">
+                <p class="title">@selLangBLL.GetResourceValue("lbl_HelpSupport")</p>
+                <ul class="item-list">
+                    <li><a class="link-footer" href="@StaticRootPath/RulesandRegulations.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_RuleRegulations")</a></li>
+                    <li><a class="link-footer" href="@StaticRootPath/AccountTerms.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_AccountTerms")</a></li>
+                    <li><a class="link-footer" href="@StaticRootPath/FAQ.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_FAQ")</a></li>
+                </ul>
+            </div>
+            <div class="item about-us">
+                <div class="footer-social">
+                    <p class="title">@selLangBLL.GetResourceValue("lbl_SocialMedia")</p>
+                    <ul class="item-list">
+                        <li><a class="link-footer" href="https://www.facebook.com/@(selLangBLL.GetResourceValue("lbl_FacebookAccount"))" target="_temp"><i class="icon icon-facebook-circle"></i>@selLangBLL.GetResourceValue("lbl_Facebook")</a></li>
+                        <li><a class="link-footer" href="https://twitter.com/@(selLangBLL.GetResourceValue("lbl_TwitterAccount"))" target="_temp"><i class="icon icon-twitter-circle"></i>@selLangBLL.GetResourceValue("lbl_Twitter")</a></li>
+                    </ul>
+                </div>
             </div>
 
             <div class="footer-social">
-                <p class="title">Contact us</p>
+                <p class="title">@selLangBLL.GetResourceValue("lbl_HelpSupport")</p>
                 <ul class="item-list">
                     <li>
-                        <a class="link-footer" href="#">
-                            <i class="icon icon-facebook-circle"></i>Facebook
+                        <a class="link-footer" href="https://www.facebook.com/@(selLangBLL.GetResourceValue("lbl_FacebookAccount"))" target="_temp">
+                            <i class="icon icon-facebook-circle"></i>@selLangBLL.GetResourceValue("lbl_Facebook")
                         </a>
                     </li>
                     <li>
-                        <a class="link-footer" href="#">
-                            <i class="icon icon-twitter-circle"></i>Twitter
+                        <a class="link-footer" href="https://twitter.com/@(selLangBLL.GetResourceValue("lbl_TwitterAccount"))" target="_temp">
+                            <i class="icon icon-twitter-circle"></i>@selLangBLL.GetResourceValue("lbl_Twitter")
                         </a>
                     </li>
                 </ul>
@@ -179,12 +110,9 @@
 
         <div class="item footer-contact">
             <div>
-                <p class="title">Contact Us</p>
+                <p class="title">@selLangBLL.GetResourceValue("lbl_ContactUs")</p>
                 <p class="text">
-                    Our 24/7 online support team is always available to listen and
-                    answer your questions. We support via online chat, phone, email
-                    and many other popular channels such as: Zalo, Viber, Skype,
-                    Facebook ...
+                     @selLangBLL.GetResourceValue("lbl_ContactUsHint")
                 </p>
             </div>
             <div class="languages">

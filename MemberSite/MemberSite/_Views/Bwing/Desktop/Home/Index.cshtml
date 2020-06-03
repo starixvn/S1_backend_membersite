@@ -61,7 +61,7 @@
         <img alt="" src="~/SiteSkin/Bwing/Desktop/images/slider-1.png" />
         <div class="slide-inside container">
             <a class="btn button-action" href="#">
-                Join Now
+                @selLangBLL.GetResourceValue("lbl_JoinNow")
             </a>
         </div>
     </div>
@@ -70,7 +70,7 @@
         <img alt="" src="~/SiteSkin/Bwing/Desktop/images/slider-1.png" />
         <div class="slide-inside container">
             <a class="btn button-action" href="#">
-                Join Now
+                @selLangBLL.GetResourceValue("lbl_JoinNow")
             </a>
         </div>
     </div>
@@ -90,28 +90,28 @@
         <div class="item">
             <div class="card">
                 <img src="~/SiteSkin/Bwing/Desktop/images/img-soccer.jpg" alt="product" />
-                <span class="product-name">Soccer</span>
+                <span class="product-name">@selLangBLL.GetResourceValue("lbl_Soccer")</span>
             </div>
         </div>
 
         <div class="item">
             <div class="card">
                 <img src="~/SiteSkin/Bwing/Desktop/images/img-basketball.jpg" alt="product" />
-                <span class="product-name">Basketball</span>
+                <span class="product-name">@selLangBLL.GetResourceValue("lbl_Basketball")</span>
             </div>
         </div>
 
         <div class="item">
             <div class="card">
                 <img src="~/SiteSkin/Bwing/Desktop/images/img-casino.jpg" alt="product" />
-                <span class="product-name">Casino</span>
+                <span class="product-name">@selLangBLL.GetResourceValue("lbl_Casino")</span>
             </div>
         </div>
 
         <div class="item">
             <div class="card">
                 <img src="~/SiteSkin/Bwing/Desktop/images/img-esport.jpg" alt="product" />
-                <span class="product-name">E-Sports</span>
+                <span class="product-name">@selLangBLL.GetResourceValue("lbl_eSports")</span>
             </div>
         </div>
     </div>
@@ -139,39 +139,38 @@
     <div class="home-support">
         <div class="item">
             <i class="icon icon-deposit"></i>
-            <p class="title">HOW TO DEPOSIT</p>
+            <p class="title">@selLangBLL.GetResourceValue("lbl_HowToDepoist")</p>
             <p class="description">
-                Support multiple payment channels, absolute safety
+                @selLangBLL.GetResourceValue("lbl_HowToDepoistHint")
             </p>
-            <a class="more">More</a>
+            <a class="more">@selLangBLL.GetResourceValue("lbl_More")</a>
         </div>
 
         <div class="item">
             <i class="icon icon-withdraw"></i>
-            <p class="title">HOW TO WITHDRAW</p>
+            <p class="title"> @selLangBLL.GetResourceValue("lbl_HowToWithdraw").</p>
             <p class="description">
-                Quickly money transaction, information security
+                @selLangBLL.GetResourceValue("lbl_HowToWithdrawHint").
             </p>
-            <a class="more">More</a>
+            <a class="more">@selLangBLL.GetResourceValue("lbl_More")</a>
         </div>
 
         <div class="item">
             <i class="icon icon-play"></i>
-            <p class="title">HOW TO PLAY</p>
+            <p class="title">@selLangBLL.GetResourceValue("lbl_HowToPlay").</p>
             <p class="description">
-                Easy, attractive, diverse games, attractive incentives
+                @selLangBLL.GetResourceValue("lbl_HowToPlayHint")
             </p>
-            <a class="more">More</a>
+            <a class="more">@selLangBLL.GetResourceValue("lbl_More")</a>
         </div>
 
         <div class="item">
             <i class="icon icon-question"></i>
-            <p class="title">FREQUENTLY ASKED QUESTIONS</p>
+            <p class="title">@selLangBLL.GetResourceValue("lbl_FAQ")</p>
             <p class="description">
-                How to create an account, transaction fees, how to change
-                passwords, ...
+                @selLangBLL.GetResourceValue("lbl_FAQHint")
             </p>
-            <a class="more">More</a>
+            <a class="more">@selLangBLL.GetResourceValue("lbl_More")</a>
         </div>
     </div>
 </div>
