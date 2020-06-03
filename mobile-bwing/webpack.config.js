@@ -45,7 +45,8 @@ module.exports = {
 		],
 		"desktop/cashier/WithdrawalPanel.min": [
 			"./src/desktop/cashier/withdrawal.js"
-		]
+		],
+		"desktop/cashier/DepositPanel.min": ["./src/desktop/cashier/deposit.js"]
 	},
 	output: {
 		path: path.resolve(
