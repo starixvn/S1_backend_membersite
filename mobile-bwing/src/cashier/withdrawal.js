@@ -104,7 +104,7 @@ class WithdrawalPanel extends Component {
 			alert("Please select bank");
 		} else if (
 			this.state.Amount == null ||
-			!isNaN(this.state.Amount) ||
+			isNaN(this.state.Amount) ||
 			Number(this.state.Amount) < 0
 		) {
 			alert("Amount can not be less than 0");
