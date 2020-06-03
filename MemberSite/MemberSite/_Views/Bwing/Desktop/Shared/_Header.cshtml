@@ -51,19 +51,19 @@
                     <div class="dropdown">
                         <ul>
                             <li>
-                                <a href="views/system/cashier/deposit.html">Deposit</a>
+                                <a href="views/system/cashier/deposit.html">@selLangBLL.GetResourceValue("lbl_Deposit")</a>
                             </li>
                             <li>
-                                <a href="views/system/cashier/transfer.html">Transfer</a>
+                                <a href="views/system/cashier/transfer.html">@selLangBLL.GetResourceValue("lbl_Transfer")</a>
                             </li>
                             <li>
-                                <a href="views/system/cashier/withdrawal.html">Withdrawal</a>
+                                <a href="views/system/cashier/withdrawal.html">@selLangBLL.GetResourceValue("lbl_Withdrawal")</a>
                             </li>
                             <li>
-                                <a href="views/system/history/deposit.html">Transaction History</a>
+                                <a href="views/system/history/deposit.html">@selLangBLL.GetResourceValue("lbl_TransactionHistory")</a>
                             </li>
                             <li>
-                                <a href="views/system/history/statement.html">Statement</a>
+                                <a href="views/system/history/statement.html">>@selLangBLL.GetResourceValue("lbl_Statement")</a>
                             </li>
                         </ul>
                     </div>
@@ -74,7 +74,7 @@
                     </a>
                     <div class="dropdown dropdown-wallet">
                         <div class="checkbox">
-                            <input id="show-cash" type="checkbox" value="true" /><label for="show-cash">Show Balance</label>
+                            <input id="show-cash" type="checkbox" value="true" /><label for="show-cash">@selLangBLL.GetResourceValue("lbl_ShowBalance")</label>
                         </div>
                         <div class="wallet-item wallet-main">
                             <label class="text-bold">VND</label><span>0 ('000)<i class="icon icon-refresh"></i></span>
@@ -91,10 +91,10 @@
                         </div>
                         <div class="history">
                             <div class="flex between">
-                                <span>Last Login</span><span>4/10/2020 10:05:58 PM</span>
+                                <span>@selLangBLL.GetResourceValue("lbl_LastLogin")</span><span>4/10/2020 10:05:58 PM</span>
                             </div>
                             <div class="flex between">
-                                <span>Last Transaction</span><span>4/10/2020 10:05:58 PM</span>
+                                <span>@selLangBLL.GetResourceValue("lbl_LastTransaction")</span><span>4/10/2020 10:05:58 PM</span>
                             </div>
                         </div>
                     </div>
@@ -106,18 +106,18 @@
                     <div class="dropdown">
                         <ul>
                             <li>
-                                <a href="views/system/account/change-password.html">Change Password</a>
+                                <a href="views/system/account/change-password.html">@selLangBLL.GetResourceValue("lbl_ChangePassword")</a>
                             </li>
                             <li>
-                                <a href="views/system/account/profile.html">Profile</a>
+                                <a href="views/system/account/profile.html">@selLangBLL.GetResourceValue("lbl_Profile")</a>
                             </li>
                             <li>
-                                <a href="views/system/account/bank-info.html">Bank</a>
+                                <a href="views/system/account/bank-info.html">@selLangBLL.GetResourceValue("lbl_Bank")</a>
                             </li>
                             <li>
-                                <a href="views/system/notification/promotion.html">Promotion</a>
+                                <a href="views/system/notification/promotion.html">@selLangBLL.GetResourceValue("lbl_Promotion")</a>
                             </li>
-                            <li><a href="#">Logout</a></li>
+                            <li><a href="#">@selLangBLL.GetResourceValue("lbl_Logout")</a></li>
                         </ul>
                     </div>
                 </div>
