@@ -42,6 +42,9 @@ module.exports = {
 		"desktop/account/Profile.min": ["./src/desktop/profile/viewProfile.js"],
 		"desktop/account/UpdProfile.min": [
 			"./src/desktop/profile/updProfile.js"
+		],
+		"desktop/cashier/WithdrawalPanel.min": [
+			"./src/desktop/cashier/withdrawal.js"
 		]
 	},
 	output: {
