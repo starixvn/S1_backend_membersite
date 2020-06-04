@@ -1658,13 +1658,14 @@ a {
   text-align: center;
 }
 
-.popup-body .link {
+.popup-body .link {    
   color: #6cbbff;
   text-decoration: underline;
   cursor: pointer;
 }
 
-.popup-body .text-underline {
+.popup-body .text-underline {    
+  color: #6cbbff;
   text-decoration: underline;
   cursor: pointer;
 }
@@ -1678,6 +1679,60 @@ a {
   grid-template-columns: 11rem 1fr;
   margin-bottom: 1rem;
   align-items: center;
+}
+
+.popup-body .form .input-password {
+    position: relative;
+    text-align: left;
+}
+
+.popup-body .form .input-password .show-password {
+    display: none;
+}
+
+/* .popup-body .form .form-group label {
+    padding-right: 1rem;
+    display: block;
+    text-align: right;
+} */
+
+/* password */
+.svg-toggle-password {
+    fill: #fff;
+}
+
+.svg-toggle-password .closed-eye {
+    opacity: 1;
+    height: 44px;
+    width: 4px;
+}
+  
+.Control-label--showPassword {
+    width: 25px;
+    position: absolute;
+    top: 6px;
+    left: 100%;
+    text-align: right;
+    margin-left: -29px;
+    cursor: pointer;
+}
+  
+.show-password:checked~.ControlInput--password {
+    text-security: disc;
+    -webkit-text-security: disc;
+    -moz-text-security: disc;
+}
+  
+.show-password:checked~.Control-label--showPassword .svg-toggle-password .closed-eye {
+    opacity: 0;
+    -webkit-transition: opacity 300ms ease, height 400ms ease;
+    transition: opacity 300ms ease, height 400ms ease;
+    height: 0;
+}
+/* password */       
+
+.popup-body .form .form-group .input-field {
+    width: 100%;
 }
 
 .popup-body .checkbox label:before,
@@ -1708,6 +1763,19 @@ a {
   font-family: inherit;
   padding: 0 1rem;
   font-size: 1.6rem;
+  position: initial;
+}
+
+.popup-body .form .form-group .input-field.invalid {
+    border-color: red;
+}
+
+.popup-body .form .form-group .invalid-mess {
+    color: red;
+    grid-column: 1 / span 2;
+    text-align: left;
+    padding-left: 11rem;
+    padding-top: 4px;
 }
 
 .popup-body .form .checkbox {
@@ -1718,6 +1786,20 @@ a {
 
 .popup-footer {
   text-align: center;
+}
+
+.popup-footer .btn-login {
+    padding: 0.8rem 2rem;
+    background: rgb(57, 131, 197);
+    background: linear-gradient(180deg, rgba(57, 131, 197, 1) 0%, rgba(16, 91, 157, 1) 62%);
+    box-shadow: none;
+}
+
+.popup-footer .btn-login:hover {
+    padding: 0.8rem 2rem;
+    background: rgb(57, 131, 197);
+    background: linear-gradient(180deg, rgba(16, 91, 157, 1) 0%, rgba(57, 131, 197, 1) 62%);
+    box-shadow: none;
 }
 
 .rodal-close:before,
@@ -1807,6 +1889,9 @@ a {
   margin-right: -1.5rem;
 }
 
+.game-list .item a{
+    display: block;
+}
 .game-list img {
   width: 100%;
 }
@@ -1817,6 +1902,42 @@ a {
   padding-left: 1.5rem;
   flex-basis: 25%;
   max-width: 25%;
+  cursor: pointer;
+  position: relative;
+}
+
+.game-list .item:before {
+    content: "";
+    position: absolute;
+    opacity: 0;
+    left: 1.5rem;
+    right: 1.5rem;
+    bottom: 28px;
+    top: 0;
+    height: auto;
+    background-image: url(../../images/page/live-game-hover.png);
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: 0.2s opacity ease-in;
+}
+
+.game-list .item:hover:before {
+    opacity: 1;
+}
+
+.game-list .item .game-title {
+    font-size: 18px;
+    text-align: center;
+    display: block;
+    z-index: 1;
+    padding-top: .5rem;
+    color: #ffb415;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: -webkit-linear-gradient(#f8f8f8, #ffb415);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .live-casino-game {
@@ -2217,6 +2338,12 @@ table tbody td {
   max-width: 100%;
 }
 
+/* .form-group .input-field option[select="select"]{
+    width: 300px;
+    height: 50px;
+    background-color: #000000;
+  } */
+
 .form-group .input-field .icon-lock {
   position: absolute;
   right: 1rem;
@@ -2436,6 +2563,60 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-right: 2rem;
 }
 
+.announcement-block .personal-msg {    
+    border-bottom: 1px solid #103c66;
+    padding-left: 2rem;
+    padding-right: .5rem;
+}
+
+.announcement-block .personal-msg .msg-item {
+    display: grid;
+    cursor: pointer;
+    position: relative;
+    grid-template-columns: 40px 1fr 30px;
+    align-items: center;
+    padding: 1.2rem 0;
+}
+
+.announcement-block .personal-msg .content {
+    padding: 0;
+    padding-right: 2.5rem;
+    margin: 0;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+}
+
+.announcement-block .personal-msg .content .title{
+    font-size: 1.5rem;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    flex: 1;
+}
+
+.announcement-block .personal-msg .time {
+    color: #31619c;
+}
+
+.announcement-block .personal-msg .action .icon-arrow-down{
+    transition: ease 0.2s;
+    position: relative;
+    margin-bottom: 6px;
+}
+
+.announcement-block .personal-msg .action.active .icon-arrow-down{
+    transform: rotate(136deg);
+    transition: ease 0.2s;
+    margin-bottom: -5px;
+}
+.announcement-block .personal-msg .msg-content .description {
+    padding: 1.5rem;
+    padding-left: 4rem;
+    grid-column: 1/4;
+}
+
 /* --- Transfer Funds Page ----- */
 
 .transferFunds-block .panel-accordion {
@@ -2499,9 +2680,15 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .promotion-page .promotion-item .promotion-title {
-  margin-bottom: 1rem;
+  /* margin-bottom: .5rem; */
   font-size: 1.8rem;
   color: #fdc53e;
+}
+
+.promotion-page .promotion-item .date {
+    color: #31619c;
+    padding: .3rem 0 .8rem;
+    text-decoration: underline;
 }
 
 .promotion-page .promotion-item .promotion-text {
