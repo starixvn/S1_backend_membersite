@@ -7,7 +7,7 @@
 
 @{
     ViewData["Title"] = selLangBLL.GetResourceValue("lbl_PersonalMsg");
-    Layout = "~/_Views/Bwing/Mobile/Shared/_Layout.cshtml";
+    Layout = "~/_Views/Bwing/Desktop/Shared/_Layout.cshtml";
 }
 @{
     var i18n = new Dictionary<string, string>();
@@ -18,27 +18,16 @@
     i18n.Add("lbl_PersonalMsg", selLangBLL.GetResourceValue("lbl_PersonalMsg"));
 }
 
-@section Style{
-    <link href="~/SiteSkin/Bwing/Mobile/assets/css/page.css" rel="stylesheet" />
-    <link href="~/SiteSkin/Bwing/Mobile/assets/css/system.css" rel="stylesheet" />
-}
 
-<div class="system-content">
-    <div class="page-title">@selLangBLL.GetResourceValue("lbl_Message")</div>
-    <div class="sub-page">
-        <div class="sub-title active">
-            <a>@selLangBLL.GetResourceValue("lbl_PersonalMsg")</a>
-        </div>
-        <div class="sub-title">
-            <a href="@Url.RouteUrl("desktop", new { action = "Announcement", controller = "Message", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_Announcement")</a>
-        </div>
+    <div class="system-content">
+        <div id="content" class="right-panel"></div>
     </div>
-    <div id="content"></div>
-</div>
 
-@section Scripts{
-    <script type="text/javascript">
+        
+
+        @section Scripts{
+            <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
-    </script>
-    <script src="~/js/Bwing/component/message/personalMsg/personalMsg.min.js" asp-append-version="true"></script>
-}
+            </script>
+            <script src="~/js/Bwing/component/Desktop/message/personalMsg/personalMsg.min.js" asp-append-version="true"></script>
+        }
