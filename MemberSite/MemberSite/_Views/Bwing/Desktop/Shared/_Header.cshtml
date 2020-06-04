@@ -62,7 +62,7 @@
                             </li>
                             <li>
                                 <a href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                                @selLangBLL.GetResourceValue("lbl_Withdrawal")
+                                    @selLangBLL.GetResourceValue("lbl_Withdrawal")
                                 </a>
                             </li>
                             <li>
@@ -135,7 +135,8 @@
                                     @selLangBLL.GetResourceValue("lbl_Promotion")
                                 </a>
                             </li>
-                            <li><a href="#">
+                            <li>
+                                <a href="javascript:void(0)" class="Js-logout">
                                     @selLangBLL.GetResourceValue("lbl_Logout")
                                 </a>
                             </li>
@@ -146,7 +147,7 @@
                     <a href="@Url.RouteUrl("desktop", new { action = "Announcement", controller = "Message", LangId = selLangBLL.GetLangId() })">
                         <i class="icon icon-bell has-new"></i>
                     </a>
-                    <a href="#">
+                    <a href="javascript:void(0)">
                         <i class="icon icon-logout"></i>
                     </a>
                 </div>
