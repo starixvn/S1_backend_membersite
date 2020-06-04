@@ -70,7 +70,7 @@ class Panel extends Component {
 	};
 	render() {
 		return (
-			<div className="right-panel">
+			<>
 				<div className="title">{i18n.lbl_Statement}</div>
 				<div className="content announcement-block">
 					<p className="text-bold">{i18n["lbl_Date"]}</p>
@@ -118,7 +118,7 @@ class Panel extends Component {
 						onPaging={this.GetHistory}
 					/>
 				</div>
-			</div>
+			</>
 		);
 	}
 }

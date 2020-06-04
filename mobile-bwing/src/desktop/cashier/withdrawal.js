@@ -200,7 +200,7 @@ class WithdrawalPanel extends Component {
 	};
 	render() {
 		return (
-			<div className="right-panel">
+			<>
 				<div className="title">{i18n.lbl_Withdrawal}</div>
 				<div className="content">
 					<div className="options-method">
@@ -294,7 +294,7 @@ class WithdrawalPanel extends Component {
 						</div>
 					</div>
 				</div>
-			</div>
+			</>
 		);
 	}
 }

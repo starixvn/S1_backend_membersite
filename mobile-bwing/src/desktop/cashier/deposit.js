@@ -65,7 +65,7 @@ class DepositPanel extends Component {
 		}
 
 		return (
-			<div className="right-panel">
+			<>
 				<div className="title">{i18n.lbl_Deposit}</div>
 				<div className="content">
 					<p style={{ marginBottom: "2rem" }}>
@@ -105,7 +105,7 @@ class DepositPanel extends Component {
 						)}
 					</div>
 				</div>
-			</div>
+			</>
 		);
 	}
 }

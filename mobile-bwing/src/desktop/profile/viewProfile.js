@@ -35,7 +35,7 @@ const ViewProfile = () => {
 			);
 	}, []);
 	return (
-		<div className="right-panel">
+		<>
 			<div className="title">{i18n.lbl_Profile}</div>
 			<div className="content">
 				<div id="form-info">
@@ -85,7 +85,7 @@ const ViewProfile = () => {
 					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 

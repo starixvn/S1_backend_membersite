@@ -241,7 +241,7 @@ class UpdateProfile extends Component {
 			? `${custdata.Birthday.day}/${custdata.Birthday.month}/${custdata.Birthday.year}`
 			: moment().add(-21, "year").format("DD/MM/YYYY");
 		return (
-			<div className="right-panel">
+			<>
 				<div className="title">{i18n.lbl_Profile}</div>
 				<div className="content">
 					<div
@@ -357,7 +357,7 @@ class UpdateProfile extends Component {
 					<div className="popup-body">{modalContent}</div>
 					<div className="popup-footer">{btnBar}</div>
 				</div>
-			</div>
+			</>
 		);
 	}
 }
