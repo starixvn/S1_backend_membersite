@@ -182,7 +182,7 @@
                         {
                             <div class="form-group" id="Register_CurrencyId">
                                 <label>@selLangBLL.GetResourceValue("lbl_PrefferedCurrency"):</label>
-                                <select class="input-field">
+                                <select class="input-field" name="Register_CurrencyId" id="Register_CurrencyId">
                                     @foreach (var currencyId in serverInfo.ICurrencyList)
                                     {
                                         @:<option value="@currencyId" @(selLangBLL.GetPreferCurrencyId() == currencyId ? "selected='selected'" : "")>@selLangBLL.GetResourceValue($"Currency_{currencyId}")</option>

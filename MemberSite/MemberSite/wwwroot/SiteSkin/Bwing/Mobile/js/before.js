@@ -181,7 +181,7 @@
             if(data["affId"] != "") {
                 data["CurrencyId"] = 0;
             } else {
-                data["CurrencyId"] = $("#Register_CurrencyId").val();
+                data["CurrencyId"] = Number($("#Register_CurrencyId option:selected").val(), 10);
             }
 
             axios.post('/api/Site/Register', data)
