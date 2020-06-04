@@ -8,25 +8,24 @@
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Title") + '|' + @selLangBLL.GetResourceValue("lbl_TitleDesc") + "|" + @selLangBLL.GetResourceValue("lbl_Casino");
-    Layout = $"~/_Views/{serverInfo.SiteName}/Mobile/Shared/_Layout.cshtml";
+    Layout = $"~/_Views/{serverInfo.SiteName}/Desktop/Shared/_Layout.cshtml";
 
-    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Mobile");
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Desktop");
 }
 @section Style{
-    <link rel="stylesheet" href="@SkinRootPath/assets/css/page.css" asp-append-version="true">
 }
 
 <div class="container p-t-20">
     <div class="casino-title">
-        <img src="@SkinRootPath/assets/images/page/casino-title.png" alt="Banner" />
+        <img src="@SkinRootPath/images/page/casino-title.png" alt="Banner" />
     </div>
     <div class="top-page-banner two-banner">
         <div class="item banner-1" onclick="location.href='@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })'">
-            <img src="@SkinRootPath/assets/images/page/casino-banner-1.jpg" alt="Banner" />
+            <img src="@SkinRootPath/images/page/casino-banner-1-eng.jpg" alt="Banner" />
         </div>
 
         <div class="item banner-2" @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty) " onclick="@(!User.Identity.IsAuthenticated ? "javascript:void(0);" : @gamingBLL.GetEntPageUrl(1,"208",Url))">
-            <img src="@SkinRootPath/assets/images/page/casino-banner-2.jpg" alt="Banner" />
+            <img src="@SkinRootPath/images/page/casino-banner-2-eng.jpg" alt="Banner" />
         </div>
     </div>
     <div class="notification">
