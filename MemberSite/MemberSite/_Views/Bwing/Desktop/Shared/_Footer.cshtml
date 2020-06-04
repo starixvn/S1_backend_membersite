@@ -71,38 +71,32 @@
                 <li><a class="link-footer" href="@StaticRootPath/CookiePolicy.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_CookiePolicy")</a></li>
             </ul>
         </div>
-        <div class="menu-footer">
-            <div class="item footer-support">
-                <p class="title">@selLangBLL.GetResourceValue("lbl_HelpSupport")</p>
+
+        <div class="item footer-support">
+            <p class="title">@selLangBLL.GetResourceValue("lbl_HelpSupport")</p>
+            <ul class="item-list">
+                <li><a class="link-footer" href="@StaticRootPath/RulesandRegulations.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_RuleRegulations")</a></li>
+                <li><a class="link-footer" href="@StaticRootPath/AccountTerms.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_AccountTerms")</a></li>
+                <li><a class="link-footer" href="@StaticRootPath/FAQ.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_FAQ")</a></li>
+            </ul>
+        </div>
+
+        <div class="item about-us">
+            <div>
+                <p class="title">@serverInfo.SiteName</p>
                 <ul class="item-list">
-                    <li><a class="link-footer" href="@StaticRootPath/RulesandRegulations.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_RuleRegulations")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/AccountTerms.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_AccountTerms")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/FAQ.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_FAQ")</a></li>
+                    <li><a class="link-footer" href="@StaticRootPath/AboutUs.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_AboutUs")</a></li>
+                    <li><a class="link-footer" href="@StaticRootPath/Terms.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_Terms")</a></li>
+                    <li><a class="link-footer" href="@StaticRootPath/ContactUs.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_ContactUs")</a></li>
+
                 </ul>
-            </div>
-            <div class="item about-us">
-                <div class="footer-social">
-                    <p class="title">@selLangBLL.GetResourceValue("lbl_SocialMedia")</p>
-                    <ul class="item-list">
-                        <li><a class="link-footer" href="https://www.facebook.com/@(selLangBLL.GetResourceValue("lbl_FacebookAccount"))" target="_temp"><i class="icon icon-facebook-circle"></i>@selLangBLL.GetResourceValue("lbl_Facebook")</a></li>
-                        <li><a class="link-footer" href="https://twitter.com/@(selLangBLL.GetResourceValue("lbl_TwitterAccount"))" target="_temp"><i class="icon icon-twitter-circle"></i>@selLangBLL.GetResourceValue("lbl_Twitter")</a></li>
-                    </ul>
-                </div>
             </div>
 
             <div class="footer-social">
-                <p class="title">@selLangBLL.GetResourceValue("lbl_HelpSupport")</p>
+                <p class="title">@selLangBLL.GetResourceValue("lbl_ContactUs")</p>
                 <ul class="item-list">
-                    <li>
-                        <a class="link-footer" href="https://www.facebook.com/@(selLangBLL.GetResourceValue("lbl_FacebookAccount"))" target="_temp">
-                            <i class="icon icon-facebook-circle"></i>@selLangBLL.GetResourceValue("lbl_Facebook")
-                        </a>
-                    </li>
-                    <li>
-                        <a class="link-footer" href="https://twitter.com/@(selLangBLL.GetResourceValue("lbl_TwitterAccount"))" target="_temp">
-                            <i class="icon icon-twitter-circle"></i>@selLangBLL.GetResourceValue("lbl_Twitter")
-                        </a>
-                    </li>
+                    <li><a class="link-footer" href="https://www.facebook.com/@(selLangBLL.GetResourceValue("lbl_FacebookAccount"))" target="_temp"><i class="icon icon-facebook-circle"></i>@selLangBLL.GetResourceValue("lbl_Facebook")</a></li>
+                    <li><a class="link-footer" href="https://twitter.com/@(selLangBLL.GetResourceValue("lbl_TwitterAccount"))" target="_temp"><i class="icon icon-twitter-circle"></i>@selLangBLL.GetResourceValue("lbl_Twitter")</a></li>
                 </ul>
             </div>
         </div>
@@ -115,36 +109,35 @@
                 </p>
             </div>
             <div class="languages">
-                <div class="languages-box">
-                    <div id="lang_selector" class="language-dropdown">
-                        <label for="toggle" class="lang-flag lang-@selLangBLL.GetLangId()" title="@selLangBLL.GetResourceValue("lbl_SelectLanguage")">
-                            <span class="flag"></span>
-                        </label>
-                        <ul class="lang-list">
-                            @foreach (var siteLanguage in selLangBLL.GetLangIdList())
+                <div id="lang_selector" class="language-dropdown">
+                    <label for="toggle" class="lang-flag lang-@selLangBLL.GetLangId()" title="@selLangBLL.GetResourceValue("lbl_SelectLanguage")">
+                        <span class="flag"></span>
+                    </label>
+                    <ul class="lang-list">
+                        @foreach (var siteLanguage in selLangBLL.GetLangIdList())
+                        {
+                            @if (User.Identity.IsAuthenticated)
                             {
-                                @if (User.Identity.IsAuthenticated)
-                                {
-                                    <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" Js-lang-id="@siteLanguage.LangId" title="@siteLanguage.Language">
-                                        <span class="flag"></span>
-                                        <span class="text">@siteLanguage.Language</span>
-                                    </li>
-                                }
-                                else
-                                {
-                                    var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
-                                    <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language" onclick="location.href='@LangUrl';">
-                                        <span class="flag"></span>
-                                        <span class="text">@siteLanguage.Language</span>
-                                    </li>
-                                }
+                                <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" Js-lang-id="@siteLanguage.LangId" title="@siteLanguage.Language">
+                                    <span class="flag"></span>
+                                    <span class="flag-title">@siteLanguage.Language</span>
+                                </li>
                             }
-                        </ul>
-                    </div>
-                    <div id="lang_selected" class="lang_selected">
-                        <p>@selLangBLL.GetLangIdList().Where(x => x.LangId == selLangBLL.GetLangId()).FirstOrDefault().Language</p>
-                    </div>
+                            else
+                            {
+                                var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
+                                <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language" onclick="location.href='@LangUrl';">
+                                    <span class="flag"></span>
+                                    <span class="flag-title">@siteLanguage.Language</span>
+                                </li>
+                            }
+                        }
+                    </ul>
                 </div>
+                <div id="lang_selected" class="lang_selected">
+                    <p>@selLangBLL.GetLangIdList().Where(x => x.LangId == selLangBLL.GetLangId()).FirstOrDefault().Language</p>
+                </div>
+                <span class="icon-arrow"></span>
             </div>
         </div>
     </div>

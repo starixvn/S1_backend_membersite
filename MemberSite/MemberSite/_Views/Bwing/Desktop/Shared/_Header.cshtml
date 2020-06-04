@@ -51,19 +51,29 @@
                     <div class="dropdown">
                         <ul>
                             <li>
-                                <a href="views/system/cashier/deposit.html">@selLangBLL.GetResourceValue("lbl_Deposit")</a>
+                                <a href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                                    @selLangBLL.GetResourceValue("lbl_Deposit")
+                                </a>
                             </li>
                             <li>
-                                <a href="views/system/cashier/transfer.html">@selLangBLL.GetResourceValue("lbl_Transfer")</a>
+                                <a href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                                    @selLangBLL.GetResourceValue("lbl_Transfer")
+                                </a>
                             </li>
                             <li>
-                                <a href="views/system/cashier/withdrawal.html">@selLangBLL.GetResourceValue("lbl_Withdrawal")</a>
+                                <a href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                                @selLangBLL.GetResourceValue("lbl_Withdrawal")
+                                </a>
                             </li>
                             <li>
-                                <a href="views/system/history/deposit.html">@selLangBLL.GetResourceValue("lbl_TransactionHistory")</a>
+                                <a href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })">
+                                    @selLangBLL.GetResourceValue("lbl_TransactionHistory")
+                                </a>
                             </li>
                             <li>
-                                <a href="views/system/history/statement.html">>@selLangBLL.GetResourceValue("lbl_Statement")</a>
+                                <a href="@Url.RouteUrl("desktop", new { action = "Statement", controller = "History", LangId = selLangBLL.GetLangId() })">
+                                    @selLangBLL.GetResourceValue("lbl_Statement")
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -101,28 +111,44 @@
                 </div>
                 <div class="dropdown-hover">
                     <a href="" class="btn btn-header-primary">
-                        <i class="icon icon-circle icon-user"></i><span>Tôn Nữ Phong</span><i class="icon icon-arrow-down"></i>
+                        <i class="icon icon-circle icon-user"></i><span>@User.Identity.Name</span><i class="icon icon-arrow-down"></i>
                     </a>
                     <div class="dropdown">
                         <ul>
                             <li>
-                                <a href="views/system/account/change-password.html">@selLangBLL.GetResourceValue("lbl_ChangePassword")</a>
+                                <a href="@Url.RouteUrl("desktop", new { action = "ChangePwd", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                                    @selLangBLL.GetResourceValue("lbl_ChangePassword")
+                                </a>
                             </li>
                             <li>
-                                <a href="views/system/account/profile.html">@selLangBLL.GetResourceValue("lbl_Profile")</a>
+                                <a href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                                    @selLangBLL.GetResourceValue("lbl_Profile")
+                                </a>
                             </li>
                             <li>
-                                <a href="views/system/account/bank-info.html">@selLangBLL.GetResourceValue("lbl_Bank")</a>
+                                <a href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                                    @selLangBLL.GetResourceValue("lbl_CustBank")
+                                </a>
                             </li>
                             <li>
-                                <a href="views/system/notification/promotion.html">@selLangBLL.GetResourceValue("lbl_Promotion")</a>
+                                <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
+                                    @selLangBLL.GetResourceValue("lbl_Promotion")
+                                </a>
                             </li>
-                            <li><a href="#">@selLangBLL.GetResourceValue("lbl_Logout")</a></li>
+                            <li><a href="#">
+                                    @selLangBLL.GetResourceValue("lbl_Logout")
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
                 <div class="header-icon">
-                    <a href="views/system/notification/announcement.html"><i class="icon icon-bell has-new"></i></a><a href="#/"><i class="icon icon-logout"></i></a>
+                    <a href="@Url.RouteUrl("desktop", new { action = "Announcement", controller = "Message", LangId = selLangBLL.GetLangId() })">
+                        <i class="icon icon-bell has-new"></i>
+                    </a>
+                    <a href="#">
+                        <i class="icon icon-logout"></i>
+                    </a>
                 </div>
             </div>
         }
@@ -169,28 +195,49 @@
                 <li class="nav-logo">
                     <a aria-current="page"
                        class="logo-header active"
-                       href="index.html">
-                        <img src="~/SiteSkin/Bwing/Desktop/images/logo.png" alt="@serverInfo.SiteName"/>
-
+                       href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() })">
+                        <img src="~/SiteSkin/Bwing/Desktop/images/logo.png" alt="@serverInfo.SiteName" />
                     </a>
                 </li>
-                <li class="nav-item"><a href="views/sport.html">Sports</a></li>
                 <li class="nav-item">
-                    <a href="views/esport.html">E-Sports</a>
+                    <a href="@gamingBLL.GetEntPageUrl(1,"1",Url)">
+                        @selLangBLL.GetResourceValue("lbl_Sports")
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="views/number-game.html">Number game</a>
+                    <a class="@(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"43",Url)">
+                        @selLangBLL.GetResourceValue("lbl_ESports")
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="views/virtual-sport.html">Virtual Sports</a>
+                    <a href="@gamingBLL.GetEntPageUrl(1,"161",Url)">
+                        @selLangBLL.GetResourceValue("lbl_NumberGame")
+                    </a>
                 </li>
-                <li class="nav-item"><a href="views/casino.html">Casino</a></li>
                 <li class="nav-item">
-                    <a href="views/live-casino.html">Live casino</a>
+                    <a href="@gamingBLL.GetEntPageUrl(1,"180",Url)">
+                        @selLangBLL.GetResourceValue("lbl_VirtualSports")
+                    </a>
                 </li>
-                <li class="nav-item"><a href="views/keno.html">Keno</a></li>
                 <li class="nav-item">
-                    <a href="views/slot.html">Fishing World</a>
+                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                        @selLangBLL.GetResourceValue("lbl_Casino")
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() })">
+                        @selLangBLL.GetResourceValue("lbl_LiveCasino")
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class=" @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"202",Url)">
+                        @selLangBLL.GetResourceValue("lbl_Keno")
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class=" @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"202",Url)">
+                        @selLangBLL.GetResourceValue("lbl_Fishing")
+                    </a>
                 </li>
             </ul>
         </div>
