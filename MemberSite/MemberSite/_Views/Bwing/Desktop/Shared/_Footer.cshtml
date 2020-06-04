@@ -54,23 +54,22 @@
             <p class="title">@selLangBLL.GetResourceValue("lbl_SportsBetting")</p>
             <ul class="item-list">
                 <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"1",Url)">@selLangBLL.GetResourceValue("lbl_SportsBetting")</a></li>
-                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"2",Url)">@selLangBLL.GetResourceValue("lbl_BasketballBetting")</a></li>
-                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"8",Url)">@selLangBLL.GetResourceValue("lbl_BaseballBetting")</a></li>
-                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"3",Url)">@selLangBLL.GetResourceValue("lbl_FootballBetting")</a></li>
-                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"5",Url)">@selLangBLL.GetResourceValue("lbl_TennisBetting")</a></li>
-                    <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"4",Url)">@selLangBLL.GetResourceValue("lbl_HockeyBetting")</a></li>
-                    <li><a class="link-footer @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"43",Url)">@selLangBLL.GetResourceValue("lbl_eSportsBetting")</a></li>
-                </ul>
-            </div>
-            <div class="item">
-                <p class="title">@selLangBLL.GetResourceValue("lbl_OurPolicies")</p>
-                <ul class="item-list">
-                    <li><a class="link-footer" href="@StaticRootPath/ResposibleGaming.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_ResposibleGaming")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/TermsConditions.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_TermsConditions")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/PrivacyPolicy.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_PrivacyPolicy")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/CookiePolicy.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_CookiePolicy")</a></li>
-                </ul>
-            </div>
+                <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"2",Url)">@selLangBLL.GetResourceValue("lbl_BasketballBetting")</a></li>
+                <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"8",Url)">@selLangBLL.GetResourceValue("lbl_BaseballBetting")</a></li>
+                <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"3",Url)">@selLangBLL.GetResourceValue("lbl_FootballBetting")</a></li>
+                <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"5",Url)">@selLangBLL.GetResourceValue("lbl_TennisBetting")</a></li>
+                <li><a class="link-footer" href="@gamingBLL.GetEntPageUrl(1,"4",Url)">@selLangBLL.GetResourceValue("lbl_HockeyBetting")</a></li>
+                <li><a class="link-footer @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"43",Url)">@selLangBLL.GetResourceValue("lbl_eSportsBetting")</a></li>
+            </ul>
+        </div>
+        <div class="item">
+            <p class="title">@selLangBLL.GetResourceValue("lbl_OurPolicies")</p>
+            <ul class="item-list">
+                <li><a class="link-footer" href="@StaticRootPath/ResposibleGaming.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_ResposibleGaming")</a></li>
+                <li><a class="link-footer" href="@StaticRootPath/TermsConditions.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_TermsConditions")</a></li>
+                <li><a class="link-footer" href="@StaticRootPath/PrivacyPolicy.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_PrivacyPolicy")</a></li>
+                <li><a class="link-footer" href="@StaticRootPath/CookiePolicy.html" tarrget="_temp">@selLangBLL.GetResourceValue("lbl_CookiePolicy")</a></li>
+            </ul>
         </div>
         <div class="menu-footer">
             <div class="item footer-support">
@@ -112,7 +111,7 @@
             <div>
                 <p class="title">@selLangBLL.GetResourceValue("lbl_ContactUs")</p>
                 <p class="text">
-                     @selLangBLL.GetResourceValue("lbl_ContactUsHint")
+                    @selLangBLL.GetResourceValue("lbl_ContactUsHint")
                 </p>
             </div>
             <div class="languages">
