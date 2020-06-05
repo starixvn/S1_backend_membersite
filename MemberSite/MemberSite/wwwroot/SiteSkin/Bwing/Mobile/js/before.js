@@ -20,6 +20,10 @@
     $("#Login_show-password").change(function(event) {
         $("#Login_Userpwd").prop('type', $(this).prop("checked") ? "password" : "text");
     });
+
+    $("#Register_show-password").change(function (event) {
+        $("#Register_Userpwd").prop('type', $(this).prop("checked") ? "password" : "text");
+    });
     
     $("#LoginForm").submit(function(event) {
         event.preventDefault();
