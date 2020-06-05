@@ -2704,9 +2704,19 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .calendar-filter {
-  display: grid;
+    display: flex;
+    align-items: center;
+  /* display: grid;
   grid-template-columns: 25rem 25rem;
-  grid-gap: 2rem;
+  grid-gap: 2rem; */
+}
+
+.calendar-filter .form-group {
+    margin-right: 1.5rem;
+}
+
+.form.calendar-filter  .button-group {
+    margin-top: 0; 
 }
 
 /* daterangepicker customize 日期*/
@@ -3123,8 +3133,8 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .content .table-content .td-date,
 .content .table-content .td-time{
-    width: 90px;
-    flex: 0 1 90px;
+    width: 95px;
+    flex: 0 1 95px;
 }
 
 .statement-block .table-content .td-date,
