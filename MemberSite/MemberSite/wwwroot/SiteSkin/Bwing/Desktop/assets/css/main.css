@@ -94,6 +94,10 @@ body {
   padding-top: 2rem;
 }
 
+.p-t-10 {
+    padding-top: 1rem;
+}
+
 a {
   text-decoration: none;
 }
@@ -115,6 +119,11 @@ a {
   text-align: left;
 }
 
+.text-center {
+    text-align: center;
+}
+
+  
 .text-green {
   color: #63d127 !important;
 }
@@ -648,7 +657,6 @@ a {
 .language-dropdown .lang-en .flag {
   background-image: url("../../images/flag/en.png");
 }
-
 
 .language-dropdown .lang-vn .flag {
   background-image: url("../../images/flag/vn.png");
@@ -1632,6 +1640,11 @@ a {
   color: #fff;
 }
 
+/* popup 共用img設定 */
+.img-wallet {
+    padding: 1rem;
+}
+
 .popup-header {
   background: rgb(57, 131, 197);
   background: linear-gradient(180deg,
@@ -1654,8 +1667,23 @@ a {
 .popup-body {
   width: 48rem;
   margin: 0 auto;
-  padding: 2rem 0 1rem;
+  padding: 2rem 0;
   text-align: center;
+}
+
+.popup-body .confirm-value {
+    width: 25rem;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    height: 5rem;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
+}
+
+.popup-body .confirm-value .value {
+    color: #63d127;
 }
 
 .popup-body .link {    
@@ -1677,7 +1705,7 @@ a {
 .popup-body .form .form-group {
   display: grid;
   grid-template-columns: 11rem 1fr;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   align-items: center;
 }
 
@@ -1695,6 +1723,97 @@ a {
     display: block;
     text-align: right;
 } */
+
+/* modal-transaction */
+.modal-transaction {
+    text-align: left;
+    padding: 2rem 1.5rem;
+}
+
+.modal-transaction .recipe {
+    background-color: #103C66;
+}
+
+.modal-transaction .recipe .item {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #0C1E34;
+}
+
+.modal-transaction .recipe .item.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-transaction .recipe .btn-secondary {
+    min-width: 3rem;
+    padding: 0.2rem 1rem;
+}
+
+.modal-transaction .label {
+    margin-bottom: .5rem;
+}
+
+.modal-transaction .form {
+    padding-top: 1.5rem;
+}
+
+.modal-transaction .form .input-control {
+    height: 4rem;
+    background-color: transparent;
+    width: 100%;
+    border: 1px solid #257cd4;
+}
+
+.modal-transaction .calendar-group .input-control {
+    width: 100%;
+    height: 5rem;
+    background-color: transparent;
+    border: 1px solid #257cd4;
+    padding-left: 1.5rem !important;
+    font-size: inherit;
+    font-family: inherit;
+    color: #fff;
+    font-size: 1.6rem;
+}
+
+.modal-transaction .form .upload-file {
+    padding: 0.9rem 1.5rem;
+    border: 1px solid #257cd4;
+}
+
+.modal-transaction .form .upload-file .input-control {
+    height: auto;
+    border: 0;
+}
+
+.modal-transaction .form .calendar-group {
+    position: relative;
+    display: grid;
+    grid-template-columns: 25rem 25rem;
+    grid-gap: 2rem;
+}
+
+.modal-transaction .calendar-group .select-day {
+    position: absolute;
+    top: 0;
+    left: auto;
+    right: 0;
+    width: 5rem;
+    height: 5rem;
+    padding: 1.3rem;
+    background: rgb(55, 130, 196);
+    background: linear-gradient(180deg, rgba(55, 130, 196, 1) 0%, rgba(16, 91, 157, 1) 100%);
+    border: 1px solid #1368ac;
+    cursor: pointer;
+}
+
+.modal-transaction .form .calendar-group .select-day {
+    width: 4rem;
+    height: 4rem;
+    padding: .9rem;
+}
+
 
 /* password */
 .svg-toggle-password {
@@ -1729,7 +1848,7 @@ a {
     transition: opacity 300ms ease, height 400ms ease;
     height: 0;
 }
-/* password */       
+/* password end*/       
 
 .popup-body .form .form-group .input-field {
     width: 100%;
@@ -1770,12 +1889,17 @@ a {
     border-color: red;
 }
 
-.popup-body .form .form-group .invalid-mess {
+.popup-body .form .form-group .invalid-mess, .invalid-mess {
     color: red;
     grid-column: 1 / span 2;
     text-align: left;
     padding-left: 11rem;
     padding-top: 4px;
+}
+
+/* 共用 */
+.invalid-mess {
+    padding-left: 0;
 }
 
 .popup-body .form .checkbox {
@@ -1800,6 +1924,10 @@ a {
     background: rgb(57, 131, 197);
     background: linear-gradient(180deg, rgba(16, 91, 157, 1) 0%, rgba(57, 131, 197, 1) 62%);
     box-shadow: none;
+}
+
+.popup-footer .btn + .btn {
+    margin-left: 1rem;
 }
 
 .rodal-close:before,
@@ -2251,8 +2379,13 @@ table tbody td {
   text-align: center;
 }
 
+.momo-method .mobile-options {
+    display: block;
+}
+
 .options-method .mobile-options {
   display: flex;
+  flex-direction: column;
   padding-bottom: 1.5rem;
   margin-bottom: 2rem;
   border-bottom: 1px solid #0f3154;
@@ -2281,6 +2414,96 @@ table tbody td {
   background-color: #63d127;
 }
 
+.mobile-options .ddl-default {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    padding-top: 10px;
+    white-space: normal;
+    line-height: 1;
+}
+
+.mobile-options .input-field{
+    width: 100%;
+}
+
+/* 下拉選單的img */
+.options-method .selected-text img,
+.dropdown-container .item img,
+.dropdown-container .item img {
+    width: 35px;
+    height: auto;
+    margin-right: 1rem;
+}
+
+.mobile-options .dropdown-container{
+    top: 100%;
+    margin-top: 1px;
+}
+
+/* 共用 */
+.options-method .dropdown .selected-text {
+    justify-content: flex-start;
+}
+
+.mobile-options .ddl-default .selected-text .value,
+.dropdown-container .item .value {
+    padding-right: 16px;
+}
+/* 
+.mobile-options.form-group .input-field .input-control{
+    min-height: 5em;
+} */
+
+/* 共用 */
+.options-method .ddl-default .icon-action {
+    position: absolute;
+    right: 20px;
+    /* top: 24px; */
+}
+
+.mobile-options .dropdown {
+    cursor: pointer;
+}
+
+.mobile-options .value-block {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+}
+
+.form-group.mobile-input{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-group .input-field {
+    position: relative;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    max-width: 100%;
+    border-radius: 0;
+}
+
+.ddl-default .dropdown-container .item, .ddl-default .selected-text {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.form-mobile-banking .ddl-default .selected-text{
+    display: grid;
+    grid-template-columns: 30px 1fr;
+}
+
+.ddl-default .selected-text {
+    padding: .6rem 1.5rem;
+}
+
+
 /* Form group */
 
 .form .button-group {
@@ -2297,11 +2520,15 @@ table tbody td {
   grid-template-columns: auto 1fr;
   width: 100%;
   align-items: center;
-  grid-row-gap: 1rem;
+  grid-row-gap: .5rem;
 }
 
 .form-group .label {
   padding-right: 2.5rem;
+  align-self: flex-start;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
 }
 
 .form-group .input-group {
@@ -2338,6 +2565,18 @@ table tbody td {
   max-width: 100%;
 }
 
+/* .right-panel .form-group .input-field {
+    margin-bottom: 1.5rem;
+} */
+
+.right-panel .form-group .input-field .invalid-mess{
+    padding-top: 1rem;
+}
+
+.right-panel .tbl-account .text-center .icon-delete{
+    cursor: pointer;
+}
+
 /* .form-group .input-field option[select="select"]{
     width: 300px;
     height: 50px;
@@ -2359,7 +2598,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .form-group .input-field .input-control {
   width: 100%;
   height: 5rem;
-  padding: 0 2rem;
+  padding: 0 1.9rem;
   border: 1px solid #257cd4;
   background: transparent;
   font-family: inherit;
@@ -2369,6 +2608,10 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .form-group .input-field .input-control:disabled {
   color: #b9bcbf;
+}
+
+.form-group .input-field .input-control.invalid {
+    border-color: red;
 }
 
 .form-group.mobile-input .input-group {
@@ -2382,6 +2625,7 @@ input[type="number"]::-webkit-outer-spin-button {
   font-size: 1.6rem;
   text-align: right;
   height: 5rem;
+  width: 90%;
 }
 
 .form-group.mobile-input .input-control:focus {
@@ -2465,7 +2709,7 @@ input[type="number"]::-webkit-outer-spin-button {
   grid-gap: 2rem;
 }
 
-/* daterangepicker customize */
+/* daterangepicker customize 日期*/
 .daterangepicker {
   margin-top: 2px;
   border: 0;
@@ -2519,7 +2763,8 @@ input[type="number"]::-webkit-outer-spin-button {
   color: #0a121f;
 } */
 
-/* -------------------------- */
+
+/* --------------- link --------------- */
 .link-back {
   cursor: pointer;
 }
@@ -2600,17 +2845,35 @@ input[type="number"]::-webkit-outer-spin-button {
     color: #31619c;
 }
 
-.announcement-block .personal-msg .action .icon-arrow-down{
+.icon-action .icon-arrow-down{
+    margin-left: .5rem;
+}
+
+.icon-action.active .icon-arrow-down{
+    margin-bottom: 0;
+}
+
+.action .icon-arrow-down,
+.icon-action .icon-arrow-down{
     transition: ease 0.2s;
     position: relative;
+    margin-bottom: .7rem;
+}
+
+.action.active .icon-arrow-down,
+.icon-action.active .icon-arrow-down{
+    transform: rotate(135deg) translateY(0%);
+    transition: ease 0.2s;
+}
+
+.announcement-block .personal-msg .action .icon-arrow-down{
     margin-bottom: 6px;
 }
 
 .announcement-block .personal-msg .action.active .icon-arrow-down{
-    transform: rotate(136deg);
-    transition: ease 0.2s;
     margin-bottom: -5px;
 }
+
 .announcement-block .personal-msg .msg-content .description {
     padding: 1.5rem;
     padding-left: 4rem;
@@ -2618,7 +2881,6 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 /* --- Transfer Funds Page ----- */
-
 .transferFunds-block .panel-accordion {
   background-color: transparent;
   color: #fff;
@@ -2657,6 +2919,34 @@ input[type="number"]::-webkit-outer-spin-button {
       rgba(55, 130, 196, 1) 0%,
       rgba(16, 91, 157, 1) 100%);
   cursor: pointer;
+}
+
+/* ------ wallet-group  dropdown-------- */
+.dropdown {
+    position: relative;
+}
+
+.dropdown .selected-text {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.dropdown-container {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    z-index: 12;
+    background-color: #0c1e34;
+    width: 100%;
+    border: 1px solid #257cd4;
+}
+
+.dropdown-container .item {
+    min-height: 42px;
+    padding: 8px 19px;
+    display: flex;
+    justify-content: space-between;
 }
 
 /* ------ Promotions Page -------- */
@@ -2705,6 +2995,7 @@ input[type="number"]::-webkit-outer-spin-button {
   color: #63d127;
 }
 
+/* ----------------- Pagination 麵包削---------------------*/
 .paging {
   text-align: center;
   border-top: 1px solid #0f3255;
@@ -2737,7 +3028,7 @@ input[type="number"]::-webkit-outer-spin-button {
   background-color: #1066b1 !important;
 }
 
-
+/* keyframes */
 @-webkit-keyframes bounce {
 
   0%,
@@ -2799,4 +3090,88 @@ input[type="number"]::-webkit-outer-spin-button {
     -ms-transform: translateY(5px);
     transform: translateY(5px);
   }
+}
+
+
+
+/* deposit / transfer / statement / withdrawal add table new css */
+.content .table-content tr{
+    display: flex;
+}
+
+.content .table-content td,
+.content .table-content th {
+    flex: 1;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: auto;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.bankinfo-block .table-content .text-center{
+    flex: 0 1 85px;
+    justify-content: center;
+}
+
+.content .table-content td,
+.content .table-content th {
+    text-align: left;
+}
+
+.content .table-content .td-date,
+.content .table-content .td-time{
+    width: 90px;
+    flex: 0 1 90px;
+}
+
+.statement-block .table-content .td-date,
+.statement-block .table-content .td-time {
+    width: 140px;
+    flex: 0 1 140px;
+}
+
+.statement-block .table-content .td-status {
+    width: 100px;
+    flex: 0 1 100px;
+}
+
+.content .table-content .td-amount,
+.content .table-content .td-status{
+    text-align: right;
+    justify-content: flex-end;
+}
+
+.content .table-content .td-btn{
+    min-width: 90px;
+    justify-content: flex-end;
+}
+
+.content .table-content .button-group{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.content .table-content .button-group .btn{
+    padding: 0.5rem 1rem;
+    font-size: 1.4rem;
+    flex: 0 1 95px;
+    min-width: 95px;
+    line-height: 1;
+}
+
+.content .table-content .button-group .btn + .btn{
+    margin-top: 1rem;
+}
+
+/* sports iframe  */
+.sports-ifrname{
+    border: none;
+    width: 100%;
+    background: #000;
+    margin: 0 auto;
+    height: 622px;
 }
