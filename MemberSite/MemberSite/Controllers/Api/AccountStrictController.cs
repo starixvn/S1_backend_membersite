@@ -186,10 +186,20 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<object>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
+            Dictionary<int, string> PerCountry = new Dictionary<int, string>()
+            {
+                    {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" }
+                };
 
             try
             {
                 var custInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
+                string _perCountry = "";
+                if(custInfo != null)
+                {
+                    PerCountry.TryGetValue(custInfo.CurrencyId, out _perCountry);
+                }
+
                 apiResult.Data = new
                 {
                     custInfo.UserName,
@@ -201,7 +211,9 @@ namespace MemberSite.Controllers.Api
                     custInfo.RegTime,
                     LastLogin = custInfo.LastLoginTime,
                     Country = custInfo.CountryCode,
-                    custInfo.PhoneNo
+                    custInfo.PhoneNo,
+                    PerCountry = _perCountry,
+                    custInfo.CurrencyId
                 };
 
                 apiResult.ErrorCode = 0;
