@@ -34,7 +34,7 @@ class HistoryBody extends React.Component {
 					btnGroup = (
 						<div className="btn-group">
 							<button
-								className="btn btn-default"
+								className="btn btn-primary"
 								type="button"
 								onClick={this.onCancel.bind(
 									this,
@@ -156,12 +156,13 @@ export default class DepositHistory extends React.Component {
 				<table>
 					<thead>
 						<tr>
-							<th>{i18n.lbl_Date}</th>
-							<th>{i18n.lbl_Time}</th>
-							<th>{i18n.lbl_ID}</th>
-							<th>{i18n.lbl_Method}</th>
-							<th>{i18n.lbl_Amount}</th>
-							<th>{i18n.lbl_Status}</th>
+							<th className="td-date">{i18n.lbl_Date}</th>
+							<th className="td-time">{i18n.lbl_Time}</th>
+							<th className="td-id">{i18n.lbl_ID}</th>
+							<th className="td-method">{i18n.lbl_Method}</th>
+							<th className="td-amount">{i18n.lbl_Amount}</th>
+							<th className="td-status">{i18n.lbl_Status}</th>
+							<th className="td-btn"></th>
 						</tr>
 					</thead>
 					<tbody>{bodyData}</tbody>
