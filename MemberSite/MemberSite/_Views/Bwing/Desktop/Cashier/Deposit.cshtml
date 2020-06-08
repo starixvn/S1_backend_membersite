@@ -88,28 +88,32 @@
     }
 }
 @section Style{
+
     <link rel="stylesheet" type="text/css" href="~/SiteSkin/Bwing/Desktop/assets/css/lib/daterangepicker.css" />
 }
 
-    @if (custInfoProfile == null || custInfoProfile.AccountName == null || custInfoProfile.CountryCode == null || custInfoProfile.PhoneNo == null)
-    {
-        <div class="page">
-            <div class="heading">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
-            </div>
-            <div class="text--lg">@selLangBLL.GetResourceValue("lbl_ImportantNote")</div>
-            <p>@selLangBLL.GetResourceValue("lbl_UpdatePersonalInfo")</p><br />
-            <div class="btn-group">
-                <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_UpdatePersonalDetail")</span>
-                </a>
-            </div>
+@if (custInfoProfile == null || custInfoProfile.AccountName == null || custInfoProfile.CountryCode == null || custInfoProfile.PhoneNo == null)
+{
+    <div class="page">
+        <div class="heading">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
         </div>
-    }
-    else
-    {
-<div id="content" class="right-panel"></div>
-    }
+        <div class="text--lg">@selLangBLL.GetResourceValue("lbl_ImportantNote")</div>
+        <p>@selLangBLL.GetResourceValue("lbl_UpdatePersonalInfo")</p><br />
+        <div class="btn-group">
+            <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_UpdatePersonalDetail")</span>
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="system-content">
+        <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
+        <div id="content" class="right-panel"></div>
+    </div>
+}
 
 @section Scripts{
     @if (custInfoProfile == null || custInfoProfile.AccountName == null || custInfoProfile.CountryCode == null || custInfoProfile.PhoneNo == null)

@@ -43,14 +43,17 @@
 @section Style{
     <link rel="stylesheet" type="text/css" href="~/SiteSkin/Bwing/Desktop/assets/css/lib/daterangepicker.css" />
 }
-<div id="content" class="right-panel"></div>
+<div class="system-content">
+    <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
+    <div id="content" class="right-panel"></div>
+</div>
 
-    @section Scripts{
-        <script src="~/SiteSkin/Bwing/Desktop/js/lib/daterangepicker.min.js"></script>
-        <script type="text/javascript">
+@section Scripts{
+    <script src="~/SiteSkin/Bwing/Desktop/js/lib/daterangepicker.min.js"></script>
+    <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
-        </script>
-        <script src="~/lib/runtime.min.js"></script>
-        <script src="~/js/Bwing/component/Desktop/history/Statement/Statement.min.js" asp-append-version="true"></script>
-    }
+    </script>
+    <script src="~/lib/runtime.min.js"></script>
+    <script src="~/js/Bwing/component/Desktop/history/Statement/Statement.min.js" asp-append-version="true"></script>
+}
 
