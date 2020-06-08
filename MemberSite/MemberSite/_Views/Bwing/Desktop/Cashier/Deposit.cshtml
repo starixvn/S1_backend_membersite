@@ -123,11 +123,12 @@ else
     else
     {
         <script type="text/javascript">
-            $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
-            var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })";
-            var OnlineBankingUrl = "@Url.RouteUrl("desktop", new { action = "DepositReqOnlineBanking", controller = "Cashier", LangId = selLangBLL.GetLangId() })";
-            var MobilePayUrl = "@Url.RouteUrl("desktop", new { action = "DepositReqMobilePay", controller = "Cashier", LangId = selLangBLL.GetLangId() })";
+    $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
+    var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })";
+    var OnlineBankingUrl = "@Url.RouteUrl("desktop", new { action = "DepositReqOnlineBanking", controller = "Cashier", LangId = selLangBLL.GetLangId() })";
+    var MobilePayUrl = "@Url.RouteUrl("desktop", new { action = "DepositReqMobilePay", controller = "Cashier", LangId = selLangBLL.GetLangId() })";
         </script>
+        <script src="~/SiteSkin/Bwing/Desktop/js/lib/daterangepicker.min.js"></script>
         <script src="~/lib/runtime.min.js"></script>
         <script src="~/lib/clipboard.min.js"></script>
         <script src="~/js/Bwing/component/Desktop/cashier/depositPanel.min.js" asp-append-version="true"></script>

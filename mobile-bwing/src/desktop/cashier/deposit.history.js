@@ -77,14 +77,20 @@ export default class RecentHistoryBody extends React.Component {
 
 				return (
 					<tr key={`dp-history-${item.transId}`}>
-						<td>
+						<td className="td-date">
 							{dateMonent.format("l")} ({dateMonent.format("Z")})
 						</td>
-						<td>{dateMonent.format("hh:mm:ss A")}</td>
-						<td>{item.transId}</td>
-						<td>{i18n["lbl_DepositType" + item.depositType]}</td>
-						<td>{number_format(item.amount.toFixed(2))}</td>
-						<td>
+						<td className="td-time">
+							{dateMonent.format("hh:mm:ss A")}
+						</td>
+						<td className="td-id">{item.transId}</td>
+						<td className="td-method">
+							{i18n["lbl_DepositType" + item.depositType]}
+						</td>
+						<td className="td-amount">
+							{number_format(item.amount.toFixed(2))}
+						</td>
+						<td className="td-status">
 							{statusGroup}
 							{btnGroup}
 						</td>
@@ -98,12 +104,12 @@ export default class RecentHistoryBody extends React.Component {
 			<table>
 				<thead>
 					<tr>
-						<th>{i18n.lbl_Date}</th>
-						<th>{i18n.lbl_Time}</th>
-						<th>{i18n.lbl_ID}</th>
-						<th>{i18n.lbl_Method}</th>
-						<th>{i18n.lbl_Amount}</th>
-						<th>{i18n.lbl_Status}</th>
+						<th className="td-date">{i18n.lbl_Date}</th>
+						<th className="td-time">{i18n.lbl_Time}</th>
+						<th className="td-id">{i18n.lbl_ID}</th>
+						<th className="td-method">{i18n.lbl_Method}</th>
+						<th className="td-amount">{i18n.lbl_Amount}</th>
+						<th className="td-status">{i18n.lbl_Status}</th>
 					</tr>
 				</thead>
 				<tbody>{rows}</tbody>

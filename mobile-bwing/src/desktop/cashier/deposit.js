@@ -77,9 +77,9 @@ class DepositPanel extends Component {
 							<OnlineBanking hangleSubPage={this.hangleSubPage} />
 						) : null}
 
-						{/* {this.state.page === null || this.state.page === 1 ? (
-						<LocalBank hangleSubPage={this.hangleSubPage} />
-					) : null} */}
+						{this.state.page === null || this.state.page === 1 ? (
+							<LocalBank hangleSubPage={this.hangleSubPage} />
+						) : null}
 
 						{this.state.page === null || this.state.page === 2 ? (
 							<MobilePay hangleSubPage={this.hangleSubPage} />
