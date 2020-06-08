@@ -12,27 +12,7 @@
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Desktop");
 }
 @section Style{
-    <style>
-        html,
-        body {
-            height: 100%;
-        }
 
-        .sports-ifrname {
-            border: none;
-            width: 1366px;
-            background: #000;
-            margin: 0 auto;
-            height: 100%;
-        }
-
-        [data-layout=desktop] .main {
-            background-image: url("@SkinRootPath/images/Lobby/Home/Sports-Iframe-BG.jpg");
-            background-size: cover;
-            padding: 0rem 0rem;
-            max-width: none;
-        }
-    </style>
 }
 @functions{
     string GetEntPageUrl()
