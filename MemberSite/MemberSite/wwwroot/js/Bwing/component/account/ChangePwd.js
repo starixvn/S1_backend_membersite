@@ -23,7 +23,7 @@
         return data;
     }
 
-    $(".form-group .input-control").on("blur", function () {
+    $("#ChangePwdForm .form-group .input-control").on("blur", function () {
         let field = $(this),
             fieldval = $.trim($(this).val()),
             data = checkpwd(fieldval);
@@ -55,12 +55,17 @@
         event.preventDefault();
         let data = {},
             OldPasswordValue = $.trim($(".oldpwd").val()),
-            NewPasswordValue = $.trim($(".newpwd").val());
+            NewPasswordValue = $.trim($(".newpwd").val()),
+            RetypePasswordValue = $.trim($(".repwd").val());
 
         oldstatus = checkpwd(OldPasswordValue);
         newstatus = checkpwd(NewPasswordValue);
+        Retypestatus = checkpwd(RetypePasswordValue);
 
-        if (oldstatus.status === 3 && newstatus.status === 3) {
+        console.log(RetypePasswordValue);
+        console.log(Retypestatus.status);
+
+        if (oldstatus.status === 3 && newstatus.status === 3 && Retypestatus.status === 3) {
 
             data["OldPassword"] = OldPasswordValue;
             data["NewPassword"] = NewPasswordValue;

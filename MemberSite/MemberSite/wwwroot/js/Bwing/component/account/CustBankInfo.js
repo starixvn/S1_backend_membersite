@@ -142,7 +142,7 @@ $(function () {
                         $.each(result.data.bankInfoDetail, function (key, value) {
                             BankAccount[value.sysId] = value;
                             list += '<tr>' +
-                                '<td class="text-center"> <img src="/common/images/BankLogo/' + value.bankLogo + '" alt="vcb-logo" /></td>' +
+                                '<td class="text-center"><img src="/common/images/BankLogo/' + value.bankLogo + '" alt="vcb-logo" /></td>' +
                                 '<td class= "text-left">' +
                                 '<p class="bank-name">' + value.bankName + '</p>' +
                                 '<p>' + value.accountNo + '</p>' +
@@ -152,7 +152,7 @@ $(function () {
                             total++;
                         });
                         $(".AccountName").val(result.data.accountName).attr('disabled', 'true');
-                        $(".AccountName").parent().append('<i class="icon icon-lock"></i>');
+                        $(".AccountName").after('<i class="icon icon-lock"></i>');
                         $("#Bank_Account_List").html(list);
 
                         if (total >= 3) {

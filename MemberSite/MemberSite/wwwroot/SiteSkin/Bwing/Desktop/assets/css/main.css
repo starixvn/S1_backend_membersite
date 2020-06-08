@@ -2430,7 +2430,8 @@ table tbody td {
 /* 下拉選單的img */
 .options-method .selected-text img,
 .dropdown-container .item img,
-.dropdown-container .item img {
+.dropdown-container .item img,
+.input-field img {
     width: 35px;
     height: auto;
     margin-right: 1rem;
@@ -2470,6 +2471,7 @@ table tbody td {
     display: flex;
     flex: 1;
     flex-wrap: wrap;
+    padding: 2rem 0;
 }
 
 .form-group.mobile-input{
@@ -2962,7 +2964,7 @@ input[type="number"]::-webkit-outer-spin-button {
 /* ------ Promotions Page -------- */
 .promotion-page .promotion-item {
   display: flex;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .promotion-page .promotion-item .banner {
@@ -3124,6 +3126,12 @@ input[type="number"]::-webkit-outer-spin-button {
 .bankinfo-block .table-content .text-center{
     flex: 0 1 85px;
     justify-content: center;
+}
+
+/* bank img */
+.bankinfo-block .table-content .tbl-account tr td:first-child img{
+    width: 35px;
+    height: auto;
 }
 
 .content .table-content td,

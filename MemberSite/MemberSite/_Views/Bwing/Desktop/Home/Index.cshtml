@@ -255,21 +255,21 @@
         public byte Currency { get; set; }
     }
 
-    async Task<decimal> Get3rdBalanceAsync(int tpId, int custId)
-    {
-        var apiUrl = configuration.GetValue<string>("TpService");
-        var myUrl = $"{apiUrl}GetBalance";
-        var oTpInfo = new TpInfo
-        {
-            TpId = tpId,
-            CustId = custId,
-            inputs = new Dictionary<string, string>()
-        };
+    //async Task<decimal> Get3rdBalanceAsync(int tpId, int custId)
+    //{
+    //    var apiUrl = configuration.GetValue<string>("TpService");
+    //    var myUrl = $"{apiUrl}GetBalance";
+    //    var oTpInfo = new TpInfo
+    //    {
+    //        TpId = tpId,
+    //        CustId = custId,
+    //        inputs = new Dictionary<string, string>()
+    //    };
 
-        var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
+    //    var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
 
-        return data.ErrorCode == 0 ? data.Data.balance : 0;
-    }
+    //    return data.ErrorCode == 0 ? data.Data.balance : 0;
+    //}
 }
 @section PromptMsg{
     @if (User.Identity.IsAuthenticated)
@@ -280,7 +280,7 @@
             var balance = 0m;
             if (customer.ActStatus == 2)
             {
-                balance = walletBLL.GetBalance(custId) + await Get3rdBalanceAsync(1, custId);
+                balance = walletBLL.GetBalance(custId); //+ await Get3rdBalanceAsync(1, custId);
                 if (custInfoBLL.IsConvertRequired(CurrencyId))
                 {
                     balance /= 1000;
