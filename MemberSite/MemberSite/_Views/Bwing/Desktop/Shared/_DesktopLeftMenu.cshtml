@@ -166,11 +166,11 @@
     </div>
 
     <div class="section">
-        <button class="toggle-section toggle-btn" data-toggle-content="section-account">
+        <button class="toggle-section toggle-btn" data-toggle-content="section-message">
             @selLangBLL.GetResourceValue("lbl_Message")
         </button>
 
-        <div class="section-content" id="section-account">
+        <div class="section-content" id="section-message">
             <div class="page-nav">
                 <a class="@((SelectAction.Equals("PersonalMsg", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Message", StringComparison.OrdinalIgnoreCase)) ? "toggle-section" : "")" href="@Url.RouteUrl("desktop", new { action = "PersonalMsg", controller = "Message", LangId = selLangBLL.GetLangId() })">
                     @selLangBLL.GetResourceValue("lbl_PersonalMsg")
