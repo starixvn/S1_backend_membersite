@@ -7,7 +7,6 @@
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Title") + '|' + @selLangBLL.GetResourceValue("lbl_TitleDesc") + "|" + @selLangBLL.GetResourceValue("lbl_Sports");
-    Layout = "~/Views/Shared/_Layout.cshtml";
     Layout = $"~/_Views/{serverInfo.SiteName}/Desktop/Shared/_Layout.cshtml";
     
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Desktop");
@@ -46,8 +45,21 @@
         return entPageUrl;
     }
 }
-<div class="main ">
-    <iframe class="sports-ifrname" src="@GetEntPageUrl()"></iframe>
+
+<div class="container p-t-20">
+    <div class="top-page-banner two-banner">
+        <div class="item banner-1">
+            <img src="@SkinRootPath/images/page/sport-banner-1.jpg" alt="Banner" />
+            <button class="btn btn-action">Bet now</button>
+        </div>
+        <div class="item banner-2">
+            <img src="@SkinRootPath/images/page/sport-banner-2.jpg" alt="Banner" />
+            <button class="btn btn-action">Bet now</button>
+        </div>
+    </div>
+    <div class="page-content">
+        <iframe class="sports-ifrname" src="@GetEntPageUrl()"></iframe>
+    </div>
 </div>
 
 @section Scripts{
