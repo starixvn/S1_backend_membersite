@@ -299,6 +299,7 @@ class SubmitLocalBank extends Component {
 			PickBankInfoOff: null,
 			showTodModal: false,
 			showBankInfoModal: false,
+
 			transBankInfo: null
 		};
 	}

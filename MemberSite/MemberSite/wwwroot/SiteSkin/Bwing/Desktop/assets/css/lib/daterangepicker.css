@@ -15,6 +15,7 @@
   font-family: arial;
   font-size: 15px;
   line-height: 1em;
+  z-index: 10002;
 }
 
 .daterangepicker:before,

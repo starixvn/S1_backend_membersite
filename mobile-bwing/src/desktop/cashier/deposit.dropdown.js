@@ -42,10 +42,13 @@ export default class BankInfoOffDropdown extends React.Component {
 						key={data.sysId}
 						onClick={this.onPickBankInfoOff.bind(this, data)}
 						data-selected={data.sysId == PickBankInfoOff.sysId}>
-						<img src={"/common/images/BankLogo/" + data.bankLogo} />
+						<img
+							src={"/common/images/BankLogo/" + data.bankLogo}
+							className="name"
+						/>
 						<span className="value">Asia Commercial Bank</span>
 						<span className="limit">
-							( (Limit:{" "}
+							(Limit:{" "}
 							<span className="text-green">
 								{data.minAmount == 0 && data.maxAmount == 0
 									? i18n.lbl_Unlimited
@@ -53,7 +56,7 @@ export default class BankInfoOffDropdown extends React.Component {
 											data.minAmount
 									  )} ~ ${number_format(data.maxAmount)}`}
 							</span>{" "}
-							) )
+							)
 						</span>
 					</div>
 				);
@@ -72,6 +75,7 @@ export default class BankInfoOffDropdown extends React.Component {
 							"/common/images/BankLogo/" +
 							PickBankInfoOff.bankLogo
 						}
+						className="name"
 					/>
 					<span className="value">{PickBankInfoOff.bankName}</span>
 					<span className="limit">
