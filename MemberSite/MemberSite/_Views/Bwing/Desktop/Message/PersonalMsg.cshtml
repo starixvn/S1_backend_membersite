@@ -18,15 +18,14 @@
     i18n.Add("lbl_PersonalMsg", selLangBLL.GetResourceValue("lbl_PersonalMsg"));
 }
 
+<div class="system-content">
+    <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
+    <div id="content" class="right-panel"></div>
+</div>
 
-    
-        <div id="content" class="right-panel"></div>
-
-        
-
-        @section Scripts{
-            <script type="text/javascript">
+@section Scripts{
+    <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
-            </script>
-            <script src="~/js/Bwing/component/Desktop/message/personalMsg/personalMsg.min.js" asp-append-version="true"></script>
-        }
+    </script>
+    <script src="~/js/Bwing/component/Desktop/message/personalMsg/personalMsg.min.js" asp-append-version="true"></script>
+}

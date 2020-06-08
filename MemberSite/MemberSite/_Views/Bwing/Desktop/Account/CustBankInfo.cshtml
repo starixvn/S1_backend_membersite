@@ -32,57 +32,60 @@
 
 @*$.extend(i18n, {"lbl_BankName":"Bank Name","lbl_BankAccountName":"Account Name","lbl_BankAccountNameHint":"Please use your real name for account name. This field cannot be changed once entered!","lbl_BankNumber":"Account Number","lbl_NewAccountName":null,"lbl_CustBankInfo":"Update Bank Information","lbl_Back":"Back","lbl_Submit":"Submit","lbl_BankInfo":"Bank Info","lbl_ContactCSD":"For any request of modification, please contact CSD.","lbl_AddNewAccount":"Add New Account","lbl_CheckConfirm":"Are you sure you want to delete? It cannot restore after deletion!","lbl_BankAccount":"Bank Account","msg_NeedAccountName":"Need Account Name","msg_NeedAccountNo":"Need Account Number"});*@
 
-<div class="right-panel">
-    <div class="title">@selLangBLL.GetResourceValue("lbl_BankInfo")</div>
-    <div class="content bankinfo-block">
-        <div id="form-info" class="form">
-            <div class="form-group">
-                <div class="label text-bold">@selLangBLL.GetResourceValue("lbl_BankAccountName"):</div>
-                <div class="input-field">
-                    <input class="input-control text-bold AccountName" type="text" value="" placeholder="@selLangBLL.GetResourceValue("lbl_BankAccountName")" />
-                </div>
-            </div>
-            <div class="button-group">
-                <button class="btn btn-primary" id="btn-add-username">@selLangBLL.GetResourceValue("lbl_AddNewAccount")</button>
-            </div>
-        </div>
-        <div class="table-content form-account">
-            <div class="option-header">
-                <span class="text-bold">@selLangBLL.GetResourceValue("lbl_BankAccount")</span>
-            </div>
-            <table class="tbl-account">
-                <tbody id="Bank_Account_List"></tbody>
-            </table>
-        </div>
-        <div class="form form-add-user hide">
-            <form id="form">
+<div class="system-content">
+    <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
+    <div class="right-panel">
+        <div class="title">@selLangBLL.GetResourceValue("lbl_BankInfo")</div>
+        <div class="content bankinfo-block">
+            <div id="form-info" class="form">
                 <div class="form-group">
-                    <div class="label">
-                        <span class="text-bold">@selLangBLL.GetResourceValue("lbl_BankAccountName"): </span>
-                    </div>
+                    <div class="label text-bold">@selLangBLL.GetResourceValue("lbl_BankAccountName"):</div>
                     <div class="input-field">
-                        <input id="SetAccountName" class="input-control text-bold AccountName" type="text" value="" placeholder="@selLangBLL.GetResourceValue("lbl_BankAccountName")" />
-                        <div class="invalid-mess"></div>
-                    </div>
-                    <span></span>
-                    <p class="bank-note">@selLangBLL.GetResourceValue("lbl_ContactCSD")</p>
-                    <div class="label">
-                        <span class="text-bold">@selLangBLL.GetResourceValue("lbl_BankName"): </span>
-                    </div>
-                    <div class="input-field dropdown ddl-default" id="BankInfoSysList"></div>
-                    <div class="label">
-                        <span class="text-bold">@selLangBLL.GetResourceValue("lbl_BankNumber"): </span>
-                    </div>
-                    <div class="input-field">
-                        <input id="BankNumber" class="input-control text-bold" type="text" value="" placeholder="@selLangBLL.GetResourceValue("lbl_BankNumber")" />
-                        <div class="invalid-mess"></div>
+                        <input class="input-control text-bold AccountName" type="text" value="" placeholder="@selLangBLL.GetResourceValue("lbl_BankAccountName")" />
                     </div>
                 </div>
                 <div class="button-group">
-                    <button class="btn btn-primary" id="btn-back">@selLangBLL.GetResourceValue("lbl_Back")</button>
-                    <button class="btn btn-secondary">@selLangBLL.GetResourceValue("lbl_Submit")</button>
+                    <button class="btn btn-primary" id="btn-add-username">@selLangBLL.GetResourceValue("lbl_AddNewAccount")</button>
                 </div>
-            </form>
+            </div>
+            <div class="table-content form-account">
+                <div class="option-header">
+                    <span class="text-bold">@selLangBLL.GetResourceValue("lbl_BankAccount")</span>
+                </div>
+                <table class="tbl-account">
+                    <tbody id="Bank_Account_List"></tbody>
+                </table>
+            </div>
+            <div class="form form-add-user hide">
+                <form id="form">
+                    <div class="form-group">
+                        <div class="label">
+                            <span class="text-bold">@selLangBLL.GetResourceValue("lbl_BankAccountName"): </span>
+                        </div>
+                        <div class="input-field">
+                            <input id="SetAccountName" class="input-control text-bold AccountName" type="text" value="" placeholder="@selLangBLL.GetResourceValue("lbl_BankAccountName")" />
+                            <div class="invalid-mess"></div>
+                        </div>
+                        <span></span>
+                        <p class="bank-note">@selLangBLL.GetResourceValue("lbl_ContactCSD")</p>
+                        <div class="label">
+                            <span class="text-bold">@selLangBLL.GetResourceValue("lbl_BankName"): </span>
+                        </div>
+                        <div class="input-field dropdown ddl-default" id="BankInfoSysList"></div>
+                        <div class="label">
+                            <span class="text-bold">@selLangBLL.GetResourceValue("lbl_BankNumber"): </span>
+                        </div>
+                        <div class="input-field">
+                            <input id="BankNumber" class="input-control text-bold" type="text" value="" placeholder="@selLangBLL.GetResourceValue("lbl_BankNumber")" />
+                            <div class="invalid-mess"></div>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" id="btn-back">@selLangBLL.GetResourceValue("lbl_Back")</button>
+                        <button class="btn btn-secondary">@selLangBLL.GetResourceValue("lbl_Submit")</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

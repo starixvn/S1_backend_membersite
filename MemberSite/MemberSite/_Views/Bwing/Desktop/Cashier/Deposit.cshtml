@@ -88,7 +88,8 @@
     }
 }
 @section Style{
-    <link rel="stylesheet" type="text/css" href="~/SiteSkin/Bwing/Desktop/assets/css/lib/daterangepicker.css" asp-append-version="true"/>
+
+    <link rel="stylesheet" type="text/css" href="~/SiteSkin/Bwing/Desktop/assets/css/lib/daterangepicker.css" />
 }
 
 @if (custInfoProfile == null || custInfoProfile.AccountName == null || custInfoProfile.CountryCode == null || custInfoProfile.PhoneNo == null)
@@ -108,7 +109,10 @@
 }
 else
 {
-    <div id="content" class="right-panel"></div>
+    <div class="system-content">
+        <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
+        <div id="content" class="right-panel"></div>
+    </div>
 }
 
 @section Scripts{

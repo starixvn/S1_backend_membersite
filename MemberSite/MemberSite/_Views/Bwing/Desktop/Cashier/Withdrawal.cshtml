@@ -66,8 +66,10 @@
     <link rel="stylesheet" type="text/css" href="~/SiteSkin/Bwing/Desktop/assets/css/lib/daterangepicker.css" />
 }
 
-    @if (custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0)
-    {
+@if (custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0)
+{
+    <div class="system-content">
+        <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
         <div class="page">
             <div class="heading">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
@@ -80,9 +82,12 @@
                 </a>
             </div>
         </div>
-    }
-    else if (false)@*Remove Ask Upload Photo ID*@
-    {
+    </div>
+}
+else if (false)@*Remove Ask Upload Photo ID*@
+{
+    <div class="system-content">
+        <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
         <div class="page">
             <div class="heading">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_SubmitPhotoId")</span>
@@ -95,12 +100,15 @@
                 <div class="panel__body" id="UploadForm"></div>
             </div>
         </div>
-    }
-    else
-    {
-<div id="content" class="right-panel"></div>
-    }
-</div>
+    </div>
+}
+else
+{
+    <div class="system-content">
+        <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
+        <div id="content" class="right-panel"></div>
+    </div>
+}
 
 @section Scripts{
     <script type="text/javascript">

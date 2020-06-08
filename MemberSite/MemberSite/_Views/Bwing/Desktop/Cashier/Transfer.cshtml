@@ -38,7 +38,11 @@
 @section Style{
     <link rel="stylesheet" type="text/css" href="~/SiteSkin/Bwing/Desktop/assets/css/lib/daterangepicker.css" />
 }
-<div id="content" class="right-panel"></div>
+
+<div class="system-content">
+    <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
+    <div id="content" class="right-panel"></div>
+</div>
 
 @section Scripts{
     <script type="text/javascript">
