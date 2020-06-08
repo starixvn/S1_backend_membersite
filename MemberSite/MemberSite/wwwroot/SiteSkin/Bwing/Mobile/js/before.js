@@ -20,6 +20,10 @@
     $("#Login_show-password").change(function(event) {
         $("#Login_Userpwd").prop('type', $(this).prop("checked") ? "password" : "text");
     });
+
+    $("#Register_show-password").change(function (event) {
+        $("#Register_Userpwd").prop('type', $(this).prop("checked") ? "password" : "text");
+    });
     
     $("#LoginForm").submit(function(event) {
         event.preventDefault();
@@ -181,7 +185,7 @@
             if(data["affId"] != "") {
                 data["CurrencyId"] = 0;
             } else {
-                data["CurrencyId"] = $("#Register_CurrencyId").val();
+                data["CurrencyId"] = Number($("#Register_CurrencyId option:selected").val(), 10);
             }
 
             axios.post('/api/Site/Register', data)

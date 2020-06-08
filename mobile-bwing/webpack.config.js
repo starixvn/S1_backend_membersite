@@ -54,6 +54,9 @@ module.exports = {
 		],
 		"desktop/message/announcement/announcement.min": [
 			"./src/desktop/message/announcement.js"
+		],
+		"desktop/cashier/TransferPanel.min": [
+			"./src/desktop/cashier/transfer.js"
 		]
 	},
 	output: {

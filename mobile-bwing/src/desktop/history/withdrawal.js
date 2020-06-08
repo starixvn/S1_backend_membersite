@@ -103,12 +103,14 @@ class Panel extends Component {
 								</span>
 							</div>
 						</div>
+						<div className="button-group">
+							<button
+								className="btn btn-primary"
+								onClick={this.GetHistory.bind(this, 1)}>
+								{i18n["lbl_Submit"]}
+							</button>
+						</div>
 					</div>
-					<button
-						className="btn btn-primary"
-						onClick={this.GetHistory.bind(this, 1)}>
-						{i18n["lbl_Submit"]}
-					</button>
 					{this.state.GetData ? (
 						<History Data={this.state.History} />
 					) : null}

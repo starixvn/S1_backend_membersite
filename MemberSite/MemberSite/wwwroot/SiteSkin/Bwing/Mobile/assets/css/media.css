@@ -15,7 +15,7 @@
 }
 
 .nav-mobile {
-  width: 31rem;
+  width: 33rem;
   background-color: #273145;
 }
 
@@ -110,7 +110,7 @@
 
 .nav-mobile .languages-box:after {
   right: -18px;
-  top: 8px;
+  top: 6px;
 }
 
 .nav-mobile .languages .flag-select__options {
@@ -168,7 +168,7 @@
   position: fixed;
   display: block;
   width: 28px;
-  top: 1.7rem;
+  top: 1.9rem;
   left: 1.5rem;
   height: 22px;
   cursor: pointer;
@@ -207,7 +207,7 @@
 }
 
 .bt-menu-close {
-  left: 27rem;
+  left: 29rem;
 }
 
 .bt-menu-close .line {

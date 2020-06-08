@@ -30,13 +30,13 @@ const columnDefs = [
 	{
 		datacolumn: "createTime",
 		displayText: i18n.lbl_Time,
-		className: "td-date",
+		className: "td-time",
 		format: { func: TimeFormat }
 	},
 	{
 		datacolumn: "typeName",
 		displayText: i18n.lbl_TypeName,
-		className: "td-id"
+		className: "td-method"
 	},
 	{
 		datacolumn: "changeAmount",
@@ -64,7 +64,7 @@ const columnDefs = [
 ];
 
 const Td = props => {
-	return <td>{props.displayText}</td>;
+	return <td className={props.className}>{props.displayText}</td>;
 };
 
 const TBody = props => {
@@ -120,16 +120,18 @@ const ResultTable = props => {
 			<table>
 				<thead>
 					<tr>
-						<th>{i18n.lbl_Date}</th>
-						<th>{i18n.lbl_Time}</th>
-						<th>{i18n.lbl_TypeName}</th>
-						<th>{i18n.lbl_ChangeAmount}</th>
-						<th>{i18n.lbl_BeforeAmount}</th>
-						<th>{i18n.lbl_AfterAmount}</th>
-						<th>{i18n.lbl_RefTransId}</th>
+						<th className="td-date">{i18n.lbl_Date}</th>
+						<th className="td-time">{i18n.lbl_Time}</th>
+						<th className="td-method">{i18n.lbl_TypeName}</th>
+						<th className="td-amount">{i18n.lbl_ChangeAmount}</th>
+						<th className="td-amount">{i18n.lbl_BeforeAmount}</th>
+						<th className="td-amount">{i18n.lbl_AfterAmount}</th>
+						<th className="td-id">{i18n.lbl_RefTransId}</th>
 					</tr>
 				</thead>
-				<TBody Datas={props.Datas} />
+				<tbody>
+					<TBody Datas={props.Datas} />
+				</tbody>
 			</table>
 		</div>
 	) : (
