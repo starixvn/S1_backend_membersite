@@ -73,7 +73,7 @@ class Panel extends Component {
 			<>
 				<div className="title">{i18n.lbl_Deposit}</div>
 				<div className="content announcement-block">
-					<p className="text-bold">{i18n["lbl_Date"]}</p>
+					<p className="text-bold"></p>
 					<div className="form calendar-filter p-t-20">
 						<div className="calendar-group form-group">
 							<span className="label">{i18n["lbl_From"]}: </span>

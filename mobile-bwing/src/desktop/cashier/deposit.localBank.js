@@ -149,14 +149,18 @@ class BankInfoModal extends Component {
 						<p className="label">{i18n.lbl_TransactionHint}</p>
 						<div className="recipe">
 							<div className="item text-center">
-								<img
-									className="img-wallet"
-									src={
-										"/common/images/BankLogo/" +
-										this.props.PickBankInfoOff.bankLogo
-									}
-									alt="wallet"
-								/>
+								<a
+									target="_blank"
+									href={this.props.bankInfo.bankSite}>
+									<img
+										className="img-wallet"
+										src={
+											"/common/images/BankLogo/" +
+											this.props.PickBankInfoOff.bankLogo
+										}
+										alt="wallet"
+									/>
+								</a>
 								<p className="bank-name">
 									{this.props.PickBankInfoOff.bankName}
 								</p>
@@ -299,7 +303,6 @@ class SubmitLocalBank extends Component {
 			PickBankInfoOff: null,
 			showTodModal: false,
 			showBankInfoModal: false,
-
 			transBankInfo: null
 		};
 	}

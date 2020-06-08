@@ -99,7 +99,7 @@ export default class BankInfoOffDropdown extends React.Component {
 				</div>
 				<div
 					className={
-						"dropdown__container" +
+						"dropdown-container" +
 						(this.state.dropdown ? "" : " hide")
 					}>
 					{DropdownItem}
