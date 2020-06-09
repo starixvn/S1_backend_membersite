@@ -361,6 +361,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -621,7 +622,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
-      "featured": false,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1303,7 +1304,7 @@
       "launchDate": "",
       "hot": false,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true
     },
     {
@@ -1806,7 +1807,7 @@
       "launchDate": "",
       "hot": false,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true
     },
     {
@@ -1847,6 +1848,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -1948,7 +1950,7 @@
       "launchDate": "",
       "hot": false,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true
     },
     {
@@ -2290,7 +2292,7 @@
       "launchDate": "",
       "hot": false,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true
     },
     {
