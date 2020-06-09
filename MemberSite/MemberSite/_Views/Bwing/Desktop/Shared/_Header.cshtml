@@ -79,25 +79,23 @@
                     </div>
                 </div>
                 <div class="dropdown-hover">
-                    <a href="" class="btn btn-header-primary">
-                        <i class="icon icon-circle icon-wallet"></i><span>VND</span><span class="cash-detail">59,243,834</span><i class="icon icon-arrow-down"></i>
+                    <a href="javascript:void(0)" class="btn btn-header-primary">
+                        <i class="icon icon-circle icon-wallet"></i><span class="Js-Currency"></span><span class="cash-detail Js-Balance-Top"></span><i class="icon icon-arrow-down"></i>
                     </a>
                     <div class="dropdown dropdown-wallet">
                         <div class="checkbox">
-                            <input id="show-cash" type="checkbox" value="true" /><label for="show-cash">@selLangBLL.GetResourceValue("lbl_ShowBalance")</label>
+                            <input id="show-cash" type="checkbox"/><label for="show-cash">@selLangBLL.GetResourceValue("lbl_ShowBalance")</label>
                         </div>
-                        <div class="wallet-item wallet-main">
-                            <label class="text-bold">VND</label><span>0 ('000)<i class="icon icon-refresh"></i></span>
-                        </div>
-                        <div class="wallet-item">
-                            <label>Sportsbook Wallet</label><span>0 ('000)</span>
+                        <div class="wallet-item wallet-main Js-Wallet-Refresh">
+                            <label class="text-bold Js-Currency"></label><span class="Js-Balance"><i class="icon icon-refresh"></i></span>
                         </div>
                         <div class="button-group">
-                            <button class="btn btn-primary" type="button">
+                            <a class="btn btn-primary" href="">
                                 Deposit
-                            </button><button class="btn btn-primary" type="button">
+                            </a>
+                            <a class="btn btn-primary" href="">
                                 Transfer
-                            </button>
+                            </a>
                         </div>
                         <div class="history">
                             <div class="flex between">
