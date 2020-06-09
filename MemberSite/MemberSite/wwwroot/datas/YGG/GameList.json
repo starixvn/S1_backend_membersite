@@ -1082,7 +1082,7 @@
       "launchDate": "2018/07/02",
       "hot": false,
       "new": true,
-      "featured":  true,
+      "featured": false,
       "imageExist": true,
       "Isfun": 0
     },
