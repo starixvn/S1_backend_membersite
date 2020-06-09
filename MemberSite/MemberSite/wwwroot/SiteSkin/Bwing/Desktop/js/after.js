@@ -112,14 +112,16 @@
         } else {
             $(".Js-Balance-Top").html(walletInfo.balance);
         }
-
+        $("#show-cash").prop('checked', !walletInfo.isHideBalance);
         $(".Js-Balance").html(walletInfo.balance);
-
-        /*
-        <div class="wallet-item">
-            <label>Sportsbook Wallet</label><span>0 ('000)</span>
-        </div>
-         */
+        $(".Js-LastLoginTime").html(moment(walletInfo.lastLoginTime).format('l LTS'));
+        $(".Js-LastTransaction").html(moment(walletInfo.lastTransaction).format('l LTS'));
+        $(".dropdown-wallet > .wallet-item:not(.wallet-main)").remove();
+        for(var i = walletInfo.tpWallets.length -1; i >= 0; i--){
+            var tpName = walletInfo.tpWallets[i].tpName;
+            var tpBalance =  walletInfo.tpWallets[i].balance;
+            $(`<div class="wallet-item"><label>${tpName}</label><span>${tpBalance}</span></div>`).insertAfter(".dropdown-wallet > .wallet-item.wallet-main");        
+        }
     }    
 
     var onHideBalance = function() {
@@ -127,7 +129,12 @@
         if(walletInfo != null) {
             axios.get('/api/Account/SetHideBalance',{ params: {value:!walletInfo.isHideBalance} });
             walletInfo.isHideBalance = !walletInfo.isHideBalance;
-            setWalletInfo(walletInfo);
+            
+            if(walletInfo.isHideBalance) {
+                $(".Js-Balance-Top").html('');
+            } else {
+                $(".Js-Balance-Top").html(walletInfo.balance);
+            }
         }
     }    
 
