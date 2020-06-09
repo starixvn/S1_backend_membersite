@@ -101,6 +101,11 @@
                             <img src="@CmsPromotionPath/banner-euroevent.jpg" asp-append-version="true" />
                         </a>
                     </div>
+                    <div class="swiper-slide">
+                        <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Europeanmajor01">
+                            <img src="@CmsPromotionPath/banner-Europeanmajor01.jpg" asp-append-version="true" />
+                        </a>
+                    </div>
                     @if (promotionCnt > 0)
                     {
                         <div class="swiper-slide">
@@ -127,11 +132,6 @@
                             </a>
                         </div>
                     }
-                    <div class="swiper-slide">
-                        <a href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
-                            <img src="@CmsPromotionPath/banner-gpiyggjokersg.jpg" asp-append-version="true" />
-                        </a>
-                    </div>
                     <div class="swiper-slide">
                         <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() })">
                             <img src="@CmsPromotionPath/banner-pplc.jpg" asp-append-version="true" />
