@@ -554,14 +554,16 @@ class SubmitLocalBank extends Component {
 						</div>
 						<div className="popup-body">
 							<p>{i18n.lbl_ConfirmDeposit}</p>
-							<img
-								className="img-wallet"
-								src={
-									"/common/images/BankLogo/" +
-									this.state.PickBankInfoOff.bankLogo
-								}
-								alt="wallet"
-							/>
+							{this.state.PickBankInfoOff === null ? null : (
+								<img
+									className="img-wallet"
+									src={
+										"/common/images/BankLogo/" +
+										this.state.PickBankInfoOff.bankLogo
+									}
+									alt="wallet"
+								/>
+							)}
 							<div className="confirm-value">
 								<span>{i18n.lbl_DepositAmount}</span>
 								<span className="text-bold value">
