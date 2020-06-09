@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import Pagination from "../../common/pagination";
 import WebAPI from "../../service/api/base";
 import History from "./deposit.history";
+import { QuickPicker, QuickPickDefs } from "./dateQuickPicker";
 
 /* eslint-disable */
 class Panel extends Component {
@@ -13,7 +14,8 @@ class Panel extends Component {
 		this.state = {
 			StartDate: moment().add(-30, "day").format("YYYY-MM-DD"),
 			EndDate: moment().format("YYYY-MM-DD"),
-			GetData: false
+			GetData: false,
+			QuickPick: QuickPickDefs.Today
 		};
 	}
 	componentDidMount = () => {
@@ -68,13 +70,87 @@ class Panel extends Component {
 				}
 			);
 	};
+	SetDate = (dataColumn, e) => {
+		this.setState({ [dataColumn]: e.target.value });
+	};
+	QuickPickOnSelect = (v, datacolumn) => {
+		let StartDate = "";
+		let EndDate = "";
+
+		switch (v.value) {
+			case QuickPickDefs.Today.value:
+				StartDate = moment().format("YYYY-MM-DD");
+				EndDate = moment().format("YYYY-MM-DD");
+				break;
+
+			case QuickPickDefs.YesterDay.value:
+				StartDate = moment().add(-1, "days").format("YYYY-MM-DD");
+				EndDate = moment().add(-1, "days").format("YYYY-MM-DD");
+				break;
+
+			case QuickPickDefs.LastWeek.value:
+				StartDate = moment()
+					.subtract(1, "weeks")
+					.startOf("week")
+					.format("YYYY-MM-DD");
+				EndDate = moment()
+					.subtract(1, "weeks")
+					.endOf("week")
+					.format("YYYY-MM-DD");
+
+				break;
+
+			case QuickPickDefs.ThisWeek.value:
+				StartDate = moment()
+					.subtract(1, "weeks")
+					.endOf("week")
+					.add(1, "days")
+					.format("YYYY-MM-DD");
+				EndDate = moment().format("YYYY-MM-DD");
+				break;
+
+			case QuickPickDefs.ThisMonth.value:
+				StartDate = moment()
+					.subtract(1, "months")
+					.endOf("month")
+					.add(1, "days")
+					.format("YYYY-MM-DD");
+				EndDate = moment().format("YYYY-MM-DD");
+				break;
+
+			case QuickPickDefs.LastMonth.value:
+				StartDate = moment()
+					.subtract(1, "months")
+					.startOf("month")
+					.format("YYYY-MM-DD");
+				EndDate = moment()
+					.subtract(1, "months")
+					.endOf("month")
+					.format("YYYY-MM-DD");
+				break;
+
+			default:
+				StartDate = stateFilter.StartDate;
+				EndDate = stateFilter.EndDate;
+				break;
+		}
+
+		this.setState({
+			StartDate: StartDate,
+			EndDate: EndDate,
+			QuickPick: v
+		});
+	};
 	render() {
 		return (
 			<>
 				<div className="title">{i18n.lbl_Deposit}</div>
 				<div className="content announcement-block">
-					<p className="text-bold"></p>
 					<div className="form calendar-filter p-t-20">
+						<QuickPicker
+							QuickPickOnSelect={this.QuickPickOnSelect}
+							QuickPick={this.state.QuickPick}
+						/>
 						<div className="calendar-group form-group">
 							<span className="label">{i18n["lbl_From"]}: </span>
 							<div className="input-field">
@@ -82,7 +158,11 @@ class Panel extends Component {
 									className="input-control"
 									type="text"
 									ref={this.startDateRef}
-									defaultValue={this.state.StartDate}
+									value={this.state.StartDate}
+									onChange={this.SetDate.bind(
+										this,
+										"StartDate"
+									)}
 								/>
 								<span className="select-day">
 									<i className="icon icon-calendar"></i>
@@ -96,7 +176,11 @@ class Panel extends Component {
 									className="input-control"
 									type="text"
 									ref={this.endDateRef}
-									defaultValue={this.state.EndDate}
+									value={this.state.EndDate}
+									onChange={this.SetDate.bind(
+										this,
+										"EndDate"
+									)}
 								/>
 								<span className="select-day">
 									<i className="icon icon-calendar"></i>
