@@ -94,13 +94,13 @@
             }
         }
     }
-<div class="page">
-    <partial name="~/_Views/Bwing/Desktop/Shared/_Header.cshtml" />
-    <div class="wrap-content @(User.Identity.IsAuthenticated ? "is-login":"")">
-        @RenderBody()
+    <div class="page">
+        <partial name="~/_Views/Bwing/Desktop/Shared/_Header.cshtml" />
+        <div class="wrap-content @(User.Identity.IsAuthenticated ? "is-login":"")">
+            @RenderBody()
+        </div>
+        <partial name="~/_Views/Bwing/Desktop/Shared/_Footer.cshtml" />
     </div>
-    <partial name="~/_Views/Bwing/Desktop/Shared/_Footer.cshtml" />
-</div>
 
     <div class="remodal-bg"></div>
     @if (User.Identity.IsAuthenticated)
@@ -548,7 +548,7 @@
     }
     @if (User.Identity.IsAuthenticated)
     {
-        <script src="~/SiteSkin/Bwing/Mobile/js/after.js" asp-append-version="true"></script>
+        <script src="~/SiteSkin/Bwing/Desktop/js/after.js" asp-append-version="true"></script>
         @*<script src="~/js/commJS/common.js"></script>
             <script src="~/js/commJS/Account.js" asp-append-version="true"></script>
             <script src="~/js/component/app/BalancePanel.min.js" asp-append-version="true"></script>
