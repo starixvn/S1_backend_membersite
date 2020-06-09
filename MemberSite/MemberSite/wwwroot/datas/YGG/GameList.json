@@ -186,7 +186,7 @@
         "en": "Brazil-Bomba-EN.jpg"
       },
       "launchDate": "2020/02/20",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured": false,
       "imageExist": true,
@@ -252,7 +252,7 @@
         "en": "Champions-of-Rome-EN.jpg"
       },
       "launchDate": "2019/02/21",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured": true,
       "imageExist": true,
@@ -656,7 +656,7 @@
         "en": "Jackpot-Raiders-EN.jpg"
       },
       "launchDate": "2019/05/23",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured": true,
       "imageExist": true,
@@ -1080,7 +1080,7 @@
         "en": "Sonya-Blackjack-EN.jpg"
       },
       "launchDate": "2018/07/02",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured":  true,
       "imageExist": true,
@@ -1489,7 +1489,7 @@
         "en": "THE-ROYAL-FAMILY-EN.jpg"
       },
       "launchDate": "2020/03/04",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured": true,
       "imageExist": true,
@@ -1512,7 +1512,7 @@
         "en": "ALL-STAR-KNOCKOUT-EN.jpg"
       },
       "launchDate": "2020/03/11",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured": false,
       "imageExist": true,
