@@ -37,7 +37,7 @@
         "en": "African-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured": false,
       "imageExist": true
@@ -98,7 +98,7 @@
         "en": "Ancient-Artifact-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -198,7 +198,7 @@
         "en": "Bagua-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -218,7 +218,7 @@
         "en": "Bagua-2-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -238,7 +238,7 @@
         "en": "Beanstalk-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured": false,
       "imageExist": true
@@ -279,7 +279,7 @@
         "en": "Book-Of-Ra-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -299,7 +299,7 @@
         "en": "Book-Of-Ra-Deluxe-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -319,7 +319,7 @@
         "en": "Burning-Pearl-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -339,7 +339,7 @@
         "en": "Bushido-Blade-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -439,7 +439,7 @@
         "en": "Chilli-Hunter-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -459,7 +459,7 @@
         "en": "China-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -479,7 +479,7 @@
         "en": "Chinese-Boss-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -499,7 +499,7 @@
         "en": "Columbus-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -519,7 +519,7 @@
         "en": "Crypto-Mania-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -539,7 +539,7 @@
         "en": "Dolphin-Pearl-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -579,7 +579,7 @@
         "en": "Dolphin-Treasure-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -640,7 +640,7 @@
         "en": "Dynamite-Reels-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -680,7 +680,7 @@
         "en": "Empress-Regnant-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -700,7 +700,7 @@
         "en": "Enter-The-KTV-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -740,7 +740,7 @@
         "en": "Fifty-Dragons-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -760,7 +760,7 @@
         "en": "Fifty-Lions-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -820,7 +820,7 @@
         "en": "Four-Dragons-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -840,7 +840,7 @@
         "en": "Four-Tigers-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -860,7 +860,7 @@
         "en": "Geisha-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -940,7 +940,7 @@
         "en": "Golden-Monkey-King-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1100,7 +1100,7 @@
         "en": "Horus-Eye-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1120,7 +1120,7 @@
         "en": "Hot-Fruits-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1181,7 +1181,7 @@
         "en": "Just-Jewels-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1201,7 +1201,7 @@
         "en": "Lady-Hawk-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1221,7 +1221,7 @@
         "en": "Lightning-God-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1241,7 +1241,7 @@
         "en": "Lions-Dance-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1261,7 +1261,7 @@
         "en": "Lord-Of-The-Ocean-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1301,7 +1301,7 @@
         "en": "Lucky-God-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured": true,
       "imageExist": true
@@ -1343,7 +1343,7 @@
         "en": "Lucky-God-Progressive-2-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured": false,
       "imageExist": true
@@ -1364,7 +1364,7 @@
         "en": "Lucky-Lady-Charm-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1404,7 +1404,7 @@
         "en": "Lucky-Rooster-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1464,7 +1464,7 @@
         "en": "Money-Vault-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1544,7 +1544,7 @@
         "en": "Neptune-Treasure-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1564,7 +1564,7 @@
         "en": "Nugget-Hunter-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1604,7 +1604,7 @@
         "en": "Octagon-Gem-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1624,7 +1624,7 @@
         "en": "Octagon-Gem-2-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1684,7 +1684,7 @@
         "en": "Peach-Banquet-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1704,7 +1704,7 @@
         "en": "Phoenix-888-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1724,7 +1724,7 @@
         "en": "Power-Stars-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1764,7 +1764,7 @@
         "en": "Queen-Of-The-Nile-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -1804,7 +1804,7 @@
         "en": "Roma-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured": true,
       "imageExist": true
@@ -1845,7 +1845,7 @@
         "en": "Santa-Surprise-EN.jpg"
       },
       "launchDate": "",
-      "hot": false,
+      "hot": true,
       "new": true,
       "imageExist": true
     },
@@ -1905,7 +1905,7 @@
         "en": "Sizzling-Hot-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured": false,
       "imageExist": true
@@ -1946,7 +1946,7 @@
         "en": "Supreme-Caishen-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured": true,
       "imageExist": true
@@ -1967,7 +1967,7 @@
         "en": "Tai-Shang-Lao-Jun-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -2007,7 +2007,7 @@
         "en": "Third-Princes-Journey-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -2107,7 +2107,7 @@
         "en": "Wild-Fairies-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -2127,7 +2127,7 @@
         "en": "Wild-Giant-Panda-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -2167,7 +2167,7 @@
         "en": "Witchs-Brew-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -2187,7 +2187,7 @@
         "en": "Yggdrasil-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "imageExist": true
     },
@@ -2207,7 +2207,7 @@
         "en": "Zhao-Cai-Jin-Bao-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured": false,
       "imageExist": true
@@ -2288,7 +2288,7 @@
         "en": "HuLu-EN.jpg"
       },
       "launchDate": "",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured": true,
       "imageExist": true
