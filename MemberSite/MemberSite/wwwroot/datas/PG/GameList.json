@@ -744,7 +744,7 @@
         "ch": "ganesha-gold-CS.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": false,
       "imageExist": true,
@@ -844,7 +844,7 @@
         "ch": "double-fortune-CS.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": false,
       "imageExist": true,
@@ -944,7 +944,7 @@
         "ch": "captains-bounty-CS.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": false,
       "imageExist": true,
@@ -1294,7 +1294,7 @@
         "ch": "candy-burst-CS.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": false,
       "imageExist": true,
@@ -1369,7 +1369,7 @@
         "ch": "egypts-book-mystery-CS.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": false,
       "imageExist": true,
