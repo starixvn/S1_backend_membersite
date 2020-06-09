@@ -336,5 +336,22 @@ namespace MemberSite.Controllers.Api
 
             return result;
         }
+
+        [HttpPost]
+        public ApiResult CheckSignIn()
+        {
+            var result = new ApiResult();
+            try
+            {
+                result.ErrorCode = 0;
+            }
+            catch (Exception ex)
+            {
+                result.ErrorCode = 999;
+                result.RawMessage = ex.ToString();
+            }
+
+            return result;
+        }
     }
 }
