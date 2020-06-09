@@ -3,31 +3,6 @@
   "data": [
     {
       "name": {
-        "en": "Honey Trap of Diao Chan",
-        "cs": "夜戏貂蝉",
-        "ch": "夜戲貂蟬"
-      },
-      "appId": 1,
-      "gameId": "diaochan",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "30",
-      "RTP": "96.96%",
-      "imgName": {
-        "en": "Honey-Trap-of-Diao-CSan-EN.jpg",
-        "cs": "Honey-Trap-of-Diao-CSan-cs.jpg",
-        "ch": "Honey-Trap-of-Diao-CSan-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": false,
-      "new": false,
-      "featured": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
         "en": "Fortune Gods",
         "cs": "横财来啦",
         "ch": "橫財來啦"
@@ -403,31 +378,6 @@
     },
     {
       "name": {
-        "en": "Hotpot",
-        "cs": "麻辣火锅",
-        "ch": "麻辣火鍋"
-      },
-      "appId": 28,
-      "gameId": "hotpot",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "10 (Fixed）",
-      "RTP": "95.83%",
-      "imgName": {
-        "en": "hotpot-EN.jpg",
-        "cs": "hotpot-CS.jpg",
-        "ch": "hotpot-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": false,
-      "new": false,
-      "featured": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
         "en": "Dragon Legend",
         "cs": "鱼跃龙门",
         "ch": "魚躍龍門"
@@ -442,31 +392,6 @@
         "en": "dragon-legend-EN.jpg",
         "cs": "dragon-legend-CS.jpg",
         "ch": "dragon-legend-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": false,
-      "new": false,
-      "featured": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
-        "en": "Mr. Hallow-Win",
-        "cs": "万胜狂欢夜",
-        "ch": "萬勝狂歡夜"
-      },
-      "appId": 35,
-      "gameId": "mr-hallow-win",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "30",
-      "RTP": "95.86%",
-      "imgName": {
-        "en": "mr-hallow-win-EN.jpg",
-        "cs": "mr-hallow-win-CS.jpg",
-        "ch": "mr-hallow-win-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
@@ -669,7 +594,7 @@
         "ch": "piggy-gold-CS.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": false,
       "imageExist": true,
@@ -746,7 +671,7 @@
       "launchDate": null,
       "hot": true,
       "new": false,
-      "featured": false,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -794,7 +719,7 @@
         "ch": "jungle-delight-CS.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": false,
       "imageExist": true,
@@ -846,7 +771,7 @@
       "launchDate": null,
       "hot": true,
       "new": false,
-      "featured": false,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -878,31 +803,6 @@
     },
     {
       "name": {
-        "en": "The Great Icescape",
-        "cs": "冰雪大冲关",
-        "ch": "冰雪大沖關"
-      },
-      "appId": 53,
-      "gameId": "the-great-icescape",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "25 base bet (3125ways)",
-      "RTP": "96.33%",
-      "imgName": {
-        "en": "the-great-icescape-EN.jpg",
-        "cs": "the-great-icescape-CS.jpg",
-        "ch": "the-great-icescape-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": true,
-      "new": false,
-      "featured": true,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
         "en": "Journey to the Wealth",
         "cs": "嘻游记",
         "ch": "嘻遊記"
@@ -919,7 +819,7 @@
         "ch": "journey-to-the-wealth-CS.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": false,
       "imageExist": true,
@@ -944,7 +844,7 @@
         "ch": "captains-bounty-CS.jpg"
       },
       "launchDate": null,
-      "hot": true,
+      "hot": false,
       "new": false,
       "featured": false,
       "imageExist": true,
@@ -972,31 +872,6 @@
       "hot": false,
       "new": false,
       "featured": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
-        "en": "Leprechaun Riches",
-        "cs": "爱尔兰精灵",
-        "ch": "愛爾蘭精靈"
-      },
-      "appId": 60,
-      "gameId": "leprechaun-riches",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "20 Base Bet (46,656ways)",
-      "RTP": "97.35%",
-      "imgName": {
-        "en": "leprechaun-riches-EN.jpg",
-        "cs": "leprechaun-riches-CS.jpg",
-        "ch": "leprechaun-riches-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": true,
-      "new": false,
-      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1094,34 +969,9 @@
         "ch": "dragon-tiger-luck-CS.jpg"
       },
       "launchDate": null,
-      "hot": false,
-      "new": false,
-      "featured": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
-        "en": "Mahjong Ways",
-        "cs": "麻将胡了",
-        "ch": "麻将胡了"
-      },
-      "appId": 65,
-      "gameId": "mahjong-ways",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "Base bet 20 (1024ways）",
-      "RTP": "96.92%",
-      "imgName": {
-        "en": "mahjong-ways-EN.jpg",
-        "cs": "mahjong-ways-CS.jpg",
-        "ch": "mahjong-ways-CS.jpg"
-      },
-      "launchDate": null,
       "hot": true,
       "new": false,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1144,7 +994,7 @@
         "ch": "dragon-hatch-CS.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": false,
       "imageExist": true,
@@ -1203,56 +1053,6 @@
     },
     {
       "name": {
-        "en": "Gem Saviour Conquest",
-        "cs": "宝石侠 - 宝藏征途",
-        "ch": "寶石俠 - 寶藏征途"
-      },
-      "appId": 62,
-      "gameId": "gem-saviour-conquest",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "Base bet 20 (46,656ways）",
-      "RTP": "96.92%",
-      "imgName": {
-        "en": "gem-saviour-conques-EN.jpg",
-        "cs": "gem-saviour-conques-CS.jpg",
-        "ch": "gem-saviour-conques-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": false,
-      "new": false,
-      "featured": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
-        "en": "Shaolin Soccer",
-        "cs": "少林足球",
-        "ch": "少林足球"
-      },
-      "appId": 67,
-      "gameId": "shaolin-soccer",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "25",
-      "RTP": "96.93%",
-      "imgName": {
-        "en": "shaolin-soccer-EN.jpg",
-        "cs": "shaolin-soccer-CS.jpg",
-        "ch": "shaolin-soccer-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": false,
-      "new": false,
-      "featured": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
         "en": "Caishen Wins",
         "cs": "赢财神",
         "ch": "贏財神"
@@ -1296,7 +1096,7 @@
       "launchDate": null,
       "hot": true,
       "new": false,
-      "featured": false,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1345,31 +1145,6 @@
       },
       "launchDate": null,
       "hot": false,
-      "new": false,
-      "featured": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
-        "en": "Egypt's Book of Mystery",
-        "cs": "埃及探秘宝典",
-        "ch": "埃及探秘寶典"
-      },
-      "appId": 73,
-      "gameId": "egypts-book-mystery",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "Base bet 20 (32,400 ways)",
-      "RTP": "96.75%",
-      "imgName": {
-        "en": "egypts-book-mystery-EN.jpg",
-        "cs": "egypts-book-mystery-CS.jpg",
-        "ch": "egypts-book-mystery-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": true,
       "new": false,
       "featured": false,
       "imageExist": true,
