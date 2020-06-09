@@ -254,7 +254,7 @@
       "launchDate": "2019/02/21",
       "hot": false,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -658,7 +658,7 @@
       "launchDate": "2019/05/23",
       "hot": false,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1082,7 +1082,7 @@
       "launchDate": "2018/07/02",
       "hot": false,
       "new": true,
-      "featured":  true,
+      "featured": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -1491,7 +1491,7 @@
       "launchDate": "2020/03/04",
       "hot": false,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0

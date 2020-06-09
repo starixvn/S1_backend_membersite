@@ -14,14 +14,14 @@
       "paylines": "30",
       "RTP": "96.96%",
       "imgName": {
-        "en": "Honey-Trap-of-Diao-Chan-EN.jpg",
-        "cs": "Honey-Trap-of-Diao-Chan-cs.jpg",
-        "ch": "Honey-Trap-of-Diao-Chan-ch.jpg"
+        "en": "Honey-Trap-of-Diao-CSan-EN.jpg",
+        "cs": "Honey-Trap-of-Diao-CSan-cs.jpg",
+        "ch": "Honey-Trap-of-Diao-CSan-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -41,12 +41,12 @@
       "imgName": {
         "en": "fortune-gods-EN.jpg",
         "cs": "fortune-gods-cs.jpg",
-        "ch": "fortune-gods-ch.jpg"
+        "ch": "fortune-gods-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -64,14 +64,14 @@
       "paylines": "1",
       "RTP": "94.14%",
       "imgName": {
-        "en": "win-win-wo-EN.jpg",
-        "cs": "win-win-wo-cs.jpg",
-        "ch": "win-win-wo-ch.jpg"
+        "en": "win-win-won-EN.jpg",
+        "cs": "win-win-won-cs.jpg",
+        "ch": "win-win-won-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -91,12 +91,12 @@
       "imgName": {
         "en": "medusa2-EN.jpg",
         "cs": "medusa2-cs.jpg",
-        "ch": "medusa2-ch.jpg"
+        "ch": "medusa2-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -116,12 +116,12 @@
       "imgName": {
         "en": "peas-fairy-EN.jpg",
         "cs": "peas-fairy-cs.jpg",
-        "ch": "peas-fairy-ch.jpg"
+        "ch": "peas-fairy-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -141,12 +141,12 @@
       "imgName": {
         "en": "fortune-tree-EN.jpg",
         "cs": "fortune-tree-CS.jpg",
-        "ch": "fortune-tree-CH.jpg"
+        "ch": "fortune-tree-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -166,12 +166,12 @@
       "imgName": {
         "en": "joker-wild-EN.jpg",
         "cs": "joker-wild-CS.jpg",
-        "ch": "joker-wild-CH.jpg"
+        "ch": "joker-wild-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -191,12 +191,12 @@
       "imgName": {
         "en": "medusa-EN.jpg",
         "cs": "medusa-CS.jpg",
-        "ch": "medusa-CH.jpg"
+        "ch": "medusa-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -216,12 +216,12 @@
       "imgName": {
         "en": "blackjack-eu-EN.jpg",
         "cs": "blackjack-eu-CS.jpg",
-        "ch": "blackjack-eu-CH.jpg"
+        "ch": "blackjack-eu-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -241,12 +241,12 @@
       "imgName": {
         "en": "blackjack-us-EN.jpg",
         "cs": "blackjack-us-CS.jpg",
-        "ch": "blackjack-us-CH.jpg"
+        "ch": "blackjack-us-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -266,12 +266,12 @@
       "imgName": {
         "en": "plushie-frenzy-EN.jpg",
         "cs": "plushie-frenzy-CS.jpg",
-        "ch": "plushie-frenzy-CH.jpg"
+        "ch": "plushie-frenzy-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -291,12 +291,12 @@
       "imgName": {
         "en": "wizdom-wonders-EN.jpg",
         "cs": "wizdom-wonders-CS.jpg",
-        "ch": "wizdom-wonders-CH.jpg"
+        "ch": "wizdom-wonders-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -316,12 +316,12 @@
       "imgName": {
         "en": "gem-saviour-EN.jpg",
         "cs": "gem-saviour-CS.jpg",
-        "ch": "gem-saviour-CH.jpg"
+        "ch": "gem-saviour-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -341,12 +341,12 @@
       "imgName": {
         "en": "steam-punk-EN.jpg",
         "cs": "steam-punk-CS.jpg",
-        "ch": "steam-punk-CH.jpg"
+        "ch": "steam-punk-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -366,12 +366,12 @@
       "imgName": {
         "en": "summon-conquer-EN.jpg",
         "cs": "summon-conquer-CS.jpg",
-        "ch": "summon-conquer-CH.jpg"
+        "ch": "summon-conquer-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -391,12 +391,12 @@
       "imgName": {
         "en": "hood-wolf-EN.jpg",
         "cs": "hood-wolf-CS.jpg",
-        "ch": "hood-wolf-CH.jpg"
+        "ch": "hood-wolf-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -416,12 +416,12 @@
       "imgName": {
         "en": "hotpot-EN.jpg",
         "cs": "hotpot-CS.jpg",
-        "ch": "hotpot-CH.jpg"
+        "ch": "hotpot-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -441,12 +441,12 @@
       "imgName": {
         "en": "dragon-legend-EN.jpg",
         "cs": "dragon-legend-CS.jpg",
-        "ch": "dragon-legend-CH.jpg"
+        "ch": "dragon-legend-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -466,12 +466,12 @@
       "imgName": {
         "en": "mr-hallow-win-EN.jpg",
         "cs": "mr-hallow-win-CS.jpg",
-        "ch": "mr-hallow-win-CH.jpg"
+        "ch": "mr-hallow-win-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -491,12 +491,12 @@
       "imgName": {
         "en": "legend-of-hou-yi-EN.jpg",
         "cs": "legend-of-hou-yi-CS.jpg",
-        "ch": "legend-of-hou-yi-CH.jpg"
+        "ch": "legend-of-hou-yi-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -516,12 +516,12 @@
       "imgName": {
         "en": "restaurant-craze-EN.jpg",
         "cs": "restaurant-craze-CS.jpg",
-        "ch": "restaurant-craze-CH.jpg"
+        "ch": "restaurant-craze-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -541,12 +541,12 @@
       "imgName": {
         "en": "prosperity-lion-EN.jpg",
         "cs": "prosperity-lion-CS.jpg",
-        "ch": "prosperity-lion-CH.jpg"
+        "ch": "prosperity-lion-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -566,12 +566,12 @@
       "imgName": {
         "en": "hip-hop-panda-EN.jpg",
         "cs": "hip-hop-panda-CS.jpg",
-        "ch": "hip-hop-panda-CH.jpg"
+        "ch": "hip-hop-panda-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -591,12 +591,12 @@
       "imgName": {
         "en": "santas-gift-rush-EN.jpg",
         "cs": "santas-gift-rush-CS.jpg",
-        "ch": "santas-gift-rush-CH.jpg"
+        "ch": "santas-gift-rush-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -616,12 +616,12 @@
       "imgName": {
         "en": "baccarat-deluxe-EN.jpg",
         "cs": "baccarat-deluxe-CS.jpg",
-        "ch": "baccarat-deluxe-CH.jpg"
+        "ch": "baccarat-deluxe-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -641,12 +641,12 @@
       "imgName": {
         "en": "gem-saviour-sword-EN.jpg",
         "cs": "gem-saviour-sword-CS.jpg",
-        "ch": "gem-saviour-sword-CH.jpg"
+        "ch": "gem-saviour-sword-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -666,12 +666,12 @@
       "imgName": {
         "en": "piggy-gold-EN.jpg",
         "cs": "piggy-gold-CS.jpg",
-        "ch": "piggy-gold-CH.jpg"
+        "ch": "piggy-gold-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -691,12 +691,12 @@
       "imgName": {
         "en": "symbols-of-egypt-EN.jpg",
         "cs": "symbols-of-egypt-CS.jpg",
-        "ch": "symbols-of-egypt-CH.jpg"
+        "ch": "symbols-of-egypt-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -716,12 +716,12 @@
       "imgName": {
         "en": "emperors-favour-EN.jpg",
         "cs": "emperors-favour-CS.jpg",
-        "ch": "emperors-favour-CH.jpg"
+        "ch": "emperors-favour-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -741,12 +741,12 @@
       "imgName": {
         "en": "ganesha-gold-EN.jpg",
         "cs": "ganesha-gold-CS.jpg",
-        "ch": "ganesha-gold-CH.jpg"
+        "ch": "ganesha-gold-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -766,12 +766,12 @@
       "imgName": {
         "en": "three-monkeys-EN.jpg",
         "cs": "three-monkeys-CS.jpg",
-        "ch": "three-monkeys-CH.jpg"
+        "ch": "three-monkeys-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -791,12 +791,12 @@
       "imgName": {
         "en": "jungle-delight-EN.jpg",
         "cs": "jungle-delight-CS.jpg",
-        "ch": "jungle-delight-CH.jpg"
+        "ch": "jungle-delight-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -816,12 +816,12 @@
       "imgName": {
         "en": "tomb-of-treasure-EN.jpg",
         "cs": "tomb-of-treasure-CS.jpg",
-        "ch": "tomb-of-treasure-CH.jpg"
+        "ch": "tomb-of-treasure-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -841,12 +841,12 @@
       "imgName": {
         "en": "double-fortune-EN.jpg",
         "cs": "double-fortune-CS.jpg",
-        "ch": "double-fortune-CH.jpg"
+        "ch": "double-fortune-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -866,12 +866,12 @@
       "imgName": {
         "en": "wild-inferno-EN.jpg",
         "cs": "wild-inferno-CS.jpg",
-        "ch": "wild-inferno-CH.jpg"
+        "ch": "wild-inferno-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -891,12 +891,12 @@
       "imgName": {
         "en": "the-great-icescape-EN.jpg",
         "cs": "the-great-icescape-CS.jpg",
-        "ch": "the-great-icescape-CH.jpg"
+        "ch": "the-great-icescape-CS.jpg"
       },
       "launchDate": null,
       "hot": true,
       "new": false,
-      "featured": 0,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -916,12 +916,12 @@
       "imgName": {
         "en": "journey-to-the-wealth-EN.jpg",
         "cs": "journey-to-the-wealth-CS.jpg",
-        "ch": "journey-to-the-wealth-CH.jpg"
+        "ch": "journey-to-the-wealth-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -941,12 +941,12 @@
       "imgName": {
         "en": "captains-bounty-EN.jpg",
         "cs": "captains-bounty-CS.jpg",
-        "ch": "captains-bounty-CH.jpg"
+        "ch": "captains-bounty-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -966,12 +966,12 @@
       "imgName": {
         "en": "tiki-go-EN.jpg",
         "cs": "tiki-go-CS.jpg",
-        "ch": "tiki-go-CH.jpg"
+        "ch": "tiki-go-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -991,12 +991,12 @@
       "imgName": {
         "en": "leprechaun-riches-EN.jpg",
         "cs": "leprechaun-riches-CS.jpg",
-        "ch": "leprechaun-riches-CH.jpg"
+        "ch": "leprechaun-riches-CS.jpg"
       },
       "launchDate": null,
       "hot": true,
       "new": false,
-      "featured": 0,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1016,12 +1016,12 @@
       "imgName": {
         "en": "flirting-scholar-EN.jpg",
         "cs": "flirting-scholar-CS.jpg",
-        "ch": "flirting-scholar-CH.jpg"
+        "ch": "flirting-scholar-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1041,12 +1041,12 @@
       "imgName": {
         "en": "ninja-vs-samurai-EN.jpg",
         "cs": "ninja-vs-samurai-CS.jpg",
-        "ch": "ninja-vs-samurai-CH.jpg"
+        "ch": "ninja-vs-samurai-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1058,20 +1058,20 @@
         "ch": "拳霸"
       },
       "appId": 64,
-      "gameId": "muay-thai-champion",
+      "gameId": "muay-thai-CSampion",
       "category1": "Slots",
       "Reels": "",
       "paylines": "20",
       "RTP": "97.38%",
       "imgName": {
-        "en": "muay-thai-champion-EN.jpg",
-        "cs": "muay-thai-champion-CS.jpg",
-        "ch": "muay-thai-champion-CH.jpg"
+        "en": "muay-thai-CSampion-EN.jpg",
+        "cs": "muay-thai-CSampion-CS.jpg",
+        "ch": "muay-thai-CSampion-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1091,12 +1091,12 @@
       "imgName": {
         "en": "dragon-tiger-luck-EN.jpg",
         "cs": "dragon-tiger-luck-CS.jpg",
-        "ch": "dragon-tiger-luck-CH.jpg"
+        "ch": "dragon-tiger-luck-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1116,12 +1116,12 @@
       "imgName": {
         "en": "mahjong-ways-EN.jpg",
         "cs": "mahjong-ways-CS.jpg",
-        "ch": "mahjong-ways-CH.jpg"
+        "ch": "mahjong-ways-CS.jpg"
       },
       "launchDate": null,
       "hot": true,
       "new": false,
-      "featured": 0,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1141,12 +1141,12 @@
       "imgName": {
         "en": "dragon-hatch-EN.jpg",
         "cs": "dragon-hatch-CS.jpg",
-        "ch": "dragon-hatch-CH.jpg"
+        "ch": "dragon-hatch-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1166,12 +1166,12 @@
       "imgName": {
         "en": "fortune-mouse-EN.jpg",
         "cs": "fortune-mouse-CS.jpg",
-        "ch": "fortune-mouse-CH.jpg"
+        "ch": "fortune-mouse-CS.jpg"
       },
       "launchDate": null,
       "hot": true,
       "new": false,
-      "featured": 0,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1191,12 +1191,12 @@
       "imgName": {
         "en": "reel-love-EN.jpg",
         "cs": "reel-love-CS.jpg",
-        "ch": "reel-love-CH.jpg"
+        "ch": "reel-love-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1216,12 +1216,12 @@
       "imgName": {
         "en": "gem-saviour-conques-EN.jpg",
         "cs": "gem-saviour-conques-CS.jpg",
-        "ch": "gem-saviour-conques-CH.jpg"
+        "ch": "gem-saviour-conques-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1241,12 +1241,12 @@
       "imgName": {
         "en": "shaolin-soccer-EN.jpg",
         "cs": "shaolin-soccer-CS.jpg",
-        "ch": "shaolin-soccer-CH.jpg"
+        "ch": "shaolin-soccer-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1264,14 +1264,14 @@
       "paylines": "Base bet 20 (32,400ways)",
       "RTP": "96.92%",
       "imgName": {
-        "en": "cai-shen-wins-EN.jpg",
-        "cs": "cai-shen-wins-CS.jpg",
-        "ch": "cai-shen-wins-CH.jpg"
+        "en": "caishen-wins-EN.jpg",
+        "cs": "caishen-wins-CS.jpg",
+        "ch": "caishen-wins-CS.jpg"
       },
       "launchDate": null,
       "hot": true,
       "new": false,
-      "featured": 0,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1291,12 +1291,12 @@
       "imgName": {
         "en": "candy-burst-EN.jpg",
         "cs": "candy-burst-CS.jpg",
-        "ch": "candy-burst-CH.jpg"
+        "ch": "candy-burst-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1316,12 +1316,12 @@
       "imgName": {
         "en": "bikini-paradise-EN.jpg",
         "cs": "bikini-paradise-CS.jpg",
-        "ch": "bikini-paradise-CH.jpg"
+        "ch": "bikini-paradise-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1341,12 +1341,12 @@
       "imgName": {
         "en": "mahjong-ways2-EN.jpg",
         "cs": "mahjong-ways2-CS.jpg",
-        "ch": "mahjong-ways2-CH.jpg"
+        "ch": "mahjong-ways2-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1366,12 +1366,12 @@
       "imgName": {
         "en": "egypts-book-mystery-EN.jpg",
         "cs": "egypts-book-mystery-CS.jpg",
-        "ch": "egypts-book-mystery-CH.jpg"
+        "ch": "egypts-book-mystery-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1391,12 +1391,12 @@
       "imgName": {
         "en": "ganesha-fortune-EN.jpg",
         "cs": "ganesha-fortune-CS.jpg",
-        "ch": "ganesha-fortune-CH.jpg"
+        "ch": "ganesha-fortune-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1416,12 +1416,12 @@
       "imgName": {
         "en": "cards-hi-lo-EN.jpg",
         "cs": "cards-hi-lo-CS.jpg",
-        "ch": "cards-hi-lo-CH.jpg"
+        "ch": "cards-hi-lo-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": 0,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
