@@ -343,7 +343,14 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult();
             try
             {
-                result.ErrorCode = 0;
+                if (User.Identity.IsAuthenticated)
+                {
+                    result.ErrorCode = 0;
+                }
+                else
+                {
+                    result.ErrorCode = -1;
+                }
             }
             catch (Exception ex)
             {
