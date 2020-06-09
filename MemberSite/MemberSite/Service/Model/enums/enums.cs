@@ -155,7 +155,10 @@ namespace MemberSite.Service.Model.enums
         YL = 7,
         YGG = 8,
         Joker = 9,
-        SG = 10
+        SG = 10,
+        Allbet = 12,
+        PG = 14,
+        Sexy = 15
     }
     public enum GameType
     {

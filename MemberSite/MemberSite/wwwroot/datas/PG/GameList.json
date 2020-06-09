@@ -894,7 +894,7 @@
         "ch": "the-great-icescape-CH.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": 0,
       "imageExist": true,
@@ -994,7 +994,7 @@
         "ch": "leprechaun-riches-CH.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": 0,
       "imageExist": true,
@@ -1119,7 +1119,7 @@
         "ch": "mahjong-ways-CH.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": 0,
       "imageExist": true,
@@ -1169,7 +1169,7 @@
         "ch": "fortune-mouse-CH.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": 0,
       "imageExist": true,
@@ -1269,7 +1269,7 @@
         "ch": "cai-shen-wins-CH.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": 0,
       "imageExist": true,

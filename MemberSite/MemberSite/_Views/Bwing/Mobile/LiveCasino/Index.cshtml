@@ -60,28 +60,34 @@
         <p class="title">Game List</p>
         <div class="game-list">
             <div class="item">
-                <a href="@Html.Raw(GetEntPageUrl(2, "2"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
-                    <img src="@SkinRootPath/assets/images/page/live-game-1.png" alt="product" />
-                </a>
-                <span class="game-title">@selLangBLL.GetResourceValue("lbl_SACasino")</span>
-            </div>
-            <div class="item">
-                <a href="@Html.Raw(GetEntPageUrl(3, "3"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
-                    <img src="@SkinRootPath/assets/images/page/live-game-2.png" alt="product" />
-                </a>
-                <span class="game-title">@selLangBLL.GetResourceValue("lbl_AGCasino")</span>
-            </div>
-            <div class="item">
                 <a href="@Html.Raw(GetEntPageUrl(4, "4"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
-                    <img src="@SkinRootPath/assets/images/page/live-game-3.png" alt="product" />
+                    <img src="@SkinRootPath/assets/images/page/live-game-3.jpg" alt="product" />
                 </a>
                 <span class="game-title">@selLangBLL.GetResourceValue("lbl_DGCasino")</span>
             </div>
             <div class="item">
                 <a href="@Html.Raw(GetEntPageUrl(12,"12"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
-                    <img src="@SkinRootPath/assets/images/page/live-game-4.png" alt="product" />
+                    <img src="@SkinRootPath/assets/images/page/live-game-4.jpg" alt="product" />
                 </a>
                 <span class="game-title">@selLangBLL.GetResourceValue("lbl_AllbetCasino")</span>
+            </div>
+            <div class="item">
+                <a href="@Html.Raw(GetEntPageUrl(3, "3"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                    <img src="@SkinRootPath/assets/images/page/live-game-2.jpg" alt="product" />
+                </a>
+                <span class="game-title">@selLangBLL.GetResourceValue("lbl_AGCasino")</span>
+            </div>
+            <div class="item">
+                <a href="@Html.Raw(GetEntPageUrl(5, "101"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                    <img src="@SkinRootPath/assets/images/page/live-game-5.jpg" alt="product" />
+                </a>
+                <span class="game-title">@selLangBLL.GetResourceValue("lbl_PPCasino")</span>
+            </div>
+            <div class="item">
+                <a href="@Html.Raw(GetEntPageUrl(2, "2"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                    <img src="@SkinRootPath/assets/images/page/live-game-1.jpg" alt="product" />
+                </a>
+                <span class="game-title">@selLangBLL.GetResourceValue("lbl_SACasino")</span>
             </div>
         </div>
     </div>
