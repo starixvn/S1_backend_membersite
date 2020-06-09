@@ -57,7 +57,8 @@ module.exports = {
 		],
 		"desktop/cashier/TransferPanel.min": [
 			"./src/desktop/cashier/transfer.js"
-		]
+		],
+		"desktop/message/announcement/marquee.min": ["./src/desktop/marquee.js"]
 	},
 	output: {
 		path: path.resolve(
