@@ -61,8 +61,8 @@ module.exports = {
 		"desktop/message/announcement/marquee.min": [
 			"./src/desktop/marquee.js"
 		],
-		"../../../../SiteSkin/Bwing/js/after.min": [
-			"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Desktop/after.js"
+		"../../../SiteSkin/Bwing/Desktop/js/after.min": [
+			"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Desktop/js/after.js"
 		]
 	},
 	output: {
