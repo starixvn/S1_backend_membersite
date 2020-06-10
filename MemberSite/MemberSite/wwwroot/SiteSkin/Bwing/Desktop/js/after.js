@@ -1,7 +1,9 @@
+import {number_format} from '../../../Js/commJS/common';
+
 (function($, i18n, axios) {
     var _this = this;
     var isLogout = false;
-    var _WalletInfo = {};
+    var _WalletInfo = null;
 
     $(".icon-logout").on("touchstart, click", function () {
         axios.post('/api/Account/SignOut')
@@ -107,13 +109,14 @@
     };
     
     var setWalletInfo = function(walletInfo) {
+        _WalletInfo = walletInfo;
         if(walletInfo.isHideBalance) {
             $(".Js-Balance-Top").html('');
         } else {
             $(".Js-Balance-Top").html(walletInfo.balance);
         }
         $("#show-cash").prop('checked', !walletInfo.isHideBalance);
-        $(".Js-Balance").html(walletInfo.balance);
+        $(".Js-Balance").html(`${walletInfo.balance}<i class="icon icon-refresh"></i>`);
         $(".Js-LastLoginTime").html(moment(walletInfo.lastLoginTime).format('l LTS'));
         $(".Js-LastTransaction").html(moment(walletInfo.lastTransaction).format('l LTS'));
         $(".dropdown-wallet > .wallet-item:not(.wallet-main)").remove();
@@ -125,15 +128,17 @@
     }    
 
     var onHideBalance = function() {
-        let walletInfo = _WalletInfo;
+        var walletInfo = _WalletInfo;
         if(walletInfo != null) {
             axios.get('/api/Account/SetHideBalance',{ params: {value:!walletInfo.isHideBalance} });
             walletInfo.isHideBalance = !walletInfo.isHideBalance;
-            
+            console.log(walletInfo.isHideBalance);
             if(walletInfo.isHideBalance) {
                 $(".Js-Balance-Top").html('');
+                console.log("a");
             } else {
                 $(".Js-Balance-Top").html(walletInfo.balance);
+                console.log(walletInfo.balance);
             }
         }
     }    

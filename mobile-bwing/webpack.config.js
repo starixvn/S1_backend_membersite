@@ -58,7 +58,12 @@ module.exports = {
 		"desktop/cashier/TransferPanel.min": [
 			"./src/desktop/cashier/transfer.js"
 		],
-		"desktop/message/announcement/marquee.min": ["./src/desktop/marquee.js"]
+		"desktop/message/announcement/marquee.min": [
+			"./src/desktop/marquee.js"
+		],
+		"../../../../SiteSkin/Bwing/js/after.min": [
+			"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Desktop/after.js"
+		]
 	},
 	output: {
 		path: path.resolve(
