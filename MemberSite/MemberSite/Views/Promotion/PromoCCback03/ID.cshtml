@@ -1,0 +1,203 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+@section Style{
+    <style>
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            /* Style the buttons that are used to open the tab content */
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                transition: 0.3s;
+            }
+
+                /* Change background color of buttons on hover */
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                /* Create an active/current tablink class */
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border-top: none;
+        }
+    </style>
+}
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-ccback03.jpg.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2>Cash back Kasino 3%</h2>
+            
+        </div>
+        <div class="promotions-module">
+             <span class="promotions-title">Ketentuan Umum</span>
+                <ol type="a">
+                    <li>Promosi berlaku mulai tanggal 09 Juni 2020 pukul 12:00AM Sampai ada pemberitahuan selanjutnya.<br><br></li>
+                    <li>Batas akhir promosi ini setiap Selasa di pukul 11:59:59 AM (GMT+8)<br><br></li>
+                    <li>Live Kasino Cash back 3% dihitung dari Total Kekalahan member setiap minggu dari Selasa hingga Senin.<br><br></li>
+                    <li>Semua Member Nova88 berhak mendapatakan cashback 3% berdasarkan status "KEKALAHAN" di Nova88 pada Product Casino setiap minggunya.<br><br></li>
+                    <li>Anggota diharuskan mencapai sekali rollover (1x) untuk bonus cashback setelah dikreditkan kepada anggota, sebelum melakukan penarikan.<br><br></li>
+                    <li>Dana anda akan dikreditkan ke akun Member Nova88 yang memenuhi syarat setiap hari Selasa dalam waktu 48 jam.<br><br></li>
+                </ol>
+
+            <span class="promotions-title">Ketentuan Bonus :</span>
+            
+            <div class="table table-rwd table-primary">
+                <div class="thead">
+                    <div class="tr">
+                        <div class="td-date">
+                            <span class="text">Bonus 0.3% (currencies)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">Minimum Payout (capped)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">Maximum Payout (capped)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">Turnover</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">Malaysia</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">MYR 10</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">MYR 3000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">Indonesia</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">IDR 30,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">IDR10,000,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">Thailand</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">THB 100</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">THB 20,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">China</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">RMB 15</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">RMB 5000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br><br>
+
+            <span class="promotions-title">syarat dan Ketentuan :</span>
+                <ol type="1">
+                    <li>promosi berlaku untuk semua member Nova88<br><br></li>
+                    <li>Member yang berpartisipasi harus mematuhi semua persyaratan yang disebutkan di atas serta semua peraturan dan ketentuan yang dinyatakan di situs web Nova88.<br><br></li>
+                    <li>Nova88 berhak untuk mengubah promosi kapanpun.<br><br></li>
+                    <li>Nova88 adalah penyelenggara tunggal Promosi dan keputusannya adalah final.<br><br></li>
+                    <li>syarat dan ketentuan nova88 berlaku<br><br></li>
+                </ol>
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script>
+        openPromo(event, "Promo1");
+        //document.getElementById('Promo1').focus();
+        function openPromo(evt, PromoName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(PromoName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+    </script>
+}
