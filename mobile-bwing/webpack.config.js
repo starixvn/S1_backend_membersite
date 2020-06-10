@@ -63,7 +63,11 @@ module.exports = {
 		],
 		"../../../SiteSkin/Bwing/Desktop/js/after.min": [
 			"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Desktop/js/after.js"
+		],
+		"../../../SiteSkin/Bwing/Desktop/js/before.min": [
+			"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Mobile/js/before.js"
 		]
+		
 	},
 	output: {
 		path: path.resolve(
