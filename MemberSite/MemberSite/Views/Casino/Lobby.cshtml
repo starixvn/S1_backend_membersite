@@ -28,11 +28,20 @@
                     <img src="@CmsEventPath/event-pp-20200508.png" asp-append-version="true" />
                 </a>
             </div>
-            @*<div class="swiper-slide">
-                <a href="@Url.RouteUrl("desktop", new { action = "event", controller = "events", LangId = selLangBLL.GetLangId(), eventName="YGG" })" target="_eventYGG">
-                    <img src="@CmsEventPath/event-ygg-20200508.png" asp-append-version="true" />
-                </a>
-            </div>*@
+            <div class="swiper-slide">
+                @if (selLangBLL.GetLangId() == "cs" || selLangBLL.GetLangId() == "ch")
+                {
+                    <a href="http://event-tw.248ka.com/20200519/index.html" target="_eventYGG">
+                        <img src="@CmsEventPath/event-ygg-20200612.jpg" asp-append-version="true" />
+                    </a>
+                }
+                else
+                {
+                    <a href="http://event-tw.248ka.com/20200526/index.html" target="_eventYGG">
+                        <img src="@CmsEventPath/event-ygg-20200612.jpg" asp-append-version="true" />
+                    </a>
+                }
+            </div>
         </div>
         <div class="swiper-pagination"></div>
     </div>
