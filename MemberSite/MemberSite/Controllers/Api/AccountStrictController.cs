@@ -213,7 +213,8 @@ namespace MemberSite.Controllers.Api
                     Country = custInfo.CountryCode,
                     custInfo.PhoneNo,
                     PerCountry = _perCountry,
-                    custInfo.CurrencyId
+                    custInfo.CurrencyId,
+                    langId = custInfo.UserLang
                 };
 
                 apiResult.ErrorCode = 0;
