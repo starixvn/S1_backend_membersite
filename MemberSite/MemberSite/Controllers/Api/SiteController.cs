@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
@@ -241,23 +242,39 @@ namespace MemberSite.Controllers.Api
         public class ForgetPwdReq
         {
             public string Email { get; set; }
+            public string Username { get; set; }
         }
         [HttpPost]
-        public async Task<ApiResult> ForgetPwdAsync(ForgetPwdReq forgetPwdReq)
+        public ApiResult ForgetPwd(ForgetPwdReq forgetPwdReq)
         {
             var apiResult = new ApiResult<bool>(selLangBLL);
             try
             {
-                var custInfo = custInfoBLL.GetCustInfoByMail(forgetPwdReq.Email);
+
+                Customer custInfo = null;
+                if (!string.IsNullOrEmpty(forgetPwdReq.Username))
+                {
+                    custInfo = custInfoBLL.GetCustInfoByUserName(forgetPwdReq.Username);
+                }
+                else
+                {
+                    custInfo = custInfoBLL.GetCustInfoByMail(forgetPwdReq.Email);
+                }
+
                 if (custInfo == null)
                 {
                     apiResult.Message = selLangBLL.GetMsg("ForgetPwdFail");
                 }
                 else
                 {
-                    await custInfoBLL.ForgetPwdAsync(custInfo.CustId);
+                    var custInfoProfile = custInfoBLL.GetCustInfoProfile(custInfo.CustId);
 
-                    apiResult.Message = selLangBLL.GetMsg("ForgetPwdSuccess");
+                    string pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
+                    string result = Regex.Replace(custInfoProfile.Email, pattern, m => new string('*', m.Length));
+
+                    custInfoBLL.ForgetPwd1(custInfo.CustId);
+
+                    apiResult.Message = $"Has send to {result}.";//selLangBLL.GetMsg("ForgetPwdSuccess");
                     apiResult.ErrorCode = 0;
                 }
             }
