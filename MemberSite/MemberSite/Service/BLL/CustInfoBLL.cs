@@ -29,11 +29,12 @@ namespace MemberSite.Service.BLL
         private readonly CodeGenerator codeGenerator;
         private readonly SelLangBLL selLangBLL;
         private readonly RolloverService rollOverService;
+        private readonly CommonBLL commonBLL;
         private readonly Dictionary<int, bool> isConvert = new Dictionary<int, bool>()
             {
                 {51,false },{15,false }
             };
-        public CustInfoBLL(IMemoryCache cache, IWebHostEnvironment environment, SelLangBLL selLangBLL, CodeGenerator codeGenerator, Tools tools, Common common, CustInfoService custInfoService, AuthenticateService authenticateService, ServerInfoBLL serverInfoBLL, RolloverService rollOverService, AgentInfoService agentInfoService, RegexUtilities regexUtilities)
+        public CustInfoBLL(IMemoryCache cache, IWebHostEnvironment environment, SelLangBLL selLangBLL, CodeGenerator codeGenerator, Tools tools, Common common, CustInfoService custInfoService, AuthenticateService authenticateService, ServerInfoBLL serverInfoBLL, RolloverService rollOverService, AgentInfoService agentInfoService, RegexUtilities regexUtilities, CommonBLL commonBLL)
         {
             this.tools = tools;
             this.custInfoService = custInfoService;
@@ -47,6 +48,7 @@ namespace MemberSite.Service.BLL
             this.codeGenerator = codeGenerator;
             this.selLangBLL = selLangBLL;
             this.rollOverService = rollOverService;
+            this.commonBLL = commonBLL;
         }
         public bool IsConvertRequired(int CurrencyId)
         {
@@ -140,6 +142,27 @@ namespace MemberSite.Service.BLL
             }
         }
 
+        public Customer GetCustInfoByUserName(string userName)
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            string key = $"CustInfoByUserName.{serverInfo.SiteId}.{userName}";
+            var customer = cache.Get<Customer>(key);
+            if (customer != null)
+            {
+                return customer;
+            }
+
+            customer = custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId);
+
+            if (customer != null)
+            {
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetSlidingExpiration(TimeSpan.FromMinutes(1));
+                cache.Set(key, customer, cacheEntryOptions);
+            }
+
+            return customer;
+        }
         public int UserLogin(string userName, string pwd, string ip, string fromUrl, string userAgent, ref Customer customer, out string token)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
@@ -152,6 +175,27 @@ namespace MemberSite.Service.BLL
             else if (customer.Userpwd != tools.MD5Encrypt(pwd))
             {
                 return -2;
+            }
+            else if (customer.Status == (int)CustStatus.Suspend || customer.Status == (int)CustStatus.Closed)
+            {
+                return -3;
+            }
+            else
+            {
+                authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, out token);
+                authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
+                return 0;
+            }
+        }
+
+        public int UserLoginForResetPwd(string userName, string ip, string fromUrl, string userAgent, ref Customer customer, out string token)
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            customer = custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId);
+            token = null;
+            if (customer == null)
+            {
+                return -1;
             }
             else if (customer.Status == (int)CustStatus.Suspend || customer.Status == (int)CustStatus.Closed)
             {
@@ -354,6 +398,10 @@ namespace MemberSite.Service.BLL
 
                 await common.SendMailAsync(serverInfo.SiteName, null, custInfo.UserName, custInfoProfile.Email, selLangBLL.GetResourceValue("lbl_ForgetPassword"), MailBody);
             }
+        }
+        public void ForgetPwd1(int custId)
+        {
+            commonBLL.SendResetPwdMail(custId);
         }
         public CustRollOver GetCustRollOver(int custId, string bonusCode)
         {
