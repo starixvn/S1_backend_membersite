@@ -485,7 +485,7 @@ class TransferPanel extends React.Component {
 									/>
 								</div>
 							</div>
-							<div className="btn-group">
+							<div className="button-group">
 								<div className="button-group">
 									<button
 										className="btn btn-primary"

@@ -32,7 +32,7 @@ class HistoryBody extends React.Component {
 					(item.status == 1 || item.status == 7)
 				) {
 					btnGroup = (
-						<div className="btn-group">
+						<div className="button-group">
 							<button
 								className="btn btn-primary"
 								type="button"
@@ -70,15 +70,21 @@ class HistoryBody extends React.Component {
 
 				return (
 					<tr key={index}>
-						<td>
+						<td className="td-date">
 							{dateMonent.format("l")} ({dateMonent.format("Z")})
 						</td>
-						<td>{dateMonent.format("hh:mm:ss A")}</td>
-						<td>{item.transId}</td>
-						<td>{i18n["lbl_DepositType" + item.depositType]}</td>
-						<td>{number_format(item.amount.toFixed(2))}</td>
-						<td>{statusGroup}</td>
-						<td>{btnGroup}</td>
+						<td className="td-time">
+							{dateMonent.format("hh:mm:ss A")}
+						</td>
+						<td className="td-id">{item.transId}</td>
+						<td className="td-method">
+							{i18n["lbl_DepositType" + item.depositType]}
+						</td>
+						<td className="td-amount">
+							{number_format(item.amount.toFixed(2))}
+						</td>
+						<td className="td-status">{statusGroup}</td>
+						<td className="td-btn">{btnGroup}</td>
 					</tr>
 				);
 			}.bind(this)
