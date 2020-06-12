@@ -300,7 +300,10 @@ namespace MemberSite.Service.BLL
                 return 0;
             }
         }
-
+        public bool SetResetPwd(int custId, string md5NewPassword)
+        {
+            return custInfoService.SetResetPwd(custId, md5NewPassword);
+        }
         public int SetProfile(int custId, Dictionary<string, string> custProfile)
         {
             var custInfo = GetCustInfoWithCache(custId);
