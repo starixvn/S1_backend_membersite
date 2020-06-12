@@ -127,11 +127,11 @@ import { number_format } from "../../../../js/component/commJS/common";
 		if (walletInfo.isHideBalance) {
 			$(".Js-Balance-Top").html("");
 		} else {
-			$(".Js-Balance-Top").html(walletInfo.balance);
+			$(".Js-Balance-Top").html(number_format(walletInfo.balance));
 		}
 		$("#show-cash").prop("checked", !walletInfo.isHideBalance);
 		$(".Js-Balance").html(
-			`${walletInfo.balance}<i class="icon icon-refresh"></i>`
+			`${number_format(walletInfo.balance)}<i class="icon icon-refresh"></i>`
 		);
 		$(".Js-LastLoginTime").html(
 			moment(walletInfo.lastLoginTime).format("l LTS")
@@ -144,7 +144,7 @@ import { number_format } from "../../../../js/component/commJS/common";
 			var tpName = walletInfo.tpWallets[i].tpName;
 			var tpBalance = walletInfo.tpWallets[i].balance;
 			$(
-				`<div class="wallet-item"><label>${tpName}</label><span>${tpBalance}</span></div>`
+				`<div class="wallet-item"><label>${tpName}</label><span>${number_format(tpBalance)}</span></div>`
 			).insertAfter(".dropdown-wallet > .wallet-item.wallet-main");
 		}
 	};
@@ -156,13 +156,11 @@ import { number_format } from "../../../../js/component/commJS/common";
 				params: { value: !walletInfo.isHideBalance }
 			});
 			walletInfo.isHideBalance = !walletInfo.isHideBalance;
-			console.log(walletInfo.isHideBalance);
+
 			if (walletInfo.isHideBalance) {
 				$(".Js-Balance-Top").html("");
-				console.log("a");
 			} else {
-				$(".Js-Balance-Top").html(walletInfo.balance);
-				console.log(walletInfo.balance);
+				$(".Js-Balance-Top").html(number_format(walletInfo.balance));
 			}
 		}
 	};
