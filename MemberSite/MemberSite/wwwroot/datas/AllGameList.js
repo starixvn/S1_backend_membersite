@@ -6,7 +6,8 @@ const dataList = {
     Joker:require('./Joker/GameList.json'),
     SG:require('./SG/GameList.json'),
     PP: require('./PP/GameList.json'),
-    PG: require('./PG/GameList.json')
+    PG: require('./PG/GameList.json'),
+    CQ9: require('./CQ9/GameList.json'),
 }
 
 export const GamesByProvider = (_provider)=>{
