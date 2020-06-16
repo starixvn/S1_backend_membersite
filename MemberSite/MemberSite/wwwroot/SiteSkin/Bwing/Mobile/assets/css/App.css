@@ -1227,6 +1227,27 @@ body {
   color: #000;
 }
 
+.menu-footer .footer-support {
+  margin-top: 3rem;
+}
+
+.menu-footer .languages {
+  margin-top: 3rem;
+}
+
+.menu-footer .languages .languages-box::after {
+  top: 1.3rem;
+}
+
+.menu-footer .languages .language-dropdown {
+  position: relative;
+  top: 2px;
+}
+.menu-footer .languages-box .lang-list {
+  right: unset;
+  left: -10px;
+}
+
 /* ----------- Live Support ------------- */
 .live-suport {
   position: fixed;

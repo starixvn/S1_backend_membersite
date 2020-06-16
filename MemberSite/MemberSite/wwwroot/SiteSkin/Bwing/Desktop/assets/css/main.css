@@ -1351,6 +1351,7 @@ a {
 .footer .languages {
   border: 0;
   padding-left: 0;
+  padding-top: 2.4rem;
   font-size: 1.4rem;
 }
 
@@ -1361,7 +1362,7 @@ a {
 .menu-footer {
   display: grid;
   padding-bottom: 2rem;
-  grid-template-columns: 19rem 24rem 21rem 17rem 1fr;
+  grid-template-columns: 19rem 24rem 23rem 17rem 1fr;
 }
 
 .menu-footer .item {
