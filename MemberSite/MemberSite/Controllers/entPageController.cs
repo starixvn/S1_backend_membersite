@@ -68,7 +68,7 @@ namespace MemberSite.Controllers
                     inputs.Add("Balance", tools.Floor(balance, 2).ToString());
                     inputs.Add("Token", authData.Token);
                 }
-                else if (tpId == (int)Tp.YGG || tpId == (int)Tp.SG)
+                else if (tpId == (int)Tp.YGG || tpId == (int)Tp.SG || tpId == (int)Tp.PG)
                 {
                     inputs.Add("Token", authData.Token);
                 }

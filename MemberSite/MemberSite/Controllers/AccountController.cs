@@ -26,5 +26,9 @@ namespace MemberSite.Controllers
         {
             return View();
         }
+        public IActionResult ResetPwd()
+        {
+            return View();
+        }
     }
 }

@@ -186,12 +186,12 @@
         "en": "Brazil-Bomba-EN.jpg"
       },
       "launchDate": "2020/02/20",
-      "hot": true,
+      "hot": false,
       "new": true,
       "featured": false,
       "imageExist": true,
       "Isfun": 1,
-      "promotion":  0
+      "promotion": 0
     },
     {
       "name": {
@@ -254,7 +254,7 @@
       "launchDate": "2019/02/21",
       "hot": true,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -553,7 +553,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -658,9 +658,10 @@
       "launchDate": "2019/05/23",
       "hot": true,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 0
     },
     {
       "name": {
@@ -1040,7 +1041,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -1081,7 +1082,7 @@
       "launchDate": "2018/07/02",
       "hot": true,
       "new": true,
-      "featured":  true,
+      "featured": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -1104,7 +1105,8 @@
       "hot": false,
       "new": true,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 1
     },
     {
       "name": {
@@ -1126,7 +1128,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 0,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -1169,7 +1171,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion":  1
+      "promotion": 0
     },
     {
       "name": {
@@ -1298,7 +1300,7 @@
       "featured": true,
       "imageExist": true,
       "Isfun": 0,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -1320,7 +1322,8 @@
       "new": true,
       "featured": true,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 1
     },
     {
       "name": {
@@ -1363,7 +1366,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion":  1
+      "promotion": 0
     },
     {
       "name": {
@@ -1470,7 +1473,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion":  1
+      "promotion": 0
     },
     {
       "name": {
@@ -1490,9 +1493,10 @@
       "launchDate": "2020/03/04",
       "hot": true,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 0
     },
     {
       "name": {
@@ -1514,7 +1518,8 @@
       "new": true,
       "featured": false,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 0
     },
     {
       "name": {
@@ -1536,7 +1541,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion":  1
+      "promotion": 0
     },
     {
       "name": {
@@ -1559,7 +1564,99 @@
       "featured": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion":  1
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Neon Rush: Splitz",
+        "cs": "霓虹冲锋",
+        "ch": "霓虹冲锋"
+      },
+      "appId": "7381",
+      "gameId": "7381",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "10",
+      "RTP": "96.30%",
+      "imgName": {
+        "en": "Neon-Rush-EN.jpg"
+      },
+      "launchDate": "2020/04/24",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 1
+    },
+    {
+      "name": {
+        "en": "Arthur's Fortune",
+        "cs": "阿瑟的宝藏",
+        "ch": "阿瑟的宝藏"
+      },
+      "appId": "7384",
+      "gameId": "7384",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Arthur-Fortune-EN.jpg"
+      },
+      "launchDate": "2020/05/22",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Wilhelm Tell",
+        "cs": "威廉英雄传说",
+        "ch": "威廉英雄传说"
+      },
+      "appId": "7362",
+      "gameId": "7362",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "97.00%",
+      "imgName": {
+        "en": "Wilhelm-Tell-EN.jpg"
+      },
+      "launchDate": "2020/04/16",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Blood Moon Wilds",
+        "cs": "噬血之月",
+        "ch": "噬血之月"
+      },
+      "appId": "8306",
+      "gameId": "8306",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "20",
+      "RTP": "96.20%",
+      "imgName": {
+        "en": "Blood-Moon-Wilds-EN.jpg"
+      },
+      "launchDate": "2020/05/8",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
     }
   ]
 }

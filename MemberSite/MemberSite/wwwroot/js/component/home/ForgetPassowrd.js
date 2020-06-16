@@ -4,7 +4,7 @@ import * as Loading from '../commJS/Loading.jsx';
     $("#ForgetPassowrd").submit(function(event){
         event.preventDefault();
         Loading.OnLoading();
-        axios.post('/api/Site/ForgetPwd', {Email:$("#email").val()})
+        axios.post('/api/Site/ForgetPwd', {Username:$("#Username").val()})
         .then(function (response) {
             Loading.UnLoading();
             let result = response.data;

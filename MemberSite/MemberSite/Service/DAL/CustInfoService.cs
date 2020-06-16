@@ -151,7 +151,7 @@ namespace MemberSite.Service.DAL
         public bool SetResetPwd(int custId, string md5NewPassword)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("Admin_ResetPwd_Set", new { CustId = custId, Md5NewPassword = md5NewPassword }, commandType: CommandType.StoredProcedure) > 0;
+            return conn.Execute("Member_ResetPwd_Set", new { CustId = custId, Md5NewPassword = md5NewPassword }, commandType: CommandType.StoredProcedure) > 0;
         }
     }
 }

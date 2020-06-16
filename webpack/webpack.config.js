@@ -36,6 +36,9 @@ module.exports = {
     "js/component/account/ChangePwd.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/account/ChangePwd/ChangePwd.jsx'
 		],
+    "js/component/account/ResetPwd.min":[
+			'../MemberSite/MemberSite/wwwroot/js/component/account/ResetPwd.jsx'
+		],    
     "js/component/account/CustBankInfo.min":[
 			'../MemberSite/MemberSite/wwwroot/js/component/account/CustBankInfo.jsx'
 		],

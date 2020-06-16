@@ -1,0 +1,229 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@inject AuthorizeBLL authorizeBLL
+@inject PromotionBLL promotionBLL
+@inject CustInfoBLL custInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
+    int CurrencyId = 0;
+    long ExpiryTime = 0;
+    Promotion promotion = null;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
+
+        promotion = promotionBLL.GetPromotionListByCustId(custId).FirstOrDefault();
+    }
+    else
+    {
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+        promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
+    }
+
+    if (promotion.BonusInfoStatus != 1)
+    {
+        ExpiryTime = promotion.PeriodTo;
+    }
+    else
+    {
+        ExpiryTime = new DateTimeOffset(promotion.ExpiryTime.ToUniversalTime(), TimeSpan.Zero).ToUnixTimeSeconds();
+    }
+    var Currency = selLangBLL.GetResourceValue($"lbl_Currency_{CurrencyId}");
+}
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_PromotionInfo")</span>
+        </div>
+        <div class="promotions-module">
+            <article>
+                <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+                    @if (CurrencyId == 13)
+                    {
+                        <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-promo08.jpg" alt="" style="display: block;width: 100%;" />
+                    }
+                    else
+                    {
+                        <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-@(promotion.BonusCode).jpg" alt="" style="display: block;width: 100%;" />
+                    }
+                </div><br><br>
+                <div class="promotions-txt">
+                    <ul>
+                        <li class="txt-blue">@promotion.Title</li>
+                        <li class="txt-gray">
+                            Selamat menikmati maksimal bonus @Currency @promotion.MaxBonus.ToString("#,##0") dengan deposit anda yang pertama pada @serverInfo.SiteName! Mari bergabung SEKARANG!
+                        </li>
+                        <li>
+                            <div class="promotions-type">
+                                <ul class="txt-gray">
+                                    <li>
+                                        <i class="icon icon-transaction"></i>BONUS
+                                        <span class="txt-org">@Currency @promotion.Bonus.ToString("#,##0")%</span>
+                                    </li>
+                                    <li>
+                                        <i class="icon icon-gototop"></i>JUMLAH MAKSIMAL BONUS
+                                        <span class="txt-org">@Currency @promotion.MaxBonus.ToString("#,##0")</span>
+                                    </li>
+                                    <li>
+                                        <i class="icon icon-sport252"></i>PERPUTARAN
+                                        <span class="txt-org">@(promotion.RollOver)x</span>
+                                    </li>
+                                    <li>
+                                        <i class="icon icon-race"></i>SISA WAKTU
+                                        <span class="txt-org" id="REMAINING"></span>
+                                    </li>
+                                    @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
+                                    {
+                                    <li>
+                                        <div class="btn-group">
+                                            <button class="btn btn-secondary" id="JOIN">
+                                                <div class="btn__inner">
+                                                    <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </li>
+                                    }
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </article>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">Syarat dan Kondisi Penting</span>
+
+            <ol type="1">
+                <li>Promosi ini hanya berlaku untuk akun pemain dengan mata uang @Currency;</li>
+                <li>Promosi ini dimulai Dari Sampai <span id="ExpiryTime"></span> (“Periode Promosi”).</li>
+                <li>Untuk memenuhi syarat, Pemain harus melakukan Deposit awal dan Pemain tidak boleh melakukan penarikan terlebih dahulu.</li>
+                <li>
+                    Bonus hingga @Currency @promotion.MaxBonus.ToString("#,##0") berdasarkan Jumlah deposit Awal akan dikreditkan ke pemain yang memenuhi syarat dalam waktu 48 jam;
+                </li>
+                <li>
+                    Jumlah bonus dan jumlah kualifikasi Deposit yang digunakan tergantung pada persyaratan Rollover sebanyak @promotion.RollOver kali dalam waktu 30 hari, berlaku untuk semua produk @serverInfo.SiteName kecuali Kasino dan juga produk Cash out.
+                    <br>
+                    @*<br>Contohnya:
+                        <br>
+                        <em>
+                            - Total deposit: @Currency 3,000,000
+                            <br> - Jumlah Bonus = @Currency 3,000,000 X @promotion.Bonus.ToString("#,##0")% = batas maksimal @Currency 1,000,000
+                            <br> - Jumlah Deposit yang memenuhi syarat yang digunakan untuk Bonus = @Currency 1,000,000 / @promotion.Bonus.ToString("#,##0")% = @Currency 2,000,000
+                            <br> - Jumlah Deposit yang tidak digunakan untuk Promosi = @Currency 3,000,000 - @Currency 2,000,000 = @Currency 1,000,000
+                            <br> - Syarat Putaran = (@Currency 2,000,000 + @Currency 1,000,000 X @promotion.RollOver) + @Currency 1,000,000 = @Currency 46,000,000
+                        </em>*@
+                </li>
+            </ol>
+
+            <div class="panel panel-primary panel--payment" data-open="true">
+                <div class="panel__header">
+                    <span class="txt-blue">SYARAT DAN KETENTUAN SPESIFIK PROMOSI</span>
+                    <i class="icon icon-caret"></i>
+                </div>
+                <div class="panel__body">
+
+                    <ol type="1">
+                        <li>
+                            Untuk dapat mengklaim bonus, para pemain harus memenuhi persyaratan berikut ("Member yang memenuhi syarat"):
+                        </li>
+                        <ol>
+                            <li>- Telah memilih @Currency sebagai mata uang pilihan</li>
+                            <li>
+                                - Telah melakukan deposit awal yang telah disetujui dalam akun @serverInfo.SiteName selama masa periode promosi
+                            </li>
+                        </ol>
+                        <li>
+                            Bagi Member yang memenuhi syarat akan diberikan @promotion.Bonus.ToString("#,##0")% bonus berdasarkan jumlah Deposit pertama yang disetujui selama periode promosi, Dapatkan bonus hingga @Currency @promotion.MaxBonus.ToString("#,##0") ("Bonus"), seperti yang diilustrasikan sebagai berikut:
+                            <br>
+                            <div class="table table-rwd table-primary">
+                                <div class="thead">
+                                    <div class="tr">
+                                        <div class="td-date">
+                                            <span class="text">BONUS</span>
+                                        </div>
+                                        <div class="td-date">
+                                            <span class="text">PRODUK</span>
+                                        </div>
+                                        <div class="td-time">
+                                            <span class="text">MAX JUMLAH BONUS (@Currency)</span>
+                                        </div>
+                                        <div class="td-id">
+                                            <span class="text">SYARAT PUTARAN</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tbody">
+                                    <div class="tr row-even">
+                                        <div class="td-date">
+                                            <span class="text">@promotion.Bonus.ToString("#,##0")%</span>
+                                        </div>
+                                        <div class="td-date">
+                                            <span class="text">
+                                                Semua Produk @serverInfo.SiteName, Semua Produk Nova88 , kecuali Kasino, Live Kasino, Permainan Maya, Poker, Tembak ikan, Permainan Catur, Indo 4D and Cash out.
+                                            </span>
+                                        </div>
+                                        <div class="td-time">
+                                            <span class="text">@promotion.MaxBonus.ToString("#,##0")</span>
+                                        </div>
+                                        <div class="td-id">
+                                            <span class="text">@(promotion.RollOver)x</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>Bagi Member yang memenuhi syarat tidak diizinkan untuk membatalkan Bonus setelah dikreditkan ke akun @serverInfo.SiteName mereka. </li>
+                        <li>Member yang memenuhi syarat hanya diperbolehkan untuk berpartisipasi pada satu (1) promosi terkait 'Bonus Deposit Awal' yang ditawarkan oleh @serverInfo.SiteName selama Periode Promosi. Jika Member yang memenuhi syarat berpartisipasi di lebih dari satu (1) promosi terkait 'Bonus Deposit Awal' selama Periode Promosi, hanya promosi terkait 'Bonus Deposit Awal' pertama yang diterima oleh @serverInfo.SiteName dari Member yang memenuhi syarat yang akan dianggap berlaku dan partisipasi di seluruh promosi terkait 'Bonus Deposit Awal' lainnya akan dibatalkan. </li>
+                        <li>Member yang memenuhi syarat akan didiskualifikasi dari Promosi apabila penarikan dilakukan sebelum Bonus dikreditkan ke akun @serverInfo.SiteName mereka. </li>
+                        <li>Hanya taruhan pada produk @serverInfo.SiteName yang menghasilkan menang/kalah yang akan berkontribusi terhadap persyaratan Rollover. Taruhan yang berakhir seri, taruhan yang dibatalkan atau tidak berlaku, taruhan dengan odds kurang dari (Desimal Odds 1.5; Tiongkok Odds 0.5; Malaysia Odds positif 0.5; Indonesia Odds -2.0; Amerika Odds -200),atau taruhan pada dua kemungkinan pada permainan tunggal bertaruh di Live Kasino,Permainan Maya, Poker, Tembak Ikan, Permainan Catur, dan permainan Kasino tidak akan dihitung ke dalam persyaratan ini. </li>
+                        <li>Persyaratan putaran akan dianggap terpenuhi jika saldo akun @serverInfo.SiteName Member yang memenuhi syarat kurang dari jumlah taruhan yang diperbolehkan (i.e @Currency 15,000) </li>
+                        <li>@serverInfo.SiteName berhak untuk merubah atau menarik Promosi kapan saja.</li>
+                        <li>@serverInfo.SiteName adalah penyelenggara tunggal Promosi dan keputusannya adalah final.</li>
+                        <li>Berlaku <a class="text-link" href="@StaticRootPath/Promotion.html" target="_blank">syarat dan ketentuan umum</a> @serverInfo.SiteName.</li>
+                    </ol>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $(function() {
+            const diff = moment.duration(moment.unix(@promotion.PeriodTo).diff(new Date()))
+            $("#REMAINING").html(diff.days() + " Hari" + diff.hours() + " Jam" );
+            var sExpiryTime = 'Tanggal '+ moment.unix(@ExpiryTime).date() +' bulan '+ (parseInt(moment.unix(@ExpiryTime).get('month'),10) + 1 ) +' tahun '+ moment.unix(@ExpiryTime).year();
+            sExpiryTime += moment.unix(@ExpiryTime).format(' HH:mm');
+            $("#ExpiryTime").html(sExpiryTime);
+
+            $("#JOIN").on("touchstart, click", function () {
+                 if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {
+                    axios.post('/api/Promotion/SetClaimPromotion/@selLangBLL.GetLangId()', { BonusCode:"@promotion.BonusCode"})
+                        .then(function (response) {
+                            var result = response.data;
+                            if (result.errorCode == 0) {
+                                alert("@Html.Raw(selLangBLL.GetMsg("msg_Updatesuccessful"))");
+                                window.location.replace("@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })");
+                            } else {
+                                alert(result.message);
+                            }
+                        }.bind(this)).catch(function (error) {
+                            alert(error);
+                        }.bind(this));
+                }
+            });
+        });
+    </script>
+}

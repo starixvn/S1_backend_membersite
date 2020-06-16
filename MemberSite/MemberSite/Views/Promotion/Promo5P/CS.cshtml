@@ -1,0 +1,149 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+@section Style{
+    <style>
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            /* Style the buttons that are used to open the tab content */
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                transition: 0.3s;
+            }
+
+                /* Change background color of buttons on hover */
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                /* Create an active/current tablink class */
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border-top: none;
+        }
+    </style>
+}
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-promo5.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2>周三，周五 和 周日 5% 再存红利高达 MYR300</h2>
+            
+        </div>
+        <div class="promotions-module">
+             <span class="promotions-title">优惠详情</span>
+                <ol type="a">
+                    <li>会员进行最低存款额就可享受此优惠促销.<br><br></li>
+                    <li>完成存款后，优惠奖金将在24小时内直接汇入您的账号钱包.<br><br></li>
+                </ol>
+
+            <span class="promotions-title">优惠奖励条件</span>
+            <p>会员收到奖金后，需要进行1倍流水投注便可提款.</p>
+            
+            <p>促销详情如下所示：</p>
+            <div class="table table-rwd table-primary">
+                <div class="thead">
+                    <div class="tr">
+                        <div class="td-date">
+                            <span class="text">优惠%</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">最高奖金 (上限)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">投注倍数</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">5%</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">MYR 300</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+
+            <span class="promotions-title">优惠标准规则</span>
+                <ol type="1">
+                    <li>此促销仅在每个星期三，星期五与星期天有效.<br><br></li>
+                    <li>此促销活动于2020年6月3日 (星期三) 开始<br><br></li>
+                    <li>此促销将会员在优惠期间的无限再存款额进行计算. (星期三，星期五与星期天)<br><br></li>
+                    <li>促销仅适用于所有Nova88会员.<br><br></li>
+                    <li>除非另有说明，否则从此次促销中获得的奖金在汇入的三十（30）天内有效。参加会员在指定的时间内未能达到要求的条件，所有优惠奖金将被撤销.<br><br></li>
+                    <li>有效投注额仅计算在 Nova88 投注产生输赢结果的注单，以进行1倍流水投资计算。注单取消或本金退还的注单将不计算为有效投注额内.<br><br></li>
+                    <li>参与优惠会员必须接受并遵守上述所有条款以及Nova88实施的所有相关规则和规定.<br><br></li>
+                    <li>Nova88有权随时中止或取消本优惠.<br><br></li>
+                    <li>Nova88保留对本优惠的最终解释权.<br><br></li>
+                    <li>Nova88标准规则和条款适用.<br><br></li>
+                </ol>
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script>
+        openPromo(event, "Promo1");
+        //document.getElementById('Promo1').focus();
+        function openPromo(evt, PromoName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(PromoName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+    </script>
+}

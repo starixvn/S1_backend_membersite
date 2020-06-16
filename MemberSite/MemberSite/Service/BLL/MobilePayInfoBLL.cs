@@ -31,7 +31,7 @@ namespace MemberSite.Service.BLL
             var mobilePayInfoList = cache.Get<IEnumerable<MobilePayInfo>>(key);
             if (mobilePayInfoList == null)
             {
-                mobilePayInfoList = payService.GetMobilePayInfo();
+                mobilePayInfoList = payService.GetMobilePayInfo().OrderBy(x => x.GSort).OrderBy(x => x.SSort);
 
                 if (mobilePayInfoList != null)
                 {

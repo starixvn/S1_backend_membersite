@@ -152,25 +152,26 @@ namespace MemberSite.Controllers.Api
                     var result = custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"], null);
                 }
             }
-            
+
             apiResult.ErrorCode = custInfoBLL.SetProfile(authData.CustId, custProfile);
             if (apiResult.ErrorCode == 0)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
 
                 var custInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
-                apiResult.Data = new { 
-                    LangCode = selLangBLL.GetLangId(), 
-                    custInfo.UserName, 
-                    custInfo.Email, 
+                apiResult.Data = new
+                {
+                    LangCode = selLangBLL.GetLangId(),
+                    custInfo.UserName,
+                    custInfo.Email,
                     custInfo.AccountName,
                     custInfo.Birth_d,
                     custInfo.Birth_m,
                     custInfo.Birth_y,
                     custInfo.RegTime,
                     LastLogin = custInfo.LastLoginTime,
-                    Country = custInfo.CountryCode, 
-                    custInfo.PhoneNo 
+                    Country = custInfo.CountryCode,
+                    custInfo.PhoneNo
                 };
             }
             else
@@ -291,6 +292,29 @@ namespace MemberSite.Controllers.Api
             else
             {
 
+            }
+
+            return apiResult;
+        }
+
+        public class ResetPasswordModel
+        {
+            public string NewPassword { set; get; }
+        }
+
+        [HttpPost]
+        public ApiResult ResetPassword(ResetPasswordModel resetPassword)
+        {
+            var apiResult = new ApiResult();
+            var authData = authorizeBLL.GetAuthData();
+            if (custInfoBLL.SetResetPwd(authData.CustId, resetPassword.NewPassword))
+            {
+                apiResult.ErrorCode = 0;
+                apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+            }
+            else
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
             }
 
             return apiResult;
