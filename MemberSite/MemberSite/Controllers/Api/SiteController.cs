@@ -399,7 +399,7 @@ namespace MemberSite.Controllers.Api
             ApiResult<List<Provider>> apiResult = new ApiResult<List<Provider>>();
 
             List<Provider> providers = new List<Provider> {
-                new Provider { Value = 6, Name = "GPI", DisplayText = selLangBLL.GetResourceValue("lbl_GPI"), PlayFree = true },
+                new Provider { Value = 6, Name = "GPI", DisplayText = selLangBLL.GetResourceValue("lbl_GPI"), PlayFree = true, DisplayKey = "lbl_GPI" },
                 new Provider { Value = 8, Name = "YGG", DisplayText = "YGG", PlayFree = true },
                 new Provider { Value = 9, Name = "Joker", DisplayText = "Joker", PlayFree = false },
                 new Provider { Value = 10, Name = "SG", DisplayText = "SG", PlayFree = true },

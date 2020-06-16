@@ -12,6 +12,7 @@ namespace MemberSite.Service.Model
         public string DisplayText { get; set; }
         public bool PlayFree { get; set; }
         public GameDesc GameList { get; set; }
+        public string DisplayKey { get; set; }
     }
 
     public class GameDesc
