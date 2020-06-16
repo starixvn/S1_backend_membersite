@@ -963,8 +963,10 @@
       "imgName": {
         "en": "SoSweet-en.jpg",
         "cs": "SoSweet-cs.jpg",
-        "ch": "SoSweet-ch.jpg",
-        "th": "SoSweet-th.jpg"
+        "ch": "SoSweet-cs.jpg",
+        "th": "SoSweet-th.jpg",
+        "id": "SoSweet-id.jpg",
+        "vn": "SoSweet-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -2426,8 +2428,10 @@
       "imgName": {
         "en": "GreatLion-en.jpg",
         "cs": "GreatLion-cs.jpg",
-        "ch": "GreatLion-ch.jpg",
-        "th": "GreatLion-th.jpg"
+        "ch": "GreatLion-cs.jpg",
+        "th": "GreatLion-th.jpg",
+        "id": "GreatLion-id.jpg",
+        "vn": "GreatLion-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3986,8 +3990,7 @@
       "imgName": {
         "en": "GettingEnergies-en.jpg",
         "cs": "GettingEnergies-cs.jpg",
-        "ch": "GettingEnergies-ch.jpg",
-        "th": "GettingEnergies-th.jpg"
+        "ch": "GettingEnergies-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4147,8 +4150,9 @@
       "imgName": {
         "en": "WorldCup-Field-en.jpg",
         "cs": "WorldCup-Field-cs.jpg",
-        "ch": "WorldCup-Field-ch.jpg",
-        "th": "WorldCup-Field-th.jpg"
+        "ch": "WorldCup-Field-cs.jpg",
+        "th": "WorldCup-Field-th.jpg",
+        "id": "WorldCup-Field-id.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4195,8 +4199,10 @@
       "imgName": {
         "en": "Football-Baby-en.jpg",
         "cs": "Football-Baby-cs.jpg",
-        "ch": "Football-Baby-ch.jpg",
-        "th": "Football-Baby-th.jpg"
+        "ch": "Football-Baby-cs.jpg",
+        "th": "Football-Baby-th.jpg",
+        "id": "Football-Baby-id.jpg",
+        "vn": "Football-Baby-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4672,8 +4678,10 @@
       "imgName": {
         "en": "RichWitch-en.jpg",
         "cs": "RichWitch-cs.jpg",
-        "ch": "RichWitch-ch.jpg",
-        "th": "RichWitch-th.jpg"
+        "ch": "RichWitch-cs.jpg",
+        "th": "RichWitch-th.jpg",
+        "id": "RichWitch-id.jpg",
+        "vn": "RichWitch-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
