@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
@@ -10,8 +11,10 @@ using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace MemberSite.Controllers.Api
 {
@@ -25,13 +28,21 @@ namespace MemberSite.Controllers.Api
         private readonly Tools tools;
         private readonly SelLangBLL selLangBLL;
         private readonly CommonBLL commonBLL;
+        private readonly IWebHostEnvironment environment;
+        private readonly AuthorizeBLL authorizeBLL;
+        private readonly CasinoBLL casinoBLL;
+        private readonly ServerInfoBLL serverInfoBLL;
 
-        public SiteController(CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL)
+        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
             this.selLangBLL = selLangBLL;
             this.commonBLL = commonBLL;
+            this.environment = environment;
+            this.authorizeBLL = authorizeBLL;
+            this.casinoBLL = casinoBLL;
+            this.serverInfoBLL = serverInfoBLL;
         }
 
         public class LoginModel
@@ -283,6 +294,51 @@ namespace MemberSite.Controllers.Api
                 apiResult.RawMessage = ex.Message;
             }
 
+            return apiResult;
+        }
+        /*
+    { value: 9, name: 'Joker', displayText: "Joker", PlayFree: false },
+    { value: 10, name: 'SG', displayText: "SG" },
+    { value: 5, name: 'PP', displayText: "PP" },
+    { value: 14, name: 'PG', displayText: "PG" },
+    { value: 16, name: 'CQ9', displayText: "CQ9" }
+             */
+
+        public ApiResult<List<Provider>> GetGameList()
+        {
+            ApiResult<List<Provider>> apiResult = new ApiResult<List<Provider>>();
+
+            List<Provider> providers = new List<Provider> {
+                new Provider { Value = 6, Name = "GPI", DisplayText = selLangBLL.GetResourceValue("lbl_GPI"), PlayFree = true },
+                new Provider { Value = 8, Name = "YGG", DisplayText = "YGG", PlayFree = true },
+                new Provider { Value = 9, Name = "Joker", DisplayText = "Joker", PlayFree = false },
+                new Provider { Value = 10, Name = "SG", DisplayText = "SG", PlayFree = true },
+                new Provider { Value = 5, Name = "PP", DisplayText = "PP", PlayFree = true },
+                new Provider { Value = 14, Name = "PG", DisplayText = "PG", PlayFree = true },
+            };
+
+            IEnumerable<int> tpIds = new int[] { };
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                tpIds = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
+            }
+            else
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                tpIds = casinoBLL.GetProviderIdByCurrency(0, serverInfo.SiteId);
+            }
+
+            apiResult.Data = providers?.Where(x => tpIds.Contains(x.Value)).ToList();
+            foreach (var provider in providers)
+            {
+                string datePath = Path.Combine(environment.WebRootPath, "datas", provider.Name, "GameList.json");
+                if (System.IO.File.Exists(datePath))
+                    provider.GameList = JsonConvert.DeserializeObject<GameDesc>(System.IO.File.ReadAllText(datePath));
+            }
+            apiResult.ErrorCode = 0;
             return apiResult;
         }
     }
