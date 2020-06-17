@@ -1,0 +1,205 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+@section Style{
+    <style>
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            /* Style the buttons that are used to open the tab content */
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                transition: 0.3s;
+            }
+
+                /* Change background color of buttons on hover */
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                /* Create an active/current tablink class */
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border-top: none;
+        }
+    </style>
+}
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-promoMixparlay1.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2>มิกซ์พาร์เลย์ คืนเงิน 2.5%</h2>
+        </div>
+        <div class="promotions-module">
+             <span class="promotions-title">เงื่อนไขที่สำคัญ</span>
+                <ol type="a">
+                    <li>สมาชิกทั้งหมดของ Nova88 สามารถเข้าร่วมโปรโมชั่นนี้ได้โดยอัตโนมัติ<br><br></li>
+                    <li>เพื่อได้สิทธิ์รับเงินคืน ยอดเดิมพันบอลชุด (พาร์เลย์) ต้องไม่น้อยกว่าจำนวนเงินขั้นต่ำที่กำหนดไว้<br><br></li>
+                    <li>ต้องมียอดเงินคืนถึงขั้นต่ำที่กำหนด ทุกวันอังคาร 11:59:59 (GMT +8) ในช่วงเวลาโปรโมชั่นที่ Nova88 เท่านั้น<br><br></li>
+                    <li>เงินคืนจะได้รับคืนเป็นเครดิตภายใน 48 ชั่วโมงถัดไปหลังจากเวลา cut off.<br><br></li>
+                    <li>สมาชิกที่มีสิทธิ์ได้รับส่วนลดต้องมีการโรลโอเวอร์หนึ่งครั้ง (1x) ก่อนทำการถอน<br><br></li>                    
+                </ol>
+
+            <span class="promotions-title">เงื่อนไขการเล่นโบนัส</span>
+            <div class="table table-rwd table-primary">
+                <div class="thead">
+                    <div class="tr">
+                        <div class="td-date">
+                            <span class="text">โบนัส 2.5% (สกุลเงิน)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">การจ่ายเงินขั้นต่ำ</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">การจ่ายเงินสูงสุด (ต่อยอด)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">เทิร์นโอเวอร์</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">MYR</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">MYR 5</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">MYR 888</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">IDR</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">IDR 15,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">IDR 2,888,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">THB</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">THB 50</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">THB 6,888</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">RMB</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">RMB 5</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">RMB 1,388</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <br><br>
+            
+            <span class="promotions-title">ข้อกำหนดและเงื่อนไข:</span>
+                <ol type="1">
+                    <li>โปรโมชั่นนี้สำหรับสมาชิก Nova88 ทุกคน<br><br></li>
+                    <li>การคืนเงินจะมีระยะเวลาสามสิบ (30) วันเมื่อมีการประกาศ เว้นแต่จะระบุไว้เป็นอย่างอื่น เงินที่ได้รับจากการใช้เงินโบนัสจะถูกลบออกจากบัญชีของสมาชิกหากไม่สามารถทำตามข้อกำหนดเบื้องต้นได้ภายในเวลาที่กำหนด<br><br></li>
+                    <li>สมาชิกจะได้รับเงินคืน 2.5 % จากยอดจากเงินขั้นต่ำของมิกซ์พาร์เลย์ที่กำหนดไว้<br><br></li>
+                    <li>สมาชิกที่เข้าร่วมต้องยอมรับและปฏิบัติตามข้อกำหนดทั้งหมดที่กล่าวถึงข้างต้นรวมถึงกฎและระเบียบที่เกี่ยวข้องทั้งหมดที่ใช้โดย Nova88<br><br></li>
+                    <li>Nova88 ขอสงวนสิทธิ์ในการแก้ไขหรือถอนโปรโมชั่นได้ตลอดเวลา<br><br></li>
+                    <li>Nova88 เป็นผู้ชี้ขาด แต่เพียงผู้เดียวของโปรโมชั่นและการตัดสินของ Nova88 ถือเป็นที่สิ้นสุด<br><br></li>
+                    <li>ข้อกำหนดและเงื่อนไขของ Nova88<br><br></li>                 
+                </ol>
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script>
+        openPromo(event, "Promo1");
+        //document.getElementById('Promo1').focus();
+        function openPromo(evt, PromoName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(PromoName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+    </script>
+}

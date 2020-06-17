@@ -4,5 +4,6 @@ export const Provider = [
     { value: 9, name: 'Joker', displayText: "Joker", PlayFree: false },
     { value: 10, name: 'SG', displayText: "SG" },
     { value: 5, name: 'PP', displayText: "PP" },
-    { value: 14, name: 'PG', displayText: "PG" }
+    { value: 14, name: 'PG', displayText: "PG" },
+    { value: 16, name: 'CQ9', displayText: "CQ9" }
 ];
