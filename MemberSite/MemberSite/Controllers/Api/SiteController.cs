@@ -284,8 +284,15 @@ namespace MemberSite.Controllers.Api
                     string result = Regex.Replace(custInfoProfile.Email, pattern, m => new string('*', m.Length));
 
                     custInfoBLL.ForgetPwd1(custInfo.CustId);
+                    if (!string.IsNullOrEmpty(forgetPwdReq.Username))
+                    {
+                        apiResult.Message = $"Has send to {result}.";//selLangBLL.GetMsg("ForgetPwdSuccess");
+                    }
+                    else
+                    {
+                        apiResult.Message = selLangBLL.GetMsg("ForgetPwdSuccess");
+                    }
 
-                    apiResult.Message = $"Has send to {result}.";//selLangBLL.GetMsg("ForgetPwdSuccess");
                     apiResult.ErrorCode = 0;
                 }
             }
