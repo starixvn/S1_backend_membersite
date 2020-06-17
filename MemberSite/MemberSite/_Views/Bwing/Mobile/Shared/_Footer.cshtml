@@ -64,22 +64,33 @@
                 </ul>
             </div>
             <div class="item">
-                <p class="title">@selLangBLL.GetResourceValue("lbl_OurPolicies")</p>
-                <ul class="item-list">
-                    <li><a class="link-footer" href="@StaticRootPath/ResposibleGaming.html" target="_temp">@selLangBLL.GetResourceValue("lbl_ResposibleGaming")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/TermsConditions.html" target="_temp">@selLangBLL.GetResourceValue("lbl_TermsConditions")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/PrivacyPolicy.html" target="_temp">@selLangBLL.GetResourceValue("lbl_PrivacyPolicy")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/CookiePolicy.html" target="_temp">@selLangBLL.GetResourceValue("lbl_CookiePolicy")</a></li>
-                </ul>
+                <div>
+                    <p class="title">@selLangBLL.GetResourceValue("lbl_OurPolicies")</p>
+                    <ul class="item-list">
+                        <li><a class="link-footer" href="@StaticRootPath/ResposibleGaming.html" target="_temp">@selLangBLL.GetResourceValue("lbl_ResposibleGaming")</a></li>
+                        <li><a class="link-footer" href="@StaticRootPath/TermsConditions.html" target="_temp">@selLangBLL.GetResourceValue("lbl_TermsConditions")</a></li>
+                        <li><a class="link-footer" href="@StaticRootPath/PrivacyPolicy.html" target="_temp">@selLangBLL.GetResourceValue("lbl_PrivacyPolicy")</a></li>
+                        <li><a class="link-footer" href="@StaticRootPath/CookiePolicy.html" target="_temp">@selLangBLL.GetResourceValue("lbl_CookiePolicy")</a></li>
+                    </ul>
+                </div>
+                <div class="item footer-support">
+                    <p class="title">@selLangBLL.GetResourceValue("lbl_HelpSupport")</p>
+                    <ul class="item-list">
+                        <li><a class="link-footer" href="@StaticRootPath/RulesandRegulations.html" target="_temp">@selLangBLL.GetResourceValue("lbl_RuleRegulations")</a></li>
+                        <li><a class="link-footer" href="@StaticRootPath/AccountTerms.html" target="_temp">@selLangBLL.GetResourceValue("lbl_AccountTerms")</a></li>
+                        <li><a class="link-footer" href="@StaticRootPath/FAQ.html" target="_temp">@selLangBLL.GetResourceValue("lbl_FAQ")</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="menu-footer">
-            <div class="item footer-support">
-                <p class="title">@selLangBLL.GetResourceValue("lbl_HelpSupport")</p>
+            <div class="item footer-promotions">
+                <p class="title">@selLangBLL.GetResourceValue("lbl_Affiliates") - @selLangBLL.GetResourceValue("lbl_Promotion")</p>
                 <ul class="item-list">
-                    <li><a class="link-footer" href="@StaticRootPath/RulesandRegulations.html" target="_temp">@selLangBLL.GetResourceValue("lbl_RuleRegulations")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/AccountTerms.html" target="_temp">@selLangBLL.GetResourceValue("lbl_AccountTerms")</a></li>
-                    <li><a class="link-footer" href="@StaticRootPath/FAQ.html" target="_temp">@selLangBLL.GetResourceValue("lbl_FAQ")</a></li>
+                    <li>
+                        <a class="link-footer" href="https://aff.bwing.com" target="_temp">@selLangBLL.GetResourceValue("lbl_Affiliates")</a>
+                    </li>
+                    <li><a class="link-footer" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })" target="_temp">@selLangBLL.GetResourceValue("lbl_Promotion")</a></li>
                 </ul>
             </div>
             <div class="item about-us">
@@ -94,15 +105,6 @@
         </div>
 
         <div class="menu-footer">
-            <div class="item footer-promotions">
-                <p class="title">@selLangBLL.GetResourceValue("lbl_Affiliates") - @selLangBLL.GetResourceValue("lbl_Promotion")</p>
-                <ul class="item-list">
-                    <li>
-                        <a class="link-footer" href="https://aff.bwing.com" target="_temp">@selLangBLL.GetResourceValue("lbl_Affiliates")</a>
-                    </li>
-                    <li><a class="link-footer" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })" target="_temp">@selLangBLL.GetResourceValue("lbl_Promotion")</a></li>
-                </ul>
-            </div>
             <div class="item about-us">
                 <div class="title">@serverInfo.SiteName</div>
                 <ul class="item-list">
@@ -110,15 +112,6 @@
                     <li><a class="link-footer" href="@StaticRootPath/Terms.html" target="_temp">@selLangBLL.GetResourceValue("lbl_Terms")</a></li>
                     <li><a class="link-footer" href="@StaticRootPath/ContactUs.html" target="_temp">@selLangBLL.GetResourceValue("lbl_ContactUs")</a></li>
                 </ul>
-            </div>
-
-            <div class="item footer-contact">
-                <div>
-                    <div class="title">@selLangBLL.GetResourceValue("lbl_ContactUs")</div>
-                    <div class="text">
-                        @selLangBLL.GetResourceValue("lbl_ContactUsHint")
-                    </div>
-                </div>
 
                 <div class="languages">
                     <div class="languages-box">
@@ -152,6 +145,15 @@
                         </div>
                     </div>
                 </div>
+
+            </div>
+            <div class="item footer-contact">
+                <div>
+                    <div class="title">@selLangBLL.GetResourceValue("lbl_ContactUs")</div>
+                    <div class="text">
+                        @selLangBLL.GetResourceValue("lbl_ContactUsHint")
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -159,7 +161,7 @@
     <div class="copy-right">
         <p>© Copyright @DateTime.Now.Year. @serverInfo.SiteName. All Rights Reserved.</p>
         @*<button class="btn btn-view">
-            <i class="icon icon-desktop"></i>@selLangBLL.GetResourceValue("lbl_Fullversion")
-        </button>*@
+                <i class="icon icon-desktop"></i>@selLangBLL.GetResourceValue("lbl_Fullversion")
+            </button>*@
     </div>
 </footer>
