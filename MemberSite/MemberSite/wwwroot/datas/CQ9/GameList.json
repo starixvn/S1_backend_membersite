@@ -108,8 +108,7 @@
       "imgName": {
         "en": "Unlikelyroyals-en.jpg",
         "cs": "Unlikelyroyals-cs.jpg",
-        "ch": "Unlikelyroyals-ch.jpg",
-        "th": "Unlikelyroyals-th.jpg"
+        "ch": "Unlikelyroyals-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -131,8 +130,7 @@
       "imgName": {
         "en": "Water-Margin-en.jpg",
         "cs": "Water-Margin-cs.jpg",
-        "ch": "Water-Margin-ch.jpg",
-        "th": "Water-Margin-th.jpg"
+        "ch": "Water-Margin-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -156,29 +154,6 @@
         "cs": "GoldenFlower-cs.jpg",
         "ch": "GoldenFlower-ch.jpg",
         "th": "GoldenFlower-th.jpg"
-      },
-      "launchDate": "2017/03/20",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "LuckyFishing",
-        "cs": "欢乐捕鱼",
-        "ch": "歡樂捕魚"
-      },
-      "appId": "AT05",
-      "GameId": "AT05",
-      "category1": "Fish",
-      "paylines": "",
-      "RTP": "96.00%",
-      "Reels": "",
-      "imgName": {
-        "en": "LuckyFishing-en.jpg",
-        "cs": "LuckyFishing-cs.jpg",
-        "ch": "LuckyFishing-ch.jpg",
-        "th": "LuckyFishing-th.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -223,8 +198,7 @@
       "imgName": {
         "en": "Ellasriches-en.jpg",
         "cs": "Ellasriches-cs.jpg",
-        "ch": "Ellasriches-ch.jpg",
-        "th": "Ellasriches-th.jpg"
+        "ch": "Ellasriches-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -366,8 +340,7 @@
       "imgName": {
         "en": "Jump-High-2-en.jpg",
         "cs": "Jump-High-2-cs.jpg",
-        "ch": "Jump-High-2-ch.jpg",
-        "th": "Jump-High-2-th.jpg"
+        "ch": "Jump-High-2-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -416,7 +389,7 @@
       "imgName": {
         "en": "FlyOut-en.jpg",
         "cs": "FlyOut-cs.jpg",
-        "ch": "FlyOut-ch.jpg",
+        "ch": "FlyOut-cs.jpg",
         "th": "FlyOut-th.jpg"
       },
       "launchDate": "2017/03/20",
@@ -466,8 +439,10 @@
       "imgName": {
         "en": "God-of-War-en.jpg",
         "cs": "God-of-War-cs.jpg",
-        "ch": "God-of-War-ch.jpg",
-        "th": "God-of-War-th.jpg"
+        "ch": "God-of-War-cs.jpg",
+        "th": "God-of-War-th.jpg",
+        "id": "God-of-War-id.jpg",
+        "vn": "God-of-War-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -595,30 +570,6 @@
     },
     {
       "name": {
-        "en": "Paradise",
-        "cs": "皇金渔场",
-        "ch": "皇金漁場",
-        "th": "แดนสวรรค์"
-      },
-      "appId": "AB3",
-      "GameId": "AB3",
-      "category1": "Fish",
-      "paylines": "",
-      "RTP": "97.00%",
-      "Reels": "",
-      "imgName": {
-        "en": "Paradise-en.jpg",
-        "cs": "Paradise-cs.jpg",
-        "ch": "Paradise-ch.jpg",
-        "th": "Paradise-th.jpg"
-      },
-      "launchDate": "2017/03/20",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
         "en": "FaCaiShen",
         "cs": "发财神",
         "ch": "發財神",
@@ -643,29 +594,6 @@
     },
     {
       "name": {
-        "en": "Oneshot Fishing",
-        "cs": "一炮捕鱼",
-        "ch": "一炮捕魚"
-      },
-      "appId": "AT01",
-      "GameId": "AT01",
-      "category1": "fish",
-      "paylines": "",
-      "RTP": "96.00%",
-      "Reels": "",
-      "imgName": {
-        "en": "Oneshot-Fishing-en.jpg",
-        "cs": "Oneshot-Fishing-cs.jpg",
-        "ch": "Oneshot-Fishing-ch.jpg",
-        "th": "Oneshot-Fishing-th.jpg"
-      },
-      "launchDate": "2017/03/20",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
         "en": "THOR",
         "cs": "雷神",
         "ch": "雷神",
@@ -680,7 +608,7 @@
       "imgName": {
         "en": "THOR-en.jpg",
         "cs": "THOR-cs.jpg",
-        "ch": "THOR-ch.jpg",
+        "ch": "THOR-cs.jpg",
         "th": "THOR-th.jpg"
       },
       "launchDate": "2017/03/20",
@@ -729,8 +657,7 @@
       "imgName": {
         "en": "Wolf-Disco-en.jpg",
         "cs": "Wolf-Disco-cs.jpg",
-        "ch": "Wolf-Disco-ch.jpg",
-        "th": "Wolf-Disco-th.jpg"
+        "ch": "Wolf-Disco-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -851,8 +778,7 @@
       "imgName": {
         "en": "Fa-Cai-Shen2-en.jpg",
         "cs": "Fa-Cai-Shen2-cs.jpg",
-        "ch": "Fa-Cai-Shen2-ch.jpg",
-        "th": "Fa-Cai-Shen2-th.jpg"
+        "ch": "Fa-Cai-Shen2-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1021,8 +947,9 @@
       "imgName": {
         "en": "Chameleon-en.jpg",
         "cs": "Chameleon-cs.jpg",
-        "ch": "Chameleon-ch.jpg",
-        "th": "Chameleon-th.jpg"
+        "ch": "Chameleon-cs.jpg",
+        "th": "Chameleon-th.jpg",
+        "id": "Chameleon-id.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1045,8 +972,10 @@
       "imgName": {
         "en": "SoSweet-en.jpg",
         "cs": "SoSweet-cs.jpg",
-        "ch": "SoSweet-ch.jpg",
-        "th": "SoSweet-th.jpg"
+        "ch": "SoSweet-cs.jpg",
+        "th": "SoSweet-th.jpg",
+        "id": "SoSweet-id.jpg",
+        "vn": "SoSweet-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1094,7 +1023,7 @@
       "imgName": {
         "en": "Flower-Fortunes-en.jpg",
         "cs": "Flower-Fortunes-cs.jpg",
-        "ch": "Flower-Fortunes-ch.jpg",
+        "ch": "Flower-Fortunes-cs.jpg",
         "th": "Flower-Fortunes-th.jpg"
       },
       "launchDate": "2017/03/20",
@@ -1118,8 +1047,7 @@
       "imgName": {
         "en": "RaveHigh-en.jpg",
         "cs": "RaveHigh-cs.jpg",
-        "ch": "RaveHigh-ch.jpg",
-        "th": "RaveHigh-th.jpg"
+        "ch": "RaveHigh-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1214,8 +1142,7 @@
       "imgName": {
         "en": "6-Toros-en.jpg",
         "cs": "6-Toros-cs.jpg",
-        "ch": "6-Toros-ch.jpg",
-        "th": "6-Toros-th.jpg"
+        "ch": "6-Toros-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1238,7 +1165,7 @@
       "imgName": {
         "en": "Wheel-Money-en.jpg",
         "cs": "Wheel-Money-cs.jpg",
-        "ch": "Wheel-Money-ch.jpg",
+        "ch": "Wheel-Money-cs.jpg",
         "th": "Wheel-Money-th.jpg"
       },
       "launchDate": "2017/03/20",
@@ -1262,8 +1189,7 @@
       "imgName": {
         "en": "Kronos-en.jpg",
         "cs": "Kronos-cs.jpg",
-        "ch": "Kronos-ch.jpg",
-        "th": "Kronos-th.jpg"
+        "ch": "Kronos-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1308,10 +1234,9 @@
       "RTP": "96.14%",
       "Reels": "5",
       "imgName": {
-        "en": "Double-Fly--en.jpg",
-        "cs": "Double-Fly--cs.jpg",
-        "ch": "Double-Fly--ch.jpg",
-        "th": "Double-Fly--th.jpg"
+        "en": "Double-Fly-en.jpg",
+        "cs": "Double-Fly-cs.jpg",
+        "ch": "Double-Fly-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1382,10 +1307,12 @@
       "RTP": "96.00%",
       "Reels": "5",
       "imgName": {
-        "en": "Mr.Rich-en.jpg",
-        "cs": "Mr.Rich-cs.jpg",
-        "ch": "Mr.Rich-ch.jpg",
-        "th": "Mr.Rich-th.jpg"
+        "en": "MrRich-en.jpg",
+        "cs": "MrRich-cs.jpg",
+        "ch": "MrRich-cs.jpg",
+        "th": "MrRich-th.jpg",
+        "id": "MrRich-id.jpg",
+        "vn": "MrRich-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1553,8 +1480,9 @@
       "imgName": {
         "en": "HappyRichYear-en.jpg",
         "cs": "HappyRichYear-cs.jpg",
-        "ch": "HappyRichYear-ch.jpg",
-        "th": "HappyRichYear-th.jpg"
+        "ch": "HappyRichYear-cs.jpg",
+        "th": "HappyRichYear-th.jpg",
+        "vn": "HappyRichYear-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1577,8 +1505,10 @@
       "imgName": {
         "en": "FruitKing-en.jpg",
         "cs": "FruitKing-cs.jpg",
-        "ch": "FruitKing-ch.jpg",
-        "th": "FruitKing-th.jpg"
+        "ch": "FruitKing-cs.jpg",
+        "th": "FruitKing-th.jpg",
+        "id": "FruitKing-id.jpg",
+        "vn": "FruitKing-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1601,8 +1531,7 @@
       "imgName": {
         "en": "MuayThai-en.jpg",
         "cs": "MuayThai-cs.jpg",
-        "ch": "MuayThai-ch.jpg",
-        "th": "MuayThai-th.jpg"
+        "ch": "MuayThai-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1721,7 +1650,7 @@
       "imgName": {
         "en": "Shou-Xin-en.jpg",
         "cs": "Shou-Xin-cs.jpg",
-        "ch": "Shou-Xin-ch.jpg",
+        "ch": "Shou-Xin-cs.jpg",
         "th": "Shou-Xin-th.jpg"
       },
       "launchDate": "2017/03/20",
@@ -1891,8 +1820,7 @@
       "imgName": {
         "en": "5-Boxing-en.jpg",
         "cs": "5-Boxing-cs.jpg",
-        "ch": "5-Boxing-ch.jpg",
-        "th": "5-Boxing-th.jpg"
+        "ch": "5-Boxing-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1915,8 +1843,10 @@
       "imgName": {
         "en": "VampireKiss-en.jpg",
         "cs": "VampireKiss-cs.jpg",
-        "ch": "VampireKiss-ch.jpg",
-        "th": "VampireKiss-th.jpg"
+        "ch": "VampireKiss-cs.jpg",
+        "th": "VampireKiss-th.jpg",
+        "id": "VampireKiss-id.jpg",
+        "vn": "VampireKiss-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1963,8 +1893,7 @@
       "imgName": {
         "en": "Apollo-en.jpg",
         "cs": "Apollo-cs.jpg",
-        "ch": "Apollo-ch.jpg",
-        "th": "Apollo-th.jpg"
+        "ch": "Apollo-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -2107,7 +2036,7 @@
       "imgName": {
         "en": "Gemstone-en.jpg",
         "cs": "Gemstone-cs.jpg",
-        "ch": "Gemstone-ch.jpg",
+        "ch": "Gemstone-cs.jpg",
         "th": "Gemstone-th.jpg"
       },
       "launchDate": "2017/03/20",
@@ -2180,8 +2109,10 @@
       "imgName": {
         "en": "WildTarzan-en.jpg",
         "cs": "WildTarzan-cs.jpg",
-        "ch": "WildTarzan-ch.jpg",
-        "th": "WildTarzan-th.jpg"
+        "ch": "WildTarzan-cs.jpg",
+        "th": "WildTarzan-th.jpg",
+        "id": "WildTarzan-id.jpg",
+        "vn": "WildTarzan-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -2353,7 +2284,7 @@
       "imgName": {
         "en": "Dragon-Boat-en.jpg",
         "cs": "Dragon-Boat-cs.jpg",
-        "ch": "Dragon-Boat-ch.jpg",
+        "ch": "Dragon-Boat-cs.jpg",
         "th": "Dragon-Boat-th.jpg"
       },
       "launchDate": "2017/03/20",
@@ -2448,8 +2379,9 @@
       "imgName": {
         "en": "Football-star-en.jpg",
         "cs": "Football-star-cs.jpg",
-        "ch": "Football-star-ch.jpg",
-        "th": "Football-star-th.jpg"
+        "ch": "Football-star-cs.jpg",
+        "id": "Football-star-id.jpg",
+        "vn": "Football-star-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -2470,10 +2402,7 @@
       "RTP": "96.14%",
       "Reels": "5",
       "imgName": {
-        "en": "1945-en.jpg",
-        "cs": "1945-cs.jpg",
-        "ch": "1945-ch.jpg",
-        "th": "1945-th.jpg"
+        "en": "1945-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -2496,8 +2425,10 @@
       "imgName": {
         "en": "TreasureIsland-en.jpg",
         "cs": "TreasureIsland-cs.jpg",
-        "ch": "TreasureIsland-ch.jpg",
-        "th": "TreasureIsland-th.jpg"
+        "ch": "TreasureIsland-cs.jpg",
+        "th": "TreasureIsland-th.jpg",
+        "id": "TreasureIsland-id.jpg",
+        "vn": "TreasureIsland-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -2520,8 +2451,10 @@
       "imgName": {
         "en": "GreatLion-en.jpg",
         "cs": "GreatLion-cs.jpg",
-        "ch": "GreatLion-ch.jpg",
-        "th": "GreatLion-th.jpg"
+        "ch": "GreatLion-cs.jpg",
+        "th": "GreatLion-th.jpg",
+        "id": "GreatLion-id.jpg",
+        "vn": "GreatLion-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -2548,29 +2481,6 @@
         "th": "FruitKingII-th.jpg",
         "id": "FruitKingII-id.jpg",
         "vn": "FruitKingII-vn.jpg"
-      },
-      "launchDate": "2017/03/20",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Thunder Fighter",
-        "cs": "雷电战机",
-        "ch": "雷電戰機"
-      },
-      "appId": "AT04",
-      "GameId": "AT04",
-      "category1": "Fish",
-      "paylines": "",
-      "RTP": "96.00%",
-      "Reels": "",
-      "imgName": {
-        "en": "Thunder-Fighter-en.jpg",
-        "cs": "Thunder-Fighter-cs.jpg",
-        "ch": "Thunder-Fighter-ch.jpg",
-        "th": "Thunder-Fighter-th.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -2739,8 +2649,7 @@
       "imgName": {
         "en": "Thor-2-en.jpg",
         "cs": "Thor-2-cs.jpg",
-        "ch": "Thor-2-ch.jpg",
-        "th": "Thor-2-th.jpg"
+        "ch": "Thor-2-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -2811,8 +2720,9 @@
       "imgName": {
         "en": "RedPhoenix-en.jpg",
         "cs": "RedPhoenix-cs.jpg",
-        "ch": "RedPhoenix-ch.jpg",
-        "th": "RedPhoenix-th.jpg"
+        "ch": "RedPhoenix-cs.jpg",
+        "th": "RedPhoenix-th.jpg",
+        "vn": "RedPhoenix-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -2835,7 +2745,7 @@
       "imgName": {
         "en": "Happy-Magpies-en.jpg",
         "cs": "Happy-Magpies-cs.jpg",
-        "ch": "Happy-Magpies-ch.jpg",
+        "ch": "Happy-Magpies-cs.jpg",
         "th": "Happy-Magpies-th.jpg"
       },
       "launchDate": "2017/03/20",
@@ -2859,7 +2769,7 @@
       "imgName": {
         "en": "Gold-Stealer-en.jpg",
         "cs": "Gold-Stealer-cs.jpg",
-        "ch": "Gold-Stealer-ch.jpg",
+        "ch": "Gold-Stealer-cs.jpg",
         "th": "Gold-Stealer-th.jpg"
       },
       "launchDate": "2017/03/20",
@@ -2929,10 +2839,7 @@
       "RTP": "94.00%",
       "Reels": "5",
       "imgName": {
-        "en": "Dou-Di-Zhu-Plus-en.jpg",
-        "cs": "Dou-Di-Zhu-Plus-cs.jpg",
-        "ch": "Dou-Di-Zhu-Plus-ch.jpg",
-        "th": "Dou-Di-Zhu-Plus-th.jpg"
+        "en": "Dou-Di-Zhu-Plus-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3004,10 +2911,7 @@
       "RTP": "94.00%",
       "Reels": "5",
       "imgName": {
-        "en": "Zombie's-Fortune-en.jpg",
-        "cs": "Zombie's-Fortune-cs.jpg",
-        "ch": "Zombie's-Fortune-ch.jpg",
-        "th": "Zombie's-Fortune-th.jpg"
+        "en": "Zombies-Fortune-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3054,8 +2958,10 @@
       "imgName": {
         "en": "GodOfChess-en.jpg",
         "cs": "GodOfChess-cs.jpg",
-        "ch": "GodOfChess-ch.jpg",
-        "th": "GodOfChess-th.jpg"
+        "ch": "GodOfChess-cs.jpg",
+        "th": "GodOfChess-th.jpg",
+        "id": "GodOfChess-id.jpg",
+        "vn": "GodOfChess-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3078,8 +2984,9 @@
       "imgName": {
         "en": "All-Star-Team-en.jpg",
         "cs": "All-Star-Team-cs.jpg",
-        "ch": "All-Star-Team-ch.jpg",
-        "th": "All-Star-Team-th.jpg"
+        "ch": "All-Star-Team-cs.jpg",
+        "th": "All-Star-Team-th.jpg",
+        "id": "All-Star-Team-id.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3102,8 +3009,10 @@
       "imgName": {
         "en": "Love-Night-en.jpg",
         "cs": "Love-Night-cs.jpg",
-        "ch": "Love-Night-ch.jpg",
-        "th": "Love-Night-th.jpg"
+        "ch": "Love-Night-cs.jpg",
+        "th": "Love-Night-th.jpg",
+        "id": "Love-Night-id.jpg",
+        "vn": "Love-Night-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3125,8 +3034,7 @@
       "imgName": {
         "en": "MONKEY-KING-en.jpg",
         "cs": "MONKEY-KING-cs.jpg",
-        "ch": "MONKEY-KING-ch.jpg",
-        "th": "MONKEY-KING-th.jpg"
+        "ch": "MONKEY-KING-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3251,8 +3159,7 @@
       "imgName": {
         "en": "JewelLuxury-en.jpg",
         "cs": "JewelLuxury-cs.jpg",
-        "ch": "JewelLuxury-ch.jpg",
-        "th": "JewelLuxury-th.jpg"
+        "ch": "JewelLuxury-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3299,10 +3206,7 @@
       "RTP": "94.24%",
       "Reels": "5",
       "imgName": {
-        "en": "The-Magic-Brush-en.jpg",
-        "cs": "The-Magic-Brush-cs.jpg",
-        "ch": "The-Magic-Brush-ch.jpg",
-        "th": "The-Magic-Brush-th.jpg"
+        "en": "The-Magic-Brush-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3349,7 +3253,7 @@
       "imgName": {
         "en": "Crazy-NuoZha-en.jpg",
         "cs": "Crazy-NuoZha-cs.jpg",
-        "ch": "Crazy-NuoZha-ch.jpg",
+        "ch": "Crazy-NuoZha-cs.jpg",
         "th": "Crazy-NuoZha-th.jpg"
       },
       "launchDate": "2017/03/20",
@@ -3422,10 +3326,7 @@
       "RTP": "94.94%",
       "Reels": "5",
       "imgName": {
-        "en": "Fortune-Cats-en.jpg",
-        "cs": "Fortune-Cats-cs.jpg",
-        "ch": "Fortune-Cats-ch.jpg",
-        "th": "Fortune-Cats-th.jpg"
+        "en": "Fortune-Cats-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3445,10 +3346,7 @@
       "RTP": "96.24%",
       "Reels": "3",
       "imgName": {
-        "en": "Paywire-en.jpg",
-        "cs": "Paywire-cs.jpg",
-        "ch": "Paywire-ch.jpg",
-        "th": "Paywire-th.jpg"
+        "en": "Paywire-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3639,10 +3537,7 @@
       "RTP": "96.11%",
       "Reels": "5",
       "imgName": {
-        "en": "Backyard-Gold-en.jpg",
-        "cs": "Backyard-Gold-cs.jpg",
-        "ch": "Backyard-Gold-ch.jpg",
-        "th": "Backyard-Gold-th.jpg"
+        "en": "Backyard-Gold-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3665,8 +3560,10 @@
       "imgName": {
         "en": "SakuraLegend-en.jpg",
         "cs": "SakuraLegend-cs.jpg",
-        "ch": "SakuraLegend-ch.jpg",
-        "th": "SakuraLegend-th.jpg"
+        "ch": "SakuraLegend-cs.jpg",
+        "th": "SakuraLegend-th.jpg",
+        "id": "SakuraLegend-id.jpg",
+        "vn": "SakuraLegend-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3725,30 +3622,6 @@
     },
     {
       "name": {
-        "en": "Paradise2",
-        "cs": "皇金渔场2",
-        "ch": "皇金漁場2",
-        "th": "แดนสวรรค์ 2"
-      },
-      "appId": "AB1",
-      "GameId": "AB1",
-      "category1": "Fish",
-      "paylines": "",
-      "RTP": "97.00%",
-      "Reels": "",
-      "imgName": {
-        "en": "Paradise2-en.jpg",
-        "cs": "Paradise2-cs.jpg",
-        "ch": "Paradise2-ch.jpg",
-        "th": "Paradise2-th.jpg"
-      },
-      "launchDate": "2017/03/20",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
         "en": "Super8",
         "cs": "超级发",
         "ch": "超級發",
@@ -3785,10 +3658,7 @@
       "RTP": "93.98%",
       "Reels": "5",
       "imgName": {
-        "en": "Double-Happy-en.jpg",
-        "cs": "Double-Happy-cs.jpg",
-        "ch": "Double-Happy-ch.jpg",
-        "th": "Double-Happy-th.jpg"
+        "en": "Double-Happy-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3833,10 +3703,7 @@
       "RTP": "93.98%",
       "Reels": "5",
       "imgName": {
-        "en": "Doggone-Lucky-en.jpg",
-        "cs": "Doggone-Lucky-cs.jpg",
-        "ch": "Doggone-Lucky-ch.jpg",
-        "th": "Doggone-Lucky-th.jpg"
+        "en": "Doggone-Lucky-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3858,8 +3725,7 @@
       "imgName": {
         "en": "Beauty-Beast-en.jpg",
         "cs": "Beauty-Beast-cs.jpg",
-        "ch": "Beauty-Beast-ch.jpg",
-        "th": "Beauty-Beast-th.jpg"
+        "ch": "Beauty-Beast-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3979,7 +3845,7 @@
       "imgName": {
         "en": "Piggy-Farm-en.jpg",
         "cs": "Piggy-Farm-cs.jpg",
-        "ch": "Piggy-Farm-ch.jpg",
+        "ch": "Piggy-Farm-cs.jpg",
         "th": "Piggy-Farm-th.jpg"
       },
       "launchDate": "2017/03/20",
@@ -4003,8 +3869,9 @@
       "imgName": {
         "en": "Wild-Magic-en.jpg",
         "cs": "Wild-Magic-cs.jpg",
-        "ch": "Wild-Magic-ch.jpg",
-        "th": "Wild-Magic-th.jpg"
+        "ch": "Wild-Magic-cs.jpg",
+        "id": "Wild-Magic-id.jpg",
+        "vn": "Wild-Magic-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4027,8 +3894,9 @@
       "imgName": {
         "en": "Poseidon-en.jpg",
         "cs": "Poseidon-cs.jpg",
-        "ch": "Poseidon-ch.jpg",
-        "th": "Poseidon-th.jpg"
+        "ch": "Poseidon-cs.jpg",
+        "th": "Poseidon-th.jpg",
+        "vn": "Poseidon-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4049,10 +3917,7 @@
       "RTP": "96.49%",
       "Reels": "5",
       "imgName": {
-        "en": "Dragon-Gate-en.jpg",
-        "cs": "Dragon-Gate-cs.jpg",
-        "ch": "Dragon-Gate-ch.jpg",
-        "th": "Dragon-Gate-th.jpg"
+        "en": "Dragon-Gate-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4176,8 +4041,7 @@
       "imgName": {
         "en": "GettingEnergies-en.jpg",
         "cs": "GettingEnergies-cs.jpg",
-        "ch": "GettingEnergies-ch.jpg",
-        "th": "GettingEnergies-th.jpg"
+        "ch": "GettingEnergies-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4197,10 +4061,7 @@
       "RTP": "94.03%",
       "Reels": "5",
       "imgName": {
-        "en": "Wealthy-Chicken-en.jpg",
-        "cs": "Wealthy-csicken-cs.jpg",
-        "ch": "Wealthy-Chicken-ch.jpg",
-        "th": "Wealthy-thicken-th.jpg"
+        "en": "Wealthy-Chicken-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4221,10 +4082,7 @@
       "RTP": "94.94%",
       "Reels": "5",
       "imgName": {
-        "en": "Five-Lucky-Elements-en.jpg",
-        "cs": "Five-Lucky-Elements-cs.jpg",
-        "ch": "Five-Lucky-Elements-ch.jpg",
-        "th": "Five-Lucky-Elements-th.jpg"
+        "en": "Five-Lucky-Elements-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4270,8 +4128,7 @@
       "imgName": {
         "en": "Dou-Di-Zhu-en.jpg",
         "cs": "Dou-Di-Zhu-cs.jpg",
-        "ch": "Dou-Di-Zhu-ch.jpg",
-        "th": "Dou-Di-Zhu-th.jpg"
+        "ch": "Dou-Di-Zhu-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4318,8 +4175,9 @@
       "imgName": {
         "en": "Football-Boots-en.jpg",
         "cs": "Football-Boots-cs.jpg",
-        "ch": "Football-Boots-ch.jpg",
-        "th": "Football-Boots-th.jpg"
+        "ch": "Football-Boots-cs.jpg",
+        "th": "Football-Boots-th.jpg",
+        "id": "Football-Boots-id.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4342,8 +4200,9 @@
       "imgName": {
         "en": "WorldCup-Field-en.jpg",
         "cs": "WorldCup-Field-cs.jpg",
-        "ch": "WorldCup-Field-ch.jpg",
-        "th": "WorldCup-Field-th.jpg"
+        "ch": "WorldCup-Field-cs.jpg",
+        "th": "WorldCup-Field-th.jpg",
+        "id": "WorldCup-Field-id.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4389,8 +4248,10 @@
       "imgName": {
         "en": "Football-Baby-en.jpg",
         "cs": "Football-Baby-cs.jpg",
-        "ch": "Football-Baby-ch.jpg",
-        "th": "Football-Baby-th.jpg"
+        "ch": "Football-Baby-cs.jpg",
+        "th": "Football-Baby-th.jpg",
+        "id": "Football-Baby-id.jpg",
+        "vn": "Football-Baby-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4411,10 +4272,7 @@
       "RTP": "94.03%",
       "Reels": "5",
       "imgName": {
-        "en": "Lotus-Lantern-en.jpg",
-        "cs": "Lotus-Lantern-cs.jpg",
-        "ch": "Lotus-Lantern-ch.jpg",
-        "th": "Lotus-Lantern-th.jpg"
+        "en": "Lotus-Lantern-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4435,10 +4293,7 @@
       "RTP": "94.03%",
       "Reels": "5",
       "imgName": {
-        "en": "Magpie-Bridge-en.jpg",
-        "cs": "Magpie-Bridge-cs.jpg",
-        "ch": "Magpie-Bridge-ch.jpg",
-        "th": "Magpie-Bridge-th.jpg"
+        "en": "Magpie-Bridge-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4509,10 +4364,7 @@
       "RTP": "94.06%",
       "Reels": "5",
       "imgName": {
-        "en": "Xiao-Fu-Xing-en.jpg",
-        "cs": "Xiao-Fu-Xing-cs.jpg",
-        "ch": "Xiao-Fu-Xing-ch.jpg",
-        "th": "Xiao-Fu-Xing-th.jpg"
+        "en": "Xiao-Fu-Xing-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4535,8 +4387,9 @@
       "imgName": {
         "en": "Football-Jerseys-en.jpg",
         "cs": "Football-Jerseys-cs.jpg",
-        "ch": "Football-Jerseys-ch.jpg",
-        "th": "Football-Jerseys-th.jpg"
+        "ch": "Football-Jerseys-cs.jpg",
+        "th": "Football-Jerseys-th.jpg",
+        "id": "Football-Jerseys-id.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4559,7 +4412,7 @@
       "imgName": {
         "en": "Xmas-en.jpg",
         "cs": "Xmas-cs.jpg",
-        "ch": "Xmas-ch.jpg",
+        "ch": "Xmas-cs.jpg",
         "th": "Xmas-th.jpg"
       },
       "launchDate": "2017/03/20",
@@ -4581,10 +4434,7 @@
       "RTP": "94.10%",
       "Reels": "5",
       "imgName": {
-        "en": "Jungle-Treasure-en.jpg",
-        "cs": "Jungle-Treasure-cs.jpg",
-        "ch": "Jungle-Treasure-ch.jpg",
-        "th": "Jungle-Treasure-th.jpg"
+        "en": "Jungle-Treasure-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4631,10 +4481,7 @@
       "RTP": "94.24%",
       "Reels": "5",
       "imgName": {
-        "en": "Rabbit-Rampage-en.jpg",
-        "cs": "Rabbit-Rampage-cs.jpg",
-        "ch": "Rabbit-Rampage-ch.jpg",
-        "th": "Rabbit-Rampage-th.jpg"
+        "en": "Rabbit-Rampage-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4656,8 +4503,7 @@
       "imgName": {
         "en": "Oh-Crap-en.jpg",
         "cs": "Oh-Crap-cs.jpg",
-        "ch": "Oh-Crap-ch.jpg",
-        "th": "Oh-Crap-th.jpg"
+        "ch": "Oh-Crap-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4706,8 +4552,7 @@
       "imgName": {
         "en": "Golden-Mayan-en.jpg",
         "cs": "Golden-Mayan-cs.jpg",
-        "ch": "Golden-Mayan-ch.jpg",
-        "th": "Golden-Mayan-th.jpg"
+        "ch": "Golden-Mayan-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4728,10 +4573,7 @@
       "RTP": "93.96%",
       "Reels": "5",
       "imgName": {
-        "en": "Hu-Got-Lucky-en.jpg",
-        "cs": "Hu-Got-Lucky-cs.jpg",
-        "ch": "Hu-Got-Lucky-ch.jpg",
-        "th": "Hu-Got-Lucky-th.jpg"
+        "en": "Hu-Got-Lucky-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4753,8 +4595,7 @@
       "imgName": {
         "en": "Texas-Holdem-en.jpg",
         "cs": "Texas-Holdem-cs.jpg",
-        "ch": "Texas-Holdem-ch.jpg",
-        "th": "Texas-Holdem-th.jpg"
+        "ch": "Texas-Holdem-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4777,8 +4618,7 @@
       "imgName": {
         "en": "Boots-of-Luck-en.jpg",
         "cs": "Boots-of-Luck-cs.jpg",
-        "ch": "Boots-of-Luck-ch.jpg",
-        "th": "Boots-of-Luck-th.jpg"
+        "ch": "Boots-of-Luck-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4825,8 +4665,10 @@
       "imgName": {
         "en": "MonkeyOfficeLegend-en.jpg",
         "cs": "MonkeyOfficeLegend-cs.jpg",
-        "ch": "MonkeyOfficeLegend-ch.jpg",
-        "th": "MonkeyOfficeLegend-th.jpg"
+        "ch": "MonkeyOfficeLegend-cs.jpg",
+        "th": "MonkeyOfficeLegend-th.jpg",
+        "id": "MonkeyOfficeLegend-id.jpg",
+        "vn": "MonkeyOfficeLegend-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4871,10 +4713,7 @@
       "RTP": "94.24%",
       "Reels": "5",
       "imgName": {
-        "en": "Le-Cirque-en.jpg",
-        "cs": "Le-Cirque-cs.jpg",
-        "ch": "Le-Cirque-ch.jpg",
-        "th": "Le-Cirque-th.jpg"
+        "en": "Le-Cirque-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4897,8 +4736,10 @@
       "imgName": {
         "en": "RichWitch-en.jpg",
         "cs": "RichWitch-cs.jpg",
-        "ch": "RichWitch-ch.jpg",
-        "th": "RichWitch-th.jpg"
+        "ch": "RichWitch-cs.jpg",
+        "th": "RichWitch-th.jpg",
+        "id": "RichWitch-id.jpg",
+        "vn": "RichWitch-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4919,10 +4760,7 @@
       "RTP": "94.13%",
       "Reels": "5",
       "imgName": {
-        "en": "Eternal-Fortune-en.jpg",
-        "cs": "Eternal-Fortune-cs.jpg",
-        "ch": "Eternal-Fortune-ch.jpg",
-        "th": "Eternal-Fortune-th.jpg"
+        "en": "Eternal-Fortune-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4943,10 +4781,7 @@
       "RTP": "94.06%",
       "Reels": "5",
       "imgName": {
-        "en": "Ba-Xian-Chuan-Qi-en.jpg",
-        "cs": "Ba-Xian-csuan-Qi-cs.jpg",
-        "ch": "Ba-Xian-Chuan-Qi-ch.jpg",
-        "th": "Ba-Xian-thuan-Qi-th.jpg"
+        "en": "Ba-Xian-Chuan-Qi-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4967,10 +4802,7 @@
       "RTP": "94.94%",
       "Reels": "5",
       "imgName": {
-        "en": "Sheng-Xiao-Chuan-Qi-en.jpg",
-        "cs": "Sheng-Xiao-csuan-Qi-cs.jpg",
-        "ch": "Sheng-Xiao-Chuan-Qi-ch.jpg",
-        "th": "Sheng-Xiao-thuan-Qi-th.jpg"
+        "en": "Sheng-Xiao-Chuan-Qi-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -4991,10 +4823,7 @@
       "RTP": "94.15%",
       "Reels": "5",
       "imgName": {
-        "en": "Kickin'-Kash-en.jpg",
-        "cs": "Kickin'-Kash-cs.jpg",
-        "ch": "Kickin'-Kash-ch.jpg",
-        "th": "Kickin'-Kash-th.jpg"
+        "en": "Kickin-Kash-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5041,8 +4870,7 @@
       "imgName": {
         "en": "Pig-Of-Luck-en.jpg",
         "cs": "Pig-Of-Luck-cs.jpg",
-        "ch": "Pig-Of-Luck-ch.jpg",
-        "th": "Pig-Of-Luck-th.jpg"
+        "ch": "Pig-Of-Luck-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5064,8 +4892,7 @@
       "imgName": {
         "en": "Dragon-Tiger-en.jpg",
         "cs": "Dragon-Tiger-cs.jpg",
-        "ch": "Dragon-Tiger-ch.jpg",
-        "th": "Dragon-Tiger-th.jpg"
+        "ch": "Dragon-Tiger-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5087,8 +4914,7 @@
       "imgName": {
         "en": "Burn-the-Office-en.jpg",
         "cs": "Burn-cse-Office-cs.jpg",
-        "ch": "Burn-the-Office-ch.jpg",
-        "th": "Burn-the-Office-th.jpg"
+        "ch": "Burn-the-Office-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5111,8 +4937,7 @@
       "imgName": {
         "en": "Dragon-Hunters-en.jpg",
         "cs": "Dragon-Hunters-cs.jpg",
-        "ch": "Dragon-Hunters-ch.jpg",
-        "th": "Dragon-Hunters-th.jpg"
+        "ch": "Dragon-Hunters-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5133,9 +4958,8 @@
       "Reels": "5",
       "imgName": {
         "en": "Feed-the-Zombie-en.jpg",
-        "cs": "Feed-cse-Zombie-cs.jpg",
-        "ch": "Feed-the-Zombie-ch.jpg",
-        "th": "Feed-the-Zombie-th.jpg"
+        "cs": "Feed-the-Zombie-cs.jpg",
+        "ch": "Feed-the-Zombie-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5156,10 +4980,7 @@
       "RTP": "93.96%",
       "Reels": "5",
       "imgName": {
-        "en": "Hungry-Cats-en.jpg",
-        "cs": "Hungry-Cats-cs.jpg",
-        "ch": "Hungry-Cats-ch.jpg",
-        "th": "Hungry-Cats-th.jpg"
+        "en": "Hungry-Cats-en.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5182,8 +5003,7 @@
       "imgName": {
         "en": "Treasure-of-Seti-en.jpg",
         "cs": "Treasure-of-Seti-cs.jpg",
-        "ch": "Treasure-of-Seti-ch.jpg",
-        "th": "Treasure-of-Seti-th.jpg"
+        "ch": "Treasure-of-Seti-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5206,8 +5026,7 @@
       "imgName": {
         "en": "Lucky-Legend-en.jpg",
         "cs": "Lucky-Legend-cs.jpg",
-        "ch": "Lucky-Legend-ch.jpg",
-        "th": "Lucky-Legend-th.jpg"
+        "ch": "Lucky-Legend-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5230,8 +5049,7 @@
       "imgName": {
         "en": "Lucky-3-en.jpg",
         "cs": "Lucky-3-cs.jpg",
-        "ch": "Lucky-3-ch.jpg",
-        "th": "Lucky-3-th.jpg"
+        "ch": "Lucky-3-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5253,8 +5071,7 @@
       "imgName": {
         "en": "Meow-Meow-en.jpg",
         "cs": "Meow-Meow-cs.jpg",
-        "ch": "Meow-Meow-ch.jpg",
-        "th": "Meow-Meow-th.jpg"
+        "ch": "Meow-Meow-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5277,8 +5094,7 @@
       "imgName": {
         "en": "Wild-Fudge-en.jpg",
         "cs": "Wild-Fudge-cs.jpg",
-        "ch": "Wild-Fudge-ch.jpg",
-        "th": "Wild-Fudge-th.jpg"
+        "ch": "Wild-Fudge-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5374,8 +5190,7 @@
       "imgName": {
         "en": "Queen-Of-Dead-en.jpg",
         "cs": "Queen-Of-Dead-cs.jpg",
-        "ch": "Queen-Of-Dead-ch.jpg",
-        "th": "Queen-Of-Dead-th.jpg"
+        "ch": "Queen-Of-Dead-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5397,8 +5212,7 @@
       "imgName": {
         "en": "Strange-counter-en.jpg",
         "cs": "Strange-counter-cs.jpg",
-        "ch": "Strange-counter-ch.jpg",
-        "th": "Strange-counter-th.jpg"
+        "ch": "Strange-counter-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5421,8 +5235,7 @@
       "imgName": {
         "en": "Hollywood-Pets-en.jpg",
         "cs": "Hollywood-Pets-cs.jpg",
-        "ch": "Hollywood-Pets-ch.jpg",
-        "th": "Hollywood-Pets-th.jpg"
+        "ch": "Hollywood-Pets-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5467,8 +5280,7 @@
       "imgName": {
         "en": "Banker-Niuniu-en.jpg",
         "cs": "Banker-Niuniu-cs.jpg",
-        "ch": "Banker-Niuniu-ch.jpg",
-        "th": "Banker-Niuniu-th.jpg"
+        "ch": "Banker-Niuniu-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5513,8 +5325,7 @@
       "imgName": {
         "en": "Two-Eight-Bar-en.jpg",
         "cs": "Two-Eight-Bar-cs.jpg",
-        "ch": "Two-Eight-Bar-ch.jpg",
-        "th": "Two-Eight-Bar-th.jpg"
+        "ch": "Two-Eight-Bar-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5536,8 +5347,7 @@
       "imgName": {
         "en": "Three-Facecard-en.jpg",
         "cs": "Three-Facecard-cs.jpg",
-        "ch": "Three-Facecard-ch.jpg",
-        "th": "Three-Facecard-th.jpg"
+        "ch": "Three-Facecard-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -5547,8 +5357,8 @@
     {
       "name": {
         "en": "Sichuan Mahjong",
-        "cs": "血战到底",
-        "ch": "血戰到底"
+        "cs": "四川麻将",
+        "ch": "四川麻將"
       },
       "appId": "AD09",
       "GameId": "AD09",
@@ -5559,8 +5369,7 @@
       "imgName": {
         "en": "Sichuan-Mahjong-en.jpg",
         "cs": "Sichuan-Mahjong-cs.jpg",
-        "ch": "Sichuan-Mahjong-ch.jpg",
-        "th": "Sichuan-Mahjong-th.jpg"
+        "ch": "Sichuan-Mahjong-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
