@@ -3205,3 +3205,7 @@ input[type="number"]::-webkit-outer-spin-button {
     margin: 0 auto;
     height: 622px;
 }
+
+.footer-promotions {
+    margin-top: 3rem;
+}
