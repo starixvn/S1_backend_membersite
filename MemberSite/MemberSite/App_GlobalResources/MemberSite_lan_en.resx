@@ -1636,4 +1636,10 @@
   <data name="FTDP3Title" xml:space="preserve">
     <value>100% WELCOME BONUS up  MRY 388</value>
   </data>
+  <data name="lbl_ResetPassword" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
+  <data name="lbl_ResetPasswordSubmit" xml:space="preserve">
+    <value>Password Reset Request</value>
+  </data>
 </root>

@@ -1660,4 +1660,10 @@
   <data name="lbl_Lottery" xml:space="preserve">
     <value>Xổ số</value>
   </data>
+  <data name="lbl_ResetPassword" xml:space="preserve">
+    <value>รีเซ็ตรหัสผ่าน</value>
+  </data>
+  <data name="lbl_ResetPasswordSubmit" xml:space="preserve">
+    <value>ขอรีเซ็ตรหัสผ่าน</value>
+  </data>
 </root>

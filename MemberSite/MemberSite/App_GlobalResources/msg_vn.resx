@@ -203,7 +203,7 @@
     <comment>0024. Deposit</comment>
   </data>
   <data name="ForgetPwdSuccess" xml:space="preserve">
-    <value>Hệ thống gửi thư vào hộp thư của bạn. Vui lòng kiểm tra hộp thư!</value>
+    <value>Mật khẩu mới của bạn đã được gửi đến địa chỉ email đã đăng ký của bạn.</value>
     <comment>0026. Deposit</comment>
   </data>
   <data name="msg_CreditSignUp" xml:space="preserve">
@@ -238,5 +238,8 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   </data>
   <data name="msg_SelectBirthDay" xml:space="preserve">
     <value>Vui lòng chọn ngày sinh của bạn.</value>
+  </data>
+  <data name="ResetPwdSuccess" xml:space="preserve">
+    <value>Mật khẩu của bạn đã được đặt lại thành công!</value>
   </data>
 </root>
