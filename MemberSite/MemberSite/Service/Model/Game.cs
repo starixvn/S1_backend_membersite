@@ -36,5 +36,7 @@ namespace MemberSite.Service.Model
         public bool Hot { get; set; }
         public bool New { get; set; }
         public bool ImageExist { get; set; }
+        public int promotion { get; set; }
+        public bool featured { get; set; }
     }
 }

@@ -103,7 +103,7 @@ namespace MemberSite.Controllers.Api
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30)
             };
 
-            if (tools.IsMobile() || loginModel.isPersistent)
+            if (tools.IsMobile())
             {
                 authProperties = new AuthenticationProperties
                 {

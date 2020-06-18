@@ -104,6 +104,7 @@ namespace MemberSite.Service.Model
     public class TpWallet
     {
         public int TpId { set; get; }
+        public string displayKey { get; set; }
         public string TpName { set; get; }
         public string Description { set; get; }
         public decimal Balance { set; get; }
