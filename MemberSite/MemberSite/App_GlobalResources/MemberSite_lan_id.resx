@@ -833,7 +833,7 @@
     <comment>00339. Deposit</comment>
   </data>
   <data name="lbl_ForgetPwdHint" xml:space="preserve">
-    <value>Jika anda lupa username dan password anda, silakan konfirmasi email anda dan kami akan mengirimkan password baru anda ke email terdaftar anda.</value>
+    <value>Silakan masukkan email terdaftar Anda untuk mengatur ulang kata sandi Anda</value>
   </data>
   <data name="lbl_From" xml:space="preserve">
     <value>dari</value>
@@ -1243,9 +1243,6 @@
   <data name="FTDPTitle" xml:space="preserve">
     <value>150% Deposit Awal Bonus Hingga IDR 3,000,000</value>
   </data>
-  <data name="c" xml:space="preserve">
-    <value>Syarat dan ketentuan khusus penawaran</value>
-  </data>
   <data name="lbl_Bonus" xml:space="preserve">
     <value>BONUS</value>
   </data>
@@ -1614,5 +1611,11 @@
   </data>
   <data name="FTDP3Title" xml:space="preserve">
     <value>100% WELCOME BONUS Hingga IDR 1,000,000</value>
+  </data>
+  <data name="lbl_ResetPassword" xml:space="preserve">
+    <value>Atur Ulang Kata Sandi</value>
+  </data>
+  <data name="lbl_ResetPasswordSubmit" xml:space="preserve">
+    <value>Permintaan Atur Ulang Kata Sandi</value>
   </data>
 </root>

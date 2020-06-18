@@ -205,7 +205,7 @@
     <value>您输入的电子邮件或是安全问题回答不正确，请确认!</value>
   </data>
   <data name="ForgetPwdSuccess" xml:space="preserve">
-    <value>系统已经新密码寄送至你注册的电子邮件信箱!</value>
+    <value>您的新密码已发送到您的注册电子邮件地址。</value>
   </data>
   <data name="msg_CreditSignUp" xml:space="preserve">
     <value>敬爱的客户， &lt;br /&gt;&lt;br /&gt;欢迎来到&lt;a href="https://www.nova88.net" target="_new"&gt;www.nova88.net&lt;/a&gt;, 完成注册后请游览此链接并享受我司的游戏盘口。</value>
@@ -233,5 +233,8 @@
   </data>
   <data name="msg_SelectBirthDay" xml:space="preserve">
     <value>请选择您的生日</value>
+  </data>
+  <data name="ResetPwdSuccess" xml:space="preserve">
+    <value>您的密码已成功重置！</value>
   </data>
 </root>
