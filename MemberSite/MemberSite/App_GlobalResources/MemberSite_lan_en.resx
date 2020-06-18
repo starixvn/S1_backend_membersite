@@ -829,11 +829,11 @@
     <value>Football Betting</value>
   </data>
   <data name="lbl_ForgetPassword" xml:space="preserve">
-    <value>Forget your ID or Password </value>
+    <value>Forgot your Password </value>
     <comment>00339. Deposit</comment>
   </data>
   <data name="lbl_ForgetPwdHint" xml:space="preserve">
-    <value>If you have forgotten your username or password, please provide your email and we will send your new password to your registered email address.</value>
+    <value>Please enter your registered email to reset your password</value>
   </data>
   <data name="lbl_From" xml:space="preserve">
     <value>From</value>

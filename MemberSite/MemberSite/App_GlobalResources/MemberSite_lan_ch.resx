@@ -829,11 +829,11 @@
     <value>美式足球投注</value>
   </data>
   <data name="lbl_ForgetPassword" xml:space="preserve">
-    <value>忘記您的用戶名或者密碼</value>
+    <value>忘記您的密碼</value>
     <comment>00340. Deposit</comment>
   </data>
   <data name="lbl_ForgetPwdHint" xml:space="preserve">
-    <value>若您忘記您的用戶名或密碼，請提供您的電子郵件後我們將寄新密碼至您的郵箱。</value>
+    <value>請輸入您的註冊電子郵件以重置密碼</value>
   </data>
   <data name="lbl_From" xml:space="preserve">
     <value>從</value>

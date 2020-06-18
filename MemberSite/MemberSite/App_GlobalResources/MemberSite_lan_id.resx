@@ -833,7 +833,7 @@
     <comment>00339. Deposit</comment>
   </data>
   <data name="lbl_ForgetPwdHint" xml:space="preserve">
-    <value>Jika anda lupa username dan password anda, silakan konfirmasi email anda dan kami akan mengirimkan password baru anda ke email terdaftar anda.</value>
+    <value>Silakan masukkan email terdaftar Anda untuk mengatur ulang kata sandi Anda</value>
   </data>
   <data name="lbl_From" xml:space="preserve">
     <value>dari</value>
