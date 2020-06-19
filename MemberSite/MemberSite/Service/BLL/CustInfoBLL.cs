@@ -248,7 +248,24 @@ namespace MemberSite.Service.BLL
 
         public Customer GetCustInfoByMail(string email)
         {
-            return custInfoService.GetCustInfoByMail(email);
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            string key = $"CustInfoByMail.{serverInfo.SiteId}.{email}";
+            var customer = cache.Get<Customer>(key);
+            if (customer != null)
+            {
+                return customer;
+            }
+
+            customer = custInfoService.GetCustInfoByMail(email);
+
+            if (customer != null)
+            {
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetSlidingExpiration(TimeSpan.FromMinutes(1));
+                cache.Set(key, customer, cacheEntryOptions);
+            }
+
+            return customer;
         }
 
         public int GetVipLevel(int custId)

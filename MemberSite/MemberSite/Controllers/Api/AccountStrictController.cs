@@ -311,7 +311,7 @@ namespace MemberSite.Controllers.Api
             if (custInfoBLL.SetResetPwd(authData.CustId, resetPassword.NewPassword))
             {
                 apiResult.ErrorCode = 0;
-                apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+                apiResult.Message = selLangBLL.GetMsg("ResetPwdSuccess");
             }
             else
             {
