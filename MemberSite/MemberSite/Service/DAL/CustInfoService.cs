@@ -137,10 +137,10 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.QueryFirstOrDefault<CustInfoProfile>("Member_CustProfile_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
-        public bool SubmittedCustPhotoId(int custId, int siteId)
+        public int SubmittedCustPhotoId(int custId, int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.ExecuteScalar<bool>("Member_SubmittedCustPhotoId_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.ExecuteScalar<int>("Member_SubmittedCustPhotoId_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
 
         public int SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
