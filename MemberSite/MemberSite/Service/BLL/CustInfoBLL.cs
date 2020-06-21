@@ -381,7 +381,7 @@ namespace MemberSite.Service.BLL
         public int SubmittedCustPhotoId(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId);
+            return custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId, custInfo.CurrencyId);
         }
         public int SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
         {
