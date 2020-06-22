@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MemberSite.Service.BLL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,22 +11,29 @@ namespace MemberSite.Controllers
     [Authorize]
     public class HistoryController : Controller
     {
+        private readonly TemplateBLL templateBLL;
+
+        public HistoryController(TemplateBLL templateBLL)
+        {
+            this.templateBLL = templateBLL;
+        }
+
         public IActionResult Deposit()
         {
-            return View();
+            return View(templateBLL.GetTemplatePath(Url));
         }
         public IActionResult Withdrawal()
         {
-            return View();
+            return View(templateBLL.GetTemplatePath(Url));
         }
         public IActionResult Transfer()
         {
-            return View();
+            return View(templateBLL.GetTemplatePath(Url));
         }
 
         public IActionResult Statement()
         {
-            return View();
+            return View(templateBLL.GetTemplatePath(Url));
         }
     }
 }

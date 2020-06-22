@@ -15,6 +15,10 @@
   text-align: left;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .text-green {
   color: #63d127 !important;
 }
@@ -44,6 +48,11 @@
   margin-bottom: 20px;
 }
 
+.bank-name {
+  font-size: 15px;
+  padding-bottom: 3px;
+}
+
 /* Table */
 table {
   width: 100%;
@@ -59,7 +68,7 @@ table tbody td {
 
 table thead th {
   font-weight: normal;
-  border-bottom: 1px solid #0e2d4d;
+  background: #0e2d4d;
 }
 
 table tbody td {
@@ -99,6 +108,7 @@ table tbody td {
   grid-gap: 1rem;
   margin-bottom: 1rem;
 }
+
 .options-method .options-card .card {
   background: #fff;
 }
@@ -193,13 +203,20 @@ table tbody td {
   top: 1.3rem;
 }
 
+.form-group .input-field .postfix {
+  position: absolute;
+  right: 1rem;
+  top: 1.7rem;
+  color: #63d127;
+}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.form-group .input-field .input-control, 
+.form-group .input-field .input-control,
 .form-group .input-field .languages {
   width: 100%;
   height: 5rem;
@@ -227,7 +244,7 @@ input[type="number"]::-webkit-outer-spin-button {
   left: 0;
   right: unset;
   top: 4rem;
-} 
+}
 
 .form-group .input-field .languages-box:after {
   top: 2.2rem;
@@ -242,13 +259,13 @@ input[type="number"]::-webkit-outer-spin-button {
   padding: 0 2rem;
 }
 
-.form-group.mobile-input .input-control {
+/* .form-group.mobile-input .input-control {
   background-color: transparent;
   border: 0;
   font-family: inherit;
   text-align: right;
   height: 5rem;
-}
+} */
 
 .form-group.mobile-input .input-control:focus {
   outline: none;
@@ -323,28 +340,11 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 
-.calendar-group .input-field{
+.calendar-group .input-field {
   width: 100%;
   position: relative;
 }
 
-/*.calendar-group .picker-input__icon {
-  left: auto !important;
-  right: 0;
-  width: 5rem;
-  height: 5rem;
-  padding: 1.3rem;
-  background: rgb(55, 130, 196);
-  background: linear-gradient(180deg,
-      rgba(55, 130, 196, 1) 0%,
-      rgba(16, 91, 157, 1) 100%);
-  border: 1px solid #1368ac;
-  cursor: pointer;
-}
-
-.calendar-group .picker-input__icon path {
-  display: none;
-}*/
 
 .calendar-group .input-control {
   width: 100%;
@@ -358,64 +358,6 @@ input[type="number"]::-webkit-outer-spin-button {
   font-size: 1.6rem;
 }
 
-/*.calendar-group .picker__container {
-  left: auto !important;
-  right: 0;
-  z-index: 80;
-}
-
-.calendar-group .calendar__item {
-  border: 1px solid #257cd4;
-}
-
-.calendar-group .calendar__head {
-  background: rgb(55, 130, 196);
-  background: linear-gradient(180deg,
-      rgba(55, 130, 196, 1) 0%,
-      rgba(16, 91, 157, 1) 100%);
-}
-
-.calendar-group .calendar__head--prev {
-  left: 1.5rem;
-}
-
-.calendar-group .calendar__head--next {
-  right: 1.5rem;
-}
-
-.calendar-group .calendar__body--table th {
-  color: #fff;
-  background-color: #103255;
-}
-
-.calendar table tbody td {
-  background: var(--headerBg);
-}
-
-.calendar .calendar__day--today {
-  background: rgb(55, 130, 196);
-  background: linear-gradient(180deg,
-      rgba(55, 130, 196, 1) 0%,
-      rgba(16, 91, 157, 1) 100%);
-}
-
-.calendar .calendar__day--start,
-.calendar .calendar__day--end,
-.calendar .calendar__day--selected {
-  background: rgb(250, 206, 86);
-  background: linear-gradient(0deg,
-      rgba(250, 206, 86, 1) 0%,
-      rgba(255, 175, 18, 1) 54%);
-}
-
-.calendar-group .calendar__day {
-  padding-top: 9px;
-}
-
-.calendar-group .calendar__day--6 {
-  color: red;
-}
-*/
 
 .calendar-group .form-input {
   position: relative;
@@ -445,34 +387,6 @@ input[type="number"]::-webkit-outer-spin-button {
   border-bottom: 1px solid #fff;
   background-color: transparent;
   transform: rotate(-45deg);
-}
-
-/* --- announcement-block ----- */
-.announcement-block .checkbox label {
-  line-height: 1.5;
-  height: 2.4rem;
-}
-
-.announcement-block .checkbox label:before,
-.checkbox label:after {
-  border: 1px solid transparent;
-  background-color: #fff;
-}
-
-.announcement-block .option-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 1.5rem !important;
-}
-
-.announcement-block .action-group .icon-delete {
-  margin-right: 2rem;
-}
-
-.announcement-block .action-col {
-  width: 5rem;
-  text-align: center;
 }
 
 /* --- Transfer Funds Page ----- */
@@ -640,6 +554,66 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 10rem;
 }
 
+.modal-transaction {
+  text-align: left;
+  padding: 2rem 1.5rem;
+}
+
+.modal-transaction .recipe {
+  background-color: #103C66;
+}
+
+.modal-transaction .recipe .item {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #0C1E34;
+}
+
+.modal-transaction .recipe .item.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-transaction .recipe .btn-secondary {
+  min-width: 3rem;
+  padding: 0.2rem 1rem;
+}
+
+.modal-transaction .label {
+  margin-bottom: .5rem;
+}
+
+.modal-transaction .form {
+  padding-top: 1.5rem;
+}
+
+.modal-transaction .form .input-control {
+  height: 4rem;
+  background-color: transparent;
+  width: 100%;
+  border: 1px solid #257cd4;
+}
+
+.modal-transaction .form .upload-file {
+  padding: 0.9rem 1.5rem;
+  border: 1px solid #257cd4;
+}
+
+.modal-transaction .form .upload-file .input-control {
+  height: auto;
+  border: 0;
+}
+
+.modal-transaction .form .calendar-group {
+  position: relative;
+}
+
+.modal-transaction .form .calendar-group .select-day {
+  width: 4rem;
+  height: 4rem;
+  padding: .9rem;
+}
+
 /* ----------------- Pagination ---------------------*/
 .paging {
   text-align: center;
@@ -678,6 +652,7 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-top: 2px;
   border: 0;
   font-family: inherit;
+  z-index: 10005;
 }
 
 .daterangepicker.show-calendar .ranges {
@@ -729,6 +704,136 @@ input[type="number"]::-webkit-outer-spin-button {
   color: #fff;
 }
 
+/********* Personal Message Page **************/
+.personal-block .checkbox label {
+  line-height: 1.5;
+  height: 2.4rem;
+}
+
+.personal-block .checkbox label:before,
+.checkbox label:after {
+  border: 1px solid transparent;
+  background-color: #fff;
+}
+
+.personal-block .option-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 0 !important;
+  background: transparent;
+  border-bottom: 1px solid #103c66;
+  margin: 0;
+}
+
+.msg-item .action.active .icon-arrow-down {
+  transform: rotate(135deg) translateY(-50%);
+  right: .7rem;
+}
+
+.personal-block .action-group .icon-delete {
+  margin-right: 2rem;
+}
+
+.personal-msg .msg-item {
+  display: grid;
+  grid-template-columns: 40px 1fr 30px;
+  align-items: center;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid #103c66;
+}
+
+.personal-msg .description {
+  padding: 1.2rem 0;
+  padding-left: 40px;
+  grid-column: 1/4;
+}
+
+.personal-msg .content {
+  padding: 0;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.personal-msg .action {
+  text-align: center;
+}
+
+.personal-msg .title {
+  font-size: 1.5rem;
+}
+
+.personal-msg .time {
+  color: #31619c;
+}
+
+.personal-msg .title.read {
+  font-weight: normal;
+}
+
+.personal-msg .title.unread {
+  font-weight: bold;
+}
+
+/********* Annoucement Page **************/
+.announcement-item {
+  border-bottom: 1px solid #103c66;
+  padding: 1.2rem 0;
+}
+
+.announcement-item .title {
+  color: #fdc53e;
+  font-size: 1.5rem;
+}
+
+.announcement-item .date {
+  color: #31619c;
+  padding: .3rem 0 .8rem;
+  text-decoration: underline;
+}
+
+.announcement-item .content {
+  padding: 0;
+  line-height: 1.5;
+}
+
+/************** Transfer page *******************/
+.dropdown {
+  position: relative;
+}
+
+.dropdown-container {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  z-index: 12;
+  background-color: #0c1e34;
+  width: 100%;
+  border: 1px solid #257cd4;
+}
+
+.dropdown-container .item {
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.selected-text {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.dropdown .icon-arrow-down {
+  position: relative;
+  left: 5px;
+}
+
+.dropdown .icon-action.active .icon-arrow-down {
+  transform: rotate(135deg) translateY(-50%);
+  right: .7rem;
+}
+
 /* -------------- Media query ---------------- */
 @media screen and (max-width: 500px) {
   .form-group .bank-selection {
@@ -759,8 +864,224 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 }
 
+.form-group .input-field .input-control.invalid {
+  border-color: red;
+}
+
+.form-group .invalid-mess {
+  color: red;
+  padding-top: 4px;
+}
+
 @media (min-width: 1200px) {
   .system-content {
     max-width: 1170px;
   }
+}
+
+/************** Bank Info Page ********************/
+.form-account .button-group {
+  margin: 1rem 0;
+}
+
+
+/*---------- select2 --------------*/
+/* .select2-container {
+  width: calc(100% - 32px - 16px) !important;
+  min-height: 5rem;
+  height: auto;
+  padding: 0 3rem 0 .4rem;
+  border: 1px solid #257cd4;
+  background: transparent;
+  font-family: inherit;
+  color: #fff;
+  border-radius: 0;
+  font-size: 1.6rem;
+}
+
+.select2-dropdown {
+  width: 100% !important;
+}
+
+.select2-selection {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  height: 100% !important;
+}
+
+.select2-selection:focus {
+  outline: none;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  padding: 0;
+}
+
+.select2-search--dropdown {
+  display: none;
+}
+
+.select2-results {
+  background-color: #0c1e34;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  top: 8px;
+  right: 4px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  border: none;
+  width: 1rem;
+  height: 1rem;
+  transform: rotate(-45deg);
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+  border: none;
+  border-right: 2px solid #fff;
+  border-top: 2px solid #fff;
+}
+
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+  background-color: #0c1e34;
+}
+
+.bank-wrapper .select2-container {
+  width: 100% !important;
+} */
+
+.ddl-default {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  padding-top: 10px;
+  white-space: normal;
+  line-height: 1;
+}
+.ddl-default .dropdown-container {
+  top: 60px;
+  max-height: 18rem;
+  overflow: auto;
+}
+.ddl-default .icon-action {
+  position: absolute;
+  right: 20px;
+  top: 24px;
+}
+
+.ddl-default .dropdown-container .item,
+.ddl-default .selected-text {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.ddl-default .selected-text .value {
+  padding-right: 16px;
+}
+
+.ddl-default .item  img, .ddl-default .selected-text img{
+  width: 26px;
+  height: 24px;
+  padding-right: 6px;
+}
+
+.form-local-transfer .ddl-default .selected-text,
+.form-local-transfer .ddl-default .item, 
+.form-mobile-banking .ddl-default .selected-text,
+.form-mobile-banking .ddl-default .item {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+}
+.form-local-transfer .ddl-default .selected-text, 
+.form-mobile-banking .ddl-default .selected-text{
+  padding: .6rem 1.5rem;
+}
+
+.form-local-transfer .selected-text .limit,
+.form-local-transfer .item .limit,
+.form-mobile-banking .selected-text .limit,
+.form-mobile-banking .item .limit {
+  grid-column: 2/3;
+}
+
+.form-local-transfer .selected-text .name,
+.form-local-transfer .item .name,
+.form-mobile-banking .selected-text .name,
+.form-mobile-banking .item .name {
+  grid-row: 1/3;
+}
+
+@media screen and (min-width: 667px) {
+  .form-local-transfer .ddl-default .selected-text,
+  .form-local-transfer .ddl-default .item,
+  .form-mobile-banking .ddl-default .selected-text,
+  .form-mobile-banking .ddl-default .item {
+    display: flex;
+  }
+
+  .form-local-transfer .item .limit,
+  .form-mobile-banking .item .limit {
+    padding-left: 1.2rem;
+  }
+
+}
+
+.deposit-block .bank .limit,
+.select2-dropdown .bank .limit {
+  padding-left: 1.2rem;
+}
+
+.deposit-block .bank .limit:before,
+.select2-dropdown .bank .limit:before {
+  content: '(';
+  padding-right: 4px;
+}
+
+.deposit-block .bank .limit:after,
+.select2-dropdown .bank .limit:after {
+  content: ')';
+  padding-left: 4px;
+}
+
+
+@media screen and (max-width: 480px) {
+  .form-group {
+    grid-template-columns: 1fr;
+  }
+
+  .deposit-block .bank,
+  .select2-dropdown .bank {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+  }
+
+  .deposit-block .bank .limit,
+  .select2-dropdown .bank .limit {
+    grid-column: 2/3;
+    padding-left: 0;
+  }
+
+  .deposit-block .bank .logo-bank,
+  .select2-dropdown .bank .logo-bank {
+    grid-row: 1/3;
+  }
+}
+
+.deposit-block .mobile-options .card {
+  margin-right: 0;
+}
+
+
+.momo-method .mobile-options {
+  display: block;
+}
+
+.momo-method .card {
+  padding-bottom: 1.2rem;
+  ;
 }
