@@ -3209,3 +3209,9 @@ input[type="number"]::-webkit-outer-spin-button {
 .footer-promotions {
     margin-top: 3rem;
 }
+p.bank-name{
+  margin-right: 10px;
+}
+.bankinfo-block .table-content .tbl-account #Bank_Account_List tr td.text-center img{
+  width: auto;
+}

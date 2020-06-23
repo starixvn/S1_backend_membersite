@@ -9,6 +9,130 @@ background: -moz-linear-gradient(#000,#070d19,#242e49,#070d19,#000);
 background: linear-gradient(#000,#070d19,#242e49,#070d19,#000);
 }
 /*CasinoSelect*/
+.dropdown {
+    display: inline-flex;
+    position: relative;
+    min-width: 0;
+    vertical-align: middle;
+    color: inherit;
+    background-color: inherit;
+    border-radius: 6px;
+}
+.btn{
+    padding: .125rem .75rem;
+    min-width: 0;
+    min-height: 36px;
+    vertical-align: middle;
+    outline: none;
+    cursor: pointer;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: currentColor;
+    background-color: transparent;
+    border-width: 1px;
+    border-color: transparent;
+    border-radius: 6px;
+}
+.dropdown-default {
+    background-color: #fafafa;
+}
+.dropdown-default > .btn {
+    border-color: #bdbdbd;
+}
+.dropdown > .btn > .text {
+    width: auto;
+    margin-right: .375rem;
+    min-width: 0;
+}
+.dropdown > .btn .icon-caret {
+    margin-left: auto;
+    margin-right: .375rem;
+}
+.dropdown__container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 2;
+    min-width: 100%;
+    margin: .25rem 0;
+    color: rgba(0, 0, 0, 0.87);
+    background-color: white;
+    border-radius: inherit;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.26);
+    transition: ease 0.2s;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+}
+.dropdown__list {
+    display: flex;
+    flex-direction: column;
+    min-height: 1px;
+    max-height: 50vh;
+    overflow-y: auto;
+    border-radius: inherit;
+    -webkit-overflow-scrolling: touch;
+}
+.dropdown__item {
+    padding: .125rem .75rem;
+    min-width: 0;
+    min-height: 36px;
+    vertical-align: middle;
+    outline: none;
+    cursor: pointer;
+    user-select: none;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    color: inherit;
+}
+.dropdown__item > .text {
+    white-space: nowrap;
+}
+.textfield {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 0 .375rem;
+    z-index: 0;
+}
+.textfield__input {
+    flex: 1;
+    /* width: 100%; */
+    min-height: 36px;
+    padding: .375rem;
+    color: inherit;
+    border: none;
+    background: none;
+    outline: none;
+    resize: none;
+}
+.textfield__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fafafa;
+    border-width: 1px;
+    border-color: #bdbdbd;
+    border-radius: 6px;
+    z-index: -1;
+}
+.btn-icon {
+    width: 36px;
+    height: 36px;
+    max-width: 36px;
+    max-height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0;
+    justify-content: center;
+}
 .main:not(.main--home) .page {
     height: auto;
 }
@@ -450,6 +574,7 @@ h3 + span + span{
     margin-bottom: 1vw;
 }
 .lobby-banner-swiper img{
+    width: 100%;
     height: auto;
 }
 @media (min-width: 1025px){
@@ -480,3 +605,20 @@ h3 + span + span{
       transform: scale(1);
     }
   }
+  @media screen and (min-width: 768px){
+    .mobile-sort-select{
+        display: none;
+    }
+    .main{
+        margin-left: auto;
+        margin-right: auto;
+        padding: 2rem 1rem;
+        width: 100%;
+        max-width: 1280px;
+    }
+  }
+@media screen and (max-width: 767px){
+    .page.CasinoSelect .CasinoSelect_nav > a {
+        display: none;
+    }
+}
