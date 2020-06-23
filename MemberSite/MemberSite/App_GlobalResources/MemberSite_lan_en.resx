@@ -1642,4 +1642,34 @@
   <data name="lbl_ResetPasswordSubmit" xml:space="preserve">
     <value>Password Reset Request</value>
   </data>
+  <data name="lbl_ABCasino" xml:space="preserve">
+    <value>AB Casino</value>
+  </data>
+  <data name="lbl_Football" xml:space="preserve">
+    <value>Football</value>
+  </data>
+  <data name="lbl_Guest" xml:space="preserve">
+    <value>Guest</value>
+  </data>
+  <data name="lbl_Hockey" xml:space="preserve">
+    <value>Hockey</value>
+  </data>
+  <data name="lbl_KenoAndLottery1" xml:space="preserve">
+    <value>Keno &amp; Lottery</value>
+  </data>
+  <data name="lbl_LiveChat" xml:space="preserve">
+    <value>Live Chat</value>
+  </data>
+  <data name="lbl_Loading" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="lbl_Me" xml:space="preserve">
+    <value>Me</value>
+  </data>
+  <data name="lbl_Statement1" xml:space="preserve">
+    <value>Statement</value>
+  </data>
+  <data name="lbl_Wallet" xml:space="preserve">
+    <value>Wallet</value>
+  </data>
 </root>
