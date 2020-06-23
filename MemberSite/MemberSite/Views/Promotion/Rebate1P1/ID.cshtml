@@ -1,0 +1,132 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-Rebate1P1.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2>Rebate 1% Virtual Sports , Keno & Number Game</h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">Ketentuan Umum</span>
+            <ol type="a">
+                <li>Promosi berlaku mulai tanggal 25 Juni 2020 pukul 12:00AM Sampai ada pemberitahuan selanjutnya.<br><br></li>
+                <li>Batas akhir waktu promosi ini adalah setiap hari kamis pukul 11:59:59 AM (GMT + 8)<br><br></li>
+                <li>Bonus rebate 1% untuk permainan virtual sport, keno dan number game di hitung dari turnover selama 1 minggu. terhitung dari hari kamis-rabu dan di bagikan pada hari kamis minggu depan nya.<br><br></li>
+                <li>Semua Member Nova88 berhak mendapatkan bonus rebate 1% yang di hitung berdasarkan turnover setiap minggu nya dari permainan Virtual Sport, keno & Number game.<br><br></li>
+                <li>Member di haruskan mencapai 1x TO bonus rebate setelah bonus rebate di bagikan untuk bisa melakukan withdraw.<br><br></li>
+                <li>Bonus rebate akan di bagikan ke akun member nova88 setiap hari kamis dalam waktu kurang dari 48 jam<br><br></li>
+            </ol>
+            <span class="promotions-title">Ketentuan Bonus :</span>
+            <div class="table table-rwd table-primary">
+                <div class="thead">
+                    <div class="tr">
+                        <div class="td-date" style="align-items: center;">
+                            Produk
+                        </div>
+                    </div>
+                </div>
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date" style="align-items: center;">
+                            Semua Sports kecuali Virtual Sport
+                        </div>
+                    </div>
+                </div>
+
+                <div class="thead">
+                    <div class="tr">
+                        <div class="td-date">
+                            <span class="text">Bonus 5% (Mata Uang)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">Minimum Pembayaran</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">Maximum Pembayaran</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">Turnover</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">Malaysia</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">MYR 10</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">MYR 3000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">Indonesia</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">IDR 30,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">IDR10,000,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">Thailand</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">THB 100</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">THB 20,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br><br>
+
+            <span class="promotions-title">Syarat dan Ketentuan :</span>
+            <ol type="1">
+                <li>Promosi berlaku untuk semua member Nova88<br><br></li>
+                <li>Member yang berpartisipasi harus mematuhi semua persyaratan yang disebutkan di atas serta semua peraturan dan ketentuan yang dinyatakan di situs web Nova88.<br><br></li>
+                <li>Nova88 berhak untuk mengubah promosi kapanpun.<br><br></li>
+                <li>Nova88 adalah penyelenggara tunggal Promosi dan keputusannya adalah final.<br><br></li>
+                <li>syarat dan ketentuan Nova88 berlaku <br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>
