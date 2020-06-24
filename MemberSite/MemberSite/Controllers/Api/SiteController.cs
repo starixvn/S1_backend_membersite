@@ -264,7 +264,7 @@ namespace MemberSite.Controllers.Api
 
                 Customer custInfo = null;
 
-                var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "ForgetPwd", controller = "Site", LangId = selLangBLL.GetLangId() }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
+                var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "ResetPassword", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
                 if (!string.IsNullOrEmpty(forgetPwdReq.Username))
                 {
                     custInfo = custInfoBLL.GetCustInfoByUserName(forgetPwdReq.Username);
