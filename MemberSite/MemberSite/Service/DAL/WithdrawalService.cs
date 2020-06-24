@@ -37,8 +37,9 @@ namespace MemberSite.Service.DAL
             using var trans = conn.BeginTransaction();
             var p = new DynamicParameters(new { CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, Amount = amount, Memo = memo, WithdrawalInfo = Newtonsoft.Json.JsonConvert.SerializeObject(withdrawalInfo), Prefix = $"W{common.GetEnv()}" });
             p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
+            p.Add("ToKyc", dbType: DbType.Boolean, direction: ParameterDirection.Output);
 
-            conn.Execute("WithdrawalInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
+            conn.Execute("Member_WithdrawalInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
             transId = p.Get<string>("vTransId");
             var rollover = rolloverService.ReachedRollover(custId, conn, trans);
 
@@ -57,7 +58,15 @@ namespace MemberSite.Service.DAL
             if (result > 0)
             {
                 trans.Commit();
-                return 0;
+
+                if ((p.Get<byte?>("ToKyc") ?? 0) == 1)
+                {
+                    return 2;
+                }
+                else
+                {
+                    return 0;
+                }
             }
             else
             {
@@ -160,6 +169,12 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<WithdrawalLimitInfo>("Member_CustWithdrawalLimit_Get", new { custId }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+        }
+
+        public IEnumerable<WithdrawalKyc> GetWithdrawalKycList(int sitId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Query<WithdrawalKyc>("Member_WithdrawalKyc_Get", new { SitId = sitId }, commandType: CommandType.StoredProcedure);
         }
     }
 }
