@@ -90,17 +90,14 @@
                                 <img src="@CmsPromotionPath/banner-sabaworldcup1.jpg" asp-append-version="true" />
                             </a>
                         </div>*@
-
-                    <div class="swiper-slide">
-                        <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                            <img src="@CmsPromotionPath/banner-covid.jpg" asp-append-version="true" />
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a class="swiper-slide" href="@gamingBLL.GetEntPageUrl(1, "1", Url)">
-                            <img src="@CmsPromotionPath/banner-euroevent.jpg" asp-append-version="true" />
-                        </a>
-                    </div>
+                    @if (CurrencyId == 4 || CurrencyId == 15)
+                    {
+                        <div class="swiper-slide">
+                            <a class="swiper-slide  @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "223", Url)">
+                                <img src="@CmsPromotionPath/banner-indo4d.jpg" asp-append-version="true" />
+                            </a>
+                        </div>
+                    }
                     <div class="swiper-slide">
                         <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Europeanmajor01">
                             <img src="@CmsPromotionPath/banner-Europeanmajor01.jpg" asp-append-version="true" />
@@ -302,20 +299,20 @@
                         <span class="text">@selLangBLL.GetResourceValue("lbl_eSports")</span>
                     </div>
                 </a>
-                @*<a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "202",Url)">
-                        <img src="@SkinImgPath/Lobby/Home/Sport-Keno.png" asp-append-version="true" />
-                        <img src="@SkinImgPath/Lobby/Home/d_Sport-Keno.png" asp-append-version="true" >
-                        <div class="lobby-sport__info">
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_Keno")</span>
-                        </div>
-                    </a>*@
-                <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "180",Url)">
-                    <img src="@SkinImgPath/Lobby/Home/Sport-Virtual_Sports.png">
-                    <img src="@SkinImgPath/Lobby/Home/d_Sport-Virtual_Sports.png">
+                <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "202",Url)">
+                    <img src="@SkinImgPath/Lobby/Home/Sport-Keno.png" asp-append-version="true" />
+                    <img src="@SkinImgPath/Lobby/Home/d_Sport-Keno.png" asp-append-version="true">
                     <div class="lobby-sport__info">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Keno")</span>
                     </div>
                 </a>
+                @*<a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "180",Url)">
+                        <img src="@SkinImgPath/Lobby/Home/Sport-Virtual_Sports.png">
+                        <img src="@SkinImgPath/Lobby/Home/d_Sport-Virtual_Sports.png">
+                        <div class="lobby-sport__info">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>
+                        </div>
+                    </a>*@
             }
         </div>
         <div class="lobby-product-swiper">
