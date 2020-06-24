@@ -30,4 +30,11 @@ namespace MemberSite.Service.Model
         public decimal TurnOver { get; set; }
         public decimal Balance { get; set; }
     }
+
+    public class WithdrawalKyc
+    {
+        public int CurrencyId { get; set; }
+        public int SiteId { get; set; }
+        public decimal Amount { get; set; }
+    }
 }
