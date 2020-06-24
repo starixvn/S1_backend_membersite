@@ -423,8 +423,6 @@ import {ShowModal} from '../commJS/Modal.jsx';
                         this.GetWithdrawalInfoRecent();
                         this.getWithdrawalAvailableBalance();
                     }.bind(this));
-                } else if (result.errorCode == 2) {
-                    window.location.replace(window.location.href);
                 } else if (result.errorCode < 0) {
                     if(result.errorCode==-1) {
                         ShowModal(i18n.lbl_ImportantNote, i18n.lbl_RolloverOver + ": " + number_format(parseFloat(result.message)));

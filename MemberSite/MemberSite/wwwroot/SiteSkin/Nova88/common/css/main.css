@@ -4486,9 +4486,12 @@ button.swiper-pagination-bullet {
 .login-page .login__logo .logo::before {
   content: "";
   display: block;
-  width: calc(130px * 1.5);
-  height: calc(46px * 1.5);
-  background-image: url("../images/logo.svg");
+  /*width: calc(130px * 1.5);
+  height: calc(46px * 1.5);*/
+  width: calc(288px * 1.5);
+  height: calc(81px * 1.5);
+  background-image: url("../images/logo_festival.png");
+  /*background-image: url("../images/logo.svg");*/
   background-size: cover;
 }
 
@@ -4658,17 +4661,21 @@ button.swiper-pagination-bullet {
 .header__logo .logo::before {
   content: "";
   display: block;
-  width: calc(143px * 0.8);
-  height: calc(46px * 0.8);
-  background-image: url("../images/logo.svg");
+  /*width: calc(130px * 0.8);
+  height: calc(46px * 0.8);*/
+  width: calc(288px * 0.8);
+  height: calc(81px * 0.8);
   background-image: url("../images/logo_festival.png");
+  /*background-image: url("../images/logo.svg");*/
   background-size: cover;
   transition: ease .15s;
 }
 
 [data-layout=desktop] .header__logo .logo::before {
-  width: calc(150px * 1.2);
-  height: calc(46px * 1.2);
+  /*width: calc(130px * 1.2);
+  height: calc(46px * 1.2);*/
+   width: calc(288px * 1.2);
+  height: calc(81px * 1.2);
 }
 
 .header > .header__logo:only-of-type {

@@ -12,6 +12,7 @@ namespace MemberSite.Service.Model
         public string AccountName { get; set; }
         public string AccountNo { get; set; }
     }
+
     public class WithdrawalHistory
     {
         public DateTime CreateTime { get; set; }
@@ -22,16 +23,11 @@ namespace MemberSite.Service.Model
         [JsonIgnore]
         public string WithdrawalInfo { get; set; }
     }
+
     public class WithdrawalLimitInfo
     {
         public decimal WithdrawalLimit { get; set; }
         public decimal TurnOver { get; set; }
         public decimal Balance { get; set; }
-    }
-    public class WithdrawalKyc
-    {
-        public int CurrencyId { get; set; }
-        public int SiteId { get; set; }
-        public decimal Amount { get; set; }
     }
 }

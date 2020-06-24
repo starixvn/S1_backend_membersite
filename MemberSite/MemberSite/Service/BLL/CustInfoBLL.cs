@@ -378,10 +378,14 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return custInfoService.GetCustInfoProfile(custId, custInfo.SiteId);
         }
-        public int SubmittedCustPhotoId(int custId)
+        public bool SubmittedCustPhotoId(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId, custInfo.CurrencyId);
+            if (custInfo.CurrencyId == 13)
+            {
+                return true;
+            }
+            return custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId);
         }
         public int SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
         {
