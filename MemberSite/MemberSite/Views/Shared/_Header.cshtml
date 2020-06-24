@@ -284,6 +284,7 @@
             <a class="btn">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_Lottery")</span>
                 <i class="icon icon-caret"></i>
+                <img src="~/SiteSkin/Nova88/common/images/new.gif" class="newicon" />
             </a>
             <div class="dropdown__container">
                 <div class="dropdown__list">
@@ -298,12 +299,13 @@
                         </a>
                         @if (CurrencyId == 4 || CurrencyId == 15)
                             {
-                                <a class="dropdown__item @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "223", Url)">
-                                    <i class="icon icon-sport223">
-                                        <img src="~/common/images/svg/4D.svg" />
-                                    </i>
-                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Indo4d")</span>
-                                </a>
+                    <a class="dropdown__item @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "223", Url)">
+                        <i class="icon icon-sport223">
+                            <img src="~/common/images/svg/4D.svg" />
+                        </i>
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Indo4d")</span>
+                        <img src="~/SiteSkin/Nova88/common/images/new.gif" class="newicon" />
+                    </a>
                             }
                     </div>
                 </div>

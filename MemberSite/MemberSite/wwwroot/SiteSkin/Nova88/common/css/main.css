@@ -1,4 +1,4 @@
-﻿@charset "UTF-8";
+@charset "UTF-8";
 /* normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
 /* Document
    ========================================================================== */
@@ -4919,6 +4919,25 @@ button.swiper-pagination-bullet {
 
 .header__nav .dropdown .dropdown__container {
   transform: translateX(-25%);
+}
+
+[data-layout=desktop] .newicon {
+  position: absolute;
+  top: 1px;
+  right: 5px;
+}
+
+[data-layout=desktop] .btn .newicon {
+  right: 30px;
+  top: 0;
+}
+
+[data-layout=mobile] .newicon {
+  margin-left: 1vw;
+}
+
+[data-layout=desktop] .dropdown__item {
+  position: relative;
 }
 
 .footer {
