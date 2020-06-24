@@ -753,31 +753,6 @@
     },
     {
       "name": {
-        "en": "Double Fortune",
-        "cs": "双囍临门",
-        "ch": "雙囍臨門"
-      },
-      "appId": 48,
-      "gameId": "double-fortune",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "30",
-      "RTP": "96.22%",
-      "imgName": {
-        "en": "double-fortune-EN.jpg",
-        "cs": "double-fortune-CS.jpg",
-        "ch": "double-fortune-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": true,
-      "new": false,
-      "featured": true,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
         "en": "Wild Inferno",
         "cs": "重金摇滚",
         "ch": "重金搖滾"
