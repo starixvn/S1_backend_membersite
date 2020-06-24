@@ -911,7 +911,7 @@
     <value>Bản ghi nhớ</value>
   </data>
   <data name="lbl_Message" xml:space="preserve">
-    <value>Thông Tin</value>
+    <value>Tin Nhắn</value>
   </data>
   <data name="lbl_Method" xml:space="preserve">
     <value>Cách thức</value>
@@ -1665,5 +1665,8 @@
   </data>
   <data name="lbl_ResetPasswordSubmit" xml:space="preserve">
     <value>ขอรีเซ็ตรหัสผ่าน</value>
+  </data>
+  <data name="lbl_Retype" xml:space="preserve">
+    <value>Xác nhận</value>
   </data>
 </root>

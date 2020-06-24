@@ -133,7 +133,7 @@
     <value>Mật khẩu cũ không đúng.</value>
   </data>
   <data name="msg_loggedout" xml:space="preserve">
-    <value>Bạn đã đăng suất thành công!</value>
+    <value>Bạn đã đăng xuất thành công</value>
   </data>
   <data name="msg_LoginToAccess" xml:space="preserve">
     <value>Để truy cập vào trò chơi, vui lòng đăng nhập.</value>

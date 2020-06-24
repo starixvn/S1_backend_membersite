@@ -1642,4 +1642,7 @@
   <data name="lbl_ResetPasswordSubmit" xml:space="preserve">
     <value>Password Reset Request</value>
   </data>
+  <data name="lbl_Retype" xml:space="preserve">
+    <value>Retype</value>
+  </data>
 </root>
