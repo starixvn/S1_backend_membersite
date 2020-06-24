@@ -1,5 +1,4 @@
 @charset "UTF-8";
-@import "font.css";
 a,.BIG{
     cursor: pointer;
 }
@@ -622,8 +621,4 @@ h3 + span + span{
     .page.CasinoSelect .CasinoSelect_nav > a {
         display: none;
     }
-}
-.dropdown[data-open="true"] .dropdown__container{
-    visibility: visible;
-    opacity: 1;
 }
