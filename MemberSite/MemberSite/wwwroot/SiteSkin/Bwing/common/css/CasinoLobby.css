@@ -47,6 +47,9 @@ background: linear-gradient(#000,#070d19,#242e49,#070d19,#000);
     width: auto;
     margin-right: .375rem;
     min-width: 0;
+    overflow : hidden;
+    text-overflow : ellipsis;
+    white-space : nowrap;
 }
 .dropdown > .btn .icon-caret {
     margin-left: auto;
@@ -213,7 +216,7 @@ flex: 1 0 auto;
 }
 .CasinoSelect_nav .textfield{
     flex: 1;
-    margin-right: .5rem;
+    margin: 0 .5rem;
     height: 30px;
 }
 .CasinoSelect_nav .dropdown{
@@ -581,6 +584,7 @@ h3 + span + span{
 @media (min-width: 1025px){
     .lobby-banner-swiper {
         max-height: 420px;
+        overflow: hidden;
     }
 }
 
