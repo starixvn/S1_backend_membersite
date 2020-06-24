@@ -420,9 +420,9 @@ namespace MemberSite.Service.BLL
                 await common.SendMailAsync(serverInfo.SiteName, null, custInfo.UserName, custInfoProfile.Email, selLangBLL.GetResourceValue("lbl_ForgetPassword"), MailBody);
             }
         }
-        public void ForgetPwd1(int custId)
+        public void ForgetPwd1(int custId, string resetPasswordUrl)
         {
-            commonBLL.SendResetPwdMail(custId);
+            commonBLL.SendResetPwdMail(custId, resetPasswordUrl);
         }
         public CustRollOver GetCustRollOver(int custId, string bonusCode)
         {
