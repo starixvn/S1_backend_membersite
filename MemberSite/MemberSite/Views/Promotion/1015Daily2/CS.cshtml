@@ -1,0 +1,193 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-1015Daily2.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2>叮咚叮咚！10% 与 15% 每日再存红利！！</h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">优惠详情</span>
+            <ol type="a">
+                <li>会员进行最低存款额就可享受此优惠促销。<br><br></li>
+                <li>完成存款后，优惠奖金将在24小时内直接汇入您的账号钱包。<br><br></li>
+            </ol>
+
+            <span class="promotions-title">优惠奖励条件</span>
+            <ol type="a" start="3">
+                <li>再存红利金额汇入账号后必须进行一次(1x)的流水投注才能提款。<br><br></li>
+            </ol>
+
+
+
+            <span class="promotions-title">促销详情如下所示：</span>
+            <div class="table table-rwd table-primary">
+                <div class="thead">
+                    <div class="tr">
+                        <div class="td-date" style="align-items: center;">
+                            周一，周三，周五与周日 10% 再存红利
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="thead">
+                    <div class="tr">
+                        <div class="td-date">
+                            <span class="text">优惠 10% (货币)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">最高奖金 (上限)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">投注倍数</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">MYR</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">MYR 300</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">THB</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">THB 2,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">IDR</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">IDR 1,000,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <br><br>
+
+
+            <div class="table table-rwd table-primary">
+                <div class="thead">
+                    <div class="tr">
+                        <div class="td-date" style="align-items: center;">
+                            周二，周四，周六 15% 再存红利
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="thead">
+                    <div class="tr">
+                        <div class="td-date">
+                            <span class="text">优惠 15% (货币)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">最高奖金 (上限)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">投注倍数</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">MYR</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">MYR 300</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">THB</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">THB 2,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">IDR</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">IDR 1,000,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <br><br>
+
+            <span class="promotions-title">优惠标准规则</span>
+            <ol type="1">
+                <li>此促销将每日提供。<br><br></li>
+                <li>此促销适用于所有Nova88会员。<br><br></li>
+                <li>此促销于2020年6月30日（星期一)开始。<br><br></li>
+                <li>此促销将会员在优惠期间每日的无限再存款额进行计算。<br><br></li>
+                <li>除非另有说明，否则从此次促销中获得的奖金在汇入的三十（30）天内有效。参加会员在指定的时间内未能达到要求的条件，所有优惠奖金将被撤销。<br><br></li>
+                <li>参与优惠会员必须接受并遵守上述所有条款以及Nova88实施的所有相关规则和规定。<br><br></li>
+                <li>Nova88有权随时中止或取消本优惠。<br><br></li>
+                <li>Nova88保留对本优惠的最终解释权.。<br><br></li>
+                <li>Nova88标准规则和条款适用。<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>

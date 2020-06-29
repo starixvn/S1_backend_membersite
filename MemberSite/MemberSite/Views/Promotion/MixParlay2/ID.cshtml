@@ -1,0 +1,121 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-MixParlay2.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2>Campuran Parlay Rebate 2.5%</h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">Ketentuan umum</span>
+            <ol type="a">
+                <li>Member yang aktif bermain di nova88 akan secara otomatis mendapatkan bonus rebate.<br><br></li>
+                <li>Untuk memenuhi syarat rebate, taruhan parlay harus memiliki setidaknya 2 dengan jumlah taruhan minimum. <br><br></li>
+                <li>Untuk mencapai jumlah pembayaran bet minimum sebelum batas waktu akhir setiap Selasa 11:59:59 (GMT + 8) hanya dengan berpartisipasi di nova88 selama masa periode promosi.<br><br></li>
+                <li>Rebate akan di bagikan dalam waktu 48 jam setelah batas waktu.<br><br></li>
+                <li>Anggota diharuskan untuk satu kali (1x) rollover untuk rabat setelah kredit kepada anggota, sebelum melakukan penarikan.<br><br></li>
+            </ol>
+
+            <span class="promotions-title">Ketentuan Bonus:</span>
+            <div class="table table-rwd table-primary">
+                <div class="thead">
+                    <div class="tr">
+                        <div class="td-date">
+                            <span class="text">Rebate 0.3% (mata uang)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">Minimal pembayaran (capped)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">Maksimal pembayaran (capped)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">Turnover</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">MYR</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">MYR 5</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">MYR 888</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">IDR</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">IDR 15,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">IDR 2,888,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">THB</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">THB 50</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">THB 6,888</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <br><br>
+
+            <span class="promotions-title">Syarat dan ketentuan:</span>
+            <ol type="1">
+                <li>Promosi berlaku untuk semua anggota Nova88.<br><br></li>
+                <li>Rebate berlaku selama tiga puluh (30) hari setelah diberlakukan. kemenangan dari bonus akan di hapuskan dari member jika tidak terpenuhi dalam jangka waktu yang diberikan.<br><br></li>
+                <li>Pemain akan menerima Mix Parlay Rebate 2,5% dengan mengikuti pembayaran minimum<br><br></li>
+                <li>Member yang berpartisipasi harus mematuhi semua persyaratan yang disebutkan di atas serta semua peraturan dan ketentuan yang dinyatakan di situs web Nova88.<br><br></li>
+                <li>Nova88 berhak untuk mengubah promosi kapanpun.<br><br></li>
+                <li>Nova88 adalah penyelenggara tunggal Promosi dan keputusannya adalah final.<br><br></li>
+                <li>Berlaku syarat dan ketentuan Umum Nova88.<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>
