@@ -1,0 +1,112 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-50PNewDep1.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2>NEW user 50% 1st Deposit Bonus</h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">Promotion Details</span>
+            <ol type="a">
+                <li>Only applicable for NEW user with FIRST success deposit.<br><br></li>
+                <li>FIRST deposit amount x50% = Bonus amount<br><br></li>
+            </ol>
+
+            <span class="promotions-title">Bonus Play Conditions</span>
+            <ol type="a">
+                <li>Bonus amount required x1 rollover to be eligible for withdrawal.<br><br></li>
+            </ol>
+
+            <span class="promotions-title">Promotion particulars are as illustrated below:</span>
+            <div class="table table-rwd table-primary">
+                <div class="thead">
+                    <div class="tr">
+                        <div class="td-date">
+                            <span class="text">Bonus 50% (currencies)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">Max Pay-out (capped)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">Rollover</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">MYR</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">MYR 200</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">THB</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">THB 1,400</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">IDR</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">IDR 660,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br><br>
+
+            <span class="promotions-title">Promotion Terms & Conditions</span>
+            <ol type="1">
+                <li>Promotion applied to all Nova88 members.<br><br></li>
+                <li>This Promotion effective from 1st July 2020 until further notice.<br><br></li>
+                <li>The 50% bonus will credit to player automatically within 24hours.<br><br></li>
+                <li>Bonus acquired from this promotion is valid for thirty (30) days upon issuance, unless stated otherwise. Shall the participating member fail to fulfil required prerequisites within given time frame, all money won using bonus funds will
+                    be revoked.<br><br></li>
+                <li>Only wagers placed on Nova88 products that generate a win/loss outcome will contribute to the one time (1x) turnover requirement in all Nova88 product except cash out. Cancelled or voided wagers will not count toward this requirement.<br><br></li>
+                <li>Participating members must accept and comply with all the terms mentioned above as well as all relevant rules and regulations implemented by Nova88. <br><br></li>
+                <li>Nova88 reserves the right to amend or withdraw the Promotion at any time.<br><br></li>
+                <li>Nova88 is the sole arbiter of the Promotion and its decision is final.<br><br></li>
+                <li>Nova88 Terms & Conditions apply.<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>
