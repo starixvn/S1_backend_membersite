@@ -1651,4 +1651,10 @@
 3. Driving license
 4. Birth Certificate</value>
   </data>
+  <data name="lbl_WaitKYC" xml:space="preserve">
+    <value>Verification is in progress</value>
+  </data>
+  <data name="lbl_WaitKYCHint" xml:space="preserve">
+    <value>Thank you for submitting the required document, kindly bear with us for a moment while the verification is in progress.</value>
+  </data>
 </root>
