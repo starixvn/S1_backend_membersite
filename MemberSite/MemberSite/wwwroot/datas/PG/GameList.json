@@ -1128,31 +1128,6 @@
     },
     {
       "name": {
-        "en": "Ganesha Fortune",
-        "cs": "福运象财神",
-        "ch": "福運象財神"
-      },
-      "appId": 75,
-      "gameId": "ganesha-fortune",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "Base bet 20 (32,400 ways)",
-      "RTP": "96.72%",
-      "imgName": {
-        "en": "ganesha-fortune-EN.jpg",
-        "cs": "ganesha-fortune-CS.jpg",
-        "ch": "ganesha-fortune-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": false,
-      "new": false,
-      "featured": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
         "en": "Cards Hi Lo",
         "cs": "高低扑克",
         "ch": "高低撲克"

@@ -1657,6 +1657,81 @@
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Lightning Joker",
+        "cs": "电光小丑女",
+        "ch": "电光小丑女"
+      },
+      "appId": "7388",
+      "gameId": "7388",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "5",
+      "RTP": "96.30%",
+      "imgName": {
+        "en": "Lightning-Joker-EN.jpg",
+        "cs": "Lightning-Joker-CS.jpg",
+        "ch": "Lightning-Joker-CS.jpg"
+      },
+      "launchDate": "2020/06/11",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Avatars: Gateway Guardians",
+        "cs": "阿凡达特攻队",
+        "ch": "阿凡达特攻队"
+      },
+      "appId": "8308",
+      "gameId": "8308",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "6",
+      "RTP": "96.30%",
+      "imgName": {
+        "en": "Avatars-Gateway-Guardians-EN.jpg",
+        "cs": "Avatars-Gateway-Guardians-CS.jpg",
+        "ch": "Avatars-Gateway-Guardians-CS.jpg"
+      },
+      "launchDate": "2020/06/18",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Lucky Neko",
+        "cs": "招财幸运猫",
+        "ch": "招财幸运猫"
+      },
+      "appId": "7382",
+      "gameId": "7382",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "40",
+      "RTP": "96.30%",
+      "imgName": {
+        "en": "Lucky-Neko-EN.jpg",
+        "cs": "Lucky-Neko-CS.jpg",
+        "ch": "Lucky-Neko-CS.jpg"
+      },
+      "launchDate": "2020/06/25",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
     }
   ]
 }
