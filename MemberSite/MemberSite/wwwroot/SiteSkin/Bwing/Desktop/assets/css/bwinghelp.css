@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /* normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
 /* Document
    ========================================================================== */
@@ -526,11 +526,10 @@ body::before {
   display: none;
 }
 
-
 /* icon  */
 @font-face {
-  font-family: "iconfont";
-  src: url("../../common/font/iconfont.woff?v=20191206001") format("woff");
+    font-family: 'iconfont';
+    src: url('../fonts/iconfont.woff') format('woff');
 }
 
 .icon {
