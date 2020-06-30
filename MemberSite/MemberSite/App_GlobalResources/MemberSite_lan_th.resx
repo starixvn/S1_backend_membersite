@@ -1049,7 +1049,7 @@
     <value>ส่ง รูปถ่ายบัตรประชาชน</value>
   </data>
   <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
-    <value>กรุณาส่งรูปถ่ายบัตรประชาชนของคุณ ก่อนทำการถอนเงิน</value>
+    <value>สำหรับการถอนเงิน โปรดเตรียมเอกสารที่ออกโดยรัฐบาลดังต่อไปนี้</value>
   </data>
   <data name="lbl_SubmitProof" xml:space="preserve">
     <value>ส่งสลิปธนาคาร</value>
@@ -1591,5 +1591,18 @@
   </data>
   <data name="lbl_ResetPasswordSubmit" xml:space="preserve">
     <value>ขอรีเซ็ตรหัสผ่าน</value>
+  </data>
+  <data name="lbl_SubmitPhotoIdList" xml:space="preserve">
+    <value>โปรดส่งเอกสารอย่างใดอย่างหนึ่งดังต่อไปนี้: 
+1. บัตรประชาชน
+2. พาสปอร์ต
+3. ใบขับขี่
+4. สูติบัตร (ใบแจ้งเกิด) </value>
+  </data>
+  <data name="lbl_WaitKYC" xml:space="preserve">
+    <value>กำลังดำเนินการยืนยัน</value>
+  </data>
+  <data name="lbl_WaitKYCHint" xml:space="preserve">
+    <value>ขอบคุณสำหรับการส่งเอกสารที่จำเป็น โปรดรอสักครู่ในการดำเนินการตรวจสอบเอกสารที่ท่านส่งมา</value>
   </data>
 </root>

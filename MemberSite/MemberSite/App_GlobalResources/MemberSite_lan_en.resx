@@ -1646,7 +1646,9 @@
     <value>Retype</value>
   </data>
   <data name="lbl_SubmitPhotoIdList" xml:space="preserve">
-    <value>1. National Identity Card 
+    <value>Kindly submit either one of the ID listed as below:
+
+1. National Identity Card 
 2. Passport
 3. Driving license
 4. Birth Certificate</value>
