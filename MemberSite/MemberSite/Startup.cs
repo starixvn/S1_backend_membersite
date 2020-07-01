@@ -80,6 +80,7 @@ namespace MemberSite
             services.AddSingleton<CasinoService>();
             services.AddSingleton<StatementService>();
             services.AddSingleton<AuthService>();
+            services.AddSingleton<BannerService>();
             // foreach (var s in AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())
             //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.DAL"))
@@ -106,6 +107,7 @@ namespace MemberSite
             services.AddSingleton<CommonBLL>();
             services.AddSingleton<TemplateBLL>();
             services.AddSingleton<AuthBLL>();
+            services.AddSingleton<BannerBLL>();
 
             //var bll = AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())

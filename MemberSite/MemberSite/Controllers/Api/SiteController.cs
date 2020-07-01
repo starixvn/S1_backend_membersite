@@ -33,8 +33,9 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL authorizeBLL;
         private readonly CasinoBLL casinoBLL;
         private readonly ServerInfoBLL serverInfoBLL;
+        private readonly BannerBLL bannerBLL;
 
-        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL)
+        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -44,6 +45,7 @@ namespace MemberSite.Controllers.Api
             this.authorizeBLL = authorizeBLL;
             this.casinoBLL = casinoBLL;
             this.serverInfoBLL = serverInfoBLL;
+            this.bannerBLL = bannerBLL;
         }
 
         public class LoginModel
@@ -437,6 +439,45 @@ namespace MemberSite.Controllers.Api
             }
             apiResult.ErrorCode = 0;
             return apiResult;
+        }
+
+        public ApiResult<IEnumerable<int>> GetTpIds()
+        {
+            ApiResult<IEnumerable<int>> apiResult = new ApiResult<IEnumerable<int>>();
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                apiResult.Data = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
+            }
+            else
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                apiResult.Data = casinoBLL.GetProviderIdByCurrency(0, serverInfo.SiteId);
+            }
+
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<Banner>> GetBanner([FromForm]string FolderName)
+        {
+            ApiResult<IEnumerable<Banner>> result = new ApiResult<IEnumerable<Banner>>();
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                result.Data = bannerBLL.GetBanner(custInfo.SiteId, FolderName, selLangBLL.GetLangId(), custInfo.CurrencyId);
+            }
+            else
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                result.Data = bannerBLL.GetBanner(serverInfo.SiteId, FolderName, selLangBLL.GetLangId(), 0);
+            }
+
+            result.ErrorCode = 0;
+            return result;
         }
     }
 }
