@@ -258,4 +258,10 @@
   <data name="msg_WrongAmount" xml:space="preserve">
     <value>Wrong amount</value>
   </data>
+  <data name="msg_BalanceHint" xml:space="preserve">
+    <value>Your current balance is</value>
+  </data>
+  <data name="msg_DepositHint" xml:space="preserve">
+    <value>Deposit now to enjoy our games and services.</value>
+  </data>
 </root>

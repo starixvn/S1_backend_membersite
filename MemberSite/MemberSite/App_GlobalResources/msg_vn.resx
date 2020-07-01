@@ -242,4 +242,10 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="ResetPwdSuccess" xml:space="preserve">
     <value>Mật khẩu của bạn đã được đặt lại thành công!</value>
   </data>
+  <data name="msg_BalanceHint" xml:space="preserve">
+    <value>Số dư hiện tại của bạn là</value>
+  </data>
+  <data name="msg_DepositHint" xml:space="preserve">
+    <value>Nạp tiền ngay để thưởng thức các trò chơi và dịch vụ của chúng tôi.</value>
+  </data>
 </root>

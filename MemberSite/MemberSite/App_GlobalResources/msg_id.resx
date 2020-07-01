@@ -240,4 +240,10 @@
   <data name="ResetPwdSuccess" xml:space="preserve">
     <value>Kata sandi Anda telah berhasil diatur ulang!</value>
   </data>
+  <data name="msg_BalanceHint" xml:space="preserve">
+    <value>Saldo anda saat ini</value>
+  </data>
+  <data name="msg_DepositHint" xml:space="preserve">
+    <value>Deposit sekarang dan nikmati permainan dan pelayanan kami</value>
+  </data>
 </root>

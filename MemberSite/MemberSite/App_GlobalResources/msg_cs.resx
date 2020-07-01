@@ -237,4 +237,10 @@
   <data name="ResetPwdSuccess" xml:space="preserve">
     <value>您的密码已成功重置！</value>
   </data>
+  <data name="msg_BalanceHint" xml:space="preserve">
+    <value>您的当前余额是</value>
+  </data>
+  <data name="msg_DepositHint" xml:space="preserve">
+    <value>立即存款以享有我司游戏盘口及服务。</value>
+  </data>
 </root>

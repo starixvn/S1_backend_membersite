@@ -243,4 +243,11 @@
   <data name="ResetPwdSuccess" xml:space="preserve">
     <value>รีเซ็ตรหัสผ่านของคุณสำเร็จแล้ว!</value>
   </data>
+  <data name="msg_BalanceHint" xml:space="preserve">
+    <value>ยอดคงเหลือปัจจุบันของคุณคือ
+</value>
+  </data>
+  <data name="msg_DepositHint" xml:space="preserve">
+    <value>ฝากเงินเลย เพื่อเพลินเงินกับเกมและบริการของเร</value>
+  </data>
 </root>
