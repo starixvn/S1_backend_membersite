@@ -60,6 +60,7 @@ namespace MemberSite.Service.Model.enums
         Cancelled = 5,
         Approved = 6,
         Rejected = 7,
+        ToKyc = 8,
         Error = 99
     }
     public enum WithdrawalType

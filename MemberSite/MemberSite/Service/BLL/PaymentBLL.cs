@@ -20,8 +20,9 @@ namespace MemberSite.Service.BLL
         private readonly RolloverService rollOverService;
         private readonly StatementService statementService;
         private readonly SelLangBLL selLangBLL;
+        private readonly IMemoryCache cache;
 
-        public PaymentBLL(BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService, RolloverService rollOverService, StatementService statementService, SelLangBLL selLangBLL)
+        public PaymentBLL(IMemoryCache cache, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService, RolloverService rollOverService, StatementService statementService, SelLangBLL selLangBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.custInfoBLL = custInfoBLL;
@@ -31,6 +32,7 @@ namespace MemberSite.Service.BLL
             this.rollOverService = rollOverService;
             this.statementService = statementService;
             this.selLangBLL = selLangBLL;
+            this.cache = cache;
         }
 
         public int DepositReqWireTransfer(int custId, int sysId, decimal amount, string memo, out DepositRep3 depositRep3)
@@ -309,6 +311,27 @@ namespace MemberSite.Service.BLL
         public WithdrawalLimitInfo GetWithdrawalLimitInfo(int custId)
         {
             return withdrawalService.GetWithdrawalLimitInfo(custId);
+        }
+
+        public WithdrawalKyc GetWithdrawalKyc(int custId)
+        {
+            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            string key = $"GetWithdrawalKycList_{CustInfo.SiteId}";
+            var withdrawalKycList = cache.Get<IEnumerable<WithdrawalKyc>>(key);
+            if (withdrawalKycList != null)
+            {
+                return withdrawalKycList.Where(x => x.CurrencyId == CustInfo.CurrencyId).FirstOrDefault();
+            }
+
+            withdrawalKycList = withdrawalService.GetWithdrawalKycList(CustInfo.SiteId);
+            if (withdrawalKycList != null)
+            {
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+                cache.Set(key, withdrawalKycList, cacheEntryOptions);
+            }
+
+            return withdrawalKycList.Where(x => x.CurrencyId == CustInfo.CurrencyId).FirstOrDefault();
         }
     }
 }

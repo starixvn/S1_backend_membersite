@@ -54,7 +54,7 @@
 <div class="main">
     @if (User.Identity.IsAuthenticated)
     {
-        <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
+    <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
     }
 
 <div class="promotionsList-page page">
@@ -101,58 +101,54 @@
     <div id="promotions"></div>
     <!--Group-end-->
     @if (CurrencyId != 13)
-    {
-        <div class="promotions-module">
-            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=CCback4">
-                <img src="@CmsPromotionPath/banner-CCback4.jpg" asp-append-version="true" />
-            </a>
-        </div>
-        <div class="promotions-module">
-            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=MixParlay2">
-                <img src="@CmsPromotionPath/banner-MixParlay2.jpg" asp-append-version="true" />
-            </a>
-        </div>
-        <div class="promotions-module">
-            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Europeanmajor02">
-                <img src="@CmsPromotionPath/banner-Europeanmajor02.jpg" asp-append-version="true" />
-            </a>
-        </div>
-        <div class="promotions-module">
-            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=1015Daily2">
-                <img src="@CmsPromotionPath/banner-1015Daily2.jpg" asp-append-version="true" />
-            </a>
-        </div>
-        <div class="promotions-module">
-            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=PromoRebate02">
-                <img src="@CmsPromotionPath/banner-promoRebate02.jpg" asp-append-version="true" />
-            </a>
-        </div>
-        <div class="promotions-module">
-            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=50PNewDep1">
-                <img src="@CmsPromotionPath/banner-50PNewDep1.jpg" asp-append-version="true" />
-            </a>
-        </div>
-        <div class="promotions-module">
-            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promoccback03">
-                <img src="@CmsPromotionPath/banner-ccback03.jpg" asp-append-version="true" />
-            </a>
-        </div>
-        <div class="promotions-module">
-            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=SportsbookCashback1">
-                <img src="@CmsPromotionPath/banner-SportsbookCashback1.jpg" asp-append-version="true" />
-            </a>
-        </div>
-        <div class="promotions-module">
-            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Rebate1P1">
-                <img src="@CmsPromotionPath/banner-Rebate1P1.jpg" asp-append-version="true" />
-            </a>
-        </div>
-        <div class="promotions-module">
-            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Bravo888">
-                <img src="@CmsPromotionPath/banner-Bravo888.jpg" asp-append-version="true" />
-            </a>
-        </div>
-    }
+        {
+    <div class="promotions-module">
+        <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=50PNewDep1">
+            <img src="@CmsPromotionPath/banner-50PNewDep1.jpg" asp-append-version="true" />
+        </a>
+    </div>
+    <div class="promotions-module">
+        <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=1015Daily2">
+            <img src="@CmsPromotionPath/banner-1015Daily2.jpg" asp-append-version="true" />
+        </a>
+    </div>
+    <div class="promotions-module">
+        <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=SportsbookCashback1">
+            <img src="@CmsPromotionPath/banner-SportsbookCashback1.jpg" asp-append-version="true" />
+        </a>
+    </div>
+
+    <div class="promotions-module">
+        <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=CCback4">
+            <img src="@CmsPromotionPath/banner-CCback4.jpg" asp-append-version="true" />
+        </a>
+    </div>
+    <div class="promotions-module">
+        <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=PromoRebate02">
+            <img src="@CmsPromotionPath/banner-promoRebate02.jpg" asp-append-version="true" />
+        </a>
+    </div>
+    <div class="promotions-module">
+        <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Bravo888">
+            <img src="@CmsPromotionPath/banner-Bravo888.jpg" asp-append-version="true" />
+        </a>
+    </div>
+    <div class="promotions-module">
+        <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Rebate1P1">
+            <img src="@CmsPromotionPath/banner-Rebate1P1.jpg" asp-append-version="true" />
+        </a>
+    </div>
+    <div class="promotions-module">
+        <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Europeanmajor02">
+            <img src="@CmsPromotionPath/banner-Europeanmajor02.jpg" asp-append-version="true" />
+        </a>
+    </div>
+    <div class="promotions-module">
+        <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=MixParlay2">
+            <img src="@CmsPromotionPath/banner-MixParlay2.jpg" asp-append-version="true" />
+        </a>
+    </div>
+        }
 </div>
 </div>
 @section Scripts{

@@ -1049,7 +1049,7 @@
     <value>提交附有照片的身份证</value>
   </data>
   <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
-    <value>提现前请提交您附有照片的身份证！</value>
+    <value>请上传国家政府发行证件以完成提款验证流程：</value>
   </data>
   <data name="lbl_SubmitProof" xml:space="preserve">
     <value>提交银行收据</value>
@@ -1601,7 +1601,7 @@
     <value>优惠</value>
   </data>
   <data name="lbl_Indo4d" xml:space="preserve">
-    <value>Indo 4D</value>
+    <value>印尼 4D</value>
   </data>
   <data name="lbl_Lottery" xml:space="preserve">
     <value>彩票</value>
@@ -1623,5 +1623,18 @@
   </data>
   <data name="lbl_ResetPasswordSubmit" xml:space="preserve">
     <value>密码重置请求</value>
+  </data>
+  <data name="lbl_SubmitPhotoIdList" xml:space="preserve">
+    <value>下列中，请上传其一证件：
+1. 国民身份证
+2. 护照副本
+3. 驾驶执照
+4. 出生证明</value>
+  </data>
+  <data name="lbl_WaitKYC" xml:space="preserve">
+    <value>审查流程进行中</value>
+  </data>
+  <data name="lbl_WaitKYCHint" xml:space="preserve">
+    <value>感谢您上传所需文件，审查流程正进行中，恳请稍后</value>
   </data>
 </root>
