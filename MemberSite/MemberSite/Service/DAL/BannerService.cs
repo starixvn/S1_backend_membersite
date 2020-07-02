@@ -18,10 +18,10 @@ namespace MemberSite.Service.DAL
             this.configuration = configuration;
         }
 
-        public IEnumerable<Banner> GetBanner(int SiteId, string FolderName, string Lang, int CurrencyId)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<Banner>("Member_Banner_Get", new { SiteId , FolderName , Lang , CurrencyId }, commandType: CommandType.StoredProcedure);
-        }
+        //public IEnumerable<Banner> GetBanner(int SiteId, string FolderName, string Lang, int CurrencyId)
+        //{
+        //    using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+        //    return conn.Query<Banner>("Member_Banner_Get", new { SiteId , FolderName , Lang , CurrencyId }, commandType: CommandType.StoredProcedure);
+        //}
     }
 }

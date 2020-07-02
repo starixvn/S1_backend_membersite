@@ -1,0 +1,90 @@
+{
+        "Promotion":[
+            {
+                "actionLink":"Home/Register",
+                "img":"banner-covid.jpg",
+                "lang":["th", "id", "en", "cs"]
+            },
+            {
+                "tpId":1,
+                "gameId":1,
+                "img":"banner-euroevent.jpg",
+                "lang":["th", "id", "en", "cs"],
+                "checkPromo":true
+            },
+            {
+                "actionLink":"Promotion/Bonus?BonusCode=Europeanmajor01",
+                "isBonus":true,
+                "urlWithLang":true,
+                "img":"banner-Europeanmajor01.jpg",
+                "lang":["th", "id", "en", "cs"]
+            },
+            {
+                "actionLink":"Promotion/Index",
+                "img":"banner-FTDP3.jpg",
+                "lang":["th", "id", "en", "cs"],
+                "checkPromo":true
+            },
+            {
+                "actionLink":"Promotion/Bonus?BonusCode=PromoRebate02",
+                "isBonus":true,
+                "urlWithLang":true,
+                "img":"banner-promoRebate02.jpg",
+                "lang":["th", "id", "en", "cs"]
+            },
+            {
+                "actionLink":"Promotion/Bonus?BonusCode=Promo5P",
+                "isBonus":true,
+                "urlWithLang":true,
+                "img":"banner-Promo5.jpg",
+                "lang":["th", "id", "en", "cs"]
+            },
+            {
+                "actionLink":"Promotion/Bonus?BonusCode=Promoccback03",
+                "isBonus":true,
+                "urlWithLang":true,
+                "img":"banner-ccback03.jpg",
+                "lang":["th", "id", "en", "cs"]
+            },
+            {
+                "actionLink":"Promotion/Bonus?BonusCode=PromoMixpary1",
+                "isBonus":true,
+                "urlWithLang":true,
+                "img":"banner-promoMixparlay1.jpg",
+                "lang":["th", "id", "en", "cs"]
+            },
+            {
+                "actionLink":"Promotion/Bonus?BonusCode=Mega1",
+                "isBonus":true,
+                "urlWithLang":true,
+                "img":"banner-Mega1.jpg",
+                "lang":["th", "id", "en", "cs"]
+            },
+            {
+                "actionLink":"Promotion/Bonus?BonusCode=PromoPPTourThai",
+                "isBonus":true,
+                "urlWithLang":true,
+                "currencyId":4,
+                "img":"banner-PPTour.jpg",
+                "lang":["th", "id", "en", "cs"]
+            },
+            {
+                "actionLink":"Casino/Lobby",
+                "imgFolder":"Casino",
+                "img":"event-pp-20200508.png",
+                "lang":["th", "id", "en", "cs"]
+            }
+        ],
+        "Casino":[
+            {
+                "actionLink":"http://event-tw.248ka.com/20200526/index.html",
+                "outerLink":true,
+                "actionLinkByLang":[
+                    {"lang":"cs", "link":"http://event-tw.248ka.com/20200519/index.html", "outerLink":true}
+                ],
+                "img":"event-pp-20200508.png",
+                "lang":["th", "id", "en", "cs"]
+            }
+        ]
+}
+

@@ -15,9 +15,9 @@ namespace MemberSite.Service.BLL
             this.bannerService = bannerService;
         }
 
-        public IEnumerable<Banner> GetBanner(int SiteId, string FolderName, string Lang, int CurrencyId)
-        {
-            return bannerService.GetBanner(SiteId, FolderName, Lang, CurrencyId);
-        }
+        //public IEnumerable<Banner> GetBanner(int SiteId, string FolderName, string Lang, int CurrencyId)
+        //{
+        //    return bannerService.GetBanner(SiteId, FolderName, Lang, CurrencyId);
+        //}
     }
 }

@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 
 namespace MemberSite.Controllers.Api
@@ -461,19 +462,37 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<Banner>> GetBanner([FromForm]string FolderName)
+        public ApiResult<IEnumerable<BannerSettingItem>> GetBanner([FromForm]string FolderName)
         {
-            ApiResult<IEnumerable<Banner>> result = new ApiResult<IEnumerable<Banner>>();
+            ApiResult<IEnumerable<BannerSettingItem>> result = new ApiResult<IEnumerable<BannerSettingItem>>();
+
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            string dataPath = Path.Combine(environment.WebRootPath, $"datas/{serverInfo.SiteName}_bannerSetting.json");
+            BannerSetting _bannerSetting = new BannerSetting();
+            if (System.IO.File.Exists(dataPath))
+            {
+                _bannerSetting = JsonConvert.DeserializeObject<BannerSetting>(System.IO.File.ReadAllText(dataPath));
+            }
+
+            var perferCurr = 0;
             if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();
                 var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                result.Data = bannerBLL.GetBanner(custInfo.SiteId, FolderName, selLangBLL.GetLangId(), custInfo.CurrencyId);
+                perferCurr = custInfo.CurrencyId;
             }
             else
             {
-                var serverInfo = serverInfoBLL.GetServerInfo();
-                result.Data = bannerBLL.GetBanner(serverInfo.SiteId, FolderName, selLangBLL.GetLangId(), 0);
+                perferCurr = selLangBLL.GetPreferCurrencyId();
+            }
+
+            if (FolderName == "Promotion")
+            {
+                result.Data = _bannerSetting.Promotion.Where(x => x.currencyId == null || x.currencyId == perferCurr); ;
+            }
+            else if(FolderName== "Casino")
+            {
+                result.Data = _bannerSetting.Casino.Where(x => x.currencyId == null || x.currencyId == perferCurr); ;
             }
 
             result.ErrorCode = 0;
