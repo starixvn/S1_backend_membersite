@@ -264,4 +264,7 @@
   <data name="msg_DepositHint" xml:space="preserve">
     <value>Deposit now to enjoy our games and services.</value>
   </data>
+  <data name="msg_ForceLogedoutHint" xml:space="preserve">
+    <value>This ID has already logged in from another browser window or device. You will be forced to logout from this session.</value>
+  </data>
 </root>

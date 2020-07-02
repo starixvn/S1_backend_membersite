@@ -1672,4 +1672,34 @@
   <data name="lbl_Wallet" xml:space="preserve">
     <value>Wallet</value>
   </data>
+  <data name="lbl_BirthCertificate" xml:space="preserve">
+    <value>Birth Certificate</value>
+  </data>
+  <data name="lbl_DrivingLicense" xml:space="preserve">
+    <value>Driving License</value>
+  </data>
+  <data name="lbl_KYCSubmitHint" xml:space="preserve">
+    <value>Kindly submit either one of the ID listed as below:</value>
+  </data>
+  <data name="lbl_Languages" xml:space="preserve">
+    <value>Languages</value>
+  </data>
+  <data name="lbl_NationalIdentityCard" xml:space="preserve">
+    <value>National Identity Card</value>
+  </data>
+  <data name="lbl_Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="lbl_Passport" xml:space="preserve">
+    <value>Passport</value>
+  </data>
+  <data name="lbl_Setting" xml:space="preserve">
+    <value>Setting</value>
+  </data>
+  <data name="lbl_Themes" xml:space="preserve">
+    <value>Themes</value>
+  </data>
+  <data name="lbl_Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
 </root>
