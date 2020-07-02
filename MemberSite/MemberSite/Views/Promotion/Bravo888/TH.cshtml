@@ -1,0 +1,107 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-Bravo888.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2>Bravo No.88888 รางวัลมากกว่า 56,000 บาทให้คุณ! </h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">เงื่อนไขที่สำคัญ</span>
+            <ol type="a">
+                <li>โปรโมชั่นนี้สำหรับสมาชิก Nova88 ทุกคน.<br><br></li>
+                <li>โปรโมชั่นนี้สำหรับสปอร์ตบุ๊คเท่านั้น.<br><br></li>
+                <li>โปรโมชั่นจะเริ่มตั้งแต่ 6 กรกฎาคม 2563 จนถึง 29 กรกฎาคม 2563 (ทุกวันจันทร์ ถึง วันพุธ)<br><br>
+                    <table id="tablepromo">
+                        <tr>
+                            <th>วันที่ </th>
+                            <th>สัปดาห์ที่ </th>
+                        </tr>
+                        <tr>
+                            <td>6 กรกฎาคม – 8 กรกฎาคม (23:59) </td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>13 กรกฎาคม– 15 กรกฎาคม (23:59) </td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>20 กรกฎาคม – 22 กรกฎาคม (23:59) </td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>27 กรกฎาคม – 29 กรกฎาคม (23:59) </td>
+                            <td>4</td>
+                        </tr>
+                    </table>
+                    <br><br>
+                </li>
+                <li>ในการเข้าร่วมโปรโมชั่นนี้สมาชิกจะต้องเดิมพันด้วยจำนวนเงินเดิมพันขั้นต่ำ หาก Ticket การเดิมพันที่ลงท้ายด้วยตัวเลขที่มีอย่างน้อยสองหลักสุดท้ายด้วยหมายเลข 88.<br><br></li>
+                <li>โปรดติดต่อ Live chat หรือฝ่ายบริการลูกค้าสัมพันธ์ของเราภายใน 48 ชั่วโมง เพื่อรับ Ticket การเดิมพัน Ref.no ที่ได้รับรางวัลโบนัสจะถูกโอนเข้าบัญชีสมาชิกหลังจากตรวจสอบโดยฝ่ายบริการลูกค้าสัมพันธ์ (ตามด้วยหมายเลขอ้างอิง - Ref.no และเวลาที่คุณวางเดิมพันที่ปรากฎใน
+                    Ticket) <br><br></li>
+                <li>สมาชิกจะต้องทำการโรลโอเวอร์ 1 ครั้ง (1x ) เพื่อรับโบนัสหลังจากให้เครดิตแก่สมาชิกก่อนทำการถอน.<br><br></li>
+            </ol>
+            <span class="promotions-title">เงื่อนไขการเล่นโบนัส</span>
+            <p>รายละเอียดของจำนวนโบนัสที่ชนะต่อตั๋วที่จะได้รับดังแสดงในตารางด้านล่าง: </p>
+            <table id="tablepromo">
+                <tr>
+                    <th>สิ่งที่ต้องการ </th>
+                    <th>โบนัส MYR</th>
+                    <th>โบนัส THB</th>
+                    <th>โบนัส IDR</th>
+                </tr>
+                <tr>
+                    <td>หมายเลขอ้างอิงใน Ticket การเดิมพันที่ลงท้ายด้วยตัวเลข xxxxxxx88888</td>
+                    <td>MYR288<br>ผู้ชนะ 1 คนต่อวัน</td>
+                    <td>THB 2,088<br>ผู้ชนะ 1 คนต่อวัน</td>
+                    <td>IDR 988,888<br>ผู้ชนะ 1 คนต่อวัน</td>
+                </tr>
+                <tr>
+                    <td>หมายเลขอ้างอิงใน Ticket การเดิมพันที่ลงท้ายด้วยตัวเลข xxxxxxx88888</td>
+                    <td>MYR 88<br>ผู้ชนะ 2 คนต่อวัน</td>
+                    <td>THB 688<br>ผู้ชนะ 2 คนต่อวัน</td>
+                    <td>IDR 288,888<br>ผู้ชนะ 2 คนต่อวัน</td>
+                </tr>
+                <tr>
+                    <td>หมายเลขอ้างอิงใน Ticket การเดิมพันที่ลงท้ายด้วยตัวเลข xxxxxxx88888</td>
+                    <td>MYR28<br>ผู้ชนะ 3 คนต่อวัน</td>
+                    <td>THB 198<br>ผู้ชนะ 3 คนต่อวัน</td>
+                    <td>IDR 88,888<br>ผู้ชนะ 3 คนต่อวัน</td>
+                </tr>
+                <tr>
+                    <td>หมายเลขอ้างอิงใน Ticket การเดิมพันที่ลงท้ายด้วยตัวเลข xxxxxxx88888</td>
+                    <td>MYR 18<br>ผู้ชนะ 5 คนต่อวัน</td>
+                    <td>THB 168<br>ผู้ชนะ 5 คนต่อวัน</td>
+                    <td>IDR 59,888<br>ผู้ชนะ 5 คนต่อวัน</td>
+                </tr>
+            </table>
+            <br><br>
+
+            <span class="promotions-title">ข้อกำหนดและเงื่อนไข</span>
+            <ol type="1">
+                <li>Ticket ที่มีสถานะคืนเงิน/ ปฎิเสธหรือยกเลิก/ หรือเป็นโมฆะ จะไม่สามารถใช้กับโปรโมชั่นนี้ได้<br><br></li>
+                <li>ข้อเสนอนี้ จำกัด เพียงผู้ชนะ 1 คนต่อสมาชิกต่อวันในแต่ละรางวัล, โดยจะตรวจสอบกับ ID ของสมาชิก, หมายเลขอ้างอิงใน Ticket และรายละเอียดการติดต่อ.<br><br></li>
+                <li>สมาชิกที่เข้าร่วมต้องยอมรับและปฏิบัติตามข้อกำหนดทั้งหมดที่กล่าวถึงข้างต้นรวมถึงกฎและระเบียบที่เกี่ยวข้องทั้งหมดที่ระบุไว้ในเว็บไซต์ Nova88.<br><br></li>
+                <li>Nova88 ขอสงวนสิทธิ์ในการแก้ไขหรือถอนโปรโมชั่นได้ตลอดเวลา.<br><br></li>
+                <li>Nova88 เป็นผู้ชี้ขาด แต่เพียงผู้เดียวของโปรโมชั่นและการตัดสินของ Nova88 ถือเป็นที่สิ้นสุด.<br><br></li>
+                <li>ข้อกำหนดและเงื่อนไขของ Nova88.<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>

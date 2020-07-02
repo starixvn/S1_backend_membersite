@@ -1,0 +1,106 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-Bravo888.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2> 幸运号码 88888 高达 MYR 7600 奖金</h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">优惠标准规则</span>
+            <ol type="a">
+                <li>此促销适用于所有Nova88会员。<br><br></li>
+                <li>此促销仅适用于体育博彩。<br><br></li>
+                <li>此促销将于2020年7月6日至2020年7月29日开始（每周一至周三）。<br><br>
+                    <table id="tablepromo">
+                        <tr>
+                            <th>日期</th>
+                            <th>星期</th>
+                        </tr>
+                        <tr>
+                            <td>7月6日– 7月8日 (23:59)</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>7月13日– 7月15日 (23:59)</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>7月20日– 7月22日 (23:59)</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>7月27日– 7月29日 (23:59)</td>
+                            <td>4</td>
+                        </tr>
+                    </table>
+                    <br><br>
+                </li>
+                <li>会员只需要在体育博彩产品以最低投注金额下注，如果投注单号最后两个数字为88号，便可参与此促销活动。 <br><br></li>
+                <li>请在48小时内与欧亚88在线客服联系，以索取您投注单号Ref.No中奖的奖金，奖金将在我们的客户服务团队确认后汇入会员帐户。 （按照您的投注单号Ref.No投注时间）。<br><br></li>
+                <li>奖金金额汇入会员账号后，必须进行一次 (1x) 流水投注才能提款。<br><br></li>
+            </ol>
+            <span class="promotions-title">优惠奖励条件</span>
+            <p>每张投注单号中奖的奖金额详细信息:</p>
+            <table id="tablepromo">
+                <tr>
+                    <th>奖励要求</th>
+                    <th>优惠 MYR</th>
+                    <th>优惠 THB</th>
+                    <th>优惠 IDR</th>
+                </tr>
+                <tr>
+                    <td>投注单号Ref.No尾号 xxxxxxx88888</td>
+                    <td>MYR288<br>每天1名获奖者</td>
+                    <td>THB 2,088<br>每天1名获奖者</td>
+                    <td>IDR 988,888<br>每天1名获奖者</td>
+                </tr>
+                <tr>
+                    <td>投注单号Ref.No尾号 xxxxxxxx8888</td>
+                    <td>MYR 88<br>每天2名获奖者</td>
+                    <td>THB 688<br>每天2名获奖者</td>
+                    <td>IDR 288,888<br>每天2名获奖者</td>
+                </tr>
+                <tr>
+                    <td>投注单号Ref.No尾号 xxxxxxxxx888</td>
+                    <td>MYR28<br>每天3名获奖者</td>
+                    <td>THB 198<br>每天3名获奖者</td>
+                    <td>IDR 88,888<br>每天3名获奖者</td>
+                </tr>
+                <tr>
+                    <td>投注单号Ref.No尾号 xxxxxxxxxx88</td>
+                    <td>MYR 18<br>每天5名获奖者</td>
+                    <td>THB 168<br>每天5名获奖者</td>
+                    <td>IDR 59,888<br>每天5名获奖者</td>
+                </tr>
+            </table>
+            <br><br>
+
+            <span class="promotions-title">优惠标准规则</span>
+            <ol type="1">
+                <li>任何一张投注单退款/取消/作废后，投注单将不适用于此促销。<br><br></li>
+                <li>此优惠每天仅限给每位会员赢取一次，并通过会员ID，投注单号Ref. no 和联络方式进行验证。<br><br></li>
+                <li>参与促销会员必须接受并遵守上述所有条款以及Nova88网站上规定的所有相关规则和规定。<br><br></li>
+                <li>Nova88有权随时中止或取消本优惠.<br><br></li>
+                <li>Nova88保留对本优惠的最终解释权.<br><br></li>
+                <li>Nova88标准规则和条款适用.<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>
