@@ -60,10 +60,7 @@ import * as Loading from '../commJS/Loading.jsx';
             return (
                 <form className="form" onSubmit={this.onUploadFile.bind(this)}>
                     <div className="form-group">
-                        <label className="form-title">
-                            <span className="text">
-                            </span><span className="text-accent"></span>
-                        </label><div className="form-content" data-status="">
+                        <div className="form-content" data-status="">
                             <div className="textfield">
                                 <input type="file" className="textfield__input" onChange={this.onCheckUpload.bind(this)} ref={this.filebox} accept="image/*"/>
                                 <span className="textfield__bg"></span>

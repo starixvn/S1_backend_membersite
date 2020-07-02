@@ -1,0 +1,61 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Hosting
+@using MemberSite.Service.BLL
+@inject IWebHostEnvironment environment
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = "Transfer";
+    Layout = "~/_Views/Bwing/Desktop/Shared/_Layout.cshtml";
+}
+@{
+    var i18n = new Dictionary<string, string>();
+    i18n.Add("lbl_TransactionHistory", selLangBLL.GetResourceValue("lbl_TransactionHistory"));
+
+
+    i18n.Add("lbl_From", selLangBLL.GetResourceValue("lbl_From"));
+    i18n.Add("lbl_To", selLangBLL.GetResourceValue("lbl_To"));
+    i18n.Add("lbl_Method", selLangBLL.GetResourceValue("lbl_Method"));
+    i18n.Add("lbl_ChargeFee", selLangBLL.GetResourceValue("lbl_ChargeFee"));
+    i18n.Add("lbl_Status", selLangBLL.GetResourceValue("lbl_Status"));
+    i18n.Add("lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit"));
+    i18n.Add("lbl_Page", selLangBLL.GetResourceValue("lbl_Page"));
+    i18n.Add("lbl_Of", selLangBLL.GetResourceValue("lbl_Of"));
+    i18n.Add("lbl_DateMissing", selLangBLL.GetResourceValue("lbl_DateMissing"));
+    i18n.Add("msg_NoData", selLangBLL.GetMsg("msg_NoData"));
+
+    i18n.Add("lbl_QuickPick", selLangBLL.GetResourceValue("lbl_QuickPick"));
+    i18n.Add("lbl_Today", selLangBLL.GetResourceValue("lbl_Today"));
+    i18n.Add("lbl_YesterDay", selLangBLL.GetResourceValue("lbl_YesterDay"));
+    i18n.Add("lbl_ThisWeek", selLangBLL.GetResourceValue("lbl_ThisWeek"));
+    i18n.Add("lbl_LastWeek", selLangBLL.GetResourceValue("lbl_LastWeek"));
+    i18n.Add("lbl_ThisMonth", selLangBLL.GetResourceValue("lbl_ThisMonth"));
+    i18n.Add("lbl_LastMonth", selLangBLL.GetResourceValue("lbl_LastMonth"));
+
+    string[] lbl_Txts = new string[] { "lbl_TransferFunds", "lbl_Date", "lbl_Time", "lbl_ID", "lbl_Direction", "lbl_Amount",
+                                        "lbl_Status", "lbl_Memo", "lbl_Success", "lbl_Fail", "lbl_Pending", "lbl_MainWallet"};
+    foreach (var lbl_Txt in lbl_Txts)
+    {
+        if (!i18n.ContainsKey(lbl_Txt))
+            i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
+    }
+
+}
+@section Style{
+    <link rel="stylesheet" type="text/css" href="~/SiteSkin/Bwing/Desktop/assets/css/lib/daterangepicker.css" />
+}
+
+<div class="system-content">
+    <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
+    <div id="content" class="right-panel"></div>
+</div>
+
+@section Scripts{
+    <script src="~/SiteSkin/Bwing/Desktop/js/lib/daterangepicker.min.js"></script>
+    <script type="text/javascript">
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
+    </script>
+    <script src="~/lib/runtime.min.js"></script>
+    <script src="~/js/Bwing/component/Desktop/history/Transfer.min.js" asp-append-version="true"></script>
+}
+

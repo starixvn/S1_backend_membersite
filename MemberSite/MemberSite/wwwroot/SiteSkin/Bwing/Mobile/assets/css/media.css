@@ -15,7 +15,7 @@
 }
 
 .nav-mobile {
-  width: 31rem;
+  width: 33rem;
   background-color: #273145;
 }
 
@@ -110,7 +110,7 @@
 
 .nav-mobile .languages-box:after {
   right: -18px;
-  top: 8px;
+  top: 6px;
 }
 
 .nav-mobile .languages .flag-select__options {
@@ -120,7 +120,7 @@
 
 .nav-mobile .lang-list {
   bottom: 28px;
-  left: -9px; 
+  left: -9px;
 }
 
 
@@ -168,7 +168,7 @@
   position: fixed;
   display: block;
   width: 28px;
-  top: 1.7rem;
+  top: 1.9rem;
   left: 1.5rem;
   height: 22px;
   cursor: pointer;
@@ -207,7 +207,7 @@
 }
 
 .bt-menu-close {
-  left: 27rem;
+  left: 29rem;
 }
 
 .bt-menu-close .line {
@@ -256,7 +256,7 @@
 
 @media screen and (max-width: 520px) {
   .header-top-right {
-    padding-top: 6.5rem;
+    /* padding-top: 6.5rem; */
   }
 
   .sticky-popup {
@@ -275,13 +275,5 @@
     height: 4.5rem;
     padding-bottom: 0.5rem;
     font-size: 2rem;
-  }
-
-  .is-login .header-top-right {
-    padding-top: 1.3rem;
-  }
-
-  .is-login.wrap-content {
-    padding-top: 5.8rem;
   }
 }

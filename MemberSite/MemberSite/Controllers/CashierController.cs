@@ -21,8 +21,9 @@ namespace MemberSite.Controllers
         private readonly PaymentBLL paymentBLL;
         private readonly MobilePayInfoBLL mobilePayInfoBLL;
         private readonly CustInfoBLL custInfoBLL;
+        private readonly TemplateBLL templateBLL;
 
-        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL, CustInfoBLL custInfoBLL)
+        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL, CustInfoBLL custInfoBLL, TemplateBLL templateBLL)
         {
             this.courierAdapter = courierAdapter;
             payApiUrl = configuration.GetValue<string>("PayService");
@@ -31,6 +32,7 @@ namespace MemberSite.Controllers
             this.paymentBLL = paymentBLL;
             this.mobilePayInfoBLL = mobilePayInfoBLL;
             this.custInfoBLL = custInfoBLL;
+            this.templateBLL = templateBLL;
         }
         public IActionResult Deposit()
         {
@@ -38,7 +40,7 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
 
             if (!custInfo.IsTest)
-                return View();
+                return View(templateBLL.GetTemplatePath(Url));
             else
                 return BadRequest("This account does not allow deposit. Please contact CSD for more information!");
         }
@@ -48,13 +50,13 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
 
             if (!custInfo.IsTest)
-                return View();
+                return View(templateBLL.GetTemplatePath(Url));
             else
                 return BadRequest("This account does not allow withdrawal. Please contact CSD for more information!");
         }
         public IActionResult Transfer()
         {
-            return View();
+            return View(templateBLL.GetTemplatePath(Url));
         }
 
         [HttpGet]
