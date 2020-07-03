@@ -490,11 +490,11 @@ namespace MemberSite.Controllers.Api
 
             if (FolderName == "Promotion")
             {
-                result.Data = _bannerSetting.Promotion.Where(x => x.currencyId == null || x.currencyId == perferCurr); ;
+                result.Data = _bannerSetting.Promotion.Where(x => x.currencyId == null || x.currencyId.Any(y=> y == perferCurr));
             }
             else if(FolderName== "Casino")
             {
-                result.Data = _bannerSetting.Casino.Where(x => x.currencyId == null || x.currencyId == perferCurr); ;
+                result.Data = _bannerSetting.Casino.Where(x => x.currencyId == null || x.currencyId.Any(y => y == perferCurr));
             }
 
             result.ErrorCode = 0;
