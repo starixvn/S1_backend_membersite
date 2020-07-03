@@ -33,7 +33,7 @@ namespace MemberSite.Service.Model
         public int? tpId { get; set; }
         public int? gameId { get; set; }
         public bool checkPromo { get; set; }
-        public int? currencyId { get; set; }
+        public int[] currencyId { get; set; }
         public string imgFolder { get; set; }
         public bool isBonus { get; set; }
     }
