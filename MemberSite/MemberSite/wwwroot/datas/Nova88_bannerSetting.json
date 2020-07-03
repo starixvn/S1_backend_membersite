@@ -1,94 +1,134 @@
 {
-        "Promotion":[
-            {
-                "actionLink":"Home/Register",
-                "img":"banner-covid.jpg",
-                "lang":["th", "id", "en", "cs"]
-            },
-            {
-                "tpId":1,
-                "gameId":1,
-                "img":"banner-euroevent.jpg",
-                "lang":["th", "id", "en", "cs"],
-                "checkPromo":true
-            },
-            {
-                "actionLink":"Promotion/Bonus?BonusCode=Europeanmajor01",
-                "isBonus":true,
-                "urlWithLang":true,
-                "img":"banner-Europeanmajor01.jpg",
-                "lang":["th", "id", "en", "cs"]
-            },
-            {
-                "actionLink":"Promotion/Index",
-                "img":"banner-FTDP3.jpg",
-                "lang":["th", "id", "en", "cs"],
-                "checkPromo":true
-            },
-            {
-                "actionLink":"Promotion/Bonus?BonusCode=PromoRebate02",
-                "isBonus":true,
-                "urlWithLang":true,
-                "img":"banner-promoRebate02.jpg",
-                "lang":["th", "id", "en", "cs"]
-            },
-            {
-                "actionLink":"Promotion/Bonus?BonusCode=Promo5P",
-                "isBonus":true,
-                "urlWithLang":true,
-                "img":"banner-Promo5.jpg",
-                "lang":["th", "id", "en", "cs"]
-            },
-            {
-                "actionLink":"Promotion/Bonus?BonusCode=Promoccback03",
-                "isBonus":true,
-                "urlWithLang":true,
-                "img":"banner-ccback03.jpg",
-                "lang":["th", "id", "en", "cs"]
-            },
-            {
-                "actionLink":"Promotion/Bonus?BonusCode=PromoMixpary1",
-                "isBonus":true,
-                "urlWithLang":true,
-                "img":"banner-promoMixparlay1.jpg",
-                "lang":["th", "id", "en", "cs"]
-            },
-            {
-                "actionLink":"Promotion/Bonus?BonusCode=Mega1",
-                "isBonus":true,
-                "urlWithLang":true,
-                "img":"banner-Mega1.jpg",
-                "lang":["th", "id", "en", "cs"]
-            },
-            {
-                "actionLink":"Promotion/Bonus?BonusCode=PromoPPTourThai",
-                "isBonus":true,
-                "urlWithLang":true,
-                "currencyId":4,
-                "img":"banner-PPTour.jpg",
-                "lang":["th", "id", "en", "cs"]
-            },
-            {
-                "actionLink":"Casino/Lobby",
-                "imgFolder":"Casino",
-                "img":"event-pp-20200508.png",
-                "lang":["th", "id", "en", "cs"]
-            }
-        ],
-        "Casino":[
-          {
-            "actionLink": "https://pp88.asia/tournament/daily-wins-slot-championship/",
-            "outerLink": true,
-            "actionLinkByLang": [
-              {
-                "lang": "cs",
-                "link": "https://pp88.asia/zh/tournament/slots-championship-zh/",
-                "outerLink": true
-              }
-            ],
-            "img": "event-pp-20200508.png",
-            "lang": [ "th", "id", "en", "cs" ]
-          }
-        ]
+  "Promotion": [
+    {
+      "actionLink": "",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-indo4d.jpg",
+      "currencyId": [ 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "actionLink": "Promotion/Index",
+      "img": "banner-FTDP3.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ],
+      "checkPromo": true
+    },
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=50PNewDep1",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-50PNewDep1.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=1015Daily2",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-1015Daily2.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=SportsbookCashback1",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-SportsbookCashback1.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=CCback4",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-CCback4.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=PromoRebate02",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-PromoRebate02.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=Bravo888",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-Bravo888.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=Rebate1P1",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-Rebate1P1.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=Europeanmajor02",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-Europeanmajor02.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=MixParlay2",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-MixParlay2.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "actionLink": "",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-PG.jpg",
+      "currencyId": [ 4, 13, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    }
+  ],
+  "Casino": [
+    {
+      "actionLink": "https://pp88.asia/tournament/daily-wins-slot-championship/",
+      "outerLink": true,
+      "actionLinkByLang": [
+        {
+          "lang": "cs",
+          "link": "https://pp88.asia/zh/tournament/slots-championship-zh/",
+          "outerLink": true
+        }
+      ],
+      "img": "event-pp-20200508.png",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "actionLink": "https://pp88.asia/tournament/to-be-number-one-weekly-tournament/",
+      "outerLink": true,
+      "actionLinkByLang": [
+        {
+          "lang": "th",
+          "link": "https://pp88.asia/th/%E0%B8%97%E0%B8%B1%E0%B8%A7%E0%B8%A3%E0%B9%8C%E0%B8%99%E0%B8%B2%E0%B9%80%E0%B8%A1%E0%B8%99%E0%B8%97%E0%B9%8C/%e0%b8%97%e0%b8%b9%e0%b8%9a%e0%b8%b5%e0%b8%99%e0%b8%b1%e0%b8%a1%e0%b9%80%e0%b8%9a%e0%b8%ad%e0%b8%a3%e0%b9%8c%e0%b8%a7%e0%b8%b1%e0%b8%99%e0%b8%97%e0%b8%b1%e0%b8%a7%e0%b8%a3%e0%b9%8c%e0%b8%99%e0%b8%b2/",
+          "outerLink": true
+        }
+      ],
+      "img": "event-pp-20200623.jpg",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "img": "LuckyNekobanner.jpg",
+      "currencyId": [ 4, 13, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    }
+  ]
 }
 
