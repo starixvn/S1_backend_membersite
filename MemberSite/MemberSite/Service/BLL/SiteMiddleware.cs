@@ -16,13 +16,15 @@ namespace MemberSite.Service.BLL
         private readonly SelLangBLL selLangBLL;
         private readonly Tools tools;
         private readonly IConfiguration configuration;
+        private readonly ServerInfoBLL serverInfoBLL;
 
-        public SiteMiddleware(IConfiguration configuration, RequestDelegate next, SelLangBLL selLangBLL, Tools tools)
+        public SiteMiddleware(IConfiguration configuration, RequestDelegate next, SelLangBLL selLangBLL, Tools tools, ServerInfoBLL serverInfoBLL)
         {
             _next = next;
             this.selLangBLL = selLangBLL;
             this.tools = tools;
             this.configuration = configuration;
+            this.serverInfoBLL = serverInfoBLL;
         }
         public RouteValueDictionary Match(string routeTemplate, string requestPath)
         {
@@ -55,6 +57,20 @@ namespace MemberSite.Service.BLL
                 }
                 else if (IsGetMethod(context) && IsSupportContentType(context))
                 {
+                    string host = context.Request.Host.Host;
+                    int[] supportH5 = configuration.GetSection("SupportH5").Get<int[]>();
+                    if (!IPAddress.TryParse(host, out var pAddress) && supportH5 != null && tools.IsMobile() && supportH5.Any(x => x == serverInfoBLL.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase))
+                    {
+                        int dotIndex = host.IndexOf(".");
+                        if (dotIndex > -1)
+                        {
+                            host = host.Substring(dotIndex + 1);
+                        }
+
+                        context.Response.Redirect($"{context.Request.Scheme}://m.{host}{context.Request.QueryString.Value}");
+                        return;
+                    }
+
                     await _next.Invoke(context);
                     if (context.Response.StatusCode == 404)
                     {
