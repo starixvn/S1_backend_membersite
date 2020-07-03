@@ -753,31 +753,6 @@
     },
     {
       "name": {
-        "en": "Double Fortune",
-        "cs": "双囍临门",
-        "ch": "雙囍臨門"
-      },
-      "appId": 48,
-      "gameId": "double-fortune",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "30",
-      "RTP": "96.22%",
-      "imgName": {
-        "en": "double-fortune-EN.jpg",
-        "cs": "double-fortune-CS.jpg",
-        "ch": "double-fortune-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": true,
-      "new": false,
-      "featured": true,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
         "en": "Wild Inferno",
         "cs": "重金摇滚",
         "ch": "重金搖滾"
@@ -1142,31 +1117,6 @@
         "en": "mahjong-ways2-EN.jpg",
         "cs": "mahjong-ways2-CS.jpg",
         "ch": "mahjong-ways2-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": false,
-      "new": false,
-      "featured": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
-        "en": "Ganesha Fortune",
-        "cs": "福运象财神",
-        "ch": "福運象財神"
-      },
-      "appId": 75,
-      "gameId": "ganesha-fortune",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "Base bet 20 (32,400 ways)",
-      "RTP": "96.72%",
-      "imgName": {
-        "en": "ganesha-fortune-EN.jpg",
-        "cs": "ganesha-fortune-CS.jpg",
-        "ch": "ganesha-fortune-CS.jpg"
       },
       "launchDate": null,
       "hot": false,

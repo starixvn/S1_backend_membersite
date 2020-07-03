@@ -76,15 +76,19 @@
             }
         ],
         "Casino":[
-            {
-                "actionLink":"http://event-tw.248ka.com/20200526/index.html",
-                "outerLink":true,
-                "actionLinkByLang":[
-                    {"lang":"cs", "link":"http://event-tw.248ka.com/20200519/index.html", "outerLink":true}
-                ],
-                "img":"event-pp-20200508.png",
-                "lang":["th", "id", "en", "cs"]
-            }
+          {
+            "actionLink": "https://pp88.asia/tournament/daily-wins-slot-championship/",
+            "outerLink": true,
+            "actionLinkByLang": [
+              {
+                "lang": "cs",
+                "link": "https://pp88.asia/zh/tournament/slots-championship-zh/",
+                "outerLink": true
+              }
+            ],
+            "img": "event-pp-20200508.png",
+            "lang": [ "th", "id", "en", "cs" ]
+          }
         ]
 }
 

@@ -29,13 +29,14 @@ namespace MemberSite.Service.BLL
             courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
         }
 
-        public void SendResetPwdMail(int custId)
+        public void SendResetPwdMail(int custId, string resetPasswordUrl)
         {
             string apiUrl = $"{commonServiceUrl}Mail/RestPassword";
 
             dynamic req = new
             {
                 CustId = custId,
+                resetPasswordUrl
             };
 
             courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);

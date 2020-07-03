@@ -268,6 +268,8 @@ namespace MemberSite.Controllers.Api
             {
 
                 Customer custInfo = null;
+
+                var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "ResetPassword", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
                 if (!string.IsNullOrEmpty(forgetPwdReq.Username))
                 {
                     custInfo = custInfoBLL.GetCustInfoByUserName(forgetPwdReq.Username);
@@ -288,7 +290,7 @@ namespace MemberSite.Controllers.Api
                     string pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
                     string result = Regex.Replace(custInfoProfile.Email, pattern, m => new string('*', m.Length));
 
-                    custInfoBLL.ForgetPwd1(custInfo.CustId);
+                    custInfoBLL.ForgetPwd1(custInfo.CustId, resetPasswordUrl);
                     if (!string.IsNullOrEmpty(forgetPwdReq.Username))
                     {
                         apiResult.Message = $"Has send to {result}.";//selLangBLL.GetMsg("ForgetPwdSuccess");
