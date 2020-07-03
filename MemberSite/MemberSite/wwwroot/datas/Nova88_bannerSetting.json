@@ -1,6 +1,10 @@
 {
   "Promotion": [
     {
+      "img": "banner-newmobile.jpg",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
       "tpId": 1,
       "gameId": 223,
       "img": "banner-indo4d.jpg",
