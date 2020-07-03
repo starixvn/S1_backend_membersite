@@ -59,7 +59,12 @@ namespace MemberSite.Service.BLL
                 {
                     string host = context.Request.Host.Host;
                     int[] supportH5 = configuration.GetSection("SupportH5").Get<int[]>();
-                    if (!IPAddress.TryParse(host, out var pAddress) && supportH5 != null && tools.IsMobile() && supportH5.Any(x => x == serverInfoBLL.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase))
+                    var AnticipationRouteData = Match("{controller=Home}/{action=Index}", context.Request.Path);
+                    object controller = "";
+                    object action = "";
+                    AnticipationRouteData.TryGetValue("controller", out controller);
+
+                    if (controller.ToString().Equals("Home", StringComparison.OrdinalIgnoreCase) && !IPAddress.TryParse(host, out var pAddress) && supportH5 != null && tools.IsMobile() && supportH5.Any(x => x == serverInfoBLL.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase))
                     {
                         int dotIndex = host.IndexOf(".");
                         if (dotIndex > -1)
@@ -76,10 +81,6 @@ namespace MemberSite.Service.BLL
                     {
                         if (!context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
                         {
-                            var AnticipationRouteData = Match("{controller=Home}/{action=Index}", context.Request.Path);
-                            object controller = "";
-                            object action = "";
-
                             if (AnticipationRouteData.TryGetValue("controller", out controller) && AnticipationRouteData.TryGetValue("action", out action) && controller as string != selLangBLL.GetLangId())
                             {
                                 context.Response.Redirect($"/{selLangBLL.GetLangId()}/{controller}/{action}{context.Request.QueryString.Value}");
