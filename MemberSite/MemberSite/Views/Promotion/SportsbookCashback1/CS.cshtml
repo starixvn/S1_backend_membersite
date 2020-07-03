@@ -1,0 +1,132 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-SportsbookCashback1.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2> 体育现金返还5%</h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">优惠标准规则</span>
+            <ol type="a">
+                <li>此优惠于2020年6月24日上午00:00开始<br><br></li>
+                <li>此促销的截止时间将在每星期三马来西亚时间上午11点59分59秒（GMT+8）<br><br></li>
+                <li>体育现金返还5%是根据会员每周总损失从星期三到星期二计算。<br><br></li>
+                <li>所有Nova88会员每周根据Nova88 体育产品中的“输”注获得5％的现金返还。<br><br></li>
+                <li>现金返还金额汇入会员账号后必须进行一次 (1x) 的流水投注才能提款。<br><br></li>
+                <li>现金返还将在每个星期三计算后 48小时内汇入Nova88合格玩家帐户。<br><br></li>
+            </ol>
+            <span class="promotions-title">优惠奖励条件：</span>
+            <div class="table table-rwd table-primary">
+                <div class="thead">
+                    <div class="tr">
+                        <div class="td-date" style="align-items: center;">
+                            产品
+                        </div>
+                    </div>
+                </div>
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date" style="align-items: center;">
+                            所有运动项目除了虚拟运动
+                        </div>
+                    </div>
+                </div>
+
+                <div class="thead">
+                    <div class="tr">
+                        <div class="td-date">
+                            <span class="text">优惠 5% (货币)</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">最低支出</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">最高支出</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">投注倍数</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">马来西亚</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">MYR 10</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">MYR 3000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">印尼</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">IDR 30,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">IDR10,000,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tbody">
+                    <div class="tr row-even">
+                        <div class="td-date">
+                            <span class="text">泰国</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">THB 100</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">THB 20,000</span>
+                        </div>
+                        <div class="td-date">
+                            <span class="text">1x</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br><br>
+
+            <span class="promotions-title">优惠标准规则</span>
+            <ol type="1">
+                <li>促销适用于所有Nova88会员。<br><br></li>
+                <li>参与优惠会员必须接受并遵守上述所有条款以及Nova88实施的所有相关规则和规定。<br><br></li>
+                <li>Nova88 有权随时中止或取消本优惠。<br><br></li>
+                <li>Nova88 保留对本优惠的最终解释权。<br><br></li>
+                <li>Nova88 标准规则和条款适用。<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>

@@ -1049,7 +1049,7 @@
     <value>Unggah foto ID anda</value>
   </data>
   <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
-    <value>Silakan unggah foto ID anda sebelum melakukan penarikan</value>
+    <value>Untuk memenuhi penarikan, diperlukan verifikasi untuk memenuhi syarat dengan dokumen yang dikeluarkan pemerintah:</value>
   </data>
   <data name="lbl_SubmitProof" xml:space="preserve">
     <value>Ajukan Bukti Slip Bank</value>
@@ -1617,5 +1617,18 @@
   </data>
   <data name="lbl_ResetPasswordSubmit" xml:space="preserve">
     <value>Permintaan Atur Ulang Kata Sandi</value>
+  </data>
+  <data name="lbl_SubmitPhotoIdList" xml:space="preserve">
+    <value>Silakan kirim salah satu ID yang tercantum di bawah ini:
+1. Kartu Identitas Nasional
+2. Paspor
+3. Surat Izin Mengemudi (SIM)
+4. Akte Kelahiran</value>
+  </data>
+  <data name="lbl_WaitKYC" xml:space="preserve">
+    <value>Verifikasi sedang berlangsung</value>
+  </data>
+  <data name="lbl_WaitKYCHint" xml:space="preserve">
+    <value>Terima kasih telah mengirimkan dokumen yang diperlukan, mohon tunggu sebentar saat verifikasi sedang berlangsung.</value>
   </data>
 </root>

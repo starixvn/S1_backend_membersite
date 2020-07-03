@@ -1049,7 +1049,7 @@
     <value>提交附有照片的身份證</value>
   </data>
   <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
-    <value>提款前請提交您附有照片的身份證！</value>
+    <value>請上傳國家政府發行證件以完成提款驗證流程：</value>
   </data>
   <data name="lbl_SubmitProof" xml:space="preserve">
     <value>提交銀行收據</value>
@@ -1620,5 +1620,18 @@
   </data>
   <data name="lbl_ResetPasswordSubmit" xml:space="preserve">
     <value>密碼重置請求</value>
+  </data>
+  <data name="lbl_SubmitPhotoIdList" xml:space="preserve">
+    <value>下列中，請上傳其一證件：
+1. 國民身份證
+2. 護照副本
+3. 駕駛執照
+4. 出生證明</value>
+  </data>
+  <data name="lbl_WaitKYC" xml:space="preserve">
+    <value>審查流程進行中</value>
+  </data>
+  <data name="lbl_WaitKYCHint" xml:space="preserve">
+    <value>感謝您上傳所需文件，審查流程正進行中，懇請稍後</value>
   </data>
 </root>

@@ -1,0 +1,106 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-Bravo888.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2>幸運號碼 88888 高達 MYR 7600 獎金 </h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">優惠標準規則            </span>
+            <ol type="a">
+                <li>促銷適用於所有Nova88會員。<br><br></li>
+                <li>此促銷僅適用於體育博彩。<br><br></li>
+                <li>此促銷將於2020年7月6日至2020年7月29日開始（每週一至週三）。<br><br>
+                    <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                        <tr>
+                            <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white;">&nbsp;&nbsp;日期 </th>
+                            <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white;">&nbsp;&nbsp;星期 </th>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px;">7月6日– 7月8日 (23:59) </td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px;">1</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px;">7月13日– 7月15日 (23:59) </td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px;">2</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px;">7月20日– 7月22日 (23:59) </td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px;">3</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px;">7月27日– 7月29日 (23:59) </td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px;">4</td>
+                        </tr>
+                    </table>
+                    <br><br>
+                </li>
+                <li>會員只需要在體育博彩產品以最低投注金額下注，如果投注單號最後兩個數字為88號，便可參與此促銷活動。<br><br></li>
+                <li>請在48小時內與歐亞88在線客服聯繫，以索取您投注單號Ref.No中獎的獎金，獎金將在我們的客戶服務團隊確認後匯入會員帳戶。 （按照您的投注單號Ref.No投注時間）。<br><br></li>
+                <li>獎金金額匯入會員賬號後，必須進行一次 (1x) 流水投注才能提款。<br><br></li>
+            </ol>
+            <span class="promotions-title">優惠獎勵條件</span>
+            <p>每張投注單號中獎的獎金額詳細信息: </p>
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white;">&nbsp;&nbsp;獎勵要求 </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white;">&nbsp;&nbsp;優惠 MYR </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white;">&nbsp;&nbsp;優惠 THB </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white;">&nbsp;&nbsp;優惠 IDR </th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">投注單號Ref.No尾號 xxxxxxx88888</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">MYR288<br>每天1名獲獎者 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">THB 2,088<br>每天1名獲獎者 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">IDR 988,888<br>每天1名獲獎者 </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">投注單號Ref.No尾號 xxxxxxxx8888</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">MYR 88<br>每天2名獲獎者</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">THB 688<br>每天2名獲獎者 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">IDR 288,888<br>每天2名獲獎者 </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">投注單號Ref.No尾號 xxxxxxxxx888</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">MYR28<br>每天3名獲獎者</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">THB 198<br>每天3名獲獎者</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">IDR 88,888<br>每天3名獲獎者</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">投注單號Ref.No尾號 xxxxxxxxxx88</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">MYR 18<br>每天5名獲獎者 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">THB 168<br>每天5名獲獎者 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px;">IDR 59,888<br>每天5名獲獎者 </td>
+                </tr>
+            </table>
+            <br><br>
+
+            <span class="promotions-title">優惠標準規則</span>
+            <ol type="1">
+                <li>任何一張投注單退款/取消/作廢後，投注單將不適用於此促銷。<br><br></li>
+                <li>此優惠每天僅限給每位會員贏取一次，並通過會員ID，投注單號Ref. no 和聯絡方式進行驗證。<br><br></li>
+                <li>參與促銷會員必須接受並遵守上述所有條款以及Nova88網站上規定的所有相關規則和規定。<br><br></li>
+                <li>Nova88有權隨時中止或取消本優惠。<br><br></li>
+                <li>Nova88保留對本優惠的最終解釋權。<br><br></li>
+                <li>Nova88標準規則和條款適用。<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>

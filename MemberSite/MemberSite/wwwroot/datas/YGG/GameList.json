@@ -18,7 +18,7 @@
       },
       "launchDate": "2019/11/14",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -39,7 +39,7 @@
       },
       "launchDate": "2019/10/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -60,7 +60,7 @@
       },
       "launchDate": "2017/01/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -81,7 +81,7 @@
       },
       "launchDate": "2019/11/21",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -102,7 +102,7 @@
       },
       "launchDate": "2018/11/22",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -123,7 +123,7 @@
       },
       "launchDate": "2017/02/23",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1,
       "disabled":1
@@ -145,7 +145,7 @@
       },
       "launchDate": "2016/06/09",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -166,7 +166,7 @@
       },
       "launchDate": "2016/08/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -210,7 +210,7 @@
       },
       "launchDate": "2019/01/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -231,7 +231,7 @@
       },
       "launchDate": "2015/10/15",
       "hot": true,
-      "new": true,
+      "new": false,
       "featured": true,
       "imageExist": true,
       "Isfun": 1
@@ -253,7 +253,7 @@
       },
       "launchDate": "2019/02/21",
       "hot": true,
-      "new": true,
+      "new": false,
       "featured": false,
       "imageExist": true,
       "Isfun": 1
@@ -275,7 +275,7 @@
       },
       "launchDate": "2015/06/01",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -296,7 +296,7 @@
       },
       "launchDate": "2017/03/18",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -317,7 +317,7 @@
       },
       "launchDate": "2015/05/01",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -338,7 +338,7 @@
       },
       "launchDate": "2018/10/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -359,7 +359,7 @@
       },
       "launchDate": "2016/09/22",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -380,7 +380,7 @@
       },
       "launchDate": "2015/10/01",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -401,7 +401,7 @@
       },
       "launchDate": "2019/04/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1,
       "disabled":0
@@ -423,7 +423,7 @@
       },
       "launchDate": "2019/04/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -444,7 +444,7 @@
       },
       "launchDate": "2019/03/21",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -465,7 +465,7 @@
       },
       "launchDate": "2018/03/22",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -486,7 +486,7 @@
       },
       "launchDate": "2018/05/15",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -507,7 +507,7 @@
       },
       "launchDate": "2018/02/22",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -528,7 +528,7 @@
       },
       "launchDate": "2019/09/30",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0,
       "disabled":1
@@ -550,7 +550,7 @@
       },
       "launchDate": "2016/02/01",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -572,7 +572,7 @@
       },
       "launchDate": "2018/08/23",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -593,7 +593,7 @@
       },
       "launchDate": "2015/09/09",
       "hot": true,
-      "new": true,
+      "new": false,
       "featured": true,
       "imageExist": true,
       "Isfun": 1
@@ -636,7 +636,7 @@
       },
       "launchDate": "2016/01/01",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -657,7 +657,7 @@
       },
       "launchDate": "2019/05/23",
       "hot": true,
-      "new": true,
+      "new": false,
       "featured": false,
       "imageExist": true,
       "Isfun": 1,
@@ -680,7 +680,7 @@
       },
       "launchDate": "2016/03/01",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0,
       "disabled":0
@@ -702,7 +702,7 @@
       },
       "launchDate": "2017/09/20",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -723,7 +723,7 @@
       },
       "launchDate": "2016/05/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -744,7 +744,7 @@
       },
       "launchDate": "2016/07/21",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -765,7 +765,7 @@
       },
       "launchDate": "2018/04/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -786,7 +786,7 @@
       },
       "launchDate": "2019/01/15",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -807,7 +807,7 @@
       },
       "launchDate": "2019/05/09",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -828,7 +828,7 @@
       },
       "launchDate": "2019/09/05",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -849,7 +849,7 @@
       },
       "launchDate": "2016/10/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -870,7 +870,7 @@
       },
       "launchDate": "2017/11/30",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -891,7 +891,7 @@
       },
       "launchDate": "2018/01/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -912,7 +912,7 @@
       },
       "launchDate": "2018/07/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -933,7 +933,7 @@
       },
       "launchDate": "2017/04/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -954,7 +954,7 @@
       },
       "launchDate": "2017/10/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -975,7 +975,7 @@
       },
       "launchDate": "2017/07/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -996,7 +996,7 @@
       },
       "launchDate": "2014/10/01",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -1017,7 +1017,7 @@
       },
       "launchDate": "2017/11/23",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -1038,7 +1038,7 @@
       },
       "launchDate": "2019/09/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1060,7 +1060,7 @@
       },
       "launchDate": "2016/03/01",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -1081,7 +1081,7 @@
       },
       "launchDate": "2018/07/02",
       "hot": true,
-      "new": true,
+      "new": false,
       "featured": false,
       "imageExist": true,
       "Isfun": 0
@@ -1103,10 +1103,10 @@
       },
       "launchDate": "2017/06/22",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -1125,7 +1125,7 @@
       },
       "launchDate": "2017/05/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0,
       "promotion": 0
@@ -1147,7 +1147,7 @@
       },
       "launchDate": "2016/10/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -1190,7 +1190,7 @@
       },
       "launchDate": "2015/01/01",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -1211,7 +1211,7 @@
       },
       "launchDate": "2019/07/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -1253,7 +1253,7 @@
       },
       "launchDate": "2019/01/08",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1,
       "disabled":0
@@ -1275,7 +1275,7 @@
       },
       "launchDate": "2018/06/21",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -1296,7 +1296,7 @@
       },
       "launchDate": "2017/08/24",
       "hot": true,
-      "new": true,
+      "new": false,
       "featured": true,
       "imageExist": true,
       "Isfun": 0,
@@ -1319,11 +1319,11 @@
       },
       "launchDate": "2016/11/23",
       "hot": true,
-      "new": true,
+      "new": false,
       "featured": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -1342,7 +1342,7 @@
       },
       "launchDate": "2018/05/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -1363,7 +1363,7 @@
       },
       "launchDate": "2015/08/01",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1385,7 +1385,7 @@
       },
       "launchDate": "2016/04/01",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0,
       "disabled":0
@@ -1407,7 +1407,7 @@
       },
       "launchDate": "2019/06/24",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -1428,7 +1428,7 @@
       },
       "launchDate": "2016/01/14",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 0
     },
@@ -1449,7 +1449,7 @@
       },
       "launchDate": "2018/09/03",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1
     },
@@ -1470,7 +1470,7 @@
       },
       "launchDate": "2019/08/22",
       "hot": false,
-      "new": true,
+      "new": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1570,7 +1570,7 @@
       "name": {
         "en": "Neon Rush: Splitz",
         "cs": "霓虹冲锋",
-        "ch": "霓虹冲锋"
+        "ch": "霓虹衝鋒"
       },
       "appId": "7381",
       "gameId": "7381",
@@ -1587,13 +1587,13 @@
       "featured": false,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
         "en": "Arthur's Fortune",
         "cs": "阿瑟的宝藏",
-        "ch": "阿瑟的宝藏"
+        "ch": "阿瑟的寶藏"
       },
       "appId": "7384",
       "gameId": "7384",
@@ -1616,7 +1616,7 @@
       "name": {
         "en": "Wilhelm Tell",
         "cs": "威廉英雄传说",
-        "ch": "威廉英雄传说"
+        "ch": "威廉英雄傳說"
       },
       "appId": "7362",
       "gameId": "7362",
@@ -1657,6 +1657,81 @@
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Lightning Joker",
+        "cs": "电光小丑女",
+        "ch": "電光小丑女"
+      },
+      "appId": "7388",
+      "gameId": "7388",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "5",
+      "RTP": "96.30%",
+      "imgName": {
+        "en": "Lightning-Joker-EN.jpg",
+        "cs": "Lightning-Joker-CS.jpg",
+        "ch": "Lightning-Joker-CS.jpg"
+      },
+      "launchDate": "2020/06/11",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Avatars: Gateway Guardians",
+        "cs": "阿凡达特攻队",
+        "ch": "阿凡達特攻隊"
+      },
+      "appId": "8308",
+      "gameId": "8308",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "6",
+      "RTP": "96.30%",
+      "imgName": {
+        "en": "Avatars-Gateway-Guardians-EN.jpg",
+        "cs": "Avatars-Gateway-Guardians-CS.jpg",
+        "ch": "Avatars-Gateway-Guardians-CS.jpg"
+      },
+      "launchDate": "2020/06/18",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Lucky Neko",
+        "cs": "招财幸运猫",
+        "ch": "招財幸運貓"
+      },
+      "appId": "7382",
+      "gameId": "7382",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "40",
+      "RTP": "96.30%",
+      "imgName": {
+        "en": "Lucky-Neko-EN.jpg",
+        "cs": "Lucky-Neko-CS.jpg",
+        "ch": "Lucky-Neko-CS.jpg"
+      },
+      "launchDate": "2020/06/25",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 1
     }
   ]
 }
