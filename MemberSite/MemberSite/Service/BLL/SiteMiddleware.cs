@@ -59,10 +59,11 @@ namespace MemberSite.Service.BLL
                 {
                     string host = context.Request.Host.Host;
                     int[] supportH5 = configuration.GetSection("SupportH5").Get<int[]>();
-                    var AnticipationRouteData = Match("{controller=Home}/{action=Index}", context.Request.Path);
+                    var AnticipationRouteData = Match("{lang=en}/{controller=Home}/{action=Index}", context.Request.Path);
                     object controller = "";
                     object action = "";
                     AnticipationRouteData.TryGetValue("controller", out controller);
+                    AnticipationRouteData.TryGetValue("action", out action);
 
                     if (controller.ToString().Equals("Home", StringComparison.OrdinalIgnoreCase) && !IPAddress.TryParse(host, out var pAddress) && supportH5 != null && tools.IsMobile() && supportH5.Any(x => x == serverInfoBLL.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase))
                     {
@@ -72,7 +73,14 @@ namespace MemberSite.Service.BLL
                             host = host.Substring(dotIndex + 1);
                         }
 
-                        context.Response.Redirect($"{context.Request.Scheme}://m.{host}{context.Request.QueryString.Value}");
+                        if (action.ToString().Equals("Register", StringComparison.OrdinalIgnoreCase))
+                        {
+                            context.Response.Redirect($"{context.Request.Scheme}://m.{host}/join{context.Request.QueryString.Value}");
+                        }
+                        else
+                        {
+                            context.Response.Redirect($"{context.Request.Scheme}://m.{host}{context.Request.QueryString.Value}");
+                        }
                         return;
                     }
 
