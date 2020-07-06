@@ -35,8 +35,9 @@ namespace MemberSite.Controllers.Api
         private readonly CasinoBLL casinoBLL;
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly BannerBLL bannerBLL;
+        private readonly AuthBLL authBLL;
 
-        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL)
+        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -47,6 +48,7 @@ namespace MemberSite.Controllers.Api
             this.casinoBLL = casinoBLL;
             this.serverInfoBLL = serverInfoBLL;
             this.bannerBLL = bannerBLL;
+            this.authBLL = authBLL;
         }
 
         public class LoginModel
@@ -499,6 +501,44 @@ namespace MemberSite.Controllers.Api
 
             result.ErrorCode = 0;
             return result;
+        }
+
+        [HttpPost]
+        public async Task<ApiResult> CheckResetPwdTokenAsync([FromForm]string key)
+        {
+            var apiResult = new ApiResult(selLangBLL);
+            if (User.Identity.IsAuthenticated)
+            {
+                apiResult.ErrorCode = 1;
+            }
+            else if (authBLL.Authenticate(key, out CustInfoProfile custInfoProfile))
+            {
+                Customer customer = null;
+                int userLoginResult = custInfoBLL.UserLoginForResetPwd(custInfoProfile.UserName, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out string token);
+                if (userLoginResult == 0)
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name,custInfoProfile.UserName ),
+                        new Claim(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
+                        new Claim("Token",token ),
+                        new Claim("LangId",custInfoProfile.UserLang )
+                    };
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                    apiResult.ErrorCode = 0;
+                }
+                else if (userLoginResult == -3)
+                {
+                    apiResult.ErrorCode = 401;
+                }
+            }
+            else
+            {
+                apiResult.ErrorCode = 403;
+            }
+
+            return apiResult;
         }
     }
 }
