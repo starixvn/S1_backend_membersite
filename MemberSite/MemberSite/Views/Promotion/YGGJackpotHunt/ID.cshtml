@@ -1,0 +1,242 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Casino/@selLangBLL.GetLangId()/event-YGGJackpotHunt.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2>YGG Jackpot Hunt</h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">Kampanye Berjalan sebagai Berikut.</span>
+            <ol type="1">
+                <li>
+                    <strong>Jackpot Hunt – I (Prize Drop)</strong>
+                    <br>7 July 20 16:00 UTC+8 ~ 13 July 20 5:59 UTC+8<br><br>
+                </li>
+                <li>
+                    <strong>Jackpot Hunt – II (Mission)</strong>
+                    <br>13 July 20 16:00 UTC+8 ~ 19 July 20 23:59 UTC+8<br><br>
+                </li>
+                <li>
+                    <strong>Jackpot Hunt – III (Tournament)</strong>
+                    <br>20 July 20 16:00 UTC+8 ~ 26 July 20 23:59 UTC+8<br><br>
+                </li>
+            </ol>
+            <span class="promotions-title">Jackpot Hunt – I (Prize Drop)</span>
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">No of Prizes</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">MYR</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">THB</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">IDR</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">CNY</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">1</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">60,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">300,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">155,000,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">80,000</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">2000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">60</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">300</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">155,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">80</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;background-color: #a6c5c8;">Total</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">180,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">900,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">465,000,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">240,000</td>
+                </tr>
+            </table>
+            <br>*Kumpulan hadiah untuk kampanye ini diatur dalam EUR dan dapat mengalami fluktuasi konversi mata uang.
+            <br><br>
+            <!--1-->
+            <ol type="1">
+                <li>Tidak ada taruhan minimum yang diperlukan untuk berpartisipasi dalam kampanye.<br><br></li>
+                <li>Untuk berpartisipasi dalam kampanye, pemain harus mengonfirmasi bahwa mereka ingin mengambil bagian dalam kampanye dengan mengklik "Gabung Sekarang" di jendela yang muncul. Pemain yang berpartisipasi akan mengambil bagian dalam kampanye
+                    dengan memasang taruhan dalam permainan apa pun selama periode kampanye. Tidak diperlukan pembayaran tambahan untuk ikut serta dalam kampanye.<br><br></li>
+                <li>Taruhan kualifikasi yang ditempatkan pada Jackpot Raiders slot, Holmes, dan the stolen stones, Jackpot Ozwin selama periode kampanye dapat memicu hadiah misteri acak dari kumpulan hadiah.<br><br></li>
+                <li>Setiap taruhan hanya dapat memenangkan 1 hadiah acak.<br><br></li>
+                <li>Hadiah akan diberikan selama periode kampanye. Minimal satu dari tiga hadiah paling berharga ("hadiah utama") akan diberikan selama periode akhir kampanye, periode tersebut sama dengan 5% dari keseluruhan periode kampanye (misalnya jika
+                    periode kampanye adalah 100 jam , minimal satu hadiah utama akan diberikan selama 5 jam terakhir).<br><br></li>
+                <li>Jumlah hadiah yang tersisa diperbarui setiap 60 detik.<br><br></li>
+                <li>Hadiah akan dikreditkan sebagai uang tunai.<br><br></li>
+                <li>Pemain dapat memenangkan lebih dari 1 hadiah acak selama kampanye.<br><br></li>
+            </ol>
+
+            <br><br>
+
+            <span class="promotions-title">Jackpot Hunt – II (Mission)</span>
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">No of Prizes</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">MYR</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">THB</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">IDR</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">CNY</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">1</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">9,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">45,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">23,250,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">12,000</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">2</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">3,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">7,750,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">4,000</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">3</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">900</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">4,500</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">2,325,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">1,200</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">4 - 10</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">300</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">1,500</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">775,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">400</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;background-color: #a6c5c8;">Total</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">75,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">38,750,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">20,000</td>
+                </tr>
+            </table>
+            <br>*Kumpulan hadiah untuk kampanye ini diatur dalam EUR dan dapat mengalami fluktuasi konversi mata uang.
+            <br><br>
+            <!--2-->
+            <ol type="1">
+                <li>Untuk menyelesaikan misi jumlah hadiah besar € 2.500, semua tujuan harus dipenuhi sesuai dalam setiap pertandingan :
+
+                    <ol>
+                        <li style="list-style-type:circle">Es dan Api - Kumpulkan 20 Telur Naga (Mudah)</li>
+                        <li style="list-style-type:circle">Brazil Bomba— Kumpulkan 20 scatters pada permainan dasar (Mudah)</li>
+                        <li style="list-style-type:circle">Pusaran Gelap — Masuk ke mode pembukaan pusaran 3 kali (Pembelian di dalam putaran gratis tidak akan berkontribusi terhadap kampanye.) (Mudah)</li>
+                    </ol>
+                    <br><br></li>
+                <li>Tidak ada taruhan minimum yang diperlukan untuk berpartisipasi.<br><br></li>
+                <li>Semua pemain yang menyelesaikan misi untuk pertama kalinya akan diperlengkapi dengan sebuah nomor unik pemain.<br><br></li>
+                <li>Nomor unik pemain akan disorot untuk para pemain pada papan peringkat di dalam permainan klien untuk mengikuti posisi mereka. Pemain yang berada di luar posisi papan peringkat akan ditampilkan sebagai posisi papan peringkat kualifikasi
+                    terakhir + 1. Misalnya, untuk semua pemain yang berada di luar 600 posisi kualifikasi papan peringkat, posisi yang ditampilkan adalah +1.<br><br></li>
+                <li>Kumpulan biaya untuk kampanye ini diatur dalam EUR dan dapat mengalami fluktuasi konversi mata uang.<br><br></li>
+                <li>Jumlah putaran yang dilakukan untuk menyelesaikan misi menentukan posisi pemain di papan peringkat. Pemain yang menyelesaikan misi dalam jumlah putaran paling sedikit akan selesai pada posisi 1 dan memenangkan hadiah pertama.<br><br></li>
+                <li>Jika ada dua atau lebih pemain yang menyelesaikan misi dengan jumlah putaran yang sama, pemain yang menyelesaikannya terlebih dahulu akan memiliki posisi lebih tinggi pada papan peringkat.<br><br></li>
+                <li>Posisi pemain diperbaharui setiap 60 detik.<br><br></li>
+                <li>Hanya taruhan yang dibuat untuk mode nyata yang memenuhi syarat untuk kampanye.<br><br></li>
+                <li>Posisi pemain di papan peringkat dapat berubah sepanjang misi.<br><br></li>
+                <li>Kemajuan misi secara otomatis dimulai kembali ketika pemain tidak dapat lagi meningkatkan skor. Skor terbaik akan selalu disimpan.<br><br></li>
+                <li>Kemajuan misi dapat dimulai kembali secara manual oleh pemain setelah 25 putaran. Tombol mulai ulang dapat ditemukan pada permainan klien<br><br></li>
+                <li>Hadiah uang tunai dari papan peringkat akan dikreditkan ke akun para pemain setelah papan peringkat berakhir. Untuk menampilkan hadiah sesuai dengan saldo mereka, pemain harus membuka kembali permainan Yggdrasil apa pun setelah papan peringkat
+                    selesai.
+                    <br><br></li>
+            </ol>
+
+            <br><br>
+
+            <span class="promotions-title">Jackpot Hunt – III (Tournament)</span>
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">No of Prizes</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">MYR</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">THB</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">IDR</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">CNY</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">1</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">12,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">60,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">31,000,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">16,000</td>
+                </tr>
+
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">2</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">6,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">30,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">15,500,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">8,000</td>
+                </tr>
+
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">3 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">3,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">15,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">7,750,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">4,000</td>
+                </tr>
+
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">4 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">1,800 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">9,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">4,650,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">2,400</td>
+                </tr>
+
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">5 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">1,200 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">6,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">3,100,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">1,600</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;background-color: #a6c5c8;">Total</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">24,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">120,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">62,000,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">32,000</td>
+                </tr>
+            </table>
+            <br>*Kumpulan hadiah untuk kampanye ini diatur dalam EUR dan dapat mengalami fluktuasi konversi mata uang.
+            <br><br>
+            <p>
+                (Jumlah tertinggi dari koin Tunggal menang dalam putaran apa pun di 2 game atau lebih yang dipilih)
+            </p>
+            <ol type="1">
+                <li>Jackpot hunt Ill - Turnamen Lintas-permainan tersedia untuk mode nyata dengan jumlah hadiah besar € 4.000.<br><br></li>
+                <li>Tidak ada taruhan minimum yang diperlukan untuk berpartisipasi.<br><br></li>
+                <li>Setelah kemenangan pertama mereka dalam permainan yang dipartisipasi, pemain akan diberikan nomor id turnamen unik (""id turnamen""), yang akan mengidentifikasi mereka di papan peringkat, yang tersedia di klien permainan.<br><br></li>
+                <li>Skor setiap pemain di papan peringkat didasarkan pada jumlah kemenangan koin tertinggi dalam putaran apa pun di semua permainan yang dipilih selama periode turnamen.<br><br></li>
+                <li>Jika ada dua atau lebih skor yang sama, pemain yang mencetak gol pertama akan memiliki peringkat yang lebih tinggi di papan peringkat.<br><br></li>
+                <li>Skor tertinggi yang dicapai selama periode kampanye oleh setiap pemain akan dihitung untuk kedudukan papan peringkat mereka.<br><br></li>
+                <li>Posisi papan peringkat setiap pemain akan di-refresh setiap 60 detik. Jika terjadi keterlambatan untuk menampilkan posisi papan peringkat terkini, pemain perlu memuat ulang permainan.<br><br></li>
+                <li>Nova88 berhak untuk membatalkan skor, atau tidak membayar hadiah, di mana semua atau sebagian dari skor yang dihasilkan dari error, kesalahan atau kesalahan teknis yang jelas (termasuk pembayaran permainan yang salah) baik yang disebabkan
+                    oleh mesin atau kesalahan manusia sehubungan dari salah satu game yang berpartisipasi. Kami selanjutnya berhak untuk membatalkan skor, atau tidak membayar hadiah di mana, menurut pendapat kami, semua atau sebagian hasil skor dari kecurangan
+                    atau kolusi dengan pemain lain.<br><br></li>
+                <li>Nova88 berhak untuk mengubah atau membatalkan kampanye setiap saat.<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>

@@ -62,130 +62,148 @@
             <div class="swiper-wrapper">
                 @if (serverInfo.SiteId == 2)
                 {
-                <div class="swiper-slide">
-                    <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg" asp-append-version="true" /></a>
-                </div>
+                    <div class="swiper-slide">
+                        <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg" asp-append-version="true" /></a>
+                    </div>
                 }
                 else if (serverInfo.SiteId == 3)
                 {
-                <div class="swiper-slide">
-                    <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg" asp-append-version="true" /></a>
-                </div>
-                @if (promotionCnt > 0)
+                    <div class="swiper-slide">
+                        <a href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-Welcome.jpg" asp-append-version="true" /></a>
+                    </div>
+                    @if (promotionCnt > 0)
                     {
-                <div class="swiper-slide">
-                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-promo125.jpg" asp-append-version="true" /></a>
-                </div>
+                        <div class="swiper-slide">
+                            <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })"><img src="@CmsPromotionPath/Banner-promo125.jpg" asp-append-version="true" /></a>
+                        </div>
                     }
                 }
                 else
                 {
-                @*<div class="swiper-slide">
-            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promosabaworld">
-                <img src="@CmsPromotionPath/banner-sabaworldcup.jpg" asp-append-version="true" />
-            </a>
-        </div>*@
-                @*<div class="swiper-slide">
-            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promosabaworld1">
-                <img src="@CmsPromotionPath/banner-sabaworldcup1.jpg" asp-append-version="true" />
-            </a>
-        </div>*@
-                <div class="swiper-slide">
-                    <img src="@CmsPromotionPath/banner-newmobile.jpg" asp-append-version="true" />
-                </div>
-                @if (CurrencyId == 4 || CurrencyId == 15)
+                    @*<div class="swiper-slide">
+                <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promosabaworld">
+                    <img src="@CmsPromotionPath/banner-sabaworldcup.jpg" asp-append-version="true" />
+                </a>
+            </div>*@
+                    @*<div class="swiper-slide">
+                <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Promosabaworld1">
+                    <img src="@CmsPromotionPath/banner-sabaworldcup1.jpg" asp-append-version="true" />
+                </a>
+            </div>*@
+                    <div class="swiper-slide">
+                        <img src="@CmsPromotionPath/banner-newmobile.jpg" asp-append-version="true" />
+                    </div>
+                    @if (CurrencyId == 4 || CurrencyId == 15)
                     {
-                <div class="swiper-slide">
-                    <a class="swiper-slide  @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "223", Url)">
-                        <img src="@CmsPromotionPath/banner-indo4d.jpg" asp-append-version="true" />
-                    </a>
-                </div>
+                        <div class="swiper-slide">
+                            <a class="swiper-slide  @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "223", Url)">
+                                <img src="@CmsPromotionPath/banner-indo4d.jpg" asp-append-version="true" />
+                            </a>
+                        </div>
                     }
-                @if (promotionCnt > 0)
+                    @if (promotionCnt > 0)
                     {
-                <div class="swiper-slide">
-                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
-                        <img src="@CmsPromotionPath/banner-FTDP3.jpg" asp-append-version="true" />
-                    </a>
-                </div>
+                        <div class="swiper-slide">
+                            <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
+                                <img src="@CmsPromotionPath/banner-FTDP3.jpg" asp-append-version="true" />
+                            </a>
+                        </div>
                     }
-                @if (CurrencyId != 13)
+                    @if (CurrencyId != 13)
                     {
-                <div class="swiper-slide">
-                    <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=CCback4">
-                        <img src="@CmsPromotionPath/banner-CCback4.jpg" asp-append-version="true" />
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=MixParlay2">
-                        <img src="@CmsPromotionPath/banner-MixParlay2.jpg" asp-append-version="true" />
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Europeanmajor02">
-                        <img src="@CmsPromotionPath/banner-Europeanmajor02.jpg" asp-append-version="true" />
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=1015Daily2">
-                        <img src="@CmsPromotionPath/banner-1015Daily2.jpg" asp-append-version="true" />
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=PromoRebate02">
-                        <img src="@CmsPromotionPath/banner-promoRebate02.jpg" asp-append-version="true" />
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=50PNewDep1">
-                        <img src="@CmsPromotionPath/banner-50PNewDep1.jpg" asp-append-version="true" />
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=SportsbookCashback1">
-                        <img src="@CmsPromotionPath/banner-SportsbookCashback1.jpg" asp-append-version="true" />
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Rebate1P1">
-                        <img src="@CmsPromotionPath/banner-Rebate1P1.jpg" asp-append-version="true" />
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Bravo888">
-                        <img src="@CmsPromotionPath/banner-Bravo888.jpg" asp-append-version="true" />
-                    </a>
-                </div>
+                        <div class="swiper-slide">
+                            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=CCback4">
+                                <img src="@CmsPromotionPath/banner-CCback4.jpg" asp-append-version="true" />
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=MixParlay2">
+                                <img src="@CmsPromotionPath/banner-MixParlay2.jpg" asp-append-version="true" />
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Europeanmajor02">
+                                <img src="@CmsPromotionPath/banner-Europeanmajor02.jpg" asp-append-version="true" />
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=1015Daily2">
+                                <img src="@CmsPromotionPath/banner-1015Daily2.jpg" asp-append-version="true" />
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=PromoRebate02">
+                                <img src="@CmsPromotionPath/banner-promoRebate02.jpg" asp-append-version="true" />
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=50PNewDep1">
+                                <img src="@CmsPromotionPath/banner-50PNewDep1.jpg" asp-append-version="true" />
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=SportsbookCashback1">
+                                <img src="@CmsPromotionPath/banner-SportsbookCashback1.jpg" asp-append-version="true" />
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Rebate1P1">
+                                <img src="@CmsPromotionPath/banner-Rebate1P1.jpg" asp-append-version="true" />
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=Bravo888">
+                                <img src="@CmsPromotionPath/banner-Bravo888.jpg" asp-append-version="true" />
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=FishingRebate">
+                                <img src="@CmsPromotionPath/banner-FishingRebate.jpg" asp-append-version="true" />
+                            </a>
+                        </div>
+                        @if (CurrencyId == 2)
+                        { 
+                            <div class="swiper-slide">
+                                <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=AppleGiveaway">
+                                    <img src="@CmsPromotionPath/banner-AppleGiveaway.jpg" asp-append-version="true" />
+                                </a>
+                            </div>
+                        }
+                        <div class="swiper-slide">
+                            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=LiveCasinoRebate1">
+                                <img src="@CmsPromotionPath/banner-LiveCasinoRebate1.jpg" asp-append-version="true" />
+                            </a>
+                        </div>
                     }
-                @if (CurrencyId == 4)
+                    @if (CurrencyId == 4)
                     {
-                <div class="swiper-slide">
-                    @if (selLangBLL.GetLangId() == "th")
+                        <div class="swiper-slide">
+                            @if (selLangBLL.GetLangId() == "th")
                             {
-                    <a href="https://pp88.asia/th/%E0%B8%97%E0%B8%B1%E0%B8%A7%E0%B8%A3%E0%B9%8C%E0%B8%99%E0%B8%B2%E0%B9%80%E0%B8%A1%E0%B8%99%E0%B8%97%E0%B9%8C/%e0%b8%97%e0%b8%b9%e0%b8%9a%e0%b8%b5%e0%b8%99%e0%b8%b1%e0%b8%a1%e0%b9%80%e0%b8%9a%e0%b8%ad%e0%b8%a3%e0%b9%8c%e0%b8%a7%e0%b8%b1%e0%b8%99%e0%b8%97%e0%b8%b1%e0%b8%a7%e0%b8%a3%e0%b9%8c%e0%b8%99%e0%b8%b2/" target="_eventPP">
-                        <img src="@CmsPromotionPath/event-pp-20200623.jpg" asp-append-version="true" />
-                    </a>
+                                <a href="https://pp88.asia/th/%E0%B8%97%E0%B8%B1%E0%B8%A7%E0%B8%A3%E0%B9%8C%E0%B8%99%E0%B8%B2%E0%B9%80%E0%B8%A1%E0%B8%99%E0%B8%97%E0%B9%8C/%e0%b8%97%e0%b8%b9%e0%b8%9a%e0%b8%b5%e0%b8%99%e0%b8%b1%e0%b8%a1%e0%b9%80%e0%b8%9a%e0%b8%ad%e0%b8%a3%e0%b9%8c%e0%b8%a7%e0%b8%b1%e0%b8%99%e0%b8%97%e0%b8%b1%e0%b8%a7%e0%b8%a3%e0%b9%8c%e0%b8%99%e0%b8%b2/" target="_eventPP">
+                                    <img src="@CmsPromotionPath/event-pp-20200623.jpg" asp-append-version="true" />
+                                </a>
                             }
                             else
                             {
-                    <a href="https://pp88.asia/tournament/to-be-number-one-weekly-tournament/" target="_eventPP">
-                        <img src="@CmsPromotionPath/event-pp-20200623.jpg" asp-append-version="true" />
-                    </a>
+                                <a href="https://pp88.asia/tournament/to-be-number-one-weekly-tournament/" target="_eventPP">
+                                    <img src="@CmsPromotionPath/event-pp-20200623.jpg" asp-append-version="true" />
+                                </a>
                             }
-                </div>
+                        </div>
                     }
-                <div class="swiper-slide">
-                    <a href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId(), TPId = 0 })">
-                        <img src="~/CMS/@serverInfo.SiteName/Casino/@selLangBLL.GetLangId()/event-pp-20200508.png" asp-append-version="true" />
-                    </a>
-                </div>
-                @if (CurrencyId != 2)
+                    <div class="swiper-slide">
+                        <a href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId(), TPId = 0 })">
+                            <img src="~/CMS/@serverInfo.SiteName/Casino/@selLangBLL.GetLangId()/event-pp-20200508.png" asp-append-version="true" />
+                        </a>
+                    </div>
+                    @if (CurrencyId != 2)
                     {
-                <div class="swiper-slide">
-                    <a href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId(), TPId = 0 })">
-                        <img src="@CmsPromotionPath/banner-PG.jpg" asp-append-version="true" />
-                    </a>
-                </div>
+                        <div class="swiper-slide">
+                            <a href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId(), TPId = 0 })">
+                                <img src="@CmsPromotionPath/banner-PG.jpg" asp-append-version="true" />
+                            </a>
+                        </div>
                     }
                 }
             </div>
