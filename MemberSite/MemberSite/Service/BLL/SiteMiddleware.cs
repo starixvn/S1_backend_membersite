@@ -59,29 +59,38 @@ namespace MemberSite.Service.BLL
                 {
                     string host = context.Request.Host.Host;
                     int[] supportH5 = configuration.GetSection("SupportH5").Get<int[]>();
-                    var AnticipationRouteData = Match("{lang=en}/{controller=Home}/{action=Index}", context.Request.Path);
-                    object controller = "";
-                    object action = "";
-                    AnticipationRouteData.TryGetValue("controller", out controller);
-                    AnticipationRouteData.TryGetValue("action", out action);
 
-                    if (controller.ToString().Equals("Home", StringComparison.OrdinalIgnoreCase) && !IPAddress.TryParse(host, out var pAddress) && supportH5 != null && tools.IsMobile() && supportH5.Any(x => x == serverInfoBLL.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase))
+                    if (!IPAddress.TryParse(host, out var pAddress) && supportH5 != null && tools.IsMobile() && supportH5.Any(x => x == serverInfoBLL.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase))
                     {
+                        var AnticipationRouteData = Match("{controller=Home}/{action=Index}", context.Request.Path);
+                        object controller = "";
+                        object action = "";
+
+                        if (!AnticipationRouteData.TryGetValue("controller", out controller) || !AnticipationRouteData.TryGetValue("action", out action))
+                        {
+                            AnticipationRouteData = Match("{LangId?}/{controller=Home}/{action=Index}", context.Request.Path);
+                            AnticipationRouteData.TryGetValue("controller", out controller);
+                            AnticipationRouteData.TryGetValue("action", out action);
+                        }
+
                         int dotIndex = host.IndexOf(".");
                         if (dotIndex > -1)
                         {
                             host = host.Substring(dotIndex + 1);
                         }
 
-                        if (action.ToString().Equals("Register", StringComparison.OrdinalIgnoreCase))
+                        if (controller.ToString().Equals("Home", StringComparison.OrdinalIgnoreCase))
                         {
-                            context.Response.Redirect($"{context.Request.Scheme}://m.{host}/join{context.Request.QueryString.Value}");
+                            if (action.ToString().Equals("Register", StringComparison.OrdinalIgnoreCase))
+                            {
+                                context.Response.Redirect($"{context.Request.Scheme}://m.{host}/join{context.Request.QueryString.Value}");
+                            }
+                            else
+                            {
+                                context.Response.Redirect($"{context.Request.Scheme}://m.{host}{context.Request.QueryString.Value}");
+                            }
+                            return;
                         }
-                        else
-                        {
-                            context.Response.Redirect($"{context.Request.Scheme}://m.{host}{context.Request.QueryString.Value}");
-                        }
-                        return;
                     }
 
                     await _next.Invoke(context);
@@ -89,7 +98,9 @@ namespace MemberSite.Service.BLL
                     {
                         if (!context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
                         {
-                            if (AnticipationRouteData.TryGetValue("controller", out controller) && AnticipationRouteData.TryGetValue("action", out action) && controller as string != selLangBLL.GetLangId())
+                            var AnticipationRouteData = Match("{controller=Home}/{action=Index}", context.Request.Path);
+
+                            if (AnticipationRouteData.TryGetValue("controller", out object controller) && AnticipationRouteData.TryGetValue("action", out object action) && controller as string != selLangBLL.GetLangId())
                             {
                                 context.Response.Redirect($"/{selLangBLL.GetLangId()}/{controller}/{action}{context.Request.QueryString.Value}");
                                 return;
