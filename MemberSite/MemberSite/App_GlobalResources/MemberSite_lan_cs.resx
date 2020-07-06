@@ -1679,4 +1679,7 @@
   <data name="lbl_Themes" xml:space="preserve">
     <value>主题</value>
   </data>
+  <data name="lbl_KenoAndLottery" xml:space="preserve">
+    <value>快乐彩与彩票</value>
+  </data>
 </root>

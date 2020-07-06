@@ -1647,4 +1647,7 @@
   <data name="lbl_Themes" xml:space="preserve">
     <value>ธีมส์</value>
   </data>
+  <data name="lbl_KenoAndLottery" xml:space="preserve">
+    <value>คีโนและล็อตเตอรี่</value>
+  </data>
 </root>
