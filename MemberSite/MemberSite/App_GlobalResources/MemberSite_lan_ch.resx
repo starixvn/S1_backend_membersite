@@ -1634,4 +1634,46 @@
   <data name="lbl_WaitKYCHint" xml:space="preserve">
     <value>感謝您上傳所需文件，審查流程正進行中，懇請稍後</value>
   </data>
+  <data name="lbl_BirthCertificate" xml:space="preserve">
+    <value>出生證明</value>
+  </data>
+  <data name="lbl_Details" xml:space="preserve">
+    <value>詳情</value>
+  </data>
+  <data name="lbl_DrivingLicense" xml:space="preserve">
+    <value>駕駛執照</value>
+  </data>
+  <data name="lbl_Guest" xml:space="preserve">
+    <value>訪客</value>
+  </data>
+  <data name="lbl_KYCSubmitHint" xml:space="preserve">
+    <value>下列中，請上傳其一證件：</value>
+  </data>
+  <data name="lbl_Languages" xml:space="preserve">
+    <value>語系</value>
+  </data>
+  <data name="lbl_LiveChat" xml:space="preserve">
+    <value>線上客服</value>
+  </data>
+  <data name="lbl_Loading" xml:space="preserve">
+    <value>加載中</value>
+  </data>
+  <data name="lbl_Me" xml:space="preserve">
+    <value>我</value>
+  </data>
+  <data name="lbl_NationalIdentityCard" xml:space="preserve">
+    <value>國民身份證</value>
+  </data>
+  <data name="lbl_Other" xml:space="preserve">
+    <value>其它</value>
+  </data>
+  <data name="lbl_Passport" xml:space="preserve">
+    <value>護照副本</value>
+  </data>
+  <data name="lbl_Setting" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="lbl_Themes" xml:space="preserve">
+    <value>主題</value>
+  </data>
 </root>

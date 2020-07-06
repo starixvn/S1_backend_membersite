@@ -1605,4 +1605,46 @@
   <data name="lbl_WaitKYCHint" xml:space="preserve">
     <value>ขอบคุณสำหรับการส่งเอกสารที่จำเป็น โปรดรอสักครู่ในการดำเนินการตรวจสอบเอกสารที่ท่านส่งมา</value>
   </data>
+  <data name="lbl_BirthCertificate" xml:space="preserve">
+    <value>สูติบัตร (ใบแจ้งเกิด)</value>
+  </data>
+  <data name="lbl_Details" xml:space="preserve">
+    <value>รายละเอียด</value>
+  </data>
+  <data name="lbl_DrivingLicense" xml:space="preserve">
+    <value>ใบขับขี่</value>
+  </data>
+  <data name="lbl_Guest" xml:space="preserve">
+    <value>ลูกค้า</value>
+  </data>
+  <data name="lbl_KYCSubmitHint" xml:space="preserve">
+    <value>โปรดส่งเอกสารอย่างใดอย่างหนึ่งดังต่อไปนี้:</value>
+  </data>
+  <data name="lbl_Languages" xml:space="preserve">
+    <value>ภาษา</value>
+  </data>
+  <data name="lbl_LiveChat" xml:space="preserve">
+    <value>สนทนาสด</value>
+  </data>
+  <data name="lbl_Loading" xml:space="preserve">
+    <value>กำลังโหลด</value>
+  </data>
+  <data name="lbl_Me" xml:space="preserve">
+    <value>ฉัน</value>
+  </data>
+  <data name="lbl_NationalIdentityCard" xml:space="preserve">
+    <value>บัตรประชาชน</value>
+  </data>
+  <data name="lbl_Other" xml:space="preserve">
+    <value>อื่นๆ</value>
+  </data>
+  <data name="lbl_Passport" xml:space="preserve">
+    <value>พาสปอร์ต</value>
+  </data>
+  <data name="lbl_Setting" xml:space="preserve">
+    <value>การตั้งค่า</value>
+  </data>
+  <data name="lbl_Themes" xml:space="preserve">
+    <value>ธีมส์</value>
+  </data>
 </root>

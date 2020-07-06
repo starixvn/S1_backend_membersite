@@ -246,4 +246,22 @@
   <data name="msg_DepositHint" xml:space="preserve">
     <value>Deposit sekarang dan nikmati permainan dan pelayanan kami</value>
   </data>
+  <data name="msg_ApiServerError" xml:space="preserve">
+    <value>Kesalahan Jaringan API.</value>
+  </data>
+  <data name="msg_ForceLogedoutHint" xml:space="preserve">
+    <value>ID ini sudah masuk dari jendela atau perangkat browser lain. Anda akan dipaksa keluar dari sesi ini.</value>
+  </data>
+  <data name="msg_ReferenceNumber" xml:space="preserve">
+    <value>Nomor referensi</value>
+  </data>
+  <data name="msg_SelectFile" xml:space="preserve">
+    <value>Pilih file</value>
+  </data>
+  <data name="msg_SubmitDepositTime" xml:space="preserve">
+    <value>Kirimkan waktu setoran Anda.</value>
+  </data>
+  <data name="msg_WrongAmount" xml:space="preserve">
+    <value>Salah jumlah</value>
+  </data>
 </root>
