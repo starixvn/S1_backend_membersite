@@ -1716,4 +1716,7 @@
   <data name="lbl_Wallet" xml:space="preserve">
     <value>Wallet</value>
   </data>
+  <data name="lbl_Fail" xml:space="preserve">
+    <value>Fail</value>
+  </data>
 </root>
