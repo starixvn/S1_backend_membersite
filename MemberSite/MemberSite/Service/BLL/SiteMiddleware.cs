@@ -63,15 +63,12 @@ namespace MemberSite.Service.BLL
                     if (!IPAddress.TryParse(host, out var pAddress) && supportH5 != null && tools.IsMobile() && supportH5.Any(x => x == serverInfoBLL.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase))
                     {
                         var AnticipationRouteData = Match("{controller=Home}/{action=Index}", context.Request.Path);
-                        object controller = "";
-                        object action = "";
+                        AnticipationRouteData.TryGetValue("controller", out object controller);
+                        AnticipationRouteData.TryGetValue("action", out object action);
 
-                        if (!AnticipationRouteData.TryGetValue("controller", out controller) || !AnticipationRouteData.TryGetValue("action", out action))
-                        {
-                            AnticipationRouteData = Match("{LangId?}/{controller=Home}/{action=Index}", context.Request.Path);
-                            AnticipationRouteData.TryGetValue("controller", out controller);
-                            AnticipationRouteData.TryGetValue("action", out action);
-                        }
+                        var AnticipationRouteData1 = Match("{LangId?}/{controller=Home}/{action=Index}", context.Request.Path);
+                        AnticipationRouteData1.TryGetValue("controller", out object controller1);
+                        AnticipationRouteData1.TryGetValue("action", out object action1);
 
                         int dotIndex = host.IndexOf(".");
                         if (dotIndex > -1)
@@ -79,9 +76,9 @@ namespace MemberSite.Service.BLL
                             host = host.Substring(dotIndex + 1);
                         }
 
-                        if (controller.ToString().Equals("Home", StringComparison.OrdinalIgnoreCase))
+                        if (controller.ToString().Equals("Home", StringComparison.OrdinalIgnoreCase) || controller1.ToString().Equals("Home", StringComparison.OrdinalIgnoreCase))
                         {
-                            if (action.ToString().Equals("Register", StringComparison.OrdinalIgnoreCase))
+                            if (action.ToString().Equals("Register", StringComparison.OrdinalIgnoreCase) || action1.ToString().Equals("Register", StringComparison.OrdinalIgnoreCase))
                             {
                                 context.Response.Redirect($"{context.Request.Scheme}://m.{host}/join{context.Request.QueryString.Value}");
                             }
