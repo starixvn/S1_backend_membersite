@@ -1049,7 +1049,7 @@
     <value>Submit Photo ID</value>
   </data>
   <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
-    <value>To fulfilled withdrawal, a verification is required to complete with a government-issued documents:</value>
+    <value>Please submit your photo id before making withdrawal!</value>
   </data>
   <data name="lbl_SubmitProof" xml:space="preserve">
     <value>Submit Bank Slip</value>
