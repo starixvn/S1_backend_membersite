@@ -20,6 +20,8 @@ namespace MemberSite.Service.BLL
 
         public string GetTemplatePath(IUrlHelper urlHelper)
         {
+            return null;
+
             var serverInfo = serverInfoBLL.GetServerInfo();
             if (serverInfo.SiteId == 3)
             {
