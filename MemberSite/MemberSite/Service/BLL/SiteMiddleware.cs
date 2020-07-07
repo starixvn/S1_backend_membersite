@@ -60,7 +60,7 @@ namespace MemberSite.Service.BLL
                     string host = context.Request.Host.Host;
                     int[] supportH5 = configuration.GetSection("SupportH5").Get<int[]>();
 
-                    if (!IPAddress.TryParse(host, out var pAddress) && supportH5 != null && tools.IsMobile() && supportH5.Any(x => x == serverInfoBLL.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase))
+                    if (!IPAddress.TryParse(host, out var pAddress) && supportH5 != null && tools.IsMobile() && supportH5.Any(x => x == serverInfoBLL.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase)  && !host.StartsWith("mrelease.", StringComparison.OrdinalIgnoreCase)))
                     {
                         var AnticipationRouteData = Match("{controller=Home}/{action=Index}", context.Request.Path);
                         AnticipationRouteData.TryGetValue("controller", out object controller);
