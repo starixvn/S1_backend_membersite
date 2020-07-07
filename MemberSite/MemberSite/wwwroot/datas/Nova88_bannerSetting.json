@@ -25,8 +25,7 @@
       "urlWithLang": true,
       "img": "banner-FTDP3.jpg",
       "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ] /*,
-      "checkPromo": true*/
+      "lang": [ "th", "id", "en", "cs" ]
     },
     {
       "actionLink": "Promotion/Bonus?BonusCode=50PNewDep1",

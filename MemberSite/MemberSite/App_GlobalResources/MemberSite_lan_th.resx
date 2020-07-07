@@ -1650,4 +1650,16 @@
   <data name="lbl_KenoAndLottery" xml:space="preserve">
     <value>คีโนและล็อตเตอรี่</value>
   </data>
+  <data name="lbl_RotationHint_1" xml:space="preserve">
+    <value>เรียนลูกค้าผู้มีอุปการคุณทุกท่าน</value>
+  </data>
+  <data name="lbl_RotationHint_2" xml:space="preserve">
+    <value>เนื่องจากเว็บไซด์ของเราได้มีการปรับเปลี่ยนให้เล่นง่ายขึ้น โปรด</value>
+  </data>
+  <data name="lbl_RotationHint_3" xml:space="preserve">
+    <value>หมุนโทรศัพท์ของท่านในแนวตั้ง เพื่อประสบการณ์การเล่นเกมที่ดีมากขึ้นกว่าเดิม</value>
+  </data>
+  <data name="lbl_RotationHint_4" xml:space="preserve">
+    <value>และเราต้องขออภัยในความไม่สะดวกที่อาจเกิดขึ้นและหวังว่าท่านจะเข้าใจ ขอขอบคุณ!</value>
+  </data>
 </root>

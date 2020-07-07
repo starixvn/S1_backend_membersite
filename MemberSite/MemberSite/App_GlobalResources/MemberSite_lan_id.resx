@@ -1673,4 +1673,17 @@
   <data name="lbl_Themes" xml:space="preserve">
     <value>Tema</value>
   </data>
+  <data name="lbl_RotationHint_1" xml:space="preserve">
+    <value>Kepada pelanggan yang terhormat</value>
+  </data>
+  <data name="lbl_RotationHint_2" xml:space="preserve">
+    <value>Untuk menghadirkan pengalaman dan produk yang lebih baik</value>
+  </data>
+  <data name="lbl_RotationHint_3" xml:space="preserve">
+    <value>Silakan putar ponsel anda dalam potret untuk pengalaman permainan yang lebih baik</value>
+  </data>
+  <data name="lbl_RotationHint_4" xml:space="preserve">
+    <value>Kami mohon maaf atas ketidaknyamanan yang ditimbulkan, dan berharap pengertian Anda sepenuhnya. Terima kasih!
+</value>
+  </data>
 </root>
