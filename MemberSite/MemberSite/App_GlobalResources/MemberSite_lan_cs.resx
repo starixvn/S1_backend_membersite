@@ -1682,4 +1682,16 @@
   <data name="lbl_KenoAndLottery" xml:space="preserve">
     <value>快乐彩与彩票</value>
   </data>
+  <data name="lbl_RotationHint_1" xml:space="preserve">
+    <value>尊敬的客户</value>
+  </data>
+  <data name="lbl_RotationHint_2" xml:space="preserve">
+    <value>为了给您带来更好的游戏体验和产品</value>
+  </data>
+  <data name="lbl_RotationHint_3" xml:space="preserve">
+    <value>请将手机竖屏体验本产品</value>
+  </data>
+  <data name="lbl_RotationHint_4" xml:space="preserve">
+    <value>给您带来不便，敬请您谅解，谢谢！</value>
+  </data>
 </root>
