@@ -25,7 +25,7 @@ namespace MemberSite.Service.Model
     public class BannerSettingItem
     {
         public string actionLink { get; set; }
-        public string urlWithLang { get; set; }
+        public bool urlWithLang { get; set; }
         public bool outerLink { get; set; }
         public IEnumerable<ActionLinkInfo> actionLinkByLang { get; set; }
         public string img { get; set; }
