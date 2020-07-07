@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -320,7 +322,7 @@ namespace MemberSite.Controllers.Api
             try
             {
                 Dictionary<string, string> datas = new Dictionary<string, string>();
-                foreach(var k in keys)
+                foreach (var k in keys)
                 {
                     var lang = selLangBLL.GetResourceValue(k) ?? selLangBLL.GetMsg(k);
                     if (!datas.ContainsKey(k))
@@ -492,9 +494,9 @@ namespace MemberSite.Controllers.Api
 
             if (FolderName == "Promotion")
             {
-                result.Data = _bannerSetting.Promotion.Where(x => x.currencyId == null || x.currencyId.Any(y=> y == perferCurr));
+                result.Data = _bannerSetting.Promotion.Where(x => x.currencyId == null || x.currencyId.Any(y => y == perferCurr));
             }
-            else if(FolderName== "Casino")
+            else if (FolderName == "Casino")
             {
                 result.Data = _bannerSetting.Casino.Where(x => x.currencyId == null || x.currencyId.Any(y => y == perferCurr));
             }
@@ -539,6 +541,71 @@ namespace MemberSite.Controllers.Api
             }
 
             return apiResult;
+        }
+        [HttpPost]
+        public ApiResult<Dictionary<string, string>> WhoAmI()
+        {
+            var result = new ApiResult<Dictionary<string, string>>();
+            try
+            {
+                Dictionary<string, string> ServerInfoData = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                result.Data = ServerInfoData;
+                ServerInfoData.Add("Now", DateTime.Now.ToString());
+                ServerInfoData.Add("EnvironmentName", environment.EnvironmentName);
+                ServerInfoData.Add("LangId", selLangBLL.GetLangId());
+                var host = Dns.GetHostEntry(Dns.GetHostName());
+                int i = 1;
+                foreach (var ip in host.AddressList)
+                {
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        ServerInfoData.Add($"IP {i++}.", ip.ToString());
+                    }
+                }
+                ServerInfoData.Add("Url.Host", Request.Host.Host);
+                ServerInfoData.Add("Url.Port", Request.Host.Port.ToString());
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                ServerInfoData.Add("SiteId", serverInfo.SiteId.ToString());
+                ServerInfoData.Add("SiteName", serverInfo.SiteName);
+                ServerInfoData.Add("LangList", serverInfo.LangList);
+                ServerInfoData.Add("CurrencyList", serverInfo.CurrencyList);
+                ServerInfoData.Add("DefCurrency", serverInfo.DefCurrency.ToString());
+                ServerInfoData.Add("DefLang", serverInfo.DefLang);
+                var userAgent = Request.Headers["User-Agent"];
+                ServerInfoData.Add("User Agent", userAgent);
+
+                //需要的欄位LIST
+                var list = new List<string>
+            {
+                "X-Forwarded-For",
+                "LOCAL_ADDR",
+                "server_port",
+                "Http_Host",
+                "HTTP_INCAP_CLIENT_IP",
+                "HTTP_TRUE_CLIENT_IP",
+                "HTTP_X_REAL_IP",
+                "REMOTE_ADDR",
+                "HTTP_X_FORWARDED_FOR",
+                "HTTP_X_FORWARDED_PROTO",
+                "SERVER_NAME"
+            };
+
+                foreach (var head in Request.Headers)
+                {
+                    string sKey = head.Key;
+                    if (list.Contains(sKey, StringComparer.OrdinalIgnoreCase) && !ServerInfoData.ContainsKey(sKey))
+                    {
+                        ServerInfoData.Add(sKey, head.Value);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.ErrorCode = 999;
+                result.RawMessage = ex.ToString();
+            }
+
+            return result;
         }
     }
 }
