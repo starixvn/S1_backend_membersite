@@ -1,0 +1,19 @@
+{
+  "Promotion": [
+    {
+      "actionLink": "Home/Register",
+      "urlWithLang": true,
+      "img": "banner-Welcome.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    }
+  ],
+  "Casino": [
+    {
+      "actionLink": "https://pp88.asia/tournament/daily-wins-slot-championship/",
+      "outerLink": true,
+      "img": "event-pp-20200508.png",
+      "lang": [ "en", "vn"]
+    }
+  ]
+}
