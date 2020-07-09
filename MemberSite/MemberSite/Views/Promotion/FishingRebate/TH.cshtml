@@ -1,0 +1,82 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-FishingRebate.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2>เกมยิงปลา รับส่วนลด 0.8%</h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">เงื่อนไขที่สำคัญ</span>
+            <ol type="a">
+                <li>โปรโมชั่นนี้เริ่มตั้งแต่วันที่ 7 กรกฎาคม 2020 12:00 น. จนกว่าจะมีประกาศเปลี่ยนแปลง<br><br></li>
+                <li>ช่วงเวลา cut-off สำหรับโปรโมชั่นนี้คือ ทุกวันอังคาร เวลา 11:59:59 AM (GMT+8)<br><br></li>
+                <li>ส่วนลด 0.8% คำนวณจากยอดผู้เล่นทุกสัปดาห์ตั้งแต่วันอังคารถึงวันจันทร์ <br><br></li>
+                <li>สมาชิก Nova88 ทุกคนมีสิทธิ์ได้รับ ส่วนลด 0.8% รายสัปดาห์จาก Nova88 แพลตฟอร์มเท่านั้น<br><br></li>
+                <li>สมาชิกที่มีสิทธิ์ได้รับส่วนลดต้องมีการโรลโอเวอร์หนึ่งครั้ง (1x) ก่อนทำการถอน <br><br></li>
+                <li>ส่วนลดที่ได้จะนำเข้าบัญชี Nova88 ของผู้เล่นที่มีคุณสมบัติเหมาะสมทุกวันอังคารภายใน 48 ชั่วโมง<br><br></li>
+            </ol>
+            <span class="promotions-title">เงื่อนไขโบนัส:</span>
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th colspan="4" style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">โปรดักส์</th>
+                </tr>
+                <tr>
+                    <th colspan="4" style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">ทุกกีฬายกเว้น กีฬาเสมือนจริง (Virtual Sport)</th>
+                </tr>
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">โบนัส 0.8% (สกุลเงิน)</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">ยอดจ่ายต่ำสุด (ต่อยอด)</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">ยอดจ่ายสูงสุด (ต่อยอด)</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">เทิร์นโอเวอร์</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">มาเลเซียริงกิต</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 50</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">1x</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">รูเปียห์อินโดนีเซีย</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 175,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 7,000,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">1x</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">บาท</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 370</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">1x</td>
+                </tr>
+            </table>
+
+
+            <br><br>
+
+            <span class="promotions-title">ข้อกำหนดและเงื่อนไข:</span>
+            <ol type="1">
+                <li>โปรโมชั่นนี้ใช้ได้กับสมาชิกทุกคนของ Nova88<br><br></li>
+                <li>สมาชิกที่เข้าร่วมจะต้องยอมรับและปฏิบัติตามข้อกำหนดทั้งหมดที่กล่าวถึงข้างต้นรวมถึงกฎและระเบียบที่เกี่ยวข้องทั้งหมดที่ระบุไว้ในเว็บไซต์ Nova88<br><br></li>
+                <li>Nova88 ขอสงวนสิทธิ์ในการแก้ไขหรือถอนโปรโมชั่นได้ตลอดเวลา<br><br></li>
+                <li>Nova88 เป็นผู้ตัดสินแต่เพียงผู้เดียวของโปรโมชั่นและการตัดสินใจของเราถือเป็นที่สิ้นสุด<br><br></li>
+                <li>Nova88 ใช้ข้อกำหนดและเงื่อนไขมาตรฐานของ Nova88<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>

@@ -638,5 +638,15 @@ namespace MemberSite.Controllers.Api
         {
             Success = 0, Fail = 1, Pending = 2, PendingD = 3
         }
+
+        [HttpPost]
+        public ApiResult KycCheck()
+        {
+            var result = new ApiResult();
+            var authData = authorizeBLL.GetAuthData();
+            result.ErrorCode = custInfoBLL.SubmittedCustPhotoId(authData.CustId);
+
+            return result;
+        }
     }
 }

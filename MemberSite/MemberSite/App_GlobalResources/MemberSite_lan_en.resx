@@ -1049,7 +1049,7 @@
     <value>Submit Photo ID</value>
   </data>
   <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
-    <value>To fulfilled withdrawal, a verification is required to complete with a government-issued documents:</value>
+    <value>Please submit your photo id before making withdrawal!</value>
   </data>
   <data name="lbl_SubmitProof" xml:space="preserve">
     <value>Submit Bank Slip</value>
@@ -1658,5 +1658,74 @@
   </data>
   <data name="lbl_WaitKYCHint" xml:space="preserve">
     <value>Thank you for submitting the required document, kindly bear with us for a moment while the verification is in progress.</value>
+  </data>
+  <data name="lbl_ABCasino" xml:space="preserve">
+    <value>AB Casino</value>
+  </data>
+  <data name="lbl_BirthCertificate" xml:space="preserve">
+    <value>Birth Certificate</value>
+  </data>
+  <data name="lbl_Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="lbl_DrivingLicense" xml:space="preserve">
+    <value>Driving License</value>
+  </data>
+  <data name="lbl_Football" xml:space="preserve">
+    <value>Football</value>
+  </data>
+  <data name="lbl_Guest" xml:space="preserve">
+    <value>Guest</value>
+  </data>
+  <data name="lbl_Hockey" xml:space="preserve">
+    <value>Hockey</value>
+  </data>
+  <data name="lbl_KYCSubmitHint" xml:space="preserve">
+    <value>Kindly submit either one of the ID listed as below:</value>
+  </data>
+  <data name="lbl_Languages" xml:space="preserve">
+    <value>Languages</value>
+  </data>
+  <data name="lbl_LiveChat" xml:space="preserve">
+    <value>Live Chat</value>
+  </data>
+  <data name="lbl_Loading" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="lbl_Me" xml:space="preserve">
+    <value>Me</value>
+  </data>
+  <data name="lbl_NationalIdentityCard" xml:space="preserve">
+    <value>National Identity Card</value>
+  </data>
+  <data name="lbl_Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="lbl_Passport" xml:space="preserve">
+    <value>Passport</value>
+  </data>
+  <data name="lbl_Setting" xml:space="preserve">
+    <value>Setting</value>
+  </data>
+  <data name="lbl_Statement1" xml:space="preserve">
+    <value>Statement</value>
+  </data>
+  <data name="lbl_Themes" xml:space="preserve">
+    <value>Themes</value>
+  </data>
+  <data name="lbl_Wallet" xml:space="preserve">
+    <value>Wallet</value>
+  </data>
+  <data name="lbl_RotationHint_1" xml:space="preserve">
+    <value>Dear Valued Customer</value>
+  </data>
+  <data name="lbl_RotationHint_2" xml:space="preserve">
+    <value>In order to present the better experience and products</value>
+  </data>
+  <data name="lbl_RotationHint_3" xml:space="preserve">
+    <value>Kindly rotate your phone in portrait for better game experience</value>
+  </data>
+  <data name="lbl_RotationHint_4" xml:space="preserve">
+    <value>We apologize for the inconvenience caused, and hoping your utmost understanding. Thank you!</value>
   </data>
 </root>

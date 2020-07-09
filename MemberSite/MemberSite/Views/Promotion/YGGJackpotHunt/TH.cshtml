@@ -1,0 +1,237 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Casino/@selLangBLL.GetLangId()/event-YGGJackpotHunt.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2>YGG ตามล่าหาแจ็คพ็อต</h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">แคมเปญนี้มีรายละเอียดดังต่อไปนี้</span>
+            <ol type="1">
+                <li>
+                    <strong>ตามล่าสมบัติ - I (รางวัล)</strong>
+                    <br>7 กรกฎาคม 20 16:00 UTC + 8 ~ 13 กรกฎาคม 20 5:59 UTC + 8<br><br>
+                </li>
+                <li>
+                    <strong>ตามล่าสมบัติ - II (ภารกิจ)</strong>
+                    <br>13 กรกฎาคม 20 16:00 UTC + 8 ~ 19 กรกฎาคม 20 23:59 UTC + 8<br><br>
+                </li>
+                <li>
+                    <strong>ตามล่าสมบัติ - III (ทัวร์นาเมนต์)</strong>
+                    <br>20 กรกฎาคม 20 16:00 UTC + 8 ~ 26 กรกฎาคม 20 23:59 UTC + 8<br><br>
+                </li>
+            </ol>
+            <span class="promotions-title">ตามล่าสมบัติ - I (รางวัล)</span>
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">จำนวนรางวัล</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">MYR</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">THB</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">IDR</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">CNY</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">1</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">60,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">300,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">155,000,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">80,000</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">2000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">60</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">300</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">155,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">80</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;background-color: #a6c5c8;">รวม</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">180,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">900,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">465,000,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">240,000</td>
+                </tr>
+            </table>
+            <br>*รางวัลรวมสำหรับแคมเปญนี้ค่าเริ่มต้นเป็น EUR ซึ่งอาจมีการเปลี่ยนแปลงตามค่าเงิน
+            <br><br>
+            <!--1-->
+            <ol type="1">
+                <li>ไม่มีการกำหนดจำนวนเงินเดิมพันขั้นต่ำในการเข้าร่วมแคมเปญนี้<br><br></li>
+                <li>ในการเข้าร่วมแคมเปญนี้ ผู้เล่นจะต้องยืนยันว่าพวกเขาต้องการมีส่วนร่วมในแคมเปญโดยคลิก "เข้าร่วมทันที" ในหน้าต่างป๊อปอัป ผู้เล่นสามารถวางเดิมพันในเกมที่เข้าร่วมในช่วงระยะเวลาแคมเปญนี้ได้เลย โดยไม่จำเป็นต้องชำระเงินเพิ่มเติมเพื่อมีส่วนร่วมในแคมเปญ<br><br></li>
+                <li>การเดิมพันที่มีคุณสมบัติตามที่กำหนดไว้ใน Jackpot Raiders, โฮล์มส์ (Holmes) และ Stolen Stones, Ozwin’s Jackpots ในช่วงระยะเวลาแคมเปญ สามารถลุ้นรับรางวัลลึกลับแบบสุ่มจากกลุ่มรางวัล<br><br></li>
+                <li>การเดิมพันแต่ละครั้งสามารถชนะรางวัลแบบสุ่มรางวัลเดียวเท่านั้น<br><br></li>
+                <li>มีสิทธิ์ได้รับรางวัลตลอดระยะเวลาของแคมเปญ รางวัลอย่างน้อยหนึ่งในสามของรางวัลที่มีค่ามากที่สุด (“ รางวัลสูงสุด”) จะได้รับในช่วงสุดท้ายของแคมเปญ ระยะเวลาดังกล่าวเท่ากับ 5% ของระยะเวลาแคมเปญโดยรวม (ตัวอย่างเช่นหากระยะเวลาของแคมเปญคือ 100
+                    ชั่วโมง อย่างน้อยหนึ่งรางวัลสูงสุดจะได้รับในช่วง 5 ชั่วโมงสุดท้าย)<br><br></li>
+                <li>รางวัลที่เหลือจะอัปเดตทุก ๆ 60 วินาที<br><br></li>
+                <li>โบนัสจะได้รับเครดิตเป็นเงินสด<br><br></li>
+                <li>ผู้เล่นสามารถรับรางวัลสุ่มมากกว่า 1 รางวัลระหว่างการเล่นในแคมเปญนี้<br><br></li>
+            </ol>
+
+            <br><br>
+
+            <span class="promotions-title">ตามล่าสมบัติ - II (ภารกิจ)</span>
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">อันดับที่</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">MYR</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">THB</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">IDR</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">CNY</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">1</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">9,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">45,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">23,250,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">12,000</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">2</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">3,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">7,750,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">4,000</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">3</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">900</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">4,500</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">2,325,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">1,200</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">4 - 10</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">300</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">1,500</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">775,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">400</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;background-color: #a6c5c8;">รวม</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">75,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">38,750,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">20,000</td>
+                </tr>
+            </table>
+            <br>*รางวัลรวมสำหรับแคมเปญนี้ค่าเริ่มต้นเป็น EUR ซึ่งอาจมีการเปลี่ยนแปลงตามค่าเงิน
+            <br><br>
+            <!--2-->
+            <ol type="1">
+                <li>ต้องเล่นเกมทำภารกิจให้ครบทุกภารกิจในแต่ละเกมเพื่อที่จะได้รับรางวัลใหญ่จำนวน EUR 2,500
+                    <ol>
+                        <li style="list-style-type:circle">Ice and Fire — เก็บไข่มังกรให้ได้ครบ 20 ฟอง (ง่าย)</li>
+                        <li style="list-style-type:circle">Brazil Bomba— รวบรวม 20 สแกตเตอร์ในเกมพื้นฐาน (ง่าย)</li>
+                        <li style="list-style-type:circle">Dark Vortex - เข้าสู่โหมดการเปิด vortex 3 ครั้ง (ซื้อฟรีสปินจะไม่นับในแคมเปญนี้) (ง่าย)</li>
+                    </ol>
+                    <br><br></li>
+                <li>การเข้าร่วมแคมเปญนี้ไม่มีกำหนดในการวางเดิมพันขั้นต่ำ<br><br></li>
+                <li>ผู้เล่นทุกคนที่ทำภารกิจสำเร็จเป็นครั้งแรกจะได้รับหมายเลขผู้เล่นที่ไม่ซ้ำใคร<br><br></li>
+                <li>หมายเลขผู้เล่นเฉพาะจะถูกเน้นสำหรับผู้เล่นบนกระดานผู้นำในไคลเอนต์เกม เพื่อติดตามตำแหน่งของพวกเขา ผู้เล่นที่อยู่นอกตำแหน่งกระดานผู้นำจะปรากฏเป็นตำแหน่งกระดานผู้นำที่ผ่านการคัดเลือกล่าสุด + 1 ตัวอย่างเช่นสำหรับผู้เล่นทุกคนที่อยู่นอกตำแหน่งผู้นำอันดับ
+                    600 อันดับตำแหน่งที่แสดงจะเป็น +1<br><br></li>
+                <li>รางวัลรวมสำหรับแคมเปญนี้ตั้งเป็นสกุลเงิน EUR และอาจมีการเปลี่ยนแปลงตามค่าเงิน<br><br></li>
+                <li>จำนวนสปินที่ทำเพื่อทำภารกิจให้เสร็จสมบูรณ์จะเป็นตัวกำหนดตำแหน่งของผู้เล่นในกระดานผู้นำ ผู้เล่นที่ทำภารกิจจนจบในรอบที่น้อยที่สุดจะได้อันดับที่ 1 และชนะรางวัลที่ 1<br><br></li>
+                <li>หากมีผู้เล่นสองคนหรือมากกว่าที่ทำภารกิจสำเร็จด้วยจำนวนรอบเท่ากัน ผู้เล่นที่ทำภารกิจให้เสร็จก่อนจะมีตำแหน่งสูงกว่าในกระดานผู้นำ<br><br></li>
+                <li>ตำแหน่งของผู้เล่นจะรีเฟรชทุก ๆ 60 วินาที<br><br></li>
+                <li>เฉพาะการเดิมพันที่เล่นในโหมดเล่นจริงจะมีสิทธิ์ได้เข้าร่วมแคมเปญ<br><br></li>
+                <li>ตำแหน่งของผู้เล่นในกระดานผู้นำสามารถเปลี่ยนแปลงได้ตลอดภารกิจ<br><br></li>
+                <li>ความคืบหน้าของภารกิจถูกรีสตาร์ทโดยอัตโนมัติเมื่อผู้เล่นไม่สามารถทำคะแนนได้อีกต่อไป คะแนนที่ดีที่สุดจะถูกเก็บไว้เสมอ<br><br></li>
+                <li>ความคืบหน้าของการเล่น ผู้เล่นสามารถเริ่มใหม่ได้ด้วยตนเอง หลังจาก 25 สปิน ปุ่มเริ่ม สามารถพบได้ในไคลเอนต์เกม<br><br></li>
+                <li>รางวัลเงินสดจากกระดานผู้นำจะเข้าบัญชีของผู้เล่นหลังจากจบกระดานผู้นำ หากผู้เล่นต้องการจะดูจำนวนเงินคงเหลือ ผู้เล่นจะต้องเปิดเกม Yggdrasil อีกครั้งเมื่อกระดานผู้นำจบลง<br><br></li>
+            </ol>
+
+            <br><br>
+
+            <span class="promotions-title">ตามล่าสมบัติ - III (ทัวร์นาเมนต์)</span>
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">อันดับที่</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">MYR</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">THB</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">IDR</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">CNY</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">1</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">12,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">60,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">31,000,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">16,000</td>
+                </tr>
+
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">2</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">6,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">30,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">15,500,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">8,000</td>
+                </tr>
+
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">3 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">3,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">15,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">7,750,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">4,000</td>
+                </tr>
+
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">4 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">1,800 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">9,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">4,650,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">2,400</td>
+                </tr>
+
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">5 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">1,200 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">6,000 </td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">3,100,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;">1,600</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;background-color: #a6c5c8;">รวม</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">24,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">120,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">62,000,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: right;background-color: #a6c5c8;">32,000</td>
+                </tr>
+            </table>
+            <br>*รางวัลรวมสำหรับแคมเปญนี้ค่าเริ่มต้นเป็น EUR ซึ่งอาจมีการเปลี่ยนแปลงตามค่าเงิน
+            <br><br>
+            <p>
+                (ผลรวมสูงสุดของการชนะเหรียญเดียวในการหมุนใด ๆ ใน 2 เกมที่เลือกขึ้นไป)
+            </p>
+            <ol type="1">
+                <li>Jackpot Hunt Ill - การแข่งขันข้ามเกมมีให้เล่นในโหมดจริงพร้อมรางวัลใหญ่ € 4,000<br><br></li>
+                <li>การเข้าร่วมแคมเปญนี้ไม่มีกำหนดในการวางเดิมพันขั้นต่ำ<br><br></li>
+                <li>หลังจากชนะครั้งแรกในเกมที่เข้าร่วม ผู้เล่นจะได้รับหมายเลขทัวร์นาเมนต์ที่ไม่ซ้ำกัน (“ รหัสแข่งขัน”) ซึ่งจะระบุหมายเลขของแต่ละคนบนกระดานผู้นำซึ่งมีอยู่ในไคลเอนต์ของเกม<br><br></li>
+                <li>คะแนนของผู้เล่นแต่ละคนในกระดานผู้นำ ขึ้นอยู่กับผลรวมของเหรียญรางวัลสูงสุดในการหมุนใด ๆ ในเกมที่เลือกทั้งหมดในช่วงระยะเวลาการแข่งขัน<br><br></li>
+                <li>หากมีคะแนนเท่ากันสองคะแนนขึ้นไปผู้เล่นที่ทำคะแนนก่อนจะมีอันดับสูงกว่าในกระดานผู้นำ<br><br></li>
+                <li>คะแนนสูงสุดที่ทำได้ตลอดระยะเวลาแคมเปญโดยผู้เล่นแต่ละคนจะถูกนับเพื่ออันดับในกระดานผู้นำ<br><br></li>
+                <li>ตำแหน่งผู้นำของผู้เล่นแต่ละคนจะรีเฟรชทุก ๆ 60 วินาที ในกรณีที่เกิดความล่าช้าหรือแสดงตำแหน่งกระดานผู้นำล่าสุด ผู้เล่นจะต้องโหลดเกมใหม่<br><br></li>
+                <li>Nova 88 ขอสงวนสิทธิ์ในการให้คะแนนเป็นโมฆะหรือไม่จ่ายรางวัล โดยที่คะแนนทั้งหมดหรือบางส่วนเกิดจากข้อผิดพลาดที่เห็นได้ชัด ข้อผิดพลาดหรือความผิดพลาดทางเทคนิค (รวมถึงการจ่ายเงินเกมที่ไม่ถูกต้อง) ไม่ว่าจะเกิดจากเครื่องจักร ของเกมที่เข้าร่วมใด
+                    ๆ เราขอสงวนสิทธิ์ให้คะแนนเป็นโมฆะ, หรือไม่จ่ายรางวัล, คะแนนทั้งหมดหรือบางส่วนที่เป็นผลมาจากการโกงหรือสมรู้ร่วมคิดกับผู้เล่นอื่น ซึ่งจะพิจารณาตามความเห็นของ Nova88 <br><br></li>
+                <li>Nova88 ขอสงวนสิทธิ์ในการแก้ไขหรือยกเลิกแคมเปญเมื่อใดก็ได้<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>

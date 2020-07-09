@@ -4656,18 +4656,18 @@ button.swiper-pagination-bullet {
 }
 
 .header__logo .logo::before {
-    content: "";
-    display: block;
-    width: calc(130px * 0.8);
-    height: calc(46px * 0.8);
-    background-image: url("../images/logo.svg");
-    background-size: cover;
-    transition: ease .15s;
+  content: "";
+  display: block;
+  width: calc(130px * 0.8);
+  height: calc(46px * 0.8);
+  background-image: url("../images/logo.svg");
+  background-size: cover;
+  transition: ease .15s;
 }
 
 [data-layout=desktop] .header__logo .logo::before {
-    width: calc(130px * 1.2);
-    height: calc(46px * 1.2);
+  width: calc(130px * 1.2);
+  height: calc(46px * 1.2);
 }
 
 .header > .header__logo:only-of-type {
@@ -4918,25 +4918,6 @@ button.swiper-pagination-bullet {
 
 .header__nav .dropdown .dropdown__container {
   transform: translateX(-25%);
-}
-
-[data-layout=desktop] .newicon {
-  position: absolute;
-  top: 1px;
-  right: 5px;
-}
-
-[data-layout=desktop] .btn .newicon {
-  right: 30px;
-  top: 0;
-}
-
-[data-layout=mobile] .newicon {
-  margin-left: 1vw;
-}
-
-[data-layout=desktop] .dropdown__item {
-  position: relative;
 }
 
 .footer {

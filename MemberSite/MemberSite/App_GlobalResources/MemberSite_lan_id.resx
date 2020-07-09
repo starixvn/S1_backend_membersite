@@ -1631,4 +1631,59 @@
   <data name="lbl_WaitKYCHint" xml:space="preserve">
     <value>Terima kasih telah mengirimkan dokumen yang diperlukan, mohon tunggu sebentar saat verifikasi sedang berlangsung.</value>
   </data>
+  <data name="lbl_BirthCertificate" xml:space="preserve">
+    <value>Akte Kelahiran</value>
+  </data>
+  <data name="lbl_Details" xml:space="preserve">
+    <value>Rincian</value>
+  </data>
+  <data name="lbl_DrivingLicense" xml:space="preserve">
+    <value>Surat Izin Mengemudi (SIM)</value>
+  </data>
+  <data name="lbl_Guest" xml:space="preserve">
+    <value>Tamu</value>
+  </data>
+  <data name="lbl_KYCSubmitHint" xml:space="preserve">
+    <value>Silakan kirim salah satu ID yang tercantum di bawah ini:</value>
+  </data>
+  <data name="lbl_Languages" xml:space="preserve">
+    <value>Bahasa</value>
+  </data>
+  <data name="lbl_LiveChat" xml:space="preserve">
+    <value>Obrolan Langsung</value>
+  </data>
+  <data name="lbl_Loading" xml:space="preserve">
+    <value>Memuat</value>
+  </data>
+  <data name="lbl_Me" xml:space="preserve">
+    <value>Saya</value>
+  </data>
+  <data name="lbl_NationalIdentityCard" xml:space="preserve">
+    <value>Kartu Identitas Nasional</value>
+  </data>
+  <data name="lbl_Other" xml:space="preserve">
+    <value>Lainnya</value>
+  </data>
+  <data name="lbl_Passport" xml:space="preserve">
+    <value>Paspor</value>
+  </data>
+  <data name="lbl_Setting" xml:space="preserve">
+    <value>Pengaturan</value>
+  </data>
+  <data name="lbl_Themes" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="lbl_RotationHint_1" xml:space="preserve">
+    <value>Kepada pelanggan yang terhormat</value>
+  </data>
+  <data name="lbl_RotationHint_2" xml:space="preserve">
+    <value>Untuk menghadirkan pengalaman dan produk yang lebih baik</value>
+  </data>
+  <data name="lbl_RotationHint_3" xml:space="preserve">
+    <value>Silakan putar ponsel anda dalam potret untuk pengalaman permainan yang lebih baik</value>
+  </data>
+  <data name="lbl_RotationHint_4" xml:space="preserve">
+    <value>Kami mohon maaf atas ketidaknyamanan yang ditimbulkan, dan berharap pengertian Anda sepenuhnya. Terima kasih!
+</value>
+  </data>
 </root>

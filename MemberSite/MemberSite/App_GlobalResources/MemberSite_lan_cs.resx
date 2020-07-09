@@ -1601,7 +1601,7 @@
     <value>优惠</value>
   </data>
   <data name="lbl_Indo4d" xml:space="preserve">
-    <value>印尼 4D</value>
+    <value>Indo 4D</value>
   </data>
   <data name="lbl_Lottery" xml:space="preserve">
     <value>彩票</value>
@@ -1636,5 +1636,62 @@
   </data>
   <data name="lbl_WaitKYCHint" xml:space="preserve">
     <value>感谢您上传所需文件，审查流程正进行中，恳请稍后</value>
+  </data>
+  <data name="lbl_BirthCertificate" xml:space="preserve">
+    <value>出生证明</value>
+  </data>
+  <data name="lbl_Details" xml:space="preserve">
+    <value>详情</value>
+  </data>
+  <data name="lbl_DrivingLicense" xml:space="preserve">
+    <value>驾驶执照</value>
+  </data>
+  <data name="lbl_Guest" xml:space="preserve">
+    <value>访客</value>
+  </data>
+  <data name="lbl_KYCSubmitHint" xml:space="preserve">
+    <value>下列中，请上传其一证件：</value>
+  </data>
+  <data name="lbl_Languages" xml:space="preserve">
+    <value>语系</value>
+  </data>
+  <data name="lbl_LiveChat" xml:space="preserve">
+    <value>线上客服</value>
+  </data>
+  <data name="lbl_Loading" xml:space="preserve">
+    <value>加载中</value>
+  </data>
+  <data name="lbl_Me" xml:space="preserve">
+    <value>我</value>
+  </data>
+  <data name="lbl_NationalIdentityCard" xml:space="preserve">
+    <value>国民身份证</value>
+  </data>
+  <data name="lbl_Other" xml:space="preserve">
+    <value>其它</value>
+  </data>
+  <data name="lbl_Passport" xml:space="preserve">
+    <value>护照副本</value>
+  </data>
+  <data name="lbl_Setting" xml:space="preserve">
+    <value>设定</value>
+  </data>
+  <data name="lbl_Themes" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="lbl_KenoAndLottery" xml:space="preserve">
+    <value>快乐彩与彩票</value>
+  </data>
+  <data name="lbl_RotationHint_1" xml:space="preserve">
+    <value>尊敬的客户</value>
+  </data>
+  <data name="lbl_RotationHint_2" xml:space="preserve">
+    <value>为了给您带来更好的游戏体验和产品</value>
+  </data>
+  <data name="lbl_RotationHint_3" xml:space="preserve">
+    <value>请将手机竖屏体验本产品</value>
+  </data>
+  <data name="lbl_RotationHint_4" xml:space="preserve">
+    <value>给您带来不便，敬请您谅解，谢谢！</value>
   </data>
 </root>

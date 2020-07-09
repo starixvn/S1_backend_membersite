@@ -143,7 +143,7 @@ namespace MemberSite.Controllers
                 }
             }
 
-            return View();
+            return View(templateBLL.GetTemplatePath(Url));
         }
 
         public IActionResult ForgetPassowrd()

@@ -911,7 +911,7 @@
     <value>Bản ghi nhớ</value>
   </data>
   <data name="lbl_Message" xml:space="preserve">
-    <value>Thông Tin</value>
+    <value>Tin Nhắn</value>
   </data>
   <data name="lbl_Method" xml:space="preserve">
     <value>Cách thức</value>
@@ -1589,7 +1589,7 @@
     <value>Tiền vốn</value>
   </data>
   <data name="lbl_Statement" xml:space="preserve">
-    <value>Hồ sơ thay đổi tài khoản</value>
+    <value>Sao Kê</value>
   </data>
   <data name="lbl_TypeName" xml:space="preserve">
     <value>Nhập tên</value>
@@ -1622,7 +1622,7 @@
     <value>Cấm rút tiền ,Lượng doanh thu cần đạt được vẫn còn thiếu</value>
   </data>
   <data name="lbl_Announcement" xml:space="preserve">
-    <value>thông báo</value>
+    <value>Thông Báo</value>
   </data>
   <data name="lbl_Instagram" xml:space="preserve">
     <value>Instagram</value>
@@ -1665,5 +1665,8 @@
   </data>
   <data name="lbl_ResetPasswordSubmit" xml:space="preserve">
     <value>ขอรีเซ็ตรหัสผ่าน</value>
+  </data>
+  <data name="lbl_Retype" xml:space="preserve">
+    <value>Xác nhận</value>
   </data>
 </root>

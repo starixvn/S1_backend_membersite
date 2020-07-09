@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -11,16 +13,18 @@ using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 
 namespace MemberSite.Controllers.Api
 {
     [AllowAnonymous]
     [Route("api/[controller]/[action]")]
-    //[Route("api/[controller]/[action]/{LangId}")]
+    [Route("api/[controller]/[action]/{LangId}")]
     [ApiController]
     public class SiteController : ControllerBase
     {
@@ -32,8 +36,10 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL authorizeBLL;
         private readonly CasinoBLL casinoBLL;
         private readonly ServerInfoBLL serverInfoBLL;
+        private readonly BannerBLL bannerBLL;
+        private readonly AuthBLL authBLL;
 
-        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL)
+        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -43,12 +49,15 @@ namespace MemberSite.Controllers.Api
             this.authorizeBLL = authorizeBLL;
             this.casinoBLL = casinoBLL;
             this.serverInfoBLL = serverInfoBLL;
+            this.bannerBLL = bannerBLL;
+            this.authBLL = authBLL;
         }
 
         public class LoginModel
         {
             public string UserName { get; set; }
             public string Userpwd { get; set; }
+            public bool isPersistent { get; set; }
         }
 
         [HttpPost]
@@ -305,6 +314,94 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+
+        [HttpPost]
+        public ApiResult<Dictionary<string, string>> GetTranslationData(string[] keys)
+        {
+            var result = new ApiResult<Dictionary<string, string>>();
+            try
+            {
+                Dictionary<string, string> datas = new Dictionary<string, string>();
+                foreach (var k in keys)
+                {
+                    var lang = selLangBLL.GetResourceValue(k) ?? selLangBLL.GetMsg(k);
+                    if (!datas.ContainsKey(k))
+                    {
+                        datas.Add(k, lang);
+                    }
+                }
+
+                result.Data = datas;
+                result.ErrorCode = 0;
+            }
+            catch (Exception ex)
+            {
+                result.ErrorCode = 999;
+            }
+
+            return result;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<int>> GetSiteCurrencyList()
+        {
+            var result = new ApiResult<IEnumerable<int>>();
+            try
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                result.Data = serverInfo.ICurrencyList;
+                result.ErrorCode = 0;
+            }
+            catch (Exception ex)
+            {
+                result.ErrorCode = 999;
+                result.RawMessage = ex.ToString();
+            }
+
+            return result;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<SiteLanguage>> GetSiteLangList()
+        {
+            var result = new ApiResult<IEnumerable<SiteLanguage>>();
+            try
+            {
+                result.Data = selLangBLL.GetLangIdList();
+                result.ErrorCode = 0;
+            }
+            catch (Exception ex)
+            {
+                result.ErrorCode = 999;
+                result.RawMessage = ex.ToString();
+            }
+
+            return result;
+        }
+
+        [HttpPost]
+        public ApiResult CheckSignIn()
+        {
+            var result = new ApiResult();
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    result.ErrorCode = 0;
+                }
+                else
+                {
+                    result.ErrorCode = -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.ErrorCode = 999;
+                result.RawMessage = ex.ToString();
+            }
+
+            return result;
+        }
         /*
     { value: 9, name: 'Joker', displayText: "Joker", PlayFree: false },
     { value: 10, name: 'SG', displayText: "SG" },
@@ -318,7 +415,7 @@ namespace MemberSite.Controllers.Api
             ApiResult<List<Provider>> apiResult = new ApiResult<List<Provider>>();
 
             List<Provider> providers = new List<Provider> {
-                new Provider { Value = 6, Name = "GPI", DisplayText = selLangBLL.GetResourceValue("lbl_GPI"), PlayFree = true },
+                new Provider { Value = 6, Name = "GPI", DisplayText = selLangBLL.GetResourceValue("lbl_GPI"), PlayFree = true, DisplayKey = "lbl_GPI" },
                 new Provider { Value = 8, Name = "YGG", DisplayText = "YGG", PlayFree = true },
                 new Provider { Value = 9, Name = "Joker", DisplayText = "Joker", PlayFree = false },
                 new Provider { Value = 10, Name = "SG", DisplayText = "SG", PlayFree = true },
@@ -349,6 +446,166 @@ namespace MemberSite.Controllers.Api
             }
             apiResult.ErrorCode = 0;
             return apiResult;
+        }
+
+        public ApiResult<IEnumerable<int>> GetTpIds()
+        {
+            ApiResult<IEnumerable<int>> apiResult = new ApiResult<IEnumerable<int>>();
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                apiResult.Data = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
+            }
+            else
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                apiResult.Data = casinoBLL.GetProviderIdByCurrency(0, serverInfo.SiteId);
+            }
+
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<BannerSettingItem>> GetBanner([FromForm]string FolderName)
+        {
+            ApiResult<IEnumerable<BannerSettingItem>> result = new ApiResult<IEnumerable<BannerSettingItem>>();
+
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            string dataPath = Path.Combine(environment.WebRootPath, $"datas/{serverInfo.SiteName}_bannerSetting.json");
+            BannerSetting _bannerSetting = new BannerSetting();
+            if (System.IO.File.Exists(dataPath))
+            {
+                _bannerSetting = JsonConvert.DeserializeObject<BannerSetting>(System.IO.File.ReadAllText(dataPath));
+            }
+
+            var perferCurr = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                perferCurr = custInfo.CurrencyId;
+            }
+            else
+            {
+                perferCurr = selLangBLL.GetPreferCurrencyId();
+            }
+
+            if (FolderName == "Promotion")
+            {
+                result.Data = _bannerSetting.Promotion.Where(x => x.currencyId == null || x.currencyId.Any(y => y == perferCurr));
+            }
+            else if (FolderName == "Casino")
+            {
+                result.Data = _bannerSetting.Casino.Where(x => x.currencyId == null || x.currencyId.Any(y => y == perferCurr));
+            }
+
+            result.ErrorCode = 0;
+            return result;
+        }
+
+        [HttpPost]
+        public async Task<ApiResult> CheckResetPwdTokenAsync([FromForm]string key)
+        {
+            var apiResult = new ApiResult(selLangBLL);
+            if (User.Identity.IsAuthenticated)
+            {
+                apiResult.ErrorCode = 1;
+            }
+            else if (authBLL.Authenticate(key, out CustInfoProfile custInfoProfile))
+            {
+                Customer customer = null;
+                int userLoginResult = custInfoBLL.UserLoginForResetPwd(custInfoProfile.UserName, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out string token);
+                if (userLoginResult == 0)
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name,custInfoProfile.UserName ),
+                        new Claim(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
+                        new Claim("Token",token ),
+                        new Claim("LangId",custInfoProfile.UserLang )
+                    };
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                    apiResult.ErrorCode = 0;
+                }
+                else if (userLoginResult == -3)
+                {
+                    apiResult.ErrorCode = 401;
+                }
+            }
+            else
+            {
+                apiResult.ErrorCode = 403;
+            }
+
+            return apiResult;
+        }
+        [HttpPost]
+        public ApiResult<Dictionary<string, string>> WhoAmI()
+        {
+            var result = new ApiResult<Dictionary<string, string>>();
+            try
+            {
+                Dictionary<string, string> ServerInfoData = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                result.Data = ServerInfoData;
+                ServerInfoData.Add("Now", DateTime.Now.ToString());
+                ServerInfoData.Add("EnvironmentName", environment.EnvironmentName);
+                ServerInfoData.Add("LangId", selLangBLL.GetLangId());
+                var host = Dns.GetHostEntry(Dns.GetHostName());
+                int i = 1;
+                foreach (var ip in host.AddressList)
+                {
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        ServerInfoData.Add($"IP {i++}.", ip.ToString());
+                    }
+                }
+                ServerInfoData.Add("Url.Host", Request.Host.Host);
+                ServerInfoData.Add("Url.Port", Request.Host.Port.ToString());
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                ServerInfoData.Add("SiteId", serverInfo.SiteId.ToString());
+                ServerInfoData.Add("SiteName", serverInfo.SiteName);
+                ServerInfoData.Add("LangList", serverInfo.LangList);
+                ServerInfoData.Add("CurrencyList", serverInfo.CurrencyList);
+                ServerInfoData.Add("DefCurrency", serverInfo.DefCurrency.ToString());
+                ServerInfoData.Add("DefLang", serverInfo.DefLang);
+                var userAgent = Request.Headers["User-Agent"];
+                ServerInfoData.Add("User Agent", userAgent);
+
+                //需要的欄位LIST
+                var list = new List<string>
+            {
+                "X-Forwarded-For",
+                "LOCAL_ADDR",
+                "server_port",
+                "Http_Host",
+                "HTTP_INCAP_CLIENT_IP",
+                "HTTP_TRUE_CLIENT_IP",
+                "HTTP_X_REAL_IP",
+                "REMOTE_ADDR",
+                "HTTP_X_FORWARDED_FOR",
+                "HTTP_X_FORWARDED_PROTO",
+                "SERVER_NAME"
+            };
+
+                foreach (var head in Request.Headers)
+                {
+                    string sKey = head.Key;
+                    if (list.Contains(sKey, StringComparer.OrdinalIgnoreCase) && !ServerInfoData.ContainsKey(sKey))
+                    {
+                        ServerInfoData.Add(sKey, head.Value);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.ErrorCode = 999;
+                result.RawMessage = ex.ToString();
+            }
+
+            return result;
         }
     }
 }

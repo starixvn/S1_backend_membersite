@@ -237,4 +237,28 @@
   <data name="ResetPwdSuccess" xml:space="preserve">
     <value>您的密码已成功重置！</value>
   </data>
+  <data name="msg_BalanceHint" xml:space="preserve">
+    <value>您的当前余额是</value>
+  </data>
+  <data name="msg_DepositHint" xml:space="preserve">
+    <value>立即存款以享有我司游戏盘口及服务。</value>
+  </data>
+  <data name="msg_ApiServerError" xml:space="preserve">
+    <value>API 数据库错误</value>
+  </data>
+  <data name="msg_ForceLogedoutHint" xml:space="preserve">
+    <value>由于此 ID 已再其它浏览器或设备登入因此您被强制终止登录。</value>
+  </data>
+  <data name="msg_ReferenceNumber" xml:space="preserve">
+    <value>参照好吗</value>
+  </data>
+  <data name="msg_SelectFile" xml:space="preserve">
+    <value>选择文档</value>
+  </data>
+  <data name="msg_SubmitDepositTime" xml:space="preserve">
+    <value>请提交您存款时间</value>
+  </data>
+  <data name="msg_WrongAmount" xml:space="preserve">
+    <value>金额错误</value>
+  </data>
 </root>

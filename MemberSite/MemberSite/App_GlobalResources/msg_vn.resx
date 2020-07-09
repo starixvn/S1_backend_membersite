@@ -133,7 +133,7 @@
     <value>Mật khẩu cũ không đúng.</value>
   </data>
   <data name="msg_loggedout" xml:space="preserve">
-    <value>Bạn đã đăng suất thành công!</value>
+    <value>Bạn đã đăng xuất thành công</value>
   </data>
   <data name="msg_LoginToAccess" xml:space="preserve">
     <value>Để truy cập vào trò chơi, vui lòng đăng nhập.</value>
@@ -241,5 +241,11 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   </data>
   <data name="ResetPwdSuccess" xml:space="preserve">
     <value>Mật khẩu của bạn đã được đặt lại thành công!</value>
+  </data>
+  <data name="msg_BalanceHint" xml:space="preserve">
+    <value>Số dư hiện tại của bạn là</value>
+  </data>
+  <data name="msg_DepositHint" xml:space="preserve">
+    <value>Nạp tiền ngay để thưởng thức các trò chơi và dịch vụ của chúng tôi.</value>
   </data>
 </root>

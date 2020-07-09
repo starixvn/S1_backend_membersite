@@ -12,6 +12,7 @@ namespace MemberSite.Service.Model
         public string DisplayText { get; set; }
         public bool PlayFree { get; set; }
         public GameDesc GameList { get; set; }
+        public string DisplayKey { get; set; }
     }
 
     public class GameDesc
@@ -35,5 +36,7 @@ namespace MemberSite.Service.Model
         public bool Hot { get; set; }
         public bool New { get; set; }
         public bool ImageExist { get; set; }
+        public int promotion { get; set; }
+        public bool featured { get; set; }
     }
 }

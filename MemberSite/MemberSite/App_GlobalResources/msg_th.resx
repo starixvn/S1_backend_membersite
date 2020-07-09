@@ -243,4 +243,29 @@
   <data name="ResetPwdSuccess" xml:space="preserve">
     <value>รีเซ็ตรหัสผ่านของคุณสำเร็จแล้ว!</value>
   </data>
+  <data name="msg_BalanceHint" xml:space="preserve">
+    <value>ยอดคงเหลือปัจจุบันของคุณคือ
+</value>
+  </data>
+  <data name="msg_DepositHint" xml:space="preserve">
+    <value>ฝากเงินเลย เพื่อเพลินเงินกับเกมและบริการของเร</value>
+  </data>
+  <data name="msg_ApiServerError" xml:space="preserve">
+    <value>API Server  Error</value>
+  </data>
+  <data name="msg_ForceLogedoutHint" xml:space="preserve">
+    <value>ID นี้ได้เข้าสู่ระบบจากเบราว์เซอร์หรืออุปกรณ์อื่นแล้วคุณจะโดนล็อคเอาท์ออกจากเซสชันนี้โดยอัตโนมัติ</value>
+  </data>
+  <data name="msg_ReferenceNumber" xml:space="preserve">
+    <value>หมายเลขอ้างอิง</value>
+  </data>
+  <data name="msg_SelectFile" xml:space="preserve">
+    <value>เลือกไฟล์</value>
+  </data>
+  <data name="msg_SubmitDepositTime" xml:space="preserve">
+    <value>โปรดส่งเวลาการฝากเงินของคุณ</value>
+  </data>
+  <data name="msg_WrongAmount" xml:space="preserve">
+    <value>จำนวนเงินไม่ถูกต้อง</value>
+  </data>
 </root>

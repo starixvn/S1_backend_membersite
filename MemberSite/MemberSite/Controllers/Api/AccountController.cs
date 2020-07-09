@@ -453,6 +453,7 @@ namespace MemberSite.Controllers.Api
                 tpWallet.Balance = apiResult.Data.Balance;
                 tpWallet.TpId = 0;
                 tpWallet.TpName = selLangBLL.GetResourceValue("lbl_MainWallet");
+                tpWallet.displayKey = "lbl_MainWallet";
                 var sportsBalance = await thirdPartyBLL.GetSportsBalanceAsync(authData.CustId);
                 apiResult.Data.Balance = sportsBalance.Data;
                 apiResult.ErrorCode = sportsBalance.ErrorCode;
@@ -470,7 +471,8 @@ namespace MemberSite.Controllers.Api
                     foreach (var tpWallet in apiResult.Data.tpWallets)
                     {
                         tpWallet.Description = selLangBLL.GetResourceValue($"lbl_WalletDescription_{tpWallet.TpName}");
-                        tpWallet.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{tpWallet.TpName}");
+                        tpWallet.displayKey = $"lbl_Wallet_{tpWallet.TpName}";
+                        tpWallet.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{tpWallet.TpName}");                        
                         if (tpWallet.Transfer)
                         {
                             var tpWalletBalance = await thirdPartyBLL.GetTpWalletBalanceAsync(tpWallet.TpId, authData.CustId);

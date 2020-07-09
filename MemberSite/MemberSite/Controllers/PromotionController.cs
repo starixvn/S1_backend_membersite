@@ -10,14 +10,16 @@ namespace MemberSite.Controllers
     public class PromotionController : Controller
     {
         private readonly SelLangBLL selLangBLL;
+        private TemplateBLL templateBLL;
 
-        public PromotionController(SelLangBLL selLangBLL)
+        public PromotionController(SelLangBLL selLangBLL, TemplateBLL templateBLL)
         {
             this.selLangBLL = selLangBLL;
+            this.templateBLL = templateBLL;
         }
         public IActionResult Index()
         {
-            return View();
+            return View(templateBLL.GetTemplatePath(Url));
         }
 
         [HttpGet]

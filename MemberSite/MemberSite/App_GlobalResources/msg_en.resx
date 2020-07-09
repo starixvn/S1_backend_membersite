@@ -243,4 +243,28 @@
   <data name="ResetPwdSuccess" xml:space="preserve">
     <value>Your password has been reset successfully!</value>
   </data>
+  <data name="msg_ApiServerError" xml:space="preserve">
+    <value>API Server Error.</value>
+  </data>
+  <data name="msg_ReferenceNumber" xml:space="preserve">
+    <value>Reference number</value>
+  </data>
+  <data name="msg_SelectFile" xml:space="preserve">
+    <value>Select File</value>
+  </data>
+  <data name="msg_SubmitDepositTime" xml:space="preserve">
+    <value>Please submit your deposit time.</value>
+  </data>
+  <data name="msg_WrongAmount" xml:space="preserve">
+    <value>Wrong amount</value>
+  </data>
+  <data name="msg_BalanceHint" xml:space="preserve">
+    <value>Your current balance is</value>
+  </data>
+  <data name="msg_DepositHint" xml:space="preserve">
+    <value>Deposit now to enjoy our games and services.</value>
+  </data>
+  <data name="msg_ForceLogedoutHint" xml:space="preserve">
+    <value>This ID has already logged in from another browser window or device. You will be forced to logout from this session.</value>
+  </data>
 </root>
