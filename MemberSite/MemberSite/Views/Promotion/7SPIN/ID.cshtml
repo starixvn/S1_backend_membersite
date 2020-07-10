@@ -1,0 +1,110 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Casino/@selLangBLL.GetLangId()/event-7SPIN.jpg" alt="" style="display: block;width: 100%;" />
+        </div>
+	<br><br>
+        <div class="promotions-module">
+            <h2>YGG Jackpot Hunt</h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">Syarat ketentuan</span>
+            <ol type="a">
+                <li>Promosi berlaku untuk semua Member Nova88.<br><br></li>
+                <li>Promosi ini berlaku untuk semua produk Nova88.<br><br></li>
+                <li>Promosi dimulai dari Tanggal 13 Juli 2020 (Senin)<br><br></li>
+                <li>Promosi ini hanya berlaku untuk mata uang MYR, THB , & IDR saja.<br><br></li>
+            </ol>
+            <span class="promotions-title">Ketentuan Bermain Bonus</span>
+            <ol type="a">
+                <li>Member diharuskan mencapai target turnover harian dalam Seminggu 7 Hari<br><br></li>
+                <li>Jika kehilangan target harian di hari apa pun pada periode tersebut, maka akan dianggap sebagai kehadiran yang tidak sempurna.<br><br></li>
+                <li>Tanggal Periode penghitungan Free Spin, pada setiap hari Senin 00:00 (GMT +8) hingga Minggu 23:59 (GMT +8)<br><br></li>
+                <li>Member yang memenuhi syarat akan dinformasikan melalui Kotak masuk pesan pribadi akun member<br><br></li>
+            </ol>
+
+            <span class="promotions-title">Informasi promosi seperti diilustrasikan di bawah ini:</span>
+
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th colspan="2" style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">
+                        Mulai 00:00 GMT+8
+                    </th>
+                    <th colspan="4" style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">
+                        Mata Uang & Kondisi Bermain
+                    </th>
+                    <th colspan="2" style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">
+                        Berakhir 23:59 GMT+8
+                    </th>
+                </tr>
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Senin</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Selasa</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Rabu</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Kamis</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Jumat</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Sabtu</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Minggu</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Free Spin</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">20</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">20</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">20</td>
+                </tr>
+            </table>
+
+
+            <br><br>
+
+            <span class="promotions-title">Syarat & Ketentuan Promosi</span>
+            <ol type="1">
+                <li>Member yang berpartisipasi harus menerima dan mematuhi semua persyaratan yang disebutkan di atas serta semua peraturan dan ketentuan yang relevan tertera di situs Nova88.<br><br></li>
+                <li>Nova88 berhak untuk mengubah atau menarik Promosi kapan saja.<br><br></li>
+                <li>Nova88 adalah penyelenggara tunggal Promosi dan keputusannya adalah final.<br><br></li>
+                <li>Berlaku syarat dan ketentuan Umum Nova88.<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>

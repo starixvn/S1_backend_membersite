@@ -1,0 +1,110 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Casino/@selLangBLL.GetLangId()/event-7SPIN.jpg" alt="" style="display: block;width: 100%;" />
+        </div>
+	<br><br>
+        <div class="promotions-module">
+            <h2>7 Days Perfect attendance, FREE 20 SPIN!</h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">Promotion Details</span>
+            <ol type="a">
+                <li>Promotion applied to all Nova88 members.<br><br></li>
+                <li>This promotion applied to all Nova88 product.<br><br></li>
+                <li>Promotion starts from 13th July 2020 (Monday)<br><br></li>
+                <li>This Promotion only entitle for MYR, THB & IDR currencies only.<br><br></li>
+            </ol>
+            <span class="promotions-title">Bonus Play Conditions</span>
+            <ol type="a">
+                <li>Member are required to hit the daily VALID turnover target in 7 days a week<br><br></li>
+                <li>Any missing of daily target in any day on the period, it will be considered as imperfect attendance.<br><br></li>
+                <li>Free spin date count period, from every Monday 00:00 (GMT +8) to Sunday 23:59 (GMT +8)<br><br></li>
+                <li>Qualified member will be notified by Personal Message from user account Inbox.<br><br></li>
+            </ol>
+
+            <span class="promotions-title">Promotion particulars are as illustrated below:</span>
+
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th colspan="2" style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">
+                        Start 00:00 GMT +8
+                    </th>
+                    <th colspan="4" style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">
+                        Currencies & Play conditions
+                    </th>
+                    <th colspan="2" style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">
+                        End 23:59 GMT +8
+                    </th>
+                </tr>
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Monday</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Tuesday</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Wednesday</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Thursday</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Friday</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Saturday</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Sunday</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Free Spin</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">20</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">20</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">20</td>
+                </tr>
+            </table>
+
+
+            <br><br>
+
+            <span class="promotions-title">Terms and Conditions:</span>
+            <ol type="1">
+                <li>Participating members must accept and comply with all the terms mentioned above as well as all relevant rules and regulations implemented by Nova88.<br><br></li>
+                <li>Nova88 reserves the right to amend or withdraw the Promotion at any time.<br><br></li>
+                <li>Nova88 is the sole arbiter of the Promotion and its decision is final.<br><br></li>
+                <li>Nova88 Terms & Conditions apply.<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>

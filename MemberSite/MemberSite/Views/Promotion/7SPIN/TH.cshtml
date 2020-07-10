@@ -1,0 +1,110 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Casino/@selLangBLL.GetLangId()/event-7SPIN.jpg" alt="" style="display: block;width: 100%;" />
+	</div>
+        <br><br>
+        <div class="promotions-module">
+            <h2>7 วันสุดพิเศษ รับฟรี สปิน 20 ครั้ง</h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">เงื่อนไขที่สำคัญ</span>
+            <ol type="a">
+                <li>โปรโมชั่นนี้สำหรับสมาชิก Nova88 ทุกคน.<br><br></li>
+                <li>โปรโมชั่นนี้ใช้กับผลิตภัณฑ์ Nova88 ทั้งหมด<br><br></li>
+                <li>โปรโมชั่นเริ่มวันที่ 13 กรกฎาคม 2563 (วันจันทร์)<br><br></li>
+                <li>โปรโมชั่นนี้ใช้ได้กับสกุลเงิน มาเลเซียริงกิต, ไทยบาท, และ รูเปียห์อินโดนีเซียเท่านั้น<br><br></li>
+            </ol>
+            <span class="promotions-title">เงื่อนไขการเล่นโบนัส</span>
+            <ol type="a">
+                <li>สมาชิกจะต้องมีการทำยอดเทิร์นโอเวอร์ให้ถึงตามที่ตั้งไว้ในแต่ละวัน จนครบ 7 วัน (1อาทิตย์)<br><br></li>
+                <li>หากทำไม่ถึงเป้าหมายรายวันในวันใดก็ตามในช่วงเวลานั้นจะถือว่าเป็นการเข้าร่วมที่ไม่สมบูรณ์<br><br></li>
+                <li>ระยะเวลาการนับฟรีสปิน ตั้งแต่ทุกวันจันทร์ 00:00 (GMT +8) ถึงวันอาทิตย์ 23:59 (GMT +8)<br><br></li>
+                <li>สมาชิกที่มีสิทธิที่จะได้รับโปรโมชั่นนี้ จะได้รับแจ้งในข้อความส่วนตัวจากกล่องขาเข้าของบัญชีผู้ใช้<br><br></li>
+            </ol>
+
+            <span class="promotions-title">รายละเอียดของโปรโมชั่นมีดังต่อไปนี้</span>
+
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th colspan="2" style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">
+                        เริ่ม 00:00 GMT +8
+                    </th>
+                    <th colspan="4" style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">
+                        สกุลเงินและเงื่อนไขการเล่น
+                    </th>
+                    <th colspan="2" style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">
+                        สิ้นสุด 23:59 GMT +8
+                    </th>
+                </tr>
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">จันทร์ </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">อังคาร </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">พุธ </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">พฤหัส </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">ศุกร์ </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">เสาร์ </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">อาทิตย์ </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">ฟรีสปิน </th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 2,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">20</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">20</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 6.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">20</td>
+                </tr>
+            </table>
+
+
+            <br><br>
+
+            <span class="promotions-title">ข้อกำหนดและเงื่อนไข</span>
+            <ol type="1">
+                <li>สมาชิกที่เข้าร่วมต้องยอมรับและปฏิบัติตามข้อกำหนดทั้งหมดที่กล่าวถึงข้างต้นรวมถึงกฎและระเบียบที่เกี่ยวข้องทั้งหมดที่ระบุไว้ในเว็บไซต์ Nova88.<br><br></li>
+                <li>Nova88 ขอสงวนสิทธิ์ในการแก้ไขหรือถอนโปรโมชั่นได้ตลอดเวลา. <br><br></li>
+                <li>Nova88 เป็นผู้ชี้ขาด แต่เพียงผู้เดียวของโปรโมชั่นและการตัดสินของ Nova88 ถือเป็นที่สิ้นสุด.<br><br></li>
+                <li>ข้อกำหนดและเงื่อนไขของ Nova88.<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>
