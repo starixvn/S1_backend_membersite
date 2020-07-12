@@ -26,6 +26,7 @@ namespace MemberSite.Controllers.Api
         private readonly WalletBLL walletBLL;
         private readonly string tpApiUrl;
         private readonly int mainWalletType;
+        private readonly int bonusType;
 
         public PromotionController(IConfiguration configuration, SelLangBLL selLangBLL, PromotionBLL promotionBLL, ServerInfoBLL serverInfoBLL, AuthorizeBLL authorizeBLL, CustInfoBLL custInfoBLL, CourierAdapter courierAdapter, WalletBLL walletBLL)
         {
@@ -39,6 +40,7 @@ namespace MemberSite.Controllers.Api
 
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
+            bonusType = configuration.GetValue<int>("BonusType");
         }
 
         public ApiResult<IEnumerable<Promotion>> GetPromotionList()
@@ -112,7 +114,9 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var authData = authorizeBLL.GetAuthData();
-                if (promotionBLL.SetClaimPromotion(authData.CustId, promotionReq.BonusCode) > 0)
+                var result = await promotionBLL.SetClaimPromotionAsync(authData.CustId, promotionReq.BonusCode);
+
+                if (result > 0)
                 {
                     if (mainWalletType == 2)
                     {

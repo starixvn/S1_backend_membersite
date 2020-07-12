@@ -72,6 +72,7 @@ namespace MemberSite
             services.AddSingleton<BankInfoOffService>();
             services.AddSingleton<BankInfoService>();
             services.AddSingleton<WalletService>();
+            services.AddSingleton<BonusWalletService>();
             services.AddSingleton<MessageService>();
             services.AddSingleton<ThirdPartyService>();
             services.AddSingleton<PayService>();
@@ -178,7 +179,7 @@ namespace MemberSite
             app.UseStaticFiles();
 
             app.UseRouting();
-            
+
             app.UseCors(AllowSpecificOrigins);
 
             app.UseAuthentication();

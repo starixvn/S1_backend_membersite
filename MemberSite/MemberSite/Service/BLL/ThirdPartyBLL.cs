@@ -173,10 +173,10 @@ namespace MemberSite.Service.BLL
         }
 
         /*Sports Wallet*/
-        public async Task<ApiResult<decimal>> GetSportsBalanceAsync(int custId)
+        public async Task<ApiResult<UserBalance>> GetSportsBalanceAsync(int custId)
         {
             var myUrl = $"{apiUrl}GetBalance";
-            ApiResult<decimal> apiResult = new ApiResult<decimal>();
+            var apiResult = new ApiResult<UserBalance>();
             var oTpInfo = new TpInfo
             {
                 TpId = 1,
@@ -187,7 +187,7 @@ namespace MemberSite.Service.BLL
             try
             {
                 var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
-                apiResult.Data = data.Data.balance;
+                apiResult.Data = data.Data;
                 apiResult.ErrorCode = data.ErrorCode;
                 apiResult.RawErrorCode = data.RawErrorCode;
                 apiResult.RawMessage = data.RawMessage;
@@ -201,10 +201,10 @@ namespace MemberSite.Service.BLL
             return apiResult;
         }
         /*Sports Wallet*/
-        public async Task<ApiResult<decimal>> GetTpWalletBalanceAsync(int tpId, int custId)
+        public async Task<ApiResult<UserBalance>> GetTpWalletBalanceAsync(int tpId, int custId)
         {
             var myUrl = $"{apiUrl}GetBalance";
-            ApiResult<decimal> apiResult = new ApiResult<decimal>();
+            var apiResult = new ApiResult<UserBalance>();
             var oTpInfo = new TpInfo
             {
                 TpId = tpId,
@@ -215,7 +215,7 @@ namespace MemberSite.Service.BLL
             try
             {
                 var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
-                apiResult.Data = data.Data.balance;
+                apiResult.Data = data.Data;
                 apiResult.ErrorCode = data.ErrorCode;
                 apiResult.RawErrorCode = data.RawErrorCode;
                 apiResult.RawMessage = data.RawMessage;
@@ -227,12 +227,6 @@ namespace MemberSite.Service.BLL
             }
 
             return apiResult;
-        }
-        private class UserBalance
-        {
-            public decimal balance { get; set; }
-            public decimal outstanding { get; set; }
-            public byte Currency { get; set; }
         }
     }
 }

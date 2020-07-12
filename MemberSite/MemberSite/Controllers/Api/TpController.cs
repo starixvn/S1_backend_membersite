@@ -336,13 +336,6 @@ namespace MemberSite.Controllers.Api
             result.SetSelLang(selLangBLL);
             return result;
         }
-
-        public class UserBalance
-        {
-            public decimal balance { get; set; }
-            public decimal outstanding { get; set; }
-            public byte Currency { get; set; }
-        }
         public async Task<ApiResult<UserBalance>> GetBalance(int tpId)
         {
             var authData = authorizeBLL.GetAuthData();

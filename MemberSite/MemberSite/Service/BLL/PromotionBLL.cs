@@ -1,10 +1,13 @@
 ﻿using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static MemberSite.Controllers.Api.TpController;
 
 namespace MemberSite.Service.BLL
 {
@@ -13,14 +16,19 @@ namespace MemberSite.Service.BLL
         private readonly PromotionService promotionService;
         private readonly IMemoryCache cache;
         private readonly CustInfoBLL custInfoBLL;
+        private readonly CourierAdapter courierAdapter;
+        private readonly string apiUrl;
+        private readonly int bonusType;
 
-        public PromotionBLL(IMemoryCache cache, PromotionService promotionService, CustInfoBLL custInfoBLL)
+        public PromotionBLL(IConfiguration configuration, IMemoryCache cache, PromotionService promotionService, CustInfoBLL custInfoBLL, CourierAdapter courierAdapter)
         {
             this.promotionService = promotionService;
             this.cache = cache;
             this.custInfoBLL = custInfoBLL;
+            this.courierAdapter = courierAdapter;
+            apiUrl = configuration.GetValue<string>("TpService");
+            bonusType = configuration.GetValue<int>("BonusType");
         }
-
         public IEnumerable<Promotion> GetPromotionList(int siteId)
         {
             return promotionService.GetPromotionList(siteId);
@@ -66,10 +74,54 @@ namespace MemberSite.Service.BLL
 
             return promotionList;
         }
-        public int SetClaimPromotion(int custId, string bonusCode)
+        private class TpBonusTransfer
+        {
+            public int TpId { set; get; }
+            public int CustId { set; get; }
+            public decimal Bonus { set; get; }
+            public decimal BonusAmount { set; get; }
+            public decimal LockedAmount { set; get; }
+            public decimal RolloverAmount { set; get; }
+            public long ExpiryTime { set; get; }
+            public Dictionary<string, string> inputs { set; get; }
+        }
+        public async Task<int> SetClaimPromotionAsync(int custId, string bonusCode)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            return promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId);
+            var result = promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out decimal bonusAmount, out decimal lockedAmount, out decimal rollOver, out long expiryTime);
+
+            if (bonusType == 2 && result > 0)
+            {
+                var myUrl = $"{apiUrl}BonusTransfer";
+                ApiResult<TransferResult> apiResult = new ApiResult<TransferResult>();
+                var tpBonusTransfer = new TpBonusTransfer
+                {
+                    TpId = 1,
+                    CustId = custId,
+                    Bonus = bonusAmount + lockedAmount,
+                    BonusAmount = bonusAmount,
+                    LockedAmount = lockedAmount,
+                    RolloverAmount = rollOver,
+                    ExpiryTime = expiryTime,
+                    inputs = new Dictionary<string, string>()
+                };
+
+                try
+                {
+                    var data = await courierAdapter.MyPostAsync<TransferResult, TpBonusTransfer>(myUrl, tpBonusTransfer);
+                    apiResult.Data = data.Data;
+                    apiResult.ErrorCode = data.ErrorCode;
+                    apiResult.RawErrorCode = data.RawErrorCode;
+                    apiResult.RawMessage = data.RawMessage;
+                }
+                catch (Exception ex)
+                {
+                    apiResult.ErrorCode = 9000;
+                    apiResult.RawMessage = ex.Message;
+                }
+            }
+
+            return result;
         }
         public bool GetCanJoin(int custId, string bonusCode)
         {

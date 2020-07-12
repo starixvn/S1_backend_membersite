@@ -238,13 +238,6 @@
         public Dictionary<string, string> inputs { set; get; }
     }
 
-    private class UserBalance
-    {
-        public decimal balance { get; set; }
-        public decimal outstanding { get; set; }
-        public byte Currency { get; set; }
-    }
-
     async Task<decimal> Get3rdBalanceAsync(int tpId, int custId)
     {
         var apiUrl = configuration.GetValue<string>("TpService");
@@ -258,7 +251,7 @@
 
         var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
 
-        return data.ErrorCode == 0 ? data.Data.balance : 0;
+        return data.ErrorCode == 0 ? data.Data.balance + data.Data.bonus : 0;
     }
 }
 @section PromptMsg{

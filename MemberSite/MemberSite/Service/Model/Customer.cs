@@ -108,6 +108,7 @@ namespace MemberSite.Service.Model
         public string TpName { set; get; }
         public string Description { set; get; }
         public decimal Balance { set; get; }
+        public decimal Bonus { set; get; }
         public bool Transfer { set; get; }
         public WalletStatus walletStatus { set; get; }
     }

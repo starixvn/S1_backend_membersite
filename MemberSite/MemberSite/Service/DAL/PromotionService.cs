@@ -18,20 +18,24 @@ namespace MemberSite.Service.DAL
         private readonly Common common;
         private readonly RolloverService rollOverService;
         private readonly WalletService walletService;
+        private readonly BonusWalletService bonusWalletService;
+        private readonly bool hasBonusWallet;
 
-        public PromotionService(IConfiguration configuration, Common common, WalletService walletService, RolloverService rollOverService)
+        public PromotionService(IConfiguration configuration, Common common, WalletService walletService, RolloverService rollOverService, BonusWalletService bonusWalletService)
         {
             this.configuration = configuration;
             this.common = common;
             this.rollOverService = rollOverService;
             this.walletService = walletService;
+            this.bonusWalletService = bonusWalletService;
+            hasBonusWallet = configuration.GetValue<bool>("HasBonusWallet");
         }
         public IEnumerable<Promotion> GetPromotionList(int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<Promotion>("Member_PromotionList_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
-        public IEnumerable<Promotion> GetPromotionListByCustId(int siteId, int custId,int currencyId)
+        public IEnumerable<Promotion> GetPromotionListByCustId(int siteId, int custId, int currencyId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<Promotion>("Member_PromotionListByCustId_Get", new { SiteId = siteId, CustId = custId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
@@ -41,8 +45,13 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.QueryFirstOrDefault<Promotion>("Member_Promotion_Get", new { SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
-        public int SetClaimPromotion(int custId, string userName, int siteId, string bonusCode, int currencyId)
+        public int SetClaimPromotion(int custId, string userName, int siteId, string bonusCode, int currencyId, out decimal bonusAmount, out decimal lockedAmount, out decimal rollOver, out long expiryTime)
         {
+            bonusAmount = 0;
+            lockedAmount = 0;
+            rollOver = 0;
+            expiryTime = 0;
+
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Open();
             using var trans = conn.BeginTransaction();
@@ -81,6 +90,11 @@ namespace MemberSite.Service.DAL
 
                         dRollOver = ((dLockedAmount + dBonus) * promotion.RollOver);
                         sBonusInfo = Newtonsoft.Json.JsonConvert.SerializeObject(promotion, new Newtonsoft.Json.JsonSerializerSettings { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore });
+
+                        bonusAmount = dBonus;
+                        lockedAmount = dLockedAmount;
+                        rollOver = dRollOver;
+                        expiryTime = DateTimeOffset.Now.AddDays(promotion.ExpiryDays).ToUnixTimeSeconds();
                     }
                     else
                     {
@@ -91,18 +105,37 @@ namespace MemberSite.Service.DAL
                     p.Add("TransId", dbType: DbType.String, direction: ParameterDirection.Output);
                     result = conn.Execute("Member_BonusInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
                     var transId = p.Get<string>("TransId");
-                    if (result > 0)
-                    {
-                        byte is1stDepoist = 0;
-                        decimal afterAmount = 0;
-                        int type = 5/*Bonus*/;
-                        result = walletService.SetBalance(custId, siteId, userName, dBonus, type, $"Claim Promotion BonusCode: {bonusCode}", transId, out afterAmount, out is1stDepoist, conn, trans);
-                    }
 
-                    if (result > 0)
+                    if (hasBonusWallet)
                     {
-                        decimal afterRollOver = 0;
-                        result = rollOverService.SetRollOver(custId, siteId, userName, bonusCode, dRollOver, $"Bonus RollOver: {dRollOver}", transId, out afterRollOver, conn, trans);
+                        if (result > 0)
+                        {
+                            byte is1stDepoist = 0;
+                            decimal afterAmount = 0;
+                            int type = 5/*Bonus*/;
+                            result = walletService.SetBalance(custId, siteId, userName, dLockedAmount * -1, type, $"Claim Promotion BonusCode: {bonusCode}, Locked Amount: {dLockedAmount.ToString("#,##0.##")}", transId, out afterAmount, out is1stDepoist, conn, trans);
+                        }
+
+                        if (result > 0)
+                        {
+                            result = bonusWalletService.RewardBonus(custId, siteId, userName, dBonus, dLockedAmount, dRollOver, expiryTime, (int)promotion.PromotionType, $"Claim Promotion BonusCode: {bonusCode}", transId, conn, trans) ? 1 : 0;
+                        }
+                    }
+                    else
+                    {
+                        if (result > 0)
+                        {
+                            byte is1stDepoist = 0;
+                            decimal afterAmount = 0;
+                            int type = 5/*Bonus*/;
+                            result = walletService.SetBalance(custId, siteId, userName, dBonus, type, $"Claim Promotion BonusCode: {bonusCode}", transId, out afterAmount, out is1stDepoist, conn, trans);
+                        }
+
+                        if (result > 0)
+                        {
+                            decimal afterRollOver = 0;
+                            result = rollOverService.SetRollOver(custId, siteId, userName, bonusCode, dRollOver, $"Bonus RollOver: {dRollOver}", transId, out afterRollOver, conn, trans);
+                        }
                     }
 
                     if (result > 0)

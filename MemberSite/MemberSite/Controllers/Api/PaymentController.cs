@@ -541,14 +541,6 @@ namespace MemberSite.Controllers.Api
             }
             return apiResult;
         }
-
-        private class UserBalance
-        {
-            public decimal balance { get; set; }
-            public decimal outstanding { get; set; }
-            public byte Currency { get; set; }
-        }
-
         private class TpInfo
         {
             public int TpId { set; get; }
@@ -569,7 +561,7 @@ namespace MemberSite.Controllers.Api
 
             var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
 
-            return data.ErrorCode == 0 ? data.Data.balance : 0;
+            return data.ErrorCode == 0 ? data.Data.balance + data.Data.bonus : 0;
         }
 
         [HttpPost]

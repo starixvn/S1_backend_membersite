@@ -211,7 +211,7 @@ namespace MemberSite.Controllers.Api
                 var sportsWallet = await thirdPartyBLL.GetSportsBalanceAsync(authData.CustId);
                 if (sportsWallet.ErrorCode == 0)
                 {
-                    apiResult.Data = sportsWallet.Data;
+                    apiResult.Data = sportsWallet.Data.balance + sportsWallet.Data.bonus;
                 }
             }
 
@@ -296,7 +296,7 @@ namespace MemberSite.Controllers.Api
                 var sportsWallet = await thirdPartyBLL.GetSportsBalanceAsync(custId);
                 if (sportsWallet.ErrorCode == 0)
                 {
-                    withdrawalAvailableBalance += sportsWallet.Data;
+                    withdrawalAvailableBalance += sportsWallet.Data.balance;
                 }
             }
 
@@ -307,13 +307,6 @@ namespace MemberSite.Controllers.Api
 
             return withdrawalAvailableBalance;
         }
-        private class UserBalance
-        {
-            public decimal balance { get; set; }
-            public decimal outstanding { get; set; }
-            public byte Currency { get; set; }
-        }
-
         private class TpInfo
         {
             public int TpId { set; get; }
@@ -455,7 +448,7 @@ namespace MemberSite.Controllers.Api
                 tpWallet.TpName = selLangBLL.GetResourceValue("lbl_MainWallet");
                 tpWallet.displayKey = "lbl_MainWallet";
                 var sportsBalance = await thirdPartyBLL.GetSportsBalanceAsync(authData.CustId);
-                apiResult.Data.Balance = sportsBalance.Data;
+                apiResult.Data.Balance = sportsBalance.Data.balance;
                 apiResult.ErrorCode = sportsBalance.ErrorCode;
                 apiResult.RawErrorCode = sportsBalance.RawErrorCode;
                 apiResult.RawMessage = sportsBalance.RawMessage;
@@ -478,7 +471,8 @@ namespace MemberSite.Controllers.Api
                             var tpWalletBalance = await thirdPartyBLL.GetTpWalletBalanceAsync(tpWallet.TpId, authData.CustId);
                             if (tpWalletBalance.ErrorCode == 0)
                             {
-                                tpWallet.Balance = tpWalletBalance.Data;
+                                tpWallet.Balance = tpWalletBalance.Data.balance;
+                                tpWallet.Balance = tpWalletBalance.Data.bonus;
                                 tpWallet.walletStatus = WalletStatus.Normal;
                             }
                             else if (tpWalletBalance.ErrorCode == 10)
@@ -586,7 +580,7 @@ namespace MemberSite.Controllers.Api
                 var tpWalletBalanceData = await thirdPartyBLL.GetTpWalletBalanceAsync(checkWelletReq.TpId, authData.CustId);
                 if (tpWalletBalanceData.ErrorCode == 0)
                 {
-                    apiResult.Data = tpWalletBalanceData.Data;
+                    apiResult.Data = tpWalletBalanceData.Data.balance + tpWalletBalanceData.Data.bonus;
                     apiResult.ErrorCode = 0;
                 }
                 else if (tpWalletBalanceData.ErrorCode == 10)
