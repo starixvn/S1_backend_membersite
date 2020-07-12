@@ -73,6 +73,7 @@ namespace MemberSite
             services.AddSingleton<BankInfoService>();
             services.AddSingleton<WalletService>();
             services.AddSingleton<BonusWalletService>();
+            services.AddSingleton<WithdrawalLimitService>();
             services.AddSingleton<MessageService>();
             services.AddSingleton<ThirdPartyService>();
             services.AddSingleton<PayService>();

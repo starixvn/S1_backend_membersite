@@ -19,15 +19,17 @@ namespace MemberSite.Service.DAL
         private readonly RolloverService rollOverService;
         private readonly WalletService walletService;
         private readonly BonusWalletService bonusWalletService;
+        private readonly WithdrawalLimitService withdrawalLimitService;
         private readonly bool hasBonusWallet;
 
-        public PromotionService(IConfiguration configuration, Common common, WalletService walletService, RolloverService rollOverService, BonusWalletService bonusWalletService)
+        public PromotionService(IConfiguration configuration, Common common, WalletService walletService, RolloverService rollOverService, BonusWalletService bonusWalletService, WithdrawalLimitService withdrawalLimitService)
         {
             this.configuration = configuration;
             this.common = common;
             this.rollOverService = rollOverService;
             this.walletService = walletService;
             this.bonusWalletService = bonusWalletService;
+            this.withdrawalLimitService = withdrawalLimitService;
             hasBonusWallet = configuration.GetValue<bool>("HasBonusWallet");
         }
         public IEnumerable<Promotion> GetPromotionList(int siteId)
@@ -114,6 +116,11 @@ namespace MemberSite.Service.DAL
                             decimal afterAmount = 0;
                             int type = 5/*Bonus*/;
                             result = walletService.SetBalance(custId, siteId, userName, dLockedAmount * -1, type, $"Claim Promotion BonusCode: {bonusCode}, Locked Amount: {dLockedAmount.ToString("#,##0.##")}", transId, out afterAmount, out is1stDepoist, conn, trans);
+                        }
+
+                        if (result > 0)
+                        {
+                            result = withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, dLockedAmount * -1, null, transId, out decimal afterWithdrawalLimit, conn, trans);
                         }
 
                         if (result > 0)
