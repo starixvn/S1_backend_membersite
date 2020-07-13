@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MemberSite.Service.DAL
@@ -125,7 +126,12 @@ namespace MemberSite.Service.DAL
 
                         if (result > 0)
                         {
-                            result = bonusWalletService.RewardBonus(custId, siteId, userName, dBonus, dLockedAmount, dRollOver, expiryTime, (int)promotion.PromotionType, $"Claim Promotion BonusCode: {bonusCode}", transId, conn, trans) ? 1 : 0;
+                            int bonusId = 0;
+
+                            Match m = Regex.Match(transId, @"\d+");
+                            int.TryParse(m.Value, out bonusId);
+
+                            result = bonusWalletService.RewardBonus(bonusId, custId, siteId, userName, dBonus, dLockedAmount, dRollOver, expiryTime, (int)promotion.PromotionType, $"Claim Promotion BonusCode: {bonusCode}", transId, conn, trans) ? 1 : 0;
                         }
                     }
                     else

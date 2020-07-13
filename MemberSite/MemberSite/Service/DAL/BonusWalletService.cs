@@ -37,18 +37,18 @@ namespace MemberSite.Service.DAL
             ExpiryTime = p.Get<long>("ExpiryTime");
             return Bonus > 0m;
         }
-        public bool SetBonus(int custId, int siteId, string userName, decimal Bonus, int type, string Memo, string RefTransId, out decimal afterBonus, MySqlConnection conn, MySqlTransaction trans)
+        public bool SetBonusByBonusId(int bonusId, int custId, int siteId, string userName, decimal Bonus, int type, string Memo, string RefTransId, out decimal afterBonus, MySqlConnection conn, MySqlTransaction trans)
         {
             var p = new DynamicParameters(new { CustId = custId, SiteId = siteId, UserName = userName, Bonus = Bonus, Type = type, Memo = Memo, RefTransId = RefTransId });
             p.Add("AfterBonus", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            conn.Execute("Common_BonusWallet_Set", p, transaction: trans, commandType: CommandType.StoredProcedure);
+            conn.Execute("Common_BonusByBonusId_Set", p, transaction: trans, commandType: CommandType.StoredProcedure);
             afterBonus = p.Get<decimal>("AfterBonus");
             return afterBonus >= 0;
         }
-        public bool RewardBonus(int custId, int siteId, string userName, decimal bonusAmount, decimal lockedAmount, decimal rollover, long expiryTime, int type, string Memo, string RefTransId, MySqlConnection conn, MySqlTransaction trans)
+        public bool RewardBonus(int bonusId, int custId, int siteId, string userName, decimal bonusAmount, decimal lockedAmount, decimal rollover, long expiryTime, int type, string Memo, string RefTransId, MySqlConnection conn, MySqlTransaction trans)
         {
-            var p = new DynamicParameters(new { CustId = custId, SiteId = siteId, UserName = userName, BonusAmount = bonusAmount, LockedAmount = lockedAmount, Rollover = rollover, ExpiryTime = expiryTime, Type = type, Memo = Memo, RefTransId = RefTransId });
-            return conn.Execute("Common_BonusWallet_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure) > 0;
+            var p = new DynamicParameters(new { BonusId = bonusId, CustId = custId, SiteId = siteId, UserName = userName, BonusAmount = bonusAmount, LockedAmount = lockedAmount, Rollover = rollover, ExpiryTime = expiryTime, Type = type, Memo = Memo, RefTransId = RefTransId });
+            return conn.Execute("Common_Bonus_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure) > 0;
         }
     }
 }
