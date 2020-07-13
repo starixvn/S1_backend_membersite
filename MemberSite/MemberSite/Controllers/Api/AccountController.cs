@@ -472,7 +472,7 @@ namespace MemberSite.Controllers.Api
                             if (tpWalletBalance.ErrorCode == 0)
                             {
                                 tpWallet.Balance = tpWalletBalance.Data.balance;
-                                tpWallet.Balance = tpWalletBalance.Data.bonus;
+                                tpWallet.Bonus = tpWalletBalance.Data.bonus;
                                 tpWallet.walletStatus = WalletStatus.Normal;
                             }
                             else if (tpWalletBalance.ErrorCode == 10)
