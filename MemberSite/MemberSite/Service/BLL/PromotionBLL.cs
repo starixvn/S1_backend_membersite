@@ -106,18 +106,15 @@ namespace MemberSite.Service.BLL
                     inputs = new Dictionary<string, string>()
                 };
 
-                try
+                var data = await courierAdapter.MyPostAsync<TransferResult, TpBonusTransfer>(myUrl, tpBonusTransfer);
+                apiResult.Data = data.Data;
+                apiResult.ErrorCode = data.ErrorCode;
+                apiResult.RawErrorCode = data.RawErrorCode;
+                apiResult.RawMessage = data.RawMessage;
+
+                if (apiResult.ErrorCode != 0)
                 {
-                    var data = await courierAdapter.MyPostAsync<TransferResult, TpBonusTransfer>(myUrl, tpBonusTransfer);
-                    apiResult.Data = data.Data;
-                    apiResult.ErrorCode = data.ErrorCode;
-                    apiResult.RawErrorCode = data.RawErrorCode;
-                    apiResult.RawMessage = data.RawMessage;
-                }
-                catch (Exception ex)
-                {
-                    apiResult.ErrorCode = 9000;
-                    apiResult.RawMessage = ex.Message;
+                    throw new Exception(apiResult.RawMessage);
                 }
             }
 
