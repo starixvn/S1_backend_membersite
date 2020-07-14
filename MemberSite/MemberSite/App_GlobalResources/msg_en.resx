@@ -267,4 +267,10 @@
   <data name="msg_ForceLogedoutHint" xml:space="preserve">
     <value>This ID has already logged in from another browser window or device. You will be forced to logout from this session.</value>
   </data>
+  <data name="msg_CreditSignUpHint_1" xml:space="preserve">
+    <value>Dear Valued customer</value>
+  </data>
+  <data name="msg_CreditSignUpHint_2" xml:space="preserve">
+    <value>Welcome to {0}, upon registration please visit the said link and enjoy our games.</value>
+  </data>
 </root>
