@@ -57,7 +57,8 @@
       "urlWithLang": true,
       "img": "banner-FishingRebate.jpg",
       "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ]
+      "lang": [ "th", "id", "en", "cs" ],
+      "refId": [""]
     },
     {
       "actionLink": "Promotion/Bonus?BonusCode=LiveCasinoRebate1",

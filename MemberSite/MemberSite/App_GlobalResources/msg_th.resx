@@ -268,4 +268,11 @@
   <data name="msg_WrongAmount" xml:space="preserve">
     <value>จำนวนเงินไม่ถูกต้อง</value>
   </data>
+  <data name="msg_CreditSignUpHint_1" xml:space="preserve">
+    <value>เรียนลูกค้าที่เคารพรัก,
+</value>
+  </data>
+  <data name="msg_CreditSignUpHint_2" xml:space="preserve">
+    <value>ยินดีต้อนรับสู่ {0},  หลังจากทะเบียนแล้วคุณสามารถเข้าสู่เว็บไซต์เราเพื่อเพลิดเพลินและสนุกสนานกับทั้งหมดของเรา</value>
+  </data>
 </root>

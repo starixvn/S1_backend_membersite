@@ -468,7 +468,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<BannerSettingItem>> GetBanner([FromForm]string FolderName)
+        public ApiResult<IEnumerable<BannerSettingItem>> GetBanner([FromForm]string FolderName, [FromForm]string refId)
         {
             ApiResult<IEnumerable<BannerSettingItem>> result = new ApiResult<IEnumerable<BannerSettingItem>>();
 
@@ -499,6 +499,11 @@ namespace MemberSite.Controllers.Api
             else if (FolderName == "Casino")
             {
                 result.Data = _bannerSetting.Casino.Where(x => x.currencyId == null || x.currencyId.Any(y => y == perferCurr));
+            }
+
+            if (!string.IsNullOrEmpty(refId))
+            {
+                result.Data = result.Data.Where(x => x.refId != null && x.refId.Any(r => string.Equals(r, refId, StringComparison.OrdinalIgnoreCase)));
             }
 
             result.ErrorCode = 0;
