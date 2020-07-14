@@ -1,9 +1,14 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.AspNetCore.Hosting
 @using MemberSite.Service.BLL
+@using MemberSite.Service.Model
+@using System.Security.Claims
 @inject IWebHostEnvironment environment
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
+@inject CustInfoBLL custInfoBLL
+@inject GamingBLL gamingBLL
+@inject BannerBLL bannerBLL
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Register");
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -32,6 +37,23 @@
     {
         currencyList.Add(new { text = selLangBLL.GetResourceValue($"Currency_{currencyId}"), value = currencyId });
     }
+
+    Customer customer = null;
+    int CurrencyId = 0;
+    if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        customer = custInfoBLL.GetCustInfoWithCache(custId);
+        CurrencyId = customer.CurrencyId;
+    }
+    else
+    {
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+    }
+
+    var BannerList = bannerBLL.GetBanner(CurrencyId, "Promotion");
+    BannerList = BannerList.Where(x => x.refId != null && x.refId.Any(r => string.Equals(r, "nova88c", StringComparison.OrdinalIgnoreCase)));
+    var langId = selLangBLL.GetLangId();
 
     Dictionary<string, string> i18n = new Dictionary<string, string>();
     i18n.Add("lbl_CompleteRegistration", selLangBLL.GetResourceValue("lbl_CompleteRegistration"));
@@ -149,48 +171,51 @@
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Welcome")</span>
                 </div>
                 <div class="modal__body">
-                    <div class="lobby-banner-swiper">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <div class="lobby-product">
-                                    <a href="~/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=AppleGiveaway">
-                                        <img src="@CmsPromotionPath/banner-AppleGiveaway.jpg" asp-append-version="true">
-                                    </a>
-                                </div>
+                    <div class="lobby-page">
+                        <div class="lobby-banner-swiper">
+                            <div class="swiper-wrapper">
+                                 @foreach (var b in BannerList) { if (!string.IsNullOrEmpty(b.actionLink)) { if (b.urlWithLang) {<div class="swiper-slide">
+                                            <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
+                                                <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="swiper-slide">
+                                            <a href='@Url.Content($"~/{b.actionLink}")'>
+                                                <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                                            </a>
+                                        </div>
+                                    }
+                                }
+                                else if (b.tpId != null)
+                                {
+                                    <div class="swiper-slide">
+                                        <a class="swiper-slide  @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl((int)b.tpId, b.gameId?.ToString(), Url)">
+                                            <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                                        </a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="swiper-slide">
+                                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                                    </div>
+                                }
+                            }
                             </div>
-                            <div class="swiper-slide">
-                                <div class="lobby-product">
-                                    <a href="~/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=FTDP3">
-                                        <img src="@CmsPromotionPath/banner-FTDP3.jpg" asp-append-version="true">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="~/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=50PNewDep1">
-                                    <img src="@CmsPromotionPath/banner-50PNewDep1.jpg" asp-append-version="true" />
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="~/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=FishingRebate">
-                                    <img src="@CmsPromotionPath/banner-FishingRebate.jpg" asp-append-version="true" />
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="~/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=LiveCasinoRebate1">
-                                    <img src="@CmsPromotionPath/banner-LiveCasinoRebate1.jpg" asp-append-version="true" />
-                                </a>
-                            </div>
+                            <div class="swiper-pagination"></div>
                         </div>
-                        <div class="swiper-pagination"></div>
+                        <br />
+                        @Html.Raw(selLangBLL.GetMsg("msg_CreditSignUp"))
                     </div>
-                    <br />
-                    @Html.Raw(selLangBLL.GetMsg("msg_CreditSignUp"))
-                </div>
-                <div class="modal__footer">
-                    <div class="btn-group">
-                        <button class="btn btn-secondary Js-CreditSignUp" type="button">
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_Close")</span>
-                        </button>
+                    <div class="modal__footer">
+                        <div class="btn-group">
+                            <button class="btn btn-secondary Js-CreditSignUp" type="button">
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Close")</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
