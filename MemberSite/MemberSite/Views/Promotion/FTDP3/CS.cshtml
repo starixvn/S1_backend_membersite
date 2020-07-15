@@ -24,11 +24,17 @@
         CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
 
         promotion = promotionBLL.GetPromotionListByCustId(custId).FirstOrDefault();
+
+         if (promotion == null)
+             promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
     }
     else
     {
         CurrencyId = selLangBLL.GetPreferCurrencyId();
-        promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
+        if (CurrencyId == 13)
+            CurrencyId = 2;
+
+        promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault(); 
     }
 
     if (promotion.BonusInfoStatus != 1)
@@ -54,6 +60,36 @@
             <h3>立即加入！在 “Nova88“ 完成第一笔存款以享受高达 MYR388 的优惠奖金！</h3>
         </div>
         <div class="promotions-module">
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">优惠 </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">最高獎金 </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">最低投注倍數 </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">剩餘時間 </th>
+                    @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
+                    {
+                        <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;"></th>
+                    }
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@promotion.Bonus.ToString("#,##0")%</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@Currency @promotion.MaxBonus.ToString("#,##0")</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@(promotion.RollOver)x</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;" id="REMAINING"></td>
+                    @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
+                    {
+                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">
+                            <button class="btn btn-secondary" id="JOIN">
+                                <div class="btn__inner">
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
+                                </div>
+                            </button>
+                        </td>
+                    }
+                </tr>
+        </table>
+    </div>
+        <div class="promotions-module">
             <span class="promotions-title">优惠标准规则</span>
             <ol type="a">
                 <li>此促销优惠仅适用于马币会员。<br><br></li>
@@ -75,7 +111,8 @@
             <span class="promotions-title">完整优惠标准规则</span>
             <ol type="1">
                 <li>获得此次促销的资格，玩家必须满足以下所有条件:<br><br></li>
-                <li>优惠期间，符合优惠资格的会员，可享有一次 100% 首存存款奖金，最高为 马币 388 (最高奖金)，详情如下:
+                <li>
+                    优惠期间，符合优惠资格的会员，可享有一次 100% 首存存款奖金，最高为 马币 388 (最高奖金)，详情如下:
                     <br><br>
                     <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
                         <tr>
@@ -91,7 +128,8 @@
                             <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">18x</td>
                         </tr>
                     </table>
-                    <br><br></li>
+                    <br><br>
+                </li>
                 <li>优惠奖金注入后，会员将不能申请取消。<br><br></li>
                 <li>有效投注额仅包括以下产品：体育博彩，电子竞技，百练赛及虚拟运动。即时兑现及其他产品有效投注额将不计算在内。<br><br></li>
                 <li>符合资格的会员在优惠期间只能领取一次“首存优惠奖金”，如果会员在优惠期间申请了多次“首存优惠奖金”，只有第一笔的“首存优惠奖金”被视为有效，而其他申请将被视为无效。<br><br></li>

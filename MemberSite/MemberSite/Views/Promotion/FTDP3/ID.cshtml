@@ -24,10 +24,16 @@
         CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
 
         promotion = promotionBLL.GetPromotionListByCustId(custId).FirstOrDefault();
+
+        if (promotion == null)
+            promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
     }
     else
     {
         CurrencyId = selLangBLL.GetPreferCurrencyId();
+        if (CurrencyId == 13)
+            CurrencyId = 2;
+
         promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
     }
 
@@ -56,6 +62,36 @@
             <h3>BERGABUNG SEKARANG ! Nikmati Bonus hingga IDR 1.000.000 dengan setoran pertama Anda di Nova88!</h3>
         </div>
         <div class="promotions-module">
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">BONUS </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">JUMLAH MAKSIMAL BONUS </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">MINIMAL PERPUTARAN </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">SISA WAKTU </th>
+                    @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
+                    {
+                        <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;"></th>
+                    }
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@promotion.Bonus.ToString("#,##0")%</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@Currency @promotion.MaxBonus.ToString("#,##0")</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@(promotion.RollOver)x</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;" id="REMAINING"></td>
+                    @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
+                    {
+                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">
+                            <button class="btn btn-secondary" id="JOIN">
+                                <div class="btn__inner">
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
+                                </div>
+                            </button>
+                        </td>
+                    }
+                </tr>
+            </table>
+        </div>
+        <div class="promotions-module">
             <span class="promotions-title">Ketentuan yang berlaku</span>
             <ol type="a">
                 <li>Promosi ini hanya berlaku untuk Member dengan Mata uang IDR.<br><br></li>
@@ -77,7 +113,8 @@
             <span class="promotions-title">SYARAT DAN KETENTUAN KHUSUS PROMOSI</span>
             <ol type="1">
                 <li>Untuk memenuhi syarat untuk Promosi ini member harus memenuhi semua kriteria di bawah ini:<br><br></li>
-                <li>Member yang memenuhi syarat akan diberikan bonus 100% berdasarkan jumlah setoran pertama mereka yang telah disetujui selama periode promosi, Maksimum Hingga IDR 1.000.000 (maksimal), diilustrasikan seperti di bawah ini:
+                <li>
+                    Member yang memenuhi syarat akan diberikan bonus 100% berdasarkan jumlah setoran pertama mereka yang telah disetujui selama periode promosi, Maksimum Hingga IDR 1.000.000 (maksimal), diilustrasikan seperti di bawah ini:
                     <br><br>
                     <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
                         <tr>
@@ -93,16 +130,21 @@
                             <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">18x ( kali ) </td>
                         </tr>
                     </table>
-                    <br><br></li>
+                    <br><br>
+                </li>
                 <li>Bagi Member yang memenuhi syarat tidak diizinkan untuk membatalkan Bonus setelah dikreditkan ke akun Nova88 mereka.<br><br></li>
                 <li>Turnover yang sah hanya mencakup untuk produk ini : Sportsbook, E-sports, Permainan angka, Permainan maya. Cash out dan produk lain tidak termasuk dalam rollover.<br><br></li>
-                <li>Member yang memenuhi syarat hanya diperbolehkan untuk berpartisipasi pada satu (1) promosi terkait 'Bonus Deposit Awal' yang ditawarkan oleh Nova88 selama Periode Promosi. Jika Member yang memenuhi syarat berpartisipasi di lebih dari satu
+                <li>
+                    Member yang memenuhi syarat hanya diperbolehkan untuk berpartisipasi pada satu (1) promosi terkait 'Bonus Deposit Awal' yang ditawarkan oleh Nova88 selama Periode Promosi. Jika Member yang memenuhi syarat berpartisipasi di lebih dari satu
                     (1) promosi terkait 'Bonus Deposit Awal' selama Periode Promosi, hanya promosi terkait 'Bonus Deposit Awal' pertama yang diterima oleh Nova88 dari Member yang memenuhi syarat yang akan dianggap berlaku dan partisipasi di seluruh promosi
-                    terkait 'Bonus Deposit Awal' lainnya akan dibatalkan.<br><br></li>
+                    terkait 'Bonus Deposit Awal' lainnya akan dibatalkan.<br><br>
+                </li>
                 <li>Member yang memenuhi syarat akan didiskualifikasi dari promosi jika penarikan dilakukan sebelum Bonus dikreditkan ke akun Nova88 mereka.<br><br></li>
-                <li>Hanya taruhan pada produk Nova88 yang menghasilkan menang/kalah yang akan berkontribusi terhadap persyaratan Rollover. Taruhan yang berakhir seri, taruhan yang dibatalkan atau tidak berlaku, taruhan dengan odds kurang dari (Desimal Odds
+                <li>
+                    Hanya taruhan pada produk Nova88 yang menghasilkan menang/kalah yang akan berkontribusi terhadap persyaratan Rollover. Taruhan yang berakhir seri, taruhan yang dibatalkan atau tidak berlaku, taruhan dengan odds kurang dari (Desimal Odds
                     1.5; Tiongkok Odds 0.5; Malaysia Odds positif 0.5; Indonesia Odds -2.0; Amerika Odds -200),atau taruhan pada dua kemungkinan pada permainan tunggal bertaruh di Live Kasino,Permainan Maya, Poker, Tembak Ikan, Permainan Catur, dan permainan
-                    Kasino tidak akan dihitung ke dalam persyaratan ini.<br><br></li>
+                    Kasino tidak akan dihitung ke dalam persyaratan ini.<br><br>
+                </li>
                 <li>Persyaratan putaran akan dianggap terpenuhi jika saldo akun Nova88 Member yang memenuhi syarat kurang dari jumlah taruhan yang diperbolehkan (i.e Rupiah Indonesia 15,000)<br><br></li>
                 <li>Promosi ini hanya berlaku untuk mata uang MYR, THB & IDR saja<br><br></li>
                 <li>Nova88 berhak untuk mengubah atau menarik Promosi kapan saja. <br><br></li>

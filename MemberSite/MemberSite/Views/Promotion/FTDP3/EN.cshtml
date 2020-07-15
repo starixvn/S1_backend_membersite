@@ -24,10 +24,16 @@
         CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
 
         promotion = promotionBLL.GetPromotionListByCustId(custId).FirstOrDefault();
+
+        if (promotion == null)
+            promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
     }
     else
     {
         CurrencyId = selLangBLL.GetPreferCurrencyId();
+        if (CurrencyId == 13)
+            CurrencyId = 2;
+
         promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
     }
 
@@ -56,6 +62,36 @@
             <h3>JOIN NOW ! To enjoy up to MYR 388 Bonus with your first deposit at Nova88!</h3>
         </div>
         <div class="promotions-module">
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Bonus </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Max Bonus Amount </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Rollover </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Remaining Time </th>
+                    @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
+                    {
+                        <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;"></th>
+                    }
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@promotion.Bonus.ToString("#,##0")%</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@Currency @promotion.MaxBonus.ToString("#,##0")</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@(promotion.RollOver)x</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;" id="REMAINING"></td>
+                    @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
+                    {
+                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">
+                            <button class="btn btn-secondary" id="JOIN">
+                                <div class="btn__inner">
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
+                                </div>
+                            </button>
+                        </td>
+                    }
+                </tr>
+            </table>
+        </div>
+        <div class="promotions-module">
             <span class="promotions-title">Significant Conditions</span>
             <ol type="a">
                 <li>This promotion apply to MYR members only.<br><br></li>
@@ -77,7 +113,8 @@
             <span class="promotions-title">FULL PROMOTION SPECIFIC TERMS AND CONDITIONS</span>
             <ol type="1">
                 <li>To be eligible for the Promotion, players must meet all the criteria below:<br><br></li>
-                <li>Qualified players will be awarded with a 100% bonus based on their first approved deposit amount made during the promotion period, up to maximum MYR 388 (capped), as illustrated below:
+                <li>
+                    Qualified players will be awarded with a 100% bonus based on their first approved deposit amount made during the promotion period, up to maximum MYR 388 (capped), as illustrated below:
                     <br><br>
                     <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
                         <tr>
@@ -93,14 +130,19 @@
                             <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">18x (times) </td>
                         </tr>
                     </table>
-                    <br><br></li>
+                    <br><br>
+                </li>
                 <li>The qualified members are not allowed to cancel the bonus once it credited to Nova88 account.<br><br></li>
                 <li>Valid turnover only includes these product : Sportsbook, E-Sports, Number Game & Virtual Sports. Cash out and other product is not included in rollover. <br><br></li>
-                <li>The qualified player is allowed to participate in only one (1)‘First Time Deposit Bonus’ related promotion offered by Nova88. Should the qualified player participate in more than one (1), only the first approved ‘First Time Deposit Bonus’
-                    related promotion received by Nova88 from such qualified player will be considered valid and participation in all other ‘First Time Deposit Bonus’ related promotions will be void. <br><br></li>
+                <li>
+                    The qualified player is allowed to participate in only one (1)‘First Time Deposit Bonus’ related promotion offered by Nova88. Should the qualified player participate in more than one (1), only the first approved ‘First Time Deposit Bonus’
+                    related promotion received by Nova88 from such qualified player will be considered valid and participation in all other ‘First Time Deposit Bonus’ related promotions will be void. <br><br>
+                </li>
                 <li>The qualified player will be disqualified from the promotion if any withdrawal are made before the Bonus is credited to their Nova88 account.<br><br></li>
-                <li>Only wagers that generate a win/loss return will contribute to the Rollover Requirement. Cancelled or void wagers, wagers on odds less than 1.5 (Decimal odd); 0.5 (China odd) ; 0.5 (Malay Positive odd); -2.0 (Indo odd); -200(US odd), or
-                    wagers on both even chances during a single game will not count towards this requirement.<br><br></li>
+                <li>
+                    Only wagers that generate a win/loss return will contribute to the Rollover Requirement. Cancelled or void wagers, wagers on odds less than 1.5 (Decimal odd); 0.5 (China odd) ; 0.5 (Malay Positive odd); -2.0 (Indo odd); -200(US odd), or
+                    wagers on both even chances during a single game will not count towards this requirement.<br><br>
+                </li>
                 <li>The rollover requirement will be considered fulfilled, if the qualified player’s account balance is less than the minimum stake amount allowed.(i.e. MYR 5)<br><br></li>
                 <li>This Promotion only entitle for MYR,THB & IDR currencies only.<br><br></li>
                 <li>Nova88 reserves the right to amend or withdraw the Promotion at any time.<br><br></li>

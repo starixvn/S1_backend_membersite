@@ -24,11 +24,17 @@
         CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
 
         promotion = promotionBLL.GetPromotionListByCustId(custId).FirstOrDefault();
+
+         if (promotion == null)
+             promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
     }
     else
     {
         CurrencyId = selLangBLL.GetPreferCurrencyId();
-        promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault();
+        if (CurrencyId == 13)
+            CurrencyId = 2;
+
+        promotion = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).FirstOrDefault(); 
     }
 
     if (promotion.BonusInfoStatus != 1)
@@ -50,11 +56,40 @@
         <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
             <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-FTDP3.jpg" alt="" style="display: block;width: 100%;" />
         </div>
-        <br><br>
         <div class="promotions-module">
             <h2>โบนัสแรกเข้า 100% สูงสุดถึง 2,888 บาท</h2>
             <h3>เข้าร่วมตอนนี้ ! รับโบนัสมากถึง 2,888 บาทด้วยการฝากครั้งแรกที่ Nova88!</h3>
         </div>
+<div class="promotions-module">
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">โบนัส </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">จำนวนโบนัสสูงสุด </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">ยอดหมุนเวียน </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">เวลาคงเหลือ </th>
+                    @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
+                    {
+                        <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;"></th>
+                    }
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@promotion.Bonus.ToString("#,##0")%</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@Currency @promotion.MaxBonus.ToString("#,##0")</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@(promotion.RollOver)x</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;" id="REMAINING"></td>
+                    @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
+                    {
+                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">
+                            <button class="btn btn-secondary" id="JOIN">
+                                <div class="btn__inner">
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
+                                </div>
+                            </button>
+                        </td>
+                    }
+                </tr>
+        </table>
+    </div>
         <div class="promotions-module">
             <span class="promotions-title">เงื่อนไขที่สำคัญ</span>
             <ol type="a">

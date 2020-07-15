@@ -174,8 +174,31 @@
                     <div class="lobby-page">
                         <div class="lobby-banner-swiper">
                             <div class="swiper-wrapper">
-                                 @foreach (var b in BannerList) { if (!string.IsNullOrEmpty(b.actionLink)) { if (b.urlWithLang) {<div class="swiper-slide">
-                                            <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
+                                @foreach (var b in BannerList)
+                                {
+                                    if (!string.IsNullOrEmpty(b.actionLink))
+                                    {
+                                        if (b.urlWithLang)
+                                        {
+                                            <div class="swiper-slide">
+                                                <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
+                                                    <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                                                </a>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="swiper-slide">
+                                                <a href='@Url.Content($"~/{b.actionLink}")'>
+                                                    <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                                                </a>
+                                            </div>
+                                        }
+                                    }
+                                    else if (b.tpId != null)
+                                    {
+                                        <div class="swiper-slide">
+                                            <a class="swiper-slide  @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl((int)b.tpId, b.gameId?.ToString(), Url)">
                                                 <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
                                             </a>
                                         </div>
@@ -183,27 +206,10 @@
                                     else
                                     {
                                         <div class="swiper-slide">
-                                            <a href='@Url.Content($"~/{b.actionLink}")'>
-                                                <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                                            </a>
+                                            <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
                                         </div>
                                     }
                                 }
-                                else if (b.tpId != null)
-                                {
-                                    <div class="swiper-slide">
-                                        <a class="swiper-slide  @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl((int)b.tpId, b.gameId?.ToString(), Url)">
-                                            <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                                        </a>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="swiper-slide">
-                                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                                    </div>
-                                }
-                            }
                             </div>
                             <div class="swiper-pagination"></div>
                         </div>

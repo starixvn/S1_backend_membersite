@@ -1,0 +1,83 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">优惠活动</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-Casinorebate.jpg" alt="" style="display: block;width: 100%;" />
+        </div>
+        <div class="promotions-module">
+            <h2>娱乐城返水 1.2%</h2>
+
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">优惠标准规则</span>
+            <ol type="a">
+                <li>此优惠于2020年7月15日上午00:00开始<br><br></li>
+                <li>此促销的截止时间将在每星期二马来西亚时间上午11点59分59秒（GMT+8）<br><br></li>
+                <li>娱乐城返水 1.2%是根据会员每周总投注额从星期二到星期一计算。<br><br></li>
+                <li>所有Nova88会员每周根据Nova88 娱乐城产品中的投注额获得1.2%的返水。<br><br></li>
+                <li>返水金额汇入会员账号后必须进行一次 (1x) 的流水投注才能提款。<br><br></li>
+                <li>返水将在每个星期二计算后 48小时内汇入Nova88合格玩家帐户。<br><br></li>
+            </ol>
+
+            <span class="promotions-title">优惠奖励条件：</span>
+
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">优惠1.2% (货币)</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">最低支出</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">最高支出</th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">投注倍数</th>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">马来西亚</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 5</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 3000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">1x</td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">印尼</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 10,000,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">1x</td>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">泰国</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 50</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 20,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">1x</td>
+                </tr>
+                
+                </table>
+            <br><br>
+
+            <span class="promotions-title">优惠标准规则</span>
+            <ol type="1">
+                <li>促销适用于所有Nova88会员。<br><br></li>
+                <li>参与优惠会员必须接受并遵守上述所有条款以及Nova88实施的所有相关规则和规定。<br><br></li>
+                <li>Nova88 有权随时中止或取消本优惠。<br><br></li>
+                <li>Nova88 保留对本优惠的最终解释权。<br><br></li>
+                <li>Nova88标准规则和条款适用。<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>
