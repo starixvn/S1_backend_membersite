@@ -89,5 +89,10 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.QueryFirstOrDefault<DepositReceipt>("DepositReceipt_Get", new { DepositId = depositId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
+        public IEnumerable<DepositLimitInfo> GetDepositLimitInfoList()
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Query<DepositLimitInfo>("Member_DepositLimitInfo_Get", commandType: CommandType.StoredProcedure);
+        }
     }
 }

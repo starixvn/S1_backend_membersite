@@ -299,6 +299,23 @@ namespace MemberSite.Service.BLL
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
             return depoistService.GetDepositReceipt(depositId, CustInfo.SiteId);
         }
+        public IEnumerable<DepositLimitInfo> GetDepositLimitInfoList(int siteId)
+        {
+            string key = $"DepositLimitInfoList_{siteId}";
+            var depositLimitInfoList = cache.Get<IEnumerable<DepositLimitInfo>>(key);
+            if (depositLimitInfoList == null)
+            {
+                depositLimitInfoList = depoistService.GetDepositLimitInfoList().Where(x => x.SiteId == siteId);
+                if (depositLimitInfoList != null)
+                {
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(5));
+                    cache.Set(key, depositLimitInfoList, cacheEntryOptions);
+                }
+            }
+
+            return depositLimitInfoList;
+        }
         public Rollover ReachedRollover(int custId)
         {
             return rollOverService.ReachedRollover(custId);
@@ -307,12 +324,10 @@ namespace MemberSite.Service.BLL
         {
             return withdrawalService.GetWithdrawalAvailableBalance(custId);
         }
-        
-        public WithdrawalLimitInfo GetWithdrawalLimitInfo(int custId)
+        public WithdrawalLimitInfo GetCustWithdrawalLimitInfo(int custId)
         {
-            return withdrawalService.GetWithdrawalLimitInfo(custId);
+            return withdrawalService.GetCustWithdrawalLimitInfo(custId);
         }
-
         public WithdrawalKyc GetWithdrawalKyc(int custId)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
@@ -332,6 +347,24 @@ namespace MemberSite.Service.BLL
             }
 
             return withdrawalKycList.Where(x => x.CurrencyId == CustInfo.CurrencyId).FirstOrDefault();
+        }
+
+        public IEnumerable<WithdrawalLimitInfo1> GetWithdrawalLimitInfoList(int siteId)
+        {
+            string key = $"WithdrawalLimitInfoList_{siteId}";
+            var withdrawalLimitList = cache.Get<IEnumerable<WithdrawalLimitInfo1>>(key);
+            if (withdrawalLimitList == null)
+            {
+                withdrawalLimitList = withdrawalService.GetWithdrawalLimitInfoList().Where(x => x.SiteId == siteId);
+                if (withdrawalLimitList != null)
+                {
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(5));
+                    cache.Set(key, withdrawalLimitList, cacheEntryOptions);
+                }
+            }
+
+            return withdrawalLimitList;
         }
     }
 }

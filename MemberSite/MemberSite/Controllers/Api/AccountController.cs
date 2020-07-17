@@ -240,7 +240,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<dynamic>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
-            var limitInfo = paymentBLL.GetWithdrawalLimitInfo(authData.CustId);
+            var limitInfo = paymentBLL.GetCustWithdrawalLimitInfo(authData.CustId);
             if (limitInfo != null)
             {
                 //var withdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);

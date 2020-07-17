@@ -86,4 +86,13 @@ namespace MemberSite.Service.Model
         public string PicFileName { get; set; }
         public byte[] DepositPic { get; set; }
     }
+
+    public class DepositLimitInfo
+    {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+        public int VipLevel { get; set; }
+        public decimal DepositMin { get; set; }
+        public decimal DepositMax { get; set; }
+    }
 }

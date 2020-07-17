@@ -165,7 +165,7 @@ namespace MemberSite.Service.DAL
             return conn.ExecuteScalar<decimal>("Common_WithdrawalAvailableBalance_Get", new { CustId = custId }, transaction: trans, commandType: CommandType.StoredProcedure);
         }
 
-        public WithdrawalLimitInfo GetWithdrawalLimitInfo(int custId)
+        public WithdrawalLimitInfo GetCustWithdrawalLimitInfo(int custId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<WithdrawalLimitInfo>("Member_CustWithdrawalLimit_Get", new { custId }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -175,6 +175,11 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<WithdrawalKyc>("Member_WithdrawalKyc_Get", new { SitId = sitId }, commandType: CommandType.StoredProcedure);
+        }
+        public IEnumerable<WithdrawalLimitInfo1> GetWithdrawalLimitInfoList()
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Query<WithdrawalLimitInfo1>("Member_WithdrawalLimitInfo_Get", commandType: CommandType.StoredProcedure);
         }
     }
 }
