@@ -1,0 +1,68 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">โปรโมชั่น</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-BirthdayMonth.jpg" alt="" style="display: block;width: 100%;" />
+	</div>
+        <div class="promotions-module">
+            <h2>โบนัสเดือนเกิด</h2>
+
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">เงื่อนไขที่สำคัญ</span>
+            <ol type="a">
+                <li>โปรโมชั่นนี้สำหรับสมาชิก Nova88 ทุกคน.<br><br></li>
+                <li>สมาชิกทุกคนมีสิทธิ์ได้รับโบนัสในเดือนเกิดของคุณเท่านั้น<br><br></li>
+                <li>ติดต่อฝ่ายบริการลูกค้าผ่าน Live Chat เพื่อรับโบนัสเดือนเกิดของคุณ<br><br></li>
+                <li>กรุณาส่งสำเนารูปถ่าย ID ที่ถูกต้องให้ฝ่ายบริการลูกค้าเพื่อใช้ในการตรวจสอบ<br><br></li>
+                <li>หลังจากยืนยันตัวตนได้สำเร็จ ฝ่ายบริการลูกค้าจะดำเนินการเรื่องสิทธิ์โบนัสวันเกิดให้คุณ<br><br></li>
+                <li>สมาชิกจะต้องทำยอดการหมุนเวียนหนึ่งครั้ง (1x) สำหรับการคืนเงินก่อนที่จะทำการถอน<br><br></li>
+            </ol>
+
+            <span class="promotions-title">เงื่อนไขการเล่นโบนัส:</span>
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;" colspan="4">
+                        โบนัสเดือนเกิด
+                    </th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 388</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">THB 2,888</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 1,300,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">1x Rollover</td>
+                </tr>
+            </table>
+            <br><br>
+
+            <span class="promotions-title">ข้อกำหนดและเงื่อนไข</span>
+            <ol type="1">
+                <li>โปรโมชั่นนี้ใช้ได้เฉพาะช่วงเดือนเกิดของสมาชิกเท่านั้น สมาชิกหนึ่งคนจะมีสิทธิ์ได้รับปีละครั้งเท่านั้น<br><br></li>
+                <li>เงินโบนัสจะเข้าบัญชีกระเป๋าเงินที่คุณเลือกหลังจากที่เราทำการตรวจสอบแล้ว<br><br></li>
+                <li>โบนัสจะใช้ได้เป็นเวลาสามสิบ (30) วันนับจากวันที่ออก เว้นแต่จะระบุไว้เป็นอย่างอื่น เงินที่ได้รับจากการใช้เงินโบนัสจะถูกลบออกจากบัญชีของสมาชิกหากไม่สามารถทำตามข้อกำหนดเบื้องต้นได้ภายในระยะเวลาที่กำหนด<br><br></li>
+                <li>การวางเดิมพันเฉพาะผลิตภัณฑ์ Nova88 ที่มีผลการชนะ / แพ้จะมีผลต่อข้อกำหนดการหมุนเวียนหนึ่งครั้ง (เทิร์นโอเวอร์) (1x) ในผลิตภัณฑ์ Nova88 ทั้งหมด. Cash out (การจ่ายเงินออก, ยกเลิก, ยกเลิก, การเดิมพันเป็นโมฆะ หรือการเดิมพันทั้งสองฝั่ง ในระหว่างเกมเดียวจะไม่นับรวมกับข้อกำหนดนี้<br><br></li>
+                <li>สมาชิกที่เข้าร่วมต้องยอมรับและปฏิบัติตามข้อกำหนดทั้งหมดที่กล่าวถึงข้างต้นรวมถึงกฎและระเบียบที่เกี่ยวข้องทั้งหมดที่ใช้โดย Nova88.<br><br></li>
+                <li>Nova88 ขอสงวนสิทธิ์ในการแก้ไขหรือถอนโปรโมชั่นได้ตลอดเวลา.<br><br></li>
+                <li>Nova88 เป็นผู้ชี้ขาด แต่เพียงผู้เดียวของโปรโมชั่นและการตัดสินของ Nova88 ถือเป็นที่สิ้นสุด.<br><br></li>
+                <li>ข้อกำหนดและเงื่อนไขของ Nova88.<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>

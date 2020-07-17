@@ -131,6 +131,14 @@
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
+      "actionLink": "Promotion/Bonus?BonusCode=BirthdayMonth",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-BirthdayMonth.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
       "actionLink": "Casino/Lobby",
       "tpId": 14,
       "img": "banner-PG.jpg",
