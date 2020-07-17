@@ -4920,6 +4920,25 @@ button.swiper-pagination-bullet {
   transform: translateX(-25%);
 }
 
+[data-layout=desktop] .newicon {
+  position: absolute;
+  top: 1px;
+  right: 5px;
+}
+
+[data-layout=desktop] .btn .newicon {
+  right: 30px;
+  top: 0;
+}
+
+[data-layout=mobile] .newicon {
+  margin-left: 1vw;
+}
+
+[data-layout=desktop] .dropdown__item {
+  position: relative;
+}
+
 .footer {
   flex: 0 0 auto;
   color: white;
@@ -5007,9 +5026,9 @@ button.swiper-pagination-bullet {
 
 .footer__col.col1 > a.footer__item, .footer__col.col2 > a.footer__item {
   float: left;
-  padding-bottom: 0;
-  padding-top: 0;
+  padding: 0;
   opacity: 1;
+  transform: scale(0.75);
 }
 
 [data-layout=mobile] .footer__col.col1, [data-layout=mobile] .footer__col.col2 {

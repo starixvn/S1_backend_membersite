@@ -36,6 +36,7 @@ namespace MemberSite.Service.Model
         public int[] currencyId { get; set; }
         public string imgFolder { get; set; }
         public bool isBonus { get; set; }
+        public string[] refId { get; set; }
     }
 
     public class ActionLinkInfo

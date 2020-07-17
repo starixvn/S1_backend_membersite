@@ -261,4 +261,11 @@
   <data name="msg_WrongAmount" xml:space="preserve">
     <value>金额错误</value>
   </data>
+  <data name="msg_CreditSignUpHint_1" xml:space="preserve">
+    <value>敬爱的客户，
+</value>
+  </data>
+  <data name="msg_CreditSignUpHint_2" xml:space="preserve">
+    <value>欢迎来到{0}, 完成注册后请游览此链接并享受我司的游戏盘口。</value>
+  </data>
 </root>
