@@ -81,11 +81,13 @@
                     @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
                     {
                         <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">
-                            <button class="btn btn-secondary" id="JOIN">
-                                <div class="btn__inner">
-                                    <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
-                                </div>
-                            </button>
+                            <div class="btn-group">
+                                <button class="btn btn-secondary" id="JOIN">
+                                    <div class="btn__inner">
+                                        <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
+                                    </div>
+                                </button>
+                            </div>
                         </td>
                     }
                 </tr>

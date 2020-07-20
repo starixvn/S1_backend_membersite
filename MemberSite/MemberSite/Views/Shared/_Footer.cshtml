@@ -92,7 +92,7 @@
                 <a class="footer__item" href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
                     <img src="~/common/images/logo/pg.png" />
                 </a>
-                <a class="footer__item" href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                <a class="footer__item @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" data-selected="false" href="@Html.Raw(GetEntPageUrl(15, "15"))">
                     <img src="~/common/images/logo/ae.png" />
                 </a>
             </div>
