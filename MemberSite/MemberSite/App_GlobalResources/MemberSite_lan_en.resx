@@ -1728,4 +1728,7 @@
   <data name="lbl_RotationHint_4" xml:space="preserve">
     <value>We apologize for the inconvenience caused, and hoping your utmost understanding. Thank you!</value>
   </data>
+  <data name="lbl_SexyCasino" xml:space="preserve">
+    <value>Venus Suite</value>
+  </data>
 </root>
