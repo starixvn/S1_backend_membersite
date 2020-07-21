@@ -481,11 +481,13 @@ namespace MemberSite.Controllers.Api
             }
 
             var perferCurr = 0;
+            var beforeLogin = true;
             if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();
                 var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 perferCurr = custInfo.CurrencyId;
+                beforeLogin = false;
             }
             else
             {
@@ -494,11 +496,13 @@ namespace MemberSite.Controllers.Api
 
             if (FolderName == "Promotion")
             {
-                result.Data = _bannerSetting.Promotion.Where(x => x.currencyId == null || x.currencyId.Any(y => y == perferCurr));
+                var bannerFromJSON = _bannerSetting.Promotion.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
+                var bannerFromDB = bannerBLL.GetBannerFromDB(perferCurr, selLangBLL.GetLangId());
+                result.Data = bannerFromDB.Concat(bannerFromJSON);
             }
             else if (FolderName == "Casino")
             {
-                result.Data = _bannerSetting.Casino.Where(x => x.currencyId == null || x.currencyId.Any(y => y == perferCurr));
+                result.Data = _bannerSetting.Casino.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
             }
 
             if (!string.IsNullOrEmpty(refId))

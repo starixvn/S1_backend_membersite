@@ -56,21 +56,7 @@
             i18n.Add($"Currency_{currencyId}", ccr);
     }
 
-    var promotionList = promotionBLL.GetPromotionList(serverInfo.SiteId)?.Where(p=> p.CurrencyId == CurrencyId).OrderBy(x=> x.Sort);
-    var bannerFromDB = new List<PromotionBanner>();
-    foreach(var promo in promotionList)
-    {
-        if(promo.Details != null)
-        {
-            var details = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
-            Dictionary<string, string> settings = null;
-            if (details.TryGetValue(langId, out settings))
-            {
-                var bannerUrl = settings["bannerUrl"];
-                bannerFromDB.Add(new PromotionBanner() { actionLink = Url.Action("Bonus", "Promotion", new { BonusCode = promo.BonusCode }), imgURL = bannerUrl });
-            }
-        }
-    }
+    var bannerFromDB = bannerBLL.GetBannerFromDB(CurrencyId, langId);
 }
 <div class="main">
     @if (User.Identity.IsAuthenticated)

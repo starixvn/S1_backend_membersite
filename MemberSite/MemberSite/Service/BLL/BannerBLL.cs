@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,15 @@ namespace MemberSite.Service.BLL
     {
         private readonly BannerService bannerService;
         private readonly ServerInfoBLL serverInfoBLL;
+        private readonly PromotionBLL promotionBLL;
         private readonly IWebHostEnvironment environment;
 
-        public BannerBLL(BannerService bannerService, ServerInfoBLL serverInfoBLL, IWebHostEnvironment environment)
+        public BannerBLL(BannerService bannerService, ServerInfoBLL serverInfoBLL, IWebHostEnvironment environment, PromotionBLL promotionBLL)
         {
             this.bannerService = bannerService;
             this.serverInfoBLL = serverInfoBLL;
             this.environment = environment;
+            this.promotionBLL = promotionBLL;
         }
 
         //public IEnumerable<Banner> GetBanner(int SiteId, string FolderName, string Lang, int CurrencyId)
@@ -50,6 +53,28 @@ namespace MemberSite.Service.BLL
             {
                 return null;
             }
+        }
+
+        public IEnumerable<BannerSettingItem> GetBannerFromDB(int CurrencyId, string langId)
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            var promotionList = promotionBLL.GetPromotionList(serverInfo.SiteId)?.Where(p => p.CurrencyId == CurrencyId).OrderBy(x => x.Sort);
+            var bannerFromDB = new List<BannerSettingItem>();
+            foreach (var promo in promotionList)
+            {
+                if (promo.Details != null)
+                {
+                    var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
+                    Dictionary<string, string> settings = null;
+                    if (details.TryGetValue(langId, out settings))
+                    {
+                        var bannerUrl = settings["bannerUrl"];
+                        bannerFromDB.Add(new BannerSettingItem() { actionLink = $"Promotion/Bonus?BonusCode={promo.BonusCode}", imgURL = bannerUrl, fromDB = true });
+                    }
+                }
+            }
+
+            return bannerFromDB;
         }
     }
 }
