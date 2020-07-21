@@ -3,10 +3,12 @@
 @using MemberSite.Service.Model
 @using Microsoft.AspNetCore.Hosting
 @using System.Security.Claims
+@using System.Linq
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @inject CustInfoBLL custInfoBLL
 @inject BannerBLL bannerBLL
+@inject PromotionBLL promotionBLL
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -53,7 +55,22 @@
         if (ccr != null)
             i18n.Add($"Currency_{currencyId}", ccr);
     }
-    
+
+    var promotionList = promotionBLL.GetPromotionList(serverInfo.SiteId)?.Where(p=> p.CurrencyId == CurrencyId).OrderBy(x=> x.Sort);
+    var bannerFromDB = new List<PromotionBanner>();
+    foreach(var promo in promotionList)
+    {
+        if(promo.Details != null)
+        {
+            var details = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
+            Dictionary<string, string> settings = null;
+            if (details.TryGetValue(langId, out settings))
+            {
+                var bannerUrl = settings["bannerUrl"];
+                bannerFromDB.Add(new PromotionBanner() { actionLink = Url.Action("Bonus", "Promotion", new { BonusCode = promo.BonusCode }), imgURL = bannerUrl });
+            }
+        }
+    }
 }
 <div class="main">
     @if (User.Identity.IsAuthenticated)
@@ -61,80 +78,49 @@
         <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
     }
 
-    <div class="promotionsList-page page">
-        <div class="heading">
-            <span class="text">@selLangBLL.GetResourceValue("lbl_PromotionsList")</span>
+<div class="promotionsList-page page">
+    <div class="heading">
+        <span class="text">@selLangBLL.GetResourceValue("lbl_PromotionsList")</span>
+    </div>
+    @foreach (var b in bannerFromDB)
+    {
+        <div class="promotions-module">
+            <a href='@b.actionLink'>
+                <img src="@b.imgURL" asp-append-version="true" />
+            </a>
         </div>
-        @*<form>
-                <div class="form-row form-row--bg">
-                    <div class="form-group flex-2">
-                        <ul>
-                            <li>
-                                <i class="icon icon-all"></i>ALL(
-                                <span>12</span>)
-                            </li>
-                            <li>
-                                REDEPOSIT BONUS(
-                                <span>12</span>)
-                            </li>
-                            <li>
-                                REBATE(
-                                <span>12</span>)
-                            </li>
-                            <li>
-                                SPECIAL BONUS(
-                                <span>12</span>)
-                            </li>
-                            <li>
-                                OVER(
-                                <span>12</span>)
-                            </li>
-                            <li>
-                                <div class="form-group">
-                                    <label class="form-title">DATE</label>
-                                    <a class="btn">
-                                        <i class="icon icon-caret"></i>
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </form>*@
-        <!--Group-start-->
-        @*<div id="promotions"></div>*@
-        <!--Group-end-->
+    }
 
-        @foreach (var b in BannerList)
+    @foreach (var b in BannerList)
+    {
+        if (!b.isBonus) continue;
+        if (!string.IsNullOrEmpty(b.actionLink))
         {
-            if (!b.isBonus) continue;
-            if (!string.IsNullOrEmpty(b.actionLink))
+            if (b.urlWithLang)
             {
-                if (b.urlWithLang)
-                {
-                    <div class="promotions-module">
-                        <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
-                            <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                        </a>
-                    </div>
-                }
-                else
-                {
-                    <div class="promotions-module">
-                        <a href='@Url.Content($"~/{b.actionLink}")'>
-                            <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                        </a>
-                    </div>
-                }
+                <div class="promotions-module">
+                    <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
+                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                    </a>
+                </div>
             }
             else
             {
                 <div class="promotions-module">
-                    <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                    <a href='@Url.Content($"~/{b.actionLink}")'>
+                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                    </a>
                 </div>
             }
         }
-    </div>
+        else
+        {
+            <div class="promotions-module">
+                <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+            </div>
+        }
+    }
+</div>
 </div>
 @section Scripts{
     <script type="text/javascript">
