@@ -56,7 +56,8 @@
             i18n.Add($"Currency_{currencyId}", ccr);
     }
 
-    var bannerFromDB = bannerBLL.GetBannerFromDB(CurrencyId, langId);
+    var banner_CurrencyId = !User.Identity.IsAuthenticated && CurrencyId == 13 ? 2 : CurrencyId;
+    var bannerFromDB = bannerBLL.GetBannerFromDB(banner_CurrencyId, langId);
 }
 <div class="main">
     @if (User.Identity.IsAuthenticated)

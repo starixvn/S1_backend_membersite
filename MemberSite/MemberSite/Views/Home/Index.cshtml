@@ -58,7 +58,8 @@
 
     var BannerList = bannerBLL.GetBanner(CurrencyId, "Promotion");
     var langId = selLangBLL.GetLangId();
-    var bannerFromDB = bannerBLL.GetBannerFromDB(CurrencyId, langId);
+    var banner_CurrencyId = !User.Identity.IsAuthenticated && CurrencyId == 13 ? 2 : CurrencyId;
+    var bannerFromDB = bannerBLL.GetBannerFromDB(banner_CurrencyId, langId);
 }
 }
 
