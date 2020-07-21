@@ -248,4 +248,10 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_DepositHint" xml:space="preserve">
     <value>Nạp tiền ngay để thưởng thức các trò chơi và dịch vụ của chúng tôi.</value>
   </data>
+  <data name="msg_CreditSignUpHint_1" xml:space="preserve">
+    <value>Kính gửi quý khách hàng,</value>
+  </data>
+  <data name="msg_CreditSignUpHint_2" xml:space="preserve">
+    <value>Chào mừng đến với {0}, vui lòng truy cập liên kết ở trên để đăng ký và trải nghiệm các trò chơi của chúng tôi.</value>
+  </data>
 </root>

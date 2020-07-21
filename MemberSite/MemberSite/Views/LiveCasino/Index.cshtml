@@ -109,6 +109,14 @@
                                 </div>
                                 <div class="txt-blue">@selLangBLL.GetResourceValue("lbl_SACasino")</div>
                             </div>
+                            <div>
+                                <div>
+                                    <a href="@Html.Raw(GetEntPageUrl(15, "15"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                                        <img src="/common/images/LiveCasino/ae.png" />
+                                    </a>
+                                </div>
+                                <div class="txt-blue">@selLangBLL.GetResourceValue("lbl_SexyCasino")</div>
+                            </div>
                         </div>
                     </div>
                 </div>

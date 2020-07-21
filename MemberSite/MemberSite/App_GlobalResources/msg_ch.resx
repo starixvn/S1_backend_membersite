@@ -265,4 +265,10 @@
   <data name="msg_WrongAmount" xml:space="preserve">
     <value>金額錯誤</value>
   </data>
+  <data name="msg_CreditSignUpHint_1" xml:space="preserve">
+    <value>敬愛的客戶，</value>
+  </data>
+  <data name="msg_CreditSignUpHint_2" xml:space="preserve">
+    <value>歡迎來到{0}, 完成註冊後請遊覽此鏈接並享受我司的遊戲盤口。</value>
+  </data>
 </root>

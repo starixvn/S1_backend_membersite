@@ -264,4 +264,11 @@
   <data name="msg_WrongAmount" xml:space="preserve">
     <value>Salah jumlah</value>
   </data>
+  <data name="msg_CreditSignUpHint_1" xml:space="preserve">
+    <value>Kepada Pelanggan Terhormat,</value>
+  </data>
+  <data name="msg_CreditSignUpHint_2" xml:space="preserve">
+    <value>Selamat datang di {0}, setelah pendaftaran silakan kunjungi link yang kami berikan dan selamat menikmati permainan kami.
+</value>
+  </data>
 </root>

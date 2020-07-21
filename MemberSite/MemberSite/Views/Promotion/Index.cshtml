@@ -27,6 +27,8 @@
     {
         CurrencyId = selLangBLL.GetPreferCurrencyId();
     }
+    var BannerList = bannerBLL.GetBanner(CurrencyId, "Promotion");
+    var langId = selLangBLL.GetLangId();
 
     Dictionary<string, string> i18n = new Dictionary<string, string>();
     i18n.Add("lbl_Bonus", selLangBLL.GetResourceValue("lbl_Bonus"));
@@ -51,10 +53,7 @@
         if (ccr != null)
             i18n.Add($"Currency_{currencyId}", ccr);
     }
-
-
-    var BannerList = bannerBLL.GetBanner(CurrencyId, "Promotion");
-    var langId = selLangBLL.GetLangId();
+    
 }
 <div class="main">
     @if (User.Identity.IsAuthenticated)
@@ -103,7 +102,7 @@
                 </div>
             </form>*@
         <!--Group-start-->
-        <div id="promotions"></div>
+        @*<div id="promotions"></div>*@
         <!--Group-end-->
 
         @foreach (var b in BannerList)

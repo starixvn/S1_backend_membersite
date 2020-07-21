@@ -1662,4 +1662,10 @@
   <data name="lbl_RotationHint_4" xml:space="preserve">
     <value>และเราต้องขออภัยในความไม่สะดวกที่อาจเกิดขึ้นและหวังว่าท่านจะเข้าใจ ขอขอบคุณ!</value>
   </data>
+  <data name="lbl_SexyCasino" xml:space="preserve">
+    <value>ห้องวีนัส</value>
+  </data>
+  <data name="lbl_GameList" xml:space="preserve">
+    <value>รายชื่อเกม</value>
+  </data>
 </root>
