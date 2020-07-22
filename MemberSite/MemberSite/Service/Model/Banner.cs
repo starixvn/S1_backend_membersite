@@ -37,6 +37,8 @@ namespace MemberSite.Service.Model
         public string imgFolder { get; set; }
         public bool isBonus { get; set; }
         public string[] refId { get; set; }
+        public string imgURL { get; set; }
+        public bool fromDB { get; set; }
     }
 
     public class ActionLinkInfo

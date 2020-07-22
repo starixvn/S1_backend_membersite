@@ -37,6 +37,13 @@ namespace MemberSite.Service.Model
         public int BonusInfoStatus { get; set; }
         public int Sort { get; set; }
         public CustRollOver custRollOver { get; set; }
+        public string Details { get; set; }
+    }
+
+    public class PromotionBanner
+    {
+        public string imgURL { get; set; }
+        public string actionLink { get; set; }
     }
 
     //public class ClaimPromotion : IPromotion
