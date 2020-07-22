@@ -32,6 +32,8 @@
     var serverInfo = serverInfoBLL.GetServerInfo();
     var CmsPromotionPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Promotion/{selLangBLL.GetLangId()}");
     var SkinrootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Promotion");
+    var domain = serverInfoBLL.GetDomain();
+
     List<dynamic> currencyList = new List<dynamic>();
     foreach (var currencyId in serverInfo.ICurrencyList)
     {
@@ -214,7 +216,7 @@
                             <div class="swiper-pagination"></div>
                         </div>
                         <br />
-                        @Html.Raw(selLangBLL.GetMsg("msg_CreditSignUp"))
+                        @Html.Raw(string.Format(selLangBLL.GetMsg("msg_CreditSignUp"),domain))
                     </div>
                     <div class="modal__footer">
                         <div class="btn-group">

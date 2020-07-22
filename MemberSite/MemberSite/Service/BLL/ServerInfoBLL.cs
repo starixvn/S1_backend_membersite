@@ -103,5 +103,10 @@ namespace MemberSite.Service.BLL
         {
             SiteInfoDic.Clear();
         }
+
+        public string GetDomain()
+        {
+            return httpContextAccessor.HttpContext.Request.Host.Host;
+        }
     }
 }

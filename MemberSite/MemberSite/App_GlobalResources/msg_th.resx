@@ -210,7 +210,7 @@
     <comment>0026. Deposit</comment>
   </data>
   <data name="msg_CreditSignUp" xml:space="preserve">
-    <value>เรียนลูกค้าที่เคารพรัก, &lt;br /&gt;&lt;br /&gt;ยินดีต้อนรับสู่ &lt;a href="https://www.nova88.net" target="_new"&gt;www.nova88.net&lt;/a&gt;,  หลังจากทะเบียนแล้วคุณสามารถเข้าสู่เว็บไซต์เราเพื่อเพลิดเพลินและสนุกสนานกับทั้งหมดของเรา
+    <value>เรียนลูกค้าที่เคารพรัก, &lt;br /&gt;&lt;br /&gt;ยินดีต้อนรับสู่ &lt;a href="https:/{0}" target="_new"&gt;{0}&lt;/a&gt;,  หลังจากทะเบียนแล้วคุณสามารถเข้าสู่เว็บไซต์เราเพื่อเพลิดเพลินและสนุกสนานกับทั้งหมดของเรา
 </value>
   </data>
   <data name="msg_DepositAlert" xml:space="preserve">
