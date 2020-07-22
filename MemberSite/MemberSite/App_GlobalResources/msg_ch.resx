@@ -211,7 +211,7 @@
     <comment>0026. Deposit</comment>
   </data>
   <data name="msg_CreditSignUp" xml:space="preserve">
-    <value>敬愛的客戶， &lt;br /&gt;&lt;br /&gt;歡迎來到&lt;a href="https://www.nova88.net" target="_new"&gt;www.nova88.net&lt;/a&gt;, 完成註冊後請遊覽此鏈接並享受我司的遊戲盤口。</value>
+    <value>敬愛的客戶， &lt;br /&gt;&lt;br /&gt;歡迎來到&lt;a href="https://{0}" target="_new"&gt;{0}&lt;/a&gt;, 完成註冊後請遊覽此鏈接並享受我司的遊戲盤口。</value>
   </data>
   <data name="msg_DepositAlert" xml:space="preserve">
     <value>您的當前中心錢包餘額是：&lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;立即存款或將體育錢包餘額轉移至中心錢包以享有我司遊戲盤口及服務。</value>
