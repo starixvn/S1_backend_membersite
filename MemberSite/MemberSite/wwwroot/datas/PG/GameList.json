@@ -671,7 +671,7 @@
       "launchDate": null,
       "hot": true,
       "new": false,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -719,7 +719,7 @@
         "ch": "jungle-delight-CS.jpg"
       },
       "launchDate": null,
-      "hot": true,
+      "hot": false,
       "new": false,
       "featured": false,
       "imageExist": true,
@@ -794,7 +794,7 @@
         "ch": "journey-to-the-wealth-CS.jpg"
       },
       "launchDate": null,
-      "hot": true,
+      "hot": false,
       "new": false,
       "featured": false,
       "imageExist": true,
@@ -819,9 +819,9 @@
         "ch": "captains-bounty-CS.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
-      "featured": false,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -919,7 +919,7 @@
         "ch": "muay-thai-CSampion-CS.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": false,
       "imageExist": true,
@@ -971,7 +971,7 @@
       "launchDate": null,
       "hot": true,
       "new": false,
-      "featured": false,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -1119,7 +1119,7 @@
         "ch": "mahjong-ways2-CS.jpg"
       },
       "launchDate": null,
-      "hot": false,
+      "hot": true,
       "new": false,
       "featured": false,
       "imageExist": true,
