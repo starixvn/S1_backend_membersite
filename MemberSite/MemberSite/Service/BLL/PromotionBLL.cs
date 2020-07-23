@@ -49,7 +49,7 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            return promotionList;
+            return promotionList.OrderBy(x=> x.Sort);
         }
         public IEnumerable<Promotion> GetPromotionListByCustId(int custId)
         {
@@ -124,6 +124,24 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             return promotionService.GetCanJoin(custId, custInfo.SiteId, bonusCode, custInfo.CurrencyId);
+        }
+
+        public Promotion GetPromotion(int siteId, string bonusCode, int currencyId)
+        {
+            string key = $"Promotion_{bonusCode}_{currencyId}_{siteId}";
+            var promotion = cache.Get<Promotion>(key);
+
+            if (promotion == null)
+            {
+                promotion = promotionService.GetPromotion(siteId, bonusCode, currencyId);
+
+                if (promotion != null)
+                {
+                    cache.Set(key, promotion, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
+                }
+            }
+
+            return promotion;
         }
     }
 }
