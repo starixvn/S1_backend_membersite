@@ -60,7 +60,7 @@ namespace MemberSite.Service.BLL
                     string host = context.Request.Host.Host;
                     int[] supportH5 = configuration.GetSection("SupportH5").Get<int[]>();
 
-                    if (!IPAddress.TryParse(host, out var pAddress) && supportH5 != null && tools.IsMobile() && supportH5.Any(x => x == serverInfoBLL.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase)  && !host.StartsWith("mrelease.", StringComparison.OrdinalIgnoreCase))
+                    if (!IPAddress.TryParse(host, out var pAddress) && supportH5 != null && tools.IsMobile() && supportH5.Any(x => x == serverInfoBLL.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase) && !host.StartsWith("mrelease.", StringComparison.OrdinalIgnoreCase))
                     {
                         var AnticipationRouteData = Match("{controller=Home}/{action=Index}", context.Request.Path);
                         AnticipationRouteData.TryGetValue("controller", out object controller);
@@ -76,9 +76,9 @@ namespace MemberSite.Service.BLL
                             host = host.Substring(dotIndex + 1);
                         }
 
-                        if (controller.ToString().Equals("Home", StringComparison.OrdinalIgnoreCase) || controller1.ToString().Equals("Home", StringComparison.OrdinalIgnoreCase))
+                        if ((controller != null && controller.ToString().Equals("Home", StringComparison.OrdinalIgnoreCase)) || (controller1 != null && controller1.ToString().Equals("Home", StringComparison.OrdinalIgnoreCase)))
                         {
-                            if (action.ToString().Equals("Register", StringComparison.OrdinalIgnoreCase) || action1.ToString().Equals("Register", StringComparison.OrdinalIgnoreCase))
+                            if ((action != null && action.ToString().Equals("Register", StringComparison.OrdinalIgnoreCase)) || (action1 != null && action1.ToString().Equals("Register", StringComparison.OrdinalIgnoreCase)))
                             {
                                 context.Response.Redirect($"{context.Request.Scheme}://m.{host}/join{context.Request.QueryString.Value}");
                             }
