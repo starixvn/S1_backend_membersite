@@ -1,5 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,9 @@ namespace MemberSite.Service.BLL
         private readonly SysBankInfoOffComparer sysBankInfoOffComparer;
         private readonly PaymentOffComparer paymentOffComparer;
         private readonly PayService payService;
+        private readonly DepositBLL depositBLL;
 
-        public BankInfoBLL(IMemoryCache cache, PayService payService,  BankInfoService bankInfoService, ServerInfoBLL serverInfoBLL, CustInfoBLL custInfoBLL)
+        public BankInfoBLL(IMemoryCache cache, PayService payService, BankInfoService bankInfoService, ServerInfoBLL serverInfoBLL, CustInfoBLL custInfoBLL, DepositBLL depositBLL)
         {
             this.bankInfoService = bankInfoService;
             this.serverInfoBLL = serverInfoBLL;
@@ -27,6 +29,7 @@ namespace MemberSite.Service.BLL
             sysBankInfoOffComparer = new SysBankInfoOffComparer();
             paymentOffComparer = new PaymentOffComparer();
             this.payService = payService;
+            this.depositBLL = depositBLL;
         }
         public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int CurrencyId)
         {
@@ -99,6 +102,14 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+
+            if (depositLimitInfo?.DepositStatus == 0)
+            {
+                return new PaymentFront[] { };
+            }
+
             var bankInfoPayList = GetOnlineBankList();
 
             var onlinePaymentList = (from x in bankInfoPayList
@@ -110,15 +121,29 @@ namespace MemberSite.Service.BLL
                                          ChannelId = x.ChannelId
                                      }).Distinct(paymentOffComparer).ToArray();
             var payCurrency = GetPayCurrency();//.Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == payId).FirstOrDefault()
-            if (onlinePaymentList != null)
+
+            if (onlinePaymentList != null && onlinePaymentList != null)
             {
-                foreach(var onlinePayment in onlinePaymentList)
+                foreach (var onlinePayment in onlinePaymentList)
                 {
                     var iPayCurrency = payCurrency.Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == onlinePayment.ChannelId).FirstOrDefault();
                     if (iPayCurrency != null)
                     {
                         onlinePayment.MaxAmount = iPayCurrency.MaxAmount;
                         onlinePayment.MinAmount = iPayCurrency.MinAmount;
+
+                        if (depositLimitInfo != null)
+                        {
+                            if (iPayCurrency.MaxAmount == 0 || iPayCurrency.MaxAmount > depositLimitInfo.DepositMax)
+                            {
+                                onlinePayment.MaxAmount = depositLimitInfo.DepositMax;
+                            }
+
+                            if (iPayCurrency.MinAmount == 0 || iPayCurrency.MinAmount < depositLimitInfo.DepositMin)
+                            {
+                                onlinePayment.MinAmount = depositLimitInfo.DepositMin;
+                            }
+                        }
                     }
                 }
             }
@@ -149,8 +174,16 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
-            var bankInfoPayList = GetOnlineBankList();
 
+            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+
+            if (depositLimitInfo?.DepositStatus == 0)
+            {
+                return null;
+            }
+
+            var bankInfoPayList = GetOnlineBankList();
             var bankInfo = (from x in bankInfoPayList
                             where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId && x.PayId == payId
                             select new BankInfoPayFront
@@ -164,10 +197,24 @@ namespace MemberSite.Service.BLL
                             }).FirstOrDefault();
 
             var payCurrency = GetPayCurrency().Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == bankInfo.ChannelId).FirstOrDefault();
+
             if (payCurrency != null)
             {
                 bankInfo.MinAmount = payCurrency.MinAmount;
                 bankInfo.MaxAmount = payCurrency.MaxAmount;
+
+                if (depositLimitInfo != null)
+                {
+                    if (payCurrency.MaxAmount == 0 || payCurrency.MaxAmount > depositLimitInfo.DepositMax)
+                    {
+                        bankInfo.MaxAmount = depositLimitInfo.DepositMax;
+                    }
+
+                    if (payCurrency.MinAmount == 0 || payCurrency.MinAmount < depositLimitInfo.DepositMin)
+                    {
+                        bankInfo.MinAmount = depositLimitInfo.DepositMin;
+                    }
+                }
             }
 
             return bankInfo;
@@ -196,6 +243,15 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+
+            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+
+            if (depositLimitInfo?.DepositStatus == 0)
+            {
+                return null;
+            }
+
             var bankInfoPayList = GetOnlineBankList();
 
             var bankInfo = (from x in bankInfoPayList
@@ -216,6 +272,19 @@ namespace MemberSite.Service.BLL
             {
                 bankInfo.MinAmount = payCurrency.MinAmount;
                 bankInfo.MaxAmount = payCurrency.MaxAmount;
+
+                if (depositLimitInfo != null)
+                {
+                    if (payCurrency.MaxAmount == 0 || payCurrency.MaxAmount > depositLimitInfo.DepositMax)
+                    {
+                        bankInfo.MaxAmount = depositLimitInfo.DepositMax;
+                    }
+
+                    if (payCurrency.MinAmount == 0 || payCurrency.MinAmount < depositLimitInfo.DepositMin)
+                    {
+                        bankInfo.MinAmount = depositLimitInfo.DepositMin;
+                    }
+                }
             }
 
             return bankInfo;

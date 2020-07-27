@@ -1,5 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections;
@@ -15,14 +16,16 @@ namespace MemberSite.Service.BLL
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly BankInfoOffService bankInfoService;
         private readonly CustInfoBLL custInfoBLL;
+        private readonly DepositBLL depositBLL;
         private readonly SysBankInfoOffComparer sysBankInfoOffComparer;
 
-        public BankInfoOffBLL(IMemoryCache cache, ServerInfoBLL serverInfoBLL, BankInfoOffService bankInfoService, CustInfoBLL custInfoBLL)
+        public BankInfoOffBLL(IMemoryCache cache, ServerInfoBLL serverInfoBLL, BankInfoOffService bankInfoService, CustInfoBLL custInfoBLL, DepositBLL depositBLL)
         {
             this.serverInfoBLL = serverInfoBLL;
             this.bankInfoService = bankInfoService;
             this.cache = cache;
             this.custInfoBLL = custInfoBLL;
+            this.depositBLL = depositBLL;
             sysBankInfoOffComparer = new SysBankInfoOffComparer();
         }
 
@@ -60,6 +63,32 @@ namespace MemberSite.Service.BLL
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
             var bankAccountOffList = GetBankAccountOff(custInfo.SiteId);
+
+            List<BankInfoOff> localBankList = bankAccountOffList?.ToList();
+            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+
+            if (depositLimitInfo?.DepositStatus == 0)
+            {
+                return new SysBankInfoFront[] { };
+            }
+
+            if (depositLimitInfo != null && localBankList != null)
+            {
+                foreach (var localBack in localBankList)
+                {
+                    if (localBack.MaxAmount == 0 || localBack.MaxAmount > depositLimitInfo.DepositMax)
+                    {
+                        localBack.MaxAmount = depositLimitInfo.DepositMax;
+                    }
+
+                    if (localBack.MinAmount == 0 || localBack.MinAmount < depositLimitInfo.DepositMin)
+                    {
+                        localBack.MinAmount = depositLimitInfo.DepositMin;
+                    }
+                }
+            }
+
             var _info = (from x in bankAccountOffList
                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
                          orderby x.PointLevel descending, x.Sort
