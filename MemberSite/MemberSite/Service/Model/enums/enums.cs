@@ -31,7 +31,7 @@ namespace MemberSite.Service.Model.enums
     {
         OnlineBanking = 1,
         MobilePayment = 2,
-        WireTransfer = 3,
+        LocalBank = 3,
     }
 
     /// <summary>

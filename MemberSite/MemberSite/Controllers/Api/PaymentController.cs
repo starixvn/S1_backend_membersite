@@ -129,7 +129,7 @@ namespace MemberSite.Controllers.Api
 
             var authData = authorizeBLL.GetAuthData();
             DepositRep3 depositRep3 = null;
-            var result = paymentBLL.DepositReqWireTransfer(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out depositRep3);
+            var result = paymentBLL.DepositReqLocalBank(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out depositRep3);
             if (result == -1)
             {
                 apiResult.ErrorCode = -1;

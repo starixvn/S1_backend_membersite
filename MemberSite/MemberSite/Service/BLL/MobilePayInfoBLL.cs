@@ -13,15 +13,17 @@ namespace MemberSite.Service.BLL
     {
         private readonly PayService payService;
         private readonly DepoistService depoistService;
+        private readonly DepositBLL depositBLL;
         private readonly IMemoryCache cache;
         private readonly CustInfoBLL custInfoBLL;
         private readonly MobilePayGroupComparer mobilePayGroupComparer;
-        public MobilePayInfoBLL(IMemoryCache cache, PayService payService, DepoistService depoistService, CustInfoBLL custInfoBLL)
+        public MobilePayInfoBLL(IMemoryCache cache, PayService payService, DepoistService depoistService, CustInfoBLL custInfoBLL, DepositBLL depositBLL)
         {
             this.payService = payService;
             this.cache = cache;
             this.custInfoBLL = custInfoBLL;
             this.depoistService = depoistService;
+            this.depositBLL = depositBLL;
             mobilePayGroupComparer = new MobilePayGroupComparer();
         }
 
@@ -59,6 +61,13 @@ namespace MemberSite.Service.BLL
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
             var mobilePayInfoList = GetMobilePayInfoList();
 
+            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.MobilePayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+
+            if (depositLimitInfo?.DepositStatus == 0)
+            {
+                return new MobilePayGroup[] { };
+            }
 
             var mobilePayGroupList = (from x in mobilePayInfoList
                                       where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
@@ -76,7 +85,32 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
-            var mobilePayInfoList = GetMobilePayInfoList().Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.GroupId == groupId);
+
+            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.MobilePayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+
+            if (depositLimitInfo?.DepositStatus == 0)
+            {
+                return new MobilePayInfo[] { };
+            }
+
+            var mobilePayInfoList = GetMobilePayInfoList().Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.GroupId == groupId).ToList();
+
+            if (depositLimitInfo != null && mobilePayInfoList != null)
+            {
+                foreach (var mobilePay in mobilePayInfoList)
+                {
+                    if (mobilePay.MaxAmount == 0 || mobilePay.MaxAmount > depositLimitInfo.DepositMax)
+                    {
+                        mobilePay.MaxAmount = depositLimitInfo.DepositMax;
+                    }
+
+                    if (mobilePay.MinAmount == 0 || mobilePay.MinAmount < depositLimitInfo.DepositMin)
+                    {
+                        mobilePay.MinAmount = depositLimitInfo.DepositMin;
+                    }
+                }
+            }
 
             return mobilePayInfoList;
         }
@@ -88,13 +122,35 @@ namespace MemberSite.Service.BLL
                 return -1;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+
+            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.MobilePayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+
+            if (depositLimitInfo?.DepositStatus == 0)
+            {
+                return -3;
+            }
+
             mobilePayInfo = GetMobilePayInfoList().Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId).FirstOrDefault();
+
+            if (depositLimitInfo != null && mobilePayInfo != null)
+            {
+                if (mobilePayInfo.MaxAmount == 0 || mobilePayInfo.MaxAmount > depositLimitInfo.DepositMax)
+                {
+                    mobilePayInfo.MaxAmount = depositLimitInfo.DepositMax;
+                }
+
+                if (mobilePayInfo.MinAmount == 0 || mobilePayInfo.MinAmount < depositLimitInfo.DepositMin)
+                {
+                    mobilePayInfo.MinAmount = depositLimitInfo.DepositMin;
+                }
+            }
 
             if (mobilePayInfo == null || mobilePayInfo.MaxAmount < amount || mobilePayInfo.MinAmount > amount)
             {
                 return -2;
             }
-            else if(mobilePayInfo.AmountRule==3 && !mobilePayInfo.AmountList.Contains(amount))
+            else if (mobilePayInfo.AmountRule == 3 && !mobilePayInfo.AmountList.Contains(amount))
             {
                 return -2;
             }
