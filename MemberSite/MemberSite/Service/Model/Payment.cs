@@ -14,7 +14,7 @@ namespace MemberSite.Service.Model
         public string ThirdId { get; set; }
     }
 
-    public class PayCurrency
+    public class PayCurrency : IPaymentLimit
     {
         public int ChannelId { get; set; }
         public int CurrencyId { get; set; }
@@ -24,7 +24,7 @@ namespace MemberSite.Service.Model
         public int AmountRule { get; set; }
         public string AmountShow { get; set; }
     }
-    public class MobilePayInfo
+    public class MobilePayInfo : IPaymentLimit
     {
         public int PayId { get; set; }
         public string PayName { get; set; }
@@ -51,5 +51,11 @@ namespace MemberSite.Service.Model
         public int GroupId { get; set; }
         public string GroupName { get; set; }
         public int GSort { get; set; }
+    }
+
+    public interface IPaymentLimit
+    {
+        public decimal MinAmount { get; set; }
+        public decimal MaxAmount { get; set; }
     }
 }

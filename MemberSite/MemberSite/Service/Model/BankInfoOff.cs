@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MemberSite.Service.Model
 {
-    public class BankInfoOff
+    public class BankInfoOff : IPaymentLimit
     {
         public int BankId { get; set; }
         public string AccountName { get; set; }

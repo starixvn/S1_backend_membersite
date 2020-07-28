@@ -26,7 +26,7 @@ namespace MemberSite.Service.Model
         public int SSort { get; set; }
     }
 
-    public class BankInfoPayFront
+    public class BankInfoPayFront : IPaymentLimit
     {
         public int SysId { get; set; }
         public int PayId { get; set; }
