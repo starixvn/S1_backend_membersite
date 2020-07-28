@@ -122,7 +122,7 @@ namespace MemberSite.Service.BLL
                                      }).Distinct(paymentOffComparer).ToArray();
             var payCurrency = GetPayCurrency();//.Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == payId).FirstOrDefault()
 
-            if (onlinePaymentList != null && onlinePaymentList != null)
+            if (onlinePaymentList != null)
             {
                 foreach (var onlinePayment in onlinePaymentList)
                 {
@@ -134,15 +134,7 @@ namespace MemberSite.Service.BLL
 
                         if (depositLimitInfo != null)
                         {
-                            if (iPayCurrency.MaxAmount == 0 || iPayCurrency.MaxAmount > depositLimitInfo.DepositMax)
-                            {
-                                onlinePayment.MaxAmount = depositLimitInfo.DepositMax;
-                            }
-
-                            if (iPayCurrency.MinAmount == 0 || iPayCurrency.MinAmount < depositLimitInfo.DepositMin)
-                            {
-                                onlinePayment.MinAmount = depositLimitInfo.DepositMin;
-                            }
+                            depositBLL.FixDepositLimit(onlinePayment, depositLimitInfo);
                         }
                     }
                 }
@@ -205,15 +197,7 @@ namespace MemberSite.Service.BLL
 
                 if (depositLimitInfo != null)
                 {
-                    if (payCurrency.MaxAmount == 0 || payCurrency.MaxAmount > depositLimitInfo.DepositMax)
-                    {
-                        bankInfo.MaxAmount = depositLimitInfo.DepositMax;
-                    }
-
-                    if (payCurrency.MinAmount == 0 || payCurrency.MinAmount < depositLimitInfo.DepositMin)
-                    {
-                        bankInfo.MinAmount = depositLimitInfo.DepositMin;
-                    }
+                    depositBLL.FixDepositLimit(bankInfo, depositLimitInfo);
                 }
             }
 
@@ -275,15 +259,7 @@ namespace MemberSite.Service.BLL
 
                 if (depositLimitInfo != null)
                 {
-                    if (payCurrency.MaxAmount == 0 || payCurrency.MaxAmount > depositLimitInfo.DepositMax)
-                    {
-                        bankInfo.MaxAmount = depositLimitInfo.DepositMax;
-                    }
-
-                    if (payCurrency.MinAmount == 0 || payCurrency.MinAmount < depositLimitInfo.DepositMin)
-                    {
-                        bankInfo.MinAmount = depositLimitInfo.DepositMin;
-                    }
+                    depositBLL.FixDepositLimit(bankInfo, depositLimitInfo);
                 }
             }
 

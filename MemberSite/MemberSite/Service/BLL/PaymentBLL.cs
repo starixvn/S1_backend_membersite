@@ -21,9 +21,8 @@ namespace MemberSite.Service.BLL
         private readonly StatementService statementService;
         private readonly SelLangBLL selLangBLL;
         private readonly IMemoryCache cache;
-        private readonly DepositBLL depositBLL;
 
-        public PaymentBLL(IMemoryCache cache, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService, RolloverService rollOverService, StatementService statementService, SelLangBLL selLangBLL, DepositBLL depositBLL)
+        public PaymentBLL(IMemoryCache cache, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService, RolloverService rollOverService, StatementService statementService, SelLangBLL selLangBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.custInfoBLL = custInfoBLL;
@@ -34,7 +33,6 @@ namespace MemberSite.Service.BLL
             this.statementService = statementService;
             this.selLangBLL = selLangBLL;
             this.cache = cache;
-            this.depositBLL = depositBLL;
         }
 
         public int DepositReqLocalBank(int custId, int sysId, decimal amount, string memo, out DepositRep3 depositRep3)
@@ -47,7 +45,7 @@ namespace MemberSite.Service.BLL
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
             var bankAccountOffList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
             List<BankInfoOff> localBankList = bankAccountOffList?.ToList();
-            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfoList = depoistService.GetDepositLimitInfoList();
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -59,15 +57,7 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var localBack in localBankList)
                 {
-                    if (localBack.MaxAmount == 0 || localBack.MaxAmount > depositLimitInfo.DepositMax)
-                    {
-                        localBack.MaxAmount = depositLimitInfo.DepositMax;
-                    }
-
-                    if (localBack.MinAmount == 0 || localBack.MinAmount < depositLimitInfo.DepositMin)
-                    {
-                        localBack.MinAmount = depositLimitInfo.DepositMin;
-                    }
+                    FixDepositLimit(localBack, depositLimitInfo);
                 }
             }
 
@@ -157,7 +147,7 @@ namespace MemberSite.Service.BLL
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var payCurrency = bankInfoBLL.GetPayCurrency().Where(x => x.ChannelId == channelId && custInfo.CurrencyId == x.CurrencyId).FirstOrDefault();
 
-            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfoList = depoistService.GetDepositLimitInfoList();
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
 
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
@@ -169,20 +159,7 @@ namespace MemberSite.Service.BLL
 
             if (depositLimitInfo != null && payCurrency != null)
             {
-                if (payCurrency.MaxAmount == 0 || payCurrency.MaxAmount > depositLimitInfo.DepositMax)
-                {
-                    payCurrency.MaxAmount = depositLimitInfo.DepositMax;
-                }
-
-                if (payCurrency.MinAmount == 0 || payCurrency.MinAmount < depositLimitInfo.DepositMin)
-                {
-                    payCurrency.MinAmount = depositLimitInfo.DepositMin;
-                }
-
-                //if (payCurrency.MinAmount > depositLimitInfo.DepositMax)
-                //{
-                //    depositLimitInfo.DepositMax = payCurrency.MinAmount;
-                //}
+                FixDepositLimit(payCurrency, depositLimitInfo);
             }
 
             if (payCurrency == null || payCurrency.MaxAmount < amount || payCurrency.MinAmount > amount)
@@ -404,6 +381,23 @@ namespace MemberSite.Service.BLL
             }
 
             return withdrawalLimitList;
+        }
+        private void FixDepositLimit(IPaymentLimit paymentLimit, DepositLimitInfo depositLimitInfo)
+        {
+            if (paymentLimit.MaxAmount == 0 || (paymentLimit.MaxAmount > depositLimitInfo.DepositMax && depositLimitInfo.DepositMax != 0))
+            {
+                paymentLimit.MaxAmount = depositLimitInfo.DepositMax;
+            }
+
+            if (paymentLimit.MinAmount == 0 || paymentLimit.MinAmount < depositLimitInfo.DepositMin)
+            {
+                paymentLimit.MinAmount = depositLimitInfo.DepositMin;
+            }
+
+            if (paymentLimit.MinAmount > paymentLimit.MaxAmount)
+            {
+                paymentLimit.MaxAmount = paymentLimit.MinAmount;
+            }
         }
     }
 }

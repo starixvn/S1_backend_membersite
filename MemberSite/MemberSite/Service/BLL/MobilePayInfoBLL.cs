@@ -98,17 +98,9 @@ namespace MemberSite.Service.BLL
 
             if (depositLimitInfo != null && mobilePayInfoList != null)
             {
-                foreach (var mobilePay in mobilePayInfoList)
+                foreach (var mobilePayInfo in mobilePayInfoList)
                 {
-                    if (mobilePay.MaxAmount == 0 || mobilePay.MaxAmount > depositLimitInfo.DepositMax)
-                    {
-                        mobilePay.MaxAmount = depositLimitInfo.DepositMax;
-                    }
-
-                    if (mobilePay.MinAmount == 0 || mobilePay.MinAmount < depositLimitInfo.DepositMin)
-                    {
-                        mobilePay.MinAmount = depositLimitInfo.DepositMin;
-                    }
+                    depositBLL.FixDepositLimit(mobilePayInfo, depositLimitInfo);
                 }
             }
 
@@ -135,15 +127,7 @@ namespace MemberSite.Service.BLL
 
             if (depositLimitInfo != null && mobilePayInfo != null)
             {
-                if (mobilePayInfo.MaxAmount == 0 || mobilePayInfo.MaxAmount > depositLimitInfo.DepositMax)
-                {
-                    mobilePayInfo.MaxAmount = depositLimitInfo.DepositMax;
-                }
-
-                if (mobilePayInfo.MinAmount == 0 || mobilePayInfo.MinAmount < depositLimitInfo.DepositMin)
-                {
-                    mobilePayInfo.MinAmount = depositLimitInfo.DepositMin;
-                }
+                depositBLL.FixDepositLimit(mobilePayInfo, depositLimitInfo);
             }
 
             if (mobilePayInfo == null || mobilePayInfo.MaxAmount < amount || mobilePayInfo.MinAmount > amount)

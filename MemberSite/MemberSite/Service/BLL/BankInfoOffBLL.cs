@@ -77,15 +77,7 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var localBack in localBankList)
                 {
-                    if (localBack.MaxAmount == 0 || localBack.MaxAmount > depositLimitInfo.DepositMax)
-                    {
-                        localBack.MaxAmount = depositLimitInfo.DepositMax;
-                    }
-
-                    if (localBack.MinAmount == 0 || localBack.MinAmount < depositLimitInfo.DepositMin)
-                    {
-                        localBack.MinAmount = depositLimitInfo.DepositMin;
-                    }
+                    depositBLL.FixDepositLimit(localBack, depositLimitInfo);
                 }
             }
 

@@ -15,7 +15,7 @@ namespace MemberSite.Service.Model
         public string BankSite { set; get; }
     }
 
-    public class PaymentFront
+    public class PaymentFront : IPaymentLimit
     {
         public int PayId { get; set; }
         public int ChannelId { get; set; }

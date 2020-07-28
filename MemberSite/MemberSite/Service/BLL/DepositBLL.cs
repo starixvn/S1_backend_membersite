@@ -36,5 +36,22 @@ namespace MemberSite.Service.BLL
 
             return depositLimitInfoList;
         }
+        public void FixDepositLimit(IPaymentLimit paymentLimit, DepositLimitInfo depositLimitInfo)
+        {
+            if (paymentLimit.MaxAmount == 0 || (paymentLimit.MaxAmount > depositLimitInfo.DepositMax && depositLimitInfo.DepositMax != 0))
+            {
+                paymentLimit.MaxAmount = depositLimitInfo.DepositMax;
+            }
+
+            if (paymentLimit.MinAmount == 0 || paymentLimit.MinAmount < depositLimitInfo.DepositMin)
+            {
+                paymentLimit.MinAmount = depositLimitInfo.DepositMin;
+            }
+
+            if (paymentLimit.MinAmount > paymentLimit.MaxAmount)
+            {
+                paymentLimit.MaxAmount = paymentLimit.MinAmount;
+            }
+        }
     }
 }
