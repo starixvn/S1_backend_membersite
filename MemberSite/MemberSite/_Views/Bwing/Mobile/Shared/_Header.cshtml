@@ -74,53 +74,58 @@
                 </div>
             }
             <div class="nav-mobile-main">
-                <ul class="main-nav-mobile">
-                    <li class="nav-item">
+                <div class="main-nav-mobile">
+                    <div class="nav-item">
                         <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() })">
                             <i class="icon icon-menu-home"></i> @selLangBLL.GetResourceValue("lbl_Home")
                         </a>
-                    </li>
-                    <li class="nav-item">
+                    </div>
+                    <div class="nav-item">
                         <a href="@gamingBLL.GetEntPageUrl(1,"1",Url)">
                             <i class="icon icon-menu-sport"></i> @selLangBLL.GetResourceValue("lbl_Sports")
                         </a>
-                    </li>
-                    <li class="nav-item">
+                    </div>
+                    <div class="nav-item">
                         <a class="@(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"43",Url)">
                             <i class="icon icon-menu-esport"></i> @selLangBLL.GetResourceValue("lbl_eSports")
                         </a>
-                    </li>
-                    <li class="nav-item">
+                    </div>
+                    <div class="nav-item">
                         <a href="@gamingBLL.GetEntPageUrl(1,"161",Url)">
                             <i class="icon icon-menu-number"></i>@selLangBLL.GetResourceValue("lbl_NumberGame")
                         </a>
-                    </li>
-                    <li class="nav-item">
+                    </div>
+                    <div class="nav-item">
                         <a href="@gamingBLL.GetEntPageUrl(1,"180",Url)">
                             <i class="icon icon-menu-virtual"></i>@selLangBLL.GetResourceValue("lbl_VirtualSports")
                         </a>
-                    </li>
-                    <li class="nav-item">
+                    </div>
+                    <div class="nav-item">
                         <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
                             <i class="icon icon-menu-casino"></i>@selLangBLL.GetResourceValue("lbl_Casino")
                         </a>
-                    </li>
-                    <li class="nav-item">
+                    </div>
+                    <div class="nav-item">
                         <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() })">
                             <i class="icon icon-menu-live"></i>@selLangBLL.GetResourceValue("lbl_LiveCasino")
                         </a>
-                    </li>
-                    <li class="nav-item">
+                    </div>
+                    <div class="nav-item">
                         <a class=" @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"202",Url)">
                             <i class="icon icon-menu-live"></i>@selLangBLL.GetResourceValue("lbl_Keno")
                         </a>
-                    </li>
-                    <li class="nav-item">
+                    </div>
+                    <div class="nav-item">
+                        <a class=" @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"220",Url)">
+                            <i class="icon icon-menu-live"></i>@selLangBLL.GetResourceValue("lbl_Lottery")
+                        </a>
+                    </div>
+                    <div class="nav-item">
                         <a class="@(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@entFishingPageUrl">
                             <i class="icon icon-menu-fishing"></i>@selLangBLL.GetResourceValue("lbl_Fishing")
                         </a>
-                    </li>
-                </ul>
+                    </div>
+                </div>
                 <div class="languages">
                     <div class="languages-box">
                         <div id="lang_selector" class="language-dropdown">
