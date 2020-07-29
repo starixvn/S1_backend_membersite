@@ -376,7 +376,9 @@ namespace MemberSite.Service.BLL
         public CustInfoProfile GetCustInfoProfile(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return custInfoService.GetCustInfoProfile(custId, custInfo.SiteId);
+            var customer = custInfoService.GetCustInfoProfile(custId, custInfo.SiteId);
+            customer.UserLevel = custInfoService.GetCustLevel(custId);
+            return customer;
         }
         public int SubmittedCustPhotoId(int custId)
         {
