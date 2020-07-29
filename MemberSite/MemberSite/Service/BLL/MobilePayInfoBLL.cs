@@ -37,7 +37,7 @@ namespace MemberSite.Service.BLL
 
                 if (mobilePayInfoList != null)
                 {
-                    cache.Set(key, mobilePayInfoList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(0.01)));
+                    cache.Set(key, mobilePayInfoList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
                 }
             }
 
