@@ -14,6 +14,12 @@
       "refId": [ "nova88c" ]
     },
     {
+      "tpId": 15,
+      "gameId": 15,
+      "img": "banner-ae.jpg",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
       "tpId": 1,
       "gameId": 223,
       "img": "banner-indo4d.jpg",
