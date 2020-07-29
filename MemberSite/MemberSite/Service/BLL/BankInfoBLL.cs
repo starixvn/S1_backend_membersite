@@ -140,7 +140,7 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            return onlinePaymentList;
+            return onlinePaymentList.Where(x => x.MaxAmount > 0);
         }
 
         public IEnumerable<SysBankInfoFront> GetOnlineBankInfoSysList(int custId, int payId)
@@ -198,6 +198,11 @@ namespace MemberSite.Service.BLL
                 if (depositLimitInfo != null)
                 {
                     depositBLL.FixDepositLimit(bankInfo, depositLimitInfo);
+                }
+
+                if (bankInfo.MaxAmount < 0)
+                {
+                    return null;
                 }
             }
 
@@ -260,6 +265,11 @@ namespace MemberSite.Service.BLL
                 if (depositLimitInfo != null)
                 {
                     depositBLL.FixDepositLimit(bankInfo, depositLimitInfo);
+                }
+
+                if (bankInfo.MaxAmount < 0)
+                {
+                    return null;
                 }
             }
 
