@@ -37,7 +37,7 @@ namespace MemberSite.Service.BLL
 
                 if (mobilePayInfoList != null)
                 {
-                    cache.Set(key, mobilePayInfoList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
+                    cache.Set(key, mobilePayInfoList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(0.01)));
                 }
             }
 
@@ -104,7 +104,7 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            return mobilePayInfoList;
+            return mobilePayInfoList.Where(x => x.MaxAmount > 0);
         }
         public int DepositReqMobilePay(int custId, int channelId, decimal amount, out string transId, out MobilePayInfo mobilePayInfo)
         {

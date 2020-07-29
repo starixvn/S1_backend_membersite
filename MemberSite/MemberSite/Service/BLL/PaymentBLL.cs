@@ -384,19 +384,26 @@ namespace MemberSite.Service.BLL
         }
         private void FixDepositLimit(IPaymentLimit paymentLimit, DepositLimitInfo depositLimitInfo)
         {
-            if (paymentLimit.MaxAmount == 0 || (paymentLimit.MaxAmount > depositLimitInfo.DepositMax && depositLimitInfo.DepositMax != 0))
+            if (depositLimitInfo.DepositMin > paymentLimit.MaxAmount || depositLimitInfo.DepositMax < paymentLimit.MinAmount)
             {
-                paymentLimit.MaxAmount = depositLimitInfo.DepositMax;
+                paymentLimit.MaxAmount = -1;
             }
-
-            if (paymentLimit.MinAmount == 0 || paymentLimit.MinAmount < depositLimitInfo.DepositMin)
+            else
             {
-                paymentLimit.MinAmount = depositLimitInfo.DepositMin;
-            }
+                if (paymentLimit.MaxAmount == 0 || (paymentLimit.MaxAmount > depositLimitInfo.DepositMax && depositLimitInfo.DepositMax != 0))
+                {
+                    paymentLimit.MaxAmount = depositLimitInfo.DepositMax;
+                }
 
-            if (paymentLimit.MinAmount > paymentLimit.MaxAmount)
-            {
-                paymentLimit.MaxAmount = paymentLimit.MinAmount;
+                if (paymentLimit.MinAmount == 0 || paymentLimit.MinAmount < depositLimitInfo.DepositMin)
+                {
+                    paymentLimit.MinAmount = depositLimitInfo.DepositMin;
+                }
+
+                if (paymentLimit.MinAmount > paymentLimit.MaxAmount)
+                {
+                    paymentLimit.MaxAmount = paymentLimit.MinAmount;
+                }
             }
         }
     }

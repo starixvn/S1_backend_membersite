@@ -81,8 +81,8 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var _info = (from x in bankAccountOffList
-                         where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
+            var _info = (from x in localBankList
+                         where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.MaxAmount > 0
                          orderby x.PointLevel descending, x.Sort
                          select new SysBankInfoFront
                          {
@@ -95,8 +95,8 @@ namespace MemberSite.Service.BLL
 
             for (var i = 0; i < _info.Count(); i++)
             {
-                var _info1 = (from x in bankAccountOffList
-                              where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && _info[i].SysId == x.SysId
+                var _info1 = (from x in localBankList
+                              where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && _info[i].SysId == x.SysId && x.MaxAmount > 0
                               select new
                               {
                                   x.MinAmount,
