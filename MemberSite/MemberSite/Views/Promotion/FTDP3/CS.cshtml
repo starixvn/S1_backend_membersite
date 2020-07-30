@@ -150,7 +150,7 @@
     <script type="text/javascript">
         $(function() {
            const diff = moment.duration(moment.unix(@promotion.PeriodTo).diff(new Date()))
-            $("#REMAINING").html(diff.days() + " 天" + diff.hours() + " 小时" );
+            $("#REMAINING").html(diff.months()*30+diff.days() + " 天" + diff.hours() + " 小时" );
             var sExpiryTime = moment.unix(@ExpiryTime).format('YYYY年MM月DD日');
             sExpiryTime += moment.unix(@ExpiryTime).format(' HH:mm');
             $("#ExpiryTime").html(sExpiryTime);

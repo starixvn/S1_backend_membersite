@@ -154,8 +154,7 @@
     <script type="text/javascript">
         $(function() {
             const diff = moment.duration(moment.unix(@promotion.PeriodTo).diff(new Date()))
-            diff.
-            $("#REMAINING").html(diff.days() + " วัน" + diff.hours() + " ชั่วโมง" );
+            $("#REMAINING").html(diff.months()*30+diff.days() + " วัน " + diff.hours() + " ชั่วโมง" );
            var sExpiryTime = moment.unix(@ExpiryTime).date() +' วัน '+ (parseInt(moment.unix(@ExpiryTime).get('month'),10) + 1 ) +' เดือน '+ moment.unix(@ExpiryTime).year() +' ปี';
             sExpiryTime += moment.unix(@ExpiryTime).format(' HH:mm');
             $("#ExpiryTime").html(sExpiryTime);

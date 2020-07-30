@@ -160,7 +160,7 @@
     <script type="text/javascript">
         $(function() {
             const diff = moment.duration(moment.unix(@promotion.PeriodTo).diff(new Date()))
-            $("#REMAINING").html(diff.days() + " Hari" + diff.hours() + " Jam" );
+            $("#REMAINING").html(diff.months()*30+diff.days() + " Hari " + diff.hours() + " Jam" );
             var sExpiryTime = 'Tanggal '+ moment.unix(@ExpiryTime).date() +' bulan '+ (parseInt(moment.unix(@ExpiryTime).get('month'),10) + 1 ) +' tahun '+ moment.unix(@ExpiryTime).year();
             sExpiryTime += moment.unix(@ExpiryTime).format(' HH:mm');
             $("#ExpiryTime").html(sExpiryTime);
