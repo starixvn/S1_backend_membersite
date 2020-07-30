@@ -14,6 +14,15 @@
       "refId": [ "nova88c" ]
     },
     {
+      "actionLink": "Promotion/Bonus?BonusCode=MillionHighroller",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-MillionHighroller.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ],
+      "refId": [ "nova88c" ]
+    },
+    {
       "tpId": 15,
       "gameId": 15,
       "img": "banner-ae.jpg",
