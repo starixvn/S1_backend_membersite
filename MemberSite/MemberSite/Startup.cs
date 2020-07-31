@@ -150,7 +150,7 @@ namespace MemberSite
                 options.AddPolicy(name: AllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:8000", "http://localhost:3000", "http://10.168.11.11:8080", "http://10.168.11.14:8080", "https://m.nova88.net")
+                                      builder.WithOrigins("http://localhost:8000", "http://localhost:3000", "http://10.168.11.11:8080", "http://10.168.11.14:8080", "https://m.nova88.net", "http://stag1.bwing.com")
                                       .AllowAnyHeader()
                                         .AllowAnyMethod()
                                         .AllowCredentials();
