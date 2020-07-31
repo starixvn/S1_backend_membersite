@@ -3215,3 +3215,25 @@ p.bank-name{
 .bankinfo-block .table-content .tbl-account #Bank_Account_List tr td.text-center img{
   width: auto;
 }
+
+.main-nav .nav-item .snav-item {
+    position: absolute;
+    background: rgba(0,0,0,0.8);
+    margin-top: 3px;
+    display: none;
+}
+
+.main-nav .nav-item .snav-item a {
+    color: #fff;
+    height: auto;
+}
+
+.main-nav .nav-item .snav-item a:hover {
+    background: rgba(53,150,255,0.5);
+    border: 1px solid rgba(53,150,255,1);
+}
+
+.main-nav .nav-item a i {
+    transform: rotate(-45deg) translateY(-75%);
+    margin-left: 15px;
+}

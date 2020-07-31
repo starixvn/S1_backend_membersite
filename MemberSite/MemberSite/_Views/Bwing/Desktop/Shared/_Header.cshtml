@@ -28,6 +28,15 @@
         CurrencyId = selLangBLL.GetPreferCurrencyId();
     }
 }
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('.lotteryBtn').click(function () {
+                $('.snav-item').toggle()
+            })
+        }
+    </script>
+}
 <header class="header @(User.Identity.IsAuthenticated ? "is-login":"")">
     <div class="header-top-right container">
         @if (!User.Identity.IsAuthenticated)
@@ -188,9 +197,7 @@
         <div class="container">
             <div class="main-nav">
                 <div class="nav-logo">
-                    <a aria-current="page"
-                       class="logo-header active"
-                       href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() })">
+                    <a aria-current="page" class="logo-header active" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() })">
                         <img src="~/SiteSkin/Bwing/Desktop/images/logo.png" alt="@serverInfo.SiteName" />
                     </a>
                 </div>
@@ -204,11 +211,6 @@
                         @selLangBLL.GetResourceValue("lbl_eSports")
                     </a>
                 </div>
-                @*<div class="nav-item">
-                        <a href="@gamingBLL.GetEntPageUrl(1,"161",Url)">
-                            @selLangBLL.GetResourceValue("lbl_NumberGame")
-                        </a>
-                    </div>*@
                 <div class="nav-item">
                     <a class="@(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"200",Url)">
                         Saba Club
@@ -229,18 +231,22 @@
                         @selLangBLL.GetResourceValue("lbl_LiveCasino")
                     </a>
                 </div>
-                <div class="nav-item">
-                    <a class=" @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"202",Url)">
-                        @selLangBLL.GetResourceValue("lbl_Keno")
-                    </a>
+                <div class="nav-item lotteryBtn">
+                    <a>@selLangBLL.GetResourceValue("lbl_Lottery")<i class="icon icon-arrow-down"></i></a>
+                    <div class="snav-item">
+                        <a class="@(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"220",Url)">
+                            @selLangBLL.GetResourceValue("lbl_Lottery")
+                        </a>
+                        <a class="@(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"202",Url)">
+                            @selLangBLL.GetResourceValue("lbl_Keno")
+                        </a>
+                        <a href="@gamingBLL.GetEntPageUrl(1,"161",Url)">
+                            @selLangBLL.GetResourceValue("lbl_NumberGame")
+                        </a>
+                    </div>
                 </div>
                 <div class="nav-item">
-                    <a class=" @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"220",Url)">
-                        @selLangBLL.GetResourceValue("lbl_Lottery")
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a class=" @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@entFishingPageUrl">
+                    <a class="@(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@entFishingPageUrl">
                         @selLangBLL.GetResourceValue("lbl_Fishing")
                     </a>
                 </div>
@@ -248,3 +254,5 @@
         </div>
     </nav>
 </header>
+
+
