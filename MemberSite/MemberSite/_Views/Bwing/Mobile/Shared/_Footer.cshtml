@@ -85,12 +85,18 @@
         </div>
         <div class="menu-footer">
             <div class="item footer-promotions">
-                <p class="title">@selLangBLL.GetResourceValue("lbl_Affiliates") - @selLangBLL.GetResourceValue("lbl_Promotion")</p>
+                <p class="title">@*@selLangBLL.GetResourceValue("lbl_Affiliates") -*@ @selLangBLL.GetResourceValue("lbl_Promotion")</p>
                 <ul class="item-list">
+                    @*<li>
+                        <a class="link-footer" href="https://aff.bwing.com" target="_temp">
+                            @selLangBLL.GetResourceValue("lbl_Affiliates")
+                        </a>
+                    </li>*@
                     <li>
-                        <a class="link-footer" href="https://aff.bwing.com" target="_temp">@selLangBLL.GetResourceValue("lbl_Affiliates")</a>
+                        <a class="link-footer" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })" target="_temp">
+                            @selLangBLL.GetResourceValue("lbl_Promotion")
+                        </a>
                     </li>
-                    <li><a class="link-footer" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })" target="_temp">@selLangBLL.GetResourceValue("lbl_Promotion")</a></li>
                 </ul>
             </div>
             <div class="item about-us">
