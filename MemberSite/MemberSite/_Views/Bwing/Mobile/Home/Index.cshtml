@@ -16,6 +16,7 @@
 @inject Tools tools
 @inject CourierAdapter courierAdapter
 @inject GamingBLL gamingBLL
+@inject BannerBLL bannerBLL
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
@@ -54,22 +55,67 @@
     {
         entFishingPageUrl = "javascript:void(0);";
     }
+
+    var BannerList = bannerBLL.GetBanner(CurrencyId, "Promotion");
+    var langId = selLangBLL.GetLangId();
+    var banner_CurrencyId = !User.Identity.IsAuthenticated && CurrencyId == 13 ? 2 : CurrencyId;
+    var bannerFromDB = bannerBLL.GetBannerFromDB(banner_CurrencyId, langId);
 }
 
-<div class="home-slider">
-    <div class="slide-item">
-        <img alt="" src="~/SiteSkin/Bwing/Mobile/assets/images/banner/slider-1.png" />
-        <div class="slide-inside container"></div>
+    <div class="home-slider">
+        @foreach (var b in bannerFromDB)
+        {
+            <div class="slide-item">
+                <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
+                    <img src="@b.imgURL" asp-append-version="true" />
+                    <div class="slide-inside container"></div>
+                </a>
+            </div>
+        }
+
+        @foreach (var b in BannerList)
+        {
+            if (!string.IsNullOrEmpty(b.actionLink))
+            {
+                if (b.urlWithLang)
+                {
+                    <div class="slide-item">
+                        <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
+                            <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                            <div class="slide-inside container"></div>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="slide-item">
+                        <a href='@Url.Content($"~/{b.actionLink}")'>
+                            <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                            <div class="slide-inside container"></div>
+                        </a>
+                    </div>
+                }
+            }
+            else if (b.tpId != null)
+            {
+                <div class="swiper-slide">
+                    <a class="swiper-slide  @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl((int)b.tpId, b.gameId?.ToString(), Url)">
+                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="swiper-slide">
+                    <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                </div>
+            }
+        }
     </div>
 
-    <div class="slide-item">
-        <img alt="" src="~/SiteSkin/Bwing/Mobile/assets/images/banner/slider-1.png" />
-        <div class="slide-inside container"></div>
-    </div>
-</div>
 <div class="notification container">
     <span class="icon icon-noti"></span>
-        <div id="Marquee"></div>
+    <div id="Marquee"></div>
 </div>
 
 <div class="container center-content">
@@ -272,30 +318,30 @@
 
             if (balance < 1m)
             {
-    <div class="modal" id="DepositAlet" data-open="false">
-        <div class="overlay Js-DepositAlet"></div>
-        <div class="modal__dialog">
-            <div class="modal__header">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_Notice")</span>
-            </div>
-            <div class="modal__body">
-                <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlert"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), balance.ToString("#,##0.##")))</p>
-                <br>
-            </div>
-            <div class="modal__footer">
-                <div class="btn-group">
-                    <button class="btn btn-primary Js-DepositAlet" type="button">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_Later")</span>
-                    </button>
-                    <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_DepositNow")</span>
-                    </a>
+                <div class="modal" id="DepositAlet" data-open="false">
+                    <div class="overlay Js-DepositAlet"></div>
+                    <div class="modal__dialog">
+                        <div class="modal__header">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_Notice")</span>
+                        </div>
+                        <div class="modal__body">
+                            <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlert"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), balance.ToString("#,##0.##")))</p>
+                            <br>
+                        </div>
+                        <div class="modal__footer">
+                            <div class="btn-group">
+                                <button class="btn btn-primary Js-DepositAlet" type="button">
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Later")</span>
+                                </button>
+                                <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_DepositNow")</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    @:<script>DepositAlert = 1;</script>
+                @:<script>DepositAlert = 1;</script>
             }
             var option = new Microsoft.AspNetCore.Http.CookieOptions();
             option.Expires = DateTime.Now.AddDays(1);

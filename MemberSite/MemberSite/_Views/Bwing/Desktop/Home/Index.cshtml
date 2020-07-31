@@ -16,6 +16,7 @@
 @inject Tools tools
 @inject CourierAdapter courierAdapter
 @inject GamingBLL gamingBLL
+@inject BannerBLL bannerBLL
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
@@ -54,23 +55,67 @@
     {
         entFishingPageUrl = "javascript:void(0);";
     }
+
+    var BannerList = bannerBLL.GetBanner(CurrencyId, "Promotion");
+    var langId = selLangBLL.GetLangId();
+    var banner_CurrencyId = !User.Identity.IsAuthenticated && CurrencyId == 13 ? 2 : CurrencyId;
+    var bannerFromDB = bannerBLL.GetBannerFromDB(banner_CurrencyId, langId);
 }
 <!-- Slider -->
 <div class="home-slider">
-    <div class="slide-item">
-        <img alt="" src="~/SiteSkin/Bwing/Desktop/images/slider-1.png" />
-        <div class="slide-inside container"></div>
-    </div>
+    @foreach (var b in bannerFromDB)
+    {
+        <div class="slide-item">
+            <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
+                <img src="@b.imgURL" asp-append-version="true" />
+                <div class="slide-inside container"></div>
+            </a>
+        </div>
+    }
 
-    <div class="slide-item">
-        <img alt="" src="~/SiteSkin/Bwing/Desktop/images/slider-1.png" />
-        <div class="slide-inside container"></div>
-    </div>
+    @foreach (var b in BannerList)
+    {
+        if (!string.IsNullOrEmpty(b.actionLink))
+        {
+            if (b.urlWithLang)
+            {
+                <div class="slide-item">
+                    <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
+                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                        <div class="slide-inside container"></div>
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="slide-item">
+                    <a href='@Url.Content($"~/{b.actionLink}")'>
+                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                        <div class="slide-inside container"></div>
+                    </a>
+                </div>
+            }
+        }
+        else if (b.tpId != null)
+        {
+            <div class="swiper-slide">
+                <a class="swiper-slide  @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl((int)b.tpId, b.gameId?.ToString(), Url)">
+                    <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="swiper-slide">
+                <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+            </div>
+        }
+    }
 </div>
 
 <!-- Notification -->
-<div class="notification container"  id="Marquee">
-    
+<div class="notification container" id="Marquee">
+
 </div>
 <!--  -->
 <div class="container center-content">

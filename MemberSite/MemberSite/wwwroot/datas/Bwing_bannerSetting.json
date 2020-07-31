@@ -3,9 +3,16 @@
     {
       "actionLink": "Home/Register",
       "urlWithLang": true,
-      "img": "banner-Welcome.jpg",
+      "img": "Banner-slider-1.png",
       "currencyId": [ 51 ],
-      "lang": [ "th", "id", "en", "cs" ]
+      "lang": [ "en", "vn" ]
+    },
+    {
+      "actionLink": "Home/Register",
+      "urlWithLang": true,
+      "img": "banner-Saba.png",
+      "currencyId": [ 51 ],
+      "lang": [ "en", "vn"]
     }
   ],
   "Casino": [

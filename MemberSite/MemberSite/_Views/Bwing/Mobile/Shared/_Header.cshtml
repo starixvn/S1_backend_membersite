@@ -36,14 +36,14 @@
     <div class="header-top-right">
         @if (!User.Identity.IsAuthenticated)
         {
-        <div class="before-login">
-            <button class="btn btn-login" data-remodal-target="modal-login">
-                @selLangBLL.GetResourceValue("lbl_Login")
-            </button>
-            <button class="btn btn-register" data-remodal-target="modal-register">
-                @selLangBLL.GetResourceValue("lbl_Register")
-            </button>
-        </div>
+            <div class="before-login">
+                <button class="btn btn-login" data-remodal-target="modal-login">
+                    @selLangBLL.GetResourceValue("lbl_Login")
+                </button>
+                <button class="btn btn-register" data-remodal-target="modal-register">
+                    @selLangBLL.GetResourceValue("lbl_Register")
+                </button>
+            </div>
         }
     </div>
     <div class="nav-mobile-overlay">
@@ -90,9 +90,14 @@
                             <i class="icon icon-menu-esport"></i> @selLangBLL.GetResourceValue("lbl_eSports")
                         </a>
                     </div>
+                    @*<div class="nav-item">
+                            <a href="@gamingBLL.GetEntPageUrl(1,"161",Url)">
+                                <i class="icon icon-menu-number"></i>@selLangBLL.GetResourceValue("lbl_NumberGame")
+                            </a>
+                        </div>*@
                     <div class="nav-item">
-                        <a href="@gamingBLL.GetEntPageUrl(1,"161",Url)">
-                            <i class="icon icon-menu-number"></i>@selLangBLL.GetResourceValue("lbl_NumberGame")
+                        <a class="@(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"200",Url)">
+                            <i class="icon icon-menu-number"></i>Saba Club
                         </a>
                     </div>
                     <div class="nav-item">
@@ -171,10 +176,10 @@
                             </span><span>@selLangBLL.GetResourceValue("lbl_Profile")</span>
                         </a>
                         @*<a href="@Url.RouteUrl("desktop", new { action="Index" , controller="Promotion" , LangId=selLangBLL.GetLangId() })" class="system-item">
-                            <span class="system-icon">
-                                <i class="icon icon-promotion"></i>
-                            </span><span>@selLangBLL.GetResourceValue("lbl_Promotion")</span>
-                        </a>*@
+                                <span class="system-icon">
+                                    <i class="icon icon-promotion"></i>
+                                </span><span>@selLangBLL.GetResourceValue("lbl_Promotion")</span>
+                            </a>*@
                         <a href="@Url.RouteUrl("desktop", new { action="ChangePwd" , controller="Account" , LangId=selLangBLL.GetLangId() })" class="system-item">
                             <span class="system-icon">
                                 <i class="icon icon-key"></i>

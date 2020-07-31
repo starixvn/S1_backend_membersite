@@ -204,9 +204,14 @@
                         @selLangBLL.GetResourceValue("lbl_eSports")
                     </a>
                 </div>
+                @*<div class="nav-item">
+                        <a href="@gamingBLL.GetEntPageUrl(1,"161",Url)">
+                            @selLangBLL.GetResourceValue("lbl_NumberGame")
+                        </a>
+                    </div>*@
                 <div class="nav-item">
-                    <a href="@gamingBLL.GetEntPageUrl(1,"161",Url)">
-                        @selLangBLL.GetResourceValue("lbl_NumberGame")
+                    <a class="@(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"200",Url)">
+                        Saba Club
                     </a>
                 </div>
                 <div class="nav-item">
@@ -240,6 +245,6 @@
                     </a>
                 </div>
             </div>
-            </div>
+        </div>
     </nav>
 </header>
