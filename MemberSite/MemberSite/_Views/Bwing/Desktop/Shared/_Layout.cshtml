@@ -312,6 +312,10 @@
       $("#menu-toggle").click(function () {
         $(".header-nav").toggleClass("open");
       });
+
+    $('#lotteryBtn').click(function () {
+        $('#lotteryBtn_snav').toggle();
+    })
     </script>
 
     @if (environment.EnvironmentName == "Development")
