@@ -29,7 +29,7 @@ namespace MemberSite.Service.BLL
                 if (depositLimitInfoList != null)
                 {
                     var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(0.05));
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
                     cache.Set(key, depositLimitInfoList, cacheEntryOptions);
                 }
             }

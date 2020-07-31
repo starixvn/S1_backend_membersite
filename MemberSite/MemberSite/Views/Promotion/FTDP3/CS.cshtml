@@ -57,7 +57,7 @@
         </div>
         <div class="promotions-module">
             <h2>100% 欢迎红利，高达 MYR 388</h2>
-            <h3>立即加入！在 “Nova88“ 完成第一笔存款以享受高达 MYR388 的优惠奖金！</h3>
+            <h3>立即加入！在 “@serverInfo.SiteName“ 完成第一笔存款以享受高达 MYR388 的优惠奖金！</h3>
         </div>
         <div class="promotions-module">
             <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
@@ -97,7 +97,7 @@
                 <li>此促销优惠仅适用于马币会员。<br><br></li>
                 <li>此促销活动于2020年7月13日00:00:00（GMT + 8）开始，截止日期另行通知。<br><br></li>
                 <li>玩家必须先进行首存，并且没有申请过提款请求 ，以获得红利资格。<br><br></li>
-                <li>登入 Nova88 账号后，在优惠活动专用条款和条件页面，点击“立即加入”以获得红利资格。<br><br></li>
+                <li>登入 @serverInfo.SiteName 账号后，在优惠活动专用条款和条件页面，点击“立即加入”以获得红利资格。<br><br></li>
             </ol>
 
             <span class="promotions-title">举例：</span>
@@ -136,16 +136,13 @@
                 <li>有效投注额仅包括以下产品：体育博彩，电子竞技，百练赛及虚拟运动。即时兑现及其他产品有效投注额将不计算在内。<br><br></li>
                 <li>符合资格的会员在优惠期间只能领取一次“首存优惠奖金”，如果会员在优惠期间申请了多次“首存优惠奖金”，只有第一笔的“首存优惠奖金”被视为有效，而其他申请将被视为无效。<br><br></li>
                 <li>在奖金未注入您的账号之前请勿提款，否则将失去领取奖金的资格。<br><br></li>
-                <li>有效投注额仅计算在 Nova88 投注产生输赢结果的注单。注单取消或本金退还，任何赔率低于标准盘1.5、中国盘0.5、马来盘正数赔率0.5、印度尼西亚盘-2.0、美国盘-200的投注，及在同一局游戏中同时投注对等盘口的注单将不计算为有效投注额内。<br><br></li>
+                <li>有效投注额仅计算在 @serverInfo.SiteName 投注产生输赢结果的注单。注单取消或本金退还，任何赔率低于标准盘1.5、中国盘0.5、马来盘正数赔率0.5、印度尼西亚盘-2.0、美国盘-200的投注，及在同一局游戏中同时投注对等盘口的注单将不计算为有效投注额内。<br><br></li>
                 <li>当会员的投注额未达到上述条款要求，且账户现金余额少于马币 5 时，则无需继续履行此优惠规则与条款。<br><br></li>
                 <li>此促销优惠仅适用于MYR，THB到IDR货币<br><br></li>
-                <li>Nova88 有权随时中止或取消本优惠。<br><br></li>
-                <li>Nova88 保留对本优惠的最终解释权。<br><br></li>
-                <li>Nova88 标准规则和条款适用。<br><br></li>
+                <li>@serverInfo.SiteName 有权随时中止或取消本优惠。<br><br></li>
+                <li>@serverInfo.SiteName 保留对本优惠的最终解释权。<br><br></li>
+            	<li>@serverInfo.SiteName <a class="text-link" href="@StaticRootPath/Promotion.html" target="_blank">标准规则和条款</a>适用。</li>
             </ol>
-
-
-
         </div>
     </div>
 </div>
@@ -153,7 +150,7 @@
     <script type="text/javascript">
         $(function() {
            const diff = moment.duration(moment.unix(@promotion.PeriodTo).diff(new Date()))
-            $("#REMAINING").html(diff.days() + " 天" + diff.hours() + " 小时" );
+            $("#REMAINING").html(diff.months()*30+diff.days() + " 天" + diff.hours() + " 小时" );
             var sExpiryTime = moment.unix(@ExpiryTime).format('YYYY年MM月DD日');
             sExpiryTime += moment.unix(@ExpiryTime).format(' HH:mm');
             $("#ExpiryTime").html(sExpiryTime);
