@@ -108,6 +108,7 @@ class SubmitMobilePay extends Component {
 	render() {
 		let rows = this.props.MobilePayInfoList.map(b => {
 			let checked = this.state.channelId === b.channelId;
+			let key = `onlineBank-rb-${b.groupId}-${b.channelName}`;
 			return (
 				<div
 					className="card"
@@ -219,7 +220,11 @@ class SubmitMobilePay extends Component {
 export default class MobilePay extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { MobilePayGroup: false, MobilePayInfoList: null };
+		this.state = {
+			MobilePayGroup: false,
+			MobilePayInfoList: null,
+			MobilePayGroupList: null
+		};
 	}
 	componentDidMount() {
 		this.getMobilePayGroup();
@@ -315,8 +320,8 @@ export default class MobilePay extends Component {
 			});
 
 		return this.state.MobilePayGroup === false ? (
-			this.state.MobilePayInfoList === null ||
-			this.state.MobilePayInfoList.length === 0 ? (
+			this.state.MobilePayGroupList === null ||
+			this.state.MobilePayGroupList.length === 0 ? (
 				<></>
 			) : (
 				<>

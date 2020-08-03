@@ -34,6 +34,9 @@ class DepositPanel extends Component {
 	};
 	hangleSubPage = (isSub, page) => {
 		this.setState({ clickSub: isSub, page: page });
+		if (isSub === false) {
+			this.GetDepositInfoRecent();
+		}
 	};
 	ViewAll = () => {
 		window.location.href = hrefAllTrans;
@@ -92,7 +95,31 @@ class DepositPanel extends Component {
 										{i18n.lbl_RecentTransactions}
 									</span>
 								</div>
-								{historyBodyData}
+								<table>
+									<thead>
+										<tr>
+											<th className="td-date">
+												{i18n.lbl_Date}
+											</th>
+											<th className="td-time">
+												{i18n.lbl_Time}
+											</th>
+											<th className="td-id">
+												{i18n.lbl_ID}
+											</th>
+											<th className="td-method">
+												{i18n.lbl_Method}
+											</th>
+											<th className="td-amount">
+												{i18n.lbl_Amount}
+											</th>
+											<th className="td-status">
+												{i18n.lbl_Status}
+											</th>
+										</tr>
+									</thead>
+									<tbody>{historyBodyData}</tbody>
+								</table>
 								<div className="button-block">
 									<button
 										className="btn btn-primary"

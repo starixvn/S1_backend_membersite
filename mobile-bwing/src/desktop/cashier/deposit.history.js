@@ -100,20 +100,6 @@ export default class RecentHistoryBody extends React.Component {
 		);
 
 		let dateStr = moment(data[0].createTime).format("YYYY/MM/DD");
-		return (
-			<table>
-				<thead>
-					<tr>
-						<th className="td-date">{i18n.lbl_Date}</th>
-						<th className="td-time">{i18n.lbl_Time}</th>
-						<th className="td-id">{i18n.lbl_ID}</th>
-						<th className="td-method">{i18n.lbl_Method}</th>
-						<th className="td-amount">{i18n.lbl_Amount}</th>
-						<th className="td-status">{i18n.lbl_Status}</th>
-					</tr>
-				</thead>
-				<tbody>{rows}</tbody>
-			</table>
-		);
+		return rows;
 	}
 }
