@@ -474,7 +474,7 @@ class SubmitLocalBank extends Component {
 			);
 	};
 	OnSubmit = () => {
-		let checked = this.handleCheckAmount(real_amount);
+		let checked = this.handleCheckAmount(this.state.Amount);
 		if (checked.status == 3) {
 			this.setState({ showTodModal: true });
 		} else {
@@ -577,7 +577,11 @@ class SubmitLocalBank extends Component {
 							<div className="confirm-value">
 								<span>{i18n.lbl_DepositAmount}</span>
 								<span className="text-bold value">
-									{number_format(this.state.Amount)}
+									{number_format(
+										IsConvertRequired === true
+											? Number(this.state.Amount) * 1000
+											: Number(this.state.Amount)
+									)}
 								</span>
 							</div>
 						</div>
