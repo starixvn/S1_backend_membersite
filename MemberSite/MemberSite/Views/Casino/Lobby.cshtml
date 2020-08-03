@@ -55,11 +55,22 @@
                     }
                     else
                     {
-                        <div class="swiper-slide">
-                            <a href='@Url.Content($"~/{b.actionLink}")' target="_event">
-                                <img src="@CmsEventPath/@(b.img)" asp-append-version="true" />
-                            </a>
-                        </div>
+                        if (b.outerLink)
+                        {
+                            <div class="swiper-slide">
+                                <a href='@Url.Content($"{b.actionLink}")' target="_event">
+                                    <img src="@CmsEventPath/@(b.img)" asp-append-version="true" />
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="swiper-slide">
+                                <a href='@Url.Content($"~/{b.actionLink}")' target="_event">
+                                    <img src="@CmsEventPath/@(b.img)" asp-append-version="true" />
+                                </a>
+                            </div>
+                        }
                     }
                 }
                 else
@@ -72,36 +83,8 @@
         </div>
         <div class="swiper-pagination"></div>
     </div>
-            @*<div class="lobby-banner-swiper">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            @if (selLangBLL.GetLangId() == "cs" || selLangBLL.GetLangId() == "ch")
-                            {
-                                <a href="https://pp88.asia/zh/tournament/slots-championship-zh/" target="_event">
-                                    <img src="@CmsEventPath/event-pp-20200508.png" asp-append-version="true" />
-                                </a>
-                            }
-                            else
-                            {
-                                <a href="https://pp88.asia/tournament/daily-wins-slot-championship/" target="_event">
-                                    <img src="@CmsEventPath/event-pp-20200508.png" asp-append-version="true" />
-                                </a>
-                            }
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="@CmsEventPath/LuckyNekobanner.jpg" asp-append-version="true" />
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="/@selLangBLL.GetLangId()/Promotion/Bonus?BonusCode=YGGJackpotHunt" target="_event">
-                                <img src="@CmsEventPath/event-YGGJackpotHunt.jpg" asp-append-version="true" />
-                            </a>
-                        </div>
-                    </div>
-                    <div class="swiper-pagination"></div>
-                </div>*@
-
-            <div class="page CasinoSelect" id="casino_content"></div>
-        </div>
+    <div class="page CasinoSelect" id="casino_content"></div>
+    </div>
         @{
             IEnumerable<dynamic> result = null;
             IEnumerable<int> tpIds = null;

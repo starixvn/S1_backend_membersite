@@ -90,11 +90,22 @@
                         }
                         else
                         {
-                            <div class="swiper-slide">
-                                <a href='@Url.Content($"~/{b.actionLink}")'>
-                                    <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                                </a>
-                            </div>
+                            if (b.outerLink)
+                            {
+                                <div class="swiper-slide">
+                                    <a href='@Url.Content($"{b.actionLink}")' target="_event">
+                                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="swiper-slide">
+                                    <a href='@Url.Content($"~/{b.actionLink}")' target="_event">
+                                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                                    </a>
+                                </div>
+                            }
                         }
                     }
                     else if (b.tpId != null)

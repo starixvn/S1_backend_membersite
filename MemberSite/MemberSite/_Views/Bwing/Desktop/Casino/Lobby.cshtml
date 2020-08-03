@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Hosting
 @using MemberSite.Service.BLL
 @using MemberSite.Service.Model
+@using System.Security.Claims
 @inject IWebHostEnvironment environment
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
@@ -9,36 +10,80 @@
 @inject AuthorizeBLL authorizeBLL
 @inject CustInfoBLL custInfoBLL
 @inject CasinoBLL casinoBLL
+@inject BannerBLL bannerBLL
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Title") + '|' + @selLangBLL.GetResourceValue("lbl_TitleDesc") + "|" + @selLangBLL.GetResourceValue("lbl_Casino");
     Layout = $"~/_Views/{serverInfo.SiteName}/Desktop/Shared/_Layout.cshtml";
-    
+
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
     //var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Mobile");
     var CmsEventPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Casino/{selLangBLL.GetLangId()}");
+    int CurrencyId = 0;
+    Customer customer = null;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        customer = custInfoBLL.GetCustInfoWithCache(custId);
+        CurrencyId = customer.CurrencyId;
+    }
+    else
+    {
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+    }
+    var BannerList = bannerBLL.GetBanner(CurrencyId, "Casino");
+    var langId = selLangBLL.GetLangId();
 }
 @section Style{
     <link rel="stylesheet" href="@SkinRootPath/css/CasinoLobby.css" asp-append-version="true">
-    <link rel="stylesheet" href="~/SiteSkin/Bwing/Desktop/assets/css/swiper.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/SiteSkin/Bwing/Desktop/assets/css/swiper.css" asp-append-version="true" />
 }
 <div class="main">
     <div class="lobby-banner-swiper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <a href="@Url.RouteUrl("desktop", new { action = "event", controller = "events", LangId = selLangBLL.GetLangId(), eventName="PP" })" target="_eventPP">
-                    <img src="@CmsEventPath/event-pp-20200508.png" asp-append-version="true" />
-                </a>
-            </div>
-            <div class="swiper-slide">
-                <a href="@Url.RouteUrl("desktop", new { action = "event", controller = "events", LangId = selLangBLL.GetLangId(), eventName="YGG" })" target="_eventYGG">
-                    <img src="@CmsEventPath/event-ygg-20200508.png" asp-append-version="true" />
-                </a>
-            </div>
+            @foreach (var b in BannerList)
+            {
+                if (!string.IsNullOrEmpty(b.actionLink))
+                {
+                    if (b.urlWithLang)
+                    {
+                        <div class="swiper-slide">
+                            <a href='@Url.Content($"~/{langId}/{b.actionLink}")' target="_event">
+                                <img src="@CmsEventPath/@(b.img)" asp-append-version="true" />
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        if (b.outerLink)
+                        {
+                            <div class="swiper-slide">
+                                <a href='@Url.Content($"{b.actionLink}")' target="_event">
+                                    <img src="@CmsEventPath/@(b.img)" asp-append-version="true" />
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="swiper-slide">
+                                <a href='@Url.Content($"~/{b.actionLink}")' target="_event">
+                                    <img src="@CmsEventPath/@(b.img)" asp-append-version="true" />
+                                </a>
+                            </div>
+                        }
+                    }
+                }
+                else
+                {
+                    <div class="swiper-slide">
+                        <img src="@CmsEventPath/@(b.img)" asp-append-version="true" />
+                    </div>
+                }
+            }
         </div>
         <div class="swiper-pagination"></div>
     </div>
-
     <div class="page CasinoSelect" id="casino_content"></div>
 </div>
 @{

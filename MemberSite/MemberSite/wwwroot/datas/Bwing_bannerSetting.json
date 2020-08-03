@@ -1,18 +1,14 @@
 {
   "Promotion": [
     {
-      "actionLink": "Home/Register",
-      "urlWithLang": true,
-      "img": "Banner-slider-1.png",
-      "currencyId": [ 51 ],
-      "lang": [ "en", "vn" ]
+      "tpId": 1,
+      "gameId": 1,
+      "img": "Banner-slider-1.png"
     },
     {
-      "actionLink": "Home/Register",
-      "urlWithLang": true,
-      "img": "banner-Saba.png",
-      "currencyId": [ 51 ],
-      "lang": [ "en", "vn"]
+      "tpId": 1,
+      "gameId": 200,
+      "img": "banner-Saba.png"
     }
   ],
   "Casino": [
@@ -20,7 +16,23 @@
       "actionLink": "https://pp88.asia/tournament/daily-wins-slot-championship/",
       "outerLink": true,
       "img": "event-pp-20200508.png",
-      "lang": [ "en", "vn"]
+      "lang": [ "en", "vn" ]
+    },
+    {
+      "actionLink": "https://pp88.asia/tournament/to-be-number-one-weekly-tournament/",
+      "outerLink": true,
+      "img": "event-pp-20200623.jpg",
+      "lang": [ "en", "vn" ]
+    },
+    {
+      "img": "LuckyNekobanner.jpg",
+      "lang": [ "en", "vn" ]
+    },
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=YGGJackpotHunt",
+      "outerLink": true,
+      "img": "event-YGGJackpotHunt.jpg",
+      "lang": [ "en", "vn" ]
     }
   ]
 }

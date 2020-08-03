@@ -824,9 +824,11 @@ a {
 }
 
 .dropdown-hover .dropdown-wallet {
-  padding: 0;
-  width: 27rem;
-  color: #3d3d3d;
+    padding: 0;
+    width: 27rem;
+    color: #3d3d3d;
+    display: block;
+    border-radius: 0;
 }
 
 .dropdown-wallet .checkbox {
@@ -900,7 +902,13 @@ a {
 }
 
 .header-top-right .btn {
-  margin-left: 1rem;
+    margin-left: 1rem;
+    border-radius: 0;
+    color: #fff;
+}
+
+.icon-logout:before {
+    display: none;
 }
 
 .hide {
@@ -3237,3 +3245,8 @@ p.bank-name{
     transform: rotate(-45deg) translateY(-75%);
     margin-left: 15px;
 }
+
+.dropdown-wallet .wallet-item .icon-refresh:before {
+    display: none;
+}
+

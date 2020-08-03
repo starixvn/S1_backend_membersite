@@ -538,7 +538,7 @@
                             iGameId = parseInt(GameId);
                         }
 
-                        if (iGameId > 200 || iGameId == 43) {
+                        if (iGameId >= 200 || iGameId == 43) {
                             window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
                         } else {
                             window.location.href = GameUrl;
