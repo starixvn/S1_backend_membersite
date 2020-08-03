@@ -32,6 +32,7 @@ class SubmitMobilePay extends Component {
 	handleCheckAmount = value => {
 		let status = 1;
 		let message = "";
+		value = IsConvertRequired === true ? value * 1000 : value;
 		let data = this.state.selectPayment;
 		if (data === null) {
 			status = 4;
@@ -88,13 +89,17 @@ class SubmitMobilePay extends Component {
 					break;
 				}
 			}
+			let real_amount =
+				IsConvertRequired === true
+					? this.state.Amount * 1000
+					: this.state.Amount;
 
 			window.open(
 				MobilePayUrl +
 					"?ChannelId=" +
 					mobilePayInfo.channelId +
 					"&Amount=" +
-					this.state.Amount
+					real_amount
 			);
 
 			this.props.ClickBack();

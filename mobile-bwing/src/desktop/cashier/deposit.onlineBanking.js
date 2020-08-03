@@ -7,7 +7,19 @@ class SubmitOnlineBanking extends Component {
 		this.state = { SelectBank: null };
 	}
 	OnSelect = bank => {
-		this.setState({ SelectBank: bank });
+		axios
+			.post("/api/Payment/GetOnlineBankInfo", {
+				payId: this.props.PayId,
+				sysId: bank.sysId
+			})
+			.then(
+				function (response) {
+					let result = response.data;
+					if (result.errorCode == 0) {
+						this.setState({ SelectBank: result.data });
+					}
+				}.bind(this)
+			);
 	};
 	OnBlur = e => {
 		let value = e.target.value;
@@ -24,6 +36,7 @@ class SubmitOnlineBanking extends Component {
 		let status = 1;
 		let message = "";
 		let data = this.state.SelectBank;
+		value = IsConvertRequired === true ? value * 1000 : value;
 		if (data === null) {
 			status = 4;
 			message = "Please select bank";
@@ -50,7 +63,11 @@ class SubmitOnlineBanking extends Component {
 	OnSubmit = () => {
 		let checked = this.handleCheckAmount(this.state.Amount);
 		if (checked.status == 3) {
-			this.props.OnSubmit(this.state.Amount, this.state.SelectBank.sysId);
+			let real_amount =
+				IsConvertRequired === true
+					? this.state.Amount * 1000
+					: this.state.Amount;
+			this.props.OnSubmit(real_amount, this.state.SelectBank.sysId);
 		} else {
 			alert(checked.message);
 		}

@@ -379,6 +379,8 @@ class SubmitLocalBank extends Component {
 		let status = 1;
 		let message = "";
 		let PickBankInfoOff = this.state.PickBankInfoOff;
+
+		value = IsConvertRequired === true ? value * 1000 : value;
 		if (value != null) {
 			if (value <= 0) {
 				status = 2;
@@ -417,9 +419,13 @@ class SubmitLocalBank extends Component {
 		if (!valid) {
 			this.forceUpdate();
 		} else {
+			let real_amount =
+				IsConvertRequired === true
+					? parseFloat(data["Amount"]) * 1000
+					: parseFloat(data["Amount"]);
 			this.setState({
 				showTodModal: true,
-				Amount: parseFloat(data["Amount"])
+				Amount: real_amount
 			});
 		}
 	};
@@ -432,10 +438,14 @@ class SubmitLocalBank extends Component {
 	};
 
 	onConfirm = () => {
+		let real_amount =
+			IsConvertRequired === true
+				? Number(this.state.Amount) * 1000
+				: Number(this.state.Amount);
 		this.setState({ showTodModal: false });
 		let data = {
 			sysId: this.state.PickBankInfoOff.sysId,
-			amount: Number(this.state.Amount)
+			amount: real_amount
 		};
 		axios
 			.post("/api/Payment/DepositReqWireTransfer", data)
@@ -464,7 +474,7 @@ class SubmitLocalBank extends Component {
 			);
 	};
 	OnSubmit = () => {
-		let checked = this.handleCheckAmount(this.state.Amount);
+		let checked = this.handleCheckAmount(real_amount);
 		if (checked.status == 3) {
 			this.setState({ showTodModal: true });
 		} else {
