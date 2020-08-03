@@ -4,11 +4,20 @@ import OnlineBanking from "./deposit.onlineBanking";
 import LocalBank from "./deposit.localBank";
 import MobilePay from "./deposit.mobilePay";
 import RecentHistoryBody from "./deposit.history";
+import { BankInfoModal } from "./deposit.localBank";
 
 class DepositPanel extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { clickSub: false, history: [], page: null };
+		this.state = {
+			clickSub: false,
+			history: [],
+			page: null,
+			showBankInfoModal: false,
+			transBankInfo: null,
+			PickBankInfoOff: null,
+			Amount: null
+		};
 	}
 	componentDidMount() {
 		this.GetDepositInfoRecent();
@@ -41,6 +50,34 @@ class DepositPanel extends Component {
 	ViewAll = () => {
 		window.location.href = hrefAllTrans;
 	};
+	onCancel = transId => {
+		if (confirm(i18n.lbl_CancelConfirm)) {
+			axios
+				.post("/api/Payment/SetDepositCancel", { TransId: transId })
+				.then(
+					function (response) {
+						let result = response.data;
+						if (result.errorCode == 0) {
+						} else {
+							alert(result.message);
+						}
+					}.bind(this)
+				)
+				.catch(
+					function (error) {
+						alert(error);
+					}.bind(this)
+				);
+		}
+	};
+	onShowBankModal = datas => {
+		this.setState({
+			showBankInfoModal: true,
+			transBankInfo: datas,
+			PickBankInfoOff: datas,
+			Amount: datas.amount
+		});
+	};
 	render() {
 		let data = this.state.history;
 		let historyBodyData = null;
@@ -62,7 +99,14 @@ class DepositPanel extends Component {
 
 			historyBodyData = dataContainer.map(
 				function (item, index) {
-					return <RecentHistoryBody key={index} Data={item.Data} />;
+					return (
+						<RecentHistoryBody
+							key={index}
+							Data={item.Data}
+							onCancel={this.onCancel}
+							onShowBankModal={this.onShowBankModal}
+						/>
+					);
 				}.bind(this)
 			);
 		}
@@ -132,6 +176,13 @@ class DepositPanel extends Component {
 						)}
 					</div>
 				</div>
+				{this.state.showBankInfoModal ? (
+					<BankInfoModal
+						bankInfo={this.state.transBankInfo}
+						PickBankInfoOff={this.state.PickBankInfoOff}
+						Amount={this.state.Amount}
+					/>
+				) : null}
 			</>
 		);
 	}

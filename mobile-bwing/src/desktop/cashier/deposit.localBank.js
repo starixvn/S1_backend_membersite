@@ -2,7 +2,7 @@ import React, { Component, createRef } from "react";
 import Dropdown from "./deposit.dropdown";
 import { number_format } from "../../common/common";
 
-class BankInfoModal extends Component {
+export class BankInfoModal extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {

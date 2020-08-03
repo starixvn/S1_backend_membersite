@@ -3,12 +3,6 @@ import { number_format } from "../../common/common";
 
 /* eslint-disable */
 class HistoryBody extends React.Component {
-	onCancel(transId) {
-		if (confirm(i18n.lbl_CancelConfirm)) {
-			this.props.onCancel(transId);
-		}
-	}
-
 	render() {
 		const DepositStatus = {
 			Pending: 1,
@@ -36,13 +30,25 @@ class HistoryBody extends React.Component {
 							<button
 								className="btn btn-primary"
 								type="button"
-								onClick={this.onCancel.bind(
+								onClick={this.props.onCancel.bind(
 									this,
 									item.transId
 								)}>
 								<span className="text">{i18n.lbl_Cancel}</span>
 							</button>
-							<button className="btn btn-secondary" type="button">
+							<button
+								className="btn btn-secondary"
+								type="button"
+								onClick={this.props.onShowBankModal.bind(this, {
+									...item.depositRep,
+									...item.bankInfo,
+									amount: item.amount,
+									postScript: item.postScript,
+									transId: item.transId,
+									refId: item.refId,
+									depositTime: item.depositTime,
+									picFileName: item.picFileName
+								})}>
 								<span className="text">
 									{i18n.lbl_SubmitProof}
 								</span>
@@ -101,25 +107,6 @@ export default class DepositHistory extends React.Component {
 		this.state = { refresh: false };
 	}
 
-	onCancel(transId) {
-		axios
-			.post("/api/Payment/SetDepositCancel", { TransId: transId })
-			.then(
-				function (response) {
-					let result = response.data;
-					if (result.errorCode == 0) {
-					} else {
-						alert(result.message);
-					}
-				}.bind(this)
-			)
-			.catch(
-				function (error) {
-					alert(error);
-				}.bind(this)
-			);
-	}
-
 	render() {
 		let data = this.props.Data;
 		let bodyData = null;
@@ -145,7 +132,8 @@ export default class DepositHistory extends React.Component {
 						<HistoryBody
 							key={index}
 							Data={item.Data}
-							onCancel={this.onCancel.bind(this)}
+							onCancel={this.props.onCancel.bind(this)}
+							onShowBankModal={this.props.onShowBankModal}
 						/>
 					);
 				}.bind(this)

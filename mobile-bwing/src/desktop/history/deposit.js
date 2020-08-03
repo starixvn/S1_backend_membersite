@@ -4,6 +4,7 @@ import Pagination from "../../common/pagination";
 import WebAPI from "../../service/api/base";
 import History from "./deposit.history";
 import { QuickPicker, QuickPickDefs } from "./dateQuickPicker";
+import { BankInfoModal } from "../cashier/deposit.localBank";
 
 /* eslint-disable */
 class Panel extends Component {
@@ -15,7 +16,11 @@ class Panel extends Component {
 			StartDate: moment().add(-30, "day").format("YYYY-MM-DD"),
 			EndDate: moment().format("YYYY-MM-DD"),
 			GetData: false,
-			QuickPick: QuickPickDefs.Today
+			QuickPick: QuickPickDefs.Today,
+			showBankInfoModal: false,
+			transBankInfo: null,
+			PickBankInfoOff: null,
+			Amount: null
 		};
 	}
 	componentDidMount = () => {
@@ -141,6 +146,34 @@ class Panel extends Component {
 			QuickPick: v
 		});
 	};
+	onCancel = transId => {
+		if (confirm(i18n.lbl_CancelConfirm)) {
+			axios
+				.post("/api/Payment/SetDepositCancel", { TransId: transId })
+				.then(
+					function (response) {
+						let result = response.data;
+						if (result.errorCode == 0) {
+						} else {
+							alert(result.message);
+						}
+					}.bind(this)
+				)
+				.catch(
+					function (error) {
+						alert(error);
+					}.bind(this)
+				);
+		}
+	};
+	onShowBankModal = datas => {
+		this.setState({
+			showBankInfoModal: true,
+			transBankInfo: datas,
+			PickBankInfoOff: datas,
+			Amount: datas.amount
+		});
+	};
 	render() {
 		return (
 			<>
@@ -200,7 +233,11 @@ class Panel extends Component {
 					</div>
 
 					{this.state.GetData ? (
-						<History Data={this.state.DepositInfoHistory} />
+						<History
+							Data={this.state.DepositInfoHistory}
+							onCancel={this.onCancel}
+							onShowBankModal={this.onShowBankModal}
+						/>
 					) : null}
 					<Pagination
 						PageNumber={this.state.PageNumber}
@@ -208,6 +245,13 @@ class Panel extends Component {
 						onPaging={this.GetDepositInfoHistory}
 					/>
 				</div>
+				{this.state.showBankInfoModal ? (
+					<BankInfoModal
+						bankInfo={this.state.transBankInfo}
+						PickBankInfoOff={this.state.PickBankInfoOff}
+						Amount={this.state.Amount}
+					/>
+				) : null}
 			</>
 		);
 	}

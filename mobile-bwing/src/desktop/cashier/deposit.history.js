@@ -26,40 +26,40 @@ export default class RecentHistoryBody extends React.Component {
 					(item.status == DepositStatus.Pending ||
 						item.status == DepositStatus.OnHold)
 				) {
-					// btnGroup = (
-					// 	<div className="btn-group">
-					// 		{item.status == DepositStatus.Pending ? (
-					// 			<button
-					// 				className="btn btn-default"
-					// 				type="button"
-					// 				onClick={this.onCancel.bind(
-					// 					this,
-					// 					item.transId
-					// 				)}>
-					// 				<span className="text">
-					// 					{i18n.lbl_Cancel}
-					// 				</span>
-					// 			</button>
-					// 		) : null}
-					// 		<button
-					// 			className="btn btn-secondary"
-					// 			type="button"
-					// 			onClick={this.onShowBankModal.bind(this, {
-					// 				...item.depositRep,
-					// 				...item.bankInfo,
-					// 				amount: item.amount,
-					// 				postScript: item.postScript,
-					// 				transId: item.transId,
-					// 				refId: item.refId,
-					// 				depositTime: item.depositTime,
-					// 				picFileName: item.picFileName
-					// 			})}>
-					// 			<span className="text">
-					// 				{i18n.lbl_SubmitProof}
-					// 			</span>
-					// 		</button>
-					// 	</div>
-					// );
+					btnGroup = (
+						<div className="button-group">
+							{item.status == DepositStatus.Pending ? (
+								<button
+									className="btn btn-primary"
+									type="button"
+									onClick={this.props.onCancel.bind(
+										this,
+										item.transId
+									)}>
+									<span className="text">
+										{i18n.lbl_Cancel}
+									</span>
+								</button>
+							) : null}
+							<button
+								className="btn btn-secondary"
+								type="button"
+								onClick={this.props.onShowBankModal.bind(this, {
+									...item.depositRep,
+									...item.bankInfo,
+									amount: item.amount,
+									postScript: item.postScript,
+									transId: item.transId,
+									refId: item.refId,
+									depositTime: item.depositTime,
+									picFileName: item.picFileName
+								})}>
+								<span className="text">
+									{i18n.lbl_SubmitProof}
+								</span>
+							</button>
+						</div>
+					);
 				}
 
 				if (
@@ -90,10 +90,8 @@ export default class RecentHistoryBody extends React.Component {
 						<td className="td-amount">
 							{number_format(item.amount.toFixed(2))}
 						</td>
-						<td className="td-status">
-							{statusGroup}
-							{btnGroup}
-						</td>
+						<td className="td-status">{statusGroup}</td>
+						<td className="td-btn">{btnGroup}</td>
 					</tr>
 				);
 			}.bind(this)
