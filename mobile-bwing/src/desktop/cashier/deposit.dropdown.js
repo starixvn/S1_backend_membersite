@@ -46,7 +46,7 @@ export default class BankInfoOffDropdown extends React.Component {
 							src={"/common/images/BankLogo/" + data.bankLogo}
 							className="name"
 						/>
-						<span className="value">Asia Commercial Bank</span>
+						<span className="value">{data.bankName}</span>
 						<span className="limit">
 							(Limit:{" "}
 							<span className="text-green">
