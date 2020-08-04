@@ -881,7 +881,7 @@
     <value>Truy cập gần nhất</value>
   </data>
   <data name="lbl_LastTransaction" xml:space="preserve">
-    <value>Giao Dịch Gần Nhất</value>
+    <value>Giao dịch gần đây</value>
   </data>
   <data name="lbl_Limit" xml:space="preserve">
     <value>Han mức giá trị</value>
@@ -1355,7 +1355,7 @@
     <value>Athena Suite </value>
   </data>
   <data name="lbl_Transfer" xml:space="preserve">
-    <value>Chuyển khoản</value>
+    <value>Chuyển tiền</value>
   </data>
   <data name="lbl_TransferAll" xml:space="preserve">
     <value>Chuyển tiền vào ví chính</value>
@@ -1391,7 +1391,7 @@
     <value>Đang chờ xử lý</value>
   </data>
   <data name="lbl_Success" xml:space="preserve">
-    <value>Sự thành công</value>
+    <value>Thành công</value>
   </data>
   <data name="lbl_WalletType" xml:space="preserve">
     <value>Loại ví</value>
