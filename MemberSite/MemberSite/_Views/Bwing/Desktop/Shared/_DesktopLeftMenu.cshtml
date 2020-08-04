@@ -101,7 +101,7 @@
                     @selLangBLL.GetResourceValue("lbl_Deposit")
                 </a>
             </div>
-            <div class="page-nav active">
+            <div class="page-nav">
                 <a class="@((SelectAction.Equals("Transfer", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Cashier", StringComparison.OrdinalIgnoreCase)) ? "toggle-section" : "")" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
                     @selLangBLL.GetResourceValue("lbl_TransferFunds")
                 </a>
