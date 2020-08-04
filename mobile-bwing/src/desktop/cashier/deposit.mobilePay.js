@@ -147,18 +147,25 @@ class SubmitMobilePay extends Component {
 		let amountList = null;
 		let amountInput = null;
 		if (this.state.amountType === defAmountType.list) {
-			let amountListRows = this.state.selectPayment.amountList.map(m => {
-				return (
-					<span
-						key={`mobilepay-${this.state.selectPayment.payId}-${this.state.selectPayment.channelId}-${m}`}
-						className={`value-item${
-							m === this.state.Amount ? " selected" : ""
-						}`}
-						onClick={this.SelectAmount.bind(this, m)}>
-						{number_format(m)}
-					</span>
-				);
-			});
+			let amountListRows = this.state.selectPayment.amountList
+				.filter(m => {
+					return (
+						m >= this.state.selectPayment.minAmount &&
+						m <= this.state.selectPayment.maxAmount
+					);
+				})
+				.map(m => {
+					return (
+						<span
+							key={`mobilepay-${this.state.selectPayment.payId}-${this.state.selectPayment.channelId}-${m}`}
+							className={`value-item${
+								m === this.state.Amount ? " selected" : ""
+							}`}
+							onClick={this.SelectAmount.bind(this, m)}>
+							{number_format(m)}
+						</span>
+					);
+				});
 
 			amountList = (
 				<div className="mobile-options form-group">
