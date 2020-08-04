@@ -23,14 +23,17 @@ class SubmitOnlineBanking extends Component {
 	};
 	OnBlur = e => {
 		let value = e.target.value;
-		let checked = this.handleCheckAmount(value);
-		if (checked.status === 3) {
-			this.setState({
-				Amount: value
-			});
-		} else {
-			alert(checked.message);
-		}
+		this.setState({
+			Amount: value
+		});
+		// let checked = this.handleCheckAmount(value);
+		// if (checked.status === 3) {
+		// 	this.setState({
+		// 		Amount: value
+		// 	});
+		// } else {
+		// 	alert(checked.message);
+		// }
 	};
 	handleCheckAmount = value => {
 		let status = 1;

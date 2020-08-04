@@ -160,6 +160,7 @@ class DepositPanel extends Component {
 											<th className="td-status">
 												{i18n.lbl_Status}
 											</th>
+											<th></th>
 										</tr>
 									</thead>
 									<tbody>{historyBodyData}</tbody>

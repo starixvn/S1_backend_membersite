@@ -1,38 +1,42 @@
 import React, { Component } from "react";
 import { number_format } from "../../common/common";
 
+const defAmountType = {
+	input: "input",
+	list: "list"
+};
+
 class SubmitMobilePay extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			MobilePayInfoList: null,
-			selectAmount: null,
 			selectPayment: null,
 			channelId: null,
-			Amount: ""
+			Amount: "",
+			amountType: null
 		};
 	}
 	SelectAmount = amount => {
-		this.setState({ selectAmount: amount });
+		this.setState({ Amount: amount });
 	};
 	OnChange = e => {
 		this.setState({ Amount: e.target.value });
 	};
 	OnBlur = e => {
 		let value = e.target.value;
-		let checked = this.handleCheckAmount(value);
-		if (checked.status === 3) {
-			this.setState({
-				Amount: value
-			});
-		} else {
-			alert(checked.message);
-		}
+		this.setState({
+			Amount: value
+		});
 	};
 	handleCheckAmount = value => {
 		let status = 1;
 		let message = "";
-		value = IsConvertRequired === true ? value * 1000 : value;
+		value =
+			IsConvertRequired === true &&
+			this.state.amountType === defAmountType.input
+				? value * 1000
+				: value;
 		let data = this.state.selectPayment;
 		if (data === null) {
 			status = 4;
@@ -57,17 +61,6 @@ class SubmitMobilePay extends Component {
 
 		return { status: status, message: message };
 	};
-	AmountOnBlur = e => {
-		let value = e.target.value;
-		let checked = this.handleCheckAmount(value);
-		if (checked.status === 3) {
-			this.setState({
-				Amount: value
-			});
-		} else {
-			alert(checked.message);
-		}
-	};
 	OnSubmit = () => {
 		let checked = this.handleCheckAmount(this.state.Amount);
 		if (checked.status == 3) {
@@ -90,7 +83,8 @@ class SubmitMobilePay extends Component {
 				}
 			}
 			let real_amount =
-				IsConvertRequired === true
+				IsConvertRequired === true &&
+				this.state.amountType === defAmountType.input
 					? this.state.Amount * 1000
 					: this.state.Amount;
 
@@ -108,7 +102,15 @@ class SubmitMobilePay extends Component {
 		}
 	};
 	onSelectChannel = data => {
-		this.setState({ selectPayment: data, channelId: data.channelId });
+		let amountType =
+			data.amountList?.length > 0
+				? defAmountType.list
+				: defAmountType.input;
+		this.setState({
+			selectPayment: data,
+			channelId: data.channelId,
+			amountType: amountType
+		});
 	};
 	render() {
 		let rows = this.props.MobilePayInfoList.map(b => {
@@ -142,6 +144,71 @@ class SubmitMobilePay extends Component {
 			);
 		});
 
+		let amountList = null;
+		let amountInput = null;
+		if (this.state.amountType === defAmountType.list) {
+			let amountListRows = this.state.selectPayment.amountList.map(m => {
+				return (
+					<span
+						key={`mobilepay-${this.state.selectPayment.payId}-${this.state.selectPayment.channelId}-${m}`}
+						className={`value-item${
+							m === this.state.Amount ? " selected" : ""
+						}`}
+						onClick={this.SelectAmount.bind(this, m)}>
+						{number_format(m)}
+					</span>
+				);
+			});
+
+			amountList = (
+				<div className="mobile-options form-group">
+					<div className="value-block">{amountListRows}</div>
+				</div>
+			);
+		} else if (this.state.amountType === defAmountType.input) {
+			amountInput = (
+				<div className="form-group">
+					{this.state.selectPayment === null ||
+					(this.state.selectPayment?.minAmount == 0 &&
+						this.state.selectPayment?.maxAmount == 0) ? (
+						<div className="label">
+							<span className="text-bold">
+								{i18n.lbl_Limit}:{" "}
+							</span>{" "}
+							<br />
+							<span className="text-bold text-green">
+								{i18n.lbl_Unlimited}
+							</span>
+						</div>
+					) : (
+						<div className="label">
+							<span className="text-bold">
+								{i18n.lbl_Limit}:{" "}
+							</span>{" "}
+							<br />
+							<span className="text-bold text-green">
+								{number_format(
+									this.state.selectPayment?.minAmount
+								)}{" "}
+								~{" "}
+								{number_format(
+									this.state.selectPayment?.maxAmount
+								)}
+							</span>
+						</div>
+					)}
+					<div className="input-field">
+						<input
+							className="input-control text-green text-right"
+							type="number"
+							pattern="[0-9]*"
+							onBlur={this.OnBlur}
+						/>
+					</div>
+				</div>
+			);
+		}
+
 		return (
 			<div
 				className="section options-method"
@@ -162,47 +229,9 @@ class SubmitMobilePay extends Component {
 						</span>
 					</span>
 				</div>
+				{amountList}
 				<div className="form">
-					<div className="form-group">
-						{this.state.selectPayment === null ||
-						(this.state.selectPayment?.minAmount == 0 &&
-							this.state.selectPayment?.maxAmount == 0) ? (
-							<div className="label">
-								<span className="text-bold">
-									{i18n.lbl_Limit}:{" "}
-								</span>{" "}
-								<br />
-								<span className="text-bold text-green">
-									{i18n.lbl_Unlimited}
-								</span>
-							</div>
-						) : (
-							<div className="label">
-								<span className="text-bold">
-									{i18n.lbl_Limit}:{" "}
-								</span>{" "}
-								<br />
-								<span className="text-bold text-green">
-									{number_format(
-										this.state.selectPayment?.minAmount
-									)}{" "}
-									~{" "}
-									{number_format(
-										this.state.selectPayment?.maxAmount
-									)}
-								</span>
-							</div>
-						)}
-						<div className="input-field">
-							<input
-								className="input-control text-green text-right"
-								type="number"
-								pattern="[0-9]*"
-								onBlur={this.OnBlur}
-							/>
-						</div>
-					</div>
-
+					{amountInput}
 					<div className="button-group">
 						<button
 							className="btn btn-primary"

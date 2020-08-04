@@ -337,51 +337,19 @@ class SubmitLocalBank extends Component {
 	onPickBankInfoOff = BankInfoOff => {
 		this.setState({ PickBankInfoOff: BankInfoOff });
 	};
-	handleCheckAmount = value => {
-		let status = 1;
-		let message = "";
-		let data = this.state.selectPayment;
-		if (data === null) {
-			status = 4;
-			message = "Please select payment";
-		} else if (isNaN(value)) {
-			status = 2;
-			message = i18n.lbl_AmountTooltip;
-		} else if (value <= 0) {
-			status = 2;
-			message = i18n.lbl_AmountTooltip;
-		} else if (
-			data.minAmount != 0 &&
-			data.maxAmount != 0 &&
-			(value > data.maxAmount || value < data.minAmount)
-		) {
-			status = 2;
-			message = number_format(value) + " " + i18n.lbl_NotinLimit;
-		} else {
-			status = 3;
-			message = "";
-		}
-
-		return { status: status, message: message };
-	};
 	OnBlur = e => {
 		let value = e.target.value;
-		let checked = this.handleCheckAmount(value);
-		if (checked.status === 3) {
-			this.setState({
-				Amount: value
-			});
-		} else {
-			alert(checked.message);
-		}
+		this.setState({
+			Amount: value
+		});
 	};
 	handleCheckAmount = value => {
 		let status = 1;
-		let message = "";
+		let message = i18n.lbl_AmountTooltip;
 		let PickBankInfoOff = this.state.PickBankInfoOff;
 
-		value = IsConvertRequired === true ? value * 1000 : value;
-		if (value != null) {
+		if (value != null && value != undefined) {
+			value = IsConvertRequired === true ? value * 1000 : value;
 			if (value <= 0) {
 				status = 2;
 				message = i18n.lbl_AmountTooltip;
