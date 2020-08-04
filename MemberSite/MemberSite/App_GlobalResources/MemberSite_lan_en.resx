@@ -1082,7 +1082,7 @@
     <value>To</value>
   </data>
   <data name="lbl_Transaction" xml:space="preserve">
-    <value>Transaction</value>
+    <value>Transactions</value>
   </data>
   <data name="lbl_TransactionHint" xml:space="preserve">
     <value>Please transfer the amount to the account.</value>

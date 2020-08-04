@@ -57,7 +57,7 @@
 </div>
 <div class="container">
     <div class="live-casino-game">
-        <p class="title">Game List</p>
+        <p class="title">@selLangBLL.GetResourceValue("lbl_GameList")</p>
         <div class="game-list">
             <div class="item">
                 <a href="@Html.Raw(GetEntPageUrl(4, "4"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>

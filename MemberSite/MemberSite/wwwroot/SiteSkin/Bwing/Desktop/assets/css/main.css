@@ -868,7 +868,8 @@ a {
 
 .dropdown-wallet .button-group .btn {
   margin-left: 0;
-  padding: 0.5rem 1.8rem;
+  white-space:nowrap;
+  padding: 0.5rem 1.5rem;
   min-width: auto;
 }
 
@@ -2046,7 +2047,6 @@ a {
 }
 
 .game-list .item:before {
-    content: "";
     position: absolute;
     opacity: 0;
     left: 1.5rem;
@@ -3209,10 +3209,12 @@ input[type="number"]::-webkit-outer-spin-button {
 /* sports iframe  */
 .sports-ifrname{
     border: none;
-    width: 100%;
+    /* width: 100%; */
     background: #000;
     margin: 0 auto;
-    height: 622px;
+    height: 800px;
+    width: 1366px;
+    margin-left: -98px;
 }
 
 .footer-promotions {
