@@ -1978,6 +1978,7 @@ a {
   padding-right: 1.5rem;
   flex-basis: 50%;
   max-width: 50%;
+  cursor: pointer;
 }
 
 .two-banner .item .btn-action {
