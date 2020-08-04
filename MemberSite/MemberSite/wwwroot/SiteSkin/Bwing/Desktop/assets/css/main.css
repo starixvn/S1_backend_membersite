@@ -3258,3 +3258,7 @@ p.bank-name{
   min-height: auto;
   padding-top: 150px;
 }
+
+.section-content#section-method .form .form-group {
+    width: 100%;
+}
