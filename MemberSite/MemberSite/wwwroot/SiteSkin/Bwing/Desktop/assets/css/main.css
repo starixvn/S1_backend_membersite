@@ -3252,4 +3252,9 @@ p.bank-name{
 .dropdown-wallet .wallet-item .icon-refresh:before {
     display: none;
 }
-
+.page.page-sp {
+  width: 100%;
+  align-items: center;
+  min-height: auto;
+  padding-top: 150px;
+}
