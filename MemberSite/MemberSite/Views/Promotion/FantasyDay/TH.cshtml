@@ -1,0 +1,84 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">โปรโมชั่น</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-FantasyDay.jpg" alt="" style="display: block;width: 100%;" />
+	</div>
+        <div class="promotions-module">
+            <h2>แฟนตาซี NOVA88 เดย์</h2>
+
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">เงื่อนไขที่สำคัญ</span>
+            <ol type="a">
+                <li>โปรโมชั่นนี้สำหรับสมาชิก Nova88 ทุกคน.<br><br></li>
+                <li>โบนัสพิเศษวัน NOVA 88 มีให้ในวันที่คุณเลือกเท่านั้น<br><br></li>
+                <li>วันที่โปรโมชั่นคือ 8, 18 และ 28 สิงหาคม 2020 จาก 00:00:00 (GMT + 8) ถึง 23:59:59 (GMT + 8)<br><br></li>
+                <li>สมาชิกแต่ละคนมีสิทธิ์ที่จะรับสิทธิ์ได้หนึ่งครั้งในวันใดก็ได้ของวันโปรโมชั่น (วันที่ 8,18 และ 28)<br><br></li>
+                <li>สมาชิกต้องทำยอดเทิร์นโอเวอร์ประจำวันให้ถึงตามที่กำหนดในวันโปรโมชั่นเท่านั้น<br><br></li>
+                <li>รางวัลเงินสดจะจ่ายให้สมาชิกภายใน 48 ชั่วโมงหลังจากเวลาที่ตัดยอด<br><br></li>
+                <li>ผู้ชนะที่ได้รับรางวัลจะต้องติดต่อฝ่ายบริการลูกค้าภายใน 14 วัน เมื่อมีข้อความส่วนตัวที่ส่งถึงกล่องจดหมายของสมาชิก หากเกินกำหนดหลังจาก 14 วันโบนัสจะถูกริบคืน<br><br></li>
+                <li>หลังจากได้รับการยืนยันตัวตนเรียบร้อย ทางฝ่ายบริการลูกค้าจะดำเนินการส่งเงินรางวัลให้<br><br></li>
+            </ol>
+
+
+            <span class="promotions-title">รายการละเอียดโบนัสมีดังต่อไปนี้:</span>
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;" colspan="2">
+                        เงินรางวัล แฟนตาซี Nova88 เดย์
+                    </th>
+                </tr>
+                <tr>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        ยอดเทิร์นโอเวอร์ (ประจำวัน)
+                    </th>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        เงินสด
+                    </th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">88,888 มาเลเซียริงกิต</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 888</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">688,888 บาท</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">6,888 บาท</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 300 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">IDR 3 Juta</td>
+                </tr>
+            </table>
+           
+
+            <span class="promotions-title">ข้อกำหนดและเงื่อนไข:</span>
+            <ol type="1">
+                <li>การวางเดิมพันเฉพาะผลิตภัณฑ์ Nova88 ที่มีผลการชนะ / แพ้จะมีผลต่อข้อกำหนดการหมุนเวียนหนึ่งครั้ง (เทิร์นโอเวอร์) (1x) ในผลิตภัณฑ์ Nova88 ทั้งหมด. Cash out (การจ่ายเงินออก, ยกเลิก, ยกเลิก, การเดิมพันเป็นโมฆะ หรือการเดิมพันทั้งสองฝั่ง ในระหว่างเกมเดียวจะไม่นับรวมกับข้อกำหนดนี้<br><br></li>
+                <li>สมาชิกที่เข้าร่วมต้องยอมรับและปฏิบัติตามข้อกำหนดทั้งหมดที่กล่าวถึงข้างต้นรวมถึงกฎและระเบียบที่เกี่ยวข้องทั้งหมดที่ใช้โดย Nova88.<br><br></li>
+                <li>Nova88 ขอสงวนสิทธิ์ในการแก้ไขหรือถอนโปรโมชั่นได้ตลอดเวลา.<br><br></li>
+                <li>Nova88 เป็นผู้ชี้ขาดแต่เพียงผู้เดียวของโปรโมชั่นและการตัดสินของ Nova88 ถือเป็นที่สิ้นสุด.<br><br></li>
+                <li><u><a class="text-link" href="https://www.nova88asia.com/SiteSkin/Nova88/Static/th/Promotion.html" target="_blank">
+                    ข้อกำหนดและเงื่อนไขของ Nova88.
+                </a></u><br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>

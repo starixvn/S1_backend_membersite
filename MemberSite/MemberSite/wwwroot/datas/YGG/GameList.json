@@ -20,7 +20,8 @@
       "hot": false,
       "new": false,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 1
     },
     {
       "name": {
@@ -126,7 +127,7 @@
       "new": false,
       "imageExist": true,
       "Isfun": 1,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
@@ -191,7 +192,7 @@
       "featured": false,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -256,7 +257,8 @@
       "new": false,
       "featured": false,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 1
     },
     {
       "name": {
@@ -405,7 +407,7 @@
       "new": false,
       "imageExist": true,
       "Isfun": 1,
-      "disabled":0
+      "disabled": 0
     },
     {
       "name": {
@@ -532,7 +534,7 @@
       "new": false,
       "imageExist": true,
       "Isfun": 0,
-      "disabled":1
+      "disabled": 1
     },
     {
       "name": {
@@ -620,7 +622,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -686,7 +688,7 @@
       "new": false,
       "imageExist": true,
       "Isfun": 0,
-      "disabled":0
+      "disabled": 0
     },
     {
       "name": {
@@ -812,7 +814,8 @@
       "hot": false,
       "new": false,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 1
     },
     {
       "name": {
@@ -1175,7 +1178,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 0
+      "promotion": 1
     },
     {
       "name": {
@@ -1260,7 +1263,7 @@
       "new": false,
       "imageExist": true,
       "Isfun": 1,
-      "disabled":0
+      "disabled": 0
     },
     {
       "name": {
@@ -1304,7 +1307,7 @@
       "featured": true,
       "imageExist": true,
       "Isfun": 0,
-      "promotion": 0
+      "promotion": 1
     },
     {
       "name": {
@@ -1327,7 +1330,7 @@
       "featured": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 0
+      "promotion": 1
     },
     {
       "name": {
@@ -1392,7 +1395,7 @@
       "new": false,
       "imageExist": true,
       "Isfun": 0,
-      "disabled":0
+      "disabled": 0
     },
     {
       "name": {
@@ -1413,7 +1416,8 @@
       "hot": false,
       "new": false,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 1
     },
     {
       "name": {
@@ -1523,7 +1527,7 @@
       "featured": false,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 0
+      "promotion": 1
     },
     {
       "name": {
@@ -1545,7 +1549,7 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 0
+      "promotion": 1
     },
     {
       "name": {
@@ -1568,7 +1572,7 @@
       "featured": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 0
+      "promotion": 1
     },
     {
       "name": {
@@ -1591,7 +1595,7 @@
       "featured": false,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 0
+      "promotion": 1
     },
     {
       "name": {
@@ -1730,6 +1734,31 @@
         "ch": "Lucky-Neko-CS.jpg"
       },
       "launchDate": "2020/06/25",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 1
+    },
+    {
+      "name": {
+        "en": "Vault of Fortune",
+        "cs": "财宝金库",
+        "ch": "财宝金库"
+      },
+      "appId": "7387",
+      "gameId": "7387",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Vault-of-Fortune-EN.jpg",
+        "cs": "Vault-of-Fortune-CS.jpg",
+        "ch": "Vault-of-Fortune-CS.jpg"
+      },
+      "launchDate": "2020/08/05",
       "hot": false,
       "new": true,
       "featured": false,
