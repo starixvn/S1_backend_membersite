@@ -884,7 +884,7 @@
     <value>Giao dịch gần đây</value>
   </data>
   <data name="lbl_Limit" xml:space="preserve">
-    <value>Han mức giá trị</value>
+    <value>Hạn mức giá trị</value>
   </data>
   <data name="lbl_LiveCasino" xml:space="preserve">
     <value>Live Casino</value>
@@ -1668,5 +1668,8 @@
   </data>
   <data name="lbl_Retype" xml:space="preserve">
     <value>Xác nhận</value>
+  </data>
+  <data name="msg_UsernameNotAvailable" xml:space="preserve">
+    <value>Tên người dùng đã tồn tại</value>
   </data>
 </root>
