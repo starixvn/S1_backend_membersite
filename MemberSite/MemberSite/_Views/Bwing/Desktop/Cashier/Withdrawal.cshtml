@@ -70,16 +70,22 @@
 {
     <div class="system-content">
         <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
-        <div class="page page-sp">
-            <div class="heading">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
-            </div>
-            <div class="text--lg">@selLangBLL.GetResourceValue("lbl_ImportantNote")</div>
-            <p>@selLangBLL.GetResourceValue("lbl_UpdateBankInfo")</p><br />
-            <div class="btn-group">
-                <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_UpdateBankDetail")</span>
-                </a>
+        <div class="modal" id="WithdrawalAlet" data-open="true">
+            <div class="overlay"></div>
+            <div class="modal__dialog">
+                <div class="modal__header">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_ImportantNote")</span>
+                </div>
+                <div class="modal__body">
+                    <p>@selLangBLL.GetResourceValue("lbl_UpdateBankInfo")</p>
+                </div>
+                <div class="modal__footer">
+                    <div class="btn-group">
+                        <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_UpdateBankDetail")</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

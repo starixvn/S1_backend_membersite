@@ -62,66 +62,66 @@
     var bannerFromDB = bannerBLL.GetBannerFromDB(banner_CurrencyId, langId);
 }
 <!-- Slider -->
-    <div class="home-slider">
-        @foreach (var b in bannerFromDB)
-        {
-            <div class="slide-item">
-                <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
-                    <img src="@b.imgURL" asp-append-version="true" />
-                    <div class="slide-inside container"></div>
-                </a>
-            </div>
-        }
+<div class="home-slider">
+    @foreach (var b in bannerFromDB)
+    {
+        <div class="slide-item">
+            <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
+                <img src="@b.imgURL" asp-append-version="true" />
+                <div class="slide-inside container"></div>
+            </a>
+        </div>
+    }
 
-        @foreach (var b in BannerList)
+    @foreach (var b in BannerList)
+    {
+        if (!string.IsNullOrEmpty(b.actionLink))
         {
-            if (!string.IsNullOrEmpty(b.actionLink))
+            if (b.urlWithLang)
             {
-                if (b.urlWithLang)
-                {
-                    <div class="slide-item">
-                        <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
-                            <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                            <div class="slide-inside container"></div>
-                        </a>
-                    </div>
-                }
-                else
-                {
-                    if (b.outerLink)
-                    {
-                        <div class="swiper-slide">
-                            <a href='@Url.Content($"{b.actionLink}")' target="_event">
-                                <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                            </a>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="swiper-slide">
-                            <a href='@Url.Content($"~/{b.actionLink}")' target="_event">
-                                <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                            </a>
-                        </div>
-                    }
-                }
-            }
-            else if (b.tpId != null)
-            {
-                <div class="swiper-slide">
-                    <a class="swiper-slide  @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl((int)b.tpId, b.gameId?.ToString(), Url)">
+                <div class="slide-item">
+                    <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
                         <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                        <div class="slide-inside container"></div>
                     </a>
                 </div>
             }
             else
             {
-                <div class="swiper-slide">
-                    <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                </div>
+                if (b.outerLink)
+                {
+                    <div class="swiper-slide">
+                        <a href='@Url.Content($"{b.actionLink}")' target="_event">
+                            <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="swiper-slide">
+                        <a href='@Url.Content($"~/{b.actionLink}")' target="_event">
+                            <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                        </a>
+                    </div>
+                }
             }
         }
-    </div>
+        else if (b.tpId != null)
+        {
+            <div class="swiper-slide">
+                <a class="swiper-slide  @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl((int)b.tpId, b.gameId?.ToString(), Url)">
+                    <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="swiper-slide">
+                <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+            </div>
+        }
+    }
+</div>
 
 <!-- Notification -->
 <div class="notification container" id="Marquee">
@@ -328,15 +328,15 @@
 
             if (balance < 1m)
             {
-                <div class="modal" id="DepositAlet" data-open="false">
-                    <div class="overlay Js-DepositAlet"></div>
+                <div class="modal" id="DepositAlet" data-open="true">
+                    <div class="overlay"></div>
                     <div class="modal__dialog">
+                        <button class="remodal-close Js-DepositAlet"></button>
                         <div class="modal__header">
                             <span class="text">@selLangBLL.GetResourceValue("lbl_Notice")</span>
                         </div>
                         <div class="modal__body">
                             <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlert"), selLangBLL.GetResourceValue($"Currency_{CurrencyId}"), balance.ToString("#,##0.##")))</p>
-                            <br>
                         </div>
                         <div class="modal__footer">
                             <div class="btn-group">
