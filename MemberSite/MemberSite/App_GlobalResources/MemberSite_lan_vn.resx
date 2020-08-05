@@ -295,7 +295,7 @@
     <value>Vui lòng xác nhận thông tin rút tiền.</value>
   </data>
   <data name="lbl_ContactCSD" xml:space="preserve">
-    <value>Nếu bạn muốn thay đổi thông tin tài khoản, vui lòng liên hệ bộ phận chăm sóc khách hàng.</value>
+    <value>Vui lòng liên hệ CSKH để thay đổi tên tài khoản ngân hàng của bạn</value>
   </data>
   <data name="lbl_ContactUs" xml:space="preserve">
     <value>Liên hệ</value>
