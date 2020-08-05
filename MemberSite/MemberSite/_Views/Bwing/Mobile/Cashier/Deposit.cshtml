@@ -110,16 +110,22 @@
 
     @if (custInfoProfile == null || custInfoProfile.AccountName == null || custInfoProfile.CountryCode == null || custInfoProfile.PhoneNo == null)
     {
-        <div class="page">
-            <div class="heading">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
-            </div>
-            <div class="text--lg">@selLangBLL.GetResourceValue("lbl_ImportantNote")</div>
-            <p>@selLangBLL.GetResourceValue("lbl_UpdatePersonalInfo")</p><br />
-            <div class="btn-group">
-                <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_UpdatePersonalDetail")</span>
-                </a>
+        <div class="modal" id="DepositAlet" data-open="true">
+            <div class="overlay"></div>
+            <div class="modal__dialog">
+                <div class="modal__header">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_ImportantNote")</span>
+                </div>
+                <div class="modal__body">
+                    <p>@selLangBLL.GetResourceValue("lbl_UpdatePersonalInfo")</p>
+                </div>
+                <div class="modal__footer">
+                    <div class="btn-group">
+                        <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_UpdatePersonalDetail")</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     }
