@@ -81,23 +81,45 @@
     @foreach (var b in BannerList)
     {
         if (!b.isBonus) continue;
-        if (!string.IsNullOrEmpty(b.actionLink))
+
+        var _actionLink = b.actionLink;
+        var _outerLink = b.outerLink;
+
+        var _actionByLang = b.actionLinkByLang?.FirstOrDefault(x => x.lang == langId);
+        if (_actionByLang != null)
+        {
+            _actionLink = _actionByLang.link;
+            _outerLink = _actionByLang.outerLink ?? _outerLink;
+        }
+
+        if (!string.IsNullOrEmpty(_actionLink))
         {
             if (b.urlWithLang)
             {
                 <div class="promotions-module">
-                    <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
+                    <a href='@Url.Content($"~/{langId}/{_actionLink}")'>
                         <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
                     </a>
                 </div>
             }
             else
             {
-                <div class="promotions-module">
-                    <a href='@Url.Content($"~/{b.actionLink}")'>
-                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                    </a>
-                </div>
+                if (_outerLink)
+                {
+                    <div class="promotions-module">
+                        <a href='@Url.Content($"{_actionLink}")' target="_event">
+                            <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="promotions-module">
+                        <a href='@Url.Content($"~/{_actionLink}")'>
+                            <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                        </a>
+                    </div>
+                }
             }
         }
         else

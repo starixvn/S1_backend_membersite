@@ -45,6 +45,6 @@ namespace MemberSite.Service.Model
     {
         public string lang { get; set; }
         public string link { get; set; }
-        public bool outerLink { get; set; }
+        public bool? outerLink { get; set; }
     }
 }
