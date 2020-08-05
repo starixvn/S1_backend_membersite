@@ -1740,4 +1740,7 @@
   <data name="lbl_Success" xml:space="preserve">
     <value>Success</value>
   </data>
+  <data name="lbl_ViewHistory" xml:space="preserve">
+    <value>View History</value>
+  </data>
 </root>

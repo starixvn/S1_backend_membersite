@@ -1672,4 +1672,7 @@
   <data name="msg_UsernameNotAvailable" xml:space="preserve">
     <value>Tên người dùng đã tồn tại</value>
   </data>
+  <data name="lbl_ViewHistory" xml:space="preserve">
+    <value>Xem lịch sử</value>
+  </data>
 </root>

@@ -177,7 +177,7 @@ class Panel extends Component {
 	render() {
 		return (
 			<>
-				<div className="title">{i18n.lbl_Deposit}</div>
+				<div className="title">{i18n.lbl_DepositHistory}</div>
 				<div className="content announcement-block">
 					<div className="form calendar-filter p-t-20">
 						<QuickPicker
@@ -227,7 +227,7 @@ class Panel extends Component {
 									this,
 									1
 								)}>
-								{i18n["lbl_Submit"]}
+								{i18n["lbl_ViewHistory"]}
 							</button>
 						</div>
 					</div>
