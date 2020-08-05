@@ -1928,3 +1928,39 @@ ul.marquee li {
   border: 1px solid rgba(255, 234, 179, 1);
   box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.68);
 }
+
+.text-white {
+  color: white;
+}
+
+.forget{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.forget .form-group{
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group + .btn-group{
+  margin-top: 15px;
+}
+
+.forget .form-group .label{
+  align-self: center;
+  padding-right: 0;
+}
+
+.forget .form{
+  margin: 10px 0;
+  width: 100%;
+}
+
+.forget .form .input-field{
+  width: 100%;
+}

@@ -6,35 +6,36 @@
 @inject ServerInfoBLL serverInfoBLL
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_ForgetPassword");
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/_Views/Bwing/Mobile/Shared/_Layout.cshtml";
 }
-<div class="main ">
+
     <div class="page">
-        <div class="heading">
-            <span class="text">@selLangBLL.GetResourceValue("lbl_ForgetPassword")</span>
-        </div>
-        <p>@selLangBLL.GetResourceValue("lbl_ForgetPwdHint")</p>
-        <form class="form" method="post" id="ForgetPassowrd">
-            <div class="form-group">
-                <label class="form-title">@selLangBLL.GetResourceValue("lbl_YourEmail")</label>
-                <div class="form-content">
-                    <div class="textfield">
-                        <input type="email" id="email" class="textfield__input" required />
-                        <span class="textfield__bg"></span>
+        <div class="wrap-content is-login">
+            <div class="container p-t-20">
+                <div class="page-content">
+                    <div class="forget">
+                        <div class="txt-yellow">@selLangBLL.GetResourceValue("lbl_ForgetPwdHint")</div>
+                        <form class="form" method="post" id="ForgetPassowrd">
+                            <div class="form-group">
+                                <div class="label">
+                                    <span class="text-white">@selLangBLL.GetResourceValue("lbl_YourEmail"): </span>
+                                </div>
+                                <div class="input-field">
+                                    <input type="email" id="email" class="input-control" required />
+                                </div>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-secondary">
+                                    <span class="text">@selLangBLL.GetResourceValue("lbl_Submit")</span>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="btn-group">
-                <button class="btn btn-secondary" type="submit">
-                    <div class="btn__inner">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_Submit")</span>
-                    </div>
-                </button>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
 @section Scripts{
     <script src="~/lib/runtime.min.js"></script>
-    <script src="~/js/component/home/ForgetPassowrd.min.js" asp-append-version="true"></script>
+    <script src="~/js/Bwing/component/desktop/account/ResetPwd.min.js" asp-append-version="true"></script>
 }

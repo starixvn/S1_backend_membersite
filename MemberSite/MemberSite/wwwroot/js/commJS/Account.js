@@ -46,7 +46,7 @@
                 }
                 $(".MsgCount").html(msgCount).show();
             } else {
-              $(".MsgCount").html(msgCount).hide();
+                $(".MsgCount").html(msgCount).hide();
             }
           }
 

@@ -177,5 +177,37 @@ import { number_format } from "../../../../js/component/commJS/common";
 		$(".Js-Wallet-Refresh").on("touchstart, click", function (e) {
 			getWalletInfo();
 		});
+
+		onGetMsgCount();
+		window.onGetMsgCount = onGetMsgCount.bind(this);
 	});
+
+	var onGetMsgCount = function onGetMsgCount() {
+		axios
+			.post("/api/Account/GetMsgCount")
+			.then(
+				function (response) {
+					var result = response.data;
+					if (result.errorCode == 0) {
+						var msgCount = "";
+						if (result.data > 0) {
+							msgCount = result.data;
+							if (msgCount > 99) {
+								msgCount = "99+";
+							}
+							$("#msg-noti-icon").addClass('has-new');
+						} else {
+							$("#msg-noti-icon").removeClass('has-new');
+						}
+					}
+
+					setTimeout(onGetMsgCount.bind(this), 30000);
+				}.bind(_this)
+			)
+			.catch(
+				function (error) {
+					setTimeout(onGetMsgCount.bind(this), 30000);
+				}.bind(_this)
+			);
+	};
 })(jQuery, i18n, axios);

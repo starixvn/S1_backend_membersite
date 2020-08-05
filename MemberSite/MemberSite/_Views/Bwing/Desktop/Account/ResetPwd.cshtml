@@ -1,0 +1,35 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Hosting
+@using MemberSite.Service.BLL
+@inject IWebHostEnvironment environment
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_ChangePassword");
+    Layout = "~/_Views/Bwing/Desktop/Shared/_Layout.cshtml";
+}
+@{
+    var i18n = new Dictionary<string, string>();
+    i18n.Add("lbl_NewPassword", selLangBLL.GetResourceValue("lbl_NewPassword"));
+    i18n.Add("lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip"));
+    i18n.Add("lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit"));
+    i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
+    i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
+    i18n.Add("msg_PasswordVaildate", selLangBLL.GetMsg("msg_PasswordVaildate"));
+}
+    <div class="system-content">
+        <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
+        <div class="right-panel">
+            <div class="title">@selLangBLL.GetResourceValue("lbl_ResetPassword")</div>
+            <div id="ResetPwd"></div>
+        </div>
+    </div>
+
+@section Scripts{
+<script type="text/javascript">
+$.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
+</script>
+
+<script src="~/lib/runtime.min.js"></script>
+<script src="~/js/Bwing/component/desktop/account/ResetPwd.min.js" asp-append-version="true"></script>
+}

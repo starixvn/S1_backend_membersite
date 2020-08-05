@@ -152,7 +152,8 @@ namespace MemberSite.Controllers
             {
                 return RedirectToRoute(new { action = "Index", controller = "Home" });
             }
-            return View();
+
+            return View(templateBLL.GetTemplatePath(Url));
         }
 
         public async Task<IActionResult> ResetPasswordAsync(string key)
