@@ -109,13 +109,17 @@ class SubmitOnlineBanking extends Component {
 					<span className="text-bold link-back">
 						{i18n.lbl_OnlineBanking}
 					</span>
-					<span className="text-bold">Select Bank</span>
+					<span className="text-bold">{i18n.lbl_SelectBank}</span>
 				</div>
 				<div className="option-content">{bankRows}</div>
 				<div className="option-header">
 					<span className="text-bold">
-						<span className="text-bold">Input amount: </span>
-						<span className="text-italic">depend on the bank</span>
+						<span className="text-bold">
+							{i18n.lbl_InputAmount}:{" "}
+						</span>
+						<span className="text-italic">
+							{i18n.lbl_DependOnTheBank}
+						</span>
 					</span>
 				</div>
 				<div className="form">

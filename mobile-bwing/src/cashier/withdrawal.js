@@ -197,7 +197,9 @@ class WithdrawalPanel extends Component {
 				<div className="options-method">
 					<div className="method-item">
 						<div className="toggle option-header">
-							<span className="text-bold">Select bank:</span>
+							<span className="text-bold">
+								{i18n.lbl_SelectBank}
+							</span>
 							<i className="icon icon-arrow-down"></i>
 						</div>
 						{this.state.BankInfoDetail ? (

@@ -37,7 +37,7 @@ class SubmitLocalBank extends Component {
 					<span className="text-bold link-back">
 						{i18n.lbl_WireTransfers}:
 					</span>
-					<span className="text-bold">Select bank</span>
+					<span className="text-bold">{i18n.lbl_SelectBank}</span>
 				</div>
 				<div className="form">
 					<div className="form-group form-transfer">

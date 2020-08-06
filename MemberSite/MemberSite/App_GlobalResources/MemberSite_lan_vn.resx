@@ -1675,4 +1675,13 @@
   <data name="lbl_ViewHistory" xml:space="preserve">
     <value>Xem lịch sử</value>
   </data>
+  <data name="lbl_DependOnTheBank" xml:space="preserve">
+    <value>dựa trên phương thức thanh toán</value>
+  </data>
+  <data name="lbl_InputAmount" xml:space="preserve">
+    <value>Số tiền nhập</value>
+  </data>
+  <data name="lbl_SelectBank" xml:space="preserve">
+    <value>Chọn ngân hàng</value>
+  </data>
 </root>

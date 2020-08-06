@@ -1743,4 +1743,13 @@
   <data name="lbl_ViewHistory" xml:space="preserve">
     <value>View History</value>
   </data>
+  <data name="lbl_DependOnTheBank" xml:space="preserve">
+    <value>depend on the bank</value>
+  </data>
+  <data name="lbl_InputAmount" xml:space="preserve">
+    <value>Input amount</value>
+  </data>
+  <data name="lbl_SelectBank" xml:space="preserve">
+    <value>Select Bank</value>
+  </data>
 </root>

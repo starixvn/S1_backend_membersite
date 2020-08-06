@@ -141,9 +141,11 @@ class SubmitMobilePay extends Component {
 				<div className="options-card">{rows}</div>
 				<div className="option-header">
 					<span className="text-bold">
-						<span className="text-bold">Input amount: </span>
+						<span className="text-bold">
+							{i18n.lbl_InputAmount}:{" "}
+						</span>
 						<span className="text-italic">
-							depend on the payment
+							{i18n.lbl_DependOnTheBank}
 						</span>
 					</span>
 				</div>
