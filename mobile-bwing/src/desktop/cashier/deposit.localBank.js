@@ -572,7 +572,11 @@ class SubmitLocalBank extends Component {
 					<BankInfoModal
 						bankInfo={this.state.transBankInfo}
 						PickBankInfoOff={this.state.PickBankInfoOff}
-						Amount={this.state.Amount}
+						Amount={
+							IsConvertRequired === true
+								? this.state.Amount * 1000
+								: this.state.Amount
+						}
 					/>
 				) : null}
 			</div>
