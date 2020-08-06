@@ -235,7 +235,7 @@
     <value>Bạn có chắc muốn hủy? Không thể khôi phục lại sau khi hủy!</value>
   </data>
   <data name="lbl_Cashier" xml:space="preserve">
-    <value>Thu ngân</value>
+    <value>Tài Khoản</value>
   </data>
   <data name="lbl_Casino" xml:space="preserve">
     <value>Sòng bạc</value>
@@ -1091,10 +1091,10 @@
     <value>Lịch sử giao dịch</value>
   </data>
   <data name="lbl_TransferFunds" xml:space="preserve">
-    <value>Chuyển tiền</value>
+    <value>Chuyển quỹ</value>
   </data>
   <data name="lbl_TransferTo" xml:space="preserve">
-    <value>Chuyển tiền đến</value>
+    <value>Chuyển đến</value>
   </data>
   <data name="lbl_TryMobile" xml:space="preserve">
     <value>Hãy thử sử dụng điện thoại truy cập trang web của chúng tôi</value>
