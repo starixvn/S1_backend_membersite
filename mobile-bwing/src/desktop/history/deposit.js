@@ -154,6 +154,12 @@ class Panel extends Component {
 					function (response) {
 						let result = response.data;
 						if (result.errorCode == 0) {
+							let newData = [...this.state.DepositInfoHistory];
+							let find_idx = newData.findIndex(
+								x => x.transId === transId
+							);
+							newData[find_idx].status = 5;
+							this.setState({ DepositInfoHistory: newData });
 						} else {
 							alert(result.message);
 						}
