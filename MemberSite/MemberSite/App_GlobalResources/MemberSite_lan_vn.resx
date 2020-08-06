@@ -235,7 +235,7 @@
     <value>Bạn có chắc muốn hủy? Không thể khôi phục lại sau khi hủy!</value>
   </data>
   <data name="lbl_Cashier" xml:space="preserve">
-    <value>Tài Khoản</value>
+    <value>Tín Dụng</value>
   </data>
   <data name="lbl_Casino" xml:space="preserve">
     <value>Sòng bạc</value>
@@ -880,9 +880,6 @@
   <data name="lbl_LastLogin" xml:space="preserve">
     <value>Truy cập gần nhất</value>
   </data>
-  <data name="lbl_LastTransaction" xml:space="preserve">
-    <value>Các giao dịch gần nhất</value>
-  </data>
   <data name="lbl_Limit" xml:space="preserve">
     <value>Hạn mức giá trị</value>
   </data>
@@ -1222,7 +1219,7 @@
     <comment>00339. Deposit</comment>
   </data>
   <data name="lbl_RealName" xml:space="preserve">
-    <value>Họ tên đầy đủ</value>
+    <value>Họ tên</value>
   </data>
   <data name="lbl_UploadPhotoId" xml:space="preserve">
     <value>Tải lên</value>
@@ -1310,10 +1307,10 @@
     <value>nova88official</value>
   </data>
   <data name="lbl_AGCasino" xml:space="preserve">
-    <value>Phoenix Suite </value>
+    <value>Sảnh Phoenix</value>
   </data>
   <data name="lbl_AllbetCasino" xml:space="preserve">
-    <value>Platinum Suite</value>
+    <value>Sảnh Platinum</value>
   </data>
   <data name="lbl_Balance" xml:space="preserve">
     <value>Số dư</value>
@@ -1325,13 +1322,13 @@
     <value>Lịch sử nạp tiền</value>
   </data>
   <data name="lbl_DreamGaming" xml:space="preserve">
-    <value>Crystal Suite</value>
+    <value>Sảnh Crystal</value>
   </data>
   <data name="lbl_Enter" xml:space="preserve">
     <value>Vào Chơi Ngay</value>
   </data>
   <data name="lbl_GameList" xml:space="preserve">
-    <value>Danh sách trò chơi</value>
+    <value>SẢNH CASINO TRỰC TRUYẾN</value>
   </data>
   <data name="lbl_MainWallet" xml:space="preserve">
     <value>Ví chính</value>
@@ -1352,7 +1349,7 @@
     <value>Lấy tất cả</value>
   </data>
   <data name="lbl_SACasino" xml:space="preserve">
-    <value>Athena Suite </value>
+    <value>Sảnh Athena</value>
   </data>
   <data name="lbl_Transfer" xml:space="preserve">
     <value>Chuyển quỹ</value>
@@ -1400,10 +1397,10 @@
     <value>Tên đầy đủ phải đúng với tên trên tài khoản Ngân Hàng của bạn để thực hiện việc nạp/ rút tiền nhanh</value>
   </data>
   <data name="lbl_Birthday" xml:space="preserve">
-    <value>Birthday</value>
+    <value>Ngày sinh</value>
   </data>
   <data name="lbl_ConfirmAndUpdate" xml:space="preserve">
-    <value>Conrim for update</value>
+    <value>XÁC NHẬN</value>
   </data>
   <data name="lbl_Month1" xml:space="preserve">
     <value>JAN</value>
@@ -1442,7 +1439,7 @@
     <value>SEP</value>
   </data>
   <data name="lbl_ReModify" xml:space="preserve">
-    <value>Modify Again</value>
+    <value>NHẬP LẠI</value>
   </data>
   <data name="lbl_Alipay" xml:space="preserve">
     <value>Alipay</value>
@@ -1454,7 +1451,7 @@
     <value>Xác nhận thay đổi</value>
   </data>
   <data name="lbl_DGCasino" xml:space="preserve">
-    <value>Crystal Suite</value>
+    <value>Sảnh Crystal</value>
   </data>
   <data name="lbl_Games" xml:space="preserve">
     <value>Trò Chơi</value>
@@ -1538,10 +1535,10 @@
     <value>Ưa chuộng</value>
   </data>
   <data name="lbl_Feature" xml:space="preserve">
-    <value>Đặc điểm</value>
+    <value>Nổi bật</value>
   </data>
   <data name="lbl_Free" xml:space="preserve">
-    <value>Miễn phí</value>
+    <value>Chơi thử</value>
   </data>
   <data name="lbl_GPI" xml:space="preserve">
     <value>GPI</value>
@@ -1649,13 +1646,13 @@
     <value>Trò chơi điện tử</value>
   </data>
   <data name="lbl_PPCasino" xml:space="preserve">
-    <value>Hội trường phương Tây</value>
+    <value>Sảnh Western</value>
   </data>
   <data name="lbl_Scratch" xml:space="preserve">
     <value>trò chơi cào số</value>
   </data>
   <data name="lbl_Promo" xml:space="preserve">
-    <value>khuyến mãi</value>
+    <value>Khuyến mãi</value>
   </data>
   <data name="lbl_Lottery" xml:space="preserve">
     <value>Xổ số</value>
@@ -1683,5 +1680,8 @@
   </data>
   <data name="lbl_SelectBank" xml:space="preserve">
     <value>Chọn ngân hàng</value>
+  </data>
+  <data name="lbl_SexyCasino" xml:space="preserve">
+    <value>Sảnh Venus</value>
   </data>
 </root>

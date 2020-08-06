@@ -2046,7 +2046,7 @@ a {
 }
 
 .game-list .item:before {
-    content: "";
+    /*content: "";*/
     position: absolute;
     opacity: 0;
     left: 1.5rem;
@@ -2531,7 +2531,7 @@ table tbody td {
 .form-group {
   display: inline-grid;
   grid-template-columns: auto 1fr;
-  /* width: 100%; */
+  width: 100%;
   align-items: center;
   grid-row-gap: .5rem;
 }
