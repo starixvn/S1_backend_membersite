@@ -409,7 +409,7 @@ class TransferPanel extends React.Component {
 
 		return (
 			<>
-				<div className="title">Transfer</div>
+				<div className="title">{i18n.lbl_Transfer}</div>
 				<div className="content transferFunds-block">
 					<div className="grid">
 						<div className="wallet-group">
