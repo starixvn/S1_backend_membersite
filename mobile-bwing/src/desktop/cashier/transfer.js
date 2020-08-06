@@ -103,7 +103,9 @@ class RecentHistory extends React.Component {
 		return (
 			<div className="table-content">
 				<div className="option-header">
-					<span className="text-bold">Last Transaction</span>
+					<span className="text-bold">
+						{i18n.lbl_LastTransaction}
+					</span>
 				</div>
 				{bodyData}
 				<div className="button-block">
