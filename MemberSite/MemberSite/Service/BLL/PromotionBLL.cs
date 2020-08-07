@@ -49,7 +49,7 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            return promotionList.OrderBy(x=> x.Sort);
+            return promotionList.OrderBy(x => x.Sort);
         }
         public IEnumerable<Promotion> GetPromotionListByCustId(int custId)
         {
@@ -88,15 +88,15 @@ namespace MemberSite.Service.BLL
         public async Task<int> SetClaimPromotionAsync(int custId, string bonusCode)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var result = promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out decimal bonusAmount, out decimal lockedAmount, out decimal rollOver, out long expiryTime);
+            var result = promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out decimal bonusAmount, out decimal lockedAmount, out decimal rollOver, out long expiryTime, out Promotion promotion);
 
-            if (bonusType == 2 && result > 0)
+            if (promotion?.TpId > 0 && result > 0)
             {
                 var myUrl = $"{apiUrl}BonusTransfer";
                 ApiResult<TransferResult> apiResult = new ApiResult<TransferResult>();
                 var tpBonusTransfer = new TpBonusTransfer
                 {
-                    TpId = 1,
+                    TpId = promotion.TpId,
                     CustId = custId,
                     Bonus = bonusAmount + lockedAmount,
                     BonusAmount = bonusAmount,
