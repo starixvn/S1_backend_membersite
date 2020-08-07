@@ -42,7 +42,7 @@ class SubmitOnlineBanking extends Component {
 		value = IsConvertRequired === true ? value * 1000 : value;
 		if (data === null) {
 			status = 4;
-			message = "Please select bank";
+			message = i18n.lbl_PleaseSelBank;
 		} else if (isNaN(value)) {
 			status = 2;
 			message = i18n.lbl_AmountTooltip;

@@ -1758,6 +1758,9 @@
   <data name="lbl_Note" xml:space="preserve">
     <value>NOTE</value>
   </data>
+  <data name="lbl_PleaseSelBank" xml:space="preserve">
+    <value>Select Bank</value>
+  </data>
   <data name="lbl_RecipientInfo" xml:space="preserve">
     <value>Recipient Info</value>
   </data>

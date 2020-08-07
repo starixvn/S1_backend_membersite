@@ -1690,6 +1690,9 @@
   <data name="lbl_Note" xml:space="preserve">
     <value>Ghi chú</value>
   </data>
+  <data name="lbl_PleaseSelBank" xml:space="preserve">
+    <value>Xin lựa chọn ngân hàng</value>
+  </data>
   <data name="lbl_RecipientInfo" xml:space="preserve">
     <value>Thông Tin Người Nhận</value>
   </data>

@@ -101,7 +101,7 @@ class WithdrawalPanel extends Component {
 	};
 	onConfirm = () => {
 		if (this.state.PickBankInfo == null) {
-			alert("Please select bank");
+			alert(i18n.lbl_PleaseSelBank);
 		} else if (
 			this.state.Amount == null ||
 			isNaN(this.state.Amount) ||

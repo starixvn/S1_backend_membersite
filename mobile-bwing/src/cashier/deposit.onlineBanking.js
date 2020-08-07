@@ -26,7 +26,7 @@ class SubmitOnlineBanking extends Component {
 		let data = this.state.SelectBank;
 		if (data === null) {
 			status = 4;
-			message = "Please select bank";
+			message = i18n.lbl_PleaseSelBank;
 		} else if (isNaN(value)) {
 			status = 2;
 			message = i18n.lbl_AmountTooltip;
