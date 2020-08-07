@@ -1684,4 +1684,19 @@
   <data name="lbl_SexyCasino" xml:space="preserve">
     <value>Sảnh Venus</value>
   </data>
+  <data name="lbl_AccountNumber" xml:space="preserve">
+    <value>Số Tài Khoản</value>
+  </data>
+  <data name="lbl_Note" xml:space="preserve">
+    <value>Ghi chú</value>
+  </data>
+  <data name="lbl_RecipientInfo" xml:space="preserve">
+    <value>Thông Tin Người Nhận</value>
+  </data>
+  <data name="lbl_RecipientName" xml:space="preserve">
+    <value>Tên Người Nhận</value>
+  </data>
+  <data name="lbl_WithdrawalNotice" xml:space="preserve">
+    <value>Chúng tôi không chịu trách nhiệm với trường hợp thông tin người nhận không chính xác hoặc tài khoản bị tấn công</value>
+  </data>
 </root>

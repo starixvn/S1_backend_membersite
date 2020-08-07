@@ -1752,4 +1752,19 @@
   <data name="lbl_SelectBank" xml:space="preserve">
     <value>Select Bank</value>
   </data>
+  <data name="lbl_AccountNumber" xml:space="preserve">
+    <value>Account Number</value>
+  </data>
+  <data name="lbl_Note" xml:space="preserve">
+    <value>NOTE</value>
+  </data>
+  <data name="lbl_RecipientInfo" xml:space="preserve">
+    <value>Recipient Info</value>
+  </data>
+  <data name="lbl_RecipientName" xml:space="preserve">
+    <value>Recipient Name</value>
+  </data>
+  <data name="lbl_WithdrawalNotice" xml:space="preserve">
+    <value>We are not responsible for the incorrect recipient information or hacked account</value>
+  </data>
 </root>

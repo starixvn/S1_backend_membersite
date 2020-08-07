@@ -219,24 +219,21 @@ class WithdrawalPanel extends Component {
 						<div className="option-header">
 							<span className="text-bold">
 								<span className="text-bold">
-									Recipient info:{" "}
+									{i18n.lbl_RecipientInfo}:{" "}
 								</span>
 							</span>
 						</div>
 						<div className="form">
 							<p className="note">
 								<span className="text-red text-bold">
-									NOTE:{" "}
+									{i18n.lbl_Note}:{" "}
 								</span>
-								<span>
-									We are not responsible for the incorrect
-									recipient information or hacked account
-								</span>
+								<span>{i18n.lbl_WithdrawalNotice}</span>
 							</p>
 							<div className="form-group">
 								<div className="label">
 									<span className="text-bold">
-										Account number:{" "}
+										{i18n.lbl_AccountNumber}:{" "}
 									</span>
 								</div>
 								<div className="input-field">
@@ -255,7 +252,7 @@ class WithdrawalPanel extends Component {
 
 								<div className="label">
 									<span className="text-bold">
-										Recipient name:{" "}
+										{i18n.lbl_RecipientName}:{" "}
 									</span>
 								</div>
 								<div className="input-field">
