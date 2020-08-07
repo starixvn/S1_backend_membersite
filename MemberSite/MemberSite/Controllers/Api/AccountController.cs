@@ -35,8 +35,9 @@ namespace MemberSite.Controllers.Api
         private readonly PromotionBLL promotionBLL;
         private readonly ThirdPartyBLL thirdPartyBLL;
         private readonly CasinoBLL casinoBLL;
+        private readonly BonusWalletBLL bonusWalletBLL;
 
-        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter, MessageBLL messageBLL, PaymentBLL paymentBLL, PromotionBLL promotionBLL, ThirdPartyBLL thirdPartyBLL, CasinoBLL casinoBLL)
+        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter, MessageBLL messageBLL, PaymentBLL paymentBLL, PromotionBLL promotionBLL, ThirdPartyBLL thirdPartyBLL, CasinoBLL casinoBLL, BonusWalletBLL bonusWalletBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -52,6 +53,7 @@ namespace MemberSite.Controllers.Api
             this.promotionBLL = promotionBLL;
             this.thirdPartyBLL = thirdPartyBLL;
             this.casinoBLL = casinoBLL;
+            this.bonusWalletBLL = bonusWalletBLL;
         }
 
         [HttpPost]
@@ -636,11 +638,28 @@ namespace MemberSite.Controllers.Api
             }
         }
 
-        //[HttpPost]
-        //public IEnumerable<BonusWallet> GetBonusWallet()
-        //{
+        [HttpPost]
+        public ApiResult<IEnumerable<BonusWallet>> GetCustBonusWallet()
+        {
+            var result = new ApiResult<IEnumerable<BonusWallet>>();
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    var authData = authorizeBLL.GetAuthData();
+                    var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                    result.Data = bonusWalletBLL.GetCustBonusWallet(custInfo.CustId);
+                    result.ErrorCode = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.ErrorCode = 999;
+                result.RawMessage = ex.Message;
+            }
 
-        //}
+            return result;
+        }
 
         //[HttpPost]
         //public ApiResult DelCustBankInfo(BankInfo bankInfo)

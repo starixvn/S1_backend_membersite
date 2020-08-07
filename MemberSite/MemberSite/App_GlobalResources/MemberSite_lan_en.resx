@@ -1752,4 +1752,19 @@
   <data name="lbl_SelectBank" xml:space="preserve">
     <value>Select Bank</value>
   </data>
+  <data name="lbl_TpWallet_1" xml:space="preserve">
+    <value>Sportsbook Wallet</value>
+  </data>
+  <data name="lbl_PromoCategory_1" xml:space="preserve">
+    <value>Slots Game</value>
+  </data>
+  <data name="lbl_PromoCategory_2" xml:space="preserve">
+    <value>Live Casino</value>
+  </data>
+  <data name="lbl_PromoCategory_3" xml:space="preserve">
+    <value>Fishing Game</value>
+  </data>
+  <data name="lbl_PromoCategory_4" xml:space="preserve">
+    <value>Saba Sports</value>
+  </data>
 </root>

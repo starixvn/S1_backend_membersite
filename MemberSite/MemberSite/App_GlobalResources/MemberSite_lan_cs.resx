@@ -1697,4 +1697,7 @@
   <data name="lbl_SexyCasino" xml:space="preserve">
     <value>维纳斯厅</value>
   </data>
+  <data name="lbl_TpWallet_1" xml:space="preserve">
+    <value>体育钱包</value>
+  </data>
 </root>

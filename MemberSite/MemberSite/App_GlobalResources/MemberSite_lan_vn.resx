@@ -1684,4 +1684,7 @@
   <data name="lbl_SexyCasino" xml:space="preserve">
     <value>Sảnh Venus</value>
   </data>
+  <data name="lbl_TpWallet_1" xml:space="preserve">
+    <value>Ví Sportsbook</value>
+  </data>
 </root>

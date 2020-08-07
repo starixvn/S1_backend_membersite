@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using MemberSite.Service.Model;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
@@ -49,6 +50,12 @@ namespace MemberSite.Service.DAL
         {
             var p = new DynamicParameters(new { BonusId = bonusId, CustId = custId, SiteId = siteId, UserName = userName, BonusAmount = bonusAmount, LockedAmount = lockedAmount, Rollover = rollover, ExpiryTime = expiryTime, Type = type, Memo = Memo, RefTransId = RefTransId });
             return conn.Execute("Common_Bonus_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure) > 0;
+        }
+
+        public IEnumerable<BonusWallet> GetCustBonusWallet(int CustId)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Query<BonusWallet>("Member_CustBonus_Get", new { CustId }, commandType: CommandType.StoredProcedure);
         }
     }
 }
