@@ -179,9 +179,9 @@
 
     <div class="product">
         <div class="item-banner">
-            <a class="lobby-sport" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+            <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "200", Url)">
                 <div class="card">
-                    <img src="~/SiteSkin/Bwing/Desktop/images/banner-casino.jpg" alt="product" />
+                    <img src="~/SiteSkin/Bwing/Desktop/images/banner-saba.png" alt="product" />
                 </div>
             </a>
         </div>
