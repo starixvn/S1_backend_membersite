@@ -637,6 +637,12 @@ namespace MemberSite.Controllers.Api
         }
 
         //[HttpPost]
+        //public IEnumerable<BonusWallet> GetBonusWallet()
+        //{
+
+        //}
+
+        //[HttpPost]
         //public ApiResult DelCustBankInfo(BankInfo bankInfo)
         //{
         //    var apiResult = new ApiResult(selLangBLL);
