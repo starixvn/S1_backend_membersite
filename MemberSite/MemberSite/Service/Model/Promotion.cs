@@ -38,6 +38,7 @@ namespace MemberSite.Service.Model
         public int Sort { get; set; }
         public CustRollOver custRollOver { get; set; }
         public string Details { get; set; }
+        public int TpId { get; set; }
     }
 
     public class PromotionBanner

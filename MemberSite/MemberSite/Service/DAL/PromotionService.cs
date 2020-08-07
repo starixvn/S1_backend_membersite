@@ -131,7 +131,7 @@ namespace MemberSite.Service.DAL
                             Match m = Regex.Match(transId, @"\d+");
                             int.TryParse(m.Value, out bonusId);
 
-                            result = bonusWalletService.RewardBonus(bonusId, custId, siteId, userName, dBonus, dLockedAmount, dRollOver, expiryTime, (int)promotion.PromotionType, $"Claim Promotion BonusCode: {bonusCode}", transId, conn, trans) ? 1 : 0;
+                            result = bonusWalletService.RewardBonus(bonusId, promotion.CategoryId, promotion.TpId, custId, siteId, userName, dBonus, dLockedAmount, dRollOver, expiryTime, (int)promotion.PromotionType, $"Claim Promotion BonusCode: {bonusCode}", transId, conn, trans) ? 1 : 0;
                         }
                     }
                     else
