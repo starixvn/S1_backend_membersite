@@ -28,7 +28,7 @@
     $("#LoginForm").submit(function(event) {
         event.preventDefault();
         let data = {UserName:$("#Login_UserName").val() ,Userpwd:$("#Login_Userpwd").val()};
-        axios.post('/api/Site/SignIn', data)
+        axios.post(`/api/Site/SignIn/${SiteLanguage}`, data)
         .then(function (response) {
             let result = response.data;
             if (result.errorCode == 0) {
