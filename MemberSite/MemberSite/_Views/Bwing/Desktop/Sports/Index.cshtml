@@ -10,8 +10,6 @@
     Layout = $"~/_Views/{serverInfo.SiteName}/Desktop/Shared/_Layout.cshtml";
 
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Desktop");
-    var tpId = Context.Request.Query["tpId"];
-    var gameId = Context.Request.Query["gameId"];
 }
 @section Style{
 
@@ -45,9 +43,5 @@
 </div>
 
 @section Scripts{
-    <script>
-        if ('@tpId' === '1' && '@gameId' === '1') {
-            $('#wrapper-page').addClass("fullview");
-        }
-    </script>
+
 }

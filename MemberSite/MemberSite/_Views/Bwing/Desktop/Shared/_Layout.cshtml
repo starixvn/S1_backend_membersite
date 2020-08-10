@@ -94,7 +94,8 @@
             }
         }
     }
-    <div class="page" id="wrapper-page">
+    
+    <div class="page@(string.Equals(ViewContext.RouteData.Values["controller"] as string, "sports", StringComparison.OrdinalIgnoreCase) ? " fullview" : "")">
         <partial name="~/_Views/Bwing/Desktop/Shared/_Header.cshtml" />
         <div class="wrap-content @(User.Identity.IsAuthenticated ? "is-login":"")">
             @RenderBody()
