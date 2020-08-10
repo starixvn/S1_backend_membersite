@@ -287,7 +287,7 @@ class WithdrawalPanel extends Component {
 								<button
 									className="btn btn-primary"
 									onClick={this.onConfirm}>
-									{i18n.lbl_Submit}
+									{i18n.lbl_Withdrawal}
 								</button>
 							</div>
 						</div>

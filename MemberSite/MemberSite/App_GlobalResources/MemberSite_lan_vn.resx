@@ -1702,4 +1702,7 @@
   <data name="lbl_WithdrawalNotice" xml:space="preserve">
     <value>Chúng tôi không chịu trách nhiệm với trường hợp thông tin người nhận không chính xác hoặc tài khoản bị tấn công</value>
   </data>
+  <data name="lbl_ViewStatement" xml:space="preserve">
+    <value>Xem Sao Kê</value>
+  </data>
 </root>

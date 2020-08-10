@@ -191,7 +191,7 @@ class Panel extends Component {
 							<button
 								className="btn btn-primary"
 								onClick={this.GetHistory.bind(this, 1)}>
-								{i18n["lbl_Submit"]}
+								{i18n["lbl_ViewHistory"]}
 							</button>
 						</div>
 					</div>

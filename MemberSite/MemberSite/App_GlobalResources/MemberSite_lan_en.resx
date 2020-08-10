@@ -1770,4 +1770,7 @@
   <data name="lbl_WithdrawalNotice" xml:space="preserve">
     <value>We are not responsible for the incorrect recipient information or hacked account</value>
   </data>
+  <data name="lbl_ViewStatement" xml:space="preserve">
+    <value>View</value>
+  </data>
 </root>
