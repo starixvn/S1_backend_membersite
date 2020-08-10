@@ -180,6 +180,9 @@
   <data name="lbl_LiveChat" xml:space="preserve">
     <value>Live Chat</value>
   </data>
+  <data name="lbl_LiveChatURL" xml:space="preserve">
+    <value>https://direct.lc.chat/11638088/7</value>
+  </data>
   <data name="lbl_NoAccount" xml:space="preserve">
     <value> Don't have an account?</value>
   </data>
