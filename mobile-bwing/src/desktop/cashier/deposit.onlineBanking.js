@@ -173,7 +173,7 @@ class SubmitOnlineBanking extends Component {
 						<button
 							className="btn btn-secondary"
 							onClick={this.OnSubmit}>
-							{i18n.lbl_Submit}
+							{i18n.lbl_Confirm}
 						</button>
 					</div>
 				</div>
