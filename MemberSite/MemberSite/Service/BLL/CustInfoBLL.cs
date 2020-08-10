@@ -256,7 +256,7 @@ namespace MemberSite.Service.BLL
                 return customer;
             }
 
-            customer = custInfoService.GetCustInfoByMail(email);
+            customer = custInfoService.GetCustInfoByMail(email, serverInfo.SiteId);
 
             if (customer != null)
             {

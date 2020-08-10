@@ -1477,8 +1477,9 @@ a {
 /* ----------- Live Support ------------- */
 .live-suport {
   position: fixed;
-  right: -21.6rem;
-  top: 20rem;
+  right: -19.2rem;
+  /* top: 20rem; */
+  bottom: 0;
   cursor: pointer;
   will-change: right;
   transition: right 0.5s ease-in;
@@ -1491,25 +1492,28 @@ a {
 
 .live-suport .live-title {
   position: absolute;
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   width: 31rem;
-  height: 6rem;
+  /* height: 6rem;
   right: 9.2rem;
-  top: 12.5rem;
+  top: 12.5rem; */
+  right: 9.6rem;
+  top: 15.6rem;
   transform: rotate(270deg);
-  background: rgb(0, 110, 195);
+  /* background: rgb(0, 110, 195);
   background: linear-gradient(-90deg,
       rgba(0, 110, 195, 1) 0%,
       rgba(0, 59, 157, 1) 100%);
-  border: 1px solid #0c4b7c;
+  border: 1px solid #0c4b7c; */
 }
 
 .live-suport .title-icon {
   position: absolute;
-  top: 0;
-  right: 0;
+  /* top: 2.4rem; */
+  /* right: 0; */
+  left: 15.5rem;
   background: #fff;
   transform: rotate(90deg);
   display: inline-block;
@@ -1525,6 +1529,7 @@ a {
   text-transform: uppercase;
   font-weight: 500;
   color: #fff;
+  display: none;
 }
 
 .live-suport .live-title .icon-arrow {
@@ -1537,6 +1542,7 @@ a {
   bottom: 0rem;
   -webkit-animation: bounce 2s infinite;
   animation: bounce 2s infinite;
+  display: none;
 }
 
 .live-suport .live-title .icon-arrow:after,

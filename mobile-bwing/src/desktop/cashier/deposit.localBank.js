@@ -286,7 +286,7 @@ export class BankInfoModal extends Component {
 						<button
 							className="btn btn-primary"
 							onClick={this.handleSubmit.bind(this)}>
-							{i18n.lbl_Submit}
+							{i18n.lbl_Confirm}
 						</button>
 					</div>
 				</div>

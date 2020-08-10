@@ -69,10 +69,10 @@ namespace MemberSite.Service.DAL
             return conn.QueryFirstOrDefault<Customer>("Customer_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
         }
 
-        public Customer GetCustInfoByMail(string email)
+        public Customer GetCustInfoByMail(string email, int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.QueryFirstOrDefault<Customer>("Member_CustomerByMail_Get", new { Email = email }, commandType: CommandType.StoredProcedure);
+            return conn.QueryFirstOrDefault<Customer>("Member_CustomerByMail_Get", new { Email = email, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
 
         public Customer GetCustInfoByUserName(string userName, int siteId)

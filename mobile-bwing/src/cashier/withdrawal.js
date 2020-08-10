@@ -101,7 +101,7 @@ class WithdrawalPanel extends Component {
 	};
 	onConfirm = () => {
 		if (this.state.PickBankInfo == null) {
-			alert("Please select bank");
+			alert(i18n.lbl_PleaseSelBank);
 		} else if (
 			this.state.Amount == null ||
 			isNaN(this.state.Amount) ||
@@ -212,20 +212,23 @@ class WithdrawalPanel extends Component {
 				</div>
 				<div className="sub-header">
 					<span className="text-bold">
-						<span className="text-bold">Recipient info: </span>
+						<span className="text-bold">
+							{i18n.lbl_RecipientInfo}:{" "}
+						</span>
 					</span>
 				</div>
 				<div className="form">
 					<p className="note">
-						<span className="text-red text-bold">NOTE: </span>
-						<span>
-							We are not responsible for the incorrect recipient
-							information or hacked account
+						<span className="text-red text-bold">
+							{i18n.lbl_Note}:{" "}
 						</span>
+						<span>{i18n.lbl_WithdrawalNotice}</span>
 					</p>
 					<div className="form-group">
 						<div className="label">
-							<span className="text-bold">Account number: </span>
+							<span className="text-bold">
+								{i18n.lbl_AccountNumber}:{" "}
+							</span>
 						</div>
 						<div className="input-field">
 							<input
@@ -241,7 +244,9 @@ class WithdrawalPanel extends Component {
 						</div>
 
 						<div className="label">
-							<span className="text-bold">Recipient name: </span>
+							<span className="text-bold">
+								{i18n.lbl_RecipientName}:{" "}
+							</span>
 						</div>
 						<div className="input-field">
 							<input

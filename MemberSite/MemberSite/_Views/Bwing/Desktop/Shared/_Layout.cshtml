@@ -99,7 +99,10 @@
         <div class="wrap-content @(User.Identity.IsAuthenticated ? "is-login":"")">
             @RenderBody()
         </div>
-        <partial name="~/_Views/Bwing/Desktop/Shared/_Footer.cshtml" />
+        @if (!string.Equals(ViewContext.RouteData.Values["controller"] as string, "sports", StringComparison.OrdinalIgnoreCase))
+        {
+            <partial name="~/_Views/Bwing/Desktop/Shared/_Footer.cshtml" />
+        }
     </div>
 
     <div class="remodal-bg"></div>
@@ -239,45 +242,45 @@
             <span class="icon icon-logo"></span>
             <ul>
                 <li>
-                    <a class="support-link" href="https://direct.lc.chat/11638088/6" target="livechat">
+                    <a class="support-link" href="@selLangBLL.GetResourceValue("lbl_LiveChatURL")" target="livechat">
                         <i class="icon icon-chat"></i>@selLangBLL.GetResourceValue("lbl_LiveChat")
                     </a>
                 </li>
                 @*<li>
-                    <a class="support-link" href="mailto:n2csd@gmail.com">
-                        <i class="icon icon-mail"></i>n2csd@gmail.com
-                    </a>
-                </li>
-                <li>
-                    <a class="support-link" href="#">
-                        <i class="icon icon-phone"></i>0905000000
-                    </a>
-                </li>
-                <li>
-                    <a class="support-link" href="#">
-                        <i class="icon icon-facebook"></i>Bwing.com
-                    </a>
-                </li>
-                <li>
-                    <a class="support-link" href="#">
-                        <i class="icon icon-phone"></i>+99999999999
-                    </a>
-                </li>*@
+                        <a class="support-link" href="mailto:n2csd@gmail.com">
+                            <i class="icon icon-mail"></i>n2csd@gmail.com
+                        </a>
+                    </li>
+                    <li>
+                        <a class="support-link" href="#">
+                            <i class="icon icon-phone"></i>0905000000
+                        </a>
+                    </li>
+                    <li>
+                        <a class="support-link" href="#">
+                            <i class="icon icon-facebook"></i>Bwing.com
+                        </a>
+                    </li>
+                    <li>
+                        <a class="support-link" href="#">
+                            <i class="icon icon-phone"></i>+99999999999
+                        </a>
+                    </li>*@
                 <li>
                     <a class="support-link" href="skype:live:.cid.ae9eac1a78556dc6?chat">
                         <i class="icon icon-skype"></i>Support Bwing
                     </a>
                 </li>
                 @*<li>
-                    <a class="support-link" href="#">
-                        <i class="icon icon-telegram"></i>Bwing
-                    </a>
-                </li>
-                <li>
-                    <a class="support-link" href="#">
-                        <i class="icon icon-line"></i>+1234567890
-                    </a>
-                </li>*@
+                        <a class="support-link" href="#">
+                            <i class="icon icon-telegram"></i>Bwing
+                        </a>
+                    </li>
+                    <li>
+                        <a class="support-link" href="#">
+                            <i class="icon icon-line"></i>+1234567890
+                        </a>
+                    </li>*@
             </ul>
         </div>
     </div>

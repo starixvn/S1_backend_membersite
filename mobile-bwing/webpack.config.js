@@ -27,8 +27,8 @@ module.exports = {
 		// 	"./src/message/announcement.js"
 		// ],
 		// "cashier/TransferPanel.min": ["./src/cashier/transfer.js"],
-		// "cashier/WithdrawalPanel.min": ["./src/cashier/withdrawal.js"],
-		// "cashier/DepositPanel.min": ["./src/cashier/deposit.js"],
+		"cashier/WithdrawalPanel.min": ["./src/cashier/withdrawal.js"],
+		"cashier/DepositPanel.min": ["./src/cashier/deposit.js"],
 		// "desktop/history/Deposit.min": ["./src/desktop/history/deposit.js"],
 		// "desktop/history/Withdrawal.min": [
 		// 	"./src/desktop/history/withdrawal.js"
@@ -43,10 +43,10 @@ module.exports = {
 		// "desktop/account/UpdProfile.min": [
 		// 	"./src/desktop/profile/updProfile.js"
 		// ],
-		// "desktop/cashier/WithdrawalPanel.min": [
-		// 	"./src/desktop/cashier/withdrawal.js"
-		// ],
-		// "desktop/cashier/DepositPanel.min": ["./src/desktop/cashier/deposit.js"]
+		"desktop/cashier/WithdrawalPanel.min": [
+			"./src/desktop/cashier/withdrawal.js"
+		],
+		"desktop/cashier/DepositPanel.min": ["./src/desktop/cashier/deposit.js"]
 		// "desktop/message/personalMsg/personalMsg.min": [
 		// 	"./src/desktop/message/personalMsg.js"
 		// ],
@@ -65,9 +65,9 @@ module.exports = {
 		// "../../../SiteSkin/Bwing/Desktop/js/before.min": [
 		// 	"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Mobile/js/before.js"
 		// ],
-		"desktop/account/ResetPwd.min": [
-			"../MemberSite/MemberSite/wwwroot/js/Bwing/component/desktop/account/ResetPwd.jsx"
-		]
+		// "desktop/account/ResetPwd.min": [
+		// 	"../MemberSite/MemberSite/wwwroot/js/Bwing/component/desktop/account/ResetPwd.jsx"
+		// ]
 	},
 	output: {
 		path: path.resolve(
