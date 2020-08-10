@@ -8,8 +8,10 @@
     var serverInfo = serverInfoBLL.GetServerInfo();
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Title") + '|' + @selLangBLL.GetResourceValue("lbl_TitleDesc") + "|" + @selLangBLL.GetResourceValue("lbl_Sports");
     Layout = $"~/_Views/{serverInfo.SiteName}/Desktop/Shared/_Layout.cshtml";
-    
+
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Desktop");
+    var tpId = Context.Request.Query["tpId"];
+    var gameId = Context.Request.Query["gameId"];
 }
 @section Style{
 
@@ -43,5 +45,9 @@
 </div>
 
 @section Scripts{
-
+    <script>
+        if ('@tpId' === '1' && '@gameId' === '1') {
+            $('#wrapper-page').addClass("fullview");
+        }
+    </script>
 }

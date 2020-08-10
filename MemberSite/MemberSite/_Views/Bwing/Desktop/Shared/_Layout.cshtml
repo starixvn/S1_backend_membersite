@@ -94,7 +94,7 @@
             }
         }
     }
-    <div class="page">
+    <div class="page" id="wrapper-page">
         <partial name="~/_Views/Bwing/Desktop/Shared/_Header.cshtml" />
         <div class="wrap-content @(User.Identity.IsAuthenticated ? "is-login":"")">
             @RenderBody()
