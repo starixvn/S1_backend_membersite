@@ -1268,19 +1268,21 @@ body {
 
 .live-suport .live-title {
   position: absolute;
-  display: flex;
+  /* display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 15.4rem;
+  width: 15.4rem; */
   height: 4rem;
-  right: 12.2rem;
-  top: 5.7rem;
+  /* right: 12.2rem; */
+  /* top: 5.7rem; */
+  right: 17.5rem;
+  top: -0.4rem;
   transform: rotate(270deg);
-  background: rgb(0, 110, 195);
+  /* background: rgb(0, 110, 195);
   background: linear-gradient(-90deg,
       rgba(0, 110, 195, 1) 0%,
       rgba(0, 59, 157, 1) 100%);
-  border: 1px solid #0c4b7c;
+  border: 1px solid #0c4b7c; */
 }
 
 .live-suport .title-icon {
@@ -1301,6 +1303,7 @@ body {
   text-transform: uppercase;
   font-weight: 500;
   color: #fff;
+  display: none;
 }
 
 .live-suport .live-title .icon-arrow {
@@ -1313,6 +1316,7 @@ body {
   bottom: 0rem;
   -webkit-animation: bounce 2s infinite;
   animation: bounce 2s infinite;
+  display: none;
 }
 
 .live-suport .live-title .icon-arrow:after,
