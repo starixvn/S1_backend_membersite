@@ -1252,11 +1252,12 @@ body {
 .live-suport {
   position: fixed;
   right: -18rem;
-  top: 20rem;
+  /* top: 20rem; */
   cursor: pointer;
   will-change: right;
   transition: right 0.5s ease-in;
   z-index: 10;
+  bottom: 0;
 
   /* mobile display */
   /* display: none; */
@@ -1283,6 +1284,7 @@ body {
       rgba(0, 110, 195, 1) 0%,
       rgba(0, 59, 157, 1) 100%);
   border: 1px solid #0c4b7c; */
+  bottom: 0;
 }
 
 .live-suport .title-icon {
@@ -1293,7 +1295,8 @@ body {
   height: 5.8rem;
   padding: 1rem;
   text-align: center;
-  margin-right: -1rem;
+  /* margin-right: -1rem; */
+  margin-top: -0.5rem;
 }
 
 .live-suport .live-title .title-text {

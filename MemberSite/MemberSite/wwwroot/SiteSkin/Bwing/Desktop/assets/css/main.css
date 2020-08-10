@@ -3389,3 +3389,19 @@ p.bank-name{
 .forget .btn.btn-icon.btn-form-status{
   display: none;
 }
+
+body{
+  height: 100%;
+}
+.page.fullview{
+  height: 100%;
+}
+.fullview .wrap-content{
+  height: 100%;
+}
+.fullview .wrap-content iframe{
+  height: 100%;
+  position: relative;
+  left: 50%;
+  margin-left: -683px;
+}
