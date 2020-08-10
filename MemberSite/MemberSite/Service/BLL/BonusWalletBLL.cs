@@ -20,5 +20,10 @@ namespace MemberSite.Service.BLL
         {
             return bonusWalletService.GetCustBonusWallet(CustId);
         }
+
+        public BonusWallet CheckBonusWallet(int CustId, int TpId)
+        {
+            return bonusWalletService.CheckBonusWallet(CustId, TpId);
+        }
     }
 }

@@ -27,8 +27,10 @@ namespace MemberSite.Controllers.Api
         private readonly string apiUrl;
         private readonly ThirdPartyBLL thirdPartyBLL;
         private readonly WalletBLL walletBLL;
+        private readonly BonusWalletBLL bonusWalletBLL;
+        private readonly CustInfoBLL custInfoBLL;
 
-        public TpController(CourierAdapter courierAdapter, IConfiguration configuration, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, ThirdPartyBLL thirdPartyBLL,WalletBLL walletBLL)
+        public TpController(CourierAdapter courierAdapter, IConfiguration configuration, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, ThirdPartyBLL thirdPartyBLL,WalletBLL walletBLL, BonusWalletBLL bonusWalletBLL, CustInfoBLL custInfoBLL)
         {
             this.courierAdapter = courierAdapter;
             this.configuration = configuration;
@@ -38,6 +40,8 @@ namespace MemberSite.Controllers.Api
             apiUrl = configuration.GetValue<string>("TpService");
             this.thirdPartyBLL = thirdPartyBLL;
             this.walletBLL = walletBLL;
+            this.bonusWalletBLL = bonusWalletBLL;
+            this.custInfoBLL = custInfoBLL;
         }
 
         public class TpInfo
@@ -88,6 +92,10 @@ namespace MemberSite.Controllers.Api
             public TransferStatus Status { get; set; }
             public string ThirdId { get; set; }
             public decimal Difference { get; set; }
+            public decimal Bonus { get; set; }
+            public decimal Rollover { get; set; }
+            public decimal Turnover { get; set; }
+            public int BonusStatus { get; set; }
         }
         public enum TransferStatus
         {
@@ -121,41 +129,56 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult<TransferResult>> Transfer([FromBody]TpTransferReq inTpTransfer)
         {
             var authData = authorizeBLL.GetAuthData();
-            decimal amount = inTpTransfer.Amount;
-            if (amount.ToString().IndexOf(".") > -1)
+            BonusWallet bonusWalletInfo = inTpTransfer.direction == TpDirection.ToMain ? bonusWalletBLL.CheckBonusWallet(authData.CustId, inTpTransfer.TpId) : null;
+            ApiResult<TransferResult> result = new ApiResult<TransferResult>();
+            if (bonusWalletInfo != null)
             {
-                decimal.TryParse(amount.ToString("#.##"), out amount);
+                result.ErrorCode = 9;
+                result.Data = new TransferResult() {
+                    Bonus = bonusWalletInfo.Bonus,
+                    Turnover = bonusWalletInfo.Turnover,
+                    Rollover = bonusWalletInfo.Rollover,
+                    BonusStatus = bonusWalletInfo.Status
+                };
+
+                return result;
             }
-            Dictionary<string, string> input = new Dictionary<string, string>();
-            input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-            input.Add("ClientIP", tools.GetClientIP());
-
-            var tpTransfer = new TpTransfer
+            else
             {
-                TpId = inTpTransfer.TpId,
-                CustId = authData.CustId,
-                Amount = amount,
-                direction = inTpTransfer.direction,
-                inputs = input
-            };
-            var myUrl = $"{apiUrl}Transfer";
-            var data = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
+                decimal amount = inTpTransfer.Amount;
+                if (amount.ToString().IndexOf(".") > -1)
+                {
+                    decimal.TryParse(amount.ToString("#.##"), out amount);
+                }
+                Dictionary<string, string> input = new Dictionary<string, string>();
+                input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
+                input.Add("ClientIP", tools.GetClientIP());
 
-            ApiResult<TransferResult> result = data;
-            if (result.ErrorCode != 0 && string.IsNullOrEmpty(result.Message) && !string.IsNullOrEmpty(result.RawMessage))
-            {
-                if (result.RawErrorCode == "3")
+                var tpTransfer = new TpTransfer
+                {
+                    TpId = inTpTransfer.TpId,
+                    CustId = authData.CustId,
+                    Amount = amount,
+                    direction = inTpTransfer.direction,
+                    inputs = input
+                };
+                var myUrl = $"{apiUrl}Transfer";
+                result = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
+                if (result.ErrorCode != 0 && string.IsNullOrEmpty(result.Message) && !string.IsNullOrEmpty(result.RawMessage))
+                {
+                    if (result.RawErrorCode == "3")
+                        result.Message = selLangBLL.GetMsg("msg_InsufficientFund");
+                    else
+                        result.Message = result.RawMessage;
+                }
+                else if (result.ErrorCode == 1201)
+                {
                     result.Message = selLangBLL.GetMsg("msg_InsufficientFund");
-                else
-                    result.Message = result.RawMessage;
-            }
-            else if ( result.ErrorCode == 1201)
-            {
-                result.Message = selLangBLL.GetMsg("msg_InsufficientFund");
-            }
+                }
 
-            result.SetSelLang(selLangBLL);
-            return result;
+                result.SetSelLang(selLangBLL);
+                return result;
+            }
         }
 
         [HttpPost]
