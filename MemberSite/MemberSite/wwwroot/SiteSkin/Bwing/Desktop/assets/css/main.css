@@ -1588,9 +1588,6 @@ a {
 .live-suport .live-content ul li {
   padding: 0.8rem 1rem;
   border-top: 1px solid #cfcfcf;
-  height: calc(50px + 1.6rem);
-  display: flex;
-  align-items: center;
 }
 
 .live-suport .live-content .icon {
@@ -1606,6 +1603,8 @@ a {
   color: #888;
   text-decoration: none;
   height: 50px;
+  display: flex;
+  align-items: center;
 }
 
 .live-suport .live-content li:hover .support-link {
