@@ -440,11 +440,12 @@ aside .sidenav__item a {
   overflow-y: auto;
   margin: 0;
   -webkit-overflow-scrolling: touch;
-}
+ }
 
 .help--lic section {
   padding: 0.5em 1.5em 1.5em;
   font-size: inherit;
+  background: #112240;/*8/6新增*/
 }
 
 [data-layout=partial] section > * {
