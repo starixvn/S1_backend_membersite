@@ -359,7 +359,7 @@ a {
 }
 
 .icon-skype {
-  background: url("../../images/skylogo.png") no-repeat -27px -112px;
+  background: url("../../images/skylogo.png")no-repeat top center / cover;
   width: 50px;
   height: 50px;
 }
@@ -2922,13 +2922,6 @@ input[type="number"]::-webkit-outer-spin-button {
     grid-column: 1/4;
 }
 
-.description {
-    padding: 1.5rem;
-    padding-left: 4rem;
-    grid-column: 1/4;
-    color: white;
-}
-
 /* --- Transfer Funds Page ----- */
 .transferFunds-block .panel-accordion {
   background-color: transparent;
@@ -3414,9 +3407,4 @@ body{
   position: relative;
   left: 50%;
   margin-left: -683px;
-}
-#chat-widget-container{
-  position: static !important;
-  width: 100% !important;
-  height: 100% !important;
 }
