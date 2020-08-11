@@ -335,9 +335,9 @@ a {
 }
 
 .icon-chat {
-  background: url("../../images/img-sprite.png") no-repeat -216px -64px;
-  width: 24px;
-  height: 24px;
+  /* background: url("../../images/img-sprite.png") no-repeat -216px -64px; */
+  width: 50px;
+  height: 50px;
 }
 
 .icon-mail {
@@ -359,9 +359,9 @@ a {
 }
 
 .icon-skype {
-  background: url("../../images/img-sprite.png") no-repeat -27px -112px;
-  width: 24px;
-  height: 21px;
+  background: url("../../images/skylogo.png") no-repeat -27px -112px;
+  width: 50px;
+  height: 50px;
 }
 
 .icon-telegram {
@@ -1511,9 +1511,9 @@ a {
 
 .live-suport .title-icon {
   position: absolute;
-  /* top: 2.4rem; */
+  top: -2.6rem;
   /* right: 0; */
-  left: 15.5rem;
+  left: 10.5rem;
   background: #fff;
   transform: rotate(90deg);
   display: inline-block;
@@ -1588,6 +1588,9 @@ a {
 .live-suport .live-content ul li {
   padding: 0.8rem 1rem;
   border-top: 1px solid #cfcfcf;
+  height: calc(50px + 1.6rem);
+  display: flex;
+  align-items: center;
 }
 
 .live-suport .live-content .icon {
@@ -1602,6 +1605,7 @@ a {
 .live-suport .live-content .support-link {
   color: #888;
   text-decoration: none;
+  height: 50px;
 }
 
 .live-suport .live-content li:hover .support-link {
@@ -2919,6 +2923,13 @@ input[type="number"]::-webkit-outer-spin-button {
     grid-column: 1/4;
 }
 
+.description {
+    padding: 1.5rem;
+    padding-left: 4rem;
+    grid-column: 1/4;
+    color: white;
+}
+
 /* --- Transfer Funds Page ----- */
 .transferFunds-block .panel-accordion {
   background-color: transparent;
@@ -3406,11 +3417,7 @@ body{
   margin-left: -683px;
 }
 #chat-widget-container{
-  width: 40px;
-  height: 40px;
-  right: -4rem;
-  bottom: 5.7rem;
-}
-#chat-widget-container.active{
-  right: 14.2rem;
+  position: static !important;
+  width: 100% !important;
+  height: 100% !important;
 }
