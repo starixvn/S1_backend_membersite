@@ -1277,7 +1277,7 @@ body {
   /* right: 12.2rem; */
   /* top: 5.7rem; */
   right: 17.5rem;
-  top: -0.4rem;
+  /* top: -0.4rem; */
   transform: rotate(270deg);
   /* background: rgb(0, 110, 195);
   background: linear-gradient(-90deg,
@@ -1296,7 +1296,7 @@ body {
   padding: 1rem;
   text-align: center;
   /* margin-right: -1rem; */
-  margin-top: -0.5rem;
+  /* margin-top: -0.5rem; */
 }
 
 .live-suport .live-title .title-text {
@@ -1971,4 +1971,11 @@ ul.marquee li {
 
 .forget .form .input-field{
   width: 100%;
+}
+
+.calendar-group .btn.btn-primary{
+  margin: 2rem 0;
+}
+.calendar-group .form-input{
+  display: block;
 }

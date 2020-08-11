@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>FAQ</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
+    <link href="../../Desktop/assets/css/bwinghelp.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="side-bar" role="desktop-drawer">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <a class="btn btn-icon" role="desktop-only">
+                        <i class="icon icon-clear"></i>
+                    </a>
+                </div>
+                <div class="side-nav__list">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn" href="/">
+                            <i class="icon icon-home"></i>
+                            <span class="text">Home</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-info-outline"></i>
+                            <span class="text">Bwing</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="AboutUs.html" target="_self">
+                                <span class="text">About Us</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Terms.html" target="_self">
+                                <span class="text">Terms of Use</span>
+                            </a>
+                            <a class="side-nav__subitem" href="ContactUs.html" target="_self">
+                                <span class="text">Contact Us</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="Affiliates.html" target="_self"
+                                <span class="text">Affiliates</span>
+                            </a>-->
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-help-outline"></i>
+                            <span class="text">Help &amp; Support</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="RulesandRegulations.html">
+                                <span class="text">Rules and Regulations</span>
+                            </a>
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Account Terms</span>
+                            </a>
+                            <a class="side-nav__subitem" href="FAQ.html" target="_self">
+                                <span class="text">FAQ</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="DepositWithdrawals.html" target="_self">
+                                <span class="text">Deposit &amp; Withdrawals</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Downloads.html" target="_self">
+                                <span class="text">Downloads</span>
+                            </a>-->
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Account Terms</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-policy"></i>
+                            <span class="text">Our Policies</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="ResposibleGaming.html" target="_self">
+                                <span class="text">Responsible Gaming</span>
+                            </a>
+                            <a class="side-nav__subitem" href="TermsConditions.html" target="_self">
+                                <span class="text">Terms &amp; Conditions</span>
+                            </a>
+                            <a class="side-nav__subitem" href="PrivacyPolicy.html" target="_self">
+                                <span class="text">Privacy Policy</span>
+                            </a>
+                            <a class="side-nav__subitem" href="CookiePolicy.html" target="_self">
+                                <span class="text">Cookie Policy</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                    <a class="logo" href="/"></a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="help-page">
+                <div class="help-page__body">
+                    <div class="heading">
+                        <span class="text">HOW TO BET</span>
+                    </div>
+                    <div class="article">
+                        <p><strong>Frequently Asked Questions</strong></p>
+                    </div>
+                    <div class="article">
+                        <p><span style="color: #0000ff;"><strong>How many currencies does Bwing accept?</strong></span></p>
+                        <p>Bwing only accepts Vietnamese dong (VND).</p>
+                        <p>1 VND on Bwing = 1,000 VND</p>
+                        <p></p>
+                        <p><span style="color: #0000ff;"><strong>How can I create an account?</strong></span></p>
+                        <p>In the website, you click on the registration button displayed at the top of the page. Here, a small window will appear, including Username, Password, Email, Currency fields. Enter the complete information, tick &ldquo;I agree to the Terms and Conditions and the Rules and Regulations of Bwing. I acknowledge I am at least 21 years of age&rdquo;. Then click "Complete registration".</p>
+                        <p></p>
+                        <p><span style="color: #0000ff;"><strong>How can I contact the Company?</strong></span></p>
+                        <p>On the web, there will be a "Contact" button on the right side of the window. You can contact via Live Chat, Skype, Telegram or Zalo</p>
+                        <p></p>
+                        <p><span style="color: #0000ff;"><strong>How can I place bets?</strong></span></p>
+                        <p><strong>After successful registration, you need to make a transfer to the Wallet by using one of your preferred transfer options. Bwing accounts will have two (2) wallets:</strong></p>
+                        <ul>
+                            <li>Main wallet: participating products Bwing CASINO; LIVE CASINO and FISH WORLD</li>
+                            <li>Sportsbook wallet: participating in products in the SPORTS, VIRTUAL SPORTS, ESPORTS, SABA CLUB, OW CASINO, and LOTTERY.</li>
+                        </ul>
+                        <p></p>
+                        <p><span style="color: #0000ff;"><strong>Will I incur a fee when I deposit or withdraw money from my account?</strong></span></p>
+                        <p>We always try to keep deposits and withdrawals most convenient, all transactions on the Bwing website are free of charge. However, we do not bear any fees if the method you choose incurs additional charges.</p>
+                        <p></p>
+                        <p><span style="color: #0000ff;"><strong>How to update my personal information?</strong></span></p>
+                        <p>After registration, you can go to "Profile" to update your information. These registration details need to match those on your CCCD card (ID card) and bank account. In case of making a mistake, please contact Online Support for assistance.</p>
+                        <p></p>
+                        <p><span style="color: #0000ff;"><strong>How do I deposit money into my Bwing account?</strong></span></p>
+                        <p>You can send money through the following methods:</p>
+                        <p>Online Banking</p>
+                        <p>Local Banks</p>
+                        <p>Recharge by Phone</p>
+                        <p>Note: The minimum deposit is 300 (000). Each method will have a different maximum sending limit.</p>
+                        <p></p>
+                        <p><span style="color: #0000ff;"><strong>How do I withdraw money from my Bwing account?</strong></span></p>
+                        <p>Bwing currently supports withdrawals through all local banks. You can choose the appropriate bank and make a withdrawal.</p>
+                        <p>Note: To ensure the security of the player's account, the Bwing team may request the necessary documents to verify the account before approving the withdrawal order.</p>
+                        <p></p>
+                        <p><span style="color: #0000ff;"><strong>How long does it take to process the deposit and withdrawal?</strong></span></p>
+                        <p>For deposit transactions, if you fill in all correct information, it will take 2 minutes to process the deposit.</p>
+                        <p>For withdrawal transactions, our team will process it within 15 minutes and/or we may request additional documents to verify the transaction.</p>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="footer__cpr">
+                    <span class="text">© Copyright 2020. Bwing. All Rights Reserved.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

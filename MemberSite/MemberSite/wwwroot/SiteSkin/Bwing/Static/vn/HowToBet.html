@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>CÁCH ĐẶT CƯỢC</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
+    <link href="../../Desktop/assets/css/bwinghelp.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="app app--help">
+        <div class="side-bar" role="desktop-drawer">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <a class="btn btn-icon" role="desktop-only">
+                        <i class="icon icon-clear"></i>
+                    </a>
+                </div>
+                <div class="side-nav__list">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn" href="/">
+                            <i class="icon icon-home"></i>
+                            <span class="text">Trang Chủ</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-info-outline"></i>
+                            <span class="text">Bwing</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="AboutUs.html" target="_self">
+                                <span class="text">Giới Thiệu</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Terms.html" target="_self">
+                                <span class="text">Điều khoản Sử dụng</span>
+                            </a>
+                            <a class="side-nav__subitem" href="ContactUs.html" target="_self">
+                                <span class="text">Liên hệ</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="Affiliates.html" target="_self"
+                                <span class="text">Chi nhánh</span>
+                            </a>-->
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-help-outline"></i>
+                            <span class="text">Hỗ trợ</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="RulesandRegulations.html">
+                                <span class="text">Quy Tắc và Quy Định Đặt Cược</span>
+                            </a>
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Điều khoản về Tài khoản</span>
+                            </a>
+                            <a class="side-nav__subitem" href="FAQ.html" target="_self">
+                                <span class="text">Hỏi đáp</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="DepositWithdrawals.html" target="_self">
+                                <span class="text">Gửi tiền &amp; Rút tiền</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Downloads.html" target="_self">
+                                <span class="text">Tải xuống</span>
+                            </a>-->
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Điều khoản về Tài khoản</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-policy"></i>
+                            <span class="text">Chính sách của chúng tôi</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="ResposibleGaming.html" target="_self">
+                                <span class="text">Chơi có trách nhiệm</span>
+                            </a>
+                            <a class="side-nav__subitem" href="TermsConditions.html" target="_self">
+                                <span class="text">Điều Khoản và Điều Kiện</span>
+                            </a>
+                            <a class="side-nav__subitem" href="PrivacyPolicy.html" target="_self">
+                                <span class="text">Chính sách bảo mật</span>
+                            </a>
+                            <a class="side-nav__subitem" href="CookiePolicy.html" target="_self">
+                                <span class="text">Chính sách Cookie</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                    <a class="logo" href="/"></a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="help-page">
+                <div class="help-page__body">
+                    <div class="heading">
+                        <span class="text">CÁCH ĐẶT CƯỢC</span>
+                    </div>
+                    <div class="article">
+                        <p><strong>Bước 1:</strong> Đăng K&yacute; t&agrave;i khoản Bwing</p>
+                        <ul>
+                            <li>Truy cập: <a href="https://www.bwing.com/vn">https://www.bwing.com/vn</a></li>
+                            <li>Chọn &ldquo;Đăng k&yacute;&rdquo; v&agrave; điền th&ocirc;ng tin gồm: T&ecirc;n truy cập, mật khẩu, Email, chọn tiền tệ VND.</li>
+                            <li>Đ&aacute;nh dấu v&agrave;o &ocirc; &ldquo;T&ocirc;i đồng &yacute; với Điều Khoản v&agrave; Điều Kiện v&agrave; Quy Tắc v&agrave; Quy Định Đặt Cược của Bwing. T&ocirc;i x&aacute;c nhận t&ocirc;i đ&atilde; tr&ecirc;n 21 tuổi&rdquo;</li>
+                            <li>Nhấp &ldquo;HO&Agrave;N TH&Agrave;NH ĐĂNG K&Yacute;&rdquo;</li>
+                        </ul>
+                        <img src="../images/1 VN_how to bet.JPG" />
+                        <p><strong>Bước 2:</strong> Đăng nhập v&agrave; nạp tiền</p>
+                        <p>Đăng nhập v&agrave;o t&agrave;i khoản Bwing v&agrave; chọn phương thức gửi tiền bất kỳ để thực hiện nạp tiền v&agrave;o t&agrave;i khoản Bwing. Số dư sẽ hiện l&ecirc;n ph&iacute;a tr&ecirc;n c&ugrave;ng m&agrave;n h&igrave;nh như h&igrave;nh minh họa.</p>
+                        <p> Xem th&ecirc;m: C&aacute;ch gửi tiền Bwing (hyperlink)</p>
+                        <img src="../images/2 VN_how to bet.JPG" />
+                        <p><strong>Bước 3: Chuyển quỹ v&agrave; Chọn tr&ograve; chơi y&ecirc;u th&iacute;ch</strong></p>
+                        <p>T&agrave;i khoản Bwing sẽ c&oacute; hai (2) v&iacute;:</p>
+                        <ul>
+                            <li><strong>V&iacute; ch&iacute;nh:</strong> tham gia c&aacute;c sản phẩm Bwing CASINO; LIVE CASINO v&agrave; BẮN C&Aacute;</li>
+                            <li><strong>V&iacute; Sportsbook: </strong>tham gia c&aacute;c sản phẩm trong sảnh THỂ THAO, THỂ THAO ẢO, THỂ THAO ĐIỆN TỬ, SABA CLUB, OW CASINO, v&agrave; XỔ SỐ.</li>
+                        </ul>
+                        <p>V&agrave;o mục &ldquo;T&iacute;n dụng&rdquo;, chọn &ldquo;Chuyển quỹ&rdquo;, chọn v&iacute; v&agrave; điền số tiền bạn muốn chuyển. Sau đ&oacute;, nhấn n&uacute;t &ldquo;Chuyển quỹ&rdquo; để ho&agrave;n th&agrave;nh.</p>
+                        <img src="../images/3 VN_how to bet.JPG" />
+                        <p><strong>Bước 4:</strong> Đặt cược</p>
+                        <p>Chuyển quỹ th&agrave;nh c&ocirc;ng số dư sẽ c&oacute; ngay trong v&iacute;. Bạn c&oacute; thể bắt đầu chọn tr&ograve; chơi y&ecirc;u th&iacute;ch của m&igrave;nh v&agrave; đặt cược t&ugrave;y th&iacute;ch. Bwing cung cấp c&aacute;c tr&ograve; chơi đa dạng từ thể thao, casino đến c&aacute;c tr&ograve; nổ hũ hay bắn c&aacute;. K&egrave;o cược với tỷ lệ hấp dẫn cho c&aacute;c giải đấu tr&ecirc;n khắp h&agrave;nh tinh. Bắt đầu trải nghiệm ngay!</p>
+                        <img src="../images/4 VN_how to bet.JPG" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2020. Bwing. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

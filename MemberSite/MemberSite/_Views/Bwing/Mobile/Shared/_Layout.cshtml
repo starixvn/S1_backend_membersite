@@ -242,46 +242,47 @@
         <div class="live-content">
             <span class="icon icon-logo"></span>
             <ul>
-                <li>
-                    <a class="support-link" href="@selLangBLL.GetResourceValue("lbl_LiveChatURL")" target="livechat">
-                        <i class="icon icon-chat"></i>@selLangBLL.GetResourceValue("lbl_LiveChat")
-                    </a>
-                </li>
+
                 @*<li>
-                        <a class="support-link" href="mailto:n2csd@gmail.com">
-                            <i class="icon icon-mail"></i>n2csd@gmail.com
-                        </a>
-                    </li>
-                    <li>
-                        <a class="support-link" href="#">
-                            <i class="icon icon-phone"></i>0905000000
-                        </a>
-                    </li>
-                    <li>
-                        <a class="support-link" href="#">
-                            <i class="icon icon-facebook"></i>Bwing.com
-                        </a>
-                    </li>
-                    <li>
-                        <a class="support-link" href="#">
-                            <i class="icon icon-phone"></i>+99999999999
-                        </a>
-                    </li>*@
+            <a class="support-link" href="mailto:n2csd@gmail.com">
+                <i class="icon icon-mail"></i>n2csd@gmail.com
+            </a>
+        </li>
+        <li>
+            <a class="support-link" href="#">
+                <i class="icon icon-phone"></i>0905000000
+            </a>
+        </li>
+        <li>
+            <a class="support-link" href="#">
+                <i class="icon icon-facebook"></i>Bwing.com
+            </a>
+        </li>
+        <li>
+            <a class="support-link" href="#">
+                <i class="icon icon-phone"></i>+99999999999
+            </a>
+        </li>*@
                 <li>
                     <a class="support-link" href="skype:live:.cid.ae9eac1a78556dc6?chat">
                         <i class="icon icon-skype"></i>Support Bwing
                     </a>
                 </li>
                 @*<li>
-                        <a class="support-link" href="#">
-                            <i class="icon icon-telegram"></i>Bwing
-                        </a>
-                    </li>
-                    <li>
-                        <a class="support-link" href="#">
-                            <i class="icon icon-line"></i>+1234567890
-                        </a>
-                    </li>*@
+            <a class="support-link" href="#">
+                <i class="icon icon-telegram"></i>Bwing
+            </a>
+        </li>
+        <li>
+            <a class="support-link" href="#">
+                <i class="icon icon-line"></i>+1234567890
+            </a>
+        </li>*@
+                <li>
+                    <a class="support-link" href="@selLangBLL.GetResourceValue("lbl_LiveChatURL")" target="livechat">
+                        <i class="icon icon-chat"></i>@selLangBLL.GetResourceValue("lbl_LiveChat")
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -555,19 +556,14 @@
         <script src="~/lib/runtime.min.js"></script>
         <script src="~/SiteSkin/Bwing/Mobile/js/before.js" asp-append-version="true"></script>
     }
-    @* Start of LiveChat (www.livechatinc.com) code *@
-    @*<script type="text/javascript">
-            window.__lc = window.__lc || {};
-            window.__lc.license = 11638088;
-            window.__lc.chat_between_groups = false;
-
-            (function () {
-                var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
-                lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
-            })();
-        </script>*@
-    @*  End of LiveChat code*@
+    <!-- Start of LiveChat (www.livechatinc.com) code -->
+    <script>
+        window.__lc = window.__lc || {};
+        window.__lc.license = 11638088;
+        ; (function (n, t, c) { function i(n) { return e._h ? e._h.apply(null, n) : e._q.push(n) } var e = { _q: [], _h: null, _v: "2.0", on: function () { i(["on", c.call(arguments)]) }, once: function () { i(["once", c.call(arguments)]) }, off: function () { i(["off", c.call(arguments)]) }, get: function () { if (!e._h) throw new Error("[LiveChatWidget] You can't use getters before load."); return i(["get", c.call(arguments)]) }, call: function () { i(["call", c.call(arguments)]) }, init: function () { var n = t.createElement("script"); n.async = !0, n.type = "text/javascript", n.src = "https://cdn.livechatinc.com/tracking.js", t.head.appendChild(n) } }; !n.__lc.asyncInit && e.init(), n.LiveChatWidget = n.LiveChatWidget || e }(window, document, [].slice))
+    </script>
+    <noscript><a href="https://www.livechatinc.com/chat-with/11638088/" rel="nofollow">Chat with us</a>, powered by <a href="https://www.livechatinc.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a></noscript>
+    <!-- End of LiveChat code -->
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=@google_id"></script>
     <script>
