@@ -211,7 +211,17 @@ import {number_format} from '../commJS/common';
     class TransferPanel extends React.Component {
         constructor(props) {
             super(props);
-            this.state = { refresh: false, refreshRecent: false, WalletInfo: null, From:0, To:1 ,Amount:1};
+            this.state = {
+				refresh: false,
+				refreshRecent: false,
+				WalletInfo: null,
+				From: 0,
+				To: 1,
+				Amount: 1,
+				showPopBox: false,
+				turnover: 0,
+				rollover: 0
+			};
         }
 
         componentDidMount() {
@@ -363,7 +373,9 @@ import {number_format} from '../commJS/common';
                 .then(function (response) {
                     Loading.UnLoading();
                     let result = response.data;
-                    if (result.errorCode == 0) {
+                    if (result.errorCode === 9) {
+                        this.setState({showPopBox:true, turnover: result.data.turnover, rollover:result.data.rollover})
+                    }else if (result.errorCode == 0) {
                         this.getWalletInfo();
                         this.GetRecent();
                     } else {
@@ -425,7 +437,11 @@ import {number_format} from '../commJS/common';
                 Loading.UnLoading();                
                 alert(error);
             }.bind(this));
-        }                  
+        }
+        
+        ClosePopBox = ()=>{
+            this.setState({showPopBox:false});
+        }
 
         render() {
             let WalletInfo = this.state.WalletInfo;
@@ -459,8 +475,6 @@ import {number_format} from '../commJS/common';
                             </div>;
                 }.bind(this));
             }
-
-            //console.log(data);
 
             return (
             <div>
@@ -532,10 +546,64 @@ import {number_format} from '../commJS/common';
                         </form>
                    </div>
                 </div>                    
-                <RecentHistory GetRecent={this.GetRecent.bind(this)} Data={this.state.Recent} refresh={this.state.refreshRecent}/>                
+                <RecentHistory GetRecent={this.GetRecent.bind(this)} Data={this.state.Recent} refresh={this.state.refreshRecent}/>
+                {
+                    this.state.showPopBox ? <TurnoverPopBox turnover={this.state.turnover} rollover={this.state.rollover} ClosePopBox={this.ClosePopBox}/> : null
+                }
             </div>
             )
         }
     }
+
+    const TurnoverPopBox = ({ turnover, rollover, ClosePopBox }) => {
+		let percentage =
+			turnover > rollover
+				? 100
+                : ((turnover / rollover) * 100).toFixed(2);
+                
+		return (
+			<div className="modal" data-open="true">
+				<div className="overlay"></div>
+				<div className="modal__dialog">
+					<div className="modal__header">
+						<span className="text">{i18n.lbl_ImportantNote}</span>
+					</div>
+					<div className="modal__body">
+						<h3>{i18n.lbl_TurnoverAccmulateHint}</h3>
+						<div className="rollover-info">
+							<div className="rollover-info__item">
+								<div className="turnover">
+									{i18n.lbl_TurnoverAccumulated}
+								</div>
+								<div className="schedule">
+									<div
+										className="schedule-bg"
+										style={{width: `${percentage}%`}}></div>
+								</div>
+								<span className="text">{percentage}%</span>
+								<div className="schedule-info">
+									<span className="text">
+										{i18n.lbl_Currency}{" "}
+										{number_format(turnover)}
+									</span>{" "}
+									/ ({i18n.lbl_Req}.{i18n.lbl_Currency}{" "}
+									{number_format(rollover)})
+								</div>
+							</div>
+						</div>
+					</div>
+					<div className="modal__footer">
+						<div className="btn-group">
+							<button
+								className="btn btn-secondary"
+                                onClick={ClosePopBox}>
+								<span className="text">OK</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	};
     ReactDOM.render(<TransferPanel/>, document.getElementById('TransferPanel'));    
 })(jQuery, React, ReactDOM, i18n, axios, moment);
