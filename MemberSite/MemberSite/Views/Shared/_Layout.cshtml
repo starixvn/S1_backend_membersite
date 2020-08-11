@@ -95,28 +95,30 @@
     @RenderBody()
 
     @*<!-- Live Support -->*@
+
     <div class="live-suport">
         <div class="live-title" id="toggle-LiveSupport">
-            <span class="title-text">@selLangBLL.GetResourceValue("lbl_ContactUs")</span>
-            <span class="title-icon">
-                <i class="icon icon-support"></i>
-            </span>
-            <i class="icon-arrow"></i>
+            <span class="title-icon">@selLangBLL.GetResourceValue("lbl_ContactUs")</span>
         </div>
         <div class="live-content">
-            <span class="icon icon-logo"></span>
             <ul>
                 <li class="icon icon-chat" id="liveChatbtn">
                     @selLangBLL.GetResourceValue("lbl_LiveChat")
                 </li>
-                <li class="icon icon-instagram">
-                    <a href="https://www.instagram.com/nova88.net_official" target="_blank">@selLangBLL.GetResourceValue("lbl_Instagram")</a>
+                <li>
+                    <a class="support-link" href="https://www.instagram.com/nova88.net_official" target="_blank">
+                        <i class="icon icon-instagram"></i>@selLangBLL.GetResourceValue("lbl_Instagram")
+                    </a>
                 </li>
-                <li class="icon icon-facebook">
-                    <a href="https://www.facebook.com/nova88official/" target="_blank">@selLangBLL.GetResourceValue("lbl_Facebook")</a>
+                <li>
+                    <a class="support-link" href="https://www.facebook.com/nova88official/" target="_blank">
+                        <i class="icon icon-facebook"></i>@selLangBLL.GetResourceValue("lbl_Facebook")
+                    </a>
                 </li>
-                <li class="icon icon-twitter">
-                    <a href="https://twitter.com/nova88official" target="_blank">@selLangBLL.GetResourceValue("lbl_Twitter")</a>
+                <li>
+                    <a class="support-link" href="https://twitter.com/nova88official" target="_blank">
+                        <i class="icon icon-twitter"></i>@selLangBLL.GetResourceValue("lbl_Twitter")
+                    </a>
                 </li>
             </ul>
         </div>
