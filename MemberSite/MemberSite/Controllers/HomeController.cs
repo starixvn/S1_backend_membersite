@@ -299,7 +299,7 @@ namespace MemberSite.Controllers
                 }
             }
 
-            return RedirectToRoute($"{signupModel.SignupUrl}{(signupModel.SignupUrl.IndexOf("?") > -1 ? $"&message={HttpUtility.UrlEncode(message)}" : $"?message={HttpUtility.UrlEncode(message)}")}");
+            return Redirect($"{signupModel.SignupUrl}{(signupModel.SignupUrl.IndexOf("?") > -1 ? $"&message={HttpUtility.UrlEncode(message)}&errorCode={errorCode}" : $"?message={HttpUtility.UrlEncode(message)}&errorCode={errorCode}")}");
         }
     }
 }
