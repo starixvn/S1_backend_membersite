@@ -899,7 +899,7 @@ a {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 0.5rem 0;
+  padding: 1rem 0;
 }
 
 .header-top-right .btn {
@@ -925,7 +925,7 @@ a {
 }
 
 .header-nav {
-  height: 6rem;
+  height: 5rem;
   background: #121c30;
   position: relative;
 }
@@ -943,16 +943,18 @@ a {
 .main-nav::after {
   content: "";
   position: absolute;
-  top: 0;
+  top: 0.5rem;
   right: -50rem;
   width: 50rem;
   height: 100%;
   background: url("../../images/bg-menu-right.png") no-repeat left top;
+  height: 5rem;
 }
 
 .header-nav .container {
   display: flex;
   align-items: center;
+  height: 100%;
 }
 
 .header-nav .go-homepage {
@@ -963,7 +965,7 @@ a {
 .main-nav {
   padding: 0;
   margin: 0;
-  padding-left: 22rem;
+  padding-left: 23rem;
   position: relative;
   font-size: 0;
 }
@@ -971,7 +973,7 @@ a {
 .main-nav .nav-logo {
   position: absolute;
   left: -2rem;
-  top: -4rem;
+  top: -5rem;
   list-style: none;
 }
 

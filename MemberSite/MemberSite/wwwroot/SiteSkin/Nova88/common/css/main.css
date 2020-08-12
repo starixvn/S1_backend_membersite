@@ -563,7 +563,9 @@ body::before {
 .side-nav__item[data-open="true"] > .side-nav__btn .icon-caret::before {
   transform: rotate(-180deg);
 }
-
+button.side-nav__btn.logoutBtn{
+  color: #f7ecbe;
+}
 .dropdown--up > .btn .icon-caret::before {
   transform: rotate(-180deg);
 }
@@ -1927,6 +1929,7 @@ div.form--list .form-group .form-title {
   display: block;
   width: 100%;
   height: 100%;
+  background: #fff;
 }
 
 .panel {
@@ -3075,8 +3078,8 @@ form + .table-rwd {
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: rgba(0, 0, 0, 0.54);
-  background-color: #cfcfcf;
+  color: #b2b2b2;
+  background-color: #26416e;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
 }
@@ -3090,7 +3093,7 @@ form + .table-rwd {
 
 .page-tabs__btn + .page-tabs__btn {
   margin-left: .25rem;
-  background: #26416e; /*8/3加手機版history頁籤*/
+  /* background: #26416e;  */
 }
 
 .page-title {
@@ -4006,9 +4009,9 @@ button.swiper-pagination-bullet {
   display: flex;
   align-items: flex-end;
   padding: .5rem .25rem 0;
-  color: #5574a7;
+  color: #b2b2b2;
   border-bottom-width: 1px;
-  border-bottom-color: currentColor;
+  border-bottom-color: #5574a7;
   flex-wrap: wrap;
 }
 
@@ -4044,6 +4047,7 @@ button.swiper-pagination-bullet {
 
 .message-list__header .checkbox .text {
   margin-left: .75rem;
+  color: #b2b2b2;
 }
 
 [data-layout=mobile] .message-list__header .checkbox {
@@ -4058,6 +4062,7 @@ button.swiper-pagination-bullet {
 
 .message[data-read="false"] .message__title .text {
   font-weight: bold;
+  color: #fff;
 }
 
 .message[data-open="true"] .message__content {
@@ -4203,7 +4208,7 @@ button.swiper-pagination-bullet {
 .announcement__title .text {
   width: 100%;
   padding-right: .5rem;
-  color: #5574a7;
+  color: #f7ecbe;
   font-weight: bold;
   font-size: 1rem;
 }
@@ -4218,7 +4223,9 @@ button.swiper-pagination-bullet {
   width: 100%;
   background-color: #26416e;
 }
-
+.announcement__content p{
+  color: #fff;
+}
 [data-layout=mobile] .announcement {
   padding: .5rem;
 }
@@ -4258,8 +4265,11 @@ button.swiper-pagination-bullet {
 
 .account-info__currency {
   margin-right: .25rem;
+  color: #f7ecbe;
 }
-
+span.account-info__amount.Js-Balance{
+  color: #f7ecbe;
+}
 .account-info .btn {
   margin-right: -.5rem;
 }
@@ -5185,7 +5195,7 @@ button.swiper-pagination-bullet {
   max-width: 360px;
   flex-direction: column;
   color: white;
-  background-color: #26416E;
+  background-color: #112240;
   transition: ease .3s;
   visibility: hidden;
   transform: translate3d(-100vw, 0, 0);
@@ -5379,7 +5389,7 @@ button.swiper-pagination-bullet {
   flex: 1;
   flex-direction: column;
   color: #112240;
-  background-color: #DBEAFC;
+  background-color: #26416E;
 }
 
 .side-nav__hot .side-nav__btn:hover {
@@ -5400,6 +5410,7 @@ button.swiper-pagination-bullet {
   display: flex;
   flex-wrap: wrap;
   padding: .75rem 0;
+  color: #f7ecbe;
 }
 
 [class*="side-nav__list"] + [class*="side-nav__list"] {
@@ -5427,7 +5438,7 @@ button.swiper-pagination-bullet {
   width: 40px;
   height: 40px;
   border-width: 1px;
-  border-color: rgba(255, 255, 255, 0.7);
+  border-color: #f7ecbe;;
   border-radius: 100%;
 }
 
@@ -5989,7 +6000,7 @@ button.swiper-pagination-bullet {
   padding: 2rem 1rem;
   width: 100%;
   max-width: 1280px;
-  color:#fff; /*後加*/
+  color:#b2b2b2; /*後加*/
 }
 
 [data-layout=desktop] .main--home {
