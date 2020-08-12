@@ -248,9 +248,9 @@ body {
 }
 
 .icon-chat {
-  background: url("../images/img-sprite.png") no-repeat -216px -64px;
-  width: 24px;
-  height: 24px;
+  /* background: url("../images/img-sprite.png") no-repeat -216px -64px;
+  width: 50px;
+  height: 50px; */
 }
 
 .icon-mail {
@@ -272,9 +272,9 @@ body {
 }
 
 .icon-skype {
-  background: url("../images/img-sprite.png") no-repeat -27px -112px;
-  width: 24px;
-  height: 21px;
+  /* background: url("../images/skylogo.png")no-repeat top center / cover;
+  width: 50px;
+  height: 50px; */
 }
 
 .icon-telegram {
@@ -1252,14 +1252,14 @@ body {
 .live-suport {
   position: fixed;
   right: -18rem;
-  top: 20rem;
+  /* top: 20rem; */
   cursor: pointer;
   will-change: right;
   transition: right 0.5s ease-in;
   z-index: 10;
-
+  bottom: 0;
   /* mobile display */
-  /* display: none; */
+  display: none;
 }
 
 .live-suport.open {
@@ -1276,13 +1276,14 @@ body {
   /* right: 12.2rem; */
   /* top: 5.7rem; */
   right: 17.5rem;
-  top: -0.4rem;
+  /* top: -0.4rem; */
   transform: rotate(270deg);
   /* background: rgb(0, 110, 195);
   background: linear-gradient(-90deg,
       rgba(0, 110, 195, 1) 0%,
       rgba(0, 59, 157, 1) 100%);
   border: 1px solid #0c4b7c; */
+  bottom: 0;
 }
 
 .live-suport .title-icon {
@@ -1293,7 +1294,9 @@ body {
   height: 5.8rem;
   padding: 1rem;
   text-align: center;
-  margin-right: -1rem;
+  /* margin-right: -1rem; */
+  /* margin-top: -0.5rem; */
+  margin-top: -0.5rem;
 }
 
 .live-suport .live-title .title-text {
@@ -1368,6 +1371,9 @@ body {
 .live-suport .live-content .support-link {
   color: #888;
   text-decoration: none;
+  height: 50px;
+  display: flex;
+  align-items: center;
 }
 
 .live-suport .live-content li:hover .support-link {
@@ -1968,4 +1974,11 @@ ul.marquee li {
 
 .forget .form .input-field{
   width: 100%;
+}
+
+.calendar-group .btn.btn-primary{
+  margin: 2rem 0;
+}
+.calendar-group .form-input{
+  display: block;
 }

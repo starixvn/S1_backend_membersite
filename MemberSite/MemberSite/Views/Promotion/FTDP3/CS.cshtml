@@ -72,13 +72,13 @@
                     }
                 </tr>
                 <tr>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@promotion.Bonus.ToString("#,##0")%</td>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@Currency @promotion.MaxBonus.ToString("#,##0")</td>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@(promotion.RollOver)x</td>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;" id="REMAINING"></td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@promotion.Bonus.ToString("#,##0")%</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@Currency @promotion.MaxBonus.ToString("#,##0")</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@(promotion.RollOver)x</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000" id="REMAINING"></td>
                     @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
                     {
-                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">
+                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">
                             <div class="btn-group">
                                 <button class="btn btn-secondary" id="JOIN">
                                     <div class="btn__inner">
@@ -124,10 +124,10 @@
                             <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">最低投注倍数 </th>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">100%</td>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">娱乐城，真人娱乐场，虚拟娱乐城，扑克，捕鱼，棋牌，牌桌，印尼 4D ，快乐彩，彩票和即时兑现.</td>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">马币 388</td>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">18x</td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">100%</td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">娱乐城，真人娱乐场，虚拟娱乐城，扑克，捕鱼，棋牌，牌桌，印尼 4D ，快乐彩，彩票和即时兑现.</td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">马币 388</td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">18x</td>
                         </tr>
                     </table>
                     <br><br>

@@ -1,7 +1,7 @@
 @charset "UTF-8";
-.MobileDeposit .dropdown.dropdown-default{
+/* .MobileDeposit .dropdown.dropdown-default{
     display:none;
-}
+} */
 [data-layout="mobile"] .MobileDeposit .dropdown.dropdown-default{
     display:block;
     width:100%;
@@ -17,7 +17,7 @@
     justify-content: center;
 }
 .MobileDeposit .payment-list .payment {
-    box-shadow: 0px 3px #DBEAFC;
+    /* box-shadow: 0px 3px #DBEAFC; *//*8/3刪除*/
     position: relative;
     display: inline-block;
     text-align: center;
@@ -67,7 +67,7 @@
     color:#5574a7;
 }
 [data-layout=desktop] .form.MobileDeposit .form-title{
-    width: auto;
+    /* width: auto; */
     margin-right:1rem;
 }
 [data-layout=desktop] .form.MobileDeposit .form-content{

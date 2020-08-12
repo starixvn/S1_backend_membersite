@@ -34,6 +34,9 @@ class DepositPanel extends Component {
 	};
 	hangleSubPage = (isSub, page) => {
 		this.setState({ clickSub: isSub, page: page });
+		if (isSub === false) {
+			this.GetDepositInfoRecent();
+		}
 	};
 	ViewAll = () => {
 		window.location.href = hrefAllTrans;
@@ -72,9 +75,9 @@ class DepositPanel extends Component {
 						<OnlineBanking hangleSubPage={this.hangleSubPage} />
 					) : null}
 
-					{/* {this.state.page === null || this.state.page === 1 ? (
+					{this.state.page === null || this.state.page === 1 ? (
 						<LocalBank hangleSubPage={this.hangleSubPage} />
-					) : null} */}
+					) : null}
 
 					{this.state.page === null || this.state.page === 2 ? (
 						<MobilePay hangleSubPage={this.hangleSubPage} />

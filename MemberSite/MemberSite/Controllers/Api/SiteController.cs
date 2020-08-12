@@ -276,11 +276,11 @@ namespace MemberSite.Controllers.Api
                 var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "ResetPassword", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
                 if (!string.IsNullOrEmpty(forgetPwdReq.Username))
                 {
-                    custInfo = custInfoBLL.GetCustInfoByUserName(forgetPwdReq.Username);
+                    custInfo = custInfoBLL.GetCustInfoByUserName(forgetPwdReq.Username.Trim());
                 }
                 else
                 {
-                    custInfo = custInfoBLL.GetCustInfoByMail(forgetPwdReq.Email);
+                    custInfo = custInfoBLL.GetCustInfoByMail(forgetPwdReq.Email.Trim());
                 }
 
                 if (custInfo == null)

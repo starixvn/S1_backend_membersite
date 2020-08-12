@@ -73,13 +73,13 @@
                     }
                 </tr>
                 <tr>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@promotion.Bonus.ToString("#,##0")%</td>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@Currency @promotion.MaxBonus.ToString("#,##0")</td>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@(promotion.RollOver)x</td>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;" id="REMAINING"></td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@promotion.Bonus.ToString("#,##0")%</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@Currency @promotion.MaxBonus.ToString("#,##0")</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@(promotion.RollOver)x</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000" id="REMAINING"></td>
                     @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
                     {
-                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">
+                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">
                             <div class="btn-group">
                                 <button class="btn btn-secondary" id="JOIN">
                                     <div class="btn__inner">
@@ -125,10 +125,10 @@
                             <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">โรลโอเวอร์</th>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">100%</td>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">คาสิโน, คาสิโนสด, เกมเสมือนจริง, โป๊กเกอร์, เกมยิงปลา, เกมหมากรุก, เกมบนโต๊ะ, อินโด 4D, คีโน, ล็อตเตอรี และ Cash out</td>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">2,888 บาท</td>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">18x (เท่า)</td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">100%</td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">คาสิโน, คาสิโนสด, เกมเสมือนจริง, โป๊กเกอร์, เกมยิงปลา, เกมหมากรุก, เกมบนโต๊ะ, อินโด 4D, คีโน, ล็อตเตอรี และ Cash out</td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">2,888 บาท</td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">18x (เท่า)</td>
                         </tr>
                     </table>
                     <br><br>

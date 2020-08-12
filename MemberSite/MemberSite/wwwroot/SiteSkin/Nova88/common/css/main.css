@@ -1496,7 +1496,7 @@ button.btn .btn__inner > .text {
 .textfield__input {
   flex: 1;
   width: 100%;
-  min-height: 36px;
+  /* min-height: 36px; */
   padding: 0.5em;
   color: #fff; 
   border: none;
@@ -1504,6 +1504,11 @@ button.btn .btn__inner > .text {
   outline: none;
   resize: none;
   border-radius:6px;
+  /*8/10增加 使輸入cookie 底色是深色*/
+  box-shadow: 0 0 0 20px rgb(38, 65, 110) inset;
+  border: 6px solid #26416e;
+  height: 30px;
+  -webkit-text-fill-color: #fff;
 }
 
 .form-content[data-status="error"] .textfield__input::-webkit-input-placeholder{
@@ -1518,8 +1523,8 @@ float: left;
 }8/4加上控制原本日期icon隱藏*/
 
 .textfield__input::-webkit-input-placeholder {
-  color: black;
-  opacity: .54; 
+  color:#F7ECBE;/*8/10調*/
+  opacity: .68; 
 }
 
 .textfield__bg {
@@ -1528,7 +1533,7 @@ float: left;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #26416e;
+  background-color: #26416e !important;
   border-width: 1px;
   border-color: #26416e;
   border-radius: 6px;
@@ -1671,15 +1676,15 @@ float: left;
 }
 
 .form-content[data-status="error"] .btn-form-status {
-  color: #8b8b8b;
+  color: #F1002A;/*8/10調*/
   cursor: default;
 }
 
-/* .form-content[data-status="error"] .textfield__bg, .form-content[data-status="error"] .dropdown {
+ .form-content[data-status="error"] .textfield__bg, .form-content[data-status="error"] .dropdown {
   background-color: #fedbda;
   border: #F1002A;
   color: #F1002A;
-} */
+} /*8/10 開啟疑是錯誤輸入X底色*/
 
 .form-content[data-status="error"] .textfield__bg > .btn, .form-content[data-status="error"] .dropdown > .btn {
   color: #F1002A;
@@ -1689,6 +1694,13 @@ float: left;
   background-color: #fedbda;
   border: #F1002A;
   color: #F1002A;
+  /*8/10新增*/
+  box-shadow: 0 0 0 20px rgb(254, 219 , 218) inset;
+  border: 6px solid #fedbda;
+}
+
+.form-content[data-status="error"] .textfield__input + span + a i:before{
+  color:#F1002A ;
 }
 
 .form-content[data-status="valid"] .btn-form-status {
@@ -3170,7 +3182,8 @@ form + .table-rwd {
 .no-data {
   margin-top: 1rem;
   padding: .75rem;
-  background-color: #f3f3f3;
+  background-color: #112240;/*8/10調*/
+  text-align: center;
 }
 
 .swiper-pagination-bullet:only-child {
@@ -4043,7 +4056,7 @@ button.swiper-pagination-bullet {
 }
 
 .message[data-selected="true"] .message__item {
-  background-color: #5574a7; /*8/6*/
+  background-color: #5574a7; /*8/6已勾選背景*/
 }
 
 .message__item {
@@ -4059,7 +4072,7 @@ button.swiper-pagination-bullet {
 }
 
 .message__item .checkbox .icon {
-  opacity: .54;
+  opacity: .68;
 }
 
 .message__item .checkbox input:checked ~ .icon {
@@ -4749,16 +4762,15 @@ button.swiper-pagination-bullet {
 .header__logo .logo::before {
   content: "";
   display: block;
-  width: calc(143px * 0.8);
+  width: calc(130px * 0.8);
   height: calc(46px * 0.8);
   background-image: url("../images/logo.svg");
-  background-image: url("../images/logo_festival.png");
   background-size: cover;
   transition: ease .15s;
 }
 
 [data-layout=desktop] .header__logo .logo::before {
-  width: calc(150px * 1.2);
+  width: calc(130px * 1.2);
   height: calc(46px * 1.2);
 }
 
@@ -5631,7 +5643,7 @@ button.swiper-pagination-bullet {
   color: white;
   border: 0 solid;
   border-color: inherit;
-  background-color: #5574a7;
+  background-color: #26416E;
 }
 
 [data-layout=mobile] .lobby-quicklink:not(:first-child)::after, [data-layout=mobile] .lobby-quicklink-download:not(:first-child)::after {
@@ -5735,6 +5747,37 @@ button.swiper-pagination-bullet {
 [data-layout=desktop] .lobby-quicklink-list .lobby-quicklink, [data-layout=desktop] .lobby-quicklink-list .lobby-quicklink-download {
   flex: 1;
 }
+[data-layout=desktop] .lobby-quicklink-list .lobby-quicklink:last-child {
+  border-top: 1px solid #03081b;
+}
+
+[data-layout=desktop] .lobby-quicklink-list .lobby-quicklink:last-child .text-title{
+  color: #f7ecbe;
+}
+
+.lobby-quicklink-list a:last-child i:first-child::before {
+  color: #fbf415;
+  animation:gift 2s infinite;
+} /*8/11增加 控制首頁pormotion banner中icon*/
+
+@keyframes gift {
+  0%{
+    transform: rotate(0deg);
+  }
+  25%{
+      transform: rotate(-45deg);
+  }
+  50%{
+    transform: rotate(0deg);
+    color:rgb(247,122,0);
+  }
+  75%{
+    transform: rotate(45deg);
+  }
+  100%{
+    transform: rotate(0deg);
+  }
+} /*8/11增加*/
 
 [data-layout=desktop] .lobby-quicklink-list .lobby-quicklink-download {
   padding-left: 1.5rem;
@@ -6052,7 +6095,7 @@ button.swiper-pagination-bullet {
   min-width: 769px;
   padding: 0;
   max-width: none;
-  /* background-color: white; */
+  background-color: white;
   margin-top: 70px;
 }
 
@@ -7515,4 +7558,62 @@ ul {
 
 .nocursor .text-group span:nth-child(2) {
   color: #f7ecbe;/*8/6調*/
+}
+
+.quickLink {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  transform: translateX(calc(100% - 40px));
+  transition: 0.7s;
+  cursor: pointer;
+  color: #fff;
+}
+
+.quickLink.active {
+  transform: translateX(0%);
+  transition: 0.7s;
+}
+
+.quicklogo img {
+  max-width: 200px;
+}
+
+.quicktitle {
+  display: flex;
+  align-items: center;
+  background: #134DAE;
+  writing-mode: vertical-lr;
+  transform: scale(-1);
+  padding: 10px 0;
+  width: 40px;
+}
+
+.quicklist {
+  background: #fff;
+  color: #888;
+  padding: 0 10px;
+}
+
+.quicklist li {
+  border-bottom: 1px solid #cfcfcf;
+  padding: 10px 0;
+}
+
+.quicklist li, .quicklist li a {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.quicklist li:before, .quicklist li a:before {
+  font-family: "iconfont";
+  font-size: 20px;
+  margin-right: 5px;
 }

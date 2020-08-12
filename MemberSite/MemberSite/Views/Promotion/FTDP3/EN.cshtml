@@ -74,13 +74,13 @@
                     }
                 </tr>
                 <tr>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@promotion.Bonus.ToString("#,##0")%</td>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@Currency @promotion.MaxBonus.ToString("#,##0")</td>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@(promotion.RollOver)x</td>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;" id="REMAINING"></td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@promotion.Bonus.ToString("#,##0")%</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@Currency @promotion.MaxBonus.ToString("#,##0")</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@(promotion.RollOver)x</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000" id="REMAINING"></td>
                     @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
                     {
-                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">
+                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">
                             <div class="btn-group">
                                 <button class="btn btn-secondary" id="JOIN">
                                     <div class="btn__inner">
@@ -126,10 +126,10 @@
                             <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Rollover </th>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">100% </td>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">Casino, Live casino, Virtual game, Poker, Fishing game, Chess games, Table games, Indo 4D, Keno, Lottery and Cash out. </td>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">MYR 388 </td>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">18x (times) </td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">100% </td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">Casino, Live casino, Virtual game, Poker, Fishing game, Chess games, Table games, Indo 4D, Keno, Lottery and Cash out. </td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">MYR 388 </td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">18x (times) </td>
                         </tr>
                     </table>
                     <br><br>

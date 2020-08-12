@@ -84,13 +84,13 @@
                     }
                 </tr>
                 <tr>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@ViewData["Bonus"]</td>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@Currency @ViewData["MaxBonus"]</td>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">@(ViewData["RollOver"])x</td>
-                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;" id="REMAINING"></td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@ViewData["Bonus"]</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@Currency @ViewData["MaxBonus"]</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@(ViewData["RollOver"])x</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000" id="REMAINING"></td>
                     @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
                     {
-                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;">
+                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">
                             <div class="btn-group">
                                 <button class="btn btn-secondary" id="JOIN">
                                     <div class="btn__inner">
