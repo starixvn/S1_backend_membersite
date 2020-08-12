@@ -17,10 +17,15 @@
     var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
     var ExpiryTime = ViewData["ExpiryTime"];
     var Currency = selLangBLL.GetResourceValue($"lbl_Currency_{ViewData["Currency"]}");
-    var authData = authorizeBLL.GetAuthData();
-    var custId = authData.CustId;
 
-    var bonusInfo = bonusWalletBLL.CheckBonusWallet(custId, (int)ViewData["TpId"]);
+    var authData = authorizeBLL.GetAuthData();
+    BonusWallet bonusInfo = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        var custId = authData.CustId;
+        bonusInfo = bonusWalletBLL.CheckBonusWallet(custId, (int)ViewData["TpId"]);
+    }
+
     var IsConvertRequired = false;
     decimal percentage = 0;
     string displayValue = "";

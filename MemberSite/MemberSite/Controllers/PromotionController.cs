@@ -103,7 +103,7 @@ namespace MemberSite.Controllers
                     ViewData["ExpiryTime"] = new DateTimeOffset(promotion.ExpiryTime.ToUniversalTime(), TimeSpan.Zero).ToUnixTimeSeconds();
                 }
 
-                return View($"./Bonus/Index");
+                return View(templateBLL.GetTemplatePath(Url));
             }
         }
     }
