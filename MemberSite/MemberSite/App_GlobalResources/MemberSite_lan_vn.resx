@@ -235,7 +235,7 @@
     <value>Bạn có chắc muốn hủy? Không thể khôi phục lại sau khi hủy!</value>
   </data>
   <data name="lbl_Cashier" xml:space="preserve">
-    <value>Tín Dụng</value>
+    <value>Giao Dịch</value>
   </data>
   <data name="lbl_Casino" xml:space="preserve">
     <value>Sòng bạc</value>

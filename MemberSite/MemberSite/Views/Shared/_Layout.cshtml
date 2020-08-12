@@ -96,28 +96,26 @@
 
     @*<!-- Live Support -->*@
 
-    <div class="live-suport">
-        <div class="live-title" id="toggle-LiveSupport">
-            <span class="title-icon">@selLangBLL.GetResourceValue("lbl_ContactUs")</span>
-        </div>
-        <div class="live-content">
+    <div class="quickLink" id="toggle-LiveSupport">
+        <div class="quicktitle">@selLangBLL.GetResourceValue("lbl_ContactUs")</div>
+        <div class="quicklist">
             <ul>
                 <li class="icon icon-chat" id="liveChatbtn">
                     @selLangBLL.GetResourceValue("lbl_LiveChat")
                 </li>
                 <li>
-                    <a class="support-link" href="https://www.instagram.com/nova88.net_official" target="_blank">
-                        <i class="icon icon-instagram"></i>@selLangBLL.GetResourceValue("lbl_Instagram")
+                    <a class="icon icon-instagram" href="https://www.instagram.com/nova88.net_official" target="_blank">
+                        @selLangBLL.GetResourceValue("lbl_Instagram")
                     </a>
                 </li>
                 <li>
-                    <a class="support-link" href="https://www.facebook.com/nova88official/" target="_blank">
-                        <i class="icon icon-facebook"></i>@selLangBLL.GetResourceValue("lbl_Facebook")
+                    <a class="icon icon-facebook" href="https://www.facebook.com/nova88official/" target="_blank">
+                        @selLangBLL.GetResourceValue("lbl_Facebook")
                     </a>
                 </li>
                 <li>
-                    <a class="support-link" href="https://twitter.com/nova88official" target="_blank">
-                        <i class="icon icon-twitter"></i>@selLangBLL.GetResourceValue("lbl_Twitter")
+                    <a class="icon icon-twitter" href="https://twitter.com/nova88official" target="_blank">
+                        @selLangBLL.GetResourceValue("lbl_Twitter")
                     </a>
                 </li>
             </ul>
@@ -414,7 +412,7 @@
         })
 
         $("#toggle-LiveSupport").click(function () {
-            $(".live-suport").toggleClass("open");
+            $(".quickLink").toggleClass("active");
         });
     </script>
 

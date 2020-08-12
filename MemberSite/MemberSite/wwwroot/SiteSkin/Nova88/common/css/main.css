@@ -1496,7 +1496,7 @@ button.btn .btn__inner > .text {
 .textfield__input {
   flex: 1;
   width: 100%;
-  min-height: 36px;
+  /* min-height: 36px; */
   padding: 0.5em;
   color: #fff; 
   border: none;
@@ -1533,7 +1533,7 @@ float: left;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #26416e;
+  background-color: #26416e !important;
   border-width: 1px;
   border-color: #26416e;
   border-radius: 6px;
@@ -4762,16 +4762,15 @@ button.swiper-pagination-bullet {
 .header__logo .logo::before {
   content: "";
   display: block;
-  width: calc(143px * 0.8);
+  width: calc(130px * 0.8);
   height: calc(46px * 0.8);
   background-image: url("../images/logo.svg");
-  background-image: url("../images/logo_festival.png");
   background-size: cover;
   transition: ease .15s;
 }
 
 [data-layout=desktop] .header__logo .logo::before {
-  width: calc(150px * 1.2);
+  width: calc(130px * 1.2);
   height: calc(46px * 1.2);
 }
 
@@ -7561,81 +7560,60 @@ ul {
   color: #f7ecbe;/*8/6調*/
 }
 
-.live-suport {
+.quickLink {
   position: fixed;
-  right: -8rem;
-  bottom: 0;
-  cursor: pointer;
-  will-change: right;
-  transition: right 0.5s ease-in;
-  z-index: 10;
-}
-
-.live-suport.open {
   right: 0;
-}
-
-.live-suport .live-title {
-  position: absolute;
-  width: 3rem;
-  height: 100%;
   bottom: 0;
-  left: -3rem;
-  background: #134DAE;
-  border-bottom-left-radius: 10px;
-  border-top-left-radius: 10px;
-}
-
-.live-suport .title-icon {
-  position: absolute;
-  text-align: center;
+  z-index: 99;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  transform: translateX(calc(100% - 40px));
+  transition: 0.7s;
+  cursor: pointer;
   color: #fff;
-  white-space: nowrap;
-  transform: rotate(-90deg);
-  bottom: 4rem;
-  font-size: 1.5rem;
-  left: -2.2rem;
-}
-.live-suport .title-icon .icon-headphone{
-  font-size: 4rem;
 }
 
-.live-suport .live-content {
-  background-color: #fff;
-  border: 1px solid #0c4b7c;
+.quickLink.active {
+  transform: translateX(0%);
+  transition: 0.7s;
 }
 
-.live-suport .live-content ul {
-  padding: 0;
-  list-style: none;
-  margin-top: 1rem;
+.quicklogo img {
+  max-width: 200px;
 }
 
-.live-suport .live-content ul li {
-  padding: 0.8rem 1rem;
+.quicktitle {
+  display: flex;
+  align-items: center;
+  background: #134DAE;
+  writing-mode: vertical-lr;
+  transform: scale(-1);
+  padding: 10px 0;
+  width: 40px;
+}
+
+.quicklist {
+  background: #fff;
+  color: #888;
+  padding: 0 10px;
+}
+
+.quicklist li {
   border-bottom: 1px solid #cfcfcf;
-  font-size: 0.875rem;
+  padding: 10px 0;
+}
+
+.quicklist li, .quicklist li a {
   font-family: Arial, sans-serif;
-  color: #888;
+  font-size: 16px;
   display: flex;
   align-items: center;
 }
 
-.live-suport .live-content ul li:before {
+.quicklist li:before, .quicklist li a:before {
   font-family: "iconfont";
-  font-size: 1.7rem;
-}
-
-.live-suport .live-content .support-link {
-  color: #888;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-}
-.live-suport .live-content .support-link i{
-  margin-right: 0.3rem;
-}
-
-.live-suport .live-content li:hover .support-link {
-  color: #41acff;
+  font-size: 20px;
+  margin-right: 5px;
 }
