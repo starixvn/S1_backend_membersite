@@ -34,7 +34,7 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
         }
-        public int AddCustInfo(Customer customer, string Email, out int custId)
+        public int AddCustInfo(Customer customer, string Email, out int custId, string signupUrl = null)
         {
             custId = 0;
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
@@ -49,6 +49,12 @@ namespace MemberSite.Service.DAL
             {
                 custId = p.Get<int?>("CustId") ?? 0;
                 result = conn.Execute("Member_CustProfile_Ins", new { CustId = custId, customer.SiteId, Email, Profile = (string)null }, trans, commandType: CommandType.StoredProcedure);
+            }
+
+            if (result > 0 && !string.IsNullOrEmpty(signupUrl))
+            {
+                custId = p.Get<int?>("CustId") ?? 0;
+                result = conn.Execute("Member_CustRegInfo_Ins", new { CustId = custId, SiteId = customer.SiteId, SignupUrl = signupUrl }, trans, commandType: CommandType.StoredProcedure);
             }
 
             if (!string.IsNullOrEmpty(customer.Aff) && result > 0)
@@ -119,7 +125,6 @@ namespace MemberSite.Service.DAL
             result = conn.Execute("Member_CustProfile_Set", new { CustId = custId, SiteId = siteId, AreaCode, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
-
         public bool SetCustBankInfo(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo)
         {
             int result = 0;
