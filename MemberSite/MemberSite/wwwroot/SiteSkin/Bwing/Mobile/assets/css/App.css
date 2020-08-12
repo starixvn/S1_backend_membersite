@@ -1258,9 +1258,8 @@ body {
   transition: right 0.5s ease-in;
   z-index: 10;
   bottom: 0;
-
   /* mobile display */
-  /* display: none; */
+  display: none;
 }
 
 .live-suport.open {
@@ -1276,7 +1275,7 @@ body {
   height: 4rem;
   /* right: 12.2rem; */
   /* top: 5.7rem; */
-  right: 18rem;
+  right: 17.5rem;
   /* top: -0.4rem; */
   transform: rotate(270deg);
   /* background: rgb(0, 110, 195);
@@ -1297,6 +1296,7 @@ body {
   text-align: center;
   /* margin-right: -1rem; */
   /* margin-top: -0.5rem; */
+  margin-top: -0.5rem;
 }
 
 .live-suport .live-title .title-text {

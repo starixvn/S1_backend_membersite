@@ -1496,12 +1496,13 @@ a {
   justify-content: center;
   align-items: center; */
   width: 31rem;
-  /* height: 6rem;
-  right: 9.2rem;
+  height: 5.8rem;
+  /* right: 9.2rem;
   top: 12.5rem; */
-  right: 9.6rem;
-  top: 15.6rem;
-  transform: rotate(270deg);
+  right: 0;
+  bottom: 0;
+  transform: translateY(50%) translateX(-6.7rem) rotate(270deg);
+  /* transform: rotate(270deg); */
   /* background: rgb(0, 110, 195);
   background: linear-gradient(-90deg,
       rgba(0, 110, 195, 1) 0%,
@@ -1511,9 +1512,9 @@ a {
 
 .live-suport .title-icon {
   position: absolute;
-  top: -2.6rem;
+  /* top: -2.6rem; */
   /* right: 0; */
-  left: 10.5rem;
+  left: 15.5rem;
   background: #fff;
   transform: rotate(90deg);
   display: inline-block;
