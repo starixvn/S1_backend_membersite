@@ -1767,4 +1767,10 @@
   <data name="lbl_PromoCategory_4" xml:space="preserve">
     <value>Saba Sports</value>
   </data>
+  <data name="lbl_TurnoverAccmulateHint" xml:space="preserve">
+    <value>Your Fund are locked to transfer out due to Rollover requirement is not fulfils.</value>
+  </data>
+  <data name="lbl_TurnoverAccumulated" xml:space="preserve">
+    <value>Turnover Accumulated</value>
+  </data>
 </root>
