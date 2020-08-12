@@ -1982,3 +1982,51 @@ ul.marquee li {
 .calendar-group .form-input{
   display: block;
 }
+h3.schedule-txt{
+  text-align: left;
+  padding: 1rem;
+}
+.rollover-info{
+  padding: .5rem .25rem;
+}
+.rollover-info__item{
+  align-items: center;
+  justify-content: space-between;
+  padding: .25rem .5rem;
+  font-size: .75rem;
+  font-weight: bold;
+  display: flex;
+  flex-wrap: wrap;
+}
+.turnover{
+  width: 100%;
+  text-align: left;
+  font-weight: normal;
+}
+.schedule {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #bdbdbd;
+  height: 1rem;
+  padding: 0;
+  margin: 0.5rem;
+  margin-left: 0;
+  flex: auto;
+}
+.schedule-bg{
+  background: #fdc53e;
+  padding: 1px;
+  height: 100%;
+  border-radius: 10px;
+}
+.schedule-info{
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.schedule-info .text{
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fdc53e;
+}
