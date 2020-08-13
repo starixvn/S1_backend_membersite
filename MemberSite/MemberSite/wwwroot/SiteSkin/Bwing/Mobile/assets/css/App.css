@@ -2033,8 +2033,11 @@ h3.schedule-txt{
 .promotions-module a img{
   width: 100%;
 }
-.promotionsInfo-page.page{
-  color: #fff;
+.promotionsInfo-page.page,.promotionsInfo-page span{
+  color: #fff !important;
+}
+.promotionsInfo-page ol{
+  padding: 0 1.5em;
 }
 .promotions-module{
   padding: 0 1.5rem 1.5rem;
