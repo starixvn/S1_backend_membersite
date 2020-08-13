@@ -134,11 +134,11 @@
     }
 </div>
 
-<div class="notification container">
-    <span class="icon icon-noti"></span>
-    <div id="Marquee"></div>
-</div>
+<!-- Notification -->
+<div class="notification container" id="Marquee">
 
+</div>
+<!--  -->
 <div class="container center-content">
     <div class="product">
         <div class="item item-soccer">
@@ -256,7 +256,7 @@
         var announcementUrl = '@(User.Identity.IsAuthenticated ?　Url.RouteUrl("desktop", new { action = "Announcement", controller = "Message", LangId = selLangBLL.GetLangId() }) : "")';
     </script>
 
-    <script src="~/js/Bwing/component/message/announcement/marquee.min.js" asp-append-version="true"></script>
+    <script src="~/js/Bwing/component/desktop/message/announcement/marquee.min.js" asp-append-version="true"></script>
     <script src="~/lib/swiper.min.js"></script>
     <script>
         $(function () {
