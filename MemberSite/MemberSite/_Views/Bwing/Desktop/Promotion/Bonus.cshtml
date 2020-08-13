@@ -32,16 +32,16 @@
     {
         var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
         IsConvertRequired = custInfoBLL.IsConvertRequired(custInfo.CurrencyId);
-        percentage = (bonusInfo.Turnover / bonusInfo.Rollover) * 100;
+        percentage = Math.Round( (bonusInfo.Turnover / bonusInfo.Rollover) * 100, 2);
 
         if (IsConvertRequired)
         {
             var newValue = bonusInfo.Bonus / 1000;
-            displayValue = String.Format("{0:0,0}", newValue) + " ('000)";
+            displayValue = newValue.ToString("#,##0")  + " ('000)";
         }
         else
         {
-            displayValue = String.Format("{0:0,0}", bonusInfo.Bonus);
+            displayValue = bonusInfo.Bonus.ToString("#,##0");
         }
     }
 }
