@@ -29,20 +29,23 @@
     var IsConvertRequired = false;
     decimal percentage = 0;
     string displayValue = "";
+    string displayValueRollover = "";
     if (bonusInfo != null)
     {
         var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
         IsConvertRequired = custInfoBLL.IsConvertRequired(custInfo.CurrencyId);
-        percentage = (bonusInfo.Turnover / bonusInfo.Rollover) * 100;
+        percentage = Math.Round( (bonusInfo.Turnover / bonusInfo.Rollover) * 100, 2);
 
         if (IsConvertRequired)
         {
-            var newValue = bonusInfo.Bonus / 1000;
-            displayValue = String.Format("{0:0,0}", newValue) + " ('000)";
+            var newValue = bonusInfo.Turnover / 1000;
+            displayValue = newValue.ToString("#,##0")  + " ('000)";
+            displayValueRollover = (bonusInfo.Rollover / 1000).ToString("#,##0") + " ('000)";
         }
         else
         {
-            displayValue = String.Format("{0:0,0}", bonusInfo.Bonus);
+            displayValue = bonusInfo.Turnover.ToString("#,##0");
+            displayValueRollover = bonusInfo.Rollover.ToString("#,##0");
         }
     }
 }
@@ -70,7 +73,7 @@
                         </div>
                         <span class="text">@percentage%</span>
                         <div class="schedule-info">
-                            <span class="text">@displayValue</span>
+                            <span class="text">@displayValue / @displayValueRollover</span>
                         </div>
                     </div>
                 </div>
