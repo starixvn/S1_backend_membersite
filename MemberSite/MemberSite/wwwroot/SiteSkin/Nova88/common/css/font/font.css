@@ -780,3 +780,18 @@
 .icon-currency::before {
   content: "\EA3F";
 }
+i.icon.icon-statement_history{
+  width: 24px;
+}
+i.icon.icon-statement_history{
+  width: 24px;
+}
+i.icon.icon-statement_history::before{
+  margin: auto;
+}
+i.icon.icon-statement {
+  font-size: 20px;
+}
+i.icon.icon-statement::before{
+  margin: 0 2px;
+}

@@ -1876,7 +1876,7 @@ div.form--list .form-group .form-title {
 }
 
 .Calculation .row:last-child {
-  background: #26416e;/*#F6FAFC*/
+  background: #112240;/*#F6FAFC 8/13調整*/
   border-radius: 5px;
   margin: 10px auto;
 }
@@ -1955,6 +1955,11 @@ div.form--list .form-group .form-title {
 .panel__header .text:first-child {
   color: #fff;/*8/3控制副標白色*/
 }
+
+.panel__header .text-accent {
+  color: #fbf415;
+} /*8/13控制 deposit 選銀行的快速時間提示字*/
+
 
 @media (max-width: 321px) {
   .panel__header > [class^="text"] {
@@ -2147,8 +2152,12 @@ div.form--list .form-group .form-title {
   -webkit-overflow-scrolling: touch;
 }
 
-.modal__body p{
-  color:#fff;/*8/6新增*/
+.modal__dialog .modal__body h3 {
+  color: #f7ecbe;
+} /*8/13新增popup標題顏色*/
+
+.modal__dialog .modal__body p {
+  color:#fff;/*8/13文字新增*/
 }
 
 .modal__body span.popup-span {
@@ -3194,7 +3203,7 @@ form + .table-rwd {
 .no-data {
   margin-top: 1rem;
   padding: .75rem;
-  background-color: #112240;/*8/10調*/
+  background-color: #26416e;/*8/13調*/
   text-align: center;
 }
 
@@ -4009,7 +4018,7 @@ button.swiper-pagination-bullet {
   display: flex;
   align-items: flex-end;
   padding: .5rem .25rem 0;
-  color: #b2b2b2;
+  color: #fff;
   border-bottom-width: 1px;
   border-bottom-color: #5574a7;
   flex-wrap: wrap;
@@ -4047,7 +4056,7 @@ button.swiper-pagination-bullet {
 
 .message-list__header .checkbox .text {
   margin-left: .75rem;
-  color: #b2b2b2;
+  color: #fff;
 }
 
 [data-layout=mobile] .message-list__header .checkbox {
@@ -4424,6 +4433,7 @@ span.account-info__amount.Js-Balance{
   width: 100%;
   height: 100%;
   max-width: 912px;
+  line-height: 2;
   /*background-color:#fff;8/6隱藏*/
 }
 
@@ -4873,8 +4883,8 @@ span.account-info__amount.Js-Balance{
   align-items: center;
   padding: .5rem 0;
   border-bottom-width: 1px;
-  border-color: rgba(0, 0, 0, 0.12);
-}
+  border-color: rgba(38, 65, 110, 0.12);
+} /*8/13調整*/ 
 
 .wallet-info__item [class^=text]:first-child {
   flex: 1;
@@ -7607,14 +7617,16 @@ ul {
 
 .quicktitle {
   display: flex;
-  align-items: center;
   background: #134DAE;
-  writing-mode: vertical-lr;
-  transform: scale(-1);
-  padding: 10px 0;
   width: 40px;
+  align-items: flex-end;
 }
-
+.quicktitle span{
+  transform: rotate(-90deg);
+  white-space: nowrap;
+  width: 100%;
+  padding: 10px;
+}
 .quicklist {
   background: #fff;
   color: #888;
