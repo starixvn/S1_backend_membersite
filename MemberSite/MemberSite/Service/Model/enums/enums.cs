@@ -125,7 +125,7 @@ namespace MemberSite.Service.Model.enums
     {
         FstDeposit = 1,
         ReDeposit = 2,
-        Rebate = 3,
+        Freebet = 3,
         Special = 4
     }
 

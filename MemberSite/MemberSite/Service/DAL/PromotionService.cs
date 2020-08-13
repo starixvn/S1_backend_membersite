@@ -21,7 +21,7 @@ namespace MemberSite.Service.DAL
         private readonly WalletService walletService;
         private readonly BonusWalletService bonusWalletService;
         private readonly WithdrawalLimitService withdrawalLimitService;
-        private readonly bool hasBonusWallet;
+        private readonly int[] hasBonusWallet;
 
         public PromotionService(IConfiguration configuration, Common common, WalletService walletService, RolloverService rollOverService, BonusWalletService bonusWalletService, WithdrawalLimitService withdrawalLimitService)
         {
@@ -31,7 +31,7 @@ namespace MemberSite.Service.DAL
             this.walletService = walletService;
             this.bonusWalletService = bonusWalletService;
             this.withdrawalLimitService = withdrawalLimitService;
-            hasBonusWallet = configuration.GetValue<bool>("HasBonusWallet");
+            hasBonusWallet = configuration.GetSection("HasBonusWallet").Get<int[]>();
         }
         public IEnumerable<Promotion> GetPromotionList(int siteId)
         {
@@ -54,6 +54,7 @@ namespace MemberSite.Service.DAL
             lockedAmount = 0;
             rollOver = 0;
             expiryTime = 0;
+            bool bHasBonusWallet = hasBonusWallet.Any(x => x == siteId);
 
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Open();
@@ -65,7 +66,16 @@ namespace MemberSite.Service.DAL
                 var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
                 p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                 p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-                conn.Execute("Member_PromotionCanJoin_Get", p, transaction: trans, commandType: CommandType.StoredProcedure);
+
+                if (bHasBonusWallet)
+                {
+                    conn.Execute("Member_PromotionCanJoinV2_Get", p, commandType: CommandType.StoredProcedure);
+                }
+                else
+                {
+                    conn.Execute("Member_PromotionCanJoin_Get", p, commandType: CommandType.StoredProcedure);
+                }
+
                 var canJoin = p.Get<byte?>("CanJoin") ?? 0;
                 var amount = p.Get<decimal?>("Amount") ?? 0;
                 if (canJoin == 1)
@@ -75,7 +85,7 @@ namespace MemberSite.Service.DAL
                     decimal dRollOver = 0;
                     string sBonusInfo = "";
 
-                    if (promotion.PromotionType == PromotionType.FstDeposit)
+                    if (promotion.PromotionType == PromotionType.FstDeposit || promotion.PromotionType == PromotionType.ReDeposit)
                     {
                         if (promotion.BonusType == BonusType.Amount)
                         {
@@ -99,6 +109,17 @@ namespace MemberSite.Service.DAL
                         rollOver = dRollOver;
                         expiryTime = DateTimeOffset.Now.AddDays(promotion.ExpiryDays).ToUnixTimeSeconds();
                     }
+                    else if (promotion.PromotionType == PromotionType.Freebet)
+                    {
+                        dBonus = promotion.Bonus;
+                        dRollOver = dBonus * promotion.RollOver;
+                        sBonusInfo = Newtonsoft.Json.JsonConvert.SerializeObject(promotion, new Newtonsoft.Json.JsonSerializerSettings { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore });
+
+                        bonusAmount = dBonus;
+                        lockedAmount = 0;
+                        rollOver = dRollOver;
+                        expiryTime = DateTimeOffset.Now.AddDays(promotion.ExpiryDays).ToUnixTimeSeconds();
+                    }
                     else
                     {
                         return 0;
@@ -109,19 +130,19 @@ namespace MemberSite.Service.DAL
                     result = conn.Execute("Member_BonusInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
                     var transId = p.Get<string>("TransId");
 
-                    if (hasBonusWallet)
+                    if (bHasBonusWallet)
                     {
-                        if (result > 0)
+                        if (result > 0 && dLockedAmount > 0)
                         {
                             byte is1stDepoist = 0;
                             decimal afterAmount = 0;
                             int type = 5/*Bonus*/;
                             result = walletService.SetBalance(custId, siteId, userName, dLockedAmount * -1, type, $"Claim Promotion BonusCode: {bonusCode}, Locked Amount: {dLockedAmount.ToString("#,##0.##")}", transId, out afterAmount, out is1stDepoist, conn, trans);
-                        }
 
-                        if (result > 0)
-                        {
-                            result = withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, dLockedAmount * -1, null, transId, out decimal afterWithdrawalLimit, conn, trans);
+                            if (result > 0)
+                            {
+                                result = withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, dLockedAmount * -1, null, transId, out decimal afterWithdrawalLimit, conn, trans);
+                            }
                         }
 
                         if (result > 0)
@@ -176,11 +197,22 @@ namespace MemberSite.Service.DAL
 
         public bool GetCanJoin(int custId, int siteId, string bonusCode, int currencyId)
         {
+            bool bHasBonusWallet = hasBonusWallet.Any(x => x == siteId);
+
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
             p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
             p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            conn.Execute("Member_PromotionCanJoin_Get", p, commandType: CommandType.StoredProcedure);
+
+            if (bHasBonusWallet)
+            {
+                conn.Execute("Member_PromotionCanJoinV2_Get", p, commandType: CommandType.StoredProcedure);
+            }
+            else
+            {
+                conn.Execute("Member_PromotionCanJoin_Get", p, commandType: CommandType.StoredProcedure);
+            }
+
             var canJoin = p.Get<byte?>("CanJoin") ?? 0;
             return canJoin == 1;
         }
