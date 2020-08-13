@@ -73,8 +73,8 @@ body {
 
 .container {
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
+  /* padding-right: 15px;
+  padding-left: 15px; */
   margin-right: auto;
   margin-left: auto;
 }
@@ -943,7 +943,7 @@ a {
 .main-nav::after {
   content: "";
   position: absolute;
-  top: 0.5rem;
+  /* top: 0.5rem; */
   right: -50rem;
   width: 50rem;
   height: 100%;
@@ -968,6 +968,8 @@ a {
   padding-left: 23rem;
   position: relative;
   font-size: 0;
+  height: 100%;
+  display: flex;
 }
 
 .main-nav .nav-logo {
@@ -978,9 +980,13 @@ a {
 }
 
 .main-nav .nav-item {
-  display: inline-block;
+  /* display: inline-block; */
   position: relative;
   list-style: none;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
 }
 
 .main-nav .nav-item a {
@@ -989,8 +995,8 @@ a {
   font-weight: 500;
   text-decoration: none;
   font-size: 1.7rem;
-  padding: 2rem 1rem 1.5rem;
-  height: 6rem;
+  padding: 1.5rem 1rem;
+  height: 100%;
   text-transform: uppercase;
   cursor: pointer;
   overflow: hidden;
@@ -3243,7 +3249,7 @@ p.bank-name{
 .main-nav .nav-item .snav-item {
     position: absolute;
     background: rgba(0,0,0,0.8);
-    margin-top: 3px;
+    top: 50px;
     display: none;
 }
 
@@ -3459,4 +3465,7 @@ h3.schedule-txt{
   font-size: 2rem;
   font-weight: bold;
   color: #fdc53e;
+}
+.promotionsInfo-page.page,.promotionsInfo-page span{
+  color: #fff !important;
 }

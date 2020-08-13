@@ -2030,3 +2030,26 @@ h3.schedule-txt{
   font-weight: bold;
   color: #fdc53e;
 }
+.promotions-module a img{
+  width: 100%;
+}
+.promotionsInfo-page.page,.promotionsInfo-page span{
+  color: #fff !important;
+}
+.promotionsInfo-page ol{
+  padding: 0 1.5em;
+}
+.promotions-module{
+  padding: 0 1.5rem 1.5rem;
+}
+.promotions-module p{
+  margin: 10px 0;
+}
+.promotions-module span{
+  color: #5574a7;
+}
+.label.p-t-10 + .input-field .input-control{
+  color: #63d127;
+  padding-left: 1.5rem;
+  font-weight: bold;
+}

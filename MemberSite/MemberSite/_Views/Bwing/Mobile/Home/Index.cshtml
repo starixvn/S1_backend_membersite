@@ -144,7 +144,7 @@
         <div class="item item-soccer">
             <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "1",Url)">
                 <div class="card">
-                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/img-soccer.jpg" alt="product" />
+                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/img-soccer.jpg" alt="product" asp-append-version="true" />
                     <span class="product-name">@selLangBLL.GetResourceValue("lbl_Soccer")</span>
                 </div>
             </a>
@@ -153,7 +153,7 @@
         <div class="item item-basketball">
             <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "2",Url)">
                 <div class="card">
-                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/img-basketball.jpg" alt="product" />
+                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/img-basketball.jpg" alt="product" asp-append-version="true" />
                     <span class="product-name">@selLangBLL.GetResourceValue("lbl_Basketball")</span>
                 </div>
             </a>
@@ -162,7 +162,7 @@
         <div class="item item-casino">
             <a class="lobby-sport" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
                 <div class="card">
-                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/img-casino.jpg" alt="product" />
+                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/img-casino.jpg" alt="product" asp-append-version="true" />
                     <span class="product-name">@selLangBLL.GetResourceValue("lbl_Casino")</span>
                 </div>
             </a>
@@ -171,7 +171,7 @@
         <div class="item item-esport">
             <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "43",Url)">
                 <div class="card">
-                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/img-esport.jpg" alt="product" />
+                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/img-esport.jpg" alt="product" asp-append-version="true" />
                     <span class="product-name">@selLangBLL.GetResourceValue("lbl_eSports")</span>
                 </div>
             </a>
@@ -182,7 +182,7 @@
         <div class="item-banner">
             <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "200", Url)">
                 <div class="card">
-                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/banner-saba.png" alt="product" />
+                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/banner-saba.png" alt="product" asp-append-version="true" />
                 </div>
             </a>
         </div>
@@ -190,7 +190,7 @@
         <div class="item-banner">
             <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(0, "livecasino", Url,GameType.LiveCasinoLobby)">
                 <div class="card">
-                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/banner-live-casino.jpg" alt="product" />
+                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/banner-live-casino.jpg" alt="product" asp-append-version="true" />
                 </div>
             </a>
         </div>
@@ -198,7 +198,7 @@
         <div class="item-banner">
             <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "202", Url)">
                 <div class="card">
-                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/banner-keno.jpg" alt="product" />
+                    <img src="~/SiteSkin/Bwing/Mobile/assets/images/banner/banner-keno.jpg" alt="product" asp-append-version="true" />
                 </div>
             </a>
         </div>
@@ -253,7 +253,7 @@
 @section Scripts{
 
     <script>
-        var announcementUrl = '@(User.Identity.IsAuthenticated ?　Url.RouteUrl("desktop", new { action = "Announcement", controller = "Message", LangId = selLangBLL.GetLangId() }) : "")';
+        var announcementUrl = '@(User.Identity.IsAuthenticated ? Url.RouteUrl("desktop", new { action = "Announcement", controller = "Message", LangId = selLangBLL.GetLangId() }) : "")';
     </script>
 
     <script src="~/js/Bwing/component/desktop/message/announcement/marquee.min.js" asp-append-version="true"></script>
