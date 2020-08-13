@@ -60,79 +60,77 @@
     var bannerFromDB = bannerBLL.GetBannerFromDB(banner_CurrencyId, langId);
 }
     
-        <div class="system-content">
-            @if (User.Identity.IsAuthenticated)
+    <div class="system-content">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
+        }
+    <div id="content" class="right-panel">
+        <div class="title">@selLangBLL.GetResourceValue("lbl_PromotionsList")</div>
+        <div class="promotionsList-page page">
+            @foreach (var b in bannerFromDB)
             {
-                <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
-            }
-        <div id="content" class="right-panel">
-            <div class="promotionsList-page page">
-                <div class="heading">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_PromotionsList")</span>
+                <div class="promotions-module">
+                    <a href='@b.actionLink'>
+                        <img src="@b.imgURL" asp-append-version="true" />
+                    </a>
                 </div>
-                @foreach (var b in bannerFromDB)
+            }
+
+            @foreach (var b in BannerList)
+            {
+                if (!b.isBonus) continue;
+
+                var _actionLink = b.actionLink;
+                var _outerLink = b.outerLink;
+
+                var _actionByLang = b.actionLinkByLang?.FirstOrDefault(x => x.lang == langId);
+                if (_actionByLang != null)
                 {
-                    <div class="promotions-module">
-                        <a href='@b.actionLink'>
-                            <img src="@b.imgURL" asp-append-version="true" />
-                        </a>
-                    </div>
+                    _actionLink = _actionByLang.link;
+                    _outerLink = _actionByLang.outerLink ?? _outerLink;
                 }
 
-                @foreach (var b in BannerList)
+                if (!string.IsNullOrEmpty(_actionLink))
                 {
-                    if (!b.isBonus) continue;
-
-                    var _actionLink = b.actionLink;
-                    var _outerLink = b.outerLink;
-
-                    var _actionByLang = b.actionLinkByLang?.FirstOrDefault(x => x.lang == langId);
-                    if (_actionByLang != null)
+                    if (b.urlWithLang)
                     {
-                        _actionLink = _actionByLang.link;
-                        _outerLink = _actionByLang.outerLink ?? _outerLink;
+                        <div class="promotions-module">
+                            <a href='@Url.Content($"~/{langId}/{_actionLink}")'>
+                                <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                            </a>
+                        </div>
                     }
-
-                    if (!string.IsNullOrEmpty(_actionLink))
+                    else
                     {
-                        if (b.urlWithLang)
+                        if (_outerLink)
                         {
                             <div class="promotions-module">
-                                <a href='@Url.Content($"~/{langId}/{_actionLink}")'>
+                                <a href='@Url.Content($"{_actionLink}")' target="_event">
                                     <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
                                 </a>
                             </div>
                         }
                         else
                         {
-                            if (_outerLink)
-                            {
-                                <div class="promotions-module">
-                                    <a href='@Url.Content($"{_actionLink}")' target="_event">
-                                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                                    </a>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="promotions-module">
-                                    <a href='@Url.Content($"~/{_actionLink}")'>
-                                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                                    </a>
-                                </div>
-                            }
+                            <div class="promotions-module">
+                                <a href='@Url.Content($"~/{_actionLink}")'>
+                                    <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                                </a>
+                            </div>
                         }
                     }
-                    else
-                    {
-                        <div class="promotions-module">
-                            <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                        </div>
-                    }
                 }
-            </div>
+                else
+                {
+                    <div class="promotions-module">
+                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                    </div>
+                }
+            }
         </div>
-        </div>
+    </div>
+    </div>
 
         
     
