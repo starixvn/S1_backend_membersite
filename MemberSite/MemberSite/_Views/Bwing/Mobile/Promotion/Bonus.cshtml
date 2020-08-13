@@ -22,7 +22,8 @@
     if (User.Identity.IsAuthenticated)
     {
         var custId = authData.CustId;
-        bonusInfo = bonusWalletBLL.CheckBonusWallet(custId, (int)ViewData["TpId"]);
+        var bonusCode = ViewContext.HttpContext.Request.Query["BonusCode"];
+        bonusInfo = bonusWalletBLL.CustBonusInfo(custId, bonusCode);
     }
 
     var IsConvertRequired = false;
