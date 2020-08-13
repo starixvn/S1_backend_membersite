@@ -2150,6 +2150,7 @@ div.form--list .form-group .form-title {
   padding: 1rem 1.5rem;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  color: #fff !important;
 }
 
 .modal__dialog .modal__body h3 {
@@ -4883,7 +4884,7 @@ span.account-info__amount.Js-Balance{
   align-items: center;
   padding: .5rem 0;
   border-bottom-width: 1px;
-  border-color: rgba(38, 65, 110, 0.12);
+  border-color: #26416e;
 } /*8/13調整*/ 
 
 .wallet-info__item [class^=text]:first-child {
