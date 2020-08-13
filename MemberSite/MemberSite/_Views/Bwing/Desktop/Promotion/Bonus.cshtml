@@ -16,7 +16,7 @@
     var serverInfo = serverInfoBLL.GetServerInfo();
     var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
     var ExpiryTime = ViewData["ExpiryTime"];
-    var Currency = selLangBLL.GetResourceValue($"lbl_Currency_{ViewData["Currency"]}");
+    var Currency = selLangBLL.GetResourceValue($"Currency_{ViewData["Currency"]}");
     var authData = authorizeBLL.GetAuthData();
     BonusWallet bonusInfo = null;
     if (User.Identity.IsAuthenticated)
@@ -87,7 +87,7 @@
                         </tr>
                         <tr>
                             <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@ViewData["Bonus"]</td>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@Currency @ViewData["MaxBonus"]</td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@ViewData["MaxBonus"] @Currency</td>
                             <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@(ViewData["RollOver"])x</td>
                             <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000" id="REMAINING"></td>
                             @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
