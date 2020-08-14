@@ -126,6 +126,10 @@ namespace MemberSite.Service.BLL
                 {
                     langId = "hi";
                 }
+                else if (serverInfo.DefLang.Equals("vn", StringComparison.OrdinalIgnoreCase))
+                {
+                    return serverInfo.DefLang;
+                }
                 else if (firstLang.StartsWith("en", StringComparison.OrdinalIgnoreCase))
                 {
                     langId = "en";
@@ -204,7 +208,7 @@ namespace MemberSite.Service.BLL
                 }
                 catch (Exception ex)
                 {
-                    
+
                 }
 
                 if (string.IsNullOrEmpty(labelString))
@@ -273,7 +277,7 @@ namespace MemberSite.Service.BLL
                 countryList = serverInfoBLL.GetCountryList();
                 if (countryList != null)
                 {
-                    foreach(var country in countryList)
+                    foreach (var country in countryList)
                     {
                         country.CountryName = GetResourceValue($"lbl_Country{country.Code}");
                     }
