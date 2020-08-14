@@ -34,6 +34,7 @@ class DepositPanel extends Component {
 	};
 	hangleSubPage = (isSub, page) => {
 		this.setState({ clickSub: isSub, page: page });
+		$("html,body").scrollTop(0);
 		if (isSub === false) {
 			this.GetDepositInfoRecent();
 		}
