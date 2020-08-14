@@ -825,7 +825,8 @@ a {
 
 .dropdown-hover .dropdown-wallet {
     padding: 0;
-    width: 27rem;
+    /* width: 27rem; */
+    width: 100%;
     color: #3d3d3d;
     display: block;
     border-radius: 0;
@@ -2337,6 +2338,11 @@ a {
   background-color: #fff;
   cursor: pointer;
   border: 2px solid transparent;
+  margin-bottom: 10px;
+}
+
+.option-content .option-item img {
+  max-height: 115px;
 }
 
 .option-content .option-item:hover {
