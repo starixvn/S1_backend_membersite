@@ -3476,3 +3476,15 @@ h3.schedule-txt{
 .promotionsInfo-page.page,.promotionsInfo-page span{
   color: #fff !important;
 }
+.promotionsList-page.page {
+  background: #000;
+}
+.promotionsInfo-page.page div img{
+  display: block;
+  width: 100%;
+}
+.promotionsList-page.page a img{
+  display: block;
+  width: 100%;
+  margin-bottom: 30px;
+}
