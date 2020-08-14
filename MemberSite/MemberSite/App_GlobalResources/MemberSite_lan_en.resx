@@ -1752,25 +1752,25 @@
   <data name="lbl_SelectBank" xml:space="preserve">
     <value>Select Bank</value>
   </data>
-  <data name="lbl_AccountNumber" xml:space="preserve">
-    <value>Account Number</value>
+  <data name="lbl_TpWallet_1" xml:space="preserve">
+    <value>Sportsbook Wallet</value>
   </data>
-  <data name="lbl_Note" xml:space="preserve">
-    <value>NOTE</value>
+  <data name="lbl_PromoCategory_1" xml:space="preserve">
+    <value>Slots Game</value>
   </data>
-  <data name="lbl_PleaseSelBank" xml:space="preserve">
-    <value>Select Bank</value>
+  <data name="lbl_PromoCategory_2" xml:space="preserve">
+    <value>Live Casino</value>
   </data>
-  <data name="lbl_RecipientInfo" xml:space="preserve">
-    <value>Recipient Info</value>
+  <data name="lbl_PromoCategory_3" xml:space="preserve">
+    <value>Fishing Game</value>
   </data>
-  <data name="lbl_RecipientName" xml:space="preserve">
-    <value>Recipient Name</value>
+  <data name="lbl_PromoCategory_4" xml:space="preserve">
+    <value>Saba Sports</value>
   </data>
-  <data name="lbl_WithdrawalNotice" xml:space="preserve">
-    <value>We are not responsible for the incorrect recipient information or hacked account</value>
+  <data name="lbl_TurnoverAccmulateHint" xml:space="preserve">
+    <value>Your Fund are locked to transfer out due to Rollover requirement is not fulfils.</value>
   </data>
-  <data name="lbl_ViewStatement" xml:space="preserve">
-    <value>View</value>
+  <data name="lbl_TurnoverAccumulated" xml:space="preserve">
+    <value>Turnover Accumulated</value>
   </data>
 </root>

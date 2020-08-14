@@ -36,7 +36,7 @@ namespace MemberSite.Controllers
         }
         public IActionResult ResetPwd()
         {
-            return View(templateBLL.GetTemplatePath(Url));
+           return View(templateBLL.GetTemplatePath(Url));
         }
     }
 }

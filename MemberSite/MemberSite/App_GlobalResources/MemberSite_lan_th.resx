@@ -1668,4 +1668,7 @@
   <data name="lbl_GameList" xml:space="preserve">
     <value>รายชื่อเกม</value>
   </data>
+  <data name="lbl_TpWallet_1" xml:space="preserve">
+    <value>สปอร์ตบุค วอลเล็ท</value>
+  </data>
 </root>

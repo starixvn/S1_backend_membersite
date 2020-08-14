@@ -1,12 +1,37 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using MemberSite.Service.BLL
+@using MemberSite.Service.Model
 @using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using System.Linq
 @inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@inject CustInfoBLL custInfoBLL
+@inject BannerBLL bannerBLL
+@inject PromotionBLL promotionBLL
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
     Layout = "~/_Views/Bwing/Desktop/Shared/_Layout.cshtml";
 }
 @{
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var CmsPromotionPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Promotion/{selLangBLL.GetLangId()}");
+    int CurrencyId = 0;
+    Customer customer = null;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        customer = custInfoBLL.GetCustInfoWithCache(custId);
+        CurrencyId = customer.CurrencyId;
+    }
+    else
+    {
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+    }
+    var BannerList = bannerBLL.GetBanner(CurrencyId, "Promotion");
+    var langId = selLangBLL.GetLangId();
+
     Dictionary<string, string> i18n = new Dictionary<string, string>();
     i18n.Add("lbl_Bonus", selLangBLL.GetResourceValue("lbl_Bonus"));
     i18n.Add("lbl_MaxBonusAmount", selLangBLL.GetResourceValue("lbl_MaxBonusAmount"));
@@ -17,7 +42,7 @@
     i18n.Add("lbl_DepositRollOver", selLangBLL.GetResourceValue("lbl_DepositRollOver"));
     i18n.Add("lbl_BonusRollOver", selLangBLL.GetResourceValue("lbl_BonusRollOver"));
 
-    string[] lbl_Txts = new string[] { "lbl_TC","lbl_Days","lbl_Hours" };
+    string[] lbl_Txts = new string[] { "lbl_TC", "lbl_Days", "lbl_Hours" };
     foreach (var lbl_Txt in lbl_Txts)
     {
         if (!i18n.ContainsKey(lbl_Txt))
@@ -30,58 +55,85 @@
         if (ccr != null)
             i18n.Add($"Currency_{currencyId}", ccr);
     }
-}
-<div class="main">
-    @if (User.Identity.IsAuthenticated)
-    {
-        <partial name="~/_Views/Shared/_DesktopLeftMenu.cshtml" />
-    }
 
-    <div class="promotionsList-page page">
-        <div class="heading">
-            <span class="text">@selLangBLL.GetResourceValue("lbl_PromotionsList")</span>
-        </div>
-        @*<form>
-                <div class="form-row form-row--bg">
-                    <div class="form-group flex-2">
-                        <ul>
-                            <li>
-                                <i class="icon icon-all"></i>ALL(
-                                <span>12</span>)
-                            </li>
-                            <li>
-                                REDEPOSIT BONUS(
-                                <span>12</span>)
-                            </li>
-                            <li>
-                                REBATE(
-                                <span>12</span>)
-                            </li>
-                            <li>
-                                SPECIAL BONUS(
-                                <span>12</span>)
-                            </li>
-                            <li>
-                                OVER(
-                                <span>12</span>)
-                            </li>
-                            <li>
-                                <div class="form-group">
-                                    <label class="form-title">DATE</label>
-                                    <a class="btn">
-                                        <i class="icon icon-caret"></i>
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+    var banner_CurrencyId = !User.Identity.IsAuthenticated && CurrencyId == 13 ? 2 : CurrencyId;
+    var bannerFromDB = bannerBLL.GetBannerFromDB(banner_CurrencyId, langId);
+}
+    
+    <div class="system-content">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
+        }
+    <div id="content" class="right-panel">
+        <div class="title">@selLangBLL.GetResourceValue("lbl_PromotionsList")</div>
+        <div class="promotionsList-page page">
+            @foreach (var b in bannerFromDB)
+            {
+                <div class="promotions-module">
+                    <a href='@b.actionLink'>
+                        <img src="@b.imgURL" asp-append-version="true" />
+                    </a>
                 </div>
-            </form>*@
-        <!--Group-start-->
-        <div id="promotions"></div>
-        <!--Group-end-->
+            }
+
+            @foreach (var b in BannerList)
+            {
+                if (!b.isBonus) continue;
+
+                var _actionLink = b.actionLink;
+                var _outerLink = b.outerLink;
+
+                var _actionByLang = b.actionLinkByLang?.FirstOrDefault(x => x.lang == langId);
+                if (_actionByLang != null)
+                {
+                    _actionLink = _actionByLang.link;
+                    _outerLink = _actionByLang.outerLink ?? _outerLink;
+                }
+
+                if (!string.IsNullOrEmpty(_actionLink))
+                {
+                    if (b.urlWithLang)
+                    {
+                        <div class="promotions-module">
+                            <a href='@Url.Content($"~/{langId}/{_actionLink}")'>
+                                <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        if (_outerLink)
+                        {
+                            <div class="promotions-module">
+                                <a href='@Url.Content($"{_actionLink}")' target="_event">
+                                    <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="promotions-module">
+                                <a href='@Url.Content($"~/{_actionLink}")'>
+                                    <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                                </a>
+                            </div>
+                        }
+                    }
+                }
+                else
+                {
+                    <div class="promotions-module">
+                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                    </div>
+                }
+            }
+        </div>
     </div>
-</div>
+    </div>
+
+        
+    
 @section Scripts{
     <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));

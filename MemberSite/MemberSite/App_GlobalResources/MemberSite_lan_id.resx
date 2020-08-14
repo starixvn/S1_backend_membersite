@@ -1689,4 +1689,7 @@
   <data name="lbl_SexyCasino" xml:space="preserve">
     <value>Pengiring Venus</value>
   </data>
+  <data name="lbl_TpWallet_1" xml:space="preserve">
+    <value>Dompet Olahraga</value>
+  </data>
 </root>

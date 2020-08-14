@@ -8,6 +8,7 @@
 @inject AuthorizeBLL authorizeBLL
 @inject PromotionBLL promotionBLL
 @inject CustInfoBLL custInfoBLL
+@inject BonusWalletBLL bonusWalletBLL
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,6 +17,37 @@
     var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
     var ExpiryTime = ViewData["ExpiryTime"];
     var Currency = selLangBLL.GetResourceValue($"lbl_Currency_{ViewData["Currency"]}");
+
+    var authData = authorizeBLL.GetAuthData();
+    BonusWallet bonusInfo = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        var custId = authData.CustId;
+        bonusInfo = bonusWalletBLL.CheckBonusWallet(custId, (int)ViewData["TpId"]);
+    }
+
+    var IsConvertRequired = false;
+    decimal percentage = 0;
+    string displayValue = "";
+    string displayValueRollover = "";
+    if (bonusInfo != null)
+    {
+        var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
+        IsConvertRequired = custInfoBLL.IsConvertRequired(custInfo.CurrencyId);
+        percentage = Math.Round( (bonusInfo.Turnover / bonusInfo.Rollover) * 100, 2);
+
+        if (IsConvertRequired)
+        {
+            var newValue = bonusInfo.Turnover / 1000;
+            displayValue = newValue.ToString("#,##0")  + " ('000)";
+            displayValueRollover = (bonusInfo.Rollover / 1000).ToString("#,##0") + " ('000)";
+        }
+        else
+        {
+            displayValue = bonusInfo.Turnover.ToString("#,##0");
+            displayValueRollover = bonusInfo.Rollover.ToString("#,##0");
+        }
+    }
 }
 <div class="main ">
     <div class="promotionsInfo-page page">
@@ -31,6 +63,22 @@
             <h2>@ViewData["promo_title"]</h2>
             <h3>@ViewData["description"]</h3>
         </div>
+        @if (bonusInfo != null)
+        {
+            <div class="promotions-module">
+                <div class="rollover-info">
+                    <div class="rollover-info__item">
+                        <div class="schedule">
+                            <div class="schedule-bg" style="width: @percentage%;"></div>
+                        </div>
+                        <span class="text">@percentage%</span>
+                        <div class="schedule-info">
+                            <span class="text">@displayValue / @displayValueRollover</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
         <div class="promotions-module">
             <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
                 <tr>

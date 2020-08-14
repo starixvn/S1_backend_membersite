@@ -130,7 +130,10 @@ class TransferPanel extends React.Component {
 			WalletInfo: null,
 			From: 0,
 			To: 1,
-			Amount: 1
+			Amount: 1,
+			showPopBox: false,
+			turnover: 0,
+			rollover: 0
 		};
 	}
 
@@ -292,7 +295,13 @@ class TransferPanel extends React.Component {
 				.then(
 					function (response) {
 						let result = response.data;
-						if (result.errorCode == 0) {
+						if (result.errorCode === 9) {
+							this.setState({
+								showPopBox: true,
+								turnover: result.data.turnover,
+								rollover: result.data.rollover
+							});
+						} else if (result.errorCode == 0) {
 							this.getWalletInfo();
 							this.GetRecent();
 						} else {
@@ -367,6 +376,10 @@ class TransferPanel extends React.Component {
 				}.bind(this)
 			);
 	}
+
+	ClosePopBox = () => {
+		this.setState({ showPopBox: false });
+	};
 
 	render() {
 		let WalletInfo = this.state.WalletInfo;
@@ -510,11 +523,69 @@ class TransferPanel extends React.Component {
 						Data={this.state.Recent}
 						refresh={this.state.refreshRecent}
 					/>
+					{this.state.showPopBox ? (
+						<TurnoverPopBox
+							turnover={this.state.turnover}
+							rollover={this.state.rollover}
+							ClosePopBox={this.ClosePopBox}
+						/>
+					) : null}
 				</div>
 			</>
 		);
 	}
 }
+
+const TurnoverPopBox = ({ turnover, rollover, ClosePopBox }) => {
+	let percentage =
+		turnover > rollover ? 100 : ((turnover / rollover) * 100).toFixed(2);
+
+	return (
+		<div className="modal" data-open="true">
+			<div className="overlay"></div>
+			<div className="modal__dialog">
+				<div className="modal__header">
+					<span className="text">{i18n.lbl_ImportantNote}</span>
+				</div>
+				<div className="modal__body">
+					<h3 className="schedule-txt">
+						{i18n.lbl_TurnoverAccmulateHint}
+					</h3>
+					<div className="rollover-info">
+						<div className="rollover-info__item">
+							<div className="turnover">
+								{i18n.lbl_TurnoverAccumulated}
+							</div>
+							<div className="schedule">
+								<div
+									className="schedule-bg"
+									style={{ width: `${percentage}%` }}></div>
+							</div>
+							<span className="text">{percentage}%</span>
+							<div className="schedule-info">
+								<span className="text">
+									{i18n.lbl_Currency}{" "}
+									{number_format(turnover)}
+								</span>{" "}
+								/ ({i18n.lbl_Req}.{i18n.lbl_Currency}{" "}
+								{number_format(rollover)})
+							</div>
+						</div>
+					</div>
+				</div>
+				<div className="modal__footer">
+					<div className="btn-group">
+						<button
+							className="btn btn-secondary"
+							onClick={ClosePopBox}>
+							<span className="text">OK</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
 
 export default TransferPanel;
 

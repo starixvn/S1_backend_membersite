@@ -151,7 +151,7 @@
     <value>WON</value>
   </data>
   <data name="Currency_51" xml:space="preserve">
-    <value>VND</value>
+    <value>VNĐ</value>
   </data>
   <data name="Currency_6" xml:space="preserve">
     <value>EURO</value>
@@ -1684,25 +1684,7 @@
   <data name="lbl_SexyCasino" xml:space="preserve">
     <value>Sảnh Venus</value>
   </data>
-  <data name="lbl_AccountNumber" xml:space="preserve">
-    <value>Số Tài Khoản</value>
-  </data>
-  <data name="lbl_Note" xml:space="preserve">
-    <value>Ghi chú</value>
-  </data>
-  <data name="lbl_PleaseSelBank" xml:space="preserve">
-    <value>Xin lựa chọn ngân hàng</value>
-  </data>
-  <data name="lbl_RecipientInfo" xml:space="preserve">
-    <value>Thông Tin Người Nhận</value>
-  </data>
-  <data name="lbl_RecipientName" xml:space="preserve">
-    <value>Tên Người Nhận</value>
-  </data>
-  <data name="lbl_WithdrawalNotice" xml:space="preserve">
-    <value>Chúng tôi không chịu trách nhiệm với trường hợp thông tin người nhận không chính xác hoặc tài khoản bị tấn công</value>
-  </data>
-  <data name="lbl_ViewStatement" xml:space="preserve">
-    <value>Xem Sao Kê</value>
+  <data name="lbl_TpWallet_1" xml:space="preserve">
+    <value>Ví Sportsbook</value>
   </data>
 </root>

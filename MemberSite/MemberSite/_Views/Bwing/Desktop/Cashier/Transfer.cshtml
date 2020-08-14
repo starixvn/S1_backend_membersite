@@ -10,6 +10,7 @@
     ViewData["Title"] = "Transfer";
     Layout = "~/_Views/Bwing/Desktop/Shared/_Layout.cshtml";
     var authData = authorizeBLL.GetAuthData();
+    var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
     //var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
 }
 @{
@@ -25,10 +26,14 @@
     i18n.Add("lbl_TransferOut", selLangBLL.GetResourceValue("lbl_TransferOut"));
     i18n.Add("lbl_SabaWalletHint", selLangBLL.GetResourceValue("lbl_SabaWalletHint"));
     i18n.Add("lbl_LastTransaction", selLangBLL.GetResourceValue("lbl_LastTransaction"));
+    i18n.Add("lbl_TurnoverAccmulateHint", selLangBLL.GetResourceValue("lbl_TurnoverAccmulateHint"));
+    i18n.Add("lbl_Req", selLangBLL.GetResourceValue("lbl_Req"));
+    i18n.Add("lbl_Currency", selLangBLL.GetResourceValue($"Currency_{custInfo.CurrencyId}"));
+    i18n.Add("lbl_TurnoverAccumulated", selLangBLL.GetResourceValue("lbl_TurnoverAccumulated"));
 
     string[] lbl_Txts = new string[] { "lbl_Close", "lbl_AllTranscations", "lbl_Status", "lbl_Amount", "lbl_ID", "lbl_Time", "lbl_Date",
             "lbl_RecentTransactions", "lbl_Wallet_Saba", "lbl_MainWallet", "lbl_Transfer", "lbl_Balance", "lbl_Memo", "lbl_Direction",
-            "lbl_WalletType", "lbl_Success", "lbl_Fail", "lbl_Pending" };
+            "lbl_WalletType", "lbl_Success", "lbl_Fail", "lbl_Pending", "lbl_ImportantNote" };
     foreach (var lbl_Txt in lbl_Txts)
     {
         if (!i18n.ContainsKey(lbl_Txt))
