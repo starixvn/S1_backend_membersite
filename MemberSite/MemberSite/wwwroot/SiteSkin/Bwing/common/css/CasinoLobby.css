@@ -445,7 +445,7 @@ flex: 1 0 auto;
     background: rgba(0,0,0,.7);
     width: 100%;
     height: 100%;
-    top: 0;
+    top: 55px;
     left: 0;
     z-index: 3;
     text-align: center;
@@ -493,6 +493,7 @@ flex: 1 0 auto;
 @media screen and  (orientation: portrait) {
     .MI div a.close{
         margin-bottom: 0.5rem;
+        width: 3rem;
     }
     .MI div .mobilepop div ~ a{
         margin: 0.5rem auto 1rem;
