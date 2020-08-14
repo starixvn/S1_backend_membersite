@@ -78,27 +78,27 @@
 
 @if (custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0)
 {
-    <div class="system-content">
-        <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
-        <div class="modal" id="WithdrawalAlet" data-open="true">
-            <div class="overlay"></div>
-            <div class="modal__dialog">
-                <div class="modal__header">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_ImportantNote")</span>
-                </div>
-                <div class="modal__body">
-                    <p>@selLangBLL.GetResourceValue("lbl_UpdateBankInfo")</p>
-                </div>
-                <div class="modal__footer">
-                    <div class="btn-group">
-                        <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_UpdateBankDetail")</span>
-                        </a>
-                    </div>
+<div class="system-content">
+    <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
+    <div class="modal" id="WithdrawalAlet" data-open="true">
+        <div class="overlay"></div>
+        <div class="modal__dialog">
+            <div class="modal__header">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_ImportantNote")</span>
+            </div>
+            <div class="modal__body">
+                <p>@selLangBLL.GetResourceValue("lbl_UpdateBankInfo")</p>
+            </div>
+            <div class="modal__footer">
+                <div class="btn-group">
+                    <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_UpdateBankDetail")</span>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
+</div>
 }
 else
 {
@@ -107,16 +107,17 @@ else
     {
         <div class="system-content">
             <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
-            <div class="page">
-                <div class="heading">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_WaitKYC")</span>
-                </div>
-                <div class="panel panel-primary panel--payment" data-open="true">
-                    <div class="panel__header">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_WaitKYCHint")</span>
-                        <i class="icon icon-caret"></i>
+            <div class="right-panel">
+                <div class="kyc page">
+                    <h3>@selLangBLL.GetResourceValue("lbl_WaitKYC")</h3>
+                    <div class="panel panel-primary panel--payment" data-open="true">
+                        <div class="panel__header">
+                            <span class="text"></span>
+                            <i class="icon icon-caret"></i>
+                        </div>
+                        @*<div class="panel__body" id="UploadForm"></div>*@
                     </div>
-                    @*<div class="panel__body" id="UploadForm"></div>*@
+                    <div class="text">@selLangBLL.GetResourceValue("lbl_WaitKYCHint")</div>
                 </div>
             </div>
         </div>
@@ -125,17 +126,14 @@ else
     {
         <div class="system-content">
             <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
-            <div class="page">
-                <div class="heading">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_SubmitPhotoId")</span>
-                </div>
-                <div class="panel panel-primary panel--payment" data-open="true">
-                    <div class="panel__header">
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_SubmitPhotoIdHint")</span>
-                        <i class="icon icon-caret"></i>
+            <div class="right-panel">
+                <div class="kyc page">
+                    <h3>@selLangBLL.GetResourceValue("lbl_SubmitPhotoId")</h3>
+                    <div class="form-content" id="UploadForm"></div>
+                    <div class="text">
+                        @selLangBLL.GetResourceValue("lbl_SubmitPhotoIdHint")
+                        <pre>@selLangBLL.GetResourceValue("lbl_SubmitPhotoIdList")</pre>
                     </div>
-                    <div class="panel__body" id="UploadForm"></div>
-                    <span class="text"><pre>@selLangBLL.GetResourceValue("lbl_SubmitPhotoIdList")</pre></span>
                 </div>
             </div>
         </div>
@@ -155,14 +153,14 @@ else
     </script>
     @if (submittedCustPhotoId == 1)
     {
-        <script src="~/js/component/account/UploadPhotoId.min.js" asp-append-version="true"></script>
+    <script src="~/js/component/account/UploadPhotoId.min.js" asp-append-version="true"></script>
     }
     else if(!(custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0))
     {
-        <script type="text/javascript">
+    <script type="text/javascript">
             var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })";
-        </script>
-        <script src="~/lib/runtime.min.js"></script>
-        <script src="~/js/Bwing/component/Desktop/cashier/WithdrawalPanel.min.js" asp-append-version="true"></script>
+    </script>
+    <script src="~/lib/runtime.min.js"></script>
+    <script src="~/js/Bwing/component/Desktop/cashier/WithdrawalPanel.min.js" asp-append-version="true"></script>
     }
 }

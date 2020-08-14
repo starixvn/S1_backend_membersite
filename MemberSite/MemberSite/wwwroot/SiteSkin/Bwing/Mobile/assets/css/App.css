@@ -2053,3 +2053,22 @@ h3.schedule-txt{
   padding-left: 1.5rem;
   font-weight: bold;
 }
+.kyc{
+  color: #fff;
+  padding: 0 2rem;
+}
+.kyc h3,.kyc .form-content{
+  margin-bottom: 10px;
+  display: flex;
+}
+.kyc div.text{
+  margin-top: 20px;
+}
+.kyc div.text ul{
+  margin-top: 10px;
+}
+.kyc div.text li{
+  list-style: decimal;
+  margin-left: 18px;
+  line-height: 30px;
+}

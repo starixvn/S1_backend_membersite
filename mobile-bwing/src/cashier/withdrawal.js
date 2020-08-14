@@ -147,6 +147,9 @@ class WithdrawalPanel extends Component {
 							// }
 							//this.setState({ showTodModal: true });
 							alert("withdrawal failure");
+						}
+						if (result.errorCode == 2) {
+							window.location.replace(window.location.href);
 						} else {
 							alert(result.message);
 							//this.setState({ showTodModal: true });

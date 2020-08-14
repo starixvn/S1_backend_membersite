@@ -825,8 +825,7 @@ a {
 
 .dropdown-hover .dropdown-wallet {
     padding: 0;
-    /* width: 27rem; */
-    width: 100%;
+    width: 30rem;
     color: #3d3d3d;
     display: block;
     border-radius: 0;
@@ -2552,6 +2551,7 @@ table tbody td {
 
 .form .button-group .btn:last-child {
   margin-left: 1rem;
+  white-space: nowrap;
 }
 
 .form-group {
@@ -3487,4 +3487,19 @@ h3.schedule-txt{
   display: block;
   width: 100%;
   margin-bottom: 30px;
+}
+.kyc h3,.kyc .form-content{
+  margin-bottom: 10px;
+  display: flex;
+}
+.kyc div.text{
+  margin-top: 20px;
+}
+.kyc div.text ul{
+  margin-top: 10px;
+}
+.kyc div.text li{
+  list-style: decimal;
+  margin-left: 18px;
+  line-height: 30px;
 }
