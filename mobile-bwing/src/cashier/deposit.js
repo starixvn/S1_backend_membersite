@@ -60,7 +60,7 @@ class DepositPanel extends Component {
 				}
 			}
 
-			historyBodyData = dataContainer.map(
+			historyBodyData = dataContainer?.map(
 				function (item, index) {
 					return <RecentHistoryBody key={index} Data={item.Data} />;
 				}.bind(this)

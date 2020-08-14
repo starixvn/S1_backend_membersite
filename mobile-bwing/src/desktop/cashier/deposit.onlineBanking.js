@@ -76,7 +76,7 @@ class SubmitOnlineBanking extends Component {
 		}
 	};
 	render() {
-		let bankRows = this.props.OnlineBankInfo.map((b, idx) => {
+		let bankRows = this.props.OnlineBankInfo?.map((b, idx) => {
 			let checked = this.state.SelectBank?.sysId === b.sysId;
 			let key = `rb-onlinebank-${b.sysId}-${idx}`;
 			return (
@@ -257,7 +257,7 @@ export default class OnlineBanking extends Component {
 		);
 	};
 	render() {
-		let rows = this.state.OnlinePayment.map(d => {
+		let rows = this.state.OnlinePayment?.map(d => {
 			return (
 				<div
 					className="card js-online-banking"

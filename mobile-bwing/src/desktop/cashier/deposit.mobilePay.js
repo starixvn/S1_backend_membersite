@@ -113,7 +113,7 @@ class SubmitMobilePay extends Component {
 		});
 	};
 	render() {
-		let rows = this.props.MobilePayInfoList.map(b => {
+		let rows = this.props.MobilePayInfoList?.map(b => {
 			let checked = this.state.channelId === b.channelId;
 			let key = `onlineBank-rb-${b.groupId}-${b.channelName}`;
 			return (
@@ -148,13 +148,13 @@ class SubmitMobilePay extends Component {
 		let amountInput = null;
 		if (this.state.amountType === defAmountType.list) {
 			let amountListRows = this.state.selectPayment.amountList
-				.filter(m => {
+				?.filter(m => {
 					return (
 						m >= this.state.selectPayment.minAmount &&
 						m <= this.state.selectPayment.maxAmount
 					);
 				})
-				.map(m => {
+				?.map(m => {
 					return (
 						<span
 							key={`mobilepay-${this.state.selectPayment.payId}-${this.state.selectPayment.channelId}-${m}`}
@@ -340,7 +340,7 @@ export default class MobilePay extends Component {
 	render() {
 		let payRows =
 			this.state.MobilePayGroupList &&
-			this.state.MobilePayGroupList.map(d => {
+			this.state.MobilePayGroupList?.map(d => {
 				return (
 					<div
 						className="card js-mobile-deposit"

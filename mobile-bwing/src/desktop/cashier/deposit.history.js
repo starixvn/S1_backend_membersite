@@ -15,7 +15,7 @@ export default class RecentHistoryBody extends React.Component {
 	render() {
 		let data = this.props.Data;
 
-		let rows = data.map(
+		let rows = data?.map(
 			function (item) {
 				let dateMonent = moment(item.createTime);
 				let btnGroup = null;

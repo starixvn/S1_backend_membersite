@@ -68,7 +68,7 @@ class SubmitOnlineBanking extends Component {
 		}
 	};
 	render() {
-		let bankRows = this.props.OnlineBankInfo.map(b => {
+		let bankRows = this.props.OnlineBankInfo?.map(b => {
 			return (
 				<div
 					className="card"
@@ -239,7 +239,7 @@ export default class OnlineBanking extends Component {
 		);
 	};
 	render() {
-		let rows = this.state.OnlinePayment.map(d => {
+		let rows = this.state.OnlinePayment?.map(d => {
 			return (
 				<li
 					className="card"
