@@ -108,15 +108,8 @@ else
         <div class="system-content">
             <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
             <div class="right-panel">
-                <div class="kyc page">
+                <div class="kyc success page">
                     <h3>@selLangBLL.GetResourceValue("lbl_WaitKYC")</h3>
-                    <div class="panel panel-primary panel--payment" data-open="true">
-                        <div class="panel__header">
-                            <span class="text"></span>
-                            <i class="icon icon-caret"></i>
-                        </div>
-                        @*<div class="panel__body" id="UploadForm"></div>*@
-                    </div>
                     <div class="text">@selLangBLL.GetResourceValue("lbl_WaitKYCHint")</div>
                 </div>
             </div>
@@ -126,9 +119,10 @@ else
     {
         <div class="system-content">
             <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
-            <div class="right-panel">
+            <div class="right-panel nobg">
+                <div class="title">@selLangBLL.GetResourceValue("lbl_SubmitPhotoId")</div>
                 <div class="kyc page">
-                    <h3>@selLangBLL.GetResourceValue("lbl_SubmitPhotoId")</h3>
+
                     <div class="form-content" id="UploadForm"></div>
                     <div class="text">
                         @selLangBLL.GetResourceValue("lbl_SubmitPhotoIdHint")

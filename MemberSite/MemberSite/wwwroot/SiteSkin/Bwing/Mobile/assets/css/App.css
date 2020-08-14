@@ -2057,7 +2057,7 @@ h3.schedule-txt{
   color: #fff;
   padding: 0 2rem;
 }
-.kyc h3,.kyc .form-content{
+.kyc .form-content{
   margin-bottom: 10px;
   display: flex;
 }
@@ -2071,4 +2071,10 @@ h3.schedule-txt{
   list-style: decimal;
   margin-left: 18px;
   line-height: 30px;
+}
+.kyc h3{
+  margin: 10px 0;
+}
+.kyc pre{
+  white-space: pre-line;
 }

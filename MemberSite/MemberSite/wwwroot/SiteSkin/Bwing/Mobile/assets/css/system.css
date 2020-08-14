@@ -337,6 +337,7 @@ input[type="number"]::-webkit-outer-spin-button {
       rgba(16, 91, 157, 1) 100%);
   border: 1px solid #1368ac;
   cursor: pointer;
+  pointer-events: none;
 }
 
 
