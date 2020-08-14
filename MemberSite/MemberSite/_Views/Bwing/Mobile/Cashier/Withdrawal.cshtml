@@ -11,6 +11,7 @@
     Layout = "~/_Views/Bwing/Mobile/Shared/_Layout.cshtml";
     var authData = authorizeBLL.GetAuthData();
     var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+    int submittedCustPhotoId = 0;
 }
 @{
     var i18n = new Dictionary<string, string>();
@@ -111,24 +112,43 @@
             </div>
         </div>
     }
-    else if (false)@*Remove Ask Upload Photo ID*@
+    else@*Remove Ask Upload Photo ID*@
     {
-        <div class="page">
-            <div class="heading">
-                <span class="text">@selLangBLL.GetResourceValue("lbl_SubmitPhotoId")</span>
-            </div>
-            <div class="panel panel-primary panel--payment" data-open="true">
-                <div class="panel__header">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_SubmitPhotoIdHint")</span>
-                    <i class="icon icon-caret"></i>
+        submittedCustPhotoId = custInfoBLL.SubmittedCustPhotoId(authData.CustId);
+        if (submittedCustPhotoId == 2)
+        {
+            <div class="page">
+                <div class="heading">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_WaitKYC")</span>
                 </div>
-                <div class="panel__body" id="UploadForm"></div>
+                <div class="panel panel-primary panel--payment" data-open="true">
+                    <div class="panel__header">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_WaitKYCHint")</span>
+                        <i class="icon icon-caret"></i>
+                    </div>
+                    @*<div class="panel__body" id="UploadForm"></div>*@
+                </div>
             </div>
-        </div>
-    }
-    else
-    {
-        <div id="content"></div>
+        }
+        else if (submittedCustPhotoId == 1)
+        {
+            <div class="page">
+                <div class="heading">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_SubmitPhotoId")</span>
+                </div>
+                <div class="panel panel-primary panel--payment" data-open="true">
+                    <div class="panel__header">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_SubmitPhotoIdHint")</span>
+                    </div>
+                    <div class="panel__body" id="UploadForm"></div>
+                    <span class="text"><pre>@selLangBLL.GetResourceValue("lbl_SubmitPhotoIdList")</pre></span>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id="content"></div>
+        }
     }
 </div>
 
@@ -136,12 +156,16 @@
     <script type="text/javascript">
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
     </script>
-    @if (!(custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0))
+    @if (submittedCustPhotoId == 1)
     {
-        <script type="text/javascript">
+        <script src="~/js/component/account/UploadPhotoId.min.js" asp-append-version="true"></script>
+    }
+    else if(!(custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0))
+    {
+    <script type="text/javascript">
             var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })";
-        </script>
-        <script src="~/lib/runtime.min.js"></script>
-        <script src="~/js/Bwing/component/cashier/WithdrawalPanel.min.js" asp-append-version="true"></script>
+    </script>
+    <script src="~/lib/runtime.min.js"></script>
+    <script src="~/js/Bwing/component/cashier/WithdrawalPanel.min.js" asp-append-version="true"></script>
     }
 }

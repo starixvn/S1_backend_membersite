@@ -33,7 +33,7 @@
     {
         var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
         IsConvertRequired = custInfoBLL.IsConvertRequired(custInfo.CurrencyId);
-        percentage = Math.Round( (bonusInfo.Turnover / bonusInfo.Rollover) * 100, 2);
+        percentage = bonusInfo.Turnover > bonusInfo.Rollover ? 100 : Math.Round( (bonusInfo.Turnover / bonusInfo.Rollover) * 100, 2);
 
         if (IsConvertRequired)
         {
