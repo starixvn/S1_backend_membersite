@@ -241,6 +241,11 @@
                         @selLangBLL.GetResourceValue("lbl_Fishing")
                     </a>
                 </div>
+                <div class="nav-item">
+                    <a class="link-footer" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
+                        @selLangBLL.GetResourceValue("lbl_Promotion")
+                    </a>
+                </div>
             </div>
         </div>
     </nav>

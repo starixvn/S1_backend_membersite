@@ -987,6 +987,7 @@ a {
   display: flex;
   align-items: center;
   margin-left: 10px;
+  white-space: nowrap;
 }
 
 .main-nav .nav-item a {
