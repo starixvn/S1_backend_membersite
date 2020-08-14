@@ -42,10 +42,20 @@
             </form>
             <script>document.forms[0].submit();</script>
         }
+        else
+        {
+<span>Mode:</span> @payResult.Mode
+        }
     }
     else
     {
         @Model.Message
+        <br />
+        @Model.ErrorCode
+        <br />
+        @Model.RawErrorCode
+        <br />
+        @Model.RawMessage
     }
 </body>
 </html>
