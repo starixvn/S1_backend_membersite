@@ -82,10 +82,10 @@
         <div class="promotions-module">
             <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
                 <tr>
-                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Bonus </th>
-                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Max Bonus Amount </th>
-                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Rollover </th>
-                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">Remaining Time </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_Bonus") </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_MaxBonusAmount") </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_RollOver") </th>
+                    <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_RemainingTime") </th>
                     @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
                     {
                         <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;"></th>

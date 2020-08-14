@@ -1244,7 +1244,7 @@
     <value>THỜI GIAN HẾT HẠN</value>
   </data>
   <data name="lbl_MaxBonusAmount" xml:space="preserve">
-    <value>TIỀN KHUYẾN MÃI TỐI ĐA</value>
+    <value>Số tiền khuyến mại tối đa</value>
   </data>
   <data name="lbl_Product" xml:space="preserve">
     <value>SẢN PHẨM产品</value>
@@ -1256,7 +1256,7 @@
     <value>THỜI GIAN CÒN LẠI</value>
   </data>
   <data name="lbl_RollOver" xml:space="preserve">
-    <value>CHUYỂN ĐỔI</value>
+    <value>Số vòng cược</value>
   </data>
   <data name="PromotionCategory1" xml:space="preserve">
     <value>NẠP LẦN ĐẦU</value>

@@ -1768,7 +1768,7 @@
     <value>Saba Sports</value>
   </data>
   <data name="lbl_TurnoverAccmulateHint" xml:space="preserve">
-    <value>Your Fund are locked to transfer out due to Rollover requirement is not fulfils.</value>
+    <value>Bạn cần hoành thành doanh thu cược yêu cầu của khuyến mãi để thực hiện chuyển quỹ</value>
   </data>
   <data name="lbl_TurnoverAccumulated" xml:space="preserve">
     <value>Turnover Accumulated</value>
