@@ -128,7 +128,7 @@ import {Pagination} from '../../commJS/Pagination.jsx';
         }
 
         onDelMsg() {
-            if(confirm('Are you sure?')) {
+            if(confirm(i18n.lbl_AreYouSure)) {
                 Loading.OnLoading();
                 axios.post('/api/Account/DelMsg', {MsgIds: this.state.Checked})
                 .then(function (response) {
