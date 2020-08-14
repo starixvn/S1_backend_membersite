@@ -96,7 +96,7 @@
 
     @*<!-- Live Support -->*@
 
-    <div class="quickLink" id="toggle-LiveSupport">
+    @*<div class="quickLink" id="toggle-LiveSupport">
         <div class="quicktitle">@selLangBLL.GetResourceValue("lbl_ContactUs")</div>
         <div class="quicklist">
             <ul>
@@ -120,7 +120,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div>*@
     @if (!string.Equals(ViewContext.RouteData.Values["controller"] as string, "sports", StringComparison.OrdinalIgnoreCase))
         {
     <partial name="~/Views/Shared/_Footer.cshtml" />

@@ -143,7 +143,7 @@
         <div class="item">
             <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "1",Url)">
                 <div class="card">
-                    <img src="~/SiteSkin/Bwing/Desktop/images/img-soccer.jpg" alt="product" />
+                    <img src="~/SiteSkin/Bwing/Desktop/images/img-soccer.jpg" alt="product" asp-append-version="true" />
                     <span class="product-name">@selLangBLL.GetResourceValue("lbl_Soccer")</span>
                 </div>
             </a>
@@ -152,7 +152,7 @@
         <div class="item">
             <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "2",Url)">
                 <div class="card">
-                    <img src="~/SiteSkin/Bwing/Desktop/images/img-basketball.jpg" alt="product" />
+                    <img src="~/SiteSkin/Bwing/Desktop/images/img-basketball.jpg" alt="product" asp-append-version="true" />
                     <span class="product-name">@selLangBLL.GetResourceValue("lbl_Basketball")</span>
                 </div>
             </a>
@@ -161,7 +161,7 @@
         <div class="item">
             <a class="lobby-sport" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Casino", LangId = selLangBLL.GetLangId() })">
                 <div class="card">
-                    <img src="~/SiteSkin/Bwing/Desktop/images/img-casino.jpg" alt="product" />
+                    <img src="~/SiteSkin/Bwing/Desktop/images/img-casino.jpg" alt="product" asp-append-version="true" />
                     <span class="product-name">@selLangBLL.GetResourceValue("lbl_Casino")</span>
                 </div>
             </a>
@@ -170,7 +170,7 @@
         <div class="item">
             <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "43",Url)">
                 <div class="card">
-                    <img src="~/SiteSkin/Bwing/Desktop/images/img-esport.jpg" alt="product" />
+                    <img src="~/SiteSkin/Bwing/Desktop/images/img-esport.jpg" alt="product" asp-append-version="true" />
                     <span class="product-name">@selLangBLL.GetResourceValue("lbl_eSports")</span>
                 </div>
             </a>
@@ -181,7 +181,7 @@
         <div class="item-banner">
             <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "200", Url)">
                 <div class="card">
-                    <img src="~/SiteSkin/Bwing/Desktop/images/banner-saba.png" alt="product" />
+                    <img src="~/SiteSkin/Bwing/Desktop/images/banner-saba.png" alt="product" asp-append-version="true" />
                 </div>
             </a>
         </div>
@@ -189,7 +189,7 @@
         <div class="item-banner">
             <a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(0, "livecasino", Url,GameType.LiveCasinoLobby)">
                 <div class="card">
-                    <img src="~/SiteSkin/Bwing/Desktop/images/banner-live-casino.jpg" alt="product" />
+                    <img src="~/SiteSkin/Bwing/Desktop/images/banner-live-casino.jpg" alt="product" asp-append-version="true" />
                 </div>
             </a>
         </div>
@@ -197,7 +197,7 @@
         <div class="item-banner">
             <a class="lobby-sport @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1, "202", Url)">
                 <div class="card">
-                    <img src="~/SiteSkin/Bwing/Desktop/images/banner-keno.jpg" alt="product" />
+                    <img src="~/SiteSkin/Bwing/Desktop/images/banner-keno.jpg" alt="product" asp-append-version="true" />
                 </div>
             </a>
         </div>
@@ -248,7 +248,7 @@
             </a>
         </div>
     </div>
-</div>
+</div>c
 @section Scripts{
 
     <script>
