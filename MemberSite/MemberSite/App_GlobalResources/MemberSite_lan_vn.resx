@@ -1687,4 +1687,31 @@
   <data name="lbl_TpWallet_1" xml:space="preserve">
     <value>Ví Sportsbook</value>
   </data>
+  <data name="lbl_AccountNumber" xml:space="preserve">
+    <value>Số tài khoản</value>
+  </data>
+  <data name="lbl_AreYouSure" xml:space="preserve">
+    <value>Bạn chắc chắn muốn xóa tin nhắn?</value>
+  </data>
+  <data name="lbl_LastTransaction" xml:space="preserve">
+    <value>Các giao dịch gần nhất</value>
+  </data>
+  <data name="lbl_Note" xml:space="preserve">
+    <value>Ghi chú</value>
+  </data>
+  <data name="lbl_Promotion_Info" xml:space="preserve">
+    <value>Thông tin khuyến mãi</value>
+  </data>
+  <data name="lbl_RecipientInfo" xml:space="preserve">
+    <value>Thông tin người rút tiền</value>
+  </data>
+  <data name="lbl_RecipientName" xml:space="preserve">
+    <value>Tên người rút tiền</value>
+  </data>
+  <data name="lbl_ViewStatement" xml:space="preserve">
+    <value>Xem Sao Kê</value>
+  </data>
+  <data name="lbl_WithdrawalNotice" xml:space="preserve">
+    <value>Ghi chú: Chúng tôi không chịu trách nhiệm với trường hợp thông tin người nhận không chính xác hoặc tài khoản bị tấn công</value>
+  </data>
 </root>

@@ -178,7 +178,7 @@ export default class Messages extends Component {
 	}
 
 	onDelMsg() {
-		if (confirm("Are you sure?")) {
+		if (confirm(i18n.lbl_AreYouSure)) {
 			axios
 				.post("/api/Account/DelMsg", { MsgIds: this.state.Checked })
 				.then(
