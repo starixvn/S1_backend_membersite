@@ -419,7 +419,7 @@ class SubmitLocalBank extends Component {
 		this.setState({ showTodModal: false, showBankInfoModal: false });
 	};
 	render() {
-		let rows = this.state.BankInfoOffList.map(b => {
+		let rows = this.state.BankInfoOffList?.map(b => {
 			return (
 				<div
 					className="card"
