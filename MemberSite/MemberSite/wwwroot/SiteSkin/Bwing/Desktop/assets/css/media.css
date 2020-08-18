@@ -148,7 +148,7 @@
 
 @media (min-width: 1200px) {
   .container {
-    max-width: 1200px;
+    max-width: 1366px;
   }
 }
 
@@ -200,6 +200,7 @@
 
   .main-nav .nav-item a {
     font-size: 1.5rem;
+    height: auto;
   }
 
   .system-content {
@@ -246,6 +247,7 @@
   .main-nav {
     padding-left: 0;
     width: 100%;
+    flex-direction: column;
   }
 
   .main-nav::after,
@@ -255,6 +257,7 @@
 
   .main-nav .nav-item {
     display: block;
+    height: auto;
   }
 
   .header-top-right {

@@ -411,27 +411,6 @@
     },
     {
       "name": {
-        "en": "Dr Fortuno Blackjack",
-        "cs": "嘉年华大师 21点",
-        "ch": "嘉年華大師 21點"
-      },
-      "appId": "21003",
-      "gameId": "21003",
-      "category1": "Table",
-      "Reels": "",
-      "paylines": "Blackjack Table Game",
-      "RTP": "the main game is 99.54%\ninsurance is 92.60%\nthe Bonus bet with Jackpot is 96.5%",
-      "imgName": {
-        "en": "Dr-Fortuno-Blackjack-EN.jpg"
-      },
-      "launchDate": "2019/04/24",
-      "hot": false,
-      "new": false,
-      "imageExist": true,
-      "Isfun": 0
-    },
-    {
-      "name": {
         "en": "Dwarf Mine",
         "cs": "矮人矿工",
         "ch": "矮人礦工"
@@ -776,27 +755,6 @@
     },
     {
       "name": {
-        "en": "Lucky Blackjack",
-        "cs": "幸运21点",
-        "ch": "幸運21點"
-      },
-      "appId": "21002",
-      "gameId": "21002",
-      "category1": "Table",
-      "Reels": "",
-      "paylines": "Blackjack Table Game",
-      "RTP": "the main game is 99.54%.\nwith insurance is 92.60%.",
-      "imgName": {
-        "en": "Lucky-Blackjack-EN.jpg"
-      },
-      "launchDate": "2019/01/15",
-      "hot": false,
-      "new": false,
-      "imageExist": true,
-      "Isfun": 0
-    },
-    {
-      "name": {
         "en": "Niagara Falls",
         "cs": "尼加拉瓜大瀑布",
         "ch": "尼加拉瓜大瀑布"
@@ -1070,28 +1028,6 @@
       "new": false,
       "imageExist": true,
       "Isfun": 1
-    },
-    {
-      "name": {
-        "en": "Sonya Blackjack",
-        "cs": "索妮雅21点",
-        "ch": "索妮雅21點"
-      },
-      "appId": "21001",
-      "gameId": "21001",
-      "category1": "Table",
-      "Reels": "",
-      "paylines": "Blackjack Table Game",
-      "RTP": "the main game is 99.54%.\nwith insurance is 92.60%.",
-      "imgName": {
-        "en": "Sonya-Blackjack-EN.jpg"
-      },
-      "launchDate": "2018/07/02",
-      "hot": true,
-      "new": false,
-      "featured": false,
-      "imageExist": true,
-      "Isfun": 0
     },
     {
       "name": {

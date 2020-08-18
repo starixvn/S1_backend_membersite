@@ -108,8 +108,8 @@ else
         <div class="system-content">
             <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
             <div class="right-panel">
-                <div class="kyc success page">
-                    <h3>@selLangBLL.GetResourceValue("lbl_WaitKYC")</h3>
+                <div class="title">@selLangBLL.GetResourceValue("lbl_WaitKYC")</div>
+                <div class="kyc success nobg page">
                     <div class="text">@selLangBLL.GetResourceValue("lbl_WaitKYCHint")</div>
                 </div>
             </div>
@@ -122,7 +122,6 @@ else
             <div class="right-panel nobg">
                 <div class="title">@selLangBLL.GetResourceValue("lbl_SubmitPhotoId")</div>
                 <div class="kyc page">
-
                     <div class="form-content" id="UploadForm"></div>
                     <div class="text">
                         @selLangBLL.GetResourceValue("lbl_SubmitPhotoIdHint")

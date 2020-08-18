@@ -54,36 +54,64 @@
       "refId": [ "nova88c" ]
     },
     {
-      "actionLink": "Promotion/Bonus?BonusCode=SportsbookCashback10",
-      "isBonus": true,
-      "urlWithLang": true,
-      "img": "banner-SportsbookCashback10.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ],
-      "refId": [ "nova88c" ]
-    },
-    {
-      "actionLink": "Promotion/Bonus?BonusCode=Casinorebate",
-      "isBonus": true,
-      "urlWithLang": true,
-      "img": "banner-Casinorebate.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ],
-      "refId": [ "nova88c" ]
-    },
-    {
-      "actionLink": "Promotion/Bonus?BonusCode=SportsbookRebate",
-      "isBonus": true,
-      "urlWithLang": true,
-      "img": "banner-SportsbookRebate.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ]
-    },
-    {
       "actionLink": "Promotion/Bonus?BonusCode=50PNewDep1",
       "isBonus": true,
       "urlWithLang": true,
       "img": "banner-50PNewDep1.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ],
+      "refId": [ "nova88c" ]
+    },
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=CasinoCashback10",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-CasinoCashback10.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ],
+      "refId": [ "nova88c" ]
+    },
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=SportsbookUnlimitedRebate",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-SportsbookUnlimitedRebate.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ],
+      "refId": [ "nova88c" ]
+    },
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=LIVECASINOUNLIMITEDr0p8",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-LIVECASINOUNLIMITEDr0p8.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ],
+      "refId": [ "nova88c" ]
+    },
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=SportsbookCashback101",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-SportsbookCashback101.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ],
+      "refId": [ "nova88c" ]
+    },
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=CasinoUnlimitedRebate1P2",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-CasinoUnlimitedRebate1P2.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ],
+      "refId": [ "nova88c" ]
+    },
+    {
+      "actionLink": "Promotion/Bonus?BonusCode=MixParlayUnlimitedR2p5",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-MixParlayUnlimitedR2p5.jpg",
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ],
       "refId": [ "nova88c" ]
@@ -97,27 +125,10 @@
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
-      "actionLink": "Promotion/Bonus?BonusCode=CCback4",
-      "isBonus": true,
-      "urlWithLang": true,
-      "img": "banner-CCback4.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ]
-    },
-    {
       "actionLink": "Promotion/Bonus?BonusCode=FishingRebate",
       "isBonus": true,
       "urlWithLang": true,
       "img": "banner-FishingRebate.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ],
-      "refId": [ "nova88c" ]
-    },
-    {
-      "actionLink": "Promotion/Bonus?BonusCode=LiveCasinoRebate1",
-      "isBonus": true,
-      "urlWithLang": true,
-      "img": "banner-LiveCasinoRebate1.jpg",
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ],
       "refId": [ "nova88c" ]
@@ -131,14 +142,6 @@
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
-      "actionLink": "Promotion/Bonus?BonusCode=MixParlay2",
-      "isBonus": true,
-      "urlWithLang": true,
-      "img": "banner-MixParlay2.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ]
-    },
-    {
       "actionLink": "Promotion/Bonus?BonusCode=7SPIN",
       "isBonus": true,
       "urlWithLang": true,
@@ -147,10 +150,11 @@
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
-      "actionLink": "Casino/Lobby",
-      "tpId": 14,
-      "img": "banner-PG.jpg",
-      "currencyId": [ 4, 13, 15 ],
+      "actionLink": "LiveCasino",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-AUG-PPGame.jpg",
+      "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ]
     }
   ],
@@ -166,19 +170,6 @@
         }
       ],
       "img": "event-pp-20200508.png",
-      "lang": [ "th", "id", "en", "cs" ]
-    },
-    {
-      "actionLink": "https://pp88.asia/tournament/to-be-number-one-weekly-tournament/",
-      "outerLink": true,
-      "actionLinkByLang": [
-        {
-          "lang": "th",
-          "link": "https://pp88.asia/th/%E0%B8%97%E0%B8%B1%E0%B8%A7%E0%B8%A3%E0%B9%8C%E0%B8%99%E0%B8%B2%E0%B9%80%E0%B8%A1%E0%B8%99%E0%B8%97%E0%B9%8C/%e0%b8%97%e0%b8%b9%e0%b8%9a%e0%b8%b5%e0%b8%99%e0%b8%b1%e0%b8%a1%e0%b9%80%e0%b8%9a%e0%b8%ad%e0%b8%a3%e0%b9%8c%e0%b8%a7%e0%b8%b1%e0%b8%99%e0%b8%97%e0%b8%b1%e0%b8%a7%e0%b8%a3%e0%b9%8c%e0%b8%99%e0%b8%b2/",
-          "outerLink": true
-        }
-      ],
-      "img": "event-pp-20200623.jpg",
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
