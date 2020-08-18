@@ -30,6 +30,39 @@
 }
 <header class="header @(User.Identity.IsAuthenticated ? "is-login":"")">
     <div class="header-top-right container">
+        <div class="languages">
+            <div id="lang_selector" class="language-dropdown">
+                <label for="toggle"
+                       class="lang-flag lang-@selLangBLL.GetLangId()"
+                       title="@selLangBLL.GetResourceValue("lbl_SelectLanguage")">
+                    <span class="flag"></span>
+                </label>
+                <ul class="lang-list">
+                    @foreach (var siteLanguage in selLangBLL.GetLangIdList())
+                    {
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" Js-lang-id="@siteLanguage.LangId" title="@siteLanguage.Language">
+                                <span class="flag"></span>
+                                <span class="text">@siteLanguage.Language</span>
+                            </li>
+                        }
+                        else
+                        {
+                            var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
+                            <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language" onclick="location.href='@LangUrl';">
+                                <span class="flag"></span>
+                                <span class="text">@siteLanguage.Language</span>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <div id="lang_selected" class="lang_selected">
+                <p>@selLangBLL.GetLangIdList().Where(x => x.LangId == selLangBLL.GetLangId()).FirstOrDefault().Language</p>
+            </div>
+            <span class="icon-arrow"></span>
+        </div>
         @if (!User.Identity.IsAuthenticated)
         {
             <div class="before-login">
@@ -125,10 +158,10 @@
                                 </a>
                             </li>
                             @*<li>
-                                    <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
-                                        @selLangBLL.GetResourceValue("lbl_Promotion")
-                                    </a>
-                                </li>*@
+                                <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
+                                    @selLangBLL.GetResourceValue("lbl_Promotion")
+                                </a>
+                            </li>*@
                             <li>
                                 <a href="javascript:void(0)" class="Js-logout">
                                     @selLangBLL.GetResourceValue("lbl_Logout")
@@ -147,39 +180,7 @@
                 </div>
             </div>
         }
-        <div class="languages">
-            <div id="lang_selector" class="language-dropdown">
-                <label for="toggle"
-                       class="lang-flag lang-@selLangBLL.GetLangId()"
-                       title="@selLangBLL.GetResourceValue("lbl_SelectLanguage")">
-                    <span class="flag"></span>
-                </label>
-                <ul class="lang-list">
-                    @foreach (var siteLanguage in selLangBLL.GetLangIdList())
-                    {
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" Js-lang-id="@siteLanguage.LangId" title="@siteLanguage.Language">
-                                <span class="flag"></span>
-                                <span class="text">@siteLanguage.Language</span>
-                            </li>
-                        }
-                        else
-                        {
-                            var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
-                            <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language" onclick="location.href='@LangUrl';">
-                                <span class="flag"></span>
-                                <span class="text">@siteLanguage.Language</span>
-                            </li>
-                        }
-                    }
-                </ul>
-            </div>
-            <div id="lang_selected" class="lang_selected">
-                <p>@selLangBLL.GetLangIdList().Where(x => x.LangId == selLangBLL.GetLangId()).FirstOrDefault().Language</p>
-            </div>
-            <span class="icon-arrow"></span>
-        </div>
+
         <span class="btn-menu" id="menu-toggle">
             <span class="line"></span>
         </span>
