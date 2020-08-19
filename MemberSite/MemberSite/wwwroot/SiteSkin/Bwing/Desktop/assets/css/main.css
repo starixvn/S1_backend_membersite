@@ -370,9 +370,10 @@ a {
 }
 
 .icon-telegram {
-  background: url("../../images/img-sprite.png") no-repeat -54px -112px;
-  width: 24px;
-  height: 23px;
+  /* background: url("../../../common/images/telegram.png"); */
+  /* width: 48px;
+  height: 55px;
+  margin: auto; */
 }
 
 .icon-line {
@@ -908,9 +909,10 @@ a {
 }
 
 .header-top-right .btn {
-    margin-left: 1rem;
     border-radius: 5px;
     color: #fff;
+    font-size: 14px;
+    margin: 0.5rem 0 0.5rem 1rem;
 }
 
 .icon-logout:before {
