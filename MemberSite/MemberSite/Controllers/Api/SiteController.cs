@@ -149,7 +149,8 @@ namespace MemberSite.Controllers.Api
             }
 
             int custId = 0;
-            var result = custInfoBLL.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd, registeredModel.Email, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId, registeredModel.AffId, registeredModel.Aff, out custId);
+
+            var result = custInfoBLL.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd, registeredModel.Email, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId, registeredModel.AffId, registeredModel.Aff, out custId, Request.Host.Host);
             if (result == -1)
             {
                 apiResult.ErrorCode = result;
