@@ -1,0 +1,87 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var lang = selLangBLL.GetLangId();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">Promotion</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-RedepositBonus5p.jpg" alt="" style="display: block;width: 100%;" />
+        </div>
+        <div class="promotions-module">
+            <h2>Daily Redeposit 5% up to MYR 500            </h2>
+
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">Promotion Details</span>
+            <ol type="a">
+                <li>Promotion applied when members made a minimum deposit amount.<br><br></li>
+                <li>Bonus will be credited to account wallet within 24 hours upon successful deposit.<br><br></li>
+            </ol>
+            <span class="promotions-title">Bonus Play Conditions</span>
+            <ol type="a" start="3">
+                <li>Member are required to one time (1x) rollover for the rebate after credit to members, before making withdrawal.<br><br></li>
+            </ol>
+
+            <span class="promotions-title">Promotion particulars are as illustrated below:</span>
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        Bonus 5% (currencies)
+                    </th>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        Max Pay-out (capped)
+                    </th>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        Rollover
+                    </th>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">MYR</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">MYR 500</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">1x</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">THB</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">THB 3,800</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">1x</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">IDR</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">IDR 1,800,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">1x</td>
+                </tr>
+                
+            </table>
+           <br>
+<br>
+            <span class="promotions-title">Promotion Terms & Conditions</span>
+            <ol type="1">
+                <li>This promotion available daily.<br><br></li>
+                <li>Promotion applied to all Nova88 members.<br><br></li>
+                <li>This Promotion effective from 19th August 2020 (Wednesday)<br><br></li>
+                <li>Promotion is accumulate total of unlimited redeposit on the day.<br><br></li>
+                <li>Bonus acquired from this promotion is valid for thirty (30) days upon issuance, unless stated otherwise. Shall the participating member fail to fulfil required prerequisites within given time frame, all money won using bonus funds will be revoked.<br><br></li>
+                <li>Participating members must accept and comply with all the terms mentioned above as well as all relevant rules and regulations implemented by Nova88.<br><br></li>
+                <li>Nova88 reserves the right to amend or withdraw the Promotion at any time.<br><br></li>
+                <li>Nova88 is the sole arbiter of the Promotion and its decision is final.<br><br></li>
+                <li>Nova88 <a class="text-link" href="https://www.nova88asia.com/SiteSkin/Nova88/Static/@lang/Promotion.html" target="_blank">Terms & Conditions apply</a>.<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var lang = selLangBLL.GetLangId();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">优惠活动</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-RedepositBonus5p.jpg" alt="" style="display: block;width: 100%;" />
+        </div>
+        <div class="promotions-module">
+            <h2>每日再存红利 5% 高达 MYR500</h2>
+
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">优惠详情</span>
+            <ol type="a">
+                <li>会员进行最低存款额就可享受此优惠促销。<br><br></li>
+                <li>完成存款后，优惠奖金将在24小时内直接汇入您的账号钱包。<br><br></li>
+            </ol>
+            <span class="promotions-title">优惠奖励条件</span>
+            <ol type="a" start="3">
+                <li>再存红利金额汇入账号后必须进行一次(1x)的流水投注才能提款。<br><br></li>
+            </ol>
+
+            <span class="promotions-title">促销详情如下所示：</span>
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        优惠 10% (货币)
+                    </th>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        最高奖金 (上限)
+                    </th>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        投注倍数
+                    </th>
+                </tr>
+                
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">MYR</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">MYR 500</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">1x</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">THB</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">THB 3,800</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">1x</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">IDR</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">IDR 1,800,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">1x</td>
+                </tr>
+                
+            </table>
+           <br>
+<br>
+            <span class="promotions-title">优惠标准规则</span>
+            <ol type="1">
+                <li>此促销将每日提供。<br><br></li>
+                <li>此促销适用于所有Nova88会员。<br><br></li>
+                <li>此促销于2020年8月19日（星期三)开始。<br><br></li>
+                <li>此促销将会员在优惠期间每日的无限再存款额进行计算。<br><br></li>
+                <li>除非另有说明，否则从此次促销中获得的奖金在汇入的三十（30）天内有效。参加会员在指定的时间内未能达到要求的条件，所有优惠奖金将被撤销。<br><br></li>
+                <li>参与优惠会员必须接受并遵守上述所有条款以及Nova88实施的所有相关规则和规定。<br><br></li>
+                <li>Nova88有权随时中止或取消本优惠。<br><br></li>
+                <li>Nova88保留对本优惠的最终解释权.。<br><br></li>
+                <li>Nova88<a class="text-link" href="https://www.nova88asia.com/SiteSkin/Nova88/Static/@lang/Promotion.html" target="_blank">标准规则和条款适用。</a><br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>
