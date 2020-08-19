@@ -155,8 +155,8 @@ a {
 .btn {
   position: relative;
   display: inline-block;
-  font-family: inherit;
-  font-weight: 500;
+  font-family: Arial;
+  /* font-weight: 500; */
   text-align: center;
   vertical-align: middle;
   -webkit-user-select: none;
@@ -192,7 +192,7 @@ a {
       rgba(255, 200, 7, 1) 100%); */
   color: #0a121f !important;
   /* box-shadow: inset 0px 2px 5px 0px rgba(255, 255, 255, 0.75); */
-  font-weight: bold;
+  /* font-weight: bold; */
   background: #eaad38;
 }
 
@@ -214,6 +214,7 @@ a {
   color: #fff;
   /* box-shadow: inset 0px 2px 5px 0px rgba(255, 255, 255, 0.75); */
   background: #257cd4;
+  font-family: Arial;
 }
 
 .btn-login:hover,
