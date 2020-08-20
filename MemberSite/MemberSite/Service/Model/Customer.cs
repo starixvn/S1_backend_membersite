@@ -118,4 +118,10 @@ namespace MemberSite.Service.Model
         public string AreaCode { get; set; }
         public string PhoneNo { get; set; }
     }
+
+    public class RegCust
+    {
+        public int CustId { get; set; }
+        public int ErrorCode { get; set; }
+    }
 }

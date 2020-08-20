@@ -32,6 +32,7 @@ namespace MemberSite.Controllers
             public string SignupUrl { get; set; }
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
+            public string RealName { get; set; }
         }
 
         [HttpPost]
@@ -50,7 +51,7 @@ namespace MemberSite.Controllers
             var result = 0;
             if (!phoneExists)
             {
-                result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode);
+                result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName);
             }
             else
             {
@@ -127,6 +128,7 @@ namespace MemberSite.Controllers
                 }
                 else
                 {
+                    custInfoBLL.SetCustBankInfo(custId, signupModel.RealName, null);
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name,customer.UserName ),
