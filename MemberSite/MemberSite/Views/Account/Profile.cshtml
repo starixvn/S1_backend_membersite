@@ -36,7 +36,7 @@
     i18n.Add("lbl_Month10", selLangBLL.GetResourceValue("lbl_Month10"));
     i18n.Add("lbl_Month11", selLangBLL.GetResourceValue("lbl_Month11"));
     i18n.Add("lbl_Month12", selLangBLL.GetResourceValue("lbl_Month12"));
-    
+
     i18n.Add("lbl_Confirm", selLangBLL.GetResourceValue("lbl_Confirm"));
     i18n.Add("lbl_Later", selLangBLL.GetResourceValue("lbl_Later"));
     i18n.Add("lbl_DepositNow", selLangBLL.GetResourceValue("lbl_DepositNow"));
@@ -79,6 +79,20 @@
         {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" }
     };
     var currencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
+
+    var status = 3;
+    if (custInfoProfile == null || string.IsNullOrEmpty(custInfoProfile.AccountName) && string.IsNullOrEmpty(custInfoProfile.PhoneNo))
+    {
+        status = 1;
+    }
+    else if (string.IsNullOrEmpty(custInfoProfile.AccountName))
+    {
+        status = 2;
+    }
+    else if (string.IsNullOrEmpty(custInfoProfile.Birth_y)) 
+    {
+        status = 4;
+    }
 }
 
 @section Style{
@@ -108,8 +122,8 @@
     <script src="~/lib/runtime.min.js"></script>
     @if (custInfoProfile == null || custInfoProfile.AccountName == null || custInfoProfile.CountryCode == null || custInfoProfile.PhoneNo == null)
     {
-        <script>
-            var SetStatus = '@(custInfoProfile == null || string.IsNullOrEmpty(custInfoProfile.AccountName) && string.IsNullOrEmpty(custInfoProfile.PhoneNo) ? 1 : string.IsNullOrEmpty(custInfoProfile.AccountName) ? 2 : 3)';
+    <script>
+            var SetStatus = '@status';
             var custdata = {
                 AccountName:'@custInfoProfile.AccountName',
                 Birthday: {
@@ -120,11 +134,11 @@
                 PhoneNo: '@custInfoProfile.PhoneNo'
             }
 
-        </script>
-        <script src="~/js/component/account/UpdProfile.min.js" asp-append-version="true"></script>
+    </script>
+    <script src="~/js/component/account/UpdProfile.min.js" asp-append-version="true"></script>
     }
     else
     {
-        <script src="~/js/component/account/Profile.min.js" asp-append-version="true"></script>
+    <script src="~/js/component/account/Profile.min.js" asp-append-version="true"></script>
     }
 }
