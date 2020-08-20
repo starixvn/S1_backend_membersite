@@ -49,7 +49,7 @@ namespace MemberSite.Service.DAL
             if (result > 0)
             {
                 custId = p.Get<int?>("CustId") ?? 0;
-                result = conn.Execute("Member_CustProfile_Ins", new { CustId = custId, customer.SiteId, Email, Profile = (string)null, PhoneNo, AreaCode }, trans, commandType: CommandType.StoredProcedure);
+                result = conn.Execute("Member_CustProfile_Ins", new { CustId = custId, customer.SiteId, Email, Profile = (string)null, PhoneNo=PhoneNo, AreaCode=AreaCode }, trans, commandType: CommandType.StoredProcedure);
             }
 
             if (result > 0 && !string.IsNullOrEmpty(signupUrl))
