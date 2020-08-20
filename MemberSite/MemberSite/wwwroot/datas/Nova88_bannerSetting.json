@@ -7,6 +7,15 @@
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
+      "actionLink": "Promotion/Bonus?BonusCode=RegisterWiniPhone",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-RegisterWiniPhone.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ],
+      "refId": [ "nova88c" ]
+    },
+    {
       "actionLink": "Promotion/Bonus?BonusCode=MillionHighroller",
       "isBonus": true,
       "urlWithLang": true,
@@ -110,19 +119,19 @@
       "refId": [ "nova88c" ]
     },
     {
-      "actionLink": "Promotion/Bonus?BonusCode=FishingRebate",
+      "actionLink": "Promotion/Bonus?BonusCode=FishingUnlimitedR08",
       "isBonus": true,
       "urlWithLang": true,
-      "img": "banner-FishingRebate.jpg",
+      "img": "banner-FishingUnlimitedR08.jpg",
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ],
       "refId": [ "nova88c" ]
     },
     {
-      "actionLink": "Promotion/Bonus?BonusCode=Rebate1P1",
+      "actionLink": "Promotion/Bonus?BonusCode=VKNGamesUnlimitedRebate15",
       "isBonus": true,
       "urlWithLang": true,
-      "img": "banner-Rebate1P1.jpg",
+      "img": "banner-VKNGamesUnlimitedRebate15.jpg",
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ]
     },
