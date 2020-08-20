@@ -46,9 +46,9 @@ namespace MemberSite.Controllers
             }
 
             int custId = 0;
-            var checkPhone = custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
+            var phoneExists = custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
             var result = 0;
-            if (checkPhone)
+            if (!phoneExists)
             {
                 result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode);
             }
