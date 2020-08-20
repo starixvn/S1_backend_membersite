@@ -112,4 +112,10 @@ namespace MemberSite.Service.Model
         public bool Transfer { set; get; }
         public WalletStatus walletStatus { set; get; }
     }
+
+    public class RrofileReq
+    {
+        public string AreaCode { get; set; }
+        public string PhoneNo { get; set; }
+    }
 }

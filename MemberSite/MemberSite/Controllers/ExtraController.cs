@@ -30,6 +30,8 @@ namespace MemberSite.Controllers
         public class SignupModel : Api.SiteController.RegisteredModel
         {
             public string SignupUrl { get; set; }
+            public string PhoneNo { get; set; }
+            public string AreaCode { get; set; }
         }
 
         [HttpPost]
@@ -44,7 +46,18 @@ namespace MemberSite.Controllers
             }
 
             int custId = 0;
-            var result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, out custId, signupModel.SignupUrl);
+            var checkPhone = custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
+            var result = 0;
+            if (checkPhone)
+            {
+                result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode);
+            }
+            else
+            {
+                errorCode = -6;
+                message = selLangBLL.GetResourceValue("lbl_Phone") + " " + selLangBLL.GetMsg("msg_HasExist");
+            }
+
             if (result == -1)
             {
                 errorCode = result;

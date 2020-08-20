@@ -518,12 +518,6 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        public class RrofileReq
-        {
-            public string AreaCode { get; set; }
-            public string PhoneNo { get; set; }
-        }
-
         [HttpPost]
         public ApiResult<bool> ExistsPhoneNo(RrofileReq rrofileReq)
         {

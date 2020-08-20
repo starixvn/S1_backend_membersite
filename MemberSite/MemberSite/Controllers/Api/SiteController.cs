@@ -618,5 +618,14 @@ namespace MemberSite.Controllers.Api
 
             return result;
         }
+
+        [HttpPost]
+        public ApiResult<bool> ExistsPhoneNo(RrofileReq req)
+        {
+            var apiResult = new ApiResult<bool>(selLangBLL);
+            apiResult.Data = custInfoBLL.ExistsPhoneNo(0, req.AreaCode, req.PhoneNo);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
     }
 }

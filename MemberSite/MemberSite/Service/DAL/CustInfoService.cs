@@ -5,6 +5,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,7 +35,7 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
         }
-        public int AddCustInfo(Customer customer, string Email, out int custId, string signupUrl = null)
+        public int AddCustInfo(Customer customer, string Email, out int custId, string signupUrl = null, string PhoneNo=null, string AreaCode=null)
         {
             custId = 0;
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
@@ -48,7 +49,7 @@ namespace MemberSite.Service.DAL
             if (result > 0)
             {
                 custId = p.Get<int?>("CustId") ?? 0;
-                result = conn.Execute("Member_CustProfile_Ins", new { CustId = custId, customer.SiteId, Email, Profile = (string)null }, trans, commandType: CommandType.StoredProcedure);
+                result = conn.Execute("Member_CustProfile_Ins", new { CustId = custId, customer.SiteId, Email, Profile = (string)null, PhoneNo, AreaCode }, trans, commandType: CommandType.StoredProcedure);
             }
 
             if (result > 0 && !string.IsNullOrEmpty(signupUrl))
