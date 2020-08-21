@@ -369,11 +369,13 @@ a {
   height: 50px; */
 }
 
-.icon-telegram {
+.icon-telegram img{
   /* background: url("../../../common/images/telegram.png"); */
   /* width: 48px;
   height: 55px;
   margin: auto; */
+  width: 55px;
+  margin: auto;
 }
 
 .icon-line {
@@ -3531,4 +3533,28 @@ h3.schedule-txt{
   display: flex;
   justify-content: center;
   margin-top: 20%;
+}
+.otpInput{
+  display: flex;
+  width: 80%;
+  margin:1rem auto 0;
+}
+.otpInput .input-field .input-control{
+  height: calc(4rem + 2px);
+}
+.otpInput .btn-secondary{
+  width: 14rem;
+}
+.otpImg{
+  display: flex;
+  align-items: center;
+}
+.otpImg img{
+  margin-left: 10px;
+}
+.otpImg button{
+  background: transparent;
+  border: 0;
+  line-height: 0;
+  cursor: pointer;
 }

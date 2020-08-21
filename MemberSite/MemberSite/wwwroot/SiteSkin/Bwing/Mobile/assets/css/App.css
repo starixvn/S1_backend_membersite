@@ -2078,3 +2078,38 @@ h3.schedule-txt{
 .kyc pre{
   white-space: pre-line;
 }
+.otpInput{
+  display: flex;
+  width: 80%;
+  margin:1rem auto 0;
+}
+.otpInput .input-field .input-control{
+  height: calc(3rem + 2px);
+  padding: 0 1.9rem;
+  border: 1px solid #257cd4;
+  background: transparent;
+  font-family: inherit;
+  font-size: 1.6rem;
+  color: #fff;
+  width: 100%;
+}
+.otpInput .btn-secondary{
+  min-width: auto;
+}
+.otpImg{
+  display: flex;
+  align-items: center;
+}
+.otpImg img{
+  margin-left: 10px;
+}
+.otpImg button{
+  background: transparent;
+  border: 0;
+  line-height: 0;
+  cursor: pointer;
+}
+.otpbtn{
+  min-width: auto;
+  padding: 0.2rem 1.2rem;
+}

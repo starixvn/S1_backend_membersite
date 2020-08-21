@@ -65,7 +65,7 @@
     <link href="~/SiteSkin/Bwing/Mobile/assets/css/lib/popup/remodal.css" rel="stylesheet" />
     <link href="~/SiteSkin/Bwing/Mobile/assets/css/lib/popup/remodal-default-theme.css" rel="stylesheet" />
     <link href="~/SiteSkin/Bwing/Mobile/assets/css/App.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/SiteSkin/Bwing/Mobile/assets/css/media.css" rel="stylesheet" />
+    <link href="~/SiteSkin/Bwing/Mobile/assets/css/media.css" rel="stylesheet" asp-append-version="true" />
 
     <script>
         var SiteLanguage = "@selLangBLL.GetLangId()";
@@ -278,7 +278,7 @@
         i18n.Add("lbl_ShowBalance", selLangBLL.GetResourceValue("lbl_ShowBalance"));
         i18n.Add("lbl_Currency", selLangBLL.GetResourceValue($"Currency_{CurrencyId}"));
 
-        string[] lbl_Txts = new string[] { "lbl_Deposit", "lbl_TransferFunds" };
+        string[] lbl_Txts = new string[] { "lbl_Deposit", "lbl_TransferFunds", "lbl_PromoCategory_1", "lbl_PromoCategory_2", "lbl_PromoCategory_3", "lbl_PromoCategory_4" };
         foreach (var lbl_Txt in lbl_Txts)
         {
             if (!i18n.ContainsKey(lbl_Txt))
@@ -412,7 +412,7 @@
                                 $("#Dialog2").attr("data-open", false);
                                 @if (tools.IsMobile())
                                 {
-                                @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
+                                    @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
                                 }
                                 else
                                 {
@@ -485,8 +485,7 @@
     }
     @if (User.Identity.IsAuthenticated)
     {
-        @*<script src="~/SiteSkin/Bwing/Mobile/js/after.js" asp-append-version="true"></script>*@
-        <script src="~/SiteSkin/Bwing/Desktop/js/after.min.js" asp-append-version="true"></script>
+        <script src="~/SiteSkin/Bwing/Mobile/js/after.min.js" asp-append-version="true"></script>
         @*<script src="~/js/commJS/common.js"></script>
             <script src="~/js/commJS/Account.js" asp-append-version="true"></script>
             <script src="~/js/component/app/BalancePanel.min.js" asp-append-version="true"></script>

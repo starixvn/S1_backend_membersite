@@ -59,9 +59,13 @@ module.exports = {
 		// "desktop/message/announcement/marquee.min": [
 		// 	"./src/desktop/marquee.js"
 		// ],
-		"../../../SiteSkin/Bwing/Desktop/js/after.min": [
+		// "../../../SiteSkin/Bwing/Desktop/js/after.min": [
+		// 	"@babel/polyfill",
+		// 	"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Desktop/js/after.js"
+		// ],
+		"../../../SiteSkin/Bwing/Mobile/js/after.min": [
 			"@babel/polyfill",
-			"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Desktop/js/after.js"
+			"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Mobile/js/after.js"
 		]
 		// "../../../SiteSkin/Bwing/Desktop/js/before.min": [
 		// 	"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Mobile/js/before.js"
