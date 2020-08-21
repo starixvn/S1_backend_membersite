@@ -1712,7 +1712,7 @@
     <value>Xem Sao Kê</value>
   </data>
   <data name="lbl_WithdrawalNotice" xml:space="preserve">
-    <value>Ghi chú: Chúng tôi không chịu trách nhiệm với trường hợp thông tin người nhận không chính xác hoặc tài khoản bị tấn công</value>
+    <value>Chúng tôi không chịu trách nhiệm với trường hợp thông tin người nhận không chính xác hoặc tài khoản bị tấn công</value>
   </data>
   <data name="lbl_WithdrawalAmountTooltip" xml:space="preserve">
     <value>Xin vui lòng điền số tiền muốn rút.  Ví dụ: 3,000,000 - 3 triệu đồng</value>
