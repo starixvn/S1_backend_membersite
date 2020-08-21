@@ -1794,4 +1794,7 @@
   <data name="lbl_WithdrawalNotice" xml:space="preserve">
     <value>We are not responsible for the incorrect recipient information or hacked account</value>
   </data>
+  <data name="lbl_WithdrawalAmountTooltip" xml:space="preserve">
+    <value>Kindly fill out FULL figure of withdrawal amount. Ex: 3,000,000 for 3 millions</value>
+  </data>
 </root>
