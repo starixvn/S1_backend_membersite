@@ -165,7 +165,9 @@ import { number_format } from "../../../../js/component/commJS/common";
 		$(".Js-LastTransaction").html(
 			moment(walletInfo.lastTransaction).format("l LTS")
 		);
-		$(".dropdown-wallet > .wallet-item:not(.wallet-main)").remove();
+		$(
+			".dropdown-wallet > .wallet-item:not(.wallet-main.Js-Wallet-Refresh)"
+		).remove();
 		for (var i = walletInfo.tpWallets.length - 1; i >= 0; i--) {
 			var tpName = walletInfo.tpWallets[i].tpName;
 			var tpBalance = walletInfo.tpWallets[i].balance;
