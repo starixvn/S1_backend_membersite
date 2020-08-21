@@ -122,6 +122,30 @@ import { number_format } from "../../../../js/component/commJS/common";
 			});
 	};
 
+	var getBonusWallet = function () {
+		axios
+			.post("/api/account/GetCustBonusWallet")
+			.then(function (response) {
+				var result = response.data;
+				if (result.errorCode != null && result.errorCode == 0) {
+					setBonusWalletInfo(result.data);
+				}
+			})
+			.catch(function (error) {
+				alert(error);
+			});
+	};
+
+	var setBonusWalletInfo = function (walletInfo) {
+		walletInfo.forEach(w => {
+			$(
+				`<div class="wallet-item"><label>${
+					i18n[`lbl_PromoCategory_${w.promoCategoryId}`]
+				}</label><span>${number_format(w.bonus)}</span></div>`
+			).insertAfter("#wallet-main");
+		});
+	};
+
 	var setWalletInfo = function (walletInfo) {
 		_WalletInfo = walletInfo;
 		if (walletInfo.isHideBalance) {
@@ -131,7 +155,9 @@ import { number_format } from "../../../../js/component/commJS/common";
 		}
 		$("#show-cash").prop("checked", !walletInfo.isHideBalance);
 		$(".Js-Balance").html(
-			`${number_format(walletInfo.balance)}<i class="icon icon-refresh"></i>`
+			`${number_format(
+				walletInfo.balance
+			)}<i class="icon icon-refresh"></i>`
 		);
 		$(".Js-LastLoginTime").html(
 			moment(walletInfo.lastLoginTime).format("l LTS")
@@ -144,9 +170,13 @@ import { number_format } from "../../../../js/component/commJS/common";
 			var tpName = walletInfo.tpWallets[i].tpName;
 			var tpBalance = walletInfo.tpWallets[i].balance;
 			$(
-				`<div class="wallet-item"><label>${tpName}</label><span>${number_format(tpBalance)}</span></div>`
+				`<div class="wallet-item wallet-main"><label>${tpName}</label><span>${number_format(
+					tpBalance
+				)}</span></div>`
 			).insertAfter(".dropdown-wallet > .wallet-item.wallet-main");
 		}
+
+		getBonusWallet();
 	};
 
 	var onHideBalance = function () {
@@ -195,9 +225,9 @@ import { number_format } from "../../../../js/component/commJS/common";
 							if (msgCount > 99) {
 								msgCount = "99+";
 							}
-							$("#msg-noti-icon").addClass('has-new');
+							$("#msg-noti-icon").addClass("has-new");
 						} else {
-							$("#msg-noti-icon").removeClass('has-new');
+							$("#msg-noti-icon").removeClass("has-new");
 						}
 					}
 

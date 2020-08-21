@@ -27,8 +27,8 @@ module.exports = {
 		// 	"./src/message/announcement.js"
 		// ],
 		// "cashier/TransferPanel.min": ["./src/cashier/transfer.js"],
-		"cashier/WithdrawalPanel.min": ["./src/cashier/withdrawal.js"],
-		"cashier/DepositPanel.min": ["./src/cashier/deposit.js"],
+		// "cashier/WithdrawalPanel.min": ["./src/cashier/withdrawal.js"],
+		// "cashier/DepositPanel.min": ["./src/cashier/deposit.js"],
 		// "desktop/history/Deposit.min": ["./src/desktop/history/deposit.js"],
 		// "desktop/history/Withdrawal.min": [
 		// 	"./src/desktop/history/withdrawal.js"
@@ -43,10 +43,10 @@ module.exports = {
 		// "desktop/account/UpdProfile.min": [
 		// 	"./src/desktop/profile/updProfile.js"
 		// ],
-		"desktop/cashier/WithdrawalPanel.min": [
-			"./src/desktop/cashier/withdrawal.js"
-		],
-		"desktop/cashier/DepositPanel.min": ["./src/desktop/cashier/deposit.js"]
+		// "desktop/cashier/WithdrawalPanel.min": [
+		// 	"./src/desktop/cashier/withdrawal.js"
+		// ],
+		// "desktop/cashier/DepositPanel.min": ["./src/desktop/cashier/deposit.js"]
 		// "desktop/message/personalMsg/personalMsg.min": [
 		// 	"./src/desktop/message/personalMsg.js"
 		// ],
@@ -59,9 +59,10 @@ module.exports = {
 		// "desktop/message/announcement/marquee.min": [
 		// 	"./src/desktop/marquee.js"
 		// ],
-		// "../../../SiteSkin/Bwing/Desktop/js/after.min": [
-		// 	"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Desktop/js/after.js"
-		// ]
+		"../../../SiteSkin/Bwing/Desktop/js/after.min": [
+			"@babel/polyfill",
+			"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Desktop/js/after.js"
+		]
 		// "../../../SiteSkin/Bwing/Desktop/js/before.min": [
 		// 	"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Mobile/js/before.js"
 		// ],

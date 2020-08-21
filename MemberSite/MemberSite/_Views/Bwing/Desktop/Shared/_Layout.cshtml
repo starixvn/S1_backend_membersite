@@ -300,8 +300,8 @@
         i18n.Add("lbl_LastLogin", selLangBLL.GetResourceValue("lbl_LastLogin"));
         i18n.Add("lbl_ShowBalance", selLangBLL.GetResourceValue("lbl_ShowBalance"));
         i18n.Add("lbl_Currency", selLangBLL.GetResourceValue($"Currency_{CurrencyId}"));
-
-        string[] lbl_Txts = new string[] { "lbl_Deposit", "lbl_TransferFunds" };
+        
+        string[] lbl_Txts = new string[] { "lbl_Deposit", "lbl_TransferFunds", "lbl_PromoCategory_1", "lbl_PromoCategory_2", "lbl_PromoCategory_3", "lbl_PromoCategory_4" };
         foreach (var lbl_Txt in lbl_Txts)
         {
             if (!i18n.ContainsKey(lbl_Txt))
