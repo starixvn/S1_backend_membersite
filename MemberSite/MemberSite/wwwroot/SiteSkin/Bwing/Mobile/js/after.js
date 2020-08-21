@@ -141,7 +141,7 @@
 			$(
 				`<p class="balance">${
 					i18n[`lbl_PromoCategory_${w.promoCategoryId}`]
-				} ${number_format(w.bonus)}</p>`
+				} : ${number_format(w.bonus)}</p>`
 			).insertAfter(".Js-Balance");
 		});
 	};
@@ -155,7 +155,7 @@
 		}
 		$("#show-cash").prop("checked", !walletInfo.isHideBalance);
 		$(".Js-Balance").html(
-			`${number_format(
+			`${i18n.lbl_Currency} ${number_format(
 				walletInfo.balance
 			)}<i class="icon icon-refresh-white"></i>`
 		);
@@ -165,7 +165,7 @@
 			var tpName = walletInfo.tpWallets[i].tpName;
 			var tpBalance = walletInfo.tpWallets[i].balance;
 			$(
-				`<p class="balance">${tpName} ${number_format(tpBalance)}</p>`
+				`<p class="balance">${tpName} : ${number_format(tpBalance)}</p>`
 			).insertAfter(".Js-Balance");
 		}
 
