@@ -1717,4 +1717,10 @@
   <data name="lbl_WithdrawalAmountTooltip" xml:space="preserve">
     <value>Xin vui lòng điền số tiền muốn rút.  Ví dụ: 3,000,000 - 3 triệu đồng</value>
   </data>
+  <data name="lbl_TurnoverAccmulateHint" xml:space="preserve">
+    <value>Bạn cần hoành thành doanh thu cược yêu cầu của khuyến mãi để thực hiện chuyển quỹ</value>
+  </data>
+   <data name="lbl_TurnoverAccumulated" xml:space="preserve">
+    <value>Doanh thu cược tích lũy</value>
+  </data> 
 </root>

@@ -1671,4 +1671,10 @@
   <data name="lbl_TpWallet_1" xml:space="preserve">
     <value>สปอร์ตบุค วอลเล็ท</value>
   </data>
+  <data name="lbl_TurnoverAccmulateHint" xml:space="preserve">
+    <value>สมาชิกต้องทำตามกติตาการทำเทิร์นโอเวอร์ก่อนทำรายการโอนเงินได้ค่ะ</value>
+  </data>
+  <data name="lbl_TurnoverAccumulated" xml:space="preserve">
+    <value>การหมุนเวียนสะสม</value>
+  </data>
 </root>

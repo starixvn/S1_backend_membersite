@@ -1692,4 +1692,10 @@
   <data name="lbl_TpWallet_1" xml:space="preserve">
     <value>Dompet Olahraga</value>
   </data>
+  <data name="lbl_TurnoverAccmulateHint" xml:space="preserve">
+    <value>Anda harus memenuhi persyaratan rollover untuk memindahkan dana Anda.</value>
+  </data>
+  <data name="lbl_TurnoverAccumulated" xml:space="preserve">
+    <value>Akumulasi Turnover</value>
+  </data>
 </root>

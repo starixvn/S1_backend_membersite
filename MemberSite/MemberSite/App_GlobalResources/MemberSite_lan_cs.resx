@@ -1700,4 +1700,10 @@
   <data name="lbl_TpWallet_1" xml:space="preserve">
     <value>体育钱包</value>
   </data>
+  <data name="lbl_TurnoverAccmulateHint" xml:space="preserve">
+    <value>欲转移余额需先达标流水要求。</value>
+  </data>
+  <data name="lbl_TurnoverAccumulated" xml:space="preserve">
+    <value>累计流水</value>
+  </data> 
 </root>
