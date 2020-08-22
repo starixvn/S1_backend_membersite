@@ -128,7 +128,11 @@ namespace MemberSite.Controllers
                 }
                 else
                 {
-                    custInfoBLL.SetCustBankInfo(custId, signupModel.RealName, null);
+                    if(!string.IsNullOrEmpty(signupModel.RealName))
+                    {
+                        custInfoBLL.SetCustBankInfo(custId, signupModel.RealName, null);
+                    }
+
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name,customer.UserName ),
