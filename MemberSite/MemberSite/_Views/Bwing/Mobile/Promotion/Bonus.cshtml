@@ -122,8 +122,7 @@
     <script type="text/javascript">
         $(function() {
             const diff = moment.duration(moment.unix(@ViewData["PeriodTo"]).diff(new Date()))
-            $("#REMAINING").html(diff.days() + " days" + diff.hours() + " hours" );
-            //$("#ExpiryTime").html(moment.unix(@ExpiryTime).format('l11'));
+            $("#REMAINING").html(diff.months() * 30 + diff.days() + " @selLangBLL.GetResourceValue("lbl_Days") " + diff.hours() + " @selLangBLL.GetResourceValue("lbl_Hours")");
             var sExpiryTime = moment.unix(@ExpiryTime).format('MMMM') +' ' + moment.unix(@ExpiryTime).date() + ' ,' + moment.unix(@ExpiryTime).year();
             sExpiryTime += moment.unix(@ExpiryTime).format(' HH:mm');
             $("#ExpiryTime").html(sExpiryTime);
