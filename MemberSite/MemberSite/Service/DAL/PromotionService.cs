@@ -54,7 +54,7 @@ namespace MemberSite.Service.DAL
             lockedAmount = 0;
             rollOver = 0;
             expiryTime = 0;
-            bool bHasBonusWallet = hasBonusWallet.Any(x => x == siteId);
+            bool bHasBonusWallet = true;/*Never roll back*/
 
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Open();
@@ -142,6 +142,10 @@ namespace MemberSite.Service.DAL
                             if (result > 0)
                             {
                                 result = withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, dLockedAmount * -1, null, transId, out decimal afterWithdrawalLimit, conn, trans);
+                            }
+                            else
+                            {
+                                return -2;
                             }
                         }
 

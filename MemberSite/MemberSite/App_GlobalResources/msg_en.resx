@@ -273,4 +273,7 @@
   <data name="msg_CreditSignUpHint_2" xml:space="preserve">
     <value>Welcome to {0}, upon registration please visit the said link and enjoy our games.</value>
   </data>
+  <data name="msg_LockedAmountInsufficient" xml:space="preserve">
+    <value>Main wallet balance should not be lower than {0}</value>
+  </data>
 </root>

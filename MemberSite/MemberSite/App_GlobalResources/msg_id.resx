@@ -271,4 +271,7 @@
     <value>Selamat datang di {0}, setelah pendaftaran silakan kunjungi link yang kami berikan dan selamat menikmati permainan kami.
 </value>
   </data>
+  <data name="msg_LockedAmountInsufficient" xml:space="preserve">
+    <value>Saldo dompet utama tidak boleh lebih rendah dari {0}</value>
+  </data>
 </root>

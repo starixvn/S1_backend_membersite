@@ -268,4 +268,7 @@
   <data name="msg_CreditSignUpHint_2" xml:space="preserve">
     <value>欢迎来到{0}, 完成注册后请游览此链接并享受我司的游戏盘口。</value>
   </data>
+  <data name="msg_LockedAmountInsufficient" xml:space="preserve">
+    <value>中心钱包余额不可少于 {0}</value>
+  </data>
 </root>

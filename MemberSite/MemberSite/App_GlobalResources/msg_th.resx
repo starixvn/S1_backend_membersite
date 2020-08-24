@@ -275,4 +275,7 @@
   <data name="msg_CreditSignUpHint_2" xml:space="preserve">
     <value>ยินดีต้อนรับสู่ {0},  หลังจากทะเบียนแล้วคุณสามารถเข้าสู่เว็บไซต์เราเพื่อเพลิดเพลินและสนุกสนานกับทั้งหมดของเรา</value>
   </data>
+  <data name="msg_LockedAmountInsufficient" xml:space="preserve">
+    <value>ยอดเงินกระเป๋าเงินหลักไม่ควรต่ำกว่า {0}</value>
+  </data>
 </root>
