@@ -469,7 +469,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<BannerSettingItem>> GetBanner([FromForm]string FolderName, [FromForm]string refId)
+        public ApiResult<IEnumerable<BannerSettingItem>> GetBanner([FromForm]string FolderName, [FromForm]string refId, [FromForm]bool filterHideInHome)
         {
             ApiResult<IEnumerable<BannerSettingItem>> result = new ApiResult<IEnumerable<BannerSettingItem>>();
 
@@ -501,6 +501,11 @@ namespace MemberSite.Controllers.Api
                 var bannerFromDB = bannerBLL.GetBannerFromDB(banner_CurrencyId, selLangBLL.GetLangId());
                 var bannerFromJSON = _bannerSetting.Promotion.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
                 result.Data = bannerFromDB.Concat(bannerFromJSON);
+
+                if (filterHideInHome)
+                {
+                    result.Data = result.Data.Where(x => !x.hideInHome);
+                }
             }
             else if (FolderName == "Casino")
             {

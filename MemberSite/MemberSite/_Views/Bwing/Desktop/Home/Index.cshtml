@@ -75,6 +75,8 @@
 
     @foreach (var b in BannerList)
     {
+        if (b.hideInHome) continue;
+
         var _actionLink = b.actionLink;
         var _outerLink = b.outerLink;
 

@@ -69,7 +69,13 @@ namespace MemberSite.Service.BLL
                     if (details.TryGetValue(langId, out settings))
                     {
                         var bannerUrl = settings["bannerUrl"];
-                        bannerFromDB.Add(new BannerSettingItem() { actionLink = $"Promotion/Bonus?BonusCode={promo.BonusCode}", imgURL = bannerUrl, fromDB = true });
+                        bool hideInHome = false;
+                        if (settings.TryGetValue("hideInHome", out var strHideInHome)) 
+                        {
+                            hideInHome = string.Equals(strHideInHome, "TRUE", StringComparison.OrdinalIgnoreCase);
+                        };
+
+                        bannerFromDB.Add(new BannerSettingItem() { actionLink = $"Promotion/Bonus?BonusCode={promo.BonusCode}", imgURL = bannerUrl, fromDB = true, hideInHome = hideInHome });
                     }
                 }
             }

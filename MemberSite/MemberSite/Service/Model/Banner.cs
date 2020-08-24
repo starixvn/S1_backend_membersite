@@ -39,6 +39,7 @@ namespace MemberSite.Service.Model
         public string[] refId { get; set; }
         public string imgURL { get; set; }
         public bool fromDB { get; set; }
+        public bool hideInHome { get; set; }
     }
 
     public class ActionLinkInfo

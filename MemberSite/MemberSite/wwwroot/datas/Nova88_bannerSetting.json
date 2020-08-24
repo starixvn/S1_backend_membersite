@@ -4,7 +4,8 @@
       "actionLink": "https://www.facebook.com/Nova88.ent",
       "outerLink": true,
       "img": "banner-dj.png",
-      "lang": [ "th", "id", "en", "cs" ]
+      "lang": [ "th", "id", "en", "cs" ],
+      "hideInHome": false
     },
     {
       "actionLink": "Promotion/Bonus?BonusCode=RegisterWiniPhone",
