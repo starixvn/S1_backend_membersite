@@ -425,9 +425,5 @@ namespace MemberSite.Service.BLL
         {
             return rollOverService.GetCustRollOver(custId, bonusCode);
         }
-        public int SetPhoneVerified(int custId)
-        {
-            return custInfoService.SetPhoneVerified(custId);
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.Library;
+﻿using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -11,12 +12,12 @@ namespace MemberSite.Service.BLL
     public class CommonBLL
     {
         private readonly CourierAdapter courierAdapter;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly CustInfoService custInfoService;
         private readonly string commonServiceUrl;
-        public CommonBLL(IConfiguration configuration, CourierAdapter courierAdapter, CustInfoBLL custInfoBLL)
+        public CommonBLL(IConfiguration configuration, CourierAdapter courierAdapter, CustInfoService custInfoService)
         {
             this.courierAdapter = courierAdapter;
-            this.custInfoBLL = custInfoBLL;
+            this.custInfoService = custInfoService;
             commonServiceUrl = configuration.GetValue<string>("CommonService");
         }
 
@@ -72,7 +73,7 @@ namespace MemberSite.Service.BLL
 
             if (apiResult.ErrorCode == 0)
             {
-                custInfoBLL.SetPhoneVerified(custId);
+                custInfoService.SetPhoneVerified(custId);
             }
 
             return apiResult;
