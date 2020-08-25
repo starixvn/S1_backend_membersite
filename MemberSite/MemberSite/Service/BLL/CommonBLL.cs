@@ -54,9 +54,9 @@ namespace MemberSite.Service.BLL
                 CustId = custId,
             };
 
-            ApiResult<ApiResult> result = await courierAdapter.MyPostAsync<ApiResult, dynamic>(apiUrl, req);
+            ApiResult result = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
 
-            return result.Data;
+            return result;
         }
         public async Task<ApiResult> AcknowledgeVerifySMS(int custId, string request_id, string code)
         {
@@ -68,8 +68,7 @@ namespace MemberSite.Service.BLL
                 code = code
             };
 
-            ApiResult<ApiResult> result = await courierAdapter.MyPostAsync<ApiResult, dynamic>(apiUrl, req);
-            var apiResult = result.Data;
+            ApiResult apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
 
             if (apiResult.ErrorCode == 0)
             {
