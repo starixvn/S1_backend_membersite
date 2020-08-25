@@ -272,7 +272,7 @@ class WithdrawalPanel extends Component {
 								</div>
 								<div className="input-field">
 									<input
-										className="input-control"
+										className="input-control text-green text-right"
 										type="number"
 										pattern="[0-9]*"
 										onBlur={this.AmountOnBlur}
@@ -282,9 +282,6 @@ class WithdrawalPanel extends Component {
 											('000)
 										</span>
 									) : null}
-									<span className="text-red text-bold">
-										{i18n.lbl_WithdrawalAmountTooltip}
-									</span>
 								</div>
 							</div>
 

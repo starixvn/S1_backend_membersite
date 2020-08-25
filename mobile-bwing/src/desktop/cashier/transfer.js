@@ -490,7 +490,7 @@ class TransferPanel extends React.Component {
 									</div>
 									<div className="input-field">
 										<input
-											className="input-control text-right"
+											className="input-control text-green text-right"
 											type="number"
 											pattern="[0-9]*"
 											value={this.state.Amount}
@@ -498,6 +498,11 @@ class TransferPanel extends React.Component {
 												this
 											)}
 										/>
+										{IsConvertRequired ? (
+											<span className="thousands text-green text-bold">
+												('000)
+											</span>
+										) : null}
 									</div>
 								</div>
 								<div className="button-group">

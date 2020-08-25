@@ -2154,3 +2154,21 @@ h3.schedule-txt{
 .form-group .input-field .input-control.text-right{
   padding: 0 5rem;
 }
+.otpLoading{
+  animation: rotate .7s linear infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.otpLoading .icon{
+  height: 20px;
+  background: url(../images/img-sprite.png) no-repeat -158px -107px;
+}
+@keyframes rotate {
+  from {
+      transform: rotate(360deg);
+  }
+  to {
+      transform: rotate(0deg);
+  }
+}
