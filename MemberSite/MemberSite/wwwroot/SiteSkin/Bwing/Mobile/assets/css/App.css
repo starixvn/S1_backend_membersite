@@ -2103,13 +2103,50 @@ h3.schedule-txt{
 .otpImg img{
   margin-left: 10px;
 }
-.otpImg button{
-  background: transparent;
+.otpImg button.icon-otp{
+  background: url('../images/otp.png')no-repeat top center / cover;
   border: 0;
   line-height: 0;
   cursor: pointer;
+  width: 25px;
+  height: 25px;
+  margin-left: 5px;
+}
+.otpImg div.icon-otp{
+  background: url('../images/otpok.png')no-repeat top center / cover;
+  border: 0;
+  line-height: 0;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  margin-left: 5px;
 }
 .otpbtn{
   min-width: auto;
   padding: 0.2rem 1.2rem;
+}
+
+.Calculation{
+  display: flex;
+  margin: 0 0 20px;
+  line-height: 24px;
+}
+.Calculation > div{
+  background: #105b9d;
+  border-radius: 10px;
+  flex: 1;
+  padding: 10px;
+  margin-right: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+}
+.Calculation > div > span{
+  font-weight: bold;
+}
+.thousands{
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  margin-top: -2.5rem;
 }

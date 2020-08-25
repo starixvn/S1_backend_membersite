@@ -273,4 +273,16 @@
   <data name="msg_CreditSignUpHint_2" xml:space="preserve">
     <value>Welcome to {0}, upon registration please visit the said link and enjoy our games.</value>
   </data>
+  <data name="msg_OTPEnterCode" xml:space="preserve">
+    <value>Please enter the verification number you received below.</value>
+  </data>
+  <data name="msg_OTPHint1" xml:space="preserve">
+    <value>Do you want to enjoy our complete games and services</value>
+  </data>
+  <data name="msg_OTPHint2" xml:space="preserve">
+    <value>through OTP certification immediately?</value>
+  </data>
+  <data name="msg_OTPSendCode" xml:space="preserve">
+    <value>We have sent the verification code to your registered mobile.</value>
+  </data>
 </root>

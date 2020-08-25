@@ -1797,4 +1797,16 @@
   <data name="lbl_WithdrawalAmountTooltip" xml:space="preserve">
     <value>Kindly fill out FULL figure of withdrawal amount. Ex: 3,000,000 for 3 millions</value>
   </data>
+  <data name="lbl_GoToOTP" xml:space="preserve">
+    <value>Go To OTP</value>
+  </data>
+  <data name="lbl_OTPCertification" xml:space="preserve">
+    <value>OTP Certification</value>
+  </data>
+  <data name="lbl_Resend" xml:space="preserve">
+    <value>Resend</value>
+  </data>
+  <data name="lbl_PleaseSelBank" xml:space="preserve">
+    <value>Please Select bank.</value>
+  </data>
 </root>

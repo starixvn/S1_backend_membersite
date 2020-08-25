@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { number_format } from "../common/common";
 
 class BankList extends Component {
 	constructor(props) {
@@ -109,10 +110,14 @@ class WithdrawalPanel extends Component {
 		) {
 			alert("Amount can not be less than 0");
 		} else {
+			let newAmount = IsConvertRequired
+				? this.state.Amount * 1000
+				: this.state.Amount;
+
 			let data = {
 				sysId: this.state.PickBankInfo.sysId,
 				AccountNo: this.state.PickBankInfo.accountNo,
-				amount: this.state.Amount,
+				amount: newAmount,
 				memo: this.state.Memo
 			};
 			axios
@@ -122,44 +127,34 @@ class WithdrawalPanel extends Component {
 						let result = response.data;
 						if (result.errorCode == 0) {
 							alert(result.message);
-						} else if (result.errorCode < 0) {
-							// if (result.errorCode == -1) {
-							// 	ShowModal(
-							// 		i18n.lbl_ImportantNote,
-							// 		i18n.lbl_RolloverOver +
-							// 			": " +
-							// 			number_format(parseFloat(result.message))
-							// 	);
-							// } else if (result.errorCode == -2) {
-							// 	ShowModal(
-							// 		i18n.lbl_ImportantNote,
-							// 		i18n.lbl_DepositOver +
-							// 			": " +
-							// 			number_format(parseFloat(result.message))
-							// 	);
-							// } else if (result.errorCode == -3) {
-							// 	ShowModal(
-							// 		i18n.lbl_ImportantNote,
-							// 		i18n.lbl_WithdrawalOver +
-							// 			": " +
-							// 			number_format(parseFloat(result.message))
-							// 	);
-							// }
-							//this.setState({ showTodModal: true });
-							alert("withdrawal failure");
-						}
-						if (result.errorCode == 2) {
+						} else if (result.errorCode == -1) {
+							alert(
+								i18n.lbl_RolloverOver +
+									": " +
+									number_format(parseFloat(result.message))
+							);
+						} else if (result.errorCode == -2) {
+							alert(
+								i18n.lbl_DepositOver +
+									": " +
+									number_format(parseFloat(result.message))
+							);
+						} else if (result.errorCode == -3) {
+							alert(
+								i18n.lbl_WithdrawalOver +
+									": " +
+									number_format(parseFloat(result.message))
+							);
+						} else if (result.errorCode == 2) {
 							window.location.replace(window.location.href);
 						} else {
 							alert(result.message);
-							//this.setState({ showTodModal: true });
 						}
 					}.bind(this)
 				)
 				.catch(
 					function (error) {
 						alert(error);
-						//this.setState({ showTodModal: true });
 					}.bind(this)
 				);
 		}
@@ -276,7 +271,14 @@ class WithdrawalPanel extends Component {
 								pattern="[0-9]*"
 								onBlur={this.AmountOnBlur}
 							/>
-							<span className="text-red text-bold">{i18n.lbl_WithdrawalAmountTooltip}</span>
+							{IsConvertRequired ? (
+								<span className="thousands text-green text-bold">
+									('000)
+								</span>
+							) : null}
+							<span className="text-red text-bold">
+								{i18n.lbl_WithdrawalAmountTooltip}
+							</span>
 						</div>
 					</div>
 
