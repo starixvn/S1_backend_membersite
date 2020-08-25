@@ -114,27 +114,28 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var authData = authorizeBLL.GetAuthData();
-                var result = await promotionBLL.SetClaimPromotionAsync(authData.CustId, promotionReq.BonusCode);
+                apiResult = await promotionBLL.SetClaimPromotionAsync(authData.CustId, promotionReq.BonusCode);
 
-                if (result > 0)
-                {
-                    if (mainWalletType == 2)
-                    {
-                        ApiResult<TransferResult> transferToSabaResult = null;
-                        var input = new TpTransfer();
-                        input.Amount = walletBLL.GetBalance(authData.CustId);
-                        input.CustId = authData.CustId;
-                        input.direction = TpDirection.ToTp;
-                        input.TpId = 1;
-                        transferToSabaResult = await TransferToSabaAsync(input);
-                    }
+                //if (result > 0)
+                //{
+                //    if (mainWalletType == 2)
+                //    {
+                //        ApiResult<TransferResult> transferToSabaResult = null;
+                //        var input = new TpTransfer();
+                //        input.Amount = walletBLL.GetBalance(authData.CustId);
+                //        input.CustId = authData.CustId;
+                //        input.direction = TpDirection.ToTp;
+                //        input.TpId = 1;
+                //        transferToSabaResult = await TransferToSabaAsync(input);
+                //    }
 
-                    apiResult.ErrorCode = 0;
-                }
+                //    apiResult.ErrorCode = 0;
+                //}
             }
             catch (Exception ex)
             {
                 apiResult.RawMessage = ex.Message;
+                apiResult.Message = ex.Message;
             }
 
             return apiResult;

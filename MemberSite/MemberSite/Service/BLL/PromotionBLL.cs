@@ -19,8 +19,9 @@ namespace MemberSite.Service.BLL
         private readonly CourierAdapter courierAdapter;
         private readonly string apiUrl;
         private readonly int bonusType;
+        private readonly SelLangBLL selLangBLL;
 
-        public PromotionBLL(IConfiguration configuration, IMemoryCache cache, PromotionService promotionService, CustInfoBLL custInfoBLL, CourierAdapter courierAdapter)
+        public PromotionBLL(IConfiguration configuration, IMemoryCache cache, PromotionService promotionService, CustInfoBLL custInfoBLL, CourierAdapter courierAdapter, SelLangBLL selLangBLL)
         {
             this.promotionService = promotionService;
             this.cache = cache;
@@ -28,6 +29,7 @@ namespace MemberSite.Service.BLL
             this.courierAdapter = courierAdapter;
             apiUrl = configuration.GetValue<string>("TpService");
             bonusType = configuration.GetValue<int>("BonusType");
+            this.selLangBLL = selLangBLL;
         }
         public IEnumerable<Promotion> GetPromotionList(int siteId)
         {
@@ -85,40 +87,65 @@ namespace MemberSite.Service.BLL
             public long ExpiryTime { set; get; }
             public Dictionary<string, string> inputs { set; get; }
         }
-        public async Task<int> SetClaimPromotionAsync(int custId, string bonusCode)
+        public async Task<ApiResult> SetClaimPromotionAsync(int custId, string bonusCode)
         {
+            var apiResult1 = new ApiResult();
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var result = promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out decimal bonusAmount, out decimal lockedAmount, out decimal rollOver, out long expiryTime, out Promotion promotion);
 
-            if (promotion?.TpId > 0 && result > 0)
+            if (result > 0)
             {
-                var myUrl = $"{apiUrl}BonusTransfer";
-                ApiResult<TransferResult> apiResult = new ApiResult<TransferResult>();
-                var tpBonusTransfer = new TpBonusTransfer
+                if (promotion?.TpId > 0)
                 {
-                    TpId = promotion.TpId,
-                    CustId = custId,
-                    Bonus = bonusAmount + lockedAmount,
-                    BonusAmount = bonusAmount,
-                    LockedAmount = lockedAmount,
-                    RolloverAmount = rollOver,
-                    ExpiryTime = expiryTime,
-                    inputs = new Dictionary<string, string>()
-                };
+                    var myUrl = $"{apiUrl}BonusTransfer";
+                    ApiResult<TransferResult> apiResult = new ApiResult<TransferResult>();
+                    var tpBonusTransfer = new TpBonusTransfer
+                    {
+                        TpId = promotion.TpId,
+                        CustId = custId,
+                        Bonus = bonusAmount + lockedAmount,
+                        BonusAmount = bonusAmount,
+                        LockedAmount = lockedAmount,
+                        RolloverAmount = rollOver,
+                        ExpiryTime = expiryTime,
+                        inputs = new Dictionary<string, string>()
+                    };
 
-                var data = await courierAdapter.MyPostAsync<TransferResult, TpBonusTransfer>(myUrl, tpBonusTransfer);
-                apiResult.Data = data.Data;
-                apiResult.ErrorCode = data.ErrorCode;
-                apiResult.RawErrorCode = data.RawErrorCode;
-                apiResult.RawMessage = data.RawMessage;
+                    var data = await courierAdapter.MyPostAsync<TransferResult, TpBonusTransfer>(myUrl, tpBonusTransfer);
+                    apiResult.Data = data.Data;
+                    apiResult.ErrorCode = data.ErrorCode;
+                    apiResult.RawErrorCode = data.RawErrorCode;
+                    apiResult.RawMessage = data.RawMessage;
 
-                if (apiResult.ErrorCode != 0)
+                    if (apiResult.ErrorCode != 0)
+                    {
+                        apiResult1.ErrorCode = apiResult.ErrorCode;
+                        apiResult1.RawErrorCode = apiResult.RawErrorCode;
+                        apiResult1.RawMessage = apiResult.RawMessage;
+                    }
+                    else
+                    {
+                        apiResult1.ErrorCode = 0;
+                    }
+                }
+                else
                 {
-                    throw new Exception(apiResult.RawMessage);
+                    apiResult1.ErrorCode = 0;
                 }
             }
+            else if (result == -2)
+            {
+                apiResult1.ErrorCode = -2;
+                var dlockedAmount = lockedAmount.ToString("#,##0");
+                if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
+                {
+                    dlockedAmount = (lockedAmount / 1000).ToString("#,##0 (`000)");
+                }
 
-            return result;
+                apiResult1.Message = string.Format(selLangBLL.GetResourceValue("msg_LockedAmountInsufficient"), dlockedAmount);
+            }
+
+            return apiResult1;
         }
         public bool GetCanJoin(int custId, string bonusCode)
         {
