@@ -479,7 +479,7 @@ class SubmitLocalBank extends Component {
 						)}
 						<div className="input-field">
 							<input
-								className="input-control text-bold text-green"
+								className="input-control text-green text-right"
 								type="number"
 								pattern="[0-9]*"
 								onBlur={this.OnBlur}
