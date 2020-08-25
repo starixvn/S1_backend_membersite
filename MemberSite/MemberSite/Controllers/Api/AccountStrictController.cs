@@ -21,13 +21,15 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL authorizeBLL;
         private readonly CustInfoBLL custInfoBLL;
         private readonly BankInfoBLL bankInfoBLL;
+        private readonly CommonBLL commonBLL;
 
-        public AccountStrictController(SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, CustInfoBLL custInfoBLL, BankInfoBLL bankInfoBLL)
+        public AccountStrictController(SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, CustInfoBLL custInfoBLL, BankInfoBLL bankInfoBLL, CommonBLL commonBLL)
         {
             this.selLangBLL = selLangBLL;
             this.authorizeBLL = authorizeBLL;
             this.custInfoBLL = custInfoBLL;
             this.bankInfoBLL = bankInfoBLL;
+            this.commonBLL = commonBLL;
         }
         public class BankInfo
         {
@@ -317,6 +319,29 @@ namespace MemberSite.Controllers.Api
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
             }
+
+            return apiResult;
+        }
+
+        [HttpPost]
+        public async Task<ApiResult> SendVerifySMSAsync()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = await commonBLL.SendVerifySMSAsync(authData.CustId);
+
+            return apiResult;
+        }
+
+        public class VerifyPhoneReq
+        {
+            public string request_id { set; get; }
+            public string code { set; get; }
+        }
+        [HttpPost]
+        public async Task<ApiResult> VerifyPhoneAsync(VerifyPhoneReq verifyPhoneReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = await commonBLL.AcknowledgeVerifySMS(authData.CustId, verifyPhoneReq.request_id, verifyPhoneReq.code);
 
             return apiResult;
         }

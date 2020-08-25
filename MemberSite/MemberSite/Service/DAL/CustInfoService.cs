@@ -166,5 +166,11 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.QueryFirstOrDefault<int>("VipLevel_Get", new { CustId }, commandType: CommandType.StoredProcedure);
         }
+        public int SetPhoneVerified(int custId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            var result = conn.Execute("Common_PhoneVerified_Set", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            return result;
+        }
     }
 }
