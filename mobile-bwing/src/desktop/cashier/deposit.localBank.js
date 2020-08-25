@@ -490,6 +490,11 @@ class SubmitLocalBank extends Component {
 								pattern="[0-9]*"
 								onBlur={this.OnBlur}
 							/>
+							{IsConvertRequired ? (
+								<span className="thousands text-green text-bold">
+									('000)
+								</span>
+							) : null}
 						</div>
 					</div>
 

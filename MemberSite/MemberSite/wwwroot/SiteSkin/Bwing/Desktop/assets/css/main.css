@@ -2661,6 +2661,10 @@ input[type="number"]::-webkit-outer-spin-button {
   color: #fff;
 }
 
+.form-group .input-field .input-control.text-right {
+  padding: 0 5rem;
+}
+
 .form-group .input-field .input-control:disabled {
   color: #b9bcbf;
 }
@@ -3589,5 +3593,5 @@ h3.schedule-txt{
   position: absolute;
   right: 1rem;
   top: 50%;
-  margin-top: -2rem;
+  transform: translateY(-50%);
 }
