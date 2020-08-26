@@ -67,6 +67,13 @@
     i18n.Add("msg_MailExisted", selLangBLL.GetMsg("msg_MailExisted"));
     i18n.Add("msg_Wrong", selLangBLL.GetMsg("msg_Wrong"));
     i18n.Add("msg_Updatesuccessful", selLangBLL.GetMsg("msg_Updatesuccessful"));
+
+    i18n.Add("lbl_OTPCertification", selLangBLL.GetResourceValue("lbl_OTPCertification"));
+    i18n.Add("msg_OTPSendCode", selLangBLL.GetMsg("msg_OTPSendCode"));
+    i18n.Add("msg_OTPEnterCode", selLangBLL.GetMsg("msg_OTPEnterCode"));
+    i18n.Add("lbl_Resend", selLangBLL.GetResourceValue("lbl_Resend"));
+    i18n.Add("lbl_PleaseEnterCode", selLangBLL.GetResourceValue("lbl_PleaseEnterCode"));
+
     string[] lbl_Txts = new string[] { "lbl_RealName", "lbl_RemindForName" };
     foreach (var lbl_Txt in lbl_Txts)
     {
@@ -90,6 +97,10 @@
     <div id="content" class="right-panel"></div>
 </div>
 
+<div id="OTPPopup">
+
+</div>
+
 @section Scripts{
     <script type="text/javascript">
         var perCountry="@PerCountry[currencyId]";
@@ -98,6 +109,7 @@
     </script>
     <script src="~/SiteSkin/Bwing/Desktop/js/lib/daterangepicker.min.js"></script>
     <script src="~/lib/runtime.min.js"></script>
+
     @if (custInfoProfile == null || custInfoProfile.AccountName == null || custInfoProfile.CountryCode == null || custInfoProfile.PhoneNo == null)
     {
         <script>
@@ -116,6 +128,15 @@
     }
     else
     {
+        <script src="~/js/Bwing/component/Desktop/otp/otp.min.js" asp-append-version="true"></script>
         <script src="~/js/Bwing/component/Desktop/account/Profile.min.js" asp-append-version="true"></script>
+        <script>
+            $('#showOTPPopup').click(function () {
+                $('#OTPPopupContent').attr('data-open', "true");
+                if (window.SendVerifySMS) {
+                    window.SendVerifySMS();
+                }
+            })
+        </script>
     }
 }

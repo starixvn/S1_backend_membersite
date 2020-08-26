@@ -1806,6 +1806,9 @@
   <data name="lbl_Resend" xml:space="preserve">
     <value>Resend</value>
   </data>
+  <data name="lbl_PleaseEnterCode" xml:space="preserve">
+    <value>Please enter sms code.</value>
+  </data>
   <data name="lbl_PleaseSelBank" xml:space="preserve">
     <value>Please Select bank.</value>
   </data>

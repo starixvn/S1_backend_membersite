@@ -9,6 +9,7 @@
 @inject PromotionBLL promotionBLL
 @inject CustInfoBLL custInfoBLL
 @inject BonusWalletBLL bonusWalletBLL
+
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
     Layout = "~/_Views/Bwing/Desktop/Shared/_Layout.cshtml";
@@ -18,6 +19,9 @@
     var ExpiryTime = ViewData["ExpiryTime"];
     var Currency = selLangBLL.GetResourceValue($"Currency_{ViewData["Currency"]}");
     var authData = authorizeBLL.GetAuthData();
+    var custProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
+    var phoneVerify = custProfile.PhoneVerified;
+
     BonusWallet bonusInfo = null;
     if (User.Identity.IsAuthenticated)
     {
@@ -33,12 +37,12 @@
     {
         var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
         IsConvertRequired = custInfoBLL.IsConvertRequired(custInfo.CurrencyId);
-        percentage = bonusInfo.Turnover > bonusInfo.Rollover ? 100 : Math.Round( (bonusInfo.Turnover / bonusInfo.Rollover) * 100, 2);
+        percentage = bonusInfo.Turnover > bonusInfo.Rollover ? 100 : Math.Round((bonusInfo.Turnover / bonusInfo.Rollover) * 100, 2);
 
         if (IsConvertRequired)
         {
             var newValue = bonusInfo.Turnover / 1000;
-            displayValue = newValue.ToString("#,##0")  + " ('000)";
+            displayValue = newValue.ToString("#,##0") + " ('000)";
             displayValueRollover = (bonusInfo.Rollover / 1000).ToString("#,##0") + " ('000)";
         }
         else
@@ -49,77 +53,116 @@
     }
 }
 
-    <div class="system-content">
-        <div id="content" class="right-panel">
-            <div class="title">@selLangBLL.GetResourceValue("lbl_PromotionInfo")</div>
-            <div class="promotionsInfo-page page">
-                <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
-                    <img src="@ViewData["bannerUrl"]" alt="" />
-                </div>
-                <br><br>
+@{
+    Dictionary<string, string> i18n = new Dictionary<string, string>();
+
+    i18n.Add("lbl_OTPCertification", selLangBLL.GetResourceValue("lbl_OTPCertification"));
+    i18n.Add("msg_OTPSendCode", selLangBLL.GetMsg("msg_OTPSendCode"));
+    i18n.Add("msg_OTPEnterCode", selLangBLL.GetMsg("msg_OTPEnterCode"));
+    i18n.Add("lbl_Resend", selLangBLL.GetResourceValue("lbl_Resend"));
+    i18n.Add("lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit"));
+    i18n.Add("lbl_PleaseEnterCode", selLangBLL.GetResourceValue("lbl_PleaseEnterCode"));
+}
+
+<div class="system-content">
+    <div id="content" class="right-panel">
+        <div class="title">@selLangBLL.GetResourceValue("lbl_PromotionInfo")</div>
+        <div class="promotionsInfo-page page">
+            <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+                <img src="@ViewData["bannerUrl"]" alt="" />
+            </div>
+            <br><br>
+            <div class="promotions-module">
+                <h2>@ViewData["promo_title"]</h2>
+                <h3>@ViewData["description"]</h3>
+            </div>
+            @if (bonusInfo != null)
+            {
                 <div class="promotions-module">
-                    <h2>@ViewData["promo_title"]</h2>
-                    <h3>@ViewData["description"]</h3>
-                </div>
-                @if (bonusInfo != null)
-                {
-                    <div class="promotions-module">
-                        <div class="rollover-info">
-                            <div class="rollover-info__item">
-                                <div class="schedule">
-                                    <div class="schedule-bg" style="width: @percentage%;"></div>
-                                </div>
-                                <span class="text">@percentage%</span>
-                                <div class="schedule-info">
-                                    <span class="text">@displayValue / @displayValueRollover</span>
-                                </div>
+                    <div class="rollover-info">
+                        <div class="rollover-info__item">
+                            <div class="schedule">
+                                <div class="schedule-bg" style="width: @percentage%;"></div>
+                            </div>
+                            <span class="text">@percentage%</span>
+                            <div class="schedule-info">
+                                <span class="text">@displayValue / @displayValueRollover</span>
                             </div>
                         </div>
                     </div>
-                }
-                <div class="promotions-module">
-                    <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
-                        <tr>
-                            <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_Bonus") </th>
-                            <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_MaxBonusAmount") </th>
-                            <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_RollOver") </th>
-                            <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_RemainingTime")</th>
-                            @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
-                            {
-                                <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;"></th>
-                            }
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@ViewData["Bonus"]</td>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@Currency @ViewData["MaxBonus"]</td>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@(ViewData["RollOver"])x</td>
-                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000" id="REMAINING"></td>
-                            @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
-                            {
-                                <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">
-                                    <div class="btn-group">
-                                        <button class="btn btn-secondary" id="JOIN">
-                                            <div class="btn__inner">
-                                                <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
-                                            </div>
-                                        </button>
-                                    </div>
-                                </td>
-                            }
-                        </tr>
-                    </table>
                 </div>
-                @if (ViewData["detail"] != null)
-                {
-                    @Html.Raw(ViewData["detail"])
-                }
+            }
+            <div class="promotions-module">
+                <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                    <tr>
+                        <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_Bonus") </th>
+                        <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_MaxBonusAmount") </th>
+                        <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_RollOver") </th>
+                        <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_RemainingTime")</th>
+                        @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
+                        {
+                            <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;"></th>
+                        }
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@ViewData["Bonus"]</td>
+                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@Currency @ViewData["MaxBonus"]</td>
+                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@(ViewData["RollOver"])x</td>
+                        <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000" id="REMAINING"></td>
+                        @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
+                        {
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">
+                                <div class="btn-group">
+                                    <button class="btn btn-secondary" id="JOIN">
+                                        <div class="btn__inner">
+                                            <span class="text">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </td>
+                        }
+                    </tr>
+                </table>
             </div>
+            @if (ViewData["detail"] != null)
+            {
+                @Html.Raw(ViewData["detail"])
+            }
+        </div>
 
+    </div>
+</div>
+
+<div class="modal" data-open="false" id="GoToOTPHint">
+    <div class="overlay"></div>
+    <div class="modal__dialog">
+        <button class="remodal-close" id="CloseGoToOTPHint1"></button>
+        <div class="modal__header">
+            <span class="text">NOTICE</span>
+        </div>
+        <div class="modal__body">
+            <p class="txt-lh">@selLangBLL.GetMsg("msg_OTPHint1")</p>
+            <p class="txt-lh">@selLangBLL.GetMsg("msg_OTPHint2")</p>
+        </div>
+        <div class="modal__footer">
+            <div class="btn-group">
+                <button class="btn btn-primary" type="button" id="CloseGoToOTPHint2">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Cancel")</span>
+                </button>
+                <button class="btn btn-secondary" type="button" id="GoToOTP">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_GoToOTP")</span>
+                </button>
+            </div>
         </div>
     </div>
+</div>
 
+<div id="OTPPopup">
+
+</div>
 @section Scripts{
     <script type="text/javascript">
+            i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
         $(function() {
             const diff = moment.duration(moment.unix(@ViewData["PeriodTo"]).diff(new Date()))
             $("#REMAINING").html(diff.months() * 30 + diff.days() + " @selLangBLL.GetResourceValue("lbl_Days") " + diff.hours() + " @selLangBLL.GetResourceValue("lbl_Hours")");
@@ -128,7 +171,8 @@
             $("#ExpiryTime").html(sExpiryTime);
 
             $("#JOIN").on("touchstart, click", function () {
-                  if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {
+                if ('@phoneVerify'.toUpperCase() == 'TRUE') {
+                    if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {
                     axios.post('/api/Promotion/SetClaimPromotion/@selLangBLL.GetLangId()', { BonusCode:"@ViewData["BonusCode"]"})
                         .then(function (response) {
                             var result = response.data;
@@ -141,8 +185,28 @@
                         }.bind(this)).catch(function (error) {
                             alert(error);
                         }.bind(this));
+                  }
+                } else {
+                    $('#GoToOTPHint').attr('data-open', "true");
                 }
             });
+
+            $("#CloseGoToOTPHint1").on("click", function () {
+                $('#GoToOTPHint').attr('data-open', "false");
+            })
+
+            $("#CloseGoToOTPHint2").on("click", function () {
+                $('#GoToOTPHint').attr('data-open', "false");
+            })
+
+            $("#GoToOTP").on("click", function () {
+                $('#GoToOTPHint').attr('data-open', "false");
+                $('#OTPPopupContent').attr('data-open', "true");
+                if (window.SendVerifySMS) {
+                    window.SendVerifySMS();
+                }
+            })
         });
     </script>
+    <script src="~/js/Bwing/component/Desktop/otp/otp.min.js" asp-append-version="true"></script>
 }

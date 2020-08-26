@@ -3439,12 +3439,16 @@ body{
 }
 .fullview .wrap-content{
   height: 100%;
+  display: flex;
+  justify-content: center;
 }
 .fullview .wrap-content iframe{
   height: 100%;
   position: relative;
-  left: 50%;
-  margin-left: -683px;
+  /* left: 50%;
+  margin-left: -683px; */
+  left: 0;
+  margin: 0;
 }
 h3.schedule-txt{
   text-align: left;
@@ -3612,4 +3616,9 @@ h3.schedule-txt{
   to {
       transform: rotate(0deg);
   }
+}
+.tip{
+  width: 80%;
+  margin: 5px auto 0;
+  text-align: left;
 }
