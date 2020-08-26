@@ -58,12 +58,13 @@ namespace MemberSite.Service.BLL
 
             return result;
         }
-        public async Task<ApiResult> AcknowledgeVerifySMS(int custId, string request_id, string code)
+        public async Task<ApiResult> AcknowledgeVerifySMS(int custId, string siteName, string request_id, string code)
         {
             string apiUrl = $"{commonServiceUrl}MoviderSMS/AcknowledgeVerifySMS";
 
             dynamic req = new
             {
+                siteName = siteName,
                 request_id = request_id,
                 code = code
             };

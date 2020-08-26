@@ -22,14 +22,16 @@ namespace MemberSite.Controllers.Api
         private readonly CustInfoBLL custInfoBLL;
         private readonly BankInfoBLL bankInfoBLL;
         private readonly CommonBLL commonBLL;
+        private readonly ServerInfoBLL serverInfoBLL;
 
-        public AccountStrictController(SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, CustInfoBLL custInfoBLL, BankInfoBLL bankInfoBLL, CommonBLL commonBLL)
+        public AccountStrictController(SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, CustInfoBLL custInfoBLL, BankInfoBLL bankInfoBLL, CommonBLL commonBLL, ServerInfoBLL serverInfoBLL)
         {
             this.selLangBLL = selLangBLL;
             this.authorizeBLL = authorizeBLL;
             this.custInfoBLL = custInfoBLL;
             this.bankInfoBLL = bankInfoBLL;
             this.commonBLL = commonBLL;
+            this.serverInfoBLL = serverInfoBLL;
         }
         public class BankInfo
         {
@@ -341,7 +343,7 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> VerifyPhoneAsync(VerifyPhoneReq verifyPhoneReq)
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = await commonBLL.AcknowledgeVerifySMS(authData.CustId, verifyPhoneReq.request_id, verifyPhoneReq.code);
+            var apiResult = await commonBLL.AcknowledgeVerifySMS(authData.CustId, serverInfoBLL.GetServerInfo().SiteName, verifyPhoneReq.request_id, verifyPhoneReq.code);
 
             return apiResult;
         }
