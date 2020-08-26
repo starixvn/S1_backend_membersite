@@ -58,10 +58,11 @@ const ViewProfile = () => {
 						</div>
 
 						<div className="label">{i18n["lbl_Phone"]}: </div>
-						<div className="text-green">
+						<div className="text-green otpImg">
 							<span>
 								{areaCode[custInfo.areaCode]} {custInfo.phoneNo}
 							</span>
+							<OTPICON isVerify={custInfo.phoneVerified} />
 						</div>
 
 						<div className="label">{i18n["lbl_Country"]}: </div>
@@ -72,6 +73,14 @@ const ViewProfile = () => {
 				</div>
 			</div>
 		</div>
+	);
+};
+
+const OTPICON = ({ isVerify }) => {
+	return isVerify ? (
+		<div className="icon-otp"></div>
+	) : (
+		<button id="showOTPPopup" className="icon-otp"></button>
 	);
 };
 

@@ -18,6 +18,9 @@
     var ExpiryTime = ViewData["ExpiryTime"];
     var Currency = selLangBLL.GetResourceValue($"Currency_{ViewData["Currency"]}");
     var authData = authorizeBLL.GetAuthData();
+    var custProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
+    var phoneVerify = custProfile.PhoneVerified;
+
     BonusWallet bonusInfo = null;
     if (User.Identity.IsAuthenticated)
     {
@@ -39,7 +42,7 @@
         if (IsConvertRequired)
         {
             var newValue = bonusInfo.Turnover / 1000;
-            displayValue = newValue.ToString("#,##0")  + " ('000)";
+            displayValue = newValue.ToString("#,##0") + " ('000)";
             displayValueRollover = (bonusInfo.Rollover / 1000).ToString("#,##0") + " ('000)";
         }
         else
@@ -118,6 +121,35 @@
     </div>
 </div>
 
+
+<div class="modal" data-open="false" id="GoToOTPHint">
+    <div class="overlay"></div>
+    <div class="modal__dialog">
+        <button class="remodal-close" id="CloseGoToOTPHint1"></button>
+        <div class="modal__header">
+            <span class="text">NOTICE</span>
+        </div>
+        <div class="modal__body">
+            <p class="txt-lh">@selLangBLL.GetMsg("msg_OTPHint1")</p>
+            <p class="txt-lh">@selLangBLL.GetMsg("msg_OTPHint2")</p>
+        </div>
+        <div class="modal__footer">
+            <div class="btn-group">
+                <button class="btn btn-primary" type="button" id="CloseGoToOTPHint2">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Cancel")</span>
+                </button>
+                <button class="btn btn-secondary" type="button" id="GoToOTP">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_GoToOTP")</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="OTPPopup">
+
+</div>
+
 @section Scripts{
     <script type="text/javascript">
         $(function() {
@@ -128,21 +160,42 @@
             $("#ExpiryTime").html(sExpiryTime);
 
             $("#JOIN").on("touchstart, click", function () {
-                  if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {
-                    axios.post('/api/Promotion/SetClaimPromotion/@selLangBLL.GetLangId()', { BonusCode:"@ViewData["BonusCode"]"})
-                        .then(function (response) {
-                            var result = response.data;
-                            if (result.errorCode == 0) {
-                                alert("@Html.Raw(selLangBLL.GetMsg("msg_Updatesuccessful"))");
-                                window.location.replace("@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })");
-                            } else {
-                                alert(result.message);
-                            }
-                        }.bind(this)).catch(function (error) {
-                            alert(error);
-                        }.bind(this));
+                if ('@phoneVerify'.toUpperCase() == 'TRUE') {
+                    if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {
+                        axios.post('/api/Promotion/SetClaimPromotion/@selLangBLL.GetLangId()', { BonusCode: "@ViewData["BonusCode"]" })
+                            .then(function (response) {
+                                var result = response.data;
+                                if (result.errorCode == 0) {
+                                    alert("@Html.Raw(selLangBLL.GetMsg("msg_Updatesuccessful"))");
+                                    window.location.replace("@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })");
+                                } else {
+                                    alert(result.message);
+                                }
+                            }.bind(this)).catch(function (error) {
+                                alert(error);
+                            }.bind(this));
+                    }
+                } else {
+                    $('#GoToOTPHint').attr('data-open', "true");
                 }
             });
+
+            $("#CloseGoToOTPHint1").on("click", function () {
+                $('#GoToOTPHint').attr('data-open', "false");
+            })
+
+            $("#CloseGoToOTPHint2").on("click", function () {
+                $('#GoToOTPHint').attr('data-open', "false");
+            })
+
+            $("#GoToOTP").on("click", function () {
+                $('#GoToOTPHint').attr('data-open', "false");
+                $('#OTPPopupContent').attr('data-open', "true");
+                if (window.SendVerifySMS) {
+                    window.SendVerifySMS();
+                }
+            })
         });
     </script>
+    <script src="~/js/Bwing/component/Desktop/otp/otp.min.js" asp-append-version="true"></script>
 }
