@@ -137,7 +137,8 @@ namespace MemberSite
                 option.Cookie.Name = ".ES";
                 option.ExpireTimeSpan = TimeSpan.FromMinutes(30);//沒給預設14天
                 option.EventsType = typeof(CustomCookieAuthenticationEvents);
-                option.Cookie.SameSite = environment.IsDevelopment() ? SameSiteMode.None : SameSiteMode.Unspecified;
+                //option.Cookie.SameSite = environment.IsDevelopment() ? SameSiteMode.None : SameSiteMode.Unspecified;
+                option.Cookie.SameSite = SameSiteMode.Unspecified;
             });
             services.AddDataProtection().DisableAutomaticKeyGeneration();
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("CookieKeys")).SetApplicationName("SharedCookieApp");
