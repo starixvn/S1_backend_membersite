@@ -4,6 +4,7 @@
       "actionLink": "https://www.facebook.com/Nova88.ent",
       "outerLink": true,
       "img": "banner-dj.png",
+      "currencyId": [ 2 ],
       "lang": [ "th", "id", "en", "cs" ],
       "hideInHome": false
     },
@@ -158,15 +159,6 @@
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ],
       "hideInHome": true
-    },
-    {
-      "actionLink": "LiveCasino",
-      "isBonus": true,
-      "urlWithLang": true,
-      "img": "banner-AUG-PPGame.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ],
-      "hideInHome": true
     }
   ],
   "Casino": [
@@ -189,15 +181,6 @@
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
-      "actionLink": "http://event-tw.248ka.com/LUCKYE/index.html",
-      "outerLink": true,
-      "actionLinkByLang": [
-        {
-          "lang": "cs",
-          "link": "http://event-tw.248ka.com/LUCKYC/index.html",
-          "outerLink": true
-        }
-      ],
       "img": "event-YGG-LUCKY.jpg",
       "lang": [ "th", "id", "en", "cs" ]
     }

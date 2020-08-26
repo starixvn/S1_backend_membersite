@@ -1720,7 +1720,10 @@
   <data name="lbl_TurnoverAccmulateHint" xml:space="preserve">
     <value>Bạn cần hoành thành doanh thu cược yêu cầu của khuyến mãi để thực hiện chuyển quỹ</value>
   </data>
-   <data name="lbl_TurnoverAccumulated" xml:space="preserve">
+  <data name="lbl_TurnoverAccumulated" xml:space="preserve">
     <value>Doanh thu cược tích lũy</value>
-  </data> 
+  </data>
+  <data name="lbl_PromotionInfo" xml:space="preserve">
+    <value>Thông tin khuyến mãi</value>
+  </data>
 </root>
