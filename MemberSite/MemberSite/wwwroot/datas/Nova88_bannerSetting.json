@@ -163,6 +163,20 @@
   ],
   "Casino": [
     {
+      "actionLink": "https://pp88.asia/tournament/cashndrops-thailand/",
+      "outerLink": true,
+      "actionLinkByLang": [
+        {
+          "lang": "th",
+          "link": "https://pp88.asia/th/%E0%B8%97%E0%B8%B1%E0%B8%A7%E0%B8%A3%E0%B9%8C%E0%B8%99%E0%B8%B2%E0%B9%80%E0%B8%A1%E0%B8%99%E0%B8%97%E0%B9%8C/cashndrops-thailand/",
+          "outerLink": true
+        }
+      ],
+      "img": "event-pp-20200827.png",
+      "currencyId": [ 4 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
       "actionLink": "https://pp88.asia/tournament/daily-wins-slot-championship/",
       "outerLink": true,
       "actionLinkByLang": [
@@ -173,15 +187,12 @@
         }
       ],
       "img": "event-pp-20200508.png",
+      "currencyId": [ 2, 15 ],
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
       "img": "LuckyNekobanner.jpg",
       "currencyId": [ 4, 13, 15 ],
-      "lang": [ "th", "id", "en", "cs" ]
-    },
-    {
-      "img": "event-YGG-LUCKY.jpg",
       "lang": [ "th", "id", "en", "cs" ]
     }
   ]
