@@ -9,6 +9,16 @@
       "tpId": 1,
       "gameId": 200,
       "img": "banner-Saba.png"
+    },
+    {
+      "tpId": 1,
+      "gameId": 43,
+      "img": "banner-Esport.jpg"
+    },
+    {
+      "actionLink": "LiveCasino/index",
+      "urlWithLang": true,
+      "img": "banner-LiveCasino.jpg"
     }
   ],
   "Casino": [
