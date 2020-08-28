@@ -86,6 +86,7 @@ namespace MemberSite
             services.AddSingleton<AuthService>();
             services.AddSingleton<BannerService>();
             services.AddSingleton<BonusWalletService>();
+            services.AddSingleton<NewsService>();
             // foreach (var s in AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())
             //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.DAL"))
@@ -115,6 +116,7 @@ namespace MemberSite
             services.AddSingleton<AuthBLL>();
             services.AddSingleton<BannerBLL>();
             services.AddSingleton<BonusWalletBLL>();
+            services.AddSingleton<NewsBLL>();
             //var bll = AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())
             //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.BLL");
