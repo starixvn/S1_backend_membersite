@@ -3,7 +3,7 @@
     {
       "tpId": 1,
       "gameId": 1,
-      "img": "Banner-slider-1.png"
+      "img": "Banner-slider-1.jpg"
     },
     {
       "tpId": 1,
@@ -19,6 +19,11 @@
       "actionLink": "LiveCasino/index",
       "urlWithLang": true,
       "img": "banner-LiveCasino.jpg"
+    },
+    {
+      "tpId": 7,
+      "gameId": 10,
+      "img": "banner-Fishing.jpg"
     }
   ],
   "Casino": [
