@@ -150,15 +150,6 @@
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ],
       "hideInHome": true
-    },
-    {
-      "actionLink": "Promotion/Bonus?BonusCode=7SPIN",
-      "isBonus": true,
-      "urlWithLang": true,
-      "img": "banner-7SPIN.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ],
-      "hideInHome": true
     }
   ],
   "Casino": [
