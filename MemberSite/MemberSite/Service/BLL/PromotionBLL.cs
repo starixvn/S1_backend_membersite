@@ -170,5 +170,15 @@ namespace MemberSite.Service.BLL
 
             return promotion;
         }
+
+        public List<CustPromotion> GetPromotionListV2(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang)
+        {
+            return promotionService.GetPromotionListv2(SiteId, CustId, CurrencyId, IsLogin, langId, defLang);
+        }
+
+        public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode)
+        {
+            return promotionService.GetPromotionDetail(SiteId, CustId, CurrencyId, IsLogin, langId, defLang, BonusCode);
+        }
     }
 }

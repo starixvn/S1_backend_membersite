@@ -14,5 +14,6 @@ namespace MemberSite.Service.Model
         public int PromoCategoryId { get; set; }
         public int TpId { get; set; }
         public int Status { get; set; }
+        public DateTime? ExpiryTime { get; set; }
     }
 }

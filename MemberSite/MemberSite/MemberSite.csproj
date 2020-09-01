@@ -63,7 +63,6 @@
   <ItemGroup>
     <None Include="wwwroot\js\component\account\ChangePwd.jsx" />
     <None Include="wwwroot\js\component\account\CustBankInfo.jsx" />
-    <None Include="wwwroot\js\component\account\Messages.jsx" />
     <None Include="wwwroot\js\component\app\WalletInfo.jsx" />
     <None Include="wwwroot\js\component\cashier\DepositPanel.jsx" />
     <None Include="wwwroot\js\component\cashier\TransferPanel.jsx" />

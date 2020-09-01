@@ -655,6 +655,23 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
+        [HttpPost]
+        public ApiResult<BonusWallet> GetCustSpecificBonus(ParamGetSpecificBonus data)
+        {
+            var apiResult = new ApiResult<BonusWallet>();
+            var authData = authorizeBLL.GetAuthData();
+            apiResult.Data = bonusWalletBLL.GetCustSpecificBonus(authData.CustId, data.BonusCode, data.TpId, data.PromoCategoryId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        public class ParamGetSpecificBonus
+        {
+            public int TpId { get; set; }
+            public int PromoCategoryId { get; set; }
+            public string BonusCode { get; set; }
+        }
+
         //[HttpPost]
         //public ApiResult DelCustBankInfo(BankInfo bankInfo)
         //{
