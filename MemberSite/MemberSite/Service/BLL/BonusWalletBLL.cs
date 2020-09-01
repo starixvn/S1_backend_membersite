@@ -29,5 +29,10 @@ namespace MemberSite.Service.BLL
         {
             return bonusWalletService.CustBonusInfo(CustId, BonusCode);
         }
+
+        public BonusWallet GetCustSpecificBonus(int CustId, string BonusCode, int TpId, int PromoCategoryId)
+        {
+            return bonusWalletService.CustBonusInfo(CustId, BonusCode, TpId, PromoCategoryId);
+        }
     }
 }

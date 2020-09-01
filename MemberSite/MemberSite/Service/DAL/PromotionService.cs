@@ -2,6 +2,7 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
@@ -219,6 +220,153 @@ namespace MemberSite.Service.DAL
 
             var canJoin = p.Get<byte?>("CanJoin") ?? 0;
             return canJoin == 1;
+        }
+
+        public List<CustPromotion> GetPromotionListv2(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+
+            var promotionList = conn.Query<CustPromotion>("Member_PromotionListV2_Get", new { SiteId, CurrencyId }, trans, commandType: CommandType.StoredProcedure);
+
+            List<CustPromotion> _promotion = new List<CustPromotion>();
+
+            foreach(var promo in promotionList)
+            {
+                if (IsLogin)
+                {
+                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode });
+                    canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+                    canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+                    conn.Execute("Member_PromotionCanJoinV2_Get", canJoinParams, trans, commandType: CommandType.StoredProcedure);
+
+                    var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
+                    var canJoin = canJoinResult == 1;
+
+                    if (canJoin)
+                    {
+                        BonusWallet custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
+                        if (custBonusInfo != null)
+                        {
+                            promo.CustExpiryTime = custBonusInfo.ExpiryTime;
+                            promo.CustRollOver = custBonusInfo.Rollover;
+                            promo.CustTurnOver = custBonusInfo.Turnover;
+                            promo.isJoin = true;
+                        }
+
+                        promo.canJoin = canJoin;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(promo.Details))
+                {
+                    var details = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
+                    Dictionary<string, string> settings = null;
+                    if (details.TryGetValue(langId, out settings) || details.TryGetValue(defLang, out settings))
+                    {
+
+                    }
+                    else
+                    {
+                        foreach (var item in details)
+                        {
+                            settings = item.Value;
+                            break;
+                        }
+                    }
+
+                    promo.Details = null;
+                    if(settings != null)
+                    {
+                        settings.TryGetValue("title", out var title);
+                        settings.TryGetValue("bannerUrl", out var bannerUrl);
+                        settings.TryGetValue("description", out var description);
+
+                        promo.Title = title;
+                        promo.Banner = bannerUrl;
+                        promo.Description = description;
+                    }
+                }
+
+                _promotion.Add(promo);
+            }
+
+            trans.Commit();
+
+            return _promotion;
+        }
+
+        public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+
+            var promo = conn.QueryFirstOrDefault<CustPromotion>("Member_PromotionV2_Get", new { SiteId, CurrencyId, BonusCode }, trans, commandType: CommandType.StoredProcedure);
+
+            if(promo != null)
+            {
+                if (!string.IsNullOrEmpty(promo.Details))
+                {
+                    var details = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
+                    Dictionary<string, string> settings = null;
+                    if (details.TryGetValue(langId, out settings) || details.TryGetValue(defLang, out settings))
+                    {
+
+                    }
+                    else
+                    {
+                        foreach (var item in details)
+                        {
+                            settings = item.Value;
+                            break;
+                        }
+                    }
+
+                    if (settings != null)
+                    {
+                        settings.TryGetValue("title", out var title);
+                        settings.TryGetValue("bannerUrl", out var bannerUrl);
+                        settings.TryGetValue("description", out var description);
+                        settings.TryGetValue("detail", out var detail);
+
+                        promo.Title = title;
+                        promo.Banner = bannerUrl;
+                        promo.Description = description;
+                        promo.Details = detail;
+                    }
+                }
+
+                if (IsLogin)
+                {
+                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode });
+                    canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+                    canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+                    conn.Execute("Member_PromotionCanJoinV2_Get", canJoinParams, trans, commandType: CommandType.StoredProcedure);
+
+                    var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
+                    var canJoin = canJoinResult == 1;
+
+                    if (canJoin)
+                    {
+                        BonusWallet custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
+                        if (custBonusInfo != null)
+                        {
+                            promo.CustExpiryTime = custBonusInfo.ExpiryTime;
+                            promo.CustRollOver = custBonusInfo.Rollover;
+                            promo.CustTurnOver = custBonusInfo.Turnover;
+                            promo.isJoin = true;
+                        }
+
+                        promo.canJoin = canJoin;
+                    }
+                }
+            }
+
+            trans.Commit();
+
+            return promo;
         }
     }
 }

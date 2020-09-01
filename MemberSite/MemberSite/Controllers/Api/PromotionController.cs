@@ -24,11 +24,12 @@ namespace MemberSite.Controllers.Api
         private readonly CustInfoBLL custInfoBLL;
         private readonly CourierAdapter courierAdapter;
         private readonly WalletBLL walletBLL;
+        private readonly BonusWalletBLL bonusWalletBLL;
         private readonly string tpApiUrl;
         private readonly int mainWalletType;
         private readonly int bonusType;
 
-        public PromotionController(IConfiguration configuration, SelLangBLL selLangBLL, PromotionBLL promotionBLL, ServerInfoBLL serverInfoBLL, AuthorizeBLL authorizeBLL, CustInfoBLL custInfoBLL, CourierAdapter courierAdapter, WalletBLL walletBLL)
+        public PromotionController(IConfiguration configuration, SelLangBLL selLangBLL, PromotionBLL promotionBLL, ServerInfoBLL serverInfoBLL, AuthorizeBLL authorizeBLL, CustInfoBLL custInfoBLL, CourierAdapter courierAdapter, WalletBLL walletBLL, BonusWalletBLL bonusWalletBLL)
         {
             this.selLangBLL = selLangBLL;
             this.promotionBLL = promotionBLL;
@@ -37,6 +38,7 @@ namespace MemberSite.Controllers.Api
             this.custInfoBLL = custInfoBLL;
             this.courierAdapter = courierAdapter;
             this.walletBLL = walletBLL;
+            this.bonusWalletBLL = bonusWalletBLL;
 
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
@@ -168,6 +170,60 @@ namespace MemberSite.Controllers.Api
             return data;
         }
 
+        [HttpPost]
+        public ApiResult<List<CustPromotion>> GetPromotionListV2()
+        {
+            var result = new ApiResult<List<CustPromotion>>();
+
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            var isLogin = User.Identity.IsAuthenticated;
+            int custId = 0;
+            int currencyId;
+            if (isLogin)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                custId = authData.CustId;
+                currencyId = custInfo.CurrencyId;
+            }
+            else
+            {
+                currencyId = selLangBLL.GetPreferCurrencyId();
+            }
+
+            result.Data = promotionBLL.GetPromotionListV2(serverInfo.SiteId, custId, currencyId, isLogin, selLangBLL.GetLangId(), serverInfo.DefLang);
+            result.ErrorCode = 0;
+            
+            return result;
+        }
+
+        [HttpPost]
+        public ApiResult<CustPromotion> GetPromotionDetail(CustPromotion data)
+        {
+            var result = new ApiResult<CustPromotion>();
+
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            var isLogin = User.Identity.IsAuthenticated;
+            int custId = 0;
+            int currencyId;
+            if (isLogin)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                custId = authData.CustId;
+                currencyId = custInfo.CurrencyId;
+            }
+            else
+            {
+                currencyId = selLangBLL.GetPreferCurrencyId();
+            }
+
+            result.Data = promotionBLL.GetPromotionDetail(serverInfo.SiteId, custId, currencyId, isLogin, selLangBLL.GetLangId(), serverInfo.DefLang, data.BonusCode);
+            result.ErrorCode = 0;
+
+            return result;
+        }
+        
         public class TpTransfer
         {
             public int TpId { set; get; }

@@ -69,5 +69,10 @@ namespace MemberSite.Service.DAL
             return conn.QueryFirstOrDefault<BonusWallet>("Member_CustBonusInfo_Get", new { CustId, BonusCode }, commandType: CommandType.StoredProcedure);
         }
 
+        public BonusWallet CustBonusInfo(int CustId, string BonusCode, int TpId, int PromoCategoryId)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.QueryFirstOrDefault<BonusWallet>("Member_CustBonus_GetById", new { CustId, BonusCode, TpId, PromoCategoryId }, commandType: CommandType.StoredProcedure);
+        }
     }
 }
