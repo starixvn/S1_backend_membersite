@@ -64,7 +64,7 @@ namespace MemberSite.Service.DAL
             if (promotion != null)
             {
                 int result = 0;
-                var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
+                var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode});
                 p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                 p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
 
@@ -236,26 +236,23 @@ namespace MemberSite.Service.DAL
             {
                 if (IsLogin)
                 {
-                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode });
+                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode});
                     canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
                     conn.Execute("Member_PromotionCanJoinV2_Get", canJoinParams, trans, commandType: CommandType.StoredProcedure);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
-                    var canJoin = canJoinResult == 1;
+                    promo.canJoin = canJoinResult == 1;
+                    
 
-                    if (canJoin)
+                    BonusWallet custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
+                    if (custBonusInfo != null)
                     {
-                        BonusWallet custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
-                        if (custBonusInfo != null)
-                        {
-                            promo.CustExpiryTime = custBonusInfo.ExpiryTime;
-                            promo.CustRollOver = custBonusInfo.Rollover;
-                            promo.CustTurnOver = custBonusInfo.Turnover;
-                            promo.isJoin = true;
-                        }
-
-                        promo.canJoin = canJoin;
+                        promo.CustExpiryTime = custBonusInfo.ExpiryTime;
+                        promo.CustRollOver = custBonusInfo.Rollover;
+                        promo.CustTurnOver = custBonusInfo.Turnover;
+                        promo.Status = custBonusInfo.Status;
+                        promo.isJoin = true;
                     }
                 }
 
@@ -340,26 +337,22 @@ namespace MemberSite.Service.DAL
 
                 if (IsLogin)
                 {
-                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode });
+                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode});
                     canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
                     conn.Execute("Member_PromotionCanJoinV2_Get", canJoinParams, trans, commandType: CommandType.StoredProcedure);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
-                    var canJoin = canJoinResult == 1;
+                    promo.canJoin = canJoinResult == 1;
 
-                    if (canJoin)
+                    BonusWallet custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
+                    if (custBonusInfo != null)
                     {
-                        BonusWallet custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
-                        if (custBonusInfo != null)
-                        {
-                            promo.CustExpiryTime = custBonusInfo.ExpiryTime;
-                            promo.CustRollOver = custBonusInfo.Rollover;
-                            promo.CustTurnOver = custBonusInfo.Turnover;
-                            promo.isJoin = true;
-                        }
-
-                        promo.canJoin = canJoin;
+                        promo.CustExpiryTime = custBonusInfo.ExpiryTime;
+                        promo.CustRollOver = custBonusInfo.Rollover;
+                        promo.CustTurnOver = custBonusInfo.Turnover;
+                        promo.Status = custBonusInfo.Status;
+                        promo.isJoin = true;
                     }
                 }
             }
