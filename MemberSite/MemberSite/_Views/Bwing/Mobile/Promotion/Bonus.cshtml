@@ -18,12 +18,13 @@
     var ExpiryTime = ViewData["ExpiryTime"];
     var Currency = selLangBLL.GetResourceValue($"Currency_{ViewData["Currency"]}");
     var authData = authorizeBLL.GetAuthData();
-    var custProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
-    var phoneVerify = custProfile.PhoneVerified;
-
+    var phoneVerify = false;
     BonusWallet bonusInfo = null;
     if (User.Identity.IsAuthenticated)
     {
+        var custProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
+        phoneVerify = custProfile.PhoneVerified;
+
         var custId = authData.CustId;
         var bonusCode = ViewContext.HttpContext.Request.Query["BonusCode"];
         bonusInfo = bonusWalletBLL.CustBonusInfo(custId, bonusCode);
