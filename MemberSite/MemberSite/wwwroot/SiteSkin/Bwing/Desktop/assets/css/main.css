@@ -3557,25 +3557,33 @@ h3.schedule-txt{
   display: flex;
   align-items: center;
 }
-.otpImg img{
-  margin-left: 10px;
-}
-.otpImg button.icon-otp{
-  background: url('../../images/otp.png')no-repeat top center / cover;
+.otpImg .icon-otp{
   border: 0;
   line-height: 0;
   cursor: pointer;
   width: 25px;
   height: 25px;
-  margin-left: 5px;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  margin-left: 3px;  
+  background: url('../../images/otp.png')no-repeat top center / cover;
+}
+.otp-btn{
+  display: flex;
+  background: transparent;
+  color:#569ef7;
+  border: 0;
+  align-items: center;
+  cursor: pointer;
 }
 .otpImg div.icon-otp{
   background: url('../../images/otpok.png')no-repeat top center / cover;
   border: 0;
   line-height: 0;
   cursor: pointer;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   margin-left: 5px;
 }
 .Calculation{

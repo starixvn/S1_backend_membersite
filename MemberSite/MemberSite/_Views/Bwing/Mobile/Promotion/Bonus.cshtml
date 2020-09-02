@@ -140,9 +140,9 @@
                 <button class="btn btn-primary" type="button" id="CloseGoToOTPHint2">
                     <span class="text">@selLangBLL.GetResourceValue("lbl_Cancel")</span>
                 </button>
-                <button class="btn btn-secondary" type="button" id="GoToOTP">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_GoToOTP")</span>
-                </button>
+                <a class="btn btn-secondary" type="button" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_GoToProfile")</span>
+                </a>
             </div>
         </div>
     </div>
@@ -162,7 +162,7 @@
             $("#ExpiryTime").html(sExpiryTime);
 
             $("#JOIN").on("touchstart, click", function () {
-                if ('@phoneVerify'.toUpperCase() == 'TRUE') {
+                @*if ('@phoneVerify'.toUpperCase() == 'TRUE') {*@
                     if (confirm("@Html.Raw(selLangBLL.GetResourceValue("lbl_BonusConfirm"))")) {
                         axios.post('/api/Promotion/SetClaimPromotion/@selLangBLL.GetLangId()', { BonusCode: "@ViewData["BonusCode"]" })
                             .then(function (response) {
@@ -177,9 +177,9 @@
                                 alert(error);
                             }.bind(this));
                     }
-                } else {
-                    $('#GoToOTPHint').attr('data-open', "true");
-                }
+                //} else {
+                //    $('#GoToOTPHint').attr('data-open', "true");
+                //}
             });
 
             $("#CloseGoToOTPHint1").on("click", function () {

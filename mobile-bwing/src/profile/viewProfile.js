@@ -80,7 +80,10 @@ const OTPICON = ({ isVerify }) => {
 	return isVerify ? (
 		<div className="icon-otp"></div>
 	) : (
-		<button id="showOTPPopup" className="icon-otp"></button>
+		<button id="showOTPPopup" className="otp-btn">
+			<span className="icon-otp"></span>
+			<span>Mobile verification</span>
+		</button>
 	);
 };
 

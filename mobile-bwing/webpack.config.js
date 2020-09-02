@@ -16,8 +16,8 @@ module.exports = {
 		axios: "axios"
 	},
 	entry: {
-		// "account/Profile.min": ["./src/profile/viewProfile.js"],
-		// "account/UpdProfile.min": ["./src/profile/updProfile.js"],
+		"account/Profile.min": ["./src/profile/viewProfile.js"],
+		"account/UpdProfile.min": ["./src/profile/updProfile.js"],
 		// "history/Deposit.min": ["./src/history/deposit.js"],
 		// "history/Withdrawal.min": ["./src/history/withdrawal.js"],
 		// "history/Transfer.min": ["./src/history/fundTransfer.js"],
@@ -39,14 +39,16 @@ module.exports = {
 		// "desktop/history/Statement/Statement.min": [
 		// 	"./src/desktop/history/statement.js"
 		// ],
-		// "desktop/account/Profile.min": ["./src/desktop/profile/viewProfile.js"],
-		// "desktop/account/UpdProfile.min": [
-		// 	"./src/desktop/profile/updProfile.js"
-		// ],
+		"desktop/account/Profile.min": ["./src/desktop/profile/viewProfile.js"],
+		"desktop/account/UpdProfile.min": [
+			"./src/desktop/profile/updProfile.js"
+		],
 		// "desktop/cashier/WithdrawalPanel.min": [
 		// 	"./src/desktop/cashier/withdrawal.js"
 		// ],
-		// "desktop/cashier/DepositPanel.min": ["./src/desktop/cashier/deposit.js"]
+		// "desktop/cashier/DepositPanel.min": [
+		// 	"./src/desktop/cashier/deposit.js"
+		// ],
 		// "desktop/message/personalMsg/personalMsg.min": [
 		// 	"./src/desktop/message/personalMsg.js"
 		// ],
@@ -63,16 +65,17 @@ module.exports = {
 		// 	"@babel/polyfill",
 		// 	"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Desktop/js/after.js"
 		// ],
-		"../../../SiteSkin/Bwing/Mobile/js/after.min": [
-			"@babel/polyfill",
-			"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Mobile/js/after.js"
-		]
+		// "../../../SiteSkin/Bwing/Mobile/js/after.min": [
+		// 	"@babel/polyfill",
+		// 	"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Mobile/js/after.js"
+		// ]
 		// "../../../SiteSkin/Bwing/Desktop/js/before.min": [
 		// 	"../MemberSite/MemberSite/wwwroot/SiteSkin/Bwing/Mobile/js/before.js"
 		// ],
 		// "desktop/account/ResetPwd.min": [
 		// 	"../MemberSite/MemberSite/wwwroot/js/Bwing/component/desktop/account/ResetPwd.jsx"
-		// ]
+		// ],
+		"desktop/otp/otp.min": ["./src/desktop/otp/otp.js"]
 	},
 	output: {
 		path: path.resolve(
@@ -113,6 +116,14 @@ module.exports = {
 			{
 				test: /\.css$/,
 				use: ["style-loader", "css-loader"]
+			},
+			{
+				test: /\.(png|jpe?g|gif)$/i,
+				use: [
+					{
+						loader: "file-loader"
+					}
+				]
 			}
 		]
 	}

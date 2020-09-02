@@ -1812,4 +1812,7 @@
   <data name="lbl_PleaseSelBank" xml:space="preserve">
     <value>Please Select bank.</value>
   </data>
+  <data name="lbl_GoToProfile" xml:space="preserve">
+    <value>Go to profile</value>
+  </data>
 </root>
