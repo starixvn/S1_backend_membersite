@@ -46,7 +46,7 @@ namespace MemberSite.Service.DAL
             using MySqlTransaction trans = conn.BeginTransaction();
             var result = conn.Execute("CustInfo_Ins", p, trans, commandType: CommandType.StoredProcedure);
 
-            if (result > 0)
+            if (result > 0 && !string.IsNullOrEmpty(Email))
             {
                 custId = p.Get<int?>("CustId") ?? 0;
                 string profile = string.IsNullOrEmpty(RealName) ? null : Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string>() { { "AccountName", RealName } });
@@ -121,10 +121,10 @@ namespace MemberSite.Service.DAL
         {
             int result = 0;
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            //string Email = profile[nameof(Email)];
+            string Email = profile[nameof(Email)];
             string AreaCode = profile[nameof(AreaCode)];
             string PhoneNo = profile[nameof(PhoneNo)];
-            result = conn.Execute("Member_CustProfile_Set", new { CustId = custId, SiteId = siteId, AreaCode, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
+            result = conn.Execute("Member_CustProfile_Set", new { CustId = custId, SiteId = siteId, AreaCode, Email= Email, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
         public bool SetCustBankInfo(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo)

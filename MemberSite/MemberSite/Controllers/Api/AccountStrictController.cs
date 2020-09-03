@@ -157,6 +157,11 @@ namespace MemberSite.Controllers.Api
                 }
             }
 
+            if (!string.IsNullOrEmpty(beforeCustInfo.Email))
+            {
+                custProfile["Email"] = beforeCustInfo.Email;
+            }
+
             apiResult.ErrorCode = custInfoBLL.SetProfile(authData.CustId, custProfile);
             if (apiResult.ErrorCode == 0)
             {
