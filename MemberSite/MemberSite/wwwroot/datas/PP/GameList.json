@@ -3679,6 +3679,94 @@
       "imageExist": true,
       "promotion": 0,
       "disabled": 1
+    },
+    {
+      "name": {
+        "en": "Fruit Party",
+        "cs": "水果派对"
+      },
+      "appId": "vs20fruitparty",
+      "gameId": "vs20fruitparty",
+      "category1": "Slots",
+      "Reels": "7",
+      "paylines": "20",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Fruit-Party-EN.jpg",
+        "cs": "Fruit-Party-CS.jpg"
+      },
+      "launchDate": "2020/09/03",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Jungle Gorilla™",
+        "cs": "深林之猩"
+      },
+      "appId": "vs20gorilla",
+      "gameId": "vs20gorilla",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.57%",
+      "imgName": {
+        "en": "Jungle-Gorilla-EN.jpg",
+        "ch": "Jungle-Gorilla-CS.jpg"
+      },
+      "launchDate": "2020/09/03",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Curse of the Werewolf Megaways™",
+        "cs": "狼人的诅咒"
+      },
+      "appId": "vswayswerewolf",
+      "gameId": "vswayswerewolf",
+      "category1": "Slots",
+      "Reels": "6",
+      "paylines": "46656",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Curse-of-the-Werewolf-Megaways-EN.jpg",
+        "cs": "Curse-of-the-Werewolf-Megaways-CS.jpg"
+      },
+      "launchDate": "2020/09/03",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Ultra Hold and Spin™",
+        "cs": "超级持控旋转"
+      },
+      "appId": "vs5ultra",
+      "gameId": "vs5ultra",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "5",
+      "RTP": "96.70%",
+      "imgName": {
+        "en": "Ultra-Hold-and-Spin-EN.jpg",
+        "cs": "Ultra-Hold-and-Spin-CS.jpg"
+      },
+      "launchDate": "2020/09/03",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
     }
   ]
 }
