@@ -20,7 +20,8 @@
     {
       "tpid": "1",
       "outerLink": true,
-      "img": "111.png"
+      "img": "111.png",
+      "lang": [ "en", "vn" ]
     }
   ]
 }

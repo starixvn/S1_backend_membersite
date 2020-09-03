@@ -20,6 +20,7 @@ namespace MemberSite.Service.Model
     {
         public IEnumerable<BannerSettingItem> Promotion { get; set; }
         public IEnumerable<BannerSettingItem> Casino { get; set; }
+        public IEnumerable<BannerSettingItem> Sports { get; set; }
     }
 
     public class BannerSettingItem

@@ -511,6 +511,10 @@ namespace MemberSite.Controllers.Api
             {
                 result.Data = _bannerSetting.Casino.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
             }
+            else if(FolderName == "Sports")
+            {
+                result.Data = _bannerSetting.Sports.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
+            }
 
             if (!string.IsNullOrEmpty(refId))
             {
