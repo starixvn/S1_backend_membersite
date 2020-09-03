@@ -15,5 +15,12 @@
       "img": "event-ygg-20200903.png",
       "lang": [ "th", "id", "en", "cs" ]
     }
+  ],
+  "Sports": [
+    {
+      "tpid": "1",
+      "outerLink": true,
+      "img": "111.png"
+    }
   ]
 }
