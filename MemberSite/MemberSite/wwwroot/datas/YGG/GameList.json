@@ -1701,6 +1701,72 @@
       "imageExist": true,
       "Isfun": 1,
       "promotion": 1
+    },
+    {
+      "name": {
+        "en": "Jackpot Express",
+        "cs": "奖池快车"
+      },
+      "appId": "7373 ",
+      "gameId": "7373",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "20",
+      "RTP": "96.2%",
+      "imgName": {
+        "en": "Jackpot-Express-EN.jpg",
+        "cs": "Jackpot-Express-CS.jpg"
+      },
+      "launchDate": "2020/09/04",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Football Glory",
+        "cs": "足球传奇"
+      },
+      "appId": "7373 ",
+      "gameId": "7373",
+      "category1": "Slots",
+      "Reels": "5",
+      "paylines": "25",
+      "RTP": "96.1%",
+      "imgName": {
+        "en": "Football-Glory-EN.jpg",
+        "cs": "Football-Glory-CS.jpg"
+      },
+      "launchDate": "2020/09/04",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Medusa",
+        "cs": "美杜莎：财富与荣耀"
+      },
+      "appId": "7373 ",
+      "gameId": "7373",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Medusa-EN.jpg",
+        "cs": "Medusa-CS.jpg"
+      },
+      "launchDate": "2020/09/04",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
     }
   ]
 }
