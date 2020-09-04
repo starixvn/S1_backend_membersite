@@ -38,16 +38,6 @@
       "hideInHome": true
     },
     {
-      "actionLink": "Promotion/Bonus?BonusCode=FantasyDay",
-      "isBonus": true,
-      "urlWithLang": true,
-      "img": "banner-FantasyDay.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ],
-      "refId": [ "nova88c" ],
-      "hideInHome": true
-    },
-    {
       "tpId": 15,
       "gameId": 15,
       "img": "banner-ae.jpg",
