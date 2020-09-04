@@ -46,11 +46,15 @@ namespace MemberSite.Service.DAL
             using MySqlTransaction trans = conn.BeginTransaction();
             var result = conn.Execute("CustInfo_Ins", p, trans, commandType: CommandType.StoredProcedure);
 
-            if (result > 0 && !string.IsNullOrEmpty(Email))
+            if (result > 0)
             {
                 custId = p.Get<int?>("CustId") ?? 0;
+            }
+
+            if (result > 0 && !string.IsNullOrEmpty(Email))
+            {
                 string profile = string.IsNullOrEmpty(RealName) ? null : Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string>() { { "AccountName", RealName } });
-                result = conn.Execute("Member_CustProfile_Ins", new { CustId = custId, customer.SiteId, Email, Profile = (string)profile, PhoneNo=PhoneNo, AreaCode=AreaCode }, trans, commandType: CommandType.StoredProcedure);
+                result = conn.Execute("Member_CustProfile_Ins", new { CustId = custId, customer.SiteId, Email, Profile = (string)profile, PhoneNo = PhoneNo, AreaCode = AreaCode }, trans, commandType: CommandType.StoredProcedure);
             }
 
             if (result > 0 && !string.IsNullOrEmpty(signupUrl))
