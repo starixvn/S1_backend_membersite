@@ -30,6 +30,8 @@ namespace MemberSite.Service.Model
         public int RollOver { get; set; }
         public decimal Bonus { get; set; }
         public BonusType BonusType { get; set; }
+        public LockedType LockedType { get; set; }
+        public decimal RequiredAmount { get; set; }
         public decimal MaxBonus { get; set; }
         public decimal LockedAmount { get; set; }
         public decimal BonusAmount { get; set; }

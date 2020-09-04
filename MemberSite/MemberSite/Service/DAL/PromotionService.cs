@@ -121,6 +121,44 @@ namespace MemberSite.Service.DAL
                         rollOver = dRollOver;
                         expiryTime = DateTimeOffset.Now.AddDays(promotion.ExpiryDays).ToUnixTimeSeconds();
                     }
+                    else if (promotion.PromotionType == PromotionType.WalletBonus)
+                    {
+                        if (promotion.RequiredAmount == 0)
+                        {
+                            throw new Exception("Required Amount can't be 0");
+                        }
+
+                        amount = walletService.GetBalance(custId);
+
+                        if (amount < promotion.RequiredAmount)
+                        {
+                            lockedAmount = promotion.RequiredAmount;
+                            return -2;
+                        }
+
+                        if (promotion.BonusType == BonusType.Amount)
+                        {
+                            dBonus = promotion.Bonus;
+                            dLockedAmount = promotion.RequiredAmount;
+                        }
+                        else
+                        {
+                            dBonus = Math.Ceiling(promotion.Bonus * amount / 100);
+                            if (dBonus > promotion.MaxBonus)
+                            {
+                                dBonus = promotion.MaxBonus;
+                                dLockedAmount = promotion.MaxBonus * 100 / promotion.Bonus;
+                            }
+                        }
+
+                        bonusAmount = dBonus;
+                        lockedAmount = dLockedAmount;
+                        dRollOver = ((dLockedAmount + dBonus) * promotion.RollOver);
+                        sBonusInfo = Newtonsoft.Json.JsonConvert.SerializeObject(promotion, new Newtonsoft.Json.JsonSerializerSettings { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore });
+
+                        rollOver = dRollOver;
+                        expiryTime = DateTimeOffset.Now.AddDays(promotion.ExpiryDays).ToUnixTimeSeconds();
+                    }
                     else
                     {
                         return 0;
@@ -142,7 +180,7 @@ namespace MemberSite.Service.DAL
 
                             if (result > 0)
                             {
-                                result = withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, dLockedAmount * -1, null, transId, out decimal afterWithdrawalLimit, conn, trans);
+                                withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, dLockedAmount * -1, null, transId, out decimal afterWithdrawalLimit, conn, trans);
                             }
                             else
                             {

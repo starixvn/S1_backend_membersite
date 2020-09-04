@@ -126,7 +126,8 @@ namespace MemberSite.Service.Model.enums
         FstDeposit = 1,
         ReDeposit = 2,
         Freebet = 3,
-        Special = 4
+        Special = 4,
+        WalletBonus = 5
     }
 
     public enum BonusType
@@ -134,12 +135,18 @@ namespace MemberSite.Service.Model.enums
         Percentage = 1,
         Amount = 2
     }
+    public enum LockedType
+    {
+        FromBonus = 1,
+        FromRequireAmount = 2
+    }
     public enum BonusStatus
     {
         Running = 1,
         Canceled = 2,
         Expiry = 3,
         Fulfill = 4,
+        transferOut = 5
     }
     public enum RollOverStatus
     {
@@ -159,7 +166,8 @@ namespace MemberSite.Service.Model.enums
         SG = 10,
         Allbet = 12,
         PG = 14,
-        Sexy = 15
+        Sexy = 15,
+        CF = 17
     }
     public enum GameType
     {
