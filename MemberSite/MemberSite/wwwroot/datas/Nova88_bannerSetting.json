@@ -18,20 +18,20 @@
       "refId": [ "nova88c" ]
     },
     {
-      "actionLink": "Promotion/Bonus?BonusCode=MillionHighroller",
+      "actionLink": "Promotion/Bonus?BonusCode=WINEXTRA10ON4MAJORLEAGUE",
       "isBonus": true,
       "urlWithLang": true,
-      "img": "banner-MillionHighroller.jpg",
+      "img": "banner-WINEXTRA10ON4MAJORLEAGUE.jpg",
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ],
       "refId": [ "nova88c" ],
       "hideInHome": true
     },
     {
-      "actionLink": "Promotion/Bonus?BonusCode=LiveCasinoCashBack",
+      "actionLink": "Promotion/Bonus?BonusCode=050LIVECASINOUNLIMITEDREBATE",
       "isBonus": true,
       "urlWithLang": true,
-      "img": "banner-LiveCasinoCashBack.jpg",
+      "img": "banner-050LIVECASINOUNLIMITEDREBATE.jpg",
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ],
       "refId": [ "nova88c" ],
@@ -50,16 +50,6 @@
       "img": "banner-indo4d.jpg",
       "currencyId": [ 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ],
-      "hideInHome": true
-    },
-    {
-      "actionLink": "Promotion/Bonus?BonusCode=RedepositBonus5p",
-      "isBonus": true,
-      "urlWithLang": true,
-      "img": "banner-RedepositBonus5p.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ],
-      "refId": [ "nova88c" ],
       "hideInHome": true
     },
     {
@@ -87,16 +77,6 @@
       "isBonus": true,
       "urlWithLang": true,
       "img": "banner-SportsbookUnlimitedRebate.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ],
-      "refId": [ "nova88c" ],
-      "hideInHome": true
-    },
-    {
-      "actionLink": "Promotion/Bonus?BonusCode=LIVECASINOUNLIMITEDr0p8",
-      "isBonus": true,
-      "urlWithLang": true,
-      "img": "banner-LIVECASINOUNLIMITEDr0p8.jpg",
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ],
       "refId": [ "nova88c" ],
