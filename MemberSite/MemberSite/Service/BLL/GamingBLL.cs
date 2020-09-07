@@ -18,6 +18,44 @@ namespace MemberSite.Service.BLL
             this.tools = tools;
             this.selLangBLL = selLangBLL;
         }
+
+        public string GetSportsMatchIdUrl(int tpId, string gameId, IUrlHelper urlHelper, int matchId)
+        {
+            var routeData = urlHelper.ActionContext.RouteData;
+            var homeUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
+            var signupUrl = urlHelper.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
+            var LoginUrl = urlHelper.RouteUrl("desktop", new { action = routeData.Values["action"], controller = routeData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
+            var cashierUrl = urlHelper.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
+            var slotsLobbyUrl = urlHelper.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
+            string entPageUrl;
+            int.TryParse(gameId, out int iGameId);
+            if (!urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                if (tools.IsMobile())
+                {
+                    entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId, matchId = matchId });
+                }
+                else
+                {
+                    entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId, matchId = matchId });
+                }
+            }
+            else
+            {
+                if (tools.IsMobile() || iGameId == 43)
+                {
+                    entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+                    entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId}, {matchId});";
+                }
+                else
+                {
+                    entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                    entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId}, {matchId});";
+                }
+            }
+            return entPageUrl;
+        }
+
         public string GetEntPageUrl(int tpId, string gameId, IUrlHelper urlHelper, GameType gameType = GameType.LiveCasino/*for Except TpId = 1*/)
         {
             var routeData = urlHelper.ActionContext.RouteData;
