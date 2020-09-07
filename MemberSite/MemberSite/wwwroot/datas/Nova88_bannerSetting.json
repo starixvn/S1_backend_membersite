@@ -73,20 +73,20 @@
       "hideInHome": true
     },
     {
-      "actionLink": "Promotion/Bonus?BonusCode=SportsbookUnlimitedRebate",
+      "actionLink": "Promotion/Bonus?BonusCode=SportsbookCashback0720",
       "isBonus": true,
       "urlWithLang": true,
-      "img": "banner-SportsbookUnlimitedRebate.jpg",
+      "img": "banner-SportsbookCashback0720.jpg",
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ],
       "refId": [ "nova88c" ],
       "hideInHome": true
     },
     {
-      "actionLink": "Promotion/Bonus?BonusCode=SportsbookCashback101",
+      "actionLink": "Promotion/Bonus?BonusCode=SportsbookUnlimitedRebate0720",
       "isBonus": true,
       "urlWithLang": true,
-      "img": "banner-SportsbookCashback101.jpg",
+      "img": "banner-SportsbookUnlimitedRebate0720.jpg",
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ],
       "refId": [ "nova88c" ],

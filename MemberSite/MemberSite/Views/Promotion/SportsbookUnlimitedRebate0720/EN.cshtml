@@ -1,0 +1,85 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var lang = selLangBLL.GetLangId();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-SportsbookUnlimitedRebate0720.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2>Sportsbook Cashback 5%</h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">Significant Conditions</span>
+            <ol type="a">
+                <li>This promotion starts at September 09, 2020 12:00 AM until further notice.<br><br></li>
+                <li>The Sportbook Cashback 5% is calculated from member Total Loss weekly from Wednesday to Tuesday.<br><br></li>
+                <li>Member are required to one time (1x) rollover for the cashback after credit to members , before making withdrawal.<br><br></li>
+                <li>The cashback will be credited to qualified players Nova88 account every Wednesday within 48 hours.<br><br></li>
+            </ol>
+            
+            
+            
+            <span class="promotions-title">Bonus Play Conditions:</span>
+            <br><br>
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        Currencies
+                    </th>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        Minimum Payout (capped)
+                    </th>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        Maximum Payout (capped)
+                    </th>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        Turnover
+                    </th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">Malaysia</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">MYR 5</td>       
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">MYR 10,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">1x</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">Indonesia</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">IDR 15,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">IDR 34,000,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">1x</td> 
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">Thailand</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">THB 50</td>  
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">THB 74,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">1x</td>
+                </tr>
+                </table>
+<br>
+
+            <span class="promotions-title">Terms and Conditions:</span>
+            <ol type="1">
+                <li>This promotion will automatic apply to all Nova88 members.<br><br></li>
+                <li>Participating members must accept and comply with all the terms mentioned above as well as all relevant rules and regulations stated on the Nova88 website.<br><br></li>
+                <li>Nova88 reserves the right to amend or withdraw the Promotion at any time.<br><br></li>
+                <li>Nova88 is the sole arbiter of the Promotion and its decision is final.<br><br></li>
+                <li>Nova88 <a class="text-link" href="https://www.nova88asia.com/SiteSkin/Nova88/Static/@lang/Promotion.html" target="_blank">Standard Terms and Conditions apply</a>.<br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>
