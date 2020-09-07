@@ -335,7 +335,7 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> SendVerifySMSAsync()
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = await commonBLL.SendVerifySMSAsync(authData.CustId);
+            var apiResult = await custInfoBLL.SendVerifySMSAsync(authData.CustId);
 
             return apiResult;
         }
@@ -349,7 +349,7 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> VerifyPhoneAsync(VerifyPhoneReq verifyPhoneReq)
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = await commonBLL.AcknowledgeVerifySMS(authData.CustId, serverInfoBLL.GetServerInfo().SiteName, verifyPhoneReq.request_id, verifyPhoneReq.code);
+            var apiResult = await custInfoBLL.AcknowledgeVerifySMS(authData.CustId, serverInfoBLL.GetServerInfo().SiteName, verifyPhoneReq.request_id, verifyPhoneReq.code);
 
             return apiResult;
         }

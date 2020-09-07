@@ -12,12 +12,10 @@ namespace MemberSite.Service.BLL
     public class CommonBLL
     {
         private readonly CourierAdapter courierAdapter;
-        private readonly CustInfoBLL custInfoBLL;
         private readonly string commonServiceUrl;
-        public CommonBLL(IConfiguration configuration, CourierAdapter courierAdapter, CustInfoBLL custInfoBLL)
+        public CommonBLL(IConfiguration configuration, CourierAdapter courierAdapter)
         {
             this.courierAdapter = courierAdapter;
-            this.custInfoBLL = custInfoBLL;
             commonServiceUrl = configuration.GetValue<string>("CommonService");
         }
 
@@ -45,14 +43,13 @@ namespace MemberSite.Service.BLL
 
             courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
         }
-        public async Task<ApiResult> SendVerifySMSAsync(int custId)
+        public async Task<ApiResult> SendVerifySMSAsync(Customer custInfo)
         {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             string apiUrl = $"{commonServiceUrl}MoviderSMS/SendVerifySMS";
 
             dynamic req = new
             {
-                CustId = custId,
+                CustId = custInfo.CustId,
             };
 
             if (custInfo.CurrencyId == 51)
@@ -64,9 +61,8 @@ namespace MemberSite.Service.BLL
 
             return result;
         }
-        public async Task<ApiResult> AcknowledgeVerifySMS(int custId, string siteName, string request_id, string code)
+        public async Task<ApiResult> AcknowledgeVerifySMS(Customer custInfo, string siteName, string request_id, string code)
         {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             string apiUrl = $"{commonServiceUrl}MoviderSMS/AcknowledgeVerifySMS";
 
             dynamic req = new
@@ -90,10 +86,10 @@ namespace MemberSite.Service.BLL
 
             ApiResult apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
 
-            if (apiResult.ErrorCode == 0)
-            {
-                custInfoBLL.SetPhoneVerified(custId);
-            }
+            //if (apiResult.ErrorCode == 0)
+            //{
+            //    custInfoBLL.SetPhoneVerified(custId);
+            //}
 
             return apiResult;
         }
