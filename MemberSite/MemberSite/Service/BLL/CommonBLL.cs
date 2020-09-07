@@ -12,12 +12,12 @@ namespace MemberSite.Service.BLL
     public class CommonBLL
     {
         private readonly CourierAdapter courierAdapter;
-        private readonly CustInfoService custInfoService;
+        private readonly CustInfoBLL custInfoBLL;
         private readonly string commonServiceUrl;
-        public CommonBLL(IConfiguration configuration, CourierAdapter courierAdapter, CustInfoService custInfoService)
+        public CommonBLL(IConfiguration configuration, CourierAdapter courierAdapter, CustInfoBLL custInfoBLL)
         {
             this.courierAdapter = courierAdapter;
-            this.custInfoService = custInfoService;
+            this.custInfoBLL = custInfoBLL;
             commonServiceUrl = configuration.GetValue<string>("CommonService");
         }
 
@@ -47,6 +47,7 @@ namespace MemberSite.Service.BLL
         }
         public async Task<ApiResult> SendVerifySMSAsync(int custId)
         {
+            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             string apiUrl = $"{commonServiceUrl}MoviderSMS/SendVerifySMS";
 
             dynamic req = new
@@ -54,12 +55,18 @@ namespace MemberSite.Service.BLL
                 CustId = custId,
             };
 
+            if (custInfo.CurrencyId == 51)
+            {
+                apiUrl = $"{commonServiceUrl}TwilioSMS/VerificationsSMS";
+            }
+
             ApiResult result = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
 
             return result;
         }
         public async Task<ApiResult> AcknowledgeVerifySMS(int custId, string siteName, string request_id, string code)
         {
+            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             string apiUrl = $"{commonServiceUrl}MoviderSMS/AcknowledgeVerifySMS";
 
             dynamic req = new
@@ -69,11 +76,23 @@ namespace MemberSite.Service.BLL
                 code = code
             };
 
+            if (custInfo.CurrencyId == 51)
+            {
+                apiUrl = $"{commonServiceUrl}TwilioSMS/VerificationCheckSMS";
+
+                req = new
+                {
+                    siteName = siteName,
+                    sid = request_id,
+                    code = code
+                };
+            }
+
             ApiResult apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
 
             if (apiResult.ErrorCode == 0)
             {
-                custInfoService.SetPhoneVerified(custId);
+                custInfoBLL.SetPhoneVerified(custId);
             }
 
             return apiResult;
