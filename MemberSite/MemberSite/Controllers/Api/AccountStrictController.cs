@@ -225,7 +225,8 @@ namespace MemberSite.Controllers.Api
                     PerCountry = _perCountry,
                     custInfo.CurrencyId,
                     langId = custInfo.UserLang,
-                    custInfo.UserLevel
+                    custInfo.UserLevel,
+                    custInfo.PhoneVerified
                 };
 
                 apiResult.ErrorCode = 0;
