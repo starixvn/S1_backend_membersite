@@ -283,7 +283,7 @@
     <value>through OTP certification immediately?</value>
   </data>
 	<data name="msg_OTPSendCode" xml:space="preserve">
-    <value>We have sent the verification code to your registered mobile.</value>
+    <value>We have sent the verification code to your registered mobile. Please enter your code.</value>
   </data>
   <data name="msg_LockedAmountInsufficient" xml:space="preserve">
     <value>Main wallet balance should not be lower than {0}</value>

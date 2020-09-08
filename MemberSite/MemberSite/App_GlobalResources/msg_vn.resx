@@ -257,4 +257,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_LockedAmountInsufficient" xml:space="preserve">
     <value>Số dư trong ví chính không được nhỏ hơn {0}</value>
   </data>
+  <data name="msg_OTPSendCode" xml:space="preserve">
+    <value>Mã xác nhận đã được gửi đến số điện thoại đăng ký. Vui lòng nhập mã.</value>
+  </data>
 </root>
