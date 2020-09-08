@@ -13,10 +13,13 @@ namespace MemberSite.Service.BLL
     {
         private readonly CourierAdapter courierAdapter;
         private readonly string commonServiceUrl;
-        public CommonBLL(IConfiguration configuration, CourierAdapter courierAdapter)
+        private readonly Tools tools;
+
+        public CommonBLL(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools)
         {
             this.courierAdapter = courierAdapter;
             commonServiceUrl = configuration.GetValue<string>("CommonService");
+            this.tools = tools;
         }
 
         public void SendWelcomeMail(int custId)
@@ -50,6 +53,7 @@ namespace MemberSite.Service.BLL
             dynamic req = new
             {
                 CustId = custInfo.CustId,
+                ip = tools.GetClientIP()
             };
 
             if (custInfo.CurrencyId == 51)
