@@ -101,19 +101,28 @@ namespace MemberSite.Service.BLL
                     {
                         string act = null;
                         string gameId = null;
+                        string matchId = null;
 
                         if (parameters.TryGetValue("gameId", out gameId))
                         {
                             sportTypeDic.TryGetValue(gameId, out act);
                         }
-
+                        parameters.TryGetValue("matchid", out matchId);
+                        
                         if (SportType == "43")
                         {
                             entryUrl = $"{entryUrl}?lang={tpLanId}&game={act}";
                         }
                         else
                         {
-                            entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}";
+                            if (matchId == null)
+                            {
+                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}";
+                            }
+                            else
+                            {
+                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}&matchId={matchId}";
+                            }
                         }
                     }
 
