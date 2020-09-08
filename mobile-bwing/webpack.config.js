@@ -17,7 +17,7 @@ module.exports = {
 	},
 	entry: {
 		"account/Profile.min": ["./src/profile/viewProfile.js"],
-		"account/UpdProfile.min": ["./src/profile/updProfile.js"],
+		// "account/UpdProfile.min": ["./src/profile/updProfile.js"],
 		// "history/Deposit.min": ["./src/history/deposit.js"],
 		// "history/Withdrawal.min": ["./src/history/withdrawal.js"],
 		// "history/Transfer.min": ["./src/history/fundTransfer.js"],
@@ -39,10 +39,10 @@ module.exports = {
 		// "desktop/history/Statement/Statement.min": [
 		// 	"./src/desktop/history/statement.js"
 		// ],
-		"desktop/account/Profile.min": ["./src/desktop/profile/viewProfile.js"],
-		"desktop/account/UpdProfile.min": [
-			"./src/desktop/profile/updProfile.js"
-		],
+		"desktop/account/Profile.min": ["./src/desktop/profile/viewProfile.js"]
+		// "desktop/account/UpdProfile.min": [
+		// 	"./src/desktop/profile/updProfile.js"
+		// ],
 		// "desktop/cashier/WithdrawalPanel.min": [
 		// 	"./src/desktop/cashier/withdrawal.js"
 		// ],
@@ -74,8 +74,7 @@ module.exports = {
 		// ],
 		// "desktop/account/ResetPwd.min": [
 		// 	"../MemberSite/MemberSite/wwwroot/js/Bwing/component/desktop/account/ResetPwd.jsx"
-		// ],
-		"desktop/otp/otp.min": ["./src/desktop/otp/otp.js"]
+		// ]
 	},
 	output: {
 		path: path.resolve(

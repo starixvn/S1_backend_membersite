@@ -2,6 +2,7 @@ import React, { useEffect, useState, Component } from "react";
 import ReactDOM from "react-dom";
 import WebAPI from "../../service/api/base";
 import areaCode from "../../common/areaCode";
+import OTP from "../otp/otp";
 
 /* eslint-disable */
 
@@ -18,7 +19,8 @@ class ViewProfile extends Component {
 				birth_d: "",
 				birth_m: "",
 				birth_y: "",
-				countryCode: ""
+				countryCode: "",
+				ShowOTP: false
 			}
 		};
 	}
@@ -40,6 +42,10 @@ class ViewProfile extends Component {
 				}
 			);
 	}
+
+	HandleShowOTP = isOpen => {
+		this.setState({ ShowOTP: isOpen });
+	};
 
 	render() {
 		return (
@@ -93,6 +99,7 @@ class ViewProfile extends Component {
 										isVerify={
 											this.state.custInfo.phoneVerified
 										}
+										HandleShowOTP={this.HandleShowOTP}
 									/>
 								</div>
 
@@ -108,16 +115,23 @@ class ViewProfile extends Component {
 						</div>
 					</div>
 				</div>
+
+				{this.state.ShowOTP ? (
+					<OTP
+						isOpen={this.state.ShowOTP}
+						HandleShowOTP={this.HandleShowOTP}
+					/>
+				) : null}
 			</>
 		);
 	}
 }
 
-const OTPICON = ({ isVerify }) => {
+const OTPICON = ({ isVerify, HandleShowOTP }) => {
 	return isVerify ? (
 		<div className="icon-otp"></div>
 	) : (
-		<button id="showOTPPopup" className="otp-btn">
+		<button className="otp-btn" onClick={HandleShowOTP.bind(this, true)}>
 			<span className="icon-otp"></span>
 			<span>Mobile verification</span>
 		</button>
