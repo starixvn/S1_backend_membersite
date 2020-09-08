@@ -1,11 +1,12 @@
 {
   "Promotion": [
     {
-      "actionLink": "Home/Register",
+      "tpid": "1",
+      "gameid": "1",
       "urlWithLang": true,
-      "img": "banner-Welcome.jpg",
+      "img": "Banner-EPL.png",
       "currencyId": [ 51 ],
-      "lang": [ "th", "id", "en", "cs" ]
+      "lang": [ "vn", "en" ]
     }
   ],
   "Casino": [
@@ -13,7 +14,7 @@
       "actionLink": "http://event-tw.248ka.com/FallE/index.html",
       "outerLink": true,
       "img": "event-ygg-20200903.png",
-      "lang": [ "th", "id", "en", "cs" ]
+      "lang": [ "vn", "en" ]
     }
   ],
   "Sports": [

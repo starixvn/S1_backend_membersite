@@ -5164,7 +5164,9 @@ span.account-info__amount.Js-Balance{
   float: left;
   padding: 0;
   opacity: 1;
-  transform: scale(0.75);
+  max-height: 40px;
+  max-width: 100px;
+  margin: 10px 5px;
 }
 
 [data-layout=mobile] .footer__col.col1, [data-layout=mobile] .footer__col.col2 {
@@ -7628,6 +7630,7 @@ ul {
   width: 100%;
   padding: 10px;
 }
+
 .quicklist {
   background: #fff;
   color: #888;
@@ -7650,4 +7653,23 @@ ul {
   font-family: "iconfont";
   font-size: 20px;
   margin-right: 5px;
+}
+
+.otp .textfield {
+  flex: 2 !important;
+  margin-right: 10px;
+}
+
+.form-content--text i.icon {
+  color: #F77A00;
+}
+
+.form-content--text i.icon + span {
+  color: #F77A00;
+}
+
+.otpBtn {
+  display: flex;
+  align-items: center;
+  margin: auto 0;
 }
