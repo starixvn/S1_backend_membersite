@@ -134,12 +134,12 @@ li > p {
 
 blockquote {
   margin: 0;
-  color: #333;
+  color: white;
 }
 
 ul {
   padding-left: 1.5em;
-  color: #333;
+  color: white;
 }
 
 ul li {
@@ -394,7 +394,7 @@ aside .sidenav__item a {
 .help--lic {
   display: -webkit-flex;
   display: flex;
-  color: #545454;
+  color: #c6c6c6;
   height: 100%;
   line-height: 1.5;
   padding: 15px 0;
