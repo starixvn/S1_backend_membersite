@@ -83,6 +83,16 @@
       "hideInHome": true
     },
     {
+      "actionLink": "Promotion/Bonus?BonusCode=LiveCasinoCashBack",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-LiveCasinoCashBack.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ],
+      "refId": [ "nova88c" ],
+      "hideInHome": true
+    },
+    {
       "actionLink": "Promotion/Bonus?BonusCode=SportsbookUnlimitedRebate0720",
       "isBonus": true,
       "urlWithLang": true,
