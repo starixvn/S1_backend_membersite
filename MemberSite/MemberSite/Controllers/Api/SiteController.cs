@@ -290,6 +290,11 @@ namespace MemberSite.Controllers.Api
                 }
                 else
                 {
+                    if (custInfo.SiteId == 3)
+                    {
+                        resetPasswordUrl = Url.RouteUrl("desktop", new { action = "", controller = "resetPassword", LangId = selLangBLL.GetLangId() }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
+                    }
+
                     var custInfoProfile = custInfoBLL.GetCustInfoProfile(custInfo.CustId);
 
                     string pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
