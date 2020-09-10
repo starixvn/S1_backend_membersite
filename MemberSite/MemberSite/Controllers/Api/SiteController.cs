@@ -290,7 +290,7 @@ namespace MemberSite.Controllers.Api
                 }
                 else
                 {
-                    if (custInfo.SiteId == 3)
+                    if (custInfo.SiteId == 2)
                     {
                         resetPasswordUrl = Url.RouteUrl("desktop", new { action = "", controller = "resetPassword", LangId = selLangBLL.GetLangId() }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
                     }
