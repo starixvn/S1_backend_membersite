@@ -192,6 +192,86 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        public ApiResult<object> SetProfileV2(Dictionary<string, string> custProfile)
+        {
+            var apiResult = new ApiResult<object>(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+            try
+            {
+                var beforeCustInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
+                if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
+                {
+                    string AccountName = custProfile[nameof(AccountName)];
+                    var result = custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
+                    custProfile["Birth_d"] = beforeCustInfo.Birth_d;
+                    custProfile["Birth_m"] = beforeCustInfo.Birth_m;
+                    custProfile["Birth_y"] = beforeCustInfo.Birth_y;
+                    custProfile["CountryCode"] = beforeCustInfo.CountryCode;
+                    custProfile["AreaCode"] = beforeCustInfo.AreaCode;
+                    custProfile["PhoneNo"] = beforeCustInfo.PhoneNo;
+                }
+                else
+                {
+                    string AreaCode = custProfile[nameof(AreaCode)];
+                    string PhoneNo = custProfile[nameof(PhoneNo)];
+                    if (custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
+                    {
+                        apiResult.ErrorCode = 21;
+                        apiResult.Message = $"({AreaCode}){PhoneNo} " + selLangBLL.GetMsg("msg_HasExist");
+                        return apiResult;
+                    }
+
+                    if (!string.IsNullOrEmpty(beforeCustInfo.AccountName))
+                    {
+                        custProfile["AccountName"] = beforeCustInfo.AccountName;
+                    }
+                    else
+                    {
+                        var result = custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"], null);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(beforeCustInfo.Email))
+                {
+                    custProfile["Email"] = beforeCustInfo.Email;
+                }
+
+                apiResult.ErrorCode = custInfoBLL.SetProfileV2(authData.CustId, custProfile);
+                if (apiResult.ErrorCode == 0)
+                {
+                    apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+
+                    var custInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
+                    apiResult.Data = new
+                    {
+                        LangCode = selLangBLL.GetLangId(),
+                        custInfo.UserName,
+                        custInfo.Email,
+                        custInfo.AccountName,
+                        custInfo.Birth_d,
+                        custInfo.Birth_m,
+                        custInfo.Birth_y,
+                        custInfo.RegTime,
+                        LastLogin = custInfo.LastLoginTime,
+                        Country = custInfo.CountryCode,
+                        custInfo.PhoneNo
+                    };
+                }
+                else
+                {
+                    apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                }
+            }
+            catch (Exception ex)
+            {
+                apiResult.ErrorCode = 9000;
+                apiResult.RawMessage = ex.ToString();
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
+
+        [HttpPost]
         public ApiResult<object> GetCustProfile()
         {
             var apiResult = new ApiResult<object>(selLangBLL);

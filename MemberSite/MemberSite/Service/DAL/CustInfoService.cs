@@ -131,6 +131,16 @@ namespace MemberSite.Service.DAL
             result = conn.Execute("Member_CustProfile_Set", new { CustId = custId, SiteId = siteId, AreaCode, Email= Email, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
+        public bool SetProfileV2(int custId, int siteId, Dictionary<string, string> profile)
+        {
+            int result = 0;
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            string Email = profile[nameof(Email)];
+            string AreaCode = profile[nameof(AreaCode)];
+            string PhoneNo = profile[nameof(PhoneNo)];
+            result = conn.Execute("Member_CustProfileV2_Set", new { CustId = custId, SiteId = siteId, AreaCode, Email = Email, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
+            return result > 0;
+        }
         public bool SetCustBankInfo(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo)
         {
             int result = 0;

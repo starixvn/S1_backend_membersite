@@ -326,6 +326,11 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return custInfoService.SetProfile(custId, custInfo.SiteId, custProfile) ? 0 : -1;
         }
+        public int SetProfileV2(int custId, Dictionary<string, string> custProfile)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return custInfoService.SetProfileV2(custId, custInfo.SiteId, custProfile) ? 0 : -1;
+        }
 
         public int SetCustBankInfo(int custId, string accountName, IEnumerable<BankInfoDetail> bankInfo)
         {
