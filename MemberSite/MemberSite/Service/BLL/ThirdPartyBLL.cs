@@ -121,7 +121,7 @@ namespace MemberSite.Service.BLL
                             }
                             else
                             {
-                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}&matchId={matchId}";
+                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}&matchid={matchId}";
                             }
                         }
                     }
