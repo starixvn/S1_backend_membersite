@@ -258,8 +258,6 @@ namespace MemberSite.Controllers.Api
             public int TpId { set; get; }
             public Dictionary<string, string> inputs { set; get; }
         }
-
-
         public class ForgetPwdReq
         {
             public string Email { get; set; }
@@ -290,11 +288,71 @@ namespace MemberSite.Controllers.Api
                 }
                 else
                 {
-                    if (custInfo.SiteId == 2)
+                    var custInfoProfile = custInfoBLL.GetCustInfoProfile(custInfo.CustId);
+
+                    string pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
+                    string result = Regex.Replace(custInfoProfile.Email, pattern, m => new string('*', m.Length));
+
+                    custInfoBLL.ForgetPwd1(custInfo.CustId, resetPasswordUrl);
+                    if (!string.IsNullOrEmpty(forgetPwdReq.Username))
                     {
-                        resetPasswordUrl = Url.RouteUrl("desktop", new { action = "", controller = "resetPassword", LangId = selLangBLL.GetLangId() }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
+                        apiResult.Message = $"Has send to {result}.";//selLangBLL.GetMsg("ForgetPwdSuccess");
+                    }
+                    else
+                    {
+                        apiResult.Message = selLangBLL.GetMsg("ForgetPwdSuccess");
                     }
 
+                    apiResult.ErrorCode = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                apiResult.RawMessage = ex.Message;
+            }
+
+            return apiResult;
+        }
+        public class ForgetPwdReqV2 : ForgetPwdReq
+        {
+            public int flag { get; set; }/*1: Has LangId*/
+        }
+
+        [HttpPost]
+        public ApiResult ForgetPwdV2(ForgetPwdReqV2 forgetPwdReq)
+        {
+            var apiResult = new ApiResult<bool>(selLangBLL);
+            try
+            {
+
+                Customer custInfo = null;
+
+                var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "", controller = "resetPassword", LangId = forgetPwdReq.flag == 1 ? selLangBLL.GetLangId() : "" }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
+
+                if (forgetPwdReq.flag == 1)
+                {
+                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}{Url.ActionContext.HttpContext.Request.Host.Host}/{selLangBLL.GetLangId()}/resetPassword";
+                }
+                else
+                {
+                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}{Url.ActionContext.HttpContext.Request.Host.Host}/resetPassword";
+                }
+
+                if (!string.IsNullOrEmpty(forgetPwdReq.Username))
+                {
+                    custInfo = custInfoBLL.GetCustInfoByUserName(forgetPwdReq.Username.Trim());
+                }
+                else
+                {
+                    custInfo = custInfoBLL.GetCustInfoByMail(forgetPwdReq.Email.Trim());
+                }
+
+                if (custInfo == null)
+                {
+                    apiResult.Message = selLangBLL.GetMsg("ForgetPwdFail");
+                }
+                else
+                {
                     var custInfoProfile = custInfoBLL.GetCustInfoProfile(custInfo.CustId);
 
                     string pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
