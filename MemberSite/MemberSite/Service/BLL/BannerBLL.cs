@@ -75,7 +75,14 @@ namespace MemberSite.Service.BLL
                             hideInHome = string.Equals(strHideInHome, "TRUE", StringComparison.OrdinalIgnoreCase);
                         };
 
-                        bannerFromDB.Add(new BannerSettingItem() { actionLink = $"Promotion/Bonus?BonusCode={promo.BonusCode}", imgURL = bannerUrl, fromDB = true, hideInHome = hideInHome });
+                        if(serverInfo.SiteId == 2)
+                        {
+                            bannerFromDB.Add(new BannerSettingItem() { actionLink = $"promotion/promotionInfo?BonusCode={promo.BonusCode}", imgURL = bannerUrl, fromDB = true, hideInHome = hideInHome });
+                        }
+                        else
+                        {
+                            bannerFromDB.Add(new BannerSettingItem() { actionLink = $"Promotion/Bonus?BonusCode={promo.BonusCode}", imgURL = bannerUrl, fromDB = true, hideInHome = hideInHome });
+                        }
                     }
                 }
             }
