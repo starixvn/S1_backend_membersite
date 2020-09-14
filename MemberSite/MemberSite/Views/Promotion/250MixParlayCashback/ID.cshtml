@@ -1,0 +1,92 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@using MemberSite.Service.Model
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBLL serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var lang = selLangBLL.GetLangId();
+}
+
+<div class="main ">
+    <div class="promotionsInfo-page page">
+        <div class="heading">
+            <span class="text">Promotion Info</span>
+        </div>
+        <div style="border: 0;display: inline-block;position: relative;display: block;width: 100%;">
+            <img src="~/CMS/@serverInfo.SiteName/Promotion/@selLangBLL.GetLangId()/banner-250MixParlayCashback.jpg" alt="" style="display: block;width: 100%;" />
+        </div><br><br>
+        <div class="promotions-module">
+            <h2>CASHBACK MIX PARLAY 2.5%</h2>
+        </div>
+        <div class="promotions-module">
+            <span class="promotions-title">Ketentuan umum</span>
+            <ol type="a">
+                <li>Promosi ini mulai berlaku dari tanggal 15 September 2020 00:00:00 (GMT +8) hingga pemberitahuan selanjutnya.<br><br></li>
+                <li>Perhitungan Cashback Mix Parlay 2,5% adalah dari Total Kekalahan mingguan member dimulai dari hari Selasa hingga hari Senin.<br><br></li>
+                <li>Cashback mingguan akan di kreditkan ke akun member Nova88 yang memenuhi syarat dalam 48 jam dari Hari Senin.<br><br></li>
+                <li>Member diharuskan memainkan Bonus sekali rollover (1x) setelah dikreditkan ke dompet akun member, sebelum penarikan dapat dilakukan.<br><br></li>
+            </ol>
+            
+            <span class="promotions-title">Ketentuan Bermain Bonus</span>
+            <br><br>
+            <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                <tr>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;" colspan="4">
+                        CASHBACK MIX PARLAY 2.5%
+                    </th>
+                </tr>
+                <tr>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        Mata uang
+                    </th>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        Payout Minimal
+                    </th>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        Payout Maksimal
+                    </th>
+                    <th style="border: 1px solid #cfcfcf; padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;">
+                        Rollover
+                    </th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">MYR</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">MYR 5</td>                
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">MYR 1,000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">1x</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">THB</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">THB 50</td>  
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">THB 7,500</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">1x</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">IDR</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">IDR 15.000</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">IDR 3.5 Juta</td>
+                    <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center;color:#000000">1x</td> 
+                </tr>
+                </table>
+<br>
+
+            <span class="promotions-title">Syarat & Ketentuan Promosi</span>
+            <ol type="1">
+                <li>Promosi ini berlaku untuk member Nova88 saja.<br><br></li>
+                <li>Hanya taruhan di Nova88 yang menghasilkan menang/kalah yang memberikan kontribusi ke persyaratan turnover. Setiap withdrawal, pembatalan, pembatalan taruhan, atau taruhan pada peluang sama selama satu pertandingan tidak akan diperhitungkan dalam persyaratan ini.<br><br></li>
+                <li>Cashback Bonus yang diperoleh dari promosi ini berlaku selama tiga puluh (30) hari setelah diberikan, kecuali dinyatakan lain. Jika member yang berpartisipasi gagal memenuhi syarat yang diperlukan dalam jangka waktu tertentu, maka semua uang riil yang dimenangkan dengan menggunakan dana bonus akan dicabut.<br><br></li>
+                <li>Member yang ikut berpartisipasi harus menerima dan mematuhi semua persyaratan yang disebutkan di atas serta semua peraturan dan ketentuan terkait yang diterapkan oleh Nova88.<br><br></li>
+                <li>Nova88 berhak untuk mengubah atau menarik Promosi ini kapan saja.<br><br></li>
+                <li>Nova88 adalah penyelenggara tunggal Promosi ini dan keputusannya adalah final.<br><br></li>
+                <li><a class="text-link" href="https://www.nova88asia.com/SiteSkin/Nova88/Static/@lang/Promotion.html" target="_blank">Syarat dan ketentuan Umum Nova88 berlaku.</a><br><br></li>
+            </ol>
+
+        </div>
+    </div>
+</div>
