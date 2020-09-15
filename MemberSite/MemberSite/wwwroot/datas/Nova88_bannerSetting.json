@@ -63,16 +63,6 @@
       "hideInHome": true
     },
     {
-      "actionLink": "Promotion/Bonus?BonusCode=SEP3DailyRedeposit",
-      "isBonus": true,
-      "urlWithLang": true,
-      "img": "banner-SEP3DailyRedeposit.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ],
-      "refId": [ "nova88c" ],
-      "hideInHome": true
-    },
-    {
       "actionLink": "Promotion/Bonus?BonusCode=SportsbookCashback0720",
       "isBonus": true,
       "urlWithLang": true,
