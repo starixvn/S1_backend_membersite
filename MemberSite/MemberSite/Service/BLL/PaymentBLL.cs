@@ -322,6 +322,7 @@ namespace MemberSite.Service.BLL
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
             List<int> forStatus = new List<int>();
             forStatus.Add((int)WithdrawalStatus.Pending);
+            forStatus.Add((int)WithdrawalStatus.ToKyc);
             return withdrawalService.SetWithdrawalCancel(CustInfo.CustId, transId, CustInfo.SiteId, forStatus, WithdrawalStatus.Cancelled);
         }
         public DepositReceipt GetDepositReceipt(string transId, int custId)
