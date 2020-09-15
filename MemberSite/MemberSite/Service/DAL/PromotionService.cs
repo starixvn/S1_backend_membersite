@@ -22,9 +22,10 @@ namespace MemberSite.Service.DAL
         private readonly WalletService walletService;
         private readonly BonusWalletService bonusWalletService;
         private readonly WithdrawalLimitService withdrawalLimitService;
+        private readonly Tools tools;
         private readonly int[] hasBonusWallet;
 
-        public PromotionService(IConfiguration configuration, Common common, WalletService walletService, RolloverService rollOverService, BonusWalletService bonusWalletService, WithdrawalLimitService withdrawalLimitService)
+        public PromotionService(IConfiguration configuration, Common common, WalletService walletService, RolloverService rollOverService, BonusWalletService bonusWalletService, WithdrawalLimitService withdrawalLimitService, Tools tools)
         {
             this.configuration = configuration;
             this.common = common;
@@ -32,6 +33,7 @@ namespace MemberSite.Service.DAL
             this.walletService = walletService;
             this.bonusWalletService = bonusWalletService;
             this.withdrawalLimitService = withdrawalLimitService;
+            this.tools = tools;
             hasBonusWallet = configuration.GetSection("HasBonusWallet").Get<int[]>();
         }
         public IEnumerable<Promotion> GetPromotionList(int siteId)
@@ -60,22 +62,27 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Open();
             using var trans = conn.BeginTransaction();
+
             promotion = conn.QueryFirstOrDefault<Promotion>("Member_Promotion_Get", new { SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId }, transaction: trans, commandType: CommandType.StoredProcedure);
             if (promotion != null)
             {
+                if (promotion.PromotionType == PromotionType.Freebet)
+                {
+                    var p1 = new DynamicParameters(new { BonusCode = bonusCode, SiteId = siteId, IP = tools.GetClientIP() });
+                    p1.Add("IsBlocked", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    using var connBlockFreeBet = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+                    connBlockFreeBet.Execute("Service_BlockFreeBet_Get", p1, commandType: CommandType.StoredProcedure);
+                    if (p1.Get<int>("IsBlocked") == 1)
+                    {
+                        return -3;
+                    }
+                }
+
                 int result = 0;
-                var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode});
+                var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
                 p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                 p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-
-                if (bHasBonusWallet)
-                {
-                    conn.Execute("Member_PromotionCanJoinV2_Get", p, commandType: CommandType.StoredProcedure);
-                }
-                else
-                {
-                    conn.Execute("Member_PromotionCanJoin_Get", p, commandType: CommandType.StoredProcedure);
-                }
+                conn.Execute("Member_PromotionCanJoinV2_Get", p, commandType: CommandType.StoredProcedure);
 
                 var canJoin = p.Get<byte?>("CanJoin") ?? 0;
                 var amount = p.Get<decimal?>("Amount") ?? 0;
@@ -120,6 +127,7 @@ namespace MemberSite.Service.DAL
                         lockedAmount = 0;
                         rollOver = dRollOver;
                         expiryTime = DateTimeOffset.Now.AddDays(promotion.ExpiryDays).ToUnixTimeSeconds();
+                        conn.Execute("Service_BlockFreeBet_Ins", new { BonusCode = bonusCode, SiteId = siteId, IP = tools.GetClientIP() }, transaction: trans, commandType: CommandType.StoredProcedure);
                     }
                     else if (promotion.PromotionType == PromotionType.WalletBonus)
                     {
@@ -240,24 +248,34 @@ namespace MemberSite.Service.DAL
 
         public bool GetCanJoin(int custId, int siteId, string bonusCode, int currencyId)
         {
-            bool bHasBonusWallet = hasBonusWallet.Any(x => x == siteId);
-
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
-            p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
-            p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-
-            if (bHasBonusWallet)
+            var promotion = conn.QueryFirstOrDefault<Promotion>("Member_Promotion_Get", new { SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+            if (promotion != null)
             {
+                if (promotion.PromotionType == PromotionType.Freebet)
+                {
+                    var p1 = new DynamicParameters(new { BonusCode = bonusCode, SiteId = siteId, IP = tools.GetClientIP() });
+                    p1.Add("IsBlocked", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    conn.Execute("Service_BlockFreeBet_Get", p1, commandType: CommandType.StoredProcedure);
+                    if (p1.Get<int>("IsBlocked") == 1)
+                    {
+                        return false;
+                    }
+                }
+
+                var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
+                p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+                p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+
                 conn.Execute("Member_PromotionCanJoinV2_Get", p, commandType: CommandType.StoredProcedure);
+
+                var canJoin = p.Get<byte?>("CanJoin") ?? 0;
+                return canJoin == 1;
             }
             else
             {
-                conn.Execute("Member_PromotionCanJoin_Get", p, commandType: CommandType.StoredProcedure);
+                return false;
             }
-
-            var canJoin = p.Get<byte?>("CanJoin") ?? 0;
-            return canJoin == 1;
         }
 
         public List<CustPromotion> GetPromotionListv2(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang)
@@ -270,18 +288,18 @@ namespace MemberSite.Service.DAL
 
             List<CustPromotion> _promotion = new List<CustPromotion>();
 
-            foreach(var promo in promotionList)
+            foreach (var promo in promotionList)
             {
                 if (IsLogin)
                 {
-                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode});
+                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode });
                     canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
                     conn.Execute("Member_PromotionCanJoinV2_Get", canJoinParams, trans, commandType: CommandType.StoredProcedure);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                     promo.canJoin = canJoinResult == 1;
-                    
+
 
                     BonusWallet custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
                     if (custBonusInfo != null)
@@ -312,7 +330,7 @@ namespace MemberSite.Service.DAL
                     }
 
                     promo.Details = null;
-                    if(settings != null)
+                    if (settings != null)
                     {
                         settings.TryGetValue("title", out var title);
                         settings.TryGetValue("bannerUrl", out var bannerUrl);
@@ -340,7 +358,7 @@ namespace MemberSite.Service.DAL
 
             var promo = conn.QueryFirstOrDefault<CustPromotion>("Member_PromotionV2_Get", new { SiteId, CurrencyId, BonusCode }, trans, commandType: CommandType.StoredProcedure);
 
-            if(promo != null)
+            if (promo != null)
             {
                 if (!string.IsNullOrEmpty(promo.Details))
                 {
@@ -375,7 +393,7 @@ namespace MemberSite.Service.DAL
 
                 if (IsLogin)
                 {
-                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode});
+                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode });
                     canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
                     conn.Execute("Member_PromotionCanJoinV2_Get", canJoinParams, trans, commandType: CommandType.StoredProcedure);
