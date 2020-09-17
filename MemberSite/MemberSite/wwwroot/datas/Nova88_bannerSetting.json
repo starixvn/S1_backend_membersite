@@ -63,6 +63,16 @@
       "hideInHome": true
     },
     {
+      "actionLink": "Promotion/Bonus?BonusCode=SEP3DailyRedeposit",
+      "isBonus": true,
+      "urlWithLang": true,
+      "img": "banner-SEP3DailyRedeposit.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ],
+      "refId": [ "nova88c" ],
+      "hideInHome": true
+    },
+    {
       "actionLink": "Promotion/Bonus?BonusCode=SportsbookCashback0720",
       "isBonus": true,
       "urlWithLang": true,
@@ -103,10 +113,10 @@
       "hideInHome": true
     },
     {
-      "actionLink": "Promotion/Bonus?BonusCode=250MixParlayCashback",
+      "actionLink": "Promotion/Bonus?BonusCode=MixParlayUnlimitedR2p5",
       "isBonus": true,
       "urlWithLang": true,
-      "img": "banner-250MixParlayCashback.jpg",
+      "img": "banner-MixParlayUnlimitedR2p5.jpg",
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ],
       "refId": [ "nova88c" ],
@@ -130,13 +140,6 @@
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ],
       "hideInHome": true
-    },
-    {
-      "tpId": 5,
-      "gameId": 101,
-      "img": "banner-PP-Roulette-Experience.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ],
     }
   ],
   "Casino": [

@@ -21,6 +21,7 @@ namespace MemberSite.Service.BLL
         private readonly StatementService statementService;
         private readonly SelLangBLL selLangBLL;
         private readonly IMemoryCache cache;
+        private readonly Dictionary<string, string> singleWalletType;
 
         public PaymentBLL(IMemoryCache cache, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService, RolloverService rollOverService, StatementService statementService, SelLangBLL selLangBLL)
         {
@@ -33,6 +34,15 @@ namespace MemberSite.Service.BLL
             this.statementService = statementService;
             this.selLangBLL = selLangBLL;
             this.cache = cache;
+          
+            singleWalletType = new Dictionary<string, string>()
+            {
+                {"1", "lbl_Stake"  },
+                {"2", "lbl_Refund" },
+                {"3", "lbl_Settled"},
+                {"4", "lbl_Prize"  },
+                {"5", "lbl_UnSettle"}
+            };
         }
 
         public int DepositReqLocalBank(int custId, int sysId, decimal amount, string memo, out DepositRep3 depositRep3)
@@ -259,12 +269,16 @@ namespace MemberSite.Service.BLL
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var datas = statementService.GetStatement(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
 
-            var tpList = statementService.GetTpList();
+            //var tpList = statementService.GetTpList();
 
-            Dictionary<string, string> singleWalletTransType = new Dictionary<string, string>()
-            {
-                {"1",  selLangBLL.GetResourceValue("lbl_Stake") }, {"2", selLangBLL.GetResourceValue("lbl_Refund") }, {"3", selLangBLL.GetResourceValue("lbl_Settled")}
-            };
+            //Dictionary<string, string> singleWalletTransType = new Dictionary<string, string>()
+            //{
+            //    {"1", selLangBLL.GetResourceValue("lbl_Stake")  }, 
+            //    {"2", selLangBLL.GetResourceValue("lbl_Refund") }, 
+            //    {"3", selLangBLL.GetResourceValue("lbl_Settled")},
+            //    {"4", selLangBLL.GetResourceValue("lbl_Prize")  }, 
+            //    {"5", selLangBLL.GetResourceValue("lbl_UnSettle")}
+            //};
 
             return datas.Select(x => new Statement
             {
@@ -274,10 +288,55 @@ namespace MemberSite.Service.BLL
                 Direction = x.Direction,
                 RefTransId = x.RefTransId,
                 AfterAmount = x.AfterAmount,
-                TypeName = GetTransTypeName(x.Type, x.TypeName, ref tpList, ref singleWalletTransType)
+                //TypeName = GetTransTypeName(x.Type, x.TypeName, ref tpList, ref singleWalletTransType)
+                TypeName = GetTransTypeNameV2(x.Type, x.TypeName)
+
             });
         }
 
+        public IEnumerable<BounsLogStatement> GetBounsLogStatement(int custId,int PromoCategoryId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
+        {
+            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var datas = statementService.GetBounsLogStatement(CustInfo.CustId, PromoCategoryId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
+            //var tpList = statementService.GetTpList();
+
+            //Dictionary<string, string> singleWalletTransType = new Dictionary<string, string>()
+            //{
+            //    {"1", selLangBLL.GetResourceValue("lbl_Stake")  },
+            //    {"2", selLangBLL.GetResourceValue("lbl_Refund") },
+            //    {"3", selLangBLL.GetResourceValue("lbl_Settled")},
+            //    {"4", selLangBLL.GetResourceValue("lbl_Prize")  },
+            //    {"5", selLangBLL.GetResourceValue("lbl_UnSettle")}
+            //};
+
+            return datas.Select(x => new BounsLogStatement
+            {
+                BeforeBonus = x.BeforeBonus,
+                ChangeBonus = x.ChangeBonus,
+                CreateTime = x.CreateTime,
+                Direction = x.Direction,
+                RefTransId = x.RefTransId,
+                AfterBonus = x.AfterBonus,
+                //TypeName = GetTransTypeName(x.Type, x.TypeName, ref tpList, ref singleWalletTransType)
+                TypeName = GetTransTypeNameV2(x.Type, x.TypeName)
+            });
+        }
+        private string GetTransTypeNameV2(string Type, string TypeName)
+        {
+            var tpList = statementService.GetTpListWithCache();
+            if (Type.Length < 5)
+            {
+                return TypeName;
+            }
+            else
+            {
+                singleWalletType.TryGetValue(Type.Substring(1, 1), out string WalletType);
+                int.TryParse(Type.Substring(2), out int tpId);
+
+                var tpName = tpList.Where(x => x.Id == tpId).FirstOrDefault()?.TpName;
+                return $"{tpName} {selLangBLL.GetResourceValue(WalletType)}";
+            }
+        }
         private string GetTransTypeName(string Type, string TypeName, ref IEnumerable<TpList> TpList, ref Dictionary<string, string> WalletTransType)
         {
             if (Type.Length < 5)
@@ -293,7 +352,10 @@ namespace MemberSite.Service.BLL
                 return $"{tpName} {TransType}";
             }
         }
-
+        public IEnumerable<PromotionCategory> GetPromotionCategory()
+        {
+            return statementService.GetPromotionCategory();
+        }
         public int SetDepositReceipt(int custId, string transId, string refNo, long depositTime)
         {
             int depositId = 0;
@@ -322,7 +384,6 @@ namespace MemberSite.Service.BLL
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
             List<int> forStatus = new List<int>();
             forStatus.Add((int)WithdrawalStatus.Pending);
-            forStatus.Add((int)WithdrawalStatus.ToKyc);
             return withdrawalService.SetWithdrawalCancel(CustInfo.CustId, transId, CustInfo.SiteId, forStatus, WithdrawalStatus.Cancelled);
         }
         public DepositReceipt GetDepositReceipt(string transId, int custId)

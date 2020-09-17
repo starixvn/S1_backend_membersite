@@ -316,37 +316,68 @@
                 {
                     <div class="lobby-product-swiper">
                         <div class="swiper-wrapper">
+                            @*@if (promotionCnt > 0)
+                                {
+                                    <div class="swiper-slide">
+                                        <div class="lobby-product">
+                                            <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
+                                                <img src="@SkinImgPath/Lobby/Home/Product-100-@(selLangBLL.GetLangId()).jpg" asp-append-version="true">
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="swiper-slide">
+                                    <div class="lobby-product">
+                                        <a href="@gamingBLL.GetEntPageUrl(1, "245", Url)" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                                            <img src="@SkinImgPath/Lobby/Home/Product-Virtual_Game-@(selLangBLL.GetLangId()).png" asp-append-version="true">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="lobby-product">
+                                        <a href="@gamingBLL.GetEntPageUrl(1, "202", Url)" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                                            <img src="@SkinImgPath/Lobby/Home/Product-Keno.png" asp-append-version="true">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="lobby-product">
+                                        <a href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
+                                            <img src="@SkinImgPath/Lobby/Home/Product-100-@(selLangBLL.GetLangId()).jpg" asp-append-version="true">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="lobby-product">
+                                        <a href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                                            <img src="@SkinImgPath/Lobby/Home/Product-gpiyggjokersg-@(selLangBLL.GetLangId()).jpg" asp-append-version="true" />
+                                        </a>
+                                    </div>
+                                </div>*@
                             <div class="swiper-slide">
                                 <div class="lobby-product">
-                                    <a href="~/@langId/Promotion/Bonus?BonusCode=WINEXTRA10ON4MAJORLEAGUE">
+                                    <a href="~/@langId/Promotion/Bonus?BonusCode=SportsbookCashback101">
                                         <img src="@SkinImgPath/Lobby/Home/398x163_1.jpg" asp-append-version="true" />
                                     </a>
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="lobby-product">
-                                    <a href="~/@langId/Promotion/Bonus?BonusCode=SportsbookUnlimitedRebate0720">
+                                    <a href="~/@langId/Promotion/Bonus?BonusCode=SportsbookUnlimitedRebate">
                                         <img src="@SkinImgPath/Lobby/Home/398x163_2.jpg" asp-append-version="true" />
                                     </a>
                                 </div>
                             </div>
-                            @*<div class="swiper-slide">
-            <div class="lobby-product">
-                <a href="~/@langId/Promotion/Bonus?BonusCode=SEP3DailyRedeposit">
-                    <img src="@SkinImgPath/Lobby/Home/398x163_3.jpg" asp-append-version="true" />
-                </a>
-            </div>
-        </div>*@
                             <div class="swiper-slide">
                                 <div class="lobby-product">
-                                    <a href="~/@langId/Promotion/Bonus?BonusCode=WINEXTRA10ON4MAJORLEAGUE">
-                                        <img src="@SkinImgPath/Lobby/Home/398x163_1.jpg" asp-append-version="true" />
+                                    <a href="~/@langId/Promotion/Bonus?BonusCode=CasinoCashback10">
+                                        <img src="@SkinImgPath/Lobby/Home/398x163_3.jpg" asp-append-version="true" />
                                     </a>
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="lobby-product">
-                                    <a href="~/@langId/Promotion/Bonus?BonusCode=050LIVECASINOUNLIMITEDREBATE">
+                                    <a href="~/@langId/Promotion/Bonus?BonusCode=CasinoUnlimitedRebate1P2">
                                         <img src="@SkinImgPath/Lobby/Home/398x163_4.jpg" asp-append-version="true" />
                                     </a>
                                 </div>

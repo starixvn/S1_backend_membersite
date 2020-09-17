@@ -1726,10 +1726,4 @@
   <data name="lbl_PromotionInfo" xml:space="preserve">
     <value>Thông tin khuyến mãi</value>
   </data>
-  <data name="lbl_PoweredBy" xml:space="preserve">
-    <value>Một sản phẩm của</value>
-  </data>
-  <data name="lbl_EbetCasino" xml:space="preserve">
-    <value>Sảnh Hoàng Gia</value>
-  </data>
 </root>

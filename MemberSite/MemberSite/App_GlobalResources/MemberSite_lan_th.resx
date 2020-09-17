@@ -1677,7 +1677,4 @@
   <data name="lbl_TurnoverAccumulated" xml:space="preserve">
     <value>การหมุนเวียนสะสม</value>
   </data>
-  <data name="lbl_EbetCasino" xml:space="preserve">
-    <value>ห้องรอยัลสูท</value>
-  </data>
 </root>

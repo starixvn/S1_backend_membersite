@@ -162,19 +162,5 @@ namespace MemberSite.Controllers
         {
             public int ChannelId { get; set; }
         }
-
-        [Route("{LangId}/[controller]/DepositReceip.jpg")]
-        [HttpGet]
-        public IActionResult GetDepositReceiptPicV2(string transId)
-        {
-            var authData = authorizeBLL.GetAuthData();
-            var depositReceipt = paymentBLL.GetDepositReceipt(transId, authData.CustId);
-            if (depositReceipt == null)
-            {
-                return StatusCode(404);
-            }
-            var image = depositReceipt.DepositPic;
-            return File(image, "image/jpeg");
-        }
     }
 }
