@@ -1705,5 +1705,8 @@
   </data>
   <data name="lbl_TurnoverAccumulated" xml:space="preserve">
     <value>累计流水</value>
-  </data> 
+  </data>
+  <data name="lbl_EbetCasino" xml:space="preserve">
+    <value>皇家厅</value>
+  </data>
 </root>
