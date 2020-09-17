@@ -1698,4 +1698,7 @@
   <data name="lbl_TurnoverAccumulated" xml:space="preserve">
     <value>Akumulasi Turnover</value>
   </data>
+  <data name="lbl_EbetCasino" xml:space="preserve">
+    <value>Lobby Kerajaan</value>
+  </data>
 </root>

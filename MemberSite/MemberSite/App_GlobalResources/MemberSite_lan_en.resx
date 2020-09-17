@@ -1815,10 +1815,10 @@
   <data name="lbl_GoToProfile" xml:space="preserve">
     <value>Go to profile</value>
   </data>
-  <data name="lbl_Prize" xml:space="preserve">
-    <value>Prize</value>
+  <data name="lbl_EbetCasino" xml:space="preserve">
+    <value>Royal Suite</value>
   </data>
-  <data name="lbl_UnSettle" xml:space="preserve">
-    <value>UnSettle</value>
+  <data name="lbl_PoweredBy" xml:space="preserve">
+    <value>Powered by</value>
   </data>
 </root>

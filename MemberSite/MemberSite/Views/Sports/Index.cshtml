@@ -41,7 +41,7 @@
         var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
         var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
 
-        var entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = Context.Request.Query["tpId"], gameId = Context.Request.Query["gameId"], matchId = Context.Request.Query["matchId"] });
+        var entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = Context.Request.Query["tpId"], gameId = Context.Request.Query["gameId"], matchid = Context.Request.Query["matchId"] });
         return entPageUrl;
     }
 }

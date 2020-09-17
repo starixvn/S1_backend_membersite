@@ -62,78 +62,86 @@
     var bannerFromDB = bannerBLL.GetBannerFromDB(banner_CurrencyId, langId);
 }
 <!-- Slider -->
-<div class="home-slider">
-    @foreach (var b in bannerFromDB)
-    {
-        <div class="slide-item">
-            <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
-                <img src="@b.imgURL" asp-append-version="true" />
-                <div class="slide-inside container"></div>
-            </a>
-        </div>
-    }
-
-    @foreach (var b in BannerList)
-    {
-        if (b.hideInHome) continue;
-
-        var _actionLink = b.actionLink;
-        var _outerLink = b.outerLink;
-
-        var _actionByLang = b.actionLinkByLang?.FirstOrDefault(x => x.lang == langId);
-        if (_actionByLang != null)
+    <div class="home-slider">
+        @foreach (var b in bannerFromDB)
         {
-            _actionLink = _actionByLang.link;
-            _outerLink = _actionByLang.outerLink ?? _outerLink;
+            <div class="slide-item">
+                <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
+                    <img src="@b.imgURL" asp-append-version="true" />
+                    <div class="slide-inside container"></div>
+                </a>
+            </div>
         }
 
-        if (!string.IsNullOrEmpty(_actionLink))
+        @foreach (var b in BannerList)
         {
-            if (b.urlWithLang)
+            if (b.hideInHome) continue;
+
+            var _actionLink = b.actionLink;
+            var _outerLink = b.outerLink;
+
+            var _actionByLang = b.actionLinkByLang?.FirstOrDefault(x => x.lang == langId);
+            if (_actionByLang != null)
             {
-                <div class="slide-item">
-                    <a href='@Url.Content($"~/{langId}/{_actionLink}")'>
-                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                        <div class="slide-inside container"></div>
-                    </a>
-                </div>
+                _actionLink = _actionByLang.link;
+                _outerLink = _actionByLang.outerLink ?? _outerLink;
             }
-            else
+
+            if (!string.IsNullOrEmpty(_actionLink))
             {
-                if (_outerLink)
+                if (b.urlWithLang)
                 {
-                    <div class="swiper-slide">
-                        <a href='@Url.Content($"{_actionLink}")' target="_event">
+                    <div class="slide-item">
+                        <a href='@Url.Content($"~/{langId}/{_actionLink}")'>
                             <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                            <div class="slide-inside container"></div>
                         </a>
                     </div>
                 }
                 else
                 {
-                    <div class="swiper-slide">
-                        <a href='@Url.Content($"~/{_actionLink}")' target="_event">
-                            <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                        </a>
-                    </div>
+                    if (_outerLink)
+                    {
+                        <div class="swiper-slide">
+                            <a href='@Url.Content($"{_actionLink}")' target="_event">
+                                <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="swiper-slide">
+                            <a href='@Url.Content($"~/{_actionLink}")' target="_event">
+                                <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                            </a>
+                        </div>
+                    }
                 }
             }
-        }
-        else if (b.tpId != null)
-        {
-            <div class="swiper-slide">
-                <a class="swiper-slide  @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl((int)b.tpId, b.gameId?.ToString(), Url)">
+            else if (b.tpId != null && b.matchid != null)
+            {
+                <div class="swiper-slide">
+                    <a class="swiper-slide  @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetSportsMatchIdUrl((int)b.tpId, b.gameId?.ToString(), Url, (int)b.matchid)">
+                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                    </a>
+                </div>
+            }
+            else if (b.tpId != null)
+            {
+                <div class="swiper-slide">
+                    <a class="swiper-slide  @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl((int)b.tpId, b.gameId?.ToString(), Url)">
+                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="swiper-slide">
                     <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-                </a>
-            </div>
+                </div>
+            }
         }
-        else
-        {
-            <div class="swiper-slide">
-                <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
-            </div>
-        }
-    }
-</div>
+    </div>
 
 <!-- Notification -->
 <div class="notification container" id="Marquee">

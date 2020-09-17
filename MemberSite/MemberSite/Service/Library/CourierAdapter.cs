@@ -26,28 +26,20 @@ namespace MemberSite.Service.Library
 
             var fooJSON = JsonConvert.SerializeObject(oTpInfo);
             var fooContent = new StringContent(fooJSON, Encoding.UTF8, "application/json");
-            try
-            {
-                HttpResponseMessage response = await client.PostAsync(url, fooContent);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseBody = await response.Content.ReadAsStringAsync();
-                    oApiResult = JsonConvert.DeserializeObject<ApiResult<T>>(responseBody);
-                }
-                else
-                {
-                    oApiResult = new ApiResult<T>();
-                    oApiResult.ErrorCode = 9000;
-                    string responseBody = await response?.Content?.ReadAsStringAsync();
-                    oApiResult.RawMessage = responseBody;
-                }
+            HttpResponseMessage response = await client.PostAsync(url, fooContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                oApiResult = JsonConvert.DeserializeObject<ApiResult<T>>(responseBody);
             }
-            catch(Exception ex)
+            else
             {
                 oApiResult = new ApiResult<T>();
                 oApiResult.ErrorCode = 9000;
-                oApiResult.RawMessage = ex.Message;
+                string responseBody = await response?.Content?.ReadAsStringAsync();
+                oApiResult.RawMessage = responseBody;
             }
             return oApiResult;
         }

@@ -580,35 +580,6 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        public class BounsLogReq
-        {
-            public long StartDate { get; set; }
-            public long EndDate { get; set; }
-            public int PageNumber { get; set; }
-            public int PromoCategoryId { get; set; }
-        }
-        public ApiResult GetBounsLogStatement(BounsLogReq bounsLogReq)
-        {
-            var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiListResult<BounsLogStatement>();
-            int pageNumber = bounsLogReq.PageNumber;
-            int totalPages;
-            int rowCount;
-            apiResult.Data = paymentBLL.GetBounsLogStatement(authData.CustId, bounsLogReq.PromoCategoryId, bounsLogReq.StartDate, bounsLogReq.EndDate, ref pageNumber, out totalPages, out rowCount);
-            apiResult.PageNumber = pageNumber;
-            apiResult.TotalPages = totalPages;
-            apiResult.RowCount = rowCount;
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-        public ApiResult<IEnumerable<PromotionCategory>> GetPromotionCategory()
-        {
-
-            var apiResult = new ApiResult<IEnumerable<PromotionCategory>>();
-            apiResult.Data = paymentBLL.GetPromotionCategory();
-            return apiResult;
-        }
-
         public class TpTransfer
         {
             public int TpId { set; get; }
