@@ -2185,3 +2185,13 @@ h3.schedule-txt{
   margin: 5px auto 0;
   text-align: left;
 }
+.clock{
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin: 5px auto 0;
+}
+.clock img{
+  width: 6vw;
+  height: 6vw;
+}

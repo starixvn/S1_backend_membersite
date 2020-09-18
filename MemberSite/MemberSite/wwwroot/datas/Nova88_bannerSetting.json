@@ -1,14 +1,6 @@
 {
   "Promotion": [
     {
-      "actionLink": "https://www.facebook.com/Nova88.ent",
-      "outerLink": true,
-      "img": "banner-dj.png",
-      "currencyId": [ 2 ],
-      "lang": [ "th", "id", "en", "cs" ],
-      "hideInHome": false
-    },
-    {
       "actionLink": "Promotion/Bonus?BonusCode=RegisterWiniPhone",
       "isBonus": true,
       "urlWithLang": true,
@@ -35,13 +27,6 @@
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ],
       "refId": [ "nova88c" ],
-      "hideInHome": true
-    },
-    {
-      "tpId": 15,
-      "gameId": 15,
-      "img": "banner-ae.jpg",
-      "lang": [ "th", "id", "en", "cs" ],
       "hideInHome": true
     },
     {
@@ -136,8 +121,15 @@
       "gameId": 101,
       "img": "banner-PP-Roulette-Experience.jpg",
       "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ],
-    }
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "tpId": 18,
+      "gameId": 18,
+      "img": "banner-Ebe.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
   ],
   "Casino": [
     {
