@@ -46,6 +46,21 @@ namespace MemberSite.Service.BLL
 
             courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
         }
+        public async Task<ApiResult> SendResetPwdMailAsync(int custId, string resetPasswordUrl)
+        {
+            string apiUrl = $"{commonServiceUrl}Mail/RestPassword";
+
+            dynamic req = new
+            {
+                CustId = custId,
+                resetPasswordUrl
+            };
+
+            ApiResult result = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
+
+            return result;
+        }
+
         public async Task<ApiResult> SendVerifySMSAsync(Customer custInfo)
         {
             string apiUrl = $"{commonServiceUrl}MoviderSMS/SendVerifySMS";

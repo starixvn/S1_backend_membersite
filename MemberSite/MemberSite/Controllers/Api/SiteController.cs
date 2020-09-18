@@ -319,7 +319,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult ForgetPwdV2(ForgetPwdReqV2 forgetPwdReq)
+        public async Task<ApiResult> ForgetPwdV2Async(ForgetPwdReqV2 forgetPwdReq)
         {
             var apiResult = new ApiResult<bool>(selLangBLL);
             try
@@ -358,17 +358,27 @@ namespace MemberSite.Controllers.Api
                     string pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
                     string result = Regex.Replace(custInfoProfile.Email, pattern, m => new string('*', m.Length));
 
-                    custInfoBLL.ForgetPwd1(custInfo.CustId, resetPasswordUrl);
-                    if (!string.IsNullOrEmpty(forgetPwdReq.Username))
+                    ApiResult commonResult = await custInfoBLL.ForgetPwd1Async(custInfo.CustId, resetPasswordUrl);
+                    if (commonResult.ErrorCode == 0)
                     {
-                        apiResult.Message = $"Has send to {result}.";//selLangBLL.GetMsg("ForgetPwdSuccess");
+                        if (!string.IsNullOrEmpty(forgetPwdReq.Username))
+                        {
+                            apiResult.Message = $"Has send to {result}.";//selLangBLL.GetMsg("ForgetPwdSuccess");
+                        }
+                        else
+                        {
+                            apiResult.Message = selLangBLL.GetMsg("ForgetPwdSuccess");
+                        }
+
+                        apiResult.ErrorCode = 0;
                     }
                     else
                     {
-                        apiResult.Message = selLangBLL.GetMsg("ForgetPwdSuccess");
+                        apiResult.ErrorCode = commonResult.ErrorCode;
+                        apiResult.Message = commonResult.Message;
+                        apiResult.RawErrorCode = commonResult.RawErrorCode;
+                        apiResult.RawMessage = commonResult.RawMessage;
                     }
-
-                    apiResult.ErrorCode = 0;
                 }
             }
             catch (Exception ex)
