@@ -249,33 +249,12 @@ namespace MemberSite.Service.DAL
         public bool GetCanJoin(int custId, int siteId, string bonusCode, int currencyId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            var promotion = conn.QueryFirstOrDefault<Promotion>("Member_Promotion_Get", new { SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
-            if (promotion != null)
-            {
-                if (promotion.PromotionType == PromotionType.Freebet)
-                {
-                    var p1 = new DynamicParameters(new { BonusCode = bonusCode, SiteId = siteId, IP = tools.GetClientIP() });
-                    p1.Add("IsBlocked", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                    conn.Execute("Service_BlockFreeBet_Get", p1, commandType: CommandType.StoredProcedure);
-                    if (p1.Get<int>("IsBlocked") == 1)
-                    {
-                        return false;
-                    }
-                }
-
-                var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
-                p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
-                p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-
-                conn.Execute("Member_PromotionCanJoinV2_Get", p, commandType: CommandType.StoredProcedure);
-
-                var canJoin = p.Get<byte?>("CanJoin") ?? 0;
-                return canJoin == 1;
-            }
-            else
-            {
-                return false;
-            }
+            var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
+            p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+            p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+            conn.Execute("Member_PromotionCanJoinV2_Get", p, commandType: CommandType.StoredProcedure);
+            var canJoin = p.Get<byte?>("CanJoin") ?? 0;
+            return canJoin == 1;
         }
 
         public List<CustPromotion> GetPromotionListv2(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang)

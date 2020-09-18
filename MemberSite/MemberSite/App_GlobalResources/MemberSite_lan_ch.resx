@@ -1687,5 +1687,11 @@
   </data>
   <data name="lbl_TurnoverAccumulated" xml:space="preserve">
     <value>累計流水</value>
-  </data> 
+  </data>
+  <data name="lbl_Prize" xml:space="preserve">
+    <value>獎金</value>
+  </data>
+  <data name="lbl_UnSettle" xml:space="preserve">
+    <value>取消派彩</value>
+  </data>
 </root>

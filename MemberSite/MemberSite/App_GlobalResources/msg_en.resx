@@ -282,10 +282,13 @@
   <data name="msg_OTPHint2" xml:space="preserve">
     <value>through OTP certification immediately?</value>
   </data>
-	<data name="msg_OTPSendCode" xml:space="preserve">
+  <data name="msg_OTPSendCode" xml:space="preserve">
     <value>We have sent the verification code to your registered mobile. Please enter your code.</value>
   </data>
   <data name="msg_LockedAmountInsufficient" xml:space="preserve">
     <value>Main wallet balance should not be lower than {0}</value>
+  </data>
+  <data name="msg_Ineligible" xml:space="preserve">
+    <value>You are not eligible for this promotion. Please contact our support for more details.</value>
   </data>
 </root>

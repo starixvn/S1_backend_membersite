@@ -1821,4 +1821,10 @@
   <data name="lbl_PoweredBy" xml:space="preserve">
     <value>Powered by</value>
   </data>
+  <data name="lbl_Prize" xml:space="preserve">
+    <value>Prize</value>
+  </data>
+  <data name="lbl_UnSettle" xml:space="preserve">
+    <value>UnSettle</value>
+  </data>
 </root>

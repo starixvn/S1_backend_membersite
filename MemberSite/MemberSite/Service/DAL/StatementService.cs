@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using MemberSite.Service.Model;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
@@ -14,14 +15,17 @@ namespace MemberSite.Service.DAL
     public class StatementService
     {
         private readonly IConfiguration configuration;
-        public StatementService(IConfiguration configuration)
+        private readonly IMemoryCache cache;
+        public StatementService(IConfiguration configuration, IMemoryCache cache)
         {
             this.configuration = configuration;
+            this.cache = cache;
+
         }
 
         public IEnumerable<Statement> GetStatement(int custId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { CustId = custId, StartDate = startDate, EndDate = endDate, SiteId = siteId, PageSize = pageSize });
             p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -33,11 +37,50 @@ namespace MemberSite.Service.DAL
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return result;
         }
-
+        public IEnumerable<TpList> GetTpListWithCache()
+        {
+            string key = $"CustInfo_TpList";
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var customer = cache.Get<IEnumerable<TpList>>(key);
+            if (customer != null)
+            {
+                return customer;
+            }
+            customer = conn.Query<TpList>("Member_TpList_Get", commandType: CommandType.StoredProcedure);
+            if (customer != null)
+            {
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetSlidingExpiration(TimeSpan.FromMinutes(1));
+                cache.Set(key, customer, cacheEntryOptions);
+            }
+            return customer;
+        }
         public IEnumerable<TpList> GetTpList()
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<TpList>("Member_TpList_Get", commandType: CommandType.StoredProcedure);
+        }
+
+        public IEnumerable<BounsLogStatement> GetBounsLogStatement(int custId,int PromoCategoryId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var p = new DynamicParameters(new { CustId = custId, PromoCategoryId = PromoCategoryId, StartDate = startDate, EndDate = endDate, SiteId = siteId, PageSize = pageSize });
+            p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
+            p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            var result = conn.Query<BounsLogStatement>("Member_BonusLog_Get", p, commandType: CommandType.StoredProcedure);
+            totalPages = p.Get<int?>("TotalPages") ?? 0;
+            rowCount = p.Get<int?>("RowCount") ?? 0;
+            return result;
+        }
+
+        public IEnumerable<PromotionCategory> GetPromotionCategory()
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var result = conn.Query<PromotionCategory>("Member_PromotionCategory_Get", commandType: CommandType.StoredProcedure);
+            return result;
         }
     }
 }
