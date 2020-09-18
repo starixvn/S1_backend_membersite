@@ -144,7 +144,11 @@ namespace MemberSite.Service.BLL
 
                 apiResult1.Message = string.Format(selLangBLL.GetResourceValue("msg_LockedAmountInsufficient"), dlockedAmount);
             }
-
+            else if (result == -3)
+            {
+                apiResult1.ErrorCode = -3;
+                apiResult1.Message = selLangBLL.GetResourceValue("msg_Ineligible");
+            }
             return apiResult1;
         }
         public bool GetCanJoin(int custId, string bonusCode)
