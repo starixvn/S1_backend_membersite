@@ -8,7 +8,7 @@
         "ch": "CQ9 真人"
       },
       "appId": "BV01",
-      "GameId": "BV01",
+      "gameId": "BV01",
       "category1": "Table",
       "paylines": "",
       "RTP": "N/A",
@@ -31,7 +31,7 @@
         "ch": "板球狂熱"
       },
       "appId": "188",
-      "GameId": "188",
+      "gameId": "188",
       "category1": "Slots",
       "paylines": "",
       "RTP": "95.97%",
@@ -53,7 +53,7 @@
         "ch": "咏春"
       },
       "appId": "187",
-      "GameId": "187",
+      "gameId": "187",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.08%",
@@ -75,7 +75,7 @@
         "ch": "六顆扭蛋"
       },
       "appId": "184",
-      "GameId": "184",
+      "gameId": "184",
       "category1": "Slots",
       "paylines": "Any6",
       "RTP": "96.00%",
@@ -97,7 +97,7 @@
         "ch": "不太可能的王室"
       },
       "appId": "AKunlikelyroyals",
-      "GameId": "AKunlikelyroyals",
+      "gameId": "AKunlikelyroyals",
       "category1": "Slots",
       "paylines": "",
       "RTP": "95.18%",
@@ -119,7 +119,7 @@
         "ch": "水滸傳"
       },
       "appId": "BU01",
-      "GameId": "BU01",
+      "gameId": "BU01",
       "category1": "Slots",
       "paylines": "9",
       "RTP": "96.20%",
@@ -141,7 +141,7 @@
         "ch": "炸金花 "
       },
       "appId": "AD12",
-      "GameId": "AD12",
+      "gameId": "AD12",
       "category1": "Table",
       "paylines": "",
       "RTP": "97.50%",
@@ -163,7 +163,7 @@
         "ch": "斗地主"
       },
       "appId": "AD10",
-      "GameId": "AD10",
+      "gameId": "AD10",
       "category1": "Table",
       "paylines": "",
       "RTP": "97.50%",
@@ -185,7 +185,7 @@
         "ch": "艾拉的財富"
       },
       "appId": "AKellasriches",
-      "GameId": "AKellasriches",
+      "gameId": "AKellasriches",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "95.04%",
@@ -207,7 +207,7 @@
         "ch": "亞洲女神"
       },
       "appId": "AKgoddessofasia",
-      "GameId": "AKgoddessofasia",
+      "gameId": "AKgoddessofasia",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "95.04%",
@@ -229,7 +229,7 @@
         "ch": "雪野生"
       },
       "appId": "AKsnowwild",
-      "GameId": "AKsnowwild",
+      "gameId": "AKsnowwild",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "95.19%",
@@ -252,7 +252,7 @@
         "th": "กระโดดสูง"
       },
       "appId": "52",
-      "GameId": "52",
+      "gameId": "52",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -278,7 +278,7 @@
         "th": "เรพจั๊ม"
       },
       "appId": "7",
-      "GameId": "7",
+      "gameId": "7",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -303,7 +303,7 @@
         "th": "เกมส์กระโดดสูง"
       },
       "appId": "99",
-      "GameId": "99",
+      "gameId": "99",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -327,7 +327,7 @@
         "th": "กระโดดสูง 2"
       },
       "appId": "179",
-      "GameId": "179",
+      "gameId": "179",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.07%",
@@ -350,7 +350,7 @@
         "th": "ลัคกี้ แบท"
       },
       "appId": "10",
-      "GameId": "10",
+      "gameId": "10",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.02%",
@@ -376,7 +376,7 @@
         "th": "ทะยานขึ้นฟ้า"
       },
       "appId": "111",
-      "GameId": "111",
+      "gameId": "111",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -400,7 +400,7 @@
         "th": "ความโชคดี"
       },
       "appId": "50",
-      "GameId": "50",
+      "gameId": "50",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.19%",
@@ -426,7 +426,7 @@
         "th": "สงครามเทพ"
       },
       "appId": "31",
-      "GameId": "31",
+      "gameId": "31",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.10%",
@@ -452,7 +452,7 @@
         "th": "เทพเซอุส"
       },
       "appId": "64",
-      "GameId": "64",
+      "gameId": "64",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -478,7 +478,7 @@
         "th": "เกมส์ดิสโก้ไนท์"
       },
       "appId": "205",
-      "GameId": "205",
+      "gameId": "205",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -501,7 +501,7 @@
         "th": "มูฟแอนด์จัมป์"
       },
       "appId": "138",
-      "GameId": "138",
+      "gameId": "138",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -524,7 +524,7 @@
         "th": "เกมส์ดิสโก้ไนท์ M"
       },
       "appId": "137",
-      "GameId": "137",
+      "gameId": "137",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -548,7 +548,7 @@
         "th": "กระโดดสูง มือถือ"
       },
       "appId": "105",
-      "GameId": "105",
+      "gameId": "105",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -571,7 +571,7 @@
         "th": "Fa Cai Shen"
       },
       "appId": "69",
-      "GameId": "69",
+      "gameId": "69",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.07%",
@@ -595,7 +595,7 @@
         "th": "เกมส์เทพเจ้าสายฟ้า"
       },
       "appId": "89",
-      "GameId": "89",
+      "gameId": "89",
       "category1": "Slots",
       "paylines": "",
       "RTP": "95.96%",
@@ -619,7 +619,7 @@
         "th": "เรพจั๊ม 2"
       },
       "appId": "24",
-      "GameId": "24",
+      "gameId": "24",
       "category1": "Slots",
       "paylines": "Any 5",
       "RTP": "96.17%",
@@ -644,7 +644,7 @@
         "th": "โวลฟ์ดิสโก้"
       },
       "appId": "183",
-      "GameId": "183",
+      "gameId": "183",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.16%",
@@ -667,7 +667,7 @@
         "th": "ราชินีเพลิง"
       },
       "appId": "83",
-      "GameId": "83",
+      "gameId": "83",
       "category1": "Slots",
       "paylines": "5",
       "RTP": "96.02%",
@@ -693,7 +693,7 @@
         "th": "หกแคนดี้"
       },
       "appId": "153",
-      "GameId": "153",
+      "gameId": "153",
       "category1": "Slots",
       "paylines": "Any6",
       "RTP": "96.14%",
@@ -716,7 +716,7 @@
         "th": "ความโชคดี M"
       },
       "appId": "133",
-      "GameId": "133",
+      "gameId": "133",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.19%",
@@ -740,7 +740,7 @@
         "th": "จงขุ่ย"
       },
       "appId": "9",
-      "GameId": "9",
+      "gameId": "9",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.10%",
@@ -764,7 +764,7 @@
         "th": "Fa Cai Shen2"
       },
       "appId": "160",
-      "GameId": "160",
+      "gameId": "160",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.19%",
@@ -787,7 +787,7 @@
         "th": "ไก่ทองประกาศข่างดี"
       },
       "appId": "15",
-      "GameId": "15",
+      "gameId": "15",
       "category1": "Slots",
       "paylines": "15",
       "RTP": "96.13%",
@@ -811,7 +811,7 @@
         "th": "5 เทพอสูร"
       },
       "appId": "117",
-      "GameId": "117",
+      "gameId": "117",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.04%",
@@ -835,7 +835,7 @@
         "th": "เปลวไฟแห่งความร่ำรวย 2"
       },
       "appId": "140",
-      "GameId": "140",
+      "gameId": "140",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.00%",
@@ -859,7 +859,7 @@
         "th": "ราชินีหิมะ"
       },
       "appId": "115",
-      "GameId": "115",
+      "gameId": "115",
       "category1": "Slots",
       "paylines": "5",
       "RTP": "96.06%",
@@ -883,7 +883,7 @@
         "th": "สงครามเทพ M"
       },
       "appId": "127",
-      "GameId": "127",
+      "gameId": "127",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.10%",
@@ -907,7 +907,7 @@
         "th": "เวิลด์น้ำ"
       },
       "appId": "29",
-      "GameId": "29",
+      "gameId": "29",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -933,7 +933,7 @@
         "th": "กิ้งก่า"
       },
       "appId": "79",
-      "GameId": "79",
+      "gameId": "79",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.13%",
@@ -958,7 +958,7 @@
         "th": "เถี่ยนมี่มี่"
       },
       "appId": "8",
-      "GameId": "8",
+      "gameId": "8",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.11%",
@@ -984,7 +984,7 @@
         "th": "เกมจังเกิล ปาร์ตี้ "
       },
       "appId": "60",
-      "GameId": "60",
+      "gameId": "60",
       "category1": "Arcade",
       "paylines": "",
       "RTP": "96.00%",
@@ -1009,7 +1009,7 @@
         "th": "ดอกไม้นำโชค"
       },
       "appId": "147",
-      "GameId": "147",
+      "gameId": "147",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "96.00%",
@@ -1033,7 +1033,7 @@
         "th": "เกมส์ไฮขึ้นมา"
       },
       "appId": "203",
-      "GameId": "203",
+      "gameId": "203",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -1056,7 +1056,7 @@
         "th": "เทพแห่งโชคลาภลอยฟ้า"
       },
       "appId": "113",
-      "GameId": "113",
+      "gameId": "113",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.04%",
@@ -1080,7 +1080,7 @@
         "th": "ปีใหม่ ไก่กุ๊กกุ๊ก 2"
       },
       "appId": "58",
-      "GameId": "58",
+      "gameId": "58",
       "category1": "Slots",
       "paylines": "15",
       "RTP": "95.97%",
@@ -1106,7 +1106,7 @@
         "th": "เรพจั๊ม มือถือ"
       },
       "appId": "109",
-      "GameId": "109",
+      "gameId": "109",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -1130,7 +1130,7 @@
         "th": "6 โทรอส"
       },
       "appId": "173",
-      "GameId": "173",
+      "gameId": "173",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.06%",
@@ -1153,7 +1153,7 @@
         "th": "วีลมันนี่"
       },
       "appId": "128",
-      "GameId": "128",
+      "gameId": "128",
       "category1": "Slots",
       "paylines": "1",
       "RTP": "97.00%",
@@ -1177,7 +1177,7 @@
         "th": "โครนอส"
       },
       "appId": "154",
-      "GameId": "154",
+      "gameId": "154",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.00%",
@@ -1200,7 +1200,7 @@
         "th": "เมิ่งหยิวเซียนจิ้ง"
       },
       "appId": "116",
-      "GameId": "116",
+      "gameId": "116",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.09%",
@@ -1224,7 +1224,7 @@
         "th": "ดับเบิลฟลาย"
       },
       "appId": "152",
-      "GameId": "152",
+      "gameId": "152",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.14%",
@@ -1247,7 +1247,7 @@
         "th": "เกมส์กระโดดสูง มือถือ"
       },
       "appId": "108",
-      "GameId": "108",
+      "gameId": "108",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -1271,7 +1271,7 @@
         "th": "กระถางมหาสมบัติ"
       },
       "appId": "74",
-      "GameId": "74",
+      "gameId": "74",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.06%",
@@ -1297,7 +1297,7 @@
         "th": "ท่านเศรษฐี"
       },
       "appId": "5",
-      "GameId": "5",
+      "gameId": "5",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.00%",
@@ -1323,7 +1323,7 @@
         "th": "ปีใหม่ ไก่กุ๊กกุ๊ก 3"
       },
       "appId": "180",
-      "GameId": "180",
+      "gameId": "180",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.04%",
@@ -1346,7 +1346,7 @@
         "th": "เทพเซอุส M"
       },
       "appId": "125",
-      "GameId": "125",
+      "gameId": "125",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -1370,7 +1370,7 @@
         "th": "GOLDEN EGGS"
       },
       "appId": "67",
-      "GameId": "67",
+      "gameId": "67",
       "category1": "Slots",
       "paylines": "Any 5",
       "RTP": "96.91%",
@@ -1395,7 +1395,7 @@
         "th": "เฮอร์คิวลิส"
       },
       "appId": "161",
-      "GameId": "161",
+      "gameId": "161",
       "category1": "Slots",
       "paylines": "88",
       "RTP": "95.94%",
@@ -1418,7 +1418,7 @@
         "th": "Fa Cai Shen M"
       },
       "appId": "131",
-      "GameId": "131",
+      "gameId": "131",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.07%",
@@ -1442,7 +1442,7 @@
         "th": "ซุปเปอร์ 5"
       },
       "appId": "16",
-      "GameId": "16",
+      "gameId": "16",
       "category1": "Slots",
       "paylines": "15",
       "RTP": "96.21%",
@@ -1466,7 +1466,7 @@
         "th": "เกมเศรษฐี"
       },
       "appId": "72",
-      "GameId": "72",
+      "gameId": "72",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.06%",
@@ -1491,7 +1491,7 @@
         "th": "ราชาผลไม้"
       },
       "appId": "1",
-      "GameId": "1",
+      "gameId": "1",
       "category1": "Slots",
       "paylines": "9",
       "RTP": "96.26%",
@@ -1517,7 +1517,7 @@
         "th": "เกมส์มวยไทย"
       },
       "appId": "201",
-      "GameId": "201",
+      "gameId": "201",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.10%",
@@ -1540,7 +1540,7 @@
         "th": "เฮเฟตัส"
       },
       "appId": "142",
-      "GameId": "142",
+      "gameId": "142",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.07%",
@@ -1564,7 +1564,7 @@
         "th": "ฟา ไฉ ฟู วา"
       },
       "appId": "143",
-      "GameId": "143",
+      "gameId": "143",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.09%",
@@ -1588,7 +1588,7 @@
         "th": "เนสซ่า แอดเว้นต์"
       },
       "appId": "163",
-      "GameId": "163",
+      "gameId": "163",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.13%",
@@ -1611,7 +1611,7 @@
         "th": "เปลวไฟแห่งความร่ำรวย"
       },
       "appId": "33",
-      "GameId": "33",
+      "gameId": "33",
       "category1": "Slots",
       "paylines": "60",
       "RTP": "96.13%",
@@ -1637,7 +1637,7 @@
         "th": "โชล-ซิน"
       },
       "appId": "150",
-      "GameId": "150",
+      "gameId": "150",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "96.14%",
@@ -1661,7 +1661,7 @@
         "th": "ลัคกี้ แบท แจ็คพ็อต"
       },
       "appId": "1010",
-      "GameId": "1010",
+      "gameId": "1010",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.17%",
@@ -1686,7 +1686,7 @@
         "th": "ลัคกี้ แบท M"
       },
       "appId": "123",
-      "GameId": "123",
+      "gameId": "123",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.02%",
@@ -1710,7 +1710,7 @@
         "th": "สัตว์วิ่ง"
       },
       "appId": "136",
-      "GameId": "136",
+      "gameId": "136",
       "category1": "Slots",
       "paylines": "Any6",
       "RTP": "96.00%",
@@ -1734,7 +1734,7 @@
         "th": "ดวงจันทร์หมาป่า"
       },
       "appId": "46",
-      "GameId": "46",
+      "gameId": "46",
       "category1": "Slots",
       "paylines": "40",
       "RTP": "96.27%",
@@ -1760,7 +1760,7 @@
         "th": "เกมส์โฉมงามเอเชีย"
       },
       "appId": "202",
-      "GameId": "202",
+      "gameId": "202",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.11%",
@@ -1783,7 +1783,7 @@
         "th": "อัลปากาสุขสันต์"
       },
       "appId": "54",
-      "GameId": "54",
+      "gameId": "54",
       "category1": "Slots",
       "paylines": "5",
       "RTP": "96.07%",
@@ -1808,7 +1808,7 @@
         "th": "5 กล่อง"
       },
       "appId": "157",
-      "GameId": "157",
+      "gameId": "157",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -1831,7 +1831,7 @@
         "th": "รอยจูบผี"
       },
       "appId": "3",
-      "GameId": "3",
+      "gameId": "3",
       "category1": "Slots",
       "paylines": "40",
       "RTP": "96.01%",
@@ -1857,7 +1857,7 @@
         "th": "แดรกคูล่า"
       },
       "appId": "56",
-      "GameId": "56",
+      "gameId": "56",
       "category1": "Slots",
       "paylines": "40",
       "RTP": "95.92%",
@@ -1881,7 +1881,7 @@
         "th": "APOLLO"
       },
       "appId": "78",
-      "GameId": "78",
+      "gameId": "78",
       "category1": "Slots",
       "paylines": "40",
       "RTP": "96.13%",
@@ -1904,7 +1904,7 @@
         "th": "เปลวไฟแห่งความร่ำรวย M"
       },
       "appId": "139",
-      "GameId": "139",
+      "gameId": "139",
       "category1": "Slots",
       "paylines": "60",
       "RTP": "96.13%",
@@ -1928,7 +1928,7 @@
         "th": "เรพจั๊ม 2 M"
       },
       "appId": "121",
-      "GameId": "121",
+      "gameId": "121",
       "category1": "Slots",
       "paylines": "Any 5",
       "RTP": "96.17%",
@@ -1952,7 +1952,7 @@
         "th": "SkrSkr"
       },
       "appId": "118",
-      "GameId": "118",
+      "gameId": "118",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.00%",
@@ -1976,7 +1976,7 @@
         "th": "โทเทมนำโชค"
       },
       "appId": "148",
-      "GameId": "148",
+      "gameId": "148",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.10%",
@@ -2000,7 +2000,7 @@
         "th": "ขุมทรัพย์เพชร"
       },
       "appId": "144",
-      "GameId": "144",
+      "gameId": "144",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.19%",
@@ -2024,7 +2024,7 @@
         "th": "เพชรพลอย"
       },
       "appId": "114",
-      "GameId": "114",
+      "gameId": "114",
       "category1": "Slots",
       "paylines": "",
       "RTP": "97.50%",
@@ -2048,7 +2048,7 @@
         "th": "นางอัปสร"
       },
       "appId": "39",
-      "GameId": "39",
+      "gameId": "39",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.03%",
@@ -2072,7 +2072,7 @@
         "th": "หงอคงและลูกท้อ"
       },
       "appId": "68",
-      "GameId": "68",
+      "gameId": "68",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.91%",
@@ -2097,7 +2097,7 @@
         "th": "ทาร์ซานป่า"
       },
       "appId": "4",
-      "GameId": "4",
+      "gameId": "4",
       "category1": "Slots",
       "paylines": "40",
       "RTP": "96.01%",
@@ -2123,7 +2123,7 @@
         "th": "หัวใจมังกร"
       },
       "appId": "55",
-      "GameId": "55",
+      "gameId": "55",
       "category1": "Slots",
       "paylines": "5",
       "RTP": "95.99%",
@@ -2148,7 +2148,7 @@
         "th": "ช้างคงกระพัน"
       },
       "appId": "124",
-      "GameId": "124",
+      "gameId": "124",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "96%",
@@ -2172,7 +2172,7 @@
         "th": "หยวนเบา"
       },
       "appId": "23",
-      "GameId": "23",
+      "gameId": "23",
       "category1": "Slots",
       "paylines": "8",
       "RTP": "95.99%",
@@ -2196,7 +2196,7 @@
         "th": "ล้อไฟลม"
       },
       "appId": "19",
-      "GameId": "19",
+      "gameId": "19",
       "category1": "Slots",
       "paylines": "20",
       "RTP": "96.17%",
@@ -2222,7 +2222,7 @@
         "th": "ปิรามิด เรดเดอร์"
       },
       "appId": "112",
-      "GameId": "112",
+      "gameId": "112",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.06%",
@@ -2246,7 +2246,7 @@
         "th": "บ้านขุมทรัพย์"
       },
       "appId": "12",
-      "GameId": "12",
+      "gameId": "12",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "96.05%",
@@ -2272,7 +2272,7 @@
         "th": "เรือมังกร"
       },
       "appId": "149",
-      "GameId": "149",
+      "gameId": "149",
       "category1": "Slots",
       "paylines": "",
       "RTP": "95.98%",
@@ -2296,7 +2296,7 @@
         "th": "777"
       },
       "appId": "26",
-      "GameId": "26",
+      "gameId": "26",
       "category1": "Slots",
       "paylines": "1",
       "RTP": "96.11%",
@@ -2317,7 +2317,7 @@
         "th": "โคมลอย"
       },
       "appId": "146",
-      "GameId": "146",
+      "gameId": "146",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "96.01%",
@@ -2341,7 +2341,7 @@
         "th": "สงครามสุดยอดมนุษย์"
       },
       "appId": "57",
-      "GameId": "57",
+      "gameId": "57",
       "category1": "Slots",
       "paylines": "40",
       "RTP": "95.99%",
@@ -2367,7 +2367,7 @@
         "th": "ฟุตบอล ดาว"
       },
       "appId": "93",
-      "GameId": "93",
+      "gameId": "93",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.09%",
@@ -2392,7 +2392,7 @@
         "th": "1945"
       },
       "appId": "6",
-      "GameId": "6",
+      "gameId": "6",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.14%",
@@ -2413,7 +2413,7 @@
         "th": "เทรเชอร์ ไอส์แลนด์"
       },
       "appId": "81",
-      "GameId": "81",
+      "gameId": "81",
       "category1": "Slots",
       "paylines": "",
       "RTP": "95.98%",
@@ -2439,7 +2439,7 @@
         "th": "สิงโตให้มงคล"
       },
       "appId": "17",
-      "GameId": "17",
+      "gameId": "17",
       "category1": "Slots",
       "paylines": "20",
       "RTP": "96.02%",
@@ -2465,7 +2465,7 @@
         "th": "คิงผลไม้อัพเกร็ท"
       },
       "appId": "44",
-      "GameId": "44",
+      "gameId": "44",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.08%",
@@ -2491,7 +2491,7 @@
         "th": "เหมืองที่บ้าน"
       },
       "appId": "134",
-      "GameId": "134",
+      "gameId": "134",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -2515,7 +2515,7 @@
         "th": "เชอร์ล็อค โฮล์มส์"
       },
       "appId": "42",
-      "GameId": "42",
+      "gameId": "42",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.11%",
@@ -2539,7 +2539,7 @@
         "th": "กระถางมหาสมบัติ แจ็คพ็อต"
       },
       "appId": "1074",
-      "GameId": "1074",
+      "gameId": "1074",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.02%",
@@ -2563,7 +2563,7 @@
         "th": "ผีดิบ"
       },
       "appId": "63",
-      "GameId": "63",
+      "gameId": "63",
       "category1": "Slots",
       "paylines": "10",
       "RTP": "95.95%",
@@ -2589,7 +2589,7 @@
         "th": "ยอดเพชร"
       },
       "appId": "62",
-      "GameId": "62",
+      "gameId": "62",
       "category1": "Slots",
       "paylines": "",
       "RTP": "95.97%",
@@ -2614,7 +2614,7 @@
         "th": "888"
       },
       "appId": "20",
-      "GameId": "20",
+      "gameId": "20",
       "category1": "Slots",
       "paylines": "10",
       "RTP": "95.91%",
@@ -2637,7 +2637,7 @@
         "th": "ธอร์ 2"
       },
       "appId": "182",
-      "GameId": "182",
+      "gameId": "182",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.19%",
@@ -2660,7 +2660,7 @@
         "th": "เกมส์จับคู่ชายทะเล"
       },
       "appId": "104",
-      "GameId": "104",
+      "gameId": "104",
       "category1": "Slots",
       "paylines": "",
       "RTP": "97.50%",
@@ -2684,7 +2684,7 @@
         "th": "อินคาซูม่า"
       },
       "appId": "122",
-      "GameId": "122",
+      "gameId": "122",
       "category1": "Slots",
       "paylines": "",
       "RTP": "95.99%",
@@ -2708,7 +2708,7 @@
         "th": "โฟนิกซ์สีแดง"
       },
       "appId": "77",
-      "GameId": "77",
+      "gameId": "77",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "96.04%",
@@ -2733,7 +2733,7 @@
         "th": "เกมส์นกกางเขนมหาสนุก"
       },
       "appId": "88",
-      "GameId": "88",
+      "gameId": "88",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.03%",
@@ -2757,7 +2757,7 @@
         "th": "โกลด์สตีลเลอร์"
       },
       "appId": "130",
-      "GameId": "130",
+      "gameId": "130",
       "category1": "Slots",
       "paylines": "40",
       "RTP": "96.15%",
@@ -2781,7 +2781,7 @@
         "th": "เกมส์ราชากระทิงนําโชค"
       },
       "appId": "86",
-      "GameId": "86",
+      "gameId": "86",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "96.05%",
@@ -2805,7 +2805,7 @@
         "th": "หล่อทอง"
       },
       "appId": "145",
-      "GameId": "145",
+      "gameId": "145",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.14%",
@@ -2829,7 +2829,7 @@
         "th": "เจ้าของบ้าน รุ่นที่ปรับปรุง"
       },
       "appId": "AR41",
-      "GameId": "AR41",
+      "gameId": "AR41",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "94.00%",
@@ -2850,7 +2850,7 @@
         "th": "กงล้อเพลิง 777"
       },
       "appId": "66",
-      "GameId": "66",
+      "gameId": "66",
       "category1": "Slots",
       "paylines": "20",
       "RTP": "97.02%",
@@ -2875,7 +2875,7 @@
         "th": "คิงไพ่นกกระจอก"
       },
       "appId": "18",
-      "GameId": "18",
+      "gameId": "18",
       "category1": "Slots",
       "paylines": "40",
       "RTP": "96.08%",
@@ -2901,7 +2901,7 @@
         "th": "ฟอร์จูนซอมบี้"
       },
       "appId": "AR39",
-      "GameId": "AR39",
+      "gameId": "AR39",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "94.00%",
@@ -2922,7 +2922,7 @@
         "th": "ไดโนหวั่นเบ๋า"
       },
       "appId": "70",
-      "GameId": "70",
+      "gameId": "70",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "96.07%",
@@ -2946,7 +2946,7 @@
         "th": "เทพหมากรุก"
       },
       "appId": "2",
-      "GameId": "2",
+      "gameId": "2",
       "category1": "Slots",
       "paylines": "9",
       "RTP": "96.26%",
@@ -2972,7 +2972,7 @@
         "th": "ฟุตบอลโลกทีมสตาร์"
       },
       "appId": "98",
-      "GameId": "98",
+      "gameId": "98",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.09%",
@@ -2997,7 +2997,7 @@
         "th": "แววความรัก"
       },
       "appId": "53",
-      "GameId": "53",
+      "gameId": "53",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "96.06%",
@@ -3022,7 +3022,7 @@
         "ch": "齊天大聖"
       },
       "appId": "BU04",
-      "GameId": "BU04",
+      "gameId": "BU04",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.10%",
@@ -3045,7 +3045,7 @@
         "th": "สุขสันต์ละครสัตว์"
       },
       "appId": "51",
-      "GameId": "51",
+      "gameId": "51",
       "category1": "Slots",
       "paylines": "20",
       "RTP": "96.18%",
@@ -3071,7 +3071,7 @@
         "th": "ไก่ทองประกาศข่างดี M"
       },
       "appId": "135",
-      "GameId": "135",
+      "gameId": "135",
       "category1": "Slots",
       "paylines": "15",
       "RTP": "96.13%",
@@ -3095,7 +3095,7 @@
         "th": "แชมป์ลูกดอก"
       },
       "appId": "40",
-      "GameId": "40",
+      "gameId": "40",
       "category1": "Slots",
       "paylines": "60",
       "RTP": "96.12%",
@@ -3121,7 +3121,7 @@
         "th": "ตำนานนักรบ"
       },
       "appId": "30",
-      "GameId": "30",
+      "gameId": "30",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.06%",
@@ -3147,7 +3147,7 @@
         "th": "เกมส์จับคู่เพชรพลอย"
       },
       "appId": "103",
-      "GameId": "103",
+      "gameId": "103",
       "category1": "Slots",
       "paylines": "",
       "RTP": "97.50%",
@@ -3170,7 +3170,7 @@
         "th": "ป่าทั้งหมด"
       },
       "appId": "38",
-      "GameId": "38",
+      "gameId": "38",
       "category1": "Slots",
       "paylines": "40",
       "RTP": "96.03%",
@@ -3196,7 +3196,7 @@
         "th": "มายากล แปรง"
       },
       "appId": "AR01",
-      "GameId": "AR01",
+      "gameId": "AR01",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "94.24%",
@@ -3217,7 +3217,7 @@
         "th": "ห้าผี"
       },
       "appId": "AR11",
-      "GameId": "AR11",
+      "gameId": "AR11",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "94.12%",
@@ -3238,7 +3238,7 @@
         "th": "นาจาคลั่ง"
       },
       "appId": "35",
-      "GameId": "35",
+      "gameId": "35",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.04%",
@@ -3262,7 +3262,7 @@
         "th": "ดาวเคราะห์เหงา"
       },
       "appId": "49",
-      "GameId": "49",
+      "gameId": "49",
       "category1": "Slots",
       "paylines": "Any 5",
       "RTP": "96.17%",
@@ -3288,7 +3288,7 @@
         "th": "เมิ่งหยิวเซียนจิ้ง"
       },
       "appId": "11",
-      "GameId": "11",
+      "gameId": "11",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "96.20%",
@@ -3313,7 +3313,7 @@
         "th": "โชคลาภแมว"
       },
       "appId": "AR02",
-      "GameId": "AR02",
+      "gameId": "AR02",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "94.94%",
@@ -3333,7 +3333,7 @@
         "ch": "瘋狂賺鈔票"
       },
       "appId": "BA203",
-      "GameId": "BA203",
+      "gameId": "BA203",
       "category1": "Slots",
       "paylines": "1",
       "RTP": "96.24%",
@@ -3354,7 +3354,7 @@
         "th": "บัว"
       },
       "appId": "48",
-      "GameId": "48",
+      "gameId": "48",
       "category1": "Slots",
       "paylines": "8",
       "RTP": "96.10%",
@@ -3380,7 +3380,7 @@
         "th": "เหมียว"
       },
       "appId": "132",
-      "GameId": "132",
+      "gameId": "132",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.00%",
@@ -3404,7 +3404,7 @@
         "th": "ไก่ทองประกาศข่างดี 2 M"
       },
       "appId": "129",
-      "GameId": "129",
+      "gameId": "129",
       "category1": "Slots",
       "paylines": "15",
       "RTP": "95.97%",
@@ -3428,7 +3428,7 @@
         "th": "นักสืบคดี"
       },
       "appId": "221",
-      "GameId": "221",
+      "gameId": "221",
       "category1": "Slots",
       "paylines": "40",
       "RTP": "96.00%",
@@ -3451,7 +3451,7 @@
         "th": "เกมส์กล่องนําโชค"
       },
       "appId": "204",
-      "GameId": "204",
+      "gameId": "204",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.17%",
@@ -3474,7 +3474,7 @@
         "th": "เกมส์ปาร์ตี้ผลไม้"
       },
       "appId": "102",
-      "GameId": "102",
+      "gameId": "102",
       "category1": "Slots",
       "paylines": "",
       "RTP": "97.50%",
@@ -3498,7 +3498,7 @@
         "th": "ทองของฟาโรห์"
       },
       "appId": "47",
-      "GameId": "47",
+      "gameId": "47",
       "category1": "Slots",
       "paylines": "9",
       "RTP": "96.17%",
@@ -3524,7 +3524,7 @@
         "th": "ทองสนามหลังบ้าน"
       },
       "appId": "AR03",
-      "GameId": "AR03",
+      "gameId": "AR03",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "96.11%",
@@ -3545,7 +3545,7 @@
         "th": "ตำนานซากุระ"
       },
       "appId": "13",
-      "GameId": "13",
+      "gameId": "13",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.16%",
@@ -3571,7 +3571,7 @@
         "th": "สงครามหนู"
       },
       "appId": "34",
-      "GameId": "34",
+      "gameId": "34",
       "category1": "Slots",
       "paylines": "40",
       "RTP": "96.06%",
@@ -3597,7 +3597,7 @@
         "th": "เกมส์บิงโก"
       },
       "appId": "100",
-      "GameId": "100",
+      "gameId": "100",
       "category1": "Slots",
       "paylines": "",
       "RTP": "97.50%",
@@ -3621,7 +3621,7 @@
         "th": "ซุปเปอร์ฮวา"
       },
       "appId": "45",
-      "GameId": "45",
+      "gameId": "45",
       "category1": "Slots",
       "paylines": "20",
       "RTP": "96.04%",
@@ -3645,7 +3645,7 @@
         "th": "คู่ที่มีความสุข"
       },
       "appId": "AR14",
-      "GameId": "AR14",
+      "gameId": "AR14",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "93.98%",
@@ -3666,7 +3666,7 @@
         "th": "เมจิกเวิลด์"
       },
       "appId": "27",
-      "GameId": "27",
+      "gameId": "27",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -3692,7 +3692,7 @@
         "th": "หมาโชคดี"
       },
       "appId": "AR13",
-      "GameId": "AR13",
+      "gameId": "AR13",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "93.98%",
@@ -3712,7 +3712,7 @@
         "ch": "美女與野獸"
       },
       "appId": "BA202",
-      "GameId": "BA202",
+      "gameId": "BA202",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "96.07%",
@@ -3735,7 +3735,7 @@
         "th": "สวัสดีปีใหม่"
       },
       "appId": "43",
-      "GameId": "43",
+      "gameId": "43",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.07%",
@@ -3759,7 +3759,7 @@
         "th": "นักสืบคดี"
       },
       "appId": "32",
-      "GameId": "32",
+      "gameId": "32",
       "category1": "Slots",
       "paylines": "10",
       "RTP": "96.19%",
@@ -3785,7 +3785,7 @@
         "th": "เกมส์จับคู่ดาว"
       },
       "appId": "101",
-      "GameId": "101",
+      "gameId": "101",
       "category1": "Slots",
       "paylines": "",
       "RTP": "97.50%",
@@ -3808,7 +3808,7 @@
         "ch": "8級颱風"
       },
       "appId": "AR12",
-      "GameId": "AR12",
+      "gameId": "AR12",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "94.24%",
@@ -3829,7 +3829,7 @@
         "th": "พิกกี้ฟาร์ม"
       },
       "appId": "126",
-      "GameId": "126",
+      "gameId": "126",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.04%",
@@ -3853,7 +3853,7 @@
         "th": "ไวลด์ เมจิก"
       },
       "appId": "84",
-      "GameId": "84",
+      "gameId": "84",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "96.09%",
@@ -3878,7 +3878,7 @@
         "th": "โพไซดอน"
       },
       "appId": "80",
-      "GameId": "80",
+      "gameId": "80",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.06%",
@@ -3903,7 +3903,7 @@
         "th": "ประตูมังกร"
       },
       "appId": "AR05",
-      "GameId": "AR05",
+      "gameId": "AR05",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "96.49%",
@@ -3924,7 +3924,7 @@
         "th": "สล็อตโป๊กเกอร์"
       },
       "appId": "25",
-      "GameId": "25",
+      "gameId": "25",
       "category1": "Slots",
       "paylines": "1",
       "RTP": "96.14%",
@@ -3950,7 +3950,7 @@
         "th": "บอลลูนน้ำ"
       },
       "appId": "41",
-      "GameId": "41",
+      "gameId": "41",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.18%",
@@ -3976,7 +3976,7 @@
         "th": "กอริลลาซัมเมอร์"
       },
       "appId": "59",
-      "GameId": "59",
+      "gameId": "59",
       "category1": "Slots",
       "paylines": "40",
       "RTP": "96.09%",
@@ -4001,7 +4001,7 @@
         "th": "หินกลายเป็นทองคำ"
       },
       "appId": "AR08",
-      "GameId": "AR08",
+      "gameId": "AR08",
       "category1": "Slots",
       "paylines": "",
       "RTP": "94.21%",
@@ -4022,7 +4022,7 @@
         "th": "เกมส์พลังงานลุ้นรางวัล"
       },
       "appId": "87",
-      "GameId": "87",
+      "gameId": "87",
       "category1": "Slots",
       "paylines": "5",
       "RTP": "96.15%",
@@ -4044,7 +4044,7 @@
         "ch": "富貴金雞"
       },
       "appId": "AR29",
-      "GameId": "AR29",
+      "gameId": "AR29",
       "category1": "Slots",
       "paylines": "10",
       "RTP": "94.03%",
@@ -4065,7 +4065,7 @@
         "th": "ห้าองค์ประกอบนำโชค"
       },
       "appId": "AR23",
-      "GameId": "AR23",
+      "gameId": "AR23",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "94.94%",
@@ -4086,7 +4086,7 @@
         "th": "Mr. Bean"
       },
       "appId": "61",
-      "GameId": "61",
+      "gameId": "61",
       "category1": "Arcade",
       "paylines": "",
       "RTP": "96.50%",
@@ -4109,7 +4109,7 @@
         "th": "เจ้าของบ้าน"
       },
       "appId": "AR04",
-      "GameId": "AR04",
+      "gameId": "AR04",
       "category1": "Slots",
       "paylines": "",
       "RTP": "94.06%",
@@ -4132,7 +4132,7 @@
         "th": "Won Won Won"
       },
       "appId": "76",
-      "GameId": "76",
+      "gameId": "76",
       "category1": "Slots",
       "paylines": "1",
       "RTP": "97.00%",
@@ -4156,7 +4156,7 @@
         "th": "ฟุตบอล รองเท้าบูท"
       },
       "appId": "95",
-      "GameId": "95",
+      "gameId": "95",
       "category1": "Slots",
       "paylines": "1",
       "RTP": "97.00%",
@@ -4181,7 +4181,7 @@
         "th": "ฟุตบอลโลก สนาม"
       },
       "appId": "97",
-      "GameId": "97",
+      "gameId": "97",
       "category1": "Slots",
       "paylines": "9",
       "RTP": "96.26%",
@@ -4206,7 +4206,7 @@
         "th": "GOLDEN EGGS แจ็คพ็อต"
       },
       "appId": "1067",
-      "GameId": "1067",
+      "gameId": "1067",
       "category1": "Slots",
       "paylines": "Any 5",
       "RTP": "96.17%",
@@ -4229,7 +4229,7 @@
         "th": "ฟุตบอล ทารก"
       },
       "appId": "96",
-      "GameId": "96",
+      "gameId": "96",
       "category1": "Slots",
       "paylines": "9",
       "RTP": "96.26%",
@@ -4255,7 +4255,7 @@
         "th": "โคมไฟดอกบัว"
       },
       "appId": "AR20",
-      "GameId": "AR20",
+      "gameId": "AR20",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "94.03%",
@@ -4276,7 +4276,7 @@
         "th": "สะพานนก"
       },
       "appId": "AR21",
-      "GameId": "AR21",
+      "gameId": "AR21",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "94.03%",
@@ -4297,7 +4297,7 @@
         "th": "เรื่องราวความรัก"
       },
       "appId": "AR15",
-      "GameId": "AR15",
+      "gameId": "AR15",
       "category1": "Slots",
       "paylines": "",
       "RTP": "94.03%",
@@ -4318,7 +4318,7 @@
         "th": "สือเสิน"
       },
       "appId": "28",
-      "GameId": "28",
+      "gameId": "28",
       "category1": "Slots",
       "paylines": "",
       "RTP": "95.96%",
@@ -4344,7 +4344,7 @@
         "th": "ดาวนำโชค"
       },
       "appId": "AR24",
-      "GameId": "AR24",
+      "gameId": "AR24",
       "category1": "Slots",
       "paylines": "",
       "RTP": "94.06%",
@@ -4365,7 +4365,7 @@
         "th": "ฟุตบอล เสื้อยืด"
       },
       "appId": "94",
-      "GameId": "94",
+      "gameId": "94",
       "category1": "Slots",
       "paylines": "1",
       "RTP": "97.00%",
@@ -4390,7 +4390,7 @@
         "th": "คริสต์มาส"
       },
       "appId": "141",
-      "GameId": "141",
+      "gameId": "141",
       "category1": "Slots",
       "paylines": "",
       "RTP": "97.50%",
@@ -4414,7 +4414,7 @@
         "th": "ป่า สมบัติ"
       },
       "appId": "AR06",
-      "GameId": "AR06",
+      "gameId": "AR06",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "94.10%",
@@ -4435,7 +4435,7 @@
         "th": "ฟุตบอลโลก2018"
       },
       "appId": "92",
-      "GameId": "92",
+      "gameId": "92",
       "category1": "Slots",
       "paylines": "9",
       "RTP": "96.26%",
@@ -4461,7 +4461,7 @@
         "th": "รอกระต่าย"
       },
       "appId": "AR16",
-      "GameId": "AR16",
+      "gameId": "AR16",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "94.24%",
@@ -4481,7 +4481,7 @@
         "ch": "廁所囧境"
       },
       "appId": "AU06",
-      "GameId": "AU06",
+      "gameId": "AU06",
       "category1": "Slots",
       "paylines": "3",
       "RTP": "97.02%",
@@ -4504,7 +4504,7 @@
         "th": "ตำนานหมาป่า"
       },
       "appId": "21",
-      "GameId": "21",
+      "gameId": "21",
       "category1": "Slots",
       "paylines": "1",
       "RTP": "96.19%",
@@ -4530,7 +4530,7 @@
         "th": "มายันโกลด์"
       },
       "appId": "AS08",
-      "GameId": "AS08",
+      "gameId": "AS08",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "92.30%",
@@ -4553,7 +4553,7 @@
         "th": "เพื่อนบ้านโชคดี"
       },
       "appId": "AR09",
-      "GameId": "AR09",
+      "gameId": "AR09",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "93.96%",
@@ -4573,7 +4573,7 @@
         "ch": "德州撲克"
       },
       "appId": "BK04",
-      "GameId": "BK04",
+      "gameId": "BK04",
       "category1": "Table",
       "paylines": "",
       "RTP": "95.00%",
@@ -4596,7 +4596,7 @@
         "th": "รองเท้าแห่งโชค"
       },
       "appId": "AS01",
-      "GameId": "AS01",
+      "gameId": "AS01",
       "category1": "Slots",
       "paylines": "20",
       "RTP": "93.30%",
@@ -4619,7 +4619,7 @@
         "th": "มัตสุ"
       },
       "appId": "AR22",
-      "GameId": "AR22",
+      "gameId": "AR22",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "94.06%",
@@ -4640,7 +4640,7 @@
         "th": "ไซอิ๋ว"
       },
       "appId": "22",
-      "GameId": "22",
+      "gameId": "22",
       "category1": "Slots",
       "paylines": "1",
       "RTP": "96.19%",
@@ -4666,7 +4666,7 @@
         "th": "เสี่ยเจ้าของผับ"
       },
       "appId": "36",
-      "GameId": "36",
+      "gameId": "36",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.05%",
@@ -4690,7 +4690,7 @@
         "th": "ละครสัตว์"
       },
       "appId": "AR17",
-      "GameId": "AR17",
+      "gameId": "AR17",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "94.24%",
@@ -4711,7 +4711,7 @@
         "th": "พ่อมด"
       },
       "appId": "14",
-      "GameId": "14",
+      "gameId": "14",
       "category1": "Slots",
       "paylines": "",
       "RTP": "96.09%",
@@ -4737,7 +4737,7 @@
         "th": "ความมั่งคั่งนิรันดร์"
       },
       "appId": "AR18",
-      "GameId": "AR18",
+      "gameId": "AR18",
       "category1": "Slots",
       "paylines": "",
       "RTP": "94.13%",
@@ -4758,7 +4758,7 @@
         "th": "เทพเจ้าแปดองค์"
       },
       "appId": "AR25",
-      "GameId": "AR25",
+      "gameId": "AR25",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "94.06%",
@@ -4779,7 +4779,7 @@
         "th": "ราศี"
       },
       "appId": "AR26",
-      "GameId": "AR26",
+      "gameId": "AR26",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "94.94%",
@@ -4800,7 +4800,7 @@
         "th": "กังฟูเมจิกน้อย"
       },
       "appId": "AR07",
-      "GameId": "AR07",
+      "gameId": "AR07",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "94.15%",
@@ -4821,7 +4821,7 @@
         "th": "วิญญาณแห่งโชคลาภ"
       },
       "appId": "AS04",
-      "GameId": "AS04",
+      "gameId": "AS04",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "92.30%",
@@ -4844,7 +4844,7 @@
         "th": "หมูผู้โชคดี"
       },
       "appId": "AS33",
-      "GameId": "AS33",
+      "gameId": "AS33",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "96.00%",
@@ -4866,7 +4866,7 @@
         "ch": "龍虎鬥"
       },
       "appId": "BK05",
-      "GameId": "BK05",
+      "gameId": "BK05",
       "category1": "Table",
       "paylines": "",
       "RTP": "96.00%",
@@ -4888,7 +4888,7 @@
         "ch": "火燒辦公處"
       },
       "appId": "AU03",
-      "GameId": "AU03",
+      "gameId": "AU03",
       "category1": "Slots",
       "paylines": "9",
       "RTP": "96.80%",
@@ -4911,7 +4911,7 @@
         "th": "นักล่ามังกร"
       },
       "appId": "AS03",
-      "GameId": "AS03",
+      "gameId": "AS03",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "93.00%",
@@ -4933,7 +4933,7 @@
         "ch": "喪屍大餐"
       },
       "appId": "AU02",
-      "GameId": "AU02",
+      "gameId": "AU02",
       "category1": "Slots",
       "paylines": "20",
       "RTP": "96.34%",
@@ -4956,7 +4956,7 @@
         "th": "แมวหิว"
       },
       "appId": "AR28",
-      "GameId": "AR28",
+      "gameId": "AR28",
       "category1": "Slots",
       "paylines": "50",
       "RTP": "93.96%",
@@ -4977,7 +4977,7 @@
         "th": "สมบัติของ Seti"
       },
       "appId": "AS17",
-      "GameId": "AS17",
+      "gameId": "AS17",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "94.90%",
@@ -5000,7 +5000,7 @@
         "th": "ตำนานนำโชค"
       },
       "appId": "AR37",
-      "GameId": "AR37",
+      "gameId": "AR37",
       "category1": "Slots",
       "paylines": "10",
       "RTP": "94.00%",
@@ -5023,7 +5023,7 @@
         "th": "นำโชค 3"
       },
       "appId": "AS10",
-      "GameId": "AS10",
+      "gameId": "AS10",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "89.30%",
@@ -5045,7 +5045,7 @@
         "ch": "喵喵"
       },
       "appId": "AU01",
-      "GameId": "AU01",
+      "gameId": "AU01",
       "category1": "Slots",
       "paylines": "1",
       "RTP": "96.30%",
@@ -5068,7 +5068,7 @@
         "th": "ช็อกโกแลตป่า"
       },
       "appId": "AS18",
-      "GameId": "AS18",
+      "gameId": "AS18",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "94.10%",
@@ -5091,7 +5091,7 @@
         "th": "โกลเด้นฟุตบอล"
       },
       "appId": "65",
-      "GameId": "65",
+      "gameId": "65",
       "category1": "Arcade",
       "paylines": "",
       "RTP": "96.18%",
@@ -5117,7 +5117,7 @@
         "th": "คณะละครสัตว์บ้า"
       },
       "appId": "AS02",
-      "GameId": "AS02",
+      "gameId": "AS02",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "93.90%",
@@ -5140,7 +5140,7 @@
         "th": "ช็อกโกแลตป่า"
       },
       "appId": "AS19",
-      "GameId": "AS19",
+      "gameId": "AS19",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "89.30%",
@@ -5163,7 +5163,7 @@
         "th": "ราชินีแห่งความตาย"
       },
       "appId": "AS20",
-      "GameId": "AS20",
+      "gameId": "AS20",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "89.30%",
@@ -5185,7 +5185,7 @@
         "ch": "異外來客"
       },
       "appId": "AU05",
-      "GameId": "AU05",
+      "gameId": "AU05",
       "category1": "Slots",
       "paylines": "1",
       "RTP": "96.41%",
@@ -5208,7 +5208,7 @@
         "th": "สัตว์เลี้ยงของ Holywood"
       },
       "appId": "AS09",
-      "GameId": "AS09",
+      "gameId": "AS09",
       "category1": "Slots",
       "paylines": "25",
       "RTP": "93%",
@@ -5230,7 +5230,7 @@
         "ch": "上海再次旋轉"
       },
       "appId": "AKshanghairespins",
-      "GameId": "AKshanghairespins",
+      "gameId": "AKshanghairespins",
       "category1": "Slots",
       "paylines": "30",
       "RTP": "94.66%",
@@ -5252,7 +5252,7 @@
         "ch": "搶庄牛牛"
       },
       "appId": "BK01",
-      "GameId": "BK01",
+      "gameId": "BK01",
       "category1": "Table",
       "paylines": "",
       "RTP": "96.06%",
@@ -5274,7 +5274,7 @@
         "ch": "二人麻將"
       },
       "appId": "AD11",
-      "GameId": "AD11",
+      "gameId": "AD11",
       "category1": "Table",
       "paylines": "",
       "RTP": "97.50%",
@@ -5296,7 +5296,7 @@
         "ch": "二八杠"
       },
       "appId": "BK03",
-      "GameId": "BK03",
+      "gameId": "BK03",
       "category1": "Table",
       "paylines": "",
       "RTP": "96.05%",
@@ -5318,7 +5318,7 @@
         "ch": "三公"
       },
       "appId": "BK02",
-      "GameId": "BK02",
+      "gameId": "BK02",
       "category1": "Table",
       "paylines": "",
       "RTP": "96.05%",
@@ -5340,7 +5340,7 @@
         "ch": "四川麻將"
       },
       "appId": "AD09",
-      "GameId": "AD09",
+      "gameId": "AD09",
       "category1": "Table",
       "paylines": "",
       "RTP": "97.50%",
