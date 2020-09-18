@@ -142,12 +142,12 @@ namespace MemberSite.Service.BLL
                     dlockedAmount = (lockedAmount / 1000).ToString("#,##0 (`000)");
                 }
 
-                apiResult1.Message = string.Format(selLangBLL.GetResourceValue("msg_LockedAmountInsufficient"), dlockedAmount);
+                apiResult1.Message = string.Format(selLangBLL.GetMsg("msg_LockedAmountInsufficient"), dlockedAmount);
             }
             else if (result == -3)
             {
                 apiResult1.ErrorCode = -3;
-                apiResult1.Message = selLangBLL.GetResourceValue("msg_Ineligible");
+                apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible");
             }
             return apiResult1;
         }
