@@ -3,33 +3,6 @@
   "data": [
     {
       "name": {
-        "en": "John Hunter and the Book of Tut",
-        "cs": "约翰·亨特之图特书",
-        "ch": "約翰·亨特之圖特書",
-        "id": "John Hunter dan Harta Karun Aztec",
-        "th": "จอห์น ฮันเตอร์ กับขุมทรัพย์แห่งแอซเท็ค",
-        "vn": "John Hunter và Kho Báu Aztec"
-      },
-      "appId": "vs10bookoftut",
-      "gameId": "vs10bookoftut",
-      "category1": "Slots",
-      "Reels": "5",
-      "paylines": "10",
-      "RTP": "96.50%",
-      "imgName": {
-        "en": "John-Hunter-and-the-Book-of-Tut-EN.jpg",
-        "cs": "John-Hunter-and-the-Book-of-Tut-CS.jpg",
-        "ch": "John-Hunter-and-the-Book-of-Tut-CS.jpg"
-      },
-      "launchDate": "2020/04/28",
-      "hot": false,
-      "new": true,
-      "imageExist": true,
-      "promotion": 0,
-      "disabled": 1
-    },
-    {
-      "name": {
         "en": "Three Star Fortune",
         "cs": "三星报喜",
         "ch": "三星報喜",
@@ -1435,33 +1408,6 @@
     },
     {
       "name": {
-        "en": "Peking Luck",
-        "cs": "好运北京",
-        "ch": "好運北京",
-        "id": "Tuah Peking",
-        "th": "ปักกิ่งมหาโชค",
-        "vn": "Vận may Bắc Kinh"
-      },
-      "appId": "vs25peking",
-      "gameId": "vs25peking",
-      "category1": "Slots",
-      "Reels": "5",
-      "paylines": "25",
-      "RTP": "96.50%",
-      "imgName": {
-        "en": "Peking-Luck-EN.jpg",
-        "cs": "Peking-Luck-CS.jpg",
-        "ch": "Peking-Luck-CS.jpg"
-      },
-      "launchDate": "2018/08/02",
-      "hot": false,
-      "new": false,
-      "imageExist": true,
-      "promotion": 0,
-      "disabled": 1
-    },
-    {
-      "name": {
         "en": "Leprechaun Song",
         "cs": "小妖之歌",
         "ch": "小妖之歌",
@@ -1485,33 +1431,6 @@
       "new": false,
       "imageExist": true,
       "promotion": 0
-    },
-    {
-      "name": {
-        "en": "Jade Butterfly",
-        "cs": "玉蝴蝶",
-        "ch": "玉蝴蝶",
-        "id": "Kupu-Kupu Jed",
-        "th": "ผีเสื้อหยก",
-        "vn": "Bướm ngọc"
-      },
-      "appId": "vs1024butterfly",
-      "gameId": "vs1024butterfly",
-      "category1": "Slots",
-      "Reels": "5",
-      "paylines": "1024",
-      "RTP": "96.47%",
-      "imgName": {
-        "en": "Jade-Butterfly-EN.jpg",
-        "cs": "Jade-Butterfly-CS.jpg",
-        "ch": "Jade-Butterfly-CS.jpg"
-      },
-      "launchDate": "2018/07/02",
-      "hot": false,
-      "new": false,
-      "imageExist": true,
-      "promotion": 0,
-      "disabled": 1
     },
     {
       "name": {
@@ -3113,57 +3032,6 @@
     },
     {
       "name": {
-        "en": "Keno",
-        "cs": "基诺",
-        "ch": "基諾",
-        "id": "Keno",
-        "th": "คีโน",
-        "vn": "Keno"
-      },
-      "appId": "kna",
-      "gameId": "kna",
-      "category1": "Others Game",
-      "Reels": "",
-      "paylines": "--",
-      "RTP": "94.01%",
-      "imgName": {
-        "en": "Keno-EN.jpg",
-        "cs": "Keno-CS.jpg",
-        "ch": "Keno-CS.jpg"
-      },
-      "launchDate": "2016/01/08",
-      "hot": false,
-      "new": false,
-      "imageExist": true,
-      "promotion": 0,
-      "disabled": 1
-    },
-    {
-      "name": {
-        "en": "Jacks or Better",
-        "cs": "杰克扑克",
-        "ch": "杰克撲克",
-        "id": "Jack atau Lebih Baik",
-        "th": "แจ็คหรือดีกว่า",
-        "vn": "Lá J hay Tốt hơn"
-      },
-      "appId": "vpa",
-      "gameId": "vpa",
-      "category1": "Table",
-      "Reels": "",
-      "paylines": "--",
-      "RTP": "97.63%",
-      "imgName": {
-        "en": "Jacks-or-Better-EN.jpg"
-      },
-      "launchDate": "2016/01/08",
-      "hot": false,
-      "new": false,
-      "imageExist": true,
-      "promotion": 0
-    },
-    {
-      "name": {
         "en": "Great Reef",
         "cs": "大堡礁",
         "ch": "大堡礁",
@@ -3459,72 +3327,7 @@
       "new": false,
       "imageExist": true,
       "promotion": 0
-    },
-    {
-      "name": {
-        "en": "Wolf Gold 1 Million",
-        "cs": "Wolf Gold 1 Million",
-        "ch": "Wolf Gold 1 Million",
-        "id": "Wolf Gold 1 Million",
-        "th": "Wolf Gold 1 Million",
-        "vn": "Wolf Gold 1 Million"
-      },
-      "appId": "scwolfgold",
-      "gameId": "scwolfgold",
-      "category1": "ScratchCard",
-      "Reels": "",
-      "paylines": "",
-      "RTP": "",
-      "imgName": {
-        "en": "Wolf-Gold-1-Million-EN.jpg"
-      },
-      "launchDate": "",
-      "hot": false,
-      "new": false,
-      "imageExist": true,
-      "promotion": 0,
-      "disabled": 1
-    },
-    {
-      "name": {
-        "en": "Queen of Gold 100,000"
-      },
-      "appId": "scqog",
-      "gameId": "scqog",
-      "category1": "ScratchCard",
-      "Reels": "",
-      "paylines": "",
-      "RTP": "",
-      "imgName": {
-        "en": "Queen-of-Gold-100000-EN.jpg"
-      },
-      "launchDate": "",
-      "hot": false,
-      "new": false,
-      "imageExist": true,
-      "promotion": 0,
-      "disabled": 1
-    },
-    {
-      "name": {
-        "en": "Diamond Strike 100,000"
-      },
-      "appId": "scdiamond",
-      "gameId": "scdiamond",
-      "category1": "ScratchCard",
-      "Reels": "",
-      "paylines": "",
-      "RTP": "",
-      "imgName": {
-        "en": "Diamond-Strike-100000-EN.jpg"
-      },
-      "launchDate": "",
-      "hot": false,
-      "new": false,
-      "imageExist": true,
-      "promotion": 0,
-      "disabled": 1
-    },
+    }, 
     {
       "name": {
         "en": "Fruit Party",
