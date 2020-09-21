@@ -109,28 +109,6 @@
     },
     {
       "name": {
-        "en": "Beauty and the Beast",
-        "cs": "美女与野兽",
-        "ch": "美女與野獸"
-      },
-      "appId": "7333",
-      "gameId": "7333",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "20",
-      "RTP": "96.3-97.1%",
-      "imgName": {
-        "en": "Beauty-and-the-Beast-EN.jpg"
-      },
-      "launchDate": "2017/02/23",
-      "hot": false,
-      "new": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "disabled": 1
-    },
-    {
-      "name": {
         "en": "Bicicleta",
         "cs": "足球决赛",
         "ch": "足球決賽"
@@ -492,28 +470,6 @@
       "new": false,
       "imageExist": true,
       "Isfun": 0
-    },
-    {
-      "name": {
-        "en": "Golden Chip Roulette",
-        "cs": "黄金轮盘",
-        "ch": "黃金輪盤"
-      },
-      "appId": "22001",
-      "gameId": "22001",
-      "category1": "Table",
-      "Reels": "",
-      "paylines": "European Roulette Table Game",
-      "RTP": "With Regular chips is 97.3%.\nWith Golden chips is 96.8%.",
-      "imgName": {
-        "en": "Golden-Chip-Roulette-EN.jpg"
-      },
-      "launchDate": "2019/09/30",
-      "hot": false,
-      "new": false,
-      "imageExist": true,
-      "Isfun": 0,
-      "disabled": 1
     },
     {
       "name": {

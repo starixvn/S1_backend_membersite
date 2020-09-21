@@ -426,6 +426,12 @@ namespace MemberSite.Service.BLL
         {
             commonBLL.SendResetPwdMail(custId, resetPasswordUrl);
         }
+
+        public async Task<ApiResult> ForgetPwd1Async(int custId, string resetPasswordUrl)
+        {
+            ApiResult result = await commonBLL.SendResetPwdMailAsync(custId, resetPasswordUrl);
+            return result;
+        }
         public async Task<ApiResult> SendVerifySMSAsync(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
