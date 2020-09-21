@@ -1,11 +1,12 @@
 {
   "Promotion": [
+
     {
       "tpid": "1",
       "gameid": "1",
       "urlWithLang": true,
       "actionLink": "Sports/Index",
-      "img": "Banner-EPL.png",
+      "img": "Banner-Opening.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     }
