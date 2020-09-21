@@ -272,10 +272,16 @@ namespace MemberSite.Controllers.Api
                 string transId = "";
 
                 result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out afterAmount, out transId);
+
                 if (result == 0 || result == 2)
                 {
                     apiResult.ErrorCode = result;
                     apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalSuccessful");
+                }
+                else if (result == -1)
+                {
+                    apiResult.ErrorCode = 9000;
+                    apiResult.Message = selLangBLL.GetMsg("msg_MustInteger");
                 }
                 else
                 {
