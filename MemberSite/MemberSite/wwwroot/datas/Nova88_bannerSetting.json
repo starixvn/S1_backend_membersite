@@ -1,23 +1,6 @@
 {
   "Promotion": [
     {
-      "actionLink": "https://www.facebook.com/Nova88.ent",
-      "outerLink": true,
-      "img": "banner-dj.png",
-      "currencyId": [ 2 ],
-      "lang": [ "th", "id", "en", "cs" ],
-      "hideInHome": false
-    },
-    {
-      "actionLink": "Promotion/Bonus?BonusCode=RegisterWiniPhone",
-      "isBonus": true,
-      "urlWithLang": true,
-      "img": "banner-RegisterWiniPhone.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ],
-      "refId": [ "nova88c" ]
-    },
-    {
       "actionLink": "Promotion/Bonus?BonusCode=WINEXTRA10ON4MAJORLEAGUE",
       "isBonus": true,
       "urlWithLang": true,
