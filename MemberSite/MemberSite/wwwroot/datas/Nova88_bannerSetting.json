@@ -117,10 +117,10 @@
     {
       "tpId": 18,
       "gameId": 18,
-      "img": "banner-Ebe.jpg",
+      "img": "banner-Ebet.jpg",
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ]
-    },
+    }
   ],
   "Casino": [
     {
