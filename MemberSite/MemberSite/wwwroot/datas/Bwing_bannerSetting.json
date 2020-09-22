@@ -10,24 +10,7 @@
       "gameId": 43,
       "img": "banner-Esport.jpg"
     },
-    {
-      "tpid": "1",
-      "gameid": "1",
-      "urlWithLang": true,
-      "actionLink": "Sports/Index",
-      "img": "Match1.jpg",
-      "currencyId": [ 51 ],
-      "lang": [ "vn", "en" ]
-    },
-    {
-      "tpid": "1",
-      "gameid": "1",
-      "urlWithLang": true,
-      "actionLink": "Sports/Index",
-      "img": "Match2.jpg",
-      "currencyId": [ 51 ],
-      "lang": [ "vn", "en" ]
-    },
+
     {
       "actionLink": "LiveCasino/index",
       "urlWithLang": true,

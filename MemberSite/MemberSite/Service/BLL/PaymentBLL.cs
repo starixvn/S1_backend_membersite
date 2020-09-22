@@ -209,6 +209,16 @@ namespace MemberSite.Service.BLL
 
             WithdrawalInfo withdrawalInfo = new WithdrawalInfo();
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            decimal checkAmount = amount;
+            if (custInfoBLL.IsConvertRequired(CustInfo.CurrencyId))
+            {
+                checkAmount /= 1000;
+            }
+
+            if(Math.Ceiling(checkAmount) != Math.Floor(checkAmount))
+            {
+                return -1;
+            }
 
             withdrawalInfo.AccountName = accountName;
             withdrawalInfo.AccountNo = accountNo;

@@ -291,4 +291,7 @@
   <data name="msg_Ineligible" xml:space="preserve">
     <value>You are not eligible for this promotion. Please contact our support for more details.</value>
   </data>
+  <data name="msg_MustInteger" xml:space="preserve">
+    <value>Kindly fill in the complete figure, decimal digit are not allowed.</value>
+  </data>
 </root>
