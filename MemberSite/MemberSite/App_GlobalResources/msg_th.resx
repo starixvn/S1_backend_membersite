@@ -278,4 +278,10 @@
   <data name="msg_LockedAmountInsufficient" xml:space="preserve">
     <value>ยอดเงินกระเป๋าเงินหลักไม่ควรต่ำกว่า {0}</value>
   </data>
+  <data name="msg_Ineligible" xml:space="preserve">
+    <value>สมาชิกไม่มีสิทธิ์รับโปรโมชั่นนี้ สามารถติดต่อแชทสดสำหรับรายละเอียดเพิ่มเติมค่ะ</value>
+  </data>
+  <data name="msg_MustInteger" xml:space="preserve">
+    <value>กรุณากรอกตัวเลขให้ครบถ้วน ไม่อนุญาตให้ใช้เลขหลักทศนิยม</value>
+  </data>
 </root>

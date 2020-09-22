@@ -274,4 +274,10 @@
   <data name="msg_LockedAmountInsufficient" xml:space="preserve">
     <value>Saldo dompet utama tidak boleh lebih rendah dari {0}</value>
   </data>
+  <data name="msg_Ineligible" xml:space="preserve">
+    <value>Anda tidak memenuhi syarat untuk promosi ini. Silakan hubungi Layanan Bantuan kami untuk lebih jelasnya.</value>
+  </data>
+  <data name="msg_MustInteger" xml:space="preserve">
+    <value>Mohon isi angka dengan lengkap, angka desimal tidak diperbolehkan</value>
+  </data>
 </root>

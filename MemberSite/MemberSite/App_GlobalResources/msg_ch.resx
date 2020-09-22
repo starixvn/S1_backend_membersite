@@ -196,8 +196,7 @@
     <value>餘額不足！申請提款失敗。</value>
   </data>
   <data name="msg_WithdrawalFailed" xml:space="preserve">
-    <value>申請提款失敗。請聯繫客服了解詳情。
-</value>
+    <value>申請提款失敗。請聯繫客服了解詳情。</value>
   </data>
   <data name="msg_WithdrawalSuccessful" xml:space="preserve">
     <value>申請提款成功。核准後會立即通知。</value>
@@ -273,5 +272,11 @@
   </data>
   <data name="msg_LockedAmountInsufficient" xml:space="preserve">
     <value>中心錢包餘額不可少於 {0}</value>
+  </data>
+  <data name="msg_Ineligible" xml:space="preserve">
+    <value>您不符合領取此優惠，請聯繫客服以了解詳情。</value>
+  </data>
+  <data name="msg_MustInteger" xml:space="preserve">
+    <value>請填入整數金額，不可填入小數</value>
   </data>
 </root>

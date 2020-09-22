@@ -272,10 +272,16 @@ namespace MemberSite.Controllers.Api
                 string transId = "";
 
                 result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out afterAmount, out transId);
+
                 if (result == 0 || result == 2)
                 {
                     apiResult.ErrorCode = result;
                     apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalSuccessful");
+                }
+                else if (result == -1)
+                {
+                    apiResult.ErrorCode = 9000;
+                    apiResult.Message = selLangBLL.GetMsg("msg_MustInteger");
                 }
                 else
                 {
@@ -577,6 +583,35 @@ namespace MemberSite.Controllers.Api
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;
             apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        public class BounsLogReq
+        {
+            public long StartDate { get; set; }
+            public long EndDate { get; set; }
+            public int PageNumber { get; set; }
+            public int PromoCategoryId { get; set; }
+        }
+        public ApiResult GetBounsLogStatement(BounsLogReq bounsLogReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiListResult<BounsLogStatement>();
+            int pageNumber = bounsLogReq.PageNumber;
+            int totalPages;
+            int rowCount;
+            apiResult.Data = paymentBLL.GetBounsLogStatement(authData.CustId, bounsLogReq.PromoCategoryId, bounsLogReq.StartDate, bounsLogReq.EndDate, ref pageNumber, out totalPages, out rowCount);
+            apiResult.PageNumber = pageNumber;
+            apiResult.TotalPages = totalPages;
+            apiResult.RowCount = rowCount;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+        public ApiResult<IEnumerable<PromotionCategory>> GetPromotionCategory()
+        {
+
+            var apiResult = new ApiResult<IEnumerable<PromotionCategory>>();
+            apiResult.Data = paymentBLL.GetPromotionCategory();
             return apiResult;
         }
 

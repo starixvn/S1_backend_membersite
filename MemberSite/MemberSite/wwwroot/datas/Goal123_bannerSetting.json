@@ -1,11 +1,12 @@
 {
   "Promotion": [
+
     {
       "tpid": "1",
       "gameid": "1",
       "urlWithLang": true,
       "actionLink": "Sports/Index",
-      "img": "Banner-EPL.png",
+      "img": "Banner-Opening.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     }
@@ -21,26 +22,26 @@
   "Sports": [
     {
       "tpid": "1",
-      "matchid": "38235221",
+      "matchid": "38458374",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-38235221.jpg",
+      "img": "games-38458374.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpid": "1",
-      "matchid": "38235225",
+      "matchid": "38458378",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-38235225.jpg",
+      "img": "games-38458378.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpid": "1",
-      "matchid": "38235226",
+      "matchid": "38458375",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-38235226.jpg",
+      "img": "games-38458375.jpg",
       "lang": [ "en", "vn" ]
     }
   ]

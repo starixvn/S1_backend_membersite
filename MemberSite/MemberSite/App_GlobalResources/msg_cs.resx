@@ -271,4 +271,10 @@
   <data name="msg_LockedAmountInsufficient" xml:space="preserve">
     <value>中心钱包余额不可少于 {0}</value>
   </data>
+  <data name="msg_Ineligible" xml:space="preserve">
+    <value>您不符合领取此优惠，请联系客服以了解详情。</value>
+  </data>
+  <data name="msg_MustInteger" xml:space="preserve">
+    <value>请填入整数金额，不可填入小数</value>
+  </data>
 </root>

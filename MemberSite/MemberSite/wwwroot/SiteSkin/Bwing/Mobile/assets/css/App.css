@@ -195,8 +195,8 @@ body {
 
 .icon-noti {
   background: url("../images/img-sprite.png") no-repeat 0 0;
-  width: 39px;
-  height: 39px;
+  width: 20px;
+  height: 20px; /*9/18*/
 }
 
 .icon-deposit {
@@ -948,8 +948,8 @@ body {
   flex: 0 1 auto;
   align-items: center;
   color: #fff;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: .8rem;
+  margin-bottom: .8rem; /*9/18*/
   font-size: 1.8rem;
   font-weight: 200;
   line-height: 1.5;
@@ -958,6 +958,7 @@ body {
 .notification .icon {
   margin-right: 20px;
   flex: 0 0 auto;
+  background-size: 1150%;
 }
 
 /*------------------- Quick link ----------------------*/
