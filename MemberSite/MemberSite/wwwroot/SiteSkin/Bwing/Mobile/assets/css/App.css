@@ -195,8 +195,8 @@ body {
 
 .icon-noti {
   background: url("../images/img-sprite.png") no-repeat 0 0;
-  width: 20px;
-  height: 20px; /*9/18*/
+  width: 18px;
+  height: 18px; /*9/22*/
 }
 
 .icon-deposit {
@@ -862,7 +862,20 @@ body {
 
 .slick-prev,
 .slick-next {
-  display: none !important;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  width: 40px;
+  height: 40px;
+}
+.slick-prev{
+  left: 0;
+}
+.slick-next{
+  right: 0;  
+}
+.slick-prev:before,.slick-next:before{
+  opacity: 1;
 }
 
 .slick-dots {
@@ -948,8 +961,8 @@ body {
   flex: 0 1 auto;
   align-items: center;
   color: #fff;
-  margin-top: .8rem;
-  margin-bottom: .8rem; /*9/18*/
+  margin-top: .4rem;
+  margin-bottom: .4rem; /*9/18*/
   font-size: 1.8rem;
   font-weight: 200;
   line-height: 1.5;

@@ -239,11 +239,16 @@
     <script src="~/SiteSkin/Bwing/Mobile/js/lib/slick.min.js"></script>
     <script src="~/SiteSkin/Bwing/Mobile/js/page.js" asp-append-version="true"></script>
     <script type="text/javascript">
-        $(".home-slider").slick({ dots: true });
+        $(".home-slider").slick({
+            dots: true,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            arrows: true,
+        });
         @if (ViewContext.RouteData.Values["action"].ToString().Equals("Register", StringComparison.OrdinalIgnoreCase))
         {
-        @:var registerForm = $('[data-remodal-id=modal-register]').remodal({ "hashTracking": false });
-        @:registerForm.open();
+            @:var registerForm = $('[data-remodal-id=modal-register]').remodal({ "hashTracking": false });
+            @:registerForm.open();
         }
 
         $("#toggle-LiveSupport").click(function () {
