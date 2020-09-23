@@ -21,13 +21,6 @@
       "hideInHome": true
     },
     {
-      "tpId": 15,
-      "gameId": 15,
-      "img": "banner-ae.jpg",
-      "lang": [ "th", "id", "en", "cs" ],
-      "hideInHome": true
-    },
-    {
       "tpId": 1,
       "gameId": 223,
       "img": "banner-indo4d.jpg",
@@ -119,7 +112,14 @@
       "gameId": 101,
       "img": "banner-PP-Roulette-Experience.jpg",
       "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "tpId": 18,
+      "gameId": 18,
+      "img": "banner-Ebet.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
     }
   ],
   "Casino": [
