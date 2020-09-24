@@ -261,7 +261,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
     <value>Mã xác nhận đã được gửi đến số điện thoại đăng ký. Vui lòng nhập mã.</value>
   </data>
   <data name="msg_Ineligible" xml:space="preserve">
-    <value>Bạn không đủ điều kiện nhận khuyến mãi này. Xin vui lòng liên hệ CSKH để biết thêm chi tiết.</value>
+    <value>Tài khoản của bạn chưa may mắn trong ngày hôm nay, xin vui lòng thử lại vào ngày hôm sau.</value>
   </data>
   <data name="msg_MustInteger" xml:space="preserve">
     <value>Vui lòng điền đủ các ký tự, các chữ số thập phân không hợp lệ</value>

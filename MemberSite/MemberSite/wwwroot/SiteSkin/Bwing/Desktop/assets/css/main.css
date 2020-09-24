@@ -49,7 +49,14 @@
   src: local("Myriad Pro Bold"),
     url("../fonts/MYRIADPRO-BOLD.woff") format("woff");
 }
+@font-face {
+  font-family: 'slick';
+  font-weight: normal;
+  font-style: normal;
 
+  src: url('../fonts/slick.eot');
+  src: url('../fonts/slick.eot?#iefix') format('embedded-opentype'), url('../fonts/slick.woff') format('woff'), url('../fonts/slick.ttf') format('truetype'), url('../fonts/slick.svg#slick') format('svg');
+}
 *,
 *:before,
 *:after {
@@ -287,8 +294,8 @@ a {
 
 .icon-noti {
   background: url("../../images/img-sprite.png") no-repeat 0 0;
-  width: 32px;
-  height: 32px;/*9/18*/
+  width: 24px;
+  height: 24px;/*9/22*/
 }
 
 .icon-deposit {
@@ -1081,9 +1088,27 @@ a {
 
 .slick-prev,
 .slick-next {
-  display: none !important;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 15px 10px 10px;
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
 }
-
+.slick-prev{
+  left: 0;
+}
+.slick-next{
+  right: 0;  
+}
+.slick-prev:before,.slick-next:before{
+  opacity: 1;
+  font-family: 'slick';
+  font-size: 36px;
+}
+.slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus{
+  background: rgba(0, 0, 0, 1);
+}
 .slick-dots {
   bottom: 2rem;
 }
@@ -1145,8 +1170,8 @@ a {
   display: flex;
   flex: 0 1 auto;
   color: #fff;
-  margin-top: 1rem;
-  margin-bottom: 1rem; /*9/18*/
+  margin-top: .4rem;
+  margin-bottom: .4rem; /*9/22*/
   font-size: 2rem;
   font-weight: 200;
   line-height: 1.5;
@@ -1156,9 +1181,9 @@ a {
 .notification .icon {
   flex: 0 0 auto;
   margin-right: 1.5rem;
-  flex-basis: 3rem;
-  max-width: 3rem;
-  background-size: 1200%; /*9/18*/
+  flex-basis: 2.5rem;
+  max-width: 2.5rem;
+  background-size: 11500%; /*9/22*/
 }
 
 /*------------------- Quick link ----------------------*/
@@ -3450,7 +3475,7 @@ body{
   margin-left: -683px; */
   left: 0;
   margin: 0;
-  whith:100%; 
+  width:100%; 
 }
 h3.schedule-txt{
   text-align: left;
