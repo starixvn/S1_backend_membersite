@@ -433,5 +433,28 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+
+
+        [HttpPost]
+        public async Task<ApiResult<SendOTPSMSResult>> SendOTPSMSAsync()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = await commonBLL.SendOTPSMSAsync(authData.CustId);
+
+            return apiResult;
+        }
+        public class VerifyOTPReq
+        {
+            public string inputOTPcode { set; get; }
+        }
+
+        [HttpPost]
+        public async Task<ApiResult> VerifyOTPAsync(VerifyOTPReq verifyOTPReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = await commonBLL.VerifyOTPAsync(authData.CustId, verifyOTPReq.inputOTPcode);
+
+            return apiResult;
+        }
     }
 }
