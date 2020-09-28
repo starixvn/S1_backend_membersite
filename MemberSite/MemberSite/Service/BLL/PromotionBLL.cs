@@ -154,9 +154,13 @@ namespace MemberSite.Service.BLL
         public bool GetCanJoin(int custId, string bonusCode)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            return promotionService.GetCanJoin(custId, custInfo.SiteId, bonusCode, custInfo.CurrencyId);
+            return promotionService.GetCanJoin(custId, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out int _, out string _, out decimal _);
         }
-
+        public bool GetCanJoin(int custId, string bonusCode, out int result, out string depositId, out decimal dpositAmount)
+        {
+            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            return promotionService.GetCanJoin(custId, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out result, out depositId, out dpositAmount);
+        }
         public Promotion GetPromotion(int siteId, string bonusCode, int currencyId)
         {
             string key = $"Promotion_{bonusCode}_{currencyId}_{siteId}";
@@ -179,7 +183,6 @@ namespace MemberSite.Service.BLL
         {
             return promotionService.GetPromotionListv2(SiteId, CustId, CurrencyId, IsLogin, langId, defLang);
         }
-
         public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode)
         {
             return promotionService.GetPromotionDetail(SiteId, CustId, CurrencyId, IsLogin, langId, defLang, BonusCode);
