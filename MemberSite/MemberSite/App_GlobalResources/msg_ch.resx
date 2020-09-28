@@ -279,4 +279,7 @@
   <data name="msg_MustInteger" xml:space="preserve">
     <value>請填入整數金額，不可填入小數</value>
   </data>
+  <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
+    <value>最低存款{0}可以享受優惠</value>
+  </data>
 </root>

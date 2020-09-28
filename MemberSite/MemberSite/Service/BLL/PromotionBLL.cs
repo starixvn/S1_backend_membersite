@@ -136,19 +136,31 @@ namespace MemberSite.Service.BLL
             else if (result == -2)
             {
                 apiResult1.ErrorCode = -2;
-                var dlockedAmount = lockedAmount.ToString("#,##0");
+                var dRequiredAmount = lockedAmount.ToString("#,##0");
                 if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
                 {
-                    dlockedAmount = (lockedAmount / 1000).ToString("#,##0 (`000)");
+                    dRequiredAmount = (lockedAmount / 1000).ToString("#,##0 (`000)");
                 }
 
-                apiResult1.Message = string.Format(selLangBLL.GetMsg("msg_LockedAmountInsufficient"), dlockedAmount);
+                apiResult1.Message = string.Format(selLangBLL.GetMsg("msg_LockedAmountInsufficient"), dRequiredAmount);
             }
             else if (result == -3)
             {
                 apiResult1.ErrorCode = -3;
                 apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible");
             }
+            else if (result == -4)
+            {
+                apiResult1.ErrorCode = -4;
+                var dRequiredAmount = promotion.RequiredAmount.ToString("#,##0");
+                if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
+                {
+                    dRequiredAmount = (promotion.RequiredAmount / 1000).ToString("#,##0 (`000)");
+                }
+
+                apiResult1.Message = string.Format(selLangBLL.GetMsg("msg_RequiredAmountInsufficient"), dRequiredAmount);
+            }
+
             return apiResult1;
         }
         public bool GetCanJoin(int custId, string bonusCode)

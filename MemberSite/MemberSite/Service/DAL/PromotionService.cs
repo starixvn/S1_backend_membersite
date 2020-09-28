@@ -98,8 +98,19 @@ namespace MemberSite.Service.DAL
 
                     if (promotion.PromotionType == PromotionType.FstDeposit || promotion.PromotionType == PromotionType.ReDeposit)
                     {
+                        if (amount < promotion.RequiredAmount)
+                        {
+                            return -4;
+                        }
+
                         if (promotion.BonusType == BonusType.Amount)
                         {
+                            if (promotion.RequiredAmount == 0)
+                            {
+                                throw new Exception("Required Amount can't be 0");
+                            }
+
+                            dLockedAmount = promotion.RequiredAmount;
                             dBonus = promotion.Bonus;
                         }
                         else
