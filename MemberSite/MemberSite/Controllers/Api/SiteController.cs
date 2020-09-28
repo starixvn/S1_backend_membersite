@@ -709,5 +709,14 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<Country>> GetCountryList()
+        {
+            var apiResult = new ApiResult<IEnumerable<Country>>();
+            apiResult.Data = selLangBLL.GetCountryList();
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
     }
 }
