@@ -18,7 +18,10 @@
 @inject GamingBLL gamingBLL
 @inject BannerBLL bannerBLL
 @{
-    var domain = serverInfoBLL.GetDomain().Substring(4);
+    var domain = serverInfoBLL.GetDomain();
+    if (domain.Length > 4)
+        domain = domain.Substring(4);
+
     var serverInfo = serverInfoBLL.GetServerInfo();
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
     var SkinImgPath = $"{SkinRootPath}/images";
