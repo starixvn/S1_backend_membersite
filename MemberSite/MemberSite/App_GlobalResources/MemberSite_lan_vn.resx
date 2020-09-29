@@ -1732,4 +1732,7 @@
   <data name="lbl_EbetCasino" xml:space="preserve">
     <value>Sảnh Hoàng Gia</value>
   </data>
+  <data name="lbl_PromoRemind" xml:space="preserve">
+    <value>Gửi tiền ngay để được hưởng các chương trình khuyến mãi độc quyền</value>
+  </data>
 </root>

@@ -1,8 +1,10 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@model MemberSite.Service.Model.Promotion
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using MemberSite.Service.BLL
 @using Microsoft.AspNetCore.Hosting
 @using System.Security.Claims
 @using MemberSite.Service.Model
+@using MemberSite.Service.Model.enums
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @inject AuthorizeBLL authorizeBLL
@@ -18,27 +20,44 @@
     var ExpiryTime = ViewData["ExpiryTime"];
     var Currency = selLangBLL.GetResourceValue($"Currency_{ViewData["Currency"]}");
     var phoneVerify = false;
-    var authData = new AuthData();
+
+    var authData = authorizeBLL.GetAuthData();
     BonusWallet bonusInfo = null;
+    bool conJoin = false;
+    int result = 0;
+    string depositId = null;
+    string strDpositAmount = null;
+    var IsConvertRequired = false;
+
     if (User.Identity.IsAuthenticated)
     {
-        authData = authorizeBLL.GetAuthData();
-        var custProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
-        phoneVerify = custProfile.PhoneVerified;
-
         var custId = authData.CustId;
-        var bonusCode = ViewContext.HttpContext.Request.Query["BonusCode"];
-        bonusInfo = bonusWalletBLL.CustBonusInfo(custId, bonusCode);
+        var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+        IsConvertRequired = custInfoBLL.IsConvertRequired(custInfo.CurrencyId);
+
+        bonusInfo = bonusWalletBLL.CheckBonusWallet(custId, ViewContext.HttpContext.Request.Query["BonusCode"]);
+        decimal dpositAmount = 0;
+        conJoin = promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"], out result, out depositId, out dpositAmount);
+
+        if (conJoin)
+        {
+            if (IsConvertRequired)
+            {
+                dpositAmount /= 1000;
+                strDpositAmount = dpositAmount.ToString("#,##0") + " ('000)";
+            }
+            else
+            {
+                strDpositAmount = dpositAmount.ToString("#,##0");
+            }
+        }
     }
 
-    var IsConvertRequired = false;
     decimal percentage = 0;
     string displayValue = "";
     string displayValueRollover = "";
     if (bonusInfo != null)
     {
-        var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
-        IsConvertRequired = custInfoBLL.IsConvertRequired(custInfo.CurrencyId);
         percentage = bonusInfo.Turnover > bonusInfo.Rollover ? 100 : Math.Round((bonusInfo.Turnover / bonusInfo.Rollover) * 100, 2);
 
         if (IsConvertRequired)
@@ -89,7 +108,7 @@
                         <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_MaxBonusAmount") </th>
                         <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_RollOver") </th>
                         <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_RemainingTime") </th>
-                        @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
+                        @if (conJoin)
                         {
                             <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;"></th>
                         }
@@ -99,7 +118,7 @@
                         <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@Currency @ViewData["MaxBonus"]</td>
                         <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@(ViewData["RollOver"])x</td>
                         <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000" id="REMAINING"></td>
-                        @if (User.Identity.IsAuthenticated && promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"]))
+                        @if (conJoin)
                         {
                             <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">
                                 <div class="btn-group">
@@ -114,6 +133,31 @@
                     </tr>
                 </table>
             </div>
+            @if (conJoin && (Model.PromotionType == PromotionType.FstDeposit || Model.PromotionType == PromotionType.ReDeposit))
+            {
+                <div class="promotions-module">
+                    <table style="border-collapse: collapse; width: 100%;background-color: #fafafa;">
+                        <tr>
+                            <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_ID")</th>
+                            <th style="padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #5574a7;color: white; text-align: center;border: 1px solid #cfcfcf;">@selLangBLL.GetResourceValue("lbl_DepositAmount")</th>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@depositId</td>
+                            <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@Currency @strDpositAmount</td>
+                        </tr>
+                    </table>
+                </div>
+            }
+            else if (bonusInfo == null && result == 1 && (Model.PromotionType == PromotionType.FstDeposit || Model.PromotionType == PromotionType.ReDeposit))
+            {
+                <div class="promotions-module">
+                    <h1>
+                        <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                            @selLangBLL.GetResourceValue("lbl_PromoRemind")
+                        </a>
+                    </h1>
+                </div>
+            }
             @if (ViewData["detail"] != null)
             {
                 @Html.Raw(ViewData["detail"])

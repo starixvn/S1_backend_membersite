@@ -1704,4 +1704,7 @@
   <data name="lbl_AffiliateSlog" xml:space="preserve">
     <value>Partner Anda menuju Sukses</value>
   </data>
+  <data name="lbl_PromoRemind" xml:space="preserve">
+    <value>Deposit sekarang untuk menikmati promosi eksklusif</value>
+  </data>
 </root>

@@ -1830,4 +1830,7 @@
   <data name="lbl_AffiliateSlog" xml:space="preserve">
     <value>Your Partner to Success</value>
   </data>
+  <data name="lbl_PromoRemind" xml:space="preserve">
+    <value>Deposit now to enjoy exclusive promotions</value>
+  </data>
 </root>

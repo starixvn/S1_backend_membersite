@@ -1683,4 +1683,7 @@
   <data name="lbl_AffiliateSlog" xml:space="preserve">
     <value>ข้อเสนอคอมมิชชั่นสุดพิเศษ!</value>
   </data>
+  <data name="lbl_PromoRemind" xml:space="preserve">
+    <value>ฝากตอนนี้เพื่อรับโปรโมชั่นพิเศษ</value>
+  </data>
 </root>
