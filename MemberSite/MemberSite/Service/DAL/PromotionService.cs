@@ -82,8 +82,11 @@ namespace MemberSite.Service.DAL
                 var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
                 p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                 p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-                conn.Execute("Member_PromotionCanJoinV2_Get", p, commandType: CommandType.StoredProcedure);
+                p.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
+                p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                conn.Execute("Member_PromotionCanJoinV3_Get", p, commandType: CommandType.StoredProcedure);
 
+                var jResult = p.Get<int>("Result");
                 var canJoin = p.Get<byte?>("CanJoin") ?? 0;
                 var amount = p.Get<decimal?>("Amount") ?? 0;
                 if (canJoin == 1)
@@ -95,8 +98,19 @@ namespace MemberSite.Service.DAL
 
                     if (promotion.PromotionType == PromotionType.FstDeposit || promotion.PromotionType == PromotionType.ReDeposit)
                     {
+                        if (amount < promotion.RequiredAmount)
+                        {
+                            return -4;
+                        }
+
                         if (promotion.BonusType == BonusType.Amount)
                         {
+                            if (promotion.RequiredAmount == 0)
+                            {
+                                throw new Exception("Required Amount can't be 0");
+                            }
+
+                            dLockedAmount = promotion.RequiredAmount;
                             dBonus = promotion.Bonus;
                         }
                         else
@@ -245,15 +259,21 @@ namespace MemberSite.Service.DAL
                 return 0;
             }
         }
-
-        public bool GetCanJoin(int custId, int siteId, string bonusCode, int currencyId)
+        public bool GetCanJoin(int custId, int siteId, string bonusCode, int currencyId, out int result, out string depositId, out decimal dpositAmount)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
             p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
             p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            conn.Execute("Member_PromotionCanJoinV2_Get", p, commandType: CommandType.StoredProcedure);
+            p.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
+            p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            conn.Execute("Member_PromotionCanJoinV3_Get", p, commandType: CommandType.StoredProcedure);
             var canJoin = p.Get<byte?>("CanJoin") ?? 0;
+            result = p.Get<int>("Result");
+            depositId = p.Get<string>("RefId");
+            dpositAmount = p.Get<decimal?>("Amount") ?? 0m;
+
             return canJoin == 1;
         }
 
@@ -274,11 +294,19 @@ namespace MemberSite.Service.DAL
                     var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode });
                     canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-                    conn.Execute("Member_PromotionCanJoinV2_Get", canJoinParams, trans, commandType: CommandType.StoredProcedure);
+                    canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
+                    canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    conn.Execute("Member_PromotionCanJoinV3_Get", canJoinParams, commandType: CommandType.StoredProcedure);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                     promo.canJoin = canJoinResult == 1;
+                    promo.Result = canJoinParams.Get<int>("Result");
 
+                    if ((promo.PromotionType == 1 || promo.PromotionType == 2) && promo.Result == 2)
+                    {
+                        promo.DepositId = canJoinParams.Get<string>("RefId");
+                        promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
+                    }
 
                     BonusWallet custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
                     if (custBonusInfo != null)
@@ -375,10 +403,19 @@ namespace MemberSite.Service.DAL
                     var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode });
                     canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-                    conn.Execute("Member_PromotionCanJoinV2_Get", canJoinParams, trans, commandType: CommandType.StoredProcedure);
+                    canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
+                    canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    conn.Execute("Member_PromotionCanJoinV3_Get", canJoinParams, trans, commandType: CommandType.StoredProcedure);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                     promo.canJoin = canJoinResult == 1;
+                    promo.Result = canJoinParams.Get<int>("Result");
+
+                    if ((promo.PromotionType == 1 || promo.PromotionType == 2) && promo.Result == 2)
+                    {
+                        promo.DepositId = canJoinParams.Get<string>("RefId");
+                        promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
+                    }
 
                     BonusWallet custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
                     if (custBonusInfo != null)

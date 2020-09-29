@@ -72,18 +72,21 @@ namespace MemberSite.Service.Model
         public int RollOver { get; set; }
         public string Details { get; set; }
         public decimal Bonus { get; set; }
+        public LockedType LockedType { get; set; }
+        public decimal RequiredAmount { get; set; }
         public decimal MaxBonus { get; set; }
         public int BonusType { get; set; }
         public int Sort { get; set; }
         public int CategoryId { get; set; }
         public int TpId { get; set; }
-
         public decimal CustRollOver { get; set; }
         public decimal CustTurnOver { get; set; }
         public int Status { get; set; }
         public DateTime? CustExpiryTime { get; set; }
-
         public bool canJoin { get; set; }
         public bool isJoin { get; set; }
+        public int Result { get; set; }
+        public string DepositId { get; set; }
+        public decimal DepositAmount { get; set; }
     }
 }

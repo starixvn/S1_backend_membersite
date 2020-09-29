@@ -284,4 +284,7 @@
   <data name="msg_MustInteger" xml:space="preserve">
     <value>กรุณากรอกตัวเลขให้ครบถ้วน ไม่อนุญาตให้ใช้เลขหลักทศนิยม</value>
   </data>
+  <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
+    <value>ฝากขั้นต่ำ {0} เพื่อรับโบนัส</value>
+  </data>
 </root>

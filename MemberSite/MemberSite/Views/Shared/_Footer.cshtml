@@ -6,6 +6,10 @@
 @inject Tools tools
 @inject GamingBLL gamingBLL
 @{
+    var domain = serverInfoBLL.GetDomain();
+    if (domain.Length > 4)
+        domain = domain.Substring(4);
+
     var serverInfo = serverInfoBLL.GetServerInfo();
     var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
 
@@ -200,9 +204,9 @@
             <a class="footer__item" href="@StaticRootPath/ContactUs.html" target="_temp">
                 <span class="text">@selLangBLL.GetResourceValue("lbl_ContactUs")</span>
             </a>
-            @*<a class="footer__item" href="@StaticRootPath/Affiliates.html" target="_temp">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_Affiliates")</span>
-                </a>*@
+            <a class="footer__item" href="https://aff.@domain/?lang=@selLangBLL.GetLangId()" target="_temp">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Affiliates")</span>
+            </a>
         </div>
         <div class="footer__col-social">
             <a class="footer__heading">
@@ -218,10 +222,10 @@
             </a>
             @if (serverInfo.SiteId == 1)
             {
-            <a class="footer__item" href="https://www.instagram.com/@(selLangBLL.GetResourceValue("lbl_IGAccount"))" target="_blank">
-                <i class="icon icon-instagram"></i>
-                <span class="text">@selLangBLL.GetResourceValue("lbl_Instagram")</span>
-            </a>
+                <a class="footer__item" href="https://www.instagram.com/@(selLangBLL.GetResourceValue("lbl_IGAccount"))" target="_blank">
+                    <i class="icon icon-instagram"></i>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Instagram")</span>
+                </a>
             }
         </div>
     </div>

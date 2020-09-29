@@ -1827,4 +1827,7 @@
   <data name="lbl_UnSettle" xml:space="preserve">
     <value>UnSettle</value>
   </data>
+  <data name="lbl_AffiliateSlog" xml:space="preserve">
+    <value>Your Partner to Success</value>
+  </data>
 </root>
