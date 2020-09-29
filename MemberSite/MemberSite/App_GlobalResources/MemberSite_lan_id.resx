@@ -1701,4 +1701,7 @@
   <data name="lbl_EbetCasino" xml:space="preserve">
     <value>Lobby Kerajaan</value>
   </data>
+  <data name="lbl_AffiliateSlog" xml:space="preserve">
+    <value>Partner Anda menuju Sukses</value>
+  </data>
 </root>

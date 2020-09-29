@@ -18,6 +18,10 @@
 @inject GamingBLL gamingBLL
 @inject BannerBLL bannerBLL
 @{
+    var domain = serverInfoBLL.GetDomain();
+    if (domain.Length > 4)
+        domain = domain.Substring(4);
+
     var serverInfo = serverInfoBLL.GetServerInfo();
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
     var SkinImgPath = $"{SkinRootPath}/images";
@@ -60,6 +64,8 @@
     var langId = selLangBLL.GetLangId();
     var banner_CurrencyId = !User.Identity.IsAuthenticated && CurrencyId == 13 ? 2 : CurrencyId;
     var bannerFromDB = bannerBLL.GetBannerFromDB(banner_CurrencyId, langId);
+
+
 }
 }
 
@@ -147,30 +153,14 @@
                 </div>
                 <img src="@SkinImgPath/UI/Download-App.png"><i class="icon icon-arrow-right"></i>
             </div>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
-                    <div class="lobby-quicklink__info">
-                        <i class="icon icon-deposit-bank"></i>
-                        <span class="text-title">@selLangBLL.GetResourceValue("lbl_DepositNow")</span>
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_VariousBankingOptions")</span>
-                    </div>
-                    <i class="icon icon-arrow-right"></i>
-                </a>
-            }
-            else
-            {
-                <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })">
-                    <div class="lobby-quicklink__info">
-                        <i class="icon icon-join-now"></i>
-                        <span class="text-title">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
-                        <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforjoin")</span>
-                    </div>
-                    <i class="icon icon-arrow-right"></i>
-                </a>
-            }
-            @*@if (promotionCnt > 0)
-                {*@
+            <a class="lobby-quicklink-affiliate" href="https://aff.@domain/?lang=@selLangBLL.GetLangId()" target="_blank">
+                <div class="lobby-quicklink__info">
+                    <i class="icon"><img src="/SiteSkin/Nova88/common/images/Nova88_logo.png"></i>
+                    <span class="text-title">@selLangBLL.GetResourceValue("lbl_Affiliates")</span>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_AffiliateSlog")</span>
+                </div>
+                <i class="icon icon-arrow-right"></i>
+            </a>
             <a class="lobby-quicklink" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })">
                 <div class="lobby-quicklink__info">
                     <i class="icon icon-promotion"></i>
@@ -179,18 +169,6 @@
                 </div>
                 <i class="icon icon-arrow-right"></i>
             </a>
-            @*}
-                else
-                {
-                    <a class="lobby-quicklink" href="https://direct.lc.chat/11638088/" target="_blank">
-                        <div class="lobby-quicklink__info">
-                            <i class="icon icon-deposit-CSD"></i>
-                            <span class="text-title">@selLangBLL.GetResourceValue("lbl_LiveSupport")</span>
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_Clickhereforsupport")</span>
-                        </div>
-                        <i class="icon icon-arrow-right"></i>
-                    </a>
-                }*@
         </div>
         @if (serverInfo.SiteId == 1)
         {
@@ -266,13 +244,6 @@
                         <span class="text">@selLangBLL.GetResourceValue("lbl_Keno")</span>
                     </div>
                 </a>
-                @*<a class="lobby-sport" href="@gamingBLL.GetEntPageUrl(1, "180",Url)">
-                        <img src="@SkinImgPath/Lobby/Home/Sport-Virtual_Sports.png">
-                        <img src="@SkinImgPath/Lobby/Home/d_Sport-Virtual_Sports.png">
-                        <div class="lobby-sport__info">
-                            <span class="text">@selLangBLL.GetResourceValue("lbl_VirtualSports")</span>
-                        </div>
-                    </a>*@
             }
         </div>
         <div class="lobby-product-swiper">
@@ -330,13 +301,6 @@
                                     </a>
                                 </div>
                             </div>
-                            @*<div class="swiper-slide">
-            <div class="lobby-product">
-                <a href="~/@langId/Promotion/Bonus?BonusCode=SEP3DailyRedeposit">
-                    <img src="@SkinImgPath/Lobby/Home/398x163_3.jpg" asp-append-version="true" />
-                </a>
-            </div>
-        </div>*@
                             <div class="swiper-slide">
                                 <div class="lobby-product">
                                     <a href="~/@langId/Promotion/Bonus?BonusCode=WINEXTRA10ON4MAJORLEAGUE">

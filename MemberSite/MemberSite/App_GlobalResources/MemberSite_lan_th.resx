@@ -1680,4 +1680,7 @@
   <data name="lbl_EbetCasino" xml:space="preserve">
     <value>ห้องรอยัลสูท</value>
   </data>
+  <data name="lbl_AffiliateSlog" xml:space="preserve">
+    <value>ข้อเสนอคอมมิชชั่นสุดพิเศษ!</value>
+  </data>
 </root>

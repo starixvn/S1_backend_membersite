@@ -13,35 +13,33 @@
   ],
   "Casino": [
     {
-      "actionLink": "http://event-tw.248ka.com/FallE/index.html",
-      "outerLink": true,
-      "img": "event-ygg-20200903.png",
+      "img": "Casino.jpg",
       "lang": [ "vn", "en" ]
     }
   ],
   "Sports": [
     {
       "tpid": "1",
-      "matchid": "38458374",
+      "matchid": "38602803",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-38458374.jpg",
+      "img": "games-38602803.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpid": "1",
-      "matchid": "38458378",
+      "matchid": "38602812",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-38458378.jpg",
+      "img": "games-38602812.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpid": "1",
-      "matchid": "38458375",
+      "matchid": "38602804",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-38458375.jpg",
+      "img": "games-38602804.jpg",
       "lang": [ "en", "vn" ]
     }
   ]

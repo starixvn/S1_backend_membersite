@@ -1709,4 +1709,7 @@
   <data name="lbl_EbetCasino" xml:space="preserve">
     <value>皇家厅</value>
   </data>
+  <data name="lbl_AffiliateSlog" xml:space="preserve">
+    <value>您的成功伴侣</value>
+  </data>
 </root>

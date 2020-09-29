@@ -266,4 +266,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_MustInteger" xml:space="preserve">
     <value>Vui lòng điền đủ các ký tự, các chữ số thập phân không hợp lệ</value>
   </data>
+  <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
+    <value>Gửi tối thiểu {0} để đủ điều kiện nhận thưởng</value>
+  </data>
 </root>
