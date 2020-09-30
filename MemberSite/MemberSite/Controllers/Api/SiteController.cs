@@ -249,7 +249,7 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> SignupAsync(SignupModel signupModel)
         {
             var apiResult = new ApiResult(selLangBLL);
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated || (string.IsNullOrEmpty(signupModel.AreaCode) && !string.IsNullOrEmpty(signupModel.PhoneNo)))
             {
                 apiResult.ErrorCode = 9000;
                 return apiResult;
@@ -664,7 +664,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<BannerSettingItem>> GetBanner([FromForm]string FolderName, [FromForm]string refId, [FromForm]bool filterHideInHome)
+        public ApiResult<IEnumerable<BannerSettingItem>> GetBanner([FromForm] string FolderName, [FromForm] string refId, [FromForm] bool filterHideInHome)
         {
             ApiResult<IEnumerable<BannerSettingItem>> result = new ApiResult<IEnumerable<BannerSettingItem>>();
 
@@ -706,7 +706,7 @@ namespace MemberSite.Controllers.Api
             {
                 result.Data = _bannerSetting.Casino.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
             }
-            else if(FolderName == "Sports")
+            else if (FolderName == "Sports")
             {
                 result.Data = _bannerSetting.Sports.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
             }
@@ -721,7 +721,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult> CheckResetPwdTokenAsync([FromForm]string key)
+        public async Task<ApiResult> CheckResetPwdTokenAsync([FromForm] string key)
         {
             var apiResult = new ApiResult(selLangBLL);
             if (User.Identity.IsAuthenticated)
@@ -813,6 +813,8 @@ namespace MemberSite.Controllers.Api
                         ServerInfoData.Add(sKey, head.Value);
                     }
                 }
+
+                result.ErrorCode = 0;
             }
             catch (Exception ex)
             {

@@ -129,12 +129,19 @@ namespace MemberSite.Controllers.Api
             {
                 string AccountName = custProfile[nameof(AccountName)];
                 var result = custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
-                custProfile["Birth_d"] = beforeCustInfo.Birth_d;
-                custProfile["Birth_m"] = beforeCustInfo.Birth_m;
-                custProfile["Birth_y"] = beforeCustInfo.Birth_y;
-                custProfile["CountryCode"] = beforeCustInfo.CountryCode;
-                custProfile["AreaCode"] = beforeCustInfo.AreaCode;
-                custProfile["PhoneNo"] = beforeCustInfo.PhoneNo;
+
+                if (!string.IsNullOrEmpty(beforeCustInfo.Birth_d))
+                    custProfile["Birth_d"] = beforeCustInfo.Birth_d;
+                if (!string.IsNullOrEmpty(beforeCustInfo.Birth_m))
+                    custProfile["Birth_m"] = beforeCustInfo.Birth_m;
+                if (!string.IsNullOrEmpty(beforeCustInfo.Birth_y))
+                    custProfile["Birth_y"] = beforeCustInfo.Birth_y;
+                if (!string.IsNullOrEmpty(beforeCustInfo.CountryCode))
+                    custProfile["CountryCode"] = beforeCustInfo.CountryCode;
+                if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
+                    custProfile["AreaCode"] = beforeCustInfo.AreaCode;
+                if (!string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
+                    custProfile["PhoneNo"] = beforeCustInfo.PhoneNo;
             }
             else
             {
@@ -203,12 +210,24 @@ namespace MemberSite.Controllers.Api
                 {
                     string AccountName = custProfile[nameof(AccountName)];
                     var result = custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
-                    custProfile["Birth_d"] = beforeCustInfo.Birth_d;
-                    custProfile["Birth_m"] = beforeCustInfo.Birth_m;
-                    custProfile["Birth_y"] = beforeCustInfo.Birth_y;
-                    custProfile["CountryCode"] = beforeCustInfo.CountryCode;
-                    custProfile["AreaCode"] = beforeCustInfo.AreaCode;
-                    custProfile["PhoneNo"] = beforeCustInfo.PhoneNo;
+
+                    if (!string.IsNullOrEmpty(beforeCustInfo.Birth_d))
+                        custProfile["Birth_d"] = beforeCustInfo.Birth_d;
+
+                    if (!string.IsNullOrEmpty(beforeCustInfo.Birth_m))
+                        custProfile["Birth_m"] = beforeCustInfo.Birth_m;
+
+                    if (!string.IsNullOrEmpty(beforeCustInfo.Birth_y))
+                        custProfile["Birth_y"] = beforeCustInfo.Birth_y;
+
+                    if (!string.IsNullOrEmpty(beforeCustInfo.CountryCode))
+                        custProfile["CountryCode"] = beforeCustInfo.CountryCode;
+
+                    if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
+                        custProfile["AreaCode"] = beforeCustInfo.AreaCode;
+
+                    if (!string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
+                        custProfile["PhoneNo"] = beforeCustInfo.PhoneNo;
                 }
                 else
                 {
@@ -285,7 +304,7 @@ namespace MemberSite.Controllers.Api
             {
                 var custInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
                 string _perCountry = "";
-                if(custInfo != null)
+                if (custInfo != null)
                 {
                     PerCountry.TryGetValue(custInfo.CurrencyId, out _perCountry);
                 }
@@ -331,7 +350,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult UploadCustPhotoId([FromForm]CustPhotoIdReq custPhotoIdReq)
+        public ApiResult UploadCustPhotoId([FromForm] CustPhotoIdReq custPhotoIdReq)
         {
             decimal xSize = 500m;
             var apiResult = new ApiResult();
