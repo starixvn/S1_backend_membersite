@@ -74,7 +74,8 @@ class UpdateProfile extends Component {
 				PhoneNo: { status: true, msg: "" },
 				Birthday: { status: true, msg: "" }
 			},
-			lockAll: false
+			lockAll: false,
+			Email: custdata.Email ?? ""
 		};
 		this.phone_prefix = `${areaCode[perCountry].AreaCode}　`;
 		this.dateRef = createRef();
@@ -92,9 +93,67 @@ class UpdateProfile extends Component {
 		}
 	};
 
-	EditField = (colName, e) => {
+	checkEmailIsUnique = async email => {
+		try {
+			if (!custdata.email && email && email.length > 0) {
+				const res = await WebAPI().post("/api/Site/ExistsEmail", {
+					Email: email
+				});
+
+				let data = res.data;
+
+				if (data.errorCode === 0) {
+					if (data.data === true) {
+						return { checked: false, msg: i18n["msg_MailExisted"] };
+					} else if (data.data === false) {
+						return { checked: true, msg: "" };
+					}
+				} else {
+					return { checked: false, msg: "" };
+				}
+			}
+		} catch (err) {
+			return { checked: false, msg: "" };
+		}
+	};
+
+	CheckDuplicateEmail = async email => {
+		let checkResult = true;
+
+		let checkTip = "";
+		let emailRegex = /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+
+		if (!email) {
+			checkResult = false;
+		}
+
+		if (!custdata.Email && email === "") {
+			checkResult = false;
+			checkTip = i18n["lbl_EmailRequired"];
+		} else if (
+			!custdata.email &&
+			email.length > 0 &&
+			!emailRegex.test(email)
+		) {
+			checkResult = false;
+			checkTip = i18n["lbl_EmailFormatError"];
+		} else if (
+			!custdata.Email &&
+			email.length > 0 &&
+			emailRegex.test(email)
+		) {
+			let result = await this.checkEmailIsUnique(email);
+			checkResult = result.checked;
+			checkTip = result.msg;
+		}
+
+		return { checked: checkResult, msg: checkTip };
+	};
+
+	EditField = async (colName, e) => {
 		let value = e.target.value;
 		let checked = true;
+		let msg = "";
 
 		if (colName === "PhoneNo") {
 			if (!value.startsWith(this.phone_prefix)) {
@@ -107,6 +166,11 @@ class UpdateProfile extends Component {
 				checked = regex.test(tmpValue);
 			}
 		}
+		// else if (colName === "Email") {
+		// 	let result = await this.CheckDuplicateEmail(value);
+		// 	checked = result.checked;
+		// 	msg = result.msg;
+		// }
 
 		if (checked) {
 			this.setState(prevState => ({
@@ -119,14 +183,26 @@ class UpdateProfile extends Component {
 					}
 				}
 			}));
+		} else {
+			this.setState(prevState => ({
+				[colName]: value,
+				error: {
+					...prevState.error,
+					[colName]: {
+						status: false,
+						msg: msg
+					}
+				}
+			}));
 		}
 	};
 
-	ClickUpdate = () => {
+	ClickUpdate = async () => {
 		let error = {
 			AccountName: { status: true, msg: "" },
 			PhoneNo: { status: true, msg: "" },
-			Birthday: { status: true, msg: "" }
+			Birthday: { status: true, msg: "" },
+			Email: { status: true, msg: "" }
 		};
 
 		let checked = true;
@@ -153,6 +229,13 @@ class UpdateProfile extends Component {
 			checked = checked && phone_checked;
 		}
 
+		let checkEmail = await this.CheckDuplicateEmail(this.state.Email);
+		if (!checkEmail.checked) {
+			checked = false;
+			error.Email.status = false;
+			error.Email.msg = checkEmail.msg;
+		}
+
 		if (checked) {
 			var inst = $("[data-remodal-id=modal-updateProfile]").remodal();
 			inst.open();
@@ -177,11 +260,12 @@ class UpdateProfile extends Component {
 			Birth_y: b_date[2],
 			CountryCode: perCountry,
 			AreaCode: areaCode[perCountry].AreaCode,
-			PhoneNo: this.state.PhoneNo.replace(this.phone_prefix, "")
+			PhoneNo: this.state.PhoneNo.replace(this.phone_prefix, ""),
+			Email: this.state.Email
 		};
 
 		WebAPI()
-			.post("/api/AccountStrict/SetProfile", data)
+			.post("/api/AccountStrict/SetProfileV2", data)
 			.then(
 				response => {
 					let res = response.data;
@@ -333,6 +417,21 @@ class UpdateProfile extends Component {
 										this.state.lockAll ||
 										readOnlyDict.country
 									}
+								/>
+							</div>
+						</div>
+
+						<div className="form-horizontal">
+							<div className="form-group">
+								<InputField
+									columnTitle={i18n["lbl_Email"]}
+									value={this.state.Email}
+									readOnly={Boolean(custdata.Email)}
+									onChange={this.EditField.bind(
+										this,
+										"Email"
+									)}
+									error={this.state.error.Email}
 								/>
 							</div>
 						</div>
