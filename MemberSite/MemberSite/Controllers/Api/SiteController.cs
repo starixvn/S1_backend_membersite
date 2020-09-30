@@ -249,7 +249,7 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> SignupAsync(SignupModel signupModel)
         {
             var apiResult = new ApiResult(selLangBLL);
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated || (string.IsNullOrEmpty(signupModel.AreaCode) && !string.IsNullOrEmpty(signupModel.PhoneNo)))
             {
                 apiResult.ErrorCode = 9000;
                 return apiResult;
