@@ -1712,4 +1712,7 @@
   <data name="lbl_AffiliateSlog" xml:space="preserve">
     <value>您的成功伴侣</value>
   </data>
+  <data name="lbl_PromoRemind" xml:space="preserve">
+    <value>存款立即享有丰厚优惠</value>
+  </data>
 </root>
