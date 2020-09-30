@@ -73,6 +73,9 @@
     i18n.Add("msg_OTPEnterCode", selLangBLL.GetMsg("msg_OTPEnterCode"));
     i18n.Add("lbl_Resend", selLangBLL.GetResourceValue("lbl_Resend"));
     i18n.Add("lbl_PleaseEnterCode", selLangBLL.GetResourceValue("lbl_PleaseEnterCode"));
+    i18n.Add("lbl_EmailRequired", selLangBLL.GetResourceValue("lbl_EmailRequired"));
+    i18n.Add("lbl_EmailFormatError", selLangBLL.GetResourceValue("lbl_EmailFormatError"));
+    
 
     string[] lbl_Txts = new string[] { "lbl_RealName", "lbl_RemindForName" };
     foreach (var lbl_Txt in lbl_Txts)
@@ -117,7 +120,8 @@
                     month: '@custInfoProfile.Birth_m',
                     year:'@custInfoProfile.Birth_y'
                 },
-                PhoneNo: '@custInfoProfile.PhoneNo'
+                PhoneNo: '@custInfoProfile.PhoneNo',
+                Email: '@custInfoProfile.Email'
             }
         </script>
         <script src="~/js/Bwing/component/Desktop/account/UpdProfile.min.js" asp-append-version="true"></script>
