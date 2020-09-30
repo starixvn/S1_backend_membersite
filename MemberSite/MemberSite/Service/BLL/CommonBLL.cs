@@ -13,14 +13,12 @@ namespace MemberSite.Service.BLL
     {
         private readonly CourierAdapter courierAdapter;
         private readonly string commonServiceUrl;
-        private readonly CustInfoService custInfoService;
         private readonly Tools tools;
 
-        public CommonBLL(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, CustInfoService custInfoService)
+        public CommonBLL(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools)
         {
             this.courierAdapter = courierAdapter;
             commonServiceUrl = configuration.GetValue<string>("CommonService");
-            this.custInfoService = custInfoService;
             this.tools = tools;
         }
 
@@ -107,11 +105,6 @@ namespace MemberSite.Service.BLL
 
             ApiResult apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
 
-            //if (apiResult.ErrorCode == 0)
-            //{
-            //    custInfoBLL.SetPhoneVerified(custId);
-            //}
-
             return apiResult;
         }
         public async Task<ApiResult<SendOTPSMSResult>> SendOTPSMSAsync(int custId)
@@ -125,9 +118,9 @@ namespace MemberSite.Service.BLL
 
             var apiResult = await courierAdapter.MyPostAsync<SendOTPSMSResult, dynamic>(apiUrl, req);
 
-           return apiResult;
+            return apiResult;
         }
-        public async Task<ApiResult> VerifyOTPAsync(int custId,string inputOTP)
+        public async Task<ApiResult> VerifyOTPAsync(int custId, string inputOTP)
         {
             string apiUrl = $"{commonServiceUrl}OTPSMS/VerifyOTP";
 
@@ -141,7 +134,7 @@ namespace MemberSite.Service.BLL
 
             if (apiResult.ErrorCode == 0)
             {
-                custInfoService.SetPhoneVerified(custId);
+                //custInfoService.SetPhoneVerified(custId);/**/
             }
 
             return apiResult;
