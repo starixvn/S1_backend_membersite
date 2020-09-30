@@ -246,7 +246,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult> SignupAsync([FromForm] SignupModel signupModel)
+        public async Task<ApiResult> SignupAsync(SignupModel signupModel)
         {
             var apiResult = new ApiResult(selLangBLL);
             if (User.Identity.IsAuthenticated)
