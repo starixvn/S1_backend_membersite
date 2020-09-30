@@ -1694,4 +1694,7 @@
   <data name="lbl_UnSettle" xml:space="preserve">
     <value>取消派彩</value>
   </data>
+  <data name="lbl_PromoRemind" xml:space="preserve">
+    <value>存款立即享有豐厚優惠</value>
+  </data>
 </root>
