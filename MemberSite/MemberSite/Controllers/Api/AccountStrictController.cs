@@ -129,13 +129,6 @@ namespace MemberSite.Controllers.Api
             {
                 string AccountName = custProfile[nameof(AccountName)];
                 var result = custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
-
-                if (!string.IsNullOrEmpty(beforeCustInfo.Birth_d))
-                    custProfile["Birth_d"] = beforeCustInfo.Birth_d;
-                if (!string.IsNullOrEmpty(beforeCustInfo.Birth_m))
-                    custProfile["Birth_m"] = beforeCustInfo.Birth_m;
-                if (!string.IsNullOrEmpty(beforeCustInfo.Birth_y))
-                    custProfile["Birth_y"] = beforeCustInfo.Birth_y;
                 if (!string.IsNullOrEmpty(beforeCustInfo.CountryCode))
                     custProfile["CountryCode"] = beforeCustInfo.CountryCode;
                 if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
@@ -153,6 +146,13 @@ namespace MemberSite.Controllers.Api
                     apiResult.Message = $"({AreaCode}){PhoneNo} " + selLangBLL.GetMsg("msg_HasExist");
                     return apiResult;
                 }
+
+                if (!string.IsNullOrEmpty(beforeCustInfo.Birth_d))
+                    custProfile["Birth_d"] = beforeCustInfo.Birth_d;
+                if (!string.IsNullOrEmpty(beforeCustInfo.Birth_m))
+                    custProfile["Birth_m"] = beforeCustInfo.Birth_m;
+                if (!string.IsNullOrEmpty(beforeCustInfo.Birth_y))
+                    custProfile["Birth_y"] = beforeCustInfo.Birth_y;
 
                 if (!string.IsNullOrEmpty(beforeCustInfo.AccountName))
                 {
@@ -211,15 +211,6 @@ namespace MemberSite.Controllers.Api
                     string AccountName = custProfile[nameof(AccountName)];
                     var result = custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
 
-                    if (!string.IsNullOrEmpty(beforeCustInfo.Birth_d))
-                        custProfile["Birth_d"] = beforeCustInfo.Birth_d;
-
-                    if (!string.IsNullOrEmpty(beforeCustInfo.Birth_m))
-                        custProfile["Birth_m"] = beforeCustInfo.Birth_m;
-
-                    if (!string.IsNullOrEmpty(beforeCustInfo.Birth_y))
-                        custProfile["Birth_y"] = beforeCustInfo.Birth_y;
-
                     if (!string.IsNullOrEmpty(beforeCustInfo.CountryCode))
                         custProfile["CountryCode"] = beforeCustInfo.CountryCode;
 
@@ -239,6 +230,15 @@ namespace MemberSite.Controllers.Api
                         apiResult.Message = $"({AreaCode}){PhoneNo} " + selLangBLL.GetMsg("msg_HasExist");
                         return apiResult;
                     }
+
+                    if (!string.IsNullOrEmpty(beforeCustInfo.Birth_d))
+                        custProfile["Birth_d"] = beforeCustInfo.Birth_d;
+
+                    if (!string.IsNullOrEmpty(beforeCustInfo.Birth_m))
+                        custProfile["Birth_m"] = beforeCustInfo.Birth_m;
+
+                    if (!string.IsNullOrEmpty(beforeCustInfo.Birth_y))
+                        custProfile["Birth_y"] = beforeCustInfo.Birth_y;
 
                     if (!string.IsNullOrEmpty(beforeCustInfo.AccountName))
                     {
