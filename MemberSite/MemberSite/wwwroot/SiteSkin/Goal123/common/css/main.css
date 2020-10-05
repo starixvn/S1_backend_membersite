@@ -2508,6 +2508,7 @@ div.form--list .form-group .form-title {
 .iframe-page {
   flex: 1 0 auto;
   margin: -1rem;
+  height: 100%;
 }
 
 .iframe-page iframe {

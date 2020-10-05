@@ -4623,8 +4623,7 @@ span.account-info__amount.Js-Balance{
     display: block;
     width: calc(130px * 1.5);
     height: calc(46px * 1.5);
-    /*background-image: url("../images/logo.svg");*/
-    background-image: url("../images/logo_midautumn.png");
+    background-image: url("../images/logo.svg");
     background-size: cover;
 }
 
@@ -4796,8 +4795,7 @@ span.account-info__amount.Js-Balance{
     display: block;
     width: calc(130px * 0.8);
     height: calc(46px * 0.8);
-    /*background-image: url("../images/logo.svg");*/
-    background-image: url("../images/logo_midautumn.png");
+    background-image: url("../images/logo.svg");
     background-size: cover;
     transition: ease .15s;
 }
