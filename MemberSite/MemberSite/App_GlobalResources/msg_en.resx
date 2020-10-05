@@ -202,7 +202,7 @@
     <value>Your withdrawal request was successful. We will notify you once it is done.</value>
   </data>
   <data name="ForgetPwdFail" xml:space="preserve">
-    <value>You have entered an incorrect email or security answer, please try again!</value>
+    <value>This email address is invalid!</value>
     <comment>0024. Deposit</comment>
   </data>
   <data name="ForgetPwdSuccess" xml:space="preserve">

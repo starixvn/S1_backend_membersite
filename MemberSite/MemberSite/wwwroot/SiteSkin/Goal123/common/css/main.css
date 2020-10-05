@@ -6300,6 +6300,7 @@ a.lobby-quicklink:hover {
 [data-layout=mobile] .main:not(.main--home) {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 [data-layout=mobile] .main{
