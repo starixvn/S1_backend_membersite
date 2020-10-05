@@ -1,15 +1,15 @@
 {
   "Promotion": [
 
-    {
-      "tpid": "1",
-      "gameid": "1",
-      "urlWithLang": true,
-      "actionLink": "Sports/Index",
-      "img": "Banner-Opening.jpg",
-      "currencyId": [ 51 ],
-      "lang": [ "vn", "en" ]
-    }
+    //{
+    //  "tpid": "1",
+    //  "gameid": "1",
+    //  "urlWithLang": true,
+    //  "actionLink": "Sports/Index",
+    //  "img": "Banner-Opening.jpg",
+    //  "currencyId": [ 51 ],
+    //  "lang": [ "vn", "en" ]
+    //}
   ],
   "Casino": [
     {
@@ -20,26 +20,26 @@
   "Sports": [
     {
       "tpid": "1",
-      "matchid": "38602803",
+      "matchid": "38420303",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-38602803.jpg",
+      "img": "games-38420303.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpid": "1",
-      "matchid": "38602812",
+      "matchid": "38420307",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-38602812.jpg",
+      "img": "games-38420307.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpid": "1",
-      "matchid": "38602804",
+      "matchid": "38420301",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-38602804.jpg",
+      "img": "games-38420301.jpg",
       "lang": [ "en", "vn" ]
     }
   ]
