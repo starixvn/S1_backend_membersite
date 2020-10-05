@@ -471,7 +471,7 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> VerifyOTPAsync(VerifyOTPReq verifyOTPReq)
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = await commonBLL.VerifyOTPAsync(authData.CustId, verifyOTPReq.inputOTPcode);
+            var apiResult = await custInfoBLL.VerifyOTPAsync(authData.CustId, verifyOTPReq.inputOTPcode);
 
             return apiResult;
         }

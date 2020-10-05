@@ -131,12 +131,6 @@ namespace MemberSite.Service.BLL
             };
 
             ApiResult apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
-
-            if (apiResult.ErrorCode == 0)
-            {
-                //custInfoService.SetPhoneVerified(custId);/**/
-            }
-
             return apiResult;
         }
     }

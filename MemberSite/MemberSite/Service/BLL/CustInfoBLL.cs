@@ -454,5 +454,15 @@ namespace MemberSite.Service.BLL
         {
             return rollOverService.GetCustRollOver(custId, bonusCode);
         }
+        public async Task<ApiResult> VerifyOTPAsync(int custId, string inputOTP)
+        {
+            var apiResult = await commonBLL.VerifyOTPAsync(custId, inputOTP);
+            
+            if (apiResult.ErrorCode == 0)
+            {
+                custInfoService.SetPhoneVerified(custId);
+            }
+            return apiResult;
+        }
     }
 }
