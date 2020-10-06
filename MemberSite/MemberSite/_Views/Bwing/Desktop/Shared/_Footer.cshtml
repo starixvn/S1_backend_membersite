@@ -6,6 +6,9 @@
 @inject Tools tools
 @inject GamingBLL gamingBLL
 @{
+    var domain = serverInfoBLL.GetDomain();
+    if (domain.Length > 4)
+        domain = domain.Substring(4);
     var serverInfo = serverInfoBLL.GetServerInfo();
     var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
 
@@ -83,13 +86,8 @@
                 </div>
 
                 <div class="footer-promotions">
-                    <p class="title">@*@selLangBLL.GetResourceValue("lbl_Affiliates") -*@ @selLangBLL.GetResourceValue("lbl_Promotion")</p>
+                    <p class="title">@selLangBLL.GetResourceValue("lbl_Promotion")</p>
                     <ul class="item-list">
-                        @*<li>
-                            <a class="link-footer" href="https://aff.bwing.com" target="_temp">
-                                @selLangBLL.GetResourceValue("lbl_Affiliates")
-                            </a>
-                        </li>*@
                         <li>
                             <a class="link-footer" href="@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })" target="_temp">
                                 @selLangBLL.GetResourceValue("lbl_Promotion")
@@ -103,6 +101,7 @@
                 <div>
                     <p class="title">@serverInfo.SiteName</p>
                     <ul class="item-list">
+                        <li><a class="link-footer" href="https://aff.@domain/?lang=@selLangBLL.GetLangId()" target="_temp"><strong>@selLangBLL.GetResourceValue("lbl_Affiliates")</strong></a></li>
                         <li><a class="link-footer" href="@StaticRootPath/AboutUs.html" target="_temp">@selLangBLL.GetResourceValue("lbl_AboutUs")</a></li>
                         <li><a class="link-footer" href="@StaticRootPath/Terms.html" target="_temp">@selLangBLL.GetResourceValue("lbl_Terms")</a></li>
                         <li><a class="link-footer" href="@StaticRootPath/ContactUs.html" target="_temp">@selLangBLL.GetResourceValue("lbl_ContactUs")</a></li>
