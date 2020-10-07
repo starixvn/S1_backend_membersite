@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -35,7 +34,7 @@ namespace MemberSite.Service.BLL
             this.selLangBLL = selLangBLL;
             this.cache = cache;
           
-            singleWalletType = new Dictionary<string, string>()
+            singleWalletType = new Dictionary<string, string>
             {
                 {"1", "lbl_Stake"  },
                 {"2", "lbl_Refund" },
@@ -45,6 +44,15 @@ namespace MemberSite.Service.BLL
             };
         }
 
+        /// <summary>
+        /// Deposit for Local Bank
+        /// </summary>
+        /// <param name="custId">user id</param>
+        /// <param name="sysId">bank id</param>
+        /// <param name="amount">trans amount</param>
+        /// <param name="memo">meno</param>
+        /// <param name="depositRep3">output</param>
+        /// <returns></returns>
         public int DepositReqLocalBank(int custId, int sysId, decimal amount, string memo, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
@@ -87,26 +95,28 @@ namespace MemberSite.Service.BLL
 
             if (_info != null)
             {
-                DepositDetailInfo depositDetailInfo = new DepositDetailInfo();
-                depositDetailInfo.Amount = amount;
-                depositDetailInfo.CustId = custId;
-                depositDetailInfo.DepositType = (int)DepositType.LocalBank;
-                depositDetailInfo.Memo = memo;
-                depositDetailInfo.SiteId = custInfo.SiteId;
-                depositDetailInfo.UserName = custInfo.UserName;
-                depositDetailInfo.CurrencyId = custInfo.CurrencyId;
+                var depositDetailInfo = new DepositDetailInfo
+                {
+                    Amount = amount,
+                    CustId = custId,
+                    DepositType = (int) DepositType.LocalBank,
+                    Memo = memo,
+                    SiteId = custInfo.SiteId,
+                    UserName = custInfo.UserName,
+                    CurrencyId = custInfo.CurrencyId
+                };
 
-                var depositInfo3_1 = new DepositInfo3_1();
-                depositInfo3_1.AccountName = _info.AccountName;
-                depositInfo3_1.CurrencyId = custInfo.CurrencyId;
-                depositInfo3_1.SysId = _info.SysId;
-                depositInfo3_1.AccountNo = _info.AccountNo;
-                depositInfo3_1.Ver = 1;
+                var depositInfo3_1 = new DepositInfo3_1
+                {
+                    AccountName = _info.AccountName,
+                    CurrencyId = custInfo.CurrencyId,
+                    SysId = _info.SysId,
+                    AccountNo = _info.AccountNo,
+                    Ver = 1
+                };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
-                string transId = null;
-                string postScript = null;
 
-                depoistService.DepositReq(depositDetailInfo, out transId, out postScript);
+                depoistService.DepositReq(depositDetailInfo, out var transId, out var postScript);
                 depositRep3.TransId = transId;
                 depositRep3.PostScript = postScript;
                 depositRep3.AccountNo = depositInfo3_1.AccountNo;
@@ -148,6 +158,7 @@ namespace MemberSite.Service.BLL
 
             return 0;
         }
+
         public int DepositReqOnlineBanking(int custId, int sysId, int payId, int channelId, decimal amount, out string transId, out BankInfoPay onlineBank)
         {
             transId = null;

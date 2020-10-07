@@ -122,30 +122,37 @@ namespace MemberSite.Controllers.Api
             public string memo { set; get; }
         }
 
+        /// <summary>
+        /// Local Bank Transfer
+        /// </summary>
+        /// <param name="depositReqWireTransferReq"></param>
+        /// <returns></returns>
         [HttpPost]
         public ApiResult<DepositRep3> DepositReqWireTransfer(DepositReqWireTransferReq depositReqWireTransferReq)
         {
-            ApiResult<DepositRep3> apiResult = new ApiResult<DepositRep3>();
-
+            var apiResult = new ApiResult<DepositRep3>();
             var authData = authorizeBLL.GetAuthData();
-            DepositRep3 depositRep3 = null;
-            var result = paymentBLL.DepositReqLocalBank(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out depositRep3);
-            if (result == -1)
+            
+            //check AccountName first
+            if (custInfoBLL.CheckAccountName(authData.CustId))
             {
-                apiResult.ErrorCode = -1;
+                apiResult.ErrorCode = -2;
+                apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
+                return apiResult;
             }
-            else if (result == -2)
+
+            var result = paymentBLL.DepositReqLocalBank(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out var depositRep3);
+            switch (result)
             {
-                apiResult.ErrorCode = -1;
-            }
-            else if (result == -3)
-            {
-                apiResult.ErrorCode = -1;
-            }
-            else
-            {
-                apiResult.ErrorCode = 0;
-                apiResult.Data = depositRep3;
+                case -1:
+                case -2:
+                case -3:
+                    apiResult.ErrorCode = -1;
+                    break;
+                default:
+                    apiResult.ErrorCode = 0;
+                    apiResult.Data = depositRep3;
+                    break;
             }
 
             return apiResult;

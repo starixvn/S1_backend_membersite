@@ -377,6 +377,20 @@ namespace MemberSite.Service.BLL
             return custInfoService.ExistsEmail(custId, email, siteId);
         }
 
+        /// <summary>
+        /// Check user's have AccountName or not
+        /// </summary>
+        /// <param name="custId"></param>
+        /// <returns>
+        /// true=>not exist 
+        /// false=>existed 
+        /// </returns>
+        public bool CheckAccountName(int custId)
+        {
+            var profile = GetCustInfoProfile(custId);
+            return profile == null || string.IsNullOrEmpty(profile.AccountName);
+        }
+
         public CustInfoProfile GetCustInfoProfile(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);

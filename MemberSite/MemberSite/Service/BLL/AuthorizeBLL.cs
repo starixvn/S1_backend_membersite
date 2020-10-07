@@ -39,8 +39,7 @@ namespace MemberSite.Service.BLL
             if (httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
             {
                 authData = new AuthData();
-                int custId = 0;
-                int.TryParse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value, out custId);
+                int.TryParse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value, out var custId);
                 authData.CustId = custId;
                 authData.UserName = httpContextAccessor.HttpContext.User.Identity.Name;
                 authData.Token = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "Token").Value;
