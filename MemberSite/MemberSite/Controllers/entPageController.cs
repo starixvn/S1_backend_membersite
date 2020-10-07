@@ -60,6 +60,10 @@ namespace MemberSite.Controllers
                     var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
                     var tpCurrency = thirdPartyBLL.GetTpCurrency(tpId, custInfo.CurrencyId);
                     var balance = walletBLL.GetBalance(authData.CustId);
+                    var bonusAmount = walletBLL.GetBonus(authData.CustId, 2);
+
+                    balance += bonusAmount;
+
                     if (tpCurrency.ExchangeRate != 0 && tpCurrency.ExchangeRate != 1)
                     {
                         balance /= tpCurrency.ExchangeRate;
