@@ -75,13 +75,6 @@
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
-      "tpId": 5,
-      "gameId": 101,
-      "img": "banner-PP-Roulette-Experience.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ]
-    },
-    {
       "tpId": 18,
       "gameId": 18,
       "img": "banner-Ebet.jpg",
