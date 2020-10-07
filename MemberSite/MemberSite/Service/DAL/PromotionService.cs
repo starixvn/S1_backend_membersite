@@ -181,43 +181,58 @@ namespace MemberSite.Service.DAL
                         rollOver = dRollOver;
                         expiryTime = DateTimeOffset.Now.AddDays(promotion.ExpiryDays).ToUnixTimeSeconds();
                     }
+                    else if (promotion.PromotionType == PromotionType.Rebate || promotion.PromotionType == PromotionType.Cashback)
+                    {
+
+                    }
                     else
                     {
                         return 0;
                     }
 
-                    p = new DynamicParameters(new { PromotionType = (int)promotion.PromotionType, BonusCode = bonusCode, CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, BonusInfo = sBonusInfo, LockedAmount = dLockedAmount, BonusAmount = dBonus, ExpiryDays = promotion.ExpiryDays, Memo = (string)null, Prefix = $"B{common.GetEnv()}" });
-                    p.Add("TransId", dbType: DbType.String, direction: ParameterDirection.Output);
-                    result = conn.Execute("Member_BonusInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
-                    var transId = p.Get<string>("TransId");
+                    string transId = "";
+                    if (promotion.PromotionType != PromotionType.Rebate && promotion.PromotionType != PromotionType.Cashback)
+                    {
+                        p = new DynamicParameters(new { PromotionType = (int)promotion.PromotionType, BonusCode = bonusCode, CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, BonusInfo = sBonusInfo, LockedAmount = dLockedAmount, BonusAmount = dBonus, ExpiryDays = promotion.ExpiryDays, Memo = (string)null, Prefix = $"B{common.GetEnv()}" });
+                        p.Add("TransId", dbType: DbType.String, direction: ParameterDirection.Output);
+                        result = conn.Execute("Member_BonusInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
+                        transId = p.Get<string>("TransId");
+                    }
 
                     if (bHasBonusWallet)
                     {
-                        if (result > 0 && dLockedAmount > 0)
+                        if (promotion.PromotionType == PromotionType.Rebate || promotion.PromotionType == PromotionType.Cashback)
                         {
-                            byte is1stDepoist = 0;
-                            decimal afterAmount = 0;
-                            int type = 5/*Bonus*/;
-                            result = walletService.SetBalance(custId, siteId, userName, dLockedAmount * -1, type, $"Claim Promotion BonusCode: {bonusCode}, Locked Amount: {dLockedAmount.ToString("#,##0.##")}", transId, out afterAmount, out is1stDepoist, conn, trans);
+                            result = bonusWalletService.RewardRebate(promotion.BonusCode, (int)promotion.PromotionType - 5, custId, userName, siteId, currencyId, conn, trans) ? 1 : 0;
+                        }
+                        else
+                        {
+                            if (result > 0 && dLockedAmount > 0)
+                            {
+                                byte is1stDepoist = 0;
+                                decimal afterAmount = 0;
+                                int type = 5/*Bonus*/;
+                                result = walletService.SetBalance(custId, siteId, userName, dLockedAmount * -1, type, $"Claim Promotion BonusCode: {bonusCode}, Locked Amount: {dLockedAmount.ToString("#,##0.##")}", transId, out afterAmount, out is1stDepoist, conn, trans);
+
+                                if (result > 0)
+                                {
+                                    withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, dLockedAmount * -1, null, transId, out decimal afterWithdrawalLimit, conn, trans);
+                                }
+                                else
+                                {
+                                    return -2;
+                                }
+                            }
 
                             if (result > 0)
                             {
-                                withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, dLockedAmount * -1, null, transId, out decimal afterWithdrawalLimit, conn, trans);
+                                int bonusId = 0;
+
+                                Match m = Regex.Match(transId, @"\d+");
+                                int.TryParse(m.Value, out bonusId);
+
+                                result = bonusWalletService.RewardBonus(bonusId, promotion.CategoryId, promotion.TpId, custId, siteId, userName, dBonus, dLockedAmount, dRollOver, expiryTime, 5, $"Claim Promotion BonusCode: {bonusCode}", transId, conn, trans) ? 1 : 0;
                             }
-                            else
-                            {
-                                return -2;
-                            }
-                        }
-
-                        if (result > 0)
-                        {
-                            int bonusId = 0;
-
-                            Match m = Regex.Match(transId, @"\d+");
-                            int.TryParse(m.Value, out bonusId);
-
-                            result = bonusWalletService.RewardBonus(bonusId, promotion.CategoryId, promotion.TpId, custId, siteId, userName, dBonus, dLockedAmount, dRollOver, expiryTime, 5, $"Claim Promotion BonusCode: {bonusCode}", transId, conn, trans) ? 1 : 0;
                         }
                     }
                     else
@@ -307,15 +322,21 @@ namespace MemberSite.Service.DAL
                         promo.DepositId = canJoinParams.Get<string>("RefId");
                         promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
                     }
-
-                    BonusWallet custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
-                    if (custBonusInfo != null)
+                    if (promo.PromotionType == 6 || promo.PromotionType == 7)
                     {
-                        promo.CustExpiryTime = custBonusInfo.ExpiryTime;
-                        promo.CustRollOver = custBonusInfo.Rollover;
-                        promo.CustTurnOver = custBonusInfo.Turnover;
-                        promo.Status = custBonusInfo.Status;
-                        promo.isJoin = true;
+                        promo.isJoin = conn.Execute("Member_RebateInfo_GetByCust", new { promo.BonusCode, RebateType = promo.PromotionType - 5, CustId }, trans, commandType: CommandType.StoredProcedure) > 0;
+                    }
+                    else
+                    {
+                        BonusWallet custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
+                        if (custBonusInfo != null)
+                        {
+                            promo.CustExpiryTime = custBonusInfo.ExpiryTime;
+                            promo.CustRollOver = custBonusInfo.Rollover;
+                            promo.CustTurnOver = custBonusInfo.Turnover;
+                            promo.Status = custBonusInfo.Status;
+                            promo.isJoin = true;
+                        }
                     }
                 }
 
@@ -417,14 +438,21 @@ namespace MemberSite.Service.DAL
                         promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
                     }
 
-                    BonusWallet custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
-                    if (custBonusInfo != null)
+                    if (promo.PromotionType == 6 || promo.PromotionType == 7)
                     {
-                        promo.CustExpiryTime = custBonusInfo.ExpiryTime;
-                        promo.CustRollOver = custBonusInfo.Rollover;
-                        promo.CustTurnOver = custBonusInfo.Turnover;
-                        promo.Status = custBonusInfo.Status;
-                        promo.isJoin = true;
+                        promo.isJoin = conn.Execute("Member_RebateInfo_GetByCust", new { promo.BonusCode, RebateType = promo.PromotionType - 5, CustId }, trans, commandType: CommandType.StoredProcedure) > 0;
+                    }
+                    else
+                    {
+                        BonusWallet custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
+                        if (custBonusInfo != null)
+                        {
+                            promo.CustExpiryTime = custBonusInfo.ExpiryTime;
+                            promo.CustRollOver = custBonusInfo.Rollover;
+                            promo.CustTurnOver = custBonusInfo.Turnover;
+                            promo.Status = custBonusInfo.Status;
+                            promo.isJoin = true;
+                        }
                     }
                 }
             }

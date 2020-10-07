@@ -127,7 +127,9 @@ namespace MemberSite.Service.Model.enums
         ReDeposit = 2,
         Freebet = 3,
         Special = 4,
-        WalletBonus = 5
+        WalletBonus = 5,
+        Rebate = 6,
+        Cashback = 7
     }
 
     public enum BonusType
