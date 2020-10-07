@@ -132,26 +132,42 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<DepositRep3>();
             var authData = authorizeBLL.GetAuthData();
-            
+
             //check AccountName first
-            if (custInfoBLL.CheckAccountName(authData.CustId))
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+
+            if (custInfo.SiteId == 2 && custInfoBLL.GetCustBankInfo(authData.CustId) == null)
             {
                 apiResult.ErrorCode = -2;
                 apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
                 return apiResult;
             }
+            else /**/
+            {
+
+            }
 
             var result = paymentBLL.DepositReqLocalBank(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out var depositRep3);
+
+            apiResult.ErrorCode = result;
+
             switch (result)
             {
-                case -1:
-                case -2:
-                case -3:
-                    apiResult.ErrorCode = -1;
-                    break;
-                default:
-                    apiResult.ErrorCode = 0;
+                case 0:
                     apiResult.Data = depositRep3;
+                    apiResult.Message = "";
+                    break;
+                case -1:
+                    apiResult.Message = "";
+                    break;
+                case -2:
+                    apiResult.Message = "";
+                    break;
+                case -3:
+                    apiResult.Message = "";
+                    break;
+                case -4:
+                    apiResult.Message = "";
                     break;
             }
 
@@ -419,7 +435,7 @@ namespace MemberSite.Controllers.Api
 
         [HttpPost]
         //[DisableFormValueModelBinding]
-        public ApiResult UploadReceipt([FromForm]DepositReceiptFile depositReceipt)
+        public ApiResult UploadReceipt([FromForm] DepositReceiptFile depositReceipt)
         {
             decimal xSize = 500m;
             var apiResult = new ApiResult();

@@ -382,15 +382,14 @@ namespace MemberSite.Service.BLL
         /// </summary>
         /// <param name="custId"></param>
         /// <returns>
-        /// true=>not exist 
-        /// false=>existed 
+        /// true=>existed
+        /// false=>not exists
         /// </returns>
         public bool CheckAccountName(int custId)
         {
-            var profile = GetCustInfoProfile(custId);
-            return profile == null || string.IsNullOrEmpty(profile.AccountName);
+            var custBankInfo = GetCustBankInfo(custId);
+            return custBankInfo == null;
         }
-
         public CustInfoProfile GetCustInfoProfile(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);

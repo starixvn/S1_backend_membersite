@@ -136,11 +136,6 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            if (custInfo.SiteId != 2)
-            {
-                apiResult.ErrorCode = -2;
-                return apiResult;
-            }
             //check input
             if (string.IsNullOrEmpty(content.Name))
             {
@@ -156,7 +151,7 @@ namespace MemberSite.Controllers.Api
 
             //check AccountName exist or not
             //existed
-            if (!custInfoBLL.CheckAccountName(authData.CustId))
+            if (custInfoBLL.CheckAccountName(authData.CustId))
             {
                 apiResult.ErrorCode = -5;
                 return apiResult;
