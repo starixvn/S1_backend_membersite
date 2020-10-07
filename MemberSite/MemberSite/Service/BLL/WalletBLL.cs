@@ -24,6 +24,10 @@ namespace MemberSite.Service.BLL
         {
             return tools.Floor(walletService.GetBalance(custId), 2);
         }
+        public decimal GetBonus(int custId, int promoCategoryId)
+        {
+            return tools.Floor(walletService.GetBonus(custId, promoCategoryId), 2);
+        }
         public string GetFmtBalance(int custId)
         {
             return tools.FmtBalance(walletService.GetBalance(custId));
