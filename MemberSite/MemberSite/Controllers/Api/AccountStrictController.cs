@@ -9,6 +9,7 @@ using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace MemberSite.Controllers.Api
 {
@@ -115,6 +116,50 @@ namespace MemberSite.Controllers.Api
 
             apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, custBankInfo.AccountName, bankInfoList);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+            return apiResult;
+        }
+
+        public class SetAccountNameReq
+        {
+            [JsonProperty("name")]
+            public string Name { get; set; }
+        }
+
+        /// <summary>
+        /// For Goal 123 add account name direct
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns>ApiResult</returns>
+        [HttpPost]
+        public ApiResult SetAccountName(SetAccountNameReq content)
+        {
+            var apiResult = new ApiResult(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            //check input
+            if (string.IsNullOrEmpty(content.Name))
+            {
+                apiResult.ErrorCode = -3;
+                apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
+                return apiResult;
+            }
+            if (content.Name.Length > 50)
+            {
+                apiResult.ErrorCode = -4;
+                return apiResult;
+            }
+
+            //check AccountName exist or not
+            //existed
+            if (custInfoBLL.CheckAccountName(authData.CustId))
+            {
+                apiResult.ErrorCode = -5;
+                return apiResult;
+            }
+            //not existed, update (custInfoBLL.SetCustBankInfo only return 0 or -1)
+            apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, content.Name, null);
+            apiResult.Message = selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
+
             return apiResult;
         }
 
