@@ -388,7 +388,7 @@ namespace MemberSite.Service.BLL
         public bool CheckAccountName(int custId)
         {
             var custBankInfo = GetCustBankInfo(custId);
-            return custBankInfo == null;
+            return custBankInfo != null;
         }
         public CustInfoProfile GetCustInfoProfile(int custId)
         {
