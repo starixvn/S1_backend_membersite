@@ -118,6 +118,48 @@ namespace MemberSite.Controllers.Api
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
+//        public class SetAccountNameReq
+//        {
+//            public string Name { get; set; }
+//        }
+///// <summary>
+///// 
+///// </summary>
+///// <param name="content"></param>
+///// <returns></returns>
+//        [HttpPost]
+//        public ApiResult SetAccountName(SetAccountNameReq content)
+//        {
+//            var apiResult = new ApiResult(selLangBLL);
+//            var authData = authorizeBLL.GetAuthData();
+//            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+//            //check input
+//            if (string.IsNullOrEmpty(content.Name))
+//            {
+//                apiResult.ErrorCode = -3;
+//                apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
+//                return apiResult;
+//            }
+
+//            if (content.Name.Length > 50)
+//            {
+//                apiResult.ErrorCode = -4;
+//                return apiResult;
+//            }
+
+//            //check AccountName exist or not
+//            //existed
+//            if (custInfoBLL.GetCustBankInfo(authData.CustId) != null)
+//            {
+//                apiResult.ErrorCode = -5;
+//                return apiResult;
+//            }
+//            //not existed, update (custInfoBLL.SetCustBankInfo only return 0 or -1)
+//            apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, content.Name, null);
+//            apiResult.Message = selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
+
+//            return apiResult;
+//        }
 
         public class SetAccountNameReq
         {
