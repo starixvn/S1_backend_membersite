@@ -199,7 +199,7 @@
     <value>Yêu cầu rút tiền của bạn đã được chấp thuận. Chúng tôi sẽ thông báo đến bạn khi nó được xử lý xong.</value>
   </data>
   <data name="ForgetPwdFail" xml:space="preserve">
-    <value>Bạn đã nhập email và câu trả lời bảo mật không đúng, vui lòng thử lại!</value>
+    <value>Vui lòng nhập địa chỉ email bạn đã đăng ký.</value>
     <comment>0024. Deposit</comment>
   </data>
   <data name="ForgetPwdSuccess" xml:space="preserve">
