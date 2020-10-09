@@ -24,12 +24,6 @@
   ],
   "Casino": [
     {
-      "actionLink": "http://event-tw.248ka.com/FallE/index.html",
-      "outerLink": true,
-      "img": "event-ygg-20200903.png",
-      "lang": [ "th", "id", "en", "cs" ]
-    },
-    {
       "img": "LuckyNekobanner.jpg",
       "lang": [ "en", "vn" ]
     }
