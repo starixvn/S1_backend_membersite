@@ -35,7 +35,7 @@ namespace MemberSite.Service.DAL
 
         public int GetSite(string domain)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringLog"));
             return conn.QueryFirstOrDefault<int>("Member_SiteId_Get", new { Domain = domain }, commandType: CommandType.StoredProcedure);
         }
     }
