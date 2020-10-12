@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -35,8 +36,9 @@ namespace MemberSite.Controllers.Api
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly BannerBLL bannerBLL;
         private readonly AuthBLL authBLL;
+        private readonly IovationBLL iovationBLL;
 
-        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL)
+        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -48,6 +50,7 @@ namespace MemberSite.Controllers.Api
             this.serverInfoBLL = serverInfoBLL;
             this.bannerBLL = bannerBLL;
             this.authBLL = authBLL;
+            this.iovationBLL = iovationBLL;
         }
 
         public class LoginModel
@@ -133,6 +136,7 @@ namespace MemberSite.Controllers.Api
             public string RefId { get; set; }
             public string AffId { get; set; }
             public string Aff { get; set; }
+            public string blackbox { get; set; }
         }
 
         [HttpPost]
@@ -190,6 +194,10 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
+                var apiResultIovation = await iovationBLL.IovationChecks(custId, registeredModel.CurrencyId, registeredModel.UserName, registeredModel.blackbox, IovationType.registration);
+                if (apiResultIovation.ErrorCode == 0)
+                    iovationBLL.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
+
                 commonBLL.SendWelcomeMail(custId);
 
                 Customer customer = null;
@@ -307,11 +315,17 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                commonBLL.SendWelcomeMail(custId);
+                _ = Task.Run(async () =>
+                  {
+                      commonBLL.SendWelcomeMail(custId);
+
+                      var apiResultIovation = await iovationBLL.IovationChecks(custId, signupModel.CurrencyId, signupModel.UserName, signupModel.blackbox, IovationType.registration);
+                      if (apiResultIovation.ErrorCode == 0)
+                          iovationBLL.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
+                  });
 
                 Customer customer = null;
-                string token = null;
-                var userLoginResult = custInfoBLL.UserLogin(signupModel.UserName, signupModel.Userpwd, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
+                var userLoginResult = custInfoBLL.UserLogin(signupModel.UserName, signupModel.Userpwd, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out string token);
 
                 if (userLoginResult == -1)
                 {

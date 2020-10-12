@@ -1735,4 +1735,16 @@
   <data name="lbl_PromoRemind" xml:space="preserve">
     <value>Gửi tiền ngay để được hưởng các chương trình khuyến mãi độc quyền</value>
   </data>
+  <data name="msg_ApiServerError" xml:space="preserve">
+    <value>Rất tiếc! Đã xảy ra lỗi, vui lòng thử lại.</value>
+  </data>
+  <data name="msg_OTP_SendOTPSMS_5002" xml:space="preserve">
+    <value>Entered the wrong phone number.</value>
+  </data>
+  <data name="msg_OTP_SendOTPSMS_1000" xml:space="preserve">
+    <value>Invalid OTP Code</value>
+  </data>
+  <data name="msg_EnterOTPCode" xml:space="preserve">
+    <value>Xin nhận mã xác nhận</value>
+  </data>
 </root>

@@ -8,6 +8,7 @@ using MemberSite.Attributes;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,10 +30,11 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL selLangBLL;
         private readonly WalletBLL walletBLL;
         private readonly MobilePayInfoBLL mobilePayInfoBLL;
+        private readonly IovationBLL iovationBLL;
         private readonly string tpApiUrl;
         private readonly int mainWalletType;
 
-        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBLL mobilePayInfoBLL)
+        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBLL mobilePayInfoBLL, IovationBLL iovationBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;
@@ -43,6 +45,7 @@ namespace MemberSite.Controllers.Api
             this.selLangBLL = selLangBLL;
             this.walletBLL = walletBLL;
             this.mobilePayInfoBLL = mobilePayInfoBLL;
+            this.iovationBLL = iovationBLL;
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
         }
@@ -180,6 +183,7 @@ namespace MemberSite.Controllers.Api
             public string AccountNo { set; get; }
             public decimal amount { set; get; }
             public string memo { set; get; }
+            public string blackbox { get; set; }
         }
 
         [HttpPost]
@@ -291,10 +295,15 @@ namespace MemberSite.Controllers.Api
             /*Temp*/
             if (transferToSabaResult.ErrorCode == 0)
             {
-                decimal afterAmount = 0;
-                string transId = "";
+                _ = Task.Run(async () =>
+                {
+                    var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                    var apiResultIovation = await iovationBLL.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.blackbox, IovationType.withdrawal);
+                    if (apiResultIovation.ErrorCode == 0)
+                        iovationBLL.SetIovation(authData.CustId, apiResultIovation.Message, IovationType.withdrawal);
+                });
 
-                result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out afterAmount, out transId);
+                result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out decimal afterAmount, out string transId);
 
                 if (result == 0 || result == 2)
                 {
