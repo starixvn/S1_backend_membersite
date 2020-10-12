@@ -179,4 +179,14 @@ namespace MemberSite.Service.Model.enums
         Slots = 4,
         Fishing = 5
     }
+    public enum IovationType
+    {
+        registration = 1,
+        withdrawal = 2,
+    }
+    public enum IovationErrorcode : int
+    {
+        Success = 0,
+        IovationNotSupport = 1301
+    }
 }
