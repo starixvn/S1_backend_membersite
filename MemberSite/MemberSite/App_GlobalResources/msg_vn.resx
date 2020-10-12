@@ -258,7 +258,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
     <value>Số dư trong ví chính không được nhỏ hơn {0}</value>
   </data>
   <data name="msg_OTPSendCode" xml:space="preserve">
-    <value>Mã xác nhận đã được gửi đến số điện thoại đăng ký. Vui lòng nhập mã.</value>
+    <value>Mã xác nhận đã được gửi đến số điện thoại bạn đăng ký. Vui lòng kiểm tra và nhập mã xác nhận bên dưới.</value>
   </data>
   <data name="msg_Ineligible" xml:space="preserve">
     <value>Tài khoản của bạn chưa may mắn trong ngày hôm nay, xin vui lòng thử lại vào ngày hôm sau.</value>
