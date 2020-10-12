@@ -21,32 +21,35 @@ export default class Panel extends Component {
 	SendVerifySMS = () => {
 		this.setState({ loading: true });
 		WebAPI()
-			.post("/api/AccountStrict/SendVerifySMS")
+			.post("/api/AccountStrict/SendOTPSMS")
 			.then(
 				res => {
 					let errMsg = "";
-					let request_id = "";
+					let now = Math.floor(Date.now() / 1000);
+					let startUnixTime = res.data.data.startUnixTime;
 
-					if (res.data.errorCode === 0) {
-						request_id = res.data.message;
-					} else {
-						errMsg = res.data.message;
+					if (res.data.errorCode !== 0) {
+						let _errMsg =
+							i18n[`msg_OTP_SendOTPSMS_${res.data.errorCode}`];
+						errMsg =
+							res.data.message ||
+							_errMsg ||
+							`[${res.data.errorCode}] ${i18n.msg_ApiServerError}`;
 					}
 
 					this.setState({
 						loading: false,
-						request_id: request_id,
+						executeTime: now,
+						startUnixTime: startUnixTime,
 						errMsg: errMsg,
 						errCode: res.data.errorCode
 					});
 				},
 				err => {
-					console.log(`ErrorCode:999`);
-					console.log(err);
 					this.setState({
 						errCode: 999,
 						loading: false,
-						errMsg: "API Server Error."
+						errMsg: `[999] ${i18n.msg_ApiServerError}`
 					});
 				}
 			);
@@ -54,34 +57,40 @@ export default class Panel extends Component {
 
 	ClickVerify = async () => {
 		if (!this.state.code) {
-			this.setState({ errMsg: i18n.lbl_PleaseEnterCode });
+			this.setState({ errMsg: i18n.msg_EnterOTPCode });
 		} else {
 			this.setState({ loading: true });
 			await WebAPI()
-				.post("/api/AccountStrict/VerifyPhone", {
-					request_id: this.state.request_id,
-					code: this.state.code
+				.post("/api/AccountStrict/VerifyOTP", {
+					inputOTPcode: this.state.code
 				})
 				.then(
 					res => {
 						let errMsg = "";
-
+						let now = Math.floor(Date.now() / 1000);
 						if (res.data.errorCode === 0) {
 							location.reload();
-							// this.ClickClose();
 						} else {
-							errMsg = res.data.message;
-						}
+							let _errMsg =
+								i18n[
+									`msg_OTP_SendOTPSMS_${res.data.errorCode}`
+								];
+							errMsg =
+								res.data.message ||
+								_errMsg ||
+								`[${res.data.errCode}] ${i18n.msg_ApiServerError}`;
 
-						this.setState({
-							errMsg: errMsg,
-							loading: false
-						});
+							this.setState({
+								executeTime: now,
+								errMsg: errMsg,
+								loading: false
+							});
+						}
 					},
 					err => {
 						this.setState({
 							loading: false,
-							errMsg: "API Server Error."
+							errMsg: `[999] ${i18n.msg_ApiServerError}`
 						});
 					}
 				);
@@ -113,6 +122,8 @@ export default class Panel extends Component {
 				isLoading={this.state.loading}
 				errMsg={this.state.errMsg}
 				errCode={this.state.errCode}
+				startUnixTime={this.state.startUnixTime}
+				executeTime={this.state.executeTime}
 			/>
 		);
 	}

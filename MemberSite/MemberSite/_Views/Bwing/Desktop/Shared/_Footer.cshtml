@@ -7,8 +7,10 @@
 @inject GamingBLL gamingBLL
 @{
     var domain = serverInfoBLL.GetDomain();
-    if (domain.Length > 4)
-        domain = domain.Substring(4);
+    var pos = domain.IndexOf(".");
+    if (pos > 0)
+        domain = domain.Substring(pos+1);
+
     var serverInfo = serverInfoBLL.GetServerInfo();
     var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
 

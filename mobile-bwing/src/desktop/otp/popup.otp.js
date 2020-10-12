@@ -28,8 +28,31 @@ const ContentSwipper = props => {
 	}
 };
 
-const IllegalPhone = ({ errMsg, ClickClose, errCode }) => {
-	const [count, setCount] = useState(defCountDownSec);
+const getCountDownSec = ({ startUnixTime, executeTime }) => {
+	let result = startUnixTime + defCountDownSec - executeTime;
+	return result >= 0 ? result : 0;
+};
+
+const countDownFormat = countdown => {
+	const pad = (num, size) => {
+		return ("000" + num).slice(size * -1);
+	};
+	let time = parseFloat(countdown).toFixed(3);
+	let minutes = Math.floor(time / 60) % 60;
+	let seconds = Math.floor(time - minutes * 60);
+	return `${pad(minutes, 2)}:${pad(seconds, 2)}`;
+};
+
+const IllegalPhone = ({
+	errMsg,
+	ClickClose,
+	errCode,
+	startUnixTime,
+	executeTime
+}) => {
+	const [count, setCount] = useState(
+		getCountDownSec({ startUnixTime, executeTime })
+	);
 	const refCount = useRef(count);
 	const isMountedRef = useRef(null);
 	refCount.current = count;
@@ -49,9 +72,11 @@ const IllegalPhone = ({ errMsg, ClickClose, errCode }) => {
 	const Timer = () => {
 		if (isMountedRef.current) {
 			let newCount = refCount.current - 1;
-			setCount(newCount);
-			if (newCount !== 0) {
-				setTimeout(Timer, 1000);
+			if (newCount >= 0) {
+				setCount(newCount);
+				if (newCount !== 0) {
+					setTimeout(Timer, 1000);
+				}
 			}
 		}
 	};
@@ -61,7 +86,7 @@ const IllegalPhone = ({ errMsg, ClickClose, errCode }) => {
 			<div className="modal__body">
 				<p className="txt-lh">
 					{errMsg}
-					{showTimer ? ` ( ${count} ) ` : null}
+					{showTimer ? ` ( ${countDownFormat(count)} ) ` : null}
 				</p>
 			</div>
 			<div className="modal__footer">
@@ -78,8 +103,18 @@ const IllegalPhone = ({ errMsg, ClickClose, errCode }) => {
 	);
 };
 
-const Normal = ({ ClickVerify, ClickResend, OnChangeCode, code, errMsg }) => {
-	const [count, setCount] = useState(defCountDownSec);
+const Normal = ({
+	ClickVerify,
+	ClickResend,
+	OnChangeCode,
+	code,
+	errMsg,
+	startUnixTime,
+	executeTime
+}) => {
+	const [count, setCount] = useState(
+		getCountDownSec({ startUnixTime, executeTime })
+	);
 	const refCount = useRef(count);
 	const isMountedRef = useRef(null);
 	refCount.current = count;
@@ -95,9 +130,11 @@ const Normal = ({ ClickVerify, ClickResend, OnChangeCode, code, errMsg }) => {
 	const Timer = () => {
 		if (isMountedRef.current) {
 			let newCount = refCount.current - 1;
-			setCount(newCount);
-			if (newCount !== 0) {
-				setTimeout(Timer, 1000);
+			if (newCount >= 0) {
+				setCount(newCount);
+				if (newCount !== 0) {
+					setTimeout(Timer, 1000);
+				}
 			}
 		}
 	};
@@ -115,7 +152,6 @@ const Normal = ({ ClickVerify, ClickResend, OnChangeCode, code, errMsg }) => {
 		<>
 			<div className="modal__body">
 				<p className="txt-lh">{i18n.msg_OTPSendCode}</p>
-				<p className="txt-lh">{i18n.msg_OTPEnterCode}</p>
 				<>
 					<div className="form-group otpInput">
 						<div className="input-field">
@@ -148,7 +184,9 @@ const Normal = ({ ClickVerify, ClickResend, OnChangeCode, code, errMsg }) => {
 						onClick={onResend}>
 						<span className="text">
 							{i18n.lbl_Resend}
-							{canResend ? null : ` ( ${count} ) `}
+							{canResend
+								? null
+								: ` ( ${countDownFormat(count)} ) `}
 						</span>
 					</button>
 				</div>

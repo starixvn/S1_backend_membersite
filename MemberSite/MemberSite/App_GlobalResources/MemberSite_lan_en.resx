@@ -1806,8 +1806,8 @@
   <data name="lbl_Resend" xml:space="preserve">
     <value>Resend</value>
   </data>
-  <data name="lbl_PleaseEnterCode" xml:space="preserve">
-    <value>Please enter sms code.</value>
+  <data name="msg_EnterOTPCode" xml:space="preserve">
+    <value>Please enter OTP code.</value>
   </data>
   <data name="lbl_PleaseSelBank" xml:space="preserve">
     <value>Please Select bank.</value>
@@ -1832,5 +1832,14 @@
   </data>
   <data name="lbl_PromoRemind" xml:space="preserve">
     <value>Deposit now to enjoy exclusive promotions</value>
+  </data>
+  <data name="msg_ApiServerError" xml:space="preserve">
+    <value>Oops! Something wrong, please try again.</value>
+  </data>
+  <data name="msg_OTP_SendOTPSMS_5002" xml:space="preserve">
+    <value>Entered the wrong phone number.</value>
+  </data>
+  <data name="msg_OTP_SendOTPSMS_1000" xml:space="preserve">
+    <value>Invalid OTP Code</value>
   </data>
 </root>
