@@ -155,16 +155,16 @@ namespace MemberSite.Controllers.Api
             {
                 case 0:
                     apiResult.Data = depositRep3;
-                    apiResult.Message = "";
+                    //apiResult.Message = "";
                     break;
                 case -1:
-                    apiResult.Message = "";
+                    //apiResult.Message = "";
                     break;
                 case -2:
-                    apiResult.Message = "";
+                    //apiResult.Message = "";
                     break;
                 case -3:
-                    apiResult.Message = "";
+                    //apiResult.Message = "";
                     break;
                 case -4:
                     apiResult.Message = "";
