@@ -20,13 +20,15 @@ namespace MemberSite.Service.DAL
         public void SetIovation(int custId, string iovation, string actionType)
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            var result = conn.Execute("Service_CustIovation_Set", new { CustId = custId, ActionType = actionType, Iovation = iovation }, commandType: CommandType.StoredProcedure);
+            var p = new DynamicParameters(new { CustId = custId, ActionType = actionType, Iovation = iovation });
+            p.Add("IovationOLD", dbType: DbType.String, direction: ParameterDirection.Output);
+            var result = conn.Execute("Service_CustIovation_Set", p, commandType: CommandType.StoredProcedure);
+            String iovationOLD = p.Get<string>("IovationOLD");
             //SetIovationChange
             if (result > 0)
             {
-                //Devid Yea
                 using MySqlConnection connLog = new MySqlConnection(configuration.GetConnectionString("ConnectionStringLog"));
-                connLog.Execute("Log", new { CustId = custId, ActionType = actionType, Iovation = iovation }, commandType: CommandType.StoredProcedure);
+                connLog.Execute("Service_LogIovationChange_Ins", new { CustId = custId, ActionType = actionType, Iovation = iovation, IovationOLD = iovationOLD }, commandType: CommandType.StoredProcedure);
             }
         }
     }
