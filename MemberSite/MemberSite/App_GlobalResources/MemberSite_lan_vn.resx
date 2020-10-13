@@ -1373,7 +1373,7 @@
     <value>Bao gồm OneRNG, PP and Platinum Suite(AB)</value>
   </data>
   <data name="lbl_Wallet_Saba" xml:space="preserve">
-    <value>Ví Sportsbook</value>
+    <value>Ví Thể Thao</value>
   </data>
   <data name="lbl_WithdrawalHistory" xml:space="preserve">
     <value>Lịch sử rút tiền</value>
@@ -1685,7 +1685,7 @@
     <value>Sảnh Venus</value>
   </data>
   <data name="lbl_TpWallet_1" xml:space="preserve">
-    <value>Ví Sportsbook</value>
+    <value>Ví Thể Thao</value>
   </data>
   <data name="lbl_AccountNumber" xml:space="preserve">
     <value>Số tài khoản</value>

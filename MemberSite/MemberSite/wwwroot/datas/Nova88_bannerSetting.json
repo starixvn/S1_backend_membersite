@@ -84,6 +84,20 @@
   ],
   "Casino": [
     {
+      "actionLink": "https://pp88.asia/tournament/raining-cashndrops2/",
+      "outerLink": true,
+      //"actionLinkByLang": [
+      //  {
+      //    "lang": "cs",
+      //    "link": "https://pp88.asia/zh/tournament/slots-championship-zh/",
+      //    "outerLink": true
+      //  }
+      //],
+      "img": "event-pp-20201013.jpg",
+      "currencyId": [ 4 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
       "img": "Casino.jpg",
       "lang": [ "th", "id", "en", "cs" ]
     }
