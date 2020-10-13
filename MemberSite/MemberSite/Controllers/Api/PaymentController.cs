@@ -170,7 +170,7 @@ namespace MemberSite.Controllers.Api
                     //apiResult.Message = "";
                     break;
                 case -4:
-                    apiResult.Message = "";
+                    //apiResult.Message = "";
                     break;
             }
 
