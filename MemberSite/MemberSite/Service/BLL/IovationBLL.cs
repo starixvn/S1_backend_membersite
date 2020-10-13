@@ -48,26 +48,10 @@ namespace MemberSite.Service.BLL
             iovationType.TryGetValue((int)type, out typeName);
             iovationService.SetIovation(custId, iovation, typeName);
         }
-        private bool IsSiteSupportIovation()
-        {
-            bool isSupportIov = false;
-
-            var supportDic = configuration.GetSection("IovationSupport")?.Get<Dictionary<string, bool>>();
-
-            if (supportDic != null)
-            {
-                var supportDicIgnoreCase = new Dictionary<string, bool>(supportDic, StringComparer.OrdinalIgnoreCase);
-                var serverInfo = serverInfoBLL.GetServerInfo();
-                if (supportDicIgnoreCase.ContainsKey(serverInfo.SiteName))
-                    supportDicIgnoreCase.TryGetValue(serverInfo.SiteName, out isSupportIov);
-            }
-
-            return isSupportIov;
-        }
         public async Task<ApiResult> IovationChecks(int CustId, int CurrencyId, string UserName, string blackbox, IovationType type)
         {
             ApiResult apiResult = new ApiResult();
-            if (!IsSiteSupportIovation())
+            if (string.IsNullOrEmpty(blackbox))
             {
                 apiResult.ErrorCode = (int)IovationErrorcode.IovationNotSupport;
                 return apiResult;

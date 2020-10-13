@@ -194,11 +194,17 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                var apiResultIovation = await iovationBLL.IovationChecks(custId, registeredModel.CurrencyId, registeredModel.UserName, registeredModel.blackbox, IovationType.registration);
-                if (apiResultIovation.ErrorCode == 0)
-                    iovationBLL.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
+                _ = Task.Run(async () =>
+                {
+                    commonBLL.SendWelcomeMail(custId);
 
-                commonBLL.SendWelcomeMail(custId);
+                    if (!string.IsNullOrEmpty(registeredModel.blackbox))
+                    {
+                        var apiResultIovation = await iovationBLL.IovationChecks(custId, registeredModel.CurrencyId, registeredModel.UserName, registeredModel.blackbox, IovationType.registration);
+                        if (apiResultIovation.ErrorCode == 0)
+                            iovationBLL.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
+                    }
+                });
 
                 Customer customer = null;
                 string token = null;
@@ -319,9 +325,12 @@ namespace MemberSite.Controllers.Api
                   {
                       commonBLL.SendWelcomeMail(custId);
 
-                      var apiResultIovation = await iovationBLL.IovationChecks(custId, signupModel.CurrencyId, signupModel.UserName, signupModel.blackbox, IovationType.registration);
-                      if (apiResultIovation.ErrorCode == 0)
-                          iovationBLL.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
+                      if (!string.IsNullOrEmpty(signupModel.blackbox))
+                      {
+                          var apiResultIovation = await iovationBLL.IovationChecks(custId, signupModel.CurrencyId, signupModel.UserName, signupModel.blackbox, IovationType.registration);
+                          if (apiResultIovation.ErrorCode == 0)
+                              iovationBLL.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
+                      }
                   });
 
                 Customer customer = null;
@@ -360,6 +369,7 @@ namespace MemberSite.Controllers.Api
                         new Claim("Token",token ),
                         new Claim("LangId",customer.UserLang )
                     };
+
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                     apiResult.ErrorCode = 0;

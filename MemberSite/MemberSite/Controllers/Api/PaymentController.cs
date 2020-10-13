@@ -298,9 +298,13 @@ namespace MemberSite.Controllers.Api
                 _ = Task.Run(async () =>
                 {
                     var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                    var apiResultIovation = await iovationBLL.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.blackbox, IovationType.withdrawal);
-                    if (apiResultIovation.ErrorCode == 0)
-                        iovationBLL.SetIovation(authData.CustId, apiResultIovation.Message, IovationType.withdrawal);
+
+                    if (!string.IsNullOrEmpty(withdrawalReqModel.blackbox))
+                    {
+                        var apiResultIovation = await iovationBLL.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.blackbox, IovationType.withdrawal);
+                        if (apiResultIovation.ErrorCode == 0)
+                            iovationBLL.SetIovation(authData.CustId, apiResultIovation.Message, IovationType.withdrawal);
+                    }
                 });
 
                 result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out decimal afterAmount, out string transId);

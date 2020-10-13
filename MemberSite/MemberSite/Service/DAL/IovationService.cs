@@ -23,7 +23,7 @@ namespace MemberSite.Service.DAL
             var p = new DynamicParameters(new { CustId = custId, ActionType = actionType, Iovation = iovation });
             p.Add("IovationOLD", dbType: DbType.String, direction: ParameterDirection.Output);
             var result = conn.Execute("Service_CustIovation_Set", p, commandType: CommandType.StoredProcedure);
-            String iovationOLD = p.Get<string>("IovationOLD");
+            string iovationOLD = p.Get<string>("IovationOLD");
             //SetIovationChange
             if (result > 0)
             {
