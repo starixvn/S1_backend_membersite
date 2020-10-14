@@ -113,7 +113,7 @@ namespace MemberSite.Service.BLL
             var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
 
             var onlinePaymentList = (from x in bankInfoPayList
-                                     where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
+                                     where vipLevel >= x.PointLevel && (x.CurrencyId == custInfo.CurrencyId || x.CurrencyId == 0)
                                      select new PaymentFront
                                      {
                                          PayName = x.PayName,
