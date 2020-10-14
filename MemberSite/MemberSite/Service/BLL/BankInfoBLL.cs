@@ -110,7 +110,7 @@ namespace MemberSite.Service.BLL
                 return new PaymentFront[] { };
             }
 
-            var bankInfoPayList = GetOnlineBankList();
+            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
 
             var onlinePaymentList = (from x in bankInfoPayList
                                      where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
@@ -118,7 +118,8 @@ namespace MemberSite.Service.BLL
                                      {
                                          PayName = x.PayName,
                                          PayId = x.PayId,
-                                         ChannelId = x.ChannelId
+                                         ChannelId = x.ChannelId,
+                                         SelBank = x.SelBank
                                      }).Distinct(paymentOffComparer).ToArray();
             var payCurrency = GetPayCurrency();//.Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == payId).FirstOrDefault()
 
@@ -147,7 +148,7 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
-            var bankInfoPayList = GetOnlineBankList();
+            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
 
             var bankInfoList = (from x in bankInfoPayList
                                 where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.PayId == payId && (x.Method == 0 || x.Method == 1)
@@ -175,7 +176,7 @@ namespace MemberSite.Service.BLL
                 return null;
             }
 
-            var bankInfoPayList = GetOnlineBankList();
+            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
             var bankInfo = (from x in bankInfoPayList
                             where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId && x.PayId == payId
                             select new BankInfoPayFront
@@ -213,7 +214,7 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
-            var bankInfoPayList = GetOnlineBankList();
+            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
 
             var bankInfoList = (from x in bankInfoPayList
                                 where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
@@ -241,7 +242,7 @@ namespace MemberSite.Service.BLL
                 return null;
             }
 
-            var bankInfoPayList = GetOnlineBankList();
+            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
 
             var bankInfo = (from x in bankInfoPayList
                             where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId
@@ -276,14 +277,13 @@ namespace MemberSite.Service.BLL
             return bankInfo;
         }
         #endregion
-        public IEnumerable<BankInfoPay> GetOnlineBankList()
+        public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId)
         {
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            string key = $"BankInfoPayList_{serverInfo.SiteId}";
+            string key = $"BankInfoPayList_{siteId}";
             var bankInfoPayList = cache.Get<IEnumerable<BankInfoPay>>(key);
             if (bankInfoPayList == null)
             {
-                bankInfoPayList = bankInfoService.GetBankInfoPayList().OrderBy(x => x.MSort).OrderBy(x => x.SSort);
+                bankInfoPayList = bankInfoService.GetBankInfoPayList(siteId).OrderBy(x => x.MSort).OrderBy(x => x.SSort);
 
                 if (bankInfoPayList != null)
                 {

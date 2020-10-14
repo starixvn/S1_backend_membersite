@@ -188,8 +188,8 @@ namespace MemberSite.Service.BLL
                 return -2;
             }
 
-            var onlineBankList = bankInfoBLL.GetOnlineBankList();
-            onlineBank = onlineBankList.Where(x => vipLevel >= x.PointLevel && x.ChannelId == channelId && x.SysId == sysId && x.PayId == payId && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var onlineBankList = bankInfoBLL.GetOnlineBankList(custInfo.SiteId);
+            onlineBank = onlineBankList.Where(x => vipLevel >= x.PointLevel && x.ChannelId == channelId && (x.SysId == sysId || !x.SelBank) && x.PayId == payId && (x.CurrencyId == custInfo.CurrencyId || !x.SelBank)).FirstOrDefault();
 
             if (onlineBank != null)
             {
@@ -202,9 +202,8 @@ namespace MemberSite.Service.BLL
                 depositDetailInfo.UserName = custInfo.UserName;
                 depositDetailInfo.CurrencyId = custInfo.CurrencyId;
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(onlineBank);
-                string postScript = null;
 
-                depoistService.DepositReq(depositDetailInfo, out transId, out postScript);
+                depoistService.DepositReq(depositDetailInfo, out transId, out string postScript);
                 return 0;
             }
 

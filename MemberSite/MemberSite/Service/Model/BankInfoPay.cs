@@ -24,6 +24,7 @@ namespace MemberSite.Service.Model
         public string PayCode { get; set; }
         public int MSort { get; set; }
         public int SSort { get; set; }
+        public bool SelBank { get; set; }
     }
 
     public class BankInfoPayFront : IPaymentLimit
