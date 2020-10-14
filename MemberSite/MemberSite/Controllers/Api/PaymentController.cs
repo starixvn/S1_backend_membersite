@@ -299,7 +299,7 @@ namespace MemberSite.Controllers.Api
                 {
                     var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
-                    if (!string.IsNullOrEmpty(withdrawalReqModel.blackbox))
+                    if (withdrawalReqModel.blackbox != null)
                     {
                         var apiResultIovation = await iovationBLL.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.blackbox, IovationType.withdrawal);
                         if (apiResultIovation.ErrorCode == 0)
