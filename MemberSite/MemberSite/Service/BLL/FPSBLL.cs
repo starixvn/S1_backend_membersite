@@ -27,7 +27,7 @@ namespace MemberSite.Service.BLL
            
 
             string commonServiceUrl = configuration.GetValue<string>("CommonService");
-            string apiUrl = $"{commonServiceUrl}Common/FPS/FPSChecks";
+            string apiUrl = $"{commonServiceUrl}FPS/FPSChecks";
 
             dynamic req = new
             {

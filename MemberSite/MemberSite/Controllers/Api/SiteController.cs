@@ -60,6 +60,11 @@ namespace MemberSite.Controllers.Api
             public string UserName { get; set; }
             public string Userpwd { get; set; }
             public bool isPersistent { get; set; }
+            public string url { get; set; }
+            public string platform { get; set; }
+            public string userAgent { get; set; }
+            public string screen { get; set; }
+            public string di { get; set; }
         }
 
         [HttpPost]
@@ -119,6 +124,14 @@ namespace MemberSite.Controllers.Api
                     IsPersistent = true,
                     ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
                 };
+            }
+            
+            if (loginModel.di != null)
+            {
+                _ = Task.Run(async () =>
+                {
+                    await sFPSBLL.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di);
+                });
             }
 
             Response.Cookies.Delete($"Initialization{User.Identity.Name}");
@@ -256,11 +269,7 @@ namespace MemberSite.Controllers.Api
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
             public string RealName { get; set; }
-            public string url { get; set; }
-            public string platform { get; set; }
-            public string userAgent { get; set; }
-            public string screen { get; set; }
-            public string di { get; set; }
+
         }
 
         [HttpPost]
@@ -376,13 +385,7 @@ namespace MemberSite.Controllers.Api
                         new Claim("Token",token ),
                         new Claim("LangId",customer.UserLang )
                     };
-                    if (signupModel.di != null)
-                    {
-                        _ = Task.Run(async () =>
-                        {
-                            await sFPSBLL.FPSChecksAsync(custId, "login", "Successfully", signupModel.url, signupModel.platform, signupModel.userAgent, signupModel.screen, signupModel.di);
-                        });
-                    }
+                   
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                     apiResult.ErrorCode = 0;
