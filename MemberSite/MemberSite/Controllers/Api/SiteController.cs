@@ -200,7 +200,7 @@ namespace MemberSite.Controllers.Api
                 {
                     commonBLL.SendWelcomeMail(custId);
 
-                    if (!string.IsNullOrEmpty(registeredModel.blackbox))
+                    if (registeredModel.blackbox != null)
                     {
                         var apiResultIovation = await iovationBLL.IovationChecks(custId, registeredModel.CurrencyId, registeredModel.UserName, registeredModel.blackbox, IovationType.registration);
                         if (apiResultIovation.ErrorCode == 0)
@@ -332,7 +332,7 @@ namespace MemberSite.Controllers.Api
                   {
                       commonBLL.SendWelcomeMail(custId);
 
-                      if (!string.IsNullOrEmpty(signupModel.blackbox))
+                      if (signupModel.blackbox != null)
                       {
                           var apiResultIovation = await iovationBLL.IovationChecks(custId, signupModel.CurrencyId, signupModel.UserName, signupModel.blackbox, IovationType.registration);
                           if (apiResultIovation.ErrorCode == 0)
