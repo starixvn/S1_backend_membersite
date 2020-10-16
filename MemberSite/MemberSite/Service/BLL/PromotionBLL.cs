@@ -160,6 +160,10 @@ namespace MemberSite.Service.BLL
 
                 apiResult1.Message = string.Format(selLangBLL.GetMsg("msg_RequiredAmountInsufficient"), dRequiredAmount);
             }
+            else
+            {
+                apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible");
+            }
 
             return apiResult1;
         }
