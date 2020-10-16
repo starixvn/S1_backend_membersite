@@ -37,8 +37,9 @@ namespace MemberSite.Controllers.Api
         private readonly BannerBLL bannerBLL;
         private readonly AuthBLL authBLL;
         private readonly IovationBLL iovationBLL;
+        private readonly FPSBLL sFPSBLL;
 
-        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL)
+        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL, FPSBLL sFPSBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -51,6 +52,7 @@ namespace MemberSite.Controllers.Api
             this.bannerBLL = bannerBLL;
             this.authBLL = authBLL;
             this.iovationBLL = iovationBLL;
+            this.sFPSBLL = sFPSBLL;
         }
 
         public class LoginModel
@@ -58,6 +60,11 @@ namespace MemberSite.Controllers.Api
             public string UserName { get; set; }
             public string Userpwd { get; set; }
             public bool isPersistent { get; set; }
+            public string url { get; set; }
+            public string platform { get; set; }
+            public string userAgent { get; set; }
+            public string screen { get; set; }
+            public string di { get; set; }
         }
 
         [HttpPost]
@@ -117,6 +124,14 @@ namespace MemberSite.Controllers.Api
                     IsPersistent = true,
                     ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
                 };
+            }
+            
+            if (loginModel.di != null)
+            {
+                _ = Task.Run(async () =>
+                {
+                    await sFPSBLL.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di);
+                });
             }
 
             Response.Cookies.Delete($"Initialization{User.Identity.Name}");
@@ -254,6 +269,7 @@ namespace MemberSite.Controllers.Api
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
             public string RealName { get; set; }
+
         }
 
         [HttpPost]
@@ -369,7 +385,7 @@ namespace MemberSite.Controllers.Api
                         new Claim("Token",token ),
                         new Claim("LangId",customer.UserLang )
                     };
-
+                   
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                     apiResult.ErrorCode = 0;

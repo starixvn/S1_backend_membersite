@@ -295,17 +295,18 @@ namespace MemberSite.Controllers.Api
             /*Temp*/
             if (transferToSabaResult.ErrorCode == 0)
             {
-                _ = Task.Run(async () =>
+                if (withdrawalReqModel.blackbox != null)
                 {
-                    var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-
-                    if (withdrawalReqModel.blackbox != null)
+                    _ = Task.Run(async () =>
                     {
+                        var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+
                         var apiResultIovation = await iovationBLL.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.blackbox, IovationType.withdrawal);
                         if (apiResultIovation.ErrorCode == 0)
                             iovationBLL.SetIovation(authData.CustId, apiResultIovation.Message, IovationType.withdrawal);
-                    }
-                });
+
+                    });
+                }
 
                 result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out decimal afterAmount, out string transId);
 
