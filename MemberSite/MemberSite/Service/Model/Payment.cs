@@ -45,8 +45,34 @@ namespace MemberSite.Service.Model
         public int GSort { get; set; }
         public int SSort { get; set; }
     }
-
     public class MobilePayGroup
+    {
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+        public int GSort { get; set; }
+    }
+    public class CryptoPayInfo : IPaymentLimit
+    {
+        public int PayId { get; set; }
+        public string PayName { get; set; }
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+        public int ChannelId { get; set; }
+        public string ChannelName { get; set; }
+        public int Mode { get; set; }
+        public int PointLevel { get; set; }
+        public int CurrencyId { get; set; }
+        public string PayCurrencyId { get; set; }
+        public decimal MinAmount { get; set; }
+        public decimal MaxAmount { get; set; }
+        public int AmountRule { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
+        public string AmountShow { get; set; }
+        public IEnumerable<decimal> AmountList => AmountShow == null ? null : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
+        public int GSort { get; set; }
+        public int SSort { get; set; }
+    }
+    public class CryptoPayGroup
     {
         public int GroupId { get; set; }
         public string GroupName { get; set; }

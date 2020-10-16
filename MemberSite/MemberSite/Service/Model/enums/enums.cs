@@ -32,6 +32,7 @@ namespace MemberSite.Service.Model.enums
         OnlineBanking = 1,
         MobilePayment = 2,
         LocalBank = 3,
+        CryptoPayment = 4,
     }
 
     /// <summary>

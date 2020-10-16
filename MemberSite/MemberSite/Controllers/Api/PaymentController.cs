@@ -31,10 +31,11 @@ namespace MemberSite.Controllers.Api
         private readonly WalletBLL walletBLL;
         private readonly MobilePayInfoBLL mobilePayInfoBLL;
         private readonly IovationBLL iovationBLL;
+        private readonly CryptoPayInfoBLL cryptoPayInfoBLL;
         private readonly string tpApiUrl;
         private readonly int mainWalletType;
 
-        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBLL mobilePayInfoBLL, IovationBLL iovationBLL)
+        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBLL mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBLL cryptoPayInfoBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;
@@ -46,6 +47,7 @@ namespace MemberSite.Controllers.Api
             this.walletBLL = walletBLL;
             this.mobilePayInfoBLL = mobilePayInfoBLL;
             this.iovationBLL = iovationBLL;
+            this.cryptoPayInfoBLL = cryptoPayInfoBLL;
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
         }
@@ -422,6 +424,20 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<IEnumerable<MobilePayInfo>>();
             apiResult.Data = mobilePayInfoBLL.GetMobilePayInfoList(authData.CustId, mobilePayInfoReq.groupId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        public class CryptoPayInfoReq
+        {
+            public int groupId { set; get; }
+        }
+        [HttpPost]
+        public ApiResult<IEnumerable<CryptoPayInfo>> GetCryptoPayInfoList(CryptoPayInfoReq cryptoPayInfoReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<CryptoPayInfo>>();
+            apiResult.Data = cryptoPayInfoBLL.GetCryptoPayInfoList(authData.CustId, cryptoPayInfoReq.groupId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }

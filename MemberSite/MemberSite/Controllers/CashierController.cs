@@ -22,8 +22,9 @@ namespace MemberSite.Controllers
         private readonly MobilePayInfoBLL mobilePayInfoBLL;
         private readonly CustInfoBLL custInfoBLL;
         private readonly TemplateBLL templateBLL;
+        private readonly CryptoPayInfoBLL cryptoPayInfoBLL;
 
-        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL, CustInfoBLL custInfoBLL, TemplateBLL templateBLL)
+        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL, CustInfoBLL custInfoBLL, TemplateBLL templateBLL, CryptoPayInfoBLL cryptoPayInfoBLL)
         {
             this.courierAdapter = courierAdapter;
             payApiUrl = configuration.GetValue<string>("PayService");
@@ -33,6 +34,7 @@ namespace MemberSite.Controllers
             this.mobilePayInfoBLL = mobilePayInfoBLL;
             this.custInfoBLL = custInfoBLL;
             this.templateBLL = templateBLL;
+            this.cryptoPayInfoBLL = cryptoPayInfoBLL;
         }
         public IActionResult Deposit()
         {
@@ -117,6 +119,44 @@ namespace MemberSite.Controllers
 
                 var myUrl = $"{payApiUrl}ReqDepositMobile";
                 apiResult = await courierAdapter.MyPostAsync<PayResult, ReqDepositMobile>(myUrl, reqDepositMobile);
+                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
+                {
+                    return Redirect(apiResult.Data.Url);
+                }
+            }
+            else
+            {
+                apiResult.ErrorCode = result;
+                apiResult.Message = "Error.";
+            }
+            return View(apiResult);
+        }
+        public class ReqDepositCrypto : ReqDeposit
+        {
+            public int ChannelId { get; set; }
+        }
+        public async Task<IActionResult> DepositReqCryptoPayAsync(int ChannelId, decimal Amount)
+        {
+            var apiResult = new ApiResult<PayResult>();
+            var authData = authorizeBLL.GetAuthData();
+            string transId = null;
+            CryptoPayInfo cryptoPayInfo = null;
+            var result = cryptoPayInfoBLL.DepositReqCryptoPay(authData.CustId, ChannelId, Amount, out transId, out cryptoPayInfo);
+            if (result == 0)
+            {
+                var reqDepositCrypto = new ReqDepositCrypto
+                {
+                    TransId = transId,
+                    CustId = authData.CustId,
+                    Amount = Amount,
+                    ChannelId = cryptoPayInfo.ChannelId,
+                    PayId = cryptoPayInfo.PayId,
+                    ClientIP = tools.GetClientIP(),
+                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", authData.LangId }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                };
+
+                var myUrl = $"{payApiUrl}ReqDepositCrpyto";
+                apiResult = await courierAdapter.MyPostAsync<PayResult, ReqDepositCrypto>(myUrl, reqDepositCrypto);
                 if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
                 {
                     return Redirect(apiResult.Data.Url);
