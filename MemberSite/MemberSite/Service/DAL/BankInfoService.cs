@@ -31,10 +31,10 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<BankInfoSys>("BankInfoSysListForCtrl_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
-        public IEnumerable<BankInfoPay> GetBankInfoPayList()
+        public IEnumerable<BankInfoPay> GetBankInfoPayList(int siteId)
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<BankInfoPay>("BankInfoPay_Get", commandType: CommandType.StoredProcedure);
+            return conn.Query<BankInfoPay>("Common_BankInfoPay_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
     }
 }

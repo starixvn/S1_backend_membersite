@@ -119,6 +119,7 @@ namespace MemberSite
             services.AddSingleton<BonusWalletBLL>();
             services.AddSingleton<NewsBLL>();
             services.AddSingleton<IovationBLL>();
+            services.AddSingleton<FPSBLL>();
             //var bll = AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())
             //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.BLL");

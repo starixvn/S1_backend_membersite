@@ -27,13 +27,13 @@ namespace MemberSite.Service.BLL
             mobilePayGroupComparer = new MobilePayGroupComparer();
         }
 
-        public IEnumerable<MobilePayInfo> GetMobilePayInfoList()
+        public IEnumerable<MobilePayInfo> GetMobilePayInfoList(int siteId)
         {
-            string key = $"MobilePayInfoList";
+            string key = $"MobilePayInfoList_{siteId}";
             var mobilePayInfoList = cache.Get<IEnumerable<MobilePayInfo>>(key);
             if (mobilePayInfoList == null)
             {
-                mobilePayInfoList = payService.GetMobilePayInfo().OrderBy(x => x.GSort).OrderBy(x => x.SSort);
+                mobilePayInfoList = payService.GetMobilePayInfo(siteId).OrderBy(x => x.GSort).OrderBy(x => x.SSort);
 
                 if (mobilePayInfoList != null)
                 {
@@ -59,7 +59,7 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
-            var mobilePayInfoList = GetMobilePayInfoList();
+            var mobilePayInfoList = GetMobilePayInfoList(custInfo.SiteId);
 
             var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.MobilePayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
@@ -94,7 +94,7 @@ namespace MemberSite.Service.BLL
                 return new MobilePayInfo[] { };
             }
 
-            var mobilePayInfoList = GetMobilePayInfoList().Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.GroupId == groupId).ToList();
+            var mobilePayInfoList = GetMobilePayInfoList(custInfo.SiteId).Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.GroupId == groupId).ToList();
 
             if (depositLimitInfo != null && mobilePayInfoList != null)
             {
@@ -123,7 +123,7 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
-            mobilePayInfo = GetMobilePayInfoList().Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId).FirstOrDefault();
+            mobilePayInfo = GetMobilePayInfoList(custInfo.SiteId).Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId).FirstOrDefault();
 
             if (depositLimitInfo != null && mobilePayInfo != null)
             {
