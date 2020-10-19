@@ -428,20 +428,19 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        public class CryptoPayInfoReq
+        /*public class CryptoPayInfoReq
         {
             public int groupId { set; get; }
-        }
+        }*/
         [HttpPost]
-        public ApiResult<IEnumerable<CryptoPayInfo>> GetCryptoPayInfoList(CryptoPayInfoReq cryptoPayInfoReq)
+        public async Task<ApiResult<IEnumerable<CryptoPayInfo>>> GetCryptoPayInfoListAsync()
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<IEnumerable<CryptoPayInfo>>();
-            apiResult.Data = cryptoPayInfoBLL.GetCryptoPayInfoList(authData.CustId, cryptoPayInfoReq.groupId);
+            apiResult.Data = await cryptoPayInfoBLL.GetCryptoPayInfoListAsync(authData.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-
         public class DepositReceiptFile
         {
             public string TransId { get; set; }

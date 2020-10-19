@@ -30,7 +30,7 @@ namespace MemberSite.Service.DAL
         public IEnumerable<CryptoPayInfo> GetCryptoPayInfo(int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<CryptoPayInfo>("Member_CryptoPay_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.Query<CryptoPayInfo>("Common_CryptoPay_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
     }
 }

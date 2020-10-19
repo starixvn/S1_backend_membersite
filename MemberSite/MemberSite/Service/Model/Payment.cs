@@ -71,6 +71,9 @@ namespace MemberSite.Service.Model
         public IEnumerable<decimal> AmountList => AmountShow == null ? null : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
         public int GSort { get; set; }
         public int SSort { get; set; }
+        public long Updated_timestamp { get; set; }
+        public decimal BuyRate { get; set; }
+        public decimal SellRate { get; set; }
     }
     public class CryptoPayGroup
     {

@@ -1,7 +1,9 @@
 ﻿using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,16 +18,18 @@ namespace MemberSite.Service.BLL
         private readonly PayService payService;
         private readonly DepoistService depoistService;
         private readonly IMemoryCache cache;
+        private readonly CourierAdapter courierAdapter;
+        private readonly string payApiUrl;
 
-        public CryptoPayInfoBLL(IMemoryCache cache, PayService payService, DepoistService depoistService, CustInfoBLL custInfoBLL, DepositBLL depositBLL)
+        public CryptoPayInfoBLL(IMemoryCache cache, IConfiguration configuration, PayService payService, DepoistService depoistService, CustInfoBLL custInfoBLL, DepositBLL depositBLL, CourierAdapter courierAdapter)
         {
             this.custInfoBLL = custInfoBLL;
             this.depositBLL = depositBLL;
             this.payService = payService;
             this.depoistService = depoistService;
             this.cache = cache;
-
-
+            payApiUrl = configuration.GetValue<string>("PayService");
+            this.courierAdapter = courierAdapter;
         }
         public IEnumerable<CryptoPayInfo> GetCryptoPayInfoListWithCache(int siteId)
         {
@@ -43,7 +47,15 @@ namespace MemberSite.Service.BLL
 
             return cryptoPayInfoList;
         }
-        public IEnumerable<CryptoPayInfo> GetCryptoPayInfoList(int custId, int groupId)
+
+        public class ExchangeRate
+        {
+            public long Updated_timestamp { get; set; }
+            public decimal BuyRate { get; set; }
+            public decimal SellRate { get; set; }
+        }
+
+        public async Task<IEnumerable<CryptoPayInfo>> GetCryptoPayInfoListAsync(int custId/*, int groupId*/)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
@@ -56,7 +68,35 @@ namespace MemberSite.Service.BLL
                 return new CryptoPayInfo[] { };
             }
 
-            var cryptoPayInfoList = GetCryptoPayInfoListWithCache(custInfo.SiteId).Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.GroupId == groupId).ToList();
+            var cryptoPayInfoList = GetCryptoPayInfoListWithCache(custInfo.SiteId).Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId/* && x.GroupId == groupId*/).ToList();
+            var payid = cryptoPayInfoList.FirstOrDefault()?.PayId;
+
+            if (payid != null)
+            {
+                try
+                {
+                    var myUrl = $"{payApiUrl}ReqExchangeRate";
+                    var apiResult = await courierAdapter.MyPostAsync<Dictionary<string, ExchangeRate>, dynamic>(myUrl, new { PayId = payid, CustId = custId });
+
+                    if (apiResult.ErrorCode == 0)
+                    {
+                        var exchangeRate = apiResult.Data;
+                        foreach (var cryptoPayInfo in cryptoPayInfoList)
+                        {
+                            if (exchangeRate.ContainsKey(cryptoPayInfo.GroupName))
+                            {
+                                cryptoPayInfo.Updated_timestamp = exchangeRate[cryptoPayInfo.GroupName].Updated_timestamp;
+                                cryptoPayInfo.BuyRate = exchangeRate[cryptoPayInfo.GroupName].BuyRate;
+                                cryptoPayInfo.SellRate = exchangeRate[cryptoPayInfo.GroupName].SellRate;
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+
+                }
+            }
 
             if (depositLimitInfo != null && cryptoPayInfoList != null)
             {
