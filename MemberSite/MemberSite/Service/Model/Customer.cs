@@ -67,6 +67,7 @@ namespace MemberSite.Service.Model
         public string LastTransaction { set; get; }
         public bool IsHideBalance { set; get; }
         public IEnumerable<TpWallet> tpWallets { set; get; }
+        public IEnumerable<BonusWallet> bonusWallets { set; get; }
     }
 
     public class CustInfoProfile

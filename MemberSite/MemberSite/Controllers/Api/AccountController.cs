@@ -467,7 +467,7 @@ namespace MemberSite.Controllers.Api
                     {
                         tpWallet.Description = selLangBLL.GetResourceValue($"lbl_WalletDescription_{tpWallet.TpName}");
                         tpWallet.displayKey = $"lbl_Wallet_{tpWallet.TpName}";
-                        tpWallet.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{tpWallet.TpName}");                        
+                        tpWallet.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{tpWallet.TpName}");
                         if (tpWallet.Transfer)
                         {
                             var tpWalletBalance = await thirdPartyBLL.GetTpWalletBalanceAsync(tpWallet.TpId, authData.CustId);
@@ -490,6 +490,7 @@ namespace MemberSite.Controllers.Api
                 }
             }
 
+            apiResult.Data.bonusWallets = bonusWalletBLL.GetCustBonusWallet(authData.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
