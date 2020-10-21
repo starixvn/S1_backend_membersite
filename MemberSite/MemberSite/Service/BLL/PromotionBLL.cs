@@ -160,6 +160,11 @@ namespace MemberSite.Service.BLL
 
                 apiResult1.Message = string.Format(selLangBLL.GetMsg("msg_RequiredAmountInsufficient"), dRequiredAmount);
             }
+            else if (result == -5)
+            {
+                apiResult1.ErrorCode = result;
+                apiResult1.Message = selLangBLL.GetMsg("msg_OTPHint1");
+            }
             else
             {
                 apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible");

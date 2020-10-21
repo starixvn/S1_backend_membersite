@@ -264,6 +264,10 @@ namespace MemberSite.Service.DAL
 
                     return result;
                 }
+                else if (jResult == 3)
+                {
+                    return -5;
+                }
                 else
                 {
                     return 0;
