@@ -283,4 +283,10 @@
   <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
     <value>Setoran minimal {0} agar berhak mendapatkan bonus</value>
   </data>
+  <data name="msg_OTPHint1" xml:space="preserve">
+    <value>Ingin rasakan produk dan layanan lebih komplit?</value>
+  </data>
+  <data name="msg_OTPHint2" xml:space="preserve">
+    <value>Verifikasi no telpon Anda sekarang!</value>
+  </data>
 </root>

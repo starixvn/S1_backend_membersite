@@ -282,4 +282,10 @@
   <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
     <value>最低存款{0}可以享受優惠</value>
   </data>
+  <data name="msg_OTPHint1" xml:space="preserve">
+    <value>您想享受我們完整的產品和服務嗎？</value>
+  </data>
+  <data name="msg_OTPHint2" xml:space="preserve">
+    <value>現在驗證您的電話？</value>
+  </data>
 </root>

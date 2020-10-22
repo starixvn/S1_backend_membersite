@@ -163,7 +163,7 @@ namespace MemberSite.Service.BLL
             else if (result == -5)
             {
                 apiResult1.ErrorCode = result;
-                apiResult1.Message = selLangBLL.GetMsg("msg_OTPHint1");
+                apiResult1.Message = $"{selLangBLL.GetMsg("msg_OTPHint1")}\r\n{selLangBLL.GetMsg("msg_OTPHint2")}";
             }
             else
             {
