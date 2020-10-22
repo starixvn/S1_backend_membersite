@@ -285,6 +285,7 @@
   </data>
   <data name="msg_OTPHint" xml:space="preserve">
     <value>Harap lengkapi profil Anda dan verifikasi ponsel Anda untuk menikmati promosi kami.</value>
+	  </data>
   <data name="msg_OTPHint1" xml:space="preserve">
     <value>Ingin rasakan produk dan layanan lebih komplit?</value>
   </data>
