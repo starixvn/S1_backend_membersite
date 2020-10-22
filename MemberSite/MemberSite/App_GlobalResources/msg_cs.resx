@@ -280,4 +280,7 @@
   <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
     <value>存款最低 {0} 以符合资格领取优惠</value>
   </data>
+  <data name="msg_OTPHint" xml:space="preserve">
+    <value>请完成您的个人资料并验证您的手机以享受我们的促销。</value>
+  </data>
 </root>

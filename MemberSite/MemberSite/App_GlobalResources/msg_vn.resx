@@ -269,4 +269,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
     <value>Gửi tối thiểu {0} để đủ điều kiện nhận thưởng</value>
   </data>
+  <data name="msg_OTPHint" xml:space="preserve">
+    <value>Vui lòng hoàn tất thông tin của bạn và xác minh số điện thoại của bạn để được hưởng các chương trình khuyến mãi của chúng tôi.</value>
+  </data>
 </root>

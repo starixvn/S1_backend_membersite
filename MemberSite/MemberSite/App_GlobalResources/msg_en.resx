@@ -297,4 +297,7 @@
   <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
     <value>Deposit at least {0} to be eligible for bonus</value>
   </data>
+  <data name="msg_OTPHint" xml:space="preserve">
+    <value>Please complete your profile and verify your phone number to enjoy our promotions.</value>
+  </data>
 </root>
