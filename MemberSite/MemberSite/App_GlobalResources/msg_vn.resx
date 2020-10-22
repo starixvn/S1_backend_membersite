@@ -271,5 +271,10 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   </data>
   <data name="msg_OTPHint" xml:space="preserve">
     <value>Vui lòng hoàn tất thông tin của bạn và xác minh số điện thoại của bạn để được hưởng các chương trình khuyến mãi của chúng tôi.</value>
+  <data name="msg_OTPHint1" xml:space="preserve">
+    <value>Bạn muốn trải nghiệm toàn diện các sản phẩm &amp; dịch vụ của chúng tôi?</value>
+  </data>
+  <data name="msg_OTPHint2" xml:space="preserve">
+    <value>Xác minh điện thoại của bạn ngay?</value>
   </data>
 </root>
