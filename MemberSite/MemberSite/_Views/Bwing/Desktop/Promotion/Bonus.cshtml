@@ -131,7 +131,7 @@
                         <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">@(ViewData["RollOver"])x</td>
                         <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000" id="REMAINING"></td>
                         @if (conJoin)
-                        {
+                         {
                             <td style="border: 1px solid #cfcfcf;padding: 8px; text-align: center; color:#000000">
                                 <div class="btn-group">
                                     <button class="btn btn-secondary" id="JOIN">
@@ -141,7 +141,7 @@
                                     </button>
                                 </div>
                             </td>
-                        }
+                         }
                     </tr>
                 </table>
             </div>
@@ -195,17 +195,13 @@
     <div class="modal__dialog">
         <button class="remodal-close" id="CloseGoToOTPHint1"></button>
         <div class="modal__header">
-            <span class="text">NOTICE</span>
+            <span class="text">@selLangBLL.GetResourceValue("lbl_ImportantNote")</span>
         </div>
         <div class="modal__body">
-            <p class="txt-lh">@selLangBLL.GetMsg("msg_OTPHint1")</p>
-            <p class="txt-lh">@selLangBLL.GetMsg("msg_OTPHint2")</p>
+            <p class="txt-lh">@selLangBLL.GetMsg("msg_OTPHint")</p>
         </div>
         <div class="modal__footer">
             <div class="btn-group">
-                <button class="btn btn-primary" type="button" id="CloseGoToOTPHint2">
-                    <span class="text">@selLangBLL.GetResourceValue("lbl_Cancel")</span>
-                </button>
                 <a class="btn btn-secondary" type="button" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
                     <span class="text">@selLangBLL.GetResourceValue("lbl_GoToProfile")</span>
                 </a>
@@ -235,7 +231,9 @@
                             var result = response.data;
                             if (result.errorCode == 0) {
                                 alert("@Html.Raw(selLangBLL.GetMsg("msg_Updatesuccessful"))");
-                                window.location.replace("@Url.RouteUrl("desktop", new { action = "Index", controller = "Promotion", LangId = selLangBLL.GetLangId() })");
+                                window.location.replace("@Url.RouteUrl("desktop", new { action = "Bonus", controller = "Promotion", BonusCode = ViewData["BonusCode"], LangId = selLangBLL.GetLangId() })");
+                            } else if (result.errorCode == -5) {
+                                $('#GoToOTPHint').attr('data-open', "true");
                             } else {
                                 alert(result.message);
                             }

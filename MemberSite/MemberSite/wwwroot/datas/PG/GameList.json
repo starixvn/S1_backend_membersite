@@ -904,8 +904,7 @@
     {
       "name": {
         "en": "Muay Thai Champion",
-        "cs": "拳霸",
-        "ch": "拳霸"
+        "cs": "拳霸"
       },
       "appId": 64,
       "gameId": "muay-thai-champion",
@@ -915,8 +914,7 @@
       "RTP": "97.38%",
       "imgName": {
         "en": "muay-thai-champion-EN.jpg",
-        "cs": "muay-thai-CSampion-CS.jpg",
-        "ch": "muay-thai-CSampion-CS.jpg"
+        "cs": "muay-thai-Champion-CS.jpg"
       },
       "launchDate": null,
       "hot": true,
@@ -1004,8 +1002,7 @@
     {
       "name": {
         "en": "Reel Love",
-        "cs": "亲爱的",
-        "ch": "親愛的"
+        "cs": "亲爱的"
       },
       "appId": 20,
       "gameId": "reel-love",
@@ -1015,8 +1012,7 @@
       "RTP": "96.96%",
       "imgName": {
         "en": "reel-love-EN.jpg",
-        "cs": "reel-love-CS.jpg",
-        "ch": "reel-love-CS.jpg"
+        "cs": "reel-love-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
@@ -1029,8 +1025,7 @@
     {
       "name": {
         "en": "Caishen Wins",
-        "cs": "赢财神",
-        "ch": "贏財神"
+        "cs": "赢财神"
       },
       "appId": 71,
       "gameId": "cai-shen-wins",
@@ -1040,8 +1035,7 @@
       "RTP": "96.92%",
       "imgName": {
         "en": "caishen-wins-EN.jpg",
-        "cs": "caishen-wins-CS.jpg",
-        "ch": "caishen-wins-CS.jpg"
+        "cs": "caishen-wins-CS.jpg"
       },
       "launchDate": null,
       "hot": true,
@@ -1054,8 +1048,7 @@
     {
       "name": {
         "en": "Candy Burst",
-        "cs": "糖果连连爆",
-        "ch": "糖果連連爆"
+        "cs": "糖果连连爆"
       },
       "appId": 70,
       "gameId": "candy-burst",
@@ -1065,8 +1058,7 @@
       "RTP": "96.95%",
       "imgName": {
         "en": "candy-burst-EN.jpg",
-        "cs": "candy-burst-CS.jpg",
-        "ch": "candy-burst-CS.jpg"
+        "cs": "candy-burst-CS.jpg"
       },
       "launchDate": null,
       "hot": true,
@@ -1079,8 +1071,7 @@
     {
       "name": {
         "en": "Bikini Paradise",
-        "cs": "比基尼天堂",
-        "ch": "比基尼天堂"
+        "cs": "比基尼天堂"
       },
       "appId": 69,
       "gameId": "bikini-paradise",
@@ -1090,8 +1081,7 @@
       "RTP": "96.95%",
       "imgName": {
         "en": "bikini-paradise-EN.jpg",
-        "cs": "bikini-paradise-CS.jpg",
-        "ch": "bikini-paradise-CS.jpg"
+        "cs": "bikini-paradise-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
@@ -1104,8 +1094,7 @@
     {
       "name": {
         "en": "Mahjong Ways 2",
-        "cs": "麻将胡了2",
-        "ch": "麻將胡了2"
+        "cs": "麻将胡了2"
       },
       "appId": 74,
       "gameId": "mahjong-ways2",
@@ -1115,8 +1104,7 @@
       "RTP": "96.95%",
       "imgName": {
         "en": "mahjong-ways2-EN.jpg",
-        "cs": "mahjong-ways2-CS.jpg",
-        "ch": "mahjong-ways2-CS.jpg"
+        "cs": "mahjong-ways2-CS.jpg"
       },
       "launchDate": null,
       "hot": true,
@@ -1129,8 +1117,7 @@
     {
       "name": {
         "en": "Cards Hi Lo",
-        "cs": "高低扑克",
-        "ch": "高低撲克"
+        "cs": "高低扑克"
       },
       "appId": 76,
       "gameId": "cards-hi-lo",
@@ -1139,13 +1126,215 @@
       "paylines": "-",
       "RTP": "98.00%",
       "imgName": {
-        "en": "cards-hi-lo-EN.jpg",
-        "cs": "cards-hi-lo-CS.jpg",
-        "ch": "cards-hi-lo-CS.jpg"
+        "en": "cards-hi-lo-EN.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Double Fortune",
+        "cs": "双喜临门"
+      },
+      "appId": 48,
+      "gameId": "double-fortune",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "30",
+      "RTP": "96.22%",
+      "imgName": {
+        "en": "Double-Fortune-EN.jpg"
+      },
+      "launchDate": null,
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Mahjong Ways",
+        "cs": "麻将胡了"
+      },
+      "appId": 65,
+      "gameId": "mahjong-ways",
+      "category1": "Slots",
+      "Reels": "-",
+      "paylines": "Base bet 20 (1024ways）",
+      "RTP": "96.92%",
+      "imgName": {
+        "en": "mahjong-ways-EN.jpg"
+      },
+      "launchDate": null,
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Shaolin Soccer",
+        "cs": "少林足球"
+      },
+      "appId": 67,
+      "gameId": "shaolin-soccer",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "96.93%",
+      "imgName": {
+        "en": "Shaolin-Soccer-EN.jpg"
+      },
+      "launchDate": null,
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Dice Hi Lo",
+        "cs": "高低骰宝"
+      },
+      "appId": 77,
+      "gameId": "dice-hi-lo",
+      "category1": "Table",
+      "Reels": "",
+      "paylines": "-",
+      "RTP": "98.00%",
+      "imgName": {
+        "en": "Dice-HiLo-EN.jpg",
+        "cs": "Dice-HiLo-CS.jpg"
+      },
+      "launchDate": null,
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Five Numbers Hi Lo",
+        "cs": "高低五福"
+      },
+      "appId": 78,
+      "gameId": "five-num-hi-lo",
+      "category1": "Table",
+      "Reels": "",
+      "paylines": "-",
+      "RTP": "98.26%",
+      "imgName": {
+        "en": "Five-Numbers-HiLo-EN.jpg",
+        "cs": "Five-Numbers-HiLo-CS.jpg"
+      },
+      "launchDate": null,
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Circus Delight",
+        "cs": "欢乐嘉年华"
+      },
+      "appId": 80,
+      "gameId": "circus-delight",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "96.71%",
+      "imgName": {
+        "en": "Circus-Delight-EN.jpg",
+        "cs": "Circus-Delight-CS.jpg"
+      },
+      "launchDate": null,
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Dim Sum Mania",
+        "cs": "添好运"
+      },
+      "appId": 81,
+      "gameId": "dim-sum-mania",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "Base bet 25 (243 ways)",
+      "RTP": "96.75%",
+      "imgName": {
+        "en": "Dim-Sum-Mania-EN.jpg",
+        "cs": "Dim-Sum-Mania-CS.jpg"
+      },
+      "launchDate": null,
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Wild Fireworks",
+        "cs": "火树赢花"
+      },
+      "appId": 83,
+      "gameId": "wild-fireworks",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "Base bet 20 (243 ways)",
+      "RTP": "96.75%",
+      "imgName": {
+        "en": "Wild-Fireworks-EN.jpg",
+        "cs": "Wild-Fireworks-CS.jpg"
+      },
+      "launchDate": null,
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 0
+    },
+    {
+      "name": {
+        "en": "Genie's 3 Wishes",
+        "cs": "阿拉丁神灯"
+      },
+      "appId": 85,
+      "gameId": "genies-wishes",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "25",
+      "RTP": "96.75%",
+      "imgName": {
+        "en": "Genies-3-Wishes-EN.jpg",
+        "cs": "Genies-3-Wishes-CS.jpg"
+      },
+      "launchDate": null,
+      "hot": false,
+      "new": true,
       "featured": false,
       "imageExist": true,
       "Isfun": 1,

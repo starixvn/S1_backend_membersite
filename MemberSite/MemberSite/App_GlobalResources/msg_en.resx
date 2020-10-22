@@ -277,10 +277,10 @@
     <value>Please enter the verification number you received below.</value>
   </data>
   <data name="msg_OTPHint1" xml:space="preserve">
-    <value>Do you want to enjoy our complete games and services</value>
+    <value>Do you want to enjoy our complete products &amp; services?</value>
   </data>
   <data name="msg_OTPHint2" xml:space="preserve">
-    <value>through OTP certification immediately?</value>
+    <value>Verify your Phone now?</value>
   </data>
   <data name="msg_OTPSendCode" xml:space="preserve">
     <value>We had send the verification code to your register mobile. Please check your mobile and enter your verification code below.</value>
@@ -296,5 +296,8 @@
   </data>
   <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
     <value>Deposit at least {0} to be eligible for bonus</value>
+  </data>
+  <data name="msg_OTPHint" xml:space="preserve">
+    <value>Please complete your profile and verify your phone number to enjoy our promotions.</value>
   </data>
 </root>

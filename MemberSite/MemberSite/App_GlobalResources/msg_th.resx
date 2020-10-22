@@ -287,4 +287,13 @@
   <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
     <value>ฝากขั้นต่ำ {0} เพื่อรับโบนัส</value>
   </data>
+  <data name="msg_OTPHint" xml:space="preserve">
+    <value>กรุณากรอกข้อมูลส่วนตัวและยืนยันหมายเลขโทรศัพท์ก่อนเข้าร่วมกิจกรรม</value>
+  </data>
+  <data name="msg_OTPHint1" xml:space="preserve">
+    <value>คุณต้องการเล่นเกมแบบเต็มรูปแบบที่เราให้บริการหรือไม่?</value>
+  </data>
+  <data name="msg_OTPHint2" xml:space="preserve">
+    <value>ต้องการยืนยันเบอร์โทรศัพท์ของคุณตอนนี้?</value>
+  </data>
 </root>
