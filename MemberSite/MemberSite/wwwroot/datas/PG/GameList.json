@@ -904,8 +904,7 @@
     {
       "name": {
         "en": "Muay Thai Champion",
-        "cs": "拳霸",
-        "ch": "拳霸"
+        "cs": "拳霸"
       },
       "appId": 64,
       "gameId": "muay-thai-champion",
@@ -915,8 +914,7 @@
       "RTP": "97.38%",
       "imgName": {
         "en": "muay-thai-champion-EN.jpg",
-        "cs": "muay-thai-CSampion-CS.jpg",
-        "ch": "muay-thai-CSampion-CS.jpg"
+        "cs": "muay-thai-Champion-CS.jpg"
       },
       "launchDate": null,
       "hot": true,
@@ -1144,11 +1142,11 @@
         "cs": "双喜临门"
       },
       "appId": 48,
-      "gameId": "Double-Fortune",
+      "gameId": "double-fortune",
       "category1": "Slots",
       "Reels": "",
-      "paylines": "",
-      "RTP": "",
+      "paylines": "30",
+      "RTP": "96.22%",
       "imgName": {
         "en": "Double-Fortune-EN.jpg"
       },
@@ -1168,9 +1166,9 @@
       "appId": 65,
       "gameId": "mahjong-ways",
       "category1": "Slots",
-      "Reels": "",
-      "paylines": "",
-      "RTP": "",
+      "Reels": "-",
+      "paylines": "Base bet 20 (1024ways）",
+      "RTP": "96.92%",
       "imgName": {
         "en": "mahjong-ways-EN.jpg"
       },
@@ -1188,11 +1186,11 @@
         "cs": "少林足球"
       },
       "appId": 67,
-      "gameId": "Shaolin-Soccer",
+      "gameId": "shaolin-soccer",
       "category1": "Slots",
       "Reels": "",
-      "paylines": "",
-      "RTP": "",
+      "paylines": "25",
+      "RTP": "96.93%",
       "imgName": {
         "en": "Shaolin-Soccer-EN.jpg"
       },
@@ -1210,11 +1208,11 @@
         "cs": "高低骰宝"
       },
       "appId": 77,
-      "gameId": "Dice-Hi-Lo",
+      "gameId": "dice-hi-lo",
       "category1": "Table",
       "Reels": "",
-      "paylines": "",
-      "RTP": "",
+      "paylines": "-",
+      "RTP": "98.00%",
       "imgName": {
         "en": "Dice-HiLo-EN.jpg",
         "cs": "Dice-HiLo-CS.jpg"
@@ -1233,11 +1231,11 @@
         "cs": "高低五福"
       },
       "appId": 78,
-      "gameId": "Five-Numbers-Hi-Lo",
+      "gameId": "five-num-hi-lo",
       "category1": "Table",
       "Reels": "",
-      "paylines": "",
-      "RTP": "",
+      "paylines": "-",
+      "RTP": "98.26%",
       "imgName": {
         "en": "Five-Numbers-HiLo-EN.jpg",
         "cs": "Five-Numbers-HiLo-CS.jpg"
@@ -1256,11 +1254,11 @@
         "cs": "欢乐嘉年华"
       },
       "appId": 80,
-      "gameId": "Circus-Delight",
+      "gameId": "circus-delight",
       "category1": "Slots",
       "Reels": "",
-      "paylines": "",
-      "RTP": "",
+      "paylines": "25",
+      "RTP": "96.71%",
       "imgName": {
         "en": "Circus-Delight-EN.jpg"
       },
@@ -1278,11 +1276,11 @@
         "cs": "添好运"
       },
       "appId": 81,
-      "gameId": "Dim-Sum-Mania",
+      "gameId": "dim-sum-mania",
       "category1": "Slots",
       "Reels": "",
-      "paylines": "",
-      "RTP": "9",
+      "paylines": "Base bet 25 (243 ways)",
+      "RTP": "96.75%",
       "imgName": {
         "en": "Dim-Sum-Mania-EN.jpg"
       },
@@ -1300,11 +1298,11 @@
         "cs": "火树赢花"
       },
       "appId": 83,
-      "gameId": "Wild-Fireworks",
+      "gameId": "wild-fireworks",
       "category1": "Slots",
       "Reels": "",
-      "paylines": "",
-      "RTP": "",
+      "paylines": "Base bet 20 (243 ways)",
+      "RTP": "96.75%",
       "imgName": {
         "en": "Wild-Fireworks-EN.jpg"
       },
@@ -1322,11 +1320,11 @@
         "cs": "阿拉丁神灯"
       },
       "appId": 85,
-      "gameId": "Genies-3-Wishes",
+      "gameId": "genies-wishes",
       "category1": "Slots",
       "Reels": "",
-      "paylines": "",
-      "RTP": "",
+      "paylines": "25",
+      "RTP": "96.75%",
       "imgName": {
         "en": "Genies-3-Wishes-EN.jpg"
       },
