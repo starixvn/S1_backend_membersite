@@ -639,13 +639,9 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<IEnumerable<BonusWallet>>();
             try
             {
-                if (User.Identity.IsAuthenticated)
-                {
-                    var authData = authorizeBLL.GetAuthData();
-                    var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                    result.Data = bonusWalletBLL.GetCustBonusWallet(custInfo.CustId);
-                    result.ErrorCode = 0;
-                }
+                var authData = authorizeBLL.GetAuthData();
+                result.Data = bonusWalletBLL.GetCustBonusWallet(authData.CustId);
+                result.ErrorCode = 0;
             }
             catch (Exception ex)
             {

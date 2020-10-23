@@ -56,7 +56,6 @@ namespace MemberSite.Controllers.Api
                 if (User.Identity.IsAuthenticated)
                 {
                     var authData = authorizeBLL.GetAuthData();
-                    var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
                     promotionList = promotionBLL.GetPromotionListByCustId(authData.CustId);
                     if (promotionList != null)
                     {
@@ -64,7 +63,7 @@ namespace MemberSite.Controllers.Api
                         {
                             if (promotion.BonusInfoStatus == 1)
                             {
-                                promotion.custRollOver = custInfoBLL.GetCustRollOver(custInfo.CustId, promotion.BonusCode);
+                                promotion.custRollOver = custInfoBLL.GetCustRollOver(authData.CustId, promotion.BonusCode);
                             }
                         }
                     }
