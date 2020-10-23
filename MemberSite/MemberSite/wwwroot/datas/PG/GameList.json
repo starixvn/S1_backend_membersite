@@ -1260,7 +1260,8 @@
       "paylines": "25",
       "RTP": "96.71%",
       "imgName": {
-        "en": "Circus-Delight-EN.jpg"
+        "en": "Circus-Delight-EN.jpg",
+        "cs": "Circus-Delight-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
@@ -1282,7 +1283,8 @@
       "paylines": "Base bet 25 (243 ways)",
       "RTP": "96.75%",
       "imgName": {
-        "en": "Dim-Sum-Mania-EN.jpg"
+        "en": "Dim-Sum-Mania-EN.jpg",
+        "cs": "Dim-Sum-Mania-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
@@ -1304,7 +1306,8 @@
       "paylines": "Base bet 20 (243 ways)",
       "RTP": "96.75%",
       "imgName": {
-        "en": "Wild-Fireworks-EN.jpg"
+        "en": "Wild-Fireworks-EN.jpg",
+        "cs": "Wild-Fireworks-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
@@ -1326,7 +1329,8 @@
       "paylines": "25",
       "RTP": "96.75%",
       "imgName": {
-        "en": "Genies-3-Wishes-EN.jpg"
+        "en": "Genies-3-Wishes-EN.jpg",
+        "cs": "Genies-3-Wishes-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
