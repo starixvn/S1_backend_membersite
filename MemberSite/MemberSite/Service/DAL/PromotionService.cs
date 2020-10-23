@@ -302,7 +302,7 @@ namespace MemberSite.Service.DAL
             conn.Open();
             using var trans = conn.BeginTransaction();
 
-            var promotionList = conn.Query<CustPromotion>("Member_PromotionListV3_Get", new { CustId, SiteId, CurrencyId }, trans, commandType: CommandType.StoredProcedure);
+            var promotionList = conn.Query<CustPromotion>("Member_PromotionListV2_Get", new { CustId, SiteId, CurrencyId }, trans, commandType: CommandType.StoredProcedure);
            
             List<CustPromotion> _promotion = new List<CustPromotion>();
 
@@ -388,7 +388,7 @@ namespace MemberSite.Service.DAL
             conn.Open();
             using var trans = conn.BeginTransaction();
 
-            var promo = conn.QueryFirstOrDefault<CustPromotion>("Member_PromotionV3_Get", new { CustId, SiteId, CurrencyId, BonusCode }, trans, commandType: CommandType.StoredProcedure);
+            var promo = conn.QueryFirstOrDefault<CustPromotion>("Member_PromotionV2_Get", new { CustId, SiteId, CurrencyId, BonusCode }, trans, commandType: CommandType.StoredProcedure);
 
             if (promo != null)
             {
