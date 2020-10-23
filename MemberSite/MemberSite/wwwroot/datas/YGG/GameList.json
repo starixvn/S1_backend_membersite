@@ -1723,6 +1723,138 @@
       "featured": false,
       "imageExist": true,
       "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Zeus Vs Thor",
+        "cs": "双神-宙斯与雷神"
+      },
+      "appId": "1014",
+      "gameId": "1014",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Zeus-Vs-Thor-EN.jpg",
+        "cs": "Zeus-Vs-Thor-CS.jpg"
+      },
+      "launchDate": "2020/10/23",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Valley of the Gods 2",
+        "cs": "山谷之神2"
+      },
+      "appId": "7389",
+      "gameId": "7389",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Valley-of-the-Gods-2-EN.jpg",
+        "cs": "Valley-of-the-Gods-2-CS.jpg"
+      },
+      "launchDate": "2020/10/23",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Victoria Wild",
+        "cs": "维多利亚狂野"
+      },
+      "appId": "1015",
+      "gameId": "1015",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Victoria-Wild-EN.jpg",
+        "cs": "Victoria-Wild-CS.jpg"
+      },
+      "launchDate": "2020/10/23",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Rock The Cash Bar",
+        "cs": "摇滚现金"
+      },
+      "appId": "1017",
+      "gameId": "1017",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Rock-The-Cash-Bar-EN.jpg",
+        "cs": "Rock-The-Cash-Bar-CS.jpg"
+      },
+      "launchDate": "2020/10/23",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Hyperburst",
+        "cs": "超级爆发"
+      },
+      "appId": "7392",
+      "gameId": "7392",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Hyperburst-EN.jpg",
+        "cs": "Hyperburst-CS.jpg"
+      },
+      "launchDate": "2020/10/23",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Hades",
+        "cs": "黑帝斯"
+      },
+      "appId": "7390",
+      "gameId": "7390",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "",
+      "imgName": {
+        "en": "Hades-EN.jpg",
+        "cs": "Hades-CS.jpg"
+      },
+      "launchDate": "2020/10/23",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
     }
   ]
 }
