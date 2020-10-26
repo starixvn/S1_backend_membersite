@@ -98,6 +98,19 @@
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
+      "actionLink": "http://event-tw.248ka.com/GodsE/index.html",
+      "outerLink": true,
+      "actionLinkByLang": [
+        {
+          "lang": "cs",
+          "link": "http://event-tw.248ka.com/GodsC/index.html",
+          "outerLink": true
+        }
+      ],
+      "img": "event-pp-20201026.jpg",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
       "img": "Casino.jpg",
       "lang": [ "th", "id", "en", "cs" ]
     }
