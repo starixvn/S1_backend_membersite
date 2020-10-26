@@ -3415,6 +3415,313 @@
       "featured": false,
       "imageExist": true,
       "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "John Hunter and the Book of Tut",
+        "cs": "约翰·亨特之图特书"
+      },
+      "appId": "vs10bookoftut",
+      "gameId": "vs10bookoftut",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "5",
+      "RTP": "96.5%",
+      "imgName": {
+        "en": "John-Hunter-and-the-Book-of-Tut-EN.jpg",
+        "cs": "John-Hunter-and-the-Book-of-Tut-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Starz Megaways",
+        "cs": "行星宝石 Megaways"
+      },
+      "appId": "vs117649starz",
+      "gameId": "vs117649starz",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.70%",
+      "imgName": {
+        "en": "Starz-Megaways-EN.jpg",
+        "cs": "Starz-Megaways-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Ultra Burn",
+        "cs": "超级燃烧"
+      },
+      "appId": "vs5ultrab",
+      "gameId": "vs5ultrab",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.62%",
+      "imgName": {
+        "en": "Ultra-Burn-EN.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Bronco Spirit",
+        "cs": "布洛克精神"
+      },
+      "appId": "vs75bronco",
+      "gameId": "vs75bronco",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.63%",
+      "imgName": {
+        "en": "Bronco-Spirit-EN.jpg",
+        "cs": "Bronco-Spirit-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Money Money Money",
+        "cs": "钱生钱"
+      },
+      "appId": "vs1money",
+      "gameId": "vs1money",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "97.09%",
+      "imgName": {
+        "en": "Money-Money-Money-EN.jpg",
+        "cs": "Money-Money-Money-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Pyramid King",
+        "cs": "王者金字塔"
+      },
+      "appId": "vs25pyramid",
+      "gameId": "vs25pyramid",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.5%",
+      "imgName": {
+        "en": "Pyramid-King-EN.jpg",
+        "cs": "Pyramid-King-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Fu Fu Fu",
+        "cs": "福福福"
+      },
+      "appId": "vs1fufufu",
+      "gameId": "vs1fufufu",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.84%",
+      "imgName": {
+        "en": "Fu-Fu-Fu-EN.jpg",
+        "cs": "Fu-Fu-Fu-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Drago - Jewels of Fortune™",
+        "cs": "群龙保珠-宝石致富"
+      },
+      "appId": "vs1600drago",
+      "gameId": "vs1600drago",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.5%",
+      "imgName": {
+        "en": "Drago-Jewels-of-Fortune-EN.jpg",
+        "cs": "Drago-Jewels-of-Fortune-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Street Racer™",
+        "cs": "街头赛车"
+      },
+      "appId": "vs40streetracer",
+      "gameId": "vs40streetracer",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "Street-Racer-EN.jpg",
+        "cs": "Street-Racer-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "The Tiger Warrior™",
+        "cs": "武松打虎"
+      },
+      "appId": "vs25tigerwar",
+      "gameId": "vs25tigerwar",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.01%",
+      "imgName": {
+        "en": "The-Tiger-Warrior-EN.jpg",
+        "cs": "The-Tiger-Warrior-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Great Rhino Deluxe™",
+        "cs": "巨大犀牛 加强版™"
+      },
+      "appId": "vs20rhinoluxe",
+      "gameId": "vs20rhinoluxe",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "20",
+      "RTP": "96.54%",
+      "imgName": {
+        "en": "Great-Rhino-Deluxe-EN.jpg",
+        "cs": "Great-Rhino-Deluxe-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Wild Wild Riches™",
+        "cs": "爱尔兰人宝藏™"
+      },
+      "appId": "vs576treasures",
+      "gameId": "vs576treasures",
+      "category1": "Slots",
+      "Reels": "4",
+      "paylines": "576",
+      "RTP": "96.77%",
+      "imgName": {
+        "en": "Wild-Wild-Riches-EN.jpg",
+        "cs": "Wild-Wild-Riches-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "The Dog House Megaways™",
+        "cs": "汪汪之家 Megaways™"
+      },
+      "appId": "vswaysdogs",
+      "gameId": "vswaysdogs",
+      "category1": "Slots",
+      "Reels": "7",
+      "paylines": "11969",
+      "RTP": "96.55%",
+      "imgName": {
+        "en": "The-Dog-House-Megaways-EN.jpg",
+        "cs": "The-Dog-House-Megaways-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Aztec Gems Deluxe™",
+        "cs": "古代宝石加强版™"
+      },
+      "appId": "vs9aztecgemsdx",
+      "gameId": "vs9aztecgemsdx",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "9",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Aztec-Gems-Deluxe-EN.jpg",
+        "cs": "Aztec-Gems-Deluxe-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
     }
   ]
 }
