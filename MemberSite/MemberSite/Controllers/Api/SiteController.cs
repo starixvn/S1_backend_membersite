@@ -75,7 +75,8 @@ namespace MemberSite.Controllers.Api
             string userpwd = loginModel.Userpwd;
             Customer customer = null;
             string token = null;
-            var userLoginResult = custInfoBLL.UserLogin(userName, userpwd, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
+            var ip = tools.GetClientIP();
+            var userLoginResult = custInfoBLL.UserLogin(userName, userpwd,ip, tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
 
             if (userLoginResult == -1)
             {
@@ -130,7 +131,7 @@ namespace MemberSite.Controllers.Api
             {
                 _ = Task.Run(async () =>
                 {
-                    await sFPSBLL.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di);
+                    await sFPSBLL.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di,ip);
                 });
             }
 

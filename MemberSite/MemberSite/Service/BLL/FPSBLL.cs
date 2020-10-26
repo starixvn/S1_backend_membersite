@@ -12,16 +12,13 @@ namespace MemberSite.Service.BLL
     {
         private readonly CourierAdapter courierAdapter;
         private readonly IConfiguration configuration;
-        private readonly Tools tools;
 
-        public FPSBLL(IConfiguration configuration,CourierAdapter courierAdapter, Tools tools)
+        public FPSBLL(IConfiguration configuration,CourierAdapter courierAdapter)
         {
             this.courierAdapter = courierAdapter;
             this.configuration = configuration;
-            this.tools = tools;
-
         }
-        public async Task<ApiResult> FPSChecksAsync(int custId, string action, string actionResult, string url, string platform, string userAgent, string screen,string di)
+        public async Task<ApiResult> FPSChecksAsync(int custId, string action, string actionResult, string url, string platform, string userAgent, string screen,string di,string ip)
         {
             ApiResult apiResult = new ApiResult();
            
@@ -34,7 +31,7 @@ namespace MemberSite.Service.BLL
                 account = custId,
                 action = action,
                 actionResult = actionResult,
-                ip = tools.GetClientIP(),
+                ip,
                 url = url,
                 platform = platform,
                 userAgent = userAgent,
