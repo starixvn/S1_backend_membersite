@@ -4,8 +4,7 @@
     {
       "name": {
         "en": "4 Guardians",
-        "cs": "四大神兽",
-        "ch": "四大神獸"
+        "cs": "四大神兽"
       },
       "appId": "fourguardians",
       "gameId": "fourguardians",
@@ -19,7 +18,8 @@
       "launchDate": "",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -155,8 +155,7 @@
     {
       "name": {
         "en": "Blossom Garden",
-        "cs": "桃源秘境",
-        "ch": "桃源秘境"
+        "cs": "桃源秘境"
       },
       "appId": "blossomgarden",
       "gameId": "blossomgarden",
@@ -165,14 +164,12 @@
       "paylines": "30",
       "RTP": "96.50",
       "imgName": {
-        "en": "Blossom-Garden-EN.jpg",
-        "cs": "Blossom-Garden-EN.jpg",
-        "ch": "Blossom-Garden-EN.jpg"
+        "en": "Blossom-Garden-EN.jpg"
       },
       "launchDate": "",
       "hot": true,
       "new": true,
-      "featured": false,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -376,8 +373,7 @@
     {
       "name": {
         "en": "Fa Fa Zhu",
-        "cs": "发发猪",
-        "ch": "發發豬"
+        "cs": "发发猪"
       },
       "appId": "fafazhu",
       "gameId": "fafazhu",
@@ -391,7 +387,7 @@
       "launchDate": "",
       "hot": true,
       "new": true,
-      "featured": false,
+      "featured": true,
       "imageExist": true
     },
     {
@@ -548,8 +544,7 @@
     {
       "name": {
         "en": "Four Beauties",
-        "cs": "四大美人",
-        "ch": "四大美人"
+        "cs": "四大美人"
       },
       "appId": "fourbeauties",
       "gameId": "fourbeauties",
@@ -563,7 +558,8 @@
       "launchDate": "",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": false
     },
     {
       "name": {
@@ -655,8 +651,7 @@
     {
       "name": {
         "en": "God of Fortune",
-        "cs": "财神到",
-        "ch": "財神到"
+        "cs": "财神到"
       },
       "appId": "godoffortune",
       "gameId": "godoffortune",
@@ -914,8 +909,7 @@
     {
       "name": {
         "en": "Lucky Tarot",
-        "cs": "吉星塔罗",
-        "ch": "吉星塔羅"
+        "cs": "吉星塔罗"
       },
       "appId": "luckytarot",
       "gameId": "luckytarot",
@@ -925,13 +919,13 @@
       "RTP": "97.04%",
       "imgName": {
         "en": "Lucky-Tarot-EN.jpg",
-        "cs": "Lucky-Tarot-CS.jpg",
-        "ch": "Lucky-Tarot-CS.jpg"
+        "cs": "Lucky-Tarot-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -981,8 +975,7 @@
     {
       "name": {
         "en": "Magic Paper",
-        "cs": "神奇折纸",
-        "ch": "神奇折紙"
+        "cs": "神奇折纸"
       },
       "appId": "magicpaper",
       "gameId": "magicpaper",
@@ -992,13 +985,13 @@
       "RTP": "96.82%",
       "imgName": {
         "en": "Magic-Paper-EN.jpg",
-        "cs": "Magic-Paper-CS.jpg",
-        "ch": "Magic-Paper-CS.jpg"
+        "cs": "Magic-Paper-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -1109,8 +1102,7 @@
     {
       "name": {
         "en": "Nuwa and the Five Elements",
-        "cs": "女娲与五行",
-        "ch": "女媧與五行"
+        "cs": "女娲与五行"
       },
       "appId": "nuwaandthefiveelements",
       "gameId": "nuwaandthefiveelements",
@@ -1120,8 +1112,7 @@
       "RTP": "96.50%",
       "imgName": {
         "en": "Nuwa-and-the-Five-Elements-EN.jpg",
-        "cs": "Nuwa-and-the-Five-Elements-CS.jpg",
-        "ch": "Nuwa-and-the-Five-Elements-CS.jpg"
+        "cs": "Nuwa-and-the-Five-Elements-CS.jpg"
       },
       "launchDate": "",
       "hot": true,
@@ -1346,8 +1337,7 @@
     {
       "name": {
         "en": "Space Neon",
-        "cs": "霓虹空间",
-        "ch": "霓虹空間"
+        "cs": "霓虹空间"
       },
       "appId": "spaceneon",
       "gameId": "spaceneon",
@@ -1357,13 +1347,13 @@
       "RTP": "96.94%",
       "imgName": {
         "en": "Space-Neon-EN.jpg",
-        "cs": "Space-Neon-CS.jpg",
-        "ch": "Space-Neon-CS.jpg"
+        "cs": "Space-Neon-CS.jpg"
       },
       "launchDate": "",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -1584,8 +1574,7 @@
     {
       "name": {
         "en": "Wind Chimes",
-        "cs": "风中奇铃",
-        "ch": "風中奇鈴"
+        "cs": "风中奇铃"
       },
       "appId": "windchimes",
       "gameId": "windchimes",
@@ -1595,13 +1584,12 @@
       "RTP": "96.50%",
       "imgName": {
         "en": "Wind-Chimes-EN.jpg",
-        "cs": "Wind-Chimes-CS.jpg",
-        "ch": "Wind-Chimes-CS.jpg"
+        "cs": "Wind-Chimes-CS.jpg"
       },
       "launchDate": "",
       "hot": true,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true
     },
     {
@@ -1651,8 +1639,7 @@
     {
       "name": {
         "en": "Wuxia Princess Mega Reels",
-        "cs": "武俠公主 百万大轮",
-        "ch": "武俠公主 百萬大輪"
+        "cs": "武俠公主 百万大轮"
       },
       "appId": "wuxiaprincessmegareels",
       "gameId": "wuxiaprincessmegareels",
@@ -1662,8 +1649,7 @@
       "RTP": "96.46",
       "imgName": {
         "en": "Wuxia-Princess-Mega-Reels-EN.jpg",
-        "cs": "Wuxia-Princess-Mega-Reels-CS.jpg",
-        "ch": "Wuxia-Princess-Mega-Reels-CS.jpg"
+        "cs": "Wuxia-Princess-Mega-Reels-CS.jpg"
       },
       "launchDate": "",
       "hot": true,
@@ -1674,8 +1660,7 @@
     {
       "name": {
         "en": "Xuan Wu Blessing",
-        "cs": "玄武赐福",
-        "ch": "玄武賜福"
+        "cs": "玄武赐福"
       },
       "appId": "xuanwublessing",
       "gameId": "xuanwublessing",

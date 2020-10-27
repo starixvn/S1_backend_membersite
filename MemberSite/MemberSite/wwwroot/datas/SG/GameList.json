@@ -93,8 +93,7 @@
     {
       "name": {
         "en": "888",
-        "cs": "888",
-        "ch": "888"
+        "cs": "888"
       },
       "appId": "S-BA01",
       "gameId": "S-BA01",
@@ -104,13 +103,13 @@
       "RTP": "97",
       "imgName": {
         "en": "888-EN.jpg",
-        "cs": "888-CS.jpg",
-        "ch": "888-CS.jpg"
+        "cs": "888-CS.jpg"
       },
       "launchDate": "2022/10/19",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -291,8 +290,7 @@
     {
       "name": {
         "en": "Brothers kingdom",
-        "cs": "桃园三兄弟",
-        "ch": "桃園三兄弟"
+        "cs": "桃园三兄弟"
       },
       "appId": "S-GK01",
       "gameId": "S-GK01",
@@ -302,8 +300,7 @@
       "RTP": "97",
       "imgName": {
         "en": "Brothers-kingdom-EN.jpg",
-        "cs": "Brothers-kingdom-CS.jpg",
-        "ch": "Brothers-kingdom-CS.jpg"
+        "cs": "Brothers-kingdom-CS.jpg"
       },
       "launchDate": "2027/11/18",
       "hot": true,
@@ -336,8 +333,7 @@
     {
       "name": {
         "en": "Candy Pop",
-        "cs": "糖果泡泡",
-        "ch": "糖果泡泡"
+        "cs": "糖果泡泡"
       },
       "appId": "S-CP01",
       "gameId": "S-CP01",
@@ -347,13 +343,13 @@
       "RTP": "97",
       "imgName": {
         "en": "Candy-Pop-EN.jpg",
-        "cs": "Candy-Pop-CS.jpg",
-        "ch": "Candy-Pop-CS.jpg"
+        "cs": "Candy-Pop-CS.jpg"
       },
       "launchDate": "2031/07/18",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -644,8 +640,7 @@
     {
       "name": {
         "en": "ZEUS",
-        "cs": "天通雷神",
-        "ch": "天通雷神"
+        "cs": "天通雷神"
       },
       "appId": "S-ZE01",
       "gameId": "S-ZE01",
@@ -655,8 +650,7 @@
       "RTP": "97",
       "imgName": {
         "en": "ZEUS-EN.jpg",
-        "cs": "ZEUS-CS.jpg",
-        "ch": "ZEUS-CS.jpg"
+        "cs": "ZEUS-CS.jpg"
       },
       "launchDate": "2018/04/17",
       "hot": true,
@@ -777,8 +771,7 @@
     {
       "name": {
         "en": "Great Stars SA",
-        "cs": "吉星 SA",
-        "ch": "吉星 SA"
+        "cs": "吉星 SA"
       },
       "appId": "S-GS04",
       "gameId": "S-GS04",
@@ -788,13 +781,13 @@
       "RTP": "95",
       "imgName": {
         "en": "Great-Stars-EN.jpg",
-        "cs": "Great-Stars-CS.jpg",
-        "ch": "Great-Stars-CS.jpg"
+        "cs": "Great-Stars-CS.jpg"
       },
       "launchDate": "2005/01/17",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -909,8 +902,7 @@
     {
       "name": {
         "en": "Golden Lotus SE",
-        "cs": "潘金莲 特别版",
-        "ch": "潘金蓮 特別版"
+        "cs": "潘金莲 特别版"
       },
       "appId": "S-GL02",
       "gameId": "S-GL02",
@@ -920,8 +912,7 @@
       "RTP": "97",
       "imgName": {
         "en": "Golden-Lotus-SE-EN.jpg",
-        "cs": "Golden-Lotus-SE-CS.jpg",
-        "ch": "Golden-Lotus-SE-CS.jpg"
+        "cs": "Golden-Lotus-SE-CS.jpg"
       },
       "launchDate": "2027/10/16",
       "hot": true,
@@ -1042,8 +1033,7 @@
     {
       "name": {
         "en": "Cai Shen 888",
-        "cs": "财神888",
-        "ch": "財神888"
+        "cs": "财神888"
       },
       "appId": "S-CS01",
       "gameId": "S-CS01",
@@ -1053,13 +1043,13 @@
       "RTP": "97",
       "imgName": {
         "en": "Cai-Shen-888-EN.jpg",
-        "cs": "Cai-Shen-888-CS.jpg",
-        "ch": "Cai-Shen-888-CS.jpg"
+        "cs": "Cai-Shen-888-CS.jpg"
       },
       "launchDate": "2031/05/16",
       "hot": true,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -1085,7 +1075,7 @@
     },
     {
       "name": {
-        "en": "5Fortune Dragons",
+        "en": "5 Fortune Dragons",
         "cs": "五龙吐珠",
         "ch": "五龍吐珠"
       },
@@ -1153,8 +1143,7 @@
     {
       "name": {
         "en": "Lucky Koi",
-        "cs": "运财鲤鱼",
-        "ch": "運財鯉魚"
+        "cs": "运财鲤鱼"
       },
       "appId": "S-LK01",
       "gameId": "S-LK01",
@@ -1164,8 +1153,7 @@
       "RTP": "97",
       "imgName": {
         "en": "Lucky-Koi-EN.jpg",
-        "cs": "Lucky-Koi-CS.jpg",
-        "ch": "Lucky-Koi-CS.jpg"
+        "cs": "Lucky-Koi-CS.jpg"
       },
       "launchDate": "2031/05/16",
       "hot": true,
@@ -1330,8 +1318,7 @@
     {
       "name": {
         "en": "FaFaFa",
-        "cs": "发发发",
-        "ch": "發發發"
+        "cs": "发发发"
       },
       "appId": "S-LY01",
       "gameId": "S-LY01",
@@ -1341,13 +1328,13 @@
       "RTP": "95",
       "imgName": {
         "en": "FaFaFa-EN.jpg",
-        "cs": "FaFaFa-CS.jpg",
-        "ch": "FaFaFa-CS.jpg"
+        "cs": "FaFaFa-CS.jpg"
       },
       "launchDate": "2031/01/16",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
