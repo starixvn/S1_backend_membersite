@@ -83,7 +83,7 @@ namespace MemberSite.Service.BLL
 
             var _info = (from x in localBankList
                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.MaxAmount > 0
-                         orderby x.PointLevel descending, x.Sort
+                         orderby x.PointLevel descending, x.BSort
                          select new SysBankInfoFront
                          {
                              SysId = x.SysId,
