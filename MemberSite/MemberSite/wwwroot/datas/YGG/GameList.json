@@ -4,8 +4,7 @@
     {
       "name": {
         "en": "9K Yeti",
-        "cs": "雪怪人",
-        "ch": "雪怪人"
+        "cs": "雪怪人"
       },
       "appId": "1003",
       "gameId": "1003",
@@ -21,7 +20,7 @@
       "new": false,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -175,8 +174,7 @@
     {
       "name": {
         "en": "Cazino Cosmos",
-        "cs": "宇宙奇幻赌场",
-        "ch": "宇宙奇幻賭場"
+        "cs": "宇宙奇幻赌场"
       },
       "appId": "7357",
       "gameId": "7357",
@@ -196,8 +194,7 @@
     {
       "name": {
         "en": "Cazino Zeppelin",
-        "cs": "齐柏林赌场",
-        "ch": "齊柏林賭場"
+        "cs": "齐柏林赌场"
       },
       "appId": "7308",
       "gameId": "7308",
@@ -211,15 +208,14 @@
       "launchDate": "2015/10/15",
       "hot": true,
       "new": false,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1
     },
     {
       "name": {
         "en": "Champions of Rome",
-        "cs": "罗马冠军",
-        "ch": "羅馬冠軍"
+        "cs": "罗马冠军"
       },
       "appId": "7358",
       "gameId": "7358",
@@ -236,7 +232,7 @@
       "featured": false,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -304,8 +300,7 @@
     {
       "name": {
         "en": "Dark Vortex",
-        "cs": "黑暗漩涡",
-        "ch": "黑暗漩渦"
+        "cs": "黑暗漩涡"
       },
       "appId": "7353",
       "gameId": "7353",
@@ -321,7 +316,7 @@
       "new": false,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -517,8 +512,7 @@
     {
       "name": {
         "en": "Holmes and the Stolen Stones",
-        "cs": "福尔摩斯和被盗石头",
-        "ch": "福爾摩斯和被盜石頭"
+        "cs": "福尔摩斯和被盗石头"
       },
       "appId": "7317",
       "gameId": "7317",
@@ -532,7 +526,7 @@
       "launchDate": "2015/09/09",
       "hot": true,
       "new": false,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -712,8 +706,7 @@
     {
       "name": {
         "en": "Niagara Falls",
-        "cs": "尼加拉瓜大瀑布",
-        "ch": "尼加拉瓜大瀑布"
+        "cs": "尼加拉瓜大瀑布"
       },
       "appId": "1001",
       "gameId": "1001",
@@ -729,7 +722,8 @@
       "new": false,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0,
+      "featured": true
     },
     {
       "name": {
@@ -1053,8 +1047,7 @@
     {
       "name": {
         "en": "Temple Stacks Splitz",
-        "cs": "黄金寺庙",
-        "ch": "黃金寺廟"
+        "cs": "黄金寺庙"
       },
       "appId": "7374",
       "gameId": "7374",
@@ -1070,7 +1063,8 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0,
+      "featured": true
     },
     {
       "name": {
@@ -1181,8 +1175,7 @@
     {
       "name": {
         "en": "Valley of the Gods",
-        "cs": "山谷之神",
-        "ch": "山谷之神"
+        "cs": "山谷之神"
       },
       "appId": "7341",
       "gameId": "7341",
@@ -1204,8 +1197,7 @@
     {
       "name": {
         "en": "Vikings go Berzerk",
-        "cs": "暴怒北欧海盗",
-        "ch": "暴怒北歐海盜"
+        "cs": "暴怒北欧海盗"
       },
       "appId": "7331",
       "gameId": "7331",
@@ -1292,8 +1284,7 @@
     {
       "name": {
         "en": "Wild Robo Factory",
-        "cs": "机器人冒险工厂",
-        "ch": "機器人冒險工廠"
+        "cs": "机器人冒险工厂"
       },
       "appId": "7366",
       "gameId": "7366",
@@ -1309,13 +1300,12 @@
       "new": false,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
         "en": "Winterberries",
-        "cs": "冬季浆果",
-        "ch": "冬季漿果"
+        "cs": "冬季浆果"
       },
       "appId": "7302",
       "gameId": "7302",
@@ -1335,8 +1325,7 @@
     {
       "name": {
         "en": "Wolf Hunters",
-        "cs": "狼猎人",
-        "ch": "狼獵人"
+        "cs": "狼猎人"
       },
       "appId": "7352",
       "gameId": "7352",
@@ -1356,8 +1345,7 @@
     {
       "name": {
         "en": "Yokozuna Clash",
-        "cs": "相扑争霸",
-        "ch": "相撲爭霸"
+        "cs": "相扑争霸"
       },
       "appId": "7370",
       "gameId": "7370",
@@ -1378,8 +1366,7 @@
     {
       "name": {
         "en": "THE ROYAL FAMILY",
-        "cs": "皇室大家庭",
-        "ch": "皇室大家庭"
+        "cs": "皇室大家庭"
       },
       "appId": "8303",
       "gameId": "8303",
@@ -1401,8 +1388,7 @@
     {
       "name": {
         "en": "ALL STAR KNOCKOUT",
-        "cs": "满天星淘汰赛",
-        "ch": "滿天星淘汰賽"
+        "cs": "满天星淘汰赛"
       },
       "appId": "1008",
       "gameId": "1008",
@@ -1416,16 +1402,15 @@
       "launchDate": "2020/03/11",
       "hot": true,
       "new": true,
-      "featured": false,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
         "en": "PIRATES SMUGGLERS PARADISE",
-        "cs": "海盗-精灵岛",
-        "ch": "海盜-精靈島"
+        "cs": "海盗-精灵岛"
       },
       "appId": "8304",
       "gameId": "8304",
@@ -1441,13 +1426,13 @@
       "new": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0,
+      "featured": true
     },
     {
       "name": {
         "en": "MULTIFLY",
-        "cs": "飞向奇迹",
-        "ch": "飛向奇跡"
+        "cs": "飞向奇迹"
       },
       "appId": "7383",
       "gameId": "7383",
@@ -1464,13 +1449,12 @@
       "featured": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
         "en": "Neon Rush: Splitz",
-        "cs": "霓虹冲锋",
-        "ch": "霓虹衝鋒"
+        "cs": "霓虹冲锋"
       },
       "appId": "7381",
       "gameId": "7381",
@@ -1484,16 +1468,15 @@
       "launchDate": "2020/04/24",
       "hot": false,
       "new": true,
-      "featured": false,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
         "en": "Arthur's Fortune",
-        "cs": "阿瑟的宝藏",
-        "ch": "阿瑟的寶藏"
+        "cs": "阿瑟的宝藏"
       },
       "appId": "7384",
       "gameId": "7384",
@@ -1515,8 +1498,7 @@
     {
       "name": {
         "en": "Wilhelm Tell",
-        "cs": "威廉英雄传说",
-        "ch": "威廉英雄傳說"
+        "cs": "威廉英雄传说"
       },
       "appId": "7362",
       "gameId": "7362",
@@ -1538,8 +1520,7 @@
     {
       "name": {
         "en": "Blood Moon Wilds",
-        "cs": "噬血之月",
-        "ch": "噬血之月"
+        "cs": "噬血之月"
       },
       "appId": "8306",
       "gameId": "8306",
@@ -1556,13 +1537,12 @@
       "featured": false,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 0
+      "promotion": 1
     },
     {
       "name": {
         "en": "Lightning Joker",
-        "cs": "电光小丑女",
-        "ch": "電光小丑女"
+        "cs": "电光小丑女"
       },
       "appId": "7388",
       "gameId": "7388",
@@ -1572,8 +1552,7 @@
       "RTP": "96.30%",
       "imgName": {
         "en": "Lightning-Joker-EN.jpg",
-        "cs": "Lightning-Joker-CS.jpg",
-        "ch": "Lightning-Joker-CS.jpg"
+        "cs": "Lightning-Joker-CS.jpg"
       },
       "launchDate": "2020/06/11",
       "hot": false,
@@ -1586,8 +1565,7 @@
     {
       "name": {
         "en": "Avatars: Gateway Guardians",
-        "cs": "阿凡达特攻队",
-        "ch": "阿凡達特攻隊"
+        "cs": "阿凡达特攻队"
       },
       "appId": "8308",
       "gameId": "8308",
@@ -1597,8 +1575,7 @@
       "RTP": "96.30%",
       "imgName": {
         "en": "Avatars-Gateway-Guardians-EN.jpg",
-        "cs": "Avatars-Gateway-Guardians-CS.jpg",
-        "ch": "Avatars-Gateway-Guardians-CS.jpg"
+        "cs": "Avatars-Gateway-Guardians-CS.jpg"
       },
       "launchDate": "2020/06/18",
       "hot": false,
@@ -1611,33 +1588,29 @@
     {
       "name": {
         "en": "Lucky Neko",
-        "cs": "招财幸运猫",
-        "ch": "招財幸運貓"
+        "cs": "招财幸运猫"
       },
       "appId": "7382",
       "gameId": "7382",
       "category1": "Slots",
       "Reels": "",
       "paylines": "40",
-      "RTP": "96.30%",
       "imgName": {
         "en": "Lucky-Neko-EN.jpg",
-        "cs": "Lucky-Neko-CS.jpg",
-        "ch": "Lucky-Neko-CS.jpg"
+        "cs": "Lucky-Neko-CS.jpg"
       },
       "launchDate": "2020/06/25",
       "hot": false,
       "new": true,
-      "featured": false,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
         "en": "Vault of Fortune",
-        "cs": "财宝金库",
-        "ch": "财宝金库"
+        "cs": "财宝金库"
       },
       "appId": "7387",
       "gameId": "7387",
@@ -1647,16 +1620,15 @@
       "RTP": "",
       "imgName": {
         "en": "Vault-of-Fortune-EN.jpg",
-        "cs": "Vault-of-Fortune-CS.jpg",
-        "ch": "Vault-of-Fortune-CS.jpg"
+        "cs": "Vault-of-Fortune-CS.jpg"
       },
       "launchDate": "2020/08/05",
       "hot": false,
       "new": true,
-      "featured": false,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -1766,7 +1738,8 @@
       "new": true,
       "featured": false,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 0
     },
     {
       "name": {
@@ -1854,7 +1827,8 @@
       "new": true,
       "featured": false,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 1
     }
   ]
 }

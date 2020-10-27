@@ -4,8 +4,7 @@
     {
       "name": {
         "en": "Fortune Gods",
-        "cs": "横财来啦",
-        "ch": "橫財來啦"
+        "cs": "横财来啦"
       },
       "appId": 3,
       "gameId": "fortune-gods",
@@ -15,13 +14,12 @@
       "RTP": "95.04%",
       "imgName": {
         "en": "fortune-gods-EN.jpg",
-        "cs": "fortune-gods-cs.jpg",
-        "ch": "fortune-gods-CS.jpg"
+        "cs": "fortune-gods-cs.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": false,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -404,8 +402,7 @@
     {
       "name": {
         "en": "Legend of Hou Yi",
-        "cs": "后羿射日",
-        "ch": "後羿射日"
+        "cs": "后羿射日"
       },
       "appId": 34,
       "gameId": "legend-of-hou-yi",
@@ -415,13 +412,12 @@
       "RTP": "95.78%",
       "imgName": {
         "en": "legend-of-hou-yi-EN.jpg",
-        "cs": "legend-of-hou-yi-CS.jpg",
-        "ch": "legend-of-hou-yi-CS.jpg"
+        "cs": "legend-of-hou-yi-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": false,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -479,8 +475,7 @@
     {
       "name": {
         "en": "Hip Hop Panda",
-        "cs": "嘻哈熊猫",
-        "ch": "嘻哈熊貓"
+        "cs": "嘻哈熊猫"
       },
       "appId": 33,
       "gameId": "hip-hop-panda",
@@ -490,13 +485,12 @@
       "RTP": "95.75%",
       "imgName": {
         "en": "hip-hop-panda-EN.jpg",
-        "cs": "hip-hop-panda-CS.jpg",
-        "ch": "hip-hop-panda-CS.jpg"
+        "cs": "hip-hop-panda-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": false,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -554,8 +548,7 @@
     {
       "name": {
         "en": "Gem Saviour Sword",
-        "cs": "宝石侠-大宝剑",
-        "ch": "寶石俠-大寶劍"
+        "cs": "宝石侠-大宝剑"
       },
       "appId": 38,
       "gameId": "gem-saviour-sword",
@@ -565,13 +558,12 @@
       "RTP": "95.54%",
       "imgName": {
         "en": "gem-saviour-sword-EN.jpg",
-        "cs": "gem-saviour-sword-CS.jpg",
-        "ch": "gem-saviour-sword-CS.jpg"
+        "cs": "gem-saviour-sword-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
       "new": false,
-      "featured": false,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
@@ -804,8 +796,7 @@
     {
       "name": {
         "en": "Captain's Bounty",
-        "cs": "赏金船长",
-        "ch": "賞金船長"
+        "cs": "赏金船长"
       },
       "appId": 54,
       "gameId": "captains-bounty",
@@ -815,8 +806,7 @@
       "RTP": "96.15%",
       "imgName": {
         "en": "captains-bounty-EN.jpg",
-        "cs": "captains-bounty-CS.jpg",
-        "ch": "captains-bounty-CS.jpg"
+        "cs": "captains-bounty-CS.jpg"
       },
       "launchDate": null,
       "hot": true,
@@ -952,8 +942,7 @@
     {
       "name": {
         "en": "Dragon Hatch",
-        "cs": "寻龙探宝",
-        "ch": "尋龍探寶"
+        "cs": "寻龙探宝"
       },
       "appId": 57,
       "gameId": "dragon-hatch",
@@ -963,8 +952,7 @@
       "RTP": "96.83%",
       "imgName": {
         "en": "dragon-hatch-EN.jpg",
-        "cs": "dragon-hatch-CS.jpg",
-        "ch": "dragon-hatch-CS.jpg"
+        "cs": "dragon-hatch-CS.jpg"
       },
       "launchDate": null,
       "hot": true,
@@ -977,8 +965,7 @@
     {
       "name": {
         "en": "Fortune Mouse",
-        "cs": "鼠鼠福福",
-        "ch": "鼠鼠福福"
+        "cs": "鼠鼠福福"
       },
       "appId": 68,
       "gameId": "fortune-mouse",
@@ -988,8 +975,7 @@
       "RTP": "96.96%",
       "imgName": {
         "en": "fortune-mouse-EN.jpg",
-        "cs": "fortune-mouse-CS.jpg",
-        "ch": "fortune-mouse-CS.jpg"
+        "cs": "fortune-mouse-CS.jpg"
       },
       "launchDate": null,
       "hot": true,
@@ -1109,7 +1095,7 @@
       "launchDate": null,
       "hot": true,
       "new": false,
-      "featured": false,
+      "featured": true,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0

@@ -83,7 +83,6 @@
       "name": {
         "en": "Dance Party",
         "cs": "跳舞趴",
-        "ch": "跳舞趴",
         "id": "Pesta Dansa",
         "th": "แดนซ์ปาร์ตี้",
         "vn": "Bữa Tiệc Khiêu Vũ"
@@ -96,13 +95,12 @@
       "RTP": "96.50%",
       "imgName": {
         "en": "Dance-Party-EN.jpg",
-        "cs": "Dance-Party-CS.jpg",
-        "ch": "Dance-Party-CS.jpg"
+        "cs": "Dance-Party-CS.jpg"
       },
       "launchDate": "2020/04/07",
       "hot": true,
       "new": true,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
       "promotion": 0
     },
@@ -110,7 +108,6 @@
       "name": {
         "en": "Wild West Gold",
         "cs": "西部牛仔黄金地段",
-        "ch": "西部牛仔黃金地段",
         "id": "Emas dari Wild West",
         "th": "ไวลด์เวสต์โกลด์",
         "vn": "Vàng Miền Tây Hoang Dã"
@@ -123,14 +120,14 @@
       "RTP": "96.51%",
       "imgName": {
         "en": "Wild-West-Gold-EN.jpg",
-        "cs": "Wild-West-Gold-CS.jpg",
-        "ch": "Wild-West-Gold-CS.jpg"
+        "cs": "Wild-West-Gold-CS.jpg"
       },
       "launchDate": "2020/03/31",
       "hot": false,
       "new": true,
       "imageExist": true,
-      "promotion": 0
+      "promotion": 1,
+      "featured": true
     },
     {
       "name": {
@@ -422,7 +419,6 @@
       "name": {
         "en": "Money Mouse",
         "cs": "招财鼠",
-        "ch": "招財鼠",
         "id": "Tikus Uang ",
         "th": "มันนี่เมาส์",
         "vn": "Chuột Kim Tiền"
@@ -435,14 +431,13 @@
       "RTP": "96.01%",
       "imgName": {
         "en": "Money-Mouse-EN.jpg",
-        "cs": "Money-Mouse-CS.jpg",
-        "ch": "Money-Mouse-CS.jpg"
+        "cs": "Money-Mouse-CS.jpg"
       },
       "launchDate": "2019/12/10",
       "hot": false,
       "new": false,
       "imageExist": true,
-      "promotion": 1
+      "promotion": 0
     },
     {
       "name": {
@@ -500,7 +495,6 @@
       "name": {
         "en": "Sweet Bonanza Xmas",
         "cs": "甜心盛宴圣诞",
-        "ch": "甜心盛宴圣誕",
         "id": "Natal Bonanza nan Indah",
         "th": "สวีตโบนันซ่า คริสต์มาส",
         "vn": "Giáng Sinh May Mắn Ngọt Ngào"
@@ -513,14 +507,13 @@
       "RTP": "96.48%",
       "imgName": {
         "en": "Sweet-Bonanza-Xmas-EN.jpg",
-        "cs": "Sweet-Bonanza-Xmas-CS.jpg",
-        "ch": "Sweet-Bonanza-Xmas-CS.jpg"
+        "cs": "Sweet-Bonanza-Xmas-CS.jpg"
       },
       "launchDate": "2019/11/18",
       "hot": false,
       "new": false,
       "imageExist": true,
-      "promotion": 0
+      "promotion": 1
     },
     {
       "name": {
@@ -552,7 +545,6 @@
       "name": {
         "en": "Fire Strike",
         "cs": "红火暴击",
-        "ch": "紅火暴擊",
         "id": "Serangan Api",
         "th": "เพลิงจู่โจม",
         "vn": "Biển Lửa"
@@ -565,14 +557,14 @@
       "RTP": "96.50%",
       "imgName": {
         "en": "Fire-Strike-EN.jpg",
-        "cs": "Fire-Strike-CS.jpg",
-        "ch": "Fire-Strike-CS.jpg"
+        "cs": "Fire-Strike-CS.jpg"
       },
       "launchDate": "2019/10/28",
       "hot": true,
       "new": false,
       "imageExist": true,
-      "promotion": 0
+      "promotion": 1,
+      "featured": true
     },
     {
       "name": {
@@ -864,7 +856,6 @@
       "name": {
         "en": "5 Lions Gold",
         "cs": "5金狮",
-        "ch": "5金獅",
         "id": "Emas 5 Singa",
         "th": "5 สิงโตทองคำ",
         "vn": "5 Sư Tử Vàng"
@@ -877,8 +868,7 @@
       "RTP": "96.50%",
       "imgName": {
         "en": "5-Lions-Gold-EN.jpg",
-        "cs": "5-Lions-Gold-CS.jpg",
-        "ch": "5-Lions-Gold-CS.jpg"
+        "cs": "5-Lions-Gold-CS.jpg"
       },
       "launchDate": "2019/05/27",
       "hot": false,
@@ -916,7 +906,6 @@
       "name": {
         "en": "Sweet Bonanza",
         "cs": "甜入心扉",
-        "ch": "甜入心扉",
         "id": "Bonanza Manis",
         "th": "สวีตโบนันซ่า",
         "vn": "Vận May Ngọt Ngào"
@@ -929,14 +918,14 @@
       "RTP": "96.50%",
       "imgName": {
         "en": "Sweet-Bonanza-EN.jpg",
-        "cs": "Sweet-Bonanza-CS.jpg",
-        "ch": "Sweet-Bonanza-CS.jpg"
+        "cs": "Sweet-Bonanza-CS.jpg"
       },
       "launchDate": "2019/04/29",
       "hot": false,
       "new": false,
       "imageExist": true,
-      "promotion": 0
+      "promotion": 0,
+      "featured": true
     },
     {
       "name": {
@@ -994,7 +983,6 @@
       "name": {
         "en": "The Dog House",
         "cs": "汪汪之家",
-        "ch": "汪汪之家",
         "id": "Rumah Anjing",
         "th": "บ้านสุนัข",
         "vn": "Nhà Của Chó"
@@ -1007,14 +995,14 @@
       "RTP": "96.51%",
       "imgName": {
         "en": "The-Dog-House-EN.jpg",
-        "cs": "The-Dog-House-CS.jpg",
-        "ch": "The-Dog-House-CS.jpg"
+        "cs": "The-Dog-House-CS.jpg"
       },
       "launchDate": "2019/03/04",
       "hot": false,
       "new": false,
       "imageExist": true,
-      "promotion": 0
+      "promotion": 0,
+      "featured": true
     },
     {
       "name": {
@@ -1332,7 +1320,6 @@
       "name": {
         "en": "Vegas Magic",
         "cs": "魔力维加斯",
-        "ch": "魔力維加斯",
         "id": "Keajaiban Vegas",
         "th": "มนตราเวกัส",
         "vn": "Sức lôi cuốn của Vegas"
@@ -1345,14 +1332,14 @@
       "RTP": "96.08%",
       "imgName": {
         "en": "Vegas-Magic-EN.jpg",
-        "cs": "Vegas-Magic-CS.jpg",
-        "ch": "Vegas-Magic-CS.jpg"
+        "cs": "Vegas-Magic-CS.jpg"
       },
       "launchDate": "2018/09/25",
       "hot": false,
       "new": false,
       "imageExist": true,
-      "promotion": 0
+      "promotion": 0,
+      "featured": true
     },
     {
       "name": {
@@ -1540,7 +1527,6 @@
       "name": {
         "en": "Great Rhino",
         "cs": "巨大犀牛",
-        "ch": "巨大犀牛",
         "id": "Badak Hebat",
         "th": "เกรทไรโน",
         "vn": "Tê giác Khổng lồ"
@@ -1553,20 +1539,19 @@
       "RTP": "96.53%",
       "imgName": {
         "en": "Great-Rhino-EN.jpg",
-        "cs": "Great-Rhino-CS.jpg",
-        "ch": "Great-Rhino-CS.jpg"
+        "cs": "Great-Rhino-CS.jpg"
       },
       "launchDate": "2018/04/16",
       "hot": false,
       "new": false,
       "imageExist": true,
-      "promotion": 0
+      "promotion": 1,
+      "featured": true
     },
     {
       "name": {
         "en": "Jokers Jewels",
         "cs": "小丑珠宝",
-        "ch": "小丑珠寶",
         "id": "Permata Joker",
         "th": "เพชรโจ๊กเกอร์",
         "vn": "Viên đá quý của Chú hề"
@@ -1579,14 +1564,14 @@
       "RTP": "96.50%",
       "imgName": {
         "en": "Jokers-Jewels-EN.jpg",
-        "cs": "Jokers-Jewels-CS.jpg",
-        "ch": "Jokers-Jewels-CS.jpg"
+        "cs": "Jokers-Jewels-CS.jpg"
       },
       "launchDate": "2018/04/02",
       "hot": false,
       "new": false,
       "imageExist": true,
-      "promotion": 1
+      "promotion": 1,
+      "featured": true
     },
     {
       "name": {
@@ -1692,7 +1677,6 @@
       "name": {
         "en": "Aztec Gems",
         "cs": "古时代宝石",
-        "ch": "古時代寶石",
         "id": "Permata Aztez",
         "th": "เพชรแอสเท็ค",
         "vn": "Aztec Gems"
@@ -1710,7 +1694,8 @@
       "hot": true,
       "new": false,
       "imageExist": true,
-      "promotion": 1
+      "promotion": 1,
+      "featured": true
     },
     {
       "name": {
@@ -1866,7 +1851,6 @@
       "name": {
         "en": "Pandas Fortune",
         "cs": "熊猫财富",
-        "ch": "熊貓財富",
         "id": "Kekayaan Panda",
         "th": "แพนด้ามหาโชค",
         "vn": "Vận may của Gấu trúc"
@@ -1883,7 +1867,7 @@
       "launchDate": "2017/07/11",
       "hot": true,
       "new": false,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
       "promotion": 0
     },
@@ -1943,7 +1927,6 @@
       "name": {
         "en": "Diamond Strike",
         "cs": "钻石罢工",
-        "ch": "鉆石罷工",
         "id": "Serbuan Berlian",
         "th": "ไดมอนด์สไตร้ค์",
         "vn": "Cuộc chiến giành Kim cương"
@@ -1961,7 +1944,8 @@
       "hot": false,
       "new": false,
       "imageExist": true,
-      "promotion": 0
+      "promotion": 0,
+      "featured": true
     },
     {
       "name": {
@@ -1993,7 +1977,6 @@
       "name": {
         "en": "Wild Spells",
         "cs": "法力无边",
-        "ch": "法力無邊",
         "id": "Mantera Liar",
         "th": "ป่าเวทย์มนต์",
         "vn": "Câu thần chú Wild"
@@ -2010,7 +1993,7 @@
       "launchDate": "2017/09/26",
       "hot": true,
       "new": false,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
       "promotion": 0
     },
@@ -2094,7 +2077,6 @@
       "name": {
         "en": "888 Dragons",
         "cs": "发发发龙",
-        "ch": "發發發龍",
         "id": "888 Naga",
         "th": "มังกร 888",
         "vn": "888 Con rồng"
@@ -2111,9 +2093,9 @@
       "launchDate": "2017/10/07",
       "hot": true,
       "new": false,
-      "featured": true,
       "imageExist": true,
-      "promotion": 1
+      "promotion": 0,
+      "featured": true
     },
     {
       "name": {
@@ -2195,7 +2177,6 @@
       "name": {
         "en": "Wolf Gold",
         "cs": "野狼黄金",
-        "ch": "野狼黃金",
         "id": "Emas Serigala",
         "th": "หมาป่าทองคำ",
         "vn": "Sói vàng "
@@ -2208,8 +2189,7 @@
       "RTP": "96.00%",
       "imgName": {
         "en": "Wolf-Gold-EN.jpg",
-        "cs": "Wolf-Gold-CS.jpg",
-        "ch": "Wolf-Gold-CS.jpg"
+        "cs": "Wolf-Gold-CS.jpg"
       },
       "launchDate": "2017/05/16",
       "hot": false,
@@ -2325,7 +2305,6 @@
       "name": {
         "en": "888 Gold",
         "cs": "富贵888",
-        "ch": "富貴888",
         "id": "888 Emas",
         "th": "888 ทองคำ",
         "vn": "Vàng 888"
@@ -2338,13 +2317,12 @@
       "RTP": "97.52%",
       "imgName": {
         "en": "888-Gold-EN.jpg",
-        "cs": "888-Gold-CS.jpg",
-        "ch": "888-Gold-CS.jpg"
+        "cs": "888-Gold-CS.jpg"
       },
       "launchDate": "2017/03/02",
       "hot": true,
       "new": false,
-      "featured": true,
+      "featured": false,
       "imageExist": true,
       "promotion": 0
     },
@@ -3348,7 +3326,8 @@
       "new": true,
       "featured": false,
       "imageExist": true,
-      "Isfun": 1
+      "Isfun": 1,
+      "promotion": 1
     },
     {
       "name": {
@@ -3410,6 +3389,314 @@
         "cs": "Ultra-Hold-and-Spin-CS.jpg"
       },
       "launchDate": "2020/09/03",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "John Hunter and the Book of Tut",
+        "cs": "约翰·亨特之图特书"
+      },
+      "appId": "vs10bookoftut",
+      "gameId": "vs10bookoftut",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "5",
+      "RTP": "96.5%",
+      "imgName": {
+        "en": "John-Hunter-and-the-Book-of-Tut-EN.jpg",
+        "cs": "John-Hunter-and-the-Book-of-Tut-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Starz Megaways",
+        "cs": "行星宝石 Megaways"
+      },
+      "appId": "vs117649starz",
+      "gameId": "vs117649starz",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.70%",
+      "imgName": {
+        "en": "Starz-Megaways-EN.jpg",
+        "cs": "Starz-Megaways-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Ultra Burn",
+        "cs": "超级燃烧"
+      },
+      "appId": "vs5ultrab",
+      "gameId": "vs5ultrab",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.62%",
+      "imgName": {
+        "en": "Ultra-Burn-EN.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Bronco Spirit",
+        "cs": "布洛克精神"
+      },
+      "appId": "vs75bronco",
+      "gameId": "vs75bronco",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.63%",
+      "imgName": {
+        "en": "Bronco-Spirit-EN.jpg",
+        "cs": "Bronco-Spirit-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Money Money Money",
+        "cs": "钱生钱"
+      },
+      "appId": "vs1money",
+      "gameId": "vs1money",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "97.09%",
+      "imgName": {
+        "en": "Money-Money-Money-EN.jpg",
+        "cs": "Money-Money-Money-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Pyramid King",
+        "cs": "王者金字塔"
+      },
+      "appId": "vs25pyramid",
+      "gameId": "vs25pyramid",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.5%",
+      "imgName": {
+        "en": "Pyramid-King-EN.jpg",
+        "cs": "Pyramid-King-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Fu Fu Fu",
+        "cs": "福福福"
+      },
+      "appId": "vs1fufufu",
+      "gameId": "vs1fufufu",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.84%",
+      "imgName": {
+        "en": "Fu-Fu-Fu-EN.jpg",
+        "cs": "Fu-Fu-Fu-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Drago - Jewels of Fortune™",
+        "cs": "群龙保珠-宝石致富"
+      },
+      "appId": "vs1600drago",
+      "gameId": "vs1600drago",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.5%",
+      "imgName": {
+        "en": "Drago-Jewels-of-Fortune-EN.jpg",
+        "cs": "Drago-Jewels-of-Fortune-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1,
+      "promotion": 1
+    },
+    {
+      "name": {
+        "en": "Street Racer™",
+        "cs": "街头赛车"
+      },
+      "appId": "vs40streetracer",
+      "gameId": "vs40streetracer",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.52%",
+      "imgName": {
+        "en": "Street-Racer-EN.jpg",
+        "cs": "Street-Racer-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "The Tiger Warrior™",
+        "cs": "武松打虎"
+      },
+      "appId": "vs25tigerwar",
+      "gameId": "vs25tigerwar",
+      "category1": "Slots",
+      "Reels": "",
+      "paylines": "",
+      "RTP": "96.01%",
+      "imgName": {
+        "en": "The-Tiger-Warrior-EN.jpg",
+        "cs": "The-Tiger-Warrior-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Great Rhino Deluxe™",
+        "cs": "巨大犀牛 加强版™"
+      },
+      "appId": "vs20rhinoluxe",
+      "gameId": "vs20rhinoluxe",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "20",
+      "RTP": "96.54%",
+      "imgName": {
+        "en": "Great-Rhino-Deluxe-EN.jpg",
+        "cs": "Great-Rhino-Deluxe-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Wild Wild Riches™",
+        "cs": "爱尔兰人宝藏™"
+      },
+      "appId": "vs576treasures",
+      "gameId": "vs576treasures",
+      "category1": "Slots",
+      "Reels": "4",
+      "paylines": "576",
+      "RTP": "96.77%",
+      "imgName": {
+        "en": "Wild-Wild-Riches-EN.jpg",
+        "cs": "Wild-Wild-Riches-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "The Dog House Megaways™",
+        "cs": "汪汪之家 Megaways™"
+      },
+      "appId": "vswaysdogs",
+      "gameId": "vswaysdogs",
+      "category1": "Slots",
+      "Reels": "7",
+      "paylines": "11969",
+      "RTP": "96.55%",
+      "imgName": {
+        "en": "The-Dog-House-Megaways-EN.jpg",
+        "cs": "The-Dog-House-Megaways-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
+      "hot": false,
+      "new": true,
+      "featured": false,
+      "imageExist": true,
+      "Isfun": 1
+    },
+    {
+      "name": {
+        "en": "Aztec Gems Deluxe™",
+        "cs": "古代宝石加强版™"
+      },
+      "appId": "vs9aztecgemsdx",
+      "gameId": "vs9aztecgemsdx",
+      "category1": "Slots",
+      "Reels": "3",
+      "paylines": "9",
+      "RTP": "96.50%",
+      "imgName": {
+        "en": "Aztec-Gems-Deluxe-EN.jpg",
+        "cs": "Aztec-Gems-Deluxe-CS.jpg"
+      },
+      "launchDate": "2020/10/26",
       "hot": false,
       "new": true,
       "featured": false,
