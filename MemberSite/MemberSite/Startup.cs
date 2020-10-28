@@ -171,7 +171,7 @@ namespace MemberSite
                 options.AddPolicy("LandingPage",
                             builder =>
                             {
-                                builder.WithOrigins("*")
+                                builder.WithOrigins("http://www.bwing.com")
                                     .AllowAnyMethod();
                             });
 
