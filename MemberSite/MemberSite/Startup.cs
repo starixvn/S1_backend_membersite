@@ -167,6 +167,14 @@ namespace MemberSite
                                         .AllowAnyMethod()
                                         .AllowCredentials();
                                   });
+
+                options.AddPolicy("LandingPage",
+                            builder =>
+                            {
+                                builder.WithOrigins("*")
+                                    .AllowAnyMethod();
+                            });
+
             });
 
             services.AddControllers();
@@ -193,7 +201,7 @@ namespace MemberSite
             app.UseRouting();
 
             app.UseCors(AllowSpecificOrigins);
-
+            app.UseCors("LandingPage");
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -398,6 +398,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        [Microsoft.AspNetCore.Cors.EnableCors("LandingPage")]
         public ApiResult<bool> ExistsUserName(RegisteredModel registeredModel)
         {
             var apiResult = new ApiResult<bool>(selLangBLL);
@@ -405,6 +406,12 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+
+        //[HttpOptions]
+        //public IActionResult ExistsUserName()
+        //{
+        //    return NoContent();
+        //}
         public ApiResult<bool> ExistsEmail(RegisteredModel registeredModel)
         {
             var apiResult = new ApiResult<bool>(selLangBLL);
