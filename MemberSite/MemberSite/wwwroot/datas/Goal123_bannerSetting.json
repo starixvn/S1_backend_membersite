@@ -19,27 +19,30 @@
   ],
   "Sports": [
     {
-      "tpid": "1",
-      "matchid": "39178782",
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "39301395",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-39178782.jpg",
+      "img": "games-39301395.jpg",
       "lang": [ "en", "vn" ]
     },
     {
-      "tpid": "1",
-      "matchid": "39178787",
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "39344108",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-39178787.jpg",
+      "img": "games-39344108.jpg",
       "lang": [ "en", "vn" ]
     },
     {
-      "tpid": "1",
-      "matchid": "39178786",
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "39301397",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-39178786.jpg",
+      "img": "games-39301397.jpg",
       "lang": [ "en", "vn" ]
     }
   ]
