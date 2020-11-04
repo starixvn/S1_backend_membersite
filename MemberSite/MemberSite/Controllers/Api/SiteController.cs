@@ -76,7 +76,7 @@ namespace MemberSite.Controllers.Api
             Customer customer = null;
             string token = null;
             var ip = tools.GetClientIP();
-            var userLoginResult = custInfoBLL.UserLogin(userName, userpwd,ip, tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
+            var userLoginResult = custInfoBLL.UserLogin(userName, userpwd, ip, tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
 
             if (userLoginResult == -1)
             {
@@ -126,12 +126,12 @@ namespace MemberSite.Controllers.Api
                     ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
                 };
             }
-            
+
             if (loginModel.di != null)
             {
                 _ = Task.Run(async () =>
                 {
-                    await sFPSBLL.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di,ip);
+                    await sFPSBLL.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
                 });
             }
 
@@ -151,7 +151,21 @@ namespace MemberSite.Controllers.Api
             public string UserLang { get; set; }
             public string RefId { get; set; }
             public string AffId { get; set; }
-            public string Aff { get; set; }
+
+            private string _Aff = null;
+            public string Aff
+            {
+                get
+                {
+                    return _Aff ?? AffiliateId;
+                }
+
+                set
+                {
+                    _Aff = value;
+                }
+            }
+            public string AffiliateId { get; set; }
             public string blackbox { get; set; }
         }
 
@@ -386,7 +400,7 @@ namespace MemberSite.Controllers.Api
                         new Claim("Token",token ),
                         new Claim("LangId",customer.UserLang )
                     };
-                   
+
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                     apiResult.ErrorCode = 0;
