@@ -157,7 +157,7 @@ namespace MemberSite.Controllers.Api
             {
                 get
                 {
-                    return _Aff ?? AffiliateId;
+                    return string.IsNullOrEmpty(_Aff) ? AffiliateId : _Aff;
                 }
 
                 set
