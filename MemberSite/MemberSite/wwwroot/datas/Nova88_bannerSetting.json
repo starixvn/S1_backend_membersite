@@ -1,10 +1,6 @@
 {
   "Promotion": [
     {
-      "img": "Happy-Halloween.jpg",
-      "lang": [ "th", "id", "en", "cs" ]
-    },
-    {
       "actionLink": "https://aff.nova88asia.com/Signup/Index",
       "outerLink": true,
       "img": "banner-affiliates.jpg",
@@ -27,19 +23,19 @@
       "currencyId": [ 4 ],
       "lang": [ "th", "id", "en", "cs" ]
     },
-    {
-      "actionLink": "http://event-tw.248ka.com/GodsE/index.html",
-      "outerLink": true,
-      "actionLinkByLang": [
-        {
-          "lang": "cs",
-          "link": "http://event-tw.248ka.com/GodsC/index.html",
-          "outerLink": true
-        }
-      ],
-      "img": "event-pp-20201026.jpg",
-      "lang": [ "th", "id", "en", "cs" ]
-    },
+    //{
+    //  "actionLink": "http://event-tw.248ka.com/GodsE/index.html",
+    //  "outerLink": true,
+    //  "actionLinkByLang": [
+    //    {
+    //      "lang": "cs",
+    //      "link": "http://event-tw.248ka.com/GodsC/index.html",
+    //      "outerLink": true
+    //    }
+    //  ],
+    //  "img": "event-pp-20201026.jpg",
+    //  "lang": [ "th", "id", "en", "cs" ]
+    //},
     {
       "actionLink": "https://pp88.asia/tournament/daily-wins-cash-drop-2020-2021/",
       "outerLink": true,

@@ -1,4 +1,4 @@
-﻿@charset "UTF-8";
+@charset "UTF-8";
 /* normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
 /* Document
    ========================================================================== */
@@ -4619,12 +4619,12 @@ span.account-info__amount.Js-Balance{
 }
 
 .login-page .login__logo .logo::before {
-    content: "";
-    display: block;
-    width: calc(130px * 1.5);
-    height: calc(46px * 1.5);
-    background-image: url("../images/logo.svg");
-    background-size: cover;
+  content: "";
+  display: block;
+  width: calc(130px * 1.5);
+  height: calc(46px * 1.5);
+  background-image: url("../images/logo.svg");
+  background-size: cover;
 }
 
 .login-page .login__form {
@@ -4791,13 +4791,13 @@ span.account-info__amount.Js-Balance{
 }
 
 .header__logo .logo::before {
-    content: "";
-    display: block;
-    width: calc(130px * 0.8);
-    height: calc(46px * 0.8);
-    background-image: url("../images/logo.svg");
-    background-size: cover;
-    transition: ease .15s;
+  content: "";
+  display: block;
+  width: calc(130px * 0.8);
+  height: calc(46px * 0.8);
+  background-image: url("../images/logo.svg");
+  background-size: cover;
+  transition: ease .15s;
 }
 
 [data-layout=desktop] .header__logo .logo::before {

@@ -3,32 +3,8 @@
   "data": [
     {
       "name": {
-        "en": "CQ9 Live",
-        "cs": "CQ9 真人",
-        "ch": "CQ9 真人"
-      },
-      "appId": "BV01",
-      "gameId": "BV01",
-      "category1": "Table",
-      "paylines": "",
-      "RTP": "N/A",
-      "Reels": "",
-      "imgName": {
-        "en": "CQ9-Live-en.jpg",
-        "cs": "CQ9-Live-cs.jpg",
-        "ch": "CQ9-Live-ch.jpg",
-        "th": "CQ9-Live-th.jpg"
-      },
-      "launchDate": "2017/03/20",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
         "en": "Cricket Fever",
-        "cs": "板球狂热",
-        "ch": "板球狂熱"
+        "cs": "板球狂热"
       },
       "appId": "188",
       "gameId": "188",
@@ -38,8 +14,7 @@
       "Reels": "5",
       "imgName": {
         "en": "Cricket-Fever-en.jpg",
-        "cs": "Cricket-Fever-cs.jpg",
-        "ch": "Cricket-Fever-cs.jpg"
+        "cs": "Cricket-Fever-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -49,8 +24,7 @@
     {
       "name": {
         "en": "Wing Chun",
-        "cs": "咏春",
-        "ch": "咏春"
+        "cs": "咏春"
       },
       "appId": "187",
       "gameId": "187",
@@ -60,8 +34,7 @@
       "Reels": "5",
       "imgName": {
         "en": "Wing-Chun-en.jpg",
-        "cs": "Wing-Chun-cs.jpg",
-        "ch": "Wing-Chun-cs.jpg"
+        "cs": "Wing-Chun-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -71,8 +44,7 @@
     {
       "name": {
         "en": "Six Gacha",
-        "cs": "六颗扭蛋",
-        "ch": "六顆扭蛋"
+        "cs": "六颗扭蛋"
       },
       "appId": "184",
       "gameId": "184",
@@ -82,8 +54,7 @@
       "Reels": "5",
       "imgName": {
         "en": "Six-Gacha-en.jpg",
-        "cs": "Six-Gacha-cs.jpg",
-        "ch": "Six-Gacha-cs.jpg"
+        "cs": "Six-Gacha-cs.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
