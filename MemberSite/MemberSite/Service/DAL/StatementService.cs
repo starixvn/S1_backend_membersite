@@ -82,5 +82,29 @@ namespace MemberSite.Service.DAL
             var result = conn.Query<PromotionCategory>("Member_PromotionCategory_Get", commandType: CommandType.StoredProcedure);
             return result;
         }
+        public IEnumerable<TpBetRecordListOneWeek> GetCustTpBetRecordListOneWeek(int custId)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var result = conn.Query<TpBetRecordListOneWeek>("Member_TpBetRecord_byCustIDOneWeek_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            return result;
+        }
+        public IEnumerable<TpBetRecordListOneDay> GetCustTpBetRecordListOneDay(int custId, long selDate)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var result = conn.Query<TpBetRecordListOneDay>("Member_TpBetRecord_byOneDay_Get", new { CustId = custId, SelDate = selDate }, commandType: CommandType.StoredProcedure);
+            return result;
+        }
+        public IEnumerable<TpBetRecordbyCategoryId> GetCustTpBetRecordListbyCategoryId(int custId, long selDate, int categoryId)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var result = conn.Query<TpBetRecordbyCategoryId>("Member_TpBetRecord_byCategoryId_Get", new { CustId = custId, SelDate = selDate, CategoryId = categoryId }, commandType: CommandType.StoredProcedure);
+            return result;
+        }
+        public IEnumerable<TpBetRecordDetailbyGameType> GetCustTpBetRecordDetailListbyGameType(int custId, long selDate, int gameTypeId)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var result = conn.Query<TpBetRecordDetailbyGameType>("Member_TpBetRecord_byGameTypeDetail_Get", new { CustId = custId, SelDate = selDate, TypeId = gameTypeId }, commandType: CommandType.StoredProcedure);
+            return result;
+        }
     }
 }

@@ -40,4 +40,40 @@ namespace MemberSite.Service.Model
         public int id { get; set; }
         public string Name { get; set; }
     }
+    public class TpBetRecordListOneWeek
+    {
+        public DateTime SettledDate { get; set; }
+        public decimal TurnOver { get; set; }
+        public decimal ValidBet { get; set; }
+        public decimal WinlostAmount { get; set; }
+    }
+    public class TpBetRecordListOneDay
+    {
+        public DateTime SettledDate { get; set; }
+        public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
+        public decimal TurnOver { get; set; }
+        public decimal ValidBet { get; set; }
+        public decimal WinlostAmount { get; set; }
+    }
+    public class TpBetRecordbyCategoryId
+    {
+        public DateTime SettledDate { get; set; }
+        public string GameTypeName { get; set; }
+        public int GameTypeID { get; set; }
+        public decimal TurnOver { get; set; }
+        public decimal ValidBet { get; set; }
+        public decimal WinlostAmount { get; set; }
+    }
+    public class TpBetRecordDetailbyGameType
+    {
+        public string TransId { get; set; }
+        public int BonusId { get; set; }
+        public string BonusCode { set; get; }
+        public decimal TurnOver { get; set; }
+        public decimal ValidBet { get; set; }
+        public decimal WinlostAmount { get; set; }
+        public DateTime TransTime { get; set; }
+        public DateTime SettledTime { get; set; }
+    }
 }

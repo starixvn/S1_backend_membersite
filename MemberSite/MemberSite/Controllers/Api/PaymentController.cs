@@ -727,5 +727,57 @@ namespace MemberSite.Controllers.Api
 
             return result;
         }
+        [HttpPost]
+        public ApiResult<IEnumerable<TpBetRecordListOneWeek>> GetCustTpBetRecordListOneWeek()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<TpBetRecordListOneWeek>>();
+            apiResult.ErrorCode = 0;
+            apiResult.Data = paymentBLL.GetCustTpBetRecordListOneWeek(authData.CustId);
+            return apiResult;
+        }
+        public class CustTpBetRecordListOneDayReq
+        {
+            public long selDate { get; set; }
+        }
+        [HttpPost]
+        public ApiResult<IEnumerable<TpBetRecordListOneDay>> GetCustTpBetRecordListOneDay(CustTpBetRecordListOneDayReq custTpBetRecordListOneDayReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<TpBetRecordListOneDay>>();
+            apiResult.ErrorCode = 0;
+            apiResult.Data = paymentBLL.GetCustTpBetRecordListOneDay(authData.CustId, custTpBetRecordListOneDayReq.selDate);
+            return apiResult;
+        }
+        public class CustTpBetRecordListbyCategoryIdReq
+        {
+            public long selDate { get; set; }
+            public int CategoryId { get; set; }
+        }
+        [HttpPost]
+        public ApiResult<IEnumerable<TpBetRecordbyCategoryId>> GetCustTpBetRecordListbyCategoryId(CustTpBetRecordListbyCategoryIdReq custTpBetRecordListbyCategoryIdReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<TpBetRecordbyCategoryId>>();
+            apiResult.ErrorCode = 0;
+            apiResult.Data = paymentBLL.GetCustTpBetRecordListbyCategoryId(authData.CustId, custTpBetRecordListbyCategoryIdReq.selDate, custTpBetRecordListbyCategoryIdReq.CategoryId);
+
+            return apiResult;
+        }
+        public class CustTpBetRecordDetailListbyGameTypeReq
+        {
+            public long selDate { get; set; }
+            public int gameTypeId { get; set; }
+        }
+        [HttpPost]
+        public ApiResult<IEnumerable<TpBetRecordDetailbyGameType>> GetCustTpBetRecordDetailListbyGameType(CustTpBetRecordDetailListbyGameTypeReq custTpBetRecordDetailListbyGameTypeReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<TpBetRecordDetailbyGameType>>();
+            apiResult.ErrorCode = 0;
+            apiResult.Data = paymentBLL.GetCustTpBetRecordDetailListbyGameType(authData.CustId, custTpBetRecordDetailListbyGameTypeReq.selDate, custTpBetRecordDetailListbyGameTypeReq.gameTypeId);
+
+            return apiResult;
+        }
     }
 }
