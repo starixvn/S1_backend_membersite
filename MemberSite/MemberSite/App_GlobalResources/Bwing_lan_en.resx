@@ -144,9 +144,6 @@
   <data name="lbl_FAQHint" xml:space="preserve">
     <value>How to create an account, transaction fees, how to change passwords, ...</value>
   </data>
-  <data name="lbl_Fishing" xml:space="preserve">
-    <value>Fish World</value>
-  </data>
   <data name="lbl_Fullversion" xml:space="preserve">
     <value>Full version</value>
   </data>

@@ -1707,4 +1707,13 @@
   <data name="lbl_PromoRemind" xml:space="preserve">
     <value>Deposit sekarang untuk menikmati promosi eksklusif</value>
   </data>
+  <data name="lbl_FishingGG" xml:space="preserve">
+    <value>Dunia Pancing</value>
+  </data>
+  <data name="lbl_FishingSG1" xml:space="preserve">
+    <value>Pancingan Tuhan</value>
+  </data>
+  <data name="lbl_FishingSG2" xml:space="preserve">
+    <value>Perang Pancing</value>
+  </data>
 </root>

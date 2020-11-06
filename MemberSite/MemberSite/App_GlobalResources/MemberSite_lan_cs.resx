@@ -1715,4 +1715,13 @@
   <data name="lbl_PromoRemind" xml:space="preserve">
     <value>存款立即享有丰厚优惠</value>
   </data>
+  <data name="lbl_FishingSG1" xml:space="preserve">
+    <value>捕鱼天王</value>
+  </data>
+  <data name="lbl_FishingSG2" xml:space="preserve">
+    <value>捕鱼大战</value>
+  </data>
+  <data name="lbl_FishingGG" xml:space="preserve">
+    <value>捕鱼天下</value>
+  </data>
 </root>
