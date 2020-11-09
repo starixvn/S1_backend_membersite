@@ -5,6 +5,7 @@ using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -51,10 +52,9 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.QueryFirstOrDefault<Promotion>("Member_Promotion_Get", new { SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
-        public int SetClaimPromotion(int custId, string userName, int siteId, string bonusCode, int currencyId, out decimal bonusAmount, out decimal lockedAmount, out decimal rollOver, out long expiryTime, out Promotion promotion)
+        public int SetClaimPromotion(int custId, string userName, int siteId, string bonusCode, int currencyId, out decimal bonusAmount, ref decimal lockedAmount, out decimal rollOver, out long expiryTime, out Promotion promotion)
         {
             bonusAmount = 0;
-            lockedAmount = 0;
             rollOver = 0;
             expiryTime = 0;
             bool bHasBonusWallet = true;/*Never roll back*/
@@ -84,7 +84,8 @@ namespace MemberSite.Service.DAL
                 p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
                 p.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                 p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                conn.Execute("Member_PromotionCanJoinV3_Get", p, commandType: CommandType.StoredProcedure);
+                p.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
+                conn.Execute("Member_PromotionCanJoinV4_Get", p, commandType: CommandType.StoredProcedure);
 
                 var jResult = p.Get<int>("Result");
                 var canJoin = p.Get<byte?>("CanJoin") ?? 0;
@@ -92,6 +93,22 @@ namespace MemberSite.Service.DAL
                 if (canJoin == 1)
                 {
                     decimal dBonus = 0;
+                    if (promotion.PromotionType == PromotionType.ReDeposit)
+                    {
+                        amount = promotion.BonusType == BonusType.Amount ? promotion.RequiredAmount : lockedAmount;
+                        decimal dWalletAmount = walletService.GetBalance(custId);
+
+                        if (dWalletAmount < amount)
+                        {
+                            amount = dWalletAmount;
+                        }
+
+                        if (amount <= 0)
+                        {
+                            return 0;
+                        }
+                    }
+
                     decimal dLockedAmount = amount;
                     decimal dRollOver = 0;
                     string sBonusInfo = "";
@@ -286,8 +303,8 @@ namespace MemberSite.Service.DAL
             p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
             p.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-
-            conn.Execute("Member_PromotionCanJoinV3_Get", p, commandType: CommandType.StoredProcedure);
+            p.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
+            conn.Execute("Member_PromotionCanJoinV4_Get", p, commandType: CommandType.StoredProcedure);
             var canJoin = p.Get<byte?>("CanJoin") ?? 0;
             result = p.Get<int>("Result");
             depositId = p.Get<string>("RefId");
@@ -303,7 +320,7 @@ namespace MemberSite.Service.DAL
             using var trans = conn.BeginTransaction();
 
             var promotionList = conn.Query<CustPromotion>("Member_PromotionListV2_Get", new { CustId, SiteId, CurrencyId }, trans, commandType: CommandType.StoredProcedure);
-           
+
             List<CustPromotion> _promotion = new List<CustPromotion>();
 
             foreach (var promo in promotionList)
@@ -315,7 +332,8 @@ namespace MemberSite.Service.DAL
                     canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
                     canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                     canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                    conn.Execute("Member_PromotionCanJoinV3_Get", canJoinParams, commandType: CommandType.StoredProcedure);
+                    canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
+                    conn.Execute("Member_PromotionCanJoinV4_Get", canJoinParams, commandType: CommandType.StoredProcedure);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                     promo.canJoin = canJoinResult == 1;
@@ -325,6 +343,32 @@ namespace MemberSite.Service.DAL
                     {
                         promo.DepositId = canJoinParams.Get<string>("RefId");
                         promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
+                        promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
+
+                        if(promo.PromotionType == 2)
+                        {
+                            promo.MaxAmount = promo.DepositAmount;
+                            if (promo.RequiredAmount == 0)
+                            {
+                                promo.RequiredAmount = 1;
+                            }
+
+                            if (promo.BonusType == (int)BonusType.Amount)
+                            {
+                                promo.MaxAmount = promo.RequiredAmount;
+                            }
+                            else
+                            {
+                                if (promo.MaxBonus > 0)
+                                {
+                                    decimal dBonus = Math.Ceiling(promo.Bonus * promo.DepositAmount / 100);
+                                    if (dBonus > promo.MaxBonus)
+                                    {
+                                        promo.MaxAmount = promo.MaxBonus * 100 / promo.Bonus;
+                                    }
+                                }
+                            }
+                        }
                     }
                     if (promo.PromotionType == 6 || promo.PromotionType == 7)
                     {
@@ -430,7 +474,8 @@ namespace MemberSite.Service.DAL
                     canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
                     canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                     canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                    conn.Execute("Member_PromotionCanJoinV3_Get", canJoinParams, trans, commandType: CommandType.StoredProcedure);
+                    canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
+                    conn.Execute("Member_PromotionCanJoinV4_Get", canJoinParams, trans, commandType: CommandType.StoredProcedure);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                     promo.canJoin = canJoinResult == 1;
@@ -440,6 +485,32 @@ namespace MemberSite.Service.DAL
                     {
                         promo.DepositId = canJoinParams.Get<string>("RefId");
                         promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
+                        promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
+
+                        if (promo.PromotionType == 2)
+                        {
+                            promo.MaxAmount = promo.DepositAmount;
+                            if (promo.RequiredAmount == 0)
+                            {
+                                promo.RequiredAmount = 1;
+                            }
+
+                            if (promo.BonusType == (int)BonusType.Amount)
+                            {
+                                promo.MaxAmount = promo.RequiredAmount;
+                            }
+                            else
+                            {
+                                if (promo.MaxBonus > 0)
+                                {
+                                    decimal dBonus = Math.Ceiling(promo.Bonus * promo.DepositAmount / 100);
+                                    if (dBonus > promo.MaxBonus)
+                                    {
+                                        promo.MaxAmount = promo.MaxBonus * 100 / promo.Bonus;
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     if (promo.PromotionType == 6 || promo.PromotionType == 7)

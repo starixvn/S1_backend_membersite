@@ -32,10 +32,11 @@ namespace MemberSite.Controllers.Api
         private readonly MobilePayInfoBLL mobilePayInfoBLL;
         private readonly IovationBLL iovationBLL;
         private readonly CryptoPayInfoBLL cryptoPayInfoBLL;
+        private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
         private readonly string tpApiUrl;
         private readonly int mainWalletType;
 
-        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBLL mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBLL cryptoPayInfoBLL)
+        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBLL mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBLL cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;
@@ -48,6 +49,7 @@ namespace MemberSite.Controllers.Api
             this.mobilePayInfoBLL = mobilePayInfoBLL;
             this.iovationBLL = iovationBLL;
             this.cryptoPayInfoBLL = cryptoPayInfoBLL;
+            this.loadCardPayInfoBLL = loadCardPayInfoBLL;
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
         }
@@ -414,16 +416,17 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-        public class MobilePayInfoReq
+        public class PayInfoReq
         {
             public int groupId { set; get; }
         }
+
         [HttpPost]
-        public ApiResult<IEnumerable<MobilePayInfo>> GetMobilePayInfoList(MobilePayInfoReq mobilePayInfoReq)
+        public ApiResult<IEnumerable<MobilePayInfo>> GetMobilePayInfoList(PayInfoReq payInfoReq)
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<IEnumerable<MobilePayInfo>>();
-            apiResult.Data = mobilePayInfoBLL.GetMobilePayInfoList(authData.CustId, mobilePayInfoReq.groupId);
+            apiResult.Data = mobilePayInfoBLL.GetMobilePayInfoList(authData.CustId, payInfoReq.groupId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -441,6 +444,27 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<LoadCardPayGroup>> GetLoadCardPayGroupList()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<LoadCardPayGroup>>();
+            apiResult.Data = loadCardPayInfoBLL.GetLoadCardPayGroupList(authData.CustId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<LoadCardPayInfo>> GetLoadCardPayInfoList(PayInfoReq payInfoReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<LoadCardPayInfo>>();
+            apiResult.Data = loadCardPayInfoBLL.GetLoadCardPayInfoList(authData.CustId, payInfoReq.groupId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
         public class DepositReceiptFile
         {
             public string TransId { get; set; }

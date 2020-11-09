@@ -33,6 +33,7 @@ namespace MemberSite.Service.Model.enums
         MobilePayment = 2,
         LocalBank = 3,
         CryptoPayment = 4,
+        LoadCardPayment = 5,
     }
 
     /// <summary>

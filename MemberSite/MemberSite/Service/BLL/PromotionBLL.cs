@@ -87,11 +87,12 @@ namespace MemberSite.Service.BLL
             public long ExpiryTime { set; get; }
             public Dictionary<string, string> inputs { set; get; }
         }
-        public async Task<ApiResult> SetClaimPromotionAsync(int custId, string bonusCode)
+        public async Task<ApiResult> SetClaimPromotionAsync(int custId, string bonusCode, decimal? dLockedAmount)
         {
             var apiResult1 = new ApiResult();
+            decimal lockedAmount = dLockedAmount ?? 0;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var result = promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out decimal bonusAmount, out decimal lockedAmount, out decimal rollOver, out long expiryTime, out Promotion promotion);
+            var result = promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out decimal bonusAmount, ref lockedAmount, out decimal rollOver, out long expiryTime, out Promotion promotion);
 
             if (result > 0)
             {
