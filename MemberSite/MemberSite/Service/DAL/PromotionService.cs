@@ -343,7 +343,8 @@ namespace MemberSite.Service.DAL
                     {
                         promo.DepositId = canJoinParams.Get<string>("RefId");
                         promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
-                        promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
+                        if (canJoinParams.Get<string>("RefList") != null)
+                            promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
 
                         if(promo.PromotionType == 2)
                         {
