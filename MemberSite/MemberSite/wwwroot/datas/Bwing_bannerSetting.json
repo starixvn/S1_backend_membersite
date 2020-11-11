@@ -27,5 +27,34 @@
       "img": "LuckyNekobanner.jpg",
       "lang": [ "en", "vn" ]
     }
+  ],
+  "Sports": [
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "39150766",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "event_1.png",
+      "lang": [ "en", "vn" ]
+    },
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "39150761",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "event_2.png",
+      "lang": [ "en", "vn" ]
+    },
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "39150764",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "event_3.png",
+      "lang": [ "en", "vn" ]
+    }
   ]
 }
