@@ -96,12 +96,12 @@ namespace MemberSite.Service.DAL
                     if (promotion.PromotionType == PromotionType.ReDeposit)
                     {
                         amount = promotion.BonusType == BonusType.Amount ? promotion.RequiredAmount : lockedAmount;
-                        decimal dWalletAmount = walletService.GetBalance(custId);
+                        //decimal dWalletAmount = walletService.GetBalance(custId);
 
-                        if (dWalletAmount < amount)
-                        {
-                            amount = dWalletAmount;
-                        }
+                        //if (dWalletAmount < amount)
+                        //{
+                        //    amount = dWalletAmount;
+                        //}
 
                         if (amount <= 0)
                         {
@@ -133,7 +133,7 @@ namespace MemberSite.Service.DAL
                         else
                         {
                             dBonus = Math.Ceiling(promotion.Bonus * amount / 100);
-                            if (dBonus > promotion.MaxBonus)
+                            if (promotion.MaxBonus != 0 && dBonus > promotion.MaxBonus)
                             {
                                 dBonus = promotion.MaxBonus;
                                 dLockedAmount = promotion.MaxBonus * 100 / promotion.Bonus;
@@ -141,7 +141,7 @@ namespace MemberSite.Service.DAL
                         }
 
                         dRollOver = ((dLockedAmount + dBonus) * promotion.RollOver);
-                        sBonusInfo = Newtonsoft.Json.JsonConvert.SerializeObject(promotion, new Newtonsoft.Json.JsonSerializerSettings { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore });
+                        sBonusInfo = JsonConvert.SerializeObject(promotion, new Newtonsoft.Json.JsonSerializerSettings { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore });
 
                         bonusAmount = dBonus;
                         lockedAmount = dLockedAmount;
@@ -152,7 +152,7 @@ namespace MemberSite.Service.DAL
                     {
                         dBonus = promotion.Bonus;
                         dRollOver = dBonus * promotion.RollOver;
-                        sBonusInfo = Newtonsoft.Json.JsonConvert.SerializeObject(promotion, new Newtonsoft.Json.JsonSerializerSettings { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore });
+                        sBonusInfo = JsonConvert.SerializeObject(promotion, new Newtonsoft.Json.JsonSerializerSettings { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore });
 
                         bonusAmount = dBonus;
                         lockedAmount = 0;
@@ -183,7 +183,7 @@ namespace MemberSite.Service.DAL
                         else
                         {
                             dBonus = Math.Ceiling(promotion.Bonus * amount / 100);
-                            if (dBonus > promotion.MaxBonus)
+                            if (promotion.MaxBonus != 0 && dBonus > promotion.MaxBonus)
                             {
                                 dBonus = promotion.MaxBonus;
                                 dLockedAmount = promotion.MaxBonus * 100 / promotion.Bonus;
@@ -193,7 +193,7 @@ namespace MemberSite.Service.DAL
                         bonusAmount = dBonus;
                         lockedAmount = dLockedAmount;
                         dRollOver = ((dLockedAmount + dBonus) * promotion.RollOver);
-                        sBonusInfo = Newtonsoft.Json.JsonConvert.SerializeObject(promotion, new Newtonsoft.Json.JsonSerializerSettings { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore });
+                        sBonusInfo = JsonConvert.SerializeObject(promotion, new Newtonsoft.Json.JsonSerializerSettings { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore });
 
                         rollOver = dRollOver;
                         expiryTime = DateTimeOffset.Now.AddDays(promotion.ExpiryDays).ToUnixTimeSeconds();
@@ -346,7 +346,7 @@ namespace MemberSite.Service.DAL
                         if (canJoinParams.Get<string>("RefList") != null)
                             promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
 
-                        if(promo.PromotionType == 2)
+                        if (promo.PromotionType == 2)
                         {
                             promo.MaxAmount = promo.DepositAmount;
                             if (promo.RequiredAmount == 0)
@@ -391,7 +391,7 @@ namespace MemberSite.Service.DAL
 
                 if (!string.IsNullOrEmpty(promo.Details))
                 {
-                    var details = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
+                    var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
                     Dictionary<string, string> settings = null;
                     if (details.TryGetValue(langId, out settings) || details.TryGetValue(defLang, out settings))
                     {
