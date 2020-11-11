@@ -6,6 +6,11 @@
       "img": "banner-affiliates.jpg",
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "tpid": "5",
+      "gameid": "104",
+      "img": "banner-NOV-PP-Mega-Spin.jpg"
     }
   ],
   "Casino": [
