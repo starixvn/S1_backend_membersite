@@ -101,6 +101,12 @@
                 </a>
                 <span class="game-title">@selLangBLL.GetResourceValue("lbl_EbetCasino")</span>
             </div>
+            <div class="item">
+                <a href="@Html.Raw(GetEntPageUrl(20, "20"))" @(!User.Identity.IsAuthenticated ? "class=loginBtn" : string.Empty)>
+                    <img src="@SkinRootPath/images/page/live-game-8.jpg" alt="product" />
+                </a>
+                <span class="game-title">@selLangBLL.GetResourceValue("lbl_WMCasino")</span>
+            </div>
         </div>
     </div>
 </div>

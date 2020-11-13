@@ -1756,4 +1756,7 @@
   <data name="lbl_FishingSG2" xml:space="preserve">
     <value>Bắn cá giao đấu</value>
   </data>
+  <data name="lbl_WMCasino" xml:space="preserve">
+    <value>Sảnh Aphrodite</value>
+  </data>
 </root>

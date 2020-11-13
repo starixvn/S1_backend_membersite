@@ -1857,4 +1857,7 @@
   <data name="lbl_Currency_96" xml:space="preserve">
     <value>USDT</value>
   </data>
+  <data name="lbl_WMCasino" xml:space="preserve">
+    <value>Aphrodite Suite</value>
+  </data>
 </root>
