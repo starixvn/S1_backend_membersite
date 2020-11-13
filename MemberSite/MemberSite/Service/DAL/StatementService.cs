@@ -100,10 +100,24 @@ namespace MemberSite.Service.DAL
             var result = conn.Query<TpBetRecordbyCategoryId>("Member_TpBetRecord_byCategoryId_Get", new { CustId = custId, SelDate = selDate, CategoryId = categoryId }, commandType: CommandType.StoredProcedure);
             return result;
         }
-        public IEnumerable<TpBetRecordDetailbyGameType> GetCustTpBetRecordDetailListbyGameType(int custId, long selDate, int gameTypeId)
+        public IEnumerable<TpBetRecordDetailbyGameType> GetCustTpBetRecordDetailListbyGameType(int custId, long selDate, int gameTypeId, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            var result = conn.Query<TpBetRecordDetailbyGameType>("Member_TpBetRecord_byGameTypeDetail_Get", new { CustId = custId, SelDate = selDate, TypeId = gameTypeId }, commandType: CommandType.StoredProcedure);
+            IEnumerable<TpBetRecordDetailbyGameType> result = null;
+            using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport")))
+            {
+                string SpName = "Member_TpBetRecord_byGameTypeList_Get";
+                DynamicParameters props = new DynamicParameters(new { CustId = custId, SelDate = selDate, TypeId = gameTypeId });
+                props.Add("@PageNumber", PageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
+                props.Add("@TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                props.Add("@RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                props.Add("@StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                props.Add("@PageSize", PageSize);
+
+                result = conn.Query<TpBetRecordDetailbyGameType>(SpName, props, commandType: CommandType.StoredProcedure);
+                PageNumber = props.Get<int?>("@PageNumber") ?? 0;
+                TotalPages = props.Get<int?>("@TotalPages") ?? 0;
+                RowCount = props.Get<int?>("@RowCount") ?? 0;
+            }
             return result;
         }
     }
