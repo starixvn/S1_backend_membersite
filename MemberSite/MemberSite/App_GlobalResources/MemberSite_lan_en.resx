@@ -1842,4 +1842,13 @@
   <data name="msg_OTP_SendOTPSMS_1000" xml:space="preserve">
     <value>Invalid OTP Code</value>
   </data>
+  <data name="lbl_FishingSG1" xml:space="preserve">
+    <value>Fishing God</value>
+  </data>
+  <data name="lbl_FishingSG2" xml:space="preserve">
+    <value>Fishing War</value>
+  </data>
+  <data name="lbl_FishingGG" xml:space="preserve">
+    <value>Fishing World</value>
+  </data>
 </root>

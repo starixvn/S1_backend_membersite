@@ -88,5 +88,13 @@ namespace MemberSite.Service.Model
         public int Result { get; set; }
         public string DepositId { get; set; }
         public decimal DepositAmount { get; set; }
+        public decimal MaxAmount { get; set; }
+        public IEnumerable<Ref> RefList { get; set; }
+    }
+
+    public class Ref
+    {
+        public string DepositId { get; set; }
+        public decimal Amount { get; set; }
     }
 }

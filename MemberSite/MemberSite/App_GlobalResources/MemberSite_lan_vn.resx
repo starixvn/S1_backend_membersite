@@ -1747,4 +1747,13 @@
   <data name="msg_EnterOTPCode" xml:space="preserve">
     <value>Xin nhận mã xác nhận</value>
   </data>
+  <data name="lbl_FishingGG" xml:space="preserve">
+    <value>Thế giới bắn cá</value>
+  </data>
+  <data name="lbl_FishingSG1" xml:space="preserve">
+    <value>Thánh bắn cá</value>
+  </data>
+  <data name="lbl_FishingSG2" xml:space="preserve">
+    <value>Bắn cá giao đấu</value>
+  </data>
 </root>

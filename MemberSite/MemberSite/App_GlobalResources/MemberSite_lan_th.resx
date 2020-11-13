@@ -1686,4 +1686,13 @@
   <data name="lbl_PromoRemind" xml:space="preserve">
     <value>ฝากตอนนี้เพื่อรับโปรโมชั่นพิเศษ</value>
   </data>
+  <data name="lbl_FishingGG" xml:space="preserve">
+    <value>โลกแห่งการตกปลา</value>
+  </data>
+  <data name="lbl_FishingSG1" xml:space="preserve">
+    <value>พระเจ้าตกปลา</value>
+  </data>
+  <data name="lbl_FishingSG2" xml:space="preserve">
+    <value>สงครามตกปลา</value>
+  </data>
 </root>

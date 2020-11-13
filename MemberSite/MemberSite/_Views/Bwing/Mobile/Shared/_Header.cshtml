@@ -14,17 +14,28 @@
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
 
     var entFishingPageUrl = "";
+    var entFishingPageUrlSG1 = "";
+    var entFishingPageUrlSG2 = "";
     int CurrencyId = 0;
     if (User.Identity.IsAuthenticated)
     {
         entFishingPageUrl = gamingBLL.GetEntPageUrl(7, "10", Url, GameType.Fishing);
         entFishingPageUrl = $"javascript:window.open('{entFishingPageUrl}', 'Tp_7_10', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus()";
+        
+        entFishingPageUrlSG1 = gamingBLL.GetEntPageUrl(10, "F-SF01", Url, GameType.Fishing);
+        entFishingPageUrlSG1 = $"javascript:window.open('{entFishingPageUrlSG1}', 'Tp_10_F-SF01', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus()";
+
+        entFishingPageUrlSG2 = gamingBLL.GetEntPageUrl(10, "F-SF02", Url, GameType.Fishing);
+        entFishingPageUrlSG2 = $"javascript:window.open('{entFishingPageUrlSG2}', 'Tp_10_F-SF02', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus()";
+
         var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
         CurrencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
     }
     else
     {
         entFishingPageUrl = "javascript:void(0);";
+        entFishingPageUrlSG1 = "javascript:void(0);";
+        entFishingPageUrlSG2 = "javascript:void(0);";
         CurrencyId = selLangBLL.GetPreferCurrencyId();
     }
 }
@@ -130,7 +141,17 @@
                     </div>
                     <div class="nav-item">
                         <a class="@(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@entFishingPageUrl">
-                            <i class="icon icon-menu-fishing"></i>@selLangBLL.GetResourceValue("lbl_Fishing")
+                            <i class="icon icon-menu-fishing"></i>@selLangBLL.GetResourceValue("lbl_FishingGG")
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="@(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@entFishingPageUrlSG1">
+                            <i class="icon icon-menu-fishing"></i>@selLangBLL.GetResourceValue("lbl_FishingSG1")
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="@(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@entFishingPageUrlSG2">
+                            <i class="icon icon-menu-fishing"></i>@selLangBLL.GetResourceValue("lbl_FishingSG2")
                         </a>
                     </div>
                     <div class="nav-item">

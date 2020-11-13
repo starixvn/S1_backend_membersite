@@ -105,6 +105,7 @@ namespace MemberSite.Controllers.Api
         public class PromotionReq
         {
             public string BonusCode { set; get; }
+            public decimal? LockedAmount { set; get; }
         }
         [Authorize]
         [HttpPost]
@@ -115,7 +116,7 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var authData = authorizeBLL.GetAuthData();
-                apiResult = await promotionBLL.SetClaimPromotionAsync(authData.CustId, promotionReq.BonusCode);
+                apiResult = await promotionBLL.SetClaimPromotionAsync(authData.CustId, promotionReq.BonusCode, promotionReq.LockedAmount);
 
                 //if (result > 0)
                 //{
