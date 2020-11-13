@@ -489,5 +489,21 @@ namespace MemberSite.Service.BLL
                 }
             }
         }
+        public IEnumerable<TpBetRecordListOneWeek> GetCustTpBetRecordListOneWeek(int custId)
+        {
+            return statementService.GetCustTpBetRecordListOneWeek(custId);
+        }
+        public IEnumerable<TpBetRecordListOneDay> GetCustTpBetRecordListOneDay(int custId, long selDate)
+        {
+            return statementService.GetCustTpBetRecordListOneDay(custId, selDate);
+        }
+        public IEnumerable<TpBetRecordbyCategoryId> GetCustTpBetRecordListbyCategoryId(int custId, long selDate, int categoryId)
+        {
+            return statementService.GetCustTpBetRecordListbyCategoryId(custId, selDate, categoryId);
+        }
+        public IEnumerable<TpBetRecordDetailbyGameType> GetCustTpBetRecordDetailListbyGameType(int custId, long selDate, int gameTypeId, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
+        {
+            return statementService.GetCustTpBetRecordDetailListbyGameType(custId, selDate, gameTypeId, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
+        }
     }
 }
