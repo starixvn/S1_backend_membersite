@@ -76,31 +76,6 @@
     },
     {
       "name": {
-        "en": "Peas Fairy",
-        "cs": "豌豆精灵",
-        "ch": "豌豆精靈"
-      },
-      "appId": 8,
-      "gameId": "peas-fairy",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "30 base bet (243ways)",
-      "RTP": "95.23%",
-      "imgName": {
-        "en": "peas-fairy-EN.jpg",
-        "cs": "peas-fairy-cs.jpg",
-        "ch": "peas-fairy-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": false,
-      "new": false,
-      "featured": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
         "en": "Tree of Fortune",
         "cs": "摇钱树",
         "ch": "搖錢樹"
@@ -115,31 +90,6 @@
         "en": "fortune-tree-EN.jpg",
         "cs": "fortune-tree-CS.jpg",
         "ch": "fortune-tree-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": false,
-      "new": false,
-      "featured": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
-        "en": "Joker Wild",
-        "cs": "小丑翻翻乐",
-        "ch": "小醜翻翻樂"
-      },
-      "appId": 10,
-      "gameId": "joker-wild",
-      "category1": "Table",
-      "Reels": "",
-      "paylines": "-",
-      "RTP": "98.22%",
-      "imgName": {
-        "en": "joker-wild-EN.jpg",
-        "cs": "joker-wild-CS.jpg",
-        "ch": "joker-wild-CS.jpg"
       },
       "launchDate": null,
       "hot": false,
@@ -424,31 +374,6 @@
     },
     {
       "name": {
-        "en": "Restaurant Craze",
-        "cs": "网红餐厅",
-        "ch": "網紅餐廳"
-      },
-      "appId": 27,
-      "gameId": "restaurant-craze",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "30",
-      "RTP": "97.45%",
-      "imgName": {
-        "en": "restaurant-craze-EN.jpg",
-        "cs": "restaurant-craze-CS.jpg",
-        "ch": "restaurant-craze-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": false,
-      "new": false,
-      "featured": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
         "en": "Prosperity Lion",
         "cs": "舞狮进宝",
         "ch": "舞獅進寶"
@@ -720,56 +645,6 @@
     },
     {
       "name": {
-        "en": "Tomb of Treasure",
-        "cs": "摸金校尉",
-        "ch": "摸金校尉"
-      },
-      "appId": 45,
-      "gameId": "tomb-of-treasure",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "10 base bet (243 ways)",
-      "RTP": "96.47%",
-      "imgName": {
-        "en": "tomb-of-treasure-EN.jpg",
-        "cs": "tomb-of-treasure-CS.jpg",
-        "ch": "tomb-of-treasure-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": false,
-      "new": false,
-      "featured": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
-        "en": "Wild Inferno",
-        "cs": "重金摇滚",
-        "ch": "重金搖滾"
-      },
-      "appId": 52,
-      "gameId": "wild-inferno",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "25",
-      "RTP": "96.11%",
-      "imgName": {
-        "en": "wild-inferno-EN.jpg",
-        "cs": "wild-inferno-CS.jpg",
-        "ch": "wild-inferno-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": false,
-      "new": false,
-      "featured": false,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
         "en": "Journey to the Wealth",
         "cs": "嘻游记",
         "ch": "嘻遊記"
@@ -812,31 +687,6 @@
       "hot": true,
       "new": false,
       "featured": true,
-      "imageExist": true,
-      "Isfun": 1,
-      "promotion": 0
-    },
-    {
-      "name": {
-        "en": "Tiki Go",
-        "cs": "块块赢",
-        "ch": "塊塊贏"
-      },
-      "appId": 21,
-      "gameId": "tiki-go",
-      "category1": "Slots",
-      "Reels": "",
-      "paylines": "50",
-      "RTP": "96.48%",
-      "imgName": {
-        "en": "tiki-go-EN.jpg",
-        "cs": "tiki-go-CS.jpg",
-        "ch": "tiki-go-CS.jpg"
-      },
-      "launchDate": null,
-      "hot": false,
-      "new": false,
-      "featured": false,
       "imageExist": true,
       "Isfun": 1,
       "promotion": 0
