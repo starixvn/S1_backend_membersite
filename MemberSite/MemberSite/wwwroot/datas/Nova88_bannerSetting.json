@@ -1,16 +1,21 @@
 {
   "Promotion": [
     {
-      "actionLink": "https://aff.nova88asia.com/Signup/Index",
-      "outerLink": true,
-      "img": "banner-affiliates.jpg",
-      "currencyId": [ 2, 4, 15 ],
-      "lang": [ "th", "id", "en", "cs" ]
+      "tpid": "20",
+      "gameid": "20",
+      "img": "banner-wm.jpg"
     },
     {
       "tpid": "5",
       "gameid": "104",
       "img": "banner-NOV-PP-Mega-Spin.jpg"
+    },
+    {
+      "actionLink": "https://aff.nova88asia.com/Signup/Index",
+      "outerLink": true,
+      "img": "banner-affiliates.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
     }
   ],
   "Casino": [
@@ -67,6 +72,35 @@
     {
       "img": "Casino.jpg",
       "lang": [ "th", "id", "en", "cs" ]
+    }
+  ],
+  "Sports": [
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "39467434",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "games-39467434.png",
+      "lang": [ "en", "vn" ]
+    },
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "39467437",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "games-39467437.png",
+      "lang": [ "en", "vn" ]
+    },
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "39467438",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "games-39467438.png",
+      "lang": [ "en", "vn" ]
     }
   ]
 }
