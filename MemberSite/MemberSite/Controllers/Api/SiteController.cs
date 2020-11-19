@@ -741,7 +741,7 @@ namespace MemberSite.Controllers.Api
                 var banner_CurrencyId = !User.Identity.IsAuthenticated && perferCurr == 13 ? 2 : perferCurr;
                 var bannerFromDB = bannerBLL.GetBannerFromDB(banner_CurrencyId, selLangBLL.GetLangId());
                 var bannerFromJSON = _bannerSetting.Promotion.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
-                result.Data = bannerFromDB.Concat(bannerFromJSON);
+                result.Data = bannerFromJSON.Concat(bannerFromDB);
 
                 if (filterHideInHome)
                 {
