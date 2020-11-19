@@ -63,9 +63,11 @@ namespace MemberSite.Service.DAL
                 result = conn.Execute("Member_CustRegInfo_Ins", new { CustId = custId, SiteId = customer.SiteId, SignupUrl = signupUrl }, trans, commandType: CommandType.StoredProcedure);
             }
 
-            if (!string.IsNullOrEmpty(customer.Aff) && result > 0)
+            if ((!string.IsNullOrEmpty(customer.Aff) || !string.IsNullOrEmpty(customer.AffCode)) && result > 0)
             {
-                result = conn.Execute("Member_VNAffiliate_Ins", new { CustId = custId, customer.SiteId, AffId = customer.Aff }, trans, commandType: CommandType.StoredProcedure);
+                int iAff = 0;
+                int.TryParse(customer.Aff, out iAff);
+                result = conn.Execute("Member_VNAffiliate_Ins", new { CustId = custId, customer.SiteId, AffId = iAff, AffCode = customer.AffCode }, trans, commandType: CommandType.StoredProcedure);
             }
 
             if (result > 0)

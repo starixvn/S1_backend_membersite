@@ -151,21 +151,8 @@ namespace MemberSite.Controllers.Api
             public string UserLang { get; set; }
             public string RefId { get; set; }
             public string AffId { get; set; }
-
-            private string _Aff = null;
-            public string Aff
-            {
-                get
-                {
-                    return !string.IsNullOrEmpty(AffiliateId) ? AffiliateId : _Aff;
-                }
-
-                set
-                {
-                    _Aff = value;
-                }
-            }
-            public string AffiliateId { get; set; }
+            public string Aff { get; set; }
+            public string AffCode { get; set; }
             public string blackbox { get; set; }
         }
 
@@ -181,7 +168,7 @@ namespace MemberSite.Controllers.Api
 
             int custId = 0;
 
-            var result = custInfoBLL.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd, registeredModel.Email, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId, registeredModel.AffId, registeredModel.Aff, out custId, Request.Host.Host);
+            var result = custInfoBLL.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd, registeredModel.Email, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId, registeredModel.AffId, registeredModel.Aff, registeredModel.AffCode, out custId, Request.Host.Host);
             if (result == -1)
             {
                 apiResult.ErrorCode = result;
@@ -302,7 +289,7 @@ namespace MemberSite.Controllers.Api
             var result = 0;
             if (!phoneExists)
             {
-                result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName);
+                result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName);
             }
             else
             {

@@ -25,6 +25,7 @@ namespace MemberSite.Service.Model
         public int Status { get; set; }
         public bool IsResetPwd { get; set; }
         public string Aff { get; set; }
+        public string AffCode { get; set; }
     }
 
     public class CustProfile
