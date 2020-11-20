@@ -146,7 +146,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult<JwtAuthData>> SignInApp(LoginModel loginModel)
+        public ApiResult<JwtAuthData> SignInApp(LoginModel loginModel)
         {
             var apiResult = new ApiResult<JwtAuthData>(selLangBLL);
             string userName = loginModel.UserName;
@@ -194,21 +194,6 @@ namespace MemberSite.Controllers.Api
                     //new Claim(JwtRegisteredClaimNames.Sub, customer.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString() )
                 };
-
-            var authProperties = new AuthenticationProperties
-            {
-                IsPersistent = false,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30)
-            };
-
-            if (tools.IsMobile())
-            {
-                authProperties = new AuthenticationProperties
-                {
-                    IsPersistent = true,
-                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
-                };
-            }
 
             if (loginModel.di != null)
             {

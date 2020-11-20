@@ -222,7 +222,6 @@ namespace MemberSite.Service.Library
                 return false;
             }
         }
-
         public string GenerateJwtTokens(Claim[] claims)
         {
             var _jwtConfig = jwtConfig.Value;
@@ -250,7 +249,7 @@ namespace MemberSite.Service.Library
                 null,
                 claims,
                 null,
-                DateTime.Now.AddMinutes(30),
+                DateTime.Now.AddDays(30),
                 signingCredentials
             );
 
