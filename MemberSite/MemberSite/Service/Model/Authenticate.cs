@@ -12,4 +12,10 @@ namespace MemberSite.Service.Model
         public string Token { set; get; }
         public string LangId { set; get; }
     }
+
+    public class JwtAuthData
+    {
+        public string AccessToken { get; set; }
+        public long ExpiresIn { get; set; }
+    }
 }

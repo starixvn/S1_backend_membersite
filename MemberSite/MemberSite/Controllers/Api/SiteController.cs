@@ -1,5 +1,17 @@
-﻿using System;
+﻿using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -7,16 +19,6 @@ using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using MemberSite.Service.BLL;
-using MemberSite.Service.Library;
-using MemberSite.Service.Model;
-using MemberSite.Service.Model.enums;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace MemberSite.Controllers.Api
 {
@@ -142,6 +144,95 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+
+        [HttpPost]
+        public async Task<ApiResult<JwtAuthData>> SignInApp(LoginModel loginModel)
+        {
+            var apiResult = new ApiResult<JwtAuthData>(selLangBLL);
+            string userName = loginModel.UserName;
+            string userpwd = loginModel.Userpwd;
+            Customer customer = null;
+            string token = null;
+            var ip = tools.GetClientIP();
+            var userLoginResult = custInfoBLL.UserLogin(userName, userpwd, ip, tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
+
+            if (userLoginResult == -1)
+            {
+                apiResult.ErrorCode = 1101;
+                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+            }
+            else if (userLoginResult == -2)
+            {
+                apiResult.ErrorCode = 1001;
+                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+            }
+            else if (userLoginResult == -3)
+            {
+                apiResult.ErrorCode = 1102;
+                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
+            }
+            else if (userLoginResult != 0)
+            {
+                apiResult.ErrorCode = 9000;
+            }
+
+            if (userLoginResult != 0)
+            {
+                //await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
+                return apiResult;
+            }
+
+            var claims = new[]
+                {
+                    new Claim(ClaimTypes.Name,customer.UserName ),
+                    new Claim(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
+                    new Claim("Token",token ),
+                    new Claim("LangId",customer.UserLang ),
+                    //new Claim("CustId",customer.CustId.ToString() ),
+                    //new Claim("SiteId",customer.SiteId.ToString() ),
+                    //new Claim("UserName",customer.UserName ),
+                    //new Claim(JwtRegisteredClaimNames.Sub, customer.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString() )
+                };
+
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = false,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30)
+            };
+
+            if (tools.IsMobile())
+            {
+                authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
+                };
+            }
+
+            if (loginModel.di != null)
+            {
+                _ = Task.Run(async () =>
+                {
+                    await sFPSBLL.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
+                });
+            }
+
+            //Response.Cookies.Delete($"Initialization{User.Identity.Name}");
+            //var claimsIdentity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
+            //await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+            var accessToken = tools.GenerateJwtTokens(claims);
+            var data = new JwtAuthData
+            {
+                AccessToken = accessToken
+            };
+            apiResult.Data = data;
+            apiResult.Message = "";
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
         public class RegisteredModel
         {
             public string UserName { get; set; }

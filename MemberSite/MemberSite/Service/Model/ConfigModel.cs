@@ -13,4 +13,10 @@ namespace MemberSite.Service.Model
         public string MailPwd { get; set; }
         public int Port { get; set; }
     }
+    public class JwtConfig
+    {
+        public bool IsJwt { get; set; }
+        public string Issuer { get; set; }
+        public string SignKey { get; set; }
+    }
 }

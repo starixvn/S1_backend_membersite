@@ -1,21 +1,26 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MemberSite.Service.Model;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.Library
 {
     public class Tools
     {
+        private readonly IOptions<JwtConfig> jwtConfig;
         public IHttpContextAccessor httpContextAccessor { get; }
 
-        public Tools(IHttpContextAccessor httpContextAccessor)
+        public Tools(IHttpContextAccessor httpContextAccessor, IOptions<JwtConfig> jwtConfig)
         {
             this.httpContextAccessor = httpContextAccessor;
+            this.jwtConfig = jwtConfig;
         }
         /// <summary>
         /// MD5加密
@@ -204,7 +209,7 @@ namespace MemberSite.Service.Library
 
         public bool IsMobile()
         {
-            
+
             if (httpContextAccessor.HttpContext.Request.Headers.ContainsKey("User-Agent"))
             {
                 string u = httpContextAccessor.HttpContext.Request.Headers["User-Agent"];
@@ -213,9 +218,46 @@ namespace MemberSite.Service.Library
                 return (b.IsMatch(u) || v.IsMatch(u.Substring(0, 4)));
             }
             else
-            { 
+            {
                 return false;
             }
+        }
+
+        public string GenerateJwtTokens(Claim[] claims)
+        {
+            var _jwtConfig = jwtConfig.Value;
+            var issuer = _jwtConfig.Issuer;
+            var signKey = _jwtConfig.SignKey;
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signKey));
+            var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
+            //var userClaimsIdentity = new ClaimsIdentity(claims);
+
+            //var jwtToken = new SecurityTokenDescriptor
+            //{
+            //    Issuer = issuer,
+            //    Subject = userClaimsIdentity,
+            //    Expires = DateTime.Now.AddMinutes(30),
+            //    SigningCredentials = signingCredentials
+            //};
+
+            //var tokenHandler = new JwtSecurityTokenHandler();
+            //var securityToken = tokenHandler.CreateToken(jwtToken);
+            //var accessToken = tokenHandler.WriteToken(securityToken);
+
+            var jwtToken = new JwtSecurityToken
+            (
+                issuer,
+                null,
+                claims,
+                null,
+                DateTime.Now.AddMinutes(30),
+                signingCredentials
+            );
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var accessToken = tokenHandler.WriteToken(jwtToken);
+
+            return accessToken;
         }
     }
 }

@@ -1,24 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Encodings.Web;
-using System.Text.Unicode;
-using System.Threading.Tasks;
 using MemberSite.Service.BLL;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.WebEncoders;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IO;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
+using System.Threading.Tasks;
 
 namespace MemberSite
 {
@@ -54,6 +54,7 @@ namespace MemberSite
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<MailConfig>(configuration.GetSection("MailConfig"));
+            services.Configure<JwtConfig>(configuration.GetSection("JwtSettings"));
 
             services.AddMemoryCache();
             /*Library*/
@@ -134,21 +135,102 @@ namespace MemberSite
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
+
+            if (configuration.GetValue<bool>("JwtSettings:IsJwt"))
             {
-                //或許要從組態檔讀取，自己斟酌決定
-                //option.LoginPath = new PathString("/Home/Login");//登入頁
-                //option.LogoutPath = new PathString("/Home/Logout");//登出Action
-                //用戶頁面停留太久，登入逾期，或Controller中用戶登入時機點也可以設定↓
-                option.LoginPath = "/";
-                option.Cookie.Name = ".ES";
-                option.ExpireTimeSpan = TimeSpan.FromMinutes(30);//沒給預設14天
-                option.EventsType = typeof(CustomCookieAuthenticationEvents);
-                //option.Cookie.SameSite = environment.IsDevelopment() ? SameSiteMode.None : SameSiteMode.Unspecified;
-                option.Cookie.SameSite = SameSiteMode.Unspecified;
-            });
+                services
+                   // 檢查 HTTP Header 的 Authorization 是否有 JWT Bearer Token
+                   .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                   // 設定 JWT Bearer Token 的檢查選項
+                   .AddJwtBearer(options =>
+                   {
+                       // 當驗證失敗時，回應標頭會包含 WWW-Authenticate 標頭，這裡會顯示失敗的詳細錯誤原因
+                       options.IncludeErrorDetails = true;
+                       // 身份驗證需要HTTPS
+                       options.RequireHttpsMetadata = true;
+                       // 它將JWT訪問令牌保存在當前HttpContext，以便我們可以使用方法await HttpContext.GetTokenAsync(“Bearer”, “access_token”)或類似方法檢索它。
+                       options.SaveToken = true;
+
+                       options.TokenValidationParameters = new TokenValidationParameters
+                       {
+                           // 一般我們都會驗證 Issuer
+                           ValidateIssuer = true,
+                           ValidIssuer = configuration.GetValue<string>("JwtSettings:Issuer"),
+                           // 通常不太需要驗證 Audience
+                           ValidateAudience = false,
+                           //ValidAudience = "JwtAuthDemo", // 不驗證就不需要填寫
+                           // 一般我們都會驗證 Token 的有效期間
+                           ValidateLifetime = true,
+                           // 如果 Token 中包含 key 才需要驗證，一般都只有簽章而已
+                           ValidateIssuerSigningKey = true,
+                           // "1234567890123456" 應該從 IConfiguration 取得
+                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JwtSettings:SignKey"))),
+                       };
+                   });
+            }
+            else
+            {
+                services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
+                {
+                    //或許要從組態檔讀取，自己斟酌決定
+                    //option.LoginPath = new PathString("/Home/Login");//登入頁
+                    //option.LogoutPath = new PathString("/Home/Logout");//登出Action
+                    //用戶頁面停留太久，登入逾期，或Controller中用戶登入時機點也可以設定↓
+                    option.LoginPath = "/";
+                    option.Cookie.Name = ".ES";
+                    option.ExpireTimeSpan = TimeSpan.FromMinutes(30);//沒給預設14天
+                    option.EventsType = typeof(CustomCookieAuthenticationEvents);
+                    //option.Cookie.SameSite = environment.IsDevelopment() ? SameSiteMode.None : SameSiteMode.Unspecified;
+                    option.Cookie.SameSite = SameSiteMode.Unspecified;
+                });
+            }
+
+            //services.AddAuthentication()
+            //    .AddCookie(options =>
+            //    {
+            //        //或許要從組態檔讀取，自己斟酌決定
+            //        //options.LoginPath = new PathString("/Home/Login");//登入頁
+            //        //options.LogoutPath = new PathString("/Home/Logout");//登出Action
+            //        //用戶頁面停留太久，登入逾期，或Controller中用戶登入時機點也可以設定↓
+            //        options.LoginPath = "/";
+            //        options.Cookie.Name = ".ES";
+            //        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);//沒給預設14天
+            //        options.EventsType = typeof(CustomCookieAuthenticationEvents);
+            //        //option.Cookie.SameSite = environment.IsDevelopment() ? SameSiteMode.None : SameSiteMode.Unspecified;
+            //        options.Cookie.SameSite = SameSiteMode.Unspecified;
+            //    })
+            //    .AddJwtBearer(options =>
+            //    {
+            //        // 當驗證失敗時，回應標頭會包含 WWW-Authenticate 標頭，這裡會顯示失敗的詳細錯誤原因
+            //        options.IncludeErrorDetails = true;
+
+            //        options.TokenValidationParameters = new TokenValidationParameters
+            //        {
+            //            // 透過這項宣告，就可以從 "sub" 取值並設定給 User.Identity.Name
+            //            //NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
+            //            // 透過這項宣告，就可以從 "roles" 取值，並可讓 [Authorize] 判斷角色
+            //            //RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+            //            // 一般我們都會驗證 Issuer
+            //            ValidateIssuer = true,
+            //            ValidIssuer = configuration.GetValue<string>("JwtSettings:Issuer"),
+            //            // 通常不太需要驗證 Audience
+            //            ValidateAudience = false,
+            //            //ValidAudience = "JwtAuthDemo", // 不驗證就不需要填寫
+            //            // 一般我們都會驗證 Token 的有效期間
+            //            ValidateLifetime = true,
+            //            // 如果 Token 中包含 key 才需要驗證，一般都只有簽章而已
+            //            ValidateIssuerSigningKey = false,
+            //            // "1234567890123456" 應該從 IConfiguration 取得
+            //            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JwtSettings:SignKey"))),
+            //        };
+
+
+            //        options.Audience = "http://localhost:5001/";
+            //        options.Authority = "http://localhost:5000/";
+            //    });
             services.AddDataProtection().DisableAutomaticKeyGeneration();
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("CookieKeys")).SetApplicationName("SharedCookieApp");
+
             //services.ConfigureApplicationCookie(options =>
             //{
             //    options.EventsType = typeof(CustomCookieAuthenticationEvents);
