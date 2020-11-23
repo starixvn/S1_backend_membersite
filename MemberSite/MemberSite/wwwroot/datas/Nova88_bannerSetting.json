@@ -82,7 +82,7 @@
       "actionLink": "Sports/Index",
       "outerLink": true,
       "img": "games-39570455.png",
-      "lang": [ "en", "vn" ]
+      "lang": [ "th", "id", "en", "cs" ]
     },
     {
       "tpId": "1",
@@ -91,7 +91,7 @@
       "actionLink": "Sports/Index",
       "outerLink": true,
       "img": "games-39570461.png",
-      "lang": [ "en", "vn" ]
+      "lang": [ "th", "id", "en", "cs" ]
     },
     {
       "tpId": "1",
@@ -100,7 +100,7 @@
       "actionLink": "Sports/Index",
       "outerLink": true,
       "img": "games-39842829.png",
-      "lang": [ "en", "vn" ]
+      "lang": [ "th", "id", "en", "cs" ]
     }
   ]
 }
