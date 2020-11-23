@@ -19,20 +19,20 @@
     }
   ],
   "Casino": [
-    {
-      "actionLink": "https://pp88.asia/tournament/raining-cashndrops2/",
-      "outerLink": true,
-      //"actionLinkByLang": [
-      //  {
-      //    "lang": "cs",
-      //    "link": "https://pp88.asia/zh/tournament/slots-championship-zh/",
-      //    "outerLink": true
-      //  }
-      //],
-      "img": "event-pp-20201013.jpg",
-      "currencyId": [ 4 ],
-      "lang": [ "th", "id", "en", "cs" ]
-    },
+    //{
+    //  "actionLink": "https://pp88.asia/tournament/raining-cashndrops2/",
+    //  "outerLink": true,
+    //  //"actionLinkByLang": [
+    //  //  {
+    //  //    "lang": "cs",
+    //  //    "link": "https://pp88.asia/zh/tournament/slots-championship-zh/",
+    //  //    "outerLink": true
+    //  //  }
+    //  //],
+    //  "img": "event-pp-20201013.jpg",
+    //  "currencyId": [ 4 ],
+    //  "lang": [ "th", "id", "en", "cs" ]
+    //},
     //{
     //  "actionLink": "http://event-tw.248ka.com/GodsE/index.html",
     //  "outerLink": true,
@@ -78,29 +78,29 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "39467434",
+      "matchid": "39570455",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-39467434.png",
-      "lang": [ "en", "vn" ]
+      "img": "games-39570455.png",
+      "lang": [ "th", "id", "en", "cs" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "39467437",
+      "matchid": "39570461",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-39467437.png",
-      "lang": [ "en", "vn" ]
+      "img": "games-39570461.png",
+      "lang": [ "th", "id", "en", "cs" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "39467438",
+      "matchid": "39842829",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-39467438.png",
-      "lang": [ "en", "vn" ]
+      "img": "games-39842829.png",
+      "lang": [ "th", "id", "en", "cs" ]
     }
   ]
 }
