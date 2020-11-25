@@ -1860,4 +1860,10 @@
   <data name="lbl_WMCasino" xml:space="preserve">
     <value>Aphrodite Suite</value>
   </data>
+  <data name="lbl_EmailFormatError" xml:space="preserve">
+    <value>Mail Format is wrong.</value>
+  </data>
+  <data name="lbl_EmailRequired" xml:space="preserve">
+    <value>Please fill in the email field</value>
+  </data>
 </root>

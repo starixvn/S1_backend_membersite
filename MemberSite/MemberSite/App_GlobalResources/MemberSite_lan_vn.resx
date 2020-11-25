@@ -1759,4 +1759,10 @@
   <data name="lbl_WMCasino" xml:space="preserve">
     <value>Sảnh Aphrodite</value>
   </data>
+  <data name="lbl_EmailFormatError" xml:space="preserve">
+    <value>Định dạng Email chưa đúng.</value>
+  </data>
+  <data name="lbl_EmailRequired" xml:space="preserve">
+    <value>Vui lòng điền vào cột địa chỉ Email.</value>
+  </data>
 </root>
