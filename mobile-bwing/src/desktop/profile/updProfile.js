@@ -165,12 +165,11 @@ class UpdateProfile extends Component {
 				const regex = RegExp(/^[0-9]*$/);
 				checked = regex.test(tmpValue);
 			}
+		} else if (colName === "Email") {
+			let result = await this.CheckDuplicateEmail(value);
+			checked = result.checked;
+			msg = result.msg;
 		}
-		// else if (colName === "Email") {
-		// 	let result = await this.CheckDuplicateEmail(value);
-		// 	checked = result.checked;
-		// 	msg = result.msg;
-		// }
 
 		if (checked) {
 			this.setState(prevState => ({
