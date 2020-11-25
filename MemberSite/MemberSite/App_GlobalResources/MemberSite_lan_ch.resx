@@ -1697,4 +1697,10 @@
   <data name="lbl_PromoRemind" xml:space="preserve">
     <value>存款立即享有豐厚優惠</value>
   </data>
+  <data name="lbl_WalletDescription_Kiss918" xml:space="preserve">
+    <value>918Kiss</value>
+  </data>
+  <data name="lbl_Wallet_Kiss918" xml:space="preserve">
+    <value>918Kiss</value>
+  </data>
 </root>

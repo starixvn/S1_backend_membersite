@@ -1695,4 +1695,10 @@
   <data name="lbl_FishingSG2" xml:space="preserve">
     <value>สงครามตกปลา</value>
   </data>
+  <data name="lbl_WalletDescription_Kiss918" xml:space="preserve">
+    <value>918Kiss</value>
+  </data>
+  <data name="lbl_Wallet_Kiss918" xml:space="preserve">
+    <value>918Kiss</value>
+  </data>
 </root>
