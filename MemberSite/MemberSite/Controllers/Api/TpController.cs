@@ -47,7 +47,6 @@ namespace MemberSite.Controllers.Api
         public class TpInfo
         {
             public int TpId { set; get; }
-            public int CustId { set; get; }
             public string LangId { set; get; }
             public int AppType { set; get; }
             public Dictionary<string, string> inputs { set; get; }
@@ -66,16 +65,16 @@ namespace MemberSite.Controllers.Api
             input.Add("ClientIP", tools.GetClientIP());
 
             var myUrl = $"{apiUrl}GotoGame";
-            var tpInfo = new TpInfo
+            var tpInfo = new 
             {
                 TpId = inInfo.TpId,
                 CustId = authData.CustId,
-                LangId = selLangBLL.GetLangId(),
-                AppType = 1,
+                LangId = inInfo.LangId,
+                AppType = inInfo.AppType,
                 inputs = input
             };
 
-            var data = await courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
+            var data = await courierAdapter.MyPostAsync<bool, dynamic>(myUrl, tpInfo);
 
             ApiResult<bool> result = data;
             result.SetSelLang(selLangBLL);
@@ -364,14 +363,14 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             Dictionary<string, string> input = new Dictionary<string, string>();
             var myUrl = $"{apiUrl}GetBalance";
-            var oTpInfo = new TpInfo
+            var oTpInfo = new 
             {
                 TpId = tpId,
                 CustId = authData.CustId,
                 inputs = input
             };
 
-            var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
+            var data = await courierAdapter.MyPostAsync<UserBalance, dynamic>(myUrl, oTpInfo);
 
             ApiResult<UserBalance> result = data;
 
