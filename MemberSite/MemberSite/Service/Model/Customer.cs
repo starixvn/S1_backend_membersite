@@ -127,4 +127,24 @@ namespace MemberSite.Service.Model
         public int CustId { get; set; }
         public int ErrorCode { get; set; }
     }
+
+    public class TpWalletInfo
+    {
+        public bool IsHideBalance { set; get; }
+        public IEnumerable<TpWalletList> tpWalletList { set; get; }
+    }
+    public class TpWalletList
+    {
+        public int TpId { set; get; }
+        public string TpName { set; get; }
+        public string displayKey { get; set; }
+        public string Description { set; get; }
+    }
+    public class TpWalletData
+    {
+        public int TpId { set; get; }
+        public decimal Balance { set; get; }
+        public decimal Bonus { set; get; }
+        public WalletStatus walletStatus { set; get; }
+    }
 }

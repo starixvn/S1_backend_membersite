@@ -669,6 +669,60 @@ namespace MemberSite.Controllers.Api
             public string BonusCode { get; set; }
         }
 
+        public class TpWalletListReq
+        {
+            public int ListType { get; set; }
+        }
+        [HttpPost]
+        public ApiResult<TpWalletInfo> GetTpWalletList(TpWalletListReq tpwalletListReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<TpWalletInfo>();
+            apiResult.Data = new TpWalletInfo();
+            apiResult.Data.tpWalletList = thirdPartyBLL.GetTpWalletList(authData.CustId, tpwalletListReq.ListType);
+            bool isHideBalance = false;
+            bool.TryParse(Request.Cookies[$"isHideBalance.{authData.CustId}"], out isHideBalance);
+            apiResult.Data.IsHideBalance = isHideBalance;
+            foreach (var tpWalletItem in apiResult.Data.tpWalletList)
+            {
+                tpWalletItem.Description = selLangBLL.GetResourceValue($"lbl_WalletDescription_{tpWalletItem.TpName}");
+                tpWalletItem.displayKey = $"lbl_Wallet_{tpWalletItem.TpName}";
+                tpWalletItem.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{tpWalletItem.TpName}");
+            }
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+        public class TpWalletBalanceReq
+        {
+            public int TpId { get; set; }
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult<TpWalletData>> GetTpWalletBalanceAsync(TpWalletBalanceReq tpWalletBalanceReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<TpWalletData>();
+            apiResult.Data = new TpWalletData();
+            apiResult.Data.TpId = tpWalletBalanceReq.TpId;
+            var tpWalletBalance = await thirdPartyBLL.GetTpWalletBalanceAsync(tpWalletBalanceReq.TpId, authData.CustId);
+            if (tpWalletBalance.ErrorCode == 0)
+            {
+                apiResult.Data.Balance = tpWalletBalance.Data.balance;
+                apiResult.Data.Bonus = tpWalletBalance.Data.bonus;
+                apiResult.Data.walletStatus = WalletStatus.Normal;
+            }
+            else if (tpWalletBalance.ErrorCode == 10)
+            {
+                apiResult.Data.walletStatus = WalletStatus.UM;
+            }
+            else
+            {
+                apiResult.Data.walletStatus = WalletStatus.Error;
+            }
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
         //[HttpPost]
         //public ApiResult DelCustBankInfo(BankInfo bankInfo)
         //{

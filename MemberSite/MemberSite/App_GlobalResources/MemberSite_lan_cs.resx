@@ -1724,4 +1724,10 @@
   <data name="lbl_FishingGG" xml:space="preserve">
     <value>捕鱼天下</value>
   </data>
+  <data name="lbl_WalletDescription_Kiss918" xml:space="preserve">
+    <value>918Kiss</value>
+  </data>
+  <data name="lbl_Wallet_Kiss918" xml:space="preserve">
+    <value>918Kiss</value>
+  </data>
 </root>

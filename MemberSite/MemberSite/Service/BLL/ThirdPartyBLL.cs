@@ -237,5 +237,9 @@ namespace MemberSite.Service.BLL
 
             return apiResult;
         }
+        public IEnumerable<TpWalletList> GetTpWalletList(int custId, int listType)
+        {
+            return thirdPartyService.GetTpWalletList(custId,listType);
+        }
     }
 }
