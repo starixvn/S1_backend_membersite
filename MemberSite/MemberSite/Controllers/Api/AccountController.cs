@@ -674,16 +674,12 @@ namespace MemberSite.Controllers.Api
             public int ListType { get; set; }
         }
         [HttpPost]
-        public ApiResult<TpWalletInfo> GetTpWalletList(TpWalletListReq tpwalletListReq)
+        public ApiResult<IEnumerable<TpWalletList>> GetTpWalletList(TpWalletListReq tpwalletListReq)
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<TpWalletInfo>();
-            apiResult.Data = new TpWalletInfo();
-            apiResult.Data.tpWalletList = thirdPartyBLL.GetTpWalletList(authData.CustId, tpwalletListReq.ListType);
-            bool isHideBalance = false;
-            bool.TryParse(Request.Cookies[$"isHideBalance.{authData.CustId}"], out isHideBalance);
-            apiResult.Data.IsHideBalance = isHideBalance;
-            foreach (var tpWalletItem in apiResult.Data.tpWalletList)
+            var apiResult = new ApiResult<IEnumerable<TpWalletList>>();
+            apiResult.Data = thirdPartyBLL.GetTpWalletList(authData.CustId, tpwalletListReq.ListType);
+            foreach (var tpWalletItem in apiResult.Data)
             {
                 tpWalletItem.Description = selLangBLL.GetResourceValue($"lbl_WalletDescription_{tpWalletItem.TpName}");
                 tpWalletItem.displayKey = $"lbl_Wallet_{tpWalletItem.TpName}";
@@ -723,6 +719,30 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        [HttpPost]
+        public async Task<ApiResult<WalletBalance>> GetWalletBalanceAsync()
+        {
+            var apiResult = new ApiResult<WalletBalance>(selLangBLL);
+            apiResult.Data = new WalletBalance();
+            var authData = authorizeBLL.GetAuthData();
+            bool isHideBalance = false;
+            bool.TryParse(Request.Cookies[$"isHideBalance.{authData.CustId}"], out isHideBalance);
+            apiResult.Data.IsHideBalance = isHideBalance;
+            if (mainWalletType == 1)
+            {
+                apiResult.Data.Balance = walletBLL.GetBalance(authData.CustId);
+            }
+            else
+            {
+                var sportsWallet = await thirdPartyBLL.GetSportsBalanceAsync(authData.CustId);
+                if (sportsWallet.ErrorCode == 0)
+                {
+                    apiResult.Data.Balance = sportsWallet.Data.balance + sportsWallet.Data.bonus;
+                }
+            }
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
         //[HttpPost]
         //public ApiResult DelCustBankInfo(BankInfo bankInfo)
         //{
