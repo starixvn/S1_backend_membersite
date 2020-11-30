@@ -10,11 +10,16 @@
       "gameid": "104",
       "img": "banner-NOV-PP-Mega-Spin.jpg"
     },
-    {
-      "actionLink": "https://www.nova88asia.com/en/casino?tpId=9",
-      "outerLink": true,
-      "img": "banner-joker.jpg"
-    },
+    //{
+    //  "actionLink": "https://www.nova88asia.com/en/casino?tpId=9",
+    //  "outerLink": true,
+    //  "img": "banner-joker.jpg"
+    //},
+    //{
+    //  "actionLink": "https://www.nova88asia.com/en/casino?tpId=8",
+    //  "outerLink": true,
+    //  "img": "banner-ygg-xmas.png"
+    //},
     {
       "actionLink": "https://aff.nova88asia.com/Signup/Index",
       "outerLink": true,
@@ -31,6 +36,14 @@
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ]
     },
+    {
+      "actionLink": "https://www.nova88asia.com/en/casino?tpId=8",
+      "outerLink": true,
+      "img": "banner-ygg-xmas.png",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+
     //{
     //  "actionLink": "https://pp88.asia/tournament/raining-cashndrops2/",
     //  "outerLink": true,
@@ -90,28 +103,28 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "39570455",
+      "matchid": "39619461",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-39570455.png",
+      "img": "games-39619461.png",
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "39570461",
+      "matchid": "39619789",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-39570461.png",
+      "img": "games-39619789.png",
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "39842829",
+      "matchid": "39619682",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-39842829.png",
+      "img": "games-39619682.png",
       "lang": [ "th", "id", "en", "cs" ]
     }
   ]
