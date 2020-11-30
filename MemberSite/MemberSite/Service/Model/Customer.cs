@@ -144,6 +144,8 @@ namespace MemberSite.Service.Model
     public class WalletBalance
     {
         public decimal Balance { set; get; }
+        public string LastLoginTime { set; get; }
+        public string LastTransaction { set; get; }
         public bool IsHideBalance { set; get; }
     }
 }

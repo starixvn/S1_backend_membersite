@@ -728,11 +728,12 @@ namespace MemberSite.Controllers.Api
             bool isHideBalance = false;
             bool.TryParse(Request.Cookies[$"isHideBalance.{authData.CustId}"], out isHideBalance);
             apiResult.Data.IsHideBalance = isHideBalance;
-            if (mainWalletType == 1)
-            {
-                apiResult.Data.Balance = walletBLL.GetBalance(authData.CustId);
-            }
-            else
+            var apiWalletInfo = walletBLL.GetWalletInfo(authData.CustId);
+            apiResult.Data.Balance = apiWalletInfo.Balance;
+            apiResult.Data.LastTransaction = apiWalletInfo.LastTransaction;
+            apiResult.Data.LastLoginTime = apiWalletInfo.LastLoginTime;
+
+            if (mainWalletType == 2)
             {
                 var sportsWallet = await thirdPartyBLL.GetSportsBalanceAsync(authData.CustId);
                 if (sportsWallet.ErrorCode == 0)
