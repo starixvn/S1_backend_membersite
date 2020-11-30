@@ -1,6 +1,10 @@
 {
   "Promotion": [
     {
+      "actionLink": "918kiss",
+      "img": "banner-918kiss.jpg"
+    },
+    {
       "tpid": "20",
       "gameid": "20",
       "img": "banner-wm.jpg"
