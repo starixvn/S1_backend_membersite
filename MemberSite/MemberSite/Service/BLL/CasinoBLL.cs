@@ -44,7 +44,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<int> GetProviderIdByCurrency(int CurrencyId, int SiteId)
         {
-            string key = $"ProviderIdByCurrency_{CurrencyId}";
+            string key = $"ProviderIdByCurrency_{CurrencyId}_{SiteId}";
             var providerIdByCurrency = cache.Get<IEnumerable<int>>(key);
 
             if (providerIdByCurrency == null)
