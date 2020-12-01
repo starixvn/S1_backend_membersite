@@ -47,7 +47,7 @@ namespace MemberSite.Controllers.Api
         public class TpInfo
         {
             public int TpId { set; get; }
-            public string LangId { set; get; }
+            //public string LangId { set; get; }
             public int AppType { set; get; }
             public Dictionary<string, string> inputs { set; get; }
         }
@@ -60,23 +60,42 @@ namespace MemberSite.Controllers.Api
             ////input.Add("gameId", gameId);/*for mg*/
 
             var authData = authorizeBLL.GetAuthData();
-
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
             input.Add("ClientIP", tools.GetClientIP());
+
+            if (inInfo.TpId == (int)Tp.AG)
+            {
+                var tpCurrency = thirdPartyBLL.GetTpCurrency(inInfo.TpId, custInfo.CurrencyId);
+                var balance = walletBLL.GetBalance(authData.CustId);
+                var bonusAmount = walletBLL.GetBonus(authData.CustId, 2);
+
+                balance += bonusAmount;
+
+                if (tpCurrency.ExchangeRate != 0 && tpCurrency.ExchangeRate != 1)
+                {
+                    balance /= tpCurrency.ExchangeRate;
+                }
+
+                input.Add("Balance", tools.Floor(balance, 2).ToString());
+                input.Add("Token", authData.Token);
+            }
+            else
+            {
+                input.Add("Token", authData.Token);
+            }
 
             var myUrl = $"{apiUrl}GotoGame";
             var tpInfo = new 
             {
                 TpId = inInfo.TpId,
                 CustId = authData.CustId,
-                LangId = inInfo.LangId,
+                LangId = custInfo.UserLang,
                 AppType = inInfo.AppType,
                 inputs = input
             };
 
-            var data = await courierAdapter.MyPostAsync<bool, dynamic>(myUrl, tpInfo);
-
-            ApiResult<bool> result = data;
+            var result = await courierAdapter.MyPostAsync<bool, dynamic>(myUrl, tpInfo);
             result.SetSelLang(selLangBLL);
 
             return result;

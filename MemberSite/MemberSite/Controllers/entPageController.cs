@@ -54,10 +54,10 @@ namespace MemberSite.Controllers
 
                 inputs.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
                 inputs.Add("ClientIP", tools.GetClientIP());
-
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 if (tpId == (int)Tp.AG)
                 {
-                    var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+
                     var tpCurrency = thirdPartyBLL.GetTpCurrency(tpId, custInfo.CurrencyId);
                     var balance = walletBLL.GetBalance(authData.CustId);
                     var bonusAmount = walletBLL.GetBonus(authData.CustId, 2);
@@ -82,7 +82,7 @@ namespace MemberSite.Controllers
                 {
                     TpId = tpId,
                     CustId = authData.CustId,
-                    LangId = selLangBLL.GetLangId(),
+                    LangId = custInfo.UserLang,
                     AppType = tools.IsMobile() ? 2 : 1,
                     inputs = inputs
                 };
