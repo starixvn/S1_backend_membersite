@@ -1,6 +1,9 @@
 {
   "Promotion": [
     {
+      "img": "banner-2020xmas.jpg"
+    },
+    {
       "tpid": "20",
       "gameid": "20",
       "img": "banner-wm.jpg"
@@ -10,16 +13,6 @@
       "gameid": "104",
       "img": "banner-NOV-PP-Mega-Spin.jpg"
     },
-    //{
-    //  "actionLink": "https://www.nova88asia.com/en/casino?tpId=9",
-    //  "outerLink": true,
-    //  "img": "banner-joker.jpg"
-    //},
-    //{
-    //  "actionLink": "https://www.nova88asia.com/en/casino?tpId=8",
-    //  "outerLink": true,
-    //  "img": "banner-ygg-xmas.png"
-    //},
     {
       "actionLink": "https://aff.nova88asia.com/Signup/Index",
       "outerLink": true,
