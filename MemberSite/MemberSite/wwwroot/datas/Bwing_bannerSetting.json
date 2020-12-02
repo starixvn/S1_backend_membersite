@@ -5,17 +5,16 @@
       "gameId": 200,
       "img": "banner-Saba.png"
     },
-    {
-      "tpId": 1,
-      "gameId": 43,
-      "img": "banner-Esport.jpg"
-    },
-
-    {
-      "actionLink": "LiveCasino/index",
-      "urlWithLang": true,
-      "img": "Banner-1---EN.jpg"
-    },
+    //{
+    //  "tpId": 1,
+    //  "gameId": 43,
+    //  "img": "banner-Esport.jpg"
+    //},
+    //{
+    //  "actionLink": "LiveCasino/index",
+    //  "urlWithLang": true,
+    //  "img": "Banner-1---EN.jpg"
+    //},
     {
       "tpId": 7,
       "gameId": 10,
@@ -32,28 +31,28 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "39150766",
+      "matchid": "39619461",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "event_1.png",
+      "img": "games-39619461.png",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "39150761",
+      "matchid": "39619789",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "event_2.png",
+      "img": "games-39619789.png",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "39150764",
+      "matchid": "39619682",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "event_3.png",
+      "img": "games-39619682.png",
       "lang": [ "en", "vn" ]
     }
   ]
