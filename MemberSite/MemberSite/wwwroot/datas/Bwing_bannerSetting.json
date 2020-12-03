@@ -1,10 +1,10 @@
 {
   "Promotion": [
-    {
-      "tpId": 1,
-      "gameId": 200,
-      "img": "banner-Saba.png"
-    },
+    //{
+    //  "tpId": 1,
+    //  "gameId": 200,
+    //  "img": "banner-Saba.png"
+    //},
     //{
     //  "tpId": 1,
     //  "gameId": 43,
@@ -15,11 +15,11 @@
     //  "urlWithLang": true,
     //  "img": "Banner-1---EN.jpg"
     //},
-    {
-      "tpId": 7,
-      "gameId": 10,
-      "img": "banner-Fishing.jpg"
-    }
+    //{
+    //  "tpId": 7,
+    //  "gameId": 10,
+    //  "img": "banner-Fishing.jpg"
+    //}
   ],
   "Casino": [
     {
