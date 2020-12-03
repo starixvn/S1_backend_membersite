@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
@@ -12,7 +13,16 @@ namespace MemberSite.Service.BLL
     {
         private readonly EvnetsService evnetsService;
         private readonly IMemoryCache cache;
+        public static string MaskName(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
 
+            string pattern = @"(?<=[\w]{2})[\w-\._\+%]*(?=[\w]{2})";
+            if (input.Length < 6)
+                pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1})";
+            return Regex.Replace(input, pattern, m => new string('*', m.Length));
+        }
         public EvnetsBLL(EvnetsService evnetsService, IMemoryCache cache)
         {
             this.evnetsService = evnetsService;
@@ -21,12 +31,19 @@ namespace MemberSite.Service.BLL
         }
         public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId, int topNum, int beforeDays)
         {
-            return evnetsService.GetLeaderboardList(lBCategoryId, siteId, topNum, beforeDays);
+            var leaderboard = evnetsService.GetLeaderboardList(lBCategoryId, siteId, topNum, beforeDays);
+            foreach (var L in leaderboard)
+            {
+                L.UserName = MaskName(L.UserName);
+            }
+            return leaderboard;
+
         }
         public bool GetCustRank(int lBCategoryId, int custId, int beforeDays, out int custRank)
         {
             return evnetsService.GetCustRank(lBCategoryId, custId, beforeDays, out custRank);
         }
+        
         public IEnumerable<Leaderboard> GetLeaderboardListWithCache(int lBCategoryId, int siteId, int topNum, int beforeDays)
         {
             string key = $"Leaderboard_{lBCategoryId}_{siteId}_{topNum}_{beforeDays}";
@@ -36,6 +53,10 @@ namespace MemberSite.Service.BLL
                 return leaderboard;
             }
             leaderboard = evnetsService.GetLeaderboardList(lBCategoryId, siteId, topNum, beforeDays);
+            foreach (var L in leaderboard)
+            {
+                L.UserName = MaskName(L.UserName);
+            }
             if (leaderboard != null)
             {
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
