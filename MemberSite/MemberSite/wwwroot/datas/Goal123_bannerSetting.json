@@ -1,6 +1,5 @@
 {
   "Promotion": [
-
     //{
     //  "tpid": "1",
     //  "gameid": "1",
@@ -21,28 +20,28 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "39619461",
+      "matchid": "40027653",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-39619461.jpg",
+      "img": "games-40027653.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "39619789",
+      "matchid": "40027658",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-39619789.jpg",
+      "img": "games-40027658.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "39619682",
+      "matchid": "40027656",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-39619682.jpg",
+      "img": "games-40027656.jpg",
       "lang": [ "en", "vn" ]
     }
   ]
