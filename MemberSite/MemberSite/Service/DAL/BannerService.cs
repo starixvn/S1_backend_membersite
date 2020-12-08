@@ -21,7 +21,12 @@ namespace MemberSite.Service.DAL
         //public IEnumerable<Banner> GetBanner(int SiteId, string FolderName, string Lang, int CurrencyId)
         //{
         //    using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-        //    return conn.Query<Banner>("Member_Banner_Get", new { SiteId , FolderName , Lang , CurrencyId }, commandType: CommandType.StoredProcedure);
+        //    return conn.Query<Banner>("Member_Banner_Get", new { SiteId, FolderName, Lang, CurrencyId }, commandType: CommandType.StoredProcedure);
         //}
+        public IEnumerable<BannerV2> GetBannerV2(int SiteId, int BannerType, int ShowIndex, int CurrencyId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Query<BannerV2>("Member_Banner_Get", new { SiteId, BannerType, ShowIndex, CurrencyId}, commandType: CommandType.StoredProcedure);
+        }
     }
 }
