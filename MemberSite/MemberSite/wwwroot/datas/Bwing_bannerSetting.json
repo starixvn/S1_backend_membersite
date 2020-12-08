@@ -20,11 +20,17 @@
     //  "gameId": 10,
     //  "img": "banner-Fishing.jpg"
     //}
+    {
+      "actionLink": "https://aff.bwing.com/Signup/Index",
+      "outerLink": true,
+      "img": "banner-affiliates.png"
+      //https://bw88.io/AFFEN.png
+      //https://bw88.io/AFFVN.png
+    }
   ],
   "Casino": [
     {
-      "img": "LuckyNekobanner.jpg",
-      "lang": [ "en", "vn" ]
+      "img": "casino.jpg"
     }
   ],
   "Sports": [
