@@ -12,17 +12,19 @@ namespace MemberSite.Controllers.Api
     //[AllowAnonymous]
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class EvnetsController
+    public class EventsController : ControllerBase
     {
         private readonly AuthorizeBLL authorizeBLL;
-        private readonly EvnetsBLL evnetsBLL;
+        private readonly EventsBLL eventsBLL;
         private readonly ServerInfoBLL serverInfoBLL;
+        private readonly CustInfoBLL custInfoBLL;
 
-        public EvnetsController(AuthorizeBLL authorizeBLL, EvnetsBLL evnetsBLL, ServerInfoBLL serverInfoBLL)
+        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, ServerInfoBLL serverInfoBLL, CustInfoBLL custInfoBLL)
         {
             this.authorizeBLL = authorizeBLL;
-            this.evnetsBLL = evnetsBLL;
+            this.eventsBLL = eventsBLL;
             this.serverInfoBLL = serverInfoBLL;
+            this.custInfoBLL = custInfoBLL;
         }
 
         public class GetLeaderboardListReq
@@ -35,8 +37,19 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<Leaderboard>> GetLeaderboardList(GetLeaderboardListReq getLeaderboardListReq)
         {
             var apiResult = new ApiResult<IEnumerable<Leaderboard>>();
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            apiResult.Data = evnetsBLL.GetLeaderboardListWithCache(getLeaderboardListReq.LBCategoryId, serverInfo.SiteId, getLeaderboardListReq.TopNum, getLeaderboardListReq.BeforeDays);
+            int siteId = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                siteId = custInfo.SiteId;
+            }
+            else
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                siteId = serverInfo.SiteId;
+            }
+            apiResult.Data = eventsBLL.GetLeaderboardListWithCache(getLeaderboardListReq.LBCategoryId, siteId, getLeaderboardListReq.TopNum, getLeaderboardListReq.BeforeDays);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -55,7 +68,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             int custRank = 0;
 
-            if (!evnetsBLL.GetCustRankWithCache(getCustRankReq.LBCategoryId, authData.CustId, getCustRankReq.BeforeDays, out custRank))
+            if (!eventsBLL.GetCustRankWithCache(getCustRankReq.LBCategoryId, authData.CustId, getCustRankReq.BeforeDays, out custRank))
             {
                 apiResult.ErrorCode = 99;
                 return apiResult;

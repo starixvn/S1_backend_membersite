@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
-    public class EvnetsBLL
+    public class EventsBLL
     {
         private readonly EvnetsService evnetsService;
         private readonly IMemoryCache cache;
@@ -23,7 +23,7 @@ namespace MemberSite.Service.BLL
                 pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1})";
             return Regex.Replace(input, pattern, m => new string('*', m.Length));
         }
-        public EvnetsBLL(EvnetsService evnetsService, IMemoryCache cache)
+        public EventsBLL(EvnetsService evnetsService, IMemoryCache cache)
         {
             this.evnetsService = evnetsService;
             this.cache = cache;
