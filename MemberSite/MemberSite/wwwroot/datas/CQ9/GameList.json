@@ -608,8 +608,8 @@
       "Reels": "5",
       "imgName": {
         "en": "Fire-Chibi-2-en.jpg",
-        "cs": "Fire-csibi-2-cs.jpg",
-        "th": "Fire-thibi-2-th.jpg"
+        "cs": "Fire-chibi-2-cs.jpg",
+        "th": "Fire-chibi-2-th.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1010,7 +1010,6 @@
         "en": "TreasureBowl-en.jpg",
         "cs": "TreasureBowl-cs.jpg",
         "th": "TreasureBowl-th.jpg",
-        "id": "TreasureBowl-id.jpg",
         "vn": "TreasureBowl-vn.jpg"
       },
       "launchDate": "2017/03/20",
@@ -1318,10 +1317,10 @@
       "Reels": "5",
       "imgName": {
         "en": "Fire-Chibi-en.jpg",
-        "cs": "Fire-csibi-cs.jpg",
-        "th": "Fire-thibi-th.jpg",
-        "id": "Fire-Chibi-id.jpg",
-        "vn": "Fire-thibi-vn.jpg"
+        "cs": "Fire-chibi-cs.jpg",
+        "th": "Fire-chibi-th.jpg",
+        "id": "Fire-chibi-id.jpg",
+        "vn": "Fire-chibi-vn.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1564,8 +1563,8 @@
       "Reels": "5",
       "imgName": {
         "en": "Fire-Chibi-M-en.jpg",
-        "cs": "Fire-csibi-M-cs.jpg",
-        "th": "Fire-thibi-M-th.jpg"
+        "cs": "Fire-chibi-M-cs.jpg",
+        "th": "Fire-chibi-M-th.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -3027,8 +3026,7 @@
       "Reels": "5",
       "imgName": {
         "en": "Boots-of-Luck-en.jpg",
-        "cs": "Boots-of-Luck-cs.jpg",
-        "th": "Boots-of-Luck-th.jpg"
+        "cs": "Boots-of-Luck-cs.jpg"
       },
       "launchDate": "2020/12/03",
       "hot": false,
@@ -3049,8 +3047,7 @@
       "Reels": "5",
       "imgName": {
         "en": "Cirque-de-fous-en.jpg",
-        "cs": "Cirque-de-fous-cs.jpg",
-        "th": "Cirque-de-fous-th.jpg"
+        "cs": "Cirque-de-fous-cs.jpg"
       },
       "launchDate": "2020/12/03",
       "hot": false,
@@ -3071,8 +3068,7 @@
       "Reels": "5",
       "imgName": {
         "en": "Dragon-Hunters-en.jpg",
-        "cs": "Dragon-Hunters-cs.jpg",
-        "th": "Dragon-Hunters-th.jpg"
+        "cs": "Dragon-Hunters-cs.jpg"
       },
       "launchDate": "2020/12/03",
       "hot": false,
@@ -3093,8 +3089,7 @@
       "Reels": "5",
       "imgName": {
         "en": "Fortune-Spirits-en.jpg",
-        "cs": "Fortune-Spirits-cs.jpg",
-        "th": "Fortune-Spirits-th.jpg"
+        "cs": "Fortune-Spirits-cs.jpg"
       },
       "launchDate": "2020/12/03",
       "hot": false,
@@ -3115,8 +3110,7 @@
       "Reels": "5",
       "imgName": {
         "en": "Golden-Mayan-en.jpg",
-        "cs": "Golden-Mayan-cs.jpg",
-        "th": "Golden-Mayan-th.jpg"
+        "cs": "Golden-Mayan-cs.jpg"
       },
       "launchDate": "2020/12/03",
       "hot": false,
@@ -3136,9 +3130,7 @@
       "RTP": "93%",
       "Reels": "5",
       "imgName": {
-        "en": "Hollywood-Pets-en.jpg",
-        "cs": "Hollywood-Pets-cs.jpg",
-        "th": "Hollywood-Pets-th.jpg"
+        "en": "Hollywood-Pets-en.jpg"
       },
       "launchDate": "2020/12/03",
       "hot": false,
@@ -3159,8 +3151,7 @@
       "Reels": "5",
       "imgName": {
         "en": "Lucky-3-en.jpg",
-        "cs": "Lucky-3-cs.jpg",
-        "th": "Lucky-3-th.jpg"
+        "cs": "Lucky-3-cs.jpg"
       },
       "launchDate": "2020/12/03",
       "hot": false,
@@ -3181,8 +3172,7 @@
       "Reels": "5",
       "imgName": {
         "en": "Treasure-of-Seti-en.jpg",
-        "cs": "Treasure-of-Seti-cs.jpg",
-        "th": "Treasure-of-Seti-th.jpg"
+        "cs": "Treasure-of-Seti-cs.jpg"
       },
       "launchDate": "2020/12/03",
       "hot": false,
@@ -3203,8 +3193,7 @@
       "Reels": "5",
       "imgName": {
         "en": "Wild-Fudge-en.jpg",
-        "cs": "Wild-Fudge-cs.jpg",
-        "th": "Wild-Fudge-th.jpg"
+        "cs": "Wild-Fudge-cs.jpg"
       },
       "launchDate": "2020/12/03",
       "hot": false,
@@ -3225,8 +3214,7 @@
       "Reels": "5",
       "imgName": {
         "en": "Xmas-Tales-en.jpg",
-        "cs": "Xmas-Tales-cs.jpg",
-        "th": "Xmas-Tales-th.jpg"
+        "cs": "Xmas-Tales-cs.jpg"
       },
       "launchDate": "2020/12/03",
       "hot": false,
@@ -3247,8 +3235,7 @@
       "Reels": "5",
       "imgName": {
         "en": "Queen-Of-Dead-en.jpg",
-        "cs": "Queen-Of-Dead-cs.jpg",
-        "th": "Queen-Of-Dead-th.jpg"
+        "cs": "Queen-Of-Dead-cs.jpg"
       },
       "launchDate": "2020/12/03",
       "hot": false,
@@ -3269,8 +3256,7 @@
       "Reels": "5",
       "imgName": {
         "en": "Pig-Of-Luck-en.jpg",
-        "cs": "Pig-Of-Luck-cs.jpg",
-        "th": "Pig-Of-Luck-th.jpg"
+        "cs": "Pig-Of-Luck-cs.jpg"
       },
       "launchDate": "2020/12/03",
       "hot": false,
