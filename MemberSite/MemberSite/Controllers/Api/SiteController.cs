@@ -870,6 +870,7 @@ namespace MemberSite.Controllers.Api
                 new Provider { Value = 10, Name = "SG", DisplayText = "SG", PlayFree = true },
                 new Provider { Value = 5, Name = "PP", DisplayText = "PP", PlayFree = true },
                 new Provider { Value = 14, Name = "PG", DisplayText = "PG", PlayFree = true },
+                new Provider { Value = 16, Name = "CQ9", DisplayText = "CQ9", PlayFree = true }
             };
 
             IEnumerable<int> tpIds = new int[] { };
