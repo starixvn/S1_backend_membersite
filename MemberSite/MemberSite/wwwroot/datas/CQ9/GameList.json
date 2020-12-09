@@ -2928,28 +2928,6 @@
     },
     {
       "name": {
-        "en": "SoSweet",
-        "cs": "甜蜜蜜",
-        "th": "เถี่ยนมี่มี่"
-      },
-      "appId": "8",
-      "gameId": "8",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "96.11%",
-      "Reels": "5",
-      "imgName": {
-        "en": "SoSweet-en.jpg",
-        "cs": "SoSweet-cs.jpg",
-        "th": "SoSweet-th.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
         "en": "Dragon Ball",
         "cs": "龙珠",
         "th": "ดราก้อนบอล"
@@ -3006,8 +2984,7 @@
       "Reels": "5",
       "imgName": {
         "en": "Fortune-Dragon-en.jpg",
-        "cs": "Fortune-Dragon-cs.jpg",
-        "th": "Fortune-Dragon-th.jpg"
+        "cs": "Fortune-Dragon-cs.jpg"
       },
       "launchDate": "2020/12/03",
       "hot": false,
@@ -3379,8 +3356,7 @@
       "Reels": "N/A",
       "imgName": {
         "en": "Peeking-Banker-Bull-Bull-en.jpg",
-        "cs": "Peeking-Banker-Bull-Bull-cs.jpg",
-        "th": "Peeking-Banker-Bull-Bull-th.jpg"
+        "cs": "Peeking-Banker-Bull-Bull-cs.jpg"
       },
       "launchDate": "2020/12/03",
       "hot": false,
@@ -3401,10 +3377,75 @@
       "Reels": "N/A",
       "imgName": {
         "en": "Dragon-Pachinko-en.jpg",
-        "cs": "Dragon-Pachinko-cs.jpg",
-        "th": "Dragon-Pachinko-th.jpg"
+        "cs": "Dragon-Pachinko-cs.jpg"
       },
       "launchDate": "2020/12/03",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Tenfold Eggs",
+        "cs": "十倍金喜",
+        "th": "ไข่เต็นฟอลด์"
+      },
+      "appId": "196",
+      "gameId": "196",
+      "category1": "Arcade",
+      "paylines": "",
+      "RTP": "95.98%",
+      "Reels": "N/A",
+      "imgName": {
+        "en": "Tenfold-Eggs-en.jpg",
+        "cs": "Tenfold-Eggs-cs.jpg",
+        "th": "Tenfold-Eggs-th.jpg"
+      },
+      "launchDate": "2020/12/09",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Dragon’s Treasure",
+        "cs": "盘龙秘宝",
+        "th": "สมบัติของมังกร"
+      },
+      "appId": "197",
+      "gameId": "197",
+      "category1": "Slots",
+      "paylines": "",
+      "RTP": "96.14%",
+      "Reels": "5",
+      "imgName": {
+        "en": "Dragons-Treasure-en.jpg",
+        "cs": "Dragons-Treasure-cs.jpg",
+        "th": "Dragons-Treasure-th.jpg"
+      },
+      "launchDate": "2020/12/09",
+      "hot": false,
+      "new": true,
+      "imageExist": true
+    },
+    {
+      "name": {
+        "en": "Songkran Festival",
+        "cs": "欢乐泼水节",
+        "th": "เทศกาล สงกรานต์"
+      },
+      "appId": "199",
+      "gameId": "199",
+      "category1": "Slots",
+      "paylines": "",
+      "RTP": "96.16%",
+      "Reels": "5",
+      "imgName": {
+        "en": "Songkran-Festival-en.jpg",
+        "cs": "Songkran-Festival-cs.jpg",
+        "th": "Songkran-Festival-th.jpg"
+      },
+      "launchDate": "2020/12/09",
       "hot": false,
       "new": true,
       "imageExist": true
