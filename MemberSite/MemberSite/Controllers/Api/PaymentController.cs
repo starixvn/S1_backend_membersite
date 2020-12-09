@@ -762,35 +762,56 @@ namespace MemberSite.Controllers.Api
         }
         public class CustTpBetRecordListOneDayReq
         {
-            public long selDate { get; set; }
+            public string SelDate { get; set; }
+            public int PageNumber { get; set; }
+            public int PageSize { get; set; }
         }
         [HttpPost]
-        public ApiResult<IEnumerable<TpBetRecordListOneDay>> GetCustTpBetRecordListOneDay(CustTpBetRecordListOneDayReq custTpBetRecordListOneDayReq)
+        public ApiListResult<TpBetRecordListOneDay> GetCustTpBetRecordListOneDay(CustTpBetRecordListOneDayReq custTpBetRecordListOneDayReq)
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<TpBetRecordListOneDay>>();
+            var apiResult = new ApiListResult<TpBetRecordListOneDay>();
+            int PageSize = custTpBetRecordListOneDayReq.PageSize;
+            int TotalPages = 0;
+            int RowCount = 0;
+            int PageNumber = custTpBetRecordListOneDayReq.PageNumber;
+
             apiResult.ErrorCode = 0;
-            apiResult.Data = paymentBLL.GetCustTpBetRecordListOneDay(authData.CustId, custTpBetRecordListOneDayReq.selDate);
+            apiResult.Data = paymentBLL.GetCustTpBetRecordListOneDay(authData.CustId, custTpBetRecordListOneDayReq.SelDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
+            apiResult.PageNumber = PageNumber;
+            apiResult.RowCount = RowCount;
+            apiResult.TotalPages = TotalPages;
+
             return apiResult;
         }
         public class CustTpBetRecordListbyCategoryIdReq
         {
-            public long selDate { get; set; }
+            public string SelDate { get; set; }
             public int CategoryId { get; set; }
+            public int PageNumber { get; set; }
+            public int PageSize { get; set; }
         }
         [HttpPost]
-        public ApiResult<IEnumerable<TpBetRecordbyCategoryId>> GetCustTpBetRecordListbyCategoryId(CustTpBetRecordListbyCategoryIdReq custTpBetRecordListbyCategoryIdReq)
+        public ApiListResult<TpBetRecordbyCategoryId> GetCustTpBetRecordListbyCategoryId(CustTpBetRecordListbyCategoryIdReq custTpBetRecordListbyCategoryIdReq)
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<TpBetRecordbyCategoryId>>();
+            var apiResult = new ApiListResult<TpBetRecordbyCategoryId>();
+            int PageSize = custTpBetRecordListbyCategoryIdReq.PageSize;
+            int TotalPages = 0;
+            int RowCount = 0;
+            int PageNumber = custTpBetRecordListbyCategoryIdReq.PageNumber;
+
             apiResult.ErrorCode = 0;
-            apiResult.Data = paymentBLL.GetCustTpBetRecordListbyCategoryId(authData.CustId, custTpBetRecordListbyCategoryIdReq.selDate, custTpBetRecordListbyCategoryIdReq.CategoryId);
+            apiResult.Data = paymentBLL.GetCustTpBetRecordListbyCategoryId(authData.CustId, custTpBetRecordListbyCategoryIdReq.SelDate, custTpBetRecordListbyCategoryIdReq.CategoryId, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
+            apiResult.PageNumber = PageNumber;
+            apiResult.RowCount = RowCount;
+            apiResult.TotalPages = TotalPages;
 
             return apiResult;
         }
         public class CustTpBetRecordDetailListbyGameTypeReq
         {
-            public long selDate { get; set; }
+            public string SelDate { get; set; }
             public int gameTypeId { get; set; }
             public int PageNumber { get; set; }
             public int PageSize { get; set; }
@@ -806,7 +827,33 @@ namespace MemberSite.Controllers.Api
             int PageNumber = custTpBetRecordDetailListbyGameTypeReq.PageNumber;
 
             apiResult.ErrorCode = 0;
-            apiResult.Data = paymentBLL.GetCustTpBetRecordDetailListbyGameType(authData.CustId, custTpBetRecordDetailListbyGameTypeReq.selDate, custTpBetRecordDetailListbyGameTypeReq.gameTypeId, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
+            apiResult.Data = paymentBLL.GetCustTpBetRecordDetailListbyGameType(authData.CustId, custTpBetRecordDetailListbyGameTypeReq.SelDate, custTpBetRecordDetailListbyGameTypeReq.gameTypeId, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
+            apiResult.PageNumber = PageNumber;
+            apiResult.RowCount = RowCount;
+            apiResult.TotalPages = TotalPages;
+
+            return apiResult;
+        }
+
+        public class TpBetRecordDateRangeReq
+        {
+            public string StartDate { get; set; }
+            public string EndDate { get; set; }
+            public int PageNumber { get; set; }
+            public int PageSize { get; set; }
+        }
+        [HttpPost]
+        public ApiListResult<TpBetRecordListDateRange> CustTpBetRecordListDateRange(TpBetRecordDateRangeReq tpBetRecordDateRangeReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiListResult<TpBetRecordListDateRange>();
+            int PageSize = tpBetRecordDateRangeReq.PageSize;
+            int TotalPages = 0;
+            int RowCount = 0;
+            int PageNumber = tpBetRecordDateRangeReq.PageNumber;
+
+            apiResult.ErrorCode = 0;
+            apiResult.Data = paymentBLL.GetCustTpBetRecordDateRange(authData.CustId, tpBetRecordDateRangeReq.StartDate, tpBetRecordDateRangeReq.EndDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
             apiResult.PageNumber = PageNumber;
             apiResult.RowCount = RowCount;
             apiResult.TotalPages = TotalPages;

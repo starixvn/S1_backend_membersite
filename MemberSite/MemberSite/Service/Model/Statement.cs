@@ -76,4 +76,11 @@ namespace MemberSite.Service.Model
         public DateTime TransTime { get; set; }
         public DateTime SettledTime { get; set; }
     }
+    public class TpBetRecordListDateRange
+    {
+        public DateTime SettledDate { get; set; }
+        public decimal TurnOver { get; set; }
+        public decimal ValidBet { get; set; }
+        public decimal WinlostAmount { get; set; }
+    }
 }
