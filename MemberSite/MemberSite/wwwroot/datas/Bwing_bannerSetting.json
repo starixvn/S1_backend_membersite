@@ -23,14 +23,16 @@
     {
       "actionLink": "https://aff.bwing.com/Signup/Index",
       "outerLink": true,
-      "img": "banner-affiliates.png"
+      "img": "banner-affiliates.png",
+      "lang": [ "en", "vn" ]
       //https://bw88.io/AFFEN.png
       //https://bw88.io/AFFVN.png
     }
   ],
   "Casino": [
     {
-      "img": "casino.jpg"
+      "img": "casino.jpg",
+      "lang": [ "en", "vn" ]
     }
   ],
   "Sports": [
