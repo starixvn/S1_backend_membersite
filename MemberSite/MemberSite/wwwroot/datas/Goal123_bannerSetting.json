@@ -1,5 +1,12 @@
 {
   "Promotion": [
+    {
+      "actionLink": "https://www.goal123.com/vn/casino?tpId=16",
+      "outerLink": true,
+      "img": "banner-cq9.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    }
     //{
     //  "tpid": "1",
     //  "gameid": "1",

@@ -1,5 +1,12 @@
 {
   "Promotion": [
+    {
+      "actionLink": "https://www.bwing.com/vn/casino?tpId=16",
+      "outerLink": true,
+      "img": "banner-cq9.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    },
     //{
     //  "tpId": 1,
     //  "gameId": 200,

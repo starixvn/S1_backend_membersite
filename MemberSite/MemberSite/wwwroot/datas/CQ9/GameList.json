@@ -173,7 +173,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -267,7 +268,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -373,7 +375,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -506,7 +509,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -548,7 +552,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -592,7 +597,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -1125,7 +1131,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -1747,7 +1754,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -1793,7 +1801,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -2038,7 +2047,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -2905,27 +2915,6 @@
     },
     {
       "name": {
-        "en": "Dragon Pachinko",
-        "cs": "招财龙小钢珠",
-        "th": "ดราก้อนปาจิงโกะ"
-      },
-      "appId": "GO169",
-      "gameId": "GO169",
-      "category1": "Arcade",
-      "paylines": "",
-      "RTP": "96.03%",
-      "Reels": "N/A",
-      "imgName": {
-        "en": "Dragon-Pachinko-en.jpg",
-        "cs": "Dragon-Pachinko-cs.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
         "en": "Tenfold Eggs",
         "cs": "十倍金喜",
         "th": "ไข่เต็นฟอลด์"
@@ -2948,7 +2937,7 @@
     },
     {
       "name": {
-        "en": "Dragon’s Treasure",
+        "en": "Dragon's Treasure",
         "cs": "盘龙秘宝",
         "th": "สมบัติของมังกร"
       },
