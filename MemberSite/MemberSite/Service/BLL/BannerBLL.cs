@@ -96,9 +96,9 @@ namespace MemberSite.Service.BLL
                 if (bannerdetail.Details != null)
                 {
                     var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(bannerdetail.Details);
-                    Dictionary<string, string> settings = null;
-                    if (details.TryGetValue(LangId, out settings))
+                    if (details.ContainsKey(LangId))
                     {
+                        var settings = details[LangId];
                         banner.Add(new BannerV2()
                         {
                             BannerName = bannerdetail.BannerName,
@@ -111,10 +111,11 @@ namespace MemberSite.Service.BLL
                             BannerLink = settings["bannerLink"],
                             BannerPCUrl = settings["bannerPCUrl"],
                             BannerMobileUrl = settings["bannerMobileUrl"]
-                        }); ;
+                        });
                     }
                 }
             }
+
             return banner;
         }
     }
