@@ -4,7 +4,6 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -973,6 +972,36 @@ namespace MemberSite.Controllers.Api
             result.ErrorCode = 0;
             return result;
         }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<BannerV2>> GetBannerV2([FromForm] int BannerType, [FromForm] int ShowIndex)
+        {
+            ApiResult<IEnumerable<BannerV2>> apiResult = new ApiResult<IEnumerable<BannerV2>>();
+
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            var perferCurr = 0;
+            var SiteId = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                SiteId = custInfo.SiteId;
+                perferCurr = custInfo.CurrencyId;
+            }
+            else
+            {
+                perferCurr = selLangBLL.GetPreferCurrencyId();
+                SiteId = serverInfo.SiteId;
+            }
+
+            var banner_CurrencyId = !User.Identity.IsAuthenticated && perferCurr == 13 ? 2 : perferCurr;
+
+            apiResult.ErrorCode = 0;
+            apiResult.Data = bannerBLL.GetBannerV2(SiteId, BannerType, ShowIndex, banner_CurrencyId, selLangBLL.GetLangId());
+
+            return apiResult;
+        }
+
 
         [HttpPost]
         public async Task<ApiResult> CheckResetPwdTokenAsync([FromForm] string key)
