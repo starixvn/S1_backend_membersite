@@ -537,5 +537,129 @@ namespace MemberSite.Service.DAL
 
             return promo;
         }
+        public List<CustPromotion> GetSpecialPromotionList(int SiteId, int CustId, int CurrencyId, string langId, string defLang)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+
+            var promotionList = conn.Query<CustPromotion>("Member_SPCodePromotionList_Get", new { CustId, SiteId, CurrencyId }, trans, commandType: CommandType.StoredProcedure);
+
+            List<CustPromotion> _promotion = new List<CustPromotion>();
+
+            foreach (var promo in promotionList)
+            {
+                var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode });
+                canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+                canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+                canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
+                canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
+                conn.Execute("Member_PromotionCanJoinV4_Get", canJoinParams, commandType: CommandType.StoredProcedure);
+
+                var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
+                promo.canJoin = canJoinResult == 1;
+                promo.Result = canJoinParams.Get<int>("Result");
+
+                if ((promo.PromotionType == 1 || promo.PromotionType == 2) && promo.Result == 2)
+                {
+                    promo.DepositId = canJoinParams.Get<string>("RefId");
+                    promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
+                    if (canJoinParams.Get<string>("RefList") != null)
+                        promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
+
+                    if (promo.PromotionType == 2)
+                    {
+                        promo.MaxAmount = promo.DepositAmount;
+                        if (promo.RequiredAmount == 0)
+                        {
+                            promo.RequiredAmount = 1;
+                        }
+
+                        if (promo.BonusType == (int)BonusType.Amount)
+                        {
+                            promo.MaxAmount = promo.RequiredAmount;
+                        }
+                        else
+                        {
+                            if (promo.MaxBonus > 0)
+                            {
+                                decimal dBonus = Math.Ceiling(promo.Bonus * promo.DepositAmount / 100);
+                                if (dBonus > promo.MaxBonus)
+                                {
+                                    promo.MaxAmount = promo.MaxBonus * 100 / promo.Bonus;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (promo.PromotionType == 6 || promo.PromotionType == 7)
+                {
+                    promo.isJoin = conn.Execute("Member_RebateInfo_GetByCust", new { promo.BonusCode, RebateType = promo.PromotionType - 5, CustId }, trans, commandType: CommandType.StoredProcedure) > 0;
+                }
+                else
+                {
+                    BonusWallet custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
+                    if (custBonusInfo != null)
+                    {
+                        promo.CustExpiryTime = custBonusInfo.ExpiryTime;
+                        promo.CustRollOver = custBonusInfo.Rollover;
+                        promo.CustTurnOver = custBonusInfo.Turnover;
+                        promo.Status = custBonusInfo.Status;
+                        promo.isJoin = true;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(promo.Details))
+                {
+                    var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
+                    Dictionary<string, string> settings = null;
+                    if (details.TryGetValue(langId, out settings) || details.TryGetValue(defLang, out settings))
+                    {
+
+                    }
+                    else
+                    {
+                        foreach (var item in details)
+                        {
+                            settings = item.Value;
+                            break;
+                        }
+                    }
+
+                    promo.Details = null;
+                    if (settings != null)
+                    {
+                        settings.TryGetValue("title", out var title);
+                        settings.TryGetValue("bannerUrl", out var bannerUrl);
+                        settings.TryGetValue("description", out var description);
+
+                        promo.Title = title;
+                        promo.Banner = bannerUrl;
+                        promo.Description = description;
+                    }
+                }
+
+                _promotion.Add(promo);
+            }
+
+            trans.Commit();
+
+            return _promotion;
+        }
+        public bool SetSpecialCode(int custId, string specialCode)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            var p = new DynamicParameters(new { CustId = custId, SpecialCode = specialCode });
+            p.Add("SpecialCodeCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            conn.Execute("Member_CustSpecialCode_Ins", p, commandType: CommandType.StoredProcedure);
+            var SpecialCodeCount = p.Get<int>("SpecialCodeCount");
+            return SpecialCodeCount > 0;
+        }
+        public void SetSpecialCodeJoined(int custId, string specialCode, string bonusCode)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            conn.Execute("Member_CustSpecialCodeJoin_Set", new { CustId = custId, SpecialCode = specialCode, BonusCode = bonusCode }, commandType: CommandType.StoredProcedure);
+        }
     }
 }

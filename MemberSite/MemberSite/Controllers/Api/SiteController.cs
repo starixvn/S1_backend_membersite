@@ -973,8 +973,14 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
+        public class BannerReq
+        {
+            public int BannerType { get; set; }
+            public int ShowIndex { get; set; }
+        }
+
         [HttpPost]
-        public ApiResult<IEnumerable<BannerV2>> GetBannerV2([FromForm] int BannerType, [FromForm] int ShowIndex)
+        public ApiResult<IEnumerable<BannerV2>> GetBannerV2(BannerReq bannerReq)
         {
             ApiResult<IEnumerable<BannerV2>> apiResult = new ApiResult<IEnumerable<BannerV2>>();
 
@@ -997,7 +1003,7 @@ namespace MemberSite.Controllers.Api
             var banner_CurrencyId = !User.Identity.IsAuthenticated && perferCurr == 13 ? 2 : perferCurr;
 
             apiResult.ErrorCode = 0;
-            apiResult.Data = bannerBLL.GetBannerV2(SiteId, BannerType, ShowIndex, banner_CurrencyId, selLangBLL.GetLangId());
+            apiResult.Data = bannerBLL.GetBannerV2(SiteId, bannerReq.BannerType, bannerReq.ShowIndex, banner_CurrencyId, selLangBLL.GetLangId());
 
             return apiResult;
         }
