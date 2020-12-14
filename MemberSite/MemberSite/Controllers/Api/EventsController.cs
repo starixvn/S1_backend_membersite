@@ -33,23 +33,15 @@ namespace MemberSite.Controllers.Api
             public int TopNum { get; set; }
             public int BeforeDays { get; set; }
         }
+        [Authorize]
         [HttpPost]
         public ApiResult<IEnumerable<Leaderboard>> GetLeaderboardList(GetLeaderboardListReq getLeaderboardListReq)
         {
             var apiResult = new ApiResult<IEnumerable<Leaderboard>>();
-            int siteId = 0;
-            if (User.Identity.IsAuthenticated)
-            {
-                var authData = authorizeBLL.GetAuthData();
-                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                siteId = custInfo.SiteId;
-            }
-            else
-            {
-                var serverInfo = serverInfoBLL.GetServerInfo();
-                siteId = serverInfo.SiteId;
-            }
-            apiResult.Data = eventsBLL.GetLeaderboardListWithCache(getLeaderboardListReq.LBCategoryId, siteId, getLeaderboardListReq.TopNum, getLeaderboardListReq.BeforeDays);
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+
+            apiResult.Data = eventsBLL.GetLeaderboardListWithCache(getLeaderboardListReq.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, getLeaderboardListReq.TopNum, getLeaderboardListReq.BeforeDays);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -67,13 +59,15 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = new LeaderboardCustRank();
             var authData = authorizeBLL.GetAuthData();
             int custRank = 0;
+            int point = 0;
 
-            if (!eventsBLL.GetCustRankWithCache(getCustRankReq.LBCategoryId, authData.CustId, getCustRankReq.BeforeDays, out custRank))
+            if (!eventsBLL.GetCustRankWithCache(getCustRankReq.LBCategoryId, authData.CustId, getCustRankReq.BeforeDays, out custRank, out point))
             {
                 apiResult.ErrorCode = 99;
                 return apiResult;
             }
             apiResult.Data.CustRank = custRank;
+            apiResult.Data.point = point;
             apiResult.ErrorCode = 0;
             return apiResult;
         }
