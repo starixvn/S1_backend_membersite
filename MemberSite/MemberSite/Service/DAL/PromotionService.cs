@@ -93,7 +93,7 @@ namespace MemberSite.Service.DAL
                 if (canJoin == 1)
                 {
                     decimal dBonus = 0;
-                    if (promotion.PromotionType == PromotionType.ReDeposit)
+                    if (promotion.PromotionType == PromotionType.ReDeposit || (promotion.IsSpecial && promotion.PromotionType == PromotionType.FstDeposit))
                     {
                         amount = promotion.BonusType == BonusType.Amount ? promotion.RequiredAmount : lockedAmount;
                         //decimal dWalletAmount = walletService.GetBalance(custId);
@@ -339,14 +339,14 @@ namespace MemberSite.Service.DAL
                     promo.canJoin = canJoinResult == 1;
                     promo.Result = canJoinParams.Get<int>("Result");
 
-                    if ((promo.PromotionType == 1 || promo.PromotionType == 2) && promo.Result == 2)
+                    if ((promo.PromotionType == (int)PromotionType.FstDeposit || promo.PromotionType == (int)PromotionType.ReDeposit) && promo.Result == 2)
                     {
                         promo.DepositId = canJoinParams.Get<string>("RefId");
                         promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
                         if (canJoinParams.Get<string>("RefList") != null)
                             promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
 
-                        if (promo.PromotionType == 2)
+                        if (promo.PromotionType == (int)PromotionType.ReDeposit)
                         {
                             promo.MaxAmount = promo.DepositAmount;
                             if (promo.RequiredAmount == 0)
@@ -371,7 +371,7 @@ namespace MemberSite.Service.DAL
                             }
                         }
                     }
-                    if (promo.PromotionType == 6 || promo.PromotionType == 7)
+                    if (promo.PromotionType == (int)PromotionType.Rebate || promo.PromotionType == (int)PromotionType.Cashback)
                     {
                         promo.isJoin = conn.Execute("Member_RebateInfo_GetByCust", new { promo.BonusCode, RebateType = promo.PromotionType - 5, CustId }, trans, commandType: CommandType.StoredProcedure) > 0;
                     }
@@ -393,9 +393,13 @@ namespace MemberSite.Service.DAL
                 {
                     var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
                     Dictionary<string, string> settings = null;
-                    if (details.TryGetValue(langId, out settings) || details.TryGetValue(defLang, out settings))
+                    if (details.ContainsKey(langId))
                     {
-
+                        settings = details[langId];
+                    }
+                    else if (details.ContainsKey(defLang))
+                    {
+                        settings = details[defLang];
                     }
                     else
                     {
@@ -441,9 +445,13 @@ namespace MemberSite.Service.DAL
                 {
                     var details = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
                     Dictionary<string, string> settings = null;
-                    if (details.TryGetValue(langId, out settings) || details.TryGetValue(defLang, out settings))
+                    if (details.ContainsKey(langId))
                     {
-
+                        settings = details[langId];
+                    }
+                    else if (details.ContainsKey(defLang))
+                    {
+                        settings = details[defLang];
                     }
                     else
                     {
@@ -488,7 +496,7 @@ namespace MemberSite.Service.DAL
                         promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
                         promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
 
-                        if (promo.PromotionType == 2)
+                        if (promo.PromotionType == (int)PromotionType.ReDeposit)
                         {
                             promo.MaxAmount = promo.DepositAmount;
                             if (promo.RequiredAmount == 0)
@@ -514,7 +522,7 @@ namespace MemberSite.Service.DAL
                         }
                     }
 
-                    if (promo.PromotionType == 6 || promo.PromotionType == 7)
+                    if (promo.PromotionType == (int)PromotionType.Rebate || promo.PromotionType == (int)PromotionType.Cashback)
                     {
                         promo.isJoin = conn.Execute("Member_RebateInfo_GetByCust", new { promo.BonusCode, RebateType = promo.PromotionType - 5, CustId }, trans, commandType: CommandType.StoredProcedure) > 0;
                     }
@@ -561,39 +569,32 @@ namespace MemberSite.Service.DAL
                 promo.canJoin = canJoinResult == 1;
                 promo.Result = canJoinParams.Get<int>("Result");
 
-                if ((promo.PromotionType == 1 || promo.PromotionType == 2) && promo.Result == 2)
+                if (promo.PromotionType == (int)PromotionType.FstDeposit)
                 {
-                    promo.DepositId = canJoinParams.Get<string>("RefId");
-                    promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
-                    if (canJoinParams.Get<string>("RefList") != null)
-                        promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
-
-                    if (promo.PromotionType == 2)
+                    promo.MaxAmount = walletService.GetBalance(CustId);
+                    if (promo.RequiredAmount == 0)
                     {
-                        promo.MaxAmount = promo.DepositAmount;
-                        if (promo.RequiredAmount == 0)
-                        {
-                            promo.RequiredAmount = 1;
-                        }
+                        promo.RequiredAmount = 1;
+                    }
 
-                        if (promo.BonusType == (int)BonusType.Amount)
+                    if (promo.BonusType == (int)BonusType.Amount)
+                    {
+                        promo.MaxAmount = promo.RequiredAmount;
+                    }
+                    else
+                    {
+                        if (promo.MaxBonus > 0)
                         {
-                            promo.MaxAmount = promo.RequiredAmount;
-                        }
-                        else
-                        {
-                            if (promo.MaxBonus > 0)
+                            decimal dBonus = Math.Ceiling(promo.Bonus * promo.DepositAmount / 100);
+                            if (dBonus > promo.MaxBonus)
                             {
-                                decimal dBonus = Math.Ceiling(promo.Bonus * promo.DepositAmount / 100);
-                                if (dBonus > promo.MaxBonus)
-                                {
-                                    promo.MaxAmount = promo.MaxBonus * 100 / promo.Bonus;
-                                }
+                                promo.MaxAmount = promo.MaxBonus * 100 / promo.Bonus;
                             }
                         }
                     }
                 }
-                if (promo.PromotionType == 6 || promo.PromotionType == 7)
+
+                if (promo.PromotionType == (int)PromotionType.Rebate || promo.PromotionType == (int)PromotionType.Cashback)
                 {
                     promo.isJoin = conn.Execute("Member_RebateInfo_GetByCust", new { promo.BonusCode, RebateType = promo.PromotionType - 5, CustId }, trans, commandType: CommandType.StoredProcedure) > 0;
                 }
@@ -614,9 +615,13 @@ namespace MemberSite.Service.DAL
                 {
                     var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
                     Dictionary<string, string> settings = null;
-                    if (details.TryGetValue(langId, out settings) || details.TryGetValue(defLang, out settings))
+                    if (details.ContainsKey(langId))
                     {
-
+                        settings = details[langId];
+                    }
+                    else if (details.ContainsKey(defLang))
+                    {
+                        settings = details[defLang];
                     }
                     else
                     {

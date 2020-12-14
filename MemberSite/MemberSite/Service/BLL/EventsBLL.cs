@@ -79,9 +79,11 @@ namespace MemberSite.Service.BLL
             bool rtn = evnetsService.GetCustRank(lBCategoryId, custId, beforeDays, out custRank, out point);
             if (rtn)
             {
-                leaderboardCustRank = new LeaderboardCustRank();
-                leaderboardCustRank.CustRank = custRank;
-                leaderboardCustRank.point = point;
+                leaderboardCustRank = new LeaderboardCustRank
+                {
+                    CustRank = custRank,
+                    point = point
+                };
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                 .SetSlidingExpiration(TimeSpan.FromMinutes(10));
                 cache.Set(key, leaderboardCustRank, cacheEntryOptions);

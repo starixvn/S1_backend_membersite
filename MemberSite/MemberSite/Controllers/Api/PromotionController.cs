@@ -268,34 +268,30 @@ namespace MemberSite.Controllers.Api
         {
             public string SpecialCode { set; get; }
         }
+
+        [Authorize]
         [HttpPost]
         public ApiResult SetSpecialCode(SetSpecialCodeReq setSpecialCodeReq)
         {
-            var result = new ApiResult();
+            var result = new ApiResult
+            {
+                ErrorCode = 0
+            };
 
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            var isLogin = User.Identity.IsAuthenticated;
-            result.ErrorCode = 0;
-            if (isLogin)
+            try
             {
-                try
+                var authData = authorizeBLL.GetAuthData();
+                if (!promotionBLL.SetSpecialCode(authData.CustId, setSpecialCodeReq.SpecialCode))
                 {
-                    var authData = authorizeBLL.GetAuthData();
-                    if (!promotionBLL.SetSpecialCode(authData.CustId, setSpecialCodeReq.SpecialCode))
-                    {
-                        result.ErrorCode = (int)SpecialCodeErrorcode.SpecialCodeError;
-                        result.Message = "invalid code";
-                    }
-                }
-                catch (Exception ex)
-                {
-                    result.Message = ex.ToString();
+                    result.ErrorCode = (int)SpecialCodeErrorcode.SpecialCodeError;
+                    result.Message = "invalid code";
                 }
             }
-            else
+            catch (Exception ex)
             {
-                result.Message = "Anonymous";
+                result.Message = ex.ToString();
             }
+
             return result;
         }
         public class SetSpecialCodeJoinedReq

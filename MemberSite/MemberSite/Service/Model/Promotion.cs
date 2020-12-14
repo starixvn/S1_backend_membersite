@@ -41,6 +41,8 @@ namespace MemberSite.Service.Model
         public CustRollOver custRollOver { get; set; }
         public string Details { get; set; }
         public int TpId { get; set; }
+        public bool IsSpecial { get; set; }
+        public string SpecialCode { get; set; }
     }
 
     public class PromotionBanner
