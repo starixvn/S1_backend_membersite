@@ -173,7 +173,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -267,7 +268,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -373,7 +375,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -506,7 +509,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -548,7 +552,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -592,7 +597,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -1125,7 +1131,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -1343,29 +1350,6 @@
         "en": "Shou-Xin-en.jpg",
         "cs": "Shou-Xin-cs.jpg",
         "th": "Shou-Xin-th.jpg"
-      },
-      "launchDate": "2017/03/20",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "LuckyBatsJP",
-        "cs": "五福临门JP",
-        "th": "ลัคกี้ แบท แจ็คพ็อต"
-      },
-      "appId": "1010",
-      "gameId": "1010",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "96.17%",
-      "Reels": "5",
-      "imgName": {
-        "en": "LuckyBatsJP-en.jpg",
-        "cs": "LuckyBatsJP-cs.jpg",
-        "th": "LuckyBatsJP-th.jpg",
-        "id": "LuckyBatsJP-id.jpg"
       },
       "launchDate": "2017/03/20",
       "hot": false,
@@ -1770,7 +1754,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -1816,7 +1801,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -2024,28 +2010,6 @@
     },
     {
       "name": {
-        "en": "TreasureBowlJP",
-        "cs": "聚宝盆JP",
-        "th": "กระถางมหาสมบัติ แจ็คพ็อต"
-      },
-      "appId": "1074",
-      "gameId": "1074",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "96.02%",
-      "Reels": "5",
-      "imgName": {
-        "en": "TreasureBowlJP-en.jpg",
-        "cs": "TreasureBowlJP-cs.jpg",
-        "th": "TreasureBowlJP-th.jpg"
-      },
-      "launchDate": "2017/03/20",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
         "en": "888",
         "cs": "发发发"
       },
@@ -2083,7 +2047,8 @@
       "launchDate": "2017/03/20",
       "hot": false,
       "new": true,
-      "imageExist": true
+      "imageExist": true,
+      "featured": true
     },
     {
       "name": {
@@ -2766,27 +2731,6 @@
     },
     {
       "name": {
-        "en": "GoldenEggsJP",
-        "cs": "赚金蛋JP",
-        "th": "GOLDEN EGGS แจ็คพ็อต"
-      },
-      "appId": "1067",
-      "gameId": "1067",
-      "category1": "Slots",
-      "paylines": "Any 5",
-      "RTP": "96.17%",
-      "Reels": "5",
-      "imgName": {
-        "en": "GoldenEggsJP-en.jpg",
-        "cs": "GoldenEggsJP-cs.jpg"
-      },
-      "launchDate": "2017/03/20",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
         "en": "Football Baby",
         "cs": "足球宝贝",
         "th": "ฟุตบอล ทารก"
@@ -2971,407 +2915,6 @@
     },
     {
       "name": {
-        "en": "Fortune Dragon",
-        "cs": "飞龙在天",
-        "th": "มังกรแห่งโชคลาภ"
-      },
-      "appId": "194",
-      "gameId": "194",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "96.16%",
-      "Reels": "5",
-      "imgName": {
-        "en": "Fortune-Dragon-en.jpg",
-        "cs": "Fortune-Dragon-cs.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Lord Ganesha",
-        "cs": "富贵象",
-        "th": "พระพิฆเนศ"
-      },
-      "appId": "195",
-      "gameId": "195",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "96.02%",
-      "Reels": "5",
-      "imgName": {
-        "en": "Lord-Ganesha-en.jpg",
-        "cs": "Lord-Ganesha-cs.jpg",
-        "th": "Lord-Ganesha-th.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Boots of Luck",
-        "cs": "运气靴",
-        "th": "รองเท้าแห่งโชค"
-      },
-      "appId": "AS01",
-      "gameId": "AS01",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "93.30%",
-      "Reels": "5",
-      "imgName": {
-        "en": "Boots-of-Luck-en.jpg",
-        "cs": "Boots-of-Luck-cs.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Cirque de fous",
-        "cs": "疯狂马戏团",
-        "th": "คณะละครสัตว์บ้า"
-      },
-      "appId": "AS02",
-      "gameId": "AS02",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "93.90%",
-      "Reels": "5",
-      "imgName": {
-        "en": "Cirque-de-fous-en.jpg",
-        "cs": "Cirque-de-fous-cs.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Dragon Hunters",
-        "cs": "驯龙高手",
-        "th": "นักล่ามังกร"
-      },
-      "appId": "AS03",
-      "gameId": "AS03",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "93%",
-      "Reels": "5",
-      "imgName": {
-        "en": "Dragon-Hunters-en.jpg",
-        "cs": "Dragon-Hunters-cs.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Fortune Spirits",
-        "cs": "财富幽灵",
-        "th": "วิญญาณแห่งโชคลาภ"
-      },
-      "appId": "AS04",
-      "gameId": "AS04",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "92.3%",
-      "Reels": "5",
-      "imgName": {
-        "en": "Fortune-Spirits-en.jpg",
-        "cs": "Fortune-Spirits-cs.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Golden Mayan",
-        "cs": "黄金玛雅",
-        "th": "มายันโกลด์"
-      },
-      "appId": "AS08",
-      "gameId": "AS08",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "92.3%",
-      "Reels": "5",
-      "imgName": {
-        "en": "Golden-Mayan-en.jpg",
-        "cs": "Golden-Mayan-cs.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Hollywood Pets",
-        "cs": "好莱坞宠物",
-        "th": "สัตว์เลี้ยงของ Holywood"
-      },
-      "appId": "AS09",
-      "gameId": "AS09",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "93%",
-      "Reels": "5",
-      "imgName": {
-        "en": "Hollywood-Pets-en.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Lucky 3",
-        "cs": "幸运3",
-        "th": "นำโชค 3"
-      },
-      "appId": "AS10",
-      "gameId": "AS10",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "89.3%",
-      "Reels": "5",
-      "imgName": {
-        "en": "Lucky-3-en.jpg",
-        "cs": "Lucky-3-cs.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Treasure of Seti",
-        "cs": "塞特的宝藏",
-        "th": "สมบัติของ Seti"
-      },
-      "appId": "AS17",
-      "gameId": "AS17",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "94.9%",
-      "Reels": "5",
-      "imgName": {
-        "en": "Treasure-of-Seti-en.jpg",
-        "cs": "Treasure-of-Seti-cs.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Wild Fudge",
-        "cs": "疯狂软糖",
-        "th": "ช็อกโกแลตป่า"
-      },
-      "appId": "AS18",
-      "gameId": "AS18",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "94.1%",
-      "Reels": "5",
-      "imgName": {
-        "en": "Wild-Fudge-en.jpg",
-        "cs": "Wild-Fudge-cs.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Xmas Tales",
-        "cs": "圣诞故事",
-        "th": "ช็อกโกแลตป่า"
-      },
-      "appId": "AS19",
-      "gameId": "AS19",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "89.3%",
-      "Reels": "5",
-      "imgName": {
-        "en": "Xmas-Tales-en.jpg",
-        "cs": "Xmas-Tales-cs.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Queen Of Dead",
-        "cs": "死亡女王",
-        "th": "ราชินีแห่งความตาย"
-      },
-      "appId": "AS20",
-      "gameId": "AS20",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "89.3%",
-      "Reels": "5",
-      "imgName": {
-        "en": "Queen-Of-Dead-en.jpg",
-        "cs": "Queen-Of-Dead-cs.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Pig Of Luck",
-        "cs": "猪的运气",
-        "th": "หมูผู้โชคดี"
-      },
-      "appId": "AS33",
-      "gameId": "AS33",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "96%",
-      "Reels": "5",
-      "imgName": {
-        "en": "Pig-Of-Luck-en.jpg",
-        "cs": "Pig-Of-Luck-cs.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Supercar",
-        "cs": "奔驰宝马",
-        "th": "ซุปเปอร์คาร์"
-      },
-      "appId": "AT101",
-      "gameId": "AT101",
-      "category1": "Arcade",
-      "paylines": "",
-      "RTP": "96%",
-      "Reels": "N/A",
-      "imgName": {
-        "en": "Supercar-en.jpg",
-        "cs": "Supercar-cs.jpg",
-        "th": "Supercar-th.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Jungle Treasure",
-        "cs": "丛林秘宝",
-        "th": "สมบัติลับแห่งผืนป่า"
-      },
-      "appId": "AT102",
-      "gameId": "AT102",
-      "category1": "Arcade",
-      "paylines": "",
-      "RTP": "96%",
-      "Reels": "N/A",
-      "imgName": {
-        "en": "Jungle-Treasure-en.jpg",
-        "cs": "Jungle-Treasure-cs.jpg",
-        "th": "Jungle-Treasure-th.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Banker Dice Bull-Bull",
-        "cs": "抢庄骰子牛牛",
-        "th": "ลูกเต๋าเจ้ามือ กระทิง-กระทิง"
-      },
-      "appId": "BT02",
-      "gameId": "BT02",
-      "category1": "Table",
-      "paylines": "",
-      "RTP": "96%",
-      "Reels": "N/A",
-      "imgName": {
-        "en": "Banker-Dice-Bull-Bull-en.jpg",
-        "cs": "Banker-Dice-Bull-Bull-cs.jpg",
-        "th": "Banker-Dice-Bull-Bull-th.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Peeking Banker Bull-Bull",
-        "cs": "抢庄眯牌牛牛"
-      },
-      "appId": "BT03",
-      "gameId": "BT03",
-      "category1": "Slots",
-      "paylines": "",
-      "RTP": "N/A",
-      "Reels": "N/A",
-      "imgName": {
-        "en": "Peeking-Banker-Bull-Bull-en.jpg",
-        "cs": "Peeking-Banker-Bull-Bull-cs.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
-        "en": "Dragon Pachinko",
-        "cs": "招财龙小钢珠",
-        "th": "ดราก้อนปาจิงโกะ"
-      },
-      "appId": "GO169",
-      "gameId": "GO169",
-      "category1": "Arcade",
-      "paylines": "",
-      "RTP": "96.03%",
-      "Reels": "N/A",
-      "imgName": {
-        "en": "Dragon-Pachinko-en.jpg",
-        "cs": "Dragon-Pachinko-cs.jpg"
-      },
-      "launchDate": "2020/12/03",
-      "hot": false,
-      "new": true,
-      "imageExist": true
-    },
-    {
-      "name": {
         "en": "Tenfold Eggs",
         "cs": "十倍金喜",
         "th": "ไข่เต็นฟอลด์"
@@ -3394,7 +2937,7 @@
     },
     {
       "name": {
-        "en": "Dragon’s Treasure",
+        "en": "Dragon's Treasure",
         "cs": "盘龙秘宝",
         "th": "สมบัติของมังกร"
       },

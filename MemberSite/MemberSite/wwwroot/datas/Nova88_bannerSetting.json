@@ -1,6 +1,13 @@
 {
   "Promotion": [
     {
+      "actionLink": "https://www.nova88asia.com/en/casino?tpId=16",
+      "outerLink": true,
+      "img": "banner-cq9.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
       "img": "banner-2020xmas.jpg"
     },
     {
