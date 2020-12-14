@@ -209,5 +209,17 @@ namespace MemberSite.Service.BLL
         {
             return promotionService.GetPromotionDetail(SiteId, CustId, CurrencyId, IsLogin, langId, defLang, BonusCode);
         }
+        public List<CustPromotion> GetSpecialPromotionList(int SiteId, int CustId, int CurrencyId, string langId, string defLang)
+        {
+            return promotionService.GetSpecialPromotionList(SiteId, CustId, CurrencyId, langId, defLang);
+        }
+        public bool SetSpecialCode(int custId, string specialCode)
+        {
+            return promotionService.SetSpecialCode(custId, specialCode);
+        }
+        public void SetSpecialCodeJoined(int custId, string specialCode, string bonusCode)
+        {
+            promotionService.SetSpecialCodeJoined( custId, specialCode, bonusCode);
+        }
     }
 }

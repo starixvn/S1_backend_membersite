@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,6 @@ using Microsoft.Extensions.Configuration;
 
 namespace MemberSite.Controllers.Api
 {
-    [AllowAnonymous]
     [Route("api/[controller]/[action]/{LangId}")]
     [ApiController]
     public class PromotionController : ControllerBase
@@ -107,6 +107,7 @@ namespace MemberSite.Controllers.Api
             public string BonusCode { set; get; }
             public decimal? LockedAmount { set; get; }
         }
+
         [Authorize]
         [HttpPost]
         public async Task<ApiResult> SetClaimPromotionAsync(PromotionReq promotionReq)
@@ -193,7 +194,7 @@ namespace MemberSite.Controllers.Api
 
             result.Data = promotionBLL.GetPromotionListV2(serverInfo.SiteId, custId, currencyId, isLogin, selLangBLL.GetLangId(), serverInfo.DefLang);
             result.ErrorCode = 0;
-            
+
             return result;
         }
 
@@ -223,7 +224,7 @@ namespace MemberSite.Controllers.Api
 
             return result;
         }
-        
+
         public class TpTransfer
         {
             public int TpId { set; get; }
@@ -246,6 +247,58 @@ namespace MemberSite.Controllers.Api
         public enum TransferStatus
         {
             Success = 0, Fail = 1, Pending = 2, PendingD = 3
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ApiResult<List<CustPromotion>> GetSpecialPromotionList()
+        {
+            var result = new ApiResult<List<CustPromotion>>();
+
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            result.Data = promotionBLL.GetSpecialPromotionList(serverInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, selLangBLL.GetLangId(), serverInfo.DefLang);
+            result.ErrorCode = 0;
+
+            return result;
+        }
+
+        public class SetSpecialCodeReq
+        {
+            public string SpecialCode { set; get; }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ApiResult SetSpecialCode(SetSpecialCodeReq setSpecialCodeReq)
+        {
+            var result = new ApiResult
+            {
+                ErrorCode = 0
+            };
+
+            try
+            {
+                var authData = authorizeBLL.GetAuthData();
+                if (!promotionBLL.SetSpecialCode(authData.CustId, setSpecialCodeReq.SpecialCode))
+                {
+                    result.ErrorCode = (int)SpecialCodeErrorcode.SpecialCodeError;
+                    result.Message = "invalid code";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Message = ex.ToString();
+            }
+
+            return result;
+        }
+        public class SetSpecialCodeJoinedReq
+        {
+            public string SpecialCode { set; get; }
+            public string BonusCode { set; get; }
+
         }
     }
 }

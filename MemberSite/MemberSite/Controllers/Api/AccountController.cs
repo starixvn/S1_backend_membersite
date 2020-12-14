@@ -106,7 +106,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult> SetLanguage(LanguageModel languageModel)
+        public async Task<ApiResult> SetLanguageAsync(LanguageModel languageModel)
         {
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
@@ -134,7 +134,25 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+        [HttpPost]
+        public ApiResult SignOutApp()
+        {
+            var apiResult = new ApiResult(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+            bool result = authorizeBLL.Logout();
 
+            //Response.Cookies.Delete($"InitializationReset{ User.Identity.Name}");
+            //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            apiResult.ErrorCode = 0;
+            apiResult.Message = selLangBLL.GetMsg("msg_loggedout");
+
+            _ = Task.Run(async () =>
+            {
+                _ = await LogoutAsync(1, authData.CustId);
+            });
+
+            return apiResult;
+        }
         public class ChangePasswordModel
         {
             public string OldPassword { set; get; }

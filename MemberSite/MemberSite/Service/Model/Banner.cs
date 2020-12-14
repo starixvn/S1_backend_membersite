@@ -50,4 +50,19 @@ namespace MemberSite.Service.Model
         public string link { get; set; }
         public bool? outerLink { get; set; }
     }
+
+    public class BannerV2
+    {
+        public string BannerName { get; set; }
+        public int BannerType { get; set; }
+        public int ActionMode { get; set; }
+        public string BonusCode { get; set; }
+        public string MatchId { get; set; }
+        public string TpId { get; set; }
+        public string GameId { get; set; }
+        public string Details { get; set; }
+        public string BannerLink { get; set; }
+        public string BannerPCUrl { get; set; }
+        public string BannerMobileUrl { get; set; }
+    }
 }

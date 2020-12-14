@@ -1,13 +1,11 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -70,12 +68,12 @@ namespace MemberSite.Service.BLL
                     {
                         var bannerUrl = settings["bannerUrl"];
                         bool hideInHome = false;
-                        if (settings.TryGetValue("hideInHome", out var strHideInHome)) 
+                        if (settings.TryGetValue("hideInHome", out var strHideInHome))
                         {
                             hideInHome = string.Equals(strHideInHome, "TRUE", StringComparison.OrdinalIgnoreCase);
                         };
 
-                        if(serverInfo.SiteId == 2)
+                        if (serverInfo.SiteId == 2)
                         {
                             bannerFromDB.Add(new BannerSettingItem() { actionLink = $"promotion/promotionInfo?BonusCode={promo.BonusCode}", imgURL = bannerUrl, fromDB = true, hideInHome = hideInHome });
                         }
@@ -88,6 +86,37 @@ namespace MemberSite.Service.BLL
             }
 
             return bannerFromDB;
+        }
+        public IEnumerable<BannerV2> GetBannerV2(int SiteId, int BannerType, int ShowIndex, int CurrencyId, string LangId)
+        {
+            var banner = new List<BannerV2>();
+            var bannerlist = bannerService.GetBannerV2(SiteId, BannerType, ShowIndex, CurrencyId);
+            foreach (var bannerdetail in bannerlist)
+            {
+                if (bannerdetail.Details != null)
+                {
+                    var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(bannerdetail.Details);
+                    if (details.ContainsKey(LangId))
+                    {
+                        var settings = details[LangId];
+                        banner.Add(new BannerV2()
+                        {
+                            BannerName = bannerdetail.BannerName,
+                            BannerType = bannerdetail.BannerType,
+                            ActionMode = bannerdetail.ActionMode,
+                            BonusCode = bannerdetail.BonusCode,
+                            MatchId = bannerdetail.MatchId,
+                            TpId = bannerdetail.TpId,
+                            GameId = bannerdetail.GameId,
+                            BannerLink = settings["bannerLink"],
+                            BannerPCUrl = settings["bannerPCUrl"],
+                            BannerMobileUrl = settings["bannerMobileUrl"]
+                        });
+                    }
+                }
+            }
+
+            return banner;
         }
     }
 }

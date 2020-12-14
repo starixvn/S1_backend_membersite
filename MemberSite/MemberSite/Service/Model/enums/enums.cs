@@ -191,4 +191,9 @@ namespace MemberSite.Service.Model.enums
         Success = 0,
         IovationNotSupport = 1301
     }
+    public enum SpecialCodeErrorcode : int
+    {
+        Success = 0,
+        SpecialCodeError = 99
+    }
 }
