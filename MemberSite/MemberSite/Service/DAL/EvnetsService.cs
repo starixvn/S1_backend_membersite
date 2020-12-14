@@ -19,20 +19,25 @@ namespace MemberSite.Service.DAL
         {
             this.configuration = configuration;
         }
-        public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId, int topNum, int beforeDays)
+        public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId,int currencyId, int topNum, int beforeDays)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<Leaderboard>("Member_Leaderboard_LastDateTop_Get", new { LBCategoryId = lBCategoryId, SiteId = siteId, TopNum = topNum, BeforeDays= beforeDays }, commandType: CommandType.StoredProcedure);
+            return conn.Query<Leaderboard>("Member_Leaderboard_LastDateTop_Get", new { LBCategoryId = lBCategoryId, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, BeforeDays= beforeDays }, commandType: CommandType.StoredProcedure);
         }
-        public bool GetCustRank(int lBCategoryId, int custId, int beforeDays,out int custRank)
+        public bool GetCustRank(int lBCategoryId, int custId, int beforeDays,out int custRank, out int point)
         {
             custRank = 0;
+            point = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { LBCategoryId = lBCategoryId, CustId = custId, BeforeDays = beforeDays });
             p.Add("CustRank", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("Point", dbType: DbType.Int32, direction: ParameterDirection.Output);
             bool rtn = conn.Execute("Member_Leaderboard_CustRank_Get", p, commandType: CommandType.StoredProcedure) > 0;
-            if(rtn)
+            if (rtn)
+            {
                 custRank = p.Get<int>("CustRank");
+                point = p.Get<int>("Point");
+            }
             return rtn;
         }
     }
