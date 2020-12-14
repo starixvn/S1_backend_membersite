@@ -67,9 +67,11 @@ namespace MemberSite.Controllers
         public async Task<IActionResult> DepositReqOnlineBankingAsync(int sysId, int payId, int ChannelId, decimal Amount)
         {
             var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             BankInfoPay onlineBank = null;
             var result = paymentBLL.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount, out transId, out onlineBank);
+
             var apiResult = new ApiResult<PayResult>();
             if (result == 0)
             {
@@ -81,7 +83,7 @@ namespace MemberSite.Controllers
                     PayId = onlineBank.PayId,
                     SysId = onlineBank.SysId,
                     ClientIP = tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", authData.LangId }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
                 };
 
                 var myUrl = $"{payApiUrl}ReqDepositBank";
@@ -103,6 +105,7 @@ namespace MemberSite.Controllers
         {
             var apiResult = new ApiResult<PayResult>();
             var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             MobilePayInfo mobilePayInfo = null;
             var result = mobilePayInfoBLL.DepositReqMobilePay(authData.CustId, ChannelId, Amount, out transId, out mobilePayInfo);
@@ -116,7 +119,7 @@ namespace MemberSite.Controllers
                     ChannelId = mobilePayInfo.ChannelId,
                     PayId = mobilePayInfo.PayId,
                     ClientIP = tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", authData.LangId }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
                 };
 
                 var myUrl = $"{payApiUrl}ReqDepositMobile";
@@ -141,6 +144,7 @@ namespace MemberSite.Controllers
         {
             var apiResult = new ApiResult<PayResult>();
             var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             CryptoPayInfo cryptoPayInfo = null;
             var result = cryptoPayInfoBLL.DepositReqCryptoPay(authData.CustId, ChannelId, Amount, out transId, out cryptoPayInfo);
@@ -154,7 +158,7 @@ namespace MemberSite.Controllers
                     ChannelId = cryptoPayInfo.ChannelId,
                     PayId = cryptoPayInfo.PayId,
                     ClientIP = tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", authData.LangId }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
                 };
 
                 var myUrl = $"{payApiUrl}ReqDepositCrpyto";
@@ -176,6 +180,7 @@ namespace MemberSite.Controllers
         {
             var apiResult = new ApiResult<PayResult>();
             var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             LoadCardPayInfo loadCardPayInfo = null;
             var result = loadCardPayInfoBLL.DepositReqLoadCardPay(authData.CustId, ChannelId, Amount, out transId, out loadCardPayInfo);
@@ -189,7 +194,7 @@ namespace MemberSite.Controllers
                     ChannelId = loadCardPayInfo.ChannelId,
                     PayId = loadCardPayInfo.PayId,
                     ClientIP = tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", authData.LangId }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
                 };
 
                 var myUrl = $"{payApiUrl}ReqDepositMobile";
