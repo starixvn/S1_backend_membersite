@@ -2,6 +2,7 @@
   "Promotion": [
     {
       "img": "banner-xmasrank.jpg",
+      "actionLink": "leaderBoard",
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
