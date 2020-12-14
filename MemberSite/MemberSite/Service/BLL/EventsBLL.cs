@@ -60,7 +60,7 @@ namespace MemberSite.Service.BLL
             if (leaderboard != null)
             {
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetSlidingExpiration(TimeSpan.FromMinutes(10));
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
                 cache.Set(key, leaderboard, cacheEntryOptions);
             }
 
@@ -85,7 +85,7 @@ namespace MemberSite.Service.BLL
                     point = point
                 };
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetSlidingExpiration(TimeSpan.FromMinutes(10));
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
                 cache.Set(key, leaderboardCustRank, cacheEntryOptions);
             }
 
