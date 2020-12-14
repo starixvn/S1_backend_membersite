@@ -1,6 +1,10 @@
 {
   "Promotion": [
     {
+      "img": "banner-xmasrank.jpg",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
       "actionLink": "https://www.nova88asia.com/en/casino?tpId=16",
       "outerLink": true,
       "img": "banner-cq9.jpg",
@@ -8,17 +12,13 @@
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
-      "img": "banner-2020xmas.jpg"
+      "img": "banner-2020xmas.jpg",
+      "lang": [ "th", "id", "en", "cs" ]
     },
     {
       "tpid": "20",
       "gameid": "20",
       "img": "banner-wm.jpg"
-    },
-    {
-      "tpid": "5",
-      "gameid": "104",
-      "img": "banner-NOV-PP-Mega-Spin.jpg"
     },
     {
       "actionLink": "https://aff.nova88asia.com/Signup/Index",
@@ -103,28 +103,28 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40027653",
+      "matchid": "40227804",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40027653.png",
+      "img": "games-40227804.png",
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40027658",
+      "matchid": "40228023",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40027658.png",
+      "img": "games-40228023.png",
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40027656",
+      "matchid": "40228074",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40027656.png",
+      "img": "games-40228074.png",
       "lang": [ "th", "id", "en", "cs" ]
     }
   ]
