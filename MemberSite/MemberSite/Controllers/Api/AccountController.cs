@@ -106,7 +106,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult> SetLanguage(LanguageModel languageModel)
+        public ApiResult SetLanguage(LanguageModel languageModel)
         {
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
@@ -119,15 +119,15 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            // create a new identity from the old one
-            var identity = new ClaimsIdentity(User.Identity);
+            //// create a new identity from the old one
+            //var identity = new ClaimsIdentity(User.Identity);
 
-            // update claim value
-            identity.RemoveClaim(identity.FindFirst("LangId"));
-            identity.AddClaim(new Claim("LangId", languageModel.LangId));
+            //// update claim value
+            //identity.RemoveClaim(identity.FindFirst("LangId"));
+            //identity.AddClaim(new Claim("LangId", languageModel.LangId));
 
-            // tell the SignInAsync to use this new identity
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+            //// tell the SignInAsync to use this new identity
+            //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
             apiResult.ErrorCode = 0;
             apiResult.Message = Url.RouteUrl("desktop", new { action = HttpContext.Request.RouteValues["action"], controller = HttpContext.Request.RouteValues["controller"], languageModel.LangId });

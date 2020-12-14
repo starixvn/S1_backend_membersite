@@ -256,7 +256,6 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<List<CustPromotion>>();
 
             var serverInfo = serverInfoBLL.GetServerInfo();
-            var isLogin = User.Identity.IsAuthenticated;
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             result.Data = promotionBLL.GetSpecialPromotionList(serverInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, selLangBLL.GetLangId(), serverInfo.DefLang);
@@ -304,28 +303,6 @@ namespace MemberSite.Controllers.Api
             public string SpecialCode { set; get; }
             public string BonusCode { set; get; }
 
-        }
-        [HttpPost]
-        public ApiResult SetSpecialCodeJoined(SetSpecialCodeJoinedReq setSpecialCodeJoinedReq)
-        {
-            var result = new ApiResult();
-            var isLogin = User.Identity.IsAuthenticated;
-            result.ErrorCode = 0;
-            if (isLogin)
-            {
-                try
-                {
-                    var authData = authorizeBLL.GetAuthData();
-                    promotionBLL.SetSpecialCodeJoined(authData.CustId, setSpecialCodeJoinedReq.SpecialCode, setSpecialCodeJoinedReq.BonusCode);
-
-                }
-                catch (Exception ex)
-                {
-                    result.Message = ex.ToString();
-                }
-
-            }
-            return result;
         }
     }
 }
