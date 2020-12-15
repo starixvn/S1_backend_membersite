@@ -1,6 +1,11 @@
 {
   "Promotion": [
     {
+      "img": "Xmas_banner.jpg",
+      "actionLink": "leaderBoard",
+      "lang": [ "vn", "en" ]
+    },
+    {
       "actionLink": "casino?provider=CQ9",
       "urlWithLang": true,
       "img": "banner-cq9.jpg",
