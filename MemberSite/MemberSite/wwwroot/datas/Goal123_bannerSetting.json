@@ -1,9 +1,37 @@
 {
   "Promotion": [
     {
-      "actionLink": "https://www.goal123.com/vn/casino?tpId=16",
-      "outerLink": true,
+      "actionLink": "casino?provider=CQ9",
+      "urlWithLang": true,
       "img": "banner-cq9.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    },
+    {
+      "actionLink": "promotion",
+      "urlWithLang": true,
+      "img": "150-Welcome-Slot-Bonus.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    },
+    {
+      "actionLink": "promotion",
+      "urlWithLang": true,
+      "img": "GOAL123DAILYREBATE.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    },
+    {
+      "actionLink": "promotion",
+      "urlWithLang": true,
+      "img": "GOAL123DAILY-RELOAD-BONUS.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    },
+    {
+      "actionLink": "promotion",
+      "urlWithLang": true,
+      "img": "GOAL123TRIAL-BONUS.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     }

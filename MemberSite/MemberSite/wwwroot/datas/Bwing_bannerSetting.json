@@ -1,9 +1,37 @@
 {
   "Promotion": [
     {
-      "actionLink": "https://www.bwing.com/vn/casino?tpId=16",
-      "outerLink": true,
+      "actionLink": "casino?provider=CQ9",
+      "urlWithLang": true,
       "img": "banner-cq9.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    },
+    {
+      "actionLink": "promotion",
+      "urlWithLang": true,
+      "img": "Bwing-Casino150.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    },
+    {
+      "actionLink": "promotion",
+      "urlWithLang": true,
+      "img": "BWINGDAILYREBATE.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    },
+    {
+      "actionLink": "promotion",
+      "urlWithLang": true,
+      "img": "BWINGRELOADBONUS.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    },
+    {
+      "actionLink": "promotion",
+      "urlWithLang": true,
+      "img": "BWINGSLOT.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
