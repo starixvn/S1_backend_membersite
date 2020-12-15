@@ -59,11 +59,7 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = new LeaderboardCustRank();
             var authData = authorizeBLL.GetAuthData();
 
-            if (!eventsBLL.GetCustRankWithCache(getCustRankReq.LBCategoryId, authData.CustId, getCustRankReq.BeforeDays, out int custRank, out int point))
-            {
-                apiResult.ErrorCode = 99;
-                return apiResult;
-            }
+            eventsBLL.GetCustRankWithCache(getCustRankReq.LBCategoryId, authData.CustId, getCustRankReq.BeforeDays, out int custRank, out int point);
 
             apiResult.Data.CustRank = custRank;
             apiResult.Data.point = point;

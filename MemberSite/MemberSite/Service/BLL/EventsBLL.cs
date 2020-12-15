@@ -11,7 +11,7 @@ namespace MemberSite.Service.BLL
 {
     public class EventsBLL
     {
-        private readonly EvnetsService evnetsService;
+        private readonly EventsService eventsService;
         private readonly IMemoryCache cache;
         public static string MaskName(string input)
         {
@@ -23,15 +23,15 @@ namespace MemberSite.Service.BLL
                 pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1})";
             return Regex.Replace(input, pattern, m => new string('*', m.Length));
         }
-        public EventsBLL(EvnetsService evnetsService, IMemoryCache cache)
+        public EventsBLL(EventsService eventsService, IMemoryCache cache)
         {
-            this.evnetsService = evnetsService;
+            this.eventsService = eventsService;
             this.cache = cache;
 
         }
         public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
-            var leaderboard = evnetsService.GetLeaderboardList(lBCategoryId, siteId, currencyId, topNum, beforeDays);
+            var leaderboard = eventsService.GetLeaderboardList(lBCategoryId, siteId, currencyId, topNum, beforeDays);
             foreach (var L in leaderboard)
             {
                 L.UserName = MaskName(L.UserName);
@@ -39,9 +39,9 @@ namespace MemberSite.Service.BLL
             return leaderboard;
 
         }
-        public bool GetCustRank(int lBCategoryId, int custId, int beforeDays, out int custRank, out int point)
+        public void GetCustRank(int lBCategoryId, int custId, int beforeDays, out int custRank, out int point)
         {
-            return evnetsService.GetCustRank(lBCategoryId, custId, beforeDays, out custRank, out point);
+            eventsService.GetCustRank(lBCategoryId, custId, beforeDays, out custRank, out point);
         }
         
         public IEnumerable<Leaderboard> GetLeaderboardListWithCache(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
@@ -52,7 +52,7 @@ namespace MemberSite.Service.BLL
             {
                 return leaderboard;
             }
-            leaderboard = evnetsService.GetLeaderboardList(lBCategoryId, siteId, currencyId, topNum, beforeDays);
+            leaderboard = eventsService.GetLeaderboardList(lBCategoryId, siteId, currencyId, topNum, beforeDays);
             foreach (var L in leaderboard)
             {
                 L.UserName = MaskName(L.UserName);
@@ -66,7 +66,7 @@ namespace MemberSite.Service.BLL
 
             return leaderboard;
         }
-        public bool GetCustRankWithCache(int lBCategoryId, int custId, int beforeDays, out int custRank, out int point)
+        public void GetCustRankWithCache(int lBCategoryId, int custId, int beforeDays, out int custRank, out int point)
         {
             string key = $"Leaderboard_{lBCategoryId}_{custId}_{beforeDays}";
             var leaderboardCustRank = cache.Get<LeaderboardCustRank>(key);
@@ -74,22 +74,20 @@ namespace MemberSite.Service.BLL
             {
                 custRank = leaderboardCustRank.CustRank;
                 point = leaderboardCustRank.point;
-                return true;
-            }
-            bool rtn = evnetsService.GetCustRank(lBCategoryId, custId, beforeDays, out custRank, out point);
-            if (rtn)
-            {
-                leaderboardCustRank = new LeaderboardCustRank
-                {
-                    CustRank = custRank,
-                    point = point
-                };
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
-                cache.Set(key, leaderboardCustRank, cacheEntryOptions);
+                return;
             }
 
-            return rtn;
+            GetCustRank(lBCategoryId, custId, beforeDays, out custRank, out point);
+
+            leaderboardCustRank = new LeaderboardCustRank
+            {
+                CustRank = custRank,
+                point = point
+            };
+
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+            .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+            cache.Set(key, leaderboardCustRank, cacheEntryOptions);
         }
     }
 }
