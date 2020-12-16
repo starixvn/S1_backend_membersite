@@ -39,14 +39,14 @@ namespace MemberSite.Service.BLL
             return leaderboard;
 
         }
-        public void GetCustRank(int lBCategoryId, int custId, int beforeDays, out int custRank, out int point)
+        public void GetCustRank(int lBCategoryId, int custId, int beforeDays, out int custRank, out Decimal point)
         {
             eventsService.GetCustRank(lBCategoryId, custId, beforeDays, out custRank, out point);
         }
         
-        public IEnumerable<Leaderboard> GetLeaderboardListWithCache(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
+        public IEnumerable<Leaderboard> GetLeaderboardListWithCache(int custId ,int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
-            string key = $"Leaderboard_{lBCategoryId}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
+            string key = $"Leaderboard_{custId}_{lBCategoryId}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
             var leaderboard = cache.Get<IEnumerable<Leaderboard>>(key);
             if (leaderboard != null)
             {
@@ -55,7 +55,8 @@ namespace MemberSite.Service.BLL
             leaderboard = eventsService.GetLeaderboardList(lBCategoryId, siteId, currencyId, topNum, beforeDays);
             foreach (var L in leaderboard)
             {
-                L.UserName = MaskName(L.UserName);
+                if (L.CustId != custId)
+                    L.UserName = MaskName(L.UserName);
             }
             if (leaderboard != null)
             {
@@ -66,7 +67,7 @@ namespace MemberSite.Service.BLL
 
             return leaderboard;
         }
-        public void GetCustRankWithCache(int lBCategoryId, int custId, int beforeDays, out int custRank, out int point)
+        public void GetCustRankWithCache(int lBCategoryId, int custId, int beforeDays, out int custRank, out Decimal point)
         {
             string key = $"Leaderboard_{lBCategoryId}_{custId}_{beforeDays}";
             var leaderboardCustRank = cache.Get<LeaderboardCustRank>(key);

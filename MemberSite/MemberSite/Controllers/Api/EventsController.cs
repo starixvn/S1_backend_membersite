@@ -41,7 +41,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
-            apiResult.Data = eventsBLL.GetLeaderboardListWithCache(getLeaderboardListReq.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, getLeaderboardListReq.TopNum, getLeaderboardListReq.BeforeDays);
+            apiResult.Data = eventsBLL.GetLeaderboardListWithCache(authData.CustId,getLeaderboardListReq.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, getLeaderboardListReq.TopNum, getLeaderboardListReq.BeforeDays);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -59,7 +59,7 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = new LeaderboardCustRank();
             var authData = authorizeBLL.GetAuthData();
 
-            eventsBLL.GetCustRankWithCache(getCustRankReq.LBCategoryId, authData.CustId, getCustRankReq.BeforeDays, out int custRank, out int point);
+            eventsBLL.GetCustRankWithCache(getCustRankReq.LBCategoryId, authData.CustId, getCustRankReq.BeforeDays, out int custRank, out Decimal point);
 
             apiResult.Data.CustRank = custRank;
             apiResult.Data.point = point;
