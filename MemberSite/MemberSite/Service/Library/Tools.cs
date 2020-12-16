@@ -78,9 +78,11 @@ namespace MemberSite.Service.Library
             //if (string.IsNullOrEmpty(userPwd) || userPwd.Length < 6 || userPwd.Length > 18)
             //    return false;
             //Regex regex = new Regex("^[a-zA-Z0-9@$*!%#?&]*$", RegexOptions.Singleline);
+            
+            if (string.IsNullOrEmpty(userPwd) || userPwd.Contains(" ") || userPwd.Contains("　"))
+                return false;
             Regex regex = new Regex("^(?=.{8,20}$)(?=.*[0-9]{1})(?=.*[A-Z]{1})(?=.*[a-z]{1})(?=.*[!@#$%^&*]).*$", RegexOptions.Singleline);
-            string trimuserPwd = Regex.Replace(userPwd, @"\s", "");
-            Match mPwd = regex.Match(trimuserPwd);
+            Match mPwd = regex.Match(userPwd);
 
             return mPwd.Success;
         }
