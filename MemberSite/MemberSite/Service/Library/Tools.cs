@@ -79,8 +79,8 @@ namespace MemberSite.Service.Library
             //    return false;
             //Regex regex = new Regex("^[a-zA-Z0-9@$*!%#?&]*$", RegexOptions.Singleline);
             Regex regex = new Regex("^(?=.{8,20}$)(?=.*[0-9]{1})(?=.*[A-Z]{1})(?=.*[a-z]{1})(?=.*[!@#$%^&*]).*$", RegexOptions.Singleline);
-            
-            Match mPwd = regex.Match(userPwd);
+            string trimuserPwd = Regex.Replace(userPwd, @"\s", "");
+            Match mPwd = regex.Match(trimuserPwd);
 
             return mPwd.Success;
         }
