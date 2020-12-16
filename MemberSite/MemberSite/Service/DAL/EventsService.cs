@@ -24,18 +24,18 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<Leaderboard>("Member_Leaderboard_LastDateTop_Get", new { LBCategoryId = lBCategoryId, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, BeforeDays= beforeDays }, commandType: CommandType.StoredProcedure);
         }
-        public void GetCustRank(int lBCategoryId, int custId, int beforeDays, out int custRank, out int point)
+        public void GetCustRank(int lBCategoryId, int custId, int beforeDays, out int custRank, out Decimal point)
         {
             custRank = 0;
             point = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { LBCategoryId = lBCategoryId, CustId = custId, BeforeDays = beforeDays });
             p.Add("CustRank", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            p.Add("Point", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("Point", dbType: DbType.Decimal, direction: ParameterDirection.Output);
             conn.Execute("Member_Leaderboard_CustRank_Get", p, commandType: CommandType.StoredProcedure);
 
             custRank = p.Get<int?>("CustRank") ?? 0;
-            point = p.Get<int?>("Point") ?? 0;
+            point = p.Get<Decimal?>("Point") ?? 0;
         }
     }
 }
