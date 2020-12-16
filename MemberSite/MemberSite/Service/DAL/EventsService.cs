@@ -35,7 +35,7 @@ namespace MemberSite.Service.DAL
             conn.Execute("Member_Leaderboard_CustRank_Get", p, commandType: CommandType.StoredProcedure);
 
             custRank = p.Get<int?>("CustRank") ?? 0;
-            point = p.Get<Decimal?>("Point") ?? 0;
+            point = p.Get<decimal?>("Point") ?? 0;
         }
     }
 }
