@@ -75,10 +75,11 @@ namespace MemberSite.Service.Library
         /// <returns></returns>
         public bool CheckUserInputPassword(string userPwd)
         {
-            if (string.IsNullOrEmpty(userPwd) || userPwd.Length < 6 || userPwd.Length > 18)
-                return false;
-
-            Regex regex = new Regex("^[a-zA-Z0-9@$*!%#?&]*$", RegexOptions.Singleline);
+            //if (string.IsNullOrEmpty(userPwd) || userPwd.Length < 6 || userPwd.Length > 18)
+            //    return false;
+            //Regex regex = new Regex("^[a-zA-Z0-9@$*!%#?&]*$", RegexOptions.Singleline);
+            Regex regex = new Regex("^(?=.{8,20}$)(?=.*[0-9]{1})(?=.*[A-Z]{1})(?=.*[a-z]{1})(?=.*[!@#$%^&*]).*$", RegexOptions.Singleline);
+            
             Match mPwd = regex.Match(userPwd);
 
             return mPwd.Success;
