@@ -81,7 +81,7 @@ namespace MemberSite.Service.Library
             
             if (string.IsNullOrEmpty(userPwd) || userPwd.Contains(" ") || userPwd.Contains("　"))
                 return false;
-            Regex regex = new Regex("^(?=.{8,20}$)(?=.*[0-9]{1})(?=.*[A-Z]{1})(?=.*[a-z]{1})(?=.*[!@#$%^&*]).*$", RegexOptions.Singleline);
+            Regex regex = new Regex("^(?=.{8,20}$)(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*]).*$", RegexOptions.Singleline);
             Match mPwd = regex.Match(userPwd);
 
             return mPwd.Success;
