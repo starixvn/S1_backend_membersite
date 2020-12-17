@@ -89,7 +89,7 @@ namespace MemberSite
             services.AddSingleton<BonusWalletService>();
             services.AddSingleton<NewsService>();
             services.AddSingleton<IovationService>();
-            services.AddSingleton<EvnetsService>();            
+            services.AddSingleton<EventsService>();            
             // foreach (var s in AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())
             //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.DAL"))

@@ -21,6 +21,6 @@ namespace MemberSite.Service.Model
     public class LeaderboardCustRank
     {
         public int CustRank { get; set; }
-        public int point { get; set; }
+        public decimal point { get; set; }
     }
 }
