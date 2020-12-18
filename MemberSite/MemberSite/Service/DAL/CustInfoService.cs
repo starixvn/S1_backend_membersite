@@ -35,7 +35,7 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
         }
-        public int AddCustInfo(Customer customer, string Email, out int custId, string signupUrl = null, string PhoneNo=null, string AreaCode=null, string RealName=null)
+        public int AddCustInfo(Customer customer, string Email, out int custId, string signupUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null)
         {
             custId = 0;
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
@@ -51,7 +51,7 @@ namespace MemberSite.Service.DAL
                 custId = p.Get<int?>("CustId") ?? 0;
             }
 
-            if (result > 0 && !string.IsNullOrEmpty(Email))
+            if (result > 0 && (!string.IsNullOrEmpty(Email) || !string.IsNullOrEmpty(PhoneNo)))
             {
                 string profile = string.IsNullOrEmpty(RealName) ? null : Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string>() { { "AccountName", RealName } });
                 result = conn.Execute("Member_CustProfile_Ins", new { CustId = custId, customer.SiteId, Email, Profile = (string)profile, PhoneNo = PhoneNo, AreaCode = AreaCode }, trans, commandType: CommandType.StoredProcedure);
@@ -128,7 +128,7 @@ namespace MemberSite.Service.DAL
             string Email = profile[nameof(Email)];
             string AreaCode = profile[nameof(AreaCode)];
             string PhoneNo = profile[nameof(PhoneNo)];
-            result = conn.Execute("Member_CustProfile_Set", new { CustId = custId, SiteId = siteId, AreaCode, Email= Email, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
+            result = conn.Execute("Member_CustProfile_Set", new { CustId = custId, SiteId = siteId, AreaCode, Email = Email, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
         public bool SetProfileV2(int custId, int siteId, Dictionary<string, string> profile)
