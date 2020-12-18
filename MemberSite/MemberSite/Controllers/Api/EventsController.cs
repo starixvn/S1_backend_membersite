@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace MemberSite.Controllers.Api
 {
@@ -16,14 +15,11 @@ namespace MemberSite.Controllers.Api
     {
         private readonly AuthorizeBLL authorizeBLL;
         private readonly EventsBLL eventsBLL;
-        private readonly ServerInfoBLL serverInfoBLL;
         private readonly CustInfoBLL custInfoBLL;
-
-        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, ServerInfoBLL serverInfoBLL, CustInfoBLL custInfoBLL)
+        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL)
         {
             this.authorizeBLL = authorizeBLL;
             this.eventsBLL = eventsBLL;
-            this.serverInfoBLL = serverInfoBLL;
             this.custInfoBLL = custInfoBLL;
         }
 
@@ -41,11 +37,25 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
-            apiResult.Data = eventsBLL.GetLeaderboardListWithCache(authData.CustId,getLeaderboardListReq.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, getLeaderboardListReq.TopNum, getLeaderboardListReq.BeforeDays);
+            apiResult.Data = eventsBLL.GetLeaderboardListWithCache(authData.CustId, getLeaderboardListReq.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, getLeaderboardListReq.TopNum, getLeaderboardListReq.BeforeDays);
+            foreach (var L in apiResult.Data)
+            {
+                if (L.CustId != authData.CustId)
+                    L.UserName = MaskName(L.UserName);
+            }
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-        
+        private string MaskName(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            string pattern = @"(?<=[\w]{2})[\w-\._\+%]*(?=[\w]{2})";
+            if (input.Length < 6)
+                pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1})";
+            return Regex.Replace(input, pattern, m => new string('*', m.Length));
+        }
         public class GetCustRankReq
         {
             public int LBCategoryId { get; set; }
