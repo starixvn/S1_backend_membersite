@@ -32,10 +32,6 @@ namespace MemberSite.Service.BLL
         public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
             var leaderboard = eventsService.GetLeaderboardList(lBCategoryId, siteId, currencyId, topNum, beforeDays);
-            foreach (var L in leaderboard)
-            {
-                L.UserName = MaskName(L.UserName);
-            }
             return leaderboard;
 
         }
@@ -46,18 +42,14 @@ namespace MemberSite.Service.BLL
         
         public IEnumerable<Leaderboard> GetLeaderboardListWithCache(int custId ,int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
-            string key = $"Leaderboard_{custId}_{lBCategoryId}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
+            string key = $"Leaderboard_{lBCategoryId}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
             var leaderboard = cache.Get<IEnumerable<Leaderboard>>(key);
             if (leaderboard != null)
             {
                 return leaderboard;
             }
-            leaderboard = eventsService.GetLeaderboardList(lBCategoryId, siteId, currencyId, topNum, beforeDays);
-            foreach (var L in leaderboard)
-            {
-                if (L.CustId != custId)
-                    L.UserName = MaskName(L.UserName);
-            }
+            leaderboard = GetLeaderboardList(lBCategoryId, siteId, currencyId, topNum, beforeDays);
+            
             if (leaderboard != null)
             {
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
