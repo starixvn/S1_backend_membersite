@@ -368,8 +368,7 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                apiResult.ErrorCode = -6;
-                apiResult.Message = selLangBLL.GetResourceValue("lbl_Phone") + " " + selLangBLL.GetMsg("msg_HasExist");
+                result = -6;
             }
 
             if (result == -1)
@@ -396,6 +395,11 @@ namespace MemberSite.Controllers.Api
             {
                 apiResult.ErrorCode = result;
                 apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+            }
+            else if (result == -6)
+            {
+                apiResult.ErrorCode = result;
+                apiResult.Message = $"{selLangBLL.GetResourceValue("lbl_Phone")} {selLangBLL.GetMsg("msg_HasExist")}";
             }
             else if (result == -19)
             {
@@ -492,8 +496,7 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                apiResult.ErrorCode = -6;
-                apiResult.Message = selLangBLL.GetResourceValue("lbl_Phone") + " " + selLangBLL.GetMsg("msg_HasExist");
+                result = -6;
             }
 
             if (result == -1)
@@ -520,6 +523,11 @@ namespace MemberSite.Controllers.Api
             {
                 apiResult.ErrorCode = result;
                 apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+            }
+            else if (result == -6)
+            {
+                apiResult.ErrorCode = result;
+                apiResult.Message = $"{selLangBLL.GetResourceValue("lbl_Phone")} {selLangBLL.GetMsg("msg_HasExist")}";
             }
             else if (result == -19)
             {
