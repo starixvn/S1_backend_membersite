@@ -83,4 +83,9 @@ namespace MemberSite.Service.Model
         public decimal ValidBet { get; set; }
         public decimal WinlostAmount { get; set; }
     }
+    public class GameTypeList
+    {
+        public int Type { get; set; }
+        public string TypeName { get; set; }
+    }
 }
