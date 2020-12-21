@@ -47,16 +47,22 @@ namespace MemberSite.Controllers
             }
 
             int custId = 0;
-            var phoneExists = custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
-            var result = 0;
+            var result = -99;
+            var phoneExists = false;
+
+            if (long.TryParse(signupModel.PhoneNo, out long phoneNo))
+            {
+                signupModel.PhoneNo = phoneNo.ToString();
+                phoneExists = custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
+            }
+
             if (!phoneExists)
             {
                 result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName);
             }
             else
             {
-                errorCode = -6;
-                message = selLangBLL.GetResourceValue("lbl_Phone") + " " + selLangBLL.GetMsg("msg_HasExist");
+                result = -6;
             }
 
             if (result == -1)
@@ -83,6 +89,11 @@ namespace MemberSite.Controllers
             {
                 errorCode = result;
                 message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+            }
+            else if (result == -6)
+            {
+                errorCode = result;
+                message = $"{selLangBLL.GetResourceValue("lbl_Phone")} {selLangBLL.GetMsg("msg_HasExist")}";
             }
             else if (result == -19)
             {
