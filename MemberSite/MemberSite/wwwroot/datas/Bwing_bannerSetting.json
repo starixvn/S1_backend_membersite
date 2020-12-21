@@ -1,5 +1,13 @@
 {
   "Promotion": [
+    //{
+    //  "actionLink": "918kiss",
+    //  "tpId":, "23",
+    //  "gameId": "1",
+    //  "urlWithLang": true,
+    //  "img": "banner_One789.jpg",
+    //  "lang": [ "vn", "en" ]
+    //},
     {
       "img": "Banner-xmas.jpg",
       "actionLink": "leaderBoard",
