@@ -227,10 +227,16 @@ namespace MemberSite.Controllers.Api
             {
                 string AreaCode = custProfile[nameof(AreaCode)];
                 string PhoneNo = custProfile[nameof(PhoneNo)];
+
+                if (long.TryParse(PhoneNo, out long phoneNo))
+                {
+                    PhoneNo = phoneNo.ToString();
+                }
+                
                 if (custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
                 {
                     apiResult.ErrorCode = 21;
-                    apiResult.Message = $"({AreaCode}){PhoneNo} " + selLangBLL.GetMsg("msg_HasExist");
+                    apiResult.Message = $"({AreaCode}){PhoneNo} {selLangBLL.GetMsg("msg_HasExist")}";
                     return apiResult;
                 }
 
@@ -311,10 +317,16 @@ namespace MemberSite.Controllers.Api
                 {
                     string AreaCode = custProfile[nameof(AreaCode)];
                     string PhoneNo = custProfile[nameof(PhoneNo)];
+
+                    if (long.TryParse(PhoneNo, out long phoneNo))
+                    {
+                        PhoneNo = phoneNo.ToString();
+                    }
+
                     if (custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
                     {
                         apiResult.ErrorCode = 21;
-                        apiResult.Message = $"({AreaCode}){PhoneNo} " + selLangBLL.GetMsg("msg_HasExist");
+                        apiResult.Message = $"({AreaCode}){PhoneNo} {selLangBLL.GetMsg("msg_HasExist")}";
                         return apiResult;
                     }
 
