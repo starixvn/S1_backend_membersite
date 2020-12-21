@@ -344,16 +344,26 @@ namespace MemberSite.Service.BLL
         private string GetTransTypeNameV2(string Type, string TypeName)
         {
             var tpList = statementService.GetTpListWithCache();
+            var gameTypeList = statementService.GetGameTypeListWithCache();
             if (Type.Length < 5)
             {
                 return TypeName;
             }
             else
             {
+                var FType = Type.Substring(0, 1);
                 singleWalletType.TryGetValue(Type.Substring(1, 1), out string WalletType);
                 int.TryParse(Type.Substring(2), out int tpId);
+                string tpName = null;
+                if (FType.Equals("1"))
+                {
 
-                var tpName = tpList.Where(x => x.Id == tpId).FirstOrDefault()?.TpName;
+                    tpName = tpList.Where(x => x.Id == tpId).FirstOrDefault()?.TpName;
+                }
+                else
+                {
+                    tpName = gameTypeList.Where(x => x.Type == tpId).FirstOrDefault()?.TypeName;
+                }
                 return $"{tpName} {selLangBLL.GetResourceValue(WalletType)}";
             }
         }
