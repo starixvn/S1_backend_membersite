@@ -1,5 +1,11 @@
 {
   "Promotion": [
+    //{
+    //  "tpId": "21",
+    //  "gameId": "1",
+    //  "img": "banner-918kiss.jpg",
+    //  "lang": [ "th", "id", "en", "cs" ]
+    //},
     {
       "img": "banner-xmasrank.jpg",
       "actionLink": "leaderBoard",
@@ -7,7 +13,6 @@
     },
     {
       "actionLink": "casino?provider=16",
-      "urlWithLang": true,
       "img": "banner-cq9.jpg",
       "currencyId": [ 2, 4, 15 ],
       "lang": [ "th", "id", "en", "cs" ]
