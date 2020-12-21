@@ -29,6 +29,7 @@ namespace MemberSite.Controllers.Api
         private readonly WalletBLL walletBLL;
         private readonly CourierAdapter courierAdapter;
         private readonly string apiUrl;
+        private readonly bool isJwt;
         private readonly int mainWalletType;
         private readonly MessageBLL messageBLL;
         private readonly PaymentBLL paymentBLL;
@@ -48,6 +49,7 @@ namespace MemberSite.Controllers.Api
             this.courierAdapter = courierAdapter;
             apiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
+            isJwt = configuration.GetValue<bool>("JwtSettings:IsJwt");
             this.messageBLL = messageBLL;
             this.paymentBLL = paymentBLL;
             this.promotionBLL = promotionBLL;
@@ -127,7 +129,8 @@ namespace MemberSite.Controllers.Api
             identity.AddClaim(new Claim("LangId", languageModel.LangId));
 
             // tell the SignInAsync to use this new identity
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+            if (!isJwt)
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
             apiResult.ErrorCode = 0;
             apiResult.Message = Url.RouteUrl("desktop", new { action = HttpContext.Request.RouteValues["action"], controller = HttpContext.Request.RouteValues["controller"], languageModel.LangId });
