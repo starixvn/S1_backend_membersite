@@ -652,14 +652,11 @@ namespace MemberSite.Service.DAL
 
             return _promotion;
         }
-        public bool SetSpecialCode(int custId, string specialCode)
+        public bool SetSpecialCode(int custId, int siteId, int currencyId, string specialCode)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            var p = new DynamicParameters(new { CustId = custId, SpecialCode = specialCode });
-            p.Add("SpecialCodeCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            conn.Execute("Member_CustSpecialCode_Ins", p, commandType: CommandType.StoredProcedure);
-            var SpecialCodeCount = p.Get<int>("SpecialCodeCount");
-            return SpecialCodeCount > 0;
+            int result = conn.Execute("Member_CustSpecialCode_Ins", new { CustId = custId, SiteId = siteId, CurrencyId = currencyId, SpecialCode = specialCode }, commandType: CommandType.StoredProcedure);
+            return result > 0;
         }
         public void SetSpecialCodeJoined(int custId, string specialCode, string bonusCode)
         {

@@ -275,16 +275,16 @@ namespace MemberSite.Controllers.Api
         {
             var result = new ApiResult
             {
-                ErrorCode = 0
+                ErrorCode = (int)SpecialCodeErrorcode.SpecialCodeError,
+                Message = "invalid code"
             };
 
             try
             {
                 var authData = authorizeBLL.GetAuthData();
-                if (!promotionBLL.SetSpecialCode(authData.CustId, setSpecialCodeReq.SpecialCode))
+                if (promotionBLL.SetSpecialCode(authData.CustId, setSpecialCodeReq.SpecialCode))
                 {
-                    result.ErrorCode = (int)SpecialCodeErrorcode.SpecialCodeError;
-                    result.Message = "invalid code";
+                    result.ErrorCode = 0;
                 }
             }
             catch (Exception ex)
