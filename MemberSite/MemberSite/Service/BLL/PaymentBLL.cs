@@ -343,27 +343,28 @@ namespace MemberSite.Service.BLL
         }
         private string GetTransTypeNameV2(string Type, string TypeName)
         {
-            var tpList = statementService.GetTpListWithCache();
-            var gameTypeList = statementService.GetGameTypeListWithCache();
             if (Type.Length < 5)
             {
                 return TypeName;
             }
             else
             {
-                var FType = Type.Substring(0, 1);
-                singleWalletType.TryGetValue(Type.Substring(1, 1), out string WalletType);
-                int.TryParse(Type.Substring(2), out int tpId);
-                string tpName = null;
-                if (FType.Equals("1"))
-                {
+                var tpList = statementService.GetTpListWithCache();
+                var gameTypeList = statementService.GetGameTypeListWithCache();
 
-                    tpName = tpList.Where(x => x.Id == tpId).FirstOrDefault()?.TpName;
-                }
-                else
+                singleWalletType.TryGetValue(Type.Substring(1, 1), out string WalletType);
+                int.TryParse(Type.Substring(2), out int tempId);
+                string tpName = null;
+
+                if (Type.StartsWith("1"))
                 {
-                    tpName = gameTypeList.Where(x => x.Type == tpId).FirstOrDefault()?.TypeName;
+                    tpName = tpList.Where(x => x.Id == tempId).FirstOrDefault()?.TpName;
                 }
+                else if (Type.StartsWith("2"))
+                {
+                    tpName = gameTypeList.Where(x => x.Type == tempId).FirstOrDefault()?.TypeName;
+                }
+
                 return $"{tpName} {selLangBLL.GetResourceValue(WalletType)}";
             }
         }
