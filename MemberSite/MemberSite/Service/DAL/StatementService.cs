@@ -60,6 +60,28 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<TpList>("Member_TpList_Get", commandType: CommandType.StoredProcedure);
         }
+        public IEnumerable<GameTypeList> GetGameTypeListWithCache()
+        {
+            string key = $"CustInfo_GameType";
+            var customer = cache.Get<IEnumerable<GameTypeList>>(key);
+            if (customer != null)
+            {
+                return customer;
+            }
+            customer = GetGameTypeList();
+            if (customer != null)
+            {
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(60));
+                cache.Set(key, customer, cacheEntryOptions);
+            }
+            return customer;
+        }
+        public IEnumerable<GameTypeList> GetGameTypeList()
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<GameTypeList>("Common_TpGameType_Get", commandType: CommandType.StoredProcedure);
+        }
 
         public IEnumerable<BounsLogStatement> GetBounsLogStatement(int custId,int PromoCategoryId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
