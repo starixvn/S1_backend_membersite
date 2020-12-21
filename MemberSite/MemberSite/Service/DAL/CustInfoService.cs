@@ -51,10 +51,20 @@ namespace MemberSite.Service.DAL
                 custId = p.Get<int?>("CustId") ?? 0;
             }
 
-            if (result > 0 && !string.IsNullOrEmpty(Email))
+            if (result > 0 && (!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
             {
+                if (string.IsNullOrEmpty(Email))
+                {
+                    Email = null;
+                }
+                else if (string.IsNullOrEmpty(PhoneNo) || string.IsNullOrEmpty(AreaCode))
+                {
+                    PhoneNo = null;
+                    AreaCode = null;
+                }
+
                 string profile = string.IsNullOrEmpty(RealName) ? null : Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string>() { { "AccountName", RealName } });
-                result = conn.Execute("Member_CustProfile_Ins", new { CustId = custId, customer.SiteId, Email, Profile = (string)profile, PhoneNo = PhoneNo, AreaCode = AreaCode }, trans, commandType: CommandType.StoredProcedure);
+                result = conn.Execute("Member_CustProfile_Ins", new { CustId = custId, customer.SiteId, Email = Email, Profile = (string)profile, PhoneNo = PhoneNo, AreaCode = AreaCode }, trans, commandType: CommandType.StoredProcedure);
             }
 
             if (result > 0 && !string.IsNullOrEmpty(signupUrl))
