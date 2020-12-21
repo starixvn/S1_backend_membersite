@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>XmasPromo</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../common/images/favicon.ico" type="image/x-icon">
+    <link href="../Desktop/assets/css/bwinghelp.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+    <style>
+        table, td, th {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="side-bar" role="desktop-drawer">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <a class="btn btn-icon" role="desktop-only">
+                        <i class="icon icon-clear"></i>
+                    </a>
+                </div>
+                <div class="side-nav__list">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn" href="/">
+                            <i class="icon icon-home"></i>
+                            <span class="text">Home</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-info-outline"></i>
+                            <span class="text">Bwing</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="AboutUs.html" target="_self">
+                                <span class="text">About Us</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Terms.html" target="_self">
+                                <span class="text">Terms of Use</span>
+                            </a>
+                            <a class="side-nav__subitem" href="ContactUs.html" target="_self">
+                                <span class="text">Contact Us</span>
+                            </a>
+                            <a class="side-nav__subitem" href="https://aff.bwing.com/?lang=en" target="_self">
+                                <span class="text">Affiliates</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-help-outline"></i>
+                            <span class="text">Help &amp; Support</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="RulesandRegulations.html">
+                                <span class="text">Rules and Regulations</span>
+                            </a>
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Account Terms</span>
+                            </a>
+                            <a class="side-nav__subitem" href="FAQ.html" target="_self">
+                                <span class="text">FAQ</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="DepositWithdrawals.html" target="_self">
+                                <span class="text">Deposit &amp; Withdrawals</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Downloads.html" target="_self">
+                                <span class="text">Downloads</span>
+                            </a>-->
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Account Terms</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-policy"></i>
+                            <span class="text">Our Policies</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="ResposibleGaming.html" target="_self">
+                                <span class="text">Responsible Gaming</span>
+                            </a>
+                            <a class="side-nav__subitem" href="TermsConditions.html" target="_self">
+                                <span class="text">Terms &amp; Conditions</span>
+                            </a>
+                            <a class="side-nav__subitem" href="PrivacyPolicy.html" target="_self">
+                                <span class="text">Privacy Policy</span>
+                            </a>
+                            <a class="side-nav__subitem" href="CookiePolicy.html" target="_self">
+                                <span class="text">Cookie Policy</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                    <a class="logo" href="/"></a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="help-page">
+                <div class="help-page__body">
+                    <div class="heading">
+                        <span class="text">GIÁNG SINH MAY MẮN - CƯỢC CÀNG NHIỀU, THƯỞNG CÀNG LỚN!!!</span>
+                    </div>
+                    <div class="article">
+                        <h3>Điều khoản và Điều Kiện</h3>
+                        <ol style="padding: 0 1rem; line-height: 24px;">
+                            <li>Khuyến mãi diễn ra từ ngày 18/12/2020 10:00 AM (GMT+7) đến ngày 18/01/2021  11:59 PM (GMT+7)</li>
+                            <li>Khuyến mãi áp dụng cho tất cả các thành viên đang hoạt động tại Bwing có tiền gửi tối thiểu 8,800,000 VND trong thời gian khuyến mãi.</li>
+                            <li>Thành viên sẽ nhận thưởng dựa trên thứ tự xếp hạng về doanh thu cược, 16 thành viên có doanh thu cược Tất cả sản phẩm cao nhất sẽ được trao thưởng như bảng bên dưới
+                                <table style="margin: 10px 0; width: 100%; text-align: center;">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <p><strong>Hạng</strong></p>
+                                            </td>
+                                            <td>
+                                                <p><strong>Giải Thưởng</strong></p>
+                                            </td>
+                                            <td>
+                                                <p><strong>Số  Lượng Thành Viên Thắng Cuộc</strong></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>1</p>
+                                            </td>
+                                            <td>
+                                                <p>Iphone 12 Pro Max 256G</p>
+                                            </td>
+                                            <td>
+                                                <p>1</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>2</p>
+                                            </td>
+                                            <td>
+                                                <p>10,888,000</p>
+                                            </td>
+                                            <td>
+                                                <p>5</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>3</p>
+                                            </td>
+                                            <td>
+                                                <p>5,888,000</p>
+                                            </td>
+                                            <td>
+                                                <p>10</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li>Giải thưởng điện thoại sẽ được trao đến địa chỉ đã xác nhận của Thành Viên Thắng Cuộc trong vòng 30 ngày sau khi nhận được phản hồi từ thành tại Chat Trực Tuyến. Người nhận cần ký đảm bảo, chữ ký trên giải thưởng là dấu xác nhận phần thưởng đã được trao đến tay Thành Viên Thắng Cuộc.</li>
+                            <li>Việc trao giải thưởng sẽ phụ thuộc vào tính sẵn có của mặt hàng trên thị trường. Bwing có quyền hoãn hoặc thay thế Giải Thưởng trong tình huống ngoài ý muốn. Bwing sẽ cố gắng liên hệ và thông báo trước đến Thành Viên Thắng Cuộc về việc thay thế Giải Thưởng trong khả năng cho phép.</li>
+                            <li>Người chiến thắng sẽ được thông báo trong Tin nhắn cá nhân trong vòng 48 giờ sau khi khuyến mãi kết thúc. Người chiến thắng vui lòng liên hệ hỗ trợ trực tuyến trong vòng 7 ngày để giải thưởng không bị huỷ.</li>
+                            <li>Đối với giải Nhất, giá trị quy đổi thành tiền mặt sẽ là 28,000,000 VND</li>
+                            <li>Tiền Thưởng sẽ được cập nhật vào tài khoản Ngân hàng của Thành Viên Thắng Cuộc trong vòng 48 giờ làm việc sau khi Thành Viên xác nhận. Thành Viên Thắng Cuộc cần hoàn tất yêu cầu xác minh tài khoản trong thời gian qui định khi được yêu cầu.</li>
+                            <li>Mỗi thành viên chỉ được nhận khuyến mãi này một (1) lần trong suốt thời gian khuyến mãi.</li>
+                            <li>Người chơi mới cần phải đăng ký tài khoản thành công trước khi tham gia khuyến mãi (Bao gồm cả Email và xác thực OTP số điện thoại).</li>
+                            <li>Thành viên sẽ được tự động tham gia vào khuyến mãi khi đạt đủ số tiền gửi tối thiểu.</li>
+                            <li>Cược hòa, cược hai bên, cược vô hiệu, cược hủy không được tính cho doanh thu khuyến mãi.</li>
+                            <li>Bwing có quyền thu hồi khuyến mãi cho thành viên hoặc nhóm tài khoản có dấu hiệu gian lận khuyến mãi bất kỳ lúc nào.</li>
+                            <li>Bwing có toàn quyền sửa đổi, hủy bỏ, từ chối, hay thu hồi bất kỳ khuyến mãi nào. Quyền quyết định cuối cùng thuộc về Bwing.</li>
+                            <li>Áp dụng Điều khoản và điều kiện chung</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2020. Bwing. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
