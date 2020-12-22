@@ -1,49 +1,42 @@
 {
   "Promotion": [
-    //{
-    //  "actionLink": "918kiss",
-    //  "tpId":, "23",
-    //  "gameId": "1",
-    //  "urlWithLang": true,
-    //  "img": "banner_One789.jpg",
-    //  "lang": [ "vn", "en" ]
-    //},
+    {
+      "tpId": "23",
+      "gameId": "2",
+      "img": "banner-One789.jpg",
+      "lang": [ "vn", "en" ]
+    },
     {
       "img": "Banner-xmas.jpg",
       "actionLink": "leaderBoard",
       "lang": [ "vn", "en" ]
     },
     {
-      "actionLink": "casino?provider=CQ9",
-      "urlWithLang": true,
+      "actionLink": "casino?provider=16",
       "img": "banner-cq9.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
     {
       "actionLink": "promotion",
-      "urlWithLang": true,
       "img": "Bwing-Casino150.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
     {
       "actionLink": "promotion",
-      "urlWithLang": true,
       "img": "BWINGDAILYREBATE.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
     {
       "actionLink": "promotion",
-      "urlWithLang": true,
       "img": "BWINGRELOADBONUS.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
     {
       "actionLink": "promotion",
-      "urlWithLang": true,
       "img": "BWINGSLOT.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
