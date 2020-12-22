@@ -211,8 +211,7 @@
 </value>
   </data>
   <data name="msg_HasExist" xml:space="preserve">
-    <value>đã tồn tại
-</value>
+    <value>này đã được sử dụng</value>
   </data>
   <data name="msg_InsufficientFund" xml:space="preserve">
     <value>Không đủ tiền!</value>
