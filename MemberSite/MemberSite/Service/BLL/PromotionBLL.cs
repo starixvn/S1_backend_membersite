@@ -216,7 +216,7 @@ namespace MemberSite.Service.BLL
         public bool SetSpecialCode(int custId, string specialCode)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            return promotionService.SetSpecialCode(custId, custInfo.SiteId, custInfo.CurrencyId, specialCode);
+            return promotionService.SetSpecialCode(custId, specialCode);
         }
         public void SetSpecialCodeJoined(int custId, string specialCode, string bonusCode)
         {
