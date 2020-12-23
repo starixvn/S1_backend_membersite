@@ -875,13 +875,6 @@ namespace MemberSite.Controllers.Api
 
             return result;
         }
-        /*
-    { value: 9, name: 'Joker', displayText: "Joker", PlayFree: false },
-    { value: 10, name: 'SG', displayText: "SG" },
-    { value: 5, name: 'PP', displayText: "PP" },
-    { value: 14, name: 'PG', displayText: "PG" },
-    { value: 16, name: 'CQ9', displayText: "CQ9" }
-             */
 
         public ApiResult<List<Provider>> GetGameList()
         {
@@ -894,7 +887,8 @@ namespace MemberSite.Controllers.Api
                 new Provider { Value = 10, Name = "SG", DisplayText = "SG", PlayFree = true },
                 new Provider { Value = 5, Name = "PP", DisplayText = "PP", PlayFree = true },
                 new Provider { Value = 14, Name = "PG", DisplayText = "PG", PlayFree = true },
-                new Provider { Value = 16, Name = "CQ9", DisplayText = "CQ9", PlayFree = true }
+                new Provider { Value = 16, Name = "CQ9", DisplayText = "CQ9", PlayFree = true },
+                new Provider { Value = 24, Name = "Iconic", DisplayText = "ICG", PlayFree = true }
             };
 
             IEnumerable<int> tpIds = new int[] { };

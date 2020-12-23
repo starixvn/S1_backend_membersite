@@ -551,7 +551,7 @@ namespace MemberSite.Service.DAL
             conn.Open();
             using var trans = conn.BeginTransaction();
 
-            var promotionList = conn.Query<CustPromotion>("Member_SPCodePromotionList_Get", new { CustId, SiteId, CurrencyId }, trans, commandType: CommandType.StoredProcedure);
+            var promotionList = conn.Query<CustPromotion>("Member_SPCodePromotionList_Get", new { CustId }, trans, commandType: CommandType.StoredProcedure);
 
             List<CustPromotion> _promotion = new List<CustPromotion>();
 
@@ -652,10 +652,10 @@ namespace MemberSite.Service.DAL
 
             return _promotion;
         }
-        public bool SetSpecialCode(int custId, int siteId, int currencyId, string specialCode)
+        public bool SetSpecialCode(int custId, string specialCode)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            int result = conn.Execute("Member_CustSpecialCode_Ins", new { CustId = custId, SiteId = siteId, CurrencyId = currencyId, SpecialCode = specialCode }, commandType: CommandType.StoredProcedure);
+            int result = conn.Execute("Member_CustSpecialCode_Ins", new { CustId = custId, SpecialCode = specialCode }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
         public void SetSpecialCodeJoined(int custId, string specialCode, string bonusCode)
