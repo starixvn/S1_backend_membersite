@@ -39,8 +39,9 @@ namespace MemberSite.Controllers.Api
         private readonly AuthBLL authBLL;
         private readonly IovationBLL iovationBLL;
         private readonly FPSBLL sFPSBLL;
+        private readonly GameCasinoBLL gameCasinoBLL;
 
-        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL, FPSBLL sFPSBLL)
+        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL, FPSBLL sFPSBLL, GameCasinoBLL gameCasinoBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -54,6 +55,7 @@ namespace MemberSite.Controllers.Api
             this.authBLL = authBLL;
             this.iovationBLL = iovationBLL;
             this.sFPSBLL = sFPSBLL;
+            this.gameCasinoBLL = gameCasinoBLL;
         }
 
         public class LoginModel
@@ -1155,5 +1157,70 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+
+        public ApiResult<List<Provider>> GetGameListV2()
+        {
+            ApiResult<List<Provider>> apiResult = new ApiResult<List<Provider>>();
+            List<Provider> providers = new List<Provider>();
+            providers = gameCasinoBLL.GetProviderList();
+
+            IEnumerable<int> tpIds = new int[] { };
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                tpIds = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
+            }
+            else
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                tpIds = casinoBLL.GetProviderIdByCurrency(0, serverInfo.SiteId);
+            }
+
+            apiResult.Data = providers?.Where(x => tpIds.Contains(x.Value)).ToList();
+            foreach (var provider in providers)
+            {
+                List<GameCasinoListData> GameCasinoList = gameCasinoBLL.ExistsUserName(provider.Value);
+                List<Datum> DatumLis = new List<Datum>();
+                if (GameCasinoList.Count > 0)
+                {
+                    GameCasinoList.ForEach(x =>
+                    {
+                        DatumLis.Add(new Datum
+                        {
+                            Name = JsonConvert.DeserializeObject<Dictionary<string, string>>(x.Name),
+                            ImgName = OrgFileNameFilter(JsonConvert.DeserializeObject<Dictionary<string, string>>(x.ImgName)),
+                            AppId = x.AppId,
+                            GameId = x.GameId,
+                            Category1 = x.Category1,
+                            Paylines = x.Paylines,
+                            Rtp = x.Rtp,
+                            Reels = string.IsNullOrWhiteSpace(x.Reels)? string.Empty: x.Reels,
+                            LaunchDate = x.LaunchDate,
+                            Hot = x.Hot,
+                            New = x.New,
+                            ImageExist = true,
+                            promotion = x.promotion,
+                            featured = x.featured,
+                            PlayFree = provider.PlayFree?x.Fun: provider.PlayFree
+                        });
+                        static Dictionary<string, string> OrgFileNameFilter(Dictionary<string, string> ImgNameDictionary)
+                        {
+                            Dictionary<string, string> newImgNameDictionary = new Dictionary<string, string>();
+                            foreach (var ImgName in ImgNameDictionary)
+                            {
+                                newImgNameDictionary.Add(ImgName.Key,ImgName.Value.Replace(" ", "-").Replace("&", "-").Replace(":", "-").Replace("'", "").Replace("’", "").Replace(".", "").Replace("™", "").Replace("---", "-").Replace("--", "-").ToLower());
+                            }
+                            return newImgNameDictionary;
+                        }
+                    });
+                }
+                provider.GameList = new GameDesc { Data = DatumLis, ImgUrl = string.Empty };
+            }
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
     }
 }
