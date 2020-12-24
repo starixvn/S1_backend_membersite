@@ -34,6 +34,7 @@ namespace MemberSite.Service.Model
     {
         public int Id { get; set; }
         public string TpName { get; set; }
+        public bool Fun { get; set; }
     }
     public class PromotionCategory
     {
