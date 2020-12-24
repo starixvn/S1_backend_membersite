@@ -58,7 +58,8 @@ namespace MemberSite.Service.BLL
             Dictionary<string, string> newImgNameDictionary = new Dictionary<string, string>();
             foreach (var ImgName in ImgNameDictionary)
             {
-                newImgNameDictionary.Add(ImgName.Key, ImgName.Value.Replace(" ", "-").Replace("&", "-").Replace(":", "-").Replace("'", "").Replace("’", "").Replace(".", "").Replace("™", "").Replace("---", "-").Replace("--", "-").ToLower());
+                newImgNameDictionary.Add(ImgName.Key, ImgName.Value.Replace(" ", "-").Replace("&", "-").Replace(":", "-").Replace("'", "").Replace("’", "").Replace(".", "").Replace("™", "").Replace("---", "-").Replace("--", "-").ToLower()
+                    + ".jpg");
             }
             return newImgNameDictionary;
         }

@@ -1152,6 +1152,13 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+
+        public enum TypeId
+        {
+            Slots = 1,
+            Arcade = 2,
+            Table = 3
+        }
         public ApiResult<List<Provider>> GetGameListV2()
         {
             ApiResult<List<Provider>> apiResult = new ApiResult<List<Provider>>();
@@ -1196,7 +1203,7 @@ namespace MemberSite.Controllers.Api
                             ImgName = gameCasinoBLL.OrgFileNameFilter(JsonConvert.DeserializeObject<Dictionary<string, string>>(y.ImgName)),
                             AppId = y.AppId,
                             GameId = y.GameId,
-                            Category1 = y.Category1,
+                            Category1 = Enum.GetName(typeof(TypeId), y.TypeId),
                             Paylines = y.Paylines,
                             Rtp = y.Rtp,
                             Reels = string.IsNullOrWhiteSpace(y.Reel) ? string.Empty : y.Reel,
