@@ -19,7 +19,7 @@ namespace MemberSite.Service.Model
     {
         public string ImgUrl { get; set; }
 
-        public IEnumerable<Datum> Data { get; set; }
+        public List<Datum> Data { get; set; }
     }
 
     public partial class Datum

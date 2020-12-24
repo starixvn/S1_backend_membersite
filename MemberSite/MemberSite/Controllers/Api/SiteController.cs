@@ -1162,18 +1162,16 @@ namespace MemberSite.Controllers.Api
         public ApiResult<List<Provider>> GetGameListV2()
         {
             ApiResult<List<Provider>> apiResult = new ApiResult<List<Provider>>();
-            List<Provider> providers = new List<Provider>();
             List<Provider> resultData = new List<Provider>();
-            List<int> GameCasinoHasTpid = new List<int>();
 
             //不分Tpid取出GameCasino資料
-            List<GameCasinoListData> GameCasinoList = gameCasinoBLL.GetGameCasinoList();
+            var GameCasinoList = gameCasinoBLL.GetGameCasinoList();
 
             //GameCasinoList裡總共有多少種TpId
-            GameCasinoHasTpid = GameCasinoList.Select(x=>x.TpId ).Distinct().ToList();
-            providers = gameCasinoBLL.GetProviderList();
+            var GameCasinoHasTpid = GameCasinoList.Select(x => x.TpId).Distinct();
+            var providers = gameCasinoBLL.GetProviderList();
 
-            IEnumerable<int> tpIds = new int[] { };
+            IEnumerable<int> tpIds = null;
 
             if (User.Identity.IsAuthenticated)
             {
@@ -1188,48 +1186,42 @@ namespace MemberSite.Controllers.Api
             }
 
             //濾掉不符合權限的
-            GameCasinoHasTpid.RemoveAll(x => !tpIds.ToList().Contains(x));
 
-            foreach(int tpid in GameCasinoHasTpid)
+            var filterCon = GameCasinoHasTpid?.Where(x => tpIds.Contains(x)).ToDictionary(x => Convert.ToInt16(x), x => false);
+
+            foreach (var provider in providers?.Where(thisProvider => filterCon.ContainsKey(thisProvider.Value)))
             {
-                var provider = providers.Where(x => x.Value == Convert.ToInt16(tpid)).ToList();
-                if(provider.Count > 0)
+                provider.GameList = new GameDesc
                 {
-                    List<Datum> DatumLis = new List<Datum>();
-                    GameCasinoList.FindAll(x => x.TpId == Convert.ToInt16(tpid)).ToList().ForEach(y => {
-                        DatumLis.Add(new Datum
-                        {
-                            Name = JsonConvert.DeserializeObject<Dictionary<string, string>>(y.Name),
-                            ImgName = gameCasinoBLL.OrgFileNameFilter(JsonConvert.DeserializeObject<Dictionary<string, string>>(y.ImgName)),
-                            AppId = y.AppId,
-                            GameId = y.GameId,
-                            Category1 = Enum.GetName(typeof(TypeId), y.TypeId),
-                            Paylines = y.Paylines,
-                            Rtp = y.Rtp,
-                            Reels = string.IsNullOrWhiteSpace(y.Reel) ? string.Empty : y.Reel,
-                            LaunchDate = y.LaunchDate,
-                            Hot = y.Hot,
-                            New = y.New,
-                            ImageExist = true,
-                            promotion = y.promotion,
-                            featured = y.featured,
-                            PlayFree = provider.FirstOrDefault().PlayFree ? y.Fun : provider.FirstOrDefault().PlayFree
-                        });
-                    });
-                    resultData.Add(new Provider
+                    ImgUrl = "",
+                    Data = new List<Datum>()
+                };
+
+                GameCasinoList.FindAll(x => x.TpId == provider.Value).ForEach(y =>
+                {
+                    provider.GameList.Data.Add(new Datum
                     {
-                        Value = provider.FirstOrDefault().Value,
-                        Name = provider.FirstOrDefault().Name,
-                        DisplayText = provider.FirstOrDefault().DisplayText,
-                        PlayFree = provider.FirstOrDefault().PlayFree,
-                        GameList = new GameDesc
-                        {
-                            ImgUrl = string.Empty,
-                            Data = DatumLis
-                        }
+                        Name = JsonConvert.DeserializeObject<Dictionary<string, string>>(y.Name),
+                        ImgName = gameCasinoBLL.OrgFileNameFilter(JsonConvert.DeserializeObject<Dictionary<string, string>>(y.ImgName)),
+                        AppId = y.AppId,
+                        GameId = y.GameId,
+                        Category1 = Enum.GetName(typeof(TypeId), y.TypeId),
+                        Paylines = y.Paylines,
+                        Rtp = y.Rtp,
+                        Reels = string.IsNullOrWhiteSpace(y.Reel) ? string.Empty : y.Reel,
+                        LaunchDate = y.LaunchDate,
+                        Hot = y.Hot,
+                        New = y.New,
+                        ImageExist = true,
+                        promotion = y.promotion,
+                        featured = y.featured,
+                        PlayFree = provider.PlayFree ? y.Fun : provider.PlayFree
                     });
-                }              
+                });
+
+                resultData.Add(provider);
             }
+
             apiResult.Data = resultData;
             apiResult.ErrorCode = 0;
             return apiResult;
