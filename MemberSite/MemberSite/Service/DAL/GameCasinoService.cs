@@ -17,10 +17,10 @@ namespace MemberSite.Service.DAL
         {
             this.configuration = configuration;
         }
-        public List<GameCasinoListData> GetGameCasinoList(int TpId)
+        public List<GameCasinoListData> GetGameCasinoList()
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<GameCasinoListData>("GameCasinoList_Get", new { TpId = TpId }, commandType: CommandType.StoredProcedure).ToList();
+            return conn.Query<GameCasinoListData>("Member_GameCasinoList_Get", null, commandType: CommandType.StoredProcedure).ToList();
         }
     }
 }

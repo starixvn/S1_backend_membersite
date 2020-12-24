@@ -20,9 +20,9 @@ namespace MemberSite.Service.BLL
             this.gameCasinoService = gameCasinoService;
             this.statementService = statementService;
         }
-        public List<GameCasinoListData> ExistsUserName(int TpId)
+        public List<GameCasinoListData> GetGameCasinoList()
         {
-            string key = $"GameCasinoList_{TpId}";
+            string key = $"GameCasinoList";
             var gameCasinoListData = cache.Get<List<GameCasinoListData>>(key);
 
             if(gameCasinoListData != null)
@@ -30,7 +30,7 @@ namespace MemberSite.Service.BLL
                 return gameCasinoListData;
             }
 
-            gameCasinoListData = gameCasinoService.GetGameCasinoList(TpId);
+            gameCasinoListData = gameCasinoService.GetGameCasinoList();
 
             if(gameCasinoListData != null)
             {
@@ -53,6 +53,14 @@ namespace MemberSite.Service.BLL
             });
             return Provider;
         }
-
+        public Dictionary<string, string> OrgFileNameFilter(Dictionary<string, string> ImgNameDictionary)
+        {
+            Dictionary<string, string> newImgNameDictionary = new Dictionary<string, string>();
+            foreach (var ImgName in ImgNameDictionary)
+            {
+                newImgNameDictionary.Add(ImgName.Key, ImgName.Value.Replace(" ", "-").Replace("&", "-").Replace(":", "-").Replace("'", "").Replace("’", "").Replace(".", "").Replace("™", "").Replace("---", "-").Replace("--", "-").ToLower());
+            }
+            return newImgNameDictionary;
+        }
     }
 }

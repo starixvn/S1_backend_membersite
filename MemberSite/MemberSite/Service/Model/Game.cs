@@ -58,5 +58,6 @@ namespace MemberSite.Service.Model
         public bool featured { get; set; }
         public int CategoryId { get; set; }
         public bool Fun { get; set; }
+        public int TpId { get; set; }
     }
 }
