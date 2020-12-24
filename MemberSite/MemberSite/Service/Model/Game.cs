@@ -45,7 +45,6 @@ namespace MemberSite.Service.Model
         public string Name { get; set; }
         public string AppId { get; set; }
         public string GameId { get; set; }
-        public string Category1 { get; set; }
         public string Paylines { get; set; }
         public string Rtp { get; set; }
         public string Reel { get; set; }
@@ -56,7 +55,7 @@ namespace MemberSite.Service.Model
         public bool ImageExist { get; set; }
         public int promotion { get; set; }
         public bool featured { get; set; }
-        public int CategoryId { get; set; }
+        public int TypeId { get; set; }
         public bool Fun { get; set; }
         public int TpId { get; set; }
     }
