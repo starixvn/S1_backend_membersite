@@ -1199,7 +1199,7 @@ namespace MemberSite.Controllers.Api
                             Category1 = y.Category1,
                             Paylines = y.Paylines,
                             Rtp = y.Rtp,
-                            Reels = string.IsNullOrWhiteSpace(y.Reels) ? string.Empty : y.Reels,
+                            Reels = string.IsNullOrWhiteSpace(y.Reel) ? string.Empty : y.Reel,
                             LaunchDate = y.LaunchDate,
                             Hot = y.Hot,
                             New = y.New,

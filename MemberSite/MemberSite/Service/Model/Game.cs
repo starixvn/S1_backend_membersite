@@ -48,7 +48,7 @@ namespace MemberSite.Service.Model
         public string Category1 { get; set; }
         public string Paylines { get; set; }
         public string Rtp { get; set; }
-        public string Reels { get; set; }
+        public string Reel { get; set; }
         public string ImgName { get; set; }
         public string LaunchDate { get; set; }
         public bool Hot { get; set; }
