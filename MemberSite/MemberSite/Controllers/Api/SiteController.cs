@@ -1211,7 +1211,7 @@ namespace MemberSite.Controllers.Api
                         Reels = string.IsNullOrWhiteSpace(y.Reel) ? string.Empty : y.Reel,
                         LaunchDate = y.LaunchDate.ToString("yyyy/MM/dd"),
                         Hot = y.Hot,
-                        New = y.LaunchDate.AddDays(30) > DateTime.Now,
+                        New = y.LaunchDate.AddDays(30) > DateTime.UtcNow,
                         ImageExist = true,
                         promotion = y.promotion,
                         featured = y.featured,
