@@ -1007,12 +1007,14 @@ namespace MemberSite.Controllers.Api
             var serverInfo = serverInfoBLL.GetServerInfo();
             var perferCurr = 0;
             var SiteId = 0;
+            var ShowStatus = 1;
             if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();
                 var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 SiteId = custInfo.SiteId;
                 perferCurr = custInfo.CurrencyId;
+                ShowStatus = 2;
             }
             else
             {
@@ -1023,7 +1025,7 @@ namespace MemberSite.Controllers.Api
             var banner_CurrencyId = !User.Identity.IsAuthenticated && perferCurr == 13 ? 2 : perferCurr;
 
             apiResult.ErrorCode = 0;
-            apiResult.Data = bannerBLL.GetBannerV2(SiteId, bannerReq.BannerType, bannerReq.ShowIndex, banner_CurrencyId, selLangBLL.GetLangId());
+            apiResult.Data = bannerBLL.GetBannerV2(SiteId, bannerReq.BannerType, ShowStatus, banner_CurrencyId, selLangBLL.GetLangId());
 
             return apiResult;
         }
