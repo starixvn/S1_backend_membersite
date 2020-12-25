@@ -39,8 +39,9 @@ namespace MemberSite.Controllers.Api
         private readonly AuthBLL authBLL;
         private readonly IovationBLL iovationBLL;
         private readonly FPSBLL sFPSBLL;
+        private readonly GameCasinoBLL gameCasinoBLL;
 
-        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL, FPSBLL sFPSBLL)
+        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL, FPSBLL sFPSBLL, GameCasinoBLL gameCasinoBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -54,6 +55,7 @@ namespace MemberSite.Controllers.Api
             this.authBLL = authBLL;
             this.iovationBLL = iovationBLL;
             this.sFPSBLL = sFPSBLL;
+            this.gameCasinoBLL = gameCasinoBLL;
         }
 
         public class LoginModel
@@ -1149,5 +1151,81 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+
+
+        public enum TypeId
+        {
+            Slots = 1,
+            Arcade = 2,
+            Table = 3
+        }
+        public ApiResult<List<Provider>> GetGameListV2()
+        {
+            ApiResult<List<Provider>> apiResult = new ApiResult<List<Provider>>();
+            List<Provider> resultData = new List<Provider>();
+
+            //不分Tpid取出GameCasino資料
+            var GameCasinoList = gameCasinoBLL.GetGameCasinoList();
+
+            //GameCasinoList裡總共有多少種TpId
+            var GameCasinoHasTpid = GameCasinoList.Select(x => x.TpId).Distinct();
+            var providers = gameCasinoBLL.GetProviderList();
+
+            IEnumerable<int> tpIds = null;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                tpIds = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
+            }
+            else
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                tpIds = casinoBLL.GetProviderIdByCurrency(0, serverInfo.SiteId);
+            }
+
+            //濾掉不符合權限的
+
+            var filterCon = GameCasinoHasTpid?.Where(x => tpIds.Contains(x)).ToDictionary(x => Convert.ToInt16(x), x => false);
+
+            foreach (var provider in providers?.Where(thisProvider => filterCon.ContainsKey(thisProvider.Value)))
+            {
+                provider.GameList = new GameDesc
+                {
+                    ImgUrl = "",
+                    Data = new List<Datum>()
+                };
+
+                GameCasinoList.FindAll(x => x.TpId == provider.Value).ForEach(y =>
+                {
+                    provider.GameList.Data.Add(new Datum
+                    {
+                        Name = JsonConvert.DeserializeObject<Dictionary<string, string>>(y.Name),
+                        ImgName = gameCasinoBLL.OrgFileNameFilter(JsonConvert.DeserializeObject<Dictionary<string, string>>(y.ImgName)),
+                        AppId = y.AppId,
+                        GameId = y.GameId,
+                        Category1 = Enum.GetName(typeof(TypeId), y.TypeId),
+                        Paylines = y.Paylines,
+                        Rtp = y.Rtp,
+                        Reels = string.IsNullOrWhiteSpace(y.Reel) ? string.Empty : y.Reel,
+                        LaunchDate = y.LaunchDate,
+                        Hot = y.Hot,
+                        New = y.New,
+                        ImageExist = true,
+                        promotion = y.promotion,
+                        featured = y.featured,
+                        PlayFree = provider.PlayFree ? y.Fun : provider.PlayFree
+                    });
+                });
+
+                resultData.Add(provider);
+            }
+
+            apiResult.Data = resultData;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
     }
 }
