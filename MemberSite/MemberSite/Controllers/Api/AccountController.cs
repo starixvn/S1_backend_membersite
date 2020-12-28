@@ -539,6 +539,23 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+        [HttpPost]
+        public ApiResult<string> GetReferralCode()
+        {
+            var apiResult = new ApiResult<string>();
+            var authData = authorizeBLL.GetAuthData();
+            try
+            {
+                apiResult.Data = custInfoBLL.GetAffiliateId(authData.CustId);
+                apiResult.ErrorCode = 0;
+                apiResult.Message = "";
+            }
+            catch(Exception ex)
+            {
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
 
         [HttpPost]
         public ApiResult<bool> ExistsPhoneNo(RrofileReq rrofileReq)

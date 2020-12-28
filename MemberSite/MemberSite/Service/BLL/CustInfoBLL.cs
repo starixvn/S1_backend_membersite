@@ -478,5 +478,46 @@ namespace MemberSite.Service.BLL
             }
             return apiResult;
         }
+        public string GetAffiliateId(int custId)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            var affiliateId = agentInfoService.GetAffiliateId(custId, custInfo.SiteId);
+            while (affiliateId == null)
+            {
+                string _affiliateId = GenerateRandomAffiliateId();
+                try
+                {
+                    agentInfoService.AddAffiliateId(_affiliateId, custId, custInfo.SiteId);
+                    affiliateId = _affiliateId;
+                }
+                catch (MySql.Data.MySqlClient.MySqlException mySqlEx)
+                {
+                    if (mySqlEx.Number == 1062)/*Duplicate for key 'PRIMARY'*/
+                    {
+                        affiliateId = agentInfoService.GetAffiliateId(custId, custInfo.SiteId);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            return affiliateId;
+        }
+        public static string GenerateRandomAffiliateId()
+        {
+            var chars = "abcdefghjkmnopqrstuvwxyz";
+            var stringChars = new System.Text.StringBuilder();
+            var random = new Random();
+
+            for (int i = 0; i < stringChars.Length; i++)
+            {
+                stringChars.Append(chars[random.Next(chars.Length)]);
+            }
+
+            return stringChars.ToString();
+        }
+
     }
 }
