@@ -87,10 +87,10 @@ namespace MemberSite.Service.BLL
 
             return bannerFromDB;
         }
-        public IEnumerable<BannerV2> GetBannerV2(int SiteId, int BannerType, int ShowIndex, int CurrencyId, string LangId)
+        public IEnumerable<BannerV2> GetBannerV2(int SiteId, int BannerType, int ShowStatus, int CurrencyId, string LangId)
         {
             var banner = new List<BannerV2>();
-            var bannerlist = bannerService.GetBannerV2(SiteId, BannerType, ShowIndex, CurrencyId);
+            var bannerlist = bannerService.GetBannerV2(SiteId, BannerType, ShowStatus, CurrencyId);
             foreach (var bannerdetail in bannerlist)
             {
                 if (bannerdetail.Details != null)
