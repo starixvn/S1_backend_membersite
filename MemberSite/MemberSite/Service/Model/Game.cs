@@ -49,7 +49,7 @@ namespace MemberSite.Service.Model
         public string Rtp { get; set; }
         public string Reel { get; set; }
         public string ImgName { get; set; }
-        public string LaunchDate { get; set; }
+        public DateTime LaunchDate { get; set; }
         public bool Hot { get; set; }
         public bool New { get; set; }
         public bool ImageExist { get; set; }
