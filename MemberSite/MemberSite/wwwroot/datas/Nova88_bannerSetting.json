@@ -1,9 +1,13 @@
 {
   "Promotion": [
     //{
-    //  "tpId": "21",
-    //  "gameId": "1",
+    //  "actionLink": "918kiss",
     //  "img": "banner-918kiss.jpg",
+    //  "lang": [ "th", "id", "en", "cs" ]
+    //},
+    //{
+    //  "actionLink": "mega888",
+    //  "img": "banner-mega888.jpg",
     //  "lang": [ "th", "id", "en", "cs" ]
     //},
     {
@@ -111,48 +115,48 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40426264",
+      "matchid": "40549852",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40426264.png",
+      "img": "games-40549852.png",
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40426267",
+      "matchid": "40426913",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40426267.png",
+      "img": "games-40426913.png",
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40426268",
+      "matchid": "40587841",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40426268.png",
-      "lang": [ "th", "id", "en", "cs" ]
-    },
-    {
-      "tpId": "1",
-      "gameId": "1",
-      "matchid": "40426273",
-      "actionLink": "Sports/Index",
-      "outerLink": true,
-      "img": "games-40426273.png",
-      "lang": [ "th", "id", "en", "cs" ]
-    },
-    {
-      "tpId": "1",
-      "gameId": "1",
-      "matchid": "40426272",
-      "actionLink": "Sports/Index",
-      "outerLink": true,
-      "img": "games-40426272.png",
+      "img": "games-40587841.png",
       "lang": [ "th", "id", "en", "cs" ]
     }
+    //{
+    //  "tpId": "1",
+    //  "gameId": "1",
+    //  "matchid": "40426273",
+    //  "actionLink": "Sports/Index",
+    //  "outerLink": true,
+    //  "img": "games-40426273.png",
+    //  "lang": [ "th", "id", "en", "cs" ]
+    //},
+    //{
+    //  "tpId": "1",
+    //  "gameId": "1",
+    //  "matchid": "40426272",
+    //  "actionLink": "Sports/Index",
+    //  "outerLink": true,
+    //  "img": "games-40426272.png",
+    //  "lang": [ "th", "id", "en", "cs" ]
+    //}
   ]
 }
 
