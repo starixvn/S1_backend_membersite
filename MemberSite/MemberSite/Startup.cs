@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.WebEncoders;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -55,6 +56,7 @@ namespace MemberSite
         {
             services.Configure<MailConfig>(configuration.GetSection("MailConfig"));
             services.Configure<JwtConfig>(configuration.GetSection("JwtSettings"));
+            services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
 
             services.AddMemoryCache();
             /*Library*/

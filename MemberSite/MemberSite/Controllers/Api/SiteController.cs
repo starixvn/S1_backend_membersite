@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -40,8 +41,12 @@ namespace MemberSite.Controllers.Api
         private readonly IovationBLL iovationBLL;
         private readonly FPSBLL sFPSBLL;
         private readonly GameCasinoBLL gameCasinoBLL;
+        private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
 
-        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL, FPSBLL sFPSBLL, GameCasinoBLL gameCasinoBLL)
+
+        //private readonly IOptions<Dictionary<string, FPSServicesConfig>> fpsServicesConfig;
+
+        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL, FPSBLL sFPSBLL, GameCasinoBLL gameCasinoBLL, IOptions<Dictionary<string, SiteConfig>> siteConfig)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -56,6 +61,7 @@ namespace MemberSite.Controllers.Api
             this.iovationBLL = iovationBLL;
             this.sFPSBLL = sFPSBLL;
             this.gameCasinoBLL = gameCasinoBLL;
+            this.siteConfig = siteConfig;
         }
 
         public class LoginModel
@@ -1161,10 +1167,11 @@ namespace MemberSite.Controllers.Api
             Arcade = 2,
             Table = 3
         }
-        public ApiResult<List<Provider>> GetGameListV2()
+        public ApiResult<GameInfo> GetGameListV2()
         {
-            ApiResult<List<Provider>> apiResult = new ApiResult<List<Provider>>();
-            List<Provider> resultData = new List<Provider>();
+            ApiResult<GameInfo> apiResult = new ApiResult<GameInfo>();
+            GameInfo resultData = new GameInfo() ;
+            resultData.ProviderList = new List<Provider>();
 
             //不分Tpid取出GameCasino資料
             var GameCasinoList = gameCasinoBLL.GetGameCasinoList();
@@ -1174,7 +1181,7 @@ namespace MemberSite.Controllers.Api
             var providers = gameCasinoBLL.GetProviderList();
 
             IEnumerable<int> tpIds = null;
-
+            var serverInfo = serverInfoBLL.GetServerInfo();
             if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();
@@ -1183,7 +1190,6 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                var serverInfo = serverInfoBLL.GetServerInfo();
                 tpIds = casinoBLL.GetProviderIdByCurrency(0, serverInfo.SiteId);
             }
 
@@ -1220,11 +1226,10 @@ namespace MemberSite.Controllers.Api
                         PlayFree = provider.PlayFree ? y.Fun : provider.PlayFree
                     });
                 });
-
-                resultData.Add(provider);
+                resultData.ProviderList.Add(provider);
             }
-
             apiResult.Data = resultData;
+            apiResult.Data.ImgUrl = siteConfig.Value[serverInfo.SiteName].ImageURL;
             apiResult.ErrorCode = 0;
             return apiResult;
         }
