@@ -148,4 +148,11 @@ namespace MemberSite.Service.Model
         public string LastTransaction { set; get; }
         public bool IsHideBalance { set; get; }
     }
+    public class ReferralSetting
+    {
+        public int PeriodDays { get; set; }
+        public decimal BonusAmount { get; set; }
+        public decimal VaildBet { get; set; }
+        public decimal Deposit { get; set; }
+    }
 }

@@ -556,6 +556,24 @@ namespace MemberSite.Controllers.Api
             }
             return apiResult;
         }
+        [HttpPost]
+        public ApiResult<IEnumerable<ReferralSetting>> GetReferralSetting()
+        {
+            var apiResult = new ApiResult<IEnumerable<ReferralSetting>>();
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            try
+            {
+                apiResult.Data = custInfoBLL.GetReferralSetting(custInfo.SiteId, custInfo.CurrencyId);
+                apiResult.ErrorCode = 0;
+                apiResult.Message = "";
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
 
         [HttpPost]
         public ApiResult<bool> ExistsPhoneNo(RrofileReq rrofileReq)
