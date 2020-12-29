@@ -15,6 +15,12 @@ namespace MemberSite.Service.Model
         public string DisplayKey { get; set; }
     }
 
+    public class GameInfo
+    {
+        public string ImgUrl { get; set; }
+        public List<Provider> ProviderList { get; set; }
+    }
+
     public class GameDesc
     {
         public string ImgUrl { get; set; }

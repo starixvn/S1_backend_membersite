@@ -19,4 +19,8 @@ namespace MemberSite.Service.Model
         public string Issuer { get; set; }
         public string SignKey { get; set; }
     }
+    public class SiteConfig
+    {
+        public string ImageURL { get; set; }
+    }
 }
