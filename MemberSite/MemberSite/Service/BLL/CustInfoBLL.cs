@@ -518,6 +518,10 @@ namespace MemberSite.Service.BLL
 
             return stringChars.ToString();
         }
+        public IEnumerable<ReferralSetting> GetReferralSetting(int siteId, int currencyId)
+        {
+            return agentInfoService.GetReferralSetting(siteId, currencyId);
+        }
 
     }
 }

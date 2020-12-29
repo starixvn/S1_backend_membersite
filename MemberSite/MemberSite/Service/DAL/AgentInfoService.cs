@@ -38,5 +38,11 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.QueryFirstOrDefault<string>("Member_AffiliateId_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
+        public IEnumerable<ReferralSetting> GetReferralSetting(int siteId, int currencyId)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<ReferralSetting>("Member_ReferralSetting_Get", new { SiteId = siteId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+           
+        }
     }
 }
