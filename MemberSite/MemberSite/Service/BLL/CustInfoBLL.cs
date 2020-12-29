@@ -511,7 +511,7 @@ namespace MemberSite.Service.BLL
             var stringChars = new System.Text.StringBuilder();
             var random = new Random();
 
-            for (int i = 0; i < stringChars.Length; i++)
+            for (int i = 0; i < 8; i++)
             {
                 stringChars.Append(chars[random.Next(chars.Length)]);
             }
