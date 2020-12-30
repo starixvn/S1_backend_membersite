@@ -83,6 +83,30 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        public async Task<ApiResult> onlineCheckApp()
+        {
+            var apiResult = new ApiResult(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+            bool result = authorizeBLL.LoginCheckin();
+            if (!result)
+            {
+                //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                apiResult.ErrorCode = 1001;
+                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                _ = Task.Run(async () =>
+                {
+                    _ = await LogoutAsync(1, authData.CustId);
+                });
+            }
+            else
+            {
+                apiResult.ErrorCode = 0;
+            }
+
+            return apiResult;
+        }
+
+        [HttpPost]
         public async Task<ApiResult> SignOut()
         {
             var apiResult = new ApiResult(selLangBLL);
