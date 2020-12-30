@@ -140,7 +140,7 @@ namespace MemberSite.Service.BLL
                 var dRequiredAmount = lockedAmount.ToString("#,##0");
                 if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
                 {
-                    dRequiredAmount = $"{(lockedAmount / 1000).ToString("#,##0")} ('000)";
+                    dRequiredAmount = $"{lockedAmount / 1000:#,##0} ('000)";
                 }
 
                 apiResult1.Message = string.Format(selLangBLL.GetMsg("msg_LockedAmountInsufficient"), dRequiredAmount);
@@ -156,7 +156,7 @@ namespace MemberSite.Service.BLL
                 var dRequiredAmount = promotion.RequiredAmount.ToString("#,##0");
                 if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
                 {
-                    dRequiredAmount = $"{(promotion.RequiredAmount / 1000).ToString("#,##0")} ('000)";
+                    dRequiredAmount = $"{promotion.RequiredAmount / 1000:#,##0} ('000)";
                 }
 
                 apiResult1.Message = string.Format(selLangBLL.GetMsg("msg_RequiredAmountInsufficient"), dRequiredAmount);
