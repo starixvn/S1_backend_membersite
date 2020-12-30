@@ -288,4 +288,7 @@
   <data name="msg_OTPHint2" xml:space="preserve">
     <value>現在驗證您的電話？</value>
   </data>
+  <data name="msg_SpecialCodeErr" xml:space="preserve">
+    <value>您輸入的特別優惠代碼沒有優惠可以領取</value>
+  </data>
 </root>

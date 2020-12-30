@@ -276,7 +276,7 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult
             {
                 ErrorCode = (int)SpecialCodeErrorcode.SpecialCodeError,
-                Message = "invalid code"
+                Message = selLangBLL.GetMsg("msg_SpecialCodeErr")
             };
 
             try
@@ -287,8 +287,21 @@ namespace MemberSite.Controllers.Api
                     result.ErrorCode = 0;
                 }
             }
+            catch (MySql.Data.MySqlClient.MySqlException mySqlEx)
+            {
+                if (mySqlEx.Number == 1062)/*Duplicate for key 'PRIMARY'*/
+                {
+                    result.ErrorCode = 0;
+                }
+                else
+                {
+                    result.ErrorCode = 9000;
+                    result.Message = mySqlEx.ToString();
+                }
+            }
             catch (Exception ex)
             {
+                result.ErrorCode = 9000;
                 result.Message = ex.ToString();
             }
 

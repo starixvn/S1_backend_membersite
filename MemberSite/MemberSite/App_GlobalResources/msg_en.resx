@@ -300,4 +300,7 @@
   <data name="msg_OTPHint" xml:space="preserve">
     <value>Please complete your profile and verify your phone number to enjoy our promotions.</value>
   </data>
+  <data name="msg_SpecialCodeErr" xml:space="preserve">
+    <value>Your inputted special bonus code does not have available promotion for redemption.</value>
+  </data>
 </root>

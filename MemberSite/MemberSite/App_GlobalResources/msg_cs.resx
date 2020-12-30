@@ -282,11 +282,14 @@
   </data>
   <data name="msg_OTPHint" xml:space="preserve">
     <value>请完成您的个人资料并验证您的手机以享受我们的促销。</value>
-    </data>
+  </data>
   <data name="msg_OTPHint1" xml:space="preserve">
     <value>您想享受我们完整的产品和服务吗？</value>
   </data>
   <data name="msg_OTPHint2" xml:space="preserve">
     <value>现在验证您的电话？</value>
+  </data>
+  <data name="msg_SpecialCodeErr" xml:space="preserve">
+    <value>您输入的特别优惠代码没有优惠可以领取</value>
   </data>
 </root>

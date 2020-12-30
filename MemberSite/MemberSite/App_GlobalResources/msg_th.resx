@@ -296,4 +296,7 @@
   <data name="msg_OTPHint2" xml:space="preserve">
     <value>ต้องการยืนยันเบอร์โทรศัพท์ของคุณตอนนี้?</value>
   </data>
+  <data name="msg_SpecialCodeErr" xml:space="preserve">
+    <value>รหัสโบนัสพิเศษที่คุณป้อน ไม่มีโปรโมชั่นสำหรับขอแลกรับ</value>
+  </data>
 </root>
