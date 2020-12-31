@@ -1170,7 +1170,7 @@ namespace MemberSite.Controllers.Api
         public ApiResult<GameInfo> GetGameListV2()
         {
             ApiResult<GameInfo> apiResult = new ApiResult<GameInfo>();
-            GameInfo resultData = new GameInfo() ;
+            GameInfo resultData = new GameInfo();
             resultData.ProviderList = new List<Provider>();
 
             //不分Tpid取出GameCasino資料
@@ -1207,19 +1207,29 @@ namespace MemberSite.Controllers.Api
 
                 GameCasinoList.FindAll(x => x.TpId == provider.Value).ForEach(y =>
                 {
+                    var nameItem = JsonConvert.DeserializeObject<Dictionary<string, string>>(y.Name);
+                    string imgName = null;
+
+                    if (nameItem.ContainsKey("en"))
+                    {
+                        imgName = nameItem["en"];
+                    }
+
+                    Dictionary<string, string> imgNameD = nameItem.ToDictionary(x => x.Key, x => $"{OrgFileNameFilter($"{imgName}-{x.Key}")}.jpg");
+
                     provider.GameList.Data.Add(new Datum
                     {
-                        Name = JsonConvert.DeserializeObject<Dictionary<string, string>>(y.Name),
-                        ImgName = gameCasinoBLL.OrgFileNameFilter(JsonConvert.DeserializeObject<Dictionary<string, string>>(y.ImgName)),
+                        Name = nameItem,
+                        ImgName = imgNameD,
                         AppId = y.AppId,
                         GameId = y.GameId,
                         Category1 = Enum.GetName(typeof(TypeId), y.TypeId),
                         Paylines = y.Paylines,
                         Rtp = y.Rtp,
                         Reels = string.IsNullOrWhiteSpace(y.Reel) ? string.Empty : y.Reel,
-                        LaunchDate = y.LaunchDate.ToString("yyyy/MM/dd"),
+                        LaunchDate = y.LaunchDate,
                         Hot = y.Hot,
-                        New = y.LaunchDate.AddDays(30) > DateTime.UtcNow,
+                        New = y.LaunchDate.AddDays(30) > DateTime.Now,
                         ImageExist = true,
                         promotion = y.promotion,
                         featured = y.featured,
@@ -1234,5 +1244,20 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        private string OrgFileNameFilter(string fileName)
+        {
+            return fileName = fileName.Replace(" ", "-")
+                                       .Replace("&", "-")
+                                       .Replace(":", "-")
+                                       .Replace("'", "")
+                                       .Replace("’", "")
+                                       .Replace(".", "")
+                                       .Replace("™", "")
+                                       .Replace("---", "-")
+                                       .Replace("--", "-")
+                                       .Replace("\u200B", "")
+                                       .Replace(",", "")
+                                       .ToLower();
+        }
     }
 }
