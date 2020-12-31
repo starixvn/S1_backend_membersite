@@ -1159,13 +1159,12 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-
-
         public enum TypeId
         {
             Slots = 1,
             Arcade = 2,
-            Table = 3
+            Table = 3,
+            ScratchCard = 4
         }
         public ApiResult<GameInfo> GetGameListV2()
         {
