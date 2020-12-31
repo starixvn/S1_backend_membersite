@@ -1232,7 +1232,7 @@ namespace MemberSite.Controllers.Api
                         ImageExist = true,
                         promotion = y.promotion,
                         featured = y.featured,
-                        PlayFree = provider.PlayFree ? y.Fun : provider.PlayFree
+                        PlayFree = y.Fun
                     });
                 });
                 resultData.ProviderList.Add(provider);
