@@ -20,7 +20,13 @@ namespace MemberSite.Service.DAL
         public List<GameCasinoListData> GetGameCasinoList()
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<GameCasinoListData>("Member_GameCasinoList_Get", null, commandType: CommandType.StoredProcedure).ToList();
+            int IsStage = configuration.GetValue<int>("IsStage");
+            string SPName = "Member_GameCasinoList_Get";
+            if (IsStage == 1)
+            {
+                SPName = "Member_GameCasinoListStag_Get";
+            }
+            return conn.Query<GameCasinoListData>(SPName, null, commandType: CommandType.StoredProcedure).ToList();
         }
     }
 }
