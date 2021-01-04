@@ -522,6 +522,27 @@ namespace MemberSite.Service.BLL
         {
             return agentInfoService.GetReferralSetting(siteId, currencyId);
         }
+        public int GetAffiliateAgentBLL(string affId)
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            if (!string.IsNullOrEmpty(affId))
+            {
+                var agent = agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
 
+                if (agent == null)
+                {
+                    return -19;
+                }
+                else
+                {
+                    return agent.CurrencyId;
+                }
+            }
+            else
+            {
+                return -1;
+            }
+          
+        }
     }
 }

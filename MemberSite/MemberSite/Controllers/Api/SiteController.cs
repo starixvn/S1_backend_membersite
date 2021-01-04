@@ -1258,5 +1258,39 @@ namespace MemberSite.Controllers.Api
                                        .Replace(",", "")
                                        .ToLower();
         }
+
+
+        public class AffiliateAgentReq
+        {
+           public string AffId { get; set; }
+        }
+        [HttpPost]
+        public ApiResult<AffiliateAgent> GetAffiliateAgent(AffiliateAgentReq affiliateAgentReq)
+        {
+            var apiResult = new ApiResult<AffiliateAgent>();
+            apiResult.Data = new AffiliateAgent();
+            int result = custInfoBLL.GetAffiliateAgentBLL(affiliateAgentReq.AffId);
+            apiResult.ErrorCode = 0;
+            if (result > 0)
+            {
+                apiResult.Data.CurrencyId = result;
+            }
+            else if (result == -1)
+            {
+                apiResult.ErrorCode = result;
+                apiResult.Message = "no AffId";
+            }
+            else if (result == -19)
+            {
+                apiResult.ErrorCode = result;
+                apiResult.Message = selLangBLL.GetMsg("mag_AffiliateNotExist");
+            }
+            else
+            {
+                apiResult.ErrorCode = result;
+            }
+
+            return apiResult;
+        }
     }
 }
