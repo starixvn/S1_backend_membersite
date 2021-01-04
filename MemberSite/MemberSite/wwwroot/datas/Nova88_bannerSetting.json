@@ -10,6 +10,15 @@
     //  "img": "banner-mega888.jpg",
     //  "lang": [ "th", "id", "en", "cs" ]
     //},
+    //{
+    //  "img": "Banner-friendref.jpg",
+    //  "actionLink": "referral",
+    //  "lang": [ "th", "id", "en", "cs" ]
+    //},
+    {
+      "img": "Banner-Happy2021.jpg",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
     {
       "img": "banner-xmasrank.jpg",
       "actionLink": "leaderBoard",
@@ -26,11 +35,6 @@
       "urlWithLang": true,
       "img": "banner-2020xmas.jpg",
       "lang": [ "th", "id", "en", "cs" ]
-    },
-    {
-      "tpid": "20",
-      "gameid": "20",
-      "img": "banner-wm.jpg"
     },
     {
       "actionLink": "https://aff.nova88asia.com/Signup/Index",
@@ -115,28 +119,28 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40549852",
+      "matchid": "40477493",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40549852.png",
+      "img": "games-40477493.png",
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40426913",
+      "matchid": "40665328",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40426913.png",
+      "img": "games-40665328.png",
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40587841",
+      "matchid": "40665332",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40587841.png",
+      "img": "games-40665332.png",
       "lang": [ "th", "id", "en", "cs" ]
     }
     //{

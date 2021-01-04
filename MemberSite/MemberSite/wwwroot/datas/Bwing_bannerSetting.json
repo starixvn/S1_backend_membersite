@@ -1,5 +1,11 @@
 {
   "Promotion": [
+    //{
+    //  "actionLink": "casino?provider=24",
+    //  "img": "banner-icg.jpg",
+    //  "currencyId": [ 51 ],
+    //  "lang": [ "vn", "en" ]
+    //},
     {
       "tpId": "23",
       "gameId": "2",
@@ -12,35 +18,29 @@
       "lang": [ "vn", "en" ]
     },
     {
-      "actionLink": "casino?provider=16",
-      "img": "banner-cq9.jpg",
+      "actionLink": "promotion",
+      "img": "B2021-150.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
     {
       "actionLink": "promotion",
-      "img": "Bwing-Casino150.jpg",
+      "img": "B2021-1.7.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
     {
       "actionLink": "promotion",
-      "img": "BWINGDAILYREBATE.jpg",
+      "img": "B2021-10.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
-    {
-      "actionLink": "promotion",
-      "img": "BWINGRELOADBONUS.jpg",
-      "currencyId": [ 51 ],
-      "lang": [ "vn", "en" ]
-    },
-    {
-      "actionLink": "promotion",
-      "img": "BWINGSLOT.jpg",
-      "currencyId": [ 51 ],
-      "lang": [ "vn", "en" ]
-    },
+    //{
+    //  "actionLink": "promotion",
+    //  "img": "BWINGSLOT.jpg",
+    //  "currencyId": [ 51 ],
+    //  "lang": [ "vn", "en" ]
+    //},
     //{
     //  "tpId": 1,
     //  "gameId": 200,
@@ -80,28 +80,28 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40549852",
+      "matchid": "40477493",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40549852.png",
+      "img": "games-40477493.png",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40426913",
+      "matchid": "40665328",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40426913.png",
+      "img": "games-40665328.png",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40587841",
+      "matchid": "40665332",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40587841.png",
+      "img": "games-40665332.png",
       "lang": [ "en", "vn" ]
     }
     //},

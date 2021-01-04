@@ -1,8 +1,23 @@
 {
   "Promotion": [
     {
-      "img": "Xmas_banner.jpg",
-      "actionLink": "leaderBoard",
+      "actionLink": "casino?provider=Iconic",
+      "img": "banner-icg.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    },
+    {
+      "actionLink": "SiteSkin/Goal123/appDownload/vn.html",
+      "outerLink": true,
+      "actionLinkByLang": [
+        {
+          "lang": "en",
+          "link": "SiteSkin/Goal123/appDownload/en.html",
+          "outerLink": true
+        }
+      ],
+      "img": "Banner-AppDownload.jpg",
+      "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
     {
@@ -13,25 +28,19 @@
     },
     {
       "actionLink": "promotion",
-      "img": "150-Welcome-Slot-Bonus.jpg",
+      "img": "2021-150.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
     {
       "actionLink": "promotion",
-      "img": "GOAL123DAILYREBATE.jpg",
+      "img": "2021-10.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
     {
       "actionLink": "promotion",
-      "img": "GOAL123DAILY-RELOAD-BONUS.jpg",
-      "currencyId": [ 51 ],
-      "lang": [ "vn", "en" ]
-    },
-    {
-      "actionLink": "promotion",
-      "img": "GOAL123TRIAL-BONUS.jpg",
+      "img": "2021-1.7.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     }
@@ -55,28 +64,28 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40549852",
+      "matchid": "40477493",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40549852.jpg",
+      "img": "games-40477493.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40426913",
+      "matchid": "40665328",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40426913.jpg",
+      "img": "games-40665328.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40587841",
+      "matchid": "40665332",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40587841.jpg",
+      "img": "games-40665332.jpg",
       "lang": [ "en", "vn" ]
     }
     //},
