@@ -222,9 +222,30 @@ namespace MemberSite.Service.BLL
         }
         public string GetMsg(string key)
         {
-            string labelString = GetResourceValue(key, "msg", GetLangId());
+            string msgString = "";
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            if (serverInfo.SiteId == 1)
+            {
+                msgString = GetResourceValue(key, "msg", GetLangId());
+            }
+            else
+            {
+                try
+                {
+                    msgString = GetResourceValue(key, $"{serverInfo.SiteName}_msg", GetLangId());
+                }
+                catch (Exception ex)
+                {
 
-            return labelString;
+                }
+
+                if (string.IsNullOrEmpty(msgString))
+                {
+                    msgString = GetResourceValue(key, "msg", GetLangId());
+                }
+            }
+
+            return msgString;
         }
         public string GetErrMsg(int code)
         {

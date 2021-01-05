@@ -60,6 +60,7 @@ namespace MemberSite.Service.Model
         public string MatchId { get; set; }
         public string TpId { get; set; }
         public string GameId { get; set; }
+        public string UrlRouter { get; set; }
         public string Details { get; set; }
         public string BannerLink { get; set; }
         public string BannerPCUrl { get; set; }

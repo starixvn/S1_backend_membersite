@@ -64,4 +64,9 @@ namespace MemberSite.Service.Model
         public bool Fun { get; set; }
         public int TpId { get; set; }
     }
+    public class AffiliateAgent
+    {
+        public int CurrencyId { get; set; }
+    }
+    
 }

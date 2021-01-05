@@ -108,6 +108,7 @@ namespace MemberSite.Service.BLL
                             MatchId = bannerdetail.MatchId,
                             TpId = bannerdetail.TpId,
                             GameId = bannerdetail.GameId,
+                            UrlRouter = bannerdetail.UrlRouter,
                             BannerLink = settings["bannerLink"],
                             BannerPCUrl = settings["bannerPCUrl"],
                             BannerMobileUrl = settings["bannerMobileUrl"]

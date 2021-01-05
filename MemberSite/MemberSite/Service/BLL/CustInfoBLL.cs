@@ -507,7 +507,7 @@ namespace MemberSite.Service.BLL
         }
         public static string GenerateRandomAffiliateId()
         {
-            var chars = "abcdefghjkmnopqrstuvwxyz";
+            var chars = "1234567890abcdefghijklmnopqrstuvwxyz";
             var stringChars = new System.Text.StringBuilder();
             var random = new Random();
 
@@ -522,6 +522,31 @@ namespace MemberSite.Service.BLL
         {
             return agentInfoService.GetReferralSetting(siteId, currencyId);
         }
+        public int GetAffiliateAgentBLL(string affId)
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            if (!string.IsNullOrEmpty(affId))
+            {
+                var agent = agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
 
+                if (agent == null)
+                {
+                    return -19;
+                }
+                else
+                {
+                    return agent.CurrencyId;
+                }
+            }
+            else
+            {
+                return -1;
+            }
+          
+        }
+        public void GetReferralSummary(int custId, out int referralCount, out int amountCount, out int amountSum)
+        {
+            agentInfoService.GetReferralSummary(custId, out referralCount, out amountCount, out  amountSum);
+        }
     }
 }
