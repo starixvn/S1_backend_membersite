@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -149,6 +150,11 @@ namespace MemberSite.Service.BLL
             {
                 apiResult1.ErrorCode = -3;
                 apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible");
+
+                if ((custInfo.SiteId == 2 || custInfo.SiteId == 3) && promotion?.PromotionType == PromotionType.Freebet)
+                {
+                    apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible_FreeBet");
+                }
             }
             else if (result == -4)
             {
@@ -169,6 +175,11 @@ namespace MemberSite.Service.BLL
             else
             {
                 apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible");
+
+                if ((custInfo.SiteId == 2 || custInfo.SiteId == 3) && promotion?.PromotionType == PromotionType.Freebet)
+                {
+                    apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible_FreeBet");
+                }
             }
 
             return apiResult1;
