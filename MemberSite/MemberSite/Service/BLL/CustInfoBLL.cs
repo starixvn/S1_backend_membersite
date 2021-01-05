@@ -544,5 +544,9 @@ namespace MemberSite.Service.BLL
             }
           
         }
+        public void GetReferralSummary(int custId, out int referralCount, out int amountCount, out int amountSum)
+        {
+            agentInfoService.GetReferralSummary(custId, out referralCount, out amountCount, out  amountSum);
+        }
     }
 }

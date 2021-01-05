@@ -155,4 +155,11 @@ namespace MemberSite.Service.Model
         public decimal VaildBet { get; set; }
         public decimal Deposit { get; set; }
     }
+    public class ReferralSummary
+    {
+        public int ReferralCount { get; set; }
+        public int AmountCount { get; set; }
+        public int AmountSum { get; set; }
+
+    }
 }
