@@ -507,7 +507,7 @@ namespace MemberSite.Service.BLL
         }
         public static string GenerateRandomAffiliateId()
         {
-            var chars = "abcdefghjkmnopqrstuvwxyz";
+            var chars = "1234567890abcdefghijklmnopqrstuvwxyz";
             var stringChars = new System.Text.StringBuilder();
             var random = new Random();
 
