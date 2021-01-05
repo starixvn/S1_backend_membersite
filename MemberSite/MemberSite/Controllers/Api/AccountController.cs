@@ -598,6 +598,28 @@ namespace MemberSite.Controllers.Api
             }
             return apiResult;
         }
+        [HttpPost]
+        public ApiResult<ReferralSummary> GetReferralSummary()
+        {
+            var apiResult = new ApiResult<ReferralSummary>();
+            var authData = authorizeBLL.GetAuthData();
+            apiResult.Data = new ReferralSummary();
+            try
+            {
+                custInfoBLL.GetReferralSummary(authData.CustId, out int ReferralCount, out int AmountCount, out int AmountSum);
+                
+                apiResult.Data.ReferralCount = ReferralCount;
+                apiResult.Data.AmountCount = AmountCount;
+                apiResult.Data.AmountSum = AmountSum;
+                apiResult.ErrorCode = 0;
+                apiResult.Message = "";
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
 
         [HttpPost]
         public ApiResult<bool> ExistsPhoneNo(RrofileReq rrofileReq)
