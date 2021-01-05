@@ -44,5 +44,18 @@ namespace MemberSite.Service.DAL
             return conn.Query<ReferralSetting>("Member_ReferralSetting_Get", new { SiteId = siteId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
            
         }
+        public void GetReferralSummary(int custId, out int referralCount, out int amountCount, out int amountSum)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var p = new DynamicParameters(new { CustId = custId});
+            p.Add("ReferralCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("AmountCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("AmountSum", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            conn.Execute("Member_ReferralSummary_Get", p, commandType: CommandType.StoredProcedure);
+
+            referralCount = p.Get<int?>("ReferralCount") ?? 0;
+            amountCount = p.Get<int?>("AmountCount") ?? 0;
+            amountSum = p.Get<int?>("AmountSum") ?? 0;
+        }
     }
 }
