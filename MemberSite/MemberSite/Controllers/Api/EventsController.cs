@@ -41,21 +41,21 @@ namespace MemberSite.Controllers.Api
             foreach (var L in apiResult.Data)
             {
                 if (L.CustId != authData.CustId)
-                    L.UserName = MaskName(L.UserName);
+                    L.UserName = eventsBLL.MaskName(L.UserName);
             }
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-        private string MaskName(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-                return input;
+        //private string MaskName(string input)
+        //{
+        //    if (string.IsNullOrEmpty(input))
+        //        return input;
 
-            string pattern = @"(?<=[\w]{2})[\w-\._\+%]*(?=[\w]{2})";
-            if (input.Length < 6)
-                pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1})";
-            return Regex.Replace(input, pattern, m => new string('*', m.Length));
-        }
+        //    string pattern = @"(?<=[\w]{2})[\w-\._\+%]*(?=[\w]{2})";
+        //    if (input.Length < 6)
+        //        pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1})";
+        //    return Regex.Replace(input, pattern, m => new string('*', m.Length));
+        //}
         public class GetCustRankReq
         {
             public int LBCategoryId { get; set; }

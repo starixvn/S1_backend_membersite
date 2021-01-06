@@ -13,7 +13,7 @@ namespace MemberSite.Service.BLL
     {
         private readonly EventsService eventsService;
         private readonly IMemoryCache cache;
-        public static string MaskName(string input)
+        public string MaskName(string input)
         {
             if (string.IsNullOrEmpty(input))
                 return input;
