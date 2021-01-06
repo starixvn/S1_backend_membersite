@@ -158,8 +158,23 @@ namespace MemberSite.Service.Model
     public class ReferralSummary
     {
         public int ReferralCount { get; set; }
+        public int ConditionCount { get; set; }
         public int AmountCount { get; set; }
         public int AmountSum { get; set; }
+
+    }
+    public class ReferralFriend
+    {
+        public int CustId { get; set; }
+        public string UserName { get; set; }
+        public DateTime RegisterDate { get; set; }
+        public int CurrencyId { get; set; }
+        public decimal TotalDeposit { get; set; }
+        public decimal DepositC { get; set; }
+        public decimal TotalBet { get; set; }
+        public decimal VaildBetC { get; set; }
+        public decimal BonusAmount { get; set; }
+        public int Status { get; set; }
 
     }
 }

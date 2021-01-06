@@ -544,9 +544,14 @@ namespace MemberSite.Service.BLL
             }
           
         }
-        public void GetReferralSummary(int custId, out int referralCount, out int amountCount, out int amountSum)
+        public void GetReferralSummary(int custId, out int referralCount,out int conditionCount, out int amountCount, out int amountSum)
         {
-            agentInfoService.GetReferralSummary(custId, out referralCount, out amountCount, out  amountSum);
+            agentInfoService.GetReferralSummary(custId, out referralCount, out conditionCount, out amountCount, out  amountSum);
         }
+        public IEnumerable<ReferralFriend> GetRefFriendList(int custId, long? StartDate, long? EndDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
+        {
+            return agentInfoService.GetRefFriendList(custId, StartDate, EndDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
+        }
+
     }
 }
