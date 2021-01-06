@@ -632,24 +632,27 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<ReferralFriend>> GetRefFriendList(RefFriendListReq refFriendListReq)
+        public ApiListResult<ReferralFriend> GetRefFriendList(RefFriendListReq refFriendListReq)
         {
             int PageSize = 10;
             if (refFriendListReq.PageSize >0 )
                 PageSize = refFriendListReq.PageSize;
             int pageNumber = refFriendListReq.PageNumber;
-            int TotalPages = 0;
-            int RowCount = 0;
-            var apiResult = new ApiResult<IEnumerable<ReferralFriend>>();
+            int totalPages = 0;
+            int rowCount = 0;
+            var apiResult = new ApiListResult<ReferralFriend>();
             var authData = authorizeBLL.GetAuthData();
             
             try
             {
-                apiResult.Data = custInfoBLL.GetRefFriendList(authData.CustId, refFriendListReq.StartDate, refFriendListReq.EndDate, PageSize, ref pageNumber, ref TotalPages, ref RowCount);
+                apiResult.Data = custInfoBLL.GetRefFriendList(authData.CustId, refFriendListReq.StartDate, refFriendListReq.EndDate, PageSize, ref pageNumber, ref totalPages, ref rowCount);
                 foreach (var L in apiResult.Data)
                 {
                         L.UserName = eventsBLL.MaskName(L.UserName);
                 }
+                apiResult.PageNumber = pageNumber;
+                apiResult.TotalPages = totalPages;
+                apiResult.RowCount = rowCount;
                 apiResult.ErrorCode = 0;
                 apiResult.Message = "";
             }
