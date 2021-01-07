@@ -1,11 +1,11 @@
 {
   "Promotion": [
-    //{
-    //  "actionLink": "casino?provider=24",
-    //  "img": "banner-icg.jpg",
-    //  "currencyId": [ 51 ],
-    //  "lang": [ "vn", "en" ]
-    //},
+    {
+      "actionLink": "vn/casino?provider=Iconic",
+      "img": "banner-icg.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    },
     {
       "tpId": "23",
       "gameId": "2",

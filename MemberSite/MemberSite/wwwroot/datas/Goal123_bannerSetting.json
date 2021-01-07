@@ -1,7 +1,7 @@
 {
   "Promotion": [
     {
-      "actionLink": "casino?provider=Iconic",
+      "actionLink": "vn/casino?provider=Iconic",
       "img": "banner-icg.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
@@ -21,7 +21,11 @@
       "lang": [ "vn", "en" ]
     },
     {
-      "actionLink": "casino?provider=CQ9",
+      "img": "Xmas_banner.jpg",
+      "actionLink": "leaderBoard"
+    },
+    {
+      "actionLink": "vn/casino?provider=CQ9",
       "img": "banner-cq9.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
@@ -46,8 +50,8 @@
     }
     //{
     //  "tpid": "1",
-    //  "gameid": "1",
-    //  "urlWithLang": true,
+    //  "gameid": "1", https://www.goal123.com/CMS/Goal123/Promotion/en/games-40477493.jpg
+    //  "urlWithLang": true, https://www.goal123.com/CMS/Goal123/Promotion/vn/games-40477493.jpg
     //  "actionLink": "Sports/Index",
     //  "img": "Banner-Opening.jpg",
     //  "currencyId": [ 51 ],
