@@ -86,6 +86,12 @@ namespace MemberSite.Controllers
                     AppType = tools.IsMobile() ? 2 : 1,
                     inputs = inputs
                 };
+
+                if (inputs.ContainsKey("AppType") && int.TryParse(inputs["AppType"], out int appType))
+                {
+                    tpInfo.AppType = appType;
+                }
+
                 try
                 {
                     var data = await courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
