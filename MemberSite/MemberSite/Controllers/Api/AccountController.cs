@@ -37,8 +37,9 @@ namespace MemberSite.Controllers.Api
         private readonly ThirdPartyBLL thirdPartyBLL;
         private readonly CasinoBLL casinoBLL;
         private readonly BonusWalletBLL bonusWalletBLL;
+        private readonly EventsBLL eventsBLL;
 
-        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter, MessageBLL messageBLL, PaymentBLL paymentBLL, PromotionBLL promotionBLL, ThirdPartyBLL thirdPartyBLL, CasinoBLL casinoBLL, BonusWalletBLL bonusWalletBLL)
+        public AccountController(IConfiguration configuration, CustInfoBLL custInfoBLL, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, BankInfoBLL bankInfoBLL, WalletBLL walletBLL, CourierAdapter courierAdapter, MessageBLL messageBLL, PaymentBLL paymentBLL, PromotionBLL promotionBLL, ThirdPartyBLL thirdPartyBLL, CasinoBLL casinoBLL, BonusWalletBLL bonusWalletBLL, EventsBLL eventsBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -56,6 +57,7 @@ namespace MemberSite.Controllers.Api
             this.thirdPartyBLL = thirdPartyBLL;
             this.casinoBLL = casinoBLL;
             this.bonusWalletBLL = bonusWalletBLL;
+            this.eventsBLL = eventsBLL;
         }
 
         [HttpPost]
@@ -606,11 +608,51 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = new ReferralSummary();
             try
             {
-                custInfoBLL.GetReferralSummary(authData.CustId, out int ReferralCount, out int AmountCount, out int AmountSum);
+                custInfoBLL.GetReferralSummary(authData.CustId, out int ReferralCount, out int conditionCount, out int AmountCount, out int AmountSum);
                 
                 apiResult.Data.ReferralCount = ReferralCount;
+                apiResult.Data.ConditionCount = conditionCount;
                 apiResult.Data.AmountCount = AmountCount;
                 apiResult.Data.AmountSum = AmountSum;
+                apiResult.ErrorCode = 0;
+                apiResult.Message = "";
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
+        public class RefFriendListReq
+        {
+            public long? StartDate { get; set; }
+            public long? EndDate { get; set; }
+            public int PageNumber { get; set; }
+            public int PageSize { get; set; }
+        }
+
+        [HttpPost]
+        public ApiListResult<ReferralFriend> GetRefFriendList(RefFriendListReq refFriendListReq)
+        {
+            int PageSize = 10;
+            if (refFriendListReq.PageSize >0 )
+                PageSize = refFriendListReq.PageSize;
+            int pageNumber = refFriendListReq.PageNumber;
+            int totalPages = 0;
+            int rowCount = 0;
+            var apiResult = new ApiListResult<ReferralFriend>();
+            var authData = authorizeBLL.GetAuthData();
+            
+            try
+            {
+                apiResult.Data = custInfoBLL.GetRefFriendList(authData.CustId, refFriendListReq.StartDate, refFriendListReq.EndDate, PageSize, ref pageNumber, ref totalPages, ref rowCount);
+                foreach (var L in apiResult.Data)
+                {
+                        L.UserName = eventsBLL.MaskName(L.UserName);
+                }
+                apiResult.PageNumber = pageNumber;
+                apiResult.TotalPages = totalPages;
+                apiResult.RowCount = rowCount;
                 apiResult.ErrorCode = 0;
                 apiResult.Message = "";
             }

@@ -136,7 +136,6 @@
             display: flex;
             text-align: center;
             padding-top: 30px;
-            margin-bottom: 20px;
         }
 
         .qrcode-item {
@@ -190,12 +189,12 @@
             margin: 30px auto 0 auto;
         }
 
-        .introduction a.download,
+        a.download,
         button.download {
             display: block;
             padding: 8px 15px;
             background: linear-gradient(130deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-            box-shadow: 1px 2px 10px #7db8f0;
+            box-shadow: 1px 2px 5px #7db8f0be;
             color: #fff;
             margin: 10px auto 20px auto;
             border: 1px solid #fff;
@@ -203,6 +202,10 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
+        }
+        a.download:hover, button.download:hover {
+            box-shadow: 1px 2px 10px #7db8f0;
+            transition: .2s;
         }
 
         .back-btn {
@@ -264,7 +267,7 @@
                 display: block;
             }
 
-            .qrcode {
+            .qrcode, .desktop {
                 display: none;
             }
 
@@ -331,12 +334,15 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="btn-group desktop">
+                            <a class="download" href="https://s3-ap-northeast-1.amazonaws.com/grd.fileshare/sasa/goal123/android/Goal123_1.0.19.apk" target="_blank">Download NOW (Android)</a>
+                        </div>
                     </div>
+                    
                     <div class="introduction">
                         <div class="btn-group">
                             <img src="images/android.svg" alt="">
-                            <a class="download" href="https://s3-ap-northeast-1.amazonaws.com/grd.fileshare/sasa/goal123/android/prodRelease-1.0.8-20201230-1804.apk" target="_blank">Download NOW (Android)</a>
-                            
+                            <a class="download" href="https://s3-ap-northeast-1.amazonaws.com/grd.fileshare/sasa/goal123/android/Goal123_1.0.19.apk" target="_blank">Download NOW (Android)</a>
                         </div>
                     </div>
                     <!-- installation tutorials only for iOS -->

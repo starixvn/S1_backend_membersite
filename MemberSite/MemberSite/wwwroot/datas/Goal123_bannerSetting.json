@@ -1,28 +1,22 @@
 {
   "Promotion": [
     {
+      "actionLink": "SiteSkin/Goal123/appDownload/vn.html",
+      "img": "Banner-APP.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    },
+    {
       "actionLink": "vn/casino?provider=Iconic",
       "img": "banner-icg.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
     {
-      "actionLink": "SiteSkin/Goal123/appDownload/vn.html",
-      "outerLink": true,
-      "actionLinkByLang": [
-        {
-          "lang": "en",
-          "link": "SiteSkin/Goal123/appDownload/en.html",
-          "outerLink": true
-        }
-      ],
-      "img": "Banner-AppDownload.jpg",
+      "img": "Xmas_banner.jpg",
+      "actionLink": "leaderBoard",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
-    },
-    {
-      "img": "Xmas_banner.jpg",
-      "actionLink": "leaderBoard"
     },
     {
       "actionLink": "vn/casino?provider=CQ9",
@@ -50,8 +44,8 @@
     }
     //{
     //  "tpid": "1",
-    //  "gameid": "1", https://www.goal123.com/CMS/Goal123/Promotion/en/games-40477493.jpg
-    //  "urlWithLang": true, https://www.goal123.com/CMS/Goal123/Promotion/vn/games-40477493.jpg
+    //  "gameid": "1",
+    //  "urlWithLang": true,
     //  "actionLink": "Sports/Index",
     //  "img": "Banner-Opening.jpg",
     //  "currencyId": [ 51 ],
@@ -68,40 +62,39 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40477493",
+      "matchid": "40761586",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40477493.jpg",
+      "img": "games-40761586.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40665328",
+      "matchid": "40761591",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40665328.jpg",
+      "img": "games-40761591.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40665332",
+      "matchid": "40665261",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40665332.jpg",
+      "img": "games-40665261.jpg",
+      "lang": [ "en", "vn" ]
+    },
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "40665263",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "games-40665263.jpg",
       "lang": [ "en", "vn" ]
     }
-    //},
-    //{
-    //  "tpId": "1",
-    //  "gameId": "1",
-    //  "matchid": "40426273",
-    //  "actionLink": "Sports/Index",
-    //  "outerLink": true,
-    //  "img": "games-40426273.jpg",
-    //  "lang": [ "en", "vn" ]
-    //},
     //{
     //  "tpId": "1",
     //  "gameId": "1",

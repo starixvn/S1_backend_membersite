@@ -1,7 +1,7 @@
 {
   "Promotion": [
     {
-      "actionLink": "vn/casino?provider=Iconic",
+      "actionLink": "vn/casino/?provider=Iconic",
       "img": "banner-icg.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
@@ -35,12 +35,6 @@
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
-    //{
-    //  "actionLink": "promotion",
-    //  "img": "BWINGSLOT.jpg",
-    //  "currencyId": [ 51 ],
-    //  "lang": [ "vn", "en" ]
-    //},
     //{
     //  "tpId": 1,
     //  "gameId": 200,
@@ -80,40 +74,39 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40477493",
+      "matchid": "40761586",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40477493.png",
+      "img": "games-40761586.png",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40665328",
+      "matchid": "40761591",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40665328.png",
+      "img": "games-40761591.png",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40665332",
+      "matchid": "40665261",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40665332.png",
+      "img": "games-40665261.png",
+      "lang": [ "en", "vn" ]
+    },
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "40665263",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "games-40665263.png",
       "lang": [ "en", "vn" ]
     }
-    //},
-    //{
-    //  "tpId": "1",
-    //  "gameId": "1",
-    //  "matchid": "40426273",
-    //  "actionLink": "Sports/Index",
-    //  "outerLink": true,
-    //  "img": "games-40426273.png",
-    //  "lang": [ "en", "vn" ]
-    //},
     //{
     //  "tpId": "1",
     //  "gameId": "1",

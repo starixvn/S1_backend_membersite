@@ -13,7 +13,7 @@ namespace MemberSite.Service.BLL
     {
         private readonly EventsService eventsService;
         private readonly IMemoryCache cache;
-        public static string MaskName(string input)
+        public string MaskName(string input)
         {
             if (string.IsNullOrEmpty(input))
                 return input;
@@ -71,6 +71,59 @@ namespace MemberSite.Service.BLL
             }
 
             GetCustRank(lBCategoryId, custId, beforeDays, out custRank, out point);
+
+            leaderboardCustRank = new LeaderboardCustRank
+            {
+                CustRank = custRank,
+                point = point
+            };
+
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+            .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+            cache.Set(key, leaderboardCustRank, cacheEntryOptions);
+        }
+        public IEnumerable<Leaderboard> GetLeaderboardListV2(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
+        {
+            var leaderboard = eventsService.GetLeaderboardListV2(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);
+            return leaderboard;
+
+        }
+        public void GetCustRankV2(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out Decimal point)
+        {
+            eventsService.GetCustRankV2(lBCategoryId, eventCode, custId, beforeDays, out custRank, out point);
+        }
+
+        public IEnumerable<Leaderboard> GetLeaderboardListWithCacheV2(int custId, string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
+        {
+            string key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
+            var leaderboard = cache.Get<IEnumerable<Leaderboard>>(key);
+            if (leaderboard != null)
+            {
+                return leaderboard;
+            }
+            leaderboard = GetLeaderboardListV2(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);
+
+            if (leaderboard != null)
+            {
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+                cache.Set(key, leaderboard, cacheEntryOptions);
+            }
+
+            return leaderboard;
+        }
+        public void GetCustRankWithCacheV2(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out Decimal point)
+        {
+            string key = $"Leaderboard_{lBCategoryId}_{eventCode}_{custId}_{beforeDays}";
+            var leaderboardCustRank = cache.Get<LeaderboardCustRank>(key);
+            if (leaderboardCustRank != null)
+            {
+                custRank = leaderboardCustRank.CustRank;
+                point = leaderboardCustRank.point;
+                return;
+            }
+
+            GetCustRankV2(lBCategoryId, eventCode, custId, beforeDays, out custRank, out point);
 
             leaderboardCustRank = new LeaderboardCustRank
             {
