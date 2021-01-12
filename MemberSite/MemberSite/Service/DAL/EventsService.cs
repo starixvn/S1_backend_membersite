@@ -37,5 +37,23 @@ namespace MemberSite.Service.DAL
             custRank = p.Get<int?>("CustRank") ?? 0;
             point = p.Get<decimal?>("Point") ?? 0;
         }
+        public IEnumerable<Leaderboard> GetLeaderboardListV2(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<Leaderboard>("Member_Leaderboard_LastDateTopV2_Get", new { LBCategoryId = lBCategoryId, EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, BeforeDays = beforeDays }, commandType: CommandType.StoredProcedure);
+        }
+        public void GetCustRankV2(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out Decimal point)
+        {
+            custRank = 0;
+            point = 0;
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var p = new DynamicParameters(new { LBCategoryId = lBCategoryId, EventCode = eventCode, CustId = custId, BeforeDays = beforeDays });
+            p.Add("CustRank", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("Point", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+            conn.Execute("Member_Leaderboard_CustRankV2_Get", p, commandType: CommandType.StoredProcedure);
+
+            custRank = p.Get<int?>("CustRank") ?? 0;
+            point = p.Get<decimal?>("Point") ?? 0;
+        }
     }
 }
