@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>XmasPromo</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../common/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="side-bar" role="desktop-drawer">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <a class="btn btn-icon" role="desktop-only">
+                        <i class="icon icon-clear"></i>
+                    </a>
+                </div>
+                <div class="side-nav__list">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn" href="/">
+                            <i class="icon icon-home"></i>
+                            <span class="text">Home</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-info-outline"></i>
+                            <span class="text">Goal123</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="AboutUs.html" target="_self">
+                                <span class="text">About Us</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Terms.html" target="_self">
+                                <span class="text">Terms of Use</span>
+                            </a>
+                            <a class="side-nav__subitem" href="ContactUs.html" target="_self">
+                                <span class="text">Contact Us</span>
+                            </a>
+                            <a class="side-nav__subitem" href="https://aff.goal123.com/?lang=en" target="_self">
+                                <span class="text">Affiliates</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-help-outline"></i>
+                            <span class="text">Help &amp; Support</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="RulesandRegulations.html">
+                                <span class="text">Rules and Regulations</span>
+                            </a>
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Account Terms</span>
+                            </a>
+                            <a class="side-nav__subitem" href="FAQ.html" target="_self">
+                                <span class="text">FAQ</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="DepositWithdrawals.html" target="_self">
+                            <span class="text">Deposit &amp; Withdrawals</span>
+                        </a>
+                        <a class="side-nav__subitem" href="Downloads.html" target="_self">
+                            <span class="text">Downloads</span>
+                        </a>-->
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-policy"></i>
+                            <span class="text">Our Policies</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="ResposibleGaming.html" target="_self">
+                                <span class="text">Responsible Gaming</span>
+                            </a>
+                            <a class="side-nav__subitem" href="TermsConditions.html" target="_self">
+                                <span class="text">Terms &amp; Conditions</span>
+                            </a>
+                            <a class="side-nav__subitem" href="PrivacyPolicy.html" target="_self">
+                                <span class="text">Privacy Policy</span>
+                            </a>
+                            <a class="side-nav__subitem" href="CookiePolicy.html" target="_self">
+                                <span class="text">Cookie Policy</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="help-page">
+                <div class="help-page__body">
+                    <div class="heading">
+                        <span class="text">ĐUA TOP GIÁNG SINH TRÚNG TIỀN MAY MẮN</span>
+                    </div>
+                    <div class="article">
+                        <h4 style="margin: 0;">Tổng giá trị giải thưởng lên đến 161,000,000VND!</h4>
+                        <h3>Điều khoản và Điều Kiện:</h3>
+                        <ol style="padding: 0 1rem; line-height: 24px;">
+                            <li>Khuyến mãi diễn ra từ ngày 18/12/2020 00:00:01 (GMT+7) đến ngày 18/01/2021  23:59:59(GMT+7)</li>
+                            <li>Khuyến mãi áp dụng cho tất cả các thành viên đang hoạt động tại Goal123 có Tổng gửi tiền trong thời gian khuyến mãi 10,000,000 VND</li>
+                            <li>Trong thời gian khuyến mãi, thành viên tham gia tất cả sản phẩm sẽ tham gia nhận thưởng theo bảng bên dưới dựa trên Tổng tiền thắng cao nhất như sau:</li>
+                            <li>
+                                Trong thời gian khuyến mãi, thành viên tham gia tất cả sản phẩm sẽ tham gia nhận thưởng theo bảng bên dưới dựa trên Tổng tiền thắng cao nhất như sau:
+                                <table style="margin: 10px 0; width: 100%; text-align: center;">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <p><strong>Hạng</strong></p>
+                                            </td>
+                                            <td>
+                                                <p><strong>Tiền thưởng</strong></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>1</p>
+                                            </td>
+                                            <td>
+                                                <p>38,888,000VND</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>2</p>
+                                            </td>
+                                            <td>
+                                                <p>28,888,000VND</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>3</p>
+                                            </td>
+                                            <td>
+                                                <p>18,888,000VND</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>4</p>
+                                            </td>
+                                            <td>
+                                                <p>12,888,000VND</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>5</p>
+                                            </td>
+                                            <td>
+                                                <p>8,888,000VND</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>6</p>
+                                            </td>
+                                            <td>
+                                                <p>6,888,000VND</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>7</p>
+                                            </td>
+                                            <td>
+                                                <p>5,888,000VND</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>8-10</p>
+                                            </td>
+                                            <td>
+                                                <p>3,888,000VND</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>11-20</p>
+                                            </td>
+                                            <td>
+                                                <p>2,888,000VND</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li>Cược hòa, cược hai bên, cược hủy, cược dưới 0,5 hoặc 1,5 Decimal (Cược Malay dưới 0,5; cược HK dưới 0,50; cược Indo dưới -2,00 và cược US dưới - 200) không được tính cho doanh thu khuyến mãi.</li>
+                            <li>Người chiến thắng sẽ được thông báo trong Tin nhắn cá nhân trong vòng 48 giờ sau khi khuyến mãi kết thúc. Người chiến thắng vui lòng liên hệ hỗ trợ trực tuyến trong vòng 7 ngày để giải thưởng không bị huỷ.</li>
+                            <li>Tiền Thưởng sẽ được cập nhật vào tài khoản Ngân hàng của người chiến thắng trong vòng 48 giờ làm việc sau khi Thành Viên xác nhận thông tin bằng email hoặc Hỗ Trợ trực tuyến.</li>
+                            <li>Áp dụng Điều khoản và điều kiện chung.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2020. Goal123. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
