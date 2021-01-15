@@ -93,14 +93,6 @@ namespace MemberSite.Service.DAL
             conn.Open();
             // using var trans = conn.BeginTransaction();
 
-            var p = new DynamicParameters(new { SiteId = siteId, CurrencyId = currencyId });
-            p.Add("LeftTotal", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            var Prizes = conn.Query<Prizeleft>("Member_Prizeleft_Get", p, commandType: CommandType.StoredProcedure);
-            int leftTotal = p.Get<int?>("LeftTotal") ?? 0;
-
-            if (leftTotal <= 0)
-                return 101;//The number of gifts is gone
-
             var p2 = new DynamicParameters(new { CustId = custId });
             p2.Add("PrizeId", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p2.Add("GiftName", dbType: DbType.String, direction: ParameterDirection.Output);
@@ -112,6 +104,14 @@ namespace MemberSite.Service.DAL
             {
                 return 100;//Already been drawn
             }
+            var p = new DynamicParameters(new { SiteId = siteId, CurrencyId = currencyId });
+            p.Add("LeftTotal", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            var Prizes = conn.Query<Prizeleft>("Member_Prizeleft_Get", p, commandType: CommandType.StoredProcedure);
+            int leftTotal = p.Get<int?>("LeftTotal") ?? 0;
+
+            if (leftTotal <= 0)
+                return 101;//The number of gifts is gone
+
             return 0;
         }
         public int SetPrizeLottery(int siteId, int currencyId,int custId, out int prizeId, out string giftName)
