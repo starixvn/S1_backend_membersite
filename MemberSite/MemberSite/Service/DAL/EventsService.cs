@@ -55,5 +55,123 @@ namespace MemberSite.Service.DAL
             custRank = p.Get<int?>("CustRank") ?? 0;
             point = p.Get<decimal?>("Point") ?? 0;
         }
+        public IEnumerable<Prizeleft> GetPrizeleft(int siteId, int currencyId, out int leftTotal)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+
+            var p = new DynamicParameters(new { SiteId = siteId, CurrencyId = currencyId });
+            p.Add("LeftTotal", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            var rtn = conn.Query<Prizeleft>("Member_Prizeleft_Get", p, commandType: CommandType.StoredProcedure);
+            leftTotal = p.Get<int?>("LeftTotal") ?? 0;
+
+            return rtn;
+        }
+        public void GetPrizeCustGift(int custId, out int prizeId, out string giftName)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+
+            var p = new DynamicParameters(new { CustId = custId });
+            p.Add("PrizeId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("GiftName", dbType: DbType.String, direction: ParameterDirection.Output);
+            var rtn = conn.Query<Prizeleft>("Member_PrizeCustGift_Get", p, commandType: CommandType.StoredProcedure);
+            prizeId = p.Get<int?>("PrizeId") ?? 0;
+            giftName = p.Get<string>("GiftName");
+            return;
+        }
+        public IEnumerable<CustGiftList> GetPrizeCustGiftList(int custId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return  conn.Query<CustGiftList>("Member_PrizeCustGiftList_Get", new { CustId= custId }, commandType: CommandType.StoredProcedure);
+
+        }
+        public int CheckPrizeLottery(int siteId, int currencyId, int custId, out int prizeId, out string giftName)
+        {
+            prizeId = 0;
+            giftName = "";
+            int eventId = 0;
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            conn.Open();
+            // using var trans = conn.BeginTransaction();
+
+            var p = new DynamicParameters(new { SiteId = siteId, CurrencyId = currencyId });
+            p.Add("LeftTotal", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            var Prizes = conn.Query<Prizeleft>("Member_Prizeleft_Get", p, commandType: CommandType.StoredProcedure);
+            int leftTotal = p.Get<int?>("LeftTotal") ?? 0;
+
+            if (leftTotal <= 0)
+                return 101;//The number of gifts is gone
+
+            var p2 = new DynamicParameters(new { CustId = custId });
+            p2.Add("PrizeId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p2.Add("GiftName", dbType: DbType.String, direction: ParameterDirection.Output);
+            conn.Execute("Member_PrizeCustGift_Get", p2, commandType: CommandType.StoredProcedure);
+            prizeId = p2.Get<int?>("PrizeId") ?? 0;
+            giftName = p2.Get<string>("GiftName");
+
+            if (prizeId != 0)
+            {
+                return 100;//Already been drawn
+            }
+            return 0;
+        }
+        public int SetPrizeLottery(int siteId, int currencyId,int custId, out int prizeId, out string giftName)
+        {
+            prizeId = 0;
+            giftName = "";
+            int eventId = 0;
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            conn.Open();
+            var p2 = new DynamicParameters(new { CustId = custId });
+            p2.Add("PrizeId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p2.Add("GiftName", dbType: DbType.String, direction: ParameterDirection.Output);
+            conn.Execute("Member_PrizeCustGift_Get", p2, commandType: CommandType.StoredProcedure);
+            prizeId = p2.Get<int?>("PrizeId") ?? 0;
+            giftName = p2.Get<string>("GiftName");
+
+            if (prizeId != 0)
+            {
+                return 100;//Already been drawn
+            }
+
+            using var trans = conn.BeginTransaction();
+
+            var p = new DynamicParameters(new { SiteId = siteId, CurrencyId = currencyId });
+            p.Add("LeftTotal", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            var Prizes = conn.Query<Prizeleft>("Member_Prizeleft_Get", p, commandType: CommandType.StoredProcedure);
+            int leftTotal = p.Get<int?>("LeftTotal") ?? 0;
+
+            if (leftTotal <= 0)
+                return 101;//The number of gifts is gone
+
+           
+
+            Random r = new Random();
+            int LuckyNUM = r.Next(leftTotal)+1;
+
+            foreach (var item in Prizes)
+            {
+                if (item.Cumsum >= LuckyNUM)
+                {
+                    prizeId = item.PrizeId;
+                    giftName = item.GiftName;
+                    eventId = item.EventId;
+                    break;
+                }
+            }
+            if (prizeId == 0)
+            {
+                return 102;//SOME DATA ERROR
+            }
+
+            int rtn = conn.Execute("Member_PrizeDelivery_Set", new { PrizeId = prizeId, CustId = custId, EventId= eventId }, commandType: CommandType.StoredProcedure);
+
+            if (prizeId == 0)
+            {
+                return 103;//Delivery ERROR
+            }
+            if (rtn > 0)
+                trans.Commit();
+            return 0;
+        }
     }
 }
