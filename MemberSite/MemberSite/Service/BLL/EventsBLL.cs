@@ -135,5 +135,26 @@ namespace MemberSite.Service.BLL
             .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
             cache.Set(key, leaderboardCustRank, cacheEntryOptions);
         }
+        public IEnumerable<Prizeleft> GetPrizeleft(int siteId, int currencyId, out int leftTotal)
+        {
+            return eventsService.GetPrizeleft( siteId, currencyId, out leftTotal);
+        }
+        public void GetPrizeCustGift(int custId, out int prizeId, out string giftName)
+        {
+            eventsService.GetPrizeCustGift(custId, out prizeId, out giftName);
+        }
+        public IEnumerable<CustGiftList> GetPrizeCustGiftList(int custId)
+        {
+            return eventsService.GetPrizeCustGiftList(custId);
+        }
+        public int CheckPrizeLottery(int siteId, int currencyId, int custId, out int prizeId, out string giftName)
+        {
+            return eventsService.CheckPrizeLottery(siteId, currencyId, custId, out prizeId, out giftName);
+        }
+        public int SetPrizeLottery(int siteId, int currencyId, int custId, out int prizeId, out string giftName)
+        {
+            return eventsService.SetPrizeLottery(siteId, currencyId, custId, out prizeId, out giftName);
+        }
+
     }
 }
