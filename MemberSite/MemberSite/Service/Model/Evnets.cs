@@ -7,7 +7,7 @@ namespace MemberSite.Service.Model
 {
     public class Evnets
     {
-       
+
     }
     public class Leaderboard
     {
@@ -23,6 +23,15 @@ namespace MemberSite.Service.Model
         public int CustRank { get; set; }
         public decimal point { get; set; }
     }
+    public class Prize
+    {
+        public int PrizeId { get; set; }
+        public int PrizeType { get; set; }
+        public string PrizeName { get; set; }
+        public decimal Amount { get; set; }
+        public int Quota { get; set; }
+    }
+
     public class Prizeleft
     {
         public int PrizeId { get; set; }
@@ -46,7 +55,7 @@ namespace MemberSite.Service.Model
         public decimal Amount { get; set; }
         public DateTime DrawTime { get; set; }
 
-        
+
     }
 
 }
