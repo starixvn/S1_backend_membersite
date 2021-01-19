@@ -1,9 +1,11 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace MemberSite.Controllers.Api
@@ -122,7 +124,58 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+        [Authorize]
+        [HttpPost]
+        public ApiResult<CustGift> CheckDrawPrize(int eventId)
+        {
+            var apiResult = new ApiResult<CustGift>();
+            apiResult.Data = new CustGift();
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
+            if (custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted)
+            {
+                apiResult.ErrorCode = 102;
+            }
+            else
+            {
+                var prizes = eventsBLL.CheckDrawPrize(eventId, custInfo.CustId, custInfo.CurrencyId, out int prizeId, out int result);
+                if (result == 100)
+                {
+                    apiResult.Data.PrizeId = prizeId;
+                    apiResult.Data.GiftName = prizes.Where(x => x.PrizeId == prizeId).FirstOrDefault()?.PrizeName;
+                }
+                //apiResult.ErrorCode = eventsBLL.CheckDrawPrize(custInfo.SiteId, custInfo.CurrencyId, authData.CustId, out prizeId, out giftName);
+            }
+            return apiResult;
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ApiResult<CustGift> DrawPrize(int eventId)
+        {
+            var apiResult = new ApiResult<CustGift>();
+            apiResult.Data = new CustGift();
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            if (custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted)
+            {
+                apiResult.ErrorCode = 102;
+            }
+            else
+            {
+                var ress = eventsBLL.DrawPrize(eventId, custInfo.CustId, custInfo.CurrencyId, custInfo.UserName, custInfo.SiteId, out int result, out Prize prize);
+                if (result == 100 || result == 0)
+                {
+                    apiResult.Data.PrizeId = prize.PrizeId;
+                    apiResult.Data.GiftName = prize.PrizeName;
+                }
+
+                apiResult.ErrorCode = result;
+            }
+
+            return apiResult;
+        }
 
         [Authorize]
         [HttpPost]

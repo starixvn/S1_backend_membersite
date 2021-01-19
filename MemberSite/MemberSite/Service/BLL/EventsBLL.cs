@@ -27,7 +27,6 @@ namespace MemberSite.Service.BLL
         {
             this.eventsService = eventsService;
             this.cache = cache;
-
         }
         public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
@@ -134,6 +133,14 @@ namespace MemberSite.Service.BLL
             var cacheEntryOptions = new MemoryCacheEntryOptions()
             .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
             cache.Set(key, leaderboardCustRank, cacheEntryOptions);
+        }
+        public IEnumerable<Prize> CheckDrawPrize(int eventId, int custId, int currencyId, out int prizeId, out int result)
+        {
+            return eventsService.CheckDrawPrize(eventId, custId, currencyId, out prizeId, out result);
+        }
+        public int DrawPrize(int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
+        {
+            return eventsService.DrawPrize(eventId, custId, currencyId, userName, siteId, out result, out drawPrize);
         }
         public IEnumerable<Prizeleft> GetPrizeleft(int siteId, int currencyId, out int leftTotal)
         {

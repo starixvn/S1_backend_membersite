@@ -59,12 +59,12 @@ namespace MemberSite.Service.DAL
             custRank = p.Get<int?>("CustRank") ?? 0;
             point = p.Get<decimal?>("Point") ?? 0;
         }
-        public IEnumerable<Prize> CheckDrawPrize(int eventId, int custId, int currencyId, out int prizeId, out int quota, out DateTime checkDate, out int result)
+        public IEnumerable<Prize> CheckDrawPrize(int eventId, int custId, int currencyId, out int prizeId, out int result)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             using var trans = conn.BeginTransaction();
 
-            return CheckDrawPrize(eventId, custId, currencyId, out prizeId, out quota, out checkDate, out result, conn, trans);
+            return CheckDrawPrize(eventId, custId, currencyId, out prizeId, out _, out _, out result, conn, trans);
         }
         private IEnumerable<Prize> CheckDrawPrize(int eventId, int custId, int currencyId, out int prizeId, out int quota, out DateTime checkDate, out int result, MySqlConnection conn, MySqlTransaction trans)
         {
@@ -81,21 +81,26 @@ namespace MemberSite.Service.DAL
 
             return rtn;
         }
-        public int DrawPrize(int eventId, int custId, int currencyId, string userName, int siteId, out int prizeId, out int quota, out DateTime checkDate, out int result, out Prize drawPrize)
+        public int DrawPrize(int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
         {
             int res = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             using var trans = conn.BeginTransaction();
             drawPrize = null;
 
-            var Prizes = CheckDrawPrize(eventId, custId, currencyId, out prizeId, out quota, out checkDate, out result, conn, trans);
-            if (result == 0)
+            var Prizes = CheckDrawPrize(eventId, custId, currencyId, out int prizeId, out int quota, out DateTime checkDate, out result, conn, trans);
+
+            if (result == 100)
+            {
+                drawPrize = Prizes.Where(x => x.PrizeId == prizeId).FirstOrDefault();
+            }
+            else if (result == 0)
             {
                 Random r = new Random();
                 int LuckyNum = r.Next(quota) + 1;
                 int LuckyCnt = 0;
                 decimal prizeAmount = 0;
-                foreach (var prize in Prizes)
+                foreach (var prize in Prizes.Where(x => x.Quota > 0))
                 {
                     drawPrize = prize;
                     prizeId = prize.PrizeId;
@@ -114,7 +119,7 @@ namespace MemberSite.Service.DAL
                 trans.Commit();
             }
 
-            return res;
+            return result;
         }
         public IEnumerable<Prizeleft> GetPrizeleft(int siteId, int currencyId, out int leftTotal)
         {
