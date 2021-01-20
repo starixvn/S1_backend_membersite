@@ -143,7 +143,7 @@ namespace MemberSite.Controllers.Api
                 if (result == 100)
                 {
                     apiResult.Data.PrizeId = prizeId;
-                    apiResult.Data.GiftName = prizes.Where(x => x.PrizeId == prizeId).FirstOrDefault()?.PrizeName;
+                    apiResult.Data.PrizeName = prizes.Where(x => x.PrizeId == prizeId).FirstOrDefault()?.PrizeName;
                 }
                 apiResult.ErrorCode = result;
                 //apiResult.ErrorCode = eventsBLL.CheckDrawPrize(custInfo.SiteId, custInfo.CurrencyId, authData.CustId, out prizeId, out giftName);
@@ -170,7 +170,7 @@ namespace MemberSite.Controllers.Api
                 if (result == 100 || result == 0)
                 {
                     apiResult.Data.PrizeId = prize.PrizeId;
-                    apiResult.Data.GiftName = prize.PrizeName;
+                    apiResult.Data.PrizeName = prize.PrizeName;
                 }
 
                 apiResult.ErrorCode = result;
