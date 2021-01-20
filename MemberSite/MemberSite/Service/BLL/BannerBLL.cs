@@ -119,5 +119,69 @@ namespace MemberSite.Service.BLL
 
             return banner;
         }
+
+        public IEnumerable<BannerV3> GetBannerV3(int SiteId, int BannerType, int ShowStatus, int CurrencyId, string LangId)
+        {
+            var banner = new List<BannerV3>();
+            var bannerlist = bannerService.GetBannerV3(SiteId, BannerType, ShowStatus, CurrencyId);
+            foreach (var bannerdetail in bannerlist)
+            {
+                if (bannerdetail.Details != null && bannerdetail.BannerType != 2)
+                {
+                    var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(bannerdetail.Details);
+                    if (details.ContainsKey(LangId))
+                    {
+                        var settings = details[LangId];
+                        banner.Add(new BannerV3()
+                        {
+                            BannerName = bannerdetail.BannerName,
+                            BannerType = bannerdetail.BannerType,
+                            ActionMode = bannerdetail.ActionMode,
+                            BonusCode = bannerdetail.BonusCode,
+                            MatchId = bannerdetail.MatchId,
+                            TpId = bannerdetail.TpId,
+                            GameId = bannerdetail.GameId,
+                            UrlRouter = bannerdetail.UrlRouter,
+                            BannerLink = settings["bannerLink"],
+                            BannerPCUrl = settings["bannerPCUrl"],
+                            BannerMobileUrl = settings["bannerMobileUrl"]
+                        });
+                    }
+                }
+                else if (bannerdetail.SportLeaguesId != null && bannerdetail.SportTeamsHome != null && bannerdetail.SportTeamsAway != null && bannerdetail.BannerType == 2)
+                {
+                    var sportLeaguesId = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerdetail.SportLeaguesId);
+                    var sportTeamsHome = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerdetail.SportTeamsHome);
+                    var sportTeamsAway = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerdetail.SportTeamsAway);
+                    if (sportLeaguesId.ContainsKey(LangId) && sportTeamsHome.ContainsKey(LangId) && sportTeamsAway.ContainsKey(LangId))
+                    {
+                        var leagues = sportLeaguesId[LangId];
+                        var teamsHome = sportTeamsHome[LangId];
+                        var teamsHomePic = $"{sportLeaguesId["en"]}/{sportTeamsHome["en"]}.png";
+                        var teamsAway = sportTeamsAway[LangId];
+                        var teamsAwayPic = $"{sportTeamsAway["en"]}/{sportTeamsAway["en"]}.png";
+                        banner.Add(new BannerV3()
+                        {
+                            BannerName = bannerdetail.BannerName,
+                            BannerType = bannerdetail.BannerType,
+                            ActionMode = bannerdetail.ActionMode,
+                            BonusCode = bannerdetail.BonusCode,
+                            MatchId = bannerdetail.MatchId,
+                            TpId = bannerdetail.TpId,
+                            GameId = bannerdetail.GameId,
+                            UrlRouter = bannerdetail.UrlRouter,
+                            SportBattleDateTime = bannerdetail.SportBattleDateTime,
+                            SportLeaguesId = leagues,
+                            SportTeamsHome = teamsHome,
+                            SportTeamsHomePic = teamsHomePic,
+                            SportTeamsAway = teamsAway,
+                            SportTeamsAwayPic = teamsAwayPic
+                        });
+                    }
+                }
+            }
+
+            return banner;
+        }
     }
 }
