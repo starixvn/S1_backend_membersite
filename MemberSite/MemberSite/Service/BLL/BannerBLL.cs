@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,15 @@ namespace MemberSite.Service.BLL
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly PromotionBLL promotionBLL;
         private readonly IWebHostEnvironment environment;
+        private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
 
-        public BannerBLL(BannerService bannerService, ServerInfoBLL serverInfoBLL, IWebHostEnvironment environment, PromotionBLL promotionBLL)
+        public BannerBLL(BannerService bannerService, ServerInfoBLL serverInfoBLL, IWebHostEnvironment environment, PromotionBLL promotionBLL, IOptions<Dictionary<string, SiteConfig>> siteConfig)
         {
             this.bannerService = bannerService;
             this.serverInfoBLL = serverInfoBLL;
             this.environment = environment;
             this.promotionBLL = promotionBLL;
+            this.siteConfig = siteConfig;
         }
 
         //public IEnumerable<Banner> GetBanner(int SiteId, string FolderName, string Lang, int CurrencyId)
@@ -120,7 +123,7 @@ namespace MemberSite.Service.BLL
             return banner;
         }
 
-        public IEnumerable<BannerV3> GetBannerV3(int SiteId, int BannerType, int ShowStatus, int CurrencyId, string LangId)
+        public IEnumerable<BannerV3> GetBannerV3(int SiteId, int BannerType, int ShowStatus, int CurrencyId, string LangId, ServerInfo serverInfo)
         {
             var banner = new List<BannerV3>();
             var bannerlist = bannerService.GetBannerV3(SiteId, BannerType, ShowStatus, CurrencyId);
@@ -157,9 +160,9 @@ namespace MemberSite.Service.BLL
                     {
                         var leagues = sportLeaguesId[LangId];
                         var teamsHome = sportTeamsHome[LangId];
-                        var teamsHomePic = $"{sportLeaguesId["en"]}/{sportTeamsHome["en"]}.png";
+                        var teamsHomePic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{sportTeamsHome["en"]}.png";
                         var teamsAway = sportTeamsAway[LangId];
-                        var teamsAwayPic = $"{sportLeaguesId["en"]}/{sportTeamsAway["en"]}.png";
+                        var teamsAwayPic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{sportTeamsAway["en"]}.png";
                         banner.Add(new BannerV3()
                         {
                             BannerName = bannerdetail.BannerName,
