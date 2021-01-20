@@ -18,11 +18,14 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL authorizeBLL;
         private readonly EventsBLL eventsBLL;
         private readonly CustInfoBLL custInfoBLL;
-        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL)
+        private readonly SelLangBLL selLangBLL;
+
+        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL)
         {
             this.authorizeBLL = authorizeBLL;
             this.eventsBLL = eventsBLL;
             this.custInfoBLL = custInfoBLL;
+            this.selLangBLL = selLangBLL;
         }
 
         public class GetLeaderboardListReq
@@ -133,21 +136,14 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
-            if (custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted)
+            var prizes = eventsBLL.CheckDrawPrize(ref eventId, custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, out int prizeId, out int result);
+            if (result == 100)
             {
-                apiResult.ErrorCode = 102;
+                apiResult.Data.PrizeId = prizeId;
+                apiResult.Data.PrizeName = prizes.Where(x => x.PrizeId == prizeId).FirstOrDefault()?.PrizeName;
             }
-            else
-            {
-                var prizes = eventsBLL.CheckDrawPrize(ref eventId, custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, out int prizeId, out int result);
-                if (result == 100)
-                {
-                    apiResult.Data.PrizeId = prizeId;
-                    apiResult.Data.PrizeName = prizes.Where(x => x.PrizeId == prizeId).FirstOrDefault()?.PrizeName;
-                }
-                apiResult.ErrorCode = result;
-                //apiResult.ErrorCode = eventsBLL.CheckDrawPrize(custInfo.SiteId, custInfo.CurrencyId, authData.CustId, out prizeId, out giftName);
-            }
+            apiResult.ErrorCode = result;
+            //apiResult.ErrorCode = eventsBLL.CheckDrawPrize(custInfo.SiteId, custInfo.CurrencyId, authData.CustId, out prizeId, out giftName);
             return apiResult;
         }
 
@@ -163,6 +159,12 @@ namespace MemberSite.Controllers.Api
             if (custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted)
             {
                 apiResult.ErrorCode = 102;
+                apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
+            }
+            else if ((custInfo.SiteId == 2 || custInfo.SiteId == 3) && custInfoBLL.GetCustTransSummary(authData.CustId).DepositSum < 200000)
+            {
+                apiResult.ErrorCode = 102;
+                apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
             }
             else
             {
@@ -189,6 +191,6 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-       
+
     }
 }

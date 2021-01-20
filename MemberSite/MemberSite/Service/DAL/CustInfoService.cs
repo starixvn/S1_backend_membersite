@@ -90,6 +90,11 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.QueryFirstOrDefault<Customer>("Customer_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
         }
+        public CustTransSummary GetCustTransSummary(int custId)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.QueryFirstOrDefault<CustTransSummary>("Member_CustTransSummary_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+        }
 
         public Customer GetCustInfoByMail(string email, int siteId)
         {
