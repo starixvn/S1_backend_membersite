@@ -45,7 +45,7 @@ namespace MemberSite.Service.Model
     public class CustGift
     {
         public int PrizeId { get; set; }
-        public string GiftName { get; set; }
+        public string PrizeName { get; set; }
     }
     public class CustGiftList
     {
