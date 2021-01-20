@@ -159,7 +159,7 @@ namespace MemberSite.Service.BLL
                         var teamsHome = sportTeamsHome[LangId];
                         var teamsHomePic = $"{sportLeaguesId["en"]}/{sportTeamsHome["en"]}.png";
                         var teamsAway = sportTeamsAway[LangId];
-                        var teamsAwayPic = $"{sportTeamsAway["en"]}/{sportTeamsAway["en"]}.png";
+                        var teamsAwayPic = $"{sportLeaguesId["en"]}/{sportTeamsAway["en"]}.png";
                         banner.Add(new BannerV3()
                         {
                             BannerName = bannerdetail.BannerName,
