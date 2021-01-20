@@ -51,7 +51,7 @@ namespace MemberSite.Service.Model
     {
         public DateTime EventDate { get; set; }
         public int PrizeId { get; set; }
-        public string GiftName { get; set; }
+        public string PrizeName { get; set; }
         public decimal Amount { get; set; }
         public DateTime DrawTime { get; set; }
 

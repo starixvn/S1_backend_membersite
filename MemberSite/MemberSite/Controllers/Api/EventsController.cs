@@ -139,12 +139,13 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                var prizes = eventsBLL.CheckDrawPrize(eventId, custInfo.CustId, custInfo.CurrencyId, out int prizeId, out int result);
+                var prizes = eventsBLL.CheckDrawPrize(ref eventId, custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, out int prizeId, out int result);
                 if (result == 100)
                 {
                     apiResult.Data.PrizeId = prizeId;
                     apiResult.Data.GiftName = prizes.Where(x => x.PrizeId == prizeId).FirstOrDefault()?.PrizeName;
                 }
+                apiResult.ErrorCode = result;
                 //apiResult.ErrorCode = eventsBLL.CheckDrawPrize(custInfo.SiteId, custInfo.CurrencyId, authData.CustId, out prizeId, out giftName);
             }
             return apiResult;
@@ -158,13 +159,14 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = new CustGift();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+
             if (custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted)
             {
                 apiResult.ErrorCode = 102;
             }
             else
             {
-                var ress = eventsBLL.DrawPrize(eventId, custInfo.CustId, custInfo.CurrencyId, custInfo.UserName, custInfo.SiteId, out int result, out Prize prize);
+                var ress = eventsBLL.DrawPrize(ref eventId, custInfo.CustId, custInfo.CurrencyId, custInfo.UserName, custInfo.SiteId, out int result, out Prize prize);
                 if (result == 100 || result == 0)
                 {
                     apiResult.Data.PrizeId = prize.PrizeId;
@@ -176,81 +178,17 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-
         [Authorize]
         [HttpPost]
-        public ApiResult<IEnumerable<Prizeleft>> GetPrizeleft()
-        {
-            var apiResult = new ApiResult<IEnumerable<Prizeleft>>();
-            var authData = authorizeBLL.GetAuthData();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            int leftTotal = 0;
-            apiResult.Data = eventsBLL.GetPrizeleft(custInfo.SiteId, custInfo.CurrencyId,out leftTotal);
-            if(leftTotal > 0)
-                apiResult.ErrorCode = 0;
-            else
-                apiResult.ErrorCode = 101; //The number of gifts is gone
-            return apiResult;
-        }
-
-        [Authorize]
-        [HttpPost]
-        public ApiResult<CustGift> GetPrizeCustGift()
-        {
-            var apiResult = new ApiResult<CustGift>();
-            apiResult.Data = new CustGift();
-            var authData = authorizeBLL.GetAuthData();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            int prizeId = 0;
-            string giftName = "";
-            eventsBLL.GetPrizeCustGift(authData.CustId, out prizeId, out giftName);
-            apiResult.Data.PrizeId = prizeId;
-            apiResult.Data.GiftName = giftName;
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-        [Authorize]
-        [HttpPost]
-        public ApiResult<CustGift> CheckPrizeLottery()
-        {
-            var apiResult = new ApiResult<CustGift>();
-            apiResult.Data = new CustGift();
-            var authData = authorizeBLL.GetAuthData();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            int prizeId = 0;
-            string giftName = "";
-            apiResult.ErrorCode = 0;
-            apiResult.ErrorCode = eventsBLL.CheckPrizeLottery(custInfo.SiteId, custInfo.CurrencyId, authData.CustId, out prizeId, out giftName);
-            apiResult.Data.PrizeId = prizeId;
-            apiResult.Data.GiftName = giftName;
-            return apiResult;
-        }
-
-        [Authorize]
-        [HttpPost]
-        public ApiResult<CustGift> SetPrizeLottery()
-        {
-            var apiResult = new ApiResult<CustGift>();
-            apiResult.Data = new CustGift();
-            var authData = authorizeBLL.GetAuthData();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            int prizeId = 0;
-            string giftName = "";
-            apiResult.ErrorCode = 0;
-            apiResult.ErrorCode = eventsBLL.SetPrizeLottery(custInfo.SiteId, custInfo.CurrencyId, authData.CustId, out prizeId, out giftName);
-            apiResult.Data.PrizeId = prizeId;
-            apiResult.Data.GiftName = giftName;
-            return apiResult;
-        }
-        [Authorize]
-        [HttpPost]
-        public ApiResult<IEnumerable<CustGiftList>> GetPrizeCustGiftList()
+        public ApiResult<IEnumerable<CustGiftList>> GetCustDrawPrizeList(int eventId)
         {
             var apiResult = new ApiResult<IEnumerable<CustGiftList>>();
             var authData = authorizeBLL.GetAuthData();
-            apiResult.Data = eventsBLL.GetPrizeCustGiftList(authData.CustId);
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            apiResult.Data = eventsBLL.GetCustDrawPrizeList(eventId, custInfo.SiteId, authData.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+       
     }
 }
