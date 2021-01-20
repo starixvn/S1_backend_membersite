@@ -246,6 +246,11 @@ namespace MemberSite.Service.BLL
             return custInfoService.GetCustInfo(custId);
         }
 
+        public CustTransSummary GetCustTransSummary(int custId)
+        {
+            return custInfoService.GetCustTransSummary(custId);
+        }
+
         public Customer GetCustInfoByMail(string email)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
