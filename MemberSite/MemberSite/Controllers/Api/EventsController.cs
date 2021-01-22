@@ -1,9 +1,11 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace MemberSite.Controllers.Api
@@ -16,11 +18,14 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL authorizeBLL;
         private readonly EventsBLL eventsBLL;
         private readonly CustInfoBLL custInfoBLL;
-        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL)
+        private readonly SelLangBLL selLangBLL;
+
+        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL)
         {
             this.authorizeBLL = authorizeBLL;
             this.eventsBLL = eventsBLL;
             this.custInfoBLL = custInfoBLL;
+            this.selLangBLL = selLangBLL;
         }
 
         public class GetLeaderboardListReq
@@ -122,5 +127,70 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+        [Authorize]
+        [HttpPost]
+        public ApiResult<CustGift> CheckDrawPrize(int eventId)
+        {
+            var apiResult = new ApiResult<CustGift>();
+            apiResult.Data = new CustGift();
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+
+            var prizes = eventsBLL.CheckDrawPrize(ref eventId, custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, out int prizeId, out int result);
+            if (result == 100)
+            {
+                apiResult.Data.PrizeId = prizeId;
+                apiResult.Data.PrizeName = prizes.Where(x => x.PrizeId == prizeId).FirstOrDefault()?.PrizeName;
+            }
+            apiResult.ErrorCode = result;
+            //apiResult.ErrorCode = eventsBLL.CheckDrawPrize(custInfo.SiteId, custInfo.CurrencyId, authData.CustId, out prizeId, out giftName);
+            return apiResult;
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ApiResult<CustGift> DrawPrize(int eventId)
+        {
+            var apiResult = new ApiResult<CustGift>();
+            apiResult.Data = new CustGift();
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+
+            if (custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted)
+            {
+                apiResult.ErrorCode = 102;
+                apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
+            }
+            else if ((custInfo.SiteId == 2 || custInfo.SiteId == 3) && custInfoBLL.GetCustTransSummary(authData.CustId).DepositSum < 200000)
+            {
+                apiResult.ErrorCode = 102;
+                apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
+            }
+            else
+            {
+                var ress = eventsBLL.DrawPrize(ref eventId, custInfo.CustId, custInfo.CurrencyId, custInfo.UserName, custInfo.SiteId, out int result, out Prize prize);
+                if (result == 100 || result == 0)
+                {
+                    apiResult.Data.PrizeId = prize.PrizeId;
+                    apiResult.Data.PrizeName = prize.PrizeName;
+                }
+
+                apiResult.ErrorCode = result;
+            }
+
+            return apiResult;
+        }
+        [Authorize]
+        [HttpPost]
+        public ApiResult<IEnumerable<CustGiftList>> GetCustDrawPrizeList(int eventId)
+        {
+            var apiResult = new ApiResult<IEnumerable<CustGiftList>>();
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            apiResult.Data = eventsBLL.GetCustDrawPrizeList(eventId, custInfo.SiteId, authData.CustId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
     }
 }

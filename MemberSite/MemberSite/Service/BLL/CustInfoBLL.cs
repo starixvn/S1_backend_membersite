@@ -246,6 +246,11 @@ namespace MemberSite.Service.BLL
             return custInfoService.GetCustInfo(custId);
         }
 
+        public CustTransSummary GetCustTransSummary(int custId)
+        {
+            return custInfoService.GetCustTransSummary(custId);
+        }
+
         public Customer GetCustInfoByMail(string email)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
@@ -349,6 +354,11 @@ namespace MemberSite.Service.BLL
             }
 
             return custBankInfo;
+        }
+        public string GetDefAccountNo(int custId)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return custInfoService.GetDefAccountNo(custId, custInfo.SiteId);
         }
         public bool ExistsUserName(string userName)
         {

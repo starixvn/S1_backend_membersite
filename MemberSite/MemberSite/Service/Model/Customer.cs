@@ -58,6 +58,7 @@ namespace MemberSite.Service.Model
     public class CustBankInfoRep
     {
         public string AccountName { set; get; }
+        public string DefAccountNo { set; get; }
         public IEnumerable<BankInfoDetailRep> bankInfoDetail { set; get; }
     }
 
@@ -176,5 +177,15 @@ namespace MemberSite.Service.Model
         public decimal BonusAmount { get; set; }
         public int Status { get; set; }
 
+    }
+    public class CustTransSummary
+    {
+        public decimal DepositSum { get; set; }
+        public int DepositCnt { get; set; }
+        public decimal WithdrawlSum { get; set; }
+        public int WithdrawlCnt { get; set; }
+        public decimal EffectiveBetSum { get; set; }
+        public decimal BonusSum { get; set; }
+        public int BonusCnt { get; set; }
     }
 }

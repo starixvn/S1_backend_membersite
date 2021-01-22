@@ -398,6 +398,19 @@ namespace MemberSite.Controllers.Api
                         bankInfo.BankLogo = refBankInfo.BankLogo;
                         bankInfo.BankSite = refBankInfo.BankSite;
                     }
+
+                    if (custBankInfo.bankInfoDetail.Count() == 0)
+                    {
+                        custBankInfo.DefAccountNo = custBankInfo.bankInfoDetail.ElementAt(0).AccountNo;
+                    }
+                    else
+                    {
+                        string defAccountNo = custInfoBLL.GetDefAccountNo(authData.CustId);
+                        if (custBankInfo.bankInfoDetail.Any(x => x.AccountNo == defAccountNo))
+                        {
+                            custBankInfo.DefAccountNo = defAccountNo;
+                        }
+                    }
                 }
             }
 

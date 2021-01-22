@@ -303,4 +303,7 @@
   <data name="msg_SpecialCodeErr" xml:space="preserve">
     <value>Your inputted special bonus code does not have available promotion for redemption.</value>
   </data>
+  <data name="msg_IneligibleAngPow" xml:space="preserve">
+    <value>You are not eligible for this promotion!</value>
+  </data>
 </root>
