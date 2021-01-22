@@ -54,8 +54,25 @@ namespace MemberSite.Service.Model
         public string PrizeName { get; set; }
         public decimal Amount { get; set; }
         public DateTime DrawTime { get; set; }
-
-
     }
-
+    public class LeaderboardInfo
+    {
+        public string EventCode { get; set; }
+        public int SiteId { get; set; }
+        public string Tital { get; set; }
+        public string LobbyPic { get; set; }
+        public string RewardPic { get; set; }
+        public string RewardDESC { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public IEnumerable<RewardInfo> RewardInfolist { get; set; }
+    }
+    public class RewardInfo
+    {
+        public int CurrencyId { get; set; }
+        public int CategoryId { get; set; }
+        public string DetailUrl { get; set; }
+        public string Rewards { get; set; }
+       
+    }
 }

@@ -130,5 +130,12 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<CustGiftList>("Member_CustDrawPrizeList_Get", new { EventId = eventId, SiteId = siteId, CustId = custId  }, commandType: CommandType.StoredProcedure);
         }
+        public LeaderboardInfo GetLeaderboardInfo(string eventCode, int siteId, int crrencyId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var info = conn.QueryFirstOrDefault<LeaderboardInfo>("Member_LeaderboardEventInfo_Get", new { EventCode = eventCode, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            info.RewardInfolist = conn.Query<RewardInfo>("Member_LeaderboardRewardInfo_Get", new { EventCode = eventCode, SiteId = siteId, CrrencyId = crrencyId }, commandType: CommandType.StoredProcedure);
+            return info;
+        }
     }
 }
