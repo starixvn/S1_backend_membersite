@@ -19,13 +19,15 @@ namespace MemberSite.Controllers.Api
         private readonly EventsBLL eventsBLL;
         private readonly CustInfoBLL custInfoBLL;
         private readonly SelLangBLL selLangBLL;
+        private readonly MessageBLL messageBLL;
 
-        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL)
+        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, MessageBLL messageBLL)
         {
             this.authorizeBLL = authorizeBLL;
             this.eventsBLL = eventsBLL;
             this.custInfoBLL = custInfoBLL;
             this.selLangBLL = selLangBLL;
+            this.messageBLL = messageBLL;
         }
 
         public class GetLeaderboardListReq
@@ -174,7 +176,12 @@ namespace MemberSite.Controllers.Api
                     apiResult.Data.PrizeId = prize.PrizeId;
                     apiResult.Data.PrizeName = prize.PrizeName;
                 }
-
+                if(result == 0)
+                {
+                    string msg;
+                    msg = $"{selLangBLL.GetMsg("msg_DrawPrize")} {prize.PrizeName}";
+                    messageBLL.SendMessage(custInfo.SiteId, "DrawPrize", "DrawPrize", msg.ToString(), custInfo.CustId, custInfo.UserName, custInfo.UserLang);
+                }
                 apiResult.ErrorCode = result;
             }
 

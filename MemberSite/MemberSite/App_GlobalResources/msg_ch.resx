@@ -291,4 +291,7 @@
   <data name="msg_SpecialCodeErr" xml:space="preserve">
     <value>您輸入的特別優惠代碼沒有優惠可以領取</value>
   </data>
+  <data name="msg_DrawPrize" xml:space="preserve">
+    <value>恭喜您獲得,</value>
+  </data>
 </root>

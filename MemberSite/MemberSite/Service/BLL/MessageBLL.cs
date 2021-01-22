@@ -63,5 +63,9 @@ namespace MemberSite.Service.BLL
 
             return cacheData;
         }
+        public int SendMessage(int siteId, string sender, string title, string content, int custId, string CustUserName, string lang)
+        {
+            return messageService.SendMessage(siteId, sender, title, content, custId, CustUserName, lang);
+        }
     }
 }

@@ -306,4 +306,7 @@
   <data name="msg_IneligibleAngPow" xml:space="preserve">
     <value>You are not eligible for this promotion!</value>
   </data>
+  <data name="msg_DrawPrize" xml:space="preserve">
+    <value>Congratulations on getting</value>
+  </data>
 </root>
