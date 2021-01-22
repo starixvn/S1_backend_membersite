@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -55,6 +56,11 @@ namespace MemberSite.Service.Model
         public decimal Amount { get; set; }
         public DateTime DrawTime { get; set; }
     }
+    public class LeaderboardEvent
+    {
+        public string NowEventCode { get; set; }
+        public string LastEventCode { get; set; }
+    }
     public class LeaderboardInfo
     {
         public string EventCode { get; set; }
@@ -73,6 +79,8 @@ namespace MemberSite.Service.Model
         public int CategoryId { get; set; }
         public string DetailUrl { get; set; }
         public string Rewards { get; set; }
-       
+        public Dictionary<string, string> DetailUrlList { get; set; } 
+        public Dictionary<string, List<Dictionary<string, string>>> RewardsList { get; set; }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -146,6 +147,46 @@ namespace MemberSite.Service.BLL
         public IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId)
         {
             return eventsService.GetCustDrawPrizeList( eventId, siteId, custId);
+        }
+        public void GetLeaderboardEventCode(int siteId, out string eventCodeNow, out string eventCodeLast)
+        {
+            eventsService.GetLeaderboardEventCode( siteId, out eventCodeNow, out eventCodeLast);
+        }
+        public LeaderboardInfo GetLeaderboardInfo(string eventCode, int siteId, int currencyId)
+        {
+            var events = new List<RewardInfo>();
+            var eventslist = eventsService.GetLeaderboardInfo(eventCode, siteId, currencyId);
+            foreach (var eventsdetail in eventslist.RewardInfolist)
+            {
+                if (eventsdetail.DetailUrl != null && eventsdetail.Rewards != null)
+                {
+                    var detailUrlList = JsonConvert.DeserializeObject<Dictionary<string, string>>(eventsdetail.DetailUrl);
+                    var rewardsList = JsonConvert.DeserializeObject<Dictionary<string, List<Dictionary<string,string>>>>(eventsdetail.Rewards);
+                   
+                        events.Add(new RewardInfo()
+                        {
+
+                            CurrencyId = eventsdetail.CurrencyId,
+                            CategoryId = eventsdetail.CategoryId,
+                            DetailUrlList = detailUrlList,
+                            RewardsList = rewardsList
+                        });
+                    
+                }
+            }
+
+            var newevents = new LeaderboardInfo() {
+                EventCode = eventslist.EventCode,
+                Tital = eventslist.Tital,
+                LobbyPic = eventslist.LobbyPic,
+                RewardPic = eventslist.RewardPic,
+                RewardDESC = eventslist.RewardDESC,
+                StartTime = eventslist.StartTime,
+                EndTime = eventslist.EndTime,
+                RewardInfolist =events
+            };
+
+            return newevents;
         }
     }
 }
