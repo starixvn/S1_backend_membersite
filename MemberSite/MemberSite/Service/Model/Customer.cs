@@ -58,6 +58,7 @@ namespace MemberSite.Service.Model
     public class CustBankInfoRep
     {
         public string AccountName { set; get; }
+        public string DefAccountNo { set; get; }
         public IEnumerable<BankInfoDetailRep> bankInfoDetail { set; get; }
     }
 

@@ -18,19 +18,19 @@
       "lang": [ "vn", "en" ]
     },
     {
-      "actionLink": "promotion",
+      "actionLink": "vn/promotion/promotionInfo?BonusCode=BwingCNov20",
       "img": "B2021-150.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
     {
-      "actionLink": "promotion",
+      "actionLink": "vn/promotion/promotionInfo?BonusCode=BwingRebateNov20",
       "img": "B2021-1.7.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
     {
-      "actionLink": "promotion",
+      "actionLink": "vn/promotion/promotionInfo?BonusCode=BwingSBReDepo10",
       "img": "B2021-10.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
@@ -74,37 +74,37 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40761586",
+      "matchid": "40935142",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40761586.png",
+      "img": "games-40935142.png",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40761591",
+      "matchid": "40782948",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40761591.png",
+      "img": "games-40782948.png",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40665261",
+      "matchid": "40956487",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40665261.png",
+      "img": "games-40956487.png",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40665263",
+      "matchid": "40963282",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40665263.png",
+      "img": "games-40963282.png",
       "lang": [ "en", "vn" ]
     }
     //{

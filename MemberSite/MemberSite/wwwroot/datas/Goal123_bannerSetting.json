@@ -25,19 +25,19 @@
       "lang": [ "vn", "en" ]
     },
     {
-      "actionLink": "promotion",
+      "actionLink": "vn/promotion/promotionInfo?BonusCode=Goal123Nov20",
       "img": "2021-150.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
     {
-      "actionLink": "promotion",
+      "actionLink": "vn/promotion/promotionInfo?BonusCode=Goal123SBReDepo10",
       "img": "2021-10.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
     {
-      "actionLink": "promotion",
+      "actionLink": "vn/promotion/promotionInfo?BonusCode=Goal123RebateNov20",
       "img": "2021-1.7.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
@@ -62,37 +62,37 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40761586",
+      "matchid": "40935142",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40761586.jpg",
+      "img": "games-40935142.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40761591",
+      "matchid": "40782948",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40761591.jpg",
+      "img": "games-40782948.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40665261",
+      "matchid": "40956487",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40665261.jpg",
+      "img": "games-40956487.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40665263",
+      "matchid": "40963282",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40665263.jpg",
+      "img": "games-40963282.jpg",
       "lang": [ "en", "vn" ]
     }
     //{
