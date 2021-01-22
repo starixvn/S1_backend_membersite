@@ -355,6 +355,11 @@ namespace MemberSite.Service.BLL
 
             return custBankInfo;
         }
+        public string GetDefAccountNo(int custId)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return custInfoService.GetDefAccountNo(custId, custInfo.SiteId);
+        }
         public bool ExistsUserName(string userName)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
