@@ -1,6 +1,11 @@
 {
   "Promotion": [
     {
+      "img": "Banner-NewYearLeaderBoard.jpg",
+      "actionLink": "leaderBoard",
+      "lang": [ "vn", "en" ]
+    },
+    {
       "actionLink": "SiteSkin/Goal123/appDownload/vn.html",
       "img": "Banner-APP.jpg",
       "currencyId": [ 51 ],
@@ -9,18 +14,6 @@
     {
       "actionLink": "vn/casino?provider=Iconic",
       "img": "banner-icg.jpg",
-      "currencyId": [ 51 ],
-      "lang": [ "vn", "en" ]
-    },
-    {
-      "img": "Xmas_banner.jpg",
-      "actionLink": "leaderBoard",
-      "currencyId": [ 51 ],
-      "lang": [ "vn", "en" ]
-    },
-    {
-      "actionLink": "vn/casino?provider=CQ9",
-      "img": "banner-cq9.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
@@ -62,37 +55,28 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40935142",
+      "matchid": "40963287",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40935142.jpg",
+      "img": "games-40963287.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40782948",
+      "matchid": "41062629",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40782948.jpg",
+      "img": "games-41062629.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40956487",
+      "matchid": "41124063",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40956487.jpg",
-      "lang": [ "en", "vn" ]
-    },
-    {
-      "tpId": "1",
-      "gameId": "1",
-      "matchid": "40963282",
-      "actionLink": "Sports/Index",
-      "outerLink": true,
-      "img": "games-40963282.jpg",
+      "img": "games-41124063.jpg",
       "lang": [ "en", "vn" ]
     }
     //{
