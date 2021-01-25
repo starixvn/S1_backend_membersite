@@ -176,9 +176,13 @@ namespace MemberSite.Service.BLL
             {
                 apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible");
 
-                if ((custInfo.SiteId == 2 || custInfo.SiteId == 3) && promotion?.PromotionType == PromotionType.Freebet)
+                if ((custInfo.SiteId == 2 || custInfo.SiteId == 3))
                 {
-                    apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible_FreeBet");
+                    promotion = GetPromotionListWithCache(custInfo.SiteId).Where(x => x.BonusCode.Equals(bonusCode, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                    if (promotion?.PromotionType == PromotionType.Freebet)
+                    {
+                        apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible_FreeBet");
+                    }
                 }
             }
 
