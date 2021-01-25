@@ -292,4 +292,10 @@
   <data name="msg_SpecialCodeErr" xml:space="preserve">
     <value>您输入的特别优惠代码没有优惠可以领取</value>
   </data>
+  <data name="msg_DrawPrize" xml:space="preserve">
+    <value>奖金将发至您的钱包</value>
+  </data>
+  <data name="msg_DrawPrizeTital" xml:space="preserve">
+    <value>红包大放送</value>
+  </data>
 </root>

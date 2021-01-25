@@ -299,4 +299,10 @@
   <data name="msg_SpecialCodeErr" xml:space="preserve">
     <value>รหัสโบนัสพิเศษที่คุณป้อน ไม่มีโปรโมชั่นสำหรับขอแลกรับ</value>
   </data>
+  <data name="msg_DrawPrize" xml:space="preserve">
+    <value>เงินรางวัลที่ได้จะโอนเครดิตเข้าที่กระเป๋าเงินของคุณ</value>
+  </data>
+  <data name="msg_DrawPrizeTital" xml:space="preserve">
+    <value>ต้อนรับปีวัวทอง</value>
+  </data>
 </root>

@@ -116,6 +116,13 @@ namespace MemberSite.Service.DAL
                         break;
                     }
                 }
+                if(LuckyCnt == 0)
+                {
+                    var prize = Prizes.Aggregate((min, next) => min.Amount > next.Amount ? next : min);
+                    drawPrize = prize;
+                    prizeId = prize.PrizeId;
+                    prizeAmount = prize.Amount;
+                }
 
                 res = conn.Execute("Member_DrawPrize_Set", new { EventId = eventId, PrizeId = prizeId, CustId = custId, DrawDate = checkDate }, transaction: trans, commandType: CommandType.StoredProcedure);
                 res = walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, $"Prize: {prizeAmount.ToString("#,##0.##")}", eventId.ToString(), out _, out _, conn, trans);

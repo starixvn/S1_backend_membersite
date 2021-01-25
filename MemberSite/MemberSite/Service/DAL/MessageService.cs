@@ -71,5 +71,10 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<Announcement>("Member_Announcement_Get", new { DefaultLangCode, LangCode, LimitRow, IsTest, SiteId}, commandType: CommandType.StoredProcedure);
         }
+        public int SendMessage(int siteId, string sender, string title, string content, int custId, string CustUserName, string lang)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Execute("Msg_Ins", new { Type = 99, SiteId = siteId, LangId = lang, RecipientCustId = custId, Recipient = CustUserName, SenderCustId = siteId, Sender = sender, Title = title, Content = content, MainId = 0 }, commandType: CommandType.StoredProcedure);
+        }
     }
 }
