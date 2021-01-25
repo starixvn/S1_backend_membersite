@@ -176,10 +176,10 @@ namespace MemberSite.Service.BLL
             {
                 apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible");
 
-                if ((custInfo.SiteId == 2 || custInfo.SiteId == 3))
+                if (custInfo.SiteId == 2 || custInfo.SiteId == 3)
                 {
-                    promotion = GetPromotionListWithCache(custInfo.SiteId).Where(x => x.BonusCode.Equals(bonusCode, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
-                    if (promotion?.PromotionType == PromotionType.Freebet)
+                    var custPromotion = GetPromotionDetail(custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, false, custInfo.UserLang, custInfo.UserLang, bonusCode);
+                    if (custPromotion?.PromotionType == (int)PromotionType.Freebet)
                     {
                         apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible_FreeBet");
                     }
