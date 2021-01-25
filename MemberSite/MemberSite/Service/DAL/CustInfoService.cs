@@ -168,6 +168,11 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.QueryFirstOrDefault<CustBankInfo>("CustBankInfo_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
+        public string GetDefAccountNo(int custId, int siteId)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.QueryFirstOrDefault<string>("Member_DefAccountNo_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+        }
         public CustInfoProfile GetCustInfoProfile(int custId, int siteId)
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
