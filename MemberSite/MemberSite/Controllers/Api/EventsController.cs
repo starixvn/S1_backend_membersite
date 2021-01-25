@@ -254,7 +254,7 @@ namespace MemberSite.Controllers.Api
                 currencyId = selLangBLL.GetPreferCurrencyId();
             }
 
-            apiResult.Data = eventsBLL.GetLeaderboardInfo(leaderboardInfoReq.EventCode , siteId, currencyId);
+            apiResult.Data = eventsBLL.GetLeaderboardInfoWithCache(leaderboardInfoReq.EventCode , siteId, currencyId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
