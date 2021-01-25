@@ -178,9 +178,9 @@ namespace MemberSite.Controllers.Api
                 }
                 if(result == 0)
                 {
-                    string msg;
-                    msg = $"{selLangBLL.GetMsg("msg_DrawPrize")} {prize.PrizeName}";
-                    messageBLL.SendMessage(custInfo.SiteId, "DrawPrize", "DrawPrize", msg.ToString(), custInfo.CustId, custInfo.UserName, custInfo.UserLang);
+                    string Tital = $"{selLangBLL.GetMsg("msg_DrawPrizeTital")}"; ;
+                    string msg = $"{selLangBLL.GetMsg("msg_DrawPrize")}";
+                    messageBLL.SendMessage(custInfo.SiteId, "DrawPrize", Tital, msg, custInfo.CustId, custInfo.UserName, custInfo.UserLang);
                 }
                 apiResult.ErrorCode = result;
             }
