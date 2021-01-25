@@ -1,20 +1,19 @@
 {
   "Promotion": [
     {
+      "img": "Banner-NewYearLeaderBoard.jpg",
+      "actionLink": "leaderBoard",
+      "lang": [ "vn", "en" ]
+    },
+    {
+      "img": "Banner-VinhDanh.png",
+      "actionLink": "leaderBoard",
+      "lang": [ "vn", "en" ]
+    },
+    {
       "actionLink": "vn/casino/?provider=Iconic",
       "img": "banner-icg.jpg",
       "currencyId": [ 51 ],
-      "lang": [ "vn", "en" ]
-    },
-    {
-      "tpId": "23",
-      "gameId": "2",
-      "img": "banner-One789.jpg",
-      "lang": [ "vn", "en" ]
-    },
-    {
-      "img": "Banner-xmas.jpg",
-      "actionLink": "leaderBoard",
       "lang": [ "vn", "en" ]
     },
     {
@@ -74,37 +73,28 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40935142",
+      "matchid": "40963287",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40935142.png",
+      "img": "games-40963287.png",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40782948",
+      "matchid": "41062629",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40782948.png",
+      "img": "games-41062629.png",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40956487",
+      "matchid": "41124063",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40956487.png",
-      "lang": [ "en", "vn" ]
-    },
-    {
-      "tpId": "1",
-      "gameId": "1",
-      "matchid": "40963282",
-      "actionLink": "Sports/Index",
-      "outerLink": true,
-      "img": "games-40963282.png",
+      "img": "games-41124063.png",
       "lang": [ "en", "vn" ]
     }
     //{
