@@ -281,4 +281,10 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_IneligibleAngPow" xml:space="preserve">
     <value>Rất tiếc, bạn chưa đạt đủ yêu cầu để nhận lì xì này!</value>
   </data>
+  <data name="msg_DrawPrize" xml:space="preserve">
+    <value>đã vào ví của bạn.</value>
+  </data>
+  <data name="msg_DrawPrizeTital" xml:space="preserve">
+    <value>Lì Xì phát lộc</value>
+  </data>
 </root>
