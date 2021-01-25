@@ -1002,7 +1002,6 @@ namespace MemberSite.Controllers.Api
         public class BannerReq
         {
             public int BannerType { get; set; }
-            public int ShowIndex { get; set; }
         }
 
         [HttpPost]
@@ -1032,6 +1031,37 @@ namespace MemberSite.Controllers.Api
 
             apiResult.ErrorCode = 0;
             apiResult.Data = bannerBLL.GetBannerV2(SiteId, bannerReq.BannerType, ShowStatus, banner_CurrencyId, selLangBLL.GetLangId());
+
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<BannerV3>> GetBannerV3(BannerReq bannerReq)
+        {
+            ApiResult<IEnumerable<BannerV3>> apiResult = new ApiResult<IEnumerable<BannerV3>>();
+
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            var perferCurr = 0;
+            var SiteId = 0;
+            var ShowStatus = 1;
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                SiteId = custInfo.SiteId;
+                perferCurr = custInfo.CurrencyId;
+                ShowStatus = 2;
+            }
+            else
+            {
+                perferCurr = selLangBLL.GetPreferCurrencyId();
+                SiteId = serverInfo.SiteId;
+            }
+
+            var banner_CurrencyId = !User.Identity.IsAuthenticated && perferCurr == 13 ? 2 : perferCurr;
+
+            apiResult.ErrorCode = 0;
+            apiResult.Data = bannerBLL.GetBannerV3(SiteId, bannerReq.BannerType, ShowStatus, banner_CurrencyId, selLangBLL.GetLangId(), serverInfo);
 
             return apiResult;
         }
@@ -1262,7 +1292,7 @@ namespace MemberSite.Controllers.Api
 
         public class AffiliateAgentReq
         {
-           public string AffId { get; set; }
+            public string AffId { get; set; }
         }
         [HttpPost]
         public ApiResult<AffiliateAgent> GetAffiliateAgent(AffiliateAgentReq affiliateAgentReq)

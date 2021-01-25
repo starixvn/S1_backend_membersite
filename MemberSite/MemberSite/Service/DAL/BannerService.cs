@@ -28,5 +28,10 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<BannerV2>("Member_Banner_Get", new { SiteId, BannerType, ShowStatus, CurrencyId}, commandType: CommandType.StoredProcedure);
         }
+        public IEnumerable<BannerV3> GetBannerV3(int SiteId, int BannerType, int ShowStatus, int CurrencyId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Query<BannerV3>("Member_Banner_Get_V3", new { SiteId, BannerType, ShowStatus, CurrencyId }, commandType: CommandType.StoredProcedure);
+        }
     }
 }
