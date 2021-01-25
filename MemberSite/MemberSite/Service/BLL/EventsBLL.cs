@@ -156,6 +156,12 @@ namespace MemberSite.Service.BLL
         {
             var events = new List<RewardInfo>();
             var eventslist = eventsService.GetLeaderboardInfo(eventCode, siteId, currencyId);
+            Dictionary<string, string> TitalList = null;
+            if(eventslist.Tital != null)
+                TitalList = JsonConvert.DeserializeObject<Dictionary<string, string>>(eventslist.Tital);
+            Dictionary<string, Dictionary<string, string>> RewardDESCList = null;
+            if (eventslist.RewardDESC != null)
+                RewardDESCList = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(eventslist.RewardDESC);
             foreach (var eventsdetail in eventslist.RewardInfolist)
             {
                 if (eventsdetail.DetailUrl != null && eventsdetail.Rewards != null)
@@ -177,16 +183,36 @@ namespace MemberSite.Service.BLL
 
             var newevents = new LeaderboardInfo() {
                 EventCode = eventslist.EventCode,
-                Tital = eventslist.Tital,
+                TitalList = TitalList,
                 LobbyPic = eventslist.LobbyPic,
                 RewardPic = eventslist.RewardPic,
-                RewardDESC = eventslist.RewardDESC,
+                RewardDESCList = RewardDESCList,
                 StartTime = eventslist.StartTime,
                 EndTime = eventslist.EndTime,
                 RewardInfolist =events
             };
 
             return newevents;
+        }
+        public LeaderboardInfo GetLeaderboardInfoWithCache(string eventCode, int siteId, int currencyId)
+        {
+            string key = $"tLeaderboardIInfo_{eventCode}_{siteId}_{currencyId}";
+            var leaderboardInfo = cache.Get<LeaderboardInfo>(key);
+            if (leaderboardInfo != null)
+            {
+                return leaderboardInfo;
+            }
+
+            leaderboardInfo = GetLeaderboardInfo(eventCode, siteId, currencyId);
+
+            if (leaderboardInfo != null)
+            {
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(60));
+                cache.Set(key, leaderboardInfo, cacheEntryOptions);
+            }
+
+            return leaderboardInfo;
         }
     }
 }
