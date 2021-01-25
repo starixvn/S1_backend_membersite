@@ -137,5 +137,22 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<CustGiftList>("Member_CustDrawPrizeList_Get", new { EventId = eventId, SiteId = siteId, CustId = custId  }, commandType: CommandType.StoredProcedure);
         }
+        public void GetLeaderboardEventCode( int siteId,out string eventCodeNow,out string eventCodeLast)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var p = new DynamicParameters(new { SiteId = siteId});
+            p.Add("NowEventCode", dbType: DbType.String, direction: ParameterDirection.Output);
+            p.Add("LastEventCode", dbType: DbType.String, direction: ParameterDirection.Output);
+            var rtn = conn.Execute("Member_LeaderboardEvent_Get", p, commandType: CommandType.StoredProcedure);
+            eventCodeNow = p.Get<string>("NowEventCode");
+            eventCodeLast = p.Get<string>("LastEventCode");
+        }
+        public LeaderboardInfo GetLeaderboardInfo(string eventCode, int siteId, int currencyId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var info = conn.QueryFirstOrDefault<LeaderboardInfo>("Member_LeaderboardEventInfo_Get", new { EventCode = eventCode, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            info.RewardInfolist = conn.Query<RewardInfo>("Member_LeaderboardRewardInfo_Get", new { EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+            return info;
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -146,6 +147,72 @@ namespace MemberSite.Service.BLL
         public IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId)
         {
             return eventsService.GetCustDrawPrizeList( eventId, siteId, custId);
+        }
+        public void GetLeaderboardEventCode(int siteId, out string eventCodeNow, out string eventCodeLast)
+        {
+            eventsService.GetLeaderboardEventCode( siteId, out eventCodeNow, out eventCodeLast);
+        }
+        public LeaderboardInfo GetLeaderboardInfo(string eventCode, int siteId, int currencyId)
+        {
+            var events = new List<RewardInfo>();
+            var eventslist = eventsService.GetLeaderboardInfo(eventCode, siteId, currencyId);
+            Dictionary<string, string> TitalList = null;
+            if(eventslist.Tital != null)
+                TitalList = JsonConvert.DeserializeObject<Dictionary<string, string>>(eventslist.Tital);
+            Dictionary<string, Dictionary<string, string>> RewardDESCList = null;
+            if (eventslist.RewardDESC != null)
+                RewardDESCList = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(eventslist.RewardDESC);
+            foreach (var eventsdetail in eventslist.RewardInfolist)
+            {
+                if (eventsdetail.DetailUrl != null && eventsdetail.Rewards != null)
+                {
+                    var detailUrlList = JsonConvert.DeserializeObject<Dictionary<string, string>>(eventsdetail.DetailUrl);
+                    var rewardsList = JsonConvert.DeserializeObject<Dictionary<string, List<Dictionary<string,string>>>>(eventsdetail.Rewards);
+                   
+                        events.Add(new RewardInfo()
+                        {
+
+                            CurrencyId = eventsdetail.CurrencyId,
+                            CategoryId = eventsdetail.CategoryId,
+                            DetailUrlList = detailUrlList,
+                            RewardsList = rewardsList
+                        });
+                    
+                }
+            }
+
+            var newevents = new LeaderboardInfo() {
+                EventCode = eventslist.EventCode,
+                TitalList = TitalList,
+                LobbyPic = eventslist.LobbyPic,
+                RewardPic = eventslist.RewardPic,
+                RewardDESCList = RewardDESCList,
+                StartTime = eventslist.StartTime,
+                EndTime = eventslist.EndTime,
+                RewardInfolist =events
+            };
+
+            return newevents;
+        }
+        public LeaderboardInfo GetLeaderboardInfoWithCache(string eventCode, int siteId, int currencyId)
+        {
+            string key = $"tLeaderboardIInfo_{eventCode}_{siteId}_{currencyId}";
+            var leaderboardInfo = cache.Get<LeaderboardInfo>(key);
+            if (leaderboardInfo != null)
+            {
+                return leaderboardInfo;
+            }
+
+            leaderboardInfo = GetLeaderboardInfo(eventCode, siteId, currencyId);
+
+            if (leaderboardInfo != null)
+            {
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(60));
+                cache.Set(key, leaderboardInfo, cacheEntryOptions);
+            }
+
+            return leaderboardInfo;
         }
     }
 }

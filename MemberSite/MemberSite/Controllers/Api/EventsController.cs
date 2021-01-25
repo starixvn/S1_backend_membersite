@@ -19,14 +19,17 @@ namespace MemberSite.Controllers.Api
         private readonly EventsBLL eventsBLL;
         private readonly CustInfoBLL custInfoBLL;
         private readonly SelLangBLL selLangBLL;
+        private readonly ServerInfoBLL serverInfoBLL;
         private readonly MessageBLL messageBLL;
 
-        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, MessageBLL messageBLL)
+        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, ServerInfoBLL serverInfoBLL, MessageBLL messageBLL)
+
         {
             this.authorizeBLL = authorizeBLL;
             this.eventsBLL = eventsBLL;
             this.custInfoBLL = custInfoBLL;
             this.selLangBLL = selLangBLL;
+            this.serverInfoBLL = serverInfoBLL;
             this.messageBLL = messageBLL;
         }
 
@@ -195,6 +198,63 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             apiResult.Data = eventsBLL.GetCustDrawPrizeList(eventId, custInfo.SiteId, authData.CustId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<LeaderboardEvent> GetLeaderboardEventCode()
+        {
+            var apiResult = new ApiResult<LeaderboardEvent>();
+            apiResult.Data = new LeaderboardEvent();
+            int siteId = 0;
+            string NowEventCode = null;
+            string LastEventCode = null;
+           
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                siteId = custInfo.SiteId;
+            }
+            else
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                siteId = serverInfo.SiteId;
+            }
+            eventsBLL.GetLeaderboardEventCode(siteId, out NowEventCode, out LastEventCode);
+            apiResult.Data.NowEventCode = NowEventCode;
+            apiResult.Data.LastEventCode = LastEventCode;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        public class LeaderboardInfoReq
+        {
+            public string EventCode { get; set; }
+            
+        }
+        [HttpPost]
+        public ApiResult<LeaderboardInfo> GetLeaderboardInfo(LeaderboardInfoReq leaderboardInfoReq)
+        {
+            var apiResult = new ApiResult<LeaderboardInfo>();
+            int siteId = 0;
+            int currencyId = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                siteId = custInfo.SiteId;
+                currencyId = custInfo.CurrencyId;
+            }
+            else
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                siteId = serverInfo.SiteId;
+                currencyId = selLangBLL.GetPreferCurrencyId();
+            }
+
+            apiResult.Data = eventsBLL.GetLeaderboardInfoWithCache(leaderboardInfoReq.EventCode , siteId, currencyId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
