@@ -19,25 +19,18 @@ namespace MemberSite.Controllers.Api
         private readonly EventsBLL eventsBLL;
         private readonly CustInfoBLL custInfoBLL;
         private readonly SelLangBLL selLangBLL;
-<<<<<<< HEAD
         private readonly ServerInfoBLL serverInfoBLL;
-
-        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, ServerInfoBLL serverInfoBLL)
-=======
         private readonly MessageBLL messageBLL;
 
-        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, MessageBLL messageBLL)
->>>>>>> DEV_David
+        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, ServerInfoBLL serverInfoBLL, MessageBLL messageBLL)
+
         {
             this.authorizeBLL = authorizeBLL;
             this.eventsBLL = eventsBLL;
             this.custInfoBLL = custInfoBLL;
             this.selLangBLL = selLangBLL;
-<<<<<<< HEAD
             this.serverInfoBLL = serverInfoBLL;
-=======
             this.messageBLL = messageBLL;
->>>>>>> DEV_David
         }
 
         public class GetLeaderboardListReq
