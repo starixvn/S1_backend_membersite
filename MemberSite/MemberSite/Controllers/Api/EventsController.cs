@@ -19,15 +19,25 @@ namespace MemberSite.Controllers.Api
         private readonly EventsBLL eventsBLL;
         private readonly CustInfoBLL custInfoBLL;
         private readonly SelLangBLL selLangBLL;
+<<<<<<< HEAD
         private readonly ServerInfoBLL serverInfoBLL;
 
         public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, ServerInfoBLL serverInfoBLL)
+=======
+        private readonly MessageBLL messageBLL;
+
+        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, MessageBLL messageBLL)
+>>>>>>> DEV_David
         {
             this.authorizeBLL = authorizeBLL;
             this.eventsBLL = eventsBLL;
             this.custInfoBLL = custInfoBLL;
             this.selLangBLL = selLangBLL;
+<<<<<<< HEAD
             this.serverInfoBLL = serverInfoBLL;
+=======
+            this.messageBLL = messageBLL;
+>>>>>>> DEV_David
         }
 
         public class GetLeaderboardListReq
@@ -176,7 +186,12 @@ namespace MemberSite.Controllers.Api
                     apiResult.Data.PrizeId = prize.PrizeId;
                     apiResult.Data.PrizeName = prize.PrizeName;
                 }
-
+                if(result == 0)
+                {
+                    string Tital = $"{selLangBLL.GetMsg("msg_DrawPrizeTital")}"; ;
+                    string msg = $"{selLangBLL.GetMsg("msg_DrawPrize")}";
+                    messageBLL.SendMessage(custInfo.SiteId, "DrawPrize", Tital, msg, custInfo.CustId, custInfo.UserName, custInfo.UserLang);
+                }
                 apiResult.ErrorCode = result;
             }
 
