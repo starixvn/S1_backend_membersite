@@ -91,7 +91,7 @@ namespace MemberSite.Service.DAL
             conn.Open();
             using var trans = conn.BeginTransaction();
             drawPrize = null;
-            int PrizeType = 0;
+            decimal prizeAmount = 0;
 
             var Prizes = CheckDrawPrize(ref eventId, siteId, custId, currencyId, out int prizeId, out int quota, out DateTime checkDate, out result, conn, trans);
 
@@ -101,38 +101,46 @@ namespace MemberSite.Service.DAL
             }
             else if (result == 0)
             {
-                Random r = new Random();
-                int LuckyNum = r.Next(quota) + 1;
-                int LuckyCnt = 0;
-                decimal prizeAmount = 0;
-                foreach (var prize in Prizes.Where(x => x.Quota > 0))
+                //指定獎品PrizeId == 26 PrizeId == 27
+                var BigPrize = Prizes.Where(x => (x.PrizeId == 26 || x.PrizeId == 27)).FirstOrDefault();
+                //超過活動時間的3/4 直接送最大獎
+                if (BigPrize != null && BigPrize.Quota > 0 && DateTime.Now > (BigPrize.StartTime.AddHours(((float)(BigPrize.EndTime - BigPrize.StartTime).Hours * ((float)3 / (float)4)))))
                 {
-                    drawPrize = prize;
-                    prizeId = prize.PrizeId;
-                    prizeAmount = prize.Amount;
-                    LuckyCnt += prize.Quota;
-                    PrizeType = prize.PrizeType;
+                    drawPrize = BigPrize;
+                    prizeId = BigPrize.PrizeId;
+                    prizeAmount = BigPrize.Amount;
 
-                    if (LuckyNum < LuckyCnt)
-                    {
-                        break;
-                    }
                 }
-                if(LuckyCnt == 0)
+                else
                 {
-                    var prize = Prizes.Aggregate((min, next) => min.Amount > next.Amount ? next : min);
-                    drawPrize = prize;
-                    prizeId = prize.PrizeId;
-                    prizeAmount = prize.Amount;
-                    PrizeType = prize.PrizeType;
+                    Random r = new Random();
+                    int LuckyNum = r.Next(quota) + 1;
+                    int LuckyCnt = 0;
+
+                    foreach (var prize in Prizes.Where(x => x.Quota > 0))
+                    {
+                        drawPrize = prize;
+                        prizeId = prize.PrizeId;
+                        prizeAmount = prize.Amount;
+                        LuckyCnt += prize.Quota;
+
+                        if (LuckyNum < LuckyCnt)
+                        {
+                            break;
+                        }
+                    }
+                    if (LuckyCnt == 0)
+                    {
+                        var prize = Prizes.Aggregate((min, next) => min.Amount > next.Amount ? next : min);
+                        drawPrize = prize;
+                        prizeId = prize.PrizeId;
+                        prizeAmount = prize.Amount;
+                    }
                 }
 
                 res = conn.Execute("Member_DrawPrize_Set", new { EventId = eventId, PrizeId = prizeId, CustId = custId, DrawDate = checkDate }, transaction: trans, commandType: CommandType.StoredProcedure);
-                if (PrizeType == 1)
-                {
-                    res = walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, $"Prize: {prizeAmount.ToString("#,##0.##")}", eventId.ToString(), out _, out _, conn, trans);
-                    res = withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, null, eventId.ToString(), out decimal afterWithdrawalLimit, conn, trans);
-                }
+                res = walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, $"Prize: {prizeAmount.ToString("#,##0.##")}", eventId.ToString(), out _, out _, conn, trans);
+                res = withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, null, eventId.ToString(), out decimal afterWithdrawalLimit, conn, trans);
                 trans.Commit();
             }
 
