@@ -91,6 +91,7 @@ namespace MemberSite.Service.DAL
             conn.Open();
             using var trans = conn.BeginTransaction();
             drawPrize = null;
+            int PrizeType = 0;
 
             var Prizes = CheckDrawPrize(ref eventId, siteId, custId, currencyId, out int prizeId, out int quota, out DateTime checkDate, out result, conn, trans);
 
@@ -110,6 +111,7 @@ namespace MemberSite.Service.DAL
                     prizeId = prize.PrizeId;
                     prizeAmount = prize.Amount;
                     LuckyCnt += prize.Quota;
+                    PrizeType = prize.PrizeType;
 
                     if (LuckyNum < LuckyCnt)
                     {
@@ -122,11 +124,15 @@ namespace MemberSite.Service.DAL
                     drawPrize = prize;
                     prizeId = prize.PrizeId;
                     prizeAmount = prize.Amount;
+                    PrizeType = prize.PrizeType;
                 }
 
                 res = conn.Execute("Member_DrawPrize_Set", new { EventId = eventId, PrizeId = prizeId, CustId = custId, DrawDate = checkDate }, transaction: trans, commandType: CommandType.StoredProcedure);
-                res = walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, $"Prize: {prizeAmount.ToString("#,##0.##")}", eventId.ToString(), out _, out _, conn, trans);
-                res = withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, null, eventId.ToString(), out decimal afterWithdrawalLimit, conn, trans);
+                if (PrizeType == 1)
+                {
+                    res = walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, $"Prize: {prizeAmount.ToString("#,##0.##")}", eventId.ToString(), out _, out _, conn, trans);
+                    res = withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, null, eventId.ToString(), out decimal afterWithdrawalLimit, conn, trans);
+                }
                 trans.Commit();
             }
 
