@@ -174,6 +174,7 @@ namespace MemberSite.Service.BLL
 
                             CurrencyId = eventsdetail.CurrencyId,
                             CategoryId = eventsdetail.CategoryId,
+                            RewardsTotal = eventsdetail.RewardsTotal,
                             DetailUrlList = detailUrlList,
                             RewardsList = rewardsList
                         });

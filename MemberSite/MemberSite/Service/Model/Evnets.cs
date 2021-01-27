@@ -82,6 +82,7 @@ namespace MemberSite.Service.Model
         public int CategoryId { get; set; }
         public string DetailUrl { get; set; }
         public string Rewards { get; set; }
+        public int RewardsTotal { get; set; }
         public Dictionary<string, string> DetailUrlList { get; set; } 
         public Dictionary<string, List<Dictionary<string, string>>> RewardsList { get; set; }
 
