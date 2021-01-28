@@ -102,7 +102,7 @@ namespace MemberSite.Service.DAL
             else if (result == 0)
             {
                 //指定獎品PrizeId == 26 PrizeId == 27
-                var BigPrize = Prizes.Where(x => (x.PrizeId == 26 || x.PrizeId == 27)).FirstOrDefault();
+                var BigPrize = Prizes.Where(x => x.Jackpot == 1 && x.Quota > 0).FirstOrDefault();
                 //超過活動時間的3/4 直接送最大獎
                 if (BigPrize != null && BigPrize.Quota > 0 && DateTime.Now > (BigPrize.StartTime.AddHours(((float)(BigPrize.EndTime - BigPrize.StartTime).Hours * ((float)3 / (float)4)))))
                 {

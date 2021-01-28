@@ -178,6 +178,7 @@ namespace MemberSite.Controllers.Api
                 {
                     apiResult.Data.PrizeId = prize.PrizeId;
                     apiResult.Data.PrizeName = prize.PrizeName;
+                    apiResult.Data.Jackpot = prize.Jackpot;
                 }
                 if(result == 0)
                 {
