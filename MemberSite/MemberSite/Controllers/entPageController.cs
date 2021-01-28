@@ -21,10 +21,11 @@ namespace MemberSite.Controllers
         private readonly SelLangBLL selLangBLL;
         private readonly WalletBLL walletBLL;
         private readonly CustInfoBLL custInfoBLL;
+        private readonly ServerInfoBLL serverInfoBLL;
         private readonly string apiUrl;
         private readonly IHostEnvironment environment;
 
-        public entPageController(IHostEnvironment environment, IConfiguration configuration, ThirdPartyBLL thirdPartyBLL, CourierAdapter courierAdapter, AuthorizeBLL authorizeBLL, Tools tools, SelLangBLL selLangBLL, WalletBLL walletBLL, CustInfoBLL custInfoBLL)
+        public entPageController(IHostEnvironment environment, IConfiguration configuration, ThirdPartyBLL thirdPartyBLL, CourierAdapter courierAdapter, AuthorizeBLL authorizeBLL, Tools tools, SelLangBLL selLangBLL, WalletBLL walletBLL, CustInfoBLL custInfoBLL, ServerInfoBLL serverInfoBLL)
         {
             this.thirdPartyBLL = thirdPartyBLL;
             this.courierAdapter = courierAdapter;
@@ -33,6 +34,7 @@ namespace MemberSite.Controllers
             this.selLangBLL = selLangBLL;
             this.walletBLL = walletBLL;
             this.custInfoBLL = custInfoBLL;
+            this.serverInfoBLL = serverInfoBLL;
             apiUrl = configuration.GetValue<string>("TpService");
             this.environment = environment;
         }
@@ -48,13 +50,14 @@ namespace MemberSite.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs)
         {
+            int SiteId = 0;
             if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();
-
                 inputs.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
                 inputs.Add("ClientIP", tools.GetClientIP());
                 var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                SiteId = custInfo.SiteId;
                 if (tpId == (int)Tp.AG)
                 {
 
@@ -107,16 +110,22 @@ namespace MemberSite.Controllers
                     }
                     else
                     {
-                        return Content(data.RawMessage);
+                        ErrorData model = new ErrorData() { Message = data.RawMessage };
+
+                        return GetErrorPage(SiteId, model);
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Content(ex.Message);
+                    ErrorData model = new ErrorData() { Message = ex.Message };
+
+                    return GetErrorPage(SiteId, model);
                 }
             }
             else if (hasBf(tpId))
             {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                SiteId = serverInfo.SiteId;
                 string entryUrl = thirdPartyBLL.getEntryUrl(tpId, inputs);
 
                 return Redirect(entryUrl);
@@ -179,6 +188,24 @@ namespace MemberSite.Controllers
         private bool hasBf(int tpId)
         {
             return Bf.ContainsKey(tpId);
+        }
+
+        public class ErrorData
+        {
+            public string Message { get; set; }
+        }
+
+        private ActionResult GetErrorPage(int SiteId, ErrorData model)
+        {
+            switch (SiteId)
+            {
+                case 1:
+                    return View("~/Views/entPage/NovaErrorPage.cshtml", model);
+                case 2:
+                    return View("~/Views/entPage/BwingErrorPage.cshtml", model);
+                default:
+                    return View("~/Views/entPage/GoalErrorPage.cshtml", model);
+            }
         }
     }
 }
