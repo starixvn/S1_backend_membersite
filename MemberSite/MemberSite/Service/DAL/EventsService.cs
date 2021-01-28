@@ -101,7 +101,7 @@ namespace MemberSite.Service.DAL
             }
             else if (result == 0)
             {
-                //指定獎品PrizeId == 26 PrizeId == 27
+                //指定大獎 Jackpot == 1
                 var BigPrize = Prizes.Where(x => x.Jackpot == 1 && x.Quota > 0).FirstOrDefault();
                 //超過活動時間的3/4 直接送最大獎
                 if (BigPrize != null && BigPrize.Quota > 0 && DateTime.Now > (BigPrize.StartTime.AddHours(((float)(BigPrize.EndTime - BigPrize.StartTime).Hours * ((float)3 / (float)4)))))
@@ -139,8 +139,11 @@ namespace MemberSite.Service.DAL
                 }
 
                 res = conn.Execute("Member_DrawPrize_Set", new { EventId = eventId, PrizeId = prizeId, CustId = custId, DrawDate = checkDate }, transaction: trans, commandType: CommandType.StoredProcedure);
-                res = walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, $"Prize: {prizeAmount.ToString("#,##0.##")}", eventId.ToString(), out _, out _, conn, trans);
-                res = withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, null, eventId.ToString(), out decimal afterWithdrawalLimit, conn, trans);
+                if (drawPrize.PrizeType == 1) //money
+                {
+                    res = walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, $"Prize: {prizeAmount.ToString("#,##0.##")}", eventId.ToString(), out _, out _, conn, trans);
+                    res = withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, null, eventId.ToString(), out decimal afterWithdrawalLimit, conn, trans);
+                }
                 trans.Commit();
             }
 
