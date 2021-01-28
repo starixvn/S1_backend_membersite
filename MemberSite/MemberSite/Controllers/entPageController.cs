@@ -112,30 +112,14 @@ namespace MemberSite.Controllers
                     {
                         ErrorData model = new ErrorData() { Message = data.RawMessage };
 
-                        switch (SiteId)
-                        {
-                            case 1:
-                                return RedirectToAction("NovaErrorPage", model);
-                            case 2:
-                                return RedirectToAction("BwingErrorPage", model);
-                            default:
-                                return RedirectToAction("GoalErrorPage", model);
-                        }
+                        return GetErrorPage(SiteId, model);
                     }
                 }
                 catch (Exception ex)
                 {
                     ErrorData model = new ErrorData() { Message = ex.Message };
 
-                    switch (SiteId)
-                    {
-                        case 1:
-                            return RedirectToAction("NovaErrorPage", model);
-                        case 2:
-                            return RedirectToAction("BwingErrorPage", model);
-                        default:
-                            return RedirectToAction("GoalErrorPage", model);
-                    }
+                    return GetErrorPage(SiteId, model);
                 }
             }
             else if (hasBf(tpId))
@@ -211,22 +195,17 @@ namespace MemberSite.Controllers
             public string Message { get; set; }
         }
 
-        [HttpGet]
-        public ActionResult NovaErrorPage(ErrorData model)
+        private ActionResult GetErrorPage(int SiteId, ErrorData model)
         {
-            return View(model);
-        }
-
-        [HttpGet]
-        public ActionResult BwingErrorPage(ErrorData model)
-        {
-            return View(model);
-        }
-
-        [HttpGet]
-        public ActionResult GoalErrorPage(ErrorData model)
-        {
-            return View(model);
+            switch (SiteId)
+            {
+                case 1:
+                    return View("~/Views/entPage/NovaErrorPage.cshtml", model);
+                case 2:
+                    return View("~/Views/entPage/BwingErrorPage.cshtml", model);
+                default:
+                    return View("~/Views/entPage/GoalErrorPage.cshtml", model);
+            }
         }
     }
 }
