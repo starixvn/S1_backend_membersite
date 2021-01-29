@@ -300,9 +300,12 @@
     <value>รหัสโบนัสพิเศษที่คุณป้อน ไม่มีโปรโมชั่นสำหรับขอแลกรับ</value>
   </data>
   <data name="msg_DrawPrize" xml:space="preserve">
-    <value>เงินรางวัลที่ได้จะโอนเครดิตเข้าที่กระเป๋าเงินของคุณ</value>
+    <value>ขอแสดงความยินดีเงินคืนของคุณ {0} ได้รับการบันทึกเครดิตเข้าบัญชีของคุณแล้ว!ขอแสดงความยินดีด้วย, อังเปาได้ส่งเข้าไปที่บัญชีเครดิตของคุณแล้ว</value>
   </data>
   <data name="msg_DrawPrizeTital" xml:space="preserve">
     <value>ต้อนรับปีวัวทอง</value>
+  </data>
+  <data name="msg_IneligibleAngPow" xml:space="preserve">
+    <value>กรุณาทำการฝากเงินเพื่อรับสิทธิ์สำหรับโปรโมชั่นนี้</value>
   </data>
 </root>

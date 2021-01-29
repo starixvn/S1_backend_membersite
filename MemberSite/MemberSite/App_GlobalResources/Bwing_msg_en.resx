@@ -120,6 +120,9 @@
   <data name="msg_Ineligible" xml:space="preserve">
     <value>You are not eligible for this promotion. Please contact our support for more details.</value>
   </data>
+  <data name="msg_IneligibleAngPow" xml:space="preserve">
+    <value>Please deposit at least 200 ('000) to entitle in the promotion</value>
+  </data>
   <data name="msg_Ineligible_FreeBet" xml:space="preserve">
     <value>Sorry you are not in luck today, please try again next time.</value>
   </data>

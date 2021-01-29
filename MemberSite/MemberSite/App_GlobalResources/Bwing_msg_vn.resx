@@ -120,6 +120,9 @@
   <data name="msg_Ineligible" xml:space="preserve">
     <value>Bạn không đủ điều kiện tham gia khuyến mãi này. Vui lòng liên hệ bộ phận hỗ trợ để biết thêm chi tiết.</value>
   </data>
+  <data name="msg_IneligibleAngPow" xml:space="preserve">
+    <value>Vui lòng nạp ít nhất 200 ('000) để tham gia khuyến mãi</value>
+  </data>
   <data name="msg_Ineligible_FreeBet" xml:space="preserve">
     <value>Tài khoản của bạn chưa may mắn trong ngày hôm nay, xin vui lòng thử lại vào ngày hôm sau.</value>
   </data>

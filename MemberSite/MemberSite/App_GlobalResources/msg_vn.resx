@@ -279,10 +279,10 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
     <value>Xác minh điện thoại của bạn ngay?</value>
   </data>
   <data name="msg_IneligibleAngPow" xml:space="preserve">
-    <value>Rất tiếc, bạn chưa đạt đủ yêu cầu để nhận lì xì này!</value>
+    <value>Vui lòng nạp tiền để tham gia khuyến mãi.</value>
   </data>
   <data name="msg_DrawPrize" xml:space="preserve">
-    <value>đã vào ví của bạn.</value>
+    <value>Xin chúc mừng, tiền lì xì VNĐ {0} đã được ghi có vào ví của bạn!</value>
   </data>
   <data name="msg_DrawPrizeTital" xml:space="preserve">
     <value>Lì Xì phát lộc</value>

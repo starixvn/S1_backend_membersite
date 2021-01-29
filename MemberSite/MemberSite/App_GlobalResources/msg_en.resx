@@ -304,10 +304,10 @@
     <value>Your inputted special bonus code does not have available promotion for redemption.</value>
   </data>
   <data name="msg_IneligibleAngPow" xml:space="preserve">
-    <value>You are not eligible for this promotion!</value>
+    <value>Please make your deposit to entitle for this promotion</value>
   </data>
   <data name="msg_DrawPrize" xml:space="preserve">
-    <value>The amount will credit to your wallet</value>
+    <value>Congratulations, your Ang Pow {0} has been credited to your account!</value>
   </data>
   <data name="msg_DrawPrizeTital" xml:space="preserve">
     <value>Ang Pao Giveaway</value>
