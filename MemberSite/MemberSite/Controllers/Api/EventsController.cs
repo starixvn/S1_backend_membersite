@@ -187,10 +187,17 @@ namespace MemberSite.Controllers.Api
                     apiResult.Data.PrizeName = prize.PrizeName;
                     apiResult.Data.Jackpot = prize.Jackpot;
                 }
+
                 if(result == 0)
                 {
-                    string Tital = $"{selLangBLL.GetMsg("msg_DrawPrizeTital")}"; ;
-                    string msg = $"{selLangBLL.GetMsg("msg_DrawPrize")}";
+                    string Tital = selLangBLL.GetMsg("msg_DrawPrizeTital");
+                    var dAmount = prize.Amount.ToString("#,##0.##");
+                    if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
+                    {
+                        dAmount = $"{prize.Amount / 1000:#,##0.##}";
+                    }
+
+                    string msg = string.Format(selLangBLL.GetMsg("msg_DrawPrize"), dAmount);
                     messageBLL.SendMessage(custInfo.SiteId, "DrawPrize", Tital, msg, custInfo.CustId, custInfo.UserName, custInfo.UserLang);
                 }
                 apiResult.ErrorCode = result;

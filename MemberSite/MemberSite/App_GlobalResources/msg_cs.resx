@@ -293,9 +293,12 @@
     <value>您输入的特别优惠代码没有优惠可以领取</value>
   </data>
   <data name="msg_DrawPrize" xml:space="preserve">
-    <value>奖金将发至您的钱包</value>
+    <value>恭喜，您的红包 {0} 已汇入您的户口！</value>
   </data>
   <data name="msg_DrawPrizeTital" xml:space="preserve">
     <value>红包大放送</value>
+  </data>
+  <data name="msg_IneligibleAngPow" xml:space="preserve">
+    <value>請存款以享受此優惠促銷</value>
   </data>
 </root>

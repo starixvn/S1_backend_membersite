@@ -292,9 +292,9 @@
     <value>您輸入的特別優惠代碼沒有優惠可以領取</value>
   </data>
   <data name="msg_DrawPrize" xml:space="preserve">
-    <value>奖金将发至您的钱包</value>
+    <value>恭喜，您的紅包 {0} 已匯入您的戶口！</value>
   </data>
   <data name="msg_DrawPrizeTital" xml:space="preserve">
-    <value>红包大放送</value>
+    <value>紅包大放送</value>
   </data>
 </root>

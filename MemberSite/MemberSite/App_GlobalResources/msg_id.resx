@@ -296,9 +296,12 @@
     <value>Kode bonus khusus yang Anda masukkan tidak tersedia untuk penukaran promosi.</value>
   </data>
   <data name="msg_DrawPrize" xml:space="preserve">
-    <value>Jumlah akan dikreditkan ke akun anda</value>
+    <value>Selamat, Ang Pao Anda {0} telah dikreditkan ke akun Anda!</value>
   </data>
   <data name="msg_DrawPrizeTital" xml:space="preserve">
     <value>Bagi bagi Ang Pao</value>
+  </data>
+  <data name="msg_IneligibleAngPow" xml:space="preserve">
+    <value>Harap lakukan deposit Anda untuk mendapatkan promosi ini</value>
   </data>
 </root>
