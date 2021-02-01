@@ -70,12 +70,12 @@ namespace MemberSite.Service.DAL
         private IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int quota, out DateTime checkDate, out int result, MySqlConnection conn, MySqlTransaction trans)
         {
             var p = new DynamicParameters(new {SiteId = siteId, CustId = custId, CurrencyId = currencyId });
-            p.Add("EventId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("EventId", eventId, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             p.Add("PrizeId", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("Quota", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("CheckDate", dbType: DbType.Date, direction: ParameterDirection.Output);
             p.Add("result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            var rtn = conn.Query<Prize>("Member_CheckDrawPrize_Get", p, transaction: trans, commandType: CommandType.StoredProcedure);
+            var rtn = conn.Query<Prize>("Member_CheckDrawPrize_Get_v2", p, transaction: trans, commandType: CommandType.StoredProcedure);
             eventId = p.Get<int>("EventId");
             prizeId = p.Get<int>("PrizeId");
             quota = p.Get<int>("Quota");
