@@ -1,6 +1,10 @@
 {
   "Promotion": [
     {
+      "img": "Banner-2021CNY.jpg",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
       "img": "Banner-NewYearLeaderBoard.jpg",
       "actionLink": "leaderBoard",
       "lang": [ "vn", "en" ]
@@ -8,12 +12,6 @@
     {
       "actionLink": "SiteSkin/Goal123/appDownload/vn.html",
       "img": "Banner-APP.jpg",
-      "currencyId": [ 51 ],
-      "lang": [ "vn", "en" ]
-    },
-    {
-      "actionLink": "vn/casino?provider=Iconic",
-      "img": "banner-icg.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },

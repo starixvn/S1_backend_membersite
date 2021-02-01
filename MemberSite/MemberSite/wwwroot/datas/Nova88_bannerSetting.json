@@ -1,5 +1,9 @@
 {
   "Promotion": [
+    {
+      "img": "Banner-2021cny.jpg",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
     //{
     //  "actionLink": "918kiss",
     //  "img": "banner-918kiss.jpg",
@@ -21,11 +25,11 @@
       "actionLink": "leaderBoard",
       "lang": [ "th", "id", "en", "cs" ]
     },
-    {
-      "actionLink": "en/casino?tpId=24",
-      "img": "banner-icg.jpg",
-      "lang": [ "th", "id", "en", "cs" ]
-    },
+    //{
+    //  "actionLink": "en/casino?tpId=24",
+    //  "img": "banner-icg.jpg",
+    //  "lang": [ "th", "id", "en", "cs" ]
+    //},
     {
       "img": "Banner-friendref.jpg",
       "actionLink": "referral",

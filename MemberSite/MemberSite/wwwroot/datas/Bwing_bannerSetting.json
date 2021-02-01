@@ -1,14 +1,12 @@
 {
   "Promotion": [
     {
-      "img": "Banner-NewYearLeaderBoard.jpg",
-      "actionLink": "leaderBoard",
-      "lang": [ "vn", "en" ]
+      "img": "Banner-2021CNY.jpg",
+      "lang": [ "th", "id", "en", "cs" ]
     },
     {
-      "actionLink": "vn/casino/?provider=Iconic",
-      "img": "banner-icg.jpg",
-      "currencyId": [ 51 ],
+      "img": "Banner-NewYearLeaderBoard.jpg",
+      "actionLink": "leaderBoard",
       "lang": [ "vn", "en" ]
     },
     {
