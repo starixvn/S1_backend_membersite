@@ -75,7 +75,7 @@ namespace MemberSite.Service.DAL
             p.Add("Quota", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("CheckDate", dbType: DbType.Date, direction: ParameterDirection.Output);
             p.Add("result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            var rtn = conn.Query<Prize>("Member_CheckDrawPrize_Get_v2", p, transaction: trans, commandType: CommandType.StoredProcedure);
+            var rtn = conn.Query<Prize>("Member_CheckDrawPrize_Get", p, transaction: trans, commandType: CommandType.StoredProcedure);
             eventId = p.Get<int>("EventId");
             prizeId = p.Get<int>("PrizeId");
             quota = p.Get<int>("Quota");
@@ -84,8 +84,9 @@ namespace MemberSite.Service.DAL
 
             return rtn;
         }
-        public int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
+        public int DrawPrize_test(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
         {
+
             int res = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Open();
@@ -101,18 +102,33 @@ namespace MemberSite.Service.DAL
             }
             else if (result == 0)
             {
-                //指定大獎 Jackpot == 1
-                var BigPrize = Prizes.Where(x => x.Jackpot == 1 && x.Quota > 0).FirstOrDefault();
-                //超過活動時間的3/4 直接送最大獎
-                if (BigPrize != null && BigPrize.Quota > 0 && DateTime.Now > (BigPrize.StartTime.AddHours(((float)(BigPrize.EndTime - BigPrize.StartTime).Hours * ((float)3 / (float)4)))))
+                if (quota > 0)
                 {
-                    drawPrize = BigPrize;
-                    prizeId = BigPrize.PrizeId;
-                    prizeAmount = BigPrize.Amount;
+                    //指定大獎 Jackpot == 1
+                    var bigPrize = Prizes.Where(x => x.Jackpot == 1 && x.Quota > 0).FirstOrDefault();
+                    if (bigPrize != null)
+                    {
+                        DateTime time = (bigPrize.StartTime.AddHours(((float)new TimeSpan(bigPrize.EndTime.Ticks - bigPrize.StartTime.Ticks).TotalHours * ((float)3 / (float)4))));
+                    }
 
-                }
-                else
-                {
+                    //重新分配Quota個數來改變機率
+                    if (quota > 1 && bigPrize != null && bigPrize.Quota > 0 && DateTime.Now > (bigPrize.StartTime.AddHours(((float)new TimeSpan(bigPrize.EndTime.Ticks - bigPrize.StartTime.Ticks).TotalHours * ((float)3 / (float)4)))))
+                    {
+
+                        int totalTime = (int)new TimeSpan(bigPrize.EndTime.Ticks - bigPrize.StartTime.Ticks).TotalHours;
+                        int elapsedTime = (int)new TimeSpan((DateTime.Now.Ticks - bigPrize.StartTime.Ticks)).TotalHours;
+                        int totalQuota = 1000;
+
+                        bigPrize.Quota = (int)((float)totalQuota * ((float)elapsedTime / (float)totalTime));
+                        if (quota - 1 > 0)
+                        {
+                            foreach (var prize in Prizes.Where(x => x.Quota > 0 && x.Jackpot != 1))
+                            {
+                                prize.Quota = (int)((float)(totalQuota - bigPrize.Quota) * ((float)prize.Quota / (float)(quota - 1)));
+                            }
+                        }
+                        quota = totalQuota;
+                    }
                     Random r = new Random();
                     int LuckyNum = r.Next(quota) + 1;
                     int LuckyCnt = 0;
@@ -124,18 +140,19 @@ namespace MemberSite.Service.DAL
                         prizeAmount = prize.Amount;
                         LuckyCnt += prize.Quota;
 
-                        if (LuckyNum < LuckyCnt)
+                        if (LuckyNum <= LuckyCnt)
                         {
                             break;
                         }
                     }
-                    if (LuckyCnt == 0)
-                    {
-                        var prize = Prizes.Aggregate((min, next) => min.Amount > next.Amount ? next : min);
-                        drawPrize = prize;
-                        prizeId = prize.PrizeId;
-                        prizeAmount = prize.Amount;
-                    }
+                }
+                if (drawPrize == null)
+                {
+                    var prize = Prizes.Aggregate((min, next) => min.Amount > next.Amount ? next : min);
+                    drawPrize = prize;
+                    prizeId = prize.PrizeId;
+                    prizeAmount = prize.Amount;
+
                 }
 
                 res = conn.Execute("Member_DrawPrize_Set", new { EventId = eventId, PrizeId = prizeId, CustId = custId, DrawDate = checkDate }, transaction: trans, commandType: CommandType.StoredProcedure);
@@ -149,6 +166,7 @@ namespace MemberSite.Service.DAL
 
             return result;
         }
+
         public IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
