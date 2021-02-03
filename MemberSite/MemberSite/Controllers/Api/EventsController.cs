@@ -132,14 +132,20 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+
+        public class DrawPrizeReq
+        {
+            public int eventId { get; set; }
+        }
         [Authorize]
         [HttpPost]
-        public ApiResult<CustGift> CheckDrawPrize(int eventId)
+        public ApiResult<CustGift> CheckDrawPrize(DrawPrizeReq drawPrizeReq)
         {
             var apiResult = new ApiResult<CustGift>();
             apiResult.Data = new CustGift();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            int eventId = drawPrizeReq.eventId;
 
             var prizes = eventsBLL.CheckDrawPrize(ref eventId, custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, out int prizeId, out int result);
             if (result == 100)
@@ -154,12 +160,13 @@ namespace MemberSite.Controllers.Api
 
         [Authorize]
         [HttpPost]
-        public ApiResult<CustGift> DrawPrize(int eventId)
+        public ApiResult<CustGift> DrawPrize(DrawPrizeReq drawPrizeReq)
         {
             var apiResult = new ApiResult<CustGift>();
             apiResult.Data = new CustGift();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            int eventId = drawPrizeReq.eventId;
 
             if (custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted)
             {
@@ -200,11 +207,12 @@ namespace MemberSite.Controllers.Api
         }
         [Authorize]
         [HttpPost]
-        public ApiResult<IEnumerable<CustGiftList>> GetCustDrawPrizeList(int eventId)
+        public ApiResult<IEnumerable<CustGiftList>> GetCustDrawPrizeList(DrawPrizeReq drawPrizeReq)
         {
             var apiResult = new ApiResult<IEnumerable<CustGiftList>>();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            int eventId = drawPrizeReq.eventId;
             apiResult.Data = eventsBLL.GetCustDrawPrizeList(eventId, custInfo.SiteId, authData.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;
