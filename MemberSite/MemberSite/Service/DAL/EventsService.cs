@@ -84,7 +84,7 @@ namespace MemberSite.Service.DAL
 
             return rtn;
         }
-        public int DrawPrize_test(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
+        public int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
         {
 
             int res = 0;
@@ -106,11 +106,6 @@ namespace MemberSite.Service.DAL
                 {
                     //指定大獎 Jackpot == 1
                     var bigPrize = Prizes.Where(x => x.Jackpot == 1 && x.Quota > 0).FirstOrDefault();
-                    if (bigPrize != null)
-                    {
-                        DateTime time = (bigPrize.StartTime.AddHours(((float)new TimeSpan(bigPrize.EndTime.Ticks - bigPrize.StartTime.Ticks).TotalHours * ((float)3 / (float)4))));
-                    }
-
                     //重新分配Quota個數來改變機率
                     if (quota > 1 && bigPrize != null && bigPrize.Quota > 0 && DateTime.Now > (bigPrize.StartTime.AddHours(((float)new TimeSpan(bigPrize.EndTime.Ticks - bigPrize.StartTime.Ticks).TotalHours * ((float)3 / (float)4)))))
                     {
