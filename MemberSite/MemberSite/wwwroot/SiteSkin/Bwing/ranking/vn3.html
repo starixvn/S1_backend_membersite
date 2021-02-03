@@ -1,0 +1,285 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+
+<head>
+    <title>Lucky Ang Pow for Lucky Year!!!</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../common/images/favicon.ico" type="image/x-icon">
+    <link href="../Desktop/assets/css/bwinghelp.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="side-bar" role="desktop-drawer">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <a class="btn btn-icon" role="desktop-only">
+                        <i class="icon icon-clear"></i>
+                    </a>
+                </div>
+                <div class="side-nav__list">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn" href="/">
+                            <i class="icon icon-home"></i>
+                            <span class="text">Home</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-info-outline"></i>
+                            <span class="text">Goal123</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="AboutUs.html" target="_self">
+                                <span class="text">About Us</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Terms.html" target="_self">
+                                <span class="text">Terms of Use</span>
+                            </a>
+                            <a class="side-nav__subitem" href="ContactUs.html" target="_self">
+                                <span class="text">Contact Us</span>
+                            </a>
+                            <a class="side-nav__subitem" href="https://aff.goal123.com/?lang=en" target="_self">
+                                <span class="text">Affiliates</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-help-outline"></i>
+                            <span class="text">Help &amp; Support</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="RulesandRegulations.html">
+                                <span class="text">Rules and Regulations</span>
+                            </a>
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Account Terms</span>
+                            </a>
+                            <a class="side-nav__subitem" href="FAQ.html" target="_self">
+                                <span class="text">FAQ</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="DepositWithdrawals.html" target="_self">
+                                <span class="text">Deposit &amp; Withdrawals</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Downloads.html" target="_self">
+                                <span class="text">Downloads</span>
+                            </a>-->
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-policy"></i>
+                            <span class="text">Our Policies</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="ResposibleGaming.html" target="_self">
+                                <span class="text">Responsible Gaming</span>
+                            </a>
+                            <a class="side-nav__subitem" href="TermsConditions.html" target="_self">
+                                <span class="text">Terms &amp; Conditions</span>
+                            </a>
+                            <a class="side-nav__subitem" href="PrivacyPolicy.html" target="_self">
+                                <span class="text">Privacy Policy</span>
+                            </a>
+                            <a class="side-nav__subitem" href="CookiePolicy.html" target="_self">
+                                <span class="text">Cookie Policy</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                    <a class="logo" href="/"></a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="help-page">
+                <div class="help-page__body">
+                    <div class="heading">
+                        <span class="text">Cơn Mưa Lì Xì Đầu Năm</span>
+                    </div>
+                    <div class="article">
+                        <h3>Điều Khoản và Điều Kiện</h3>
+                        <ol style="padding: 0 1rem; line-height: 24px;">
+                            <li>Khuyến mãi bắt đầu vào 00:00:00 ngày 11/02/2021 và kết thúc lúc 23:59:59 ngày 26/02/2021
+                                (GMT+7)
+                            </li>
+                            <li>Mỗi thành viên chỉ được nhận khuyến mãi này một (1) lần/ngày tính từ lần đăng nhập đầu
+                                tiên
+                                trong ngày. Người chơi đã nhận thưởng vẫn có thể tiếp tục tham gia khuyến mãi vào ngày
+                                hôm
+                                sau.</li>
+                            <li>Để trở thành Thành Viên Hợp Lệ, người chơi phải có ít nhất 1 lần gửi tiền 200,000 VND và
+                                1
+                                cược đặt thành công trước đó</li>
+                            <li>Tham khảo thông tin chi tiết về trị giá Bao Lì Xì ở bảng bên dưới</li>
+                            <table style="margin: 10px 0; width: 100%; text-align: center;">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p><strong>STT</strong></p>
+                                        </td>
+                                        <td>
+                                            <p><strong>Trị giá</strong></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p>Giải Đặc Biệt</p>
+                                        </td>
+                                        <td>
+                                            <p>THỎI VÀNG 9999</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p>1</p>
+                                        </td>
+                                        <td>
+                                            <p>108,000 VND</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p>2</p>
+                                        </td>
+                                        <td>
+                                            <p>88,000 VND</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p>3</p>
+                                        </td>
+                                        <td>
+                                            <p>68,000 VND</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p>4</p>
+                                        </td>
+                                        <td>
+                                            <p>38,000 VND</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p>5</p>
+                                        </td>
+                                        <td>
+                                            <p>28,000 VND</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p>6</p>
+                                        </td>
+                                        <td>
+                                            <p>8,000 VND</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </li>
+                            <li>Thành viên sẽ tự động tham gia khuyến mãi này.</li>
+                            <li>Giải đặc biệt, giá trị quy đổi thành tiền mặt là 45,688,000 VND</li>
+                            <li>Tiền Lì Xì sẽ được cập nhật vào Ví Chính.</li>
+                            <li>Số tiền thưởng thắng được phải trải qua Một (1) vòng cược trước khi rút.
+                                Ví dụ: 1 x 108,000 = 108,000 VND</li>
+                            <li>Tiền thưởng có hiệu lực trong vòng 30 ngày kể từ ngày cập nhật vào tài khoản. Sau 30
+                                ngày, số
+                                dư tiền thưởng còn lại sẽ tự động bị hủy.</li>
+                            <li>Cược hòa, cược hai bên, cược vô hiệu, cược hủy, các cược Jackpot, RNG (Table Games, Card
+                                Games, game Câu Cá) không được tính cho doanh thu khuyến mãi.</li>
+                            <li>Bwing có quyền thu hồi khuyến mãi cho thành viên hoặc nhóm tài khoản có dấu hiệu gian
+                                lận
+                                khuyến mãi bất kỳ lúc nào.</li>
+                            <li>Bwing có toàn quyền sửa đổi, hủy bỏ, từ chối, hay thu hồi bất kỳ khuyến mãi nào. Quyền
+                                quyết
+                                định cuối cùng thuộc về Bwing.</li>
+                            <li>Áp dụng Điều khoản và điều kiện chung</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2021. Bwing. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,6 +1,10 @@
 {
   "Promotion": [
     {
+      "img": "Banner-2021CNY.jpg",
+      "lang": [ "vn", "en" ]
+    },
+    {
       "img": "Banner-NewYearLeaderBoard.jpg",
       "actionLink": "leaderBoard",
       "lang": [ "vn", "en" ]
@@ -8,12 +12,6 @@
     {
       "actionLink": "SiteSkin/Goal123/appDownload/vn.html",
       "img": "Banner-APP.jpg",
-      "currencyId": [ 51 ],
-      "lang": [ "vn", "en" ]
-    },
-    {
-      "actionLink": "vn/casino?provider=Iconic",
-      "img": "banner-icg.jpg",
       "currencyId": [ 51 ],
       "lang": [ "vn", "en" ]
     },
@@ -55,38 +53,38 @@
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "40963287",
+      "matchid": "41273100",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-40963287.jpg",
+      "img": "games-41273100.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "41062629",
+      "matchid": "41255296",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-41062629.jpg",
+      "img": "games-41255296.jpg",
       "lang": [ "en", "vn" ]
     },
     {
       "tpId": "1",
       "gameId": "1",
-      "matchid": "41124063",
+      "matchid": "41256060",
       "actionLink": "Sports/Index",
       "outerLink": true,
-      "img": "games-41124063.jpg",
+      "img": "games-41256060.jpg",
+      "lang": [ "en", "vn" ]
+    },
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "41239265",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "games-41239265.jpg",
       "lang": [ "en", "vn" ]
     }
-    //{
-    //  "tpId": "1",
-    //  "gameId": "1",
-    //  "matchid": "40426272",
-    //  "actionLink": "Sports/Index",
-    //  "outerLink": true,
-    //  "img": "games-40426272.jpg",
-    //  "lang": [ "en", "vn" ]
-    //}
   ]
 }
