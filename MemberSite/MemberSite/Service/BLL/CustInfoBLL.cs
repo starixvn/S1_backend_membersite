@@ -54,13 +54,13 @@ namespace MemberSite.Service.BLL
         {
             return isConvert.ContainsKey(CurrencyId);
         }
-        public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang, string refId, string affId, string aff, string affCode, out int custId, string signupUrl = null, string PhoneNo = null, string AreaCode = null, string RealName=null)
+        public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang, string refId, string affId, string aff, string affCode, out int custId, string signupUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             if (string.IsNullOrEmpty(affId) && !serverInfo.ICurrencyList.Contains(CurrencyId))
             {
                 custId = 0;
-                return - 1;
+                return -1;
             }
             else if (!tools.CheckUserName(UserName))
             {
@@ -118,10 +118,10 @@ namespace MemberSite.Service.BLL
                 regCustInfo.Aff = aff;
                 regCustInfo.AffCode = affCode;
                 /**/
-                var result = custInfoService.AddCustInfo(regCustInfo, Email, out custId, signupUrl, PhoneNo, AreaCode, RealName);
+                var result = custInfoService.AddCustInfo(regCustInfo, Email, out custId, signupUrl, PhoneNo, AreaCode, RealName, promoCode);
                 if (result != 0)
                 {
-                    return -5;
+                    return result;
                 }
             }
 
@@ -467,7 +467,7 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             var apiResult = await commonBLL.AcknowledgeVerifySMS(custInfo, siteName, request_id, code);
 
-            if(apiResult.ErrorCode== 0)
+            if (apiResult.ErrorCode == 0)
             {
                 custInfoService.SetPhoneVerified(custId);
             }
@@ -481,7 +481,7 @@ namespace MemberSite.Service.BLL
         public async Task<ApiResult> VerifyOTPAsync(int custId, string inputOTP)
         {
             var apiResult = await commonBLL.VerifyOTPAsync(custId, inputOTP);
-            
+
             if (apiResult.ErrorCode == 0)
             {
                 custInfoService.SetPhoneVerified(custId);
@@ -552,11 +552,11 @@ namespace MemberSite.Service.BLL
             {
                 return -1;
             }
-          
+
         }
-        public void GetReferralSummary(int custId, out int referralCount,out int conditionCount, out int amountCount, out int amountSum)
+        public void GetReferralSummary(int custId, out int referralCount, out int conditionCount, out int amountCount, out int amountSum)
         {
-            agentInfoService.GetReferralSummary(custId, out referralCount, out conditionCount, out amountCount, out  amountSum);
+            agentInfoService.GetReferralSummary(custId, out referralCount, out conditionCount, out amountCount, out amountSum);
         }
         public IEnumerable<ReferralFriend> GetRefFriendList(int custId, long? StartDate, long? EndDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
