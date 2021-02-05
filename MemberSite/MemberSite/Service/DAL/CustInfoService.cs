@@ -73,7 +73,7 @@ namespace MemberSite.Service.DAL
                 result = conn.Execute("Member_CustRegInfo_Ins", new { CustId = custId, SiteId = customer.SiteId, SignupUrl = signupUrl }, trans, commandType: CommandType.StoredProcedure);
             }
 
-            if (result > 0 && !string.IsNullOrEmpty(promoCode.Trim()))
+            if (result > 0 && !string.IsNullOrEmpty(promoCode))
             {
                 result = conn.Execute("Member_CustPromoCode_Ins", new { CustId = custId, PromoCode = promoCode.Trim() }, trans, commandType: CommandType.StoredProcedure);
 

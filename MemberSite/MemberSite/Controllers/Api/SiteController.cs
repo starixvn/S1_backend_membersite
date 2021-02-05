@@ -379,7 +379,7 @@ namespace MemberSite.Controllers.Api
 
             if (!phoneExists)
             {
-                result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName);
+                result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode);
             }
             else
             {
@@ -416,6 +416,11 @@ namespace MemberSite.Controllers.Api
             {
                 apiResult.ErrorCode = result;
                 apiResult.Message = $"{selLangBLL.GetResourceValue("lbl_Phone")} {selLangBLL.GetMsg("msg_HasExist")}";
+            }
+            else if (result == -7)
+            {
+                apiResult.ErrorCode = result;
+                apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeIncorrect");
             }
             else if (result == -19)
             {
@@ -555,7 +560,7 @@ namespace MemberSite.Controllers.Api
             else if (result == -7)
             {
                 apiResult.ErrorCode = result;
-                apiResult.Message = "Promo Code hasn't exists.";
+                apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeIncorrect");
             }
             else if (result == -19)
             {

@@ -312,4 +312,7 @@
   <data name="msg_DrawPrizeTital" xml:space="preserve">
     <value>Ang Pao Giveaway</value>
   </data>
+  <data name="msg_PromoCodeIncorrect" xml:space="preserve">
+    <value>Promo code is incorrect.</value>
+  </data>
 </root>

@@ -287,4 +287,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_DrawPrizeTital" xml:space="preserve">
     <value>Lì Xì phát lộc</value>
   </data>
+  <data name="msg_PromoCodeIncorrect" xml:space="preserve">
+    <value>Mã khuyến mãi không đúng</value>
+  </data>
 </root>

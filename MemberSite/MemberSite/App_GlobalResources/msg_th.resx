@@ -308,4 +308,7 @@
   <data name="msg_IneligibleAngPow" xml:space="preserve">
     <value>กรุณาทำการฝากเงินเพื่อรับสิทธิ์สำหรับโปรโมชั่นนี้</value>
   </data>
+  <data name="msg_PromoCodeIncorrect" xml:space="preserve">
+    <value>โค้ดโปรโมชั่นไม่ถูกต้อง</value>
+  </data>
 </root>

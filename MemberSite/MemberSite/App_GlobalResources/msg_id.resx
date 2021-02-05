@@ -304,4 +304,7 @@
   <data name="msg_IneligibleAngPow" xml:space="preserve">
     <value>Harap lakukan deposit Anda untuk mendapatkan promosi ini</value>
   </data>
+  <data name="msg_PromoCodeIncorrect" xml:space="preserve">
+    <value>Kode promo salah</value>
+  </data>
 </root>

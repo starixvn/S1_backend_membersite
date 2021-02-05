@@ -301,4 +301,7 @@
   <data name="msg_IneligibleAngPow" xml:space="preserve">
     <value>請存款以享受此優惠促銷</value>
   </data>
+  <data name="msg_PromoCodeIncorrect" xml:space="preserve">
+    <value>优惠代码不正确</value>
+  </data>
 </root>
