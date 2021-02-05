@@ -297,4 +297,7 @@
   <data name="msg_DrawPrizeTital" xml:space="preserve">
     <value>紅包大放送</value>
   </data>
+  <data name="msg_PromoCodeIncorrect" xml:space="preserve">
+    <value>優惠代碼不正確</value>
+  </data>
 </root>

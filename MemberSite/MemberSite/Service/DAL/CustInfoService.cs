@@ -35,7 +35,7 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
         }
-        public int AddCustInfo(Customer customer, string Email, out int custId, string signupUrl = null, string PhoneNo=null, string AreaCode=null, string RealName=null)
+        public int AddCustInfo(Customer customer, string Email, out int custId, string signupUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null)
         {
             custId = 0;
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
@@ -73,7 +73,17 @@ namespace MemberSite.Service.DAL
                 result = conn.Execute("Member_CustRegInfo_Ins", new { CustId = custId, SiteId = customer.SiteId, SignupUrl = signupUrl }, trans, commandType: CommandType.StoredProcedure);
             }
 
-            if ((int.TryParse(customer.Aff, out int iAff) || !string.IsNullOrEmpty(customer.AffCode)) && result > 0)
+            if (result > 0 && !string.IsNullOrEmpty(promoCode))
+            {
+                result = conn.Execute("Member_CustPromoCode_Ins", new { CustId = custId, PromoCode = promoCode.Trim() }, trans, commandType: CommandType.StoredProcedure);
+
+                if (result == 0)
+                {
+                    result = -7;
+                }
+            }
+
+            if (result > 0 && (int.TryParse(customer.Aff, out int iAff) || !string.IsNullOrEmpty(customer.AffCode)))
             {
                 result = conn.Execute("Member_VNAffiliate_Ins", new { CustId = custId, customer.SiteId, AffId = iAff, AffCode = customer.AffCode }, trans, commandType: CommandType.StoredProcedure);
             }
@@ -83,7 +93,16 @@ namespace MemberSite.Service.DAL
                 trans.Commit();
             }
 
-            return result > 0 ? 0 : -1;
+            if (result > 0)
+            {
+                result = 0;
+            }
+            else if (result == 0)
+            {
+                result = -5;
+            }
+
+            return result;
         }
         public Customer GetCustInfo(int custId)
         {
@@ -143,7 +162,7 @@ namespace MemberSite.Service.DAL
             string Email = profile[nameof(Email)];
             string AreaCode = profile[nameof(AreaCode)];
             string PhoneNo = profile[nameof(PhoneNo)];
-            result = conn.Execute("Member_CustProfile_Set", new { CustId = custId, SiteId = siteId, AreaCode, Email= Email, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
+            result = conn.Execute("Member_CustProfile_Set", new { CustId = custId, SiteId = siteId, AreaCode, Email = Email, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
         public bool SetProfileV2(int custId, int siteId, Dictionary<string, string> profile)
