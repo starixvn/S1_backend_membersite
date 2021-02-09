@@ -6019,6 +6019,7 @@ span.account-info__amount.Js-Balance{
 
 .main:not(.main--home) .page {
   height: 100%;
+  width: 100%;/*20210204*/
 }
 
 .main--home .lobby-page {
