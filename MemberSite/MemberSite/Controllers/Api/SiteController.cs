@@ -1220,21 +1220,29 @@ namespace MemberSite.Controllers.Api
             var providers = gameCasinoBLL.GetProviderList();
 
             IEnumerable<int> tpIds = null;
+            IEnumerable<GameCasionByCurrencyAndSite> gameCasionByCurrencyAndSite = null;
+
             var serverInfo = serverInfoBLL.GetServerInfo();
             if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();
                 var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 tpIds = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
+                //取出有byCurrency跟Site設定的遊戲資訊
+                gameCasionByCurrencyAndSite = casinoBLL.GetGameCasinoByCurrencyAndSite(custInfo.CurrencyId, custInfo.SiteId);
             }
             else
             {
                 tpIds = casinoBLL.GetProviderIdByCurrency(0, serverInfo.SiteId);
+                //取出有byCurrency跟Site設定的遊戲資訊
+                gameCasionByCurrencyAndSite = casinoBLL.GetGameCasinoByCurrencyAndSite(selLangBLL.GetPreferCurrencyId(), serverInfo.SiteId);
             }
 
             //濾掉不符合權限的
 
             var filterCon = GameCasinoHasTpid?.Where(x => tpIds.Contains(x)).ToDictionary(x => Convert.ToInt16(x), x => false);
+
+            var dictgameCasionByCurrencyAndSite = gameCasionByCurrencyAndSite?.ToDictionary(x => Convert.ToInt32(x.GameCasinoId),x=> x);
 
             foreach (var provider in providers?.Where(thisProvider => filterCon.ContainsKey(thisProvider.Value)))
             {
@@ -1255,25 +1263,51 @@ namespace MemberSite.Controllers.Api
                     }
 
                     Dictionary<string, string> imgNameD = nameItem.ToDictionary(x => x.Key, x => $"{OrgFileNameFilter($"{imgName}-{x.Key}")}.jpg");
-
-                    provider.GameList.Data.Add(new Datum
+                    if(dictgameCasionByCurrencyAndSite != null && dictgameCasionByCurrencyAndSite.ContainsKey(y.GameCasinoId))
                     {
-                        Name = nameItem,
-                        ImgName = imgNameD,
-                        AppId = y.AppId,
-                        GameId = y.GameId,
-                        Category1 = Enum.GetName(typeof(TypeId), y.TypeId),
-                        Paylines = y.Paylines,
-                        Rtp = y.Rtp,
-                        Reels = string.IsNullOrWhiteSpace(y.Reel) ? string.Empty : y.Reel,
-                        LaunchDate = y.LaunchDate,
-                        Hot = y.Hot,
-                        New = y.LaunchDate.AddDays(30) > DateTime.Now,
-                        ImageExist = true,
-                        promotion = y.promotion,
-                        featured = y.featured,
-                        PlayFree = y.Fun
-                    });
+                        if (dictgameCasionByCurrencyAndSite[y.GameCasinoId].Status)
+                        {
+                            provider.GameList.Data.Add(new Datum
+                            {
+                                Name = nameItem,
+                                ImgName = imgNameD,
+                                AppId = y.AppId,
+                                GameId = y.GameId,
+                                Category1 = Enum.GetName(typeof(TypeId), y.TypeId),
+                                Paylines = y.Paylines,
+                                Rtp = y.Rtp,
+                                Reels = string.IsNullOrWhiteSpace(y.Reel) ? string.Empty : y.Reel,
+                                LaunchDate = y.LaunchDate,
+                                Hot = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Hot,
+                                New = y.LaunchDate.AddDays(30) > DateTime.Now,
+                                ImageExist = true,
+                                promotion = y.promotion,
+                                featured = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Featured,
+                                PlayFree = y.Fun
+                            });
+                        }
+                    }
+                    else
+                    {
+                        provider.GameList.Data.Add(new Datum
+                        {
+                            Name = nameItem,
+                            ImgName = imgNameD,
+                            AppId = y.AppId,
+                            GameId = y.GameId,
+                            Category1 = Enum.GetName(typeof(TypeId), y.TypeId),
+                            Paylines = y.Paylines,
+                            Rtp = y.Rtp,
+                            Reels = string.IsNullOrWhiteSpace(y.Reel) ? string.Empty : y.Reel,
+                            LaunchDate = y.LaunchDate,
+                            Hot = y.Hot,
+                            New = y.LaunchDate.AddDays(30) > DateTime.Now,
+                            ImageExist = true,
+                            promotion = y.promotion,
+                            featured = y.featured,
+                            PlayFree = y.Fun
+                        });
+                    }
                 });
                 resultData.ProviderList.Add(provider);
             }
