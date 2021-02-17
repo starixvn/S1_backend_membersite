@@ -63,7 +63,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<LoadCardPayGroup> GetLoadCardPayGroupList(int custId)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
             var LoadCardPayInfoList = GetLoadCardPayInfoList(custInfo.SiteId);
 
             var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
@@ -89,7 +89,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<LoadCardPayInfo> GetLoadCardPayInfoList(int custId, int groupId)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
 
             var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.MobilePayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
@@ -118,7 +118,7 @@ namespace MemberSite.Service.BLL
             if (amount <= 0)
                 return -1;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
 
             var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LoadCardPayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();

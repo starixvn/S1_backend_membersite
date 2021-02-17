@@ -273,27 +273,27 @@ namespace MemberSite.Service.BLL
             return customer;
         }
 
-        public int GetVipLevel(int custId)
+        public int GetPointLevel(int custId)
         {
-            return custInfoService.GetVipLevel(custId);
+            return custInfoService.GetPointLevel(custId);
         }
 
-        public int GetVipLevelWithCache(int custId)
+        public int GetPointLevelWithCache(int custId)
         {
-            string key = $"VipLevelCache_{custId}";
-            var vipLevelCache = cache.Get<int?>(key) ?? -1;
-            if (vipLevelCache != -1)
+            string key = $"PointLevelCache_{custId}";
+            var pointLevelCache = cache.Get<int?>(key) ?? -1;
+            if (pointLevelCache != -1)
             {
-                return vipLevelCache;
+                return pointLevelCache;
             }
 
-            vipLevelCache = custInfoService.GetVipLevel(custId);
-            if (vipLevelCache != 0)
+            pointLevelCache = custInfoService.GetPointLevel(custId);
+            if (pointLevelCache != 0)
             {
-                cache.Set(key, vipLevelCache, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
+                cache.Set(key, pointLevelCache, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
             }
 
-            return vipLevelCache;
+            return pointLevelCache;
         }
 
         public int SetPassword(int custId, string oldPassword, string newPassword)
