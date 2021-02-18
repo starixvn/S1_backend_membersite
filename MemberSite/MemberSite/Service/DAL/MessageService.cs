@@ -29,7 +29,7 @@ namespace MemberSite.Service.DAL
         public bool SetRead(int msgId, int custId)
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("MsgRead_Set", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure) > 0;
+            return conn.Execute("Member_MsgRead_Set", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure) > 0;
         }
 
         public IEnumerable<Msg> GetMsgList(int custId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
