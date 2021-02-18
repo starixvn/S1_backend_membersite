@@ -60,7 +60,7 @@ namespace MemberSite.Service.BLL
             if (amount <= 0)
                 return -1;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
             var bankAccountOffList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
             List<BankInfoOff> localBankList = bankAccountOffList?.ToList();
             var depositLimitInfoList = depoistService.GetDepositLimitInfoList();
@@ -169,7 +169,7 @@ namespace MemberSite.Service.BLL
             var payCurrency = bankInfoBLL.GetPayCurrency().Where(x => x.ChannelId == channelId && custInfo.CurrencyId == x.CurrencyId).FirstOrDefault();
 
             var depositLimitInfoList = depoistService.GetDepositLimitInfoList();
-            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
 
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 

@@ -1923,6 +1923,7 @@ div.form--list .form-group .form-title {
 .iframe-page {
   flex: 1 0 auto;
   margin: -1rem;
+  height: 100%;
 }
 
 .iframe-page iframe {
@@ -6018,6 +6019,7 @@ span.account-info__amount.Js-Balance{
 
 .main:not(.main--home) .page {
   height: 100%;
+  width: 100%;/*20210204*/
 }
 
 .main--home .lobby-page {
@@ -6040,6 +6042,7 @@ span.account-info__amount.Js-Balance{
   display: flex;
   flex-direction: column;
   margin-top: 72px;
+  height: 100%;
 }
 
 [data-layout=desktop] .main {

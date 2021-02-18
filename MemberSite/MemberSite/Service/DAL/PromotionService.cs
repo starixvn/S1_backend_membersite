@@ -566,7 +566,7 @@ namespace MemberSite.Service.DAL
                 conn.Execute("Member_PromotionCanJoinV4_Get", canJoinParams, commandType: CommandType.StoredProcedure);
 
                 var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
-                promo.canJoin = canJoinResult == 1;
+                promo.canJoin = canJoinResult == 1 || canJoinResult == 3;
                 promo.Result = canJoinParams.Get<int>("Result");
 
                 if (promo.PromotionType == (int)PromotionType.FstDeposit)
