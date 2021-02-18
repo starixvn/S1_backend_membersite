@@ -28,7 +28,16 @@ namespace MemberSite.Service.BLL
         {
             return messageService.GetMsgContent(custId, msgId);
         }
+        public bool SetMsgRead(int custId, int[] msgIds)
+        {
+            bool resalt = true;
+            foreach (var msgId in msgIds)
+            {
+                resalt &= messageService.SetRead( msgId, custId);
+            }
 
+            return resalt;
+        }
         public bool DelMsg(int custId, int[] msgIds)
         {
             bool resalt = true;
