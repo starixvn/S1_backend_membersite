@@ -80,6 +80,7 @@ namespace MemberSite.Service.BLL
                                       {
                                           GroupId = x.GroupId,
                                           GroupName = x.GroupName,
+                                          PayName = x.PayName,
                                           GSort = x.GSort
                                       }).Distinct(loadCardGroupComparer);
 
