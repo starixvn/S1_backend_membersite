@@ -405,7 +405,7 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = GetCustInfoWithCache(custId);
             var customer = custInfoService.GetCustInfoProfile(custId, custInfo.SiteId);
-            customer.UserLevel = custInfoService.GetCustLevel(custId);
+            //customer.UserLevel = custInfoService.GetCustLevel(custId);
             return customer;
         }
         public int SubmittedCustPhotoId(int custId)
