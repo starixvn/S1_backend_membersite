@@ -58,7 +58,7 @@ namespace MemberSite.Service.BLL
         public async Task<IEnumerable<CryptoPayInfo>> GetCryptoPayInfoListAsync(int custId/*, int groupId*/)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
 
             var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.CryptoPayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
@@ -115,7 +115,7 @@ namespace MemberSite.Service.BLL
             if (amount <= 0)
                 return -1;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
 
             var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.CryptoPayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();

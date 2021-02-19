@@ -101,7 +101,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<PaymentFront> GetOnlinePaymentList(int custId)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
             var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
@@ -147,7 +147,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<SysBankInfoFront> GetOnlineBankInfoSysList(int custId, int payId)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
             var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
 
             var bankInfoList = (from x in bankInfoPayList
@@ -166,7 +166,7 @@ namespace MemberSite.Service.BLL
         public BankInfoPayFront GetOnlineBankInfo(int custId, int sysId, int payId)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
 
             var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
@@ -213,7 +213,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<SysBankInfoFront> GetOnlineBankInfoSysList(int custId)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
             var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
 
             var bankInfoList = (from x in bankInfoPayList
@@ -232,7 +232,7 @@ namespace MemberSite.Service.BLL
         public BankInfoPayFront GetOnlineBankInfo(int custId, int sysId)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
 
             var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();

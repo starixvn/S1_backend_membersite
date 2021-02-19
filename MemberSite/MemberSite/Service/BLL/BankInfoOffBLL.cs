@@ -61,7 +61,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<SysBankInfoFront> GetBankInfoOffList(int custId)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetVipLevelWithCache(custId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
             var bankAccountOffList = GetBankAccountOff(custInfo.SiteId);
 
             List<BankInfoOff> localBankList = bankAccountOffList?.ToList();
