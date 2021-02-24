@@ -176,7 +176,7 @@ namespace MemberSite.Controllers
             return View(apiResult);
         }
 
-        public async Task<IActionResult> DepositReqLordCardPayAsync(int ChannelId, decimal Amount)
+        public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, decimal Amount)
         {
             var apiResult = new ApiResult<PayResult>();
             var authData = authorizeBLL.GetAuthData();
