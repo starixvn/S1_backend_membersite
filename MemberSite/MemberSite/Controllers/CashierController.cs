@@ -197,7 +197,7 @@ namespace MemberSite.Controllers
                     ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
                 };
 
-                var myUrl = $"{payApiUrl}ReqDepositMobile";
+                var myUrl = $"{payApiUrl}ReqDepositLoadCard";
                 apiResult = await courierAdapter.MyPostAsync<PayResult, dynamic>(myUrl, reqDeposit);
                 if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
                 {
