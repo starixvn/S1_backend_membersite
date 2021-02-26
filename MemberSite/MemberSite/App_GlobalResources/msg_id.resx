@@ -307,4 +307,10 @@
   <data name="msg_PromoCodeIncorrect" xml:space="preserve">
     <value>Kode promo salah</value>
   </data>
+  <data name="msg_DrawPrize1" xml:space="preserve">
+    <value>Selamat! Bonus {0} Anda sebesar {1} {2} telah dikreditkan ke akun Anda.</value>
+  </data>
+  <data name="msg_DrawPrizeTital1" xml:space="preserve">
+    <value>{0} Mystery Box</value>
+  </data>
 </root>

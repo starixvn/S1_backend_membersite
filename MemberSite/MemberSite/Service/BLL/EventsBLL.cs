@@ -215,5 +215,14 @@ namespace MemberSite.Service.BLL
 
             return leaderboardInfo;
         }
+        public void GetEventDrawInfo(int eventId, out string eventName, out string conditionSP)
+        {
+            eventsService.GetEventDrawInfo( eventId, out eventName, out conditionSP);
+        }
+        public bool CheckEventCondition(string conditionSP, int eventId, int custId, int currencyId)
+        {
+            return eventsService.CheckEventCondition(conditionSP, eventId, custId, currencyId);
+        }
     }
 }
+
