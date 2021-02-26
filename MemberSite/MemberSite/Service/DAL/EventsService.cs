@@ -184,5 +184,25 @@ namespace MemberSite.Service.DAL
             info.RewardInfolist = conn.Query<RewardInfo>("Member_LeaderboardRewardInfo_Get", new { EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
             return info;
         }
+        public void GetEventDrawInfo(int eventId, out string eventName, out string conditionSP)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var p = new DynamicParameters(new { EventId = eventId });
+            p.Add("EventName", dbType: DbType.String, direction: ParameterDirection.Output);
+            p.Add("ConditionSP", dbType: DbType.String, direction: ParameterDirection.Output);
+            conn.Execute("Member_EventDraw_Get", p, commandType: CommandType.StoredProcedure);
+            eventName = p.Get<string>("EventName");
+            conditionSP = p.Get<string>("ConditionSP");
+            return;
+        }
+        public bool CheckEventCondition(string conditionSP, int eventId, int custId, int currencyId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var p = new DynamicParameters(new { EventId = eventId, CustId = custId, CurrencyId = currencyId });
+            p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            conn.Execute(conditionSP, p, commandType: CommandType.StoredProcedure);
+            int Result  = p.Get<int?>("Result") ?? 0;
+            return Result > 0;
+        }
     }
 }

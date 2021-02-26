@@ -315,4 +315,10 @@
   <data name="msg_PromoCodeIncorrect" xml:space="preserve">
     <value>Promo code is incorrect.</value>
   </data>
+  <data name="msg_DrawPrize1" xml:space="preserve">
+    <value>Congratulation! Your {0} bonus of {1} {2} has been credited to your account.</value>
+  </data>
+  <data name="msg_DrawPrizeTital1" xml:space="preserve">
+    <value>{0} Mystery Box</value>
+  </data>
 </root>
