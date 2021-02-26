@@ -177,7 +177,7 @@ namespace MemberSite.Controllers.Api
             string EventName;
             string ConditionSP;
             
-            eventsBLL.GetEventDrawInfo(eventId,out EventName,out ConditionSP);
+            eventsBLL.GetEventDrawInfoWithCache(eventId,out EventName,out ConditionSP);
 
             if (custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted)
             {
