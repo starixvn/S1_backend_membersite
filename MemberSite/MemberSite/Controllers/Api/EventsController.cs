@@ -192,7 +192,7 @@ namespace MemberSite.Controllers.Api
             else if (ConditionSP != null && !eventsBLL.CheckEventCondition(ConditionSP, eventId, authData.CustId, custInfo.CurrencyId))
             {
                 apiResult.ErrorCode = 102;
-                apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
+                apiResult.Message = selLangBLL.GetMsg("msg_Ineligible");
             }
             else
             {
@@ -215,14 +215,6 @@ namespace MemberSite.Controllers.Api
                     }
                     string Tital = string.Format(selLangBLL.GetMsg("msg_DrawPrizeTital1"), serverInfo.SiteName);
 
-                    if (custInfo.SiteId != 1 && selLangBLL.GetLangId() == "vn")
-                    {
-                        string titalmsg = $"msg_DrawPrizeTital_{serverInfo.SiteName}";
-                        if(selLangBLL.GetMsg(titalmsg) != null)
-                        {
-                            Tital = selLangBLL.GetMsg(titalmsg);
-                        }
-                    }
                     string msg = string.Format(selLangBLL.GetMsg("msg_DrawPrize1"),Tital,Currencyname,dAmount);
                     if ((eventId == 1 || eventId == 2 || eventId == 3))//old event
                     {

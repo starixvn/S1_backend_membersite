@@ -296,10 +296,4 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_DrawPrizeTital1" xml:space="preserve">
     <value>Chiếc Hộp Thần Kỳ {0}</value>
   </data>
-  <data name="msg_DrawPrizeTital_Bwing" xml:space="preserve">
-    <value>Chiếc Hộp Thần Kỳ Bwing</value>
-  </data>
-  <data name="msg_DrawPrizeTital_Goal123" xml:space="preserve">
-    <value>Rương Thần Huyền Bí Goal123</value>
-  </data>
 </root>
