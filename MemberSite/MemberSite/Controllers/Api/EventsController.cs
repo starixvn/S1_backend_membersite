@@ -21,6 +21,7 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL selLangBLL;
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly MessageBLL messageBLL;
+        private readonly Dictionary<int, string> perCurrency;
 
         public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, ServerInfoBLL serverInfoBLL, MessageBLL messageBLL)
 
@@ -31,6 +32,11 @@ namespace MemberSite.Controllers.Api
             this.selLangBLL = selLangBLL;
             this.serverInfoBLL = serverInfoBLL;
             this.messageBLL = messageBLL;
+
+            perCurrency = new Dictionary<int, string>()
+            {
+              {2,"MYR" },{4,"THB" },{13,"RMB" },{15,"IDR" },{51,"VND" }
+            };
         }
 
         public class GetLeaderboardListReq
@@ -166,17 +172,27 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = new CustGift();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var serverInfo = serverInfoBLL.GetServerInfo();
             int eventId = drawPrizeReq.eventId;
+            string EventName;
+            string ConditionSP;
+            
+            eventsBLL.GetEventDrawInfoWithCache(eventId,out EventName,out ConditionSP);
 
             if (custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted)
             {
                 apiResult.ErrorCode = 102;
                 apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
             }
-            else if ((custInfo.SiteId == 2 || custInfo.SiteId == 3) && custInfoBLL.GetCustTransSummary(authData.CustId).DepositSum < 200000)
+            else if ((eventId == 1 || eventId== 2 || eventId == 3) && (custInfo.SiteId == 2 || custInfo.SiteId == 3) && custInfoBLL.GetCustTransSummary(authData.CustId).DepositSum < 200000)
             {
                 apiResult.ErrorCode = 102;
                 apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
+            }
+            else if (ConditionSP != null && !eventsBLL.CheckEventCondition(ConditionSP, eventId, authData.CustId, custInfo.CurrencyId))
+            {
+                apiResult.ErrorCode = 102;
+                apiResult.Message = selLangBLL.GetMsg("msg_Ineligible");
             }
             else
             {
@@ -190,14 +206,22 @@ namespace MemberSite.Controllers.Api
 
                 if(result == 0)
                 {
-                    string Tital = selLangBLL.GetMsg("msg_DrawPrizeTital");
+
+                    perCurrency.TryGetValue((int)custInfo.CurrencyId, out var Currencyname);
                     var dAmount = prize.Amount.ToString("#,##0.##");
                     if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
                     {
                         dAmount = $"{prize.Amount / 1000:#,##0.##}";
                     }
+                    string Tital = string.Format(selLangBLL.GetMsg("msg_DrawPrizeTital1"), serverInfo.SiteName);
 
-                    string msg = string.Format(selLangBLL.GetMsg("msg_DrawPrize"), dAmount);
+                    string msg = string.Format(selLangBLL.GetMsg("msg_DrawPrize1"),Tital,Currencyname,dAmount);
+                    if ((eventId == 1 || eventId == 2 || eventId == 3))//old event
+                    {
+                        Tital = selLangBLL.GetMsg("msg_DrawPrizeTital");
+                        
+                        msg = string.Format(selLangBLL.GetMsg("msg_DrawPrize"), dAmount);
+                    }
                     messageBLL.SendMessage(custInfo.SiteId, "DrawPrize", Tital, msg, custInfo.CustId, custInfo.UserName, custInfo.UserLang);
                 }
                 apiResult.ErrorCode = result;

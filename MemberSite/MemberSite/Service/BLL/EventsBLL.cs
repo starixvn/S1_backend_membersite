@@ -215,5 +215,45 @@ namespace MemberSite.Service.BLL
 
             return leaderboardInfo;
         }
+        public void GetEventDrawInfo(int eventId, out string eventName, out string conditionSP)
+        {
+            eventsService.GetEventDrawInfo( eventId, out eventName, out conditionSP);
+        }
+        public class EventDrawInfo
+        {
+            public string eventName { get; set; }
+            public string conditionSP { get; set; }
+        }
+        public void GetEventDrawInfoWithCache(int eventId, out string eventName, out string conditionSP)
+        {
+            string key = $"EventDrawInfo_{eventId}";
+            var eventDrawInfo = cache.Get<EventDrawInfo>(key);
+            if (eventDrawInfo != null)
+            {
+                eventName = eventDrawInfo.eventName;
+                conditionSP = eventDrawInfo.conditionSP;
+                return;
+            }
+            
+            eventsService.GetEventDrawInfo(eventId, out eventName, out conditionSP);
+
+            eventDrawInfo = new EventDrawInfo
+            {
+                eventName = eventName,
+                conditionSP = conditionSP
+            };
+
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+            .SetAbsoluteExpiration(TimeSpan.FromMinutes(30));
+            cache.Set(key, eventDrawInfo, cacheEntryOptions);
+
+
+
+        }
+        public bool CheckEventCondition(string conditionSP, int eventId, int custId, int currencyId)
+        {
+            return eventsService.CheckEventCondition(conditionSP, eventId, custId, currencyId);
+        }
     }
 }
+
