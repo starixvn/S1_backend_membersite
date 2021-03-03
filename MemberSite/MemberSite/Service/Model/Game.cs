@@ -63,10 +63,18 @@ namespace MemberSite.Service.Model
         public int TypeId { get; set; }
         public bool Fun { get; set; }
         public int TpId { get; set; }
+        public int GameCasinoId { get; set; }
     }
     public class AffiliateAgent
     {
         public int CurrencyId { get; set; }
     }
-    
+    public class GameCasionByCurrencyAndSite
+    {
+        public bool Hot { get; set; }
+        public bool Featured { get; set; }
+        public bool Status { get; set; }
+        public string GameCasinoId { get; set; }
+    }
+
 }
