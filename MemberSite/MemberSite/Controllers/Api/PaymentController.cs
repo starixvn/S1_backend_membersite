@@ -181,6 +181,53 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        [HttpPost]
+        public ApiResult<DepositRep3> GetLocalBankInfo(DepositReqWireTransferReq depositReqWireTransferReq)
+        {
+            var apiResult = new ApiResult<DepositRep3>();
+            var authData = authorizeBLL.GetAuthData();
+
+            //check AccountName first
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+
+            if (custInfo.SiteId == 2 && custInfoBLL.GetCustBankInfo(authData.CustId) == null)
+            {
+                apiResult.ErrorCode = -2;
+                apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
+                return apiResult;
+            }
+            else /**/
+            {
+
+            }
+
+            var result = paymentBLL.LocalBankinfo(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out var depositRep3);
+
+            apiResult.ErrorCode = result;
+
+            switch (result)
+            {
+                case 0:
+                    apiResult.Data = depositRep3;
+                    //apiResult.Message = "";
+                    break;
+                case -1:
+                    //apiResult.Message = "";
+                    break;
+                case -2:
+                    //apiResult.Message = "";
+                    break;
+                case -3:
+                    //apiResult.Message = "";
+                    break;
+                case -4:
+                    //apiResult.Message = "";
+                    break;
+            }
+
+            return apiResult;
+        }
+
         public class WithdrawalReqModel
         {
             public int sysId { set; get; }
