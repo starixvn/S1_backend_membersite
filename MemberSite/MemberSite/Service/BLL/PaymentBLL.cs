@@ -159,12 +159,10 @@ namespace MemberSite.Service.BLL
             return 0;
         }
 
-        public int LocalBankinfo(int custId, int sysId, decimal amount, string memo, out DepositRep3 depositRep3)
+        public int LocalBankinfo(int custId, int sysId, string memo, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
 
-            if (amount <= 0)
-                return -1;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
             var bankAccountOffList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
@@ -186,7 +184,7 @@ namespace MemberSite.Service.BLL
             }
 
             var _info = (from x in localBankList
-                         where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId && ((x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
+                         where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId 
                          orderby x.PointLevel descending, x.BSort
                          select new
                          {
@@ -203,7 +201,6 @@ namespace MemberSite.Service.BLL
             {
                 var depositDetailInfo = new DepositDetailInfo
                 {
-                    Amount = amount,
                     CustId = custId,
                     DepositType = (int)DepositType.LocalBank,
                     Memo = memo,
