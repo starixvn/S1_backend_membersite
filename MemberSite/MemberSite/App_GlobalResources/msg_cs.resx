@@ -304,4 +304,10 @@
   <data name="msg_PromoCodeIncorrect" xml:space="preserve">
     <value>优惠代码不正确</value>
   </data>
+  <data name="msg_DrawPrize1" xml:space="preserve">
+    <value>恭喜你！ 您的{0}奖金{1} {2}已汇入您的帐户。</value>
+  </data>
+  <data name="msg_DrawPrizeTital1" xml:space="preserve">
+    <value>{0}神秘宝盒</value>
+  </data>
 </root>

@@ -290,4 +290,10 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_PromoCodeIncorrect" xml:space="preserve">
     <value>Mã khuyến mãi không đúng</value>
   </data>
+  <data name="msg_DrawPrize1" xml:space="preserve">
+    <value>Xin chúc mừng! Tài khoản của bạn được nhận thưởng {1}{2} từ {0}.</value>
+  </data>
+  <data name="msg_DrawPrizeTital1" xml:space="preserve">
+    <value>Chiếc Hộp Thần Kỳ {0}</value>
+  </data>
 </root>
