@@ -201,7 +201,7 @@ namespace MemberSite.Controllers.Api
 
             }
 
-            var result = paymentBLL.LocalBankinfo(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out var depositRep3);
+            var result = paymentBLL.LocalBankinfo(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.memo, out var depositRep3);
 
             apiResult.ErrorCode = result;
 
