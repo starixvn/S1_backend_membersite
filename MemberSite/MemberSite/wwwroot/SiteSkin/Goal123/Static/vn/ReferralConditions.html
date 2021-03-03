@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>Goal123</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../common/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+    <style>
+        [data-layout=desktop] .app--help .main {
+            margin-top: 0;
+        }
+        .heading > .text {
+            color: #fab617;
+        }
+        .heading::after {
+            background-image: linear-gradient(to right, #fab617, rgba(247, 122, 0, 0));
+        }
+        .promotionsInfo-page .help-page__body {
+            margin-top: 115px;
+            margin-bottom: 80px;
+            max-width: 1248px;
+            background: #1A325B;
+            border-radius: 5px;
+        }
+        .promotions-module .promotion-title {
+            color: #fab617;
+            font-size: 1rem;
+            font-weight: bold;
+            line-height: 3rem;
+            display: block;
+        }
+        .promotions-module ol {
+            padding: 0 1rem;
+            padding-left: 40px;
+        }
+        .promotions-module table {
+            border: 0px solid #fff !important;
+            border-spacing: 0;
+            padding-left: 25px;
+            margin-bottom: 20px;
+        }
+        .promotions-module table tr > th {
+            border: 1px solid #cfcfcf !important;
+            padding: 8px 15px;
+            text-align: left;
+            background-color: #1E85EC;
+            color: white;
+            text-align: center;
+        }
+        .promotions-module table tr > td {
+            border: 1px solid #cfcfcf !important;
+            padding: 8px 15px;
+            text-align: left;
+            background-color: #ffffff;
+            color: #1E85EC;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="main">
+            <div class="help-page promotionsInfo-page">
+                <div class="help-page__body promotions-module">
+                    <div class="heading">
+                        <span class="text">Promotion Info</span>
+                    </div>
+                    <img src="vn/vn.jpg" alt="">
+                    <div class="article">
+                        <h2>TIỀN THƯỞNG GIỚI THIỆU BẠN BÈ</h2>
+                        <h3>Thêm Bạn, Thêm Thưởng</h3>
+                        <span class="promotion-title">Điều Kiện Tóm Tắt</span>
+                        <ol type="a" style="line-height: 24px;">
+                            <li>Khuyến mãi áp dụng với tất cả các tài khoản người chơi đang hoạt động tại Goal123 có đơn vị tiền tệ là VND.</li>
+                            <li>Để nhận thưởng Giới Thiệu Bạn Bè, bạn phải có ít nhất Một (1) giao dịch gửi tiền & Một (1) cược đã đặt thành công trước đó.</li>
+                            <li>Bạn chỉ có thể giới thiệu bạn bè có cùng Đơn Vị Tiền Tệ với tài khoản người chơi của mình để nhận thưởng.</li>
+                            <li>Giới thiệu bạn bè NGAY HÔM NAY bằng cách gửi đường link/code của Goal123.</li>
+                        </ol>
+                        <span class="promotion-title">Bonus Play Conditions</span>
+                        <ol type="a" style="line-height: 24px;">
+                            <li>Tiền Thưởng Giới Thiệu Bạn Bè là không giới hạn, mời bạn bè THAM GIA Goal123 ngay!</li>
+                            <li>Tiền Thưởng sẽ được cập nhật vào tài khoản người chơi của bạn trong vòng 48 tiếng sau khi người được giới thiệu hoàn tất các yêu cầu đăng ký.</li>
+                            <li>Tiền Thưởng cần trải qua Một Vòng Cược (1x) trước khi rút tiền.</li>
+                        </ol>
+                        <span class="promotion-title">TIỀN THƯỞNG GIỚI THIỆU BẠN BÈ</span>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Sản Phẩm</th>
+                                    <th>Đơn Vị Tiền Tệ</th>
+                                    <th>Số Tiền Gửi của Người Được Giới Thiệu</th>
+                                    <th>Số Tiền Cược của Người Được Giới Thiệu</th>
+                                    <th>Tiền Thưởng</th>
+                                    <th>Vòng Cược</th>
+                                </tr>
+                                <tr>
+                                    <td>TẤT CẢ</td>
+                                    <td>VND</td>
+                                    <td>800,000</td>
+                                    <td>800,000</td>
+                                    <td>88,123</td>
+                                    <td>1x</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <span class="promotion-title">Điều Khoản và Điều Kiện</span>
+                        <ol style="line-height: 24px;">
+                            <li>Chỉ có Tài Khoản Đang Hoạt Động có ít nhất Một (1) giao dịch gửi tiền và Một (1) cược đã đặt thành công mới hợp lệ tham gia khuyến mãi.</li>
+                            <li>Toàn bộ tiền thưởng sẽ bị hủy nếu Người được giới thiệu không hoàn thành yêu cầu doanh thu cược sau 90 ngày kể từ ngày đăng ký thành công.</li>
+                            <li>Chỉ những cược đặt có kết quả thắng/thua mới được tính vào điều kiện rút tiền của Khuyến Mãi. Các cược Cash Out, hòa/hủy, cược có tỉ lệ thấp hơn 1.5 đối với cược Decimal, 0.5 đối với cược Trung Quốc, 0.5 đối với cược Malay, -2 đối với cược Indo, -200 đối với cược US, hoặc cược đặt đồng thời 2 cửa trong cùng một game sẽ không được tính.</li>
+                            <li>Tất cả người chơi có tài khoản đang hoạt động tại Goal123 đều hợp lệ giới thiệu bạn bè và người thân. Họ hàng hoặc ba mẹ, anh chị em, con cái, người sống cùng hộ gia định, sử dụng chung IP, có cùng email hoặc sử dụng chung tài khoản gửi tiền (thẻ ghi nợ, thẻ tín dụng, ví điện tử, thanh toán di động, v..v) và sử dụng chung máy tính với người giới thiệu (VD: Trường học, Thư viện công cộng hoặc văn phòng làm việc,…) sẽ không được tính là người chơi được giới thiệu thành công.</li>
+                            <li>Thành viên tham gia chơi tại website phải đồng ý và tuân theo tất cả những qui định nêu trên cũng như các luật lệ liên quan tại website Goal123.</li>
+                            <li>Goal123 có quyền sửa đổi hoặc dừng khuyến mãi bất kỳ lúc nào.</li>
+                            <li>Quyết định của Goal123 là quyết định duy nhất đối với Khuyến Mãi và là quyết định cuối cùng.</li>
+                            <li>Điều Kiện & Điều Khoản Chung Goal123 được áp dụng.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2021. Goal123. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

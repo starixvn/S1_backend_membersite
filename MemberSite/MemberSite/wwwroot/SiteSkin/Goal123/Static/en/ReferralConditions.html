@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>Goal123</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../common/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+    <style>
+        [data-layout=desktop] .app--help .main {
+            margin-top: 0;
+        }
+        .heading > .text {
+            color: #fab617;
+        }
+        .heading::after {
+            background-image: linear-gradient(to right, #fab617, rgba(247, 122, 0, 0));
+        }
+        .promotionsInfo-page .help-page__body {
+            margin-top: 115px;
+            margin-bottom: 80px;
+            max-width: 1248px;
+            background: #1A325B;
+            border-radius: 5px;
+        }
+        .promotions-module .promotion-title {
+            color: #fab617;
+            font-size: 1rem;
+            font-weight: bold;
+            line-height: 3rem;
+            display: block;
+        }
+        .promotions-module ol {
+            padding: 0 1rem;
+            padding-left: 40px;
+        }
+        .promotions-module table {
+            border: 0px solid #fff !important;
+            border-spacing: 0;
+            padding-left: 25px;
+            margin-bottom: 20px;
+        }
+        .promotions-module table tr > th {
+            border: 1px solid #cfcfcf !important;
+            padding: 8px 15px;
+            text-align: left;
+            background-color: #1E85EC;
+            color: white;
+            text-align: center;
+        }
+        .promotions-module table tr > td {
+            border: 1px solid #cfcfcf !important;
+            padding: 8px 15px;
+            text-align: left;
+            background-color: #ffffff;
+            color: #1E85EC;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="main">
+            <div class="help-page promotionsInfo-page">
+                <div class="help-page__body promotions-module">
+                    <div class="heading">
+                        <span class="text">Promotion Info</span>
+                    </div>
+                    <img src="en/en.jpg" alt="">
+                    <div class="article">
+                        <h2>Refer Friends Rewards</h2>
+                        <h3>Refer Friends & Get Rewarded</h3>
+                        <span class="promotion-title">Significant Conditions</span>
+                        <ol type="a" style="line-height: 24px;">
+                            <li>This promotion applied to all active account holders of Goal123 VND currency only.</li>
+                            <li>To qualified for the Refer Friends Rewards, you must have at least One (1) time deposit & One (1) settled bet before.</li>
+                            <li>You can only invite your friends with same Currency Account as yours to earn the rewards.</li>
+                            <li>Invite your friends NOW by sharing your Goal123 unique link/code.</li>
+                        </ol>
+                        <span class="promotion-title">Bonus Play Conditions</span>
+                        <ol type="a" style="line-height: 24px;">
+                            <li>This is an unlimited Refer Friends Rewards, Refer Friends to JOIN US NOW!</li>
+                            <li>The Rewards will be credited to your account within 48 hours after your referees fulfilled the qualifying requirements.</li>
+                            <li>One Time (1x) rollover is required with the received rewards before making the withdrawal.</li>
+                        </ol>
+                        <span class="promotion-title">Refer Friends Reward</span>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Products</th>
+                                    <th>Currency</th>
+                                    <th>Referees Deposit</th>
+                                    <th>Referees Bet Settlement</th>
+                                    <th>Referral Reward</th>
+                                    <th>Reward Rollover</th>
+                                </tr>
+                                <tr>
+                                    <td>ALL</td>
+                                    <td>VND</td>
+                                    <td>800,000</td>
+                                    <td>800,000</td>
+                                    <td>88,123</td>
+                                    <td>1x</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <span class="promotion-title">Terms and Conditions</span>
+                        <ol style="line-height: 24px;">
+                            <li>Only Active Account Holders who made at least One (1) time deposit and One (1) settled bet are entitled for this promotion</li>
+                            <li>The bonus entitlement will be cancelled if the referee did not comply the turnover condition within 90 days after the registration.</li>
+                            <li>Only wagers that generate a win/loss return will contribute to the Rollover Requirement. Cash Out, Cancelled or void wagers, wagers on odds less than 1.5 (Decimal odd); 0.5 (China odd); 0.5 (Malay Positive odd); -2.0 (Indo odd); -200 (US odd), or wagers on both even chances during a single game will not count towards this requirement.</li>
+                            <li>Every active account holder may refer his/her friends and acquaintances. But however, if referral and referees using same IPs or same deposit account (e.g. debit or credit card, bank account, e-wallet etc) then the referees will NOT be accepted as new members of the referral.</li>
+                            <li>Participating members must accept and comply with all the terms mentioned above as well as all relevant rules and regulations stated on the Goal123 website.</li>
+                            <li>Goal123 reserves the right to amend or withdraw the Promotion at any time.</li>
+                            <li>Goal123  is the sole arbiter of the Promotion and its decision is final.</li>
+                            <li>Goal123 Standard Terms & Conditions apply.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2021. Goal123. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
