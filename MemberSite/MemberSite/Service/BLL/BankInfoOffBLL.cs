@@ -80,6 +80,7 @@ namespace MemberSite.Service.BLL
                 if (GetBankInfoOffList != null)
                 {
                     cache.Set(sBankInfoOffListKey, GetBankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
+                    return GetBankInfoOffList;
                 }
             }
 
