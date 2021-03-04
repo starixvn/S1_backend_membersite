@@ -4,10 +4,8 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -32,7 +30,7 @@ namespace MemberSite.Service.BLL
             sysBankInfoOffComparer = new SysBankInfoOffComparer();
         }
 
-        
+
 
         public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId)
         {
@@ -79,11 +77,14 @@ namespace MemberSite.Service.BLL
                 var GetBankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
                 if (GetBankInfoOffList != null)
                 {
+                    log2File.Error($"DB Data - depositLimitInfo SiteId = {siteId}", "GetBankInfoOffListTest");
                     cache.Set(sBankInfoOffListKey, GetBankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
                     return GetBankInfoOffList;
                 }
+                log2File.Error($"No DB Data ", "GetBankInfoOffListTest");
             }
-
+            log2File.Error($"Cache Data ", "GetBankInfoOffListTest");
+            
             return BankInfoOffList.Where(x => (x.Purpose & 1) == 1);
         }
 
@@ -118,7 +119,7 @@ namespace MemberSite.Service.BLL
 
                 }
 
-               
+
                 return new SysBankInfoFront[] { };
             }
 
