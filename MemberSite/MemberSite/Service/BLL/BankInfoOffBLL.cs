@@ -83,12 +83,19 @@ namespace MemberSite.Service.BLL
                 {
                     if (custId == 18)
                     {
-                        log2File.Error($"Before foreach depositLimitInfo {JsonSerializer.Serialize(depositLimitInfo)} localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
+                        var newlocalBankList = new List<BankInfoOff>(localBankList);
+                        log2File.Error($"Before foreach depositLimitInfo {JsonSerializer.Serialize(depositLimitInfo)} localBankList {JsonSerializer.Serialize(newlocalBankList)} ", "GetBankInfoOffList");
                     }
-                    foreach (var localBack in localBankList)
+                    //var newlocalBankList = new List<BankInfoOff>(localBankList);
+                    //foreach (var localBack in newlocalBankList)
+                    //{
+                    //    depositBLL.FixDepositLimit(localBack, depositLimitInfo);
+                    //}
+                    for (var i = 0; i < localBankList.Count; i++)
                     {
-                        depositBLL.FixDepositLimit(localBack, depositLimitInfo);
+                        depositBLL.FixDepositLimit(localBankList[i], depositLimitInfo);
                     }
+
                 }
                 if (custId == 18)
                 {
