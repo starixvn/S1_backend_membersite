@@ -74,18 +74,24 @@ namespace MemberSite.Service.BLL
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
-                  return new SysBankInfoFront[] { };
+                return new SysBankInfoFront[] { };
             }
 
             if (depositLimitInfo != null && localBankList != null)
             {
-                log2File.Error($"Before foreach depositLimitInfo {JsonSerializer.Serialize(depositLimitInfo)} localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
+                if (custId == 18)
+                {
+                    log2File.Error($"Before foreach depositLimitInfo {JsonSerializer.Serialize(depositLimitInfo)} localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
+                }
                 foreach (var localBack in localBankList)
                 {
                     depositBLL.FixDepositLimit(localBack, depositLimitInfo);
                 }
             }
-            log2File.Error($"After foreach localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
+            if (custId == 18)
+            {
+                log2File.Error($"After foreach localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
+            }
             var _info = (from x in localBankList
                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.MaxAmount > 0
                          orderby x.PointLevel descending, x.BSort
