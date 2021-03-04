@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.DAL;
+﻿using BonusService.Service.Library;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Caching.Memory;
@@ -17,15 +18,17 @@ namespace MemberSite.Service.BLL
         private readonly BankInfoOffService bankInfoService;
         private readonly CustInfoBLL custInfoBLL;
         private readonly DepositBLL depositBLL;
+        private readonly Log2File log2File;
         private readonly SysBankInfoOffComparer sysBankInfoOffComparer;
 
-        public BankInfoOffBLL(IMemoryCache cache, ServerInfoBLL serverInfoBLL, BankInfoOffService bankInfoService, CustInfoBLL custInfoBLL, DepositBLL depositBLL)
+        public BankInfoOffBLL(IMemoryCache cache, ServerInfoBLL serverInfoBLL, BankInfoOffService bankInfoService, CustInfoBLL custInfoBLL, DepositBLL depositBLL, Log2File log2File)
         {
             this.serverInfoBLL = serverInfoBLL;
             this.bankInfoService = bankInfoService;
             this.cache = cache;
             this.custInfoBLL = custInfoBLL;
             this.depositBLL = depositBLL;
+            this.log2File = log2File;
             sysBankInfoOffComparer = new SysBankInfoOffComparer();
         }
 
@@ -58,6 +61,12 @@ namespace MemberSite.Service.BLL
             }
         }
 
+        public IEnumerable<BankInfoOff> GetBankAccount(int custId)
+        {
+            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            return GetBankAccountOff(custInfo.SiteId);
+        }
         public IEnumerable<SysBankInfoFront> GetBankInfoOffList(int custId)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
@@ -70,6 +79,26 @@ namespace MemberSite.Service.BLL
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
+                if (depositLimitInfoList == null)
+                {
+                    log2File.Error("depositLimitInfoList = null", "GetBankInfoOffList");
+                }
+                else
+                {
+                    log2File.Error($"x.SiteId = {custInfo.SiteId} VipLevel = {vipLevel} DepositType = {DepositType.LocalBank} CurrencyId = {custInfo.CurrencyId}", "GetBankInfoOffList");
+
+                    if (depositLimitInfo != null)
+                    {
+                        log2File.Error($"depositLimitInfo SiteId = {depositLimitInfo.SiteId} VipLevel = {depositLimitInfo.VipLevel} DepositType = {depositLimitInfo.DepositType} CurrencyId = {depositLimitInfo.CurrencyId} DepositStatus = {depositLimitInfo.DepositStatus}", "GetBankInfoOffList");
+                    }
+                    else
+                    {
+                        log2File.Error("depositLimitInfo = null", "GetBankInfoOffList");
+                    }
+
+                }
+
+               
                 return new SysBankInfoFront[] { };
             }
 
