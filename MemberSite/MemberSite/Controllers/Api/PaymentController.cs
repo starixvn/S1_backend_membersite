@@ -55,16 +55,6 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<BankInfoOff>> GetBankAccount()
-        {
-            var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<BankInfoOff>>();
-            apiResult.Data = bankInfoOffBLL.GetBankAccount(authData.CustId);
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-
-        [HttpPost]
         public ApiResult<IEnumerable<SysBankInfoFront>> GetBankInfoOffList()
         {
             var authData = authorizeBLL.GetAuthData();
