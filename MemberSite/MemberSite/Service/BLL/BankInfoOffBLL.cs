@@ -72,25 +72,34 @@ namespace MemberSite.Service.BLL
             var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
-            if (depositLimitInfo?.DepositStatus == 0)
+            try
             {
-                return new SysBankInfoFront[] { };
-            }
+                if (depositLimitInfo?.DepositStatus == 0)
+                {
+                    return new SysBankInfoFront[] { };
+                }
 
-            if (depositLimitInfo != null && localBankList != null)
-            {
+                if (depositLimitInfo != null && localBankList != null)
+                {
+                    if (custId == 18)
+                    {
+                        log2File.Error($"Before foreach depositLimitInfo {JsonSerializer.Serialize(depositLimitInfo)} localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
+                    }
+                    foreach (var localBack in localBankList)
+                    {
+                        depositBLL.FixDepositLimit(localBack, depositLimitInfo);
+                    }
+                }
                 if (custId == 18)
                 {
-                    log2File.Error($"Before foreach depositLimitInfo {JsonSerializer.Serialize(depositLimitInfo)} localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
-                }
-                foreach (var localBack in localBankList)
-                {
-                    depositBLL.FixDepositLimit(localBack, depositLimitInfo);
+                    log2File.Error($"After foreach localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
                 }
             }
-            if (custId == 18)
-            {
-                log2File.Error($"After foreach localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
+            catch (Exception ex) {
+                if (custId == 18)
+                {
+                    log2File.Error($"Exception {ex.ToString()} ", "GetBankInfoOffList");
+                }
             }
             var _info = (from x in localBankList
                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.MaxAmount > 0
