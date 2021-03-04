@@ -32,6 +32,8 @@ namespace MemberSite.Service.BLL
             sysBankInfoOffComparer = new SysBankInfoOffComparer();
         }
 
+        
+
         public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId)
         {
             string sBankInfoOffListKey = $"BankInfoOffList_{siteId}";
@@ -65,8 +67,25 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
-            return GetBankAccountOff(custInfo.SiteId);
+            return GetBankAccountOffTest(custInfo.SiteId);
         }
+
+        public IEnumerable<BankInfoOff> GetBankAccountOffTest(int siteId)
+        {
+            string sBankInfoOffListKey = $"BankInfoOffListTest_{siteId}";
+            var BankInfoOffList = cache.Get<IEnumerable<BankInfoOff>>(sBankInfoOffListKey);
+            if (BankInfoOffList == null)
+            {
+                var GetBankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
+                if (GetBankInfoOffList != null)
+                {
+                    cache.Set(sBankInfoOffListKey, GetBankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
+                }
+            }
+
+            return BankInfoOffList.Where(x => (x.Purpose & 1) == 1);
+        }
+
         public IEnumerable<SysBankInfoFront> GetBankInfoOffList(int custId)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
