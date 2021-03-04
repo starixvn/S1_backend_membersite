@@ -64,27 +64,27 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<BankInfoOff> GetBankAccountOffTest(int siteId,int custId)
         {
-            string sBankInfoOffListKey = $"BankInfoOffList_{siteId}";
-            var BankInfoOffList = cache.Get<IEnumerable<BankInfoOff>>(sBankInfoOffListKey);
-            if (BankInfoOffList == null)
-            {
-                BankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
-                if (BankInfoOffList != null)
-                {
-                    if (custId == 18)
-                    {
-                        log2File.Error($"DB GetBankAccountOffTest {JsonSerializer.Serialize(BankInfoOffList)} ", "GetBankInfoOffList");
-                    }
-                    cache.Set(sBankInfoOffListKey, BankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
-                }
-            }
-            else {
-                if (custId == 18)
-                {
-                    log2File.Error($"Cache GetBankAccountOffTest {JsonSerializer.Serialize(BankInfoOffList)} ", "GetBankInfoOffList");
-                }
-            }
-            
+            //string sBankInfoOffListKey = $"BankInfoOffList_{siteId}";
+            //var BankInfoOffList = cache.Get<IEnumerable<BankInfoOff>>(sBankInfoOffListKey);
+            //if (BankInfoOffList == null)
+            //{
+            //    BankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
+            //    if (BankInfoOffList != null)
+            //    {
+            //        if (custId == 18)
+            //        {
+            //            log2File.Error($"DB GetBankAccountOffTest {JsonSerializer.Serialize(BankInfoOffList)} ", "GetBankInfoOffList");
+            //        }
+            //        cache.Set(sBankInfoOffListKey, BankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
+            //    }
+            //}
+            //else {
+            //    if (custId == 18)
+            //    {
+            //        log2File.Error($"Cache GetBankAccountOffTest {JsonSerializer.Serialize(BankInfoOffList)} ", "GetBankInfoOffList");
+            //    }
+            //}
+            var BankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
             return BankInfoOffList.Where(x => (x.Purpose & 1) == 1);
         }
 
