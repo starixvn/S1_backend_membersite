@@ -1,12 +1,12 @@
-﻿using MemberSite.Service.DAL;
+﻿using BonusService.Service.Library;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace MemberSite.Service.BLL
 {
@@ -17,17 +17,21 @@ namespace MemberSite.Service.BLL
         private readonly BankInfoOffService bankInfoService;
         private readonly CustInfoBLL custInfoBLL;
         private readonly DepositBLL depositBLL;
+        private readonly Log2File log2File;
         private readonly SysBankInfoOffComparer sysBankInfoOffComparer;
 
-        public BankInfoOffBLL(IMemoryCache cache, ServerInfoBLL serverInfoBLL, BankInfoOffService bankInfoService, CustInfoBLL custInfoBLL, DepositBLL depositBLL)
+        public BankInfoOffBLL(IMemoryCache cache, ServerInfoBLL serverInfoBLL, BankInfoOffService bankInfoService, CustInfoBLL custInfoBLL, DepositBLL depositBLL, Log2File log2File)
         {
             this.serverInfoBLL = serverInfoBLL;
             this.bankInfoService = bankInfoService;
             this.cache = cache;
             this.custInfoBLL = custInfoBLL;
             this.depositBLL = depositBLL;
+            this.log2File = log2File;
             sysBankInfoOffComparer = new SysBankInfoOffComparer();
         }
+
+
 
         public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId)
         {
@@ -35,11 +39,10 @@ namespace MemberSite.Service.BLL
             var BankInfoOffList = cache.Get<IEnumerable<BankInfoOff>>(sBankInfoOffListKey);
             if (BankInfoOffList == null)
             {
-                var getBankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
-                if (getBankInfoOffList != null)
+                BankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
+                if (BankInfoOffList != null)
                 {
-                    cache.Set(sBankInfoOffListKey, getBankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
-                    return getBankInfoOffList.Where(x => (x.Purpose & 1) == 1);
+                    cache.Set(sBankInfoOffListKey, BankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
                 }
             }
 
@@ -71,17 +74,18 @@ namespace MemberSite.Service.BLL
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
-                return new SysBankInfoFront[] { };
+                  return new SysBankInfoFront[] { };
             }
 
             if (depositLimitInfo != null && localBankList != null)
             {
+                log2File.Error($"Before foreach depositLimitInfo {JsonSerializer.Serialize(depositLimitInfo)} localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
                 foreach (var localBack in localBankList)
                 {
                     depositBLL.FixDepositLimit(localBack, depositLimitInfo);
                 }
             }
-
+            log2File.Error($"After foreach localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
             var _info = (from x in localBankList
                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.MaxAmount > 0
                          orderby x.PointLevel descending, x.BSort
