@@ -35,5 +35,14 @@ namespace BonusService.Service.Library
                 writer.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}\r\n  Thread:{Thread.CurrentThread.ManagedThreadId}\r\n{ErrorContent}");
             });
         }
+        public void ErrorSync(string ErrorContent, string PrefixName)
+        {
+            var filePath = $@"{LogFolder}\{PrefixName}_Err_{DateTime.Now:yyyyMMdd}.log";
+            {
+                Directory.CreateDirectory(LogFolder);
+                using StreamWriter writer = new StreamWriter(filePath, append: true);
+                writer.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}\r\n  Thread:{Thread.CurrentThread.ManagedThreadId}\r\n{ErrorContent}");
+            };
+        }
     }
 }
