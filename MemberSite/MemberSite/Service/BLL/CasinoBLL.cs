@@ -59,5 +59,10 @@ namespace MemberSite.Service.BLL
 
             return providerIdByCurrency;
         }
+        public IEnumerable<GameCasionByCurrencyAndSite> GetGameCasinoByCurrencyAndSite(int CurrencyId, int SiteId)
+        {
+           return casinoService.GetGameCasinoByCurrencyAndSite(CurrencyId, SiteId);
+        }
+        
     }
 }
