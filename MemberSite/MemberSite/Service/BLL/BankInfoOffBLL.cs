@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
@@ -35,14 +36,14 @@ namespace MemberSite.Service.BLL
             var BankInfoOffList = cache.Get<IEnumerable<BankInfoOff>>(sBankInfoOffListKey);
             if (BankInfoOffList == null)
             {
-                BankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
-                if (BankInfoOffList != null)
+                BankInfoOffList = bankInfoService.GetBankAccountOff(siteId).Where(x => (x.Purpose & 1) == 1);
+                if (BankInfoOffList.Any())
                 {
                     cache.Set(sBankInfoOffListKey, BankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
                 }
             }
 
-            return BankInfoOffList.Where(x => (x.Purpose & 1) == 1);
+            return BankInfoOffList;
         }
 
         private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>
@@ -63,8 +64,11 @@ namespace MemberSite.Service.BLL
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
             var bankAccountOffList = GetBankAccountOff(custInfo.SiteId);
+            
+            var newbankAccountOffList = JsonSerializer.Deserialize<IEnumerable<BankInfoOff>>(JsonSerializer.Serialize(bankAccountOffList));
+            List<BankInfoOff> localBankList = new List<BankInfoOff>(newbankAccountOffList?.ToList());
 
-            List<BankInfoOff> localBankList = bankAccountOffList?.ToList();
+            //List<BankInfoOff> localBankList = bankAccountOffList?.ToList();
             var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
@@ -73,7 +77,7 @@ namespace MemberSite.Service.BLL
                 return new SysBankInfoFront[] { };
             }
 
-            if (depositLimitInfo != null && localBankList != null)
+            if (depositLimitInfo != null && localBankList.Any())
             {
                 foreach (var localBack in localBankList)
                 {
