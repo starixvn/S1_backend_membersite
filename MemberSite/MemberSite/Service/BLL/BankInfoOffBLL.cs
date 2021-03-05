@@ -64,28 +64,30 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<BankInfoOff> GetBankAccountOffTest(int siteId,int custId)
         {
-            //string sBankInfoOffListKey = $"BankInfoOffList_{siteId}";
-            //var BankInfoOffList = cache.Get<IEnumerable<BankInfoOff>>(sBankInfoOffListKey);
-            //if (BankInfoOffList == null)
-            //{
-            //    BankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
-            //    if (BankInfoOffList != null)
-            //    {
-            //        if (custId == 18)
-            //        {
-            //            log2File.Error($"DB GetBankAccountOffTest {JsonSerializer.Serialize(BankInfoOffList)} ", "GetBankInfoOffList");
-            //        }
-            //        cache.Set(sBankInfoOffListKey, BankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
-            //    }
-            //}
-            //else {
-            //    if (custId == 18)
-            //    {
-            //        log2File.Error($"Cache GetBankAccountOffTest {JsonSerializer.Serialize(BankInfoOffList)} ", "GetBankInfoOffList");
-            //    }
-            //}
-            var BankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
-            return BankInfoOffList.Where(x => (x.Purpose & 1) == 1);
+            string sBankInfoOffListKey = $"BankInfoOffListTest_{siteId}";
+            var BankInfoOffList = cache.Get<IEnumerable<BankInfoOff>>(sBankInfoOffListKey);
+            if (BankInfoOffList == null)
+            {
+                BankInfoOffList = bankInfoService.GetBankAccountOff(siteId).Where(x => (x.Purpose & 1) == 1);
+                if (BankInfoOffList != null)
+                {
+                    if (custId == 18|| custId == 17 || custId == 15)
+                    {
+                        log2File.Error($"DB custId={custId} GetBankAccountOffTest {JsonSerializer.Serialize(BankInfoOffList)} ", "GetBankInfoOffList");
+                    }
+                    cache.Set(sBankInfoOffListKey, BankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
+
+                }
+            }
+            else
+            {
+                if (custId == 18|| custId == 17 || custId == 15)
+                {
+                    log2File.Error($"Cache custId={custId} GetBankAccountOffTest {JsonSerializer.Serialize(BankInfoOffList)} ", "GetBankInfoOffList");
+                }
+            }
+            //var BankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
+            return BankInfoOffList;
         }
 
         public IEnumerable<SysBankInfoFront> GetBankInfoOffList(int custId)
@@ -107,9 +109,9 @@ namespace MemberSite.Service.BLL
 
                 if (depositLimitInfo != null && localBankList != null)
                 {
-                    if (custId == 18)
+                    if (custId == 18|| custId == 17 || custId == 15)
                     {
-                        log2File.Error($"Before foreach depositLimitInfo {JsonSerializer.Serialize(depositLimitInfo)} localBankList {JsonSerializer.Serialize(bankAccountOffList?.ToList())} ", "GetBankInfoOffList");
+                        log2File.Error($"Before foreach custId={custId} depositLimitInfo {JsonSerializer.Serialize(depositLimitInfo)} localBankList {JsonSerializer.Serialize(bankAccountOffList?.ToList())} ", "GetBankInfoOffList");
                     }
                     //var newlocalBankList = new List<BankInfoOff>(localBankList);
                     //foreach (var localBack in newlocalBankList)
@@ -122,15 +124,15 @@ namespace MemberSite.Service.BLL
                     }
 
                 }
-                if (custId == 18)
+                if (custId == 18|| custId == 17 || custId == 15)
                 {
-                    log2File.Error($"After foreach localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
+                    log2File.Error($"After foreach custId={custId} localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
                 }
             }
             catch (Exception ex) {
-                if (custId == 18)
+                if (custId == 18|| custId == 17 || custId == 15)
                 {
-                    log2File.Error($"Exception {ex.ToString()} ", "GetBankInfoOffList");
+                    log2File.Error($"Exception {ex.ToString()} custId={custId}", "GetBankInfoOffList");
                 }
             }
             var _info = (from x in localBankList
