@@ -26,7 +26,7 @@ namespace MemberSite.Service.BLL
             if (depositLimitInfoList == null)
             {
                 depositLimitInfoList = depoistService.GetDepositLimitInfoList().Where(x => x.SiteId == siteId);
-                if (depositLimitInfoList != null)
+                if (depositLimitInfoList.Any())
                 {
                     var cacheEntryOptions = new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
