@@ -74,7 +74,7 @@ namespace MemberSite.Service.BLL
                 {
                     if (custId == 18|| custId == 17 || custId == 15)
                     {
-                        log2File.ErrorSync($"DB  iiid = {iiid} custId={custId} GetBankAccountOffTest {JsonSerializer.Serialize(BankInfoOffList)} ", "GetBankInfoOffList");
+                        //log2File.ErrorSync($"DB  iiid = {iiid} custId={custId} GetBankAccountOffTest {JsonSerializer.Serialize(BankInfoOffList)} ", "GetBankInfoOffList");
                     }
                     cache.Set(sBankInfoOffListKey, BankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
 
@@ -84,7 +84,7 @@ namespace MemberSite.Service.BLL
             {
                 if (custId == 18|| custId == 17 || custId == 15)
                 {
-                    log2File.ErrorSync($"Cache  iiid = {iiid} custId={custId} GetBankAccountOffTest {JsonSerializer.Serialize(BankInfoOffList)} ", "GetBankInfoOffList");
+                    //log2File.ErrorSync($"Cache  iiid = {iiid} custId={custId} GetBankAccountOffTest {JsonSerializer.Serialize(BankInfoOffList)} ", "GetBankInfoOffList");
                 }
             }
             //var BankInfoOffList = bankInfoService.GetBankAccountOff(siteId);
@@ -108,13 +108,13 @@ namespace MemberSite.Service.BLL
             var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
             if (custId == 18 || custId == 17 || custId == 15)
             {
-                log2File.ErrorSync($"from function iiid = {iiid} custId={custId} localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
+              //  //log2File.ErrorSync($"from function iiid = {iiid} custId={custId} localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
             }
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
             if (custId == 18 || custId == 17 || custId == 15)
             {
-                log2File.ErrorSync($"filter list  iiid = {iiid} custId={custId} localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
+                //log2File.ErrorSync($"filter list  iiid = {iiid} custId={custId} localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
             }
             try
             {
@@ -127,7 +127,7 @@ namespace MemberSite.Service.BLL
                 {
                     if (custId == 18|| custId == 17 || custId == 15)
                     {
-                        log2File.ErrorSync($"Before foreach iiid = {iiid} custId={custId} localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
+                        //log2File.ErrorSync($"Before foreach iiid = {iiid} custId={custId} localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
                     }
                     //var newlocalBankList = new List<BankInfoOff>(localBankList);
                     //foreach (var localBack in newlocalBankList)
@@ -142,13 +142,13 @@ namespace MemberSite.Service.BLL
                 }
                 if (custId == 18|| custId == 17 || custId == 15)
                 {
-                    log2File.ErrorSync($"After foreach  iiid = {iiid} custId={custId} localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
+                    //log2File.ErrorSync($"After foreach  iiid = {iiid} custId={custId} localBankList {JsonSerializer.Serialize(localBankList)} ", "GetBankInfoOffList");
                 }
             }
             catch (Exception ex) {
                 if (custId == 18|| custId == 17 || custId == 15)
                 {
-                    log2File.ErrorSync($"Exception {ex.ToString()}  iiid = {iiid} custId={custId}", "GetBankInfoOffList");
+                    //log2File.ErrorSync($"Exception {ex.ToString()}  iiid = {iiid} custId={custId}", "GetBankInfoOffList");
                 }
             }
             var _info = (from x in localBankList
