@@ -609,7 +609,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = 0;
                 apiResult.Message = "";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 apiResult.Message = ex.ToString();
             }
@@ -642,7 +642,7 @@ namespace MemberSite.Controllers.Api
             try
             {
                 custInfoBLL.GetReferralSummary(authData.CustId, out int ReferralCount, out int conditionCount, out int AmountCount, out int AmountSum);
-                
+
                 apiResult.Data.ReferralCount = ReferralCount;
                 apiResult.Data.ConditionCount = conditionCount;
                 apiResult.Data.AmountCount = AmountCount;
@@ -668,20 +668,20 @@ namespace MemberSite.Controllers.Api
         public ApiListResult<ReferralFriend> GetRefFriendList(RefFriendListReq refFriendListReq)
         {
             int PageSize = 10;
-            if (refFriendListReq.PageSize >0 )
+            if (refFriendListReq.PageSize > 0)
                 PageSize = refFriendListReq.PageSize;
             int pageNumber = refFriendListReq.PageNumber;
             int totalPages = 0;
             int rowCount = 0;
             var apiResult = new ApiListResult<ReferralFriend>();
             var authData = authorizeBLL.GetAuthData();
-            
+
             try
             {
                 apiResult.Data = custInfoBLL.GetRefFriendList(authData.CustId, refFriendListReq.StartDate, refFriendListReq.EndDate, PageSize, ref pageNumber, ref totalPages, ref rowCount);
                 foreach (var L in apiResult.Data)
                 {
-                        L.UserName = eventsBLL.MaskName(L.UserName);
+                    L.UserName = eventsBLL.MaskName(L.UserName);
                 }
                 apiResult.PageNumber = pageNumber;
                 apiResult.TotalPages = totalPages;
@@ -702,7 +702,16 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<bool>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
 
-            apiResult.Data = custInfoBLL.ExistsPhoneNo(authData.CustId, rrofileReq.AreaCode, rrofileReq.PhoneNo);
+            if (long.TryParse(rrofileReq.PhoneNo, out long phoneNo))
+            {
+                rrofileReq.PhoneNo = phoneNo.ToString();
+                apiResult.Data = custInfoBLL.ExistsPhoneNo(authData.CustId, rrofileReq.AreaCode, rrofileReq.PhoneNo);
+            }
+            else
+            {
+                apiResult.Data = true;
+            }
+
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -869,7 +878,7 @@ namespace MemberSite.Controllers.Api
         {
             public int TpId { get; set; }
         }
-        
+
         [HttpPost]
         public async Task<ApiResult<TpWalletData>> GetTpWalletBalanceAsync(TpWalletBalanceReq tpWalletBalanceReq)
         {
