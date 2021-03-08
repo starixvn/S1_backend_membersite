@@ -1186,7 +1186,15 @@ namespace MemberSite.Controllers.Api
         public ApiResult<bool> ExistsPhoneNo(RrofileReq req)
         {
             var apiResult = new ApiResult<bool>(selLangBLL);
-            apiResult.Data = custInfoBLL.ExistsPhoneNo(0, req.AreaCode, req.PhoneNo);
+            if (long.TryParse(req.PhoneNo, out long phoneNo))
+            {
+                req.PhoneNo = phoneNo.ToString();
+                apiResult.Data = custInfoBLL.ExistsPhoneNo(0, req.AreaCode, req.PhoneNo);
+            }
+            else
+            {
+                apiResult.Data = true;
+            }
             apiResult.ErrorCode = 0;
             return apiResult;
         }
