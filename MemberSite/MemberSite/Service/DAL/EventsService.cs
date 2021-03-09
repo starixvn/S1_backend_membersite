@@ -59,6 +59,51 @@ namespace MemberSite.Service.DAL
             custRank = p.Get<int?>("CustRank") ?? 0;
             point = p.Get<decimal?>("Point") ?? 0;
         }
+        public IEnumerable<Leaderboard> GetLeaderboardListV3(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+
+            var p = new DynamicParameters(new { EventCode = eventCode});
+            p.Add("CustRankSP", dbType: DbType.String, direction: ParameterDirection.Output);
+            p.Add("LastDateTopSP", dbType: DbType.String, direction: ParameterDirection.Output);
+            conn.Execute("Member_Leaderboard_CustRankV2_Get", p, commandType: CommandType.StoredProcedure);
+
+            var custRankSP = p.Get<string>("CustRankSP");
+            var lastDateTopSP = p.Get<string>("LastDateTopSP");
+            if (lastDateTopSP != null)
+                return conn.Query<Leaderboard>(lastDateTopSP, new { LBCategoryId = lBCategoryId, EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, BeforeDays = beforeDays }, commandType: CommandType.StoredProcedure);
+            else
+                return conn.Query<Leaderboard>("Member_Leaderboard_LastDateTopV2_Get", new { LBCategoryId = lBCategoryId, EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, BeforeDays = beforeDays }, commandType: CommandType.StoredProcedure);
+        }
+        public void GetCustRankV3(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out Decimal point)
+        {
+            custRank = 0;
+            point = 0;
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+
+            var p = new DynamicParameters(new { EventCode = eventCode });
+            p.Add("CustRankSP", dbType: DbType.String, direction: ParameterDirection.Output);
+            p.Add("LastDateTopSP", dbType: DbType.String, direction: ParameterDirection.Output);
+            conn.Execute("Member_Leaderboard_CustRankV2_Get", p, commandType: CommandType.StoredProcedure);
+
+            var custRankSP = p.Get<string>("CustRankSP");
+            var lastDateTopSP = p.Get<string>("LastDateTopSP");
+
+            var p1 = new DynamicParameters(new { LBCategoryId = lBCategoryId, EventCode = eventCode, CustId = custId, BeforeDays = beforeDays });
+            p1.Add("CustRank", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p1.Add("Point", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+            if (custRankSP != null)
+            {
+                conn.Execute(custRankSP, p1, commandType: CommandType.StoredProcedure);
+            }
+            else
+            {
+                conn.Execute("Member_Leaderboard_CustRankV2_Get", p, commandType: CommandType.StoredProcedure);
+            }
+            custRank = p1.Get<int?>("CustRank") ?? 0;
+            point = p1.Get<decimal?>("Point") ?? 0;
+
+        }
         public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId ,int custId, int currencyId, out int prizeId, out int result)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
