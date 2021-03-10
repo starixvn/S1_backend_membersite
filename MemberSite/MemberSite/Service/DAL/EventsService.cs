@@ -66,7 +66,7 @@ namespace MemberSite.Service.DAL
             var p = new DynamicParameters(new { EventCode = eventCode});
             p.Add("CustRankSP", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("LastDateTopSP", dbType: DbType.String, direction: ParameterDirection.Output);
-            conn.Execute("Member_Leaderboard_CustRankV2_Get", p, commandType: CommandType.StoredProcedure);
+            conn.Execute("Member_LeaderboardEventSetting_Get", p, commandType: CommandType.StoredProcedure);
 
             var custRankSP = p.Get<string>("CustRankSP");
             var lastDateTopSP = p.Get<string>("LastDateTopSP");
@@ -84,7 +84,7 @@ namespace MemberSite.Service.DAL
             var p = new DynamicParameters(new { EventCode = eventCode });
             p.Add("CustRankSP", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("LastDateTopSP", dbType: DbType.String, direction: ParameterDirection.Output);
-            conn.Execute("Member_Leaderboard_CustRankV2_Get", p, commandType: CommandType.StoredProcedure);
+            conn.Execute("Member_LeaderboardEventSetting_Get", p, commandType: CommandType.StoredProcedure);
 
             var custRankSP = p.Get<string>("CustRankSP");
             var lastDateTopSP = p.Get<string>("LastDateTopSP");
