@@ -1289,7 +1289,7 @@ namespace MemberSite.Controllers.Api
                                 Hot = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Hot,
                                 New = y.LaunchDate.AddDays(30) > DateTime.Now,
                                 ImageExist = true,
-                                promotion = y.promotion,
+                                promotion = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Promotion ? 1:0,
                                 featured = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Featured,
                                 PlayFree = y.Fun
                             });
@@ -1311,7 +1311,7 @@ namespace MemberSite.Controllers.Api
                             Hot = y.Hot,
                             New = y.LaunchDate.AddDays(30) > DateTime.Now,
                             ImageExist = true,
-                            promotion = y.promotion,
+                            promotion = y.promotion? 1:0,
                             featured = y.featured,
                             PlayFree = y.Fun
                         });

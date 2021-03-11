@@ -190,16 +190,16 @@ namespace MemberSite.Controllers.Api
             //check AccountName first
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
-            if (custInfo.SiteId == 2 && custInfoBLL.GetCustBankInfo(authData.CustId) == null)
-            {
-                apiResult.ErrorCode = -2;
-                apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
-                return apiResult;
-            }
-            else /**/
-            {
+            //if (custInfo.SiteId == 2 && custInfoBLL.GetCustBankInfo(authData.CustId) == null)
+            //{
+            //    apiResult.ErrorCode = -2;
+            //    apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
+            //    return apiResult;
+            //}
+            //else /**/
+            //{
 
-            }
+            //}
 
             var result = paymentBLL.LocalBankinfo(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.memo, out var depositRep3);
 
