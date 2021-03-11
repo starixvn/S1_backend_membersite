@@ -366,6 +366,11 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = 9000;
                 return apiResult;
             }
+            
+            if (string.IsNullOrEmpty(signupModel.SignupUrl))
+            {
+                signupModel.SignupUrl = Request.Host.Host;
+            }
 
             int custId = 0;
             var result = -99;
