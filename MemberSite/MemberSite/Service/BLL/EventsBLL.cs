@@ -92,7 +92,16 @@ namespace MemberSite.Service.BLL
         {
             eventsService.GetCustRankV2(lBCategoryId, eventCode, custId, beforeDays, out custRank, out point);
         }
+        public IEnumerable<Leaderboard> GetLeaderboardListV3(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
+        {
+            var leaderboard = eventsService.GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);
+            return leaderboard;
 
+        }
+        public void GetCustRankV3(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out Decimal point)
+        {
+            eventsService.GetCustRankV3(lBCategoryId, eventCode, custId, beforeDays, out custRank, out point);
+        }
         public IEnumerable<Leaderboard> GetLeaderboardListWithCacheV2(int custId, string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
             string key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
@@ -101,9 +110,9 @@ namespace MemberSite.Service.BLL
             {
                 return leaderboard;
             }
-            leaderboard = GetLeaderboardListV2(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);
+            leaderboard = GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);
 
-            if (leaderboard != null)
+            if (leaderboard.Any())
             {
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                 .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
@@ -123,7 +132,7 @@ namespace MemberSite.Service.BLL
                 return;
             }
 
-            GetCustRankV2(lBCategoryId, eventCode, custId, beforeDays, out custRank, out point);
+            GetCustRankV3(lBCategoryId, eventCode, custId, beforeDays, out custRank, out point);
 
             leaderboardCustRank = new LeaderboardCustRank
             {

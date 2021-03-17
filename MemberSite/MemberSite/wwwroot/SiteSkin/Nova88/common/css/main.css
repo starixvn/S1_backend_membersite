@@ -4623,8 +4623,8 @@ span.account-info__amount.Js-Balance{
   content: "";
   display: block;
   width: calc(130px * 1.5);
-  height: calc(46px * 1.5);
-  background-image: url("../images/logo.svg");
+  height: calc(58px * 1.5);
+  background-image: url("https://image.n88media.com/SiteSkin/img/logo.png");
   background-size: cover;
 }
 
@@ -4795,15 +4795,15 @@ span.account-info__amount.Js-Balance{
   content: "";
   display: block;
   width: calc(130px * 0.8);
-  height: calc(46px * 0.8);
-  background-image: url("../images/logo.svg");
+  height: calc(58px * 0.8);
+  background-image: url("https://image.n88media.com/SiteSkin/img/logo.png");
   background-size: cover;
   transition: ease .15s;
 }
 
 [data-layout=desktop] .header__logo .logo::before {
   width: calc(130px * 1.2);
-  height: calc(46px * 1.2);
+  height: calc(58px * 1.2);
 }
 
 .header > .header__logo:only-of-type {
@@ -6161,7 +6161,7 @@ span.account-info__amount.Js-Balance{
 
 [data-layout=desktop] .app--help .header__logo .logo::before {
   width: calc(130px * 1);
-  height: calc(46px * 1);
+  height: calc(58px * 1);
 }
 
 [data-layout=desktop] .app--help .main {
