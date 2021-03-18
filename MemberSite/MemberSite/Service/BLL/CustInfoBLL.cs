@@ -343,6 +343,11 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName, bankInfo) ? 0 : -1;
         }
+        public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return custInfoService.SetCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo) ? 0 : -1;
+        }
         public CustBankInfo GetCustBankInfo(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
@@ -350,9 +355,34 @@ namespace MemberSite.Service.BLL
 
             if (custBankInfo != null && custBankInfo.BankInfo != null)
             {
-                custBankInfo.bankInfoDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
+                var uSDTDetailList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
+                if (uSDTDetailList != null)
+                {
+                    uSDTDetailList = uSDTDetailList.Where(x => x.USDTAddress != null);//filiter null data
+                    if (uSDTDetailList.Any())
+                    {
+                        custBankInfo.uSDTDetail = uSDTDetailList;
+                    }
+                }
+                var bankInfoDetailList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
+                if (bankInfoDetailList != null)
+                {
+                    bankInfoDetailList = bankInfoDetailList.Where(x => x.SysId != 0 && x.AccountNo != null);//filiter null data
+                    if (bankInfoDetailList.Any())
+                    {
+                        custBankInfo.bankInfoDetail = bankInfoDetailList;
+                    }
+                }
+                //if (custInfo.CurrencyId == 96)
+                //{
+                //    custBankInfo.uSDTDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
+                //}
+                //else
+                //{
+                //    custBankInfo.bankInfoDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
+                //}
+                
             }
-
             return custBankInfo;
         }
         public string GetDefAccountNo(int custId)
