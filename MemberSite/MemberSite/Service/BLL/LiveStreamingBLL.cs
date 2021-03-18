@@ -1,25 +1,41 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.BLL
 {
     public class LiveStreamingBLL
     {
+        private readonly IMemoryCache cache;
         private readonly LiveStreamingService liveStreamingService;
 
-        public LiveStreamingBLL(LiveStreamingService liveStreamingService)
+        public LiveStreamingBLL(IMemoryCache cache, LiveStreamingService liveStreamingService)
         {
+            this.cache = cache;
             this.liveStreamingService = liveStreamingService;
         }
 
         public IEnumerable<LiveStreamingData> GetLiveStreamingList(int SiteId, string LangId)
         {
             var liveStreaming = new List<LiveStreamingData>();
-            var liveStreaminglist = liveStreamingService.GetLiveStreamingList();
+
+            string key = $"LiveStreamingList_{SiteId}";
+            IEnumerable<LiveStreaming> liveStreaminglist = cache.Get<IEnumerable<LiveStreaming>>(key);
+            if (liveStreaminglist == null)
+            {
+                liveStreaminglist = liveStreamingService.GetLiveStreamingList();
+                if (liveStreaminglist != null)
+                {
+                    cache.Set(key, liveStreaminglist, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
+                }
+            }
+
             string home;
             string away;
             string league;
+
             foreach (var liveStreamingdetail in liveStreaminglist)
             {
 
