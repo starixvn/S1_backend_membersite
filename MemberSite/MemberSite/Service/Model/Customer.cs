@@ -40,12 +40,18 @@ namespace MemberSite.Service.Model
         [JsonIgnore]
         public string BankInfo { set; get; }
         public IEnumerable<BankInfoDetail> bankInfoDetail { set; get; }
+        public IEnumerable<USDTDetail> uSDTDetail { set; get; }
     }
 
     public class BankInfoDetail
     {
         public int SysId { set; get; }
         public string AccountNo { set; get; }
+    }
+    public class USDTDetail
+    {
+        public string NickName { set; get; }
+        public string USDTAddress { set; get; }
     }
 
     public class BankInfoDetailRep : BankInfoDetail
@@ -60,6 +66,7 @@ namespace MemberSite.Service.Model
         public string AccountName { set; get; }
         public string DefAccountNo { set; get; }
         public IEnumerable<BankInfoDetailRep> bankInfoDetail { set; get; }
+        public IEnumerable<USDTDetail> uSDTDetail { set; get; }
     }
 
     public class WalletInfo

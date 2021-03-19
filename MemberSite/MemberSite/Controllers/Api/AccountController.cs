@@ -419,6 +419,53 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+        public class GetCustBankInfoReq
+        {
+            public int CustId { get; set; }
+        }
+        [HttpPost]
+        public ApiResult<CustBankInfoRep> GetCustBankInfoInput(GetCustBankInfoReq getCustBankInfoReq)
+        {
+            var apiResult = new ApiResult<CustBankInfoRep>(selLangBLL);
+            //var authData = authorizeBLL.GetAuthData();
+
+            var custInfo = custInfoBLL.GetCustInfoWithCache(getCustBankInfoReq.CustId);
+            var bankInfoSysList = bankInfoBLL.GetBankInfoSysListByCurrency(custInfo.CurrencyId);
+
+            var custBankInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<CustBankInfoRep>(Newtonsoft.Json.JsonConvert.SerializeObject(custInfoBLL.GetCustBankInfo(getCustBankInfoReq.CustId)));
+
+            if (custBankInfo != null && custBankInfo.bankInfoDetail != null && custBankInfo.bankInfoDetail.Count() > 0)
+            {
+                foreach (var bankInfo in custBankInfo.bankInfoDetail)
+                {
+                    var refBankInfo = bankInfoSysList.Where(x => x.SysId == bankInfo.SysId).FirstOrDefault();
+                    if (refBankInfo != null)
+                    {
+                        bankInfo.BankName = refBankInfo.BankName;
+                        bankInfo.BankLogo = refBankInfo.BankLogo;
+                        bankInfo.BankSite = refBankInfo.BankSite;
+                    }
+
+                    if (custBankInfo.bankInfoDetail.Count() == 0)
+                    {
+                        custBankInfo.DefAccountNo = custBankInfo.bankInfoDetail.ElementAt(0).AccountNo;
+                    }
+                    else
+                    {
+                        string defAccountNo = custInfoBLL.GetDefAccountNo(getCustBankInfoReq.CustId);
+                        if (custBankInfo.bankInfoDetail.Any(x => x.AccountNo == defAccountNo))
+                        {
+                            custBankInfo.DefAccountNo = defAccountNo;
+                        }
+                    }
+                }
+            }
+
+            apiResult.Data = custBankInfo;
+            apiResult.ErrorCode = 0;
+
+            return apiResult;
+        }
 
         public class MsgReq
         {
