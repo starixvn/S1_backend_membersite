@@ -42,11 +42,11 @@ namespace MemberSite.Controllers.Api
         private readonly FPSBLL sFPSBLL;
         private readonly GameCasinoBLL gameCasinoBLL;
         private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
-
+        private readonly LiveStreamingBLL liveStreamingBLL;
 
         //private readonly IOptions<Dictionary<string, FPSServicesConfig>> fpsServicesConfig;
 
-        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL, FPSBLL sFPSBLL, GameCasinoBLL gameCasinoBLL, IOptions<Dictionary<string, SiteConfig>> siteConfig)
+        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL, FPSBLL sFPSBLL, GameCasinoBLL gameCasinoBLL, IOptions<Dictionary<string, SiteConfig>> siteConfig, LiveStreamingBLL liveStreamingBLL)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -62,6 +62,7 @@ namespace MemberSite.Controllers.Api
             this.sFPSBLL = sFPSBLL;
             this.gameCasinoBLL = gameCasinoBLL;
             this.siteConfig = siteConfig;
+            this.liveStreamingBLL = liveStreamingBLL;
         }
 
         public class LoginModel
@@ -1255,7 +1256,7 @@ namespace MemberSite.Controllers.Api
 
             var filterCon = GameCasinoHasTpid?.Where(x => tpIds.Contains(x)).ToDictionary(x => Convert.ToInt16(x), x => false);
 
-            var dictgameCasionByCurrencyAndSite = gameCasionByCurrencyAndSite?.ToDictionary(x => Convert.ToInt32(x.GameCasinoId),x=> x);
+            var dictgameCasionByCurrencyAndSite = gameCasionByCurrencyAndSite?.ToDictionary(x => Convert.ToInt32(x.GameCasinoId), x => x);
 
             foreach (var provider in providers?.Where(thisProvider => filterCon.ContainsKey(thisProvider.Value)))
             {
@@ -1276,7 +1277,7 @@ namespace MemberSite.Controllers.Api
                     }
 
                     Dictionary<string, string> imgNameD = nameItem.ToDictionary(x => x.Key, x => $"{OrgFileNameFilter($"{imgName}-{x.Key}")}.jpg");
-                    if(dictgameCasionByCurrencyAndSite != null && dictgameCasionByCurrencyAndSite.ContainsKey(y.GameCasinoId))
+                    if (dictgameCasionByCurrencyAndSite != null && dictgameCasionByCurrencyAndSite.ContainsKey(y.GameCasinoId))
                     {
                         if (dictgameCasionByCurrencyAndSite[y.GameCasinoId].Status)
                         {
@@ -1376,6 +1377,29 @@ namespace MemberSite.Controllers.Api
             {
                 apiResult.ErrorCode = result;
             }
+
+            return apiResult;
+        }
+        [HttpPost]
+        public ApiResult<IEnumerable<LiveStreamingData>> GetLiveStreamingList()
+        {
+            ApiResult<IEnumerable<LiveStreamingData>> apiResult = new ApiResult<IEnumerable<LiveStreamingData>>();
+
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            int SiteId;
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                SiteId = custInfo.SiteId;
+            }
+            else
+            {
+                SiteId = serverInfo.SiteId;
+            }
+
+            apiResult.ErrorCode = 0;
+            apiResult.Data = liveStreamingBLL.GetLiveStreamingList(SiteId, selLangBLL.GetLangId());
 
             return apiResult;
         }

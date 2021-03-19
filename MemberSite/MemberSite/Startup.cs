@@ -95,6 +95,7 @@ namespace MemberSite
             services.AddSingleton<IovationService>();
             services.AddSingleton<EventsService>();
             services.AddSingleton<GameCasinoService>();
+            services.AddSingleton<LiveStreamingService>();
             // foreach (var s in AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())
             //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.DAL"))
@@ -131,6 +132,7 @@ namespace MemberSite
             services.AddSingleton<FPSBLL>();
             services.AddSingleton<EventsBLL>();
             services.AddSingleton<GameCasinoBLL>();
+            services.AddSingleton<LiveStreamingBLL>();
             //var bll = AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())
             //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.BLL");
