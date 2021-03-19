@@ -42,11 +42,9 @@ namespace MemberSite.Controllers.Api
         private readonly FPSBLL sFPSBLL;
         private readonly GameCasinoBLL gameCasinoBLL;
         private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
-        private readonly LiveStreamingBLL liveStreamingBLL;
-
         //private readonly IOptions<Dictionary<string, FPSServicesConfig>> fpsServicesConfig;
 
-        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL, FPSBLL sFPSBLL, GameCasinoBLL gameCasinoBLL, IOptions<Dictionary<string, SiteConfig>> siteConfig, LiveStreamingBLL liveStreamingBLL)
+        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL, FPSBLL sFPSBLL, GameCasinoBLL gameCasinoBLL, IOptions<Dictionary<string, SiteConfig>> siteConfig)
         {
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -62,7 +60,6 @@ namespace MemberSite.Controllers.Api
             this.sFPSBLL = sFPSBLL;
             this.gameCasinoBLL = gameCasinoBLL;
             this.siteConfig = siteConfig;
-            this.liveStreamingBLL = liveStreamingBLL;
         }
 
         public class LoginModel
@@ -367,7 +364,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = 9000;
                 return apiResult;
             }
-            
+
             if (string.IsNullOrEmpty(signupModel.SignupUrl))
             {
                 signupModel.SignupUrl = Request.Host.Host;
@@ -1295,7 +1292,7 @@ namespace MemberSite.Controllers.Api
                                 Hot = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Hot,
                                 New = y.LaunchDate.AddDays(30) > DateTime.Now,
                                 ImageExist = true,
-                                promotion = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Promotion ? 1:0,
+                                promotion = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Promotion ? 1 : 0,
                                 featured = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Featured,
                                 PlayFree = y.Fun
                             });
@@ -1317,7 +1314,7 @@ namespace MemberSite.Controllers.Api
                             Hot = y.Hot,
                             New = y.LaunchDate.AddDays(30) > DateTime.Now,
                             ImageExist = true,
-                            promotion = y.promotion? 1:0,
+                            promotion = y.promotion ? 1 : 0,
                             featured = y.featured,
                             PlayFree = y.Fun
                         });
@@ -1380,28 +1377,6 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-        [HttpPost]
-        public ApiResult<IEnumerable<LiveStreamingData>> GetLiveStreamingList()
-        {
-            ApiResult<IEnumerable<LiveStreamingData>> apiResult = new ApiResult<IEnumerable<LiveStreamingData>>();
 
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            int SiteId;
-            if (User.Identity.IsAuthenticated)
-            {
-                var authData = authorizeBLL.GetAuthData();
-                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                SiteId = custInfo.SiteId;
-            }
-            else
-            {
-                SiteId = serverInfo.SiteId;
-            }
-
-            apiResult.ErrorCode = 0;
-            apiResult.Data = liveStreamingBLL.GetLiveStreamingList(SiteId, selLangBLL.GetLangId());
-
-            return apiResult;
-        }
     }
 }
