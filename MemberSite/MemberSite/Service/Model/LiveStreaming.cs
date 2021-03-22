@@ -49,5 +49,6 @@ namespace MemberSite.Service.Model
         public int Ch { set; get; }
         public string SiteName { set; get; }
         public string Uid { set; get; }
+        public string Ip { set; get; }
     }
 }

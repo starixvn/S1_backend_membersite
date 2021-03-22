@@ -11,13 +11,15 @@ namespace MemberSite.Controllers
     public class liveStreamingEntPageController : Controller
     {
         private readonly IConfiguration configuration;
+        private readonly Tools tools;
         private readonly CourierAdapter courierAdapter;
         private readonly AuthorizeBLL authorizeBLL;
         private readonly ServerInfoBLL serverInfoBLL;
 
-        public liveStreamingEntPageController(IConfiguration configuration, CourierAdapter courierAdapter, AuthorizeBLL authorizeBLL, ServerInfoBLL serverInfoBLL)
+        public liveStreamingEntPageController(IConfiguration configuration, Tools tools, CourierAdapter courierAdapter, AuthorizeBLL authorizeBLL, ServerInfoBLL serverInfoBLL)
         {
             this.courierAdapter = courierAdapter;
+            this.tools = tools;
             this.authorizeBLL = authorizeBLL;
             this.serverInfoBLL = serverInfoBLL;
             this.configuration = configuration;
@@ -29,9 +31,11 @@ namespace MemberSite.Controllers
             var serverInfo = serverInfoBLL.GetServerInfo();
             string commonServiceUrl = configuration.GetValue<string>("CommonService");
             string apiUrl = $"{commonServiceUrl}LiveStreaming/GetLiveStreamingLink";
+            string ip = tools.GetClientIP();
             var liveStreamingLinkReq = new LiveStreamingLinkReq
             {
                 Ch = ch,
+                Ip = ip,
                 SiteName = serverInfo.SiteName
             };
             if (User.Identity.IsAuthenticated)
