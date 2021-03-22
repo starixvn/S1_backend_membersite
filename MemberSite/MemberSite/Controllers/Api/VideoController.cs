@@ -1,0 +1,77 @@
+﻿using System.Collections.Generic;
+using MemberSite.Service.BLL;
+using MemberSite.Service.Model;
+using Microsoft.AspNetCore.Mvc;
+
+namespace MemberSite.Controllers.Api
+{
+    [Route("api/[controller]/[action]/{LangId}")]
+    [ApiController]
+    public class VideoController : Controller
+    {
+        private readonly AuthorizeBLL authorizeBLL;
+        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly SelLangBLL selLangBLL;
+        private readonly CustInfoBLL custInfoBLL;
+        private readonly LiveStreamingBLL liveStreamingBLL;
+        private readonly LatestHighlightDataBLL latestHighlightDataBLL;
+
+
+        public VideoController(AuthorizeBLL authorizeBLL, ServerInfoBLL serverInfoBLL, SelLangBLL selLangBLL, CustInfoBLL custInfoBLL, LiveStreamingBLL liveStreamingBLL, LatestHighlightDataBLL latestHighlightDataBLL)
+        {
+            this.authorizeBLL = authorizeBLL;
+            this.serverInfoBLL = serverInfoBLL;
+            this.selLangBLL = selLangBLL;
+            this.custInfoBLL = custInfoBLL;
+            this.liveStreamingBLL = liveStreamingBLL;
+            this.latestHighlightDataBLL = latestHighlightDataBLL;
+        }
+        [HttpPost]
+        public ApiResult<IEnumerable<LiveStreamingData>> GetLiveStreamingList()
+        {
+            ApiResult<IEnumerable<LiveStreamingData>> apiResult = new ApiResult<IEnumerable<LiveStreamingData>>();
+
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            int SiteId;
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                SiteId = custInfo.SiteId;
+            }
+            else
+            {
+                SiteId = serverInfo.SiteId;
+            }
+
+            apiResult.ErrorCode = 0;
+            apiResult.Data = liveStreamingBLL.GetLiveStreamingList(SiteId, selLangBLL.GetLangId());
+
+            return apiResult;
+        }
+        [HttpPost]
+        public ApiResult<LatestHighlightData> GetLatestHighlightData()
+        {
+            ApiResult<LatestHighlightData> apiResult = new ApiResult<LatestHighlightData>();
+
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            int SiteId;
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                SiteId = custInfo.SiteId;
+            }
+            else
+            {
+                SiteId = serverInfo.SiteId;
+            }
+
+            apiResult.ErrorCode = 0;
+            apiResult.Data = latestHighlightDataBLL.GetLatestHighlightData(SiteId, selLangBLL.GetLangId());
+
+            return apiResult;
+        }
+
+    }
+}
