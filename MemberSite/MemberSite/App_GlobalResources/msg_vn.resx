@@ -296,4 +296,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_DrawPrizeTital1" xml:space="preserve">
     <value>Chiếc Hộp Thần Kỳ {0}</value>
   </data>
+  <data name="msg_SpecialCodeErr" xml:space="preserve">
+    <value>Không tìm thấy khuyến mãi phù hợp với mã bạn vừa nhập</value>
+  </data>
 </root>
