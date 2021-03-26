@@ -39,7 +39,7 @@ namespace MemberSite.Service.DAL
             p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("ToKyc", dbType: DbType.Boolean, direction: ParameterDirection.Output);
 
-            conn.Execute("Member_WithdrawalInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
+            conn.Execute("Member_WithdrawalInfoV2_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
             transId = p.Get<string>("vTransId");
             var rollover = rolloverService.ReachedRollover(custId, conn, trans);
 
