@@ -1722,4 +1722,10 @@
   <data name="lbl_Wallet_Kiss918" xml:space="preserve">
     <value>918Kiss</value>
   </data>
+  <data name="lbl_Error_Message" xml:space="preserve">
+    <value>Yah, itu tidak terduga ....</value>
+  </data>
+  <data name="lbl_Error_Title" xml:space="preserve">
+    <value>Oops!</value>
+  </data>
 </root>

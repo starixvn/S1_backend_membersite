@@ -1730,4 +1730,10 @@
   <data name="lbl_Wallet_Kiss918" xml:space="preserve">
     <value>918Kiss</value>
   </data>
+  <data name="lbl_Error_Message" xml:space="preserve">
+    <value>好吧，这是无法预期的....</value>
+  </data>
+  <data name="lbl_Error_Title" xml:space="preserve">
+    <value>噢！</value>
+  </data>
 </root>

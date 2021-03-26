@@ -1,7 +1,9 @@
 ﻿@model MemberSite.Controllers.entPageController.ErrorData
+@using MemberSite.Service.BLL
+@inject SelLangBLL selLangBLL
 <html>
 <head>
-    <title>NOVA88</title>
+    <title>@selLangBLL.GetResourceValue("lbl_Title")</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="https://error.n88media.com/404/img/favicon.ico" type="image/x-icon">
@@ -11,11 +13,12 @@
 </head>
 <body>
     <div class="wallpaper">
-        <img src="https://error.n88media.com/404/img/logo.png">
-        <div class="title">SORRY !</div>
+        <img src="https://error.n88media.com/404/img/logo.png" alt="Logo">
+        <div class="title">@selLangBLL.GetResourceValue("lbl_Error_Title")</div>
+        <div class="stitle">@selLangBLL.GetResourceValue("lbl_Error_Message")@Model.Message</div>
         <div class="stitle">@Model.Message</div>
         <a href="https://direct.lc.chat/11638088/1">
-            <img src="https://error.n88media.com/404/img/button.jpg">
+            <img src="https://error.n88media.com/404/img/button.jpg" alt="LiveChat">
         </a>
     </div>
 </body>
