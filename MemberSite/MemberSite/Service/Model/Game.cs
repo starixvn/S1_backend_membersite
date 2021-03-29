@@ -58,7 +58,7 @@ namespace MemberSite.Service.Model
         public bool Hot { get; set; }
         public bool New { get; set; }
         public bool ImageExist { get; set; }
-        public int promotion { get; set; }
+        public bool promotion { get; set; }
         public bool featured { get; set; }
         public int TypeId { get; set; }
         public bool Fun { get; set; }
@@ -74,6 +74,7 @@ namespace MemberSite.Service.Model
         public bool Hot { get; set; }
         public bool Featured { get; set; }
         public bool Status { get; set; }
+        public bool Promotion { get; set; }
         public string GameCasinoId { get; set; }
     }
 

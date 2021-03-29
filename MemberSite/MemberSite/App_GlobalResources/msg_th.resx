@@ -312,7 +312,7 @@
     <value>โค้ดโปรโมชั่นไม่ถูกต้อง</value>
   </data>
   <data name="msg_DrawPrize1" xml:space="preserve">
-    <value>ขอแสดงความยินดีด้วยค่ะ! โบนัส {0} จำนวน {1}{2} บาท ถูกปรับเข้าบัญชีผู้ใช้ของท่านเรียบร้อยแล้วค่ะ</value>
+    <value>ขอแสดงความยินดีด้วยค่ะ! โบนัส {0} จำนวน {2} บาท ถูกปรับเข้าบัญชีผู้ใช้ของท่านเรียบร้อยแล้วค่ะ</value>
   </data>
   <data name="msg_DrawPrizeTital1" xml:space="preserve">
     <value>{0} กล่องปริศนา</value>

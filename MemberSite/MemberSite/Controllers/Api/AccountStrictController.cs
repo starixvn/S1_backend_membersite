@@ -103,7 +103,7 @@ namespace MemberSite.Controllers.Api
             IEnumerable<BankInfoDetail> bankInfoList = null;
 
             var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
-            if (custBankInfo == null || custBankInfo.BankInfo == null)
+            if (custBankInfo == null || custBankInfo.bankInfoDetail == null)
             {
                 apiResult.ErrorCode = -2;
                 apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
@@ -118,48 +118,140 @@ namespace MemberSite.Controllers.Api
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
-//        public class SetAccountNameReq
-//        {
-//            public string Name { get; set; }
-//        }
-///// <summary>
-///// 
-///// </summary>
-///// <param name="content"></param>
-///// <returns></returns>
-//        [HttpPost]
-//        public ApiResult SetAccountName(SetAccountNameReq content)
-//        {
-//            var apiResult = new ApiResult(selLangBLL);
-//            var authData = authorizeBLL.GetAuthData();
-//            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-//            //check input
-//            if (string.IsNullOrEmpty(content.Name))
-//            {
-//                apiResult.ErrorCode = -3;
-//                apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
-//                return apiResult;
-//            }
+        public class USDTDetailreq
+        {
+            public string AccountName { set; get; }
+            public string NickName { set; get; }
+            public string USDTAddress { set; get; }
+        }
 
-//            if (content.Name.Length > 50)
-//            {
-//                apiResult.ErrorCode = -4;
-//                return apiResult;
-//            }
+        [HttpPost]
+        public ApiResult SetCustUSDTInfo(USDTDetailreq uSDTDetailreq)
+        {
+            var apiResult = new ApiResult(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
 
-//            //check AccountName exist or not
-//            //existed
-//            if (custInfoBLL.GetCustBankInfo(authData.CustId) != null)
-//            {
-//                apiResult.ErrorCode = -5;
-//                return apiResult;
-//            }
-//            //not existed, update (custInfoBLL.SetCustBankInfo only return 0 or -1)
-//            apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, content.Name, null);
-//            apiResult.Message = selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
+            List<USDTDetail> uSDTInfoList = null;
 
-//            return apiResult;
-//        }
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            if (custInfo.CurrencyId != 96)
+            {
+                apiResult.ErrorCode = -6;
+                apiResult.Message = "Error Currency ";
+                return apiResult;
+            }
+            //
+
+            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+            if (custBankInfo == null && string.IsNullOrEmpty(uSDTDetailreq.AccountName))
+            {
+                apiResult.ErrorCode = -2;
+                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                return apiResult;
+            }
+            else if (custBankInfo != null && custBankInfo.BankInfo != null && custBankInfo.uSDTDetail?.Count() >= 3)
+            {
+                apiResult.ErrorCode = -3;
+                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                return apiResult;
+            }
+            else if (custBankInfo != null && custBankInfo.uSDTDetail != null)
+            {
+                uSDTInfoList = custBankInfo.uSDTDetail.ToList();
+
+                if (uSDTInfoList.Where(x => x.USDTAddress == uSDTDetailreq.USDTAddress).Count() > 0)
+                {
+                    apiResult.ErrorCode = -4;
+                    apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                    return apiResult;
+                }
+            }
+            else
+            {
+                uSDTInfoList = new List<USDTDetail>();
+            }
+
+            uSDTInfoList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress });
+
+            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList);
+            apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult DelCustUSDTInfo(USDTDetailreq uSDTDetailreq)
+        {
+            var apiResult = new ApiResult(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            if (custInfo.CurrencyId != 96)
+            {
+                apiResult.ErrorCode = -6;
+                apiResult.Message = "Error Currency ";
+                return apiResult;
+            }
+
+            IEnumerable<USDTDetail> USDTInfoList = null;
+
+            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+            if (custBankInfo == null || custBankInfo.uSDTDetail == null)
+            {
+                apiResult.ErrorCode = -2;
+                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                return apiResult;
+            }
+            else if (custBankInfo != null && custBankInfo.uSDTDetail != null)
+            {
+                USDTInfoList = custBankInfo.uSDTDetail.Where(x => !(x.USDTAddress == uSDTDetailreq.USDTAddress));
+            }
+
+            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, custBankInfo.AccountName, USDTInfoList);
+            apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+            return apiResult;
+        }
+        //        public class SetAccountNameReq
+        //        {
+        //            public string Name { get; set; }
+        //        }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="content"></param>
+        ///// <returns></returns>
+        //        [HttpPost]
+        //        public ApiResult SetAccountName(SetAccountNameReq content)
+        //        {
+        //            var apiResult = new ApiResult(selLangBLL);
+        //            var authData = authorizeBLL.GetAuthData();
+        //            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+        //            //check input
+        //            if (string.IsNullOrEmpty(content.Name))
+        //            {
+        //                apiResult.ErrorCode = -3;
+        //                apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
+        //                return apiResult;
+        //            }
+
+        //            if (content.Name.Length > 50)
+        //            {
+        //                apiResult.ErrorCode = -4;
+        //                return apiResult;
+        //            }
+
+        //            //check AccountName exist or not
+        //            //existed
+        //            if (custInfoBLL.GetCustBankInfo(authData.CustId) != null)
+        //            {
+        //                apiResult.ErrorCode = -5;
+        //                return apiResult;
+        //            }
+        //            //not existed, update (custInfoBLL.SetCustBankInfo only return 0 or -1)
+        //            apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, content.Name, null);
+        //            apiResult.Message = selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
+
+        //            return apiResult;
+        //        }
 
         public class SetAccountNameReq
         {
@@ -396,7 +488,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             Dictionary<int, string> PerCountry = new Dictionary<int, string>()
             {
-                    {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" }
+                    {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{96,"MY" }
                 };
 
             try
