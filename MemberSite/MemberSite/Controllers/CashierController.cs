@@ -8,6 +8,7 @@ using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using static MemberSite.Controllers.entPageController;
 
 namespace MemberSite.Controllers
 {
@@ -18,6 +19,7 @@ namespace MemberSite.Controllers
         private readonly string payApiUrl;
         private readonly Tools tools;
         private readonly AuthorizeBLL authorizeBLL;
+        private readonly ServerInfoBLL serverInfoBLL;
         private readonly PaymentBLL paymentBLL;
         private readonly MobilePayInfoBLL mobilePayInfoBLL;
         private readonly CustInfoBLL custInfoBLL;
@@ -25,12 +27,13 @@ namespace MemberSite.Controllers
         private readonly CryptoPayInfoBLL cryptoPayInfoBLL;
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
 
-        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL, CustInfoBLL custInfoBLL, TemplateBLL templateBLL, CryptoPayInfoBLL cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL)
+        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, ServerInfoBLL serverInfoBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL, CustInfoBLL custInfoBLL, TemplateBLL templateBLL, CryptoPayInfoBLL cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL)
         {
             this.courierAdapter = courierAdapter;
             payApiUrl = configuration.GetValue<string>("PayService");
             this.tools = tools;
             this.authorizeBLL = authorizeBLL;
+            this.serverInfoBLL = serverInfoBLL;
             this.paymentBLL = paymentBLL;
             this.mobilePayInfoBLL = mobilePayInfoBLL;
             this.custInfoBLL = custInfoBLL;
@@ -66,10 +69,12 @@ namespace MemberSite.Controllers
         [HttpGet]
         public async Task<IActionResult> DepositReqOnlineBankingAsync(int sysId, int payId, int ChannelId, decimal Amount)
         {
+            var serverInfo = serverInfoBLL.GetServerInfo();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             BankInfoPay onlineBank = null;
+            ErrorData model = new ErrorData();
             var result = paymentBLL.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount, out transId, out onlineBank);
 
             var apiResult = new ApiResult<PayResult>();
@@ -92,22 +97,34 @@ namespace MemberSite.Controllers
                 {
                     return Redirect(apiResult.Data.Url);
                 }
+                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
+                {
+                    return View(apiResult);
+                }
+                else
+                {
+                    model.Message = apiResult.RawMessage;
+                }
             }
             else
             {
-                apiResult.ErrorCode = result;
-                apiResult.Message = "Error.";
+                //apiResult.ErrorCode = result;
+                //apiResult.Message = "Error.";
+                model.Message = "DepositReqOnlineBanking Error";
             }
 
-            return View(apiResult);
+            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+            //return View(apiResult);
         }
         public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount)
         {
+            var serverInfo = serverInfoBLL.GetServerInfo();
             var apiResult = new ApiResult<PayResult>();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             MobilePayInfo mobilePayInfo = null;
+            ErrorData model = new ErrorData();
             var result = mobilePayInfoBLL.DepositReqMobilePay(authData.CustId, ChannelId, Amount, out transId, out mobilePayInfo);
             if (result == 0)
             {
@@ -128,13 +145,24 @@ namespace MemberSite.Controllers
                 {
                     return Redirect(apiResult.Data.Url);
                 }
+                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
+                {
+                    return View(apiResult);
+                }
+                else
+                {
+                    model.Message = apiResult.RawMessage;
+                }
             }
             else
             {
-                apiResult.ErrorCode = result;
-                apiResult.Message = "Error.";
+                //apiResult.ErrorCode = result;
+                //apiResult.Message = "Error.";
+                model.Message = "DepositReqMobilePay Error";
             }
-            return View(apiResult);
+
+            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+            //return View(apiResult);
         }
         public class ReqDepositCrypto : ReqDeposit
         {
@@ -142,11 +170,13 @@ namespace MemberSite.Controllers
         }
         public async Task<IActionResult> DepositReqCryptoPayAsync(int ChannelId, decimal Amount)
         {
+            var serverInfo = serverInfoBLL.GetServerInfo();
             var apiResult = new ApiResult<PayResult>();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             CryptoPayInfo cryptoPayInfo = null;
+            ErrorData model = new ErrorData();
             var result = cryptoPayInfoBLL.DepositReqCryptoPay(authData.CustId, ChannelId, Amount, out transId, out cryptoPayInfo);
             if (result == 0)
             {
@@ -167,22 +197,35 @@ namespace MemberSite.Controllers
                 {
                     return Redirect(apiResult.Data.Url);
                 }
+                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
+                {
+                    return View(apiResult);
+                }
+                else
+                {
+                    model.Message = apiResult.RawMessage;
+                }
             }
             else
             {
-                apiResult.ErrorCode = result;
-                apiResult.Message = "Error.";
+                //apiResult.ErrorCode = result;
+                //apiResult.Message = "Error.";
+                model.Message = "DepositReqCryptoPay Error";
             }
-            return View(apiResult);
+
+            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+            //return View(apiResult);
         }
 
         public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, decimal Amount)
         {
+            var serverInfo = serverInfoBLL.GetServerInfo();
             var apiResult = new ApiResult<PayResult>();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             LoadCardPayInfo loadCardPayInfo = null;
+            ErrorData model = new ErrorData();
             var result = loadCardPayInfoBLL.DepositReqLoadCardPay(authData.CustId, ChannelId, Amount, out transId, out loadCardPayInfo);
             if (result == 0)
             {
@@ -203,13 +246,24 @@ namespace MemberSite.Controllers
                 {
                     return Redirect(apiResult.Data.Url);
                 }
+                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
+                {
+                    return View(apiResult);
+                }
+                else
+                {
+                    model.Message = apiResult.RawMessage;
+                }
             }
             else
             {
-                apiResult.ErrorCode = result;
-                apiResult.Message = "Error.";
+                //apiResult.ErrorCode = result;
+                //apiResult.Message = "Error.";
+                model.Message = "DepositReqLoadCardPay Error";
             }
-            return View(apiResult);
+
+            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+            //return View(apiResult);
         }
 
         [Route("[controller]/DepositReceip.jpg")]
