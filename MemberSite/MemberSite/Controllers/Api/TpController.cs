@@ -55,12 +55,13 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> GotoGame(TpInfo inInfo)
         {
-            Dictionary<string, string> input = new Dictionary<string, string>();
+            //Dictionary<string, string> input = new Dictionary<string, string>();
             ////input.Add("gameType", gameType);/**/
             ////input.Add("gameId", gameId);/*for mg*/
 
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var input = inInfo.inputs;
             input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
             input.Add("ClientIP", tools.GetClientIP());
 
