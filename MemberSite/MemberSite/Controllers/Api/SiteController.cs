@@ -42,8 +42,6 @@ namespace MemberSite.Controllers.Api
         private readonly FPSBLL sFPSBLL;
         private readonly GameCasinoBLL gameCasinoBLL;
         private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
-
-
         //private readonly IOptions<Dictionary<string, FPSServicesConfig>> fpsServicesConfig;
 
         public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL, FPSBLL sFPSBLL, GameCasinoBLL gameCasinoBLL, IOptions<Dictionary<string, SiteConfig>> siteConfig)
@@ -366,7 +364,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = 9000;
                 return apiResult;
             }
-            
+
             if (string.IsNullOrEmpty(signupModel.SignupUrl))
             {
                 signupModel.SignupUrl = Request.Host.Host;
@@ -1255,7 +1253,7 @@ namespace MemberSite.Controllers.Api
 
             var filterCon = GameCasinoHasTpid?.Where(x => tpIds.Contains(x)).ToDictionary(x => Convert.ToInt16(x), x => false);
 
-            var dictgameCasionByCurrencyAndSite = gameCasionByCurrencyAndSite?.ToDictionary(x => Convert.ToInt32(x.GameCasinoId),x=> x);
+            var dictgameCasionByCurrencyAndSite = gameCasionByCurrencyAndSite?.ToDictionary(x => Convert.ToInt32(x.GameCasinoId), x => x);
 
             foreach (var provider in providers?.Where(thisProvider => filterCon.ContainsKey(thisProvider.Value)))
             {
@@ -1276,7 +1274,7 @@ namespace MemberSite.Controllers.Api
                     }
 
                     Dictionary<string, string> imgNameD = nameItem.ToDictionary(x => x.Key, x => $"{OrgFileNameFilter($"{imgName}-{x.Key}")}.jpg");
-                    if(dictgameCasionByCurrencyAndSite != null && dictgameCasionByCurrencyAndSite.ContainsKey(y.GameCasinoId))
+                    if (dictgameCasionByCurrencyAndSite != null && dictgameCasionByCurrencyAndSite.ContainsKey(y.GameCasinoId))
                     {
                         if (dictgameCasionByCurrencyAndSite[y.GameCasinoId].Status)
                         {
@@ -1294,7 +1292,7 @@ namespace MemberSite.Controllers.Api
                                 Hot = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Hot,
                                 New = y.LaunchDate.AddDays(30) > DateTime.Now,
                                 ImageExist = true,
-                                promotion = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Promotion ? 1:0,
+                                promotion = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Promotion ? 1 : 0,
                                 featured = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Featured,
                                 PlayFree = y.Fun
                             });
@@ -1316,7 +1314,7 @@ namespace MemberSite.Controllers.Api
                             Hot = y.Hot,
                             New = y.LaunchDate.AddDays(30) > DateTime.Now,
                             ImageExist = true,
-                            promotion = y.promotion? 1:0,
+                            promotion = y.promotion ? 1 : 0,
                             featured = y.featured,
                             PlayFree = y.Fun
                         });
@@ -1379,5 +1377,6 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+
     }
 }

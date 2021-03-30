@@ -1701,4 +1701,10 @@
   <data name="lbl_Wallet_Kiss918" xml:space="preserve">
     <value>918Kiss</value>
   </data>
+  <data name="lbl_Error_Message" xml:space="preserve">
+    <value>มันเป็นเรื่องที่คาดไม่ถึง ....</value>
+  </data>
+  <data name="lbl_Error_Title" xml:space="preserve">
+    <value>อุ๊ปส์!</value>
+  </data>
 </root>

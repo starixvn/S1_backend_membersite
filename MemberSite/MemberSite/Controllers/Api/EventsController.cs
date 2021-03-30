@@ -182,12 +182,14 @@ namespace MemberSite.Controllers.Api
             if (custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted)
             {
                 apiResult.ErrorCode = 102;
-                apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
+                //apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
+                apiResult.Message = selLangBLL.GetMsg("msg_Ineligible");
             }
             else if ((eventId == 1 || eventId== 2 || eventId == 3) && (custInfo.SiteId == 2 || custInfo.SiteId == 3) && custInfoBLL.GetCustTransSummary(authData.CustId).DepositSum < 200000)
             {
                 apiResult.ErrorCode = 102;
-                apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
+                //apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
+                apiResult.Message = selLangBLL.GetMsg("msg_Ineligible");
             }
             else if (ConditionSP != null && !eventsBLL.CheckEventCondition(ConditionSP, eventId, authData.CustId, custInfo.CurrencyId))
             {

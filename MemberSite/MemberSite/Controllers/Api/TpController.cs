@@ -61,6 +61,11 @@ namespace MemberSite.Controllers.Api
 
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            if (inInfo.inputs != null)
+            {
+                input = inInfo.inputs;
+            }
+
             input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
             input.Add("ClientIP", tools.GetClientIP());
 

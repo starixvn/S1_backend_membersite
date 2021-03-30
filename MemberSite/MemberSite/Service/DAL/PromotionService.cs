@@ -490,33 +490,32 @@ namespace MemberSite.Service.DAL
                     promo.canJoin = canJoinResult == 1;
                     promo.Result = canJoinParams.Get<int>("Result");
 
-                    if ((promo.PromotionType == 1 || promo.PromotionType == 2) && promo.Result == 2)
+                    if ((promo.PromotionType == (int)PromotionType.FstDeposit || promo.PromotionType == (int)PromotionType.ReDeposit) && promo.Result == 2)
                     {
                         promo.DepositId = canJoinParams.Get<string>("RefId");
                         promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
                         promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
-
-                        if (promo.PromotionType == (int)PromotionType.ReDeposit)
+                        
+                        promo.MaxAmount = promo.PromotionType == (int) PromotionType.FstDeposit
+                            ? walletService.GetBalance(CustId)
+                            : promo.DepositAmount;
+                        if (promo.RequiredAmount == 0)
                         {
-                            promo.MaxAmount = promo.DepositAmount;
-                            if (promo.RequiredAmount == 0)
-                            {
-                                promo.RequiredAmount = 1;
-                            }
+                            promo.RequiredAmount = 1;
+                        }
 
-                            if (promo.BonusType == (int)BonusType.Amount)
+                        if (promo.BonusType == (int)BonusType.Amount)
+                        {
+                            promo.MaxAmount = promo.RequiredAmount;
+                        }
+                        else
+                        {
+                            if (promo.MaxBonus > 0)
                             {
-                                promo.MaxAmount = promo.RequiredAmount;
-                            }
-                            else
-                            {
-                                if (promo.MaxBonus > 0)
+                                var dBonus = Math.Ceiling(promo.Bonus * promo.DepositAmount / 100);
+                                if (dBonus > promo.MaxBonus)
                                 {
-                                    decimal dBonus = Math.Ceiling(promo.Bonus * promo.DepositAmount / 100);
-                                    if (dBonus > promo.MaxBonus)
-                                    {
-                                        promo.MaxAmount = promo.MaxBonus * 100 / promo.Bonus;
-                                    }
+                                    promo.MaxAmount = promo.MaxBonus * 100 / promo.Bonus;
                                 }
                             }
                         }
@@ -569,8 +568,10 @@ namespace MemberSite.Service.DAL
                 promo.canJoin = canJoinResult == 1 || canJoinResult == 3;
                 promo.Result = canJoinParams.Get<int>("Result");
 
-                if (promo.PromotionType == (int)PromotionType.FstDeposit)
+                if (promo.PromotionType == (int)PromotionType.FstDeposit && promo.Result == 2)
                 {
+                    promo.DepositId = canJoinParams.Get<string>("RefId");
+                    promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
                     promo.MaxAmount = walletService.GetBalance(CustId);
                     if (promo.RequiredAmount == 0)
                     {
@@ -585,7 +586,7 @@ namespace MemberSite.Service.DAL
                     {
                         if (promo.MaxBonus > 0)
                         {
-                            decimal dBonus = Math.Ceiling(promo.Bonus * promo.DepositAmount / 100);
+                            var dBonus = Math.Ceiling(promo.Bonus * promo.DepositAmount / 100);
                             if (dBonus > promo.MaxBonus)
                             {
                                 promo.MaxAmount = promo.MaxBonus * 100 / promo.Bonus;
