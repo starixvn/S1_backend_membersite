@@ -1,0 +1,323 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>Goal123</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../common/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../common/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+    <style>
+        [data-layout=desktop] .app--help .main {
+            margin-top: 0;
+        }
+        .heading > .text {
+            color: #fab617;
+        }
+        .heading::after {
+            background-image: linear-gradient(to right, #fab617, rgba(247, 122, 0, 0));
+        }
+        .promotionsInfo-page .help-page__body {
+            margin-top: 115px;
+            margin-bottom: 80px;
+            max-width: 1248px;
+            background: #1A325B;
+            border-radius: 5px;
+        }
+        .promotions-module .promotion-title {
+            color: #fab617;
+            font-size: 1rem;
+            font-weight: bold;
+            line-height: 3rem;
+            display: block;
+        }
+        .promotions-module ol {
+            padding: 0 1rem;
+            padding-left: 40px;
+        }
+        .promotions-module table {
+            border: 0px solid #fff !important;
+            border-spacing: 0;
+            padding-left: 25px;
+            margin-bottom: 20px;
+        }
+        .promotions-module table tr > th {
+            border: 1px solid #cfcfcf !important;
+            padding: 8px 15px;
+            text-align: left;
+            background-color: #4E6CA8;
+            color: white;
+            text-align: center;
+        }
+        .promotions-module table tr > td {
+            border: 1px solid #cfcfcf !important;
+            padding: 8px 15px;
+            text-align: left;
+            background-color: #f3f3f3;
+            color: #4E6CA8;
+            text-align: center;
+        }
+        [data-layout=mobile] .main:not(.main--home) {
+            height: auto;
+            margin-top: 0;
+            min-width: 769px;
+        }
+        table.euro-ranking {
+            min-width: 100%;
+            margin: 20px auto;
+            margin-left: 0;
+            padding-left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="main">
+            <div class="help-page promotionsInfo-page">
+                <div class="help-page__body promotions-module">
+                    <div class="heading">
+                        <span class="text">Promotion Info</span>
+                    </div>
+                    <img src="img/en4.jpg" alt="">
+                    <div class="article">
+                        <h2>UEFA EURO 2020 FINAL</h2>
+                        <h3> DEPOSIT & TURNOVER RACE TOURNAMENT</h3>
+                        <span class="promotion-title">Significant Conditions</span>
+                        <ol type="a" style="line-height: 24px;">
+                            <li>This promotion applies to all Goal123 members only.</li>
+                            <li>This promotion appllied to SPORTS, LIVE CASINO & SLOTS products only.</li>
+                            <li>Promotion starts from 13 APRIL 2021 00:00:00 (GMT+8) to 12 JULY 2021 23:59:59 (GMT+8)</li>
+                            <li>Selected products for monthly winner, starts from 13 APRIL 2021 00:00:00 (GMT+8) until 12 JUNE 2021 23:59:59 (GMT+8) who meet the min deposit and turnover required. Products and Monthy tournament schedule as follow:</li>
+                            <table class="euro-ranking">
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2">MONTHLY TOURNAMENT</th>
+                                    </tr>
+                                    <tr>
+                                        <th>START</th>
+                                        <th>END</th>
+                                    </tr>
+                                    <tr>
+                                        <td>13 Apr 2021</td>
+                                        <td>12 May 2021</td>
+                                    </tr>
+                                    <tr>
+                                        <td>13 May 2021</td>
+                                        <td>12 June 2021</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="euro-ranking">
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2">UEFA EURO 2020 FINAL</th>
+                                    </tr>
+                                    <tr>
+                                        <td>13 Apr 2021</td>
+                                        <td>12 July 2021</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="euro-ranking">
+                                <tbody>
+                                    <tr>
+                                        <th>PRODUCTS</th>
+                                    </tr>
+                                    <tr>
+                                        <td>SPORTS, LIVE CASINO & SLOTS	</td>
+                                    </tr>
+                                    <tr>
+                                        <td>VND 500,000 (turnover) = 1 POINT	</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <li>All the bonus win for monthly tournament is subject to 1x rollover, before making withdrawal.</li>
+                            <li>Each ranking for all category will have only 1 winner.</li>
+                            <li>Each Member only allow to join this tournament with ONE (1) account ID.</li>
+                            <li>Member will be automatically qualify for monthly tournament when they meet minimum monthly deposit and turnover as stipulated in the table below:</li>
+                            <table class="euro-ranking">
+                                <tbody>
+                                    <tr>
+                                        <th colspan="4">MONTHLY DEPOSIT & TURNOVER RACE TOURNAMENT</th>
+                                    </tr>
+                                    <tr>
+                                        <th>RANKING</th>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                        <th>MIN POINT REQUIRED</th>
+                                        <th>BONUS CREDIT</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Champion</td>
+                                        <td>888,123,123</td>
+                                        <td>9,000</td>
+                                        <td>43,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1st Runner Up</td>
+                                        <td>738,123,123</td>
+                                        <td>7,500</td>
+                                        <td>28,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2nd Runner Up</td>
+                                        <td>588,123,123</td>
+                                        <td>6,000</td>
+                                        <td>20,123,000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <li>The final winners will be decided by the accumulate deposit and turnover through the whole promotion period.</li>
+                            <li>There is only TOP 9 winners with highest DEPOSIT & POINT follow by the requirement. (1 winner on each ranking only)</li>
+                            <table class="euro-ranking">
+                                <tbody>
+                                    <tr>
+                                        <th colspan="4">UEFA EURO 2020 FINAL</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="4">13 APRIL TO 12 JULY 2021</th>
+                                    </tr>
+                                    <tr>
+                                        <th>RANKING</th>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                        <th>MIN POINT REQUIRED</th>
+                                        <th>PRIZES</th>
+                                    </tr>
+                                    <tr>
+                                        <td>CHAMPION</td>
+                                        <td>3,123,123,000</td>
+                                        <td>25,000</td>
+                                        <td>123,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1st Runner Up</td>
+                                        <td>2,123,123,000</td>
+                                        <td>18,000</td>
+                                        <td>88,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2nd Runner Up</td>
+                                        <td>1,123,123,000</td>
+                                        <td>11,000</td>
+                                        <td>55,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3rd Runner Up</td>
+                                        <td>833,123,000</td>
+                                        <td>7,200</td>
+                                        <td>36,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4th Runner Up</td>
+                                        <td>633,123,000</td>
+                                        <td>5,500</td>
+                                        <td>28,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5th Runner Up</td>
+                                        <td>533,123,000</td>
+                                        <td>4,500</td>
+                                        <td>22,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6th Runner Up</td>
+                                        <td>433,123,000</td>
+                                        <td>3,500</td>
+                                        <td>17,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>7th Runner Up</td>
+                                        <td>333,123,000</td>
+                                        <td>2,700</td>
+                                        <td>13,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>9th Runner Up</td>
+                                        <td>233,123,000</td>
+                                        <td>2,000</td>
+                                        <td>11,123,000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </ol>
+                        
+                        <span class="promotion-title">Terms and Conditions</span>
+                        <ol style="line-height: 24px;">
+                            <li>The member ranking and winner list will be published in Goal123 's Ranking board.</li>
+                            <li>Winners will be announce through personal message in player's Inbox within 48 hours after the cut off time. And winner is required to contact Customer Live Support within 7 days or the prize will be forfeited.</li>
+                            <li>Prizes will be arranged/credited to winner account after the verifcation done.</li>
+                            <li>Any warranty claims can be obtained through the third-party retailer used for the delivery of the products claimed.</li>
+                            <li>Bonus are valid for thirty (30) days upon issuance unless stated otherwise. Money won using bonus funds will be removed from the member’s account if prerequisites are not fulfilled within the given time frame.</li>
+                            <li>Participating members must accept and comply with all the terms mentioned above as well as all relevant rules and regulations implemented by Goal123.</li>
+                            <li>Goal123  reserves the right to amend or withdraw the Promotion at any time.</li>
+                            <li>Goal123  is the sole arbiter of the Promotion and its decision is final.</li>
+                            <li>Goal123  Standard Terms & Conditions apply.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2021. Goal123. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
