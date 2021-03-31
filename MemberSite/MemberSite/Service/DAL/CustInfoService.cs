@@ -35,7 +35,7 @@ namespace MemberSite.Service.DAL
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
         }
-        public int AddCustInfo(Customer customer, string Email, out int custId, string signupUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null)
+        public int AddCustInfo(Customer customer, string Email, out int custId, string signupUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
             custId = 0;
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
@@ -62,9 +62,25 @@ namespace MemberSite.Service.DAL
                     PhoneNo = null;
                     AreaCode = null;
                 }
+                var profileinfo = new Dictionary<string, string>();
+                if (!string.IsNullOrEmpty(RealName))
+                    profileinfo.Add("AccountName", RealName);
+                if(Birth_d != 0 && Birth_m != 0 && Birth_y != 0)
+                {
+                    profileinfo.Add("Birth_d", Birth_d.ToString());
+                    profileinfo.Add("Birth_m", Birth_m.ToString());
+                    profileinfo.Add("Birth_y", Birth_y.ToString());
 
-                string profile = string.IsNullOrEmpty(RealName) ? null : Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string>() { { "AccountName", RealName } });
+                }
+
+
+                string profile1 = string.IsNullOrEmpty(RealName) ? null : Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string>() { { "AccountName", RealName } });
+                string profile = profileinfo.Count <= 0 ? null : Newtonsoft.Json.JsonConvert.SerializeObject(profileinfo);
                 result = conn.Execute("Member_CustProfile_Ins", new { CustId = custId, customer.SiteId, Email = Email, Profile = (string)profile, PhoneNo = PhoneNo, AreaCode = AreaCode }, trans, commandType: CommandType.StoredProcedure);
+
+
+                if (!string.IsNullOrEmpty(RealName))
+                    SetCustBankInfo(custId, customer.SiteId, RealName, null);
             }
 
             if (result > 0 && !string.IsNullOrEmpty(signupUrl))

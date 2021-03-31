@@ -353,6 +353,9 @@ namespace MemberSite.Controllers.Api
             public string AreaCode { get; set; }
             public string RealName { get; set; }
             public string PromoCode { get; set; }
+            public int Birth_d { get; set; }
+            public int Birth_m { get; set; }
+            public int Birth_y { get; set; }
         }
 
         [HttpPost]
@@ -382,7 +385,7 @@ namespace MemberSite.Controllers.Api
 
             if (!phoneExists)
             {
-                result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode);
+                result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d, signupModel.Birth_m, signupModel.Birth_y);
             }
             else
             {
