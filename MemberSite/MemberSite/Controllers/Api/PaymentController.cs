@@ -248,6 +248,7 @@ namespace MemberSite.Controllers.Api
             }
 
             var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var rollover = paymentBLL.ReachedRollover(authData.CustId);
 
             if (!rollover.ReachedRollover)
@@ -258,14 +259,28 @@ namespace MemberSite.Controllers.Api
             }
 
             var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
-
-            if (custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0)
+            if (custInfo.CurrencyId == 96)//USDT
             {
-                return apiResult;
+                if (custBankInfo == null || custBankInfo.uSDTDetail == null || custBankInfo.uSDTDetail.Count() == 0)
+                {
+                    return apiResult;
+                }
+                else if (custBankInfo.uSDTDetail.Where(x => x.USDTAddress == withdrawalReqModel.AccountNo).Count() == 0)
+                {
+                    return apiResult;
+                }
+                withdrawalReqModel.sysId = 0;
             }
-            else if (custBankInfo.bankInfoDetail.Where(x => x.SysId == withdrawalReqModel.sysId && x.AccountNo == withdrawalReqModel.AccountNo).Count() == 0)
+            else
             {
-                return apiResult;
+                if (custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0)
+                {
+                    return apiResult;
+                }
+                else if (custBankInfo.bankInfoDetail.Where(x => x.SysId == withdrawalReqModel.sysId && x.AccountNo == withdrawalReqModel.AccountNo).Count() == 0)
+                {
+                    return apiResult;
+                }
             }
             int result = 99;
 
@@ -350,8 +365,6 @@ namespace MemberSite.Controllers.Api
                 {
                     _ = Task.Run(async () =>
                     {
-                        var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-
                         var apiResultIovation = await iovationBLL.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.blackbox, IovationType.withdrawal);
                         if (apiResultIovation.ErrorCode == 0)
                             iovationBLL.SetIovation(authData.CustId, apiResultIovation.Message, IovationType.withdrawal);
