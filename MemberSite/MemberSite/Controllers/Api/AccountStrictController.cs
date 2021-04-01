@@ -579,6 +579,7 @@ namespace MemberSite.Controllers.Api
                     custInfo.RegTime,
                     LastLogin = custInfo.LastLoginTime,
                     Country = custInfo.CountryCode,
+                    custInfo.AreaCode,
                     custInfo.PhoneNo,
                     PerCountry = _perCountry,
                     custInfo.CurrencyId,
