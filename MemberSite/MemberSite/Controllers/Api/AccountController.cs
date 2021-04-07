@@ -977,6 +977,45 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+
+        [HttpPost]
+        public ApiResult<int> GetWalletTransferStatus()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<int>();
+            int autoTransfer = 0;
+            if (walletBLL.GetWalletTransferStatus(authData.CustId, out autoTransfer) == 1)
+            {
+                apiResult.ErrorCode = 0;
+                apiResult.Data = autoTransfer;
+            }
+            else
+            {
+                apiResult.ErrorCode = 99;
+            }
+            return apiResult;
+        }
+
+        public class SetWalletTransferStatusReq
+        {
+            public int AutoTransfer { get; set; }
+        }
+        [HttpPost]
+        public ApiResult<int> SetWalletTransferStatus(SetWalletTransferStatusReq setWalletTransferStatusReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<int>();
+            int autoTransfer = 0;
+            if (walletBLL.SetWalletTransferStatus(authData.CustId, setWalletTransferStatusReq.AutoTransfer) == 1)
+            {
+                apiResult.ErrorCode = 0;
+            }
+            else
+            {
+                apiResult.ErrorCode = 99;
+            }
+            return apiResult;
+        }   
         //[HttpPost]
         //public ApiResult DelCustBankInfo(BankInfo bankInfo)
         //{
