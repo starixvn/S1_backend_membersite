@@ -51,7 +51,7 @@ namespace MemberSite.Controllers
         public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
-            bool isNewVersion = false;
+            bool isNewVersion = true;
             if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();
