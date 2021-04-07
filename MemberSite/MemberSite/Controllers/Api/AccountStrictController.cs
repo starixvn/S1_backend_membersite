@@ -199,8 +199,14 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             //
-           // var custUSDTInfoList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custUSDTInfoBatchreq.USDTInfo);
+            // var custUSDTInfoList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custUSDTInfoBatchreq.USDTInfo);
+            if (custUSDTInfoBatchreq.USDTInfo.GroupBy(i => i.USDTAddress).Where(g => g.Count() > 1).Any())
+            {
+                apiResult.ErrorCode = -4; //輸入資料重複
+                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                return apiResult;
 
+            }
             var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
             if (custBankInfo == null && string.IsNullOrEmpty(custUSDTInfoBatchreq.AccountName))
             {
@@ -216,13 +222,7 @@ namespace MemberSite.Controllers.Api
             }
             else if (custBankInfo != null && custBankInfo.uSDTDetail != null)
             {
-                if (custUSDTInfoBatchreq.USDTInfo.GroupBy(i => i.USDTAddress).Where(g => g.Count() > 1).Any())
-                {
-                    apiResult.ErrorCode = -4;
-                    apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
-                    return apiResult;
-
-                }
+               
                 uSDTInfoList = custBankInfo.uSDTDetail.ToList();
                 foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
                 {
