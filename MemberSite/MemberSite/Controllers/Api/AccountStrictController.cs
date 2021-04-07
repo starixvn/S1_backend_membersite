@@ -180,7 +180,7 @@ namespace MemberSite.Controllers.Api
         public class CustUSDTInfoBatchreq
         {
             public string AccountName { set; get; }
-            public string USDTInfo { set; get; }
+            public IEnumerable<USDTDetail> USDTInfo { set; get; }
         }
 
         [HttpPost]
@@ -199,7 +199,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             //
-            var custUSDTInfoList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custUSDTInfoBatchreq.USDTInfo);
+           // var custUSDTInfoList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custUSDTInfoBatchreq.USDTInfo);
 
             var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
             if (custBankInfo == null && string.IsNullOrEmpty(custUSDTInfoBatchreq.AccountName))
@@ -208,7 +208,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
                 return apiResult;
             }
-            else if (custBankInfo != null && custBankInfo.BankInfo != null && (custBankInfo.uSDTDetail?.Count() >= 3 || (custBankInfo.uSDTDetail?.Count()+ custUSDTInfoList?.Count()>3)))
+            else if (custBankInfo != null && custBankInfo.BankInfo != null && (custBankInfo.uSDTDetail?.Count() >= 3 || (custBankInfo.uSDTDetail?.Count()+ custUSDTInfoBatchreq.USDTInfo?.Count()>3)))
             {
                 apiResult.ErrorCode = -3;
                 apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
@@ -216,7 +216,7 @@ namespace MemberSite.Controllers.Api
             }
             else if (custBankInfo != null && custBankInfo.uSDTDetail != null)
             {
-                if (custUSDTInfoList.GroupBy(i => i.USDTAddress).Where(g => g.Count() > 1).Any())
+                if (custUSDTInfoBatchreq.USDTInfo.GroupBy(i => i.USDTAddress).Where(g => g.Count() > 1).Any())
                 {
                     apiResult.ErrorCode = -4;
                     apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
@@ -224,7 +224,7 @@ namespace MemberSite.Controllers.Api
 
                 }
                 uSDTInfoList = custBankInfo.uSDTDetail.ToList();
-                foreach (var custUSDTInfo in custUSDTInfoList)
+                foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
                 {
                     if (uSDTInfoList.Where(x => x.USDTAddress == custUSDTInfo.USDTAddress).Count() > 0)
                     {
@@ -238,7 +238,7 @@ namespace MemberSite.Controllers.Api
             {
                 uSDTInfoList = new List<USDTDetail>();
             }
-            foreach (var custUSDTInfo in custUSDTInfoList)
+            foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
             {
                 uSDTInfoList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress});
             }
