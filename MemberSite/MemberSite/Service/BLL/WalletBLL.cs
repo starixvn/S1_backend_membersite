@@ -38,5 +38,14 @@ namespace MemberSite.Service.BLL
             var serverInfo = serverInfoBLL.GetServerInfo();
             return walletService.GetWalletInfo(custId, serverInfo.SiteId);
         }
+        public int GetWalletTransferStatus(int custId, out int autoTransfer)
+        {
+            return walletService.GetWalletTransferStatus(custId, out autoTransfer);
+        }
+        public int SetWalletTransferStatus(int custId, int autoTransfer)
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            return walletService.SetWalletTransferStatus(custId, autoTransfer);
+        }
     }
 }
