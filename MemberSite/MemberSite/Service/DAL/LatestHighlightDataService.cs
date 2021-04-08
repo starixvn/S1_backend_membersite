@@ -16,7 +16,7 @@ namespace MemberSite.Service.DAL
         }
         public LatestHighlightData GetLatestHighlightData(int SiteId, string LangId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<LatestHighlightData>("Member_LatestHighlightVideo_Get", new { SiteId, LangId }, commandType: CommandType.StoredProcedure);
         }
     }
