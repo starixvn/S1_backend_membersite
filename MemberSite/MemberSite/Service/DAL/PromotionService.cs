@@ -39,17 +39,17 @@ namespace MemberSite.Service.DAL
         }
         public IEnumerable<Promotion> GetPromotionList(int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<Promotion>("Member_PromotionList_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<Promotion> GetPromotionListByCustId(int siteId, int custId, int currencyId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<Promotion>("Member_PromotionListByCustId_Get", new { SiteId = siteId, CustId = custId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
         public Promotion GetPromotion(int siteId, string bonusCode, int currencyId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<Promotion>("Member_Promotion_Get", new { SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
         public int SetClaimPromotion(int custId, string userName, int siteId, string bonusCode, int currencyId, out decimal bonusAmount, ref decimal lockedAmount, out decimal rollOver, out long expiryTime, out Promotion promotion)
@@ -297,7 +297,7 @@ namespace MemberSite.Service.DAL
         }
         public bool GetCanJoin(int custId, int siteId, string bonusCode, int currencyId, out int result, out string depositId, out decimal dpositAmount)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
             p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
             p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
@@ -315,7 +315,7 @@ namespace MemberSite.Service.DAL
 
         public List<CustPromotion> GetPromotionListv2(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             conn.Open();
             using var trans = conn.BeginTransaction();
 
@@ -433,7 +433,7 @@ namespace MemberSite.Service.DAL
 
         public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             conn.Open();
             using var trans = conn.BeginTransaction();
 
@@ -546,7 +546,7 @@ namespace MemberSite.Service.DAL
         }
         public List<CustPromotion> GetSpecialPromotionList(int SiteId, int CustId, int CurrencyId, string langId, string defLang)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             conn.Open();
             using var trans = conn.BeginTransaction();
 

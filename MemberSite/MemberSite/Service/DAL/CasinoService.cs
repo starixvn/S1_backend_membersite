@@ -20,7 +20,7 @@ namespace MemberSite.Service.DAL
 
         public FavoriteGames GetFavoriteGames(int CustId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<FavoriteGames>("Member_Favorite_Get", new { CustId }, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
 
@@ -32,12 +32,12 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<int> GetProviderIdByCurrency(int CurrencyId, int SiteId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<int>("Member_TpList_GetByCurrency", new { CurrencyId, SiteId}, commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<GameCasionByCurrencyAndSite> GetGameCasinoByCurrencyAndSite(int CurrencyId, int SiteId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<GameCasionByCurrencyAndSite>("Member_GameCasino_Get", new { CurrencyId, SiteId }, commandType: CommandType.StoredProcedure);
         }
     }

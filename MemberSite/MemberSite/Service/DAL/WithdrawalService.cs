@@ -75,12 +75,12 @@ namespace MemberSite.Service.DAL
         }
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoRecent(int custId, int siteId, int topNum)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<WithdrawalHistory>("WithdrawalInfoRecent_Get", new { CustId = custId, SiteId = siteId, TopNum = topNum }, commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoHistory(int custId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { CustId = custId, StartDate = startDate, EndDate = endDate, SiteId = siteId, PageSize = pageSize });
             p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -167,18 +167,18 @@ namespace MemberSite.Service.DAL
 
         public WithdrawalLimitInfo GetCustWithdrawalLimitInfo(int custId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<WithdrawalLimitInfo>("Member_CustWithdrawalLimit_Get", new { custId }, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
 
         public IEnumerable<WithdrawalKyc> GetWithdrawalKycList(int sitId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<WithdrawalKyc>("Member_WithdrawalKyc_Get", new { SitId = sitId }, commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<WithdrawalLimitInfo1> GetWithdrawalLimitInfoList()
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<WithdrawalLimitInfo1>("Member_WithdrawalLimitInfo_Get", commandType: CommandType.StoredProcedure);
         }
     }

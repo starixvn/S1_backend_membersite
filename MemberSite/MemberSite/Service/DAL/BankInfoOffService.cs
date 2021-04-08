@@ -20,7 +20,7 @@ namespace MemberSite.Service.DAL
         }
         public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<BankInfoOff>("BankAccountOff_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
     }
