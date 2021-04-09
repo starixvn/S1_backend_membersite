@@ -21,7 +21,7 @@ namespace MemberSite.Service.BLL
         {
             var liveStreaming = new List<LiveStreamingData>();
 
-            string key = $"LiveStreamingList_{SiteId}_{LangId}";
+            string key = $"LiveStreamingList_{SiteId}";
             IEnumerable<LiveStreaming> liveStreaminglist = cache.Get<IEnumerable<LiveStreaming>>(key);
             if (liveStreaminglist == null)
             {
