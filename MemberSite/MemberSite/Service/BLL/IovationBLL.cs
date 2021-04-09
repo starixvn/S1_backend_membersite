@@ -16,17 +16,19 @@ namespace MemberSite.Service.BLL
         private readonly IConfiguration configuration;
         private readonly CourierAdapter courierAdapter;
         private readonly ServerInfoBLL serverInfoBLL;
+        private readonly CustInfoBLL custInfoBLL;
         private readonly Tools tools;
         private readonly Dictionary<int, string> iovationType;
         private readonly Dictionary<int, string> perCountry;
         private readonly Dictionary<int, string> perCurrency;
 
-        public IovationBLL(IConfiguration configuration, IovationService iovationService, CourierAdapter courierAdapter, Tools tools, ServerInfoBLL serverInfoBLL)
+        public IovationBLL(IConfiguration configuration, IovationService iovationService, CourierAdapter courierAdapter, Tools tools, ServerInfoBLL serverInfoBLL, CustInfoBLL custInfoBLL)
         {
             this.iovationService = iovationService;
             this.configuration = configuration;
             this.courierAdapter = courierAdapter;
             this.serverInfoBLL = serverInfoBLL;
+            this.custInfoBLL = custInfoBLL;
             this.tools = tools;
             iovationType = new Dictionary<int, string>()
             {
@@ -35,11 +37,11 @@ namespace MemberSite.Service.BLL
             };
             perCountry = new Dictionary<int, string>()
             {
-              {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" }
+              {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{96,"MY" }
             };
             perCurrency = new Dictionary<int, string>()
             {
-              {2,"MYR" },{4,"THB" },{13,"RMB" },{15,"IDR" },{51,"VND" }
+              {2,"MYR" },{4,"THB" },{13,"RMB" },{15,"IDR" },{51,"VND" },{96,"USDT" }
             };
         }
         public void SetIovation(int custId, string iovation, IovationType type)
@@ -59,8 +61,18 @@ namespace MemberSite.Service.BLL
 
             string commonServiceUrl = configuration.GetValue<string>("CommonService");
             string apiUrl = $"{commonServiceUrl}Iovation/IovationChecks";
-            string CountryName, Currencyname;
-            perCountry.TryGetValue((int)CurrencyId, out CountryName);
+            string CountryName = "", Currencyname = "";
+            if (CurrencyId == 96)
+            {
+                var custInfo = custInfoBLL.GetCustInfoProfileWithCache(CustId);
+                if (custInfo != null)
+                    CountryName = custInfoBLL.GetCountryNameByAreaCode(custInfo.AreaCode);
+            }
+            else
+            {
+                perCountry.TryGetValue((int)CurrencyId, out CountryName);
+            }
+            
             perCurrency.TryGetValue((int)CurrencyId, out Currencyname);
             Dictionary<string, string> transactionInsight = new Dictionary<string, string>();
             transactionInsight.Add("onlineId", UserName);

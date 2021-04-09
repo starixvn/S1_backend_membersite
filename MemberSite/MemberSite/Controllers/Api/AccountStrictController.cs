@@ -561,11 +561,18 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                var custInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
+                var custInfo = custInfoBLL.GetCustInfoProfileWithCache(authData.CustId);
                 string _perCountry = "";
                 if (custInfo != null)
                 {
-                    PerCountry.TryGetValue(custInfo.CurrencyId, out _perCountry);
+                    if (custInfo.CurrencyId == 96)
+                    {
+                        _perCountry = custInfoBLL.GetCountryNameByAreaCode(custInfo.AreaCode);
+                    }
+                    else
+                    {
+                        PerCountry.TryGetValue(custInfo.CurrencyId, out _perCountry);
+                    }
                 }
 
                 apiResult.Data = new
