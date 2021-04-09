@@ -561,7 +561,7 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                var custInfo = custInfoBLL.GetCustInfoProfileWithCache(authData.CustId);
+                var custInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
                 string _perCountry = "";
                 if (custInfo != null)
                 {
