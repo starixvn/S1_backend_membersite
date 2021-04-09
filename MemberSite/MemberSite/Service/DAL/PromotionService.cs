@@ -69,7 +69,7 @@ namespace MemberSite.Service.DAL
                 return 0;
             }
             
-            if (promotion.PromotionType == PromotionType.Freebet)
+            if (promotion.PromotionType == PromotionType.FreeBet)
             {
                 var p1 = new DynamicParameters(new { BonusCode = bonusCode, SiteId = siteId, IP = tools.GetClientIP() });
                 p1.Add("IsBlocked", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -150,7 +150,7 @@ namespace MemberSite.Service.DAL
                         break;
                     }
                         
-                    case PromotionType.Freebet:
+                    case PromotionType.FreeBet:
                         dBonus = promotion.Bonus;
                         dRollOver = dBonus * promotion.RollOver;
                         sBonusInfo = JsonConvert.SerializeObject(promotion, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
