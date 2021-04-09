@@ -4,7 +4,7 @@ namespace MemberSite.Service.Model
 {
     public class LiveStreaming
     {
-        public int MatchID { get; set; }
+        public string MatchID { get; set; }
         public int Channel { get; set; }
         public DateTime TimeStart { get; set; }
         public DateTime TimeStop { get; set; }
@@ -29,7 +29,7 @@ namespace MemberSite.Service.Model
 
     public class LiveStreamingData
     {
-        public int MatchID { get; set; }
+        public string MatchID { get; set; }
         public int Channel { get; set; }
         public DateTime TimeStart { get; set; }
         public DateTime TimeStop { get; set; }
