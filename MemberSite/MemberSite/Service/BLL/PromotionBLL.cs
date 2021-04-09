@@ -91,16 +91,16 @@ namespace MemberSite.Service.BLL
         public async Task<ApiResult> SetClaimPromotionAsync(int custId, string bonusCode, decimal? dLockedAmount)
         {
             var apiResult1 = new ApiResult();
-            decimal lockedAmount = dLockedAmount ?? 0;
+            var lockedAmount = dLockedAmount ?? 0;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var result = promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out decimal bonusAmount, ref lockedAmount, out decimal rollOver, out long expiryTime, out Promotion promotion);
+            var result = promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out var bonusAmount, ref lockedAmount, out var rollOver, out var expiryTime, out var promotion);
 
             if (result > 0)
             {
                 if (promotion?.TpId > 0)
                 {
                     var myUrl = $"{apiUrl}BonusTransfer";
-                    ApiResult<TransferResult> apiResult = new ApiResult<TransferResult>();
+                    var apiResult = new ApiResult<TransferResult>();
                     var tpBonusTransfer = new TpBonusTransfer
                     {
                         TpId = promotion.TpId,

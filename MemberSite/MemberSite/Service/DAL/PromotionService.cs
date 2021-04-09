@@ -57,63 +57,63 @@ namespace MemberSite.Service.DAL
             bonusAmount = 0;
             rollOver = 0;
             expiryTime = 0;
-            bool bHasBonusWallet = true;/*Never roll back*/
 
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Open();
             using var trans = conn.BeginTransaction();
 
-            promotion = conn.QueryFirstOrDefault<Promotion>("Member_Promotion_Get", new { SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId }, transaction: trans, commandType: CommandType.StoredProcedure);
-            if (promotion != null)
+            promotion = conn.QueryFirstOrDefault<Promotion>("Member_Promotion_Get", new { SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId }, trans, commandType: CommandType.StoredProcedure);
+
+            if (promotion == null)
             {
-                if (promotion.PromotionType == PromotionType.Freebet)
+                return 0;
+            }
+            
+            if (promotion.PromotionType == PromotionType.Freebet)
+            {
+                var p1 = new DynamicParameters(new { BonusCode = bonusCode, SiteId = siteId, IP = tools.GetClientIP() });
+                p1.Add("IsBlocked", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                using var connBlockFreeBet = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+                connBlockFreeBet.Execute("Service_BlockFreeBet_Get", p1, commandType: CommandType.StoredProcedure);
+                if (p1.Get<int>("IsBlocked") == 1)
                 {
-                    var p1 = new DynamicParameters(new { BonusCode = bonusCode, SiteId = siteId, IP = tools.GetClientIP() });
-                    p1.Add("IsBlocked", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                    using var connBlockFreeBet = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-                    connBlockFreeBet.Execute("Service_BlockFreeBet_Get", p1, commandType: CommandType.StoredProcedure);
-                    if (p1.Get<int>("IsBlocked") == 1)
+                    return -3;
+                }
+            }
+
+            var result = 0;
+            var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
+            p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+            p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+            p.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
+            p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
+            conn.Execute("Member_PromotionCanJoinV4_Get", p, commandType: CommandType.StoredProcedure);
+
+            var jResult = p.Get<int>("Result");
+            var canJoin = p.Get<byte?>("CanJoin") ?? 0;
+            var amount = p.Get<decimal?>("Amount") ?? 0;
+            if (canJoin == 1)
+            {
+                decimal dBonus = 0;
+                if (promotion.PromotionType == PromotionType.ReDeposit || (promotion.IsSpecial && promotion.PromotionType == PromotionType.FstDeposit))
+                {
+                    amount = promotion.BonusType == BonusType.Amount ? promotion.RequiredAmount : lockedAmount;
+
+                    if (amount <= 0)
                     {
-                        return -3;
+                        return 0;
                     }
                 }
 
-                int result = 0;
-                var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
-                p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
-                p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-                p.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
-                p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                p.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                conn.Execute("Member_PromotionCanJoinV4_Get", p, commandType: CommandType.StoredProcedure);
+                var dLockedAmount = amount;
+                decimal dRollOver = 0;
+                var sBonusInfo = "";
 
-                var jResult = p.Get<int>("Result");
-                var canJoin = p.Get<byte?>("CanJoin") ?? 0;
-                var amount = p.Get<decimal?>("Amount") ?? 0;
-                if (canJoin == 1)
+                switch (promotion.PromotionType)
                 {
-                    decimal dBonus = 0;
-                    if (promotion.PromotionType == PromotionType.ReDeposit || (promotion.IsSpecial && promotion.PromotionType == PromotionType.FstDeposit))
-                    {
-                        amount = promotion.BonusType == BonusType.Amount ? promotion.RequiredAmount : lockedAmount;
-                        //decimal dWalletAmount = walletService.GetBalance(custId);
-
-                        //if (dWalletAmount < amount)
-                        //{
-                        //    amount = dWalletAmount;
-                        //}
-
-                        if (amount <= 0)
-                        {
-                            return 0;
-                        }
-                    }
-
-                    decimal dLockedAmount = amount;
-                    decimal dRollOver = 0;
-                    string sBonusInfo = "";
-
-                    if (promotion.PromotionType == PromotionType.FstDeposit || promotion.PromotionType == PromotionType.ReDeposit)
+                    case PromotionType.FstDeposit:
+                    case PromotionType.ReDeposit:
                     {
                         if (amount < promotion.RequiredAmount)
                         {
@@ -141,32 +141,32 @@ namespace MemberSite.Service.DAL
                         }
 
                         dRollOver = ((dLockedAmount + dBonus) * promotion.RollOver);
-                        sBonusInfo = JsonConvert.SerializeObject(promotion, new Newtonsoft.Json.JsonSerializerSettings { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore });
+                        sBonusInfo = JsonConvert.SerializeObject(promotion, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
                         bonusAmount = dBonus;
                         lockedAmount = dLockedAmount;
                         rollOver = dRollOver;
                         expiryTime = DateTimeOffset.Now.AddDays(promotion.ExpiryDays).ToUnixTimeSeconds();
+                        break;
                     }
-                    else if (promotion.PromotionType == PromotionType.Freebet)
-                    {
+                        
+                    case PromotionType.Freebet:
                         dBonus = promotion.Bonus;
                         dRollOver = dBonus * promotion.RollOver;
-                        sBonusInfo = JsonConvert.SerializeObject(promotion, new Newtonsoft.Json.JsonSerializerSettings { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore });
+                        sBonusInfo = JsonConvert.SerializeObject(promotion, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
                         bonusAmount = dBonus;
                         lockedAmount = 0;
                         rollOver = dRollOver;
                         expiryTime = DateTimeOffset.Now.AddDays(promotion.ExpiryDays).ToUnixTimeSeconds();
-                        conn.Execute("Service_BlockFreeBet_Ins", new { BonusCode = bonusCode, SiteId = siteId, IP = tools.GetClientIP() }, transaction: trans, commandType: CommandType.StoredProcedure);
-                    }
-                    else if (promotion.PromotionType == PromotionType.WalletBonus)
+                        conn.Execute("Service_BlockFreeBet_Ins", new { BonusCode = bonusCode, SiteId = siteId, IP = tools.GetClientIP() }, trans, commandType: CommandType.StoredProcedure);
+                        break;
+                        
+                    case PromotionType.WalletBonus when promotion.RequiredAmount == 0:
+                        throw new Exception("Required Amount can't be 0");
+                        
+                    case PromotionType.WalletBonus:
                     {
-                        if (promotion.RequiredAmount == 0)
-                        {
-                            throw new Exception("Required Amount can't be 0");
-                        }
-
                         amount = walletService.GetBalance(custId);
 
                         if (amount < promotion.RequiredAmount)
@@ -193,107 +193,83 @@ namespace MemberSite.Service.DAL
                         bonusAmount = dBonus;
                         lockedAmount = dLockedAmount;
                         dRollOver = ((dLockedAmount + dBonus) * promotion.RollOver);
-                        sBonusInfo = JsonConvert.SerializeObject(promotion, new Newtonsoft.Json.JsonSerializerSettings { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore });
+                        sBonusInfo = JsonConvert.SerializeObject(promotion, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
                         rollOver = dRollOver;
                         expiryTime = DateTimeOffset.Now.AddDays(promotion.ExpiryDays).ToUnixTimeSeconds();
+                        break;
                     }
-                    else if (promotion.PromotionType == PromotionType.Rebate || promotion.PromotionType == PromotionType.Cashback)
-                    {
+                        
+                    case PromotionType.Rebate:
+                        break;
+                        
+                    case PromotionType.Cashback:
+                        break;
 
-                    }
-                    else
-                    {
+                    default:
                         return 0;
-                    }
-
-                    string transId = "";
-                    if (promotion.PromotionType != PromotionType.Rebate && promotion.PromotionType != PromotionType.Cashback)
-                    {
-                        p = new DynamicParameters(new { PromotionType = (int)promotion.PromotionType, BonusCode = bonusCode, CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, BonusInfo = sBonusInfo, LockedAmount = dLockedAmount, BonusAmount = dBonus, ExpiryDays = promotion.ExpiryDays, Memo = (string)null, Prefix = $"B{common.GetEnv()}" });
-                        p.Add("TransId", dbType: DbType.String, direction: ParameterDirection.Output);
-                        result = conn.Execute("Member_BonusInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
-                        transId = p.Get<string>("TransId");
-                    }
-
-                    if (bHasBonusWallet)
-                    {
-                        if (promotion.PromotionType == PromotionType.Rebate || promotion.PromotionType == PromotionType.Cashback)
-                        {
-                            result = bonusWalletService.RewardRebate(promotion.BonusCode, (int)promotion.PromotionType - 5, custId, userName, siteId, currencyId, conn, trans) ? 1 : 0;
-                        }
-                        else
-                        {
-                            if (result > 0 && dLockedAmount > 0)
-                            {
-                                byte is1stDepoist = 0;
-                                decimal afterAmount = 0;
-                                int type = 5/*Bonus*/;
-                                result = walletService.SetBalance(custId, siteId, userName, dLockedAmount * -1, type, $"Claim Promotion BonusCode: {bonusCode}, Locked Amount: {dLockedAmount.ToString("#,##0.##")}", transId, out afterAmount, out is1stDepoist, conn, trans);
-
-                                if (result > 0)
-                                {
-                                    withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, dLockedAmount * -1, null, transId, out decimal afterWithdrawalLimit, conn, trans);
-                                }
-                                else
-                                {
-                                    return -2;
-                                }
-                            }
-
-                            if (result > 0)
-                            {
-                                int bonusId = 0;
-
-                                Match m = Regex.Match(transId, @"\d+");
-                                int.TryParse(m.Value, out bonusId);
-
-                                result = bonusWalletService.RewardBonus(bonusId, promotion.CategoryId, promotion.TpId, custId, siteId, userName, dBonus, dLockedAmount, dRollOver, expiryTime, 5, $"Claim Promotion BonusCode: {bonusCode}", transId, conn, trans) ? 1 : 0;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (result > 0)
-                        {
-                            byte is1stDepoist = 0;
-                            decimal afterAmount = 0;
-                            int type = 5/*Bonus*/;
-                            result = walletService.SetBalance(custId, siteId, userName, dBonus, type, $"Claim Promotion BonusCode: {bonusCode}", transId, out afterAmount, out is1stDepoist, conn, trans);
-                        }
-
-                        if (result > 0)
-                        {
-                            decimal afterRollOver = 0;
-                            result = rollOverService.SetRollOver(custId, siteId, userName, bonusCode, dRollOver, $"Bonus RollOver: {dRollOver}", transId, out afterRollOver, conn, trans);
-                        }
-                    }
-
-                    if (result > 0)
-                    {
-                        result = conn.Execute("Member_PromotionBeenUsed_Set", new { BonusCode = bonusCode, CurrencyId = currencyId, SiteId = siteId }, transaction: trans, commandType: CommandType.StoredProcedure);
-                    }
-
-                    if (result > 0)
-                    {
-                        trans.Commit();
-                    }
-
-                    return result;
                 }
-                else if (jResult == 3)
+
+                var transId = "";
+                if (promotion.PromotionType != PromotionType.Rebate && promotion.PromotionType != PromotionType.Cashback)
                 {
-                    return -5;
+                    p = new DynamicParameters(new { PromotionType = (int)promotion.PromotionType, BonusCode = bonusCode, CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, BonusInfo = sBonusInfo, LockedAmount = dLockedAmount, BonusAmount = dBonus,
+                        promotion.ExpiryDays, Memo = (string)null, Prefix = $"B{common.GetEnv()}" });
+                    p.Add("TransId", dbType: DbType.String, direction: ParameterDirection.Output);
+                    result = conn.Execute("Member_BonusInfo_Ins", p, trans, commandType: CommandType.StoredProcedure);
+                    transId = p.Get<string>("TransId");
+                }
+
+                if (promotion.PromotionType == PromotionType.Rebate || promotion.PromotionType == PromotionType.Cashback)
+                {
+                    result = bonusWalletService.RewardRebate(promotion.BonusCode, (int)promotion.PromotionType - 5, custId, userName, siteId, currencyId, conn, trans) ? 1 : 0;
                 }
                 else
                 {
-                    return 0;
+                    if (result > 0 && dLockedAmount > 0)
+                    {
+                        var type = 5/*Bonus*/;
+                        result = walletService.SetBalance(custId, siteId, userName, dLockedAmount * -1, type, $"Claim Promotion BonusCode: {bonusCode}, Locked Amount: {dLockedAmount:#,##0.##}", transId, out _, out _, conn, trans);
+
+                        if (result > 0)
+                        {
+                            withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, dLockedAmount * -1, null, transId, out _, conn, trans);
+                        }
+                        else
+                        {
+                            return -2;
+                        }
+                    }
+
+                    if (result > 0)
+                    {
+                        var m = Regex.Match(transId, @"\d+");
+                        int.TryParse(m.Value, out var bonusId);
+
+                        result = bonusWalletService.RewardBonus(bonusId, promotion.CategoryId, promotion.TpId, custId, siteId, userName, dBonus, dLockedAmount, dRollOver, expiryTime, 5, $"Claim Promotion BonusCode: {bonusCode}", transId, conn, trans) ? 1 : 0;
+                    }
                 }
+
+                if (result > 0)
+                {
+                    result = conn.Execute("Member_PromotionBeenUsed_Set", new {SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId}, transaction: trans, commandType: CommandType.StoredProcedure);
+                }
+
+                if (result > 0)
+                {
+                    trans.Commit();
+                }
+
+                return result;
             }
-            else
+
+            if (jResult == 3)
             {
-                return 0;
+                return -5;
             }
+
+            return 0;
+
         }
         public bool GetCanJoin(int custId, int siteId, string bonusCode, int currencyId, out int result, out string depositId, out decimal dpositAmount)
         {
