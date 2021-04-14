@@ -92,6 +92,7 @@ namespace MemberSite.Service.Model
         public decimal DepositAmount { get; set; }
         public decimal MaxAmount { get; set; }
         public IEnumerable<Ref> RefList { get; set; }
+        public string PromotionLink { get; set; }
     }
 
     public class Ref
