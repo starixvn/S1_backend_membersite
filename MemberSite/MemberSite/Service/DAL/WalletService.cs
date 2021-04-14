@@ -48,5 +48,23 @@ namespace MemberSite.Service.DAL
 
             return walletInfo;
         }
+        public int GetWalletTransferStatus(int custId, out int autoTransfer)
+        {
+            autoTransfer = 0;
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            conn.Open();
+            var p = new DynamicParameters(new { CustId = custId});
+            p.Add("AutoTransfer", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            var result = conn.Execute("Member_CustWalletTransferStatus_Get", p, commandType: CommandType.StoredProcedure);
+            autoTransfer = p.Get<int?>("AutoTransfer") ?? 0;
+            return result >= 0 ? 1 : 0;
+
+        }
+        public int SetWalletTransferStatus(int custId, int autoTransfer)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            conn.Open();
+            return conn.Execute("Member_CustWalletTransferStatus_Set", new { CustId = custId , AutoTransfer = autoTransfer }, commandType: CommandType.StoredProcedure) > 0 ? 1 : 0;
+        }
     }
 }

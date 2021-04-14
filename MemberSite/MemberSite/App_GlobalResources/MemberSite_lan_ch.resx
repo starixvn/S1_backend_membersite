@@ -1703,4 +1703,7 @@
   <data name="lbl_Wallet_Kiss918" xml:space="preserve">
     <value>918Kiss</value>
   </data>
+  <data name="lbl_TpWallet_27" xml:space="preserve">
+    <value>PT錢包</value>
+  </data>
 </root>

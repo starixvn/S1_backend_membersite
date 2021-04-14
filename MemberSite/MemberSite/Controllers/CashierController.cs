@@ -26,6 +26,7 @@ namespace MemberSite.Controllers
         private readonly TemplateBLL templateBLL;
         private readonly CryptoPayInfoBLL cryptoPayInfoBLL;
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
+        private bool isNewVersion = true;
 
         public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, ServerInfoBLL serverInfoBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL, CustInfoBLL custInfoBLL, TemplateBLL templateBLL, CryptoPayInfoBLL cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL)
         {
@@ -108,13 +109,16 @@ namespace MemberSite.Controllers
             }
             else
             {
-                //apiResult.ErrorCode = result;
-                //apiResult.Message = "Error.";
+                apiResult.ErrorCode = result;
+                apiResult.Message = "Error.";
                 model.Message = "DepositReqOnlineBanking Error";
             }
 
-            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
-            //return View(apiResult);
+            if (isNewVersion)
+                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+            else
+                return View(apiResult);
+            
         }
         public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount)
         {
@@ -156,13 +160,15 @@ namespace MemberSite.Controllers
             }
             else
             {
-                //apiResult.ErrorCode = result;
-                //apiResult.Message = "Error.";
+                apiResult.ErrorCode = result;
+                apiResult.Message = "Error.";
                 model.Message = "DepositReqMobilePay Error";
             }
 
-            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
-            //return View(apiResult);
+            if (isNewVersion)
+                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+            else
+                return View(apiResult);
         }
         public class ReqDepositCrypto : ReqDeposit
         {
@@ -208,13 +214,15 @@ namespace MemberSite.Controllers
             }
             else
             {
-                //apiResult.ErrorCode = result;
-                //apiResult.Message = "Error.";
+                apiResult.ErrorCode = result;
+                apiResult.Message = "Error.";
                 model.Message = "DepositReqCryptoPay Error";
             }
 
-            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
-            //return View(apiResult);
+            if (isNewVersion)
+                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+            else
+                return View(apiResult);
         }
 
         public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, decimal Amount)
@@ -257,13 +265,15 @@ namespace MemberSite.Controllers
             }
             else
             {
-                //apiResult.ErrorCode = result;
-                //apiResult.Message = "Error.";
+                apiResult.ErrorCode = result;
+                apiResult.Message = "Error.";
                 model.Message = "DepositReqLoadCardPay Error";
             }
 
-            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
-            //return View(apiResult);
+            if (isNewVersion)
+                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+            else
+                return View(apiResult);
         }
 
         [Route("[controller]/DepositReceip.jpg")]

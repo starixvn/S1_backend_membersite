@@ -488,7 +488,7 @@ body {
   font-family: Arial, sans-serif;
   font-weight: 400;
   line-height: 1.15;
-  color: #b2b2b2;
+  color: #7591C1;
   background-color: #03081b;
   overflow-x: hidden;
 }
@@ -1103,7 +1103,8 @@ button.btn .btn__inner > i{
   min-height: 36px;
   padding: 0;
   justify-content: center;
-  color: #fff;
+  /* color: #fff; */
+  color: #112240;
 }
 
 .btn-icon--sm {
@@ -1374,7 +1375,7 @@ button.btn .btn__inner > i{
 
 .dropdown__item > .text {
   white-space: nowrap;
-  color: #f7ecbe; /*原#b2b2b2*/
+  color: #f7ecbe; /*原#7591C1*/
 }
 
 .dropdown__item:first-of-type {
@@ -1563,7 +1564,8 @@ float: left;
   margin-right: auto;
   font-size: 1.125rem;
   font-weight: bold;
-  color: #F77A00;
+  color: #5574A7;
+  /* #F77A00 */
 }
 
 .heading::after {
@@ -1573,7 +1575,7 @@ float: left;
   left: 0;
   right: 0;
   height: 2px;
-  background-image: linear-gradient(to right, #f77a00, rgba(247, 122, 0, 0));
+  background-image: linear-gradient(to right, #5574A7, rgba(247, 122, 0, 0));
 }
 
 .form-group {
@@ -1905,7 +1907,7 @@ div.form--list .form-group .form-title {
 
 .Calculation .row > div:nth-child(1) {
   margin-right: 0;
-  color:#b2b2b2;
+  color:#7591C1;
 }
 
 [data-layout=desktop] .Calculation .row:nth-child(2) {
@@ -3089,7 +3091,7 @@ form + .table-rwd {
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: #b2b2b2;
+  color: #7591C1;
   background-color: #26416e;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
@@ -3185,7 +3187,7 @@ form + .table-rwd {
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(3, 8, 27, 0.9);
+  background-color: #7591c1cf;
 }
 
 .new-dot {
@@ -4028,7 +4030,7 @@ button.swiper-pagination-bullet {
 
 .message-list__header .tag a {
   background: #26416e;
-  color: #b2b2b2;/*8/6*/
+  color: #7591C1;/*8/6*/
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   min-width: 100px;
@@ -4171,7 +4173,7 @@ button.swiper-pagination-bullet {
 
 .announcement-list__header .tag a {
   background: #26416e;
-  color: #b2b2b2;/*8/6*/
+  color: #7591C1;/*8/6*/
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   min-width: 100px;
@@ -4289,7 +4291,7 @@ span.account-info__amount.Js-Balance{
   padding: .5rem 0 .25rem;
   border-bottom-width: 1px;
   border-bottom-color: #5574a7;
-  color:#fff;/*8/7新增*/
+  color:#fff;
 }
 
 .page-nav .account-info .account-info__row {
@@ -4315,7 +4317,7 @@ span.account-info__amount.Js-Balance{
   margin: 0 auto;
   width: 100%;
   height: 100%;
-  background-color: #03081b;
+  background-color:#F0F7FF;
 }
 
 .help-page__header {
@@ -4436,7 +4438,7 @@ span.account-info__amount.Js-Balance{
   height: 100%;
   max-width: 912px;
   line-height: 2;
-  /*background-color:#fff;8/6隱藏*/
+  margin-top: 20px;
 }
 
 .single-page {
@@ -4667,7 +4669,9 @@ span.account-info__amount.Js-Balance{
   display: flex;
   align-items: center;
   padding: .75rem;
-  background-color: #010020;
+  /* background-color: #010020; */
+  background-color: #fff;
+
 }
 
 .header__main::after {
@@ -4796,7 +4800,7 @@ span.account-info__amount.Js-Balance{
   display: block;
   width: calc(130px * 0.8);
   height: calc(58px * 0.8);
-  background-image: url("https://image.n88media.com/SiteSkin/img/logo.png");
+  background-image: url("https://image.n88media.com/SiteSkin/img/logo_en_w.png");
   background-size: cover;
   transition: ease .15s;
 }
@@ -5077,8 +5081,8 @@ span.account-info__amount.Js-Balance{
 
 .footer {
   flex: 0 0 auto;
-  color: #f7ecbe;/*8/7調整*/
-  background-color: #010715;/*8/7調整*/
+  color: #5574A7;
+  background-color: #D2E2F9;
 }
 
 .footer__nav {
@@ -5209,7 +5213,7 @@ span.account-info__amount.Js-Balance{
   max-width: 360px;
   flex-direction: column;
   color: white;
-  background-color: #112240;
+  background-color: #5574A7;
   transition: ease .3s;
   visibility: hidden;
   transform: translate3d(-100vw, 0, 0);
@@ -5424,7 +5428,8 @@ span.account-info__amount.Js-Balance{
   display: flex;
   flex-wrap: wrap;
   padding: .75rem 0;
-  color: #f7ecbe;
+  color: #fff;
+  margin-top: 30px;   /*20210407*/
 }
 
 [class*="side-nav__list"] + [class*="side-nav__list"] {
@@ -5510,7 +5515,7 @@ span.account-info__amount.Js-Balance{
 
 .side-nav__submenu {
   width: 100%;
-  background-color: #2f405c;
+  background-color: #7591C1;
   position: absolute;
   visibility: hidden;
   opacity: 0;
@@ -5524,7 +5529,9 @@ span.account-info__amount.Js-Balance{
 }
 
 .side-nav__subitem:hover {
-  background-color: #3c5175;
+  background: transparent linear-gradient(
+180deg
+, #F1D5B6 0%, #CDAE8E 100%) 0% 0% no-repeat padding-box;
 }
 
 .side-nav .dropdown.dropdown-secondary.dropdown--right.dropdown--balance.dropdown-rollover {
@@ -6010,7 +6017,7 @@ span.account-info__amount.Js-Balance{
 }
 
 .main p{
-  color:#b2b2b2;/*20200803 forget passsword*/
+  color:#7591C1;/*20200803 forget passsword*/
 }
 
 .main:not(.main--home) {
@@ -6053,7 +6060,7 @@ span.account-info__amount.Js-Balance{
   padding: 2rem 1rem;
   width: 100%;
   max-width: 1280px;
-  color:#b2b2b2; /*後加*/
+  color:#7591C1; /*後加*/
 }
 
 [data-layout=desktop] .main--home {
@@ -6612,7 +6619,7 @@ span.account-info__amount.Js-Balance{
   width: 100%;
   height: 100%;
   background-size: cover;
-  background-color: #03081b;
+  background-color: #F0F7FF;
 }
 
 .contact-us ul {
@@ -6740,6 +6747,7 @@ span.account-info__amount.Js-Balance{
   width: 100%;
   height: 100%;
   max-width: 912px;
+  margin-top: 20px;
 }
 
 .contact-us article {
@@ -6783,9 +6791,9 @@ span.account-info__amount.Js-Balance{
 }
 
 .contact-us article > ul > a > li div:nth-child(1) span {
-  background: #b2b2b2;
+  background: #7591C1;
   border-radius: 4.5rem;
-  color: #03081b;
+  color: #fff;
   width: 4.5rem;
   height: 4.5rem;
   display: flex;
@@ -6795,7 +6803,7 @@ span.account-info__amount.Js-Balance{
 
 .contact-us article > ul > a > li div:nth-child(2) {
   width: 60%;
-  color: #b2b2b2;
+  color: #7591C1;
 }
 
 .contact-us article > ul > a > li div:nth-child(2) p:nth-child(1) {
@@ -6898,7 +6906,7 @@ ul {
 }
 
 .promotionsList-page article div .txt-gray {
-  color: #b2b2b2; /*8/4原色 #999999*/
+  color: #7591C1; /*8/4原色 #999999*/
   font-size: 0.7rem;
   line-height: 1.5rem;
 }
@@ -7130,7 +7138,7 @@ ul {
 }
 
 .promotionsInfo-page article div .txt-gray {
-  color: #b2b2b2; /*8/4原#999999*/
+  color: #7591C1; /*8/4原#999999*/
   font-size: 0.7rem;
   line-height: 1.5rem;
 }

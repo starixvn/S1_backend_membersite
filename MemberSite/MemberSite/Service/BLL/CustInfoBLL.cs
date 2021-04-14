@@ -34,6 +34,15 @@ namespace MemberSite.Service.BLL
             {
                 {51,false },{15,false }
             };
+        private readonly Dictionary<string, string> AreacodeCountryList = new Dictionary<string, string>()
+            {
+                {"+60","MY" },
+                {"+66","TH" },
+                {"+86","CS" },
+                {"+62","ID" },
+                {"+84","VN" }
+            };
+
         public CustInfoBLL(IMemoryCache cache, IWebHostEnvironment environment, SelLangBLL selLangBLL, CodeGenerator codeGenerator, Tools tools, Common common, CustInfoService custInfoService, AuthenticateService authenticateService, ServerInfoBLL serverInfoBLL, RolloverService rollOverService, AgentInfoService agentInfoService, RegexUtilities regexUtilities, CommonBLL commonBLL)
         {
             this.tools = tools;
@@ -50,11 +59,17 @@ namespace MemberSite.Service.BLL
             this.rollOverService = rollOverService;
             this.commonBLL = commonBLL;
         }
+        public string GetCountryNameByAreaCode(string areaCode)
+        {
+            AreacodeCountryList.TryGetValue(areaCode, out var CountryName);
+            return CountryName;
+        }
         public bool IsConvertRequired(int CurrencyId)
         {
             return isConvert.ContainsKey(CurrencyId);
         }
-        public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang, string refId, string affId, string aff, string affCode, out int custId, string signupUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null)
+
+        public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang, string refId, string affId, string aff, string affCode, out int custId, string signupUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             if (string.IsNullOrEmpty(affId) && !serverInfo.ICurrencyList.Contains(CurrencyId))
@@ -118,7 +133,7 @@ namespace MemberSite.Service.BLL
                 regCustInfo.Aff = aff;
                 regCustInfo.AffCode = affCode;
                 /**/
-                var result = custInfoService.AddCustInfo(regCustInfo, Email, out custId, signupUrl, PhoneNo, AreaCode, RealName, promoCode);
+                var result = custInfoService.AddCustInfo(regCustInfo, Email, out custId, signupUrl, PhoneNo, AreaCode, RealName, promoCode, Birth_d, Birth_m, Birth_y);
                 if (result != 0)
                 {
                     return result;
@@ -381,7 +396,7 @@ namespace MemberSite.Service.BLL
                 //{
                 //    custBankInfo.bankInfoDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
                 //}
-                
+
             }
             return custBankInfo;
         }
@@ -437,6 +452,25 @@ namespace MemberSite.Service.BLL
             var customer = custInfoService.GetCustInfoProfile(custId, custInfo.SiteId);
             //customer.UserLevel = custInfoService.GetCustLevel(custId);
             return customer;
+        }
+        public CustInfoProfile GetCustInfoProfileWithCache(int custId)
+        {
+            string key = $"CustInfoProfile_{custId}";
+            var custInfoProfile = cache.Get<CustInfoProfile>(key);
+            if (custInfoProfile != null)
+            {
+                return custInfoProfile;
+            }
+
+            custInfoProfile = GetCustInfoProfile(custId);
+            if (custInfoProfile != null)
+            {
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
+                cache.Set(key, custInfoProfile, cacheEntryOptions);
+            }
+
+            return custInfoProfile;
         }
         public int SubmittedCustPhotoId(int custId)
         {

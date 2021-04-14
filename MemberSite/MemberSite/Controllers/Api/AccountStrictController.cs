@@ -177,7 +177,75 @@ namespace MemberSite.Controllers.Api
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
+        public class CustUSDTInfoBatchreq
+        {
+            public string AccountName { set; get; }
+            public IEnumerable<USDTDetail> USDTInfo { set; get; }
+        }
 
+        [HttpPost]
+        public ApiResult SetCustUSDTInfoBatch(CustUSDTInfoBatchreq custUSDTInfoBatchreq)
+        {
+            var apiResult = new ApiResult(selLangBLL);
+            var authData = authorizeBLL.GetAuthData();
+
+            List<USDTDetail> uSDTInfoList = null;
+
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            if (custInfo.CurrencyId != 96)
+            {
+                apiResult.ErrorCode = -6;
+                apiResult.Message = "Error Currency ";
+                return apiResult;
+            }
+            //
+            // var custUSDTInfoList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custUSDTInfoBatchreq.USDTInfo);
+            if (custUSDTInfoBatchreq.USDTInfo.GroupBy(i => i.USDTAddress).Where(g => g.Count() > 1).Any())
+            {
+                apiResult.ErrorCode = -4; //輸入資料重複
+                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                return apiResult;
+
+            }
+            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+            if (custBankInfo == null && string.IsNullOrEmpty(custUSDTInfoBatchreq.AccountName))
+            {
+                apiResult.ErrorCode = -2;
+                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                return apiResult;
+            }
+            else if (custBankInfo != null && custBankInfo.BankInfo != null && (custBankInfo.uSDTDetail?.Count() >= 3 || (custBankInfo.uSDTDetail?.Count()+ custUSDTInfoBatchreq.USDTInfo?.Count()>3)))
+            {
+                apiResult.ErrorCode = -3;
+                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                return apiResult;
+            }
+            else if (custBankInfo != null && custBankInfo.uSDTDetail != null)
+            {
+               
+                uSDTInfoList = custBankInfo.uSDTDetail.ToList();
+                foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
+                {
+                    if (uSDTInfoList.Where(x => x.USDTAddress == custUSDTInfo.USDTAddress).Count() > 0)
+                    {
+                        apiResult.ErrorCode = -4;
+                        apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                        return apiResult;
+                    }
+                }
+            }
+            else
+            {
+                uSDTInfoList = new List<USDTDetail>();
+            }
+            foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
+            {
+                uSDTInfoList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress});
+            }
+            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList);
+            apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+            return apiResult;
+        }
         [HttpPost]
         public ApiResult DelCustUSDTInfo(USDTDetailreq uSDTDetailreq)
         {
@@ -497,7 +565,14 @@ namespace MemberSite.Controllers.Api
                 string _perCountry = "";
                 if (custInfo != null)
                 {
-                    PerCountry.TryGetValue(custInfo.CurrencyId, out _perCountry);
+                    if (custInfo.CurrencyId == 96)
+                    {
+                        _perCountry = custInfoBLL.GetCountryNameByAreaCode(custInfo.AreaCode);
+                    }
+                    else
+                    {
+                        PerCountry.TryGetValue(custInfo.CurrencyId, out _perCountry);
+                    }
                 }
 
                 apiResult.Data = new
@@ -511,6 +586,7 @@ namespace MemberSite.Controllers.Api
                     custInfo.RegTime,
                     LastLogin = custInfo.LastLoginTime,
                     Country = custInfo.CountryCode,
+                    custInfo.AreaCode,
                     custInfo.PhoneNo,
                     PerCountry = _perCountry,
                     custInfo.CurrencyId,
