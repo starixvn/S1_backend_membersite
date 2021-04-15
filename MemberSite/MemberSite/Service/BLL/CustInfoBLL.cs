@@ -61,7 +61,9 @@ namespace MemberSite.Service.BLL
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
-            AreacodeCountryList.TryGetValue(areaCode, out var CountryName);
+            string CountryName = null;
+            if(areaCode != null)
+                AreacodeCountryList.TryGetValue(areaCode, out  CountryName);
             return CountryName;
         }
         public bool IsConvertRequired(int CurrencyId)
