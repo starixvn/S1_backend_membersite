@@ -1,22 +1,27 @@
-﻿using Dapper;
+﻿using System.Collections.Generic;
+using System.Data;
+using Dapper;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.DAL
 {
     public class BonusWalletService
     {
+        
         private readonly IConfiguration configuration;
+        private readonly MySqlClient _mainDbClient;
+        private readonly MySqlClient _reportDbClient;
         private int typePosition = 1000;
-        public BonusWalletService(IConfiguration configuration)
+
+        public BonusWalletService(IConfiguration configuration, ILogger<MySqlClient> logger)
         {
             this.configuration = configuration;
+            _mainDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionString"), logger);
+            _reportDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionStringReport"), logger);
         }
         public bool SetBonusTransferOutAll(int custId, int siteId, string userName, int tpId, string Memo, string RefTransId, out decimal Bonus, out decimal LockedAmount, out decimal BonusAmount, out long ExpiryTime, MySqlConnection conn, MySqlTransaction trans)
         {
@@ -56,6 +61,22 @@ namespace MemberSite.Service.DAL
             var p = new DynamicParameters(new { BonusCode = bonusCode, RebateType = rebateType, CustId = custId, UserName = userName, SiteId = siteId, CurrencyId = currencyId });
             return conn.Execute("Common_Rebate_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure) > 0;
         }
+
+        public bool RewardCashBack(CustCashBackInput custCashBackInput, MySqlTransaction trans)
+        {
+            var parameter = new DynamicParameters(new
+            {
+                custCashBackInput.CustId,
+                custCashBackInput.BonusCode,
+                custCashBackInput.CategoryId,
+                custCashBackInput.PromoCategoryId,
+                custCashBackInput.CalculateDate,
+                custCashBackInput.BonusAmount,
+                custCashBackInput.ClaimTime
+            });
+            return _mainDbClient.Execute("Service_CustCashBack_Set", parameter, trans);
+        }
+
         public IEnumerable<BonusWallet> GetCustBonusWallet(int CustId)
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));

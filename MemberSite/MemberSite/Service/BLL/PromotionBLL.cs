@@ -176,10 +176,11 @@ namespace MemberSite.Service.BLL
             {
                 apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible");
 
-                if (custInfo.SiteId == 2 || custInfo.SiteId == 3)
+                if (custInfo.SiteId == (int) SiteId.Goal123 || custInfo.SiteId == (int) SiteId.Bwing)
                 {
-                    var custPromotion = GetPromotionDetail(custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, false, custInfo.UserLang, custInfo.UserLang, bonusCode);
-                    if (custPromotion?.PromotionType == (int)PromotionType.FreeBet)
+                    var custPromotion = GetPromotionDetail(custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, false,
+                        custInfo.UserLang, custInfo.UserLang, bonusCode);
+                    if (custPromotion?.PromotionType == (int) PromotionType.FreeBet)
                     {
                         apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible_FreeBet");
                     }
