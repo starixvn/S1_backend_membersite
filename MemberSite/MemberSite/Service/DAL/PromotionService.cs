@@ -476,10 +476,12 @@ namespace MemberSite.Service.DAL
                         settings.TryGetValue("title", out var title);
                         settings.TryGetValue("bannerUrl", out var bannerUrl);
                         settings.TryGetValue("description", out var description);
+                        settings.TryGetValue("promotionLink", out var promotionLink);
 
                         promo.Title = title;
                         promo.Banner = bannerUrl;
                         promo.Description = description;
+                        promo.PromotionLink = promotionLink;
                     }
                 }
 

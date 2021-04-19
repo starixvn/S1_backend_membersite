@@ -96,6 +96,15 @@
             padding-left: 25px;
             margin-bottom: 20px;
         }
+        .promotions-module table.mobile tr > th {
+            background-color: #9aacd2;
+        }
+        .promotions-module table.mobile tr > th.title {
+            background-color: #4573cf;
+        }
+        .promotions-module table.mobile tr > th.subtitle {
+            background-color: #4E6CA8;
+        }
         .promotions-module table tr > th {
             border: 1px solid #cfcfcf !important;
             padding: 8px 15px;
@@ -118,10 +127,21 @@
         }
         table.euro-ranking {
             width: 100%;
-            word-break: break-all;
+            word-break: break-word;
             margin: 10px auto;
             margin-left: 0;
             padding-left: 0;
+        }
+        table.euro-ranking.mobile {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            table.euro-ranking.desktop {
+                display: none;
+            }
+            table.euro-ranking.mobile {
+                display: table;
+            }
         }
         @media (max-width: 425px) {
             table.euro-ranking {
@@ -196,7 +216,7 @@
                             <li>Mỗi hạng chỉ có 1 người thắng cuộc.</li>
                             <li>Mỗi thành viên chỉ được tham gia giải đua top bằng MỘT (1) tài khoản.</li>
                             <li>Thành viên sẽ được tự động tham gia giải đua top khi đạt đủ số tiền nạp và doanh thu cược tối thiểu như trong bảng sau:</li>
-                            <table class="euro-ranking">
+                            <table class="euro-ranking desktop">
                                 <tbody>
                                     <tr>
                                         <th colspan="4">TIỀN NẠP & DOANH THU CƯỢC TỐI THIỂU </th>
@@ -227,9 +247,79 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <table class="euro-ranking mobile">
+                                <tbody>
+                                    <tr>
+                                        <th class="title" colspan="3">TIỀN NẠP & DOANH THU CƯỢC TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle" colspan="3">Vô địch</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>888,123,123</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>9,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>43,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Nhất</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>738,123,123</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>7,500</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>28,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Nhì</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>588,123,123</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>6,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>20,123,000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <li>Thành viên thắng cuộc sẽ được quyết định dựa trên tổng tiền nạp và doanh thu cược tích luỹ trong thời gian diễn ra khuyến mãi.</li>
                             <li>Chỉ có 9 người chiến thắng với TIỀN NẠP & ĐIỂM cao nhất theo quy định. (Mỗi hạng một người chiến thắng)</li>
-                            <table class="euro-ranking">
+                            <table class="euro-ranking desktop">
                                 <tbody>
                                     <tr>
                                         <th colspan="4">CHUNG KẾT UEFA EURO 2020</th>
@@ -295,6 +385,205 @@
                                         <td>Giải Tám</td>
                                         <td>233,123,000</td>
                                         <td>2,000</td>
+                                        <td>11,123,000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="euro-ranking mobile">
+                                <tbody>
+                                    <tr>
+                                        <th class="title" colspan="3">CHUNG KẾT UEFA EURO 2020</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="title" colspan="3">13 THÁNG 4 ĐẾN 12 THÁNG 7 2021</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle" colspan="3">VÔ ĐỊCH</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>3,123,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>25,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>123,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Nhất</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>2,123,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>18,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>88,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Nhì</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1,123,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>11,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>55,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Ba</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>833,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>7,200</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>36,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Bốn</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>633,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>5,500</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>28,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Năm</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>533,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>4,500</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>22,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Sáu</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>433,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>3,500</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>17,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Bảy</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>333,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>2,700</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>13,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Tám</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>233,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>2,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
                                         <td>11,123,000</td>
                                     </tr>
                                 </tbody>

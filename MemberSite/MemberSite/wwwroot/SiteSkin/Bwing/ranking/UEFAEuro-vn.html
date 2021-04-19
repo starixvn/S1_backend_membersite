@@ -57,6 +57,46 @@
         font-weight: bold;
         color: #3596ff;
     }
+
+    table.euro-ranking {
+        width: 100%;
+        word-break: break-word;
+        margin: 10px auto;
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    .promotions-module table.mobile tr>th {
+        background-color: #9aacd2;
+    }
+
+    .promotions-module table.mobile tr>th.title {
+        background-color: #3596ff;
+    }
+
+    .promotions-module table.mobile tr>th.subtitle {
+        background-color: #4E6CA8;
+    }
+
+    table.euro-ranking.mobile {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        table.euro-ranking.desktop {
+            display: none;
+        }
+
+        table.euro-ranking.mobile {
+            display: table;
+        }
+    }
+
+    @media (max-width: 425px) {
+        table.euro-ranking {
+            padding: 0;
+        }
+    }
 </style>
 
 <body>
@@ -82,23 +122,16 @@
                     <div class="promotions-module">
                         <span class="promotions-title">Điều kiện riêng</span>
                         <ol type="a">
-                            <li>
-                                Khuyến mãi này chỉ áp dụng cho các thành viên của Bwing.
+                            <li>Khuyến mãi này chỉ áp dụng cho các thành viên của Bwing.
                                 <br><br>
                             </li>
                             <li>Khuyến mãi này chỉ áp dụng cho các sản phẩm THỂ THAO, SÒNG BÀI & QUAY HŨ.<br><br></li>
-                            <li>
-                                Khuyến mãi bắt đầu từ 13 THÁNG 4 2021 00:00:00 (GMT+7) đến 12 THÁNG 7 2021 23:59:59
-                                (GMT+7)<br><br>
-                            </li>
-                            <li>
-                                Để tham gia đua top, các thành viên phải thoả mãn điều kiện tiền nạp và doanh thu
+                            <li>Khuyến mãi bắt đầu từ 13 THÁNG 4 2021 00:00:00 (GMT+7) đến 12 THÁNG 7 2021 23:59:59
+                                (GMT+7)<br><br></li>
+                            <li>Sd. Để tham gia đua top, các thành viên phải thoả mãn điều kiện tiền nạp và doanh thu
                                 cược tối thiểu cho các sản phẩm áp dụng khuyến mãi trong khoảng thời gian từ 13 THÁNG 4
                                 2021 00:00:00 (GMT+7) đến 12 THÁNG 7 2021 23:59:59 (GMT+7). Lịch đua top hàng tháng và
-                                sản phẩm cược áp dụng để đua top như sau:<br><br>
-                            </li>
-
-
+                                sản phẩm cược áp dụng để đua top như sau:<br><br></li>
                             <table>
                                 <tbody>
                                     <tr>
@@ -143,16 +176,13 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <li>
-                                Tiền thưởng của đua top tháng cần phải trải qua 1 vòng cược trước khi rút tiền.<br><br>
+                            <li>Tiền thưởng của đua top tháng cần phải trải qua 1 vòng cược trước khi rút tiền.<br><br>
                             </li>
                             <li>Mỗi hạng chỉ có 1 người thắng cuộc.<br><br></li>
                             <li>Mỗi thành viên chỉ được tham gia giải đua top bằng MỘT (1) tài khoản.<br><br></li>
-                            <li>
-                                Thành viên sẽ được tự động tham gia giải đua top khi đạt đủ số tiền nạp và doanh thu
-                                cược tối thiểu như trong bảng sau:<br><br>
-                            </li>
-                            <table>
+                            <li>Thành viên sẽ được tự động tham gia giải đua top khi đạt đủ số tiền nạp và doanh thu
+                                cược tối thiểu như trong bảng sau:<br><br></li>
+                            <table class="euro-ranking desktop">
                                 <tbody>
                                     <tr>
                                         <th colspan="4">TIỀN NẠP & DOANH THU CƯỢC TỐI THIỂU </th>
@@ -183,15 +213,81 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <li>
-                                Thành viên thắng cuộc sẽ được quyết định dựa trên tổng tiền nạp và doanh thu cược tích
-                                luỹ trong thời gian diễn ra khuyến mãi.<br><br>
-                            </li>
-                            <li>
-                                Chỉ có 9 người chiến thắng với TIỀN NẠP & ĐIỂM cao nhất theo quy định. (Mỗi hạng một
-                                người chiến thắng)<br><br>
-                            </li>
-                            <table>
+                            <table class="euro-ranking mobile">
+                                <tbody>
+                                    <tr>
+                                        <th class="title" colspan="3">TIỀN NẠP & DOANH THU CƯỢC TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle" colspan="3">HẠNG</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU </th>
+                                    </tr>
+                                    <tr>
+                                        <td>888,888,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>9,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>38,888,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Nhất</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>738,888,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>7,500</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>28,888,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Nhì</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>588,888,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>6,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>18,888,000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <li>Thành viên thắng cuộc sẽ được quyết định dựa trên tổng tiền nạp và doanh thu cược tích
+                                luỹ trong thời gian diễn ra khuyến mãi.<br><br></li>
+                            <li>Chỉ có 9 người chiến thắng với TIỀN NẠP & ĐIỂM cao nhất theo quy định. (Mỗi hạng một
+                                người chiến thắng)<br><br></li>
+                            <table class="euro-ranking desktop">
                                 <tbody>
                                     <tr>
                                         <th colspan="4">CHUNG KẾT UEFA EURO 2020</th>
@@ -261,33 +357,227 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <table class="euro-ranking mobile">
+                                <tbody>
+                                    <tr>
+                                        <th class="title" colspan="3">CHUNG KẾT UEFA EURO 2020</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="title" colspan="3">13 THÁNG 4 ĐẾN 12 THÁNG 7 2021</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle" colspan="3">VÔ ĐỊCH</th>
+                                    </tr>
+                                    <tr>
+                                        <th>TIỀN NẠP TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>2,888,000,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>24,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>118,888,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Nhất</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1,888,000,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>16,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>78,888,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Nhì</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>888,000,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>8,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>38,888,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Ba</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>688,000,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>6,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>28,888,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Bốn</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>588,000,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>5,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>23,888,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Năm</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>488,000,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>4,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>19,888,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Sáu</th>
+
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>388,000,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>3,200</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>15,888,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Bảy</th>
+
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>288,000,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>2,400</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>11,888,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">Giải Tám</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>188,000,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SỐ ĐIỂM TỐI THIỂU</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1,900</td>
+                                    </tr>
+                                    <tr>
+                                        <th>THƯỞNG</th>
+                                    </tr>
+                                    <tr>
+                                        <td>9,888,000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </ol>
 
                         <span class="promotions-title">Điều Khoản và Điều Kiện</span>
                         <ol type="1">
-                            <li>
-                                Bảng xếp hạng và tên người chiến thắng sẽ được hiển thị trong phần Xếp hạng của Bwing.
+                            <li>Bảng xếp hạng và tên người chiến thắng sẽ được hiển thị trong phần Xếp hạng của Bwing.
                                 <br><br>
                             </li>
-                            <li>
-                                Người chiến thắng sẽ được thông báo qua Tin nhắn cá nhân trong vòng 48 giờ sau khi
+                            <li>Người chiến thắng sẽ được thông báo qua Tin nhắn cá nhân trong vòng 48 giờ sau khi
                                 khuyến mãi kết thúc. Người chiến thắng vui lòng liên hệ bộ phận Hỗ trợ Trực tuyến trong
-                                vòng 7 ngày để giải thưởng không bị huỷ.<br><br>
-                            </li>
-                            </li>
+                                vòng 7 ngày để giải thưởng không bị huỷ.<br><br></li>
                             <li>
-                                Tiền Thưởng sẽ được cập nhật vào tài khoản của Thành Viên Thắng Cuộc sau khi quy trình
-                                xác thực hoàn tất.<br><br>
+                                Tiền Thưởng sẽ được cập nhật vào tài khoản của Thành Viên Thắng Cuộc sau khi quy trình xác thực hoàn tất. <br><br>
                             </li>
-                            <li>
-                                Tiền thưởng sẽ hết hạn sau (30) ngày được cập nhật vào tài khoản trừ khi có qui định
+                            <li>Tiền Thưởng sẽ được cập nhật vào tài khoản của Thành Viên Thắng Cuộc sau khi quy trình
+                                xác thực hoàn tất.<br><br></li>
+                            <li>Tiền thưởng sẽ hết hạn sau (30) ngày được cập nhật vào tài khoản trừ khi có qui định
                                 khác. Tiền thắng được từ tiền thưởng sẽ bị thu hồi nếu người chơi không hoàn tất điều
-                                kiện đã nêu trong thời gian quy định.<br><br>
-                            </li>
-                            <li>
-                                Các thành viên tham gia phải chấp nhận và tuân theo các điều khoản đã nêu ở trên cũng
-                                như các quy định liên quan của Bwing.<br><br>
-                            </li>
+                                kiện đã nêu trong thời gian quy định.<br><br></li>
+                            <li>Các thành viên tham gia phải chấp nhận và tuân theo các điều khoản đã nêu ở trên cũng
+                                như các quy định liên quan của Bwing.<br><br></li>
                             <li>Bwing có toàn quyền sửa đổi hoặc huỷ bỏ khuyến mãi bất kỳ lúc nào.<br><br></li>
                             <li>Bwing là bên quyết định duy nhất và cuối cùng.<br><br></li>
                             <li>Áp dụng Điều khoản và điều kiện chung của Bwing.<br><br></li>

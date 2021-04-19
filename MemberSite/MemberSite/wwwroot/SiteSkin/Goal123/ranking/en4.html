@@ -96,6 +96,15 @@
             padding-left: 25px;
             margin-bottom: 20px;
         }
+        .promotions-module table.mobile tr > th {
+            background-color: #9aacd2;
+        }
+        .promotions-module table.mobile tr > th.title {
+            background-color: #4573cf;
+        }
+        .promotions-module table.mobile tr > th.subtitle {
+            background-color: #4E6CA8;
+        }
         .promotions-module table tr > th {
             border: 1px solid #cfcfcf !important;
             padding: 8px 15px;
@@ -118,10 +127,21 @@
         }
         table.euro-ranking {
             width: 100%;
-            word-break: break-all;
+            word-break: break-word;
             margin: 10px auto;
             margin-left: 0;
             padding-left: 0;
+        }
+        table.euro-ranking.mobile {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            table.euro-ranking.desktop {
+                display: none;
+            }
+            table.euro-ranking.mobile {
+                display: table;
+            }
         }
         @media (max-width: 425px) {
             table.euro-ranking {
@@ -196,7 +216,7 @@
                             <li>Each ranking for all category will have only 1 winner.</li>
                             <li>Each Member only allow to join this tournament with ONE (1) account ID.</li>
                             <li>Member will be automatically qualify for monthly tournament when they meet minimum monthly deposit and turnover as stipulated in the table below:</li>
-                            <table class="euro-ranking">
+                            <table class="euro-ranking desktop">
                                 <tbody>
                                     <tr>
                                         <th colspan="4">MONTHLY DEPOSIT & TURNOVER RACE TOURNAMENT</th>
@@ -227,9 +247,79 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <table class="euro-ranking mobile">
+                                <tbody>
+                                    <tr>
+                                        <th class="title" colspan="3">MONTHLY DEPOSIT & TURNOVER RACE TOURNAMENT</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle" colspan="3">Champion</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>888,123,123</td>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN POINT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>9,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>BONUS CREDIT</th>
+                                    </tr>
+                                    <tr>
+                                        <td>43,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">1st Runner Up	</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>738,123,123</td>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN POINT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>7,500</td>
+                                    </tr>
+                                    <tr>
+                                        <th>BONUS CREDIT</th>
+                                    </tr>
+                                    <tr>
+                                        <td>28,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">2nd Runner Up</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>588,123,123</td>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN POINT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>6,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>BONUS CREDIT</th>
+                                    </tr>
+                                    <tr>
+                                        <td>20,123,000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <li>The final winners will be decided by the accumulate deposit and turnover through the whole promotion period.</li>
                             <li>There is only TOP 9 winners with highest DEPOSIT & POINT follow by the requirement. (1 winner on each ranking only)</li>
-                            <table class="euro-ranking">
+                            <table class="euro-ranking desktop">
                                 <tbody>
                                     <tr>
                                         <th colspan="4">UEFA EURO 2020 FINAL</th>
@@ -292,9 +382,208 @@
                                         <td>13,123,000</td>
                                     </tr>
                                     <tr>
-                                        <td>9th Runner Up</td>
+                                        <td>8th Runner Up</td>
                                         <td>233,123,000</td>
                                         <td>2,000</td>
+                                        <td>11,123,000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="euro-ranking mobile">
+                                <tbody>
+                                    <tr>
+                                        <th class="title" colspan="3">UEFA EURO 2020 FINAL</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="title" colspan="3">13 APRIL TO 12 JULY 2021</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle" colspan="3">Champion</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>3,123,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN POINT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>25,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>PRIZES</th>
+                                    </tr>
+                                    <tr>
+                                        <td>123,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">1st Runner Up	</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>2,123,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN POINT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>18,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>PRIZES</th>
+                                    </tr>
+                                    <tr>
+                                        <td>88,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">2nd Runner Up</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1,123,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN POINT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>11,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>PRIZES</th>
+                                    </tr>
+                                    <tr>
+                                        <td>55,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">3rd Runner Up</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>833,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN POINT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>7,200</td>
+                                    </tr>
+                                    <tr>
+                                        <th>PRIZES</th>
+                                    </tr>
+                                    <tr>
+                                        <td>36,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">4th Runner Up</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>633,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN POINT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>5,500</td>
+                                    </tr>
+                                    <tr>
+                                        <th>PRIZES</th>
+                                    </tr>
+                                    <tr>
+                                        <td>28,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">5th Runner Up</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>533,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN POINT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>4,500</td>
+                                    </tr>
+                                    <tr>
+                                        <th>PRIZES</th>
+                                    </tr>
+                                    <tr>
+                                        <td>22,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">6th Runner Up</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>433,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN POINT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>3,500</td>
+                                    </tr>
+                                    <tr>
+                                        <th>PRIZES</th>
+                                    </tr>
+                                    <tr>
+                                        <td>17,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">7th Runner Up</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>333,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN POINT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>2,700</td>
+                                    </tr>
+                                    <tr>
+                                        <th>PRIZES</th>
+                                    </tr>
+                                    <tr>
+                                        <td>13,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="subtitle">8th Runner Up</th>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN DEPOSIT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>233,123,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>MIN POINT REQUIRED</th>
+                                    </tr>
+                                    <tr>
+                                        <td>2,000</td>
+                                    </tr>
+                                    <tr>
+                                        <th>PRIZES</th>
+                                    </tr>
+                                    <tr>
                                         <td>11,123,000</td>
                                     </tr>
                                 </tbody>
