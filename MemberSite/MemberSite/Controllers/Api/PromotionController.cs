@@ -7,7 +7,6 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -114,7 +113,6 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> SetClaimPromotionAsync(PromotionReq promotionReq)
         {
             var apiResult = new ApiResult(selLangBLL);
-
             try
             {
                 var authData = authorizeBLL.GetAuthData();
