@@ -1,8 +1,6 @@
-﻿using MemberSite.Service.Model.enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.Model
 {
@@ -93,6 +91,7 @@ namespace MemberSite.Service.Model
         public decimal MaxAmount { get; set; }
         public IEnumerable<Ref> RefList { get; set; }
         public string PromotionLink { get; set; }
+        public int? DeviceType { set; get; }
     }
 
     public class Ref

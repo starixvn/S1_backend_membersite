@@ -1,13 +1,13 @@
-﻿using MemberSite.Service.DAL;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using static MemberSite.Controllers.Api.TpController;
 
 namespace MemberSite.Service.BLL
@@ -88,12 +88,12 @@ namespace MemberSite.Service.BLL
             public long ExpiryTime { set; get; }
             public Dictionary<string, string> inputs { set; get; }
         }
-        public async Task<ApiResult> SetClaimPromotionAsync(int custId, string bonusCode, decimal? dLockedAmount)
+        public async Task<ApiResult> SetClaimPromotionAsync(int custId, string bonusCode, decimal? dLockedAmount, int? deviceType)
         {
             var apiResult1 = new ApiResult();
             decimal lockedAmount = dLockedAmount ?? 0;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var result = promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out decimal bonusAmount, ref lockedAmount, out decimal rollOver, out long expiryTime, out Promotion promotion);
+            var result = promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, deviceType, out decimal bonusAmount, ref lockedAmount, out decimal rollOver, out long expiryTime, out Promotion promotion);
 
             if (result > 0)
             {
@@ -178,7 +178,7 @@ namespace MemberSite.Service.BLL
 
                 if (custInfo.SiteId == 2 || custInfo.SiteId == 3)
                 {
-                    var custPromotion = GetPromotionDetail(custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, false, custInfo.UserLang, custInfo.UserLang, bonusCode);
+                    var custPromotion = GetPromotionDetail(custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, false, custInfo.UserLang, custInfo.UserLang, bonusCode, deviceType);
                     if (custPromotion?.PromotionType == (int)PromotionType.Freebet)
                     {
                         apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible_FreeBet");
@@ -216,26 +216,26 @@ namespace MemberSite.Service.BLL
             return promotion;
         }
 
-        public List<CustPromotion> GetPromotionListV2(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang)
+        public List<CustPromotion> GetPromotionListV2(int SiteId, int CustId, int CurrencyId, int? DeviceType, bool IsLogin, string langId, string defLang)
         {
-            return promotionService.GetPromotionListv2(SiteId, CustId, CurrencyId, IsLogin, langId, defLang);
+            return promotionService.GetPromotionListv2(SiteId, CustId, CurrencyId, DeviceType, IsLogin, langId, defLang);
         }
-        public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode)
+        public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode, int? DeviceType)
         {
-            return promotionService.GetPromotionDetail(SiteId, CustId, CurrencyId, IsLogin, langId, defLang, BonusCode);
+            return promotionService.GetPromotionDetail(SiteId, CustId, CurrencyId, IsLogin, langId, defLang, BonusCode, DeviceType);
         }
-        public List<CustPromotion> GetSpecialPromotionList(int SiteId, int CustId, int CurrencyId, string langId, string defLang)
+        public List<CustPromotion> GetSpecialPromotionList(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int? deviceType)
         {
-            return promotionService.GetSpecialPromotionList(SiteId, CustId, CurrencyId, langId, defLang);
+            return promotionService.GetSpecialPromotionList(SiteId, CustId, CurrencyId, langId, defLang, deviceType);
         }
-        public bool SetSpecialCode(int custId, string specialCode)
+        public bool SetSpecialCode(int custId, string specialCode, int? deviceType)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            return promotionService.SetSpecialCode(custId, specialCode);
+            return promotionService.SetSpecialCode(custId, specialCode, deviceType);
         }
         public void SetSpecialCodeJoined(int custId, string specialCode, string bonusCode)
         {
-            promotionService.SetSpecialCodeJoined( custId, specialCode, bonusCode);
+            promotionService.SetSpecialCodeJoined(custId, specialCode, bonusCode);
         }
     }
 }

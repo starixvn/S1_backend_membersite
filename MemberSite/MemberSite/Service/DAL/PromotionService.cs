@@ -1,17 +1,14 @@
-﻿using Dapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text.RegularExpressions;
+using Dapper;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.DAL
 {
@@ -50,9 +47,9 @@ namespace MemberSite.Service.DAL
         public Promotion GetPromotion(int siteId, string bonusCode, int currencyId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.QueryFirstOrDefault<Promotion>("Member_Promotion_Get", new { SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+            return conn.QueryFirstOrDefault<Promotion>("Member_PromotionV3_Get", new { SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
-        public int SetClaimPromotion(int custId, string userName, int siteId, string bonusCode, int currencyId, out decimal bonusAmount, ref decimal lockedAmount, out decimal rollOver, out long expiryTime, out Promotion promotion)
+        public int SetClaimPromotion(int custId, string userName, int siteId, string bonusCode, int currencyId, int? deviceType, out decimal bonusAmount, ref decimal lockedAmount, out decimal rollOver, out long expiryTime, out Promotion promotion)
         {
             bonusAmount = 0;
             rollOver = 0;
@@ -63,7 +60,7 @@ namespace MemberSite.Service.DAL
             conn.Open();
             using var trans = conn.BeginTransaction();
 
-            promotion = conn.QueryFirstOrDefault<Promotion>("Member_Promotion_Get", new { SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId }, transaction: trans, commandType: CommandType.StoredProcedure);
+            promotion = conn.QueryFirstOrDefault<Promotion>("Member_PromotionV3_Get", new { CustId = custId, SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId, DeviceType = deviceType }, transaction: trans, commandType: CommandType.StoredProcedure);
             if (promotion != null)
             {
                 if (promotion.PromotionType == PromotionType.Freebet)
@@ -79,13 +76,13 @@ namespace MemberSite.Service.DAL
                 }
 
                 int result = 0;
-                var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
+                var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode, DeviceType = deviceType });
                 p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                 p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
                 p.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                 p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 p.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                conn.Execute("Member_PromotionCanJoinV4_Get", p, commandType: CommandType.StoredProcedure);
+                conn.Execute("Member_PromotionCanJoinV5_Get", p, commandType: CommandType.StoredProcedure);
 
                 var jResult = p.Get<int>("Result");
                 var canJoin = p.Get<byte?>("CanJoin") ?? 0;
@@ -313,13 +310,13 @@ namespace MemberSite.Service.DAL
             return canJoin == 1;
         }
 
-        public List<CustPromotion> GetPromotionListv2(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang)
+        public List<CustPromotion> GetPromotionListv2(int SiteId, int CustId, int CurrencyId, int? DeviceType, bool IsLogin, string langId, string defLang)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Open();
             using var trans = conn.BeginTransaction();
 
-            var promotionList = conn.Query<CustPromotion>("Member_PromotionListV2_Get", new { CustId, SiteId, CurrencyId }, trans, commandType: CommandType.StoredProcedure);
+            var promotionList = conn.Query<CustPromotion>("Member_PromotionListV3_Get", new { CustId, SiteId, CurrencyId, DeviceType }, trans, commandType: CommandType.StoredProcedure);
 
             List<CustPromotion> _promotion = new List<CustPromotion>();
 
@@ -327,13 +324,13 @@ namespace MemberSite.Service.DAL
             {
                 if (IsLogin)
                 {
-                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode });
+                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode, DeviceType });
                     canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
                     canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                     canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                     canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                    conn.Execute("Member_PromotionCanJoinV4_Get", canJoinParams, commandType: CommandType.StoredProcedure);
+                    conn.Execute("Member_PromotionCanJoinV5_Get", canJoinParams, commandType: CommandType.StoredProcedure);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                     promo.canJoin = canJoinResult == 1;
@@ -433,13 +430,13 @@ namespace MemberSite.Service.DAL
             return _promotion;
         }
 
-        public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode)
+        public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode, int? DeviceType)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Open();
             using var trans = conn.BeginTransaction();
 
-            var promo = conn.QueryFirstOrDefault<CustPromotion>("Member_PromotionV2_Get", new { CustId, SiteId, CurrencyId, BonusCode }, trans, commandType: CommandType.StoredProcedure);
+            var promo = conn.QueryFirstOrDefault<CustPromotion>("Member_PromotionV3_Get", new { CustId, SiteId, CurrencyId, BonusCode, DeviceType }, trans, commandType: CommandType.StoredProcedure);
 
             if (promo != null)
             {
@@ -480,13 +477,13 @@ namespace MemberSite.Service.DAL
 
                 if (IsLogin)
                 {
-                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode });
+                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode, DeviceType });
                     canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                     canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
                     canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                     canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                     canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                    conn.Execute("Member_PromotionCanJoinV4_Get", canJoinParams, trans, commandType: CommandType.StoredProcedure);
+                    conn.Execute("Member_PromotionCanJoinV5_Get", canJoinParams, trans, commandType: CommandType.StoredProcedure);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                     promo.canJoin = canJoinResult == 1;
@@ -497,8 +494,8 @@ namespace MemberSite.Service.DAL
                         promo.DepositId = canJoinParams.Get<string>("RefId");
                         promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
                         promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
-                        
-                        promo.MaxAmount = promo.PromotionType == (int) PromotionType.FstDeposit
+
+                        promo.MaxAmount = promo.PromotionType == (int)PromotionType.FstDeposit
                             ? walletService.GetBalance(CustId)
                             : promo.DepositAmount;
                         if (promo.RequiredAmount == 0)
@@ -546,25 +543,25 @@ namespace MemberSite.Service.DAL
 
             return promo;
         }
-        public List<CustPromotion> GetSpecialPromotionList(int SiteId, int CustId, int CurrencyId, string langId, string defLang)
+        public List<CustPromotion> GetSpecialPromotionList(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int? deviceType)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Open();
             using var trans = conn.BeginTransaction();
 
-            var promotionList = conn.Query<CustPromotion>("Member_SPCodePromotionList_Get", new { CustId }, trans, commandType: CommandType.StoredProcedure);
+            var promotionList = conn.Query<CustPromotion>("Member_SPCodePromotionListV2_Get", new { CustId, DeviceType = deviceType }, trans, commandType: CommandType.StoredProcedure);
 
             List<CustPromotion> _promotion = new List<CustPromotion>();
 
             foreach (var promo in promotionList)
             {
-                var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode });
+                var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, BonusCode = promo.BonusCode, DeviceType = deviceType });
                 canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                 canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
                 canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                 canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                conn.Execute("Member_PromotionCanJoinV4_Get", canJoinParams, commandType: CommandType.StoredProcedure);
+                conn.Execute("Member_PromotionCanJoinV5_Get", canJoinParams, commandType: CommandType.StoredProcedure);
 
                 var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                 promo.canJoin = canJoinResult == 1 || canJoinResult == 3;
@@ -655,10 +652,10 @@ namespace MemberSite.Service.DAL
 
             return _promotion;
         }
-        public bool SetSpecialCode(int custId, string specialCode)
+        public bool SetSpecialCode(int custId, string specialCode, int? deviceType)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            int result = conn.Execute("Member_CustSpecialCode_Ins", new { CustId = custId, SpecialCode = specialCode }, commandType: CommandType.StoredProcedure);
+            int result = conn.Execute("Member_CustSpecialCodeV2_Ins", new { CustId = custId, SpecialCode = specialCode, DeviceType = deviceType }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
         public void SetSpecialCodeJoined(int custId, string specialCode, string bonusCode)
