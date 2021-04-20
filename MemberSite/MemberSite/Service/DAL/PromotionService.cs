@@ -310,11 +310,10 @@ namespace MemberSite.Service.DAL
                             var calculateDate = currentTime
                                 .AddDays(-(int) DateTime.Today.DayOfWeek + (int) DayOfWeek.Monday)
                                 .ToString("yyyy-MM-dd");
-                            var tpCategoryId = GetTpCategoryId(promotion.CategoryId);
 
                             result = bonusWalletService.RewardCashBack(
-                                new CustCashBackInput(custId, promotion.BonusCode, tpCategoryId, promotion.CategoryId,
-                                    calculateDate, dBonus, currentTime), trans)
+                                new CustCashBackInput(custId, promotion.BonusCode, promotion.CategoryId, calculateDate),
+                                trans)
                                 ? 1
                                 : 0;
                         }
@@ -663,18 +662,6 @@ namespace MemberSite.Service.DAL
             if (!details.Any()) return;
             details.First().CashBackDetail = detail;
             promotion.CashBackDetails = details.First();
-        }
-
-        private static int GetTpCategoryId(int promotionCategoryId)
-        {
-            var tpCategoryId = promotionCategoryId switch
-            {
-                (int) PromotionCategoryId.SlotsGame => (int) TpCategoryId.Casino,
-                (int) PromotionCategoryId.LiveCasino => (int) TpCategoryId.LiveCasino,
-                (int) PromotionCategoryId.SabaSports => (int) TpCategoryId.Sports,
-                _ => 0
-            };
-            return tpCategoryId;
         }
 
         public List<CustPromotion> GetSpecialPromotionList(int SiteId, int CustId, int CurrencyId, string langId, string defLang)

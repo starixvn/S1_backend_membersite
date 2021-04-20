@@ -68,13 +68,10 @@ namespace MemberSite.Service.DAL
             {
                 custCashBackInput.CustId,
                 custCashBackInput.BonusCode,
-                custCashBackInput.CategoryId,
                 custCashBackInput.PromoCategoryId,
-                custCashBackInput.CalculateDate,
-                custCashBackInput.BonusAmount,
-                custCashBackInput.ClaimTime
+                custCashBackInput.CalculateDate
             });
-            return _mainDbClient.Execute("Service_CustCashBack_Set", parameter, trans);
+            return _mainDbClient.Execute("Member_CustCashBack_Set", parameter, trans);
         }
 
         public IEnumerable<BonusWallet> GetCustBonusWallet(int CustId)
