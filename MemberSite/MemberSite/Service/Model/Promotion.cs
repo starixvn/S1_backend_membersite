@@ -43,6 +43,7 @@ namespace MemberSite.Service.Model
         public int TpId { get; set; }
         public bool IsSpecial { get; set; }
         public string SpecialCode { get; set; }
+        public decimal MinPayout { get; set; }
     }
 
     public class PromotionBanner

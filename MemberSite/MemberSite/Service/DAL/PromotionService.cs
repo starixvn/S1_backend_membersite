@@ -166,17 +166,23 @@ namespace MemberSite.Service.DAL
                     }
                     
                     case PromotionType.Cashback:
-                        var currentDate = DateTime.UtcNow.AddHours(8).Date;
-                        
-                        var details = _reportDbClient.Query<CashBackDetails>("Member_CustCashBack_Get",
-                            new DynamicParameters(new
-                            {
-                                CustId = custId, promotion.BonusCode, PromoCategoryId = promotion.CategoryId,
-                                CalculateDate = currentDate.AddDays(-(int) currentDate.DayOfWeek + (int) DayOfWeek.Monday)
-                                    .ToString("yyyy-MM-dd"),
-                                CurrencyId = currencyId, SiteId = siteId
-                            })).ToList();
-                        dBonus = details.First().TotalBonus;
+                        var custPromotion = new CustPromotion
+                        {
+                            BonusCode = promotion.BonusCode,
+                            CategoryId = promotion.CategoryId
+                        };
+                        GetCashbackInfo(custId, siteId, currencyId, custPromotion, true);
+                        if (!(custPromotion.canJoin && custPromotion.CashBackDetails?.TotalBonus > promotion.MinPayout))
+                        {
+                            return 0;
+                        }
+
+                        dBonus = custPromotion.CashBackDetails?.TotalBonus ?? 0;
+                        if (promotion.MaxBonus != 0 && dBonus > promotion.MaxBonus)
+                        {
+                            dBonus = promotion.MaxBonus;
+                        }
+
                         dLockedAmount = promotion.RequiredAmount;
                         dRollOver = ((dLockedAmount + dBonus) * promotion.RollOver);
                         sBonusInfo = JsonConvert.SerializeObject(promotion,
@@ -624,9 +630,10 @@ namespace MemberSite.Service.DAL
                     {
                         CustId = custId, promotion.BonusCode, PromoCategoryId = promotion.CategoryId,
                         CalculateDate = calculateDate
-                    }));
+                    })).ToList();
 
-            promotion.isJoin = result?.FirstOrDefault()?.Claimed ?? false;
+            promotion.isJoin = result.FirstOrDefault()?.Claimed ?? false;
+            promotion.canJoin = result.Any();
 
             var currentDate = DateTime.UtcNow.AddHours(8).Date;
             var utcMonday = currentDate.AddDays(-(int) currentDate.DayOfWeek + (int) DayOfWeek.Monday).AddHours(-8);
@@ -637,12 +644,11 @@ namespace MemberSite.Service.DAL
             if (!getDetail) return;
             var lastMonday = currentDate.AddDays(-(int) currentDate.DayOfWeek - 6).Date;
             var lastSunday = lastMonday.AddDays(6).ToString("yyyy-MM-dd");
-            var tpCategoryId = GetTpCategoryId(promotion.CategoryId);
             var detail = _reportDbClient.Query<CashBackDetail>("Member_CashBackInfo_Get",
                 new DynamicParameters(new
                 {
                     CustId = custId, promotion.BonusCode, PeriodFrom = lastMonday.ToString("yyyy-MM-dd"),
-                    PeriodTo = lastSunday, CategoryId = tpCategoryId, PromoCategoryId = promotion.CategoryId
+                    PeriodTo = lastSunday, PromoCategoryId = promotion.CategoryId
                 }));
             
             var details = _reportDbClient.Query<CashBackDetails>("Member_CustCashBack_Get",
