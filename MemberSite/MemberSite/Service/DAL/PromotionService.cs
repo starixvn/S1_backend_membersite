@@ -183,12 +183,11 @@ namespace MemberSite.Service.DAL
                             dBonus = promotion.MaxBonus;
                         }
 
-                        dLockedAmount = promotion.RequiredAmount;
                         dRollOver = ((dLockedAmount + dBonus) * promotion.RollOver);
                         sBonusInfo = JsonConvert.SerializeObject(promotion,
                             new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
                         bonusAmount = dBonus;
-                        lockedAmount = dLockedAmount;
+                        lockedAmount = 0;
                         rollOver = dRollOver;
                         expiryTime = DateTimeOffset.Now.AddDays(promotion.ExpiryDays).ToUnixTimeSeconds();
                         break;
