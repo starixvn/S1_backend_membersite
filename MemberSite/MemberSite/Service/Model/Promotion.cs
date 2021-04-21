@@ -43,6 +43,7 @@ namespace MemberSite.Service.Model
         public int TpId { get; set; }
         public bool IsSpecial { get; set; }
         public string SpecialCode { get; set; }
+        public decimal MinPayout { get; set; }
     }
 
     public class PromotionBanner
@@ -93,6 +94,26 @@ namespace MemberSite.Service.Model
         public decimal MaxAmount { get; set; }
         public IEnumerable<Ref> RefList { get; set; }
         public string PromotionLink { get; set; }
+        public CashBackDetails CashBackDetails { get; set; }
+    }
+
+    public class CashBackDetails
+    {
+        public decimal TotalBonus { get; set; }
+        public decimal MaxBonus { get; set; }
+        public IEnumerable<CashBackDetail> CashBackDetail {get; set; }
+    }
+
+    public class CashBackDetail
+    {
+        public int CategoryId { get; set; }
+        public int TpId { get; set; }
+        public string TpName { get; set; }
+        public string PeriodFrom { get; set; }
+        public string PeriodTo { get; set; }
+        public decimal LossAmount { get; set; }
+        public decimal Percentage { get; set; }
+        public decimal BonusAmount { get; set; }
     }
 
     public class Ref

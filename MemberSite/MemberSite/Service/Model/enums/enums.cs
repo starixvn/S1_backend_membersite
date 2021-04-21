@@ -122,13 +122,32 @@ namespace MemberSite.Service.Model.enums
         /// </summary>
         AutoPayError = 9,
     }
+    
+    public enum PromotionCategoryId
+    {
+        SlotsGame = 1,
+        LiveCasino = 2,
+        SabaSports = 4,
+        Lottery = 5
+    }
+    
+    public enum TpCategoryId
+    {
+        Sports = 1,
+        Casino = 2,
+        LiveCasino = 3,
+        Fishing = 4,
+        Cockfighting = 5,
+        Lottery = 6,
+        VirtualSports = 7,
+        Poker = 8
+    }
 
     public enum PromotionType
     {
         FstDeposit = 1,
         ReDeposit = 2,
-        Freebet = 3,
-        Special = 4,
+        FreeBet = 3,
         WalletBonus = 5,
         Rebate = 6,
         Cashback = 7
@@ -195,5 +214,12 @@ namespace MemberSite.Service.Model.enums
     {
         Success = 0,
         SpecialCodeError = 99
+    }
+
+    public enum SiteId
+    {
+        Nova88 = 1,
+        Goal123 = 2,
+        Bwing = 3
     }
 }

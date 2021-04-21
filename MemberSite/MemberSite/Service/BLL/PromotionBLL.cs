@@ -91,16 +91,16 @@ namespace MemberSite.Service.BLL
         public async Task<ApiResult> SetClaimPromotionAsync(int custId, string bonusCode, decimal? dLockedAmount)
         {
             var apiResult1 = new ApiResult();
-            decimal lockedAmount = dLockedAmount ?? 0;
+            var lockedAmount = dLockedAmount ?? 0;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var result = promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out decimal bonusAmount, ref lockedAmount, out decimal rollOver, out long expiryTime, out Promotion promotion);
+            var result = promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out var bonusAmount, ref lockedAmount, out var rollOver, out var expiryTime, out var promotion);
 
             if (result > 0)
             {
                 if (promotion?.TpId > 0)
                 {
                     var myUrl = $"{apiUrl}BonusTransfer";
-                    ApiResult<TransferResult> apiResult = new ApiResult<TransferResult>();
+                    var apiResult = new ApiResult<TransferResult>();
                     var tpBonusTransfer = new TpBonusTransfer
                     {
                         TpId = promotion.TpId,
@@ -151,7 +151,7 @@ namespace MemberSite.Service.BLL
                 apiResult1.ErrorCode = -3;
                 apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible");
 
-                if ((custInfo.SiteId == 2 || custInfo.SiteId == 3) && promotion?.PromotionType == PromotionType.Freebet)
+                if ((custInfo.SiteId == 2 || custInfo.SiteId == 3) && promotion?.PromotionType == PromotionType.FreeBet)
                 {
                     apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible_FreeBet");
                 }
@@ -176,10 +176,11 @@ namespace MemberSite.Service.BLL
             {
                 apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible");
 
-                if (custInfo.SiteId == 2 || custInfo.SiteId == 3)
+                if (custInfo.SiteId == (int) SiteId.Goal123 || custInfo.SiteId == (int) SiteId.Bwing)
                 {
-                    var custPromotion = GetPromotionDetail(custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, false, custInfo.UserLang, custInfo.UserLang, bonusCode);
-                    if (custPromotion?.PromotionType == (int)PromotionType.Freebet)
+                    var custPromotion = GetPromotionDetail(custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, false,
+                        custInfo.UserLang, custInfo.UserLang, bonusCode);
+                    if (custPromotion?.PromotionType == (int) PromotionType.FreeBet)
                     {
                         apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible_FreeBet");
                     }
