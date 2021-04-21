@@ -24,5 +24,6 @@ namespace MemberSite.Service.Model
         public int Sort { get; set; }
         public int Purpose { get; set; }
         public int Ver { get; set; }
+        public int Status { get; set; }
     }
 }

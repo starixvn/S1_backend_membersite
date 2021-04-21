@@ -30,13 +30,13 @@ namespace MemberSite.Service.BLL
             sysBankInfoOffComparer = new SysBankInfoOffComparer();
         }
 
-        public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId)
+        public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 0)
         {
-            string sBankInfoOffListKey = $"BankInfoOffList_{siteId}";
+            string sBankInfoOffListKey = $"BankInfoOffList_{siteId}_{queryType}";
             var BankInfoOffList = cache.Get<IEnumerable<BankInfoOff>>(sBankInfoOffListKey);
             if (BankInfoOffList == null)
             {
-                BankInfoOffList = bankInfoService.GetBankAccountOff(siteId).Where(x => (x.Purpose & 1) == 1);
+                BankInfoOffList = bankInfoService.GetBankAccountOff(siteId, queryType).Where(x => (x.Purpose & 1) == 1);
                 if (BankInfoOffList.Any())
                 {
                     cache.Set(sBankInfoOffListKey, BankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
@@ -59,11 +59,11 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        public IEnumerable<SysBankInfoFront> GetBankInfoOffList(int custId)
+        public IEnumerable<SysBankInfoFront> GetBankInfoOffList(int custId, int queryType = 0)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
-            var bankAccountOffList = GetBankAccountOff(custInfo.SiteId);
+            var bankAccountOffList = GetBankAccountOff(custInfo.SiteId, queryType);
             
             var newbankAccountOffList = JsonSerializer.Deserialize<IEnumerable<BankInfoOff>>(JsonSerializer.Serialize(bankAccountOffList));
             List<BankInfoOff> localBankList = new List<BankInfoOff>(newbankAccountOffList?.ToList());
@@ -95,6 +95,7 @@ namespace MemberSite.Service.BLL
                              BankLogo = x.BankLogo,
                              BankName = x.BankName,
                              BankSite = x.BankSite,
+                             Status = x.Status,
                          }).Distinct(sysBankInfoOffComparer).ToList();
 
             for (var i = 0; i < _info.Count(); i++)
