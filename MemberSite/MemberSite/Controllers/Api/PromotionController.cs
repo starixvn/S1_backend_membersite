@@ -174,12 +174,8 @@ namespace MemberSite.Controllers.Api
 
             return data;
         }
-        public class PromotionDeviceReq
-        {
-            public int? DeviceType { set; get; }
-        }
         [HttpPost]
-        public ApiResult<List<CustPromotion>> GetPromotionListV2(PromotionDeviceReq promotionDeviceReq)
+        public ApiResult<List<CustPromotion>> GetPromotionListV2()
         {
             var result = new ApiResult<List<CustPromotion>>();
 
@@ -187,7 +183,6 @@ namespace MemberSite.Controllers.Api
             var isLogin = User.Identity.IsAuthenticated;
             int custId = 0;
             int currencyId;
-            int? deviceType = 1;
             if (isLogin)
             {
                 var authData = authorizeBLL.GetAuthData();
@@ -200,16 +195,42 @@ namespace MemberSite.Controllers.Api
                 currencyId = selLangBLL.GetPreferCurrencyId();
             }
 
-            if (promotionDeviceReq.DeviceType != null)
-            {
-                deviceType = promotionDeviceReq.DeviceType;
-            }
-
-            result.Data = promotionBLL.GetPromotionListV2(serverInfo.SiteId, custId, currencyId, deviceType, isLogin, selLangBLL.GetLangId(), serverInfo.DefLang);
+            result.Data = promotionBLL.GetPromotionListV2(serverInfo.SiteId, custId, currencyId, isLogin, selLangBLL.GetLangId(), serverInfo.DefLang);
             result.ErrorCode = 0;
 
             return result;
         }
+        public class PromotionDeviceReq
+        {
+            public int DeviceType { set; get; }
+        }
+        [HttpPost]
+        public ApiResult<List<CustPromotion>> GetPromotionListV3(PromotionDeviceReq promotionDeviceReq)
+        {
+            var result = new ApiResult<List<CustPromotion>>();
+
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            var isLogin = User.Identity.IsAuthenticated;
+            int custId = 0;
+            int currencyId;
+            if (isLogin)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                custId = authData.CustId;
+                currencyId = custInfo.CurrencyId;
+            }
+            else
+            {
+                currencyId = selLangBLL.GetPreferCurrencyId();
+            }
+
+            result.Data = promotionBLL.GetPromotionListV3(serverInfo.SiteId, custId, currencyId, promotionDeviceReq.DeviceType, isLogin, selLangBLL.GetLangId(), serverInfo.DefLang);
+            result.ErrorCode = 0;
+
+            return result;
+        }
+
 
         [HttpPost]
         public ApiResult<CustPromotion> GetPromotionDetail(CustPromotion data)
@@ -270,19 +291,30 @@ namespace MemberSite.Controllers.Api
 
         [Authorize]
         [HttpPost]
-        public ApiResult<List<CustPromotion>> GetSpecialPromotionList(PromotionDeviceReq promotionDeviceReq)
+        public ApiResult<List<CustPromotion>> GetSpecialPromotionList()
         {
             var result = new ApiResult<List<CustPromotion>>();
 
             var serverInfo = serverInfoBLL.GetServerInfo();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            int? deviceType = 1;
-            if (promotionDeviceReq.DeviceType != null)
-            {
-                deviceType = promotionDeviceReq.DeviceType;
-            }
-            result.Data = promotionBLL.GetSpecialPromotionList(serverInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, selLangBLL.GetLangId(), serverInfo.DefLang, deviceType);
+            result.Data = promotionBLL.GetSpecialPromotionList(serverInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, selLangBLL.GetLangId(), serverInfo.DefLang);
+            result.ErrorCode = 0;
+
+            return result;
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ApiResult<List<CustPromotion>> GetSpecialPromotionListV2(PromotionDeviceReq promotionDeviceReq)
+        {
+            var result = new ApiResult<List<CustPromotion>>();
+
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+
+            result.Data = promotionBLL.GetSpecialPromotionListV2(serverInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, selLangBLL.GetLangId(), serverInfo.DefLang, promotionDeviceReq.DeviceType);
             result.ErrorCode = 0;
 
             return result;

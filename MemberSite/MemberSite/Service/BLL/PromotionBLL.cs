@@ -179,7 +179,7 @@ namespace MemberSite.Service.BLL
                 if (custInfo.SiteId == (int) SiteId.Goal123 || custInfo.SiteId == (int) SiteId.Bwing)
                 {
                     var custPromotion = GetPromotionDetail(custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, false, custInfo.UserLang, custInfo.UserLang, bonusCode, deviceType);
-                    if (custPromotion?.PromotionType == (int)PromotionType.Freebet)
+                    if (custPromotion?.PromotionType == (int)PromotionType.FreeBet)
                     {
                         apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible_FreeBet");
                     }
@@ -216,17 +216,25 @@ namespace MemberSite.Service.BLL
             return promotion;
         }
 
-        public List<CustPromotion> GetPromotionListV2(int SiteId, int CustId, int CurrencyId, int? DeviceType, bool IsLogin, string langId, string defLang)
+        public List<CustPromotion> GetPromotionListV2(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang)
         {
-            return promotionService.GetPromotionListv2(SiteId, CustId, CurrencyId, DeviceType, IsLogin, langId, defLang);
+            return promotionService.GetPromotionListv2(SiteId, CustId, CurrencyId, IsLogin, langId, defLang);
+        }
+        public List<CustPromotion> GetPromotionListV3(int SiteId, int CustId, int CurrencyId, int DeviceType, bool IsLogin, string langId, string defLang)
+        {
+            return promotionService.GetPromotionListv3(SiteId, CustId, CurrencyId, DeviceType, IsLogin, langId, defLang);
         }
         public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode, int? DeviceType)
         {
             return promotionService.GetPromotionDetail(SiteId, CustId, CurrencyId, IsLogin, langId, defLang, BonusCode, DeviceType);
         }
-        public List<CustPromotion> GetSpecialPromotionList(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int? deviceType)
+        public List<CustPromotion> GetSpecialPromotionList(int SiteId, int CustId, int CurrencyId, string langId, string defLang)
         {
-            return promotionService.GetSpecialPromotionList(SiteId, CustId, CurrencyId, langId, defLang, deviceType);
+            return promotionService.GetSpecialPromotionList(SiteId, CustId, CurrencyId, langId, defLang);
+        }
+        public List<CustPromotion> GetSpecialPromotionListV2(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int? deviceType)
+        {
+            return promotionService.GetSpecialPromotionListV2(SiteId, CustId, CurrencyId, langId, defLang, deviceType);
         }
         public bool SetSpecialCode(int custId, string specialCode, int? deviceType)
         {
