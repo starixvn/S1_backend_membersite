@@ -63,6 +63,22 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+        public class GetBankInfoOffListReq
+        {
+            public int? QueryType { get; set; } // queryType: 0.only open Bank(status = 1) 1.open & suspend Bank(status = 1 or status = 2)
+        }
+        [HttpPost]
+        public ApiResult<IEnumerable<SysBankInfoFront>> GetBankInfoOffListStatus(GetBankInfoOffListReq getBankInfoOffListReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>();
+            int queryType = 0;
+            if (getBankInfoOffListReq != null &&  getBankInfoOffListReq.QueryType != null)
+                queryType = (int)getBankInfoOffListReq.QueryType;
+            apiResult.Data = bankInfoOffBLL.GetBankInfoOffList(authData.CustId, queryType);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
 
         [HttpPost]
         public ApiResult<IEnumerable<WithdrawalHistory>> GetWithdrawalInfoRecent()

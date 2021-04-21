@@ -34,5 +34,6 @@ namespace MemberSite.Service.Model
         public string BankSite { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
+        public int Status { get; set; }
     }
 }
