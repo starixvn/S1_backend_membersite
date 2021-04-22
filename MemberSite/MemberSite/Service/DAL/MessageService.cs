@@ -22,7 +22,7 @@ namespace MemberSite.Service.DAL
         public int GetCount(int custId, bool isUnread)
         {
             int result = 0;
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             result = conn.ExecuteScalar<int>("MsgCount_Get", new { CustId = custId, IsUnread = isUnread }, commandType: CommandType.StoredProcedure);
             return result;
         }
@@ -36,7 +36,7 @@ namespace MemberSite.Service.DAL
         {
             totalPages = 0;
 
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { CustId = custId, PageSize = pageSize });
             p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -62,13 +62,13 @@ namespace MemberSite.Service.DAL
         }
         public int GetMsgCount(int custId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.ExecuteScalar<int>("MsgCount_Get", new { CustId = custId, IsUnread = 1 }, commandType: CommandType.StoredProcedure);
         }
 
         public IEnumerable<Announcement> GetAnnouncement(string LangCode, string DefaultLangCode, int LimitRow, bool IsTest, int SiteId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<Announcement>("Member_Announcement_Get", new { DefaultLangCode, LangCode, LimitRow, IsTest, SiteId}, commandType: CommandType.StoredProcedure);
         }
         public int SendMessage(int siteId, string sender, string title, string content, int custId, string CustUserName, string lang)
