@@ -232,7 +232,7 @@ namespace MemberSite.Service.BLL
         {
             return promotionService.GetSpecialPromotionList(SiteId, CustId, CurrencyId, langId, defLang);
         }
-        public List<CustPromotion> GetSpecialPromotionListV2(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int? deviceType)
+        public List<CustPromotion> GetSpecialPromotionListV2(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int deviceType)
         {
             return promotionService.GetSpecialPromotionListV2(SiteId, CustId, CurrencyId, langId, defLang, deviceType);
         }
