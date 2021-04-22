@@ -300,4 +300,7 @@
   <data name="msg_PromoCodeIncorrect" xml:space="preserve">
     <value>優惠代碼不正確</value>
   </data>
+  <data name="msg_ClaimCashBackBonus" xml:space="preserve">
+    <value>恭喜，您的現金返還 {0} 已匯入您的戶口！</value>
+  </data>
 </root>
