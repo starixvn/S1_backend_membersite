@@ -3,8 +3,6 @@ using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -75,6 +73,12 @@ namespace MemberSite.Service.BLL
         public int SendMessage(int siteId, string sender, string title, string content, int custId, string CustUserName, string lang)
         {
             return messageService.SendMessage(siteId, sender, title, content, custId, CustUserName, lang);
+        }
+
+        public async void SendMessage(Message message)
+        {
+            await messageService.SendMessageAsync(new Message(message.SiteId, message.Sender, message.Title, message.Content, message.CustId,
+                message.CustUserName, message.LangId));
         }
     }
 }

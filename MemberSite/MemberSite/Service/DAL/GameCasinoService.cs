@@ -19,7 +19,7 @@ namespace MemberSite.Service.DAL
         }
         public List<GameCasinoListData> GetGameCasinoList()
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             int IsStage = configuration.GetValue<int>("IsStage");
             string SPName = "Member_GameCasinoList_Get";
             if (IsStage == 1)

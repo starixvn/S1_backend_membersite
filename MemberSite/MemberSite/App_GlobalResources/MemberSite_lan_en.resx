@@ -1875,4 +1875,16 @@
   <data name="lbl_TpWallet_27" xml:space="preserve">
     <value>PT Wallet</value>
   </data>
+  <data name="lbl_Cashback_Sports" xml:space="preserve">
+    <value>Sports</value>
+  </data>
+  <data name="lbl_Cashback_RNG" xml:space="preserve">
+    <value>RNG</value>
+  </data>
+  <data name="lbl_Cashback_Lottery" xml:space="preserve">
+    <value>Lottery</value>
+  </data>
+  <data name="lbl_Cashback_Virtual_Sports" xml:space="preserve">
+    <value>Virtual Sports</value>
+  </data>
 </root>

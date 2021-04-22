@@ -1710,4 +1710,16 @@
   <data name="lbl_TpWallet_27" xml:space="preserve">
     <value>กระเป๋าสตางค์ PT</value>
   </data>
+  <data name="lbl_Cashback_Sports" xml:space="preserve">
+    <value>กีฬา</value>
+  </data>
+  <data name="lbl_Cashback_RNG" xml:space="preserve">
+    <value>RNG</value>
+  </data>
+  <data name="lbl_Cashback_Lottery" xml:space="preserve">
+    <value>ลอตเตอรี่</value>
+  </data>
+  <data name="lbl_Cashback_Virtual_Sports" xml:space="preserve">
+    <value>กีฬาจำลอง</value>
+  </data>
 </root>

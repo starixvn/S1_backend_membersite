@@ -75,6 +75,7 @@ namespace MemberSite.Service.Model
         public string DepositInfo { get; set; }
         public dynamic DepositRep { get; set; }
         public BankInfoSys BankInfo { get; set; }
+        public string ThirdId { get; set; }
         public string RefId { get; set; }
         public DateTime? DepositTime { get; set; }
         public string PicFileName { get; set; }

@@ -1,28 +1,30 @@
-﻿using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 using Dapper;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using Microsoft.Extensions.Logging;
 
 namespace MemberSite.Service.DAL
 {
     public class MessageService
     {
         private readonly IConfiguration configuration;
+        private readonly MySqlClient _mainDbClient;
 
-        public MessageService(IConfiguration configuration)
+        public MessageService(IConfiguration configuration, ILogger<MySqlClient> logger)
         {
             this.configuration = configuration;
+            _mainDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionString"), logger);
         }
 
         public int GetCount(int custId, bool isUnread)
         {
             int result = 0;
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             result = conn.ExecuteScalar<int>("MsgCount_Get", new { CustId = custId, IsUnread = isUnread }, commandType: CommandType.StoredProcedure);
             return result;
         }
@@ -36,7 +38,7 @@ namespace MemberSite.Service.DAL
         {
             totalPages = 0;
 
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { CustId = custId, PageSize = pageSize });
             p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -62,19 +64,35 @@ namespace MemberSite.Service.DAL
         }
         public int GetMsgCount(int custId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.ExecuteScalar<int>("MsgCount_Get", new { CustId = custId, IsUnread = 1 }, commandType: CommandType.StoredProcedure);
         }
 
         public IEnumerable<Announcement> GetAnnouncement(string LangCode, string DefaultLangCode, int LimitRow, bool IsTest, int SiteId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<Announcement>("Member_Announcement_Get", new { DefaultLangCode, LangCode, LimitRow, IsTest, SiteId}, commandType: CommandType.StoredProcedure);
         }
         public int SendMessage(int siteId, string sender, string title, string content, int custId, string CustUserName, string lang)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Execute("Msg_Ins", new { Type = 99, SiteId = siteId, LangId = lang, RecipientCustId = custId, Recipient = CustUserName, SenderCustId = siteId, Sender = sender, Title = title, Content = content, MainId = 0 }, commandType: CommandType.StoredProcedure);
+        }
+        
+        public async Task<bool> SendMessageAsync(Message message)
+        {
+            var parameter = new DynamicParameters();
+            parameter.Add("Type", 99);
+            parameter.Add("SiteId", message.SiteId);
+            parameter.Add("LangId", message.LangId);
+            parameter.Add("RecipientCustId", message.CustId);
+            parameter.Add("Recipient", message.CustUserName);
+            parameter.Add("SenderCustId", message.SiteId);
+            parameter.Add("Sender", message.Sender);
+            parameter.Add("Title", message.Title);
+            parameter.Add("Content", message.Content);
+            parameter.Add("MainId", 0);
+            return await _mainDbClient.ExecuteAsync("Msg_Ins", parameter);
         }
     }
 }

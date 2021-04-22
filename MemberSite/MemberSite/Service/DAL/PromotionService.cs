@@ -12,6 +12,7 @@ using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using MemberSite.Service.BLL;
 using Microsoft.Extensions.Logging;
 
 namespace MemberSite.Service.DAL
@@ -28,10 +29,12 @@ namespace MemberSite.Service.DAL
         private readonly WithdrawalLimitService withdrawalLimitService;
         private readonly Tools tools;
         private readonly int[] hasBonusWallet;
+        private readonly SelLangBLL _selLangBll;
 
         public PromotionService(IConfiguration configuration, Common common, WalletService walletService,
             RolloverService rollOverService, BonusWalletService bonusWalletService,
-            WithdrawalLimitService withdrawalLimitService, Tools tools, ILogger<MySqlClient> logger)
+            WithdrawalLimitService withdrawalLimitService, Tools tools, ILogger<MySqlClient> logger,
+            SelLangBLL selLangBll)
         {
             this.configuration = configuration;
             _mainDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionString"), logger);
@@ -43,21 +46,22 @@ namespace MemberSite.Service.DAL
             this.withdrawalLimitService = withdrawalLimitService;
             this.tools = tools;
             hasBonusWallet = configuration.GetSection("HasBonusWallet").Get<int[]>();
+            _selLangBll = selLangBll;
         }
 
         public IEnumerable<Promotion> GetPromotionList(int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<Promotion>("Member_PromotionList_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<Promotion> GetPromotionListByCustId(int siteId, int custId, int currencyId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<Promotion>("Member_PromotionListByCustId_Get", new { SiteId = siteId, CustId = custId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
         public Promotion GetPromotion(int siteId, string bonusCode, int currencyId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<Promotion>("Member_Promotion_Get", new { SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
 
@@ -357,7 +361,7 @@ namespace MemberSite.Service.DAL
 
         public bool GetCanJoin(int custId, int siteId, string bonusCode, int currencyId, out int result, out string depositId, out decimal dpositAmount)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
             p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
             p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
@@ -647,7 +651,22 @@ namespace MemberSite.Service.DAL
                 {
                     CustId = custId, promotion.BonusCode, PeriodFrom = lastMonday.ToString("yyyy-MM-dd"),
                     PeriodTo = lastSunday, PromoCategoryId = promotion.CategoryId
-                }));
+                })).ToList();
+
+            if (detail.Any() && detail.First().TpId == (int)Tp.Saba)
+            {
+                foreach (var d in detail)
+                {
+                    d.TpName = d.CategoryId switch
+                    {
+                        (int) TpCategoryId.Sports => _selLangBll.GetResourceValue("lbl_Cashback_Sports"),
+                        (int) TpCategoryId.Casino => _selLangBll.GetResourceValue("lbl_Cashback_RNG"),
+                        (int) TpCategoryId.Lottery => _selLangBll.GetResourceValue("lbl_Cashback_Lottery"),
+                        (int) TpCategoryId.VirtualSports => _selLangBll.GetResourceValue("lbl_Cashback_Virtual_Sports"),
+                        _ => d.TpName
+                    };
+                }
+            }
             
             var details = _reportDbClient.Query<CashBackDetails>("Member_CustCashBack_Get",
                 new DynamicParameters(new
@@ -665,7 +684,7 @@ namespace MemberSite.Service.DAL
 
         public List<CustPromotion> GetSpecialPromotionList(int SiteId, int CustId, int CurrencyId, string langId, string defLang)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             conn.Open();
             using var trans = conn.BeginTransaction();
 
