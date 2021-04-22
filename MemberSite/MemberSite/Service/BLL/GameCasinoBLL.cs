@@ -38,6 +38,24 @@ namespace MemberSite.Service.BLL
             }
             return gameCasinoListData;
         }
+        public List<GameCasinoListData> GetGameCasinoListByDevice(int deviceType)
+        {
+            string key = $"GetGameCasinoListByDevice_{deviceType}";
+            var gameCasinoListData = cache.Get<List<GameCasinoListData>>(key);
+
+            if (gameCasinoListData != null)
+            {
+                return gameCasinoListData;
+            }
+
+            gameCasinoListData = gameCasinoService.GetGameCasinoListByDevice(deviceType);
+
+            if (gameCasinoListData != null)
+            {
+                cache.Set(key, gameCasinoListData, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromHours(1)));
+            }
+            return gameCasinoListData;
+        }
         public List<Provider> GetProviderList()
         {
             List<Provider> Provider = new List<Provider>();
