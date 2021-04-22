@@ -93,6 +93,7 @@ namespace MemberSite.Service.Model
         public IEnumerable<Ref> RefList { get; set; }
         public string PromotionLink { get; set; }
         public int? DeviceType { set; get; }
+        public int? PromotionAction { set; get; }
         public CashBackDetails CashBackDetails { get; set; }
     }
 
