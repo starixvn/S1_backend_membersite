@@ -50,6 +50,7 @@ namespace MemberSite
                                 .ReadFrom.Configuration(Configuration)
                                 .Enrich.FromLogContext()
                                 .Filter.ByExcluding(c => c.Properties.Any(p => p.Value.ToString().Contains("/health")
+                                    || p.Value.ToString().Contains("/api/Account/onlineCheck")
                                     || Excludes.Any(item =>  c.MessageTemplate.ToString().Contains(item))))
                                 .Enrich.WithExceptionDetails()
                                 .MinimumLevel.Information().WriteTo.Console(new JsonFormatter());
