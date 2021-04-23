@@ -92,6 +92,8 @@ namespace MemberSite.Service.Model
         public decimal MaxAmount { get; set; }
         public IEnumerable<Ref> RefList { get; set; }
         public string PromotionLink { get; set; }
+        public int? DeviceType { set; get; }
+        public int? PromotionAction { set; get; }
         public CashBackDetails CashBackDetails { get; set; }
     }
 
@@ -99,7 +101,7 @@ namespace MemberSite.Service.Model
     {
         public decimal TotalBonus { get; set; }
         public decimal MaxBonus { get; set; }
-        public IEnumerable<CashBackDetail> CashBackDetail {get; set; }
+        public IEnumerable<CashBackDetail> CashBackDetail { get; set; }
     }
 
     public class CashBackDetail

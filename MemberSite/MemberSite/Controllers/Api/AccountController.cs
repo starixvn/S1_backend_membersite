@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using MemberSite.Service.Model;
-using MemberSite.Service.BLL;
-using System.Security.Claims;
-using MemberSite.Service.Library;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
-using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Controllers.Api
 {
@@ -156,10 +157,31 @@ namespace MemberSite.Controllers.Api
 
             // tell the SignInAsync to use this new identity
             if (!isJwt)
+            {
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                apiResult.Message = Url.RouteUrl("desktop", new { action = HttpContext.Request.RouteValues["action"], controller = HttpContext.Request.RouteValues["controller"], languageModel.LangId });
+            }
+            else
+            {
+                var claims = new[]
+                {
+                    new Claim(ClaimTypes.Name,authData.UserName ),
+                    new Claim(ClaimTypes.NameIdentifier,authData.CustId.ToString() ),
+                    new Claim("Token",identity.FindFirst("Token").Value ),
+                    new Claim("LangId",languageModel.LangId ),
+                    //new Claim("CustId",customer.CustId.ToString() ),
+                    //new Claim("SiteId",customer.SiteId.ToString() ),
+                    //new Claim("UserName",customer.UserName ),
+                    //new Claim(JwtRegisteredClaimNames.Sub, customer.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString() )
+                };
+                var accessToken = tools.GenerateJwtTokens(claims);
+
+                apiResult.Message = accessToken;
+            }
 
             apiResult.ErrorCode = 0;
-            apiResult.Message = Url.RouteUrl("desktop", new { action = HttpContext.Request.RouteValues["action"], controller = HttpContext.Request.RouteValues["controller"], languageModel.LangId });
+
 
             return apiResult;
         }
@@ -1015,7 +1037,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = 99;
             }
             return apiResult;
-        }   
+        }
         //[HttpPost]
         //public ApiResult DelCustBankInfo(BankInfo bankInfo)
         //{
