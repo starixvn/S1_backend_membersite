@@ -254,7 +254,6 @@ namespace MemberSite.Service.DAL
                         return 0;
                 }
 
-                var result = 0;
                 switch (promotion.PromotionType)
                 {
                     case PromotionType.FstDeposit:
