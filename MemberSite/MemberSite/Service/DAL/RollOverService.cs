@@ -28,7 +28,7 @@ namespace MemberSite.Service.DAL
         }
         public CustRollOver GetCustRollOver(int custId, string bonusCode)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             //Common_RollOver_GetV2
             var result = conn.QueryFirstOrDefault<CustRollOver>("Common_RollOver_Get", new { CustId = custId, BonusCode = bonusCode }, commandType: CommandType.StoredProcedure);
             return result;

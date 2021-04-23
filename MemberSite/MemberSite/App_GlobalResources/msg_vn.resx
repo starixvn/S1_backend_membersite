@@ -299,4 +299,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_SpecialCodeErr" xml:space="preserve">
     <value>Không tìm thấy khuyến mãi phù hợp với mã bạn vừa nhập</value>
   </data>
+  <data name="msg_ClaimCashBackBonus" xml:space="preserve">
+    <value>Xin chúc mừng, khoản tiền hoàn lại {0} của bạn đã được ghi có vào tài khoản của bạn!</value>
+  </data>
 </root>

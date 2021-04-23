@@ -21,6 +21,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Threading.Tasks;
+using MemberSite.Extensions;
 
 namespace MemberSite
 {
@@ -256,7 +257,8 @@ namespace MemberSite
             app.UseCors("LandingPage");
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseRequestLogMiddleware();
+            app.UseResponseLogMiddleware();
             app.UseMiddleware<SiteMiddleware>();
 
             app.UseEndpoints(endpoints =>

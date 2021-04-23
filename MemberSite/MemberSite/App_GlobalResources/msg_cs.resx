@@ -310,4 +310,7 @@
   <data name="msg_DrawPrizeTital1" xml:space="preserve">
     <value>{0}神秘宝盒</value>
   </data>
+  <data name="msg_ClaimCashBackBonus" xml:space="preserve">
+    <value>恭喜，您的现金返还 {0} 已汇入您的户口！</value>
+  </data>
 </root>

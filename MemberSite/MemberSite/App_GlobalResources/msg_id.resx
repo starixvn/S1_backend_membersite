@@ -313,4 +313,7 @@
   <data name="msg_DrawPrizeTital1" xml:space="preserve">
     <value>{0} Mystery Box</value>
   </data>
+  <data name="msg_ClaimCashBackBonus" xml:space="preserve">
+    <value>Selamat, Bonus CASHBACK Anda {0} telah dikreditkan ke akun Anda!</value>
+  </data>
 </root>

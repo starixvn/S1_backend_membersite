@@ -19,7 +19,7 @@ namespace MemberSite.Service.DAL
         }
         public List<GameCasinoListData> GetGameCasinoList()
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             int IsStage = configuration.GetValue<int>("IsStage");
             string SPName = "Member_GameCasinoList_Get";
             if (IsStage == 1)
@@ -27,6 +27,17 @@ namespace MemberSite.Service.DAL
                 SPName = "Member_GameCasinoListStag_Get";
             }
             return conn.Query<GameCasinoListData>(SPName, null, commandType: CommandType.StoredProcedure).ToList();
+        }
+        public List<GameCasinoListData> GetGameCasinoListByDevice(int deviceType)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            int IsStage = configuration.GetValue<int>("IsStage");
+            string SPName = "Member_GameCasinoListByDevice_Get";
+            if (IsStage == 1)
+            {
+                SPName = "Member_GameCasinoListByDeviceStag_Get";
+            }
+            return conn.Query<GameCasinoListData>(SPName, new { DeviceType = deviceType }, commandType: CommandType.StoredProcedure).ToList();
         }
     }
 }

@@ -317,4 +317,7 @@
   <data name="msg_DrawPrizeTital1" xml:space="preserve">
     <value>{0} กล่องปริศนา</value>
   </data>
+  <data name="msg_ClaimCashBackBonus" xml:space="preserve">
+    <value>ขอแสดงความยินดีเครดิตเงินคืน {0} ของคุณเข้าบัญชีของคุณแล้ว!</value>
+  </data>
 </root>

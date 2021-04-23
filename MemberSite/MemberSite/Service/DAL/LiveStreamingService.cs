@@ -16,7 +16,7 @@ namespace MemberSite.Service.DAL
         }
         public IEnumerable<LiveStreaming> GetLiveStreamingList()
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<LiveStreaming>("Member_LiveStreaming_Get", commandType: CommandType.StoredProcedure);
         }
     }

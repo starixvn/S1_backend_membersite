@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MemberSite.Service.Model.enums;
+using System;
 using System.Collections.Generic;
-using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.Model
 {
@@ -112,7 +112,8 @@ namespace MemberSite.Service.Model
         public string PeriodFrom { get; set; }
         public string PeriodTo { get; set; }
         public decimal LossAmount { get; set; }
-        public decimal Percentage { get; set; }
+        public decimal Percentage { private get; set; }
+        public string PercentageName => $"{Percentage:G29}%";
         public decimal BonusAmount { get; set; }
     }
 

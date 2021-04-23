@@ -321,4 +321,7 @@
   <data name="msg_DrawPrizeTital1" xml:space="preserve">
     <value>{0} Mystery Box</value>
   </data>
+  <data name="msg_ClaimCashBackBonus" xml:space="preserve">
+    <value>Congratulations, your CASHBACK {0} has been credited to your account!</value>
+  </data>
 </root>

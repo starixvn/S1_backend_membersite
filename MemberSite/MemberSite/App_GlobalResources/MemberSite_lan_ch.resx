@@ -1706,4 +1706,16 @@
   <data name="lbl_TpWallet_27" xml:space="preserve">
     <value>PT錢包</value>
   </data>
+  <data name="lbl_Cashback_Sports" xml:space="preserve">
+    <value>體育博彩</value>
+  </data>
+  <data name="lbl_Cashback_RNG" xml:space="preserve">
+    <value>RNG</value>
+  </data>
+  <data name="lbl_Cashback_Lottery" xml:space="preserve">
+    <value>彩票</value>
+  </data>
+  <data name="lbl_Cashback_Virtual_Sports" xml:space="preserve">
+    <value>虛擬運動</value>
+  </data>
 </root>

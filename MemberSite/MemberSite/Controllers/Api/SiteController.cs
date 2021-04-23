@@ -1331,6 +1331,121 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        public class GetGameListByDeviceReq
+        {
+            public int DeviceType { get; set; }
+        }
+        public ApiResult<GameInfo> GetGameListByDevice(GetGameListByDeviceReq getGameListByDeviceReq)
+        {
+            ApiResult<GameInfo> apiResult = new ApiResult<GameInfo>();
+            GameInfo resultData = new GameInfo();
+            resultData.ProviderList = new List<Provider>();
+
+            //不分Tpid取出GameCasino資料
+            var GameCasinoList = gameCasinoBLL.GetGameCasinoListByDevice(getGameListByDeviceReq.DeviceType);
+
+            //GameCasinoList裡總共有多少種TpId
+            var GameCasinoHasTpid = GameCasinoList.Select(x => x.TpId).Distinct();
+            var providers = gameCasinoBLL.GetProviderList();
+
+            IEnumerable<int> tpIds = null;
+            IEnumerable<GameCasionByCurrencyAndSite> gameCasionByCurrencyAndSite = null;
+
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                tpIds = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
+                //取出有byCurrency跟Site設定的遊戲資訊
+                gameCasionByCurrencyAndSite = casinoBLL.GetGameCasinoByCurrencyAndSite(custInfo.CurrencyId, custInfo.SiteId);
+            }
+            else
+            {
+                tpIds = casinoBLL.GetProviderIdByCurrency(0, serverInfo.SiteId);
+                //取出有byCurrency跟Site設定的遊戲資訊
+                gameCasionByCurrencyAndSite = casinoBLL.GetGameCasinoByCurrencyAndSite(selLangBLL.GetPreferCurrencyId(), serverInfo.SiteId);
+            }
+
+            //濾掉不符合權限的
+
+            var filterCon = GameCasinoHasTpid?.Where(x => tpIds.Contains(x)).ToDictionary(x => Convert.ToInt16(x), x => false);
+
+            var dictgameCasionByCurrencyAndSite = gameCasionByCurrencyAndSite?.ToDictionary(x => Convert.ToInt32(x.GameCasinoId), x => x);
+
+            foreach (var provider in providers?.Where(thisProvider => filterCon.ContainsKey(thisProvider.Value)))
+            {
+                provider.GameList = new GameDesc
+                {
+                    ImgUrl = "",
+                    Data = new List<Datum>()
+                };
+
+                GameCasinoList.FindAll(x => x.TpId == provider.Value).ForEach(y =>
+                {
+                    var nameItem = JsonConvert.DeserializeObject<Dictionary<string, string>>(y.Name);
+                    string imgName = null;
+
+                    if (nameItem.ContainsKey("en"))
+                    {
+                        imgName = nameItem["en"];
+                    }
+
+                    Dictionary<string, string> imgNameD = nameItem.ToDictionary(x => x.Key, x => $"{OrgFileNameFilter($"{imgName}-{x.Key}")}.jpg");
+                    if (dictgameCasionByCurrencyAndSite != null && dictgameCasionByCurrencyAndSite.ContainsKey(y.GameCasinoId))
+                    {
+                        if (dictgameCasionByCurrencyAndSite[y.GameCasinoId].Status)
+                        {
+                            provider.GameList.Data.Add(new Datum
+                            {
+                                Name = nameItem,
+                                ImgName = imgNameD,
+                                AppId = y.AppId,
+                                GameId = y.GameId,
+                                Category1 = Enum.GetName(typeof(TypeId), y.TypeId),
+                                Paylines = y.Paylines,
+                                Rtp = y.Rtp,
+                                Reels = string.IsNullOrWhiteSpace(y.Reel) ? string.Empty : y.Reel,
+                                LaunchDate = y.LaunchDate,
+                                Hot = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Hot,
+                                New = y.LaunchDate.AddDays(30) > DateTime.Now,
+                                ImageExist = true,
+                                promotion = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Promotion ? 1 : 0,
+                                featured = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Featured,
+                                PlayFree = y.Fun
+                            });
+                        }
+                    }
+                    else
+                    {
+                        provider.GameList.Data.Add(new Datum
+                        {
+                            Name = nameItem,
+                            ImgName = imgNameD,
+                            AppId = y.AppId,
+                            GameId = y.GameId,
+                            Category1 = Enum.GetName(typeof(TypeId), y.TypeId),
+                            Paylines = y.Paylines,
+                            Rtp = y.Rtp,
+                            Reels = string.IsNullOrWhiteSpace(y.Reel) ? string.Empty : y.Reel,
+                            LaunchDate = y.LaunchDate,
+                            Hot = y.Hot,
+                            New = y.LaunchDate.AddDays(30) > DateTime.Now,
+                            ImageExist = true,
+                            promotion = y.promotion ? 1 : 0,
+                            featured = y.featured,
+                            PlayFree = y.Fun
+                        });
+                    }
+                });
+                resultData.ProviderList.Add(provider);
+            }
+            apiResult.Data = resultData;
+            apiResult.Data.ImgUrl = siteConfig.Value[serverInfo.SiteName].ImageURL;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
         private string OrgFileNameFilter(string fileName)
         {
             return fileName = fileName.Replace(" ", "-")

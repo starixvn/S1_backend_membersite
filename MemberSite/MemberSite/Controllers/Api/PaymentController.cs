@@ -63,6 +63,22 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+        public class GetBankInfoOffListReq
+        {
+            public int? QueryType { get; set; } // queryType: 0.only open Bank(status = 1) 1.open & suspend Bank(status = 1 or status = 2)
+        }
+        [HttpPost]
+        public ApiResult<IEnumerable<SysBankInfoFront>> GetBankInfoOffListStatus(GetBankInfoOffListReq getBankInfoOffListReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>();
+            int queryType = 0;
+            if (getBankInfoOffListReq != null &&  getBankInfoOffListReq.QueryType != null)
+                queryType = (int)getBankInfoOffListReq.QueryType;
+            apiResult.Data = bankInfoOffBLL.GetBankInfoOffList(authData.CustId, queryType);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
 
         [HttpPost]
         public ApiResult<IEnumerable<WithdrawalHistory>> GetWithdrawalInfoRecent()
@@ -127,6 +143,9 @@ namespace MemberSite.Controllers.Api
             public int sysId { set; get; }
             public decimal amount { set; get; }
             public string memo { set; get; }
+            public int fromChannel { set; get; }
+            public int fromSysId { set; get; }
+            public string fromAccountNum { set; get; }
         }
 
         /// <summary>
@@ -153,8 +172,20 @@ namespace MemberSite.Controllers.Api
             {
 
             }
+            int result = -1;
+            DepositRep3 depositRep3 = null ;
+            var depositFromInfo = new DepositFromInfo
+            {
+                Channel = depositReqWireTransferReq.fromChannel,
+                SysId = depositReqWireTransferReq.fromSysId,
+                AccountNo = depositReqWireTransferReq.fromAccountNum
+            };
+            string fromInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositFromInfo);
 
-            var result = paymentBLL.DepositReqLocalBank(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out var depositRep3);
+            if (depositReqWireTransferReq.fromChannel == 0 && depositReqWireTransferReq.fromSysId == 0 && depositReqWireTransferReq.fromAccountNum == null)
+                result = paymentBLL.DepositReqLocalBank(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out depositRep3);
+            else
+                result = paymentBLL.DepositReqLocalBankWithFrom(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, fromInfo, out depositRep3);
 
             apiResult.ErrorCode = result;
 

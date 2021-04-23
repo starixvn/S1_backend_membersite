@@ -20,9 +20,11 @@ namespace MemberSite.Service.BLL
         private readonly CourierAdapter courierAdapter;
         private readonly string apiUrl;
         private readonly int bonusType;
-        private readonly SelLangBLL selLangBLL;
+        private readonly SelLangBLL _selLangBll;
+        private readonly MessageBLL _messageBll;
 
-        public PromotionBLL(IConfiguration configuration, IMemoryCache cache, PromotionService promotionService, CustInfoBLL custInfoBLL, CourierAdapter courierAdapter, SelLangBLL selLangBLL)
+        public PromotionBLL(IConfiguration configuration, IMemoryCache cache, PromotionService promotionService,
+            CustInfoBLL custInfoBLL, CourierAdapter courierAdapter, SelLangBLL selLangBll, MessageBLL messageBll)
         {
             this.promotionService = promotionService;
             this.cache = cache;
@@ -30,8 +32,10 @@ namespace MemberSite.Service.BLL
             this.courierAdapter = courierAdapter;
             apiUrl = configuration.GetValue<string>("TpService");
             bonusType = configuration.GetValue<int>("BonusType");
-            this.selLangBLL = selLangBLL;
+            _selLangBll = selLangBll;
+            _messageBll = messageBll;
         }
+
         public IEnumerable<Promotion> GetPromotionList(int siteId)
         {
             return promotionService.GetPromotionList(siteId);
@@ -134,6 +138,14 @@ namespace MemberSite.Service.BLL
                 {
                     apiResult1.ErrorCode = 0;
                 }
+
+                if (apiResult1.ErrorCode == 0 && promotion is {PromotionType: PromotionType.Cashback})
+                {
+                    var content = string.Format(_selLangBll.GetMsg("msg_ClaimCashBackBonus"),
+                        bonusAmount.ToString("#,##0.##"));
+                    _messageBll.SendMessage(new Message(custInfo.SiteId, "System", content, content, custInfo.CustId,
+                        custInfo.UserName, custInfo.UserLang));
+                }
             }
             else if (result == -2)
             {
@@ -144,16 +156,16 @@ namespace MemberSite.Service.BLL
                     dRequiredAmount = $"{lockedAmount / 1000:#,##0} ('000)";
                 }
 
-                apiResult1.Message = string.Format(selLangBLL.GetMsg("msg_LockedAmountInsufficient"), dRequiredAmount);
+                apiResult1.Message = string.Format(_selLangBll.GetMsg("msg_LockedAmountInsufficient"), dRequiredAmount);
             }
             else if (result == -3)
             {
                 apiResult1.ErrorCode = -3;
-                apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible");
+                apiResult1.Message = _selLangBll.GetMsg("msg_Ineligible");
 
                 if ((custInfo.SiteId == 2 || custInfo.SiteId == 3) && promotion?.PromotionType == PromotionType.FreeBet)
                 {
-                    apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible_FreeBet");
+                    apiResult1.Message = _selLangBll.GetMsg("msg_Ineligible_FreeBet");
                 }
             }
             else if (result == -4)
@@ -165,23 +177,23 @@ namespace MemberSite.Service.BLL
                     dRequiredAmount = $"{promotion.RequiredAmount / 1000:#,##0} ('000)";
                 }
 
-                apiResult1.Message = string.Format(selLangBLL.GetMsg("msg_RequiredAmountInsufficient"), dRequiredAmount);
+                apiResult1.Message = string.Format(_selLangBll.GetMsg("msg_RequiredAmountInsufficient"), dRequiredAmount);
             }
             else if (result == -5)
             {
                 apiResult1.ErrorCode = result;
-                apiResult1.Message = $"{selLangBLL.GetMsg("msg_OTPHint1")}\r\n{selLangBLL.GetMsg("msg_OTPHint2")}";
+                apiResult1.Message = $"{_selLangBll.GetMsg("msg_OTPHint1")}\r\n{_selLangBll.GetMsg("msg_OTPHint2")}";
             }
             else
             {
-                apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible");
+                apiResult1.Message = _selLangBll.GetMsg("msg_Ineligible");
 
                 if (custInfo.SiteId == (int) SiteId.Goal123 || custInfo.SiteId == (int) SiteId.Bwing)
                 {
                     var custPromotion = GetPromotionDetail(custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, false, custInfo.UserLang, custInfo.UserLang, bonusCode, deviceType);
                     if (custPromotion?.PromotionType == (int)PromotionType.FreeBet)
                     {
-                        apiResult1.Message = selLangBLL.GetMsg("msg_Ineligible_FreeBet");
+                        apiResult1.Message = _selLangBll.GetMsg("msg_Ineligible_FreeBet");
                     }
                 }
             }

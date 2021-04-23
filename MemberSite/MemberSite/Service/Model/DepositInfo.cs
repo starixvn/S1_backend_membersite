@@ -75,6 +75,7 @@ namespace MemberSite.Service.Model
         public string DepositInfo { get; set; }
         public dynamic DepositRep { get; set; }
         public BankInfoSys BankInfo { get; set; }
+        public string ThirdId { get; set; }
         public string RefId { get; set; }
         public DateTime? DepositTime { get; set; }
         public string PicFileName { get; set; }
@@ -96,5 +97,11 @@ namespace MemberSite.Service.Model
         public decimal DepositMin { get; set; }
         public decimal DepositMax { get; set; }
         public int DepositStatus { get; set; }
+    }
+    public class DepositFromInfo
+    {
+        public int Channel { get; set; }
+        public int SysId { get; set; }
+        public string AccountNo { get; set; }
     }
 }
