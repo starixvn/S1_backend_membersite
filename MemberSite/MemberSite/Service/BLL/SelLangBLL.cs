@@ -68,7 +68,8 @@ namespace MemberSite.Service.BLL
             }
             else
             {
-                langId = context.Request.Cookies[$"LangId_{serverInfo.SiteId}"];
+                //langId = context.Request.Cookies[$"LangId_{serverInfo.SiteId}"];
+                langId = context.Request.Cookies[$"{serverInfo.SiteName.ToLower()}LangId"];
             }
 
             if (string.IsNullOrEmpty(langId))
