@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using MemberSite.Service.BLL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Logging;
@@ -14,11 +15,16 @@ namespace MemberSite.Extensions.Middlewares
     {
         private readonly ILogger _logger;
         private readonly RequestDelegate _next;
+        private readonly AuthorizeBLL _authorizeBll;
+        private readonly ServerInfoBLL _serverInfoBll;
 
-        public RequestLogMiddleware(RequestDelegate next, ILoggerFactory factory)
+        public RequestLogMiddleware(RequestDelegate next, ILoggerFactory factory, AuthorizeBLL authorizeBll,
+            ServerInfoBLL serverInfoBll)
         {
             _next = next;
             _logger = factory.CreateLogger("RequestLog");
+            _authorizeBll = authorizeBll;
+            _serverInfoBll = serverInfoBll;
         }
 
         public async Task Invoke(HttpContext context)
@@ -46,10 +52,13 @@ namespace MemberSite.Extensions.Middlewares
                     ? await requestBody.ReadToEndAsync()
                     : content;
 
-                LogContext.PushProperty("ES", context.Request.Cookies[".ES"]);
-                LogContext.PushProperty("Referer", context.Request.Headers["Referer"]);
+                var authData = _authorizeBll.GetAuthData();
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                LogContext.PushProperty("CustId", authData.CustId);
+                LogContext.PushProperty("UserName", authData.UserName);
+                LogContext.PushProperty("SiteId", serverInfo.SiteId);
                 _logger.LogInformation(
-                    $"REQUEST METHOD: {context.Request.Method}, CodePage: {codePage}, REQUEST BODY: {content}, REQUEST URL: {url}");
+                    $"REQUEST METHOD: {context.Request.Method}, CodePage: {codePage}, REQUEST BODY: {content}, REQUEST URL: {url}, ES: {context.Request.Cookies[".ES"]}, Referer: {context.Request.Headers["Referer"]}");
             }
 
             requestBodyStream.Seek(0, SeekOrigin.Begin);
