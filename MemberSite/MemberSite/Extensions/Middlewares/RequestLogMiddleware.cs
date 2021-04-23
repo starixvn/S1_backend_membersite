@@ -54,9 +54,9 @@ namespace MemberSite.Extensions.Middlewares
 
                 var authData = _authorizeBll.GetAuthData();
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                LogContext.PushProperty("CustId", authData.CustId);
-                LogContext.PushProperty("UserName", authData.UserName);
-                LogContext.PushProperty("SiteId", serverInfo.SiteId);
+                LogContext.PushProperty("CustId", authData?.CustId);
+                LogContext.PushProperty("UserName", authData?.UserName);
+                LogContext.PushProperty("SiteId", serverInfo?.SiteId);
                 _logger.LogInformation(
                     $"REQUEST METHOD: {context.Request.Method}, CodePage: {codePage}, REQUEST BODY: {content}, REQUEST URL: {url}, ES: {context.Request.Cookies[".ES"]}, Referer: {context.Request.Headers["Referer"]}");
             }
