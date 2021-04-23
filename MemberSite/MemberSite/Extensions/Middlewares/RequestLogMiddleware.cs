@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Serilog.Context;
 
 namespace MemberSite.Extensions.Middlewares
 {
@@ -45,6 +46,8 @@ namespace MemberSite.Extensions.Middlewares
                     ? await requestBody.ReadToEndAsync()
                     : content;
 
+                LogContext.PushProperty("ES", context.Request.Cookies[".ES"]);
+                LogContext.PushProperty("Referer", context.Request.Headers["Referer"]);
                 _logger.LogInformation(
                     $"REQUEST METHOD: {context.Request.Method}, CodePage: {codePage}, REQUEST BODY: {content}, REQUEST URL: {url}");
             }

@@ -29,7 +29,9 @@ namespace MemberSite
             "Executed action {ActionName}",
             "Executed endpoint '{EndpointName}'",
             "{HostingRequestFinishedLog:l}",
-            "Executing ContentResult with HTTP Response ContentType of {ContentType}"
+            "Executing ContentResult with HTTP Response ContentType of {ContentType}",
+            "CORS policy execution successful.",
+            "Authorization was successful."
         };
         
         public static void Main(string[] args)

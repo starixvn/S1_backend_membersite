@@ -213,21 +213,22 @@ namespace MemberSite
             services.AddCors(options =>
             {
                 options.AddPolicy(name: AllowSpecificOrigins,
-                                  builder =>
-                                  {
-                                      builder.WithOrigins("http://localhost:8000", "http://localhost:3000", "http://10.168.11.11:8080", "http://10.168.11.14:8080", "https://m.nova88.net", "http://stag1.bwing.com")
-                                      .AllowAnyHeader()
-                                        .AllowAnyMethod()
-                                        .AllowCredentials();
-                                  });
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:8000", "http://localhost:3000",
+                                "http://10.168.11.11:8080", "http://10.168.11.14:8080", "https://m.nova88.net",
+                                "http://stag1.bwing.com", "https://www.n88dev.com")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+                    });
 
                 options.AddPolicy("LandingPage",
-                            builder =>
-                            {
-                                builder.WithOrigins("http://www.bwing.com")
-                                    .AllowAnyMethod();
-                            });
-
+                    builder =>
+                    {
+                        builder.WithOrigins("http://www.bwing.com", "https://www.n88dev.com")
+                            .AllowAnyMethod();
+                    });
             });
 
             services.AddControllers();
