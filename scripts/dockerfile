@@ -1,6 +1,9 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 as builder
 ARG VERSION
 
+ENV HTTP_PROXY="http://10.4.194.104:3128"
+ENV HTTPS_PROXY="http://10.4.194.104:3128"
+
 COPY . .
 WORKDIR MemberSite/MemberSite
 RUN dotnet publish -c Release -o /app
