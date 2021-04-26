@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Serilog.Context;
 
 namespace MemberSite.Extensions.Middlewares
 {
@@ -38,7 +39,7 @@ namespace MemberSite.Extensions.Middlewares
                 responseBodyStream.Seek(0, SeekOrigin.Begin);
                 var recordContent = await new StreamReader(responseBodyStream, Encoding.UTF8, true, 1024, true)
                     .ReadToEndAsync();
-                using (_logger.BeginScope("ElapsedMilliseconds: {ElapsedMilliseconds}", sw.Elapsed.TotalMilliseconds))
+                using (LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds))
                 {
                     _logger.LogInformation($"RESPONSE: {recordContent}");
                 }
