@@ -281,11 +281,25 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var rollover = paymentBLL.ReachedRollover(authData.CustId);
+            var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(custInfo.SiteId, custInfo.CurrencyId);
 
             if (!rollover.ReachedRollover)
             {
                 apiResult.Message = $"{rollover.Lack}";
                 apiResult.ErrorCode = -1;
+                return apiResult;
+            }
+
+            if (custInfo.ActStatus == 1)
+            {
+                apiResult.ErrorCode = -4;
+                return apiResult;
+            }
+
+            if (withdrawalLimitInfo != null && withdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
+            {
+                apiResult.Message = $"{withdrawalLimitInfo.WithdrawalMin}";
+                apiResult.ErrorCode = -5;
                 return apiResult;
             }
 
@@ -949,6 +963,20 @@ namespace MemberSite.Controllers.Api
             apiResult.RowCount = RowCount;
             apiResult.TotalPages = TotalPages;
 
+            return apiResult;
+        }
+        [HttpPost]
+        public ApiResult<WithdrawalMinInfo> GetWithdrawalLimit()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(custInfo.SiteId, custInfo.CurrencyId);
+
+            var apiResult = new ApiResult<WithdrawalMinInfo>();
+
+            apiResult.Data = withdrawalLimitInfo == null ? new WithdrawalMinInfo() { WithdrawalMin = 0 } : withdrawalLimitInfo;
+
+            apiResult.ErrorCode = 0;
             return apiResult;
         }
     }

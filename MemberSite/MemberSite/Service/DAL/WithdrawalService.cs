@@ -181,5 +181,11 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<WithdrawalLimitInfo1>("Member_WithdrawalLimitInfo_Get", commandType: CommandType.StoredProcedure);
         }
+
+        public WithdrawalMinInfo GetWithdrawalLimitInfo(int SiteId, int CurrencyId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<WithdrawalMinInfo>("Member_WithdrawalMinInfo_Get", new { SiteId, CurrencyId }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+        }
     }
 }
