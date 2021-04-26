@@ -732,5 +732,9 @@ namespace MemberSite.Service.BLL
         {
             return statementService.GetCustTpBetRecordDateRange( custId, startDate, endDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
         }
+        public WithdrawalMinInfo GetWithdrawalLimitInfo(int SiteId,int CurrencyId)
+        {
+            return withdrawalService.GetWithdrawalLimitInfo(SiteId, CurrencyId);
+        }
     }
 }
