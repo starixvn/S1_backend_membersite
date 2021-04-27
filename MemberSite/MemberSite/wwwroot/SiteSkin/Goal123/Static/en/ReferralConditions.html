@@ -73,7 +73,7 @@
             background-image: linear-gradient(to right, #fab617, rgba(247, 122, 0, 0));
         }
         .promotionsInfo-page .help-page__body {
-            margin-top: 115px;
+            margin-top: 5vw;
             margin-bottom: 80px;
             max-width: 1248px;
             background: #1A325B;
@@ -112,10 +112,24 @@
             color: #1E85EC;
             text-align: center;
         }
+        .desktop {
+            display: table;
+        }
+        .mobile {
+            display: none;
+        }
         [data-layout=mobile] .main:not(.main--home) {
             height: auto;
             margin-top: 0;
-            min-width: 769px;
+        }
+        @media (max-width: 768px) {
+            .desktop {
+                display: none;
+            }
+            .mobile {
+                display: table;
+                width: 95%;
+            }
         }
     </style>
 </head>
@@ -146,7 +160,7 @@
                             <li>One Time (1x) rollover is required with the received rewards before making the withdrawal.</li>
                         </ol>
                         <span class="promotion-title">Refer Friends Reward</span>
-                        <table>
+                        <table class="desktop">
                             <tbody>
                                 <tr>
                                     <th>Products</th>
@@ -162,6 +176,44 @@
                                     <td>800,000</td>
                                     <td>800,000</td>
                                     <td>88,123</td>
+                                    <td>1x</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="mobile">
+                            <tbody>
+                                <tr>
+                                    <th>Products</th>
+                                </tr>
+                                <tr>
+                                    <td>ALL</td>
+                                </tr>
+                                    <th>Currency</th>
+                                </tr>
+                                <tr>
+                                    <td>VND</td>
+                                </tr>
+                                    <th>Referees Deposit</th>
+                                </tr>
+                                <tr>
+                                    <td>800,000</td>
+                                </tr>
+                                <tr>
+                                    <th>Referees Bet Settlement</th>
+                                </tr>
+                                <tr>
+                                    <td>800,000</td>
+                                </tr>
+                                <tr>
+                                    <th>Referral Reward</th>
+                                </tr>
+                                <tr>
+                                    <td>88,123</td>
+                                </tr>
+                                <tr>
+                                    <th>Reward Rollover</th>
+                                </tr>
+                                <tr> 
                                     <td>1x</td>
                                 </tr>
                             </tbody>

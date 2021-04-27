@@ -73,7 +73,7 @@
             background-image: linear-gradient(to right, #fab617, rgba(247, 122, 0, 0));
         }
         .promotionsInfo-page .help-page__body {
-            margin-top: 115px;
+            margin-top: 5vw;
             margin-bottom: 80px;
             max-width: 1248px;
             background: #1A325B;
@@ -115,7 +115,26 @@
         [data-layout=mobile] .main:not(.main--home) {
             height: auto;
             margin-top: 0;
-            min-width: 769px;
+        }
+        
+        .desktop {
+            display: table;
+        }
+        .mobile {
+            display: none;
+        }
+        [data-layout=mobile] .main:not(.main--home) {
+            height: auto;
+            margin-top: 0;
+        }
+        @media (max-width: 768px) {
+            .desktop {
+                display: none;
+            }
+            .mobile {
+                display: table;
+                width: 95%;
+            }
         }
     </style>
 </head>
@@ -146,7 +165,7 @@
                             <li>Tiền Thưởng cần trải qua Một Vòng Cược (1x) trước khi rút tiền.</li>
                         </ol>
                         <span class="promotion-title">TIỀN THƯỞNG GIỚI THIỆU BẠN BÈ</span>
-                        <table>
+                        <table class="desktop">
                             <tbody>
                                 <tr>
                                     <th>Sản Phẩm</th>
@@ -162,6 +181,44 @@
                                     <td>800,000</td>
                                     <td>800,000</td>
                                     <td>88,123</td>
+                                    <td>1x</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="mobile">
+                            <tbody>
+                                <tr>
+                                    <th>Sản Phẩm</th>
+                                </tr>
+                                <tr>
+                                    <td>TẤT CẢ</td>
+                                </tr>
+                                    <th>Đơn Vị Tiền Tệ</th>
+                                </tr>
+                                <tr>
+                                    <td>VND</td>
+                                </tr>
+                                    <th>Số Tiền Gửi của Người Được Giới Thiệu</th>
+                                </tr>
+                                <tr>
+                                    <td>800,000</td>
+                                </tr>
+                                <tr>
+                                    <th>Số Tiền Cược của Người Được Giới Thiệu</th>
+                                </tr>
+                                <tr>
+                                    <td>800,000</td>
+                                </tr>
+                                <tr>
+                                    <th>Tiền Thưởng</th>
+                                </tr>
+                                <tr>
+                                    <td>88,123</td>
+                                </tr>
+                                <tr>
+                                    <th>Vòng Cược</th>
+                                </tr>
+                                <tr> 
                                     <td>1x</td>
                                 </tr>
                             </tbody>
