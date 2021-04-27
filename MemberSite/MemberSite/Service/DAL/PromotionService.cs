@@ -78,7 +78,7 @@ namespace MemberSite.Service.DAL
             using var trans = conn.BeginTransaction();
 
             promotion = conn.QueryFirstOrDefault<Promotion>("Member_PromotionV3_Get", new { CustId = custId, SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId, DeviceType = deviceType }, transaction: trans, commandType: CommandType.StoredProcedure);
-            if (promotion != null)
+            if (promotion == null)
             {
                 return 0;
             }
