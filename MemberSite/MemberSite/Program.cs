@@ -31,7 +31,12 @@ namespace MemberSite
             "{HostingRequestFinishedLog:l}",
             "Executing ContentResult with HTTP Response ContentType of {ContentType}",
             "CORS policy execution successful.",
-            "Authorization was successful."
+            "CORS policy execution failed.",
+            "Request origin {origin} does not have permission to access the resource.",
+            "Authorization was successful.",
+            "Executed ViewResult - view {ViewName} executed in {ElapsedMilliseconds}ms.",
+            "Sending file. Request path: '{VirtualPath}'. Physical path: '{PhysicalPath}'",
+            "Executing ViewResult, running view {ViewName}."
         };
         
         public static void Main(string[] args)
@@ -51,6 +56,7 @@ namespace MemberSite
                                 .Enrich.FromLogContext()
                                 .Filter.ByExcluding(c => c.Properties.Any(p => p.Value.ToString().Contains("/health")
                                     || p.Value.ToString().Contains("/api/Account/onlineCheck")
+                                    || p.Value.ToString().Contains("/api/Message/GetAnnouncement")
                                     || Excludes.Any(item =>  c.MessageTemplate.ToString().Contains(item))))
                                 .Enrich.WithExceptionDetails()
                                 .MinimumLevel.Information().WriteTo.Console(new JsonFormatter());
