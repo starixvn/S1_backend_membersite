@@ -281,7 +281,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var rollover = paymentBLL.ReachedRollover(authData.CustId);
-            var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(custInfo.SiteId, custInfo.CurrencyId);
+            // var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(custInfo.SiteId, custInfo.CurrencyId);
 
             if (!rollover.ReachedRollover)
             {
@@ -290,18 +290,18 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            if (custInfo.ActStatus == 1)
-            {
-                apiResult.ErrorCode = -4;
-                return apiResult;
-            }
-
-            if (withdrawalLimitInfo != null && withdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
-            {
-                apiResult.Message = $"{withdrawalLimitInfo.WithdrawalMin}";
-                apiResult.ErrorCode = -5;
-                return apiResult;
-            }
+            // if (custInfo.ActStatus == 1)
+            // {
+            //     apiResult.ErrorCode = -4;
+            //     return apiResult;
+            // }
+            //
+            // if (withdrawalLimitInfo != null && withdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
+            // {
+            //     apiResult.Message = $"{withdrawalLimitInfo.WithdrawalMin}";
+            //     apiResult.ErrorCode = -5;
+            //     return apiResult;
+            // }
 
             var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
             if (custInfo.CurrencyId == 96)//USDT
