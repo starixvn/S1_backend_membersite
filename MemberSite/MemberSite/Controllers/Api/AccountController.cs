@@ -177,7 +177,7 @@ namespace MemberSite.Controllers.Api
                 };
                 var accessToken = tools.GenerateJwtTokens(claims);
 
-                apiResult.Message = accessToken;
+                apiResult.RawMessage = accessToken;
             }
 
             apiResult.ErrorCode = 0;
