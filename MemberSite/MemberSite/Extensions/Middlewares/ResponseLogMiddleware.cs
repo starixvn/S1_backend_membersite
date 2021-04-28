@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,8 @@ namespace MemberSite.Extensions.Middlewares
         {
             var sw = Stopwatch.StartNew();
             var path = context.Request.Path.Value;
-            if (path.EndsWith("home.html"))
+            if (path == "/" && (context.Request.Method.Equals("OPTIONS", StringComparison.OrdinalIgnoreCase) ||
+                                context.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase)))
             {
                 await _next(context);
             }
