@@ -1,1 +1,0 @@
-dotnet build MemberSite/MemberSite.sln --configuration Release
