@@ -9,3 +9,5 @@ Latest=${Name}:latest
 sudo docker build -f ./scripts/dockerfile -t ${Img} .
 
 sudo docker tag ${Img} ${Latest}
+
+sudo docker push ${Name}
