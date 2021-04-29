@@ -313,4 +313,10 @@
   <data name="msg_ClaimCashBackBonus" xml:space="preserve">
     <value>恭喜，您的现金返还 {0} 已汇入您的户口！</value>
   </data>
+  <data name="msg_MustDeposit" xml:space="preserve">
+    <value>您必须要先存款才能提款</value>
+  </data>
+  <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
+    <value>提款金额必须要大于 {0}</value>
+  </data>
 </root>

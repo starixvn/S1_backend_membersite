@@ -292,13 +292,14 @@ namespace MemberSite.Controllers.Api
 
             if (custInfo.ActStatus == 1)
             {
+                apiResult.Message = selLangBLL.GetMsg("msg_MustDeposit");
                 apiResult.ErrorCode = -4;
                 return apiResult;
             }
             
             if (withdrawalLimitInfo != null && withdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
             {
-                apiResult.Message = $"{withdrawalLimitInfo.WithdrawalMin}";
+                apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), withdrawalLimitInfo.WithdrawalMin);
                 apiResult.ErrorCode = -5;
                 return apiResult;
             }

@@ -302,4 +302,10 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_ClaimCashBackBonus" xml:space="preserve">
     <value>Xin chúc mừng, khoản tiền hoàn lại {0} của bạn đã được ghi có vào tài khoản của bạn!</value>
   </data>
+  <data name="msg_MustDeposit" xml:space="preserve">
+    <value>Vui lòng gửi tiền trước khi gửi tạo lệnh rút tiền</value>
+  </data>
+  <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
+    <value>Số tiền rút phải lớn hơn {0}</value>
+  </data>
 </root>
