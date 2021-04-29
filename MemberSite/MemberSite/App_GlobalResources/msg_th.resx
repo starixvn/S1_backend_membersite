@@ -320,4 +320,10 @@
   <data name="msg_ClaimCashBackBonus" xml:space="preserve">
     <value>ขอแสดงความยินดีเครดิตเงินคืน {0} ของคุณเข้าบัญชีของคุณแล้ว!</value>
   </data>
+  <data name="msg_MustDeposit" xml:space="preserve">
+    <value>กรุณาทำการฝากเงินให้เรียบร้อยก่อนทำการถอน</value>
+  </data>
+  <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
+    <value>จำนวนเงินที่ถอนต้องมากกว่า {0}</value>
+  </data>
 </root>

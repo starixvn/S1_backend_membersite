@@ -324,4 +324,10 @@
   <data name="msg_ClaimCashBackBonus" xml:space="preserve">
     <value>Congratulations, your CASHBACK {0} has been credited to your account!</value>
   </data>
+  <data name="msg_MustDeposit" xml:space="preserve">
+    <value>Kindly complete deposit before submit withdrawal</value>
+  </data>
+  <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
+    <value>Withdrawal amount must be greater than {0}</value>
+  </data>
 </root>

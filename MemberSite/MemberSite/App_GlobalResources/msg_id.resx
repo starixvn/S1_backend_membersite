@@ -316,4 +316,10 @@
   <data name="msg_ClaimCashBackBonus" xml:space="preserve">
     <value>Selamat, Bonus CASHBACK Anda {0} telah dikreditkan ke akun Anda!</value>
   </data>
+  <data name="msg_MustDeposit" xml:space="preserve">
+    <value>Silakan selesaikan deposit sebelum mengajukan penarikan</value>
+  </data>
+  <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
+    <value>Jumlah penarikan harus lebih dari {0}</value>
+  </data>
 </root>
