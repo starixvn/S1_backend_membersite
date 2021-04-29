@@ -42,6 +42,8 @@ namespace MemberSite.Controllers.Api
         private readonly FPSBLL sFPSBLL;
         private readonly GameCasinoBLL gameCasinoBLL;
         private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
+        private readonly Regex _regexUserName = new Regex(@"^(?=.*[a-zA-Z])[a-zA-Z0-9]{8,16}$");
+
         //private readonly IOptions<Dictionary<string, FPSServicesConfig>> fpsServicesConfig;
 
         public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL, FPSBLL sFPSBLL, GameCasinoBLL gameCasinoBLL, IOptions<Dictionary<string, SiteConfig>> siteConfig)
@@ -655,9 +657,21 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<bool> ExistsUserName(RegisteredModel registeredModel)
         {
-            var apiResult = new ApiResult<bool>(selLangBLL);
-            apiResult.Data = custInfoBLL.ExistsUserName(registeredModel.UserName);
-            apiResult.ErrorCode = 0;
+            if (!_regexUserName.IsMatch(registeredModel.UserName))
+            {
+                return new ApiResult<bool>
+                {
+                    Data = true,
+                    ErrorCode = 0,
+                    Message = selLangBLL.GetMsg("msg_UsernameVaildate")
+                };
+            }
+
+            var apiResult = new ApiResult<bool>(selLangBLL)
+            {
+                Data = custInfoBLL.ExistsUserName(registeredModel.UserName), 
+                ErrorCode = 0
+            };
             return apiResult;
         }
 
