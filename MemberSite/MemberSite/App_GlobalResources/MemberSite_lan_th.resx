@@ -956,7 +956,7 @@
     <value>รหัส</value>
   </data>
   <data name="lbl_PasswordTooltip" xml:space="preserve">
-    <value>6-18 ตัวอักษรและตัวเลข(A-Z, a-z, 0-9) หรือตัวอักษรพิเศษ @$*!%#?&amp;</value>
+    <value>รหัสผ่านต้องมีความยาว 6-15 ตัว ประกอบด้วยตัวอักษรและตัวเลขและอักขระพิเศษ (!@#$%^&amp;*)</value>
   </data>
   <data name="lbl_PaymentOptions" xml:space="preserve">
     <value>ตัวเลือกการชำระเงิน</value>
