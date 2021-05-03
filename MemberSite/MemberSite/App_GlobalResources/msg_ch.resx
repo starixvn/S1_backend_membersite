@@ -193,7 +193,7 @@
     <value>僅限6到18個數字、英文字母大小寫</value>
   </data>
   <data name="msg_AffCodeValidate" xml:space="preserve">
-    <value>僅限5到20個數字</value>
+    <value>代理商 ID 僅限5到20個數字</value>
   </data>
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
     <value>餘額不足！申請提款失敗。</value>

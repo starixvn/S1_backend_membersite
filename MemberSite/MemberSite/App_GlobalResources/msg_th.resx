@@ -193,7 +193,7 @@
     <value>ตัวอักษรและตัวเลข 6-18 ตัว (A-Z, a-z, 0-9) เท่านั้น</value>
   </data>
   <data name="msg_AffCodeValidate" xml:space="preserve">
-    <value>อักขระตัวเลข 5-20 ตัวเท่านั้น</value>
+    <value>ไอดีพันธมิตรอนุญาตให้ใช้ตัวเลข 5-20 เท่านั้น</value>
   </data>
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
     <value>ไม่สามารถถอนเงินได้เนื่องจากยอดเงินของคุณไม่พอ</value>

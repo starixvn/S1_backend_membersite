@@ -190,7 +190,7 @@
     <value>6-18 ký tự chữ và số (A-Z, a-z, 0-9)</value>
   </data>
   <data name="msg_AffCodeValidate" xml:space="preserve">
-    <value>Chỉ có 5-20 ký tự số.</value>
+    <value>ID Đại lý chỉ cho phép 5-20 số.</value>
   </data>
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
     <value>Yêu cầu rút tiền không thành công do tài khoản hiện không đủ tiền.</value>

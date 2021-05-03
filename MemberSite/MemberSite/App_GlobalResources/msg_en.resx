@@ -193,7 +193,7 @@
     <value>6-18 alphanumeric (A-Z, a-z, 0-9) characters only.</value>
   </data>
   <data name="msg_AffCodeValidate" xml:space="preserve">
-    <value>Only 5-20 numeric characters.</value>
+    <value>Affiliate ID allows 5-20 numeric only.</value>
   </data>
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
     <value>Your withdrawal request was failed due to insufficient balance!</value>
