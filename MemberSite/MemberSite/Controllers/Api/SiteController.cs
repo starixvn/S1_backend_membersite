@@ -42,7 +42,7 @@ namespace MemberSite.Controllers.Api
         private readonly FPSBLL sFPSBLL;
         private readonly GameCasinoBLL gameCasinoBLL;
         private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
-        private readonly Regex _regexUserName = new Regex(@"^[a-zA-Z0-9]{8,16}$");
+        private readonly Regex _regexUserName = new Regex(@"^[a-zA-Z0-9]{6,18}$");
         private readonly Regex _regexAffCode = new Regex(@"^[0-9]{5,20}$");
 
         //private readonly IOptions<Dictionary<string, FPSServicesConfig>> fpsServicesConfig;
