@@ -189,8 +189,11 @@
   <data name="msg_UsernameReq" xml:space="preserve">
     <value>ต้องใส่ชื่อบัญชีผู้ใช้</value>
   </data>
-  <data name="msg_UsernameVaildate" xml:space="preserve">
+  <data name="msg_UsernameValidate" xml:space="preserve">
     <value>ตัวอักษรและตัวเลข 6-18 ตัว (A-Z, a-z, 0-9) เท่านั้น</value>
+  </data>
+  <data name="msg_AffCodeValidate" xml:space="preserve">
+    <value>อักขระตัวเลข 5-20 ตัวเท่านั้น</value>
   </data>
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
     <value>ไม่สามารถถอนเงินได้เนื่องจากยอดเงินของคุณไม่พอ</value>

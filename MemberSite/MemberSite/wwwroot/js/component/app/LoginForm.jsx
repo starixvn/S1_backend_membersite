@@ -42,7 +42,7 @@ class LoginForm extends React.Component {
                 message = i18n.msg_UsernameLength;
             } else if(!regx.test(value)) {
                 status = 2;
-                message = i18n.msg_UsernameVaildate;
+                message = i18n.msg_UsernameValidate;
             } else {
                 status = 3;
                 message = "";

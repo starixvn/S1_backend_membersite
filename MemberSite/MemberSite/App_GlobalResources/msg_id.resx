@@ -189,8 +189,11 @@
   <data name="msg_UsernameReq" xml:space="preserve">
     <value>Nama pengguna Wajib diisi.</value>
   </data>
-  <data name="msg_UsernameVaildate" xml:space="preserve">
+  <data name="msg_UsernameValidate" xml:space="preserve">
     <value>6-18 karakter alfanumerik (A-Z, a-z, 0-9) saja.</value>
+  </data>
+  <data name="msg_AffCodeValidate" xml:space="preserve">
+    <value>Hanya 5-20 karakter numerik.</value>
   </data>
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
     <value>Pengajuan pernarikan Anda gagal, Saldo anda tidak mencukupi</value>

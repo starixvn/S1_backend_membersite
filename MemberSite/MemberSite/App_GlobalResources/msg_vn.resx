@@ -181,13 +181,16 @@
     <value>Tên người dùng phải dài từ 6 đến 18 ký tự</value>
   </data>
   <data name="msg_UsernameNotAvailable" xml:space="preserve">
-    <value>Tên người dùng đã tồn tại</value>
+    <value>Tên đăng nhập này đã được sử dụng.</value>
   </data>
   <data name="msg_UsernameReq" xml:space="preserve">
     <value>Tên người dùng là bắt buộc</value>
   </data>
-  <data name="msg_UsernameVaildate" xml:space="preserve">
+  <data name="msg_UsernameValidate" xml:space="preserve">
     <value>6-18 ký tự chữ và số (A-Z, a-z, 0-9)</value>
+  </data>
+  <data name="msg_AffCodeValidate" xml:space="preserve">
+    <value>Chỉ có 5-20 ký tự số.</value>
   </data>
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
     <value>Yêu cầu rút tiền không thành công do tài khoản hiện không đủ tiền.</value>

@@ -81,7 +81,7 @@
                 message = i18n.msg_UsernameLength;
             } else if(!regx.test(value)) {
                 status = 2;
-                message = i18n.msg_UsernameVaildate;
+                message = i18n.msg_UsernameValidate;
             } else {
                 let res = await axios.post('/api/Site/ExistsUserName', {UserName: value});
                 let data = res.data;

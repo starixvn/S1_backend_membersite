@@ -189,8 +189,11 @@
   <data name="msg_UsernameReq" xml:space="preserve">
     <value>请输入用户名。</value>
   </data>
-  <data name="msg_UsernameVaildate" xml:space="preserve">
+  <data name="msg_UsernameValidate" xml:space="preserve">
     <value>仅限6到18个数字、英文字母大小写</value>
+  </data>
+  <data name="msg_AffCodeValidate" xml:space="preserve">
+    <value>仅限5到20個數字</value>
   </data>
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
     <value>余额不足！申请提现失败。</value>

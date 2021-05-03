@@ -189,8 +189,11 @@
   <data name="msg_UsernameReq" xml:space="preserve">
     <value>Username is required.</value>
   </data>
-  <data name="msg_UsernameVaildate" xml:space="preserve">
+  <data name="msg_UsernameValidate" xml:space="preserve">
     <value>6-18 alphanumeric (A-Z, a-z, 0-9) characters only.</value>
+  </data>
+  <data name="msg_AffCodeValidate" xml:space="preserve">
+    <value>Only 5-20 numeric characters.</value>
   </data>
   <data name="msg_WithdrawalNoFund" xml:space="preserve">
     <value>Your withdrawal request was failed due to insufficient balance!</value>
