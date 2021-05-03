@@ -166,7 +166,7 @@
     <value>Kata Sanda wajib diisi</value>
   </data>
   <data name="msg_PasswordVaildate" xml:space="preserve">
-    <value>6-18 karakter alfanumerik (A-Z, a-z, 0-9) atau karakter khusus @ $ *!% #? &amp;.</value>
+    <value>Kata sandi harus terdiri 6-15 karakter, kombinasi huruf dan angka dengan karakter khusus (!@#$%^&amp;*)</value>
   </data>
   <data name="msg_SamePassword" xml:space="preserve">
     <value>Kata Sandi Lama dan Kata Sandi Baru sama!</value>

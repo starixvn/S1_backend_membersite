@@ -956,7 +956,7 @@
     <value>Kata Sandi</value>
   </data>
   <data name="lbl_PasswordTooltip" xml:space="preserve">
-    <value>6-18 karakter alfanumerik (A-Z, a-z, 0-9) atau karakter khusus @ $ *!% #? &amp;</value>
+    <value>Kata sandi harus terdiri 6-15 karakter, kombinasi huruf dan angka dengan karakter khusus (!@#$%^&amp;*) </value>
   </data>
   <data name="lbl_PaymentOptions" xml:space="preserve">
     <value>Opsi pembayaran</value>

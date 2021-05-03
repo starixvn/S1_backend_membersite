@@ -953,7 +953,7 @@
     <value>Mật Khẩu</value>
   </data>
   <data name="lbl_PasswordTooltip" xml:space="preserve">
-    <value>6-18 ký tự chữ và số (A-Z, a-z, 0-9) hoặc Ký tự đặc biệt @$*!%#?&amp;</value>
+    <value>Mật khẩu phải có từ 6-15 ký tự, bao gồm cả chữ, số và ký tự đặc biệt (!@#$%^&amp;*)</value>
   </data>
   <data name="lbl_PaymentOptions" xml:space="preserve">
     <value>Lựa chọn thanh toán</value>
