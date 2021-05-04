@@ -281,12 +281,12 @@ namespace MemberSite.Controllers.Api
             else if (result == -2)
             {
                 apiResult.ErrorCode = result;
-                apiResult.Message = selLangBLL.GetMsg("msg_UsernameReq");
+                apiResult.Message = selLangBLL.GetMsg("msg_UsernameValidate");
             }
             else if (result == -3)
             {
                 apiResult.ErrorCode = result;
-                apiResult.Message = selLangBLL.GetMsg("msg_PasswordReq");
+                apiResult.Message = selLangBLL.GetMsg("msg_PasswordVaildate");
             }
             else if (result == -4)
             {
@@ -442,11 +442,11 @@ namespace MemberSite.Controllers.Api
                     break;
                 case -2:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("msg_UsernameReq");
+                    apiResult.Message = selLangBLL.GetMsg("msg_UsernameValidate");
                     break;
                 case -3:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("msg_PasswordReq");
+                    apiResult.Message = selLangBLL.GetMsg("msg_PasswordVaildate");
                     break;
                 case -4:
                     apiResult.ErrorCode = result;/**/
@@ -605,11 +605,11 @@ namespace MemberSite.Controllers.Api
                     break;
                 case -2:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("msg_UsernameReq");
+                    apiResult.Message = selLangBLL.GetMsg("msg_UsernameValidate");
                     break;
                 case -3:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("msg_PasswordReq");
+                    apiResult.Message = selLangBLL.GetMsg("msg_PasswordVaildate");
                     break;
                 case -4:
                     apiResult.ErrorCode = result;/**/
