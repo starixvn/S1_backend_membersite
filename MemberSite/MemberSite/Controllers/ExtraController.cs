@@ -73,12 +73,12 @@ namespace MemberSite.Controllers
             else if (result == -2)
             {
                 errorCode = result;
-                message = selLangBLL.GetMsg("msg_UsernameReq");
+                message = selLangBLL.GetMsg("msg_UsernameValidate");
             }
             else if (result == -3)
             {
                 errorCode = result;
-                message = selLangBLL.GetMsg("msg_PasswordReq");
+                message = selLangBLL.GetMsg("msg_PasswordVaildate");
             }
             else if (result == -4)
             {
