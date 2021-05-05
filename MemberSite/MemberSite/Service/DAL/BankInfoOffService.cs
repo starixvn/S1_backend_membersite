@@ -18,7 +18,7 @@ namespace MemberSite.Service.DAL
         {
             this.configuration = configuration;
         }
-        public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 0)
+        public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 1)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             if (queryType == 0)
