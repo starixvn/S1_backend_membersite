@@ -30,7 +30,7 @@ namespace MemberSite.Service.BLL
             sysBankInfoOffComparer = new SysBankInfoOffComparer();
         }
 
-        public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 0)
+        public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 1)
         {
             string sBankInfoOffListKey = $"BankInfoOffList_{siteId}_{queryType}";
             var BankInfoOffList = cache.Get<IEnumerable<BankInfoOff>>(sBankInfoOffListKey);
