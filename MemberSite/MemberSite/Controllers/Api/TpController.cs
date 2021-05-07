@@ -204,6 +204,102 @@ namespace MemberSite.Controllers.Api
             }
         }
 
+        public class TransferEXReq
+        {
+            public int FromTpId { set; get; }
+            public int ToTpId { set; get; }
+            public decimal Amount { set; get; }
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<TransferResult>> TransferEX(TransferEXReq inTpTransfer)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            ApiResult<TransferResult> result = new ApiResult<TransferResult>();
+            TpDirection direction = new TpDirection();
+            int activeTpId = 0;
+            if (inTpTransfer.FromTpId != 0)
+            {
+                direction = TpDirection.ToMain;
+                activeTpId = inTpTransfer.FromTpId;
+            }
+            else if (inTpTransfer.ToTpId != 0)
+            {
+                direction = TpDirection.ToTp;
+                activeTpId = inTpTransfer.ToTpId;
+            }
+            else
+            {
+                result.ErrorCode = 99;
+                return result;
+
+            }
+
+            BonusWallet bonusWalletInfo = direction == TpDirection.ToMain ? bonusWalletBLL.CheckBonusWallet(authData.CustId, activeTpId) : null;
+            
+            if (bonusWalletInfo != null)
+            {
+                result.ErrorCode = 9;
+                result.Data = new TransferResult()
+                {
+                    Bonus = bonusWalletInfo.Bonus,
+                    Turnover = bonusWalletInfo.Turnover,
+                    Rollover = bonusWalletInfo.Rollover,
+                    BonusStatus = bonusWalletInfo.Status
+                };
+
+                return result;
+            }
+            else
+            {
+                decimal amount = inTpTransfer.Amount;
+                if (amount.ToString().IndexOf(".") > -1)
+                {
+                    decimal.TryParse(amount.ToString("#.##"), out amount);
+                }
+                Dictionary<string, string> input = new Dictionary<string, string>();
+                input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
+                input.Add("ClientIP", tools.GetClientIP());
+
+                var tpTransfer = new TpTransfer
+                {
+                    TpId = activeTpId,
+                    CustId = authData.CustId,
+                    Amount = amount,
+                    direction = direction,
+                    inputs = input
+                };
+                var myUrl = $"{apiUrl}Transfer";
+                result = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
+                //result.ErrorCode = 0;
+                if (result.ErrorCode != 0 && string.IsNullOrEmpty(result.Message) && !string.IsNullOrEmpty(result.RawMessage))
+                {
+                    if (result.RawErrorCode == "3")
+                        result.Message = selLangBLL.GetMsg("msg_InsufficientFund");
+                    else
+                        result.Message = result.RawMessage;
+                }
+                else if (result.ErrorCode == 1201)
+                {
+                    result.Message = selLangBLL.GetMsg("msg_InsufficientFund");
+                } else if(result.ErrorCode == 0 && direction == TpDirection.ToMain && inTpTransfer.ToTpId != 0)
+                {
+                    //Do Main to TP
+                    var transferEXReq = new TransferEXReq()
+                    {
+                        FromTpId = 0,
+                        ToTpId = inTpTransfer.ToTpId,
+                        Amount = inTpTransfer.Amount
+                    };
+
+                    result = await TransferEX(transferEXReq);
+                }
+
+                result.SetSelLang(selLangBLL);
+                return result;
+            }
+        }
+
         [HttpPost]
         public async Task<ApiResult<TransferResult>> RetrieveAll()
         {
