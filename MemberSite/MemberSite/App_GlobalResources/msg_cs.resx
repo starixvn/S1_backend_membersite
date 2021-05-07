@@ -322,4 +322,7 @@
   <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
     <value>提款金额必须要大于 {0}</value>
   </data>
+  <data name="msg_BankAccountExists" xml:space="preserve">
+    <value>您已经存储此信息。</value>
+  </data>
 </root>

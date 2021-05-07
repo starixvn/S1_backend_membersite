@@ -52,7 +52,7 @@ namespace MemberSite.Controllers.Api
             //
             var bankInfoSysList = bankInfoBLL.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId);
 
-            if (bankInfoSysList == null || bankInfoSysList.Where(x => x.SysId == bankInfo.SysId).Count() == 0)
+            if (bankInfoSysList == null || bankInfoSysList.Count(x => x.SysId == bankInfo.SysId) == 0)
             {
                 apiResult.ErrorCode = -1;
                 apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
@@ -76,10 +76,10 @@ namespace MemberSite.Controllers.Api
             {
                 bankInfoList = custBankInfo.bankInfoDetail.ToList();
 
-                if (bankInfoList.Where(x => x.SysId == bankInfo.SysId && x.AccountNo == bankInfo.AccountNo).Count() > 0)
+                if (bankInfoList.Count(x => x.SysId == bankInfo.SysId && x.AccountNo == bankInfo.AccountNo) > 0)
                 {
                     apiResult.ErrorCode = -4;
-                    apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                    apiResult.Message = selLangBLL.GetMsg("msg_BankAccountExists");
                     return apiResult;
                 }
             }
