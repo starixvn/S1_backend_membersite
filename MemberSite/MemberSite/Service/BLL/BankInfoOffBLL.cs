@@ -66,11 +66,13 @@ namespace MemberSite.Service.BLL
             var bankAccountOffList = GetBankAccountOff(custInfo.SiteId, queryType);
             
             var newbankAccountOffList = JsonSerializer.Deserialize<IEnumerable<BankInfoOff>>(JsonSerializer.Serialize(bankAccountOffList));
-            List<BankInfoOff> localBankList = new List<BankInfoOff>(newbankAccountOffList?.ToList());
+            var localBankList = new List<BankInfoOff>(newbankAccountOffList?.ToList());
 
-            //List<BankInfoOff> localBankList = bankAccountOffList?.ToList();
-            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var depositLimitInfoList = JsonSerializer.Deserialize<IEnumerable<DepositLimitInfo>>(
+                    JsonSerializer.Serialize(depositBLL.GetDepositLimitInfoList(custInfo.SiteId))).ToList();
+            var depositLimitInfo = depositLimitInfoList.FirstOrDefault(x =>
+                x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int) DepositType.LocalBank &&
+                x.CurrencyId == custInfo.CurrencyId);
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
