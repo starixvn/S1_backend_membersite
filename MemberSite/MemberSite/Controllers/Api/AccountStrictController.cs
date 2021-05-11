@@ -52,7 +52,7 @@ namespace MemberSite.Controllers.Api
             //
             var bankInfoSysList = bankInfoBLL.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId);
 
-            if (bankInfoSysList == null || bankInfoSysList.Where(x => x.SysId == bankInfo.SysId).Count() == 0)
+            if (bankInfoSysList == null || bankInfoSysList.Count(x => x.SysId == bankInfo.SysId) == 0)
             {
                 apiResult.ErrorCode = -1;
                 apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
@@ -76,10 +76,10 @@ namespace MemberSite.Controllers.Api
             {
                 bankInfoList = custBankInfo.bankInfoDetail.ToList();
 
-                if (bankInfoList.Where(x => x.SysId == bankInfo.SysId && x.AccountNo == bankInfo.AccountNo).Count() > 0)
+                if (bankInfoList.Count(x => x.SysId == bankInfo.SysId && x.AccountNo == bankInfo.AccountNo) > 0)
                 {
                     apiResult.ErrorCode = -4;
-                    apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                    apiResult.Message = selLangBLL.GetMsg("msg_BankAccountExists");
                     return apiResult;
                 }
             }
@@ -214,7 +214,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
                 return apiResult;
             }
-            else if (custBankInfo != null && custBankInfo.BankInfo != null && (custBankInfo.uSDTDetail?.Count() >= 3 || (custBankInfo.uSDTDetail?.Count()+ custUSDTInfoBatchreq.USDTInfo?.Count()>3)))
+            else if (custBankInfo != null && custBankInfo.BankInfo != null && (custBankInfo.uSDTDetail?.Count() >= 3 || (custBankInfo.uSDTDetail?.Count() + custUSDTInfoBatchreq.USDTInfo?.Count() > 3)))
             {
                 apiResult.ErrorCode = -3;
                 apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
@@ -222,7 +222,7 @@ namespace MemberSite.Controllers.Api
             }
             else if (custBankInfo != null && custBankInfo.uSDTDetail != null)
             {
-               
+
                 uSDTInfoList = custBankInfo.uSDTDetail.ToList();
                 foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
                 {
@@ -240,7 +240,7 @@ namespace MemberSite.Controllers.Api
             }
             foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
             {
-                uSDTInfoList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress});
+                uSDTInfoList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress });
             }
             apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
@@ -392,7 +392,7 @@ namespace MemberSite.Controllers.Api
                 {
                     PhoneNo = phoneNo.ToString();
                 }
-                
+
                 if (custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
                 {
                     apiResult.ErrorCode = 21;
@@ -556,7 +556,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             Dictionary<int, string> PerCountry = new Dictionary<int, string>()
             {
-                    {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{96,"MY" }
+                    {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{61,"IN" },{96,"MY" }
                 };
 
             try
@@ -624,6 +624,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             decimal xCell = 1;
+            Image img;
             if (_contentTypesCheck.ContainsKey(custPhotoIdReq.PhotoId.ContentType))
             {
                 using var fileStream = custPhotoIdReq.PhotoId.OpenReadStream();
@@ -644,10 +645,28 @@ namespace MemberSite.Controllers.Api
 
                 }
 
-                var graphicOptions = new GraphicOptions();
-                graphicOptions.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-                graphicOptions.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
-                var img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
+                if (uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Undefined ||
+                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.DontCare ||
+                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format16bppArgb1555 ||
+                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format1bppIndexed ||
+                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format4bppIndexed ||
+                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format8bppIndexed)
+                {
+                    Bitmap bitmap = new Bitmap(Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
+                    Graphics graphics = Graphics.FromImage(bitmap);
+                    graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                    graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                    graphics.DrawImage(uploadedImage, 0, 0, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
+                    img = Image.FromHbitmap(bitmap.GetHbitmap());
+                }
+                else
+                {
+                    var graphicOptions = new GraphicOptions();
+                    graphicOptions.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                    graphicOptions.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                    img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
+                }
+
                 img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
 
                 string fileName = custPhotoIdReq.PhotoId.FileName;

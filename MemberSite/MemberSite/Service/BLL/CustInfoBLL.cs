@@ -40,6 +40,7 @@ namespace MemberSite.Service.BLL
                 {"+66","TH" },
                 {"+86","CS" },
                 {"+62","ID" },
+                {"+91","IN" },
                 {"+84","VN" }
             };
 
@@ -162,7 +163,7 @@ namespace MemberSite.Service.BLL
         public Customer GetCustInfoByUserName(string userName)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
-            string key = $"CustInfoByUserName.{serverInfo.SiteId}.{userName}";
+            string key = $"CustInfoByUserName_{serverInfo.SiteId}_{userName}";
             var customer = cache.Get<Customer>(key);
             if (customer != null)
             {
@@ -271,7 +272,7 @@ namespace MemberSite.Service.BLL
         public Customer GetCustInfoByMail(string email)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
-            string key = $"CustInfoByMail.{serverInfo.SiteId}.{email}";
+            string key = $"CustInfoByMai_{serverInfo.SiteId}_{email}";
             var customer = cache.Get<Customer>(key);
             if (customer != null)
             {

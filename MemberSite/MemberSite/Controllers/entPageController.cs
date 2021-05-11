@@ -44,19 +44,134 @@ namespace MemberSite.Controllers
             public int CustId { set; get; }
             public string LangId { set; get; }
             public int AppType { set; get; }
+            public int SiteId { set; get; }
             public Dictionary<string, string> inputs { set; get; }
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs)
+        //{
+        //    var serverInfo = serverInfoBLL.GetServerInfo();
+        //    bool isNewVersion = true;
+        //    if (User.Identity.IsAuthenticated)
+        //    {
+        //        var authData = authorizeBLL.GetAuthData();
+        //        inputs.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
+        //        inputs.Add("ClientIP", tools.GetClientIP());
+        //        var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+
+        //        if (tpId == (int)Tp.AG)
+        //        {
+
+        //            var tpCurrency = thirdPartyBLL.GetTpCurrency(tpId, custInfo.CurrencyId);
+        //            var balance = walletBLL.GetBalance(authData.CustId);
+        //            var bonusAmount = walletBLL.GetBonus(authData.CustId, 2);
+
+        //            balance += bonusAmount;
+
+        //            if (tpCurrency.ExchangeRate != 0 && tpCurrency.ExchangeRate != 1)
+        //            {
+        //                balance /= tpCurrency.ExchangeRate;
+        //            }
+
+        //            inputs.Add("Balance", tools.Floor(balance, 2).ToString());
+        //            inputs.Add("Token", authData.Token);
+        //        }
+        //        else
+        //        {
+        //            inputs.Add("Token", authData.Token);
+        //        }
+
+        //        var myUrl = $"{apiUrl}GotoGame";
+        //        var tpInfo = new TpInfo
+        //        {
+        //            TpId = tpId,
+        //            CustId = authData.CustId,
+        //            LangId = custInfo.UserLang,
+        //            AppType = tools.IsMobile() ? 2 : 1,
+        //            inputs = inputs
+        //        };
+
+        //        if (inputs.ContainsKey("AppType") && int.TryParse(inputs["AppType"], out int appType))
+        //        {
+        //            tpInfo.AppType = appType;
+        //        }
+
+        //        try
+        //        {
+        //            var data = await courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
+        //            if (data.ErrorCode == 0)
+        //            {
+        //                string entryUrl = data.Message;
+        //                return Redirect(entryUrl);
+        //            }
+        //            else if (tpId == 1 && data.RawErrorCode == "10")
+        //            {
+        //                string entryUrl = thirdPartyBLL.getEntryUrl(tpId, inputs);
+        //                return Redirect(entryUrl);
+        //            }
+        //            else
+        //            {
+        //                ErrorData model = new ErrorData() { Message = data.RawMessage };
+        //                if (isNewVersion)
+        //                    return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+        //                else
+        //                    return Content(model.Message);
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            ErrorData model = new ErrorData() { Message = ex.Message };
+        //            if (isNewVersion)
+        //                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+        //            else
+        //                return Content(model.Message);
+        //        }
+        //    }
+        //    else if (hasBf(tpId))
+        //    {
+        //        //SiteId = serverInfo.SiteId;
+        //        string entryUrl = thirdPartyBLL.getEntryUrl(tpId, inputs);
+
+        //        return Redirect(entryUrl);
+        //    }
+        //    else
+        //    {
+        //        return StatusCode(400);
+        //    }
+        //}
 
         [HttpGet]
         public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             bool isNewVersion = true;
-            if (User.Identity.IsAuthenticated)
+            var myUrl = $"{apiUrl}GotoGame";
+            var freePlay = 0;
+            var tpInfo = new TpInfo
+            {
+                TpId = tpId,
+                AppType = tools.IsMobile() ? 2 : 1,
+                SiteId = serverInfo.SiteId,
+                inputs = inputs
+            };
+
+            inputs.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
+            inputs.Add("ClientIP", tools.GetClientIP());
+
+            if (inputs.ContainsKey("AppType") && int.TryParse(inputs["AppType"], out int appType))
+            {
+                tpInfo.AppType = appType;
+            }
+
+            if (inputs.ContainsKey("gameType") && inputs["gameType"] == "slots" && inputs.ContainsKey("fun") && inputs["fun"] == "1")
+{
+                tpInfo.CustId = 0;
+                tpInfo.LangId = selLangBLL.GetLangId();
+            }
+            else if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();
-                inputs.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-                inputs.Add("ClientIP", tools.GetClientIP());
                 var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
                 if (tpId == (int)Tp.AG)
@@ -80,52 +195,8 @@ namespace MemberSite.Controllers
                 {
                     inputs.Add("Token", authData.Token);
                 }
-
-                var myUrl = $"{apiUrl}GotoGame";
-                var tpInfo = new TpInfo
-                {
-                    TpId = tpId,
-                    CustId = authData.CustId,
-                    LangId = custInfo.UserLang,
-                    AppType = tools.IsMobile() ? 2 : 1,
-                    inputs = inputs
-                };
-
-                if (inputs.ContainsKey("AppType") && int.TryParse(inputs["AppType"], out int appType))
-                {
-                    tpInfo.AppType = appType;
-                }
-
-                try
-                {
-                    var data = await courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
-                    if (data.ErrorCode == 0)
-                    {
-                        string entryUrl = data.Message;
-                        return Redirect(entryUrl);
-                    }
-                    else if (tpId == 1 && data.RawErrorCode == "10")
-                    {
-                        string entryUrl = thirdPartyBLL.getEntryUrl(tpId, inputs);
-                        return Redirect(entryUrl);
-                    }
-                    else
-                    {
-                        ErrorData model = new ErrorData() { Message = data.RawMessage };
-                        if (isNewVersion)
-                            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
-                        else
-                            return Content(model.Message);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ErrorData model = new ErrorData() { Message = ex.Message };
-                    if (isNewVersion)
-                        return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
-                    else
-                        return Content(model.Message);
-                }
+                tpInfo.CustId = authData.CustId;
+                tpInfo.LangId = custInfo.UserLang;
             }
             else if (hasBf(tpId))
             {
@@ -138,6 +209,38 @@ namespace MemberSite.Controllers
             {
                 return StatusCode(400);
             }
+
+            try
+            {
+                var data = await courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
+                if (data.ErrorCode == 0)
+                {
+                    string entryUrl = data.Message;
+                    return Redirect(entryUrl);
+                }
+                else if (tpId == 1 && data.RawErrorCode == "10")
+                {
+                    string entryUrl = thirdPartyBLL.getEntryUrl(tpId, inputs);
+                    return Redirect(entryUrl);
+                }
+                else
+                {
+                    ErrorData model = new ErrorData() { Message = data.RawMessage };
+                    if (isNewVersion)
+                        return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+                    else
+                        return Content(model.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorData model = new ErrorData() { Message = ex.Message };
+                if (isNewVersion)
+                    return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+                else
+                    return Content(model.Message);
+            }
+
         }
 
         Dictionary<int, bool> Bf = new Dictionary<int, bool>()
@@ -154,7 +257,7 @@ namespace MemberSite.Controllers
         [HttpGet]
         [Route("[controller]/{SportName}")]
 
-        
+
         public async Task<IActionResult> OneworksAsync(string SportName)
         {
             Dictionary<string, SNameSubTable> SNameTable = new Dictionary<string, SNameSubTable>
@@ -179,7 +282,7 @@ namespace MemberSite.Controllers
             };
             var sNameSubTable = new SNameSubTable();
             SNameTable.TryGetValue(SportName, out sNameSubTable);
-            if(sNameSubTable != null)
+            if (sNameSubTable != null)
             {
                 Dictionary<string, string> inputs = new Dictionary<string, string>();
                 inputs.Add("gameId", sNameSubTable.gameId);

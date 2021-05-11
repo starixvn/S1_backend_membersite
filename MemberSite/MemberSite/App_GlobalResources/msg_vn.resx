@@ -311,4 +311,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
     <value>Số tiền rút phải lớn hơn {0}</value>
   </data>
+  <data name="msg_BankAccountExists" xml:space="preserve">
+    <value>Bạn đã lưu thông tin này.</value>
+  </data>
 </root>

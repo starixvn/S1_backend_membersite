@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using LazZiya.ImageResize;
-using MemberSite.Attributes;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -73,7 +72,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>();
             int queryType = 0;
-            if (getBankInfoOffListReq != null &&  getBankInfoOffListReq.QueryType != null)
+            if (getBankInfoOffListReq != null && getBankInfoOffListReq.QueryType != null)
                 queryType = (int)getBankInfoOffListReq.QueryType;
             apiResult.Data = bankInfoOffBLL.GetBankInfoOffList(authData.CustId, queryType);
             apiResult.ErrorCode = 0;
@@ -173,7 +172,7 @@ namespace MemberSite.Controllers.Api
 
             }
             int result = -1;
-            DepositRep3 depositRep3 = null ;
+            DepositRep3 depositRep3 = null;
             var depositFromInfo = new DepositFromInfo
             {
                 Channel = depositReqWireTransferReq.fromChannel,
@@ -296,7 +295,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -4;
                 return apiResult;
             }
-            
+
             if (withdrawalLimitInfo != null && withdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
             {
                 apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), withdrawalLimitInfo.WithdrawalMin);
@@ -307,13 +306,13 @@ namespace MemberSite.Controllers.Api
             var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
             if (custInfo.CurrencyId == 96)//USDT
             {
-                if (custBankInfo?.uSDTDetail == null 
+                if (custBankInfo?.uSDTDetail == null
                     || !custBankInfo.uSDTDetail.Any()
                     || custBankInfo.uSDTDetail.All(x => x.USDTAddress != withdrawalReqModel.AccountNo))
                 {
                     return apiResult;
                 }
-                
+
                 withdrawalReqModel.sysId = 0;
             }
             else
@@ -370,7 +369,10 @@ namespace MemberSite.Controllers.Api
 
                 var input = new TpTransfer
                 {
-                    Amount = transferBalance, CustId = authData.CustId, direction = TpDirection.ToMain, TpId = 1
+                    Amount = transferBalance,
+                    CustId = authData.CustId,
+                    direction = TpDirection.ToMain,
+                    TpId = 1
                 };
                 transferToSabaResult = await TransferToSabaAsync(input);
             }
@@ -430,22 +432,22 @@ namespace MemberSite.Controllers.Api
                         apiResult.Message = selLangBLL.GetMsg("msg_MustInteger");
                         break;
                     default:
-                    {
-                        if (mainWalletType == 2)
                         {
-                            transferToSabaResult = null;
-                            var input = new TpTransfer();
-                            input.Amount = walletBLL.GetBalance(authData.CustId);
-                            input.CustId = authData.CustId;
-                            input.direction = TpDirection.ToTp;
-                            input.TpId = 1;
-                            transferToSabaResult = await TransferToSabaAsync(input);
-                        }
+                            if (mainWalletType == 2)
+                            {
+                                transferToSabaResult = null;
+                                var input = new TpTransfer();
+                                input.Amount = walletBLL.GetBalance(authData.CustId);
+                                input.CustId = authData.CustId;
+                                input.direction = TpDirection.ToTp;
+                                input.TpId = 1;
+                                transferToSabaResult = await TransferToSabaAsync(input);
+                            }
 
-                        apiResult.ErrorCode = 9000;
-                        apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalFailed");
-                        break;
-                    }
+                            apiResult.ErrorCode = 9000;
+                            apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalFailed");
+                            break;
+                        }
                 }
             }
             else
@@ -601,12 +603,12 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult();
             var authData = authorizeBLL.GetAuthData();
             decimal xCell = 1;
+            Image img;
             if (_contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
             {
                 using var fileStream = depositReceipt.Receipt.OpenReadStream();
                 using var uploadedImage = Image.FromStream(fileStream);
                 using var ms = new System.IO.MemoryStream();
-
                 if (uploadedImage.Width > xSize || uploadedImage.Height > xSize)
                 {
 
@@ -621,12 +623,28 @@ namespace MemberSite.Controllers.Api
 
                 }
 
-                var graphicOptions = new GraphicOptions();
-                graphicOptions.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-                graphicOptions.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
-                var img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
+                if (uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Undefined ||
+                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.DontCare ||
+                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format16bppArgb1555 ||
+                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format1bppIndexed ||
+                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format4bppIndexed ||
+                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format8bppIndexed)
+                {
+                    Bitmap bitmap = new Bitmap(Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
+                    Graphics graphics = Graphics.FromImage(bitmap);
+                    graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                    graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                    graphics.DrawImage(uploadedImage, 0, 0, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
+                    img = Image.FromHbitmap(bitmap.GetHbitmap());
+                }
+                else
+                {
+                    var graphicOptions = new GraphicOptions();
+                    graphicOptions.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                    graphicOptions.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                    img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
+                }
                 img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-
                 string fileName = depositReceipt.Receipt.FileName;
                 fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
                 fileName = $"{fileName.Substring(0, fileName.LastIndexOf('.'))}.jpg";

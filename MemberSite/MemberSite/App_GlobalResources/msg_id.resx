@@ -325,4 +325,7 @@
   <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
     <value>Jumlah penarikan harus lebih dari {0}</value>
   </data>
+  <data name="msg_BankAccountExists" xml:space="preserve">
+    <value>Anda telah menyimpan informasi ini.</value>
+  </data>
 </root>
