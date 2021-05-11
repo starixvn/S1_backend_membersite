@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Hosting;
+using System.Text;
 
 namespace MemberSite.Controllers
 {
@@ -216,6 +217,10 @@ namespace MemberSite.Controllers
                 if (data.ErrorCode == 0)
                 {
                     string entryUrl = data.Message;
+                    if (tpId == 31 && entryUrl.IndexOf("</html>") > 1)
+                    {
+                        return Content(data.Message, "text/html", Encoding.UTF8);
+                    }
                     return Redirect(entryUrl);
                 }
                 else if (tpId == 1 && data.RawErrorCode == "10")
