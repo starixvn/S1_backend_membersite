@@ -37,11 +37,11 @@ namespace MemberSite.Service.BLL
             };
             perCountry = new Dictionary<int, string>()
             {
-              {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{96,"MY" }
+              {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{61,"IN" },{96,"MY" }
             };
             perCurrency = new Dictionary<int, string>()
             {
-              {2,"MYR" },{4,"THB" },{13,"RMB" },{15,"IDR" },{51,"VND" },{96,"USDT" }
+              {2,"MYR" },{4,"THB" },{13,"RMB" },{15,"IDR" },{61,"INR" },{51,"VND" },{96,"USDT" }
             };
         }
         public void SetIovation(int custId, string iovation, IovationType type)

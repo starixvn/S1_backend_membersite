@@ -556,7 +556,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             Dictionary<int, string> PerCountry = new Dictionary<int, string>()
             {
-                    {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{96,"MY" }
+                    {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{61,"IN" },{96,"MY" }
                 };
 
             try
