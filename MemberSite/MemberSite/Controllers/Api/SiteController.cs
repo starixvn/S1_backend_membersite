@@ -1575,5 +1575,30 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        [HttpPost]
+        public ApiResult<IEnumerable<Domainlist>> GetSupportDomainList()
+        {
+            var apiResult = new ApiResult<IEnumerable<Domainlist>>();
+            int siteId = 0;
+            int currencyId = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                siteId = custInfo.SiteId;
+                currencyId = custInfo.CurrencyId;
+            }
+            else
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                siteId = serverInfo.SiteId;
+                currencyId = selLangBLL.GetPreferCurrencyId();
+            }
+            
+            apiResult.Data = serverInfoBLL.GetSupportDomainList(siteId, currencyId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
     }
 }
