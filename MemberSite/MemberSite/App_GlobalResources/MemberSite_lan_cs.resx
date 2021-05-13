@@ -1751,4 +1751,7 @@
   <data name="lbl_Cashback_Virtual_Sports" xml:space="preserve">
     <value>虚拟运动</value>
   </data>
+  <data name="lbl_Wallet_PT" xml:space="preserve">
+    <value>PT钱包</value>
+  </data>
 </root>
