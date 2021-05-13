@@ -11,4 +11,9 @@ namespace MemberSite.Service.Model
         public long StartUnixTime { get; set; }
     }
 
+    public class Domainlist
+    {
+        public string DomainName { get; set; }
+    }
+
 }

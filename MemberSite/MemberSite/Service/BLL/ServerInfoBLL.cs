@@ -108,5 +108,9 @@ namespace MemberSite.Service.BLL
         {
             return httpContextAccessor.HttpContext.Request.Host.Host;
         }
+        public IEnumerable<Domainlist> GetSupportDomainList(int siteId, int currencyId)
+        {
+            return serverInfoService.GetSupportDomainList(siteId, currencyId);
+        }
     }
 }
