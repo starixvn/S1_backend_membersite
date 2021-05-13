@@ -1754,4 +1754,7 @@
   <data name="lbl_Wallet_PT" xml:space="preserve">
     <value>PT钱包</value>
   </data>
+  <data name="lbl_WalletDescription_PT" xml:space="preserve">
+    <value>PT钱包</value>
+  </data>
 </root>
