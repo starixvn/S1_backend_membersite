@@ -164,8 +164,8 @@ namespace MemberSite.Controllers
                 tpInfo.AppType = appType;
             }
 
-            if (inputs.ContainsKey("gameType") && inputs["gameType"] == "slots" && inputs.ContainsKey("fun") && inputs["fun"] == "1")
-{
+            if (IsFunGame(inputs))
+            {
                 tpInfo.CustId = 0;
                 tpInfo.LangId = selLangBLL.GetLangId();
             }
@@ -300,6 +300,21 @@ namespace MemberSite.Controllers
         public class ErrorData
         {
             public string Message { get; set; }
+        }
+
+        private bool IsFunGame(Dictionary<string, string> inputs)
+        {
+            if (inputs.ContainsKey("gameType") && inputs["gameType"] == "slots" && inputs.ContainsKey("fun") && inputs["fun"] == "1")
+            {
+                return true;
+            }
+
+            if (inputs.ContainsKey("gameType") && inputs["gameType"] == "sports" && inputs.ContainsKey("fun") && inputs["fun"] == "1")
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
