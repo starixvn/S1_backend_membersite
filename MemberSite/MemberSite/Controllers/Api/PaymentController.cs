@@ -280,8 +280,10 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var rollover = paymentBLL.ReachedRollover(authData.CustId);
-            var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(custInfo.SiteId, custInfo.CurrencyId);
-
+            var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(new WithdrawalLimitInfoInput
+                {SiteId = custInfo.SiteId, CurrencyId = custInfo.CurrencyId, VipLevel = custInfo.UserLevel});
+            var dailyCustomerWithdrawalInfo = paymentBLL.GetDailyCustomerWithdrawalInfo(new DailyCustomerWithdrawalInfoInput {CustId = custInfo.CustId});
+            
             if (!rollover.ReachedRollover)
             {
                 apiResult.Message = $"{rollover.Lack}";
@@ -300,6 +302,14 @@ namespace MemberSite.Controllers.Api
             {
                 apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), withdrawalLimitInfo.WithdrawalMin);
                 apiResult.ErrorCode = -5;
+                return apiResult;
+            }
+
+            if (withdrawalLimitInfo != null && withdrawalLimitInfo.WithdrawalMax != 0 &&
+                dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > withdrawalLimitInfo.WithdrawalMax)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
+                apiResult.ErrorCode = -6;
                 return apiResult;
             }
 
@@ -986,17 +996,29 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
         [HttpPost]
-        public ApiResult<WithdrawalMinInfo> GetWithdrawalLimit()
+        public ApiResult<WithdrawalLimitOutput> GetWithdrawalLimit()
         {
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(custInfo.SiteId, custInfo.CurrencyId);
+            var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(new WithdrawalLimitInfoInput
+                {SiteId = custInfo.SiteId, CurrencyId = custInfo.CurrencyId, VipLevel = custInfo.UserLevel});
+            var dailyCustomerWithdrawalInfo = paymentBLL.GetDailyCustomerWithdrawalInfo(new DailyCustomerWithdrawalInfoInput {CustId = custInfo.CustId});
 
-            var apiResult = new ApiResult<WithdrawalMinInfo>();
+            var output = withdrawalLimitInfo ?? new WithdrawalLimitInfoOutput() {WithdrawalMin = 0, WithdrawalMax = 0};
+            var data = new WithdrawalLimitOutput
+            {
+                WithdrawalMin = output.WithdrawalMin,
+                Unlimited = output.WithdrawalMax == 0,
+                WithdrawalAvailableAmount = output.WithdrawalMax == 0
+                    ? dailyCustomerWithdrawalInfo.Amount
+                    : output.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount
+            };
+            var apiResult = new ApiResult<WithdrawalLimitOutput>
+            {
+                Data = data,
+                ErrorCode = 0
+            };
 
-            apiResult.Data = withdrawalLimitInfo == null ? new WithdrawalMinInfo() { WithdrawalMin = 0 } : withdrawalLimitInfo;
-
-            apiResult.ErrorCode = 0;
             return apiResult;
         }
     }

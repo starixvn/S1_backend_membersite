@@ -37,16 +37,34 @@ namespace MemberSite.Service.Model
         public int SiteId { get; set; }
         public decimal Amount { get; set; }
     }
-    public class WithdrawalLimitInfo1
+    public class WithdrawalLimitInfoInput
     {
         public int SiteId { get; set; }
         public int CurrencyId { get; set; }
         public int VipLevel { get; set; }
+    }
+
+    public class WithdrawalLimitInfoOutput
+    {
         public decimal WithdrawalMin { get; set; }
         public decimal WithdrawalMax { get; set; }
+        
     }
-    public class WithdrawalMinInfo
+
+    public class WithdrawalLimitOutput
     {
-        public int WithdrawalMin { get; set; }
+        public decimal WithdrawalMin { get; set; }
+        public bool Unlimited { get; set; }
+        public decimal WithdrawalAvailableAmount { get; set; }
+    }
+
+    public class DailyCustomerWithdrawalInfoInput
+    {
+        public int CustId { get; set; }
+    }
+
+    public class DailyCustomerWithdrawalInfoOutput
+    {
+        public decimal Amount { get; set; }
     }
 }
