@@ -8,6 +8,7 @@ using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using static MemberSite.Controllers.entPageController;
 
 namespace MemberSite.Controllers
@@ -94,17 +95,17 @@ namespace MemberSite.Controllers
 
                 var myUrl = $"{payApiUrl}ReqDepositBank";
                 apiResult = await courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
-                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
-                {
-                    return Redirect(apiResult.Data.Url);
-                }
-                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
+                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
                 {
                     return View(apiResult);
                 }
-                else
+                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
                 {
-                    model.Message = apiResult.RawMessage;
+                    return Redirect(apiResult.Data.Url);
+                }
+                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
+                {
+                    return View(ToJson(apiResult));
                 }
             }
             else
@@ -145,13 +146,17 @@ namespace MemberSite.Controllers
 
                 var myUrl = $"{payApiUrl}ReqDepositMobile";
                 apiResult = await courierAdapter.MyPostAsync<PayResult, ReqDepositMobile>(myUrl, reqDepositMobile);
-                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
+                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
+                {
+                    return View(apiResult);
+                }
+                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
                 {
                     return Redirect(apiResult.Data.Url);
                 }
-                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
+                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
                 {
-                    return View(apiResult);
+                    return View(ToJson(apiResult));
                 }
                 else
                 {
@@ -170,6 +175,15 @@ namespace MemberSite.Controllers
             else
                 return View(apiResult);
         }
+
+        private string ToJson(object t)
+        {
+            return JsonConvert.SerializeObject(t, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+        }
+
         public class ReqDepositCrypto : ReqDeposit
         {
             public int ChannelId { get; set; }
@@ -199,13 +213,17 @@ namespace MemberSite.Controllers
 
                 var myUrl = $"{payApiUrl}ReqDepositCrpyto";
                 apiResult = await courierAdapter.MyPostAsync<PayResult, ReqDepositCrypto>(myUrl, reqDepositCrypto);
-                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
+                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
+                {
+                    return View(apiResult);
+                }
+                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
                 {
                     return Redirect(apiResult.Data.Url);
                 }
-                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
+                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
                 {
-                    return View(apiResult);
+                    return View(ToJson(apiResult));
                 }
                 else
                 {
@@ -250,13 +268,17 @@ namespace MemberSite.Controllers
 
                 var myUrl = $"{payApiUrl}ReqDepositLoadCard";
                 apiResult = await courierAdapter.MyPostAsync<PayResult, dynamic>(myUrl, reqDeposit);
-                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
+                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
+                {
+                    return View(apiResult);
+                }
+                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
                 {
                     return Redirect(apiResult.Data.Url);
                 }
-                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
+                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
                 {
-                    return View(apiResult);
+                    return View(ToJson(apiResult));
                 }
                 else
                 {
