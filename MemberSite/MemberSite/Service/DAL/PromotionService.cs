@@ -1026,6 +1026,15 @@ namespace MemberSite.Service.DAL
             int result = conn.Execute("Member_CustSpecialCodeV2_Ins", new { CustId = custId, SpecialCode = specialCode, DeviceType = deviceType }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
+        public int SetScratchCardCode(int custId, string scratchCardCode, int? deviceType)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            var Params = new DynamicParameters(new { CustId = custId, ScratchCardCode = scratchCardCode, DeviceType = deviceType });
+            Params.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            conn.Execute("Member_CustScratchCardCodeV2_Ins", Params, commandType: CommandType.StoredProcedure);
+            int Result = Params.Get<int>("Result");
+            return Result;
+        }
         public void SetSpecialCodeJoined(int custId, string specialCode, string bonusCode)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
