@@ -1595,7 +1595,7 @@ namespace MemberSite.Controllers.Api
                 currencyId = selLangBLL.GetPreferCurrencyId();
             }
             
-            apiResult.Data = serverInfoBLL.GetSupportDomainList(siteId, currencyId);
+            apiResult.Data = serverInfoBLL.GetSupportDomainListWithCache(siteId, currencyId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }

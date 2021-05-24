@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace MemberSite.Controllers.Api
@@ -108,7 +109,11 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
-            apiResult.Data = eventsBLL.GetLeaderboardListWithCacheV2(authData.CustId, getLeaderboardListV2Req.EventCode, getLeaderboardListV2Req.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, getLeaderboardListV2Req.TopNum, getLeaderboardListV2Req.BeforeDays);
+            apiResult.Data = JsonSerializer.Deserialize<IEnumerable<Leaderboard>>(JsonSerializer.Serialize(
+                eventsBLL.GetLeaderboardListWithCacheV2(authData.CustId, getLeaderboardListV2Req.EventCode,
+                    getLeaderboardListV2Req.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId,
+                    getLeaderboardListV2Req.TopNum, getLeaderboardListV2Req.BeforeDays)));
+            
             foreach (var L in apiResult.Data)
             {
                 if (L.CustId != authData.CustId)
