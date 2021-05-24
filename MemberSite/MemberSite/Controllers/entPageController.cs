@@ -150,7 +150,7 @@ namespace MemberSite.Controllers
         //}
 
         [HttpGet]
-        public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs)
+        public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs, [FromRoute] string LangId = null)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             bool isNewVersion = true;
@@ -204,7 +204,7 @@ namespace MemberSite.Controllers
                     inputs.Add("Token", authData.Token);
                 }
                 tpInfo.CustId = authData.CustId;
-                tpInfo.LangId = custInfo.UserLang;
+                tpInfo.LangId = LangId ?? custInfo.UserLang;
             }
             else if (hasBf(tpId))
             {
@@ -267,8 +267,6 @@ namespace MemberSite.Controllers
 
         [HttpGet]
         [Route("[controller]/{SportName}")]
-
-
         public async Task<IActionResult> OneworksAsync(string SportName)
         {
             Dictionary<string, SNameSubTable> SNameTable = new Dictionary<string, SNameSubTable>
