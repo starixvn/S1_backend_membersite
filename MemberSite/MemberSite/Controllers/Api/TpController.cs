@@ -29,8 +29,9 @@ namespace MemberSite.Controllers.Api
         private readonly WalletBLL walletBLL;
         private readonly BonusWalletBLL bonusWalletBLL;
         private readonly CustInfoBLL custInfoBLL;
+        private readonly ServerInfoBLL serverInfoBLL;
 
-        public TpController(CourierAdapter courierAdapter, IConfiguration configuration, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, ThirdPartyBLL thirdPartyBLL,WalletBLL walletBLL, BonusWalletBLL bonusWalletBLL, CustInfoBLL custInfoBLL)
+        public TpController(CourierAdapter courierAdapter, IConfiguration configuration, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, ThirdPartyBLL thirdPartyBLL, WalletBLL walletBLL, BonusWalletBLL bonusWalletBLL, CustInfoBLL custInfoBLL, ServerInfoBLL serverInfoBLL)
         {
             this.courierAdapter = courierAdapter;
             this.configuration = configuration;
@@ -42,6 +43,7 @@ namespace MemberSite.Controllers.Api
             this.walletBLL = walletBLL;
             this.bonusWalletBLL = bonusWalletBLL;
             this.custInfoBLL = custInfoBLL;
+            this.serverInfoBLL = serverInfoBLL;
         }
 
         public class TpInfo
@@ -51,16 +53,17 @@ namespace MemberSite.Controllers.Api
             public int AppType { set; get; }
             public Dictionary<string, string> inputs { set; get; }
         }
-
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ApiResult> GotoGame(TpInfo inInfo)
         {
             Dictionary<string, string> input = new Dictionary<string, string>();
-            ////input.Add("gameType", gameType);/**/
-            ////input.Add("gameId", gameId);/*for mg*/
-
-            var authData = authorizeBLL.GetAuthData();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            int custId = 0;
+            string langId = "";
+            if (inInfo.inputs.ContainsKey("AppType") && int.TryParse(inInfo.inputs["AppType"], out int appType))
+            {
+                inInfo.AppType = appType;
+            }
             if (inInfo.inputs != null)
             {
                 input = inInfo.inputs;
@@ -69,33 +72,44 @@ namespace MemberSite.Controllers.Api
             input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
             input.Add("ClientIP", tools.GetClientIP());
 
-            if (inInfo.TpId == (int)Tp.AG)
+            if (IsFunGame(inInfo.inputs))
             {
-                var tpCurrency = thirdPartyBLL.GetTpCurrency(inInfo.TpId, custInfo.CurrencyId);
-                var balance = walletBLL.GetBalance(authData.CustId);
-                var bonusAmount = walletBLL.GetBonus(authData.CustId, 2);
-
-                balance += bonusAmount;
-
-                if (tpCurrency.ExchangeRate != 0 && tpCurrency.ExchangeRate != 1)
-                {
-                    balance /= tpCurrency.ExchangeRate;
-                }
-
-                input.Add("Balance", tools.Floor(balance, 2).ToString());
-                input.Add("Token", authData.Token);
+                langId = selLangBLL.GetLangId();
             }
-            else
+            else if (User.Identity.IsAuthenticated)
             {
-                input.Add("Token", authData.Token);
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                langId = custInfo.UserLang;
+                custId = authData.CustId;
+                if (inInfo.TpId == (int)Tp.AG)
+                {
+                    var tpCurrency = thirdPartyBLL.GetTpCurrency(inInfo.TpId, custInfo.CurrencyId);
+                    var balance = walletBLL.GetBalance(authData.CustId);
+                    var bonusAmount = walletBLL.GetBonus(authData.CustId, 2);
+
+                    balance += bonusAmount;
+
+                    if (tpCurrency.ExchangeRate != 0 && tpCurrency.ExchangeRate != 1)
+                    {
+                        balance /= tpCurrency.ExchangeRate;
+                    }
+
+                    input.Add("Balance", tools.Floor(balance, 2).ToString());
+                    input.Add("Token", authData.Token);
+                }
+                else
+                {
+                    input.Add("Token", authData.Token);
+                }
             }
 
             var myUrl = $"{apiUrl}GotoGame";
-            var tpInfo = new 
+            var tpInfo = new
             {
                 TpId = inInfo.TpId,
-                CustId = authData.CustId,
-                LangId = custInfo.UserLang,
+                CustId = custId,
+                LangId = langId,
                 AppType = inInfo.AppType,
                 inputs = input
             };
@@ -104,6 +118,20 @@ namespace MemberSite.Controllers.Api
             result.SetSelLang(selLangBLL);
 
             return result;
+        }
+        private bool IsFunGame(Dictionary<string, string> inputs)
+        {
+            if (inputs.ContainsKey("gameType") && inputs["gameType"] == "slots" && inputs.ContainsKey("fun") && inputs["fun"] == "1")
+            {
+                return true;
+            }
+
+            if (inputs.ContainsKey("gameType") && inputs["gameType"] == "sports" && inputs.ContainsKey("fun") && inputs["fun"] == "1")
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public class TransferResult
@@ -149,7 +177,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult<TransferResult>> Transfer([FromBody]TpTransferReq inTpTransfer)
+        public async Task<ApiResult<TransferResult>> Transfer([FromBody] TpTransferReq inTpTransfer)
         {
             var authData = authorizeBLL.GetAuthData();
             BonusWallet bonusWalletInfo = inTpTransfer.direction == TpDirection.ToMain ? bonusWalletBLL.CheckBonusWallet(authData.CustId, inTpTransfer.TpId) : null;
@@ -157,7 +185,8 @@ namespace MemberSite.Controllers.Api
             if (bonusWalletInfo != null)
             {
                 result.ErrorCode = 9;
-                result.Data = new TransferResult() {
+                result.Data = new TransferResult()
+                {
                     Bonus = bonusWalletInfo.Bonus,
                     Turnover = bonusWalletInfo.Turnover,
                     Rollover = bonusWalletInfo.Rollover,
@@ -236,7 +265,7 @@ namespace MemberSite.Controllers.Api
             }
 
             BonusWallet bonusWalletInfo = direction == TpDirection.ToMain ? bonusWalletBLL.CheckBonusWallet(authData.CustId, activeTpId) : null;
-            
+
             if (bonusWalletInfo != null)
             {
                 result.ErrorCode = 9;
@@ -282,7 +311,8 @@ namespace MemberSite.Controllers.Api
                 else if (result.ErrorCode == 1201)
                 {
                     result.Message = selLangBLL.GetMsg("msg_InsufficientFund");
-                } else if(result.ErrorCode == 0 && direction == TpDirection.ToMain && inTpTransfer.ToTpId != 0)
+                }
+                else if (result.ErrorCode == 0 && direction == TpDirection.ToMain && inTpTransfer.ToTpId != 0)
                 {
                     //Do Main to TP
                     var transferEXReq = new TransferEXReq()
@@ -445,7 +475,7 @@ namespace MemberSite.Controllers.Api
             }
 
             decimal amount = TpBalance.Data.balance;
-            if(amount <= 0)
+            if (amount <= 0)
             {
                 result.ErrorCode = 0;
                 return result;
@@ -483,7 +513,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             Dictionary<string, string> input = new Dictionary<string, string>();
             var myUrl = $"{apiUrl}GetBalance";
-            var oTpInfo = new 
+            var oTpInfo = new
             {
                 TpId = tpId,
                 CustId = authData.CustId,
