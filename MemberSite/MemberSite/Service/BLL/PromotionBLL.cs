@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
@@ -248,9 +249,22 @@ namespace MemberSite.Service.BLL
         {
             return promotionService.GetSpecialPromotionListV2(SiteId, CustId, CurrencyId, langId, defLang, deviceType);
         }
+        public bool CheckScratchCardCode(string specialCode)
+        {
+            if (string.IsNullOrEmpty(specialCode) || specialCode.Length !=16)
+                return false;
+
+            Regex regex = new Regex("^[a-zA-Z]{5}-[a-zA-Z0-9]{10}$", RegexOptions.Singleline);
+            Match mPwd = regex.Match(specialCode);
+
+            return mPwd.Success;
+        }
+        public int SetScratchCardCode(int custId, string specialCode, int? deviceType)
+        {
+            return promotionService.SetScratchCardCode(custId, specialCode, deviceType);
+        }
         public bool SetSpecialCode(int custId, string specialCode, int? deviceType)
         {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             return promotionService.SetSpecialCode(custId, specialCode, deviceType);
         }
         public void SetSpecialCodeJoined(int custId, string specialCode, string bonusCode)
