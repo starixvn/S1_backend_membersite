@@ -333,6 +333,9 @@
   <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
     <value>Withdrawal amount must be greater than {0}</value>
   </data>
+  <data name="msg_GreaterThanWithdrawalMax" xml:space="preserve">
+    <value>Your Daily Limit Reached</value>
+  </data>
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>You have already stored this information.</value>
   </data>

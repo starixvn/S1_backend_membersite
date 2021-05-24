@@ -1722,4 +1722,10 @@
   <data name="lbl_Cashback_Virtual_Sports" xml:space="preserve">
     <value>กีฬาจำลอง</value>
   </data>
+  <data name="lbl_Wallet_PT" xml:space="preserve">
+    <value>กระเป๋าสตางค์ PT</value>
+  </data>
+  <data name="lbl_WalletDescription_PT" xml:space="preserve">
+    <value>กระเป๋าสตางค์ PT</value>
+  </data>
 </root>

@@ -1887,4 +1887,10 @@
   <data name="lbl_Cashback_Virtual_Sports" xml:space="preserve">
     <value>Virtual Sports</value>
   </data>
+  <data name="lbl_WalletDescription_PT" xml:space="preserve">
+    <value>PT Wallet</value>
+  </data>
+  <data name="lbl_Wallet_PT" xml:space="preserve">
+    <value>PT Wallet</value>
+  </data>
 </root>

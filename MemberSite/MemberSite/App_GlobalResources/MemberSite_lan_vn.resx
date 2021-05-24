@@ -1786,4 +1786,10 @@
   <data name="lbl_Cashback_Virtual_Sports" xml:space="preserve">
     <value>Thể Thao Ảo</value>
   </data>
+  <data name="lbl_Wallet_PT" xml:space="preserve">
+    <value>Ví PT</value>
+  </data>
+  <data name="lbl_WalletDescription_PT" xml:space="preserve">
+    <value>Ví PT</value>
+  </data>
 </root>

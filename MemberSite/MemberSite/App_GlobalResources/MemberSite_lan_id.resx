@@ -1743,4 +1743,10 @@
   <data name="lbl_Cashback_Virtual_Sports" xml:space="preserve">
     <value>Olahraga maya</value>
   </data>
+  <data name="lbl_Wallet_PT" xml:space="preserve">
+    <value>Dompet PT</value>
+  </data>
+  <data name="lbl_WalletDescription_PT" xml:space="preserve">
+    <value>Dompet PT</value>
+  </data>
 </root>

@@ -198,6 +198,9 @@
   <data name="lbl_TitleKeywords" xml:space="preserve">
     <value>Bwing is the world leading sportsbook offering one of the kind gambling experience in live betting covering all sports, casino, slots, keno, esports, rng casino, fantasy sports, virtual sports, lottery, live casino, live dealer, bingo, and racing.</value>
   </data>
+  <data name="lbl_TpWallet_1" xml:space="preserve">
+    <value>Saba Wallet</value>
+  </data>
   <data name="lbl_TwitterAccount" xml:space="preserve">
     <value>bwingofficial</value>
   </data>
@@ -209,5 +212,8 @@
   </data>
   <data name="lbl_URL" xml:space="preserve">
     <value>https://www.bwing.com</value>
+  </data>
+  <data name="lbl_Wallet_Saba" xml:space="preserve">
+    <value>Saba Wallet</value>
   </data>
 </root>

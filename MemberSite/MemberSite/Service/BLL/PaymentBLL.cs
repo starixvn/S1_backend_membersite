@@ -670,24 +670,6 @@ namespace MemberSite.Service.BLL
 
             return withdrawalKycList.Where(x => x.CurrencyId == CustInfo.CurrencyId).FirstOrDefault();
         }
-
-        public IEnumerable<WithdrawalLimitInfo1> GetWithdrawalLimitInfoList(int siteId)
-        {
-            string key = $"WithdrawalLimitInfoList_{siteId}";
-            var withdrawalLimitList = cache.Get<IEnumerable<WithdrawalLimitInfo1>>(key);
-            if (withdrawalLimitList == null)
-            {
-                withdrawalLimitList = withdrawalService.GetWithdrawalLimitInfoList().Where(x => x.SiteId == siteId);
-                if (withdrawalLimitList != null)
-                {
-                    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromMinutes(5));
-                    cache.Set(key, withdrawalLimitList, cacheEntryOptions);
-                }
-            }
-
-            return withdrawalLimitList;
-        }
         private void FixDepositLimit(IPaymentLimit paymentLimit, DepositLimitInfo depositLimitInfo)
         {
             if (depositLimitInfo.DepositMin > paymentLimit.MaxAmount || depositLimitInfo.DepositMax < paymentLimit.MinAmount)
@@ -732,9 +714,13 @@ namespace MemberSite.Service.BLL
         {
             return statementService.GetCustTpBetRecordDateRange( custId, startDate, endDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
         }
-        public WithdrawalMinInfo GetWithdrawalLimitInfo(int SiteId,int CurrencyId)
+        public WithdrawalLimitInfoOutput GetWithdrawalLimitInfo(WithdrawalLimitInfoInput input)
         {
-            return withdrawalService.GetWithdrawalLimitInfo(SiteId, CurrencyId);
+            return withdrawalService.GetWithdrawalLimitInfo(input);
+        }
+        public DailyCustomerWithdrawalInfoOutput GetDailyCustomerWithdrawalInfo(DailyCustomerWithdrawalInfoInput input)
+        {
+            return withdrawalService.GetDailyCustomerWithdrawalInfo(input);
         }
     }
 }

@@ -176,16 +176,18 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<WithdrawalKyc>("Member_WithdrawalKyc_Get", new { SitId = sitId }, commandType: CommandType.StoredProcedure);
         }
-        public IEnumerable<WithdrawalLimitInfo1> GetWithdrawalLimitInfoList()
+        public WithdrawalLimitInfoOutput GetWithdrawalLimitInfo(WithdrawalLimitInfoInput input)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<WithdrawalLimitInfo1>("Member_WithdrawalLimitInfo_Get", commandType: CommandType.StoredProcedure);
+            return conn.Query<WithdrawalLimitInfoOutput>("Member_WithdrawalLimitInfo_Get",
+                new {input.SiteId, input.CurrencyId, input.VipLevel}, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
 
-        public WithdrawalMinInfo GetWithdrawalLimitInfo(int SiteId, int CurrencyId)
+        public DailyCustomerWithdrawalInfoOutput GetDailyCustomerWithdrawalInfo(DailyCustomerWithdrawalInfoInput input)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<WithdrawalMinInfo>("Member_WithdrawalMinInfo_Get", new { SiteId, CurrencyId }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+            return conn.Query<DailyCustomerWithdrawalInfoOutput>("Member_DailyCustomerWithdrawalInfo_Get",
+                new {input.CustId}, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
     }
 }
