@@ -1,7 +1,10 @@
 ﻿using Dapper;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Concurrent;
@@ -17,11 +20,14 @@ namespace MemberSite.Service.DAL
         //private static ConcurrentDictionary<int, IThirdPartyHelper> ThirdPartyHelperContainer = new ConcurrentDictionary<int, IThirdPartyHelper>();
         private readonly IWebHostEnvironment environment;
         private readonly IConfiguration configuration;
+        private readonly MySqlClient _mainDbClient;
 
-        public ThirdPartyService(IWebHostEnvironment environment, IConfiguration configuration)
+        public ThirdPartyService(IServiceProvider provider)
         {
-            this.environment = environment;
-            this.configuration = configuration;
+            environment = provider.GetRequiredService<IWebHostEnvironment>();
+            configuration = provider.GetRequiredService<IConfiguration>();
+            var logger = provider.GetRequiredService<ILogger<MySqlClient>>();
+            _mainDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionString"), logger);
         }
 
         public ThirdPartyModel GetThirdPartyBySite(int tpId, int siteId)
@@ -84,6 +90,11 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<TpWalletList>("Member_TpWalletV2_Get", new { CustId = custId, ListType = listType }, commandType: CommandType.StoredProcedure);
+        }
+
+        public IEnumerable<TpMaintain> GetTpMaintainList(int siteId)
+        {
+            return _mainDbClient.Query<TpMaintain>("TpMaintain_Get", new DynamicParameters(new { SiteId = siteId }));
         }
     }
 }

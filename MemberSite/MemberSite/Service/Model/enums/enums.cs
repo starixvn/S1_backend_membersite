@@ -223,4 +223,12 @@ namespace MemberSite.Service.Model.enums
         Goal123 = 2,
         Bwing = 3
     }
+
+    public enum MaintainType
+    { 
+        Date,
+        Day,
+        Week,
+        Month
+    }
 }
