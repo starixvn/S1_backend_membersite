@@ -208,9 +208,9 @@ namespace MemberSite.Controllers
             }
             else if (hasBf(tpId))
             {
-                //SiteId = serverInfo.SiteId;
+                LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
                 string entryUrl = thirdPartyBLL.getEntryUrl(tpId, inputs);
-
+                _logger.LogInformation($"tpId={tpId}, Url={entryUrl}");
                 return Redirect(entryUrl);
             }
             else
