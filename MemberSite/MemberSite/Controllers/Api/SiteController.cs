@@ -1423,6 +1423,11 @@ namespace MemberSite.Controllers.Api
             //不分Tpid取出GameCasino資料
             var GameCasinoList = gameCasinoBLL.GetGameCasinoListByDevice(getGameListByDeviceReq.DeviceType);
 
+            if (getGameListByDeviceReq.DeviceType == 3)
+            {
+                GameCasinoList = GameCasinoList.Where(x => x.TpId != 27).ToList();
+            }
+
             //GameCasinoList裡總共有多少種TpId
             var GameCasinoHasTpid = GameCasinoList.Select(x => x.TpId).Distinct();
             var providers = gameCasinoBLL.GetProviderList();
