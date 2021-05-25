@@ -102,7 +102,7 @@ namespace MemberSite.Service.DAL
                 p.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                 p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 p.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                conn.Execute("Member_PromotionCanJoinV5_Get", p, commandType: CommandType.StoredProcedure);
+                conn.Execute("Member_PromotionCanJoinV6_Get", p, commandType: CommandType.StoredProcedure);
 
             var jResult = p.Get<int>("Result");
             var canJoin = p.Get<byte?>("CanJoin") ?? 0;
@@ -1023,7 +1023,7 @@ namespace MemberSite.Service.DAL
         public bool SetSpecialCode(int custId, string specialCode, int? deviceType)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            int result = conn.Execute("Member_CustSpecialCodeV2_Ins", new { CustId = custId, SpecialCode = specialCode, DeviceType = deviceType }, commandType: CommandType.StoredProcedure);
+            int result = conn.Execute("Member_CustSpecialCodeV3_Ins", new { CustId = custId, SpecialCode = specialCode, DeviceType = deviceType }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
         public int SetScratchCardCode(int custId, string scratchCardCode, int? deviceType)
@@ -1031,7 +1031,7 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             var Params = new DynamicParameters(new { CustId = custId, ScratchCardCode = scratchCardCode, DeviceType = deviceType });
             Params.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            conn.Execute("Member_CustScratchCardCodeV2_Ins", Params, commandType: CommandType.StoredProcedure);
+            conn.Execute("Member_CustScratchCardCodeV3_Ins", Params, commandType: CommandType.StoredProcedure);
             int Result = Params.Get<int>("Result");
             return Result;
         }
