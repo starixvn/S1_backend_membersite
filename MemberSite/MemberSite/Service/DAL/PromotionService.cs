@@ -333,7 +333,7 @@ namespace MemberSite.Service.DAL
 
                 if (result > 0)
                 {
-                    result = conn.Execute("Member_PromotionBeenUsed_Set",
+                    result = conn.Execute("Member_PromotionBeenUsedV2_Set",
                         new {SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId}, trans,
                         commandType: CommandType.StoredProcedure);
                 }
