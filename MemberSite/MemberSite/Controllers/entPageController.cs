@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Serilog.Context;
 
 namespace MemberSite.Controllers
 {
@@ -24,8 +26,12 @@ namespace MemberSite.Controllers
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly string apiUrl;
         private readonly IHostEnvironment environment;
+        private readonly ILogger _logger;
 
-        public entPageController(IHostEnvironment environment, IConfiguration configuration, ThirdPartyBLL thirdPartyBLL, CourierAdapter courierAdapter, AuthorizeBLL authorizeBLL, Tools tools, SelLangBLL selLangBLL, WalletBLL walletBLL, CustInfoBLL custInfoBLL, ServerInfoBLL serverInfoBLL)
+        public entPageController(IHostEnvironment environment, IConfiguration configuration,
+            ThirdPartyBLL thirdPartyBLL, CourierAdapter courierAdapter, AuthorizeBLL authorizeBLL, Tools tools,
+            SelLangBLL selLangBLL, WalletBLL walletBLL, CustInfoBLL custInfoBLL, ServerInfoBLL serverInfoBLL,
+            ILogger<entPageController> logger)
         {
             this.thirdPartyBLL = thirdPartyBLL;
             this.courierAdapter = courierAdapter;
@@ -37,7 +43,9 @@ namespace MemberSite.Controllers
             this.serverInfoBLL = serverInfoBLL;
             apiUrl = configuration.GetValue<string>("TpService");
             this.environment = environment;
+            _logger = logger;
         }
+
         public class TpInfo
         {
             public int TpId { set; get; }
@@ -142,18 +150,16 @@ namespace MemberSite.Controllers
         //}
 
         [HttpGet]
-        public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs)
+        public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs, [FromRoute] string LangId = null)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             bool isNewVersion = true;
             var myUrl = $"{apiUrl}GotoGame";
-            var freePlay = 0;
             var tpInfo = new TpInfo
             {
                 TpId = tpId,
                 AppType = tools.IsMobile() ? 2 : 1,
                 SiteId = serverInfo.SiteId,
-                inputs = inputs
             };
 
             inputs.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
@@ -196,13 +202,13 @@ namespace MemberSite.Controllers
                     inputs.Add("Token", authData.Token);
                 }
                 tpInfo.CustId = authData.CustId;
-                tpInfo.LangId = custInfo.UserLang;
+                tpInfo.LangId = LangId ?? custInfo.UserLang;
             }
             else if (hasBf(tpId))
             {
-                //SiteId = serverInfo.SiteId;
+                LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
                 string entryUrl = thirdPartyBLL.getEntryUrl(tpId, inputs);
-
+                _logger.LogInformation($"tpId={tpId}, Url={entryUrl}");
                 return Redirect(entryUrl);
             }
             else
@@ -210,17 +216,22 @@ namespace MemberSite.Controllers
                 return StatusCode(400);
             }
 
+            tpInfo.inputs = inputs;
+
             try
             {
+                LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
                 var data = await courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
                 if (data.ErrorCode == 0)
                 {
                     string entryUrl = data.Message;
+                    _logger.LogInformation($"ErrorCode=0, Url={entryUrl}");
                     return Redirect(entryUrl);
                 }
                 else if (tpId == 1 && data.RawErrorCode == "10")
                 {
                     string entryUrl = thirdPartyBLL.getEntryUrl(tpId, inputs);
+                    _logger.LogInformation($"tpId=1, RawErrorCode=10, Url={entryUrl}");
                     return Redirect(entryUrl);
                 }
                 else
@@ -256,8 +267,6 @@ namespace MemberSite.Controllers
 
         [HttpGet]
         [Route("[controller]/{SportName}")]
-
-
         public async Task<IActionResult> OneworksAsync(string SportName)
         {
             Dictionary<string, SNameSubTable> SNameTable = new Dictionary<string, SNameSubTable>
