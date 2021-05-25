@@ -231,7 +231,7 @@ namespace MemberSite.Controllers
                 else if (tpId == 1 && data.RawErrorCode == "10")
                 {
                     string entryUrl = thirdPartyBLL.getEntryUrl(tpId, inputs);
-                    _logger.LogInformation($"tpId=0, RawErrorCode=10, Url={entryUrl}");
+                    _logger.LogInformation($"tpId=1, RawErrorCode=10, Url={entryUrl}");
                     return Redirect(entryUrl);
                 }
                 else
