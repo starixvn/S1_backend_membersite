@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Serilog.Context;
 
 namespace MemberSite.Controllers
 {
@@ -24,8 +26,12 @@ namespace MemberSite.Controllers
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly string apiUrl;
         private readonly IHostEnvironment environment;
+        private readonly ILogger _logger;
 
-        public entPageController(IHostEnvironment environment, IConfiguration configuration, ThirdPartyBLL thirdPartyBLL, CourierAdapter courierAdapter, AuthorizeBLL authorizeBLL, Tools tools, SelLangBLL selLangBLL, WalletBLL walletBLL, CustInfoBLL custInfoBLL, ServerInfoBLL serverInfoBLL)
+        public entPageController(IHostEnvironment environment, IConfiguration configuration,
+            ThirdPartyBLL thirdPartyBLL, CourierAdapter courierAdapter, AuthorizeBLL authorizeBLL, Tools tools,
+            SelLangBLL selLangBLL, WalletBLL walletBLL, CustInfoBLL custInfoBLL, ServerInfoBLL serverInfoBLL,
+            ILogger<entPageController> logger)
         {
             this.thirdPartyBLL = thirdPartyBLL;
             this.courierAdapter = courierAdapter;
@@ -37,7 +43,9 @@ namespace MemberSite.Controllers
             this.serverInfoBLL = serverInfoBLL;
             apiUrl = configuration.GetValue<string>("TpService");
             this.environment = environment;
+            _logger = logger;
         }
+
         public class TpInfo
         {
             public int TpId { set; get; }
@@ -198,9 +206,9 @@ namespace MemberSite.Controllers
             }
             else if (hasBf(tpId))
             {
-                //SiteId = serverInfo.SiteId;
+                LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
                 string entryUrl = thirdPartyBLL.getEntryUrl(tpId, inputs);
-
+                _logger.LogInformation($"tpId={tpId}, Url={entryUrl}");
                 return Redirect(entryUrl);
             }
             else
@@ -212,15 +220,18 @@ namespace MemberSite.Controllers
 
             try
             {
+                LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
                 var data = await courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
                 if (data.ErrorCode == 0)
                 {
                     string entryUrl = data.Message;
+                    _logger.LogInformation($"ErrorCode=0, Url={entryUrl}");
                     return Redirect(entryUrl);
                 }
                 else if (tpId == 1 && data.RawErrorCode == "10")
                 {
                     string entryUrl = thirdPartyBLL.getEntryUrl(tpId, inputs);
+                    _logger.LogInformation($"tpId=1, RawErrorCode=10, Url={entryUrl}");
                     return Redirect(entryUrl);
                 }
                 else
