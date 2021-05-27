@@ -326,8 +326,6 @@ namespace MemberSite.Controllers.Api
             public int? DeviceType { set; get; }
         }
 
-
-        
         [Authorize]
         [HttpPost]
         public ApiResult SetSpecialCode(SetSpecialCodeReq setSpecialCodeReq)
@@ -341,23 +339,9 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var authData = authorizeBLL.GetAuthData();
-                if (promotionBLL.CheckScratchCardCode(setSpecialCodeReq.SpecialCode.ToUpper()))
+                if (promotionBLL.SetSpecialCode(authData.CustId, setSpecialCodeReq.SpecialCode, setSpecialCodeReq.DeviceType))
                 {
-                    result.ErrorCode = promotionBLL.SetScratchCardCode(authData.CustId, setSpecialCodeReq.SpecialCode.ToUpper(), setSpecialCodeReq.DeviceType);
-                    if(result.ErrorCode == 0)
-                        result.Message = "";
-                }
-                else
-                {
-                    if (promotionBLL.SetSpecialCode(authData.CustId, setSpecialCodeReq.SpecialCode, setSpecialCodeReq.DeviceType))
-                    {
-                        result.ErrorCode = 0;
-                        result.Message = "";
-                    }
-                    else
-                    {
-                        result.ErrorCode = 99;
-                    }
+                    result.ErrorCode = 0;
                 }
             }
             catch (MySql.Data.MySqlClient.MySqlException mySqlEx)
