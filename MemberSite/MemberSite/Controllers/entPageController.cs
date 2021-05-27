@@ -150,16 +150,18 @@ namespace MemberSite.Controllers
         //}
 
         [HttpGet]
-        public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs, [FromRoute] string LangId = null)
+        public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             bool isNewVersion = true;
             var myUrl = $"{apiUrl}GotoGame";
+            var freePlay = 0;
             var tpInfo = new TpInfo
             {
                 TpId = tpId,
                 AppType = tools.IsMobile() ? 2 : 1,
                 SiteId = serverInfo.SiteId,
+                inputs = inputs
             };
 
             inputs.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
@@ -202,7 +204,7 @@ namespace MemberSite.Controllers
                     inputs.Add("Token", authData.Token);
                 }
                 tpInfo.CustId = authData.CustId;
-                tpInfo.LangId = LangId ?? custInfo.UserLang;
+                tpInfo.LangId = custInfo.UserLang;
             }
             else if (hasBf(tpId))
             {
@@ -215,8 +217,6 @@ namespace MemberSite.Controllers
             {
                 return StatusCode(400);
             }
-
-            tpInfo.inputs = inputs;
 
             try
             {
@@ -267,6 +267,8 @@ namespace MemberSite.Controllers
 
         [HttpGet]
         [Route("[controller]/{SportName}")]
+
+
         public async Task<IActionResult> OneworksAsync(string SportName)
         {
             Dictionary<string, SNameSubTable> SNameTable = new Dictionary<string, SNameSubTable>
