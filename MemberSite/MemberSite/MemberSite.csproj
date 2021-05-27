@@ -10,6 +10,11 @@
     <WarningsAsErrors />
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Views\Promotion\Promo5PBonus\**" />
     <Content Remove="Views\Promotion\Promo5PBonus\**" />
@@ -122,6 +127,7 @@
     <Folder Include="wwwroot\js\Bwing\component\Desktop\" />
     <Folder Include="wwwroot\SiteSkin\Goal123\" />
     <Folder Include="wwwroot\SiteSkin\Nova88\en\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
