@@ -204,7 +204,7 @@ namespace MemberSite.Controllers
                     inputs.Add("Token", authData.Token);
                 }
                 tpInfo.CustId = authData.CustId;
-                tpInfo.LangId = LangId ?? custInfo.UserLang;
+                tpInfo.LangId = CheckLangId(LangId) ? LangId : custInfo.UserLang;
             }
             else if (hasBf(tpId))
             {
@@ -324,6 +324,11 @@ namespace MemberSite.Controllers
             }
 
             return false;
+        }
+
+        private bool CheckLangId(string LangId)
+        {
+            return selLangBLL.GetLangIdList().Any(item => item.LangId == LangId);
         }
     }
 }
