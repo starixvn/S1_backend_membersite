@@ -70,9 +70,9 @@ namespace MemberSite.Service.Model
                 }
                 
                 // 將當下日期與維護時間組合後進行檢查
-                var date = utcNow.Date.ToShortDateString();
-                var begin = DateTime.ParseExact($"{date} {BeginTime}", "yyyy/M/dd HH:mm", null);
-                var end = DateTime.ParseExact($"{date} {EndTime}", "yyyy/M/dd HH:mm", null);
+                var date = utcNow.Date.ToString("yyyy/MM/dd");
+                var begin = DateTime.ParseExact($"{date} {BeginTime}", "yyyy/MM/dd HH:mm", null);
+                var end = DateTime.ParseExact($"{date} {EndTime}", "yyyy/MM/dd HH:mm", null);
                 var isBetween = utcNow.IsBetween(begin, end);
                 
                 return MaintainType switch
