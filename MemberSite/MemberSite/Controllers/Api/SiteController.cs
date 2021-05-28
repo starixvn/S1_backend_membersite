@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
@@ -44,25 +45,26 @@ namespace MemberSite.Controllers.Api
         private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
         private readonly Regex _regexUserName = new Regex(@"^[a-zA-Z0-9]{6,18}$");
         private readonly Regex _regexAffCode = new Regex(@"^[0-9]{5,20}$");
-
+        private readonly ThirdPartyBLL thirdPartyBLL;
         //private readonly IOptions<Dictionary<string, FPSServicesConfig>> fpsServicesConfig;
 
-        public SiteController(IWebHostEnvironment environment, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, Tools tools, CommonBLL commonBLL, AuthorizeBLL authorizeBLL, CasinoBLL casinoBLL, ServerInfoBLL serverInfoBLL, BannerBLL bannerBLL, AuthBLL authBLL, IovationBLL iovationBLL, FPSBLL sFPSBLL, GameCasinoBLL gameCasinoBLL, IOptions<Dictionary<string, SiteConfig>> siteConfig)
+        public SiteController(IServiceProvider provider)
         {
-            this.custInfoBLL = custInfoBLL;
-            this.tools = tools;
-            this.selLangBLL = selLangBLL;
-            this.commonBLL = commonBLL;
-            this.environment = environment;
-            this.authorizeBLL = authorizeBLL;
-            this.casinoBLL = casinoBLL;
-            this.serverInfoBLL = serverInfoBLL;
-            this.bannerBLL = bannerBLL;
-            this.authBLL = authBLL;
-            this.iovationBLL = iovationBLL;
-            this.sFPSBLL = sFPSBLL;
-            this.gameCasinoBLL = gameCasinoBLL;
-            this.siteConfig = siteConfig;
+            custInfoBLL = provider.GetRequiredService<CustInfoBLL>();
+            tools = provider.GetRequiredService<Tools>();
+            selLangBLL = provider.GetRequiredService<SelLangBLL>();
+            commonBLL = provider.GetRequiredService<CommonBLL>();
+            environment = provider.GetRequiredService<IWebHostEnvironment>();
+            authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
+            casinoBLL = provider.GetRequiredService<CasinoBLL>();
+            serverInfoBLL = provider.GetRequiredService<ServerInfoBLL>();
+            bannerBLL = provider.GetRequiredService<BannerBLL>();
+            authBLL = provider.GetRequiredService<AuthBLL>();
+            iovationBLL = provider.GetRequiredService<IovationBLL>();
+            sFPSBLL = provider.GetRequiredService<FPSBLL>();
+            gameCasinoBLL = provider.GetRequiredService<GameCasinoBLL>();
+            siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
+            thirdPartyBLL = provider.GetRequiredService<ThirdPartyBLL>();
         }
 
         public class LoginModel
@@ -1605,5 +1607,13 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        public ApiResult<IEnumerable<TpMaintain>> GetTpMaintainList()
+        {
+            return new ApiResult<IEnumerable<TpMaintain>>()
+            {
+                ErrorCode = 0,
+                Data = thirdPartyBLL.GetTpMaintainList(serverInfoBLL.GetServerInfo().SiteId),
+            };
+        }
     }
 }

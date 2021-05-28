@@ -241,5 +241,10 @@ namespace MemberSite.Service.BLL
         {
             return thirdPartyService.GetTpWalletList(custId,listType);
         }
+
+        public IEnumerable<TpMaintain> GetTpMaintainList(int siteId)
+        {
+            return thirdPartyService.GetTpMaintainList(siteId).Where(item => item.MaintainCheck(DateTime.UtcNow));
+        }
     }
 }
