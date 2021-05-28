@@ -1,5 +1,6 @@
 ﻿using MemberSite.Extensions;
 using MemberSite.Service.Model.enums;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,7 +54,7 @@ namespace MemberSite.Service.Model
         public string BeginTime { get; set; }
         public string EndTime { get; set; }
 
-        public bool MaintainCheck(DateTime utcNow)
+        public bool MaintainCheck(DateTime utcNow, ILogger logger)
         {
             try
             {         
@@ -82,8 +83,9 @@ namespace MemberSite.Service.Model
                     _ => false,
                 };
             }
-            catch
+            catch (Exception ex)
             {
+                logger.LogError(ex, ex.Message);
                 return false;
             }
         }
