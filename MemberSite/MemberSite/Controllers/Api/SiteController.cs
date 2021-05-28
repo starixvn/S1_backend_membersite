@@ -1607,12 +1607,14 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        [HttpGet,HttpPost]
         public ApiResult<IEnumerable<TpMaintain>> GetTpMaintainList()
         {
             return new ApiResult<IEnumerable<TpMaintain>>()
             {
                 ErrorCode = 0,
                 Data = thirdPartyBLL.GetTpMaintainList(serverInfoBLL.GetServerInfo().SiteId),
+                Message =$"UtcNow is {DateTime.UtcNow:yyyy/MM/dd HH:mm:ss}"
             };
         }
     }
