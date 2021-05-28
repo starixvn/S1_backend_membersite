@@ -134,6 +134,7 @@ namespace MemberSite
             services.AddSingleton<GameCasinoBLL>();
             services.AddSingleton<LiveStreamingBLL>();
             services.AddSingleton<LatestHighlightDataBLL>();
+            services.AddSingleton<GameBLL>();
             //var bll = AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())
             //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.BLL");

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MemberSite.Service.BLL;
@@ -8,9 +7,9 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Controllers.Api
 {
@@ -19,31 +18,29 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class TpController : ControllerBase
     {
-        private readonly CourierAdapter courierAdapter;
-        private readonly IConfiguration configuration;
-        private readonly Tools tools;
-        private readonly SelLangBLL selLangBLL;
-        private readonly AuthorizeBLL authorizeBLL;
-        private readonly string apiUrl;
-        private readonly ThirdPartyBLL thirdPartyBLL;
-        private readonly WalletBLL walletBLL;
-        private readonly BonusWalletBLL bonusWalletBLL;
-        private readonly CustInfoBLL custInfoBLL;
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly CourierAdapter _courierAdapter;
+        private readonly Tools _tools;
+        private readonly SelLangBLL _selLangBll;
+        private readonly AuthorizeBLL _authorizeBll;
+        private readonly string _apiUrl;
+        private readonly ThirdPartyBLL _thirdPartyBll;
+        private readonly WalletBLL _walletBll;
+        private readonly BonusWalletBLL _bonusWalletBll;
+        private readonly CustInfoBLL _custInfoBll;
+        private readonly GameBLL _gameBll;
 
-        public TpController(CourierAdapter courierAdapter, IConfiguration configuration, Tools tools, SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, ThirdPartyBLL thirdPartyBLL, WalletBLL walletBLL, BonusWalletBLL bonusWalletBLL, CustInfoBLL custInfoBLL, ServerInfoBLL serverInfoBLL)
+        public TpController(IServiceProvider provider)
         {
-            this.courierAdapter = courierAdapter;
-            this.configuration = configuration;
-            this.tools = tools;
-            this.selLangBLL = selLangBLL;
-            this.authorizeBLL = authorizeBLL;
-            apiUrl = configuration.GetValue<string>("TpService");
-            this.thirdPartyBLL = thirdPartyBLL;
-            this.walletBLL = walletBLL;
-            this.bonusWalletBLL = bonusWalletBLL;
-            this.custInfoBLL = custInfoBLL;
-            this.serverInfoBLL = serverInfoBLL;
+            _courierAdapter = provider.GetRequiredService<CourierAdapter>();
+            _tools = provider.GetRequiredService<Tools>();
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
+            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
+            _apiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("TpService");
+            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBLL>();
+            _walletBll = provider.GetRequiredService<WalletBLL>();
+            _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
+            _gameBll = provider.GetRequiredService<GameBLL>();
         }
 
         public class TpInfo
@@ -70,23 +67,23 @@ namespace MemberSite.Controllers.Api
             }
 
             input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-            input.Add("ClientIP", tools.GetClientIP());
+            input.Add("ClientIP", _tools.GetClientIP());
 
-            if (IsFunGame(inInfo.inputs))
+            if (_gameBll.IsFunGame(inInfo.inputs))
             {
-                langId = selLangBLL.GetLangId();
+                langId = _selLangBll.GetLangId();
             }
             else if (User.Identity.IsAuthenticated)
             {
-                var authData = authorizeBLL.GetAuthData();
-                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 langId = custInfo.UserLang;
                 custId = authData.CustId;
                 if (inInfo.TpId == (int)Tp.AG)
                 {
-                    var tpCurrency = thirdPartyBLL.GetTpCurrency(inInfo.TpId, custInfo.CurrencyId);
-                    var balance = walletBLL.GetBalance(authData.CustId);
-                    var bonusAmount = walletBLL.GetBonus(authData.CustId, 2);
+                    var tpCurrency = _thirdPartyBll.GetTpCurrency(inInfo.TpId, custInfo.CurrencyId);
+                    var balance = _walletBll.GetBalance(authData.CustId);
+                    var bonusAmount = _walletBll.GetBonus(authData.CustId, 2);
 
                     balance += bonusAmount;
 
@@ -95,7 +92,7 @@ namespace MemberSite.Controllers.Api
                         balance /= tpCurrency.ExchangeRate;
                     }
 
-                    input.Add("Balance", tools.Floor(balance, 2).ToString());
+                    input.Add("Balance", _tools.Floor(balance, 2).ToString());
                     input.Add("Token", authData.Token);
                 }
                 else
@@ -104,7 +101,7 @@ namespace MemberSite.Controllers.Api
                 }
             }
 
-            var myUrl = $"{apiUrl}GotoGame";
+            var myUrl = $"{_apiUrl}GotoGame";
             var tpInfo = new
             {
                 TpId = inInfo.TpId,
@@ -114,24 +111,10 @@ namespace MemberSite.Controllers.Api
                 inputs = input
             };
 
-            var result = await courierAdapter.MyPostAsync<bool, dynamic>(myUrl, tpInfo);
-            result.SetSelLang(selLangBLL);
+            var result = await _courierAdapter.MyPostAsync<bool, dynamic>(myUrl, tpInfo);
+            result.SetSelLang(_selLangBll);
 
             return result;
-        }
-        private bool IsFunGame(Dictionary<string, string> inputs)
-        {
-            if (inputs.ContainsKey("gameType") && inputs["gameType"] == "slots" && inputs.ContainsKey("fun") && inputs["fun"] == "1")
-            {
-                return true;
-            }
-
-            if (inputs.ContainsKey("gameType") && inputs["gameType"] == "sports" && inputs.ContainsKey("fun") && inputs["fun"] == "1")
-            {
-                return true;
-            }
-
-            return false;
         }
 
         public class TransferResult
@@ -179,8 +162,8 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<TransferResult>> Transfer([FromBody] TpTransferReq inTpTransfer)
         {
-            var authData = authorizeBLL.GetAuthData();
-            BonusWallet bonusWalletInfo = inTpTransfer.direction == TpDirection.ToMain ? bonusWalletBLL.CheckBonusWallet(authData.CustId, inTpTransfer.TpId) : null;
+            var authData = _authorizeBll.GetAuthData();
+            BonusWallet bonusWalletInfo = inTpTransfer.direction == TpDirection.ToMain ? _bonusWalletBll.CheckBonusWallet(authData.CustId, inTpTransfer.TpId) : null;
             ApiResult<TransferResult> result = new ApiResult<TransferResult>();
             if (bonusWalletInfo != null)
             {
@@ -204,7 +187,7 @@ namespace MemberSite.Controllers.Api
                 }
                 Dictionary<string, string> input = new Dictionary<string, string>();
                 input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-                input.Add("ClientIP", tools.GetClientIP());
+                input.Add("ClientIP", _tools.GetClientIP());
 
                 var tpTransfer = new TpTransfer
                 {
@@ -214,21 +197,21 @@ namespace MemberSite.Controllers.Api
                     direction = inTpTransfer.direction,
                     inputs = input
                 };
-                var myUrl = $"{apiUrl}Transfer";
-                result = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
+                var myUrl = $"{_apiUrl}Transfer";
+                result = await _courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
                 if (result.ErrorCode != 0 && string.IsNullOrEmpty(result.Message) && !string.IsNullOrEmpty(result.RawMessage))
                 {
                     if (result.RawErrorCode == "3")
-                        result.Message = selLangBLL.GetMsg("msg_InsufficientFund");
+                        result.Message = _selLangBll.GetMsg("msg_InsufficientFund");
                     else
                         result.Message = result.RawMessage;
                 }
                 else if (result.ErrorCode == 1201)
                 {
-                    result.Message = selLangBLL.GetMsg("msg_InsufficientFund");
+                    result.Message = _selLangBll.GetMsg("msg_InsufficientFund");
                 }
 
-                result.SetSelLang(selLangBLL);
+                result.SetSelLang(_selLangBll);
                 return result;
             }
         }
@@ -243,7 +226,7 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<TransferResult>> TransferEX(TransferEXReq inTpTransfer)
         {
-            var authData = authorizeBLL.GetAuthData();
+            var authData = _authorizeBll.GetAuthData();
             ApiResult<TransferResult> result = new ApiResult<TransferResult>();
             TpDirection direction = new TpDirection();
             int activeTpId = 0;
@@ -264,7 +247,7 @@ namespace MemberSite.Controllers.Api
 
             }
 
-            BonusWallet bonusWalletInfo = direction == TpDirection.ToMain ? bonusWalletBLL.CheckBonusWallet(authData.CustId, activeTpId) : null;
+            BonusWallet bonusWalletInfo = direction == TpDirection.ToMain ? _bonusWalletBll.CheckBonusWallet(authData.CustId, activeTpId) : null;
 
             if (bonusWalletInfo != null)
             {
@@ -288,7 +271,7 @@ namespace MemberSite.Controllers.Api
                 }
                 Dictionary<string, string> input = new Dictionary<string, string>();
                 input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-                input.Add("ClientIP", tools.GetClientIP());
+                input.Add("ClientIP", _tools.GetClientIP());
 
                 var tpTransfer = new TpTransfer
                 {
@@ -298,19 +281,19 @@ namespace MemberSite.Controllers.Api
                     direction = direction,
                     inputs = input
                 };
-                var myUrl = $"{apiUrl}Transfer";
-                result = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
+                var myUrl = $"{_apiUrl}Transfer";
+                result = await _courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
                 //result.ErrorCode = 0;
                 if (result.ErrorCode != 0 && string.IsNullOrEmpty(result.Message) && !string.IsNullOrEmpty(result.RawMessage))
                 {
                     if (result.RawErrorCode == "3")
-                        result.Message = selLangBLL.GetMsg("msg_InsufficientFund");
+                        result.Message = _selLangBll.GetMsg("msg_InsufficientFund");
                     else
                         result.Message = result.RawMessage;
                 }
                 else if (result.ErrorCode == 1201)
                 {
-                    result.Message = selLangBLL.GetMsg("msg_InsufficientFund");
+                    result.Message = _selLangBll.GetMsg("msg_InsufficientFund");
                 }
                 else if (result.ErrorCode == 0 && direction == TpDirection.ToMain && inTpTransfer.ToTpId != 0)
                 {
@@ -325,7 +308,7 @@ namespace MemberSite.Controllers.Api
                     result = await TransferEX(transferEXReq);
                 }
 
-                result.SetSelLang(selLangBLL);
+                result.SetSelLang(_selLangBll);
                 return result;
             }
         }
@@ -333,8 +316,8 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<TransferResult>> RetrieveAll()
         {
-            var authData = authorizeBLL.GetAuthData();
-            var tpWallets = thirdPartyBLL.GetTpWallet(authData.CustId);
+            var authData = _authorizeBll.GetAuthData();
+            var tpWallets = _thirdPartyBll.GetTpWallet(authData.CustId);
             ApiResult<TransferResult> result = new ApiResult<TransferResult>();
 
             foreach (var tpWallet in tpWallets?.Where(x => x.Transfer))
@@ -357,7 +340,7 @@ namespace MemberSite.Controllers.Api
                 }
                 Dictionary<string, string> input = new Dictionary<string, string>();
                 input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-                input.Add("ClientIP", tools.GetClientIP());
+                input.Add("ClientIP", _tools.GetClientIP());
 
                 var tpTransfer = new TpTransfer
                 {
@@ -368,8 +351,8 @@ namespace MemberSite.Controllers.Api
                     direction = TpDirection.ToMain,
                     inputs = input
                 };
-                var myUrl = $"{apiUrl}Transfer";
-                var data = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
+                var myUrl = $"{_apiUrl}Transfer";
+                var data = await _courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
                 result = data;
             }
 
@@ -378,7 +361,7 @@ namespace MemberSite.Controllers.Api
                 result.Message = result.RawMessage;
             }
 
-            result.SetSelLang(selLangBLL);
+            result.SetSelLang(_selLangBll);
             return result;
         }
 
@@ -389,10 +372,10 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<TransferResult>> AllTransferIn(TpReq tpReq)
         {
-            var authData = authorizeBLL.GetAuthData();
-            var tpWallets = thirdPartyBLL.GetTpWallet(authData.CustId);
+            var authData = _authorizeBll.GetAuthData();
+            var tpWallets = _thirdPartyBll.GetTpWallet(authData.CustId);
             ApiResult<TransferResult> result = new ApiResult<TransferResult>();
-            var myUrl = $"{apiUrl}Transfer";
+            var myUrl = $"{_apiUrl}Transfer";
 
             foreach (var tpWallet in tpWallets?.Where(x => x.Transfer && x.TpId != tpReq.TpId))
             {
@@ -414,7 +397,7 @@ namespace MemberSite.Controllers.Api
                 }
                 Dictionary<string, string> input = new Dictionary<string, string>();
                 input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-                input.Add("ClientIP", tools.GetClientIP());
+                input.Add("ClientIP", _tools.GetClientIP());
 
                 var tpTransfer = new TpTransfer
                 {
@@ -425,10 +408,10 @@ namespace MemberSite.Controllers.Api
                     inputs = input
                 };
 
-                result = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
+                result = await _courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
             }
 
-            decimal amount1 = walletBLL.GetBalance(authData.CustId);
+            decimal amount1 = _walletBll.GetBalance(authData.CustId);
             if (amount1 <= 0)
             {
                 result.ErrorCode = 0;
@@ -440,7 +423,7 @@ namespace MemberSite.Controllers.Api
             }
             Dictionary<string, string> input1 = new Dictionary<string, string>();
             input1.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-            input1.Add("ClientIP", tools.GetClientIP());
+            input1.Add("ClientIP", _tools.GetClientIP());
 
             var tpTransfer1 = new TpTransfer
             {
@@ -451,21 +434,21 @@ namespace MemberSite.Controllers.Api
                 inputs = input1
             };
 
-            result = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer1);
+            result = await _courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer1);
 
             if (result.ErrorCode != 0 && string.IsNullOrEmpty(result.Message) && !string.IsNullOrEmpty(result.RawMessage))
             {
                 result.Message = result.RawMessage;
             }
 
-            result.SetSelLang(selLangBLL);
+            result.SetSelLang(_selLangBll);
             return result;
         }
         [HttpPost]
         public async Task<ApiResult<TransferResult>> AllTransferOut(TpReq tpReq)
         {
-            var authData = authorizeBLL.GetAuthData();
-            var tpWallets = thirdPartyBLL.GetTpWallet(authData.CustId);
+            var authData = _authorizeBll.GetAuthData();
+            var tpWallets = _thirdPartyBll.GetTpWallet(authData.CustId);
             ApiResult<TransferResult> result = new ApiResult<TransferResult>();
             var TpBalance = await GetBalance(tpReq.TpId);
             if (TpBalance.Data.balance < 1)
@@ -486,7 +469,7 @@ namespace MemberSite.Controllers.Api
             }
             Dictionary<string, string> input = new Dictionary<string, string>();
             input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-            input.Add("ClientIP", tools.GetClientIP());
+            input.Add("ClientIP", _tools.GetClientIP());
 
             var tpTransfer = new TpTransfer
             {
@@ -496,8 +479,8 @@ namespace MemberSite.Controllers.Api
                 direction = TpDirection.ToMain,
                 inputs = input
             };
-            var myUrl = $"{apiUrl}Transfer";
-            var data = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
+            var myUrl = $"{_apiUrl}Transfer";
+            var data = await _courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
             result = data;
 
             if (result.ErrorCode != 0 && string.IsNullOrEmpty(result.Message) && !string.IsNullOrEmpty(result.RawMessage))
@@ -505,14 +488,14 @@ namespace MemberSite.Controllers.Api
                 result.Message = result.RawMessage;
             }
 
-            result.SetSelLang(selLangBLL);
+            result.SetSelLang(_selLangBll);
             return result;
         }
         public async Task<ApiResult<UserBalance>> GetBalance(int tpId)
         {
-            var authData = authorizeBLL.GetAuthData();
+            var authData = _authorizeBll.GetAuthData();
             Dictionary<string, string> input = new Dictionary<string, string>();
-            var myUrl = $"{apiUrl}GetBalance";
+            var myUrl = $"{_apiUrl}GetBalance";
             var oTpInfo = new
             {
                 TpId = tpId,
@@ -520,7 +503,7 @@ namespace MemberSite.Controllers.Api
                 inputs = input
             };
 
-            var data = await courierAdapter.MyPostAsync<UserBalance, dynamic>(myUrl, oTpInfo);
+            var data = await _courierAdapter.MyPostAsync<UserBalance, dynamic>(myUrl, oTpInfo);
 
             ApiResult<UserBalance> result = data;
 
@@ -536,12 +519,12 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiListResult<TpTransferInfoHistory> GetTransferHistory(HistoryReq historyReq)
         {
-            var authData = authorizeBLL.GetAuthData();
+            var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiListResult<TpTransferInfoHistory>();
             int pageNumber = historyReq.PageNumber;
             int totalPages;
             int rowCount;
-            apiResult.Data = thirdPartyBLL.GetTransferHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
+            apiResult.Data = _thirdPartyBll.GetTransferHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
             apiResult.PageNumber = pageNumber;
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;
@@ -550,9 +533,9 @@ namespace MemberSite.Controllers.Api
         }
         public ApiResult<IEnumerable<TpTransferInfoHistory>> GetTransferRecent()
         {
-            var authData = authorizeBLL.GetAuthData();
+            var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiResult<IEnumerable<TpTransferInfoHistory>>();
-            apiResult.Data = thirdPartyBLL.GetTransferRecent(authData.CustId);
+            apiResult.Data = _thirdPartyBll.GetTransferRecent(authData.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
