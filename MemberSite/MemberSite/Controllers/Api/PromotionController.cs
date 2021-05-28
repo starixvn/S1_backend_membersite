@@ -386,5 +386,44 @@ namespace MemberSite.Controllers.Api
             public string BonusCode { set; get; }
 
         }
+
+        [Authorize]
+        [HttpPost]
+        public ApiResult<List<CustPromotion>> GetDepositPromotionList(PromotionDeviceReq promotionDeviceReq)
+        {
+            var result = new ApiResult<List<CustPromotion>>();
+
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            var authData = authorizeBLL.GetAuthData();
+            int custId = authData.CustId;
+           
+
+            result.Data = promotionBLL.GetDepositPromotionList( custId, promotionDeviceReq.DeviceType, selLangBLL.GetLangId(), serverInfo.DefLang);
+            result.ErrorCode = 0;
+
+            return result;
+        }
+        public class SetDepositPromotionQueueReq
+        {
+            public string TransId { set; get; }
+            public string BonusCode { set; get; }
+            public decimal? LockedAmount { set; get; }
+
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ApiResult SetDepositPromotionQueue(SetDepositPromotionQueueReq setDepositPromotionQueueReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult();
+            var lockedAmount = setDepositPromotionQueueReq.LockedAmount ?? 0;
+            if (promotionBLL.SetDepositPromotionQueue(setDepositPromotionQueueReq.TransId, setDepositPromotionQueueReq.BonusCode, authData.CustId, lockedAmount))
+            {
+                apiResult.ErrorCode = 0;
+            }
+            
+            return apiResult;
+        }
     }
 }

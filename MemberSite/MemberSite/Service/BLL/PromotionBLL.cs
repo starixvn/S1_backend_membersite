@@ -271,5 +271,13 @@ namespace MemberSite.Service.BLL
         {
             promotionService.SetSpecialCodeJoined(custId, specialCode, bonusCode);
         }
+        public List<CustPromotion> GetDepositPromotionList(int CustId, int DeviceType, string langId, string defLang)
+        {
+            return promotionService.GetDepositPromotionList(CustId, DeviceType, langId, defLang);
+        }
+        public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, decimal lockedAmount)
+        {
+            return promotionService.SetDepositPromotionQueue( transId, bonusCode, custId, lockedAmount);
+        }
     }
 }
