@@ -190,20 +190,20 @@ namespace MemberSite.Service.BLL
             {
                 return -1;
             }
-            else if (customer.Userpwd != tools.MD5Encrypt(pwd))
+
+            if (customer.Userpwd != tools.MD5Encrypt(pwd))
             {
                 return -2;
             }
-            else if (customer.Status == (int)CustStatus.Suspend || customer.Status == (int)CustStatus.Closed)
+
+            if (!VerifyCustomerStatus(customer.Status))
             {
                 return -3;
             }
-            else
-            {
-                authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, out token);
-                authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
-                return 0;
-            }
+
+            authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, out token);
+            authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
+            return 0;
         }
 
         public int UserLoginForResetPwd(string userName, string ip, string fromUrl, string userAgent, ref Customer customer, out string token)
@@ -215,16 +215,15 @@ namespace MemberSite.Service.BLL
             {
                 return -1;
             }
-            else if (customer.Status == (int)CustStatus.Suspend || customer.Status == (int)CustStatus.Closed)
+
+            if (!VerifyCustomerStatus(customer.Status))
             {
                 return -3;
             }
-            else
-            {
-                authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, out token);
-                authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
-                return 0;
-            }
+
+            authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, out token);
+            authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
+            return 0;
         }
 
         public int SetLanguage(int custId, string langId)
@@ -630,5 +629,17 @@ namespace MemberSite.Service.BLL
             return agentInfoService.GetRefFriendList(custId, StartDate, EndDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
         }
 
+        private static bool VerifyCustomerStatus(int status)
+        {
+            if (status == (int) CustStatus.Suspend || status == (int) CustStatus.Closed ||
+                status == (int) CustStatus.Lock)
+            {
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
