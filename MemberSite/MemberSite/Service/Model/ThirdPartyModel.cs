@@ -72,23 +72,15 @@ namespace MemberSite.Service.Model
                 var date = utcNow.Date.ToShortDateString();
                 var begin = DateTime.ParseExact($"{date} {BeginTime}", "yyyy/M/dd HH:mm", null);
                 var end = DateTime.ParseExact($"{date} {EndTime}", "yyyy/M/dd HH:mm", null);
-
-                if (MaintainType == MaintainType.Day)
-                {
-                    return utcNow.IsBetween(begin, end);
-                }
-
-                if (MaintainType == MaintainType.Week && (int)utcNow.DayOfWeek == TypeValue)
-                {
-                    return utcNow.IsBetween(begin, end);
-                }
-
-                if (MaintainType == MaintainType.Month && utcNow.Day == TypeValue)
-                {
-                    return utcNow.IsBetween(begin, end);
-                }
+                var isBetween = utcNow.IsBetween(begin, end);
                 
-                return false;
+                return MaintainType switch
+                {
+                    MaintainType.Day => isBetween,
+                    MaintainType.Week => isBetween && (int)utcNow.DayOfWeek == TypeValue,
+                    MaintainType.Month => isBetween && utcNow.Day == TypeValue,
+                    _ => false,
+                };
             }
             catch
             {
