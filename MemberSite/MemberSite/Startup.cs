@@ -1,4 +1,3 @@
-using BonusService.Service.Library;
 using MemberSite.Service.BLL;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
@@ -64,7 +63,6 @@ namespace MemberSite
             /*Library*/
             services.AddSingleton<Tools>();
             services.AddSingleton<Common>();
-            services.AddSingleton<Log2File>();
             services.AddSingleton<CourierAdapter>();
             services.AddSingleton<RegexUtilities>();
             services.AddSingleton<IBCDBLibrary>();
