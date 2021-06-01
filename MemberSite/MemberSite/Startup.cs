@@ -1,4 +1,3 @@
-using BonusService.Service.Library;
 using MemberSite.Service.BLL;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
@@ -64,7 +63,6 @@ namespace MemberSite
             /*Library*/
             services.AddSingleton<Tools>();
             services.AddSingleton<Common>();
-            services.AddSingleton<Log2File>();
             services.AddSingleton<CourierAdapter>();
             services.AddSingleton<RegexUtilities>();
             services.AddSingleton<IBCDBLibrary>();
@@ -136,6 +134,7 @@ namespace MemberSite
             services.AddSingleton<GameCasinoBLL>();
             services.AddSingleton<LiveStreamingBLL>();
             services.AddSingleton<LatestHighlightDataBLL>();
+            services.AddSingleton<GameBLL>();
             //var bll = AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())
             //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.BLL");

@@ -26,6 +26,7 @@ namespace MemberSite.Service.Model.enums
         Running = 1,
         Suspend = 2,
         Closed = 3,
+        Lock = 4
     }
     public enum DepositType
     {
@@ -222,5 +223,13 @@ namespace MemberSite.Service.Model.enums
         Nova88 = 1,
         Goal123 = 2,
         Bwing = 3
+    }
+
+    public enum MaintainType
+    { 
+        Date,
+        Day,
+        Week,
+        Month
     }
 }

@@ -2,6 +2,8 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -22,6 +24,7 @@ namespace MemberSite.Service.BLL
         private readonly CustInfoBLL custInfoBLL;
         private readonly CourierAdapter courierAdapter;
         private readonly string apiUrl;
+        private readonly ILogger<ThirdPartyBLL> logger;
 
         Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
             {"1","soccer" },
@@ -35,17 +38,19 @@ namespace MemberSite.Service.BLL
             {"161","numbergame" },
             {"180","virtualsports" }
         };
-        public ThirdPartyBLL(IConfiguration configuration, CourierAdapter courierAdapter, ThirdPartyService thirdPartyService, SelLangBLL selLangBLL, Tools tools, ServerInfoBLL serverInfoBLL, CustInfoBLL custInfoBLL)
+        public ThirdPartyBLL(IServiceProvider provider)
         {
-            this.thirdPartyService = thirdPartyService;
-            this.selLangBLL = selLangBLL;
-            this.tools = tools;
+            thirdPartyService = provider.GetRequiredService<ThirdPartyService>();
+            selLangBLL = provider.GetRequiredService<SelLangBLL>();
+            tools = provider.GetRequiredService<Tools>();
             TpCurrencyList = new ConcurrentDictionary<string, TpCurrency>();
             ThirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
-            this.serverInfoBLL = serverInfoBLL;
-            this.custInfoBLL = custInfoBLL;
-            this.courierAdapter = courierAdapter;
+            serverInfoBLL = provider.GetRequiredService<ServerInfoBLL>(); 
+            custInfoBLL = provider.GetRequiredService<CustInfoBLL>();
+            courierAdapter = provider.GetRequiredService<CourierAdapter>();
+            var configuration = provider.GetRequiredService<IConfiguration>();
             apiUrl = configuration.GetValue<string>("TpService");
+            logger = provider.GetRequiredService<ILogger<ThirdPartyBLL>>();
         }
 
         public string GetTpLanId(int tpId)
@@ -240,6 +245,11 @@ namespace MemberSite.Service.BLL
         public IEnumerable<TpWalletList> GetTpWalletList(int custId, int listType)
         {
             return thirdPartyService.GetTpWalletList(custId,listType);
+        }
+
+        public IEnumerable<TpMaintain> GetTpMaintainList(int siteId)
+        {
+            return thirdPartyService.GetTpMaintainList(siteId).Where(item => item.MaintainCheck(DateTime.UtcNow, logger));
         }
     }
 }
