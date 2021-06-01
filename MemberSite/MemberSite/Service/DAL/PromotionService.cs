@@ -1040,5 +1040,61 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Execute("Member_CustSpecialCodeJoin_Set", new { CustId = custId, SpecialCode = specialCode, BonusCode = bonusCode }, commandType: CommandType.StoredProcedure);
         }
+
+        public List<CustPromotion> GetDepositPromotionList(int CustId, int DeviceType, string langId, string defLang)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            conn.Open();
+
+            var promotionList = conn.Query<CustPromotion>("Member_DepositPromotion_Get", new { CustId, DeviceType }, commandType: CommandType.StoredProcedure);
+            List<CustPromotion> _promotion = new List<CustPromotion>();
+
+            foreach (var promo in promotionList)
+            { 
+                if (!string.IsNullOrEmpty(promo.Details))
+                {
+                    var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
+                    Dictionary<string, string> settings = null;
+                    if (details.ContainsKey(langId))
+                    {
+                        settings = details[langId];
+                    }
+                    else if (details.ContainsKey(defLang))
+                    {
+                        settings = details[defLang];
+                    }
+                    else
+                    {
+                        foreach (var item in details)
+                        {
+                            settings = item.Value;
+                            break;
+                        }
+                    }
+
+                    promo.Details = null;
+                    if (settings != null)
+                    {
+                        settings.TryGetValue("title", out var title);
+                        settings.TryGetValue("bannerUrl", out var bannerUrl);
+                        settings.TryGetValue("description", out var description);
+
+                        promo.Title = title;
+                        promo.Banner = bannerUrl;
+                        promo.Description = description;
+                    }
+                }
+
+                _promotion.Add(promo);
+            }
+
+
+            return _promotion;
+        }
+        public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, int siteId, string userName, int currencyId, int deviceType, decimal lockedAmount)
+        {
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Execute("Member_DepositBonusQueue_Set", new { TransId = transId, BonusCode = bonusCode, CustId = custId, SiteId = siteId, UserName = userName, CurrencyId = currencyId, DeviceType = deviceType, LockedAmount = lockedAmount}, commandType: CommandType.StoredProcedure)>0;
+        }
     }
 }
