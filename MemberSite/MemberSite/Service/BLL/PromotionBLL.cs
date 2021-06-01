@@ -275,9 +275,9 @@ namespace MemberSite.Service.BLL
         {
             return promotionService.GetDepositPromotionList(CustId, DeviceType, langId, defLang);
         }
-        public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, decimal lockedAmount)
+        public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, int siteId, string userName, int currencyId, int deviceType, decimal lockedAmount)
         {
-            return promotionService.SetDepositPromotionQueue( transId, bonusCode, custId, lockedAmount);
+            return promotionService.SetDepositPromotionQueue(transId, bonusCode, custId, siteId, userName, currencyId, deviceType, lockedAmount);
         }
     }
 }

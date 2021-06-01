@@ -1091,10 +1091,10 @@ namespace MemberSite.Service.DAL
 
             return _promotion;
         }
-        public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, decimal lockedAmount)
+        public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, int siteId, string userName, int currencyId, int deviceType, decimal lockedAmount)
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("DepositReceipt_Set", new { TransId = transId, BonusCode = bonusCode, CustId = custId, LockedAmount = lockedAmount}, commandType: CommandType.StoredProcedure)>0;
+            return conn.Execute("Member_DepositBonusQueue_Set", new { TransId = transId, BonusCode = bonusCode, CustId = custId, SiteId = siteId, UserName = userName, CurrencyId = currencyId, DeviceType = deviceType, LockedAmount = lockedAmount}, commandType: CommandType.StoredProcedure)>0;
         }
     }
 }

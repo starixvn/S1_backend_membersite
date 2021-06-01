@@ -408,6 +408,7 @@ namespace MemberSite.Controllers.Api
             public string TransId { set; get; }
             public string BonusCode { set; get; }
             public decimal? LockedAmount { set; get; }
+            public int? DeviceType { set; get; }
 
         }
 
@@ -415,10 +416,16 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult SetDepositPromotionQueue(SetDepositPromotionQueueReq setDepositPromotionQueueReq)
         {
+            int deviceType = 1;
+            if (setDepositPromotionQueueReq.DeviceType != null)
+            {
+                deviceType = (int)setDepositPromotionQueueReq.DeviceType;
+            }
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult();
             var lockedAmount = setDepositPromotionQueueReq.LockedAmount ?? 0;
-            if (promotionBLL.SetDepositPromotionQueue(setDepositPromotionQueueReq.TransId, setDepositPromotionQueueReq.BonusCode, authData.CustId, lockedAmount))
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            if (promotionBLL.SetDepositPromotionQueue(setDepositPromotionQueueReq.TransId, setDepositPromotionQueueReq.BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, deviceType, lockedAmount))
             {
                 apiResult.ErrorCode = 0;
             }
