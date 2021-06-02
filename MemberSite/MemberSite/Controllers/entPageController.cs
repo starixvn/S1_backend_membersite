@@ -86,7 +86,6 @@ namespace MemberSite.Controllers
 
                 if (tpId == (int)Tp.AG)
                 {
-
                     var tpCurrency = _thirdPartyBll.GetTpCurrency(tpId, custInfo.CurrencyId);
                     var balance = _walletBll.GetBalance(authData.CustId);
                     var bonusAmount = _walletBll.GetBonus(authData.CustId, 2);
