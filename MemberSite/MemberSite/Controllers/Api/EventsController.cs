@@ -101,22 +101,36 @@ namespace MemberSite.Controllers.Api
             public int TopNum { get; set; }
             public int BeforeDays { get; set; }
         }
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public ApiResult<IEnumerable<Leaderboard>> GetLeaderboardListV2(GetLeaderboardListV2Req getLeaderboardListV2Req)
         {
             var apiResult = new ApiResult<IEnumerable<Leaderboard>>();
-            var authData = authorizeBLL.GetAuthData();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            int custId = 0;
+            int siteId = 0;
+            int currencyId = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                siteId = custInfo.SiteId;
+                currencyId = custInfo.CurrencyId;
+            }
+            else
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                siteId = serverInfo.SiteId;
+                currencyId = selLangBLL.GetPreferCurrencyId();
+            }
 
             apiResult.Data = JsonSerializer.Deserialize<IEnumerable<Leaderboard>>(JsonSerializer.Serialize(
-                eventsBLL.GetLeaderboardListWithCacheV2(authData.CustId, getLeaderboardListV2Req.EventCode,
-                    getLeaderboardListV2Req.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId,
+                eventsBLL.GetLeaderboardListWithCacheV2(custId, getLeaderboardListV2Req.EventCode,
+                    getLeaderboardListV2Req.LBCategoryId, siteId, currencyId,
                     getLeaderboardListV2Req.TopNum, getLeaderboardListV2Req.BeforeDays)));
             
             foreach (var L in apiResult.Data)
             {
-                if (L.CustId != authData.CustId)
+                if (L.CustId != custId)
                     L.UserName = eventsBLL.MaskName(L.UserName);
             }
             apiResult.ErrorCode = 0;
