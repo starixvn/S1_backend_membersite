@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>खाता शर्तें अपडेट करें</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../common/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="side-bar" role="desktop-drawer">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <a class="btn btn-icon" role="desktop-only">
+                        <i class="icon icon-clear"></i>
+                    </a>
+                </div>
+                <div class="side-nav__list">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn" href="/">
+                            <i class="icon icon-home"></i>
+                            <span class="text">घर</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-info-outline"></i>
+                            <span class="text">Nova88</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="AboutUs.html" target="_self">
+                                <span class="text">हमारे बारे में अपडेट</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Terms.html" target="_self">
+                                <span class="text">उपयोग की शर्तें</span>
+                            </a>
+                            <a class="side-nav__subitem" href="ContactUs.html" target="_self">
+                                <span class="text">हमसे संपर्क करें</span>
+                            </a>
+                            <a class="side-nav__subitem" href="https://aff.nova88asia.com/?lang=id" target="_self">
+                                <span class="text">सहबद्ध</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-help-outline"></i>
+                            <span class="text">सहायता और समर्थन</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="RulesandRegulations.html">
+                                <span class="text">सट्टेबाजी के नियम और कानून</span>
+                            </a>
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">खाता शर्तें अपडेट करें</span>
+                            </a>
+                            <a class="side-nav__subitem" href="FAQ.html" target="_self">
+                                <span class="text">अक्सर पूछे जाने वाले सवाल</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="DepositWithdrawals.html" target="_self">
+                                <span class="text">存款与提款</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Downloads.html" target="_self">
+                                <span class="text">下载</span>
+                            </a>-->
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">खाता शर्तें</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-policy"></i>
+                            <span class="text">हमारी नीति</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="ResposibleGaming.html" target="_self">
+                                <span class="text">जिम्मेदार गेमिंग</span>
+                            </a>
+                            <a class="side-nav__subitem" href="TermsConditions.html" target="_self">
+                                <span class="text">नियम और नियम</span>
+                            </a>
+                            <a class="side-nav__subitem" href="PrivacyPolicy.html" target="_self">
+                                <span class="text">गोपनीयता नीति</span>
+                            </a>
+                            <a class="side-nav__subitem" href="CookiePolicy.html" target="_self">
+                                <span class="text">कूकी नीति</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                    <a class="logo" href="/"></a>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="help-page">
+                <div class="help-page__body">
+                    <div class="heading">
+                        <span class="text">खाता शर्तें अपडेट करें</span>
+                    </div>
+                    <div class="article">
+                        <h3>
+                            सीमाओं
+                        </h3>
+                        <p>
+                            जुआ नियम और प्रतिबंध एक देश से दूसरे देश में भिन्न होते हैं। जैसे, दूरस्थ जुआ या ऑनलाइन गेमिंग कुछ देशों और न्यायालयों में अवैध हो सकता है, जिसका अर्थ है कि कंपनी इन देशों या न्यायालयों में स्थित व्यक्तियों द्वारा पंजीकरण और दांव को स्वीकार नहीं करती है।
+                            यह महत्वपूर्ण है कि, व्यक्ति स्वयं यह सुनिश्चित करता है कि रिमोट जुआ या ऑनलाइन गेमिंग के विषय में उसके लिए लागू कानून उसे खाता खोलने और कंपनी के साथ शर्त रखने से मना नहीं करता है।
+                            कंपनी की सट्टेबाजी सेवा तक पहुँचने के लिए, खिलाड़ी को पहले एक खाता खोलना होगा। हर खिलाड़ी केवल एक (1) खाता खोल सकता है। यदि कंपनी को एक से अधिक खाते वाले कोई भी खिलाड़ी मिले, कंपनी ऐसे किसी भी खाते को एक संयुक्त खाते के रूप में मानने या अन्य सभी खातों को बंद करने का विशेष अधिकार रखती है।
+                            खिलाड़ी केवल बेटिंग खाते में उपलब्ध एक निश्चित सीमा तक ही दांव लगा सकते हैं।
+                        </p>
+
+                        <h3>
+                            जिम्मेदारियं
+                        </h3>
+                        <p>
+                            हमारे साथ खाता खोलने के साथ साथ कुछ महत्वपूर्ण जिम्मेदारियां हैं जो एक खिलाड़ी को हमेशा ध्यान में रखनी चाहिए।
+                            यह सुनिश्चित करना हमेशा खिलाड़ी की ज़िम्मेदारी होगी कि कंपनी के साथ उसके रिकॉर्ड को अद्यतित रखा जाए, विशेष रूप से पते, टेलीफोन नंबर और भुगतान / बैंक विवरण के संबंध में। हालाँकि, कंपनी के पास यह अधिकार होगा कि वह खिलाड़ी को अपनी जानकारी अपडेट करने और समय-समय पर कंपनी को प्रदान करने की आवश्यकता हो। यदि खिलाड़ी अपनी पहचान को सत्यापित करने के लिए आवश्यक जानकारी या दस्तावेज नहीं दे सकता है, तो कंपनी के पास खाता खोलने या खिलाड़ी के साथ किसी भी लेनदेन से इनकार करने का अधिकार होगा।
+                            यह सुनिश्चित करना खिलाड़ी की एकमात्र जिम्मेदारी है कि वह अपने उपयोगकर्ता नाम, पासवर्ड और अन्य सुरक्षा विवरणों को गोपनीय रखे। इस घटना में कि एक खिलाड़ी को लगता है कि उसके उपयोगकर्ता नाम और अन्य सुरक्षा विवरणों की गोपनीयता भंग हो गई थी, उसे कंपनी को उचित अधिसूचना देनी चाहिए और एक नया पासवर्ड प्राप्त करना चाहिए। ऑनलाइन किया गया कोई भी दांव जहां सही उपयोगकर्ता नाम और पासवर्ड का उपयोग किया गया हो, उसे वैध और खिलाड़ी के लिए बाध्यकारी माना जाएगा।
+                            जब भी वे कंपनी की गेमिंग वेबसाइट पर लॉग-इन करते हैं, तो खिलाड़ियों को नियमित रूप से अपने खाते की शेष राशि की जांच करनी चाहिए। किसी भी विसंगतियों की स्थिति में, खिलाड़ी के खाते के लेन-देन के रिकॉर्ड को अंतिम रूप से सत्यापित करने और अन्य सहायक दस्तावेजों के साथ कंपनी को तुरंत सूचित करने की जिम्मेदारी खिलाड़ी की होती है।
+                            खिलाड़ी किसी भी समय अपने खाते से पैसे निकाल सकते हैं, बशर्ते कि निकासी पर कंपनी की लागू नीतियों के अधीन, खाते की शेष राशि की पुष्टि की गई हो।
+                        </p>
+
+                        <h3>
+                            महत्वपूर्ण आरक्षण
+                        </h3>
+                        <p>
+                            कंपनी के पास किसी भी समय कोई कारण बताए बिना, किसी भी दांव या शर्त का खंडन करने का अधिकार सुरक्षित है।
+                            कंपनी किसी खिलाड़ी के सट्टेबाजी खाते को बंद करने का अधिकार रखती है और बिना किसी स्पष्टीकरण के खिलाड़ी के खाते की शेष राशि वापस कर सकती है।
+                            यदि एक सट्टेबाजी खाता एक (1) वर्ष या उससे अधिक समय के लिए निष्क्रिय है, तो कंपनी के पास बकाया राशि को जब्त करने का अधिकार सुरक्षित है।
+                            कंपनी गेमिंग वेबसाइट तक आपकी पहुंच को प्रतिबंधित करने, आपके सट्टेबाजी खाते को निलंबित करने या समाप्त करने के लिए विशेष अधिकार सुरक्षित रखती है, किसी भी दांव के लिए आपके प्रस्तावों को अस्वीकार कर देती है, और बिना किसी कारण के हमारे पूर्ण विवेक में किसी भी बकाया या मिलान किए गए दांव को रोक देती है।
+                            कंपनी की खिलाड़ी खाता नीतियों के बारे में अधिक जानकारी के लिए, कृपया इस वेबसाइट में पोस्ट किए गए नियमों <a href="TermsConditions.html" target="_blank">और शर्तों को देखें।</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2021. Nova88. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
