@@ -1728,4 +1728,10 @@
   <data name="lbl_WalletDescription_PT" xml:space="preserve">
     <value>กระเป๋าสตางค์ PT</value>
   </data>
+  <data name="lbl_WalletDescription_NineW" xml:space="preserve">
+    <value>กระเป๋าสตางค์ 9W</value>
+  </data>
+  <data name="lbl_Wallet_NineW" xml:space="preserve">
+    <value>กระเป๋าสตางค์ 9W</value>
+  </data>
 </root>

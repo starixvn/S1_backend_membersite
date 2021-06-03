@@ -1718,4 +1718,10 @@
   <data name="lbl_Cashback_Virtual_Sports" xml:space="preserve">
     <value>虛擬運動</value>
   </data>
+  <data name="lbl_WalletDescription_NineW" xml:space="preserve">
+    <value>9W錢包</value>
+  </data>
+  <data name="lbl_Wallet_NineW" xml:space="preserve">
+    <value>9W錢包</value>
+  </data>
 </root>

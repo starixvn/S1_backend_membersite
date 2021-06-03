@@ -1792,4 +1792,10 @@
   <data name="lbl_WalletDescription_PT" xml:space="preserve">
     <value>Ví PT</value>
   </data>
+  <data name="lbl_WalletDescription_NineW" xml:space="preserve">
+    <value>Ví 9W</value>
+  </data>
+  <data name="lbl_Wallet_NineW" xml:space="preserve">
+    <value>Ví 9W</value>
+  </data>
 </root>

@@ -76,7 +76,14 @@ namespace MemberSite.Service.BLL
         {
             Dictionary<string, string> inputs = JsonConvert.DeserializeObject<Dictionary<string, string>>(thirdPartyService.GetThirdPartyBySite(tpId, serverInfoBLL.GetServerInfo().SiteId).Setting);
             string urlKey = "DesktopBfUrl";
-            if (tools.IsMobile())
+            string device = null;
+            parameters.TryGetValue("device", out device);
+
+            if (string.Compare(device, "wap", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                urlKey = "WAPUrl";
+            }
+            else if (tools.IsMobile())
             {
                 urlKey = "MobileBfUrl";
             }
