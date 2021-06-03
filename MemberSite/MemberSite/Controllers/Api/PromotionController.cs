@@ -425,11 +425,32 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult();
             var lockedAmount = setDepositPromotionQueueReq.LockedAmount ?? 0;
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            if (promotionBLL.SetDepositPromotionQueue(setDepositPromotionQueueReq.TransId, setDepositPromotionQueueReq.BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, deviceType, lockedAmount))
+            try
             {
-                apiResult.ErrorCode = 0;
+                if (promotionBLL.SetDepositPromotionQueue(setDepositPromotionQueueReq.TransId, setDepositPromotionQueueReq.BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, deviceType, lockedAmount))
+                {
+                    apiResult.ErrorCode = 0;
+                }
             }
-            
+            catch (MySql.Data.MySqlClient.MySqlException mySqlEx)
+            {
+                if (mySqlEx.Number == 1062)/*Duplicate for key 'PRIMARY'*/
+                {
+                    apiResult.ErrorCode = 1062;
+                    apiResult.Message = "Duplicate";
+                }
+                else
+                {
+                    apiResult.ErrorCode = 9000;
+                    apiResult.Message = mySqlEx.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                apiResult.ErrorCode = 9000;
+                apiResult.Message = ex.ToString();
+            }
+
             return apiResult;
         }
     }
