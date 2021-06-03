@@ -79,7 +79,7 @@ namespace MemberSite.Service.BLL
             string device = null;
             parameters.TryGetValue("device", out device);
 
-            if (device.ToLower() == "wap")
+            if (string.Compare(device, "wap", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 urlKey = "WAPUrl";
             }
