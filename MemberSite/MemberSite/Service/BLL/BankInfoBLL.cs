@@ -119,7 +119,8 @@ namespace MemberSite.Service.BLL
                                          PayName = x.PayName,
                                          PayId = x.PayId,
                                          ChannelId = x.ChannelId,
-                                         SelBank = x.SelBank
+                                         SelBank = x.SelBank,
+                                         Mode = x.Mode
                                      }).Distinct(paymentOffComparer).ToArray();
             var payCurrency = GetPayCurrency();//.Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == payId).FirstOrDefault()
 
