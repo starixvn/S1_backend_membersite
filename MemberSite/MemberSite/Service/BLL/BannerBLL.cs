@@ -178,7 +178,10 @@ namespace MemberSite.Service.BLL
                             SportTeamsHome = teamsHome,
                             SportTeamsHomePic = teamsHomePic,
                             SportTeamsAway = teamsAway,
-                            SportTeamsAwayPic = teamsAwayPic
+                            SportTeamsAwayPic = teamsAwayPic,
+                            HomeOdds = bannerdetail.HomeOdds,
+                            AwayOdds = bannerdetail.AwayOdds,
+                            Handicap = bannerdetail.Handicap
                         });
                     }
                 }

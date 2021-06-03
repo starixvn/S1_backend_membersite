@@ -87,5 +87,8 @@ namespace MemberSite.Service.Model
         public string BannerLink { get; set; }
         public string BannerPCUrl { get; set; }
         public string BannerMobileUrl { get; set; }
+        public decimal? HomeOdds { get; set; }
+        public decimal? AwayOdds { get; set; }
+        public decimal? Handicap { get; set; }
     }
 }
