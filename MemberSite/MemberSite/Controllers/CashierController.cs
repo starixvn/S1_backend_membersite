@@ -105,7 +105,7 @@ namespace MemberSite.Controllers
                 }
                 else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
                 {
-                    return Json(new { result = apiResult });
+                    return Json(apiResult);
                 }
             }
             else
@@ -156,7 +156,7 @@ namespace MemberSite.Controllers
                 }
                 else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
                 {
-                    return Json(new { result = apiResult });
+                    return Json(apiResult);
                 }
                 else
                 {
@@ -223,7 +223,7 @@ namespace MemberSite.Controllers
                 }
                 else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
                 {
-                    return Json(new { result = apiResult });
+                    return Json(apiResult);
                 }
                 else
                 {
@@ -278,7 +278,7 @@ namespace MemberSite.Controllers
                 }
                 else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
                 {
-                    return View(ToJson(apiResult));
+                    return Json(apiResult);
                 }
                 else
                 {
