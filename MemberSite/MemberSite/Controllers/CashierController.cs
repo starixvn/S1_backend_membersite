@@ -156,7 +156,7 @@ namespace MemberSite.Controllers
                 }
                 else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
                 {
-                    return View(ToJson(apiResult));
+                    return Json(new { apiResult });
                 }
                 else
                 {
