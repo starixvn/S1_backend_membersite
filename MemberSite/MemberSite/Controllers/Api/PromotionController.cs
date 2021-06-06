@@ -341,13 +341,17 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var authData = authorizeBLL.GetAuthData();
-                if (promotionBLL.CheckScratchCardCode(setSpecialCodeReq.SpecialCode.ToUpper()))
-                {
-                    result.ErrorCode = promotionBLL.SetScratchCardCode(authData.CustId, setSpecialCodeReq.SpecialCode.ToUpper(), setSpecialCodeReq.DeviceType);
-                    if(result.ErrorCode == 0)
-                        result.Message = "";
-                }
-                else
+                //if (promotionBLL.CheckSpecialCode(setSpecialCodeReq.SpecialCode))
+                //{
+                //    result.ErrorCode = 99;
+                //}
+                //else if (promotionBLL.CheckScratchCardCode(setSpecialCodeReq.SpecialCode.ToUpper()))
+                //{
+                //    result.ErrorCode = promotionBLL.SetScratchCardCode(authData.CustId, setSpecialCodeReq.SpecialCode.ToUpper(), setSpecialCodeReq.DeviceType);
+                //    if(result.ErrorCode == 0)
+                //        result.Message = "";
+                //}
+                //else
                 {
                     if (promotionBLL.SetSpecialCode(authData.CustId, setSpecialCodeReq.SpecialCode, setSpecialCodeReq.DeviceType))
                     {
