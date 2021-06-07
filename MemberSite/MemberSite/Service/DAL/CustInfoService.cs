@@ -100,7 +100,7 @@ namespace MemberSite.Service.DAL
                     var Params = new DynamicParameters(new { CustId = custId, ScratchCardCode = promoCode, DeviceType = 1 });
                     Params.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                     conn.Execute("Member_CustScratchCardCodeV3_Ins", Params, trans, commandType: CommandType.StoredProcedure);
-                    result = Params.Get<int>("Result");
+                    result = Params.Get<int>("Result") == 0?1:0;
                 }
                 else
                     result = conn.Execute("Member_CustPromoCode_Ins", new { CustId = custId, PromoCode = promoCode.Trim() }, trans, commandType: CommandType.StoredProcedure);
