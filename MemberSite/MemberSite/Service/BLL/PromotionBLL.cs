@@ -249,15 +249,13 @@ namespace MemberSite.Service.BLL
         {
             return promotionService.GetSpecialPromotionListV2(SiteId, CustId, CurrencyId, langId, defLang, deviceType);
         }
+        public bool CheckSpecialCode(string specialCode)
+        {
+            return promotionService.CheckSpecialCode(specialCode);
+        }
         public bool CheckScratchCardCode(string specialCode)
         {
-            if (string.IsNullOrEmpty(specialCode) || specialCode.Length !=12)
-                return false;
-
-            Regex regex = new Regex("^[a-zA-Z]{5}-[a-zA-Z0-9]{6}$", RegexOptions.Singleline);
-            Match mPwd = regex.Match(specialCode);
-
-            return mPwd.Success;
+            return promotionService.CheckScratchCardCode(specialCode);
         }
         public int SetScratchCardCode(int custId, string specialCode, int? deviceType)
         {
