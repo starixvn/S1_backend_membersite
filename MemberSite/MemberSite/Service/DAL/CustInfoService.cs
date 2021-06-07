@@ -14,9 +14,12 @@ namespace MemberSite.Service.DAL
     public class CustInfoService
     {
         private readonly IConfiguration configuration;
-        public CustInfoService(IConfiguration configuration)
+        private readonly PromotionService promotionService;
+
+        public CustInfoService(IConfiguration configuration, PromotionService promotionService)
         {
             this.configuration = configuration;
+            this.promotionService = promotionService;
         }
         public bool ExistsUserName(string userName, int siteId)
         {
@@ -89,9 +92,13 @@ namespace MemberSite.Service.DAL
                 result = conn.Execute("Member_CustRegInfo_Ins", new { CustId = custId, SiteId = customer.SiteId, SignupUrl = signupUrl }, trans, commandType: CommandType.StoredProcedure);
             }
 
-            if (result > 0 && !string.IsNullOrEmpty(promoCode))
+            if (result > 0 && !string.IsNullOrEmpty(promoCode)&& promotionService.CheckSpecialCode(promoCode))
             {
-                result = conn.Execute("Member_CustPromoCode_Ins", new { CustId = custId, PromoCode = promoCode.Trim() }, trans, commandType: CommandType.StoredProcedure);
+
+                if (promotionService.CheckScratchCardCode(promoCode))
+                    result = promotionService.SetScratchCardCode(custId, promoCode,1);
+                else
+                    result = conn.Execute("Member_CustPromoCode_Ins", new { CustId = custId, PromoCode = promoCode.Trim() }, trans, commandType: CommandType.StoredProcedure);
 
                 if (result == 0)
                 {

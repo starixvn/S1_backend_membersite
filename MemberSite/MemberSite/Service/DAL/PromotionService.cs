@@ -1028,50 +1028,57 @@ namespace MemberSite.Service.DAL
         }
         public bool SetSpecialCode(int custId, string specialCode, int? deviceType)
         {
-            
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            var rtn =  conn.Query<SSpecialCode>("Member_SpecialCodeTest_Get", commandType: CommandType.StoredProcedure);
-            foreach (var Info in rtn)
-            {
-                if (!CheckSpecialCode(Info.SpecialCode))
-                {
-                    Debug.WriteLine($" ERROR SpecialCode {Info.SpecialCode}");
-                    
-                }
-                else
-                {
-                    Debug.WriteLine($" SUCCESS SpecialCode {Info.SpecialCode}");
-                }
-
-            }
-            var rtn2 = conn.Query<SSpecialCode>("Member_ScratchCardCodeTest_Get", commandType: CommandType.StoredProcedure);
-            foreach (var Info in rtn2)
-            {
-                if (!CheckSpecialCode(Info.SpecialCode))
-                {
-                    Debug.WriteLine($" ERROR SpecialCode {Info.SpecialCode}");
-
-                }
-                else
-                {
-                    Debug.WriteLine($" SUCCESS SpecialCode {Info.SpecialCode}");
-                }
-                if (!CheckScratchCardCode(Info.SpecialCode))
-                {
-                    Debug.WriteLine($" ERROR ScratchCard {Info.SpecialCode}");
-
-                }
-                else
-                {
-                    Debug.WriteLine($" SUCCESS ScratchCard {Info.SpecialCode}");
-                }
-            }
-
-            return true;
-            //using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            //int result = conn.Execute("Member_CustSpecialCodeV3_Ins", new { CustId = custId, SpecialCode = specialCode, DeviceType = deviceType }, commandType: CommandType.StoredProcedure);
-            //return result > 0;
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            int result = conn.Execute("Member_CustSpecialCodeV3_Ins", new { CustId = custId, SpecialCode = specialCode, DeviceType = deviceType }, commandType: CommandType.StoredProcedure);
+            return result > 0;
         }
+        //test code
+        //public bool SetSpecialCode(int custId, string specialCode, int? deviceType)
+        //{
+
+        //    using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+        //    var rtn = conn.Query<SSpecialCode>("Member_SpecialCodeTest_Get", commandType: CommandType.StoredProcedure);
+        //    foreach (var Info in rtn)
+        //    {
+        //        if (!CheckSpecialCode(Info.SpecialCode))
+        //        {
+        //            Debug.WriteLine($" ERROR SpecialCode {Info.SpecialCode}");
+
+        //        }
+        //        else
+        //        {
+        //            Debug.WriteLine($" SUCCESS SpecialCode {Info.SpecialCode}");
+        //        }
+
+        //    }
+        //    var rtn2 = conn.Query<SSpecialCode>("Member_ScratchCardCodeTest_Get", commandType: CommandType.StoredProcedure);
+        //    foreach (var Info in rtn2)
+        //    {
+        //        if (!CheckSpecialCode(Info.SpecialCode))
+        //        {
+        //            Debug.WriteLine($" ERROR SpecialCode {Info.SpecialCode}");
+
+        //        }
+        //        else
+        //        {
+        //            Debug.WriteLine($" SUCCESS SpecialCode {Info.SpecialCode}");
+        //        }
+        //        if (!CheckScratchCardCode(Info.SpecialCode))
+        //        {
+        //            Debug.WriteLine($" ERROR ScratchCard {Info.SpecialCode}");
+
+        //        }
+        //        else
+        //        {
+        //            Debug.WriteLine($" SUCCESS ScratchCard {Info.SpecialCode}");
+        //        }
+        //    }
+
+        //    return true;
+        //    //using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+        //    //int result = conn.Execute("Member_CustSpecialCodeV3_Ins", new { CustId = custId, SpecialCode = specialCode, DeviceType = deviceType }, commandType: CommandType.StoredProcedure);
+        //    //return result > 0;
+        //}
         public int SetScratchCardCode(int custId, string scratchCardCode, int? deviceType)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
@@ -1146,7 +1153,7 @@ namespace MemberSite.Service.DAL
         {
             if (string.IsNullOrEmpty(specialCode) || specialCode.Length > 20)
                 return false;
-            Regex regex = new Regex("^[-!@#$%^&*sa-zA-Z0-9]{1,20}$", RegexOptions.Singleline);
+            Regex regex = new Regex("^[- !@#$%^&*a-zA-Z0-9]{1,20}$", RegexOptions.Singleline);
             Match mPwd = regex.Match(specialCode);
 
             return mPwd.Success;
