@@ -198,7 +198,7 @@ namespace MemberSite.Controllers.Api
             
             eventsBLL.GetEventDrawInfoWithCache(eventId,out EventName,out ConditionSP);
 
-            if (custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted)
+            if ((custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted) &&(eventId < 6))
             {
                 apiResult.ErrorCode = 102;
                 //apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
