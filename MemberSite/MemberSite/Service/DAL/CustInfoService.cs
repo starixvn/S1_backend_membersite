@@ -96,7 +96,12 @@ namespace MemberSite.Service.DAL
             {
 
                 if (promotionService.CheckScratchCardCode(promoCode))
-                    result = promotionService.SetScratchCardCode(custId, promoCode,1);
+                {
+                    var Params = new DynamicParameters(new { CustId = custId, ScratchCardCode = promoCode, DeviceType = 1 });
+                    Params.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    conn.Execute("Member_CustScratchCardCodeV3_Ins", Params, trans, commandType: CommandType.StoredProcedure);
+                    result = Params.Get<int>("Result");
+                }
                 else
                     result = conn.Execute("Member_CustPromoCode_Ins", new { CustId = custId, PromoCode = promoCode.Trim() }, trans, commandType: CommandType.StoredProcedure);
 
