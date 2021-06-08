@@ -39,7 +39,7 @@ namespace MemberSite.Service.Library
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogInformation($"{name} {sw.Elapsed:c}");
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
 
@@ -60,17 +60,18 @@ namespace MemberSite.Service.Library
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogInformation($"{name} {sw.Elapsed:c}");
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
 
-        public bool Execute(string name, SqlMapper.IDynamicParameters parameters, MySqlTransaction trans = null)
+        public int Execute(string name, SqlMapper.IDynamicParameters parameters, MySqlTransaction trans = null)
         {
+            var result = 0;
             var sw = Stopwatch.StartNew();
             try
             {
                 using var connection = new MySqlConnection(_connectionString);
-                connection.Execute(name, parameters, commandType: CommandType.StoredProcedure, transaction: trans);
+                result = connection.Execute(name, parameters, commandType: CommandType.StoredProcedure, transaction: trans);
             }
             catch (Exception e)
             {
@@ -79,17 +80,18 @@ namespace MemberSite.Service.Library
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogInformation($"{name} {sw.Elapsed:c}");
-            return true;
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
+            return result;
         }
 
-        public bool Execute(string command)
+        public int Execute(string command)
         {
+            var result = 0;
             var sw = Stopwatch.StartNew();
             try
             {
                 using var connection = new MySqlConnection(_connectionString);
-                connection.Execute(command, CommandType.Text);
+                result = connection.Execute(command, CommandType.Text);
             }
             catch (Exception e)
             {
@@ -98,17 +100,18 @@ namespace MemberSite.Service.Library
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogInformation(command);
-            return true;
+            _logger.LogDebug(command);
+            return result;
         }
 
-        public async Task<bool> ExecuteAsync(string name, SqlMapper.IDynamicParameters parameters)
+        public async Task<int> ExecuteAsync(string name, DynamicParameters parameters)
         {
+            var result = 0;
             var sw = Stopwatch.StartNew();
             try
             {
                 await using var connection = new MySqlConnection(_connectionString);
-                await connection.ExecuteAsync(name, parameters, commandType: CommandType.StoredProcedure);
+                result = await connection.ExecuteAsync(name, parameters, commandType: CommandType.StoredProcedure);
             }
             catch (Exception e)
             {
@@ -117,8 +120,8 @@ namespace MemberSite.Service.Library
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogInformation($"{name} {sw.Elapsed:c}");
-            return true;
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
+            return result;
         }
 
         public IEnumerable<T> Query<T>(string name)
@@ -137,7 +140,7 @@ namespace MemberSite.Service.Library
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogInformation(name);
+            _logger.LogDebug(name);
             return result;
         }
 
@@ -157,7 +160,7 @@ namespace MemberSite.Service.Library
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogInformation($"{name} {sw.Elapsed:c}");
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
 
@@ -199,7 +202,7 @@ namespace MemberSite.Service.Library
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogInformation($"{name} {sw.Elapsed:c}");
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
 
@@ -222,7 +225,7 @@ namespace MemberSite.Service.Library
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogInformation($"{name} {sw.Elapsed:c}");
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
     }
