@@ -79,7 +79,7 @@ namespace MemberSite.Service.DAL
             return conn.Execute("Msg_Ins", new { Type = 99, SiteId = siteId, LangId = lang, RecipientCustId = custId, Recipient = CustUserName, SenderCustId = siteId, Sender = sender, Title = title, Content = content, MainId = 0 }, commandType: CommandType.StoredProcedure);
         }
         
-        public async Task<bool> SendMessageAsync(Message message)
+        public async Task<int> SendMessageAsync(Message message)
         {
             var parameter = new DynamicParameters();
             parameter.Add("Type", 99);

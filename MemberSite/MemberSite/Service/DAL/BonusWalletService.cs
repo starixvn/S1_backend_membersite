@@ -62,7 +62,7 @@ namespace MemberSite.Service.DAL
             return conn.Execute("Common_Rebate_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure) > 0;
         }
 
-        public bool RewardCashBack(CustCashBackInput custCashBackInput, MySqlTransaction trans)
+        public int RewardCashBack(CustCashBackInput custCashBackInput, MySqlTransaction trans)
         {
             var parameter = new DynamicParameters(new
             {
