@@ -89,7 +89,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = selLangBLL.GetMsg("msg_UsernameValidate");
                 return apiResult;
             }
-            
+
             Customer customer = null;
             var ip = tools.GetClientIP();
             var userLoginResult = custInfoBLL.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, tools.GetFromUrl(),
@@ -110,14 +110,14 @@ namespace MemberSite.Controllers.Api
                     apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
                     break;
                 default:
-                {
-                    if (userLoginResult != 0)
                     {
-                        apiResult.ErrorCode = 9000;
-                    }
+                        if (userLoginResult != 0)
+                        {
+                            apiResult.ErrorCode = 9000;
+                        }
 
-                    break;
-                }
+                        break;
+                    }
             }
 
             if (userLoginResult != 0)
@@ -175,7 +175,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = selLangBLL.GetMsg("msg_UsernameValidate");
                 return apiResult;
             }
-            
+
             Customer customer = null;
             var ip = tools.GetClientIP();
             var userLoginResult = custInfoBLL.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, tools.GetFromUrl(),
@@ -196,14 +196,14 @@ namespace MemberSite.Controllers.Api
                     apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
                     break;
                 default:
-                {
-                    if (userLoginResult != 0)
                     {
-                        apiResult.ErrorCode = 9000;
-                    }
+                        if (userLoginResult != 0)
+                        {
+                            apiResult.ErrorCode = 9000;
+                        }
 
-                    break;
-                }
+                        break;
+                    }
             }
 
             if (userLoginResult != 0)
@@ -392,14 +392,14 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = 9000;
                 return apiResult;
             }
-            
+
             if (!_regexUserName.IsMatch(signupModel.UserName))
             {
                 apiResult.ErrorCode = -8;
                 apiResult.Message = selLangBLL.GetMsg("msg_UsernameValidate");
                 return apiResult;
             }
-            
+
             if (!string.IsNullOrEmpty(signupModel.AffCode?.Trim()))
             {
                 signupModel.AffCode = signupModel.AffCode.Trim();
@@ -471,62 +471,62 @@ namespace MemberSite.Controllers.Api
                     apiResult.Message = selLangBLL.GetMsg("mag_AffiliateNotExist");
                     break;
                 default:
-                {
-                    if (custId == 0)
                     {
-                        apiResult.ErrorCode = result;
-                        apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
-                    }
-                    else if (result != 0)
-                    {
-                        apiResult.ErrorCode = result;
-                        apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
-                    }
-                    else
-                    {
-                        _ = Task.Run(async () =>
+                        if (custId == 0)
                         {
-                            commonBLL.SendWelcomeMail(custId);
-
-                            if (signupModel.blackbox != null)
-                            {
-                                var apiResultIovation = await iovationBLL.IovationChecks(custId, signupModel.CurrencyId, signupModel.UserName, signupModel.blackbox, IovationType.registration);
-                                if (apiResultIovation.ErrorCode == 0)
-                                    iovationBLL.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
-                            }
-                        });
-
-                        Customer customer = null;
-                        var userLoginResult = custInfoBLL.UserLogin(signupModel.UserName, signupModel.Userpwd, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
-
-                        switch (userLoginResult)
+                            apiResult.ErrorCode = result;
+                            apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                        }
+                        else if (result != 0)
                         {
-                            case -1:
-                                apiResult.ErrorCode = 1101;
-                                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                                break;
-                            case -2:
-                                apiResult.ErrorCode = 1001;
-                                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                                break;
-                            case -3:
-                                apiResult.ErrorCode = 1102;
-                                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
-                                break;
-                            default:
+                            apiResult.ErrorCode = result;
+                            apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                        }
+                        else
+                        {
+                            _ = Task.Run(async () =>
                             {
-                                if (userLoginResult != 0)
+                                commonBLL.SendWelcomeMail(custId);
+
+                                if (signupModel.blackbox != null)
                                 {
-                                    apiResult.ErrorCode = 9000;
+                                    var apiResultIovation = await iovationBLL.IovationChecks(custId, signupModel.CurrencyId, signupModel.UserName, signupModel.blackbox, IovationType.registration);
+                                    if (apiResultIovation.ErrorCode == 0)
+                                        iovationBLL.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
                                 }
-                                else
-                                {
-                                    if (!string.IsNullOrEmpty(signupModel.RealName))
-                                    {
-                                        custInfoBLL.SetCustBankInfo(custId, signupModel.RealName, null);
-                                    }
+                            });
 
-                                    var claims = new List<Claim>
+                            Customer customer = null;
+                            var userLoginResult = custInfoBLL.UserLogin(signupModel.UserName, signupModel.Userpwd, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
+
+                            switch (userLoginResult)
+                            {
+                                case -1:
+                                    apiResult.ErrorCode = 1101;
+                                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                    break;
+                                case -2:
+                                    apiResult.ErrorCode = 1001;
+                                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                    break;
+                                case -3:
+                                    apiResult.ErrorCode = 1102;
+                                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
+                                    break;
+                                default:
+                                    {
+                                        if (userLoginResult != 0)
+                                        {
+                                            apiResult.ErrorCode = 9000;
+                                        }
+                                        else
+                                        {
+                                            if (!string.IsNullOrEmpty(signupModel.RealName))
+                                            {
+                                                custInfoBLL.SetCustBankInfo(custId, signupModel.RealName, null);
+                                            }
+
+                                            var claims = new List<Claim>
                                     {
                                         new Claim(ClaimTypes.Name,customer.UserName ),
                                         new Claim(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
@@ -534,19 +534,19 @@ namespace MemberSite.Controllers.Api
                                         new Claim("LangId",customer.UserLang )
                                     };
 
-                                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                                    apiResult.ErrorCode = 0;
-                                    return apiResult;
-                                }
+                                            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                                            apiResult.ErrorCode = 0;
+                                            return apiResult;
+                                        }
 
-                                break;
+                                        break;
+                                    }
                             }
                         }
-                    }
 
-                    break;
-                }
+                        break;
+                    }
             }
 
             return apiResult;
@@ -561,14 +561,14 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = 9000;
                 return apiResult;
             }
-            
+
             if (!_regexUserName.IsMatch(signupModel.UserName))
             {
                 apiResult.ErrorCode = -8;
                 apiResult.Message = selLangBLL.GetMsg("msg_UsernameValidate");
                 return apiResult;
             }
-            
+
             if (!string.IsNullOrEmpty(signupModel.AffCode?.Trim()))
             {
                 signupModel.AffCode = signupModel.AffCode.Trim();
@@ -634,62 +634,62 @@ namespace MemberSite.Controllers.Api
                     apiResult.Message = selLangBLL.GetMsg("mag_AffiliateNotExist");
                     break;
                 default:
-                {
-                    if (custId == 0)
                     {
-                        apiResult.ErrorCode = result;
-                        apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
-                    }
-                    else if (result != 0)
-                    {
-                        apiResult.ErrorCode = result;
-                        apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
-                    }
-                    else
-                    {
-                        _ = Task.Run(async () =>
+                        if (custId == 0)
                         {
-                            commonBLL.SendWelcomeMail(custId);
-
-                            if (signupModel.blackbox != null)
-                            {
-                                var apiResultIovation = await iovationBLL.IovationChecks(custId, signupModel.CurrencyId, signupModel.UserName, signupModel.blackbox, IovationType.registration);
-                                if (apiResultIovation.ErrorCode == 0)
-                                    iovationBLL.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
-                            }
-                        });
-
-                        Customer customer = null;
-                        var userLoginResult = custInfoBLL.UserLogin(signupModel.UserName, signupModel.Userpwd, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
-
-                        switch (userLoginResult)
+                            apiResult.ErrorCode = result;
+                            apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                        }
+                        else if (result != 0)
                         {
-                            case -1:
-                                apiResult.ErrorCode = 1101;
-                                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                                break;
-                            case -2:
-                                apiResult.ErrorCode = 1001;
-                                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                                break;
-                            case -3:
-                                apiResult.ErrorCode = 1102;
-                                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
-                                break;
-                            default:
+                            apiResult.ErrorCode = result;
+                            apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                        }
+                        else
+                        {
+                            _ = Task.Run(async () =>
                             {
-                                if (userLoginResult != 0)
+                                commonBLL.SendWelcomeMail(custId);
+
+                                if (signupModel.blackbox != null)
                                 {
-                                    apiResult.ErrorCode = 9000;
+                                    var apiResultIovation = await iovationBLL.IovationChecks(custId, signupModel.CurrencyId, signupModel.UserName, signupModel.blackbox, IovationType.registration);
+                                    if (apiResultIovation.ErrorCode == 0)
+                                        iovationBLL.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
                                 }
-                                else
-                                {
-                                    if (!string.IsNullOrEmpty(signupModel.RealName))
-                                    {
-                                        custInfoBLL.SetCustBankInfo(custId, signupModel.RealName, null);
-                                    }
+                            });
 
-                                    var claims = new[] {
+                            Customer customer = null;
+                            var userLoginResult = custInfoBLL.UserLogin(signupModel.UserName, signupModel.Userpwd, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
+
+                            switch (userLoginResult)
+                            {
+                                case -1:
+                                    apiResult.ErrorCode = 1101;
+                                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                    break;
+                                case -2:
+                                    apiResult.ErrorCode = 1001;
+                                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                    break;
+                                case -3:
+                                    apiResult.ErrorCode = 1102;
+                                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
+                                    break;
+                                default:
+                                    {
+                                        if (userLoginResult != 0)
+                                        {
+                                            apiResult.ErrorCode = 9000;
+                                        }
+                                        else
+                                        {
+                                            if (!string.IsNullOrEmpty(signupModel.RealName))
+                                            {
+                                                custInfoBLL.SetCustBankInfo(custId, signupModel.RealName, null);
+                                            }
+
+                                            var claims = new[] {
                                         new Claim(ClaimTypes.Name,customer.UserName ),
                                         new Claim(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
                                         new Claim("Token",token ),
@@ -698,26 +698,26 @@ namespace MemberSite.Controllers.Api
                                     };
 
 
-                                    var accessToken = tools.GenerateJwtTokens(claims);
-                                    var data = new JwtAuthData
-                                    {
-                                        AccessToken = accessToken
-                                    };
+                                            var accessToken = tools.GenerateJwtTokens(claims);
+                                            var data = new JwtAuthData
+                                            {
+                                                AccessToken = accessToken
+                                            };
 
-                                    apiResult.Data = data;
-                                    apiResult.Message = "";
-                                    apiResult.ErrorCode = 0;
-                                    apiResult.ErrorCode = 0;
-                                    return apiResult;
-                                }
+                                            apiResult.Data = data;
+                                            apiResult.Message = "";
+                                            apiResult.ErrorCode = 0;
+                                            apiResult.ErrorCode = 0;
+                                            return apiResult;
+                                        }
 
-                                break;
+                                        break;
+                                    }
                             }
                         }
-                    }
 
-                    break;
-                }
+                        break;
+                    }
             }
 
             return apiResult;
@@ -750,7 +750,8 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<bool>(selLangBLL)
             {
-                Data = custInfoBLL.ExistsEmail(0, registeredModel.Email), ErrorCode = 0
+                Data = custInfoBLL.ExistsEmail(0, registeredModel.Email),
+                ErrorCode = 0
             };
             return apiResult;
         }
@@ -834,6 +835,25 @@ namespace MemberSite.Controllers.Api
                 if (forgetPwdReq.flag == 1)
                 {
                     resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/{selLangBLL.GetLangId()}/resetPassword";
+                }
+                else if (forgetPwdReq.flag == 2)
+                {
+                    if (Url.ActionContext.HttpContext.Request.Host.Host == "app.n17881788.com")
+                    {
+                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.n17881788.com/{selLangBLL.GetLangId()}/resetPassword";
+                    }
+                    else if (Url.ActionContext.HttpContext.Request.Host.Host == "app.bwing.com")
+                    {
+                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.bwing.com/{selLangBLL.GetLangId()}/resetPassword";
+                    }
+                    else if (Url.ActionContext.HttpContext.Request.Host.Host == "app.goal123.com")
+                    {
+                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.goal123.com/{selLangBLL.GetLangId()}/resetPassword";
+                    }
+                    else
+                    {
+                        resetPasswordUrl = null;
+                    }
                 }
                 else
                 {
@@ -1601,20 +1621,20 @@ namespace MemberSite.Controllers.Api
                 siteId = serverInfo.SiteId;
                 currencyId = selLangBLL.GetPreferCurrencyId();
             }
-            
+
             apiResult.Data = serverInfoBLL.GetSupportDomainListWithCache(siteId, currencyId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
 
-        [HttpGet,HttpPost]
+        [HttpGet, HttpPost]
         public ApiResult<IEnumerable<TpMaintain>> GetTpMaintainList()
         {
             return new ApiResult<IEnumerable<TpMaintain>>()
             {
                 ErrorCode = 0,
                 Data = thirdPartyBLL.GetTpMaintainList(serverInfoBLL.GetServerInfo().SiteId),
-                Message =$"UtcNow is {DateTime.UtcNow:yyyy/MM/dd HH:mm:ss}"
+                Message = $"UtcNow is {DateTime.UtcNow:yyyy/MM/dd HH:mm:ss}"
             };
         }
     }
