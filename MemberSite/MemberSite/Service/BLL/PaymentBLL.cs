@@ -405,6 +405,16 @@ namespace MemberSite.Service.BLL
 
             if (onlineBank != null)
             {
+                if (sysId == 0)
+                {
+                    onlineBank.SelBank = false;
+                    onlineBank.SysId = 0;
+                    onlineBank.SysBankCode = "";
+                    onlineBank.SysBankName = "";
+                    onlineBank.BankLogo = "";
+                    onlineBank.BankName = "";
+                }
+
                 DepositDetailInfo depositDetailInfo = new DepositDetailInfo();
                 depositDetailInfo.Amount = amount;
                 depositDetailInfo.CustId = custId;
