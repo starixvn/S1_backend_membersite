@@ -75,7 +75,8 @@ namespace MemberSite.Service.BLL
                                       {
                                           GroupId = x.GroupId,
                                           GroupName = x.GroupName,
-                                          GSort = x.GSort
+                                          GSort = x.GSort,
+                                          Mode = x.Mode
                                       }).Distinct(mobilePayGroupComparer);
 
             return mobilePayGroupList;

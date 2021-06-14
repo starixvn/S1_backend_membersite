@@ -50,6 +50,7 @@ namespace MemberSite.Service.Model
         public int GroupId { get; set; }
         public string GroupName { get; set; }
         public int GSort { get; set; }
+        public int Mode { get; set; }
     }
     public class CryptoPayInfo : IPaymentLimit
     {
