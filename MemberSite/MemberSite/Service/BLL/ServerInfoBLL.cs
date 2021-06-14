@@ -112,24 +112,25 @@ namespace MemberSite.Service.BLL
         {
             return serverInfoService.GetSupportDomainList(siteId, currencyId);
         }
+
         public IEnumerable<Domainlist> GetSupportDomainListWithCache(int siteId, int currencyId)
         {
             string key = $"GetSupportDomainListWithCache_{siteId}_{currencyId}";
-            var SupportDomainList = cache.Get<IEnumerable<Domainlist>>(key);
-            if (SupportDomainList != null)
+            var supportDomainList = cache.Get<IEnumerable<Domainlist>>(key);
+            if (supportDomainList != null && supportDomainList.Any())
             {
-                return SupportDomainList;
+                return supportDomainList;
             }
 
-            SupportDomainList = GetSupportDomainList(siteId, currencyId);
-            if (SupportDomainList != null)
+            supportDomainList = GetSupportDomainList(siteId, currencyId);
+            if (supportDomainList != null && supportDomainList.Any())
             {
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetSlidingExpiration(TimeSpan.FromMinutes(5));
-                cache.Set(key, SupportDomainList, cacheEntryOptions);
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(5));
+                cache.Set(key, supportDomainList, cacheEntryOptions);
             }
 
-            return SupportDomainList;
+            return supportDomainList;
         }
     }
 }
