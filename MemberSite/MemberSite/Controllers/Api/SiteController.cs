@@ -852,7 +852,8 @@ namespace MemberSite.Controllers.Api
                     }
                     else
                     {
-                        resetPasswordUrl = null;
+                        //H5
+                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/resetPassword";
                     }
                 }
                 else
