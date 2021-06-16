@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>d7722716-5dc9-4b26-89ee-099159fa134f</UserSecretsId>
+    <Configurations>Debug;Release;Stage</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -14,6 +16,16 @@
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Stage|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <Target Name="RenameAppsettings" AfterTargets="Publish" Condition="'$(Configuration)|$(Platform)'=='Stage|AnyCPU'">
+    <Move SourceFiles="$(PublishDir)\appsettings.Release.json" DestinationFiles="$(PublishDir)\appsettings.Production.json" />
+  </Target>
 
   <ItemGroup>
     <Compile Remove="Views\Promotion\Promo5PBonus\**" />
