@@ -278,6 +278,13 @@ namespace MemberSite.Controllers.Api
             }
 
             var authData = authorizeBLL.GetAuthData();
+            if (authData.CustId == 0)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
+                apiResult.ErrorCode = -7;
+                return apiResult;
+            }
+
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var rollover = paymentBLL.ReachedRollover(authData.CustId);
             var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(new WithdrawalLimitInfoInput
