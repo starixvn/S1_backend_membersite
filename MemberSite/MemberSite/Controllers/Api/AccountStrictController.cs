@@ -416,6 +416,14 @@ namespace MemberSite.Controllers.Api
                     var result = custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"], null);
                 }
             }
+            
+            if (!string.IsNullOrEmpty(custProfile["Email"]) &&
+                custInfoBLL.ExistsEmail(authData.CustId, custProfile["Email"]))
+            {
+                apiResult.ErrorCode = 21;
+                apiResult.Message = $"{custProfile["Email"]} {selLangBLL.GetMsg("msg_HasExist")}";
+                return apiResult;
+            }
 
             if (!string.IsNullOrEmpty(beforeCustInfo.Email))
             {
@@ -507,6 +515,14 @@ namespace MemberSite.Controllers.Api
                     {
                         var result = custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"], null);
                     }
+                }
+
+                if (!string.IsNullOrEmpty(custProfile["Email"]) &&
+                    custInfoBLL.ExistsEmail(authData.CustId, custProfile["Email"]))
+                {
+                    apiResult.ErrorCode = 21;
+                    apiResult.Message = $"{custProfile["Email"]} {selLangBLL.GetMsg("msg_HasExist")}";
+                    return apiResult;
                 }
 
                 if (!string.IsNullOrEmpty(beforeCustInfo.Email))
