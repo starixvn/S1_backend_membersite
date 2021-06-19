@@ -4,7 +4,6 @@ using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,7 +36,7 @@ namespace MemberSite.Service.BLL
             return result;
         }
 
-        public AuthData GetAuthData([CallerMemberName] string callerName = "")
+        public AuthData GetAuthData(bool checkOnUser = false)
         {
             AuthData authData = null;
             if (httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
@@ -49,7 +48,7 @@ namespace MemberSite.Service.BLL
                 authData.Token = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "Token").Value;
                 authData.LangId = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "LangId").Value;
 
-                if (_isJwt || callerName == "WithdrawalReqAsync")
+                if (_isJwt || checkOnUser)
                 {
                     var onUser = GetOnUser(custId);
                     if (onUser == null)

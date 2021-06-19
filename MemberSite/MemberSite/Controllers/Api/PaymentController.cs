@@ -277,7 +277,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            var authData = authorizeBLL.GetAuthData();
+            var authData = authorizeBLL.GetAuthData(true);
             if (authData.CustId == 0)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
