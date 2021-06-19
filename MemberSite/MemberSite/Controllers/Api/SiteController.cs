@@ -419,22 +419,27 @@ namespace MemberSite.Controllers.Api
             var custId = 0;
             var result = -99;
             var phoneExists = false;
+            var mailExists = false;
 
             if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
             {
                 signupModel.PhoneNo = phoneNo.ToString();
                 phoneExists = custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
+                if (phoneExists)
+                    result = -6;
             }
 
-            if (!phoneExists)
+            if (!string.IsNullOrWhiteSpace(signupModel.Email))
+            {
+                mailExists = custInfoBLL.ExistsEmail(0, signupModel.Email);
+                if (mailExists)
+                    result = -10;
+            }
+
+            if (!phoneExists && !mailExists)
             {
                 result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d, signupModel.Birth_m, signupModel.Birth_y);
             }
-            else
-            {
-                result = -6;
-            }
-
 
             switch (result)
             {
@@ -465,6 +470,10 @@ namespace MemberSite.Controllers.Api
                 case -7:
                     apiResult.ErrorCode = result;
                     apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeIncorrect");
+                    break;
+                case -10:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = $"{selLangBLL.GetResourceValue("lbl_Email")} {selLangBLL.GetMsg("msg_HasExist")}";
                     break;
                 case -19:
                     apiResult.ErrorCode = result;
@@ -583,20 +592,26 @@ namespace MemberSite.Controllers.Api
             var custId = 0;
             var result = -99;
             var phoneExists = false;
+            var mailExists = false;
 
             if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
             {
                 signupModel.PhoneNo = phoneNo.ToString();
                 phoneExists = custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
+                if (phoneExists)
+                    result = -6;
             }
 
-            if (!phoneExists)
+            if (!string.IsNullOrWhiteSpace(signupModel.Email))
+            {
+                mailExists = custInfoBLL.ExistsEmail(0, signupModel.Email);
+                if (mailExists)
+                    result = -10;
+            }
+            
+            if (!phoneExists && !mailExists)
             {
                 result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode);
-            }
-            else
-            {
-                result = -6;
             }
 
             switch (result)
@@ -628,6 +643,10 @@ namespace MemberSite.Controllers.Api
                 case -7:
                     apiResult.ErrorCode = result;
                     apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeIncorrect");
+                    break;
+                case -10:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = $"{selLangBLL.GetResourceValue("lbl_Email")} {selLangBLL.GetMsg("msg_HasExist")}";
                     break;
                 case -19:
                     apiResult.ErrorCode = result;
