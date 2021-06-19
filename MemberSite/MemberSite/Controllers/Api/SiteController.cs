@@ -274,6 +274,13 @@ namespace MemberSite.Controllers.Api
 
             int custId = 0;
 
+            if (!string.IsNullOrWhiteSpace(registeredModel.Email) && custInfoBLL.ExistsEmail(custId, registeredModel.Email))
+            {
+                apiResult.ErrorCode = -10;
+                apiResult.Message = $"{registeredModel.Email} {selLangBLL.GetMsg("msg_HasExist")}";
+                return apiResult;
+            }
+
             var result = custInfoBLL.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd, registeredModel.Email, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId, registeredModel.AffId, registeredModel.Aff, registeredModel.AffCode, out custId, Request.Host.Host);
             if (result == -1)
             {
