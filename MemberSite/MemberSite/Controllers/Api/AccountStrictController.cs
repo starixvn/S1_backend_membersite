@@ -417,11 +417,11 @@ namespace MemberSite.Controllers.Api
                 }
             }
             
-            if (!string.IsNullOrEmpty(custProfile["Email"]) &&
-                custInfoBLL.ExistsEmail(authData.CustId, custProfile["Email"]))
+            if (custProfile.TryGetValue("Email", out var email) && !string.IsNullOrEmpty(email) &&
+                custInfoBLL.ExistsEmail(authData.CustId, email))
             {
                 apiResult.ErrorCode = 21;
-                apiResult.Message = $"{custProfile["Email"]} {selLangBLL.GetMsg("msg_HasExist")}";
+                apiResult.Message = $"{email} {selLangBLL.GetMsg("msg_HasExist")}";
                 return apiResult;
             }
 
@@ -517,11 +517,11 @@ namespace MemberSite.Controllers.Api
                     }
                 }
 
-                if (!string.IsNullOrEmpty(custProfile["Email"]) &&
-                    custInfoBLL.ExistsEmail(authData.CustId, custProfile["Email"]))
+                if (custProfile.TryGetValue("Email", out var email) && !string.IsNullOrEmpty(email) &&
+                    custInfoBLL.ExistsEmail(authData.CustId, email))
                 {
                     apiResult.ErrorCode = 21;
-                    apiResult.Message = $"{custProfile["Email"]} {selLangBLL.GetMsg("msg_HasExist")}";
+                    apiResult.Message = $"{email} {selLangBLL.GetMsg("msg_HasExist")}";
                     return apiResult;
                 }
 
