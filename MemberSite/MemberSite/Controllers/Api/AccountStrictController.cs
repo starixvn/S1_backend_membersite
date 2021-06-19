@@ -586,7 +586,7 @@ namespace MemberSite.Controllers.Api
                     custInfo.Birth_y,
                     custInfo.RegTime,
                     LastLogin = custInfo.LastLoginTime,
-                    Country = custInfo.CountryCode,
+                    Country = string.IsNullOrEmpty(custInfo.CountryCode) ? null : custInfo.CountryCode,
                     custInfo.AreaCode,
                     custInfo.PhoneNo,
                     PerCountry = _perCountry,
