@@ -429,7 +429,7 @@ namespace MemberSite.Controllers.Api
                     result = -6;
             }
 
-            if (string.IsNullOrWhiteSpace(signupModel.Email))
+            if (!string.IsNullOrWhiteSpace(signupModel.Email))
             {
                 mailExists = custInfoBLL.ExistsEmail(0, signupModel.Email);
                 if (mailExists)
@@ -602,7 +602,7 @@ namespace MemberSite.Controllers.Api
                     result = -6;
             }
 
-            if (string.IsNullOrWhiteSpace(signupModel.Email))
+            if (!string.IsNullOrWhiteSpace(signupModel.Email))
             {
                 mailExists = custInfoBLL.ExistsEmail(0, signupModel.Email);
                 if (mailExists)
