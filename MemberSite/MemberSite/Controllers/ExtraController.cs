@@ -55,6 +55,8 @@ namespace MemberSite.Controllers
             {
                 signupModel.PhoneNo = phoneNo.ToString();
                 phoneExists = custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
+                if (phoneExists)
+                    result = -6;
             }
 
             if (!string.IsNullOrWhiteSpace(signupModel.Email))
