@@ -49,20 +49,26 @@ namespace MemberSite.Controllers
             int custId = 0;
             var result = -99;
             var phoneExists = false;
+            var mailExists = false;
 
             if (long.TryParse(signupModel.PhoneNo, out long phoneNo))
             {
                 signupModel.PhoneNo = phoneNo.ToString();
                 phoneExists = custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
+                if (phoneExists)
+                    result = -6;
             }
 
-            if (!phoneExists)
+            if (!string.IsNullOrWhiteSpace(signupModel.Email))
+            {
+                mailExists = custInfoBLL.ExistsEmail(0, signupModel.Email);
+                if (mailExists)
+                    result = -10;
+            }
+            
+            if (!phoneExists && !mailExists)
             {
                 result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName);
-            }
-            else
-            {
-                result = -6;
             }
 
             if (result == -1)
@@ -94,6 +100,11 @@ namespace MemberSite.Controllers
             {
                 errorCode = result;
                 message = $"{selLangBLL.GetResourceValue("lbl_Phone")} {selLangBLL.GetMsg("msg_HasExist")}";
+            }
+            else if (result == -10)
+            {
+                errorCode = result;
+                message = $"{selLangBLL.GetResourceValue("lbl_Email")} {selLangBLL.GetMsg("msg_HasExist")}";
             }
             else if (result == -19)
             {

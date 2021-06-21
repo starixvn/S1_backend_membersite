@@ -416,6 +416,14 @@ namespace MemberSite.Controllers.Api
                     var result = custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"], null);
                 }
             }
+            
+            if (custProfile.TryGetValue("Email", out var email) && !string.IsNullOrEmpty(email) &&
+                custInfoBLL.ExistsEmail(authData.CustId, email))
+            {
+                apiResult.ErrorCode = 21;
+                apiResult.Message = $"{email} {selLangBLL.GetMsg("msg_HasExist")}";
+                return apiResult;
+            }
 
             if (!string.IsNullOrEmpty(beforeCustInfo.Email))
             {
@@ -509,6 +517,14 @@ namespace MemberSite.Controllers.Api
                     }
                 }
 
+                if (custProfile.TryGetValue("Email", out var email) && !string.IsNullOrEmpty(email) &&
+                    custInfoBLL.ExistsEmail(authData.CustId, email))
+                {
+                    apiResult.ErrorCode = 21;
+                    apiResult.Message = $"{email} {selLangBLL.GetMsg("msg_HasExist")}";
+                    return apiResult;
+                }
+
                 if (!string.IsNullOrEmpty(beforeCustInfo.Email))
                 {
                     custProfile["Email"] = beforeCustInfo.Email;
@@ -586,7 +602,7 @@ namespace MemberSite.Controllers.Api
                     custInfo.Birth_y,
                     custInfo.RegTime,
                     LastLogin = custInfo.LastLoginTime,
-                    Country = custInfo.CountryCode,
+                    Country = string.IsNullOrEmpty(custInfo.CountryCode) ? null : custInfo.CountryCode,
                     custInfo.AreaCode,
                     custInfo.PhoneNo,
                     PerCountry = _perCountry,

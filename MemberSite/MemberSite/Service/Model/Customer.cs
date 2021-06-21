@@ -195,4 +195,9 @@ namespace MemberSite.Service.Model
         public decimal BonusSum { get; set; }
         public int BonusCnt { get; set; }
     }
+
+    public class OnUser
+    {
+        public bool Exists { get; set; }
+    }
 }

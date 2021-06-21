@@ -3,10 +3,10 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
@@ -15,12 +15,15 @@ namespace MemberSite.Service.BLL
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly Tools tools;
         private readonly AuthenticateService authenticateService;
+        private readonly bool _isJwt;
 
-        public AuthorizeBLL(IHttpContextAccessor httpContextAccessor, Tools tools, AuthenticateService authenticateService)
+        public AuthorizeBLL(IServiceProvider provider)
         {
-            this.httpContextAccessor = httpContextAccessor;
-            this.tools = tools;
-            this.authenticateService = authenticateService;
+            httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+            tools = provider.GetRequiredService<Tools>();
+            authenticateService = provider.GetRequiredService<AuthenticateService>();
+            var configuration = provider.GetRequiredService<IConfiguration>();
+            _isJwt = configuration.GetValue<bool>("JwtSettings:IsJwt");
         }
 
         public bool LoginCheckin()
@@ -33,7 +36,7 @@ namespace MemberSite.Service.BLL
             return result;
         }
 
-        public AuthData GetAuthData()
+        public AuthData GetAuthData(bool checkOnUser = false)
         {
             AuthData authData = null;
             if (httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
@@ -44,6 +47,15 @@ namespace MemberSite.Service.BLL
                 authData.UserName = httpContextAccessor.HttpContext.User.Identity.Name;
                 authData.Token = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "Token").Value;
                 authData.LangId = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "LangId").Value;
+
+                if (_isJwt || checkOnUser)
+                {
+                    var onUser = GetOnUser(custId);
+                    if (onUser == null)
+                    {
+                        authData.CustId = 0;
+                    }
+                }
             }
 
             return authData;
@@ -56,6 +68,11 @@ namespace MemberSite.Service.BLL
             bool result = authenticateService.UpdateOnline(authData.CustId, false, authData.Token, ip);
 
             return result;
+        }
+
+        private OnUser GetOnUser(int custId)
+        {
+            return authenticateService.GetOnUser(custId);
         }
     }
 }

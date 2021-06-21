@@ -73,7 +73,7 @@ namespace MemberSite.Extensions.Middlewares
                     using (LogContext.PushProperty("Referer", context.Request.Headers["Referer"].ToString()))
                     {
                         _logger.LogInformation(
-                            $"REQUEST METHOD: {context.Request.Method}, CodePage: {codePage}, REQUEST BODY: {content}, REQUEST URL: {url}, ES: {context.Request.Cookies[".ES"]}");
+                            $"REQUEST METHOD: {context.Request.Method}, CodePage: {codePage}, REQUEST BODY: {content}, REQUEST URL: {url}, ES: {context.Request.Cookies[".ES"]}, JWT: {context.Request.Headers?["authorization"].ToString()}");
                     }
                 }
 
