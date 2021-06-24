@@ -30,7 +30,7 @@ namespace MemberSite.Service.DAL
         }
         public List<GameCasinoListData> GetGameCasinoListByDevice(int deviceType)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             int IsStage = configuration.GetValue<int>("IsStage");
             string SPName = "Member_GameCasinoListByDevice_Get";
             if (IsStage == 1)

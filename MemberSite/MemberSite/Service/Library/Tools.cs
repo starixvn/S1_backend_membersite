@@ -184,6 +184,10 @@ namespace MemberSite.Service.Library
             {
                 fromUrl = httpContextAccessor.HttpContext.Request.Headers["Referer"].ToString();
             }
+            else
+            {
+                fromUrl = httpContextAccessor.HttpContext.Request.Path;
+            }
 
             return fromUrl;
         }
