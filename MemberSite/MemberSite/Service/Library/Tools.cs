@@ -186,11 +186,12 @@ namespace MemberSite.Service.Library
             }
             else
             {
-                fromUrl = httpContextAccessor.HttpContext.Request.Path;
+                fromUrl = httpContextAccessor.HttpContext.Request.Host.ToString(); ;
             }
 
             return fromUrl;
         }
+
         /// <summary>
         /// 保留两位小数的金额
         /// </summary>
