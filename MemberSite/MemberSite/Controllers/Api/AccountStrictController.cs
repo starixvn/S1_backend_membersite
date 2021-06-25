@@ -609,7 +609,8 @@ namespace MemberSite.Controllers.Api
                     custInfo.CurrencyId,
                     langId = custInfo.UserLang,
                     custInfo.UserLevel,
-                    custInfo.PhoneVerified
+                    custInfo.PhoneVerified,
+                    custInfo.EnablePromotion
                 };
 
                 apiResult.ErrorCode = 0;
