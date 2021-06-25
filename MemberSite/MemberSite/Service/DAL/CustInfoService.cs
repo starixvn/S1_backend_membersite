@@ -2,12 +2,8 @@
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.DAL
 {
@@ -151,7 +147,7 @@ namespace MemberSite.Service.DAL
 
         public Customer GetCustInfoByUserName(string userName, int siteId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<Customer>("LoginCustInfo_Get", new { UserName = userName, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
         public bool SetLanguage(int custId, string langId)

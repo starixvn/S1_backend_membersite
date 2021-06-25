@@ -3,14 +3,12 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
@@ -136,6 +134,12 @@ namespace MemberSite.Service.BLL
                 regCustInfo.Aff = aff;
                 regCustInfo.AffCode = affCode;
                 /**/
+
+                if (string.IsNullOrEmpty(signupUrl))
+                {
+                    signupUrl = tools.GetFromUrl();
+                }
+
                 var result = custInfoService.AddCustInfo(regCustInfo, Email, out custId, signupUrl, PhoneNo, AreaCode, RealName, promoCode, Birth_d, Birth_m, Birth_y);
                 if (result != 0)
                 {
