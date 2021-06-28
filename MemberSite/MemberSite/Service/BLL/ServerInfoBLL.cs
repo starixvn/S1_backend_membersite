@@ -35,6 +35,13 @@ namespace MemberSite.Service.BLL
 
         public ServerInfo GetServerInfo()
         {
+            string host = httpContextAccessor.HttpContext.Request.Host.Host;
+            int dotIndex = host.IndexOf(".");
+            if (dotIndex > -1)
+            {
+                host = host.Substring(dotIndex + 1);
+            }
+
             int siteId = 1;
             if (fixSiteID != 0)
             {
@@ -42,13 +49,6 @@ namespace MemberSite.Service.BLL
             }
             else
             {
-                string host = httpContextAccessor.HttpContext.Request.Host.Host;
-                int dotIndex = host.IndexOf(".");
-                if (dotIndex > -1)
-                {
-                    host = host.Substring(dotIndex + 1);
-                }
-
                 string key = $"{host}";
                 if (cache.Get<ServerInfo>(key) != null)
                 {
@@ -73,6 +73,7 @@ namespace MemberSite.Service.BLL
             }
 
             serverInfo = GetServerInfo(siteId);
+            serverInfo.host = host;
             return serverInfo;
         }
 

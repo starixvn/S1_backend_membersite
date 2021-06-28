@@ -29,6 +29,7 @@ namespace MemberSite.Service.Model
     {
         public int SiteId { set; get; }
         public string SiteName { set; get; }
+        public string host { set; get; }
         public string LangList { set; get; }
         public string CurrencyList { set; get; }
         public string DefLang { set; get; }

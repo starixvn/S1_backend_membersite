@@ -13,30 +13,31 @@
 @inject AuthorizeBLL authorizeBLL
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
-    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
-    var CMSSkinRootPath = Url.Content($"~/CMS/SiteSkin/{serverInfo.SiteName}/");
-    var CurrencyId = 0;
-    var iSwitch = 2;
-    var showResetPwdAlert = false;
+    //var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
+    //var CMSSkinRootPath = Url.Content($"~/CMS/SiteSkin/{serverInfo.SiteName}/");
+    //var CurrencyId = 0;
+    //var iSwitch = 2;
+    //var showResetPwdAlert = false;
 
-    var google_id = "";
-    if (serverInfo.SiteId == 1)
-    {
-        google_id = "UA-163834722-1";
-    }
-    else if (serverInfo.SiteId == 2)
-    {
-        google_id = "UA-163812389-1";
-    }
-    else if (serverInfo.SiteId == 3)
-    {
-        google_id = "UA-163766925-1";
-    }
+    //var google_id = "";
+    //if (serverInfo.SiteId == 1)
+    //{
+    //    google_id = "UA-163834722-1";
+    //}
+    //else if (serverInfo.SiteId == 2)
+    //{
+    //    google_id = "UA-163812389-1";
+    //}
+    //else if (serverInfo.SiteId == 3)
+    //{
+    //    google_id = "UA-163766925-1";
+    //}
 }
 <!DOCTYPE html>
 <html lang="@selLangBLL.GetLangId()" data-layout="@(tools.IsMobile() ? "mobile" : "desktop")">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="refresh" content="0; url = https://www.@serverInfo.host" />
+    @*<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <link rel="shortcut icon" href="@SkinRootPath/images/favicon.ico" type="image/x-icon">
@@ -70,10 +71,10 @@
         var ResetPwdAlert = 0;
         var DepositAlert = 0;
     </script>
-    @RenderSection("Style", required: false)
+    @RenderSection("Style", required: false)*@
 </head>
 <body>
-    @{if (User.Identity.IsAuthenticated && !Context.Request.Cookies.ContainsKey($"InitializationReset{User.Identity.Name}"))
+    @*@{if (User.Identity.IsAuthenticated && !Context.Request.Cookies.ContainsKey($"InitializationReset{User.Identity.Name}"))
         {
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
@@ -91,36 +92,7 @@
     }
 <div class="app">
     <partial name="~/Views/Shared/_Header.cshtml" />
-    @*Url.RouteUrl(new { action = "Index", controller = "Home", area = "Mobile", LangId = selLangBLL.GetLangId() });*@
-    @RenderBody()
-
-    @*<!-- Live Support -->*@
-
-    @*<div class="quickLink" id="toggle-LiveSupport">
-        <div class="quicktitle">@selLangBLL.GetResourceValue("lbl_ContactUs")</div>
-        <div class="quicklist">
-            <ul>
-                <li class="icon icon-chat" id="liveChatbtn">
-                    @selLangBLL.GetResourceValue("lbl_LiveChat")
-                </li>
-                <li>
-                    <a class="icon icon-instagram" href="https://www.instagram.com/nova88.net_official" target="_blank">
-                        @selLangBLL.GetResourceValue("lbl_Instagram")
-                    </a>
-                </li>
-                <li>
-                    <a class="icon icon-facebook" href="https://www.facebook.com/nova88official/" target="_blank">
-                        @selLangBLL.GetResourceValue("lbl_Facebook")
-                    </a>
-                </li>
-                <li>
-                    <a class="icon icon-twitter" href="https://twitter.com/nova88official" target="_blank">
-                        @selLangBLL.GetResourceValue("lbl_Twitter")
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>*@
+    
     @if (!string.Equals(ViewContext.RouteData.Values["controller"] as string, "sports", StringComparison.OrdinalIgnoreCase))
         {
     <partial name="~/Views/Shared/_Footer.cshtml" />
@@ -142,7 +114,7 @@
         <script src="~/lib/react.development.js"></script>
         <script src="~/lib/react-dom.development.js"></script>
         <script src="~/lib/babel.min.js"></script>
-        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>*@
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>
     }
     else
     {
@@ -387,7 +359,7 @@
         <script src="~/lib/runtime.min.js"></script>
         <script src="~/js/component/app/loginForm.min.js" asp-append-version="true"></script>
     }
-    @* Start of LiveChat (www.livechatinc.com) code *@
+     Start of LiveChat (www.livechatinc.com) code 
     <script type="text/javascript">
         window.__lc = window.__lc || {};
         window.__lc.license = 11638088;
@@ -396,8 +368,8 @@
         LiveChatWidget.call('hide');
         LiveChatWidget.call('hide_greeting')
     </script>
-    @*  End of LiveChat code*@
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+      End of LiveChat code
+     Global site tag (gtag.js) - Google Analytics 
     <script async src="https://www.googletagmanager.com/gtag/js?id=@google_id"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -507,6 +479,6 @@
                 </div>
             </div>
         }
-    }
+    }*@
 </body>
 </html>
