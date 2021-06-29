@@ -226,7 +226,7 @@ namespace MemberSite.Service.DAL
         public CustInfoProfile GetCustInfoProfile(int custId, int siteId)
         {
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<CustInfoProfile>("Member_CustProfile_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.QueryFirstOrDefault<CustInfoProfile>("Member_CustProfileV2_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
         public int SubmittedCustPhotoId(int custId, int siteId, int currencyId)
         {
