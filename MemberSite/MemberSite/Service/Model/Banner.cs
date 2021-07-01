@@ -78,6 +78,7 @@ namespace MemberSite.Service.Model
         public string GameId { get; set; }
         public string UrlRouter { get; set; }
         public DateTime? SportBattleDateTime { get; set; }
+        public int? LeaguesId { get; set; }
         public string SportLeaguesId { get; set; }
         public string SportTeamsHome { get; set; }
         public string SportTeamsHomePic { get; set; }

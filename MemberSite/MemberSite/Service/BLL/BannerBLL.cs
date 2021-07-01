@@ -174,6 +174,7 @@ namespace MemberSite.Service.BLL
                             GameId = bannerdetail.GameId,
                             UrlRouter = bannerdetail.UrlRouter,
                             SportBattleDateTime = bannerdetail.SportBattleDateTime,
+                            LeaguesId = bannerdetail.LeaguesId,
                             SportLeaguesId = leagues,
                             SportTeamsHome = teamsHome,
                             SportTeamsHomePic = teamsHomePic,
