@@ -156,8 +156,15 @@ namespace MemberSite.Service.BLL
                     var sportLeaguesId = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerdetail.SportLeaguesId);
                     var sportTeamsHome = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerdetail.SportTeamsHome);
                     var sportTeamsAway = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerdetail.SportTeamsAway);
+                    var logoPic = "";
+                    var backgroundPic = "";
                     if (sportLeaguesId.ContainsKey(LangId) && sportTeamsHome.ContainsKey(LangId) && sportTeamsAway.ContainsKey(LangId))
                     {
+                        if (serverInfo.SiteId == 1 && (bannerdetail.LeaguesId == 1 || bannerdetail.LeaguesId == 2 || bannerdetail.LeaguesId == 3 || bannerdetail.LeaguesId == 4 || bannerdetail.LeaguesId == 5))
+                        {
+                            logoPic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{serverInfo.SiteName}/Logo.png";
+                            backgroundPic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{serverInfo.SiteName}/Background.jpg";
+                        }
                         var leagues = sportLeaguesId[LangId];
                         var teamsHome = sportTeamsHome[LangId];
                         var teamsHomePic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{sportTeamsHome["en"]}.png";
@@ -182,7 +189,9 @@ namespace MemberSite.Service.BLL
                             SportTeamsAwayPic = teamsAwayPic,
                             HomeOdds = bannerdetail.HomeOdds,
                             AwayOdds = bannerdetail.AwayOdds,
-                            Handicap = bannerdetail.Handicap
+                            Handicap = bannerdetail.Handicap,
+                            Logo = logoPic,
+                            BackgroundPic = backgroundPic
                         });
                     }
                 }
