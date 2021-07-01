@@ -645,5 +645,9 @@ namespace MemberSite.Service.BLL
 
             return true;
         }
+        public int SetFireBaseTroken(int custId, int siteId, string fireBaseToken)
+        {
+            return custInfoService.SetFireBaseTroken( custId, siteId, fireBaseToken);
+        }
     }
 }

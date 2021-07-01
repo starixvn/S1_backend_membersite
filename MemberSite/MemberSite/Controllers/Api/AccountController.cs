@@ -1059,5 +1059,25 @@ namespace MemberSite.Controllers.Api
         //    apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, custBankInfo.AccountName, bankInfoList);
         //    return apiResult;
         //}
+        public class SetFireBaseTrokenReq
+        {
+            public string FireBaseTroken { get; set; }
+        }
+
+        [HttpPost]
+        public ApiResult SetFireBaseTroken(SetFireBaseTrokenReq setFireBaseTrokenReq)
+        {
+            var apiResult = new ApiResult();
+            apiResult.ErrorCode = 99;
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            
+            if (custInfoBLL.SetFireBaseTroken(authData.CustId, custInfo.SiteId, setFireBaseTrokenReq.FireBaseTroken) >0)
+            {
+                apiResult.ErrorCode = 0;
+            }
+           
+            return apiResult;
+        }
     }
 }
