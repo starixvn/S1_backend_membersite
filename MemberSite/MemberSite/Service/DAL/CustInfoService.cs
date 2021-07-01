@@ -256,5 +256,10 @@ namespace MemberSite.Service.DAL
             var result = conn.Execute("Common_PhoneVerified_Set", new { CustId = custId }, commandType: CommandType.StoredProcedure);
             return result;
         }
+        public int SetFireBaseTroken(int custId, int siteId, string fireBaseToken)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Execute("Member_FireBaseToken_Set", new { CustId = custId, SiteId = siteId, FireBaseToken = fireBaseToken }, commandType: CommandType.StoredProcedure);
+        }
     }
 }
