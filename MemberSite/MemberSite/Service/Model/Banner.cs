@@ -91,5 +91,7 @@ namespace MemberSite.Service.Model
         public decimal? HomeOdds { get; set; }
         public decimal? AwayOdds { get; set; }
         public decimal? Handicap { get; set; }
+        public string Logo { get; set; }
+        public string BackgroundPic { get; set; }
     }
 }
