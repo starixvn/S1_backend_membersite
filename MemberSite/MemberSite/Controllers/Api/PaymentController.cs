@@ -884,6 +884,9 @@ namespace MemberSite.Controllers.Api
             Success = 0, Fail = 1, Pending = 2, PendingD = 3
         }
 
+        /// <summary>
+        /// </summary>
+        /// <returns>ErrorCode: 0=無須驗證KYC, 1=需驗證KYC, 2=等候KYC審核驗證通過中</returns>
         [HttpPost]
         public ApiResult KycCheck()
         {
