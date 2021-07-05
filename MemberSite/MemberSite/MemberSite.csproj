@@ -145,7 +145,6 @@
     <Folder Include="wwwroot\js\Bwing\component\Desktop\" />
     <Folder Include="wwwroot\SiteSkin\Goal123\" />
     <Folder Include="wwwroot\SiteSkin\Nova88\en\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
