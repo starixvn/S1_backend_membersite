@@ -314,6 +314,9 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_GreaterThanWithdrawalMax" xml:space="preserve">
     <value>Đã đạt đến giới hạn hàng ngày của bạn.</value>
   </data>
+  <data name="msg_WithdrawalExists" xml:space="preserve">
+    <value>Có phiếu rút tiền vẫn đang được xử lý.</value>
+  </data>
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>Bạn đã lưu thông tin này.</value>
   </data>

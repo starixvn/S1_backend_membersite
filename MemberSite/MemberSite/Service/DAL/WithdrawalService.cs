@@ -10,6 +10,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace MemberSite.Service.DAL
 {
@@ -19,14 +21,19 @@ namespace MemberSite.Service.DAL
         private readonly Common common;
         private readonly WalletService walletService;
         private readonly RolloverService rolloverService;
+        private readonly MySqlClient _mainDbClient;
+        private readonly MySqlClient _reportDbClient;
         private int typePosition = 1000;
 
-        public WithdrawalService(IConfiguration configuration, Common common, WalletService walletService, RolloverService rolloverService)
+        public WithdrawalService(IServiceProvider provider)
         {
-            this.configuration = configuration;
-            this.common = common;
-            this.walletService = walletService;
-            this.rolloverService = rolloverService;
+            configuration = provider.GetRequiredService<IConfiguration>();
+            common = provider.GetRequiredService<Common>();
+            walletService = provider.GetRequiredService<WalletService>();
+            rolloverService = provider.GetRequiredService<RolloverService>();
+            var logger = provider.GetRequiredService<ILogger<MySqlClient>>();
+            _mainDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionString"), logger);
+            _reportDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionStringReport"), logger);
         }
         public int WithdrawalReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, WithdrawalInfo withdrawalInfo, out decimal afterAmount, out string transId)
         {
@@ -188,6 +195,12 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<DailyCustomerWithdrawalInfoOutput>("Member_DailyCustomerWithdrawalInfo_Get",
                 new {input.CustId}, commandType: CommandType.StoredProcedure).FirstOrDefault();
+        }
+        
+        public CustomerWithdrawalInfoOutput GetWithdrawalInfoCheck(CustomerWithdrawalInfoInput input)
+        {
+            return _reportDbClient.QueryFirst<CustomerWithdrawalInfoOutput>("Member_WithdrawalInfoCheck_Get",
+                new DynamicParameters(new {input.CustId}));
         }
     }
 }

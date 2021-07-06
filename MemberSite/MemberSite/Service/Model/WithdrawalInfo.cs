@@ -67,4 +67,14 @@ namespace MemberSite.Service.Model
     {
         public decimal Amount { get; set; }
     }
+    
+    public class CustomerWithdrawalInfoInput
+    {
+        public int CustId { get; set; }
+    }
+    
+    public class CustomerWithdrawalInfoOutput
+    {
+        public bool WithdrawalExists { get; set; }
+    }
 }

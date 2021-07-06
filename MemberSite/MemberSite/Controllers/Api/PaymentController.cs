@@ -284,6 +284,14 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -7;
                 return apiResult;
             }
+            
+            var check = paymentBLL.GetWithdrawalInfoCheck(new CustomerWithdrawalInfoInput{CustId = authData.CustId});
+            if (check.WithdrawalExists)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalExists");
+                apiResult.ErrorCode = -8;
+                return apiResult;
+            }
 
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var rollover = paymentBLL.ReachedRollover(authData.CustId);

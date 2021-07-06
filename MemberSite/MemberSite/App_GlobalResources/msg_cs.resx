@@ -325,6 +325,9 @@
   <data name="msg_GreaterThanWithdrawalMax" xml:space="preserve">
     <value>您已达到每日提款限额</value>
   </data>
+  <data name="msg_WithdrawalExists" xml:space="preserve">
+    <value>還有提款單仍在處理中。</value>
+  </data>
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>您已经存储此信息。</value>
   </data>

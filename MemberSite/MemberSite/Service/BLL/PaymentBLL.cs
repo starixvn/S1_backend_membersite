@@ -732,5 +732,9 @@ namespace MemberSite.Service.BLL
         {
             return withdrawalService.GetDailyCustomerWithdrawalInfo(input);
         }
+        public CustomerWithdrawalInfoOutput GetWithdrawalInfoCheck(CustomerWithdrawalInfoInput input)
+        {
+            return withdrawalService.GetWithdrawalInfoCheck(input);
+        }
     }
 }
