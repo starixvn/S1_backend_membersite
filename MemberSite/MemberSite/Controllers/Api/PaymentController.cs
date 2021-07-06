@@ -418,8 +418,7 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
 
-                transferToSabaResult = new ApiResult<TransferResult>();
-                transferToSabaResult.ErrorCode = 0;
+                transferToSabaResult = new ApiResult<TransferResult> {ErrorCode = 0};
             }
             /*Temp*/
             if (transferToSabaResult.ErrorCode == 0)
@@ -453,11 +452,13 @@ namespace MemberSite.Controllers.Api
                             if (mainWalletType == 2)
                             {
                                 transferToSabaResult = null;
-                                var input = new TpTransfer();
-                                input.Amount = walletBLL.GetBalance(authData.CustId);
-                                input.CustId = authData.CustId;
-                                input.direction = TpDirection.ToTp;
-                                input.TpId = 1;
+                                var input = new TpTransfer
+                                {
+                                    Amount = walletBLL.GetBalance(authData.CustId),
+                                    CustId = authData.CustId,
+                                    direction = TpDirection.ToTp,
+                                    TpId = 1
+                                };
                                 transferToSabaResult = await TransferToSabaAsync(input);
                             }
 
