@@ -333,7 +333,7 @@
     <value>จำนวนยอดถอนต่อวันของคุณครบแล้ว</value>
   </data>
   <data name="msg_WithdrawalExists" xml:space="preserve">
-    <value>มีสลิปการถอนเงินอยู่ระหว่างดำเนินการ</value>
+    <value>คำขอธุรกรรมของคุณอยู่ระหว่างรอดำเนินการ, โปรดรอจนกว่าธุรกรรมของคุณที่รอดำเนินการจะเสร็จสมบูรณ์แล้วลองอีกครั้ง</value>
   </data>
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>คุณได้ทำการจัดเก็บข้อมูลนี้ไว้เรียบร้อยแล้ว</value>

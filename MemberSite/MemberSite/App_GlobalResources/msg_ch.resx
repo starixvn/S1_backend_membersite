@@ -306,6 +306,9 @@
   <data name="msg_ClaimCashBackBonus" xml:space="preserve">
     <value>恭喜，您的現金返還 {0} 已匯入您的戶口！</value>
   </data>
+  <data name="msg_WithdrawalExists" xml:space="preserve">
+    <value>您的交易訂單待定中。請等您的待定訂單完成後再嘗試。</value>
+  </data>
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>您已經存儲此信息。</value>
   </data>
