@@ -231,7 +231,7 @@ namespace MemberSite.Service.DAL
         public int SubmittedCustPhotoId(int custId, int siteId, int currencyId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.ExecuteScalar<int>("Member_SubmittedCustPhotoId_Get", new { CustId = custId, SiteId = siteId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+            return conn.ExecuteScalar<int>("Member_SubmittedCustPhotoId_GetV2", new { CustId = custId, SiteId = siteId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
 
         public int SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
