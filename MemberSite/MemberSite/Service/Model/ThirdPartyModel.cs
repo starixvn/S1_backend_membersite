@@ -47,7 +47,7 @@ namespace MemberSite.Service.Model
     {
         public int SiteId { get; set; }
         public int TpId { get; set; }
-        public int TpGameType { get; set; }
+        public int TpCategoryId { get; set; }
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }
         public MaintainType MaintainType { get; set; }
