@@ -160,7 +160,8 @@ namespace MemberSite.Service.BLL
                     var backgroundPic = "";
                     if (sportLeaguesId.ContainsKey(LangId) && sportTeamsHome.ContainsKey(LangId) && sportTeamsAway.ContainsKey(LangId))
                     {
-                        if (serverInfo.SiteId == 1 && (bannerdetail.LeaguesId == 1 || bannerdetail.LeaguesId == 2 || bannerdetail.LeaguesId == 3 || bannerdetail.LeaguesId == 4 || bannerdetail.LeaguesId == 5))
+                        //if (serverInfo.SiteId == 1 && (bannerdetail.LeaguesId == 1 || bannerdetail.LeaguesId == 2 || bannerdetail.LeaguesId == 3 || bannerdetail.LeaguesId == 4 || bannerdetail.LeaguesId == 5 ))
+                        if (serverInfo.SiteId == 1 && bannerdetail.LeaguesId != 6 )
                         {
                             logoPic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{serverInfo.SiteName}/Logo.png";
                             backgroundPic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{serverInfo.SiteName}/Background.jpg";
