@@ -108,7 +108,7 @@ namespace MemberSite.Service.BLL
                         }
                         else if (SportType == "2000")
                         {
-                            entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}&types=soccer&menutype=1&market=E";
+                            entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}&types=1,1,e";
                         }
                         else
                         {
