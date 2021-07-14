@@ -203,6 +203,7 @@ namespace MemberSite.Service.DAL
         {
             int result = 0;
             using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            string tmp = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo);
             result = conn.Execute("CustBankInfo_Set", new { CustId = custId, SiteId = siteId, AccountName = accountName, BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo) }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
