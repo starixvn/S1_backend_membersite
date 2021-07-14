@@ -10,6 +10,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Google.Protobuf.WellKnownTypes.Field;
 
 namespace MemberSite.Service.BLL
 {
@@ -36,7 +37,8 @@ namespace MemberSite.Service.BLL
             {"9","badminton" } ,
             {"43","esports" },
             {"161","numbergame" },
-            {"180","virtualsports" }
+            {"180","virtualsports" },
+            {"2000","OLYMPIC TOKYO 2020"}
         };
         public ThirdPartyBLL(IServiceProvider provider)
         {
@@ -104,6 +106,10 @@ namespace MemberSite.Service.BLL
                             sportTypeDic.TryGetValue(SportType, out types);
                             entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}&types={types}";
                         }
+                        else if (SportType == "2000")
+                        {
+                            entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}&types=1,1,e";
+                        }
                         else
                         {
                             entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}#Sports/s={SportType}_0&d=l";
@@ -124,6 +130,10 @@ namespace MemberSite.Service.BLL
                         if (SportType == "43")
                         {
                             entryUrl = $"{entryUrl}?lang={tpLanId}&game={act}";
+                        }
+                        else if (SportType == "2000")
+                        {
+                            entryUrl = $"{entryUrl}?lang={tpLanId}&game=soccer&menutype=1&market=E";
                         }
                         else
                         {
