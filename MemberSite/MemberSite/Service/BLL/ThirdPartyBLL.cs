@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Threading.Tasks;
 using static Google.Protobuf.WellKnownTypes.Field;
@@ -37,8 +38,7 @@ namespace MemberSite.Service.BLL
             {"9","badminton" } ,
             {"43","esports" },
             {"161","numbergame" },
-            {"180","virtualsports" },
-            {"2000","OLYMPIC TOKYO 2020"}
+            {"180","virtualsports" }
         };
         public ThirdPartyBLL(IServiceProvider provider)
         {
@@ -96,23 +96,22 @@ namespace MemberSite.Service.BLL
             {
                 case 1:
                     string SportType = null;
+                    string menutype = "0";
                     parameters.TryGetValue("gameId", out SportType);
+                    parameters.TryGetValue("menutype", out menutype);
 
                     if (tools.IsMobile())
                     {
-                        string types = $"{SportType},0,l";
+                        string types = $"{SportType},{menutype},l";
                         if (SportType == "43")
                         {
                             sportTypeDic.TryGetValue(SportType, out types);
                             entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}&types={types}";
                         }
-                        else if (SportType == "2000")
-                        {
-                            entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}&types=1,1,e";
-                        }
                         else
                         {
-                            entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}#Sports/s={SportType}_0&d=l";
+                            //entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}#Sports/s={SportType}_0&d=l";
+                            entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}&types={types}";
                         }
                     }
                     else
@@ -131,15 +130,11 @@ namespace MemberSite.Service.BLL
                         {
                             entryUrl = $"{entryUrl}?lang={tpLanId}&game={act}";
                         }
-                        else if (SportType == "2000")
-                        {
-                            entryUrl = $"{entryUrl}?lang={tpLanId}&game=soccer&menutype=1&market=E";
-                        }
                         else
                         {
                             if (matchId == null)
                             {
-                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}";
+                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}&menutype={menutype}";
                             }
                             else
                             {
