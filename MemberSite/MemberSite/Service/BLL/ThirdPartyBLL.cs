@@ -132,13 +132,13 @@ namespace MemberSite.Service.BLL
                         }
                         else
                         {
-                            if (matchId == null)
+                            if (!string.IsNullOrEmpty(matchId) && matchId != "0")
                             {
-                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}&menutype={menutype}";
+                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}&matchid={matchId}";
                             }
                             else
                             {
-                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}&matchid={matchId}";
+                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}&menutype={menutype}";
                             }
                         }
                     }
