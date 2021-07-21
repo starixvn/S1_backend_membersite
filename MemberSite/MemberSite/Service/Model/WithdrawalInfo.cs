@@ -11,6 +11,7 @@ namespace MemberSite.Service.Model
         public int SysId { get; set; }
         public string AccountName { get; set; }
         public string AccountNo { get; set; }
+        public string IFSCCode { get; set; }
     }
 
     public class WithdrawalHistory

@@ -39,6 +39,7 @@ namespace MemberSite.Controllers.Api
             public int SysId { set; get; }
             public string AccountName { set; get; }
             public string AccountNo { set; get; }
+            public string IFSCCode { set; get; }
         }
 
         [HttpPost]
@@ -88,7 +89,7 @@ namespace MemberSite.Controllers.Api
                 bankInfoList = new List<BankInfoDetail>();
             }
 
-            bankInfoList.Add(new BankInfoDetail { AccountNo = bankInfo.AccountNo, SysId = bankInfo.SysId });
+            bankInfoList.Add(new BankInfoDetail { AccountNo = bankInfo.AccountNo, SysId = bankInfo.SysId, IFSCCode = bankInfo.IFSCCode });
 
             apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, bankInfo.AccountName, bankInfoList);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
