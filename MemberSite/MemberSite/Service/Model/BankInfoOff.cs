@@ -10,6 +10,7 @@ namespace MemberSite.Service.Model
         public int BankId { get; set; }
         public string AccountName { get; set; }
         public string AccountNo { get; set; }
+        public string IFSCCode { get; set; }
         public int SysId { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }

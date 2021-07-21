@@ -46,6 +46,7 @@ namespace MemberSite.Service.Model
         public int SysId { get; set; }
         public string AccountName { get; set; }
         public string AccountNo { get; set; }
+        public string IFSCCode { get; set; }
         public int CurrencyId { get; set; }
     }
 
@@ -56,6 +57,7 @@ namespace MemberSite.Service.Model
         public string BankSite { set; get; }
         public string AccountNo { get; set; }
         public string AccountName { get; set; }
+        public string IFSCCode { get; set; }
         public string TransId { get; set; }
         public string PostScript { get; set; }
         public decimal MinAmount { get; set; }
@@ -103,5 +105,6 @@ namespace MemberSite.Service.Model
         public int Channel { get; set; }
         public int SysId { get; set; }
         public string AccountNo { get; set; }
+        public string IFSCCode { get; set; }
     }
 }

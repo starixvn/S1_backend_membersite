@@ -96,6 +96,7 @@ namespace MemberSite.Service.BLL
                              BankCode = x.BankCode,
                              BankLogo = x.BankLogo,
                              BankName = x.BankName,
+                             IFSCCode = x.IFSCCode,
                              BankSite = x.BankSite,
                              Status = x.Status,
                          }).Distinct(sysBankInfoOffComparer).ToList();

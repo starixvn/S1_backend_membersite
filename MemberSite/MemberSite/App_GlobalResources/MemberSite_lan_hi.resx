@@ -983,7 +983,7 @@
     <value>पसंदीदा मुद्रा</value>
   </data>
   <data name="lbl_PrivacyPolicy" xml:space="preserve">
-    <value>Privacy Policy</value>
+    <value>गोपनीयता नीति</value>
   </data>
   <data name="lbl_Profile" xml:space="preserve">
     <value>प्रोफ़ाइल</value>
@@ -1644,7 +1644,7 @@
     <value>पासवर्ड रीसेट अनुरोध</value>
   </data>
   <data name="lbl_Retype" xml:space="preserve">
-    <value>Retype</value>
+    <value>पुन: लिखें</value>
   </data>
   <data name="lbl_SubmitPhotoIdList" xml:space="preserve">
     <value>"1. राष्ट्रीय पहचान पत्र
@@ -1671,13 +1671,13 @@
     <value>ड्राइविंग लाइसेंस</value>
   </data>
   <data name="lbl_Football" xml:space="preserve">
-    <value>Football</value>
+    <value>फ़ुटबॉल</value>
   </data>
   <data name="lbl_Guest" xml:space="preserve">
     <value>अतिथि</value>
   </data>
   <data name="lbl_Hockey" xml:space="preserve">
-    <value>Hockey</value>
+    <value>हॉकी</value>
   </data>
   <data name="lbl_KYCSubmitHint" xml:space="preserve">
     <value>कृपया नीचे दिए गए सूचीबद्ध आईडी में से किसी एक को जमा करें:</value>
@@ -1713,7 +1713,7 @@
     <value>विषयों</value>
   </data>
   <data name="lbl_Wallet" xml:space="preserve">
-    <value>Wallet</value>
+    <value>पर्स</value>
   </data>
   <data name="lbl_RotationHint_1" xml:space="preserve">
     <value>प्रिय मूल्यवान ग्राहक</value>
@@ -1740,10 +1740,10 @@
     <value>ความสำเร็จ</value>
   </data>
   <data name="lbl_ViewHistory" xml:space="preserve">
-    <value>View History</value>
+    <value>इतिहास देखें</value>
   </data>
   <data name="lbl_DependOnTheBank" xml:space="preserve">
-    <value>depend on the bank</value>
+    <value>बैंक पर निर्भर करता है</value>
   </data>
   <data name="lbl_InputAmount" xml:space="preserve">
     <value>Input amount</value>
@@ -1788,13 +1788,13 @@
     <value>प्राप्तकर्ता का नाम</value>
   </data>
   <data name="lbl_ViewStatement" xml:space="preserve">
-    <value>View Statement</value>
+    <value>विवरण देखें</value>
   </data>
   <data name="lbl_WithdrawalNotice" xml:space="preserve">
     <value>हम गलत जानकारी प्राप्तकरने या हैक किए गए खाते के लिए ज़िम्मेदार नहीं हैं</value>
   </data>
   <data name="lbl_WithdrawalAmountTooltip" xml:space="preserve">
-    <value>Kindly fill out FULL figure of withdrawal amount. Ex: 3,000,000 for 3 millions</value>
+    <value>कृपया निकासी राशि का पूरा आंकड़ा भरें। उदा: 3 मिलियन के लिए 3,000,000</value>
   </data>
   <data name="lbl_GoToOTP" xml:space="preserve">
     <value>OTP पर जाएं</value>
@@ -1809,10 +1809,10 @@
     <value>कृपया OTP कोड दर्ज करें।</value>
   </data>
   <data name="lbl_PleaseSelBank" xml:space="preserve">
-    <value>Please Select bank.</value>
+    <value>कृपया बैंक का चयन करें।</value>
   </data>
   <data name="lbl_GoToProfile" xml:space="preserve">
-    <value>Go to profile</value>
+    <value>प्रोफ़ाइल में जाएँ</value>
   </data>
   <data name="lbl_EbetCasino" xml:space="preserve">
     <value>शाही सुइट</value>
@@ -1824,22 +1824,22 @@
     <value>पुरस्कार</value>
   </data>
   <data name="lbl_UnSettle" xml:space="preserve">
-    <value>UnSettle</value>
+    <value>अस्थिर करना</value>
   </data>
   <data name="lbl_AffiliateSlog" xml:space="preserve">
     <value>सफलता मे आपका साथी</value>
   </data>
   <data name="lbl_PromoRemind" xml:space="preserve">
-    <value>Deposit now to enjoy exclusive promotions</value>
+    <value>विशेष अवसर का आनंद लेने के लिए अभी जमा करें</value>
   </data>
   <data name="msg_ApiServerError" xml:space="preserve">
     <value>API सर्वर त्रुटि।</value>
   </data>
   <data name="msg_OTP_SendOTPSMS_5002" xml:space="preserve">
-    <value>Entered the wrong phone number.</value>
+    <value>गलत फ़ोन नंबर दर्ज किया गया है।</value>
   </data>
   <data name="msg_OTP_SendOTPSMS_1000" xml:space="preserve">
-    <value>Invalid OTP Code</value>
+    <value>अमान्य ओटीपी कोड</value>
   </data>
   <data name="lbl_FishingSG1" xml:space="preserve">
     <value>मछली पकड़ने वाला भगवान</value>
@@ -1857,19 +1857,19 @@
     <value>USDT</value>
   </data>
   <data name="lbl_WMCasino" xml:space="preserve">
-    <value>Aphrodite Suite</value>
+    <value>एफ़्रोडाइट सुइट</value>
   </data>
   <data name="lbl_WalletDescription_Kiss918" xml:space="preserve">
-    <value>918Kiss</value>
+    <value>918 चुंबन</value>
   </data>
   <data name="lbl_Wallet_Kiss918" xml:space="preserve">
-    <value>918Kiss</value>
+    <value>918 किश</value>
   </data>
   <data name="lbl_Error_Message" xml:space="preserve">
-    <value>Well,  It is unexpected....</value>
+    <value>यह अप्रत्याशित है ....</value>
   </data>
   <data name="lbl_Error_Title" xml:space="preserve">
-    <value>Shoot !</value>
+    <value>गोली मारो !</value>
   </data>
   <data name="lbl_TpWallet_27" xml:space="preserve">
     <value>PT वॉलेट</value>
@@ -1887,15 +1887,15 @@
     <value>वर्चुअल स्पोर्ट्स</value>
   </data>
   <data name="lbl_WalletDescription_PT" xml:space="preserve">
-    <value>PT Wallet</value>
+    <value>PT पर्स</value>
   </data>
   <data name="lbl_Wallet_PT" xml:space="preserve">
-    <value>PT Wallet</value>
+    <value>पीटी पर्स</value>
   </data>
   <data name="lbl_WalletDescription_NineW" xml:space="preserve">
-    <value>9W Wallet</value>
+    <value>9W पर्स</value>
   </data>
   <data name="lbl_Wallet_NineW" xml:space="preserve">
-    <value>9W Wallet</value>
+    <value>9W पर्स</value>
   </data>
 </root>

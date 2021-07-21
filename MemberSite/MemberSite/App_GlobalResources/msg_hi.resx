@@ -333,7 +333,7 @@
     <value>निकासी राशि {0} से अधिक होनी चाहिए</value>
   </data>
   <data name="msg_GreaterThanWithdrawalMax" xml:space="preserve">
-    <value>Your Daily Limit Reached</value>
+    <value>आपने दैनिक सीमा का उपयोग कर लिया है</value>
   </data>
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>आप पहले ही यह जानकारी संग्रहीत कर चुके हैं।</value>

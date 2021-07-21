@@ -145,6 +145,7 @@ namespace MemberSite.Controllers.Api
             public int fromChannel { set; get; }
             public int fromSysId { set; get; }
             public string fromAccountNum { set; get; }
+            public string fromIFSCCode { set; get; }
         }
 
         /// <summary>
@@ -177,7 +178,8 @@ namespace MemberSite.Controllers.Api
             {
                 Channel = depositReqWireTransferReq.fromChannel,
                 SysId = depositReqWireTransferReq.fromSysId,
-                AccountNo = depositReqWireTransferReq.fromAccountNum
+                AccountNo = depositReqWireTransferReq.fromAccountNum,
+                IFSCCode = depositReqWireTransferReq.fromIFSCCode
             };
             string fromInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositFromInfo);
 
@@ -262,6 +264,7 @@ namespace MemberSite.Controllers.Api
         {
             public int sysId { set; get; }
             public string AccountNo { set; get; }
+            public string IFSCCode { get; set; }
             public decimal amount { set; get; }
             public string memo { set; get; }
             public string blackbox { get; set; }
@@ -435,7 +438,7 @@ namespace MemberSite.Controllers.Api
                     });
                 }
 
-                result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out decimal afterAmount, out string transId);
+                result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.IFSCCode, withdrawalReqModel.amount, withdrawalReqModel.memo, out decimal afterAmount, out string transId);
 
                 switch (result)
                 {

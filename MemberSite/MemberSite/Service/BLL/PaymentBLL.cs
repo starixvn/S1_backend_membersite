@@ -90,7 +90,8 @@ namespace MemberSite.Service.BLL
                              x.BankName,
                              x.BankSite,
                              x.AccountName,
-                             x.AccountNo
+                             x.AccountNo,
+                             x.IFSCCode
                          }).FirstOrDefault();
 
             if (_info != null)
@@ -112,6 +113,7 @@ namespace MemberSite.Service.BLL
                     CurrencyId = custInfo.CurrencyId,
                     SysId = _info.SysId,
                     AccountNo = _info.AccountNo,
+                    IFSCCode = _info.IFSCCode,
                     Ver = 1
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
@@ -121,6 +123,7 @@ namespace MemberSite.Service.BLL
                 depositRep3.PostScript = postScript;
                 depositRep3.AccountNo = depositInfo3_1.AccountNo;
                 depositRep3.AccountName = depositInfo3_1.AccountName;
+                depositRep3.IFSCCode = depositInfo3_1.IFSCCode;
                 depositRep3.BankName = _info.BankName;
                 depositRep3.BankLogo = _info.BankLogo;
                 depositRep3.BankSite = _info.BankSite;
@@ -140,6 +143,7 @@ namespace MemberSite.Service.BLL
                               x.BSort,
                               x.AccountName,
                               x.AccountNo,
+                              x.IFSCCode,
                               x.MinAmount,
                               x.MaxAmount
                           }).OrderByDescending(x => x.MaxAmount).ThenBy(x => x.MinAmount).ThenBy(x => x.BSort).FirstOrDefault();
@@ -196,7 +200,8 @@ namespace MemberSite.Service.BLL
                              x.BankName,
                              x.BankSite,
                              x.AccountName,
-                             x.AccountNo
+                             x.AccountNo,
+                             x.IFSCCode
                          }).FirstOrDefault();
 
             if (_info != null)
@@ -218,6 +223,7 @@ namespace MemberSite.Service.BLL
                     CurrencyId = custInfo.CurrencyId,
                     SysId = _info.SysId,
                     AccountNo = _info.AccountNo,
+                    IFSCCode = _info.IFSCCode,
                     Ver = 1
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
@@ -228,6 +234,7 @@ namespace MemberSite.Service.BLL
                 depositRep3.PostScript = postScript;
                 depositRep3.AccountNo = depositInfo3_1.AccountNo;
                 depositRep3.AccountName = depositInfo3_1.AccountName;
+                depositRep3.IFSCCode = depositInfo3_1.IFSCCode;
                 depositRep3.BankName = _info.BankName;
                 depositRep3.BankLogo = _info.BankLogo;
                 depositRep3.BankSite = _info.BankSite;
@@ -247,6 +254,7 @@ namespace MemberSite.Service.BLL
                               x.BSort,
                               x.AccountName,
                               x.AccountNo,
+                              x.IFSCCode,
                               x.MinAmount,
                               x.MaxAmount
                           }).OrderByDescending(x => x.MaxAmount).ThenBy(x => x.MinAmount).ThenBy(x => x.BSort).FirstOrDefault();
@@ -301,7 +309,8 @@ namespace MemberSite.Service.BLL
                              x.BankName,
                              x.BankSite,
                              x.AccountName,
-                             x.AccountNo
+                             x.AccountNo,
+                             x.IFSCCode
                          }).FirstOrDefault();
 
             if (_info != null)
@@ -322,6 +331,7 @@ namespace MemberSite.Service.BLL
                     CurrencyId = custInfo.CurrencyId,
                     SysId = _info.SysId,
                     AccountNo = _info.AccountNo,
+                    IFSCCode = _info.IFSCCode,
                     Ver = 1
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
@@ -333,6 +343,7 @@ namespace MemberSite.Service.BLL
                 depositRep3.PostScript = postScript;
                 depositRep3.AccountNo = depositInfo3_1.AccountNo;
                 depositRep3.AccountName = depositInfo3_1.AccountName;
+                depositRep3.IFSCCode = depositInfo3_1.IFSCCode;
                 depositRep3.BankName = _info.BankName;
                 depositRep3.BankLogo = _info.BankLogo;
                 depositRep3.BankSite = _info.BankSite;
@@ -352,6 +363,7 @@ namespace MemberSite.Service.BLL
                               x.BSort,
                               x.AccountName,
                               x.AccountNo,
+                              x.IFSCCode,
                               x.MinAmount,
                               x.MaxAmount
                           }).OrderByDescending(x => x.MaxAmount).ThenBy(x => x.MinAmount).ThenBy(x => x.BSort).FirstOrDefault();
@@ -431,7 +443,7 @@ namespace MemberSite.Service.BLL
 
             return -99;
         }
-        public int WithdrawalReq(int custId, int sysId, string accountName, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
+        public int WithdrawalReq(int custId, int sysId, string accountName, string accountNo, string iFSCCode, decimal amount, string memo, out decimal afterAmount, out string transId)
         {
             afterAmount = 0;
             transId = "";
@@ -455,6 +467,7 @@ namespace MemberSite.Service.BLL
             withdrawalInfo.AccountName = accountName;
             withdrawalInfo.AccountNo = accountNo;
             withdrawalInfo.SysId = sysId;
+            withdrawalInfo.IFSCCode = iFSCCode;
 
             return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalInfo, out afterAmount, out transId);
         }
