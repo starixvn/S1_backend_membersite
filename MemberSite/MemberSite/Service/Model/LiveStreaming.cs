@@ -22,7 +22,7 @@ namespace MemberSite.Service.Model
         public bool NowPlaying { get; set; }
         public bool IsLive { get; set; }
         public string State { get; set; }
-        public int? Bid { get; set; }
+        public long? Bid { get; set; }
         public int? HomeScore { get; set; }
         public int? AwayScore { get; set; }
     }

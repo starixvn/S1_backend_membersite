@@ -8,8 +8,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Threading.Tasks;
+using static Google.Protobuf.WellKnownTypes.Field;
 
 namespace MemberSite.Service.BLL
 {
@@ -94,11 +96,13 @@ namespace MemberSite.Service.BLL
             {
                 case 1:
                     string SportType = null;
+                    string menutype = "0";
                     parameters.TryGetValue("gameId", out SportType);
+                    parameters.TryGetValue("menutype", out menutype);
 
                     if (tools.IsMobile())
                     {
-                        string types = $"{SportType},0,l";
+                        string types = $"{SportType},{menutype},l";
                         if (SportType == "43")
                         {
                             sportTypeDic.TryGetValue(SportType, out types);
@@ -106,7 +110,8 @@ namespace MemberSite.Service.BLL
                         }
                         else
                         {
-                            entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}#Sports/s={SportType}_0&d=l";
+                            //entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}#Sports/s={SportType}_0&d=l";
+                            entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}&types={types}";
                         }
                     }
                     else
@@ -127,13 +132,13 @@ namespace MemberSite.Service.BLL
                         }
                         else
                         {
-                            if (matchId == null)
+                            if (!string.IsNullOrEmpty(matchId) && matchId != "0")
                             {
-                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}";
+                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}&matchid={matchId}";
                             }
                             else
                             {
-                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}&matchid={matchId}";
+                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}&menutype={menutype}";
                             }
                         }
                     }

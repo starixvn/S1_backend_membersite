@@ -328,6 +328,9 @@
   <data name="msg_GreaterThanWithdrawalMax" xml:space="preserve">
     <value>Batas Harian Anda Tercapai</value>
   </data>
+  <data name="msg_WithdrawalExists" xml:space="preserve">
+    <value>Permintaan transaksi Anda sedang dalam antrian. Silakan coba lagi ketika transaksi dalam antrian sudah selesai.</value>
+  </data>
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>Anda telah menyimpan informasi ini.</value>
   </data>

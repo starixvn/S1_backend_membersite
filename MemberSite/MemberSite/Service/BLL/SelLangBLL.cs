@@ -17,8 +17,8 @@ namespace MemberSite.Service.BLL
         Dictionary<string, int> LangMapCurr =
         new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
         {
-            {"th", 4}, {"cs", 13}, {"ch", 2}, {"id", 15}, {"jp", 32},
-            {"ko", 45}, {"vn", 51},{"hi", 61}
+            {"th", 4}, {"th_en", 4 }, {"cs", 13}, {"ch", 2}, {"id", 15}, {"id_en", 15},{"jp", 32},
+            {"ko", 45}, {"vn", 51},{"hi", 61}, {"hi_en", 61}
         };
 
         private readonly ServerInfoBLL serverInfoBLL;

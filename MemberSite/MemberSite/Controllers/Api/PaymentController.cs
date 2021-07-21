@@ -287,6 +287,14 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -7;
                 return apiResult;
             }
+            
+            var check = paymentBLL.GetWithdrawalInfoCheck(new CustomerWithdrawalInfoInput{CustId = authData.CustId});
+            if (check.WithdrawalExists)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalExists");
+                apiResult.ErrorCode = -8;
+                return apiResult;
+            }
 
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var rollover = paymentBLL.ReachedRollover(authData.CustId);
@@ -421,8 +429,7 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
 
-                transferToSabaResult = new ApiResult<TransferResult>();
-                transferToSabaResult.ErrorCode = 0;
+                transferToSabaResult = new ApiResult<TransferResult> {ErrorCode = 0};
             }
             /*Temp*/
             if (transferToSabaResult.ErrorCode == 0)
@@ -456,11 +463,13 @@ namespace MemberSite.Controllers.Api
                             if (mainWalletType == 2)
                             {
                                 transferToSabaResult = null;
-                                var input = new TpTransfer();
-                                input.Amount = walletBLL.GetBalance(authData.CustId);
-                                input.CustId = authData.CustId;
-                                input.direction = TpDirection.ToTp;
-                                input.TpId = 1;
+                                var input = new TpTransfer
+                                {
+                                    Amount = walletBLL.GetBalance(authData.CustId),
+                                    CustId = authData.CustId,
+                                    direction = TpDirection.ToTp,
+                                    TpId = 1
+                                };
                                 transferToSabaResult = await TransferToSabaAsync(input);
                             }
 
@@ -887,6 +896,9 @@ namespace MemberSite.Controllers.Api
             Success = 0, Fail = 1, Pending = 2, PendingD = 3
         }
 
+        /// <summary>
+        /// </summary>
+        /// <returns>ErrorCode: 0=無須驗證KYC, 1=需驗證KYC, 2=等候KYC審核驗證通過中</returns>
         [HttpPost]
         public ApiResult KycCheck()
         {

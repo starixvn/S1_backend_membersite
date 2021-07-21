@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="desktop">
+<head>
+    <title>HƯỚNG DẪN NẠP TIỀN tại Bwing</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="../../../common/images/favicon.ico" type="image/x-icon">
+    <link href="../../../Desktop/assets/css/bwinghelp.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+
+    <script>
+        $(function msieversion() {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                document.querySelector('html').dataset.browser = 'ie11';
+            }
+            else {
+                var breakpoint;
+                var getBreakpoint = function () {
+                    return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+                };
+
+                var displayBreakpoint = function () {
+                    document.querySelector('html').dataset.layout = breakpoint;
+                };
+
+                breakpoint = getBreakpoint();
+                displayBreakpoint();
+                window.addEventListener('resize', function () {
+                    breakpoint = getBreakpoint();
+                    displayBreakpoint();
+                }, false);
+            }
+            return false;
+        });
+
+        $(function () {
+            $(".btn-toggle-nav").on("touchstart, click", function () {
+                $(".side-bar").attr("data-open", "true");
+            });
+
+            $(".side-bar .overlay, .side-nav__header > .btn-icon").on("touchstart, click", function () {
+                $(".side-bar").removeAttr("data-open");
+            });
+
+            $(".side-nav__item[data-open]").on("touchstart, click", function () {
+                var $target = $(this);
+                $target.attr("data-open") == "true" ? $target.attr("data-open", "false") : $target.attr("data-open", "true");
+            });
+
+            $("[role='mobile-click']").on("touchstart, click", function () {
+                var $tbody = $(this).closest(".tbody");
+                $tbody.attr("data-open") == "true" ? $tbody.attr("data-open", "false") : $tbody.attr("data-open", "true");
+            });
+
+            $(".page-nav__item.has-submenu > .page-nav__btn").on("touchstart, click", function () {
+                var $target = $(this).parent();
+                $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="app app--help">
+        <div class="side-bar" role="desktop-drawer">
+            <div class="overlay"></div>
+            <div class="side-nav">
+                <div class="side-nav__header">
+                    <a class="btn btn-icon" role="desktop-only">
+                        <i class="icon icon-clear"></i>
+                    </a>
+                </div>
+                <div class="side-nav__list">
+                    <div class="side-nav__item">
+                        <a class="side-nav__btn" href="/">
+                            <i class="icon icon-home"></i>
+                            <span class="text">Trang Chủ</span>
+                        </a>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-info-outline"></i>
+                            <span class="text">Bwing</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="AboutUs.html" target="_self">
+                                <span class="text">Giới Thiệu</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Terms.html" target="_self">
+                                <span class="text">Điều khoản Sử dụng</span>
+                            </a>
+                            <a class="side-nav__subitem" href="ContactUs.html" target="_self">
+                                <span class="text">Liên hệ</span>
+                            </a>
+                            <a class="side-nav__subitem" href="https://aff.bwing.com/?lang=vn" target="_self">
+                                <span class="text">Chi nhánh</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-help-outline"></i>
+                            <span class="text">Hỗ trợ</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="RulesandRegulations.html">
+                                <span class="text">Quy Tắc và Quy Định Đặt Cược</span>
+                            </a>
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Điều khoản về Tài khoản</span>
+                            </a>
+                            <a class="side-nav__subitem" href="FAQ.html" target="_self">
+                                <span class="text">Hỏi đáp</span>
+                            </a>
+                            <!--<a class="side-nav__subitem" href="DepositWithdrawals.html" target="_self">
+                                <span class="text">Gửi tiền &amp; Rút tiền</span>
+                            </a>
+                            <a class="side-nav__subitem" href="Downloads.html" target="_self">
+                                <span class="text">Tải xuống</span>
+                            </a>-->
+                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
+                                <span class="text">Điều khoản về Tài khoản</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="side-nav__item" data-open="true">
+                        <a class="side-nav__btn">
+                            <i class="icon icon-policy"></i>
+                            <span class="text">Chính sách của chúng tôi</span>
+                            <i class="icon icon-caret"></i>
+                        </a>
+                        <div class="side-nav__submenu">
+                            <a class="side-nav__subitem" href="ResposibleGaming.html" target="_self">
+                                <span class="text">Chơi có trách nhiệm</span>
+                            </a>
+                            <a class="side-nav__subitem" href="TermsConditions.html" target="_self">
+                                <span class="text">Điều Khoản và Điều Kiện</span>
+                            </a>
+                            <a class="side-nav__subitem" href="PrivacyPolicy.html" target="_self">
+                                <span class="text">Chính sách bảo mật</span>
+                            </a>
+                            <a class="side-nav__subitem" href="CookiePolicy.html" target="_self">
+                                <span class="text">Chính sách Cookie</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="header__main">
+                <a class="btn btn-icon btn-toggle-nav">
+                    <i class="icon icon-menu"></i>
+                </a>
+                <div class="header__logo">
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="help-page">
+                <div class="help-page__body">
+                    <div class="heading">
+                        <span class="text">HƯỚNG DẪN NẠP TIỀN tại Bwing</span>
+                    </div>
+                    <div class="article">
+                        <h2>Hướng Dẫn</h2>
+                        <p><strong>Bước 1:</strong> &ldquo;ĐĂNG NHẬP&rdquo; tại trang chủ</p>
+                        <img src="../images/1 VN HOW TO DEPOSIT.JPG" />
+                        <p><strong>Bước 2</strong>: Điền th&ocirc;ng tin đ&atilde; đăng k&yacute; v&agrave; nhấp n&uacute;t &ldquo;ĐĂNG NHẬP&rdquo;</p>
+                        <img src="../images/2 VN HOW TO DEPOSIT.JPG" />
+                        <p><strong>Bước 3</strong>: . Nhấp v&agrave;o &ldquo;Giao dịch&rdquo; v&agrave; chọn &ldquo;Gửi tiền&rdquo;.</p>
+                        <img src="../images/3 VN HOW TO DEPOSIT.JPG" />
+                        <p><strong>Bước 4: </strong>Chọn phương thức gửi tiền y&ecirc;u th&iacute;ch</p>
+                        <img src="../images/4 VN HOW TO DEPOSIT.JPG" />
+                        <h2>1. Nạp tiền ng&acirc;n h&agrave;ng trực tuyến.</h2>
+                        <p><strong>Bước 1:</strong> Chọn một trong c&aacute;c cổng thanh to&aacute;n th&iacute;ch hợp: CirclePay, Help2pay, VNPAY, EaziePay.</p>
+                        <img src="../images/5 VN HOW TO DEPOSIT.JPG" />
+                        <p><strong>Bước 2:</strong> Chọn Ng&acirc;n h&agrave;ng muốn sử dụng v&agrave; nhập số tiền sẽ giao dịch (hệ thống mặc định 3 số 0 ở cuối. Nếu th&agrave;nh vi&ecirc;n muốn nạp 300,000 chỉ cần điền 300). Bấm &ldquo;X&aacute;c nhận&rdquo;</p>
+                        <img src="../images/6 VN HOW TO DEPOSIT.JPG" /><p></p>
+                        <p><strong></strong></p>
+                        <p><strong>Bước 3:</strong> Đăng nhập v&agrave;o ng&acirc;n h&agrave;ng trực tuyến để thực hiện gửi tiền.</p>
+                        <img src="../images/7 VN HOW TO DEPOSIT.JPG" />
+                        <p><strong>Bước 4: </strong>Sau khi gửi tiền th&agrave;nh c&ocirc;ng, V&iacute; ch&iacute;nh tại Bwing sẽ được cập nhật tiền gửi.</p>
+                        <img src="../images/8 VN HOW TO DEPOSIT.JPG" />
+                        <p><strong>Bước 5</strong>: Kiểm tra trạng th&aacute;i gửi tiền tại &ldquo;Giao dịch gần đ&acirc;y&rdquo; ở cuối trang Gửi Tiền</p>
+                        <img src="../images/9 VN HOW TO DEPOSIT.JPG" />
+                        <h2>2. Nạp tiền Chuyển khoản trong nước</h2>
+                        <p><strong>Bước 1:</strong> Chọn chuyển khoản trong nước</p>
+                        <img src="../images/10 VN HOW TO DEPOSIT.JPG" />
+                        <p><strong>Bước 2:</strong> Chọn 1 trong c&aacute;c Ng&acirc;n h&agrave;ng c&oacute; sẵn. Điền số tiền cần nạp v&agrave; bấm &ldquo;Gửi&rdquo; để ho&agrave;n th&agrave;nh giao dịch. Hệ thống mặc định 3 số 0 ở cuối. Nếu th&agrave;nh vi&ecirc;n muốn nạp 300,000 chỉ cần điền 300</p>
+                        <img src="../images/11 VN HOW TO DEPOSIT.JPG" />
+                        <p><strong>Bước 3:</strong> Kiểm tra th&ocirc;ng tin v&agrave; bấm &ldquo;Gửi&rdquo; lần nữa</p>
+                        <img src="../images/12 VN HOW TO DEPOSIT.JPG" />
+                        <p><strong>Bước 4:</strong> Lấy th&ocirc;ng tin ng&acirc;n h&agrave;ng hiện ra để chuyển khoản. Sau đ&oacute; điền th&ocirc;ng tin giao dịch, bấm &ldquo;Choose file&rdquo; để tải h&igrave;nh ảnh bi&ecirc;n nhận (nếu c&oacute;), số lệnh giao dịch tại ng&acirc;n h&agrave;ng đ&atilde; gửi tiền v&agrave;o số tham chiếu. Bấm &ldquo;X&aacute;c nhận&rdquo; để b&aacute;o Bwing xử l&yacute; giao dịch.</p>
+                        <img src="../images/13 VN HOW TO DEPOSIT.JPG" />
+                        <p><strong>Bước 5:</strong> Kiểm tra trạng th&aacute;i gửi tiền tại &ldquo;Giao dịch gần đ&acirc;y&rdquo; ở cuối trang Gửi tiền</p>
+                        <img src="../images/14 VN HOW TO DEPOSIT.JPG" />
+                        <h2>3. Nạp tiền qua điện thoại</h2>
+                        <p><strong>Bước 1:</strong> Lựa chọn c&aacute;c v&iacute; điện tử Momo, Zalo Pay hoặc Viettel Pay.</p>
+                        <img src="../images/15 VN HOW TO DEPOSIT.JPG" />
+                        <p><strong>Bước 2:</strong> Nhấp v&agrave;o v&iacute; đ&atilde; chọn một lần nữa v&agrave; chọn số tiền. Bấm &ldquo;X&aacute;c Nhận&rdquo; để bắt đầu giao dịch</p>
+                        <img src="../images/16 VN HOW TO DEPOSIT.JPG" />
+                        <p><strong>Bước 3:</strong> Điền mật m&atilde; được y&ecirc;u cầu khi thực hiện giao dịch đối với v&iacute; điện tử Momo v&agrave; Viettel Pay. C&ograve;n với Zalo Pay, qu&yacute; kh&aacute;ch vui l&ograve;ng qu&eacute;t m&atilde; tại App Zalo Pay.</p>
+                        <img src="../images/17 VN HOW TO DEPOSIT.JPG" />
+                        <p><strong>Bước 4:</strong> Kiểm tra trạng th&aacute;i gửi tiền tại &ldquo;Giao dịch gần đ&acirc;y&rdquo; ở cuối trang Gửi tiền</p>
+                        <img src="../images/18 VN HOW TO DEPOSIT.JPG" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer__cpr">
+                <span class="text">© Copyright 2021. Bwing. All Rights Reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
