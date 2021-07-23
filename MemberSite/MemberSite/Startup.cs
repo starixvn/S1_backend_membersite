@@ -45,6 +45,10 @@ namespace MemberSite
         private readonly string AllowSpecificOrigins = "AllowAllOriginsPolicy";
         private readonly IConfiguration configuration;
         private readonly IHostEnvironment environment;
+        private static IConfigurationRoot DomainConfiguration => new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile($"domain.json", false, true)
+            .Build();
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -211,14 +215,11 @@ namespace MemberSite
 
             services.AddCors(options =>
             {
+                var allowCORSDomain = DomainConfiguration.GetSection("AllowCORSDomain").Get<string[]>();
                 options.AddPolicy(name: AllowSpecificOrigins,
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:8000", "http://localhost:3000",
-                                "http://10.168.11.11:8080", "http://10.168.11.14:8080", "https://m.nova88.net",
-                                "http://stag1.bwing.com", "https://www.n88dev.com", "https://m.n88dev.com",
-                                "http://www.n88dev.com", "http://m.n88dev.com", "http://stag.bwing.com",
-                                "http://stag.goal123.com")
+                        builder.WithOrigins(allowCORSDomain)
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials();
