@@ -20,11 +20,11 @@ namespace MemberSite.Service.BLL
         }
         public async Task<ApiResult> FPSChecksAsync(int custId, string action, string actionResult, string url, string platform, string userAgent, string screen,string di,string ip)
         {
-            ApiResult apiResult = new ApiResult();
+            var apiResult = new ApiResult();
            
 
-            string commonServiceUrl = configuration.GetValue<string>("CommonService");
-            string apiUrl = $"{commonServiceUrl}FPS/FPSChecks";
+            var commonServiceUrl = configuration.GetValue<string>("CommonService");
+            var apiUrl = $"{commonServiceUrl}FPS/FPSChecks";
 
             dynamic req = new
             {

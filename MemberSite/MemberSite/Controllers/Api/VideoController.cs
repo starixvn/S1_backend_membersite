@@ -29,7 +29,7 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<IEnumerable<LiveStreamingData>> GetLiveStreamingList()
         {
-            ApiResult<IEnumerable<LiveStreamingData>> apiResult = new ApiResult<IEnumerable<LiveStreamingData>>();
+            var apiResult = new ApiResult<IEnumerable<LiveStreamingData>>();
 
             var serverInfo = serverInfoBLL.GetServerInfo();
             int SiteId;
@@ -52,7 +52,7 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<LatestHighlightData> GetLatestHighlightData()
         {
-            ApiResult<LatestHighlightData> apiResult = new ApiResult<LatestHighlightData>();
+            var apiResult = new ApiResult<LatestHighlightData>();
 
             var serverInfo = serverInfoBLL.GetServerInfo();
             int SiteId;

@@ -38,7 +38,7 @@ namespace MemberSite.Controllers
             //return View($"./{BonusCode}/{selLangBLL.GetLangId()}");
 
             var serverInfo = serverInfoBLL.GetServerInfo();
-            int currencyId = 0;
+            var currencyId = 0;
             if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();

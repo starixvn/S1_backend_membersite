@@ -16,8 +16,8 @@ namespace MemberSite.Service.BLL
         }
         public string ApplyToken<T>(T t)
         {
-            Guid g = Guid.NewGuid();
-            string GuidString = Convert.ToBase64String(g.ToByteArray());
+            var g = Guid.NewGuid();
+            var GuidString = Convert.ToBase64String(g.ToByteArray());
             GuidString = GuidString.Replace("=", "");
             GuidString = GuidString.Replace("+", "");
             if (authService.ApplyToken(GuidString, Newtonsoft.Json.JsonConvert.SerializeObject(t), 1) > 0)
@@ -31,7 +31,7 @@ namespace MemberSite.Service.BLL
         }
         public bool Authenticate<T>(string sToken, out T t)
         {
-            string sPermissionData = "";
+            var sPermissionData = "";
             t = default;
             sPermissionData = authService.Authenticate(sToken);
 

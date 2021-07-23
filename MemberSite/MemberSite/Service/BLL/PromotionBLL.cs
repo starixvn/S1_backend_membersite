@@ -44,7 +44,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<Promotion> GetPromotionListWithCache(int siteId)
         {
-            string key = $"PromotionList_{siteId}";
+            var key = $"PromotionList_{siteId}";
             var promotionList = cache.Get<IEnumerable<Promotion>>(key);
 
             if (promotionList == null)
@@ -67,7 +67,7 @@ namespace MemberSite.Service.BLL
         /*Radis*/
         public IEnumerable<Promotion> GetPromotionListByCustIdWithCache(int custId)
         {
-            string key = $"PromotionListByCustId_{custId}";
+            var key = $"PromotionListByCustId_{custId}";
             var promotionList = cache.Get<IEnumerable<Promotion>>(key);
 
             if (promotionList == null)
@@ -204,7 +204,7 @@ namespace MemberSite.Service.BLL
         public bool GetCanJoin(int custId, string bonusCode)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            return promotionService.GetCanJoin(custId, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out int _, out string _, out decimal _);
+            return promotionService.GetCanJoin(custId, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out var _, out var _, out var _);
         }
         public bool GetCanJoin(int custId, string bonusCode, out int result, out string depositId, out decimal dpositAmount)
         {
@@ -213,7 +213,7 @@ namespace MemberSite.Service.BLL
         }
         public Promotion GetPromotion(int siteId, string bonusCode, int currencyId)
         {
-            string key = $"Promotion_{bonusCode}_{currencyId}_{siteId}";
+            var key = $"Promotion_{bonusCode}_{currencyId}_{siteId}";
             var promotion = cache.Get<Promotion>(key);
 
             if (promotion == null)

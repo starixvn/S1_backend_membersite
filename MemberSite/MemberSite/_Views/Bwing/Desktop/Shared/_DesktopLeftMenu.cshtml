@@ -81,8 +81,8 @@
 }
 @{
 
-    string SelectAction = ViewContext.RouteData.Values["action"].ToString();
-    string SelectController = ViewContext.RouteData.Values["controller"].ToString();
+    var SelectAction = ViewContext.RouteData.Values["action"].ToString();
+    var SelectController = ViewContext.RouteData.Values["controller"].ToString();
 
 }
 <div class="left-panel">

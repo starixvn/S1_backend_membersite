@@ -60,7 +60,7 @@ namespace MemberSite.Service.DAL
             }
 
             byte is1stDepoist = 0;
-            int result = -99;
+            var result = -99;
             result = walletService.SetBalance(custId, siteId, userName, amount * -1, typePosition + 1, null, transId, out afterAmount, out is1stDepoist, conn, trans);
             if (result > 0)
             {
@@ -82,12 +82,12 @@ namespace MemberSite.Service.DAL
         }
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoRecent(int custId, int siteId, int topNum)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<WithdrawalHistory>("WithdrawalInfoRecent_Get", new { CustId = custId, SiteId = siteId, TopNum = topNum }, commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoHistory(int custId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { CustId = custId, StartDate = startDate, EndDate = endDate, SiteId = siteId, PageSize = pageSize });
             p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -102,20 +102,20 @@ namespace MemberSite.Service.DAL
 
         public int SetWithdrawalCancel(int custId, string transId, int siteId, IEnumerable<int> forStatus, WithdrawalStatus status)
         {
-            int withdrawalId = 0;
-            Match m = Regex.Match(transId, @"\d+");
+            var withdrawalId = 0;
+            var m = Regex.Match(transId, @"\d+");
             int.TryParse(m.Value, out withdrawalId);
-            int result = 0;
-            int type = 1003;  /*Cancel  Withdrawal 1003*/
+            var result = 0;
+            var type = 1003;  /*Cancel  Withdrawal 1003*/
             string UserName = null;
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
+                using (var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
                 {
                     conn.Open();
                     using (var trans = conn.BeginTransaction())
                     {
-                        string sForStatus = Newtonsoft.Json.JsonConvert.SerializeObject(forStatus);
+                        var sForStatus = Newtonsoft.Json.JsonConvert.SerializeObject(forStatus);
                         var p = new DynamicParameters(new { WithdrawalId = withdrawalId, SiteId = siteId, Comment = "Customer Cancelled", ForStatus = sForStatus, Status = (int)status, WithdrawalInfo = (string)null, WithdrawalType = (int?)null, RefId = (string)null });
                         p.Add("CustId", dbType: DbType.Int32, direction: ParameterDirection.Output);
                         p.Add("UserName", dbType: DbType.String, direction: ParameterDirection.Output);
@@ -123,7 +123,7 @@ namespace MemberSite.Service.DAL
                         result = conn.Execute("WithdrawalInfo_Set", p, trans, commandType: CommandType.StoredProcedure);
                         custId = p.Get<int?>("CustId") ?? 0;
                         UserName = p.Get<string>("UserName");
-                        decimal amount = p.Get<decimal>("Amount");
+                        var amount = p.Get<decimal>("Amount");
                         if (result > 0)
                         {
                             SetWithdrawalLog(withdrawalId, siteId, "Customer Cancelled", (int)status, UserName);

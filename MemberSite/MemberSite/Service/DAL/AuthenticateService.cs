@@ -30,7 +30,7 @@ namespace MemberSite.Service.DAL
         {
             Task.Run(() =>
             {
-                using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
+                using (var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
                 {
                     conn.Execute("LoginLog_Ins", new { CustId = custId, UserName = userName, SiteId = siteId, LoginIp = loginIp, FromUrl = fromUrl, UserAgent = userAgent }, commandType: CommandType.StoredProcedure);
                 }
@@ -39,10 +39,10 @@ namespace MemberSite.Service.DAL
         public void AddLoginRecord(int custId, int siteId, string ip, out string token)
         {
             token = tools.GetToken();
-            using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
+            using (var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
             {
                 conn.Open();
-                using (MySqlTransaction trans = conn.BeginTransaction())
+                using (var trans = conn.BeginTransaction())
                 {
                     conn.Execute("LoginRecord_Set", new { CustId = custId, SiteId = siteId, IP = ip, Token = token }, trans, commandType: CommandType.StoredProcedure);
                     trans.Commit();
@@ -51,7 +51,7 @@ namespace MemberSite.Service.DAL
         }
         public bool UpdateOnline(int custId, bool isOnline, string token, string ip)
         {
-            using (MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
+            using (var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
             {
                 return conn.Execute("LoginCheckIn_Set", new { IsOnline = isOnline, CustId = custId, IP = ip, Token = token }, commandType: CommandType.StoredProcedure) > 0;
             }

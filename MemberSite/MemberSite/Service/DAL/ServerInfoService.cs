@@ -24,7 +24,7 @@ namespace MemberSite.Service.DAL
         }
         public dynamic GetModel1()
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<dynamic>("TestDate", new { T = "2019-12-19T18:00:00" }, commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<Country> GetCountryList()
@@ -40,7 +40,7 @@ namespace MemberSite.Service.DAL
         }
         public IEnumerable<Domainlist> GetSupportDomainList(int siteId, int currencyId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<Domainlist>("Member_DomainTable_Get", new { SiteId = siteId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
     }

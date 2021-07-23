@@ -94,12 +94,12 @@ namespace MemberSite.Service.Library
 
         protected int GetCryptographicRandomNumber(int lBound, int uBound)
         {
-            byte[] array = new byte[4];
+            var array = new byte[4];
             if (lBound == uBound - 1)
             {
                 return lBound;
             }
-            uint num = (uint)(-1 - (int)(uint.MaxValue % (uint)(uBound - lBound)));
+            var num = (uint)(-1 - (int)(uint.MaxValue % (uint)(uBound - lBound)));
             uint num2;
             do
             {
@@ -112,23 +112,23 @@ namespace MemberSite.Service.Library
 
         protected char GetRandomCharacter()
         {
-            int uBound = pwdCharArray.GetUpperBound(0);
+            var uBound = pwdCharArray.GetUpperBound(0);
             if (ExcludeSymbols)
             {
                 uBound = 61;
             }
-            int cryptographicRandomNumber = GetCryptographicRandomNumber(pwdCharArray.GetLowerBound(0), uBound);
+            var cryptographicRandomNumber = GetCryptographicRandomNumber(pwdCharArray.GetLowerBound(0), uBound);
             return pwdCharArray[cryptographicRandomNumber];
         }
 
         public string Generate()
         {
-            int cryptographicRandomNumber = GetCryptographicRandomNumber(Minimum, Maximum);
-            StringBuilder stringBuilder = new StringBuilder();
+            var cryptographicRandomNumber = GetCryptographicRandomNumber(Minimum, Maximum);
+            var stringBuilder = new StringBuilder();
             stringBuilder.Capacity = Maximum;
             char c;
-            char c2 = c = '\n';
-            for (int i = 0; i < cryptographicRandomNumber; i++)
+            var c2 = c = '\n';
+            for (var i = 0; i < cryptographicRandomNumber; i++)
             {
                 c = GetRandomCharacter();
                 if (!ConsecutiveCharacters)
@@ -140,8 +140,8 @@ namespace MemberSite.Service.Library
                 }
                 if (!RepeatCharacters)
                 {
-                    string text = stringBuilder.ToString();
-                    int num = text.IndexOf(c);
+                    var text = stringBuilder.ToString();
+                    var num = text.IndexOf(c);
                     while (-1 != num)
                     {
                         c = GetRandomCharacter();

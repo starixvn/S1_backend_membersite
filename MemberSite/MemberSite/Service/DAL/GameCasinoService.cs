@@ -19,9 +19,9 @@ namespace MemberSite.Service.DAL
         }
         public List<GameCasinoListData> GetGameCasinoList()
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            int IsStage = configuration.GetValue<int>("IsStage");
-            string SPName = "Member_GameCasinoList_Get";
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var IsStage = configuration.GetValue<int>("IsStage");
+            var SPName = "Member_GameCasinoList_Get";
             if (IsStage == 1)
             {
                 SPName = "Member_GameCasinoListStag_Get";
@@ -30,9 +30,9 @@ namespace MemberSite.Service.DAL
         }
         public List<GameCasinoListData> GetGameCasinoListByDevice(int deviceType)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            int IsStage = configuration.GetValue<int>("IsStage");
-            string SPName = "Member_GameCasinoListByDevice_Get";
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var IsStage = configuration.GetValue<int>("IsStage");
+            var SPName = "Member_GameCasinoListByDevice_Get";
             if (IsStage == 1)
             {
                 SPName = "Member_GameCasinoListByDeviceStag_Get";

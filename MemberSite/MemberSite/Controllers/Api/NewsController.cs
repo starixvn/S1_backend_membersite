@@ -37,7 +37,7 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var serverInfo = serverInfoBLL.GetServerInfo();
-                int pageNumber = NewsReq.PageNumber;
+                var pageNumber = NewsReq.PageNumber;
                 int totalPages;
                 int rowCount;
                 result.Data = newsBLL.GetNews(serverInfo.SiteId, NewsReq.PageSize, ref pageNumber, out totalPages, out rowCount);

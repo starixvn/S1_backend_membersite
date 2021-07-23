@@ -21,7 +21,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<DepositLimitInfo> GetDepositLimitInfoList(int siteId)
         {
-            string key = $"DepositLimitInfoList_{siteId}";
+            var key = $"DepositLimitInfoList_{siteId}";
             var depositLimitInfoList = cache.Get<IEnumerable<DepositLimitInfo>>(key);
             if (depositLimitInfoList == null)
             {

@@ -16,7 +16,7 @@
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     var CmsPromotionPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Promotion/{selLangBLL.GetLangId()}");
-    int CurrencyId = 0;
+    var CurrencyId = 0;
     Customer customer = null;
 
     if (User.Identity.IsAuthenticated)
@@ -32,7 +32,7 @@
     var BannerList = bannerBLL.GetBanner(CurrencyId, "Promotion");
     var langId = selLangBLL.GetLangId();
 
-    Dictionary<string, string> i18n = new Dictionary<string, string>();
+    var i18n = new Dictionary<string, string>();
     i18n.Add("lbl_Bonus", selLangBLL.GetResourceValue("lbl_Bonus"));
     i18n.Add("lbl_MaxBonusAmount", selLangBLL.GetResourceValue("lbl_MaxBonusAmount"));
     i18n.Add("lbl_RollOver", selLangBLL.GetResourceValue("lbl_RollOver"));
@@ -42,7 +42,7 @@
     i18n.Add("lbl_DepositRollOver", selLangBLL.GetResourceValue("lbl_DepositRollOver"));
     i18n.Add("lbl_BonusRollOver", selLangBLL.GetResourceValue("lbl_BonusRollOver"));
 
-    string[] lbl_Txts = new string[] { "lbl_TC", "lbl_Days", "lbl_Hours" };
+    var lbl_Txts = new string[] { "lbl_TC", "lbl_Days", "lbl_Hours" };
     foreach (var lbl_Txt in lbl_Txts)
     {
         if (!i18n.ContainsKey(lbl_Txt))

@@ -66,9 +66,9 @@ namespace MemberSite.Controllers
         public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs, [FromRoute] string LangId = null)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            bool isNewVersion = true;
+            var isNewVersion = true;
             string SportType = null;
-            string menutype = "0";
+            var menutype = "0";
             var myUrl = $"{_apiUrl}GotoGame";
             var tpInfo = new TpInfo
             {
@@ -80,7 +80,7 @@ namespace MemberSite.Controllers
             inputs.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
             inputs.Add("ClientIP", _tools.GetClientIP());
 
-            if (inputs.ContainsKey("AppType") && int.TryParse(inputs["AppType"], out int appType))
+            if (inputs.ContainsKey("AppType") && int.TryParse(inputs["AppType"], out var appType))
             {
                 tpInfo.AppType = appType;
             }
@@ -131,7 +131,7 @@ namespace MemberSite.Controllers
             else if (hasBf(tpId))
             {
                 LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
-                string entryUrl = _thirdPartyBll.getEntryUrl(tpId, inputs);
+                var entryUrl = _thirdPartyBll.getEntryUrl(tpId, inputs);
                 _logger.LogInformation($"tpId={tpId}, Url={entryUrl}");
                 return Redirect(entryUrl);
             }
@@ -148,19 +148,19 @@ namespace MemberSite.Controllers
                 var data = await _courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
                 if (data.ErrorCode == 0)
                 {
-                    string entryUrl = data.Message;
+                    var entryUrl = data.Message;
                     _logger.LogInformation($"ErrorCode=0, Url={entryUrl}");
                     return Redirect(entryUrl);
                 }
                 else if (tpId == 1 && data.RawErrorCode == "10")
                 {
-                    string entryUrl = _thirdPartyBll.getEntryUrl(tpId, inputs);
+                    var entryUrl = _thirdPartyBll.getEntryUrl(tpId, inputs);
                     _logger.LogInformation($"tpId=1, RawErrorCode=10, Url={entryUrl}");
                     return Redirect(entryUrl);
                 }
                 else
                 {
-                    ErrorData model = new ErrorData() { Message = data.RawMessage };
+                    var model = new ErrorData() { Message = data.RawMessage };
                     if (isNewVersion)
                         return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
                     else
@@ -169,7 +169,7 @@ namespace MemberSite.Controllers
             }
             catch (Exception ex)
             {
-                ErrorData model = new ErrorData() { Message = ex.Message };
+                var model = new ErrorData() { Message = ex.Message };
                 if (isNewVersion)
                     return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
                 else
@@ -193,7 +193,7 @@ namespace MemberSite.Controllers
         [Route("[controller]/{SportName}")]
         public async Task<IActionResult> OneworksAsync(string SportName)
         {
-            Dictionary<string, SNameSubTable> SNameTable = new Dictionary<string, SNameSubTable>
+            var SNameTable = new Dictionary<string, SNameSubTable>
             {
                 {"sports",        new SNameSubTable { tpId = 1, gameId = "1" } },
                 {"eSport",        new SNameSubTable { tpId = 1, gameId = "43" } },
@@ -217,7 +217,7 @@ namespace MemberSite.Controllers
             SNameTable.TryGetValue(SportName, out sNameSubTable);
             if (sNameSubTable != null)
             {
-                Dictionary<string, string> inputs = new Dictionary<string, string>();
+                var inputs = new Dictionary<string, string>();
                 inputs.Add("gameId", sNameSubTable.gameId);
                 return await IndexAsync(sNameSubTable.tpId, inputs);//.ConfigureAwait(false)
             }

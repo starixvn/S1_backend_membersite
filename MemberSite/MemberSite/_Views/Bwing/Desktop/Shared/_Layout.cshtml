@@ -300,13 +300,13 @@
 
         }
         CurrencyId = custInfo.CurrencyId;
-        Dictionary<string, string> i18n = new Dictionary<string, string>();
+        var i18n = new Dictionary<string, string>();
         i18n.Add("lbl_LastTransaction", selLangBLL.GetResourceValue("lbl_LastTransaction"));
         i18n.Add("lbl_LastLogin", selLangBLL.GetResourceValue("lbl_LastLogin"));
         i18n.Add("lbl_ShowBalance", selLangBLL.GetResourceValue("lbl_ShowBalance"));
         i18n.Add("lbl_Currency", selLangBLL.GetResourceValue($"Currency_{CurrencyId}"));
         
-        string[] lbl_Txts = new string[] { "lbl_Deposit", "lbl_TransferFunds", "lbl_PromoCategory_1", "lbl_PromoCategory_2", "lbl_PromoCategory_3", "lbl_PromoCategory_4" };
+        var lbl_Txts = new string[] { "lbl_Deposit", "lbl_TransferFunds", "lbl_PromoCategory_1", "lbl_PromoCategory_2", "lbl_PromoCategory_3", "lbl_PromoCategory_4" };
         foreach (var lbl_Txt in lbl_Txts)
         {
             if (!i18n.ContainsKey(lbl_Txt))
@@ -332,9 +332,9 @@
     }
     else
     {
-        Dictionary<string, string> i18n = new Dictionary<string, string>();
+        var i18n = new Dictionary<string, string>();
 
-        string[] lbl_Txts = new string[] { "lbl_JoinNow", "lbl_DontHaveAccount", "lbl_ForgetPassword", "lbl_Login", "lbl_Username", "lbl_UsernameTooltip", "lbl_Password",
+        var lbl_Txts = new string[] { "lbl_JoinNow", "lbl_DontHaveAccount", "lbl_ForgetPassword", "lbl_Login", "lbl_Username", "lbl_UsernameTooltip", "lbl_Password",
                                             "lbl_PasswordTooltip", "msg_PasswordVaildate", "msg_PasswordLength", "msg_PasswordReq", "msg_UsernameValidate", "msg_UsernameLength",
                                             "msg_UsernameReq","msg_UsernameNotAvailable","msg_MailReq","msg_MailWrongFormat","msg_MailExisted"};
         foreach (var lbl_Txt in lbl_Txts)

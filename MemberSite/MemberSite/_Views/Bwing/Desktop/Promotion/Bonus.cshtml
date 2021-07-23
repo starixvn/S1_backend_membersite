@@ -23,8 +23,8 @@
     var phoneVerify = false;
     var authData = authorizeBLL.GetAuthData();
     BonusWallet bonusInfo = null;
-    bool conJoin = false;
-    int result = 0;
+    var conJoin = false;
+    var result = 0;
     string depositId = null;
     string strDpositAmount = null;
     var IsConvertRequired = false;
@@ -54,8 +54,8 @@
     }
 
     decimal percentage = 0;
-    string displayValue = "";
-    string displayValueRollover = "";
+    var displayValue = "";
+    var displayValueRollover = "";
     if (bonusInfo != null)
     {
         percentage = bonusInfo.Turnover > bonusInfo.Rollover ? 100 : Math.Round((bonusInfo.Turnover / bonusInfo.Rollover) * 100, 2);
@@ -75,7 +75,7 @@
 }
 
 @{
-    Dictionary<string, string> i18n = new Dictionary<string, string>();
+    var i18n = new Dictionary<string, string>();
 
     i18n.Add("lbl_OTPCertification", selLangBLL.GetResourceValue("lbl_OTPCertification"));
     i18n.Add("msg_OTPSendCode", selLangBLL.GetMsg("msg_OTPSendCode"));

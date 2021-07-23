@@ -22,7 +22,7 @@ namespace MemberSite.Service.BLL
         private string ParseJSON(string langId, string jsonStr)
         {
             var json = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonStr);
-            json.TryGetValue(langId, out string result);
+            json.TryGetValue(langId, out var result);
             return result;
         }
 

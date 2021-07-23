@@ -29,7 +29,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<MobilePayInfo> GetMobilePayInfoList(int siteId)
         {
-            string key = $"MobilePayInfoList_{siteId}";
+            var key = $"MobilePayInfoList_{siteId}";
             var mobilePayInfoList = cache.Get<IEnumerable<MobilePayInfo>>(key);
             if (mobilePayInfoList == null)
             {
@@ -142,7 +142,7 @@ namespace MemberSite.Service.BLL
 
             if (mobilePayInfo != null)
             {
-                DepositDetailInfo depositDetailInfo = new DepositDetailInfo();
+                var depositDetailInfo = new DepositDetailInfo();
                 depositDetailInfo.Amount = amount;
                 depositDetailInfo.CustId = custId;
                 depositDetailInfo.DepositType = (int)DepositType.MobilePayment;

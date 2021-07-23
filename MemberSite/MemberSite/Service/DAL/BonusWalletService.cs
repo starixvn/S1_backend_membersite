@@ -25,7 +25,7 @@ namespace MemberSite.Service.DAL
         }
         public bool SetBonusTransferOutAll(int custId, int siteId, string userName, int tpId, string Memo, string RefTransId, out decimal Bonus, out decimal LockedAmount, out decimal BonusAmount, out long ExpiryTime, MySqlConnection conn, MySqlTransaction trans)
         {
-            int type = typePosition + tpId;
+            var type = typePosition + tpId;
             Bonus = 0;
             LockedAmount = 0;
             BonusAmount = 0;
@@ -76,29 +76,29 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<BonusWallet> GetCustBonusWallet(int CustId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<BonusWallet>("Member_CustBonus_Get", new { CustId }, commandType: CommandType.StoredProcedure);
         }
 
         public BonusWallet CheckBonusWallet(int CustId, int TpId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<BonusWallet>("Member_CustBonus_Check", new { CustId, TpId }, commandType: CommandType.StoredProcedure);
         }
         public BonusWallet CheckBonusWallet(int CustId, string bonusCode)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<BonusWallet>("Member_CustBonusByCode_Get", new { CustId, BonusCode = bonusCode }, commandType: CommandType.StoredProcedure);
         }
         public BonusWallet CustBonusInfo(int CustId, string BonusCode)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<BonusWallet>("Member_CustBonusInfo_Get", new { CustId, BonusCode }, commandType: CommandType.StoredProcedure);
         }
 
         public BonusWallet CustBonusInfo(int CustId, string BonusCode, int TpId, int PromoCategoryId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<BonusWallet>("Member_CustBonus_GetById", new { CustId, BonusCode, TpId, PromoCategoryId }, commandType: CommandType.StoredProcedure);
         }
     }

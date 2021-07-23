@@ -34,7 +34,7 @@ namespace MemberSite.Service.BLL
         }
         public IEnumerable<LoadCardPayInfo> GetLoadCardPayInfoList(int siteId)
         {
-            string key = $"LoadCardPayInfoList_{siteId}";
+            var key = $"LoadCardPayInfoList_{siteId}";
             var LoadCardPayInfoList = cache.Get<IEnumerable<LoadCardPayInfo>>(key);
             if (LoadCardPayInfoList == null)
             {
@@ -147,7 +147,7 @@ namespace MemberSite.Service.BLL
 
             if (loadCardPayInfo != null)
             {
-                DepositDetailInfo depositDetailInfo = new DepositDetailInfo();
+                var depositDetailInfo = new DepositDetailInfo();
                 depositDetailInfo.Amount = amount;
                 depositDetailInfo.CustId = custId;
                 depositDetailInfo.DepositType = (int)DepositType.LoadCardPayment;

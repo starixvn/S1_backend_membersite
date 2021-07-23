@@ -23,7 +23,7 @@ namespace MemberSite.Service.BLL
             var serverInfo = serverInfoBLL.GetServerInfo();
             if (serverInfo.SiteId == 3)
             {
-                string deviceName = "Desktop";
+                var deviceName = "Desktop";
 
                 if (tools.IsMobile())
                 {

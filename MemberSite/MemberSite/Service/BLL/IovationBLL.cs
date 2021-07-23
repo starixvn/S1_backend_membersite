@@ -52,15 +52,15 @@ namespace MemberSite.Service.BLL
         }
         public async Task<ApiResult> IovationChecks(int CustId, int CurrencyId, string UserName, string blackbox, IovationType type)
         {
-            ApiResult apiResult = new ApiResult();
+            var apiResult = new ApiResult();
             if (string.IsNullOrEmpty(blackbox))
             {
                 apiResult.ErrorCode = (int)IovationErrorcode.IovationNotSupport;
                 return apiResult;
             }
 
-            string commonServiceUrl = configuration.GetValue<string>("CommonService");
-            string apiUrl = $"{commonServiceUrl}Iovation/IovationChecks";
+            var commonServiceUrl = configuration.GetValue<string>("CommonService");
+            var apiUrl = $"{commonServiceUrl}Iovation/IovationChecks";
             string CountryName = "", Currencyname = "";
             if (CurrencyId == 96)
             {
@@ -74,7 +74,7 @@ namespace MemberSite.Service.BLL
             }
             
             perCurrency.TryGetValue((int)CurrencyId, out Currencyname);
-            Dictionary<string, string> transactionInsight = new Dictionary<string, string>();
+            var transactionInsight = new Dictionary<string, string>();
             transactionInsight.Add("onlineId", UserName);
             transactionInsight.Add("billingCountry", CountryName);
             transactionInsight.Add("valueCurrency", Currencyname);

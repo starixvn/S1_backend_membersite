@@ -37,12 +37,12 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<SiteLanguage> GetLangIdList()
         {
-            List<SiteLanguage> list = new List<SiteLanguage>();
+            var list = new List<SiteLanguage>();
             var serverInfo = serverInfoBLL.GetServerInfo();
 
             foreach (var langId in serverInfo.ILangList)
             {
-                SiteLanguage siteLanguage = new SiteLanguage();
+                var siteLanguage = new SiteLanguage();
                 siteLanguage.LangId = langId;
                 siteLanguage.Language = GetLan_Info(langId);
                 list.Add(siteLanguage);
@@ -86,8 +86,8 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            string userLangs = context.Request.Headers["Accept-Language"].ToString();
-            string firstLang = userLangs.Split(',').FirstOrDefault();
+            var userLangs = context.Request.Headers["Accept-Language"].ToString();
+            var firstLang = userLangs.Split(',').FirstOrDefault();
 
             if (string.IsNullOrEmpty(langId) && !string.IsNullOrEmpty(firstLang))
             {
@@ -156,8 +156,8 @@ namespace MemberSite.Service.BLL
         public string GetLan_Info(string key)
         {
             //
-            string labelString = string.Empty;
-            string sKey = $"{Assembly.GetExecutingAssembly().GetName().Name}.App_GlobalResources.Lan_Info";
+            var labelString = string.Empty;
+            var sKey = $"{Assembly.GetExecutingAssembly().GetName().Name}.App_GlobalResources.Lan_Info";
             if (!rm.ContainsKey(sKey))
             {
                 rm.TryAdd(sKey, new ResourceManager(sKey, Assembly.GetExecutingAssembly()));
@@ -170,8 +170,8 @@ namespace MemberSite.Service.BLL
         private string GetResourceValue(string key, string categoryId, string langId)
         {
             //
-            string labelString = string.Empty;
-            string sKey = $"{Assembly.GetExecutingAssembly().GetName().Name}.App_GlobalResources.{categoryId}_{langId}";
+            var labelString = string.Empty;
+            var sKey = $"{Assembly.GetExecutingAssembly().GetName().Name}.App_GlobalResources.{categoryId}_{langId}";
             if (!rm.ContainsKey(sKey))
             {
                 rm.TryAdd(sKey, new ResourceManager(sKey, Assembly.GetExecutingAssembly()));
@@ -195,7 +195,7 @@ namespace MemberSite.Service.BLL
         }
         public string GetResourceValue(string key)
         {
-            string labelString = "";
+            var labelString = "";
             var serverInfo = serverInfoBLL.GetServerInfo();
             if (serverInfo.SiteId == 1)
             {
@@ -223,7 +223,7 @@ namespace MemberSite.Service.BLL
         }
         public string GetMsg(string key)
         {
-            string msgString = "";
+            var msgString = "";
             var serverInfo = serverInfoBLL.GetServerInfo();
             if (serverInfo.SiteId == 1)
             {
@@ -250,7 +250,7 @@ namespace MemberSite.Service.BLL
         }
         public string GetErrMsg(int code)
         {
-            string labelString = GetResourceValue($"Code_{code}", "GameMsg_lan", GetLangId());
+            var labelString = GetResourceValue($"Code_{code}", "GameMsg_lan", GetLangId());
 
             return labelString;
         }
@@ -266,7 +266,7 @@ namespace MemberSite.Service.BLL
             var langId = GetLangId();
             var defCurrencyId = serverInfo.DefCurrency;
 
-            string userLangs = httpContextAccessor.HttpContext.Request.Headers["Accept-Language"].ToString();
+            var userLangs = httpContextAccessor.HttpContext.Request.Headers["Accept-Language"].ToString();
 
             if (userLangs.StartsWith("ms", StringComparison.OrdinalIgnoreCase) && serverInfo.ICurrencyList.Contains(2))/*Malay (Malaysia)*/
             {
@@ -292,7 +292,7 @@ namespace MemberSite.Service.BLL
         }
         public IEnumerable<Country> GetCountryList()
         {
-            string key = $"CountryList_{GetLangId()}";
+            var key = $"CountryList_{GetLangId()}";
             var countryList = cache.Get<IEnumerable<Country>>(key);
             if (countryList == null)
             {

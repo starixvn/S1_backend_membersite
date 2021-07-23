@@ -48,8 +48,8 @@ namespace MemberSite.Service.Library
         }
         public string Decrypt(string strText, string sDecrKey)
         {
-            byte[] array = new byte[0];
-            byte[] rgbKey = new byte[8]
+            var array = new byte[0];
+            var rgbKey = new byte[8]
             {
                 18,
                 52,
@@ -60,21 +60,21 @@ namespace MemberSite.Service.Library
                 205,
                 239
             };
-            byte[] array2 = new byte[strText.Length];
+            var array2 = new byte[strText.Length];
             array = Encoding.UTF8.GetBytes(sDecrKey);
-            DESCryptoServiceProvider dESCryptoServiceProvider = new DESCryptoServiceProvider();
+            var dESCryptoServiceProvider = new DESCryptoServiceProvider();
             array2 = Convert.FromBase64String(strText);
-            MemoryStream memoryStream = new MemoryStream();
-            CryptoStream cryptoStream = new CryptoStream(memoryStream, dESCryptoServiceProvider.CreateDecryptor(rgbKey, array), CryptoStreamMode.Write);
+            var memoryStream = new MemoryStream();
+            var cryptoStream = new CryptoStream(memoryStream, dESCryptoServiceProvider.CreateDecryptor(rgbKey, array), CryptoStreamMode.Write);
             cryptoStream.Write(array2, 0, array2.Length);
             cryptoStream.FlushFinalBlock();
-            Encoding uTF = Encoding.UTF8;
+            var uTF = Encoding.UTF8;
             return uTF.GetString(memoryStream.ToArray());
         }
         public string Encrypt(string strText, string strEncrKey)
         {
-            byte[] array = new byte[0];
-            byte[] rgbKey = new byte[8]
+            var array = new byte[0];
+            var rgbKey = new byte[8]
             {
                 18,
                 52,
@@ -86,10 +86,10 @@ namespace MemberSite.Service.Library
                 239
             };
             array = Encoding.UTF8.GetBytes(strEncrKey);
-            DESCryptoServiceProvider dESCryptoServiceProvider = new DESCryptoServiceProvider();
-            byte[] bytes = Encoding.UTF8.GetBytes(strText);
-            MemoryStream memoryStream = new MemoryStream();
-            CryptoStream cryptoStream = new CryptoStream(memoryStream, dESCryptoServiceProvider.CreateEncryptor(rgbKey, array), CryptoStreamMode.Write);
+            var dESCryptoServiceProvider = new DESCryptoServiceProvider();
+            var bytes = Encoding.UTF8.GetBytes(strText);
+            var memoryStream = new MemoryStream();
+            var cryptoStream = new CryptoStream(memoryStream, dESCryptoServiceProvider.CreateEncryptor(rgbKey, array), CryptoStreamMode.Write);
             cryptoStream.Write(bytes, 0, bytes.Length);
             cryptoStream.FlushFinalBlock();
             return Convert.ToBase64String(memoryStream.ToArray());

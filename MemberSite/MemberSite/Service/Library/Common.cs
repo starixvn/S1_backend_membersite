@@ -58,7 +58,7 @@ namespace MemberSite.Service.Library
                 //UseDefaultCredentials = false
             };
 
-            MailMessage mailMessage = new MailMessage();
+            var mailMessage = new MailMessage();
             mailMessage.IsBodyHtml = true;
             mailMessage.From = new MailAddress(_mailConfig.MailID, FromName);
             mailMessage.To.Add(new MailAddress(ToAddress, ToName));

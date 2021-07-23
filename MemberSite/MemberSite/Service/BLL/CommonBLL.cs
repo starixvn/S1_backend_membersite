@@ -24,7 +24,7 @@ namespace MemberSite.Service.BLL
 
         public void SendWelcomeMail(int custId)
         {
-            string apiUrl = $"{commonServiceUrl}Mail/SendWelcomeMail";
+            var apiUrl = $"{commonServiceUrl}Mail/SendWelcomeMail";
 
             dynamic req = new
             {
@@ -36,7 +36,7 @@ namespace MemberSite.Service.BLL
 
         public void SendResetPwdMail(int custId, string resetPasswordUrl)
         {
-            string apiUrl = $"{commonServiceUrl}Mail/RestPassword";
+            var apiUrl = $"{commonServiceUrl}Mail/RestPassword";
 
             dynamic req = new
             {
@@ -48,7 +48,7 @@ namespace MemberSite.Service.BLL
         }
         public async Task<ApiResult> SendResetPwdMailAsync(int custId, string resetPasswordUrl)
         {
-            string apiUrl = $"{commonServiceUrl}Mail/RestPassword";
+            var apiUrl = $"{commonServiceUrl}Mail/RestPassword";
 
             dynamic req = new
             {
@@ -63,7 +63,7 @@ namespace MemberSite.Service.BLL
 
         public async Task<ApiResult> SendVerifySMSAsync(Customer custInfo)
         {
-            string apiUrl = $"{commonServiceUrl}MoviderSMS/SendVerifySMS";
+            var apiUrl = $"{commonServiceUrl}MoviderSMS/SendVerifySMS";
 
             dynamic req = new
             {
@@ -82,7 +82,7 @@ namespace MemberSite.Service.BLL
         }
         public async Task<ApiResult> AcknowledgeVerifySMS(Customer custInfo, string siteName, string request_id, string code)
         {
-            string apiUrl = $"{commonServiceUrl}MoviderSMS/AcknowledgeVerifySMS";
+            var apiUrl = $"{commonServiceUrl}MoviderSMS/AcknowledgeVerifySMS";
 
             dynamic req = new
             {
@@ -109,7 +109,7 @@ namespace MemberSite.Service.BLL
         }
         public async Task<ApiResult<SendOTPSMSResult>> SendOTPSMSAsync(int custId)
         {
-            string apiUrl = $"{commonServiceUrl}OTPSMS/SendOTPSMS";
+            var apiUrl = $"{commonServiceUrl}OTPSMS/SendOTPSMS";
 
             dynamic req = new
             {
@@ -122,7 +122,7 @@ namespace MemberSite.Service.BLL
         }
         public async Task<ApiResult> VerifyOTPAsync(int custId, string inputOTP)
         {
-            string apiUrl = $"{commonServiceUrl}OTPSMS/VerifyOTP";
+            var apiUrl = $"{commonServiceUrl}OTPSMS/VerifyOTP";
 
             dynamic req = new
             {

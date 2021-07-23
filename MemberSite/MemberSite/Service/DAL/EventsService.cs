@@ -132,14 +132,14 @@ namespace MemberSite.Service.DAL
         public int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
         {
 
-            int res = 0;
+            var res = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Open();
             using var trans = conn.BeginTransaction();
             drawPrize = null;
             decimal prizeAmount = 0;
 
-            var Prizes = CheckDrawPrize(ref eventId, siteId, custId, currencyId, out int prizeId, out int quota, out DateTime checkDate, out result, conn, trans);
+            var Prizes = CheckDrawPrize(ref eventId, siteId, custId, currencyId, out var prizeId, out var quota, out var checkDate, out result, conn, trans);
 
             if (result == 100)
             {
@@ -155,9 +155,9 @@ namespace MemberSite.Service.DAL
                     if (quota > 1 && bigPrize != null && bigPrize.Quota > 0 && DateTime.Now > (bigPrize.StartTime.AddHours(((float)new TimeSpan(bigPrize.EndTime.Ticks - bigPrize.StartTime.Ticks).TotalHours * ((float)3 / (float)4)))))
                     {
 
-                        int totalTime = (int)new TimeSpan(bigPrize.EndTime.Ticks - bigPrize.StartTime.Ticks).TotalHours;
-                        int elapsedTime = (int)new TimeSpan((DateTime.Now.Ticks - bigPrize.StartTime.Ticks)).TotalHours;
-                        int totalQuota = 1000;
+                        var totalTime = (int)new TimeSpan(bigPrize.EndTime.Ticks - bigPrize.StartTime.Ticks).TotalHours;
+                        var elapsedTime = (int)new TimeSpan((DateTime.Now.Ticks - bigPrize.StartTime.Ticks)).TotalHours;
+                        var totalQuota = 1000;
 
                         bigPrize.Quota = (int)((float)totalQuota * ((float)elapsedTime / (float)totalTime));
                         if (quota - 1 > 0)
@@ -169,9 +169,9 @@ namespace MemberSite.Service.DAL
                         }
                         quota = totalQuota;
                     }
-                    Random r = new Random();
-                    int LuckyNum = r.Next(quota) + 1;
-                    int LuckyCnt = 0;
+                    var r = new Random();
+                    var LuckyNum = r.Next(quota) + 1;
+                    var LuckyCnt = 0;
 
                     foreach (var prize in Prizes.Where(x => x.Quota > 0))
                     {
@@ -199,7 +199,7 @@ namespace MemberSite.Service.DAL
                 if (drawPrize.PrizeType == 1) //money
                 {
                     res = walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, $"Prize: {prizeAmount.ToString("#,##0.##")}", eventId.ToString(), out _, out _, conn, trans);
-                    res = withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, null, eventId.ToString(), out decimal afterWithdrawalLimit, conn, trans);
+                    res = withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, null, eventId.ToString(), out var afterWithdrawalLimit, conn, trans);
                 }
                 trans.Commit();
             }
@@ -246,7 +246,7 @@ namespace MemberSite.Service.DAL
             var p = new DynamicParameters(new { EventId = eventId, CustId = custId, CurrencyId = currencyId });
             p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
             conn.Execute(conditionSP, p, commandType: CommandType.StoredProcedure);
-            int Result  = p.Get<int?>("Result") ?? 0;
+            var Result  = p.Get<int?>("Result") ?? 0;
             return Result > 0;
         }
     }

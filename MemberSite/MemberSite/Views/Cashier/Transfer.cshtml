@@ -15,7 +15,7 @@
 }
 @{
 
-    Dictionary<string, string> i18n = new Dictionary<string, string>();
+    var i18n = new Dictionary<string, string>();
     i18n.Add("lbl_TransferFrom", selLangBLL.GetResourceValue("lbl_TransferFrom"));
     i18n.Add("lbl_TransferTo", selLangBLL.GetResourceValue("lbl_TransferTo"));
     i18n.Add("lbl_MaxAmount", selLangBLL.GetResourceValue("lbl_MaxAmount"));
@@ -30,7 +30,7 @@
     i18n.Add("lbl_Currency", selLangBLL.GetResourceValue($"Currency_{custInfo.CurrencyId}"));
     i18n.Add("lbl_TurnoverAccumulated", selLangBLL.GetResourceValue("lbl_TurnoverAccumulated"));
 
-    string[] lbl_Txts = new string[] { "lbl_Close", "lbl_AllTranscations", "lbl_Status", "lbl_Amount", "lbl_ID", "lbl_Time", "lbl_Date",
+    var lbl_Txts = new string[] { "lbl_Close", "lbl_AllTranscations", "lbl_Status", "lbl_Amount", "lbl_ID", "lbl_Time", "lbl_Date",
             "lbl_RecentTransactions", "lbl_Wallet_Saba", "lbl_MainWallet", "lbl_Transfer", "lbl_Balance", "lbl_Memo", "lbl_Direction",
             "lbl_WalletType", "lbl_Success", "lbl_Fail", "lbl_Pending", "lbl_ImportantNote" };
     foreach (var lbl_Txt in lbl_Txts)

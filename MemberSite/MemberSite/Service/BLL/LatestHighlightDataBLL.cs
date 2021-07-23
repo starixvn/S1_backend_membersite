@@ -19,7 +19,7 @@ namespace MemberSite.Service.BLL
 
         public LatestHighlightData GetLatestHighlightData(int SiteId, string LangId)
         {
-            string key = $"GetLatestHighlightData_{SiteId}_{LangId}";
+            var key = $"GetLatestHighlightData_{SiteId}_{LangId}";
             var latestHighlightData = cache.Get<LatestHighlightData>(key);
             if (latestHighlightData != null)
             {

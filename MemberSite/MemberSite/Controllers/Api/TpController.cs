@@ -54,10 +54,10 @@ namespace MemberSite.Controllers.Api
         [AllowAnonymous]
         public async Task<ApiResult> GotoGame(TpInfo inInfo)
         {
-            Dictionary<string, string> input = new Dictionary<string, string>();
-            int custId = 0;
-            string langId = "";
-            if (inInfo.inputs.ContainsKey("AppType") && int.TryParse(inInfo.inputs["AppType"], out int appType))
+            var input = new Dictionary<string, string>();
+            var custId = 0;
+            var langId = "";
+            if (inInfo.inputs.ContainsKey("AppType") && int.TryParse(inInfo.inputs["AppType"], out var appType))
             {
                 inInfo.AppType = appType;
             }
@@ -163,8 +163,8 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult<TransferResult>> Transfer([FromBody] TpTransferReq inTpTransfer)
         {
             var authData = _authorizeBll.GetAuthData();
-            BonusWallet bonusWalletInfo = inTpTransfer.direction == TpDirection.ToMain ? _bonusWalletBll.CheckBonusWallet(authData.CustId, inTpTransfer.TpId) : null;
-            ApiResult<TransferResult> result = new ApiResult<TransferResult>();
+            var bonusWalletInfo = inTpTransfer.direction == TpDirection.ToMain ? _bonusWalletBll.CheckBonusWallet(authData.CustId, inTpTransfer.TpId) : null;
+            var result = new ApiResult<TransferResult>();
             if (bonusWalletInfo != null)
             {
                 result.ErrorCode = 9;
@@ -180,12 +180,12 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                decimal amount = inTpTransfer.Amount;
+                var amount = inTpTransfer.Amount;
                 if (amount.ToString().IndexOf(".") > -1)
                 {
                     decimal.TryParse(amount.ToString("#.##"), out amount);
                 }
-                Dictionary<string, string> input = new Dictionary<string, string>();
+                var input = new Dictionary<string, string>();
                 input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
                 input.Add("ClientIP", _tools.GetClientIP());
 
@@ -227,9 +227,9 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult<TransferResult>> TransferEX(TransferEXReq inTpTransfer)
         {
             var authData = _authorizeBll.GetAuthData();
-            ApiResult<TransferResult> result = new ApiResult<TransferResult>();
-            TpDirection direction = new TpDirection();
-            int activeTpId = 0;
+            var result = new ApiResult<TransferResult>();
+            var direction = new TpDirection();
+            var activeTpId = 0;
             if (inTpTransfer.FromTpId != 0)
             {
                 direction = TpDirection.ToMain;
@@ -247,7 +247,7 @@ namespace MemberSite.Controllers.Api
 
             }
 
-            BonusWallet bonusWalletInfo = direction == TpDirection.ToMain ? _bonusWalletBll.CheckBonusWallet(authData.CustId, activeTpId) : null;
+            var bonusWalletInfo = direction == TpDirection.ToMain ? _bonusWalletBll.CheckBonusWallet(authData.CustId, activeTpId) : null;
 
             if (bonusWalletInfo != null)
             {
@@ -264,12 +264,12 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                decimal amount = inTpTransfer.Amount;
+                var amount = inTpTransfer.Amount;
                 if (amount.ToString().IndexOf(".") > -1)
                 {
                     decimal.TryParse(amount.ToString("#.##"), out amount);
                 }
-                Dictionary<string, string> input = new Dictionary<string, string>();
+                var input = new Dictionary<string, string>();
                 input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
                 input.Add("ClientIP", _tools.GetClientIP());
 
@@ -318,7 +318,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = _authorizeBll.GetAuthData();
             var tpWallets = _thirdPartyBll.GetTpWallet(authData.CustId);
-            ApiResult<TransferResult> result = new ApiResult<TransferResult>();
+            var result = new ApiResult<TransferResult>();
 
             foreach (var tpWallet in tpWallets?.Where(x => x.Transfer))
             {
@@ -333,12 +333,12 @@ namespace MemberSite.Controllers.Api
                     return result;
                 }
 
-                decimal amount = TpBalance.Data.balance;
+                var amount = TpBalance.Data.balance;
                 if (amount.ToString().IndexOf(".") > -1)
                 {
                     decimal.TryParse(amount.ToString("#.##"), out amount);
                 }
-                Dictionary<string, string> input = new Dictionary<string, string>();
+                var input = new Dictionary<string, string>();
                 input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
                 input.Add("ClientIP", _tools.GetClientIP());
 
@@ -374,7 +374,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = _authorizeBll.GetAuthData();
             var tpWallets = _thirdPartyBll.GetTpWallet(authData.CustId);
-            ApiResult<TransferResult> result = new ApiResult<TransferResult>();
+            var result = new ApiResult<TransferResult>();
             var myUrl = $"{_apiUrl}Transfer";
 
             foreach (var tpWallet in tpWallets?.Where(x => x.Transfer && x.TpId != tpReq.TpId))
@@ -390,12 +390,12 @@ namespace MemberSite.Controllers.Api
                     continue;
                 }
 
-                decimal amount = TpBalance.Data.balance;
+                var amount = TpBalance.Data.balance;
                 if (amount.ToString().IndexOf(".") > -1)
                 {
                     decimal.TryParse(amount.ToString("#.##"), out amount);
                 }
-                Dictionary<string, string> input = new Dictionary<string, string>();
+                var input = new Dictionary<string, string>();
                 input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
                 input.Add("ClientIP", _tools.GetClientIP());
 
@@ -411,7 +411,7 @@ namespace MemberSite.Controllers.Api
                 result = await _courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
             }
 
-            decimal amount1 = _walletBll.GetBalance(authData.CustId);
+            var amount1 = _walletBll.GetBalance(authData.CustId);
             if (amount1 <= 0)
             {
                 result.ErrorCode = 0;
@@ -421,7 +421,7 @@ namespace MemberSite.Controllers.Api
             {
                 decimal.TryParse(amount1.ToString("#.##"), out amount1);
             }
-            Dictionary<string, string> input1 = new Dictionary<string, string>();
+            var input1 = new Dictionary<string, string>();
             input1.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
             input1.Add("ClientIP", _tools.GetClientIP());
 
@@ -449,7 +449,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = _authorizeBll.GetAuthData();
             var tpWallets = _thirdPartyBll.GetTpWallet(authData.CustId);
-            ApiResult<TransferResult> result = new ApiResult<TransferResult>();
+            var result = new ApiResult<TransferResult>();
             var TpBalance = await GetBalance(tpReq.TpId);
             if (TpBalance.Data.balance < 1)
             {
@@ -457,7 +457,7 @@ namespace MemberSite.Controllers.Api
                 return result;
             }
 
-            decimal amount = TpBalance.Data.balance;
+            var amount = TpBalance.Data.balance;
             if (amount <= 0)
             {
                 result.ErrorCode = 0;
@@ -467,7 +467,7 @@ namespace MemberSite.Controllers.Api
             {
                 decimal.TryParse(amount.ToString("#.##"), out amount);
             }
-            Dictionary<string, string> input = new Dictionary<string, string>();
+            var input = new Dictionary<string, string>();
             input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
             input.Add("ClientIP", _tools.GetClientIP());
 
@@ -494,7 +494,7 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult<UserBalance>> GetBalance(int tpId)
         {
             var authData = _authorizeBll.GetAuthData();
-            Dictionary<string, string> input = new Dictionary<string, string>();
+            var input = new Dictionary<string, string>();
             var myUrl = $"{_apiUrl}GetBalance";
             var oTpInfo = new
             {
@@ -505,7 +505,7 @@ namespace MemberSite.Controllers.Api
 
             var data = await _courierAdapter.MyPostAsync<UserBalance, dynamic>(myUrl, oTpInfo);
 
-            ApiResult<UserBalance> result = data;
+            var result = data;
 
             return result;
         }
@@ -521,7 +521,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiListResult<TpTransferInfoHistory>();
-            int pageNumber = historyReq.PageNumber;
+            var pageNumber = historyReq.PageNumber;
             int totalPages;
             int rowCount;
             apiResult.Data = _thirdPartyBll.GetTransferHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);

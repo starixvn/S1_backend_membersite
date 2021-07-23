@@ -30,8 +30,8 @@ namespace MemberSite.Service.BLL
         {
             var authData = GetAuthData();
 
-            string ip = tools.GetClientIP();
-            bool result = authenticateService.UpdateOnline(authData.CustId, true, authData.Token, ip);
+            var ip = tools.GetClientIP();
+            var result = authenticateService.UpdateOnline(authData.CustId, true, authData.Token, ip);
 
             return result;
         }
@@ -64,8 +64,8 @@ namespace MemberSite.Service.BLL
         {
             var authData = GetAuthData();
 
-            string ip = tools.GetClientIP();
-            bool result = authenticateService.UpdateOnline(authData.CustId, false, authData.Token, ip);
+            var ip = tools.GetClientIP();
+            var result = authenticateService.UpdateOnline(authData.CustId, false, authData.Token, ip);
 
             return result;
         }
