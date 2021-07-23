@@ -37,8 +37,7 @@ namespace MemberSite.Service.Library
             }
             else
             {
-                oApiResult = new ApiResult<T>();
-                oApiResult.ErrorCode = 9000;
+                oApiResult = new ApiResult<T> {ErrorCode = 9000};
                 var responseBody = await response?.Content?.ReadAsStringAsync();
                 oApiResult.RawMessage = $"{responseBody} {url}";
             }
