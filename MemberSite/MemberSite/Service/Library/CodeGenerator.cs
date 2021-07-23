@@ -33,46 +33,25 @@ namespace MemberSite.Service.Library
 
         public bool ConsecutiveCharacters
         {
-            get
-            {
-                return hasConsecutive;
-            }
-            set
-            {
-                hasConsecutive = value;
-            }
+            get => hasConsecutive;
+            set => hasConsecutive = value;
         }
 
         public bool ExcludeSymbols
         {
-            get
-            {
-                return hasSymbols;
-            }
-            set
-            {
-                hasSymbols = value;
-            }
+            get => hasSymbols;
+            set => hasSymbols = value;
         }
 
         public string Exclusions
         {
-            get
-            {
-                return exclusionSet;
-            }
-            set
-            {
-                exclusionSet = value;
-            }
+            get => exclusionSet;
+            set => exclusionSet = value;
         }
 
         public int Maximum
         {
-            get
-            {
-                return maxSize;
-            }
+            get => maxSize;
             set
             {
                 maxSize = value;
@@ -85,10 +64,7 @@ namespace MemberSite.Service.Library
 
         public int Minimum
         {
-            get
-            {
-                return minSize;
-            }
+            get => minSize;
             set
             {
                 minSize = value;
@@ -101,14 +77,8 @@ namespace MemberSite.Service.Library
 
         public bool RepeatCharacters
         {
-            get
-            {
-                return hasRepeating;
-            }
-            set
-            {
-                hasRepeating = value;
-            }
+            get => hasRepeating;
+            set => hasRepeating = value;
         }
 
         public CodeGenerator()

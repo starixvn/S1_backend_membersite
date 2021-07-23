@@ -34,19 +34,8 @@ namespace MemberSite.Service.Model
         public string CurrencyList { set; get; }
         public string DefLang { set; get; }
         public int DefCurrency { set; get; }
-        public IEnumerable<int> ICurrencyList
-        {
-            get
-            {
-                return JsonConvert.DeserializeObject<IEnumerable<int>>(CurrencyList);
-            }
-        }
-        public IEnumerable<string> ILangList
-        {
-            get
-            {
-                return JsonConvert.DeserializeObject<IEnumerable<string>>(LangList);
-            }
-        }
+        public IEnumerable<int> ICurrencyList => JsonConvert.DeserializeObject<IEnumerable<int>>(CurrencyList);
+
+        public IEnumerable<string> ILangList => JsonConvert.DeserializeObject<IEnumerable<string>>(LangList);
     }
 }

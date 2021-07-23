@@ -19,7 +19,8 @@ namespace MemberSite.Service.Library
             return client;
         });
 
-        private HttpClient client { get { return lazy.Value; } }
+        private HttpClient client => lazy.Value;
+
         public async Task<ApiResult<T>> MyPostAsync<T, U>(string url, U oTpInfo)
         {
             ApiResult<T> oApiResult = null;
