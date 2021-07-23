@@ -338,7 +338,6 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             //check input
             if (string.IsNullOrEmpty(content.Name))
             {
