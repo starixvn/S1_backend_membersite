@@ -343,7 +343,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var rolloverPanel = new RolloverPanel();
             var promotions = promotionBLL.GetPromotionListByCustIdWithCache(authData.CustId).Where(x => x.BonusInfoStatus == 1);
-            if (promotions != null && promotions?.Count() > 0)
+            if (promotions?.Count() > 0)
             {
                 foreach (var promotion in promotions)
                 {
