@@ -221,9 +221,7 @@ namespace MemberSite
                         builder.WithOrigins(allowCORSDomain)
                             .AllowAnyHeader()
                             .AllowAnyMethod()
-                            .SetIsOriginAllowedToAllowWildcardSubdomains()
-                            .SetIsOriginAllowed(origin => true)
-                            .AllowCredentials();
+                            .SetIsOriginAllowedToAllowWildcardSubdomains();
                     });
 
                 options.AddPolicy("LandingPage",
