@@ -1,10 +1,6 @@
 ﻿using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {

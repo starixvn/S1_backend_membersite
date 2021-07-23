@@ -2,11 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using Dapper;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MemberSite.Service.Model.enums;
 using MemberSite.Service.Library;
 using System.Data;
 

@@ -9,15 +9,9 @@ using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using MemberSite.Service.BLL;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace MemberSite.Service.DAL
 {
