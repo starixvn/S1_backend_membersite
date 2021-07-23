@@ -27,7 +27,7 @@ namespace MemberSite.Controllers
         private readonly TemplateBLL templateBLL;
         private readonly CryptoPayInfoBLL cryptoPayInfoBLL;
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
-        private bool isNewVersion = true;
+        private readonly bool isNewVersion = true;
 
         public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, ServerInfoBLL serverInfoBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL, CustInfoBLL custInfoBLL, TemplateBLL templateBLL, CryptoPayInfoBLL cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL)
         {

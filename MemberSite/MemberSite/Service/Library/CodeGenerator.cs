@@ -27,9 +27,9 @@ namespace MemberSite.Service.Library
 
         private int minSize;
 
-        private char[] pwdCharArray = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
+        private readonly char[] pwdCharArray = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
 
-        private RNGCryptoServiceProvider rng;
+        private readonly RNGCryptoServiceProvider rng;
 
         public bool ConsecutiveCharacters
         {

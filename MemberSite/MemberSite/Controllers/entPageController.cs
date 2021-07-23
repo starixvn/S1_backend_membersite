@@ -56,7 +56,7 @@ namespace MemberSite.Controllers
         // Olympics = GameId:2001,menutype:1
         // World Cup = GameId:2002,menutype:2
         // Euro Cup = GameId:2003,menutype:3
-        Dictionary<string, string> menuTypeDic = new Dictionary<string, string>() {
+        readonly Dictionary<string, string> menuTypeDic = new Dictionary<string, string>() {
             {"2001","1" }, 
             {"2002","2" },
             {"2003","3" }
@@ -178,7 +178,7 @@ namespace MemberSite.Controllers
 
         }
 
-        Dictionary<int, bool> Bf = new Dictionary<int, bool>()
+        readonly Dictionary<int, bool> Bf = new Dictionary<int, bool>()
         {
            {1,false }
         };

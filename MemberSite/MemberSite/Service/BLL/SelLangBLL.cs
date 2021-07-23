@@ -14,7 +14,7 @@ namespace MemberSite.Service.BLL
 {
     public class SelLangBLL : ISelLang
     {
-        Dictionary<string, int> LangMapCurr =
+        readonly Dictionary<string, int> LangMapCurr =
         new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
         {
             {"th", 4}, {"th_en", 4 }, {"cs", 13}, {"ch", 2}, {"id", 15}, {"id_en", 15},{"jp", 32},
@@ -23,7 +23,7 @@ namespace MemberSite.Service.BLL
 
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly IHttpContextAccessor httpContextAccessor;
-        private ConcurrentDictionary<string, ResourceManager> rm = new ConcurrentDictionary<string, ResourceManager>();
+        private readonly ConcurrentDictionary<string, ResourceManager> rm = new ConcurrentDictionary<string, ResourceManager>();
         private string sLangId;
         private readonly IMemoryCache cache;
 

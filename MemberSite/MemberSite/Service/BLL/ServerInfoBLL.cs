@@ -18,8 +18,8 @@ namespace MemberSite.Service.BLL
         private ServerInfo serverInfo;/*Single Site*/
         private readonly IMemoryCache cache;
         private readonly IHttpContextAccessor httpContextAccessor;
-        private ConcurrentDictionary<string, int> SiteInfoDic;
-        private ConcurrentDictionary<int, ServerInfo> ServerInfoDic;
+        private readonly ConcurrentDictionary<string, int> SiteInfoDic;
+        private readonly ConcurrentDictionary<int, ServerInfo> ServerInfoDic;
         private readonly int fixSiteID = 0;
 
         public ServerInfoBLL(IHttpContextAccessor httpContextAccessor, IMemoryCache cache, ServerInfoService serverInfoService, IConfiguration configuration)

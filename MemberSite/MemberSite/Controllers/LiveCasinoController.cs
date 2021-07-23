@@ -11,7 +11,7 @@ namespace MemberSite.Controllers
 {
     public class LiveCasinoController : Controller
     {
-        private TemplateBLL templateBLL;
+        private readonly TemplateBLL templateBLL;
 
         public LiveCasinoController(TemplateBLL templateBLL)
         {

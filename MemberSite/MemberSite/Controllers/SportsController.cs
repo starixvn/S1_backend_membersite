@@ -9,7 +9,7 @@ namespace MemberSite.Controllers
 {
     public class SportsController : Controller
     {
-        private TemplateBLL templateBLL;
+        private readonly TemplateBLL templateBLL;
 
         public SportsController(TemplateBLL templateBLL)
         {

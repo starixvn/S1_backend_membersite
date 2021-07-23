@@ -20,15 +20,15 @@ namespace MemberSite.Service.BLL
         private readonly ThirdPartyService thirdPartyService;
         private readonly SelLangBLL selLangBLL;
         private readonly Tools tools;
-        private ConcurrentDictionary<string, TpCurrency> TpCurrencyList;
-        private ConcurrentDictionary<string, ThirdPartyModel> ThirdPartyModelContainer;
+        private readonly ConcurrentDictionary<string, TpCurrency> TpCurrencyList;
+        private readonly ConcurrentDictionary<string, ThirdPartyModel> ThirdPartyModelContainer;
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly CustInfoBLL custInfoBLL;
         private readonly CourierAdapter courierAdapter;
         private readonly string apiUrl;
         private readonly ILogger<ThirdPartyBLL> logger;
 
-        Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
+        readonly Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
             {"1","soccer" },
             {"2","basketball" },
             {"3","football" },

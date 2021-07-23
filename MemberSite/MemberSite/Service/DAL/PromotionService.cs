@@ -23,7 +23,7 @@ namespace MemberSite.Service.DAL
 {
     public class PromotionService
     {
-        private IConfiguration configuration;
+        private readonly IConfiguration configuration;
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
         private readonly Common common;

@@ -15,7 +15,7 @@ namespace MemberSite.Service.DAL
         private readonly IConfiguration configuration;
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
-        private int typePosition = 1000;
+        private readonly int typePosition = 1000;
 
         public BonusWalletService(IConfiguration configuration, ILogger<MySqlClient> logger)
         {

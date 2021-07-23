@@ -43,7 +43,7 @@ namespace MemberSite
     public class Startup
     {
         private readonly string AllowSpecificOrigins = "AllowAllOriginsPolicy";
-        private IConfiguration configuration;
+        private readonly IConfiguration configuration;
         private readonly IHostEnvironment environment;
 
         // This method gets called by the runtime. Use this method to add services to the container.

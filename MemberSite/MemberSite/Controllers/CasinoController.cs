@@ -9,7 +9,7 @@ namespace MemberSite.Controllers
 {
     public class CasinoController : Controller
     {
-        private TemplateBLL templateBLL;
+        private readonly TemplateBLL templateBLL;
 
         public CasinoController(TemplateBLL templateBLL)
         {

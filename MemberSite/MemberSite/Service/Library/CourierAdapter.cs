@@ -12,7 +12,7 @@ namespace MemberSite.Service.Library
 {
     public class CourierAdapter
     {
-        private static Lazy<HttpClient> lazy = new Lazy<HttpClient>(() =>
+        private static readonly Lazy<HttpClient> lazy = new Lazy<HttpClient>(() =>
         {
             var client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

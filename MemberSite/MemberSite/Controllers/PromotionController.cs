@@ -12,7 +12,7 @@ namespace MemberSite.Controllers
     public class PromotionController : Controller
     {
         private readonly SelLangBLL selLangBLL;
-        private TemplateBLL templateBLL;
+        private readonly TemplateBLL templateBLL;
         private readonly PromotionBLL promotionBLL;
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly CustInfoBLL custInfoBLL;
