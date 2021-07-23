@@ -42,7 +42,6 @@ namespace MemberSite
     }
     public class Startup
     {
-        private readonly string AllowSpecificOrigins = "AllowAllOriginsPolicy";
         private readonly IConfiguration configuration;
         private readonly IHostEnvironment environment;
         private static IConfigurationRoot DomainConfiguration => new ConfigurationBuilder()
@@ -216,12 +215,14 @@ namespace MemberSite
             services.AddCors(options =>
             {
                 var allowCORSDomain = DomainConfiguration.GetSection("AllowCORSDomain").Get<string[]>();
-                options.AddPolicy(name: AllowSpecificOrigins,
+                options.AddDefaultPolicy(
                     builder =>
                     {
                         builder.WithOrigins(allowCORSDomain)
                             .AllowAnyHeader()
                             .AllowAnyMethod()
+                            .SetIsOriginAllowedToAllowWildcardSubdomains()
+                            .SetIsOriginAllowed(origin => true)
                             .AllowCredentials();
                     });
 
@@ -258,7 +259,7 @@ namespace MemberSite
 
             app.UseRouting();
 
-            app.UseCors(AllowSpecificOrigins);
+            app.UseCors();
             app.UseCors("LandingPage");
             app.UseAuthentication();
             app.UseAuthorization();
