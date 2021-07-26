@@ -6,6 +6,7 @@ namespace MemberSite.Controllers.Api
     public class SpeedController:Controller
     {
         [HttpGet]
+        [HttpHead]
         public IActionResult Index()
         {
             return View("~/Views/Speed/Speed.cshtml");
