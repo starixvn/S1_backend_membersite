@@ -21,29 +21,24 @@ namespace MemberSite.Service.DAL
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
         private readonly Common common;
-        private readonly RolloverService rollOverService;
         private readonly WalletService walletService;
         private readonly BonusWalletService bonusWalletService;
         private readonly WithdrawalLimitService withdrawalLimitService;
         private readonly Tools tools;
-        private readonly int[] hasBonusWallet;
         private readonly SelLangBLL _selLangBll;
 
         public PromotionService(IConfiguration configuration, Common common, WalletService walletService,
-            RolloverService rollOverService, BonusWalletService bonusWalletService,
-            WithdrawalLimitService withdrawalLimitService, Tools tools, ILogger<MySqlClient> logger,
+            BonusWalletService bonusWalletService, WithdrawalLimitService withdrawalLimitService, Tools tools, ILogger<MySqlClient> logger,
             SelLangBLL selLangBll)
         {
             this.configuration = configuration;
             _mainDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionString"), logger);
             _reportDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionStringReport"), logger);
             this.common = common;
-            this.rollOverService = rollOverService;
             this.walletService = walletService;
             this.bonusWalletService = bonusWalletService;
             this.withdrawalLimitService = withdrawalLimitService;
             this.tools = tools;
-            hasBonusWallet = configuration.GetSection("HasBonusWallet").Get<int[]>();
             _selLangBll = selLangBll;
         }
 
