@@ -243,7 +243,7 @@ namespace MemberSite.Controllers
                 return View(apiResult);
         }
 
-        public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, decimal Amount)
+        public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, string Code, string Serial, decimal Amount)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             var apiResult = new ApiResult<PayResult>();
@@ -252,7 +252,7 @@ namespace MemberSite.Controllers
             string transId = null;
             LoadCardPayInfo loadCardPayInfo = null;
             ErrorData model = new ErrorData();
-            var result = loadCardPayInfoBLL.DepositReqLoadCardPay(authData.CustId, ChannelId, Amount, out transId, out loadCardPayInfo);
+            var result = loadCardPayInfoBLL.DepositReqLoadCardPay(authData.CustId, ChannelId, Code, Serial, Amount, out transId, out loadCardPayInfo);
             if (result == 0)
             {
                 var reqDeposit = new 

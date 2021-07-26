@@ -112,7 +112,7 @@ namespace MemberSite.Service.BLL
 
             return LoadCardPayInfoList.Where(x => x.MaxAmount > 0);
         }
-        public int DepositReqLoadCardPay(int custId, int channelId, decimal amount, out string transId, out LoadCardPayInfo loadCardPayInfo)
+        public int DepositReqLoadCardPay(int custId, int channelId, string code, string serial, decimal amount, out string transId, out LoadCardPayInfo loadCardPayInfo)
         {
             transId = null;
             loadCardPayInfo = null;
@@ -147,6 +147,9 @@ namespace MemberSite.Service.BLL
 
             if (loadCardPayInfo != null)
             {
+                loadCardPayInfo.Code = code;
+                loadCardPayInfo.Serial = serial;
+
                 DepositDetailInfo depositDetailInfo = new DepositDetailInfo();
                 depositDetailInfo.Amount = amount;
                 depositDetailInfo.CustId = custId;

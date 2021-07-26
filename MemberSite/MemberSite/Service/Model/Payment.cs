@@ -106,6 +106,8 @@ namespace MemberSite.Service.Model
         public long Updated_timestamp { get; set; }
         public decimal BuyRate { get; set; }
         public decimal SellRate { get; set; }
+        public string Code { get; set; }
+        public string Serial { get; set; }
     }
     public class LoadCardPayGroup
     {
