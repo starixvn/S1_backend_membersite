@@ -1,10 +1,6 @@
 ﻿using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -28,7 +24,7 @@ namespace MemberSite.Service.BLL
             var cashierUrl = urlHelper.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
             var slotsLobbyUrl = urlHelper.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
             string entPageUrl;
-            int.TryParse(gameId, out int iGameId);
+            int.TryParse(gameId, out var iGameId);
             if (!urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 if (tools.IsMobile())
@@ -68,7 +64,7 @@ namespace MemberSite.Service.BLL
             string entPageUrl;
             if (tpId == 1)
             {
-                int.TryParse(gameId, out int iGameId);
+                int.TryParse(gameId, out var iGameId);
                 if (!urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
                 {
                     if (iGameId >= 200)/*3RD Game or RNG Game*/

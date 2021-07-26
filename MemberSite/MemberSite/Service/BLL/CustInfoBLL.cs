@@ -120,7 +120,7 @@ namespace MemberSite.Service.BLL
                 if (agent == null)
                     agent = agentInfoService.GetSuperAgent(serverInfo.SiteId, CurrencyId);
 
-                Customer regCustInfo = new Customer();
+                var regCustInfo = new Customer();
                 regCustInfo.UserName = UserName;
                 regCustInfo.Userpwd = tools.MD5Encrypt(Userpwd);
                 regCustInfo.AgentId = agent.CustId;
@@ -158,7 +158,7 @@ namespace MemberSite.Service.BLL
             }
             else
             {
-                List<int> allAgentId = JsonConvert.DeserializeObject<List<int>>(agent.AllAgentId);
+                var allAgentId = JsonConvert.DeserializeObject<List<int>>(agent.AllAgentId);
                 allAgentId.Add(agent.CustId);
                 return JsonConvert.SerializeObject(allAgentId);
             }
@@ -167,7 +167,7 @@ namespace MemberSite.Service.BLL
         public Customer GetCustInfoByUserName(string userName)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
-            string key = $"CustInfoByUserName_{serverInfo.SiteId}_{userName}";
+            var key = $"CustInfoByUserName_{serverInfo.SiteId}_{userName}";
             var customer = cache.Get<Customer>(key);
             if (customer != null)
             {
@@ -244,7 +244,7 @@ namespace MemberSite.Service.BLL
         }
         public Customer GetCustInfoWithCache(int custId)
         {
-            string key = $"CustInfo_{custId}";
+            var key = $"CustInfo_{custId}";
             var customer = cache.Get<Customer>(key);
             if (customer != null)
             {
@@ -275,7 +275,7 @@ namespace MemberSite.Service.BLL
         public Customer GetCustInfoByMail(string email)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
-            string key = $"CustInfoByMai_{serverInfo.SiteId}_{email}";
+            var key = $"CustInfoByMai_{serverInfo.SiteId}_{email}";
             var customer = cache.Get<Customer>(key);
             if (customer != null)
             {
@@ -301,7 +301,7 @@ namespace MemberSite.Service.BLL
 
         public int GetPointLevelWithCache(int custId)
         {
-            string key = $"PointLevelCache_{custId}";
+            var key = $"PointLevelCache_{custId}";
             var pointLevelCache = cache.Get<int?>(key) ?? -1;
             if (pointLevelCache != -1)
             {
@@ -324,12 +324,12 @@ namespace MemberSite.Service.BLL
                 return -2;
             }
 
-            string md5OldPassword = tools.MD5Encrypt(oldPassword);
-            string md5NewPassword = tools.MD5Encrypt(newPassword);
+            var md5OldPassword = tools.MD5Encrypt(oldPassword);
+            var md5NewPassword = tools.MD5Encrypt(newPassword);
             string md5Userpwd = null;
 
 
-            bool isSet = custInfoService.SetPassword(custId, md5OldPassword, md5NewPassword, out md5Userpwd);
+            var isSet = custInfoService.SetPassword(custId, md5OldPassword, md5NewPassword, out md5Userpwd);
             if (!isSet)
             {
                 if (md5OldPassword != md5Userpwd)
@@ -345,7 +345,7 @@ namespace MemberSite.Service.BLL
         }
         public bool SetResetPwd(int custId, string newPassword)
         {
-            string md5NewPassword = tools.MD5Encrypt(newPassword);
+            var md5NewPassword = tools.MD5Encrypt(newPassword);
             return custInfoService.SetResetPwd(custId, md5NewPassword);
         }
         public int SetProfile(int custId, Dictionary<string, string> custProfile)
@@ -424,7 +424,7 @@ namespace MemberSite.Service.BLL
         }
         public bool ExistsEmail(int custId, string email)
         {
-            int siteId = 0;
+            var siteId = 0;
             if (custId == 0)
             {
                 var serverInfo = serverInfoBLL.GetServerInfo();
@@ -461,7 +461,7 @@ namespace MemberSite.Service.BLL
         }
         public CustInfoProfile GetCustInfoProfileWithCache(int custId)
         {
-            string key = $"CustInfoProfile_{custId}";
+            var key = $"CustInfoProfile_{custId}";
             var custInfoProfile = cache.Get<CustInfoProfile>(key);
             if (custInfoProfile != null)
             {
@@ -507,8 +507,8 @@ namespace MemberSite.Service.BLL
                     codeGenerator.Maximum = 8;
                     codeGenerator.Minimum = 6;
                     codeGenerator.RepeatCharacters = true;
-                    string NewPassword = codeGenerator.Generate();
-                    string md5NewPassword = tools.MD5Encrypt(NewPassword);
+                    var NewPassword = codeGenerator.Generate();
+                    var md5NewPassword = tools.MD5Encrypt(NewPassword);
                     custInfoService.SetResetPwd(custId, md5NewPassword);
                     MailBody = MailBody.Replace("{NewPassword}", NewPassword);
                 }
@@ -523,7 +523,7 @@ namespace MemberSite.Service.BLL
 
         public async Task<ApiResult> ForgetPwd1Async(int custId, string resetPasswordUrl)
         {
-            ApiResult result = await commonBLL.SendResetPwdMailAsync(custId, resetPasswordUrl);
+            var result = await commonBLL.SendResetPwdMailAsync(custId, resetPasswordUrl);
             return result;
         }
         public async Task<ApiResult> SendVerifySMSAsync(int custId)
@@ -564,7 +564,7 @@ namespace MemberSite.Service.BLL
             var affiliateId = agentInfoService.GetAffiliateId(custId, custInfo.SiteId);
             while (affiliateId == null)
             {
-                string _affiliateId = GenerateRandomAffiliateId();
+                var _affiliateId = GenerateRandomAffiliateId();
                 try
                 {
                     agentInfoService.AddAffiliateId(_affiliateId, custId, custInfo.SiteId);
@@ -591,7 +591,7 @@ namespace MemberSite.Service.BLL
             var stringChars = new System.Text.StringBuilder();
             var random = new Random();
 
-            for (int i = 0; i < 8; i++)
+            for (var i = 0; i < 8; i++)
             {
                 stringChars.Append(chars[random.Next(chars.Length)]);
             }

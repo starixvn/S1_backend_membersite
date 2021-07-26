@@ -16,7 +16,7 @@
     var entFishingPageUrl = "";
     var entFishingPageUrlSG1 = "";
     var entFishingPageUrlSG2 = "";
-    int CurrencyId = 0;
+    var CurrencyId = 0;
     if (User.Identity.IsAuthenticated)
     {
         entFishingPageUrl = gamingBLL.GetEntPageUrl(7, "10", Url, GameType.Fishing);

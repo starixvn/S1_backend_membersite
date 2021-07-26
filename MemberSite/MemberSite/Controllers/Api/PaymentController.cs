@@ -71,7 +71,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>();
-            int queryType = 0;
+            var queryType = 0;
             if (getBankInfoOffListReq != null && getBankInfoOffListReq.QueryType != null)
                 queryType = (int)getBankInfoOffListReq.QueryType;
             apiResult.Data = bankInfoOffBLL.GetBankInfoOffList(authData.CustId, queryType);
@@ -111,7 +111,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<DepositInfoHistory>();
-            int pageNumber = historyReq.PageNumber;
+            var pageNumber = historyReq.PageNumber;
             int totalPages;
             int rowCount;
             apiResult.Data = paymentBLL.GetDepositInfoHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
@@ -127,7 +127,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<WithdrawalHistory>();
-            int pageNumber = historyReq.PageNumber;
+            var pageNumber = historyReq.PageNumber;
             int totalPages;
             int rowCount;
             apiResult.Data = paymentBLL.GetWithdrawalInfoHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
@@ -172,7 +172,7 @@ namespace MemberSite.Controllers.Api
             {
 
             }
-            int result = -1;
+            var result = -1;
             DepositRep3 depositRep3 = null;
             var depositFromInfo = new DepositFromInfo
             {
@@ -181,7 +181,7 @@ namespace MemberSite.Controllers.Api
                 AccountNo = depositReqWireTransferReq.fromAccountNum,
                 IFSCCode = depositReqWireTransferReq.fromIFSCCode
             };
-            string fromInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositFromInfo);
+            var fromInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositFromInfo);
 
             if (depositReqWireTransferReq.fromChannel == 0 && depositReqWireTransferReq.fromSysId == 0 && depositReqWireTransferReq.fromAccountNum == null)
                 result = paymentBLL.DepositReqLocalBank(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out depositRep3);
@@ -445,7 +445,7 @@ namespace MemberSite.Controllers.Api
                     });
                 }
 
-                result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.IFSCCode, withdrawalReqModel.amount, withdrawalReqModel.memo, out decimal afterAmount, out string transId);
+                result = paymentBLL.WithdrawalReq(authData.CustId, withdrawalReqModel.sysId, custBankInfo.AccountName, withdrawalReqModel.AccountNo, withdrawalReqModel.IFSCCode, withdrawalReqModel.amount, withdrawalReqModel.memo, out var afterAmount, out var transId);
 
                 switch (result)
                 {
@@ -628,7 +628,7 @@ namespace MemberSite.Controllers.Api
         //[DisableFormValueModelBinding]
         public ApiResult UploadReceipt([FromForm] DepositReceiptFile depositReceipt)
         {
-            decimal xSize = 500m;
+            var xSize = 500m;
             var apiResult = new ApiResult();
             var authData = authorizeBLL.GetAuthData();
             decimal xCell = 1;
@@ -659,8 +659,8 @@ namespace MemberSite.Controllers.Api
                     uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format4bppIndexed ||
                     uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format8bppIndexed)
                 {
-                    Bitmap bitmap = new Bitmap(Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
-                    Graphics graphics = Graphics.FromImage(bitmap);
+                    var bitmap = new Bitmap(Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
+                    var graphics = Graphics.FromImage(bitmap);
                     graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
                     graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
                     graphics.DrawImage(uploadedImage, 0, 0, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
@@ -674,11 +674,11 @@ namespace MemberSite.Controllers.Api
                     img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
                 }
                 img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                string fileName = depositReceipt.Receipt.FileName;
+                var fileName = depositReceipt.Receipt.FileName;
                 fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
                 fileName = $"{fileName.Substring(0, fileName.LastIndexOf('.'))}.jpg";
 
-                byte[] fileBytes = ms.ToArray();
+                var fileBytes = ms.ToArray();
                 var result = paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, fileBytes);
 
                 if (result > 0)
@@ -805,7 +805,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<Statement>();
-            int pageNumber = historyReq.PageNumber;
+            var pageNumber = historyReq.PageNumber;
             int totalPages;
             int rowCount;
             apiResult.Data = paymentBLL.GetStatement(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
@@ -827,7 +827,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<BounsLogStatement>();
-            int pageNumber = bounsLogReq.PageNumber;
+            var pageNumber = bounsLogReq.PageNumber;
             int totalPages;
             int rowCount;
             apiResult.Data = paymentBLL.GetBounsLogStatement(authData.CustId, bounsLogReq.PromoCategoryId, bounsLogReq.StartDate, bounsLogReq.EndDate, ref pageNumber, out totalPages, out rowCount);
@@ -861,7 +861,7 @@ namespace MemberSite.Controllers.Api
         }
         private async Task<ApiResult<TransferResult>> TransferToSabaAsync(TpTransfer inTpTransfer)
         {
-            decimal amount = inTpTransfer.Amount;
+            var amount = inTpTransfer.Amount;
             if (amount.ToString().IndexOf(".") > -1)
             {
                 decimal.TryParse(amount.ToString("#.##"), out amount);
@@ -928,10 +928,10 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<TpBetRecordListOneDay>();
-            int PageSize = custTpBetRecordListOneDayReq.PageSize;
-            int TotalPages = 0;
-            int RowCount = 0;
-            int PageNumber = custTpBetRecordListOneDayReq.PageNumber;
+            var PageSize = custTpBetRecordListOneDayReq.PageSize;
+            var TotalPages = 0;
+            var RowCount = 0;
+            var PageNumber = custTpBetRecordListOneDayReq.PageNumber;
 
             apiResult.ErrorCode = 0;
             apiResult.Data = paymentBLL.GetCustTpBetRecordListOneDay(authData.CustId, custTpBetRecordListOneDayReq.SelDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
@@ -953,10 +953,10 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<TpBetRecordbyCategoryId>();
-            int PageSize = custTpBetRecordListbyCategoryIdReq.PageSize;
-            int TotalPages = 0;
-            int RowCount = 0;
-            int PageNumber = custTpBetRecordListbyCategoryIdReq.PageNumber;
+            var PageSize = custTpBetRecordListbyCategoryIdReq.PageSize;
+            var TotalPages = 0;
+            var RowCount = 0;
+            var PageNumber = custTpBetRecordListbyCategoryIdReq.PageNumber;
 
             apiResult.ErrorCode = 0;
             apiResult.Data = paymentBLL.GetCustTpBetRecordListbyCategoryId(authData.CustId, custTpBetRecordListbyCategoryIdReq.SelDate, custTpBetRecordListbyCategoryIdReq.CategoryId, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
@@ -978,10 +978,10 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<TpBetRecordDetailbyGameType>();
-            int PageSize = custTpBetRecordDetailListbyGameTypeReq.PageSize;
-            int TotalPages = 0;
-            int RowCount = 0;
-            int PageNumber = custTpBetRecordDetailListbyGameTypeReq.PageNumber;
+            var PageSize = custTpBetRecordDetailListbyGameTypeReq.PageSize;
+            var TotalPages = 0;
+            var RowCount = 0;
+            var PageNumber = custTpBetRecordDetailListbyGameTypeReq.PageNumber;
 
             apiResult.ErrorCode = 0;
             apiResult.Data = paymentBLL.GetCustTpBetRecordDetailListbyGameType(authData.CustId, custTpBetRecordDetailListbyGameTypeReq.SelDate, custTpBetRecordDetailListbyGameTypeReq.gameTypeId, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
@@ -1004,10 +1004,10 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<TpBetRecordListDateRange>();
-            int PageSize = tpBetRecordDateRangeReq.PageSize;
-            int TotalPages = 0;
-            int RowCount = 0;
-            int PageNumber = tpBetRecordDateRangeReq.PageNumber;
+            var PageSize = tpBetRecordDateRangeReq.PageSize;
+            var TotalPages = 0;
+            var RowCount = 0;
+            var PageNumber = tpBetRecordDateRangeReq.PageNumber;
 
             apiResult.ErrorCode = 0;
             apiResult.Data = paymentBLL.GetCustTpBetRecordDateRange(authData.CustId, tpBetRecordDateRangeReq.StartDate, tpBetRecordDateRangeReq.EndDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);

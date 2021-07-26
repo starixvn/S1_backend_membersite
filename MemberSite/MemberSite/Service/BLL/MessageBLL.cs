@@ -28,7 +28,7 @@ namespace MemberSite.Service.BLL
         }
         public bool SetMsgRead(int custId, int[] msgIds)
         {
-            bool resalt = true;
+            var resalt = true;
             foreach (var msgId in msgIds)
             {
                 resalt &= messageService.SetRead( msgId, custId);
@@ -38,7 +38,7 @@ namespace MemberSite.Service.BLL
         }
         public bool DelMsg(int custId, int[] msgIds)
         {
-            bool resalt = true;
+            var resalt = true;
             foreach (var msgId in msgIds)
             {
                 resalt &= messageService.DelMsg(custId, msgId);
@@ -54,7 +54,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<Announcement> GetAnnouncement(string LangCode, string DefaultLangCode, int LimitRow, bool IsTest, int SiteId)
         {
-            string key = $"Announcement_{SiteId}_{LangCode}";
+            var key = $"Announcement_{SiteId}_{LangCode}";
             var cacheData = cache.Get<IEnumerable<Announcement>>(key);
             if (cacheData == null)
             {

@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Dapper;
 using MemberSite.Service.BLL;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace MemberSite.Controllers
 {
@@ -58,31 +53,31 @@ namespace MemberSite.Controllers
         {
             
             //await custInfoBLL.ForgetPwdAsync(8);
-            int a = 1;
-            int b = 0;
+            var a = 1;
+            var b = 0;
             //var cc = messageService.GetMsgList(3, 1, ref a, out b);
 
             return custInfoBLL.GetCustRollOver(18, "FTDP");
-            Assembly asm = Assembly.GetCallingAssembly();
-            string rsFileName = asm.GetName().Name;
+            var asm = Assembly.GetCallingAssembly();
+            var rsFileName = asm.GetName().Name;
             //return System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en");
             /*System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("en");
             System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = new System.Globalization.CultureInfo("en");
             return System.Globalization.CultureInfo.CurrentCulture.DisplayName;*/
             //System.Globalization.CultureInfo.GetCultureInfo
-            int currencyId = 51;
+            var currencyId = 51;
             var serverInfo = serverInfoService.GetModel(1);
 
-            Customer customer = new Customer();
+            var customer = new Customer();
             customer.UserName = "scott010812";
             customer.CurrencyId = currencyId;
             customer.Userpwd = "scott010812";
             customer.SiteId = serverInfo.SiteId;
             customer.UserLang = "en";
-            string token = "";
+            var token = "";
             //var a = custInfoBLL.UserLogin(customer.UserName, customer.SiteId, customer.Userpwd, tools.GetClientIP(this.HttpContext), tools.GetFromUrl(this.HttpContext), Request.Headers["User-Agent"], ref customer, out token);
-            DepositDetailInfo depositDetailInfo = new DepositDetailInfo();
+            var depositDetailInfo = new DepositDetailInfo();
             depositDetailInfo.DepositType = 2;
             depositDetailInfo.CustId = customer.CustId;
             depositDetailInfo.SiteId = customer.SiteId;
@@ -90,9 +85,9 @@ namespace MemberSite.Controllers
             depositDetailInfo.Amount = -500;
             //depositDetailInfo.DispositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfoService.GetBankAccountOff(1, customer.CustId, depositDetailInfo.Amount));
             //@DispositType,@CustId,@UserName,@SiteId,@DispositInfo,@Amount,@Memo,@PostScript,@Status
-            string TT = "";
+            var TT = "";
             var agent = agentInfoService.GetSuperAgent(customer.CurrencyId, customer.SiteId);
-            int custid = 0;
+            var custid = 0;
             //custInfoBLL.UserLogin(customer.UserName, customer.SiteId, customer.Userpwd, tools.GetClientIP(this.HttpContext), tools.GetFromUrl(this.HttpContext), Request.Headers["User-Agent"], ref customer, out token);
             //walletService.SetBalance(customer.CustId, customer.SiteId, customer.UserName, depositDetailInfo.Amount, 1, null, null, false);
             //custInfoBLL.AddCustInfo(customer, agent, serverInfo, out custid);
@@ -108,7 +103,7 @@ namespace MemberSite.Controllers
         {
             if (!IsDevelopment())
             {
-                string action = ControllerContext.RouteData.Values["action"].ToString();
+                var action = ControllerContext.RouteData.Values["action"].ToString();
 
                 if (string.IsNullOrEmpty(viewName))
                 {

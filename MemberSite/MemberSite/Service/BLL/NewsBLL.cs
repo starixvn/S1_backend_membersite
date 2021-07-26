@@ -1,10 +1,7 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -22,7 +19,7 @@ namespace MemberSite.Service.BLL
         private string ParseJSON(string langId, string jsonStr)
         {
             var json = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonStr);
-            json.TryGetValue(langId, out string result);
+            json.TryGetValue(langId, out var result);
             return result;
         }
 

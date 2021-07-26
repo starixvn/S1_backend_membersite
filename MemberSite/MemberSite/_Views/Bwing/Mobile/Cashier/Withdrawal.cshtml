@@ -11,7 +11,7 @@
     Layout = "~/_Views/Bwing/Mobile/Shared/_Layout.cshtml";
     var authData = authorizeBLL.GetAuthData();
     var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
-    int submittedCustPhotoId = 0;
+    var submittedCustPhotoId = 0;
 }
 @{
     var i18n = new Dictionary<string, string>();
@@ -58,14 +58,14 @@
     i18n.Add("lbl_PleaseSelBank", selLangBLL.GetResourceValue("lbl_PleaseSelBank"));
     i18n.Add("lbl_WithdrawalAmountTooltip", selLangBLL.GetResourceValue("lbl_WithdrawalAmountTooltip"));
 
-    string[] lbl_Txts = new string[] { "lbl_Close" };
+    var lbl_Txts = new string[] { "lbl_Close" };
     foreach (var lbl_Txt in lbl_Txts)
     {
         if (!i18n.ContainsKey(lbl_Txt))
             i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
     }
 
-    for (int i = 0; i <= 7; i++)
+    for (var i = 0; i <= 7; i++)
     {
         if (!i18n.ContainsKey($"lbl_WithdrawalStatus{i}"))
             i18n.Add($"lbl_WithdrawalStatus{i}", selLangBLL.GetResourceValue($"lbl_WithdrawalStatus{i}"));

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -21,7 +20,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<DepositLimitInfo> GetDepositLimitInfoList(int siteId)
         {
-            string key = $"DepositLimitInfoList_{siteId}";
+            var key = $"DepositLimitInfoList_{siteId}";
             var depositLimitInfoList = cache.Get<IEnumerable<DepositLimitInfo>>(key);
             if (depositLimitInfoList == null)
             {

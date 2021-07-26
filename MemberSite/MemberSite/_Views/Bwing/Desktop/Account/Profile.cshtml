@@ -80,14 +80,14 @@
     i18n.Add("msg_OTP_SendOTPSMS_1000", selLangBLL.GetResourceValue("msg_OTP_SendOTPSMS_1000"));
 
 
-    string[] lbl_Txts = new string[] { "lbl_RealName", "lbl_RemindForName" };
+    var lbl_Txts = new string[] { "lbl_RealName", "lbl_RemindForName" };
     foreach (var lbl_Txt in lbl_Txts)
     {
         if (!i18n.ContainsKey(lbl_Txt))
             i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
     }
 
-    Dictionary<int, string> PerCountry = new Dictionary<int, string>()
+    var PerCountry = new Dictionary<int, string>()
 {
         {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{96,"MY" }
     };

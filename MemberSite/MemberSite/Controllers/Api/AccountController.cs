@@ -66,7 +66,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
-            bool result = authorizeBLL.LoginCheckin();
+            var result = authorizeBLL.LoginCheckin();
             if (!result)
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -90,7 +90,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
-            bool result = authorizeBLL.LoginCheckin();
+            var result = authorizeBLL.LoginCheckin();
             if (!result)
             {
                 //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -114,7 +114,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
-            bool result = authorizeBLL.Logout();
+            var result = authorizeBLL.Logout();
 
             Response.Cookies.Delete($"InitializationReset{ User.Identity.Name}");
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -139,7 +139,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
-            int result = custInfoBLL.SetLanguage(authData.CustId, languageModel.LangId);
+            var result = custInfoBLL.SetLanguage(authData.CustId, languageModel.LangId);
 
             if (result == -1)
             {
@@ -190,7 +190,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
-            bool result = authorizeBLL.Logout();
+            var result = authorizeBLL.Logout();
 
             //Response.Cookies.Delete($"InitializationReset{ User.Identity.Name}");
             //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -213,8 +213,8 @@ namespace MemberSite.Controllers.Api
         [HttpPost]/*會驗證[舊密碼]所以可以放在不嚴格的*/
         public ApiResult ChangePassword(ChangePasswordModel changePasswordModel)
         {
-            string oldPassword = changePasswordModel.OldPassword;
-            string newPassword = changePasswordModel.NewPassword;
+            var oldPassword = changePasswordModel.OldPassword;
+            var newPassword = changePasswordModel.NewPassword;
 
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
@@ -315,9 +315,9 @@ namespace MemberSite.Controllers.Api
             if (limitInfo != null)
             {
                 //var withdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
-                decimal tmpDeduction = limitInfo.WithdrawalLimit - limitInfo.TurnOver;
-                decimal deduction = tmpDeduction < 0 ? 0 : tmpDeduction;
-                decimal balance = limitInfo.Balance - (deduction);
+                var tmpDeduction = limitInfo.WithdrawalLimit - limitInfo.TurnOver;
+                var deduction = tmpDeduction < 0 ? 0 : tmpDeduction;
+                var balance = limitInfo.Balance - (deduction);
                 apiResult.Data = new { limitInfo.Balance, Deduction = deduction, AvailableBalance = balance < 0 ? 0 : balance };
                 apiResult.ErrorCode = 0;
             }
@@ -341,9 +341,9 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<RolloverPanel>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
-            RolloverPanel rolloverPanel = new RolloverPanel();
+            var rolloverPanel = new RolloverPanel();
             var promotions = promotionBLL.GetPromotionListByCustIdWithCache(authData.CustId).Where(x => x.BonusInfoStatus == 1);
-            if (promotions != null && promotions?.Count() > 0)
+            if (promotions?.Count() > 0)
             {
                 foreach (var promotion in promotions)
                 {
@@ -427,7 +427,7 @@ namespace MemberSite.Controllers.Api
                     }
                     else
                     {
-                        string defAccountNo = custInfoBLL.GetDefAccountNo(authData.CustId);
+                        var defAccountNo = custInfoBLL.GetDefAccountNo(authData.CustId);
                         if (custBankInfo.bankInfoDetail.Any(x => x.AccountNo == defAccountNo))
                         {
                             custBankInfo.DefAccountNo = defAccountNo;
@@ -474,7 +474,7 @@ namespace MemberSite.Controllers.Api
                     }
                     else
                     {
-                        string defAccountNo = custInfoBLL.GetDefAccountNo(getCustBankInfoReq.CustId);
+                        var defAccountNo = custInfoBLL.GetDefAccountNo(getCustBankInfoReq.CustId);
                         if (custBankInfo.bankInfoDetail.Any(x => x.AccountNo == defAccountNo))
                         {
                             custBankInfo.DefAccountNo = defAccountNo;
@@ -500,7 +500,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<Msg>();
-            int pageNumber = msgReq.PageNumber;
+            var pageNumber = msgReq.PageNumber;
             int totalPages;
             int rowCount;
             apiResult.Data = messageBLL.GetMsgList(authData.CustId, 5, ref pageNumber, out totalPages, out rowCount);
@@ -587,13 +587,13 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<WalletInfo>();
             apiResult.Data = walletBLL.GetWalletInfo(authData.CustId);
-            bool isHideBalance = false;
+            var isHideBalance = false;
             bool.TryParse(Request.Cookies[$"isHideBalance.{authData.CustId}"], out isHideBalance);
             apiResult.Data.IsHideBalance = isHideBalance;
 
             if (mainWalletType == 2)
             {
-                TpWallet tpWallet = new TpWallet();
+                var tpWallet = new TpWallet();
                 tpWallet.Balance = apiResult.Data.Balance;
                 tpWallet.TpId = 0;
                 tpWallet.TpName = selLangBLL.GetResourceValue("lbl_MainWallet");
@@ -649,9 +649,9 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult();
             var authData = authorizeBLL.GetAuthData();
-            CookieOptions option = new CookieOptions();
+            var option = new CookieOptions();
             option.Expires = DateTime.Now.AddYears(10);
-            string key = $"isHideBalance.{authData.CustId}";
+            var key = $"isHideBalance.{authData.CustId}";
             Response.Cookies.Append(key, value.ToString(), option);
             apiResult.ErrorCode = 0;
             return apiResult;
@@ -710,7 +710,7 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = new ReferralSummary();
             try
             {
-                custInfoBLL.GetReferralSummary(authData.CustId, out int ReferralCount, out int conditionCount, out int AmountCount, out int AmountSum);
+                custInfoBLL.GetReferralSummary(authData.CustId, out var ReferralCount, out var conditionCount, out var AmountCount, out var AmountSum);
 
                 apiResult.Data.ReferralCount = ReferralCount;
                 apiResult.Data.ConditionCount = conditionCount;
@@ -736,12 +736,12 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiListResult<ReferralFriend> GetRefFriendList(RefFriendListReq refFriendListReq)
         {
-            int PageSize = 10;
+            var PageSize = 10;
             if (refFriendListReq.PageSize > 0)
                 PageSize = refFriendListReq.PageSize;
-            int pageNumber = refFriendListReq.PageNumber;
-            int totalPages = 0;
-            int rowCount = 0;
+            var pageNumber = refFriendListReq.PageNumber;
+            var totalPages = 0;
+            var rowCount = 0;
             var apiResult = new ApiListResult<ReferralFriend>();
             var authData = authorizeBLL.GetAuthData();
 
@@ -771,7 +771,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<bool>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
 
-            if (long.TryParse(rrofileReq.PhoneNo, out long phoneNo))
+            if (long.TryParse(rrofileReq.PhoneNo, out var phoneNo))
             {
                 rrofileReq.PhoneNo = phoneNo.ToString();
                 apiResult.Data = custInfoBLL.ExistsPhoneNo(authData.CustId, rrofileReq.AreaCode, rrofileReq.PhoneNo);
@@ -980,7 +980,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<WalletBalance>(selLangBLL);
             apiResult.Data = new WalletBalance();
             var authData = authorizeBLL.GetAuthData();
-            bool isHideBalance = false;
+            var isHideBalance = false;
             bool.TryParse(Request.Cookies[$"isHideBalance.{authData.CustId}"], out isHideBalance);
             apiResult.Data.IsHideBalance = isHideBalance;
             var apiWalletInfo = walletBLL.GetWalletInfo(authData.CustId);
@@ -1005,7 +1005,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<int>();
-            int autoTransfer = 0;
+            var autoTransfer = 0;
             if (walletBLL.GetWalletTransferStatus(authData.CustId, out autoTransfer) == 1)
             {
                 apiResult.ErrorCode = 0;
@@ -1027,7 +1027,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<int>();
-            int autoTransfer = 0;
+            var autoTransfer = 0;
             if (walletBLL.SetWalletTransferStatus(authData.CustId, setWalletTransferStatusReq.AutoTransfer) == 1)
             {
                 apiResult.ErrorCode = 0;

@@ -9,21 +9,15 @@ using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using MemberSite.Service.BLL;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace MemberSite.Service.DAL
 {
     public class PromotionService
     {
-        private IConfiguration configuration;
+        private readonly IConfiguration configuration;
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
         private readonly Common common;
@@ -96,7 +90,7 @@ namespace MemberSite.Service.DAL
                 }
             }
 
-                int result = 0;
+                var result = 0;
                 var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode, DeviceType = deviceType });
                 p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
                 p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
@@ -800,7 +794,7 @@ namespace MemberSite.Service.DAL
 
             var promotionList = conn.Query<CustPromotion>("Member_SPCodePromotionList_Get", new { CustId }, trans, commandType: CommandType.StoredProcedure);
 
-            List<CustPromotion> _promotion = new List<CustPromotion>();
+            var _promotion = new List<CustPromotion>();
 
             foreach (var promo in promotionList)
             {
@@ -849,7 +843,7 @@ namespace MemberSite.Service.DAL
                 }
                 else
                 {
-                    BonusWallet custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
+                    var custBonusInfo = conn.QueryFirstOrDefault<BonusWallet>("Member_BonusInfo_GetByCust", new { promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId }, trans, commandType: CommandType.StoredProcedure);
                     if (custBonusInfo != null)
                     {
                         promo.CustExpiryTime = custBonusInfo.ExpiryTime;
@@ -905,7 +899,7 @@ namespace MemberSite.Service.DAL
         {
             var promotionList = _reportDbClient.Query<CustPromotion>("Member_SPCodePromotionListV2_Get", new DynamicParameters(new { CustId, DeviceType = deviceType }));
 
-            List<CustPromotion> _promotion = new List<CustPromotion>();
+            var _promotion = new List<CustPromotion>();
 
             foreach (var promo in promotionList)
             {
@@ -955,7 +949,7 @@ namespace MemberSite.Service.DAL
                 }
                 else
                 {
-                    BonusWallet custBonusInfo = _reportDbClient.QueryFirst<BonusWallet>("Member_BonusInfo_GetByCust",
+                    var custBonusInfo = _reportDbClient.QueryFirst<BonusWallet>("Member_BonusInfo_GetByCust",
                         new DynamicParameters(new {promo.BonusCode, PromoCategoryId = promo.CategoryId, TpId = promo.TpId, CustId}));
                     if (custBonusInfo != null)
                     {
@@ -1014,7 +1008,7 @@ namespace MemberSite.Service.DAL
         public bool SetSpecialCode(int custId, string specialCode, int? deviceType)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            int result = conn.Execute("Member_CustSpecialCodeV3_Ins", new { CustId = custId, SpecialCode = specialCode, DeviceType = deviceType }, commandType: CommandType.StoredProcedure);
+            var result = conn.Execute("Member_CustSpecialCodeV3_Ins", new { CustId = custId, SpecialCode = specialCode, DeviceType = deviceType }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
         //test code
@@ -1070,7 +1064,7 @@ namespace MemberSite.Service.DAL
             var Params = new DynamicParameters(new { CustId = custId, ScratchCardCode = scratchCardCode, DeviceType = deviceType });
             Params.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
             conn.Execute("Member_CustScratchCardCodeV3_Ins", Params, commandType: CommandType.StoredProcedure);
-            int Result = Params.Get<int>("Result");
+            var Result = Params.Get<int>("Result");
             return Result;
         }
         public void SetSpecialCodeJoined(int custId, string specialCode, string bonusCode)
@@ -1085,7 +1079,7 @@ namespace MemberSite.Service.DAL
             conn.Open();
 
             var promotionList = conn.Query<CustPromotion>("Member_DepositPromotion_Get", new { CustId, DeviceType }, commandType: CommandType.StoredProcedure);
-            List<CustPromotion> _promotion = new List<CustPromotion>();
+            var _promotion = new List<CustPromotion>();
 
             foreach (var promo in promotionList)
             { 
@@ -1131,15 +1125,15 @@ namespace MemberSite.Service.DAL
         }
         public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, int siteId, string userName, int currencyId, int deviceType, decimal lockedAmount)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Execute("Member_DepositBonusQueue_Set", new { TransId = transId, BonusCode = bonusCode, CustId = custId, SiteId = siteId, UserName = userName, CurrencyId = currencyId, DeviceType = deviceType, LockedAmount = lockedAmount}, commandType: CommandType.StoredProcedure)>0;
         }
         public bool CheckSpecialCode(string specialCode)
         {
             if (string.IsNullOrEmpty(specialCode) || specialCode.Length > 20)
                 return false;
-            Regex regex = new Regex("^[- !@#$%^&*a-zA-Z0-9]{1,20}$", RegexOptions.Singleline);
-            Match mPwd = regex.Match(specialCode);
+            var regex = new Regex("^[- !@#$%^&*a-zA-Z0-9]{1,20}$", RegexOptions.Singleline);
+            var mPwd = regex.Match(specialCode);
 
             return mPwd.Success;
         }
@@ -1149,8 +1143,8 @@ namespace MemberSite.Service.DAL
             if (string.IsNullOrEmpty(specialCode) || specialCode.Length != 12)
                 return false;
 
-            Regex regex = new Regex("^[a-zA-Z]{5}-[a-zA-Z0-9]{6}$", RegexOptions.Singleline);
-            Match mPwd = regex.Match(specialCode);
+            var regex = new Regex("^[a-zA-Z]{5}-[a-zA-Z0-9]{6}$", RegexOptions.Singleline);
+            var mPwd = regex.Match(specialCode);
 
             return mPwd.Success;
         }

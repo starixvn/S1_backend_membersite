@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 using MemberSite.Service.BLL;
-using MemberSite.Service.Library;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -27,12 +25,12 @@ namespace MemberSite.Controllers
         }
         public IActionResult Index()
         {
-            Dictionary<string, string> ServerInfoData = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var ServerInfoData = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             ServerInfoData.Add("Now", DateTime.Now.ToString());
             ServerInfoData.Add("EnvironmentName", environment.EnvironmentName);
             ServerInfoData.Add("LangId", selLangBLL.GetLangId());
             var host = Dns.GetHostEntry(Dns.GetHostName());
-            int i = 1;
+            var i = 1;
             foreach (var ip in host.AddressList)
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
@@ -70,7 +68,7 @@ namespace MemberSite.Controllers
 
             foreach (var head in Request.Headers)
             {
-                string sKey = head.Key;
+                var sKey = head.Key;
                 if (list.Contains(sKey, StringComparer.OrdinalIgnoreCase) && !ServerInfoData.ContainsKey(sKey))
                 {
                     ServerInfoData.Add(sKey, head.Value);

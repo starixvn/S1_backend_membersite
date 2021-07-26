@@ -5,7 +5,6 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -35,7 +34,7 @@ namespace MemberSite.Service.BLL
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
 
-            string key = $"BankInfoSysList_{serverInfo.SiteId}";
+            var key = $"BankInfoSysList_{serverInfo.SiteId}";
             var bankInfoSysList = cache.Get<IEnumerable<BankInfoSys>>(key);
             if (bankInfoSysList != null)
             {
@@ -56,7 +55,7 @@ namespace MemberSite.Service.BLL
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
 
-            string key = $"BankInfoSysListForCtrl_{serverInfo.SiteId}";
+            var key = $"BankInfoSysListForCtrl_{serverInfo.SiteId}";
             var bankInfoSysList = cache.Get<IEnumerable<BankInfoSys>>(key);
             if (bankInfoSysList != null)
             {
@@ -280,7 +279,7 @@ namespace MemberSite.Service.BLL
         #endregion
         public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId)
         {
-            string key = $"BankInfoPayList_{siteId}";
+            var key = $"BankInfoPayList_{siteId}";
             var bankInfoPayList = cache.Get<IEnumerable<BankInfoPay>>(key);
             if (bankInfoPayList == null)
             {
@@ -296,7 +295,7 @@ namespace MemberSite.Service.BLL
         }
         public IEnumerable<PayCurrency> GetPayCurrency()
         {
-            string key = "PayCurrency";
+            var key = "PayCurrency";
             var payCurrency = cache.Get<IEnumerable<PayCurrency>>(key);
 
             if (payCurrency == null)

@@ -56,16 +56,16 @@
     i18n.Add("lbl_ThisMonth", selLangBLL.GetResourceValue("lbl_ThisMonth"));
     i18n.Add("lbl_LastMonth", selLangBLL.GetResourceValue("lbl_LastMonth"));
 
-    for (int depositStatus = 0; depositStatus <= 8; depositStatus++)
+    for (var depositStatus = 0; depositStatus <= 8; depositStatus++)
     {
-        string sKey = $"lbl_DepositStatus{depositStatus}";
+        var sKey = $"lbl_DepositStatus{depositStatus}";
         i18n.Add(sKey, selLangBLL.GetResourceValue(sKey));
     }
     i18n.Add($"lbl_DepositStatus{99}", selLangBLL.GetResourceValue($"lbl_DepositStatus{99}"));
 
     for (var depositType = 1; depositType <= 3; depositType++)
     {
-        string sKey = $"lbl_DepositType{depositType}";
+        var sKey = $"lbl_DepositType{depositType}";
         i18n.Add(sKey, selLangBLL.GetResourceValue(sKey));
     }
 }

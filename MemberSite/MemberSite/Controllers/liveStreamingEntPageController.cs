@@ -29,9 +29,9 @@ namespace MemberSite.Controllers
         public async Task<IActionResult> IndexAsync(int ch)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
-            string commonServiceUrl = configuration.GetValue<string>("CommonService");
-            string apiUrl = $"{commonServiceUrl}LiveStreaming/GetLiveStreamingLink";
-            string ip = tools.GetClientIP();
+            var commonServiceUrl = configuration.GetValue<string>("CommonService");
+            var apiUrl = $"{commonServiceUrl}LiveStreaming/GetLiveStreamingLink";
+            var ip = tools.GetClientIP();
             var liveStreamingLinkReq = new LiveStreamingLinkReq
             {
                 Ch = ch,
@@ -54,18 +54,18 @@ namespace MemberSite.Controllers
 
                 if (data.ErrorCode == 0)
                 {
-                    string entryUrl = data.Message;
+                    var entryUrl = data.Message;
                     return Redirect(entryUrl);
                 }
                 else
                 {
-                    ErrorData model = new ErrorData() { Message = data.Message };
+                    var model = new ErrorData() { Message = data.Message };
                     return Content(model.Message);
                 }
             }
             catch (Exception ex)
             {
-                ErrorData model = new ErrorData() { Message = ex.Message };
+                var model = new ErrorData() { Message = ex.Message };
                 return Content(model.Message);
             }
         }

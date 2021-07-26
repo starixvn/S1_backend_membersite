@@ -1,11 +1,7 @@
 ﻿using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
@@ -58,7 +54,7 @@ namespace MemberSite.Service.Library
                 //UseDefaultCredentials = false
             };
 
-            MailMessage mailMessage = new MailMessage();
+            var mailMessage = new MailMessage();
             mailMessage.IsBodyHtml = true;
             mailMessage.From = new MailAddress(_mailConfig.MailID, FromName);
             mailMessage.To.Add(new MailAddress(ToAddress, ToName));

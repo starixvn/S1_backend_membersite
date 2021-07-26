@@ -338,7 +338,6 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             //check input
             if (string.IsNullOrEmpty(content.Name))
             {
@@ -389,7 +388,7 @@ namespace MemberSite.Controllers.Api
                 string AreaCode = custProfile[nameof(AreaCode)];
                 string PhoneNo = custProfile[nameof(PhoneNo)];
 
-                if (long.TryParse(PhoneNo, out long phoneNo))
+                if (long.TryParse(PhoneNo, out var phoneNo))
                 {
                     PhoneNo = phoneNo.ToString();
                 }
@@ -487,7 +486,7 @@ namespace MemberSite.Controllers.Api
                     string AreaCode = custProfile[nameof(AreaCode)];
                     string PhoneNo = custProfile[nameof(PhoneNo)];
 
-                    if (long.TryParse(PhoneNo, out long phoneNo))
+                    if (long.TryParse(PhoneNo, out var phoneNo))
                     {
                         PhoneNo = phoneNo.ToString();
                     }
@@ -572,7 +571,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<object>(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
-            Dictionary<int, string> PerCountry = new Dictionary<int, string>()
+            var PerCountry = new Dictionary<int, string>()
             {
                     {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{61,"IN" },{96,"MY" }
                 };
@@ -580,7 +579,7 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var custInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
-                string _perCountry = "";
+                var _perCountry = "";
                 if (custInfo != null)
                 {
                     if (custInfo.CurrencyId == 96)
@@ -638,7 +637,7 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult UploadCustPhotoId([FromForm] CustPhotoIdReq custPhotoIdReq)
         {
-            decimal xSize = 500m;
+            var xSize = 500m;
             var apiResult = new ApiResult();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
@@ -671,8 +670,8 @@ namespace MemberSite.Controllers.Api
                     uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format4bppIndexed ||
                     uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format8bppIndexed)
                 {
-                    Bitmap bitmap = new Bitmap(Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
-                    Graphics graphics = Graphics.FromImage(bitmap);
+                    var bitmap = new Bitmap(Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
+                    var graphics = Graphics.FromImage(bitmap);
                     graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
                     graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
                     graphics.DrawImage(uploadedImage, 0, 0, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
@@ -688,11 +687,11 @@ namespace MemberSite.Controllers.Api
 
                 img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
 
-                string fileName = custPhotoIdReq.PhotoId.FileName;
+                var fileName = custPhotoIdReq.PhotoId.FileName;
                 fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
                 fileName = $"{fileName.Substring(0, fileName.LastIndexOf('.'))}.jpg";
 
-                byte[] fileBytes = ms.ToArray();
+                var fileBytes = ms.ToArray();
                 var result = custInfoBLL.SetCustPhotoId(custInfo.CustId, custInfo.SiteId, fileName, fileBytes);
 
                 if (result > 0)

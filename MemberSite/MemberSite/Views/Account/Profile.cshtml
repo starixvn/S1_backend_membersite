@@ -67,14 +67,14 @@
     i18n.Add("msg_MailExisted", selLangBLL.GetMsg("msg_MailExisted"));
     i18n.Add("msg_Wrong", selLangBLL.GetMsg("msg_Wrong"));
     i18n.Add("msg_Updatesuccessful", selLangBLL.GetMsg("msg_Updatesuccessful"));
-    string[] lbl_Txts = new string[] { "lbl_RealName", "lbl_RemindForName" };
+    var lbl_Txts = new string[] { "lbl_RealName", "lbl_RemindForName" };
     foreach (var lbl_Txt in lbl_Txts)
     {
         if (!i18n.ContainsKey(lbl_Txt))
             i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
     }
 
-    Dictionary<int, string> PerCountry = new Dictionary<int, string>()
+    var PerCountry = new Dictionary<int, string>()
 {
         {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{61,"IN" },{96,"MY" }
     };

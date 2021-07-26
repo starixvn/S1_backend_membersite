@@ -3,11 +3,9 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -32,7 +30,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 1)
         {
-            string sBankInfoOffListKey = $"BankInfoOffList_{siteId}_{queryType}";
+            var sBankInfoOffListKey = $"BankInfoOffList_{siteId}_{queryType}";
             var BankInfoOffList = cache.Get<IEnumerable<BankInfoOff>>(sBankInfoOffListKey);
             if (BankInfoOffList == null)
             {

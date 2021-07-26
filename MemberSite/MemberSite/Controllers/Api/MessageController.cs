@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
@@ -29,7 +28,7 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<Announcement>> GetAnnouncement()
         {
             var result = new ApiResult<IEnumerable<Announcement>>();
-            int LimitRow = 15;
+            var LimitRow = 15;
             var serverInfo = serverInfoBLL.GetServerInfo();
             result.Data = messageBLL.GetAnnouncement(selLangBLL.GetLangId(), serverInfo.DefLang, LimitRow, !environment.IsProduction(), serverInfo.SiteId)
                 .Select(x => new Announcement()

@@ -272,7 +272,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            int custId = 0;
+            var custId = 0;
 
             if (!string.IsNullOrWhiteSpace(registeredModel.Email) && custInfoBLL.ExistsEmail(custId, registeredModel.Email))
             {
@@ -819,8 +819,8 @@ namespace MemberSite.Controllers.Api
                 {
                     var custInfoProfile = custInfoBLL.GetCustInfoProfile(custInfo.CustId);
 
-                    string pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
-                    string result = Regex.Replace(custInfoProfile.Email, pattern, m => new string('*', m.Length));
+                    var pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
+                    var result = Regex.Replace(custInfoProfile.Email, pattern, m => new string('*', m.Length));
 
                     custInfoBLL.ForgetPwd1(custInfo.CustId, resetPasswordUrl);
                     if (!string.IsNullOrEmpty(forgetPwdReq.Username))
@@ -904,10 +904,10 @@ namespace MemberSite.Controllers.Api
                 {
                     var custInfoProfile = custInfoBLL.GetCustInfoProfile(custInfo.CustId);
 
-                    string pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
-                    string result = Regex.Replace(custInfoProfile.Email, pattern, m => new string('*', m.Length));
+                    var pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
+                    var result = Regex.Replace(custInfoProfile.Email, pattern, m => new string('*', m.Length));
 
-                    ApiResult commonResult = await custInfoBLL.ForgetPwd1Async(custInfo.CustId, resetPasswordUrl);
+                    var commonResult = await custInfoBLL.ForgetPwd1Async(custInfo.CustId, resetPasswordUrl);
                     if (commonResult.ErrorCode == 0)
                     {
                         if (!string.IsNullOrEmpty(forgetPwdReq.Username))
@@ -944,7 +944,7 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<Dictionary<string, string>>();
             try
             {
-                Dictionary<string, string> datas = new Dictionary<string, string>();
+                var datas = new Dictionary<string, string>();
                 foreach (var k in keys)
                 {
                     var lang = selLangBLL.GetResourceValue(k) ?? selLangBLL.GetMsg(k);
@@ -1028,9 +1028,9 @@ namespace MemberSite.Controllers.Api
 
         public ApiResult<List<Provider>> GetGameList()
         {
-            ApiResult<List<Provider>> apiResult = new ApiResult<List<Provider>>();
+            var apiResult = new ApiResult<List<Provider>>();
 
-            List<Provider> providers = new List<Provider> {
+            var providers = new List<Provider> {
                 new Provider { Value = 6, Name = "GPI", DisplayText = selLangBLL.GetResourceValue("lbl_GPI"), PlayFree = true, DisplayKey = "lbl_GPI" },
                 new Provider { Value = 8, Name = "YGG", DisplayText = "YGG", PlayFree = true },
                 new Provider { Value = 9, Name = "Joker", DisplayText = "Joker", PlayFree = false },
@@ -1058,7 +1058,7 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = providers?.Where(x => tpIds.Contains(x.Value)).ToList();
             foreach (var provider in providers)
             {
-                string datePath = Path.Combine(environment.WebRootPath, "datas", provider.Name, "GameList.json");
+                var datePath = Path.Combine(environment.WebRootPath, "datas", provider.Name, "GameList.json");
                 if (System.IO.File.Exists(datePath))
                     provider.GameList = JsonConvert.DeserializeObject<GameDesc>(System.IO.File.ReadAllText(datePath));
             }
@@ -1068,7 +1068,7 @@ namespace MemberSite.Controllers.Api
 
         public ApiResult<IEnumerable<int>> GetTpIds()
         {
-            ApiResult<IEnumerable<int>> apiResult = new ApiResult<IEnumerable<int>>();
+            var apiResult = new ApiResult<IEnumerable<int>>();
             if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();
@@ -1088,11 +1088,11 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<IEnumerable<BannerSettingItem>> GetBanner([FromForm] string FolderName, [FromForm] string refId, [FromForm] bool filterHideInHome)
         {
-            ApiResult<IEnumerable<BannerSettingItem>> result = new ApiResult<IEnumerable<BannerSettingItem>>();
+            var result = new ApiResult<IEnumerable<BannerSettingItem>>();
 
             var serverInfo = serverInfoBLL.GetServerInfo();
-            string dataPath = Path.Combine(environment.WebRootPath, $"datas/{serverInfo.SiteName}_bannerSetting.json");
-            BannerSetting _bannerSetting = new BannerSetting();
+            var dataPath = Path.Combine(environment.WebRootPath, $"datas/{serverInfo.SiteName}_bannerSetting.json");
+            var _bannerSetting = new BannerSetting();
             if (System.IO.File.Exists(dataPath))
             {
                 _bannerSetting = JsonConvert.DeserializeObject<BannerSetting>(System.IO.File.ReadAllText(dataPath));
@@ -1151,7 +1151,7 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<IEnumerable<BannerV2>> GetBannerV2(BannerReq bannerReq)
         {
-            ApiResult<IEnumerable<BannerV2>> apiResult = new ApiResult<IEnumerable<BannerV2>>();
+            var apiResult = new ApiResult<IEnumerable<BannerV2>>();
 
             var serverInfo = serverInfoBLL.GetServerInfo();
             var perferCurr = 0;
@@ -1182,7 +1182,7 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<IEnumerable<BannerV3>> GetBannerV3(BannerReq bannerReq)
         {
-            ApiResult<IEnumerable<BannerV3>> apiResult = new ApiResult<IEnumerable<BannerV3>>();
+            var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
             var serverInfo = serverInfoBLL.GetServerInfo();
             var perferCurr = 0;
@@ -1222,7 +1222,7 @@ namespace MemberSite.Controllers.Api
             else if (authBLL.Authenticate(key, out CustInfoProfile custInfoProfile))
             {
                 Customer customer = null;
-                int userLoginResult = custInfoBLL.UserLoginForResetPwd(custInfoProfile.UserName, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out string token);
+                var userLoginResult = custInfoBLL.UserLoginForResetPwd(custInfoProfile.UserName, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
                 if (userLoginResult == 0)
                 {
                     var claims = new List<Claim>
@@ -1254,13 +1254,13 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<Dictionary<string, string>>();
             try
             {
-                Dictionary<string, string> ServerInfoData = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                var ServerInfoData = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
                 result.Data = ServerInfoData;
                 ServerInfoData.Add("Now", DateTime.Now.ToString());
                 ServerInfoData.Add("EnvironmentName", environment.EnvironmentName);
                 ServerInfoData.Add("LangId", selLangBLL.GetLangId());
                 var host = Dns.GetHostEntry(Dns.GetHostName());
-                int i = 1;
+                var i = 1;
                 foreach (var ip in host.AddressList)
                 {
                     if (ip.AddressFamily == AddressFamily.InterNetwork)
@@ -1298,7 +1298,7 @@ namespace MemberSite.Controllers.Api
 
                 foreach (var head in Request.Headers)
                 {
-                    string sKey = head.Key;
+                    var sKey = head.Key;
                     if (list.Contains(sKey, StringComparer.OrdinalIgnoreCase) && !ServerInfoData.ContainsKey(sKey))
                     {
                         ServerInfoData.Add(sKey, head.Value);
@@ -1320,7 +1320,7 @@ namespace MemberSite.Controllers.Api
         public ApiResult<bool> ExistsPhoneNo(RrofileReq req)
         {
             var apiResult = new ApiResult<bool>(selLangBLL);
-            if (long.TryParse(req.PhoneNo, out long phoneNo))
+            if (long.TryParse(req.PhoneNo, out var phoneNo))
             {
                 req.PhoneNo = phoneNo.ToString();
                 apiResult.Data = custInfoBLL.ExistsPhoneNo(0, req.AreaCode, req.PhoneNo);
@@ -1350,8 +1350,8 @@ namespace MemberSite.Controllers.Api
         }
         public ApiResult<GameInfo> GetGameListV2()
         {
-            ApiResult<GameInfo> apiResult = new ApiResult<GameInfo>();
-            GameInfo resultData = new GameInfo();
+            var apiResult = new ApiResult<GameInfo>();
+            var resultData = new GameInfo();
             resultData.ProviderList = new List<Provider>();
 
             //不分Tpid取出GameCasino資料
@@ -1404,7 +1404,7 @@ namespace MemberSite.Controllers.Api
                         imgName = nameItem["en"];
                     }
 
-                    Dictionary<string, string> imgNameD = nameItem.ToDictionary(x => x.Key, x => $"{OrgFileNameFilter($"{imgName}-{x.Key}")}.jpg");
+                    var imgNameD = nameItem.ToDictionary(x => x.Key, x => $"{OrgFileNameFilter($"{imgName}-{x.Key}")}.jpg");
                     if (dictgameCasionByCurrencyAndSite != null && dictgameCasionByCurrencyAndSite.ContainsKey(y.GameCasinoId))
                     {
                         if (dictgameCasionByCurrencyAndSite[y.GameCasinoId].Status)
@@ -1465,8 +1465,8 @@ namespace MemberSite.Controllers.Api
         }
         public ApiResult<GameInfo> GetGameListByDevice(GetGameListByDeviceReq getGameListByDeviceReq)
         {
-            ApiResult<GameInfo> apiResult = new ApiResult<GameInfo>();
-            GameInfo resultData = new GameInfo();
+            var apiResult = new ApiResult<GameInfo>();
+            var resultData = new GameInfo();
             resultData.ProviderList = new List<Provider>();
 
             //不分Tpid取出GameCasino資料
@@ -1524,7 +1524,7 @@ namespace MemberSite.Controllers.Api
                         imgName = nameItem["en"];
                     }
 
-                    Dictionary<string, string> imgNameD = nameItem.ToDictionary(x => x.Key, x => $"{OrgFileNameFilter($"{imgName}-{x.Key}")}.jpg");
+                    var imgNameD = nameItem.ToDictionary(x => x.Key, x => $"{OrgFileNameFilter($"{imgName}-{x.Key}")}.jpg");
                     if (dictgameCasionByCurrencyAndSite != null && dictgameCasionByCurrencyAndSite.ContainsKey(y.GameCasinoId))
                     {
                         if (dictgameCasionByCurrencyAndSite[y.GameCasinoId].Status)
@@ -1605,7 +1605,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<AffiliateAgent>();
             apiResult.Data = new AffiliateAgent();
-            int result = custInfoBLL.GetAffiliateAgentBLL(affiliateAgentReq.AffId);
+            var result = custInfoBLL.GetAffiliateAgentBLL(affiliateAgentReq.AffId);
             apiResult.ErrorCode = 0;
             if (result > 0)
             {
@@ -1633,8 +1633,8 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<Domainlist>> GetSupportDomainList()
         {
             var apiResult = new ApiResult<IEnumerable<Domainlist>>();
-            int siteId = 0;
-            int currencyId = 0;
+            var siteId = 0;
+            var currencyId = 0;
             if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();

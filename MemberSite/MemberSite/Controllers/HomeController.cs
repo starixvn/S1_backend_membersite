@@ -33,7 +33,7 @@ namespace MemberSite.Controllers
                 // VN Affiliate
                 if (aff != null)
                 {
-                    CookieOptions option = new CookieOptions();
+                    var option = new CookieOptions();
                     option.Expires = DateTime.Now.AddMonths(1);
                     Response.Cookies.Append(nameof(aff), aff, option);
 
@@ -50,7 +50,7 @@ namespace MemberSite.Controllers
                 // Marketing Affiliate
                 if (refId != null)
                 {
-                    CookieOptions option = new CookieOptions();
+                    var option = new CookieOptions();
                     option.Expires = DateTime.Now.AddMonths(1);
                     Response.Cookies.Append(nameof(refId), refId, option);
 
@@ -67,7 +67,7 @@ namespace MemberSite.Controllers
                 // Affiliate
                 if (affId != null)
                 {
-                    CookieOptions option = new CookieOptions();
+                    var option = new CookieOptions();
                     option.Expires = DateTime.Now.AddMonths(1);
                     Response.Cookies.Append(nameof(affId), affId, option);
 
@@ -95,7 +95,7 @@ namespace MemberSite.Controllers
             // VN Affiliate
             if (aff != null)
             {
-                CookieOptions option = new CookieOptions();
+                var option = new CookieOptions();
                 option.Expires = DateTime.Now.AddMonths(1);
                 Response.Cookies.Append(nameof(aff), aff, option);
 
@@ -112,7 +112,7 @@ namespace MemberSite.Controllers
             // Marketing Affiliate
             if (refId != null)
             {
-                CookieOptions option = new CookieOptions();
+                var option = new CookieOptions();
                 option.Expires = DateTime.Now.AddMonths(1);
                 Response.Cookies.Append(nameof(refId), refId, option);
 
@@ -129,7 +129,7 @@ namespace MemberSite.Controllers
             //Affiliate
             if (affId != null)
             {
-                CookieOptions option = new CookieOptions();
+                var option = new CookieOptions();
                 option.Expires = DateTime.Now.AddMonths(1);
                 Response.Cookies.Append(nameof(affId), affId, option);
 
@@ -165,7 +165,7 @@ namespace MemberSite.Controllers
             else if (authBLL.Authenticate(key, out CustInfoProfile custInfoProfile))
             {
                 Customer customer = null;
-                int userLoginResult = custInfoBLL.UserLoginForResetPwd(custInfoProfile.UserName, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out string token);
+                var userLoginResult = custInfoBLL.UserLoginForResetPwd(custInfoProfile.UserName, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
                 if (userLoginResult == 0)
                 {
                     var claims = new List<Claim>

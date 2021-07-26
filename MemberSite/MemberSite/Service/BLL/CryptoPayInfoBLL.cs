@@ -33,7 +33,7 @@ namespace MemberSite.Service.BLL
         }
         public IEnumerable<CryptoPayInfo> GetCryptoPayInfoListWithCache(int siteId)
         {
-            string key = $"CryptoPayInfoList_{siteId}";
+            var key = $"CryptoPayInfoList_{siteId}";
             var cryptoPayInfoList = cache.Get<IEnumerable<CryptoPayInfo>>(key);
             if (cryptoPayInfoList == null)
             {
@@ -143,7 +143,7 @@ namespace MemberSite.Service.BLL
 
             if (cryptoPayInfo != null)
             {
-                DepositDetailInfo depositDetailInfo = new DepositDetailInfo();
+                var depositDetailInfo = new DepositDetailInfo();
                 depositDetailInfo.Amount = amount;
                 depositDetailInfo.CustId = custId;
                 depositDetailInfo.DepositType = (int)DepositType.CryptoPayment;
