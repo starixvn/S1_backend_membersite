@@ -300,9 +300,9 @@ namespace MemberSite.Service.DAL
                                 .AddDays(-(int) DateTime.Today.DayOfWeek + (int) DayOfWeek.Monday)
                                 .ToString("yyyy-MM-dd");
 
-                            result = bonusWalletService.RewardCashBack(
+                            result = _bonusWalletService.RewardCashBack(
                                 new CustCashBackInput(custId, promotion.BonusCode, promotion.CategoryId, calculateDate),
-                                trans);
+                                conn, trans);
                         }
 
                         break;
