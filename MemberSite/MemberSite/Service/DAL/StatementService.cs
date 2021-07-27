@@ -84,7 +84,7 @@ namespace MemberSite.Service.DAL
         public IEnumerable<BounsLogStatement> GetBounsLogStatement(int custId,int PromoCategoryId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            var p = new DynamicParameters(new { CustId = custId, PromoCategoryId = PromoCategoryId, StartDate = startDate, EndDate = endDate, SiteId = siteId, PageSize = pageSize });
+            var p = new DynamicParameters(new { CustId = custId, PromoCategoryId, StartDate = startDate, EndDate = endDate, SiteId = siteId, PageSize = pageSize });
             p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);

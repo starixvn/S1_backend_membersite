@@ -25,22 +25,22 @@
                     {
                         if (tools.IsMobile())
                         {
-                            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId, gameId });
                             entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();";
                         }
                     else
-                        entPageUrl = Url.RouteUrl("desktop", new { action = "Static", controller = "Home", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                        entPageUrl = Url.RouteUrl("desktop", new { action = "Static", controller = "Home", LangId = selLangBLL.GetLangId(), tpId, gameId });
                     }
                 }
                 else
                 {
                     if (tools.IsMobile())
                     {
-                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId, gameId });
                         entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();";
                     }
                     else
-                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId, gameId });
                 }
             }
             else
@@ -51,7 +51,7 @@
 
                 if (gameId == "202" || gameId == "208")
                 {
-                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl, signupUrl, LoginUrl, tpId, gameId });
                     //entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();";
                     entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
                 }
@@ -61,13 +61,13 @@
                 }
                 else if (tools.IsMobile())
                 {
-                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl, signupUrl, LoginUrl, tpId, gameId });
                     entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
                 }
                 else
                 {
                      @*IFrame*@
-                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId, gameId });
                     entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
                 }
             }

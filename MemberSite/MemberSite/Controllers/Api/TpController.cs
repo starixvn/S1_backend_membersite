@@ -104,10 +104,10 @@ namespace MemberSite.Controllers.Api
             var myUrl = $"{_apiUrl}GotoGame";
             var tpInfo = new
             {
-                TpId = inInfo.TpId,
+                inInfo.TpId,
                 CustId = custId,
                 LangId = langId,
-                AppType = inInfo.AppType,
+                inInfo.AppType,
                 inputs = input
             };
 
@@ -499,7 +499,7 @@ namespace MemberSite.Controllers.Api
             var oTpInfo = new
             {
                 TpId = tpId,
-                CustId = authData.CustId,
+                authData.CustId,
                 inputs = input
             };
 

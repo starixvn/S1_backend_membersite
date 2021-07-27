@@ -258,10 +258,10 @@ namespace MemberSite.Controllers
                 var reqDeposit = new 
                 {
                     TransId = transId,
-                    CustId = authData.CustId,
-                    Amount = Amount,
-                    ChannelId = loadCardPayInfo.ChannelId,
-                    PayId = loadCardPayInfo.PayId,
+                    authData.CustId,
+                    Amount,
+                    loadCardPayInfo.ChannelId,
+                    loadCardPayInfo.PayId,
                     ClientIP = tools.GetClientIP(),
                     ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
                 };

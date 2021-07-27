@@ -15,7 +15,7 @@ namespace MemberSite.Service.DAL
         public int ApplyToken(string Key, string Value, int Expiry)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("Common_AuthToken_Ins", new { Token = Key, PermissionData = Value, Expiry = Expiry }, commandType: CommandType.StoredProcedure);
+            return conn.Execute("Common_AuthToken_Ins", new { Token = Key, PermissionData = Value, Expiry }, commandType: CommandType.StoredProcedure);
         }
         public string Authenticate(string Key)
         {

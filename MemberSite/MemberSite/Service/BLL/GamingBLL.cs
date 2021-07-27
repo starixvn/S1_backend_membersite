@@ -29,23 +29,37 @@ namespace MemberSite.Service.BLL
             {
                 if (tools.IsMobile())
                 {
-                    entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId, matchid = matchId });
+                    entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(),
+                        homeUrl,
+                        signupUrl,
+                        LoginUrl,
+                        tpId,
+                        gameId, matchid = matchId });
                 }
                 else
                 {
-                    entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId, matchid = matchId });
+                    entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(),
+                        tpId,
+                        gameId, matchid = matchId });
                 }
             }
             else
             {
                 if (tools.IsMobile() || iGameId == 43)
                 {
-                    entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+                    entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(),
+                        homeUrl,
+                        signupUrl,
+                        LoginUrl,
+                        tpId,
+                        gameId });
                     entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId}, {matchId});";
                 }
                 else
                 {
-                    entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                    entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(),
+                        tpId,
+                        gameId });
                     entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId}, {matchId});";
                 }
             }
@@ -85,7 +99,9 @@ namespace MemberSite.Service.BLL
                         }
                         else
                         {
-                            entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Static", controller = "Home", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                            entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Static", controller = "Home", LangId = selLangBLL.GetLangId(),
+                                tpId,
+                                gameId });
                         }
                     }
                     else
@@ -96,11 +112,18 @@ namespace MemberSite.Service.BLL
                         }
                         else if (tools.IsMobile())
                         {
-                            entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+                            entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(),
+                                homeUrl,
+                                signupUrl,
+                                LoginUrl,
+                                tpId,
+                                gameId });
                         }
                         else
                         {
-                            entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                            entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(),
+                                tpId,
+                                gameId });
                         }
                     }
                 }
@@ -112,18 +135,30 @@ namespace MemberSite.Service.BLL
                     }
                     else if (iGameId >= 200)/*3RD Game or RNG Game*/
                     {
-                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(),
+                            homeUrl,
+                            signupUrl,
+                            LoginUrl,
+                            tpId,
+                            gameId });
                         //entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();";
                         entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
                     }
                     else if (tools.IsMobile() || iGameId == 43)
                     {
-                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(),
+                            homeUrl,
+                            signupUrl,
+                            LoginUrl,
+                            tpId,
+                            gameId });
                         entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
                     }
                     else
                     {
-                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId = tpId, gameId = gameId });
+                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(),
+                            tpId,
+                            gameId });
                         entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
                     }
                 }
@@ -138,7 +173,7 @@ namespace MemberSite.Service.BLL
                 {
                     if (urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
                     {
-                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, CashierUrl = cashierUrl, LobbyUrl = slotsLobbyUrl, gameType = gameType.ToString() });
+                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl, CashierUrl = cashierUrl, LobbyUrl = slotsLobbyUrl, gameType = gameType.ToString() });
                     }
                     else
                     {
@@ -150,7 +185,10 @@ namespace MemberSite.Service.BLL
                 {
                     if (urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
                     {
-                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, CashierUrl = cashierUrl, LobbyUrl = slotsLobbyUrl, tpId = tpId, gameId = gameId, gameType = gameType.ToString() });
+                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(),
+                            homeUrl, CashierUrl = cashierUrl, LobbyUrl = slotsLobbyUrl,
+                            tpId,
+                            gameId, gameType = gameType.ToString() });
                     }
                     else
                     {
@@ -162,7 +200,12 @@ namespace MemberSite.Service.BLL
                 {
                     if (urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
                     {
-                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, CashierUrl = cashierUrl, tpId = tpId, gameId = gameId, gameType = gameType.ToString() });
+                        entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(),
+                            homeUrl,
+                            signupUrl,
+                            LoginUrl, CashierUrl = cashierUrl,
+                            tpId,
+                            gameId, gameType = gameType.ToString() });
                         entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
                     }
                     else

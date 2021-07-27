@@ -45,7 +45,10 @@ namespace MemberSite.Service.DAL
         }
         public bool SetBonusByBonusId(int bonusId, int custId, int siteId, string userName, decimal Bonus, int type, string Memo, string RefTransId, out decimal afterBonus, MySqlConnection conn, MySqlTransaction trans)
         {
-            var p = new DynamicParameters(new { CustId = custId, SiteId = siteId, UserName = userName, Bonus = Bonus, Type = type, Memo = Memo, RefTransId = RefTransId });
+            var p = new DynamicParameters(new { CustId = custId, SiteId = siteId, UserName = userName,
+                Bonus, Type = type,
+                Memo,
+                RefTransId });
             p.Add("AfterBonus", dbType: DbType.Decimal, direction: ParameterDirection.Output);
             conn.Execute("Common_BonusByBonusId_Set", p, transaction: trans, commandType: CommandType.StoredProcedure);
             afterBonus = p.Get<decimal>("AfterBonus");
@@ -53,7 +56,9 @@ namespace MemberSite.Service.DAL
         }
         public bool RewardBonus(int bonusId, int promoCategoryId, int tpId, int custId, int siteId, string userName, decimal bonusAmount, decimal lockedAmount, decimal rollover, long expiryTime, int type, string Memo, string RefTransId, MySqlConnection conn, MySqlTransaction trans)
         {
-            var p = new DynamicParameters(new { BonusId = bonusId, PromoCategoryId = promoCategoryId, TpId = tpId, CustId = custId, SiteId = siteId, UserName = userName, BonusAmount = bonusAmount, LockedAmount = lockedAmount, Rollover = rollover, ExpiryTime = expiryTime, Type = type, Memo = Memo, RefTransId = RefTransId });
+            var p = new DynamicParameters(new { BonusId = bonusId, PromoCategoryId = promoCategoryId, TpId = tpId, CustId = custId, SiteId = siteId, UserName = userName, BonusAmount = bonusAmount, LockedAmount = lockedAmount, Rollover = rollover, ExpiryTime = expiryTime, Type = type,
+                Memo,
+                RefTransId });
             return conn.Execute("Common_Bonus_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure) > 0;
         }
         public bool RewardRebate(string bonusCode, int rebateType, int custId, string userName, int siteId, int currencyId, MySqlConnection conn, MySqlTransaction trans)
@@ -62,7 +67,7 @@ namespace MemberSite.Service.DAL
             return conn.Execute("Common_Rebate_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure) > 0;
         }
 
-        public int RewardCashBack(CustCashBackInput custCashBackInput, MySqlTransaction trans)
+        public int RewardCashBack(CustCashBackInput custCashBackInput, MySqlConnection connection, MySqlTransaction trans)
         {
             var parameter = new DynamicParameters(new
             {
@@ -71,7 +76,7 @@ namespace MemberSite.Service.DAL
                 custCashBackInput.PromoCategoryId,
                 custCashBackInput.CalculateDate
             });
-            return _mainDbClient.Execute("Member_CustCashBack_Set", parameter, trans);
+            return _mainDbClient.Execute("Member_CustCashBack_Set", parameter, connection, trans);
         }
 
         public IEnumerable<BonusWallet> GetCustBonusWallet(int CustId)
