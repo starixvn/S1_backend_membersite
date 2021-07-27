@@ -1,0 +1,50 @@
+﻿@using MemberSite.Service.BLL
+@inject ServerInfoBLL serverInfoBLL
+
+@{
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>The women&#39;s 100m butterfly final at the Tokyo Olympics</title>
+    <link href="https://i.nvxcdn.com/MS2/template/_global/common/css/streaming-source.css?v202107260011" type="text/css" rel="stylesheet" />
+    <link href="https://i.nvxcdn.com/MS2/template/Nova88/common/css/main.css?v202107260011" type="text/css" rel="stylesheet" />
+    <style>
+        .video-js .vjs-picture-in-picture-control {
+            display: none;
+        }
+    </style>
+</head>
+<body >
+    <div class="popupPanel--event-highlight">
+        <div class="heading-noMoving">
+        </div>
+        <div class="contentArea">
+            <video id="my-video"
+                   class="video-js vjs-default-skin vjs-big-play-centered"
+                   controls
+                   autoplay="false"
+                   preload="auto"
+                   width="720"
+                   height="403"
+                   poster="@ViewData["poster"]"
+                   data-setup='{"muted": false, "autoplay": false, "preload": "auto"}'>
+                <source src="@ViewData["url"]" type="application/x-mpegURL" />
+                <p class="vjs-no-js">
+                    To view this video please enable JavaScript, and consider upgrading to a
+                    web browser that
+                    <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                </p>
+            </video>
+        </div>
+    </div>
+    <script src="https://i.nvxcdn.com/MS2/Js/jquery-2.1.4.min.js?v202107260011"></script>
+    <script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
+   
+</body>
+</html>
