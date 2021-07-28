@@ -128,6 +128,7 @@ namespace MemberSite.Service.BLL
                         apiResult1.ErrorCode = apiResult.ErrorCode;
                         apiResult1.RawErrorCode = apiResult.RawErrorCode;
                         apiResult1.RawMessage = apiResult.RawMessage;
+                        apiResult1.Message = apiResult.Message;
                     }
                     else
                     {
