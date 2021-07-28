@@ -492,7 +492,7 @@ namespace MemberSite.Service.DAL
 
         public List<CustPromotion> GetPromotionListv3(int SiteId, int CustId, int CurrencyId, int DeviceType, bool IsLogin, string langId, string defLang)
         {
-            var promotionList = _reportDbClient.Query<CustPromotion>("Member_PromotionListV4_Get", new DynamicParameters(new {CustId, SiteId, CurrencyId, DeviceType}));
+            var promotionList = _reportDbClient.Query<CustPromotion>("Member_PromotionListV5_Get", new DynamicParameters(new {CustId, SiteId, CurrencyId, DeviceType}));
             var promotion = new List<CustPromotion>();
 
             foreach (var promo in promotionList)
@@ -897,7 +897,7 @@ namespace MemberSite.Service.DAL
         }
         public List<CustPromotion> GetSpecialPromotionListV2(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int deviceType)
         {
-            var promotionList = _reportDbClient.Query<CustPromotion>("Member_SPCodePromotionListV2_Get", new DynamicParameters(new { CustId, DeviceType = deviceType }));
+            var promotionList = _reportDbClient.Query<CustPromotion>("Member_SPCodePromotionListV3_Get", new DynamicParameters(new { CustId, DeviceType = deviceType }));
 
             var _promotion = new List<CustPromotion>();
 
@@ -1078,7 +1078,7 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             conn.Open();
 
-            var promotionList = conn.Query<CustPromotion>("Member_DepositPromotion_Get", new { CustId, DeviceType }, commandType: CommandType.StoredProcedure);
+            var promotionList = conn.Query<CustPromotion>("Member_DepositPromotionV2_Get", new { CustId, DeviceType }, commandType: CommandType.StoredProcedure);
             var _promotion = new List<CustPromotion>();
 
             foreach (var promo in promotionList)
