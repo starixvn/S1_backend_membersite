@@ -47,7 +47,7 @@
             //    return entPageUrl;
             //}
 
-            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, tpId = tpId, gameId = gameId });
+            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl, signupUrl, LoginUrl, tpId, gameId });
             entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
         }
         return entPageUrl;
@@ -143,7 +143,7 @@
                                 }
                                 else
                                 {
-                                    var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
+                                    var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], siteLanguage.LangId })}{Context.Request.QueryString}";
                                     <li class="lang lang-@siteLanguage.LangId @(siteLanguage.LangId == selLangBLL.GetLangId() ? "selected":"")" title="@siteLanguage.Language" onclick="location.href='@LangUrl';">
                                         <span class="flag"></span>
                                         <span class="flag-title">@siteLanguage.Language</span>

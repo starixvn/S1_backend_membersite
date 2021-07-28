@@ -81,7 +81,7 @@ namespace MemberSite.Service.BLL
             dynamic req = new
             {
                 accountCode = CustId,
-                blackbox = blackbox,
+                blackbox,
                 statedIp = tools.GetClientIP(),
                 transactionInsight,
                 type = typeName

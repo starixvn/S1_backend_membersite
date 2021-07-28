@@ -75,7 +75,10 @@ namespace MemberSite.Service.DAL
 
                 var profile1 = string.IsNullOrEmpty(RealName) ? null : Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string>() { { "AccountName", RealName } });
                 var profile = profileinfo.Count <= 0 ? null : Newtonsoft.Json.JsonConvert.SerializeObject(profileinfo);
-                result = conn.Execute("Member_CustProfile_Ins", new { CustId = custId, customer.SiteId, Email = Email, Profile = (string)profile, PhoneNo = PhoneNo, AreaCode = AreaCode }, trans, commandType: CommandType.StoredProcedure);
+                result = conn.Execute("Member_CustProfile_Ins", new { CustId = custId, customer.SiteId,
+                    Email, Profile = (string)profile,
+                    PhoneNo,
+                    AreaCode }, trans, commandType: CommandType.StoredProcedure);
 
 
                 if (!string.IsNullOrEmpty(RealName))
@@ -85,7 +88,7 @@ namespace MemberSite.Service.DAL
             if (result > 0 && !string.IsNullOrEmpty(signupUrl))
             {
                 //custId = p.Get<int?>("CustId") ?? 0;
-                result = conn.Execute("Member_CustRegInfo_Ins", new { CustId = custId, SiteId = customer.SiteId, SignupUrl = signupUrl }, trans, commandType: CommandType.StoredProcedure);
+                result = conn.Execute("Member_CustRegInfo_Ins", new { CustId = custId, customer.SiteId, SignupUrl = signupUrl }, trans, commandType: CommandType.StoredProcedure);
             }
 
             if (result > 0 && !string.IsNullOrEmpty(promoCode)&& promotionService.CheckSpecialCode(promoCode))
@@ -109,7 +112,7 @@ namespace MemberSite.Service.DAL
 
             if (result > 0 && (int.TryParse(customer.Aff, out var iAff) || !string.IsNullOrEmpty(customer.AffCode)))
             {
-                result = conn.Execute("Member_VNAffiliate_Ins", new { CustId = custId, customer.SiteId, AffId = iAff, AffCode = customer.AffCode }, trans, commandType: CommandType.StoredProcedure);
+                result = conn.Execute("Member_VNAffiliate_Ins", new { CustId = custId, customer.SiteId, AffId = iAff, customer.AffCode }, trans, commandType: CommandType.StoredProcedure);
             }
 
             if (result > 0)
@@ -186,7 +189,7 @@ namespace MemberSite.Service.DAL
             string Email = profile[nameof(Email)];
             string AreaCode = profile[nameof(AreaCode)];
             string PhoneNo = profile[nameof(PhoneNo)];
-            result = conn.Execute("Member_CustProfile_Set", new { CustId = custId, SiteId = siteId, AreaCode, Email = Email, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
+            result = conn.Execute("Member_CustProfile_Set", new { CustId = custId, SiteId = siteId, AreaCode, Email, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
         public bool SetProfileV2(int custId, int siteId, Dictionary<string, string> profile)
@@ -196,7 +199,7 @@ namespace MemberSite.Service.DAL
             string Email = profile[nameof(Email)];
             string AreaCode = profile[nameof(AreaCode)];
             string PhoneNo = profile[nameof(PhoneNo)];
-            result = conn.Execute("Member_CustProfileV2_Set", new { CustId = custId, SiteId = siteId, AreaCode, Email = Email, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
+            result = conn.Execute("Member_CustProfileV2_Set", new { CustId = custId, SiteId = siteId, AreaCode, Email, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
         public bool SetCustBankInfo(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo)

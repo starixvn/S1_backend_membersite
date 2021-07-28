@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -24,7 +27,7 @@ namespace MemberSite.Controllers
         private readonly TemplateBLL templateBLL;
         private readonly CryptoPayInfoBLL cryptoPayInfoBLL;
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
-        private readonly bool isNewVersion = true;
+        private bool isNewVersion = true;
 
         public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, ServerInfoBLL serverInfoBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL, CustInfoBLL custInfoBLL, TemplateBLL templateBLL, CryptoPayInfoBLL cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL)
         {
@@ -73,7 +76,7 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             BankInfoPay onlineBank = null;
-            var model = new ErrorData();
+            ErrorData model = new ErrorData();
             var result = paymentBLL.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount, out transId, out onlineBank);
 
             var apiResult = new ApiResult<PayResult>();
@@ -126,7 +129,7 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             MobilePayInfo mobilePayInfo = null;
-            var model = new ErrorData();
+            ErrorData model = new ErrorData();
             var result = mobilePayInfoBLL.DepositReqMobilePay(authData.CustId, ChannelId, Amount, out transId, out mobilePayInfo);
             if (result == 0)
             {
@@ -193,7 +196,7 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             CryptoPayInfo cryptoPayInfo = null;
-            var model = new ErrorData();
+            ErrorData model = new ErrorData();
             var result = cryptoPayInfoBLL.DepositReqCryptoPay(authData.CustId, ChannelId, Amount, out transId, out cryptoPayInfo);
             if (result == 0)
             {
@@ -240,7 +243,7 @@ namespace MemberSite.Controllers
                 return View(apiResult);
         }
 
-        public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, decimal Amount)
+        public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, string Code, string Serial, decimal Amount)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             var apiResult = new ApiResult<PayResult>();
@@ -248,17 +251,17 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             LoadCardPayInfo loadCardPayInfo = null;
-            var model = new ErrorData();
-            var result = loadCardPayInfoBLL.DepositReqLoadCardPay(authData.CustId, ChannelId, Amount, out transId, out loadCardPayInfo);
+            ErrorData model = new ErrorData();
+            var result = loadCardPayInfoBLL.DepositReqLoadCardPay(authData.CustId, ChannelId, Code, Serial, Amount, out transId, out loadCardPayInfo);
             if (result == 0)
             {
                 var reqDeposit = new 
                 {
                     TransId = transId,
-                    CustId = authData.CustId,
-                    Amount = Amount,
-                    ChannelId = loadCardPayInfo.ChannelId,
-                    PayId = loadCardPayInfo.PayId,
+                    authData.CustId,
+                    Amount,
+                    loadCardPayInfo.ChannelId,
+                    loadCardPayInfo.PayId,
                     ClientIP = tools.GetClientIP(),
                     ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
                 };

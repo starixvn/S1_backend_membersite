@@ -19,6 +19,8 @@ namespace MemberSite.Service.Model
         public int CurrencyId { get; set; }
         public int SiteId { get; set; }
         public string DepositInfo { get; set; }
+        public string Code { get; set; }
+        public string Serial { get; set; }
         public decimal Amount { get; set; }
         public decimal ActualDeposit { get; set; }
         public string Memo { get; set; }

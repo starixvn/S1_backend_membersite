@@ -26,14 +26,14 @@ namespace MemberSite.Service.BLL
             dynamic req = new
             {
                 account = custId,
-                action = action,
-                actionResult = actionResult,
+                action,
+                actionResult,
                 ip,
-                url = url,
-                platform = platform,
-                userAgent = userAgent,
-                screen = screen,
-                di = di
+                url,
+                platform,
+                userAgent,
+                screen,
+                di
             };
 
             apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);

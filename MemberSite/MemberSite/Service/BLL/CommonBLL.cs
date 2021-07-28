@@ -63,7 +63,7 @@ namespace MemberSite.Service.BLL
 
             dynamic req = new
             {
-                CustId = custInfo.CustId,
+                custInfo.CustId,
                 ip = tools.GetClientIP()
             };
 
@@ -82,9 +82,9 @@ namespace MemberSite.Service.BLL
 
             dynamic req = new
             {
-                siteName = siteName,
-                request_id = request_id,
-                code = code
+                siteName,
+                request_id,
+                code
             };
 
             if (custInfo.CurrencyId == 51)
@@ -93,9 +93,9 @@ namespace MemberSite.Service.BLL
 
                 req = new
                 {
-                    siteName = siteName,
+                    siteName,
                     sid = request_id,
-                    code = code
+                    code
                 };
             }
 
@@ -109,7 +109,7 @@ namespace MemberSite.Service.BLL
 
             dynamic req = new
             {
-                custId = custId
+                custId
             };
 
             var apiResult = await courierAdapter.MyPostAsync<SendOTPSMSResult, dynamic>(apiUrl, req);
