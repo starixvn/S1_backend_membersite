@@ -25,9 +25,12 @@ namespace MemberSite.Service.BLL
                 var tmp = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<string>>(datas.Favorite);
                 foreach(var gameInfo in tmp)
                 {
-                    var info = gameInfo.Split("_");
-                    int.TryParse(info[0], out var providerId);
-                    result.Add(new MemberFavorite() { ProviderId = providerId, GameId = info[1] });
+                    var commaIndex = gameInfo.IndexOf('_');
+                    var strProviderId = gameInfo.Substring(0, commaIndex); 
+                    var gameId = gameInfo.Substring(commaIndex + 1); 
+                    int.TryParse(strProviderId, out var providerId);
+                    
+                    result.Add(new MemberFavorite() { ProviderId = providerId, GameId = gameId });
                 }
             }
 
