@@ -25,9 +25,9 @@ namespace MemberSite.Service.BLL
                 var tmp = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<string>>(datas.Favorite);
                 foreach(var gameInfo in tmp)
                 {
-                    var info = gameInfo.Split("_");
-                    int.TryParse(info[0], out var providerId);
-                    result.Add(new MemberFavorite() { ProviderId = providerId, GameId = info[1] });
+                    var (providerId, gameId) = SplitGameInfo(gameInfo); 
+                    if(providerId != 0 && !string.IsNullOrEmpty(gameId))
+                        result.Add(new MemberFavorite() { ProviderId = providerId, GameId = gameId });
                 }
             }
 
@@ -38,6 +38,17 @@ namespace MemberSite.Service.BLL
         {
             var gameInfo = $"{ProviderId}_{GameId}";
             casinoService.SetFavoriteGames(CustId, gameInfo, IsRemove);
+        }
+
+        public (int providerId, string gameId) SplitGameInfo(string gameInfo)
+        {
+            var underlineIndex = gameInfo.IndexOf('_');
+            if (string.IsNullOrWhiteSpace(gameInfo) || underlineIndex == -1) return (0, string.Empty);
+            
+            var strProviderId = gameInfo.Substring(0, underlineIndex); 
+            var gameId = gameInfo.Substring(underlineIndex + 1); 
+            int.TryParse(strProviderId, out var providerId);
+            return (providerId, gameId);
         }
 
         public IEnumerable<int> GetProviderIdByCurrency(int CurrencyId, int SiteId)
