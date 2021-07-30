@@ -38,10 +38,21 @@ namespace MemberSite.Service.BLL
         {
             return walletService.GetWalletTransferStatus(custId, out autoTransfer);
         }
+        
         public int SetWalletTransferStatus(int custId, int autoTransfer)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             return walletService.SetWalletTransferStatus(custId, autoTransfer);
+        }
+
+        public decimal GetWithdrawalLimit(int custId)
+        {
+            return walletService.GetWithdrawalLimit(custId);
+        }
+
+        public int DeduteWithdrawalLimit(int custId, decimal amount)
+        {
+            return walletService.DeduteWithdrawalLimit(custId, amount);
         }
     }
 }

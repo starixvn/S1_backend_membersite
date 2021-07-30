@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using System;
 using System.Net.Mail;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MemberSite.Service.Library
@@ -61,6 +63,19 @@ namespace MemberSite.Service.Library
             mailMessage.Body = Content;
             mailMessage.Subject = Subject;
             await client.SendMailAsync(mailMessage);
+        }
+
+        public string ToMD5(string encodeStr)
+        {
+            using (var cryptoMD5 = MD5.Create())
+            {
+                var bytes = Encoding.UTF8.GetBytes(encodeStr);
+                var hash = cryptoMD5.ComputeHash(bytes);
+                var md5 = BitConverter.ToString(hash)
+                  .Replace("-", String.Empty);
+
+                return md5;
+            }
         }
     }
 }
