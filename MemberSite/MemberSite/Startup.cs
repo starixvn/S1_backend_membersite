@@ -138,6 +138,7 @@ namespace MemberSite
             services.AddSingleton<LiveStreamingBLL>();
             services.AddSingleton<LatestHighlightDataBLL>();
             services.AddSingleton<GameBLL>();
+			services.AddTransient<GeoIpBLL>();
             //var bll = AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())
             //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.BLL");
