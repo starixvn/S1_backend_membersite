@@ -68,14 +68,31 @@ namespace MemberSite.Service.BLL
                 return new MobilePayGroup[] { };
             }
 
+            var minAmount = (from x in mobilePayInfoList
+                        where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
+                        select new
+                        {
+                            x.MinAmount
+                        }).OrderBy(x => x.MinAmount).FirstOrDefault().MinAmount;
+
+            var maxAmount = (from x in mobilePayInfoList
+                       where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
+                       select new
+                       {
+                           x.MaxAmount
+                       }).OrderByDescending(x => x.MaxAmount).FirstOrDefault().MaxAmount;
+
             var mobilePayGroupList = (from x in mobilePayInfoList
                                       where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
                                       select new MobilePayGroup
                                       {
                                           GroupId = x.GroupId,
                                           GroupName = x.GroupName,
+                                          ChannelName = x.ChannelName,
                                           GSort = x.GSort,
-                                          Mode = x.Mode
+                                          Mode = x.Mode,
+                                          MinAmount = minAmount,
+                                          MaxAmount = maxAmount
                                       }).Distinct(mobilePayGroupComparer);
 
             return mobilePayGroupList;

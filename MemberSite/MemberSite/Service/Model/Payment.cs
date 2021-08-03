@@ -48,6 +48,9 @@ namespace MemberSite.Service.Model
         public string GroupName { get; set; }
         public int GSort { get; set; }
         public int Mode { get; set; }
+        public string ChannelName { get; set; }
+        public decimal MinAmount { get; set; }
+        public decimal MaxAmount { get; set; }
     }
     public class CryptoPayInfo : IPaymentLimit
     {
