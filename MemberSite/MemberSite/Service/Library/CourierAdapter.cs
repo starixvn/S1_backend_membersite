@@ -41,32 +41,5 @@ namespace MemberSite.Service.Library
             }
             return oApiResult;
         }
-
-        public async Task<ApiResult<T>> GetAsync<T>(string url, string query = null)
-        {
-            ApiResult<T> oApiResult = null;
-
-            var urlWithQuery = url;
-            if (!string.IsNullOrEmpty(query))
-            { 
-                urlWithQuery = $"{url}?{query}";
-            }
-            
-            var response = await client.GetAsync(urlWithQuery);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var responseBody = await response.Content.ReadAsStringAsync();
-                var resultData = JsonConvert.DeserializeObject<T>(responseBody);
-                oApiResult = new ApiResult<T> {ErrorCode = 0, Data = resultData};
-            }
-            else
-            {
-                oApiResult = new ApiResult<T> {ErrorCode = 9000};
-                var responseBody = await response?.Content?.ReadAsStringAsync();
-                oApiResult.RawMessage = $"{responseBody} {url}";
-            }
-            return oApiResult;
-        }
     }
 }

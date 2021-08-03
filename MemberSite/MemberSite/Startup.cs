@@ -70,6 +70,8 @@ namespace MemberSite
             services.AddSingleton<RegexUtilities>();
             services.AddSingleton<IBCDBLibrary>();
             services.AddSingleton<CodeGenerator>();
+			services.AddTransient<JsonNetSerializer>();
+            services.AddTransient<IHttpHelper, HttpHelper>();
 
             /*DAL*/
             services.AddSingleton<ServerInfoService>();
@@ -139,6 +141,8 @@ namespace MemberSite
             services.AddSingleton<LatestHighlightDataBLL>();
             services.AddSingleton<GameBLL>();
 			services.AddTransient<GeoIpBLL>();
+			services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
+            services.AddTransient<GeoIpBLL>();
             //var bll = AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())
             //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.BLL");
