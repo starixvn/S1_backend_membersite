@@ -68,20 +68,6 @@ namespace MemberSite.Service.BLL
                 return new MobilePayGroup[] { };
             }
 
-            var minAmount = (from x in mobilePayInfoList
-                        where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
-                        select new
-                        {
-                            x.MinAmount
-                        }).OrderBy(x => x.MinAmount).FirstOrDefault().MinAmount;
-
-            var maxAmount = (from x in mobilePayInfoList
-                       where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
-                       select new
-                       {
-                           x.MaxAmount
-                       }).OrderByDescending(x => x.MaxAmount).FirstOrDefault().MaxAmount;
-
             var mobilePayGroupList = (from x in mobilePayInfoList
                                       where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
                                       select new MobilePayGroup
@@ -91,8 +77,18 @@ namespace MemberSite.Service.BLL
                                           ChannelName = x.ChannelName,
                                           GSort = x.GSort,
                                           Mode = x.Mode,
-                                          MinAmount = minAmount,
-                                          MaxAmount = maxAmount
+                                          MinAmount = (from y in mobilePayInfoList
+                                                       where vipLevel >= y.PointLevel && y.CurrencyId == custInfo.CurrencyId && x.ChannelId == y.ChannelId
+                                                       select new
+                                                       {
+                                                           y.MinAmount
+                                                       }).OrderBy(y => y.MinAmount).FirstOrDefault().MinAmount,
+                                          MaxAmount = (from y in mobilePayInfoList
+                                                       where vipLevel >= y.PointLevel && y.CurrencyId == custInfo.CurrencyId && x.ChannelId == y.ChannelId
+                                                       select new
+                                                       {
+                                                           y.MaxAmount
+                                                       }).OrderByDescending(y => y.MaxAmount).FirstOrDefault().MaxAmount
                                       }).Distinct(mobilePayGroupComparer);
 
             return mobilePayGroupList;
