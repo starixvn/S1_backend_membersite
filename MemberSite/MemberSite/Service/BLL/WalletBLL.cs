@@ -44,15 +44,5 @@ namespace MemberSite.Service.BLL
             var serverInfo = serverInfoBLL.GetServerInfo();
             return walletService.SetWalletTransferStatus(custId, autoTransfer);
         }
-
-        public decimal GetWithdrawalLimit(int custId)
-        {
-            return walletService.GetWithdrawalLimit(custId);
-        }
-
-        public int DeduteWithdrawalLimit(int custId, decimal amount)
-        {
-            return walletService.DeduteWithdrawalLimit(custId, amount);
-        }
     }
 }

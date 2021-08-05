@@ -74,16 +74,5 @@ namespace MemberSite.Service.DAL
             conn.Open();
             return conn.Execute("Member_CustWalletTransferStatus_Set", new { CustId = custId , AutoTransfer = autoTransfer }, commandType: CommandType.StoredProcedure) > 0 ? 1 : 0;
         }
-        public decimal GetWithdrawalLimit(int custId)
-        {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<decimal>("Member_WithdrawalLimit_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
-        }
-        public int DeduteWithdrawalLimit(int custId, decimal amount)
-        {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionString"));
-            conn.Open();
-            return conn.Execute("Member_DeduteWithdrawalLimit_Set", new { CustId = custId, Amount = amount }, commandType: CommandType.StoredProcedure) > 0 ? 1 : 0;
-        }
     }
 }
