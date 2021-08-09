@@ -31,24 +31,40 @@ namespace MemberSite.Service.Library
         public async Task<(TResult Result, HttpStatusCode StatusCode)> GetAsync<TResult>(string url, string query = null)
             where TResult : class
         {
-            var tReslt = default(TResult);
-            var result = await GetDataAsync(url, query);
-            _header.Clear();
-            if (result.StatusCode == HttpStatusCode.OK)
+            try
             {
-                tReslt = _serializer.DeserializeFormStream<TResult>(result.ContentStream);
-            }
+                var tReslt = default(TResult);
+                var result = await GetDataAsync(url, query);
+                _header.Clear();
+                if (result.StatusCode == HttpStatusCode.OK)
+                {
+                    tReslt = _serializer.DeserializeFormStream<TResult>(result.ContentStream);
+                }
 
-            return (tReslt, result.StatusCode);
+                return (tReslt, result.StatusCode);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ex massage: {ex.Message}, StackTrace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         public (TResult Result, HttpStatusCode StatusCode) Post<TBody, TResult>(string url, TBody body)
             where TResult : class
         {
-            var returnObj = PostData(url, body, "string");
-            var result = JsonConvert.DeserializeObject<TResult>(returnObj.Result);
+            try
+            {
+                var returnObj = PostData(url, body, "string");
+                var result = JsonConvert.DeserializeObject<TResult>(returnObj.Result);
 
-            return (result, returnObj.StatusCode);
+                return (result, returnObj.StatusCode);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ex massage: {ex.Message}, StackTrace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         public async Task<(TResult Result, HttpStatusCode StatusCode)> PostAsync<TBody, TResult>(string url, TBody body)
@@ -71,28 +87,53 @@ namespace MemberSite.Service.Library
         public (TResult Result, HttpStatusCode StatusCode) Post<TBody, TResult>(string url, TBody body,
             Func<XDocument, TResult> selector) where TResult : class
         {
-            var returnObj = PostData(url, body, "string");
-            var xml = XDocument.Parse(returnObj.Result);
-            var result = selector(xml);
+            try
+            {
+                var returnObj = PostData(url, body, "string");
+                var xml = XDocument.Parse(returnObj.Result);
+                var result = selector(xml);
 
-            return (result, returnObj.StatusCode);
+                return (result, returnObj.StatusCode);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ex massage: {ex.Message}, StackTrace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         public (TResult Result, HttpStatusCode StatusCode) PostJson<TBody, TResult>(string url, TBody data)
             where TResult : class
         {
-            var returnObj = PostData(url, data, "json");
-            var result = JsonConvert.DeserializeObject<TResult>(returnObj.Result);
-            return (result, returnObj.StatusCode);
+            try
+            {
+                var returnObj = PostData(url, data, "json");
+                var result = JsonConvert.DeserializeObject<TResult>(returnObj.Result);
+                return (result, returnObj.StatusCode);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ex massage: {ex.Message}, StackTrace: {ex.StackTrace}");
+                throw;
+            }
+            
         }
 
         public async Task<(TResult Result, HttpStatusCode StatusCode)> PostJsonAsync<TBody, TResult>(string url,
             TBody data)
             where TResult : class
         {
-            var returnObj = await PostDataAsync(url, data, "json");
-            var result = _serializer.DeserializeFormStream<TResult>(returnObj.Result);
-            return (result, returnObj.StatusCode);
+            try
+            {
+                var returnObj = await PostDataAsync(url, data, "json");
+                var result = _serializer.DeserializeFormStream<TResult>(returnObj.Result);
+                return (result, returnObj.StatusCode);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Ex massage: {ex.Message}, StackTrace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         public (TResult Result, HttpStatusCode StatusCode) PostJson<TResult>(string url, string data,

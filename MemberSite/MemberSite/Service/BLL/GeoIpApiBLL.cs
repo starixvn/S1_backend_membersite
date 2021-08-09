@@ -30,7 +30,7 @@ namespace MemberSite.Service.BLL
             }
             catch (Exception e)
             {
-                _logger.LogWarning(e, $"query {clientIp} failed {e.Message}");
+                _logger.LogError(e, $"query {clientIp} failed {e.Message}");
                 return new IpCountry()
                 {
                     Message = e.Message

@@ -71,7 +71,7 @@ namespace MemberSite
             services.AddSingleton<IBCDBLibrary>();
             services.AddSingleton<CodeGenerator>();
 			services.AddTransient<JsonNetSerializer>();
-            services.AddTransient<IHttpHelper, HttpHelper>();
+            services.AddSingleton<IHttpHelper, HttpHelper>();
 
             /*DAL*/
             services.AddSingleton<ServerInfoService>();
