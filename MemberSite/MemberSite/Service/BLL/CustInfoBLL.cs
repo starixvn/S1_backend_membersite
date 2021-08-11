@@ -376,15 +376,6 @@ namespace MemberSite.Service.BLL
 
             if (custBankInfo != null && custBankInfo.BankInfo != null)
             {
-                var uSDTDetailList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
-                if (uSDTDetailList != null)
-                {
-                    uSDTDetailList = uSDTDetailList.Where(x => x.USDTAddress != null);//filiter null data
-                    if (uSDTDetailList.Any())
-                    {
-                        custBankInfo.uSDTDetail = uSDTDetailList;
-                    }
-                }
                 var bankInfoDetailList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
                 if (bankInfoDetailList != null)
                 {
@@ -392,6 +383,27 @@ namespace MemberSite.Service.BLL
                     if (bankInfoDetailList.Any())
                     {
                         custBankInfo.bankInfoDetail = bankInfoDetailList;
+                    }
+                }
+                //if (custInfo.CurrencyId == 96)
+                //{
+                //    custBankInfo.uSDTDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
+                //}
+                //else
+                //{
+                //    custBankInfo.bankInfoDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
+                //}
+
+            }
+            if (custBankInfo != null && custBankInfo.USDTInfo != null)
+            {
+                var uSDTDetailList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.USDTInfo);
+                if (uSDTDetailList != null)
+                {
+                    uSDTDetailList = uSDTDetailList.Where(x => x.USDTAddress != null);//filiter null data
+                    if (uSDTDetailList.Any())
+                    {
+                        custBankInfo.uSDTDetail = uSDTDetailList;
                     }
                 }
                 //if (custInfo.CurrencyId == 96)

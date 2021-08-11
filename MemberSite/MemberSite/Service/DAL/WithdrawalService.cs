@@ -79,6 +79,52 @@ namespace MemberSite.Service.DAL
                 return result;
             }
         }
+
+        public int WithdrawalUSDTReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, WithdrawalUSDTInfo withdrawalUSDTInfo, out decimal afterAmount, out string transId)
+        {
+            transId = "";
+            afterAmount = 0;
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            var p = new DynamicParameters(new { CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, Amount = amount, Memo = memo, WithdrawalInfo = Newtonsoft.Json.JsonConvert.SerializeObject(withdrawalUSDTInfo), Prefix = $"W{common.GetEnv()}" });
+            p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
+            p.Add("ToKyc", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+
+            conn.Execute("Member_WithdrawalInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
+            transId = p.Get<string>("vTransId");
+            var rollover = rolloverService.ReachedRollover(custId, conn, trans);
+
+            if (!rollover.ReachedRollover)
+            {
+                return -2;
+            }
+            else if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
+            {
+                return -3;
+            }
+
+            byte is1stDepoist = 0;
+            int result = -99;
+            result = walletService.SetBalance(custId, siteId, userName, amount * -1, typePosition + 1, null, transId, out afterAmount, out is1stDepoist, conn, trans);
+            if (result > 0)
+            {
+                trans.Commit();
+
+                if ((p.Get<byte?>("ToKyc") ?? 0) == 1)
+                {
+                    return 2;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return result;
+            }
+        }
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoRecent(int custId, int siteId, int topNum)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
