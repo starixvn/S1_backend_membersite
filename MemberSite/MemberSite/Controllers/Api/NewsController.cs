@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using MemberSite.Service.BLL;
-using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,7 +33,7 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var serverInfo = serverInfoBLL.GetServerInfo();
-                int pageNumber = NewsReq.PageNumber;
+                var pageNumber = NewsReq.PageNumber;
                 int totalPages;
                 int rowCount;
                 result.Data = newsBLL.GetNews(serverInfo.SiteId, NewsReq.PageSize, ref pageNumber, out totalPages, out rowCount);

@@ -3,11 +3,9 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 
 namespace MemberSite.Controllers.Api
 {
@@ -86,7 +84,7 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = new LeaderboardCustRank();
             var authData = authorizeBLL.GetAuthData();
 
-            eventsBLL.GetCustRankWithCache(getCustRankReq.LBCategoryId, authData.CustId, getCustRankReq.BeforeDays, out int custRank, out Decimal point);
+            eventsBLL.GetCustRankWithCache(getCustRankReq.LBCategoryId, authData.CustId, getCustRankReq.BeforeDays, out var custRank, out var point);
 
             apiResult.Data.CustRank = custRank;
             apiResult.Data.point = point;
@@ -106,9 +104,9 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<Leaderboard>> GetLeaderboardListV2(GetLeaderboardListV2Req getLeaderboardListV2Req)
         {
             var apiResult = new ApiResult<IEnumerable<Leaderboard>>();
-            int custId = 0;
-            int siteId = 0;
-            int currencyId = 0;
+            var custId = 0;
+            var siteId = 0;
+            var currencyId = 0;
             if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();
@@ -150,7 +148,7 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = new LeaderboardCustRank();
             var authData = authorizeBLL.GetAuthData();
 
-            eventsBLL.GetCustRankWithCacheV2(getCustRankV2Req.LBCategoryId, getCustRankV2Req.EventCode, authData.CustId, getCustRankV2Req.BeforeDays, out int custRank, out Decimal point);
+            eventsBLL.GetCustRankWithCacheV2(getCustRankV2Req.LBCategoryId, getCustRankV2Req.EventCode, authData.CustId, getCustRankV2Req.BeforeDays, out var custRank, out var point);
 
             apiResult.Data.CustRank = custRank;
             apiResult.Data.point = point;
@@ -170,9 +168,9 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = new CustGift();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            int eventId = drawPrizeReq.eventId;
+            var eventId = drawPrizeReq.eventId;
 
-            var prizes = eventsBLL.CheckDrawPrize(ref eventId, custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, out int prizeId, out int result);
+            var prizes = eventsBLL.CheckDrawPrize(ref eventId, custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, out var prizeId, out var result);
             if (result == 100)
             {
                 apiResult.Data.PrizeId = prizeId;
@@ -192,7 +190,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var serverInfo = serverInfoBLL.GetServerInfo();
-            int eventId = drawPrizeReq.eventId;
+            var eventId = drawPrizeReq.eventId;
             string EventName;
             string ConditionSP;
             
@@ -217,7 +215,7 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                var ress = eventsBLL.DrawPrize(ref eventId, custInfo.CustId, custInfo.CurrencyId, custInfo.UserName, custInfo.SiteId, out int result, out Prize prize);
+                var ress = eventsBLL.DrawPrize(ref eventId, custInfo.CustId, custInfo.CurrencyId, custInfo.UserName, custInfo.SiteId, out var result, out var prize);
                 if (result == 100 || result == 0)
                 {
                     apiResult.Data.PrizeId = prize.PrizeId;
@@ -234,9 +232,9 @@ namespace MemberSite.Controllers.Api
                     {
                         dAmount = $"{prize.Amount / 1000:#,##0.##}";
                     }
-                    string Tital = string.Format(selLangBLL.GetMsg("msg_DrawPrizeTital1"), serverInfo.SiteName);
+                    var Tital = string.Format(selLangBLL.GetMsg("msg_DrawPrizeTital1"), serverInfo.SiteName);
 
-                    string msg = string.Format(selLangBLL.GetMsg("msg_DrawPrize1"),Tital,Currencyname,dAmount);
+                    var msg = string.Format(selLangBLL.GetMsg("msg_DrawPrize1"),Tital,Currencyname,dAmount);
                     if ((eventId == 1 || eventId == 2 || eventId == 3))//old event
                     {
                         Tital = selLangBLL.GetMsg("msg_DrawPrizeTital");
@@ -257,7 +255,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<IEnumerable<CustGiftList>>();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            int eventId = drawPrizeReq.eventId;
+            var eventId = drawPrizeReq.eventId;
             apiResult.Data = eventsBLL.GetCustDrawPrizeList(eventId, custInfo.SiteId, authData.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;
@@ -268,7 +266,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<LeaderboardEvent>();
             apiResult.Data = new LeaderboardEvent();
-            int siteId = 0;
+            var siteId = 0;
             string NowEventCode = null;
             string LastEventCode = null;
            
@@ -299,8 +297,8 @@ namespace MemberSite.Controllers.Api
         public ApiResult<LeaderboardInfo> GetLeaderboardInfo(LeaderboardInfoReq leaderboardInfoReq)
         {
             var apiResult = new ApiResult<LeaderboardInfo>();
-            int siteId = 0;
-            int currencyId = 0;
+            var siteId = 0;
+            var currencyId = 0;
             if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();

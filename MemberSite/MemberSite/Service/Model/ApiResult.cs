@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MemberSite.Service.Model
 {
@@ -31,10 +28,7 @@ namespace MemberSite.Service.Model
 
                 return _Message;
             }
-            set
-            {
-                _Message = value;
-            }
+            set => _Message = value;
         }
 
         public void SetSelLang(ISelLang selLang)

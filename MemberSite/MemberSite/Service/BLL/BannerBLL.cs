@@ -35,8 +35,8 @@ namespace MemberSite.Service.BLL
         public IEnumerable<BannerSettingItem> GetBanner(int perferCurr, string FolderName)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
-            string dataPath = Path.Combine(environment.WebRootPath, $"datas/{serverInfo.SiteName}_bannerSetting.json");
-            BannerSetting _bannerSetting = new BannerSetting();
+            var dataPath = Path.Combine(environment.WebRootPath, $"datas/{serverInfo.SiteName}_bannerSetting.json");
+            var _bannerSetting = new BannerSetting();
             if (System.IO.File.Exists(dataPath))
             {
                 _bannerSetting = JsonConvert.DeserializeObject<BannerSetting>(System.IO.File.ReadAllText(dataPath));
@@ -70,7 +70,7 @@ namespace MemberSite.Service.BLL
                     if (details.TryGetValue(langId, out settings))
                     {
                         var bannerUrl = settings["bannerUrl"];
-                        bool hideInHome = false;
+                        var hideInHome = false;
                         if (settings.TryGetValue("hideInHome", out var strHideInHome))
                         {
                             hideInHome = string.Equals(strHideInHome, "TRUE", StringComparison.OrdinalIgnoreCase);

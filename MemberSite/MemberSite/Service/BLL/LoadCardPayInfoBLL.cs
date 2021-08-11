@@ -81,7 +81,8 @@ namespace MemberSite.Service.BLL
                                           GroupId = x.GroupId,
                                           GroupName = x.GroupName,
                                           PayName = x.PayName,
-                                          GSort = x.GSort
+                                          GSort = x.GSort,
+                                          Mode = x.Mode
                                       }).Distinct(loadCardGroupComparer);
 
             return LoadCardPayGroupList;
@@ -112,7 +113,7 @@ namespace MemberSite.Service.BLL
 
             return LoadCardPayInfoList.Where(x => x.MaxAmount > 0);
         }
-        public int DepositReqLoadCardPay(int custId, int channelId, decimal amount, out string transId, out LoadCardPayInfo loadCardPayInfo)
+        public int DepositReqLoadCardPay(int custId, int channelId, string code, string serial, decimal amount, out string transId, out LoadCardPayInfo loadCardPayInfo)
         {
             transId = null;
             loadCardPayInfo = null;
@@ -147,6 +148,9 @@ namespace MemberSite.Service.BLL
 
             if (loadCardPayInfo != null)
             {
+                loadCardPayInfo.Code = code;
+                loadCardPayInfo.Serial = serial;
+
                 DepositDetailInfo depositDetailInfo = new DepositDetailInfo();
                 depositDetailInfo.Amount = amount;
                 depositDetailInfo.CustId = custId;

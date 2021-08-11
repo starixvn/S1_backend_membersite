@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using MemberSite.Service.BLL;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Org.BouncyCastle.Security;
 
 namespace MemberSite.Controllers
 {
     public class PromotionController : Controller
     {
         private readonly SelLangBLL selLangBLL;
-        private TemplateBLL templateBLL;
+        private readonly TemplateBLL templateBLL;
         private readonly PromotionBLL promotionBLL;
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly CustInfoBLL custInfoBLL;
@@ -38,7 +34,7 @@ namespace MemberSite.Controllers
             //return View($"./{BonusCode}/{selLangBLL.GetLangId()}");
 
             var serverInfo = serverInfoBLL.GetServerInfo();
-            int currencyId = 0;
+            var currencyId = 0;
             if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();

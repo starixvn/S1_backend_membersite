@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MemberSite.Service.BLL;
-using MemberSite.Service.Library;
+﻿using MemberSite.Service.BLL;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace MemberSite.Controllers
 {
     public class LiveCasinoController : Controller
     {
-        private TemplateBLL templateBLL;
+        private readonly TemplateBLL templateBLL;
 
         public LiveCasinoController(TemplateBLL templateBLL)
         {

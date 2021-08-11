@@ -1,9 +1,6 @@
 ﻿using MemberSite.Service.Library;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -23,7 +20,7 @@ namespace MemberSite.Service.BLL
             var serverInfo = serverInfoBLL.GetServerInfo();
             if (serverInfo.SiteId == 3)
             {
-                string deviceName = "Desktop";
+                var deviceName = "Desktop";
 
                 if (tools.IsMobile())
                 {

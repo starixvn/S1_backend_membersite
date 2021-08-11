@@ -19,7 +19,7 @@
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
     //var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Mobile");
     var CmsEventPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Casino/{selLangBLL.GetLangId()}");
-    int CurrencyId = 0;
+    var CurrencyId = 0;
     Customer customer = null;
 
     if (User.Identity.IsAuthenticated)

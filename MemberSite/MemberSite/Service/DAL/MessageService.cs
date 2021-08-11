@@ -23,14 +23,14 @@ namespace MemberSite.Service.DAL
 
         public int GetCount(int custId, bool isUnread)
         {
-            int result = 0;
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var result = 0;
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             result = conn.ExecuteScalar<int>("MsgCount_Get", new { CustId = custId, IsUnread = isUnread }, commandType: CommandType.StoredProcedure);
             return result;
         }
         public bool SetRead(int msgId, int custId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Execute("Member_MsgRead_Set", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure) > 0;
         }
 
@@ -38,7 +38,7 @@ namespace MemberSite.Service.DAL
         {
             totalPages = 0;
 
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { CustId = custId, PageSize = pageSize });
             p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -53,24 +53,24 @@ namespace MemberSite.Service.DAL
         }
         public MsgContent GetMsgContent(int custId, int msgId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             var msgContent = conn.QueryFirstOrDefault<MsgContent>("MsgContent_Get", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure);
             return msgContent;
         }
         public bool DelMsg(int custId, int msgId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Execute("Msg_Del", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure) > 0;
         }
         public int GetMsgCount(int custId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.ExecuteScalar<int>("MsgCount_Get", new { CustId = custId, IsUnread = 1 }, commandType: CommandType.StoredProcedure);
         }
 
         public IEnumerable<Announcement> GetAnnouncement(string LangCode, string DefaultLangCode, int LimitRow, bool IsTest, int SiteId)
         {
-            using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<Announcement>("Member_Announcement_Get", new { DefaultLangCode, LangCode, LimitRow, IsTest, SiteId}, commandType: CommandType.StoredProcedure);
         }
         public int SendMessage(int siteId, string sender, string title, string content, int custId, string CustUserName, string lang)

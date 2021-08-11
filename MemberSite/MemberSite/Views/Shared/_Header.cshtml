@@ -14,7 +14,7 @@
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
 
     var entFishingPageUrl = "";
-    int CurrencyId = 0;
+    var CurrencyId = 0;
     if (User.Identity.IsAuthenticated)
     {
         entFishingPageUrl = gamingBLL.GetEntPageUrl(7, "10", Url, GameType.Fishing);
@@ -84,7 +84,7 @@
                                 }
                                 else
                                 {
-                                    var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = siteLanguage.LangId })}{Context.Request.QueryString}";
+                                    var LangUrl = $"{Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], siteLanguage.LangId })}{Context.Request.QueryString}";
 
                         <a href="@LangUrl">
                             <div class="dropdown__item">
@@ -183,8 +183,8 @@
                 var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
                 var promotions = promotionBLL.GetPromotionListByCustIdWithCache(custId).Where(x => x.BonusInfoStatus == 1);
                 var rolloverPanelDisplay = "none";
-                decimal totalRollover = 1m;
-                decimal totalturnover = 0m;
+                var totalRollover = 1m;
+                var totalturnover = 0m;
 
                 if (promotions != null && promotions.Count() > 0)
                 {

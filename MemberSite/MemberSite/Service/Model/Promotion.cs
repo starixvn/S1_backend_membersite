@@ -95,6 +95,7 @@ namespace MemberSite.Service.Model
         public int? DeviceType { set; get; }
         public int? PromotionAction { set; get; }
         public CashBackDetails CashBackDetails { get; set; }
+        public bool BeenUsed { get; set; }
     }
 
     public class CashBackDetails

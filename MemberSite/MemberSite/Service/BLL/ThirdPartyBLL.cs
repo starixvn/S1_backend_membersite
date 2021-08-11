@@ -8,10 +8,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Threading.Tasks;
-using static Google.Protobuf.WellKnownTypes.Field;
 
 namespace MemberSite.Service.BLL
 {
@@ -20,15 +18,15 @@ namespace MemberSite.Service.BLL
         private readonly ThirdPartyService thirdPartyService;
         private readonly SelLangBLL selLangBLL;
         private readonly Tools tools;
-        private ConcurrentDictionary<string, TpCurrency> TpCurrencyList;
-        private ConcurrentDictionary<string, ThirdPartyModel> ThirdPartyModelContainer;
+        private readonly ConcurrentDictionary<string, TpCurrency> TpCurrencyList;
+        private readonly ConcurrentDictionary<string, ThirdPartyModel> ThirdPartyModelContainer;
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly CustInfoBLL custInfoBLL;
         private readonly CourierAdapter courierAdapter;
         private readonly string apiUrl;
         private readonly ILogger<ThirdPartyBLL> logger;
 
-        Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
+        readonly Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
             {"1","soccer" },
             {"2","basketball" },
             {"3","football" },
@@ -63,7 +61,7 @@ namespace MemberSite.Service.BLL
         public ThirdPartyModel GetThirdPartyModel(int tpId, int siteId)
         {
 
-            string sKet = $"{tpId}_{siteId}";
+            var sKet = $"{tpId}_{siteId}";
             if (!ThirdPartyModelContainer.ContainsKey(sKet))
             {
                 var thirdPartyModel = thirdPartyService.GetThirdPartyBySite(tpId, siteId);
@@ -76,8 +74,8 @@ namespace MemberSite.Service.BLL
 
         public string getEntryUrl(int tpId, Dictionary<string, string> parameters)
         {
-            Dictionary<string, string> inputs = JsonConvert.DeserializeObject<Dictionary<string, string>>(thirdPartyService.GetThirdPartyBySite(tpId, serverInfoBLL.GetServerInfo().SiteId).Setting);
-            string urlKey = "DesktopBfUrl";
+            var inputs = JsonConvert.DeserializeObject<Dictionary<string, string>>(thirdPartyService.GetThirdPartyBySite(tpId, serverInfoBLL.GetServerInfo().SiteId).Setting);
+            var urlKey = "DesktopBfUrl";
             string device = null;
             parameters.TryGetValue("device", out device);
 
@@ -89,20 +87,20 @@ namespace MemberSite.Service.BLL
             {
                 urlKey = "MobileBfUrl";
             }
-            string entryUrl = inputs[urlKey];
+            var entryUrl = inputs[urlKey];
             var tpLanId = thirdPartyService.GetTpLanId(tpId, selLangBLL.GetLangId());
 
             switch (tpId)
             {
                 case 1:
                     string SportType = null;
-                    string menutype = "0";
+                    var menutype = "0";
                     parameters.TryGetValue("gameId", out SportType);
                     parameters.TryGetValue("menutype", out menutype);
 
                     if (tools.IsMobile())
                     {
-                        string types = $"{SportType},{menutype},l";
+                        var types = $"{SportType},{menutype},l";
                         if (SportType == "43")
                         {
                             sportTypeDic.TryGetValue(SportType, out types);
@@ -150,7 +148,7 @@ namespace MemberSite.Service.BLL
         }
         public TpCurrency GetTpCurrency(int tpId, int currencyId)
         {
-            string key = $"{tpId}_{currencyId}";
+            var key = $"{tpId}_{currencyId}";
             if (!TpCurrencyList.ContainsKey(key))
             {
                 TpCurrencyList.TryAdd(key, thirdPartyService.GetTpCurrency(tpId, currencyId));

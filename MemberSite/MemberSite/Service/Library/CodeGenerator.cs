@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.Library
 {
@@ -27,52 +24,31 @@ namespace MemberSite.Service.Library
 
         private int minSize;
 
-        private char[] pwdCharArray = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
+        private readonly char[] pwdCharArray = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
 
-        private RNGCryptoServiceProvider rng;
+        private readonly RNGCryptoServiceProvider rng;
 
         public bool ConsecutiveCharacters
         {
-            get
-            {
-                return hasConsecutive;
-            }
-            set
-            {
-                hasConsecutive = value;
-            }
+            get => hasConsecutive;
+            set => hasConsecutive = value;
         }
 
         public bool ExcludeSymbols
         {
-            get
-            {
-                return hasSymbols;
-            }
-            set
-            {
-                hasSymbols = value;
-            }
+            get => hasSymbols;
+            set => hasSymbols = value;
         }
 
         public string Exclusions
         {
-            get
-            {
-                return exclusionSet;
-            }
-            set
-            {
-                exclusionSet = value;
-            }
+            get => exclusionSet;
+            set => exclusionSet = value;
         }
 
         public int Maximum
         {
-            get
-            {
-                return maxSize;
-            }
+            get => maxSize;
             set
             {
                 maxSize = value;
@@ -85,10 +61,7 @@ namespace MemberSite.Service.Library
 
         public int Minimum
         {
-            get
-            {
-                return minSize;
-            }
+            get => minSize;
             set
             {
                 minSize = value;
@@ -101,14 +74,8 @@ namespace MemberSite.Service.Library
 
         public bool RepeatCharacters
         {
-            get
-            {
-                return hasRepeating;
-            }
-            set
-            {
-                hasRepeating = value;
-            }
+            get => hasRepeating;
+            set => hasRepeating = value;
         }
 
         public CodeGenerator()
@@ -124,12 +91,12 @@ namespace MemberSite.Service.Library
 
         protected int GetCryptographicRandomNumber(int lBound, int uBound)
         {
-            byte[] array = new byte[4];
+            var array = new byte[4];
             if (lBound == uBound - 1)
             {
                 return lBound;
             }
-            uint num = (uint)(-1 - (int)(uint.MaxValue % (uint)(uBound - lBound)));
+            var num = (uint)(-1 - (int)(uint.MaxValue % (uint)(uBound - lBound)));
             uint num2;
             do
             {
@@ -142,23 +109,23 @@ namespace MemberSite.Service.Library
 
         protected char GetRandomCharacter()
         {
-            int uBound = pwdCharArray.GetUpperBound(0);
+            var uBound = pwdCharArray.GetUpperBound(0);
             if (ExcludeSymbols)
             {
                 uBound = 61;
             }
-            int cryptographicRandomNumber = GetCryptographicRandomNumber(pwdCharArray.GetLowerBound(0), uBound);
+            var cryptographicRandomNumber = GetCryptographicRandomNumber(pwdCharArray.GetLowerBound(0), uBound);
             return pwdCharArray[cryptographicRandomNumber];
         }
 
         public string Generate()
         {
-            int cryptographicRandomNumber = GetCryptographicRandomNumber(Minimum, Maximum);
-            StringBuilder stringBuilder = new StringBuilder();
+            var cryptographicRandomNumber = GetCryptographicRandomNumber(Minimum, Maximum);
+            var stringBuilder = new StringBuilder();
             stringBuilder.Capacity = Maximum;
             char c;
-            char c2 = c = '\n';
-            for (int i = 0; i < cryptographicRandomNumber; i++)
+            var c2 = c = '\n';
+            for (var i = 0; i < cryptographicRandomNumber; i++)
             {
                 c = GetRandomCharacter();
                 if (!ConsecutiveCharacters)
@@ -170,8 +137,8 @@ namespace MemberSite.Service.Library
                 }
                 if (!RepeatCharacters)
                 {
-                    string text = stringBuilder.ToString();
-                    int num = text.IndexOf(c);
+                    var text = stringBuilder.ToString();
+                    var num = text.IndexOf(c);
                     while (-1 != num)
                     {
                         c = GetRandomCharacter();

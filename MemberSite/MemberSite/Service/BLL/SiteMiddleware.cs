@@ -30,7 +30,7 @@ namespace MemberSite.Service.BLL
         {
             var template = TemplateParser.Parse(routeTemplate);
             var matcher = new TemplateMatcher(template, GetDefaults(template));
-            RouteValueDictionary values = new RouteValueDictionary();
+            var values = new RouteValueDictionary();
             matcher.TryMatch(requestPath, values);
             return values;
         }
@@ -57,20 +57,20 @@ namespace MemberSite.Service.BLL
                 }
                 else if (IsGetMethod(context) && IsSupportContentType(context))
                 {
-                    string host = context.Request.Host.Host;
-                    int[] supportH5 = configuration.GetSection("SupportH5").Get<int[]>();
+                    var host = context.Request.Host.Host;
+                    var supportH5 = configuration.GetSection("SupportH5").Get<int[]>();
 
                     if (!IPAddress.TryParse(host, out var pAddress) && supportH5 != null && tools.IsMobile() && supportH5.Any(x => x == serverInfoBLL.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase) && !host.StartsWith("mrelease.", StringComparison.OrdinalIgnoreCase))
                     {
                         var AnticipationRouteData = Match("{controller=Home}/{action=Index}", context.Request.Path);
-                        AnticipationRouteData.TryGetValue("controller", out object controller);
-                        AnticipationRouteData.TryGetValue("action", out object action);
+                        AnticipationRouteData.TryGetValue("controller", out var controller);
+                        AnticipationRouteData.TryGetValue("action", out var action);
 
                         var AnticipationRouteData1 = Match("{LangId?}/{controller=Home}/{action=Index}", context.Request.Path);
-                        AnticipationRouteData1.TryGetValue("controller", out object controller1);
-                        AnticipationRouteData1.TryGetValue("action", out object action1);
+                        AnticipationRouteData1.TryGetValue("controller", out var controller1);
+                        AnticipationRouteData1.TryGetValue("action", out var action1);
 
-                        int dotIndex = host.IndexOf(".");
+                        var dotIndex = host.IndexOf(".");
                         if (dotIndex > -1)
                         {
                             host = host.Substring(dotIndex + 1);
@@ -97,7 +97,7 @@ namespace MemberSite.Service.BLL
                         {
                             var AnticipationRouteData = Match("{controller=Home}/{action=Index}", context.Request.Path);
 
-                            if (AnticipationRouteData.TryGetValue("controller", out object controller) && AnticipationRouteData.TryGetValue("action", out object action) && controller as string != selLangBLL.GetLangId())
+                            if (AnticipationRouteData.TryGetValue("controller", out var controller) && AnticipationRouteData.TryGetValue("action", out var action) && controller as string != selLangBLL.GetLangId())
                             {
                                 context.Response.Redirect($"/{selLangBLL.GetLangId()}/{controller}/{action}{context.Request.QueryString.Value}");
                                 return;
@@ -126,7 +126,7 @@ namespace MemberSite.Service.BLL
         }
         private bool IsBlockIP(HttpContext context)
         {
-            string[] IPs = configuration.GetSection("BlockIP").Get<string[]>();
+            var IPs = configuration.GetSection("BlockIP").Get<string[]>();
             if (IPs == null)
             {
                 return false;

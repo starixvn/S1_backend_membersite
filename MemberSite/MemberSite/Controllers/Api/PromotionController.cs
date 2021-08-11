@@ -155,7 +155,7 @@ namespace MemberSite.Controllers.Api
         }
         private async Task<ApiResult<TransferResult>> TransferToSabaAsync(TpTransfer inTpTransfer)
         {
-            decimal amount = inTpTransfer.Amount;
+            var amount = inTpTransfer.Amount;
             if (amount.ToString().IndexOf(".") > -1)
             {
                 decimal.TryParse(amount.ToString("#.##"), out amount);
@@ -181,7 +181,7 @@ namespace MemberSite.Controllers.Api
 
             var serverInfo = serverInfoBLL.GetServerInfo();
             var isLogin = User.Identity.IsAuthenticated;
-            int custId = 0;
+            var custId = 0;
             int currencyId;
             if (isLogin)
             {
@@ -211,7 +211,7 @@ namespace MemberSite.Controllers.Api
 
             var serverInfo = serverInfoBLL.GetServerInfo();
             var isLogin = User.Identity.IsAuthenticated;
-            int custId = 0;
+            var custId = 0;
             int currencyId;
             if (isLogin)
             {
@@ -239,7 +239,7 @@ namespace MemberSite.Controllers.Api
 
             var serverInfo = serverInfoBLL.GetServerInfo();
             var isLogin = User.Identity.IsAuthenticated;
-            int custId = 0;
+            var custId = 0;
             int currencyId;
             int? DeviceType = 1;
             if (isLogin)
@@ -399,7 +399,7 @@ namespace MemberSite.Controllers.Api
 
             var serverInfo = serverInfoBLL.GetServerInfo();
             var authData = authorizeBLL.GetAuthData();
-            int custId = authData.CustId;
+            var custId = authData.CustId;
            
 
             result.Data = promotionBLL.GetDepositPromotionList( custId, promotionDeviceReq.DeviceType, selLangBLL.GetLangId(), serverInfo.DefLang);
@@ -420,7 +420,7 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult SetDepositPromotionQueue(SetDepositPromotionQueueReq setDepositPromotionQueueReq)
         {
-            int deviceType = 1;
+            var deviceType = 1;
             if (setDepositPromotionQueueReq.DeviceType != null)
             {
                 deviceType = (int)setDepositPromotionQueueReq.DeviceType;

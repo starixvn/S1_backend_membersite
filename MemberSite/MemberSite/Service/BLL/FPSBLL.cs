@@ -1,9 +1,6 @@
 ﻿using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
@@ -20,23 +17,23 @@ namespace MemberSite.Service.BLL
         }
         public async Task<ApiResult> FPSChecksAsync(int custId, string action, string actionResult, string url, string platform, string userAgent, string screen,string di,string ip)
         {
-            ApiResult apiResult = new ApiResult();
+            var apiResult = new ApiResult();
            
 
-            string commonServiceUrl = configuration.GetValue<string>("CommonService");
-            string apiUrl = $"{commonServiceUrl}FPS/FPSChecks";
+            var commonServiceUrl = configuration.GetValue<string>("CommonService");
+            var apiUrl = $"{commonServiceUrl}FPS/FPSChecks";
 
             dynamic req = new
             {
                 account = custId,
-                action = action,
-                actionResult = actionResult,
+                action,
+                actionResult,
                 ip,
-                url = url,
-                platform = platform,
-                userAgent = userAgent,
-                screen = screen,
-                di = di
+                url,
+                platform,
+                userAgent,
+                screen,
+                di
             };
 
             apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);

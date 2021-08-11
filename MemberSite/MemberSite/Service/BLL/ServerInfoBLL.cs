@@ -7,7 +7,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -18,8 +17,8 @@ namespace MemberSite.Service.BLL
         private ServerInfo serverInfo;/*Single Site*/
         private readonly IMemoryCache cache;
         private readonly IHttpContextAccessor httpContextAccessor;
-        private ConcurrentDictionary<string, int> SiteInfoDic;
-        private ConcurrentDictionary<int, ServerInfo> ServerInfoDic;
+        private readonly ConcurrentDictionary<string, int> SiteInfoDic;
+        private readonly ConcurrentDictionary<int, ServerInfo> ServerInfoDic;
         private readonly int fixSiteID = 0;
 
         public ServerInfoBLL(IHttpContextAccessor httpContextAccessor, IMemoryCache cache, ServerInfoService serverInfoService, IConfiguration configuration)
@@ -35,21 +34,21 @@ namespace MemberSite.Service.BLL
 
         public ServerInfo GetServerInfo()
         {
-            string host = httpContextAccessor.HttpContext.Request.Host.Host;
-            int dotIndex = host.IndexOf(".");
+            var host = httpContextAccessor.HttpContext.Request.Host.Host;
+            var dotIndex = host.IndexOf(".");
             if (dotIndex > -1)
             {
                 host = host.Substring(dotIndex + 1);
             }
 
-            int siteId = 1;
+            var siteId = 1;
             if (fixSiteID != 0)
             {
                 siteId = fixSiteID;
             }
             else
             {
-                string key = $"{host}";
+                var key = $"{host}";
                 if (cache.Get<ServerInfo>(key) != null)
                 {
                     return cache.Get<ServerInfo>(key);
@@ -57,7 +56,7 @@ namespace MemberSite.Service.BLL
 
                 if (!SiteInfoDic.ContainsKey(host))
                 {
-                    int _siteId = serverInfoService.GetSite(host);
+                    var _siteId = serverInfoService.GetSite(host);
                     if (_siteId == 0)
                     {
                         cache.Set(key, GetServerInfo(1), new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
@@ -116,7 +115,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<Domainlist> GetSupportDomainListWithCache(int siteId, int currencyId)
         {
-            string key = $"GetSupportDomainListWithCache_{siteId}_{currencyId}";
+            var key = $"GetSupportDomainListWithCache_{siteId}_{currencyId}";
             var supportDomainList = cache.Get<IEnumerable<Domainlist>>(key);
             if (supportDomainList != null && supportDomainList.Any())
             {

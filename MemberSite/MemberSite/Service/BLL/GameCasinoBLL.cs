@@ -4,7 +4,6 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -22,7 +21,7 @@ namespace MemberSite.Service.BLL
         }
         public List<GameCasinoListData> GetGameCasinoList()
         {
-            string key = $"GameCasinoList";
+            var key = $"GameCasinoList";
             var gameCasinoListData = cache.Get<List<GameCasinoListData>>(key);
 
             if(gameCasinoListData != null)
@@ -40,7 +39,7 @@ namespace MemberSite.Service.BLL
         }
         public List<GameCasinoListData> GetGameCasinoListByDevice(int deviceType)
         {
-            string key = $"GetGameCasinoListByDevice_{deviceType}";
+            var key = $"GetGameCasinoListByDevice_{deviceType}";
             var gameCasinoListData = cache.Get<List<GameCasinoListData>>(key);
 
             if (gameCasinoListData != null)
@@ -58,7 +57,7 @@ namespace MemberSite.Service.BLL
         }
         public List<Provider> GetProviderList()
         {
-            List<Provider> Provider = new List<Provider>();
+            var Provider = new List<Provider>();
             var tpList = statementService.GetTpListWithCache().ToList();
             tpList.ForEach(x =>
             {
@@ -73,7 +72,7 @@ namespace MemberSite.Service.BLL
         }
         public Dictionary<string, string> OrgFileNameFilter(Dictionary<string, string> ImgNameDictionary)
         {
-            Dictionary<string, string> newImgNameDictionary = new Dictionary<string, string>();
+            var newImgNameDictionary = new Dictionary<string, string>();
             foreach (var ImgName in ImgNameDictionary)
             {
                 newImgNameDictionary.Add(ImgName.Key, ImgName.Value.Replace(" ", "-").Replace("&", "-").Replace(":", "-").Replace("'", "").Replace("’", "").Replace(".", "").Replace("™", "").Replace("---", "-").Replace("--", "-").ToLower()

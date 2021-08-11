@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -38,20 +36,20 @@ namespace MemberSite.Controllers
         [HttpPost]
         public async Task<IActionResult> SignupAsync([FromForm]SignupModel signupModel)
         {
-            string message = "";
-            int errorCode = 99;
+            var message = "";
+            var errorCode = 99;
 
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToRoute(new { action = "Index", controller = "Home" });
             }
 
-            int custId = 0;
+            var custId = 0;
             var result = -99;
             var phoneExists = false;
             var mailExists = false;
 
-            if (long.TryParse(signupModel.PhoneNo, out long phoneNo))
+            if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
             {
                 signupModel.PhoneNo = phoneNo.ToString();
                 phoneExists = custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);

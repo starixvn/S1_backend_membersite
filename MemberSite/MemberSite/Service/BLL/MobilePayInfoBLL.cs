@@ -5,7 +5,6 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -29,7 +28,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<MobilePayInfo> GetMobilePayInfoList(int siteId)
         {
-            string key = $"MobilePayInfoList_{siteId}";
+            var key = $"MobilePayInfoList_{siteId}";
             var mobilePayInfoList = cache.Get<IEnumerable<MobilePayInfo>>(key);
             if (mobilePayInfoList == null)
             {
@@ -75,8 +74,21 @@ namespace MemberSite.Service.BLL
                                       {
                                           GroupId = x.GroupId,
                                           GroupName = x.GroupName,
+                                          ChannelName = x.ChannelName,
                                           GSort = x.GSort,
-                                          Mode = x.Mode
+                                          Mode = x.Mode,
+                                          MinAmount = (from y in mobilePayInfoList
+                                                       where vipLevel >= y.PointLevel && y.CurrencyId == custInfo.CurrencyId && x.ChannelId == y.ChannelId
+                                                       select new
+                                                       {
+                                                           y.MinAmount
+                                                       }).OrderBy(y => y.MinAmount).FirstOrDefault().MinAmount,
+                                          MaxAmount = (from y in mobilePayInfoList
+                                                       where vipLevel >= y.PointLevel && y.CurrencyId == custInfo.CurrencyId && x.ChannelId == y.ChannelId
+                                                       select new
+                                                       {
+                                                           y.MaxAmount
+                                                       }).OrderByDescending(y => y.MaxAmount).FirstOrDefault().MaxAmount
                                       }).Distinct(mobilePayGroupComparer);
 
             return mobilePayGroupList;
@@ -142,7 +154,7 @@ namespace MemberSite.Service.BLL
 
             if (mobilePayInfo != null)
             {
-                DepositDetailInfo depositDetailInfo = new DepositDetailInfo();
+                var depositDetailInfo = new DepositDetailInfo();
                 depositDetailInfo.Amount = amount;
                 depositDetailInfo.CustId = custId;
                 depositDetailInfo.DepositType = (int)DepositType.MobilePayment;

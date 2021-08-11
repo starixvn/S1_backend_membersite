@@ -64,14 +64,35 @@ namespace MemberSite.Service.Library
             return result;
         }
 
-        public int Execute(string name, SqlMapper.IDynamicParameters parameters, MySqlTransaction trans = null)
+        public int Execute(string name, SqlMapper.IDynamicParameters parameters)
         {
             var result = 0;
             var sw = Stopwatch.StartNew();
             try
             {
                 using var connection = new MySqlConnection(_connectionString);
-                result = connection.Execute(name, parameters, commandType: CommandType.StoredProcedure, transaction: trans);
+                result = connection.Execute(name, parameters, commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, name);
+                throw;
+            }
+
+            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
+            return result;
+        }
+        
+        public int Execute(string name, DynamicParameters parameters, MySqlConnection connection,
+            MySqlTransaction trans)
+        {
+            var result = 0;
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                result = connection.Execute(name, parameters, commandType: CommandType.StoredProcedure,
+                    transaction: trans);
             }
             catch (Exception e)
             {

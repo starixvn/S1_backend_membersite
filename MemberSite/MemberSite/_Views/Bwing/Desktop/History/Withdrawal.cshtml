@@ -37,7 +37,7 @@
     i18n.Add("lbl_LastMonth", selLangBLL.GetResourceValue("lbl_LastMonth"));
     i18n.Add("lbl_ViewHistory", selLangBLL.GetResourceValue("lbl_ViewHistory"));
 
-    for (int i = 0; i <= 7; i++)
+    for (var i = 0; i <= 7; i++)
     {
         if (!i18n.ContainsKey($"lbl_WithdrawalStatus{i}"))
             i18n.Add($"lbl_WithdrawalStatus{i}", selLangBLL.GetResourceValue($"lbl_WithdrawalStatus{i}"));

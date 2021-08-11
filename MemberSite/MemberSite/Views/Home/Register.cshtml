@@ -34,14 +34,14 @@
     var SkinrootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Promotion");
     var domain = serverInfoBLL.GetDomain();
 
-    List<dynamic> currencyList = new List<dynamic>();
+    var currencyList = new List<dynamic>();
     foreach (var currencyId in serverInfo.ICurrencyList)
     {
         currencyList.Add(new { text = selLangBLL.GetResourceValue($"Currency_{currencyId}"), value = currencyId });
     }
 
     Customer customer = null;
-    int CurrencyId = 0;
+    var CurrencyId = 0;
     if (User.Identity.IsAuthenticated)
     {
         var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
@@ -57,7 +57,7 @@
     BannerList = BannerList.Where(x => x.refId != null && x.refId.Any(r => string.Equals(r, "nova88c", StringComparison.OrdinalIgnoreCase)));
     var langId = selLangBLL.GetLangId();
 
-    Dictionary<string, string> i18n = new Dictionary<string, string>();
+    var i18n = new Dictionary<string, string>();
     i18n.Add("lbl_CompleteRegistration", selLangBLL.GetResourceValue("lbl_CompleteRegistration"));
     i18n.Add("lbl_Username", selLangBLL.GetResourceValue("lbl_Username"));
     i18n.Add("lbl_UsernameTooltip", selLangBLL.GetResourceValue("lbl_UsernameTooltip"));

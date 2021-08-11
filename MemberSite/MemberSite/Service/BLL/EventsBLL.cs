@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -19,7 +18,7 @@ namespace MemberSite.Service.BLL
             if (string.IsNullOrEmpty(input))
                 return input;
 
-            string pattern = @"(?<=[\w]{2})[\w-\._\+%]*(?=[\w]{2})";
+            var pattern = @"(?<=[\w]{2})[\w-\._\+%]*(?=[\w]{2})";
             if (input.Length < 6)
                 pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1})";
             return Regex.Replace(input, pattern, m => new string('*', m.Length));
@@ -42,7 +41,7 @@ namespace MemberSite.Service.BLL
         
         public IEnumerable<Leaderboard> GetLeaderboardListWithCache(int custId ,int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
-            string key = $"Leaderboard_{lBCategoryId}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
+            var key = $"Leaderboard_{lBCategoryId}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
             var leaderboard = cache.Get<IEnumerable<Leaderboard>>(key);
             if (leaderboard != null)
             {
@@ -61,7 +60,7 @@ namespace MemberSite.Service.BLL
         }
         public void GetCustRankWithCache(int lBCategoryId, int custId, int beforeDays, out int custRank, out Decimal point)
         {
-            string key = $"Leaderboard_{lBCategoryId}_{custId}_{beforeDays}";
+            var key = $"Leaderboard_{lBCategoryId}_{custId}_{beforeDays}";
             var leaderboardCustRank = cache.Get<LeaderboardCustRank>(key);
             if (leaderboardCustRank != null)
             {
@@ -104,7 +103,7 @@ namespace MemberSite.Service.BLL
         }
         public IEnumerable<Leaderboard> GetLeaderboardListWithCacheV2(int custId, string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
-            string key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
+            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
             var leaderboard = cache.Get<IEnumerable<Leaderboard>>(key);
             if (leaderboard != null)
             {
@@ -123,7 +122,7 @@ namespace MemberSite.Service.BLL
         }
         public void GetCustRankWithCacheV2(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out Decimal point)
         {
-            string key = $"Leaderboard_{lBCategoryId}_{eventCode}_{custId}_{beforeDays}";
+            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{custId}_{beforeDays}";
             var leaderboardCustRank = cache.Get<LeaderboardCustRank>(key);
             if (leaderboardCustRank != null)
             {
@@ -206,7 +205,7 @@ namespace MemberSite.Service.BLL
         }
         public LeaderboardInfo GetLeaderboardInfoWithCache(string eventCode, int siteId, int currencyId)
         {
-            string key = $"tLeaderboardIInfo_{eventCode}_{siteId}_{currencyId}";
+            var key = $"tLeaderboardIInfo_{eventCode}_{siteId}_{currencyId}";
             var leaderboardInfo = cache.Get<LeaderboardInfo>(key);
             if (leaderboardInfo != null)
             {
@@ -235,7 +234,7 @@ namespace MemberSite.Service.BLL
         }
         public void GetEventDrawInfoWithCache(int eventId, out string eventName, out string conditionSP)
         {
-            string key = $"EventDrawInfo_{eventId}";
+            var key = $"EventDrawInfo_{eventId}";
             var eventDrawInfo = cache.Get<EventDrawInfo>(key);
             if (eventDrawInfo != null)
             {

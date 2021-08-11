@@ -1,10 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -42,6 +38,7 @@ namespace MemberSite.Service.BLL
         {
             return walletService.GetWalletTransferStatus(custId, out autoTransfer);
         }
+        
         public int SetWalletTransferStatus(int custId, int autoTransfer)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();

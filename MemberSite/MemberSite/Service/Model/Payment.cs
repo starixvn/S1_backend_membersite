@@ -1,8 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.Model
 {
@@ -51,6 +48,9 @@ namespace MemberSite.Service.Model
         public string GroupName { get; set; }
         public int GSort { get; set; }
         public int Mode { get; set; }
+        public string ChannelName { get; set; }
+        public decimal MinAmount { get; set; }
+        public decimal MaxAmount { get; set; }
     }
     public class CryptoPayInfo : IPaymentLimit
     {
@@ -104,8 +104,8 @@ namespace MemberSite.Service.Model
         public int GSort { get; set; }
         public int SSort { get; set; }
         public long Updated_timestamp { get; set; }
-        public decimal BuyRate { get; set; }
-        public decimal SellRate { get; set; }
+        public string Code { get; set; }
+        public string Serial { get; set; }
     }
     public class LoadCardPayGroup
     {
@@ -113,6 +113,7 @@ namespace MemberSite.Service.Model
         public string GroupName { get; set; }
         public int GSort { get; set; }
         public string PayName { get; internal set; }
+        public int Mode { get; set; }
     }
 
     public interface IPaymentLimit

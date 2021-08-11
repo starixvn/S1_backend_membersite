@@ -2,10 +2,7 @@
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.Model
 {
@@ -47,6 +44,7 @@ namespace MemberSite.Service.Model
     {
         public int SiteId { get; set; }
         public int TpId { get; set; }
+        public int TpGameType { get; set; }
         public int TpCategoryId { get; set; }
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }

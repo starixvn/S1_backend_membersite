@@ -1,8 +1,6 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using MemberSite.Service.Library
 @using MemberSite.Service.BLL
-@using Microsoft.AspNetCore.Hosting
-@using System.Security.Claims
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @inject Tools tools
@@ -40,7 +38,7 @@
             //    return entPageUrl;
             //}
 
-            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl = homeUrl, signupUrl = signupUrl, LoginUrl = LoginUrl, CashierUrl = cashierUrl, LobbyUrl = lobbyUrl, tpId = tpId, gameId = gameId });
+            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl, signupUrl, LoginUrl, CashierUrl = cashierUrl, LobbyUrl = lobbyUrl, tpId, gameId });
             entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
         }
         return entPageUrl;

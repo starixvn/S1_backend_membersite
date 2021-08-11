@@ -3,8 +3,6 @@ using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -21,15 +19,15 @@ namespace MemberSite.Service.BLL
         public IEnumerable<MemberFavorite> GetFavoriteGames(int CustId)
         {
             var datas = casinoService.GetFavoriteGames(CustId);
-            List<MemberFavorite> result = new List<MemberFavorite>();
+            var result = new List<MemberFavorite>();
             if(datas != null)
             {
                 var tmp = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<string>>(datas.Favorite);
                 foreach(var gameInfo in tmp)
                 {
-                    var info = gameInfo.Split("_");
-                    int.TryParse(info[0], out int providerId);
-                    result.Add(new MemberFavorite() { ProviderId = providerId, GameId = info[1] });
+                    var (providerId, gameId) = SplitGameInfo(gameInfo); 
+                    if(providerId != 0 && !string.IsNullOrEmpty(gameId))
+                        result.Add(new MemberFavorite() { ProviderId = providerId, GameId = gameId });
                 }
             }
 
@@ -42,9 +40,20 @@ namespace MemberSite.Service.BLL
             casinoService.SetFavoriteGames(CustId, gameInfo, IsRemove);
         }
 
+        public (int providerId, string gameId) SplitGameInfo(string gameInfo)
+        {
+            var underlineIndex = gameInfo.IndexOf('_');
+            if (string.IsNullOrWhiteSpace(gameInfo) || underlineIndex == -1) return (0, string.Empty);
+            
+            var strProviderId = gameInfo.Substring(0, underlineIndex); 
+            var gameId = gameInfo.Substring(underlineIndex + 1); 
+            int.TryParse(strProviderId, out var providerId);
+            return (providerId, gameId);
+        }
+
         public IEnumerable<int> GetProviderIdByCurrency(int CurrencyId, int SiteId)
         {
-            string key = $"ProviderIdByCurrency_{CurrencyId}_{SiteId}";
+            var key = $"ProviderIdByCurrency_{CurrencyId}_{SiteId}";
             var providerIdByCurrency = cache.Get<IEnumerable<int>>(key);
 
             if (providerIdByCurrency == null)

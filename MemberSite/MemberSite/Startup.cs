@@ -42,9 +42,12 @@ namespace MemberSite
     }
     public class Startup
     {
-        private readonly string AllowSpecificOrigins = "AllowAllOriginsPolicy";
-        private IConfiguration configuration;
+        private readonly IConfiguration configuration;
         private readonly IHostEnvironment environment;
+        private static IConfigurationRoot DomainConfiguration => new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile($"domain.json", false, true)
+            .Build();
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -67,6 +70,8 @@ namespace MemberSite
             services.AddSingleton<RegexUtilities>();
             services.AddSingleton<IBCDBLibrary>();
             services.AddSingleton<CodeGenerator>();
+			services.AddTransient<JsonNetSerializer>();
+            services.AddSingleton<IHttpHelper, HttpHelper>();
 
             /*DAL*/
             services.AddSingleton<ServerInfoService>();
@@ -135,6 +140,9 @@ namespace MemberSite
             services.AddSingleton<LiveStreamingBLL>();
             services.AddSingleton<LatestHighlightDataBLL>();
             services.AddSingleton<GameBLL>();
+			services.AddTransient<GeoIpBLL>();
+			services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
+            services.AddTransient<GeoIpBLL>();
             //var bll = AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())
             //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.BLL");
@@ -211,17 +219,14 @@ namespace MemberSite
 
             services.AddCors(options =>
             {
-                options.AddPolicy(name: AllowSpecificOrigins,
+                var allowCORSDomain = DomainConfiguration.GetSection("AllowCORSDomain").Get<string[]>();
+                options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:8000", "http://localhost:3000",
-                                "http://10.168.11.11:8080", "http://10.168.11.14:8080", "https://m.nova88.net",
-                                "http://stag1.bwing.com", "https://www.n88dev.com", "https://m.n88dev.com",
-                                "http://www.n88dev.com", "http://m.n88dev.com", "http://stag.bwing.com",
-                                "http://stag.goal123.com")
+                        builder.WithOrigins(allowCORSDomain)
                             .AllowAnyHeader()
                             .AllowAnyMethod()
-                            .AllowCredentials();
+                            .SetIsOriginAllowedToAllowWildcardSubdomains();
                     });
 
                 options.AddPolicy("LandingPage",
@@ -257,7 +262,7 @@ namespace MemberSite
 
             app.UseRouting();
 
-            app.UseCors(AllowSpecificOrigins);
+            app.UseCors();
             app.UseCors("LandingPage");
             app.UseAuthentication();
             app.UseAuthorization();
