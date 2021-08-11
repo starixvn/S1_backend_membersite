@@ -20,6 +20,7 @@ using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace MemberSite.Controllers.Api
 {
@@ -46,6 +47,11 @@ namespace MemberSite.Controllers.Api
         private readonly Regex _regexUserName = new Regex(@"^[a-zA-Z0-9]{6,18}$");
         private readonly Regex _regexAffCode = new Regex(@"^[0-9]{5,20}$");
         private readonly ThirdPartyBLL _thirdPartyBll;
+        private readonly List<SeoModel> _seoModels;
+        private IConfigurationRoot SeoConfiguration => new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile($"seo.json", false, true)
+            .Build();
 
         public SiteController(IServiceProvider provider)
         {
@@ -64,6 +70,7 @@ namespace MemberSite.Controllers.Api
             _gameCasinoBll = provider.GetRequiredService<GameCasinoBLL>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBLL>();
+            _seoModels = SeoConfiguration.GetSection("data").Get<List<SeoModel>>();
         }
 
         public class LoginModel
@@ -1661,6 +1668,25 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0,
                 Data = _thirdPartyBll.GetTpMaintainList(_serverInfoBll.GetServerInfo().SiteId),
                 Message = $"UtcNow is {DateTime.UtcNow:yyyy/MM/dd HH:mm:ss}"
+            };
+        }
+        
+        [HttpGet, HttpPost]
+        public ApiResult<SeoModel> Seo()
+        {
+            var match = Regex.Match(HttpContext.Request.Host.ToString(), "([^.]+\\.[^.]{1,3}(\\.[^.]{1,3})?)$");
+            var domain = match.Groups[1].Success ? match.Groups[1].Value : null;
+            var data = _seoModels.FirstOrDefault(item => item.Domain.Equals(domain));
+                
+            return new ApiResult<SeoModel>()
+            {
+                ErrorCode = 0,
+                Data = data ?? new SeoModel
+                {
+                    Domain = "",
+                    Title = "",
+                    Meta = ""
+                }
             };
         }
     }
