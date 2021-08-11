@@ -113,6 +113,7 @@ namespace MemberSite.Service.Model
         public string GroupName { get; set; }
         public int GSort { get; set; }
         public string PayName { get; internal set; }
+        public int Mode { get; set; }
     }
 
     public interface IPaymentLimit

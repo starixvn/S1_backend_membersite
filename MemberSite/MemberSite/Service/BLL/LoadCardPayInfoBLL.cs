@@ -81,7 +81,8 @@ namespace MemberSite.Service.BLL
                                           GroupId = x.GroupId,
                                           GroupName = x.GroupName,
                                           PayName = x.PayName,
-                                          GSort = x.GSort
+                                          GSort = x.GSort,
+                                          Mode = x.Mode
                                       }).Distinct(loadCardGroupComparer);
 
             return LoadCardPayGroupList;
