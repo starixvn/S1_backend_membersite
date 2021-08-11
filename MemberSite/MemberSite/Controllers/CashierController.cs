@@ -260,6 +260,8 @@ namespace MemberSite.Controllers
                     TransId = transId,
                     authData.CustId,
                     Amount,
+                    Code,
+                    Serial,
                     loadCardPayInfo.ChannelId,
                     loadCardPayInfo.PayId,
                     ClientIP = tools.GetClientIP(),

@@ -104,8 +104,6 @@ namespace MemberSite.Service.Model
         public int GSort { get; set; }
         public int SSort { get; set; }
         public long Updated_timestamp { get; set; }
-        public decimal BuyRate { get; set; }
-        public decimal SellRate { get; set; }
         public string Code { get; set; }
         public string Serial { get; set; }
     }
@@ -115,6 +113,7 @@ namespace MemberSite.Service.Model
         public string GroupName { get; set; }
         public int GSort { get; set; }
         public string PayName { get; internal set; }
+        public int Mode { get; set; }
     }
 
     public interface IPaymentLimit
