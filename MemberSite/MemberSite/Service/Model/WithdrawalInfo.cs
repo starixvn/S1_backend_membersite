@@ -13,7 +13,13 @@ namespace MemberSite.Service.Model
         public string AccountNo { get; set; }
         public string IFSCCode { get; set; }
     }
-
+    public class WithdrawalUSDTInfo
+    {
+        public string AccountType { get; set; }
+        public string AccountName { get; set; }
+        public string NickName { get; set; }
+        public string AccountNo { get; set; }
+    }
     public class WithdrawalHistory
     {
         public DateTime CreateTime { get; set; }

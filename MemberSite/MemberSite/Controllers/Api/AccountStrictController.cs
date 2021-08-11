@@ -135,12 +135,12 @@ namespace MemberSite.Controllers.Api
             List<USDTDetail> uSDTInfoList = null;
 
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            if (custInfo.CurrencyId != 96)
-            {
-                apiResult.ErrorCode = -6;
-                apiResult.Message = "Error Currency ";
-                return apiResult;
-            }
+            //if (custInfo.CurrencyId != 96)
+            //{
+            //    apiResult.ErrorCode = -6;
+            //    apiResult.Message = "Error Currency ";
+            //    return apiResult;
+            //}
             //
 
             var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
@@ -193,12 +193,12 @@ namespace MemberSite.Controllers.Api
             List<USDTDetail> uSDTInfoList = null;
 
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            if (custInfo.CurrencyId != 96)
-            {
-                apiResult.ErrorCode = -6;
-                apiResult.Message = "Error Currency ";
-                return apiResult;
-            }
+            //if (custInfo.CurrencyId != 96)
+            //{
+            //    apiResult.ErrorCode = -6;
+            //    apiResult.Message = "Error Currency ";
+            //    return apiResult;
+            //}
             //
             // var custUSDTInfoList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custUSDTInfoBatchreq.USDTInfo);
             if (custUSDTInfoBatchreq.USDTInfo.GroupBy(i => i.USDTAddress).Where(g => g.Count() > 1).Any())
@@ -254,12 +254,12 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
 
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            if (custInfo.CurrencyId != 96)
-            {
-                apiResult.ErrorCode = -6;
-                apiResult.Message = "Error Currency ";
-                return apiResult;
-            }
+            //if (custInfo.CurrencyId != 96)
+            //{
+            //    apiResult.ErrorCode = -6;
+            //    apiResult.Message = "Error Currency ";
+            //    return apiResult;
+            //}
 
             IEnumerable<USDTDetail> USDTInfoList = null;
 

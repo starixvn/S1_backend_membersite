@@ -491,6 +491,226 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        public class WithdrawalUSDTReqModel
+        {
+            public string AccountNo { set; get; }
+            public decimal amount { set; get; }
+            public string memo { set; get; }
+            public string blackbox { get; set; }
+        }
+
+        [HttpPost]
+        public async Task<ApiResult> WithdrawalUSDTReqAsync(WithdrawalReqModel withdrawalReqModel)
+        {
+            var apiResult = new ApiResult(selLangBLL);
+
+            if (withdrawalReqModel.amount <= 0)
+            {
+                return apiResult;
+            }
+
+            var authData = authorizeBLL.GetAuthData(true);
+            if (authData.CustId == 0)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
+                apiResult.ErrorCode = -7;
+                return apiResult;
+            }
+
+            var check = paymentBLL.GetWithdrawalInfoCheck(new CustomerWithdrawalInfoInput { CustId = authData.CustId });
+            if (check.WithdrawalExists)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalExists");
+                apiResult.ErrorCode = -8;
+                return apiResult;
+            }
+
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var rollover = paymentBLL.ReachedRollover(authData.CustId);
+            var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(new WithdrawalLimitInfoInput
+            { SiteId = custInfo.SiteId, CurrencyId = custInfo.CurrencyId, VipLevel = custInfo.UserLevel });
+            var dailyCustomerWithdrawalInfo = paymentBLL.GetDailyCustomerWithdrawalInfo(new DailyCustomerWithdrawalInfoInput { CustId = custInfo.CustId });
+
+            if (!rollover.ReachedRollover)
+            {
+                apiResult.Message = $"{rollover.Lack}";
+                apiResult.ErrorCode = -1;
+                return apiResult;
+            }
+
+            if (custInfo.ActStatus == 1)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_MustDeposit");
+                apiResult.ErrorCode = -4;
+                return apiResult;
+            }
+
+            if (withdrawalLimitInfo != null && withdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
+            {
+                apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), withdrawalLimitInfo.WithdrawalMin);
+                apiResult.ErrorCode = -5;
+                return apiResult;
+            }
+
+            if (withdrawalLimitInfo != null && withdrawalLimitInfo.WithdrawalMax != 0 &&
+                dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > withdrawalLimitInfo.WithdrawalMax)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
+                apiResult.ErrorCode = -6;
+                return apiResult;
+            }
+
+            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+
+            if (custBankInfo?.uSDTDetail == null
+                || !custBankInfo.uSDTDetail.Any()
+                || custBankInfo.uSDTDetail.All(x => x.USDTAddress != withdrawalReqModel.AccountNo))
+            {
+                return apiResult;
+            }
+
+            var custSeluSDTDetail = custBankInfo.uSDTDetail.Where(x => x.USDTAddress == withdrawalReqModel.AccountNo).FirstOrDefault();
+        
+
+
+
+            var result = 99;
+
+            //GetWithdrawalAvailableBalance
+
+            /*Temp will be Removed*/
+            var balance = walletBLL.GetBalance(authData.CustId);
+            var WithdrawalAvailableBalance = paymentBLL.GetWithdrawalAvailableBalance(authData.CustId);
+            ApiResult<TransferResult> transferToSabaResult = null;
+            if (mainWalletType == 2)
+            {
+                var sabaBalance = await Get3rdBalanceAsync(1, authData.CustId);
+                decimal transferBalance = 0;
+                WithdrawalAvailableBalance += sabaBalance;
+                if (WithdrawalAvailableBalance < withdrawalReqModel.amount)
+                {
+                    decimal DiffWithdrawalAvailableBalance = 0;
+                    if (WithdrawalAvailableBalance > 0)
+                    {
+                        DiffWithdrawalAvailableBalance = withdrawalReqModel.amount - WithdrawalAvailableBalance;
+                    }
+                    else
+                    {
+                        DiffWithdrawalAvailableBalance = withdrawalReqModel.amount;
+                    }
+
+                    apiResult.Message = $"{DiffWithdrawalAvailableBalance}";
+                    apiResult.ErrorCode = -3;
+                    return apiResult;
+                }
+                else if (balance + sabaBalance < withdrawalReqModel.amount)
+                {
+                    apiResult.Message = $"{withdrawalReqModel.amount - (balance + sabaBalance)}";
+                    apiResult.ErrorCode = -2;
+                    return apiResult;
+                }
+
+                else if (balance < withdrawalReqModel.amount)
+                {
+                    transferBalance = withdrawalReqModel.amount - balance;
+                }
+
+                var input = new TpTransfer
+                {
+                    Amount = transferBalance,
+                    CustId = authData.CustId,
+                    direction = TpDirection.ToMain,
+                    TpId = 1
+                };
+                transferToSabaResult = await TransferToSabaAsync(input);
+            }
+            else
+            {
+                if (WithdrawalAvailableBalance < withdrawalReqModel.amount)
+                {
+                    //decimal DiffWithdrawalAvailableBalance = 0;
+                    //if (WithdrawalAvailableBalance > 0)
+                    //{
+                    //    DiffWithdrawalAvailableBalance = withdrawalReqModel.amount - WithdrawalAvailableBalance;
+                    //}
+                    //else
+                    //{
+                    //    DiffWithdrawalAvailableBalance = withdrawalReqModel.amount;
+                    //}
+
+                    apiResult.Message = $"{(WithdrawalAvailableBalance < 0 ? 0 : WithdrawalAvailableBalance)}";
+                    apiResult.ErrorCode = -3;
+                    return apiResult;
+                }
+                else if (balance < withdrawalReqModel.amount)
+                {
+                    apiResult.Message = $"{withdrawalReqModel.amount - balance}";
+                    apiResult.ErrorCode = -2;
+                    return apiResult;
+                }
+
+                transferToSabaResult = new ApiResult<TransferResult> { ErrorCode = 0 };
+            }
+            /*Temp*/
+            if (transferToSabaResult.ErrorCode == 0)
+            {
+                if (withdrawalReqModel.blackbox != null)
+                {
+                    _ = Task.Run(async () =>
+                    {
+                        var apiResultIovation = await iovationBLL.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.blackbox, IovationType.withdrawal);
+                        if (apiResultIovation.ErrorCode == 0)
+                            iovationBLL.SetIovation(authData.CustId, apiResultIovation.Message, IovationType.withdrawal);
+
+                    });
+                }
+
+                result = paymentBLL.WithdrawalUSDTReq(authData.CustId, custBankInfo.AccountName, custSeluSDTDetail.NickName, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out decimal afterAmount, out string transId);
+
+                switch (result)
+                {
+                    case 0:
+                    case 2:
+                        apiResult.ErrorCode = result;
+                        apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalSuccessful");
+                        break;
+                    case -1:
+                        apiResult.ErrorCode = 9000;
+                        apiResult.Message = selLangBLL.GetMsg("msg_MustInteger");
+                        break;
+                    default:
+                        {
+                            if (mainWalletType == 2)
+                            {
+                                transferToSabaResult = null;
+                                var input = new TpTransfer
+                                {
+                                    Amount = walletBLL.GetBalance(authData.CustId),
+                                    CustId = authData.CustId,
+                                    direction = TpDirection.ToTp,
+                                    TpId = 1
+                                };
+                                transferToSabaResult = await TransferToSabaAsync(input);
+                            }
+
+                            apiResult.ErrorCode = 9000;
+                            apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalFailed");
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                apiResult.ErrorCode = transferToSabaResult.ErrorCode;
+                //apiResult.Message = transferToSabaResult.Message;
+                apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalNoFund");
+                apiResult.RawErrorCode = transferToSabaResult.RawErrorCode;
+                apiResult.RawMessage = transferToSabaResult.RawMessage;
+            }
+
+            return apiResult;
+        }
+
         [HttpPost]
         public ApiResult<IEnumerable<BankInfoSys>> GetBankInfoSysList()
         {

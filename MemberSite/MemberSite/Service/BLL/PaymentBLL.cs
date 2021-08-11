@@ -471,7 +471,35 @@ namespace MemberSite.Service.BLL
 
             return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalInfo, out afterAmount, out transId);
         }
+        public int WithdrawalUSDTReq(int custId, string accountName, string nickName, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
+        {
+            afterAmount = 0;
+            transId = "";
 
+            if (amount <= 0)
+                return -99;
+
+            WithdrawalUSDTInfo withdrawalUSDTInfo = new WithdrawalUSDTInfo();
+            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            decimal checkAmount = amount;
+            if (custInfoBLL.IsConvertRequired(CustInfo.CurrencyId))
+            {
+                checkAmount /= 1000;
+            }
+
+            if (Math.Ceiling(checkAmount) != Math.Floor(checkAmount))
+            {
+                return -1;
+            }
+            withdrawalUSDTInfo.AccountType = "USDT";
+            
+            withdrawalUSDTInfo.AccountName = accountName;
+            withdrawalUSDTInfo.NickName = nickName;
+            withdrawalUSDTInfo.AccountNo = accountNo;
+        
+
+            return withdrawalService.WithdrawalUSDTReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalUSDTInfo, out afterAmount, out transId);
+        }
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
