@@ -46,7 +46,6 @@ namespace MemberSite.Controllers.Api
         private readonly Regex _regexUserName = new Regex(@"^[a-zA-Z0-9]{6,18}$");
         private readonly Regex _regexAffCode = new Regex(@"^[0-9]{5,20}$");
         private readonly ThirdPartyBLL thirdPartyBLL;
-        //private readonly IOptions<Dictionary<string, FPSServicesConfig>> fpsServicesConfig;
 
         public SiteController(IServiceProvider provider)
         {
