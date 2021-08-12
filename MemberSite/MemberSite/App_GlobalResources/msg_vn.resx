@@ -162,10 +162,10 @@
   <data name="msg_PasswordReq" xml:space="preserve">
     <value>Mật khẩu là bắt buộc</value>
   </data>
-  <data name="msg_PasswordVaildate" xml:space="preserve">
+  <data name="msg_PasswordValidate" xml:space="preserve">
     <value>Mật khẩu phải có từ 6-15 ký tự, bao gồm cả chữ, số và ký tự đặc biệt (!@#$%^&amp;*)</value>
   </data>
-  <data name="msg_PasswordVaildate2" xml:space="preserve">
+  <data name="msg_PasswordValidate2" xml:space="preserve">
     <value>Mật khẩu phải có 6-15 ký tự, chỉ được bao gồm chữ và số.</value>
   </data>
   <data name="msg_SamePassword" xml:space="preserve">

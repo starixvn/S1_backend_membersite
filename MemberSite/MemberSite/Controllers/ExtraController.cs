@@ -91,7 +91,7 @@ namespace MemberSite.Controllers
             else if (result == -3)
             {
                 errorCode = result;
-                message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordVaildate" : "msg_PasswordVaildate2");
+                message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordValidate" : "msg_PasswordValidate2");
             }
             else if (result == -4)
             {

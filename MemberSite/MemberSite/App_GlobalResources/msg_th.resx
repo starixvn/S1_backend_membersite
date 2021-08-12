@@ -165,10 +165,10 @@
   <data name="msg_PasswordReq" xml:space="preserve">
     <value>ต้องใส่รหัสผ่าน</value>
   </data>
-  <data name="msg_PasswordVaildate" xml:space="preserve">
+  <data name="msg_PasswordValidate" xml:space="preserve">
     <value>รหัสผ่านต้องมีความยาว 6-15 ตัว ประกอบด้วยตัวอักษรและตัวเลขและอักขระพิเศษ (!@#$%^&amp;*)</value>
   </data>
-  <data name="msg_PasswordVaildate2" xml:space="preserve">
+  <data name="msg_PasswordValidate2" xml:space="preserve">
     <value>รหัสผ่านต้องมีความยาว 6-15 อักขระและประกอบด้วยตัวอักษรและตัวเลขเท่านั้น</value>
   </data>
   <data name="msg_SamePassword" xml:space="preserve">

@@ -165,10 +165,10 @@
   <data name="msg_PasswordReq" xml:space="preserve">
     <value>Kata Sanda wajib diisi</value>
   </data>
-  <data name="msg_PasswordVaildate" xml:space="preserve">
+  <data name="msg_PasswordValidate" xml:space="preserve">
     <value>Kata sandi harus terdiri 6-15 karakter, kombinasi huruf dan angka dengan karakter khusus (!@#$%^&amp;*)</value>
   </data>
-  <data name="msg_PasswordVaildate2" xml:space="preserve">
+  <data name="msg_PasswordValidate2" xml:space="preserve">
     <value>Kata sandi harus terdiri dari 6-15 karakter dan hanya berisi alfanumerik</value>
   </data>
   <data name="msg_SamePassword" xml:space="preserve">

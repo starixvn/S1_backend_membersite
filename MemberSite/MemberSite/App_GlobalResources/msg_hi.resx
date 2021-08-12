@@ -165,10 +165,10 @@
   <data name="msg_PasswordReq" xml:space="preserve">
     <value>पासवर्ड की आवश्यकता है</value>
   </data>
-  <data name="msg_PasswordVaildate" xml:space="preserve">
+  <data name="msg_PasswordValidate" xml:space="preserve">
     <value>पासवर्ड 6-15 वर्णों का होना चाहिए, जिसमें अल्फ़ान्यूमेरिक और विशेष अक्षर जैसे कि (!@#$%^&amp;*)</value>
   </data>
-  <data name="msg_PasswordVaildate2" xml:space="preserve">
+  <data name="msg_PasswordValidate2" xml:space="preserve">
     <value>पासवर्ड 6-15 वर्णों का होना चाहिए और इसमें केवल अल्फ़ान्यूमेरिक होना चाहिए।</value>
   </data>
   <data name="msg_SamePassword" xml:space="preserve">

@@ -22,7 +22,7 @@ import {InputBox, InputBoxStatus} from './components/inputBox';
                 message = i18n.msg_PasswordLength;
             } else if(!regx.test(value)) {
                 status = 2;
-                message = i18n.msg_PasswordVaildate;
+                message = i18n.msg_PasswordValidate;
             } else {
                 status = 3;
                 message = "";

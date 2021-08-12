@@ -304,7 +304,7 @@ namespace MemberSite.Controllers.Api
             else if (result == -3)
             {
                 apiResult.ErrorCode = result;
-                apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordVaildate" : "msg_PasswordVaildate2");
+                apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordValidate" : "msg_PasswordValidate2");
             }
             else if (result == -4)
             {
@@ -474,7 +474,7 @@ namespace MemberSite.Controllers.Api
                     break;
                 case -3:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordVaildate" : "msg_PasswordVaildate2");
+                    apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordValidate" : "msg_PasswordValidate2");
                     break;
                 case -4:
                     apiResult.ErrorCode = result;/**/
@@ -651,7 +651,7 @@ namespace MemberSite.Controllers.Api
                     break;
                 case -3:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordVaildate" : "msg_PasswordVaildate2");
+                    apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordValidate" : "msg_PasswordValidate2");
                     break;
                 case -4:
                     apiResult.ErrorCode = result;/**/

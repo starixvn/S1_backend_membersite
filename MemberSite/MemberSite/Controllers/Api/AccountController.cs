@@ -232,7 +232,7 @@ namespace MemberSite.Controllers.Api
             else if (!_tools.CheckUserInputPassword(newPassword, serverInfo.SiteId))
             {
                 apiResult.ErrorCode = -2;
-                apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordVaildate" : "msg_PasswordVaildate2");
+                apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordValidate" : "msg_PasswordValidate2");
             }
             else
             {
