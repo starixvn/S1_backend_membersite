@@ -15,11 +15,13 @@ namespace MemberSite.Service.Model
         public int CustId { get; set; }
         public string UserName { get; set; }
         public decimal WTurnover { get; set; }
+        public int Status { get; set; }
     }
     public class LeaderboardCustRank
     {
         public int CustRank { get; set; }
         public decimal point { get; set; }
+        public int Status { get; set; }
     }
     public class Prize
     {
