@@ -3,6 +3,7 @@ using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MemberSite.Service.BLL
 {
@@ -72,6 +73,32 @@ namespace MemberSite.Service.BLL
         {
            return casinoService.GetGameCasinoByCurrencyAndSite(CurrencyId, SiteId);
         }
-        
+
+        public IEnumerable<BlockGames> GetCustBlockGamesByCustId(int custId)
+        {
+            return new List<BlockGames>()
+            {
+                new BlockGames()
+                {
+                    CustId = 250140,
+                    SiteId = 1,
+                    TpId = 5,
+                    GameId = "vswaysrhino"
+                }
+            };
+            return casinoService.GetCustBlockGamesByCustId(custId);
+        }
+
+        public void ExcludeBlockGames(List<GameCasinoListData> casinoGames, IEnumerable<BlockGames> blockGames)
+        {
+            foreach (var blockGame in blockGames)
+            {
+                var casinoGame = casinoGames.Find(a=>a.GameId == blockGame.GameId);
+                if (casinoGame != null)
+                {
+                    casinoGames.Remove(casinoGame);
+                }
+            }
+        }
     }
 }

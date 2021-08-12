@@ -72,6 +72,7 @@ namespace MemberSite
             services.AddSingleton<CodeGenerator>();
 			services.AddTransient<JsonNetSerializer>();
             services.AddSingleton<IHttpHelper, HttpHelper>();
+			services.AddDatabaseConnection(configuration);
 
             /*DAL*/
             services.AddSingleton<ServerInfoService>();

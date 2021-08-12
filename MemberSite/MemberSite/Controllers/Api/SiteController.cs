@@ -1491,6 +1491,9 @@ namespace MemberSite.Controllers.Api
                 tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
                 //取出有byCurrency跟Site設定的遊戲資訊
                 gameCasionByCurrencyAndSite = _casinoBll.GetGameCasinoByCurrencyAndSite(custInfo.CurrencyId, custInfo.SiteId);
+
+                var blockGames = _casinoBll.GetCustBlockGamesByCustId(custInfo.CustId);
+                _casinoBll.ExcludeBlockGames(GameCasinoList, blockGames);
             }
             else
             {

@@ -5,15 +5,18 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using MemberSite.Service.Library;
 
 namespace MemberSite.Service.DAL
 {
     public class CasinoService
     {
         private readonly IConfiguration configuration;
-        public CasinoService(IConfiguration configuration)
+        private readonly MySqlClient _sqlClient;
+        public CasinoService(IConfiguration configuration, MySqlClient sqlClient)
         {
             this.configuration = configuration;
+            _sqlClient = sqlClient;
         }
 
         public FavoriteGames GetFavoriteGames(int CustId)
@@ -37,6 +40,12 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<GameCasionByCurrencyAndSite>("Member_GameCasino_Get", new { CurrencyId, SiteId }, commandType: CommandType.StoredProcedure);
+        }
+
+        public IEnumerable<BlockGames> GetCustBlockGamesByCustId(int custId)
+        {
+            var p = new DynamicParameters(new {CustId = custId});
+            return _sqlClient.Query<BlockGames>("Member_BlockGames_Get", p);
         }
     }
 }
