@@ -168,6 +168,9 @@
   <data name="msg_PasswordVaildate" xml:space="preserve">
     <value>6到18個數字、英文字母大小寫或特殊符號(@$*!%#?&amp;)</value>
   </data>
+  <data name="msg_PasswordVaildate2" xml:space="preserve">
+    <value>6到18個數字、英文字母大小寫</value>
+  </data>
   <data name="msg_SamePassword" xml:space="preserve">
     <value>新密碼與舊密碼相同</value>
   </data>

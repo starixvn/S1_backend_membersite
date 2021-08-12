@@ -272,6 +272,7 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> RegisterAsync(RegisteredModel registeredModel)
         {
             var apiResult = new ApiResult(_selLangBll);
+            var serverInfo = _serverInfoBll.GetServerInfo();
             if (User.Identity.IsAuthenticated)
             {
                 apiResult.ErrorCode = 9000;
@@ -287,7 +288,9 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            var result = _custInfoBll.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd, registeredModel.Email, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId, registeredModel.AffId, registeredModel.Aff, registeredModel.AffCode, out custId, Request.Host.Host);
+            var result = _custInfoBll.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd,
+                registeredModel.Email, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId,
+                registeredModel.AffId, registeredModel.Aff, registeredModel.AffCode, serverInfo.SiteId, out custId, Request.Host.Host);
             if (result == -1)
             {
                 apiResult.ErrorCode = result;
@@ -301,11 +304,11 @@ namespace MemberSite.Controllers.Api
             else if (result == -3)
             {
                 apiResult.ErrorCode = result;
-                apiResult.Message = _selLangBll.GetMsg("msg_PasswordVaildate");
+                apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordVaildate" : "msg_PasswordVaildate2");
             }
             else if (result == -4)
             {
-                apiResult.ErrorCode = result;/**/
+                apiResult.ErrorCode = result;
                 apiResult.Message = "";
             }
             else if (result == -5)
@@ -400,6 +403,7 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> SignupAsync(SignupModel signupModel)
         {
             var apiResult = new ApiResult(_selLangBll);
+            var serverInfo = _serverInfoBll.GetServerInfo();
             if (User.Identity.IsAuthenticated || (string.IsNullOrEmpty(signupModel.AreaCode) && !string.IsNullOrEmpty(signupModel.PhoneNo)))
             {
                 apiResult.ErrorCode = 9000;
@@ -451,7 +455,11 @@ namespace MemberSite.Controllers.Api
 
             if (!phoneExists && !mailExists)
             {
-                result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d, signupModel.Birth_m, signupModel.Birth_y);
+                result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
+                    signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
+                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode,
+                    signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d, signupModel.Birth_m,
+                    signupModel.Birth_y);
             }
 
             switch (result)
@@ -466,7 +474,7 @@ namespace MemberSite.Controllers.Api
                     break;
                 case -3:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = _selLangBll.GetMsg("msg_PasswordVaildate");
+                    apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordVaildate" : "msg_PasswordVaildate2");
                     break;
                 case -4:
                     apiResult.ErrorCode = result;/**/
@@ -578,6 +586,7 @@ namespace MemberSite.Controllers.Api
         public ApiResult<JwtAuthData> SignupApp(SignupModel signupModel)
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
+            var serverInfo = _serverInfoBll.GetServerInfo();
             if (User.Identity.IsAuthenticated || (string.IsNullOrEmpty(signupModel.AreaCode) && !string.IsNullOrEmpty(signupModel.PhoneNo)))
             {
                 apiResult.ErrorCode = 9000;
@@ -624,7 +633,10 @@ namespace MemberSite.Controllers.Api
             
             if (!phoneExists && !mailExists)
             {
-                result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode);
+                result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
+                    signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
+                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode,
+                    signupModel.RealName, signupModel.PromoCode);
             }
 
             switch (result)
@@ -639,7 +651,7 @@ namespace MemberSite.Controllers.Api
                     break;
                 case -3:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = _selLangBll.GetMsg("msg_PasswordVaildate");
+                    apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordVaildate" : "msg_PasswordVaildate2");
                     break;
                 case -4:
                     apiResult.ErrorCode = result;/**/

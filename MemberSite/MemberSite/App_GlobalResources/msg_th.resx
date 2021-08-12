@@ -168,6 +168,9 @@
   <data name="msg_PasswordVaildate" xml:space="preserve">
     <value>รหัสผ่านต้องมีความยาว 6-15 ตัว ประกอบด้วยตัวอักษรและตัวเลขและอักขระพิเศษ (!@#$%^&amp;*)</value>
   </data>
+  <data name="msg_PasswordVaildate2" xml:space="preserve">
+    <value>รหัสผ่านต้องมีความยาว 6-15 อักขระและประกอบด้วยตัวอักษรและตัวเลขเท่านั้น</value>
+  </data>
   <data name="msg_SamePassword" xml:space="preserve">
     <value>รหัสผ่านเก่าและรหัสผ่านใหม่เหมือนกัน!</value>
   </data>
