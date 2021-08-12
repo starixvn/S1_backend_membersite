@@ -165,8 +165,11 @@
   <data name="msg_PasswordReq" xml:space="preserve">
     <value>请输入密码。</value>
   </data>
-  <data name="msg_PasswordVaildate" xml:space="preserve">
+  <data name="msg_PasswordValidate" xml:space="preserve">
     <value>6到18个数字、英文字母大小写或特殊符号(@$*!%#?&amp;)</value>
+  </data>
+  <data name="msg_PasswordValidate2" xml:space="preserve">
+    <value>6到18个数字、英文字母大小写</value>
   </data>
   <data name="msg_SamePassword" xml:space="preserve">
     <value>新密码与旧密码相同</value>

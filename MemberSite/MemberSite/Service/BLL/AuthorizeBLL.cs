@@ -42,11 +42,11 @@ namespace MemberSite.Service.BLL
             if (httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
             {
                 authData = new AuthData();
-                int.TryParse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value, out var custId);
+                int.TryParse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier)?.Value, out var custId);
                 authData.CustId = custId;
                 authData.UserName = httpContextAccessor.HttpContext.User.Identity.Name;
-                authData.Token = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "Token").Value;
-                authData.LangId = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "LangId").Value;
+                authData.Token = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "Token")?.Value;
+                authData.LangId = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "LangId")?.Value;
 
                 if (_isJwt || checkOnUser)
                 {
