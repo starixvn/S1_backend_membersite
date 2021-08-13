@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using MemberSite.Service.Library;
+using Microsoft.CodeAnalysis.FlowAnalysis;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.DAL
 {
@@ -42,10 +44,12 @@ namespace MemberSite.Service.DAL
             return conn.Query<GameCasionByCurrencyAndSite>("Member_GameCasino_Get", new { CurrencyId, SiteId }, commandType: CommandType.StoredProcedure);
         }
 
-        public IEnumerable<BlockGames> GetCustBlockGamesByCustId(int custId)
+        public IEnumerable<BlockGames> GetTpDisableUserByCustId(int custId)
         {
-            var p = new DynamicParameters(new {CustId = custId});
-            return _sqlClient.Query<BlockGames>("Member_BlockGames_Get", p);
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId);
+            var result = _sqlClient.QueryFirst<string>("Member_TpDisableUser_Get", p);
+            return !string.IsNullOrEmpty(result) ? JsonConvert.DeserializeObject<IEnumerable<BlockGames>>(result) : new List<BlockGames>();
         }
     }
 }

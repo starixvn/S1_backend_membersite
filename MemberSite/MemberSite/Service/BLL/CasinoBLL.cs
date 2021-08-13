@@ -74,19 +74,9 @@ namespace MemberSite.Service.BLL
            return casinoService.GetGameCasinoByCurrencyAndSite(CurrencyId, SiteId);
         }
 
-        public IEnumerable<BlockGames> GetCustBlockGamesByCustId(int custId)
+        public IEnumerable<BlockGames> GetTpDisableUserByCustId(int custId)
         {
-            return new List<BlockGames>()
-            {
-                new BlockGames()
-                {
-                    CustId = 250140,
-                    SiteId = 1,
-                    TpId = 5,
-                    GameId = "vswaysrhino"
-                }
-            };
-            return casinoService.GetCustBlockGamesByCustId(custId);
+            return casinoService.GetTpDisableUserByCustId(custId);
         }
 
         public void ExcludeBlockGames(List<GameCasinoListData> casinoGames, IEnumerable<BlockGames> blockGames)
