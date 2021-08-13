@@ -11,10 +11,18 @@ namespace MemberSite.Extensions
         {
             var provider = services.BuildServiceProvider();
 
-            var conn = config.GetConnectionString("ConnectionString");
+            var mainConn = config.GetConnectionString("ConnectionString");
+            var reportConn = config.GetConnectionString("ConnectionStringReport");
 
             var logger = provider.GetRequiredService<ILogger<MySqlClient>>();
-            services.AddSingleton(serviceProvider => new MySqlClient(conn, logger));
+            services.AddSingleton(serviceProvider => new MySqlClient(mainConn, logger)
+            {
+                Name = "MainDB"
+            });
+            services.AddSingleton(serviceProvider => new MySqlClient(reportConn, logger)
+            {
+                Name = "ReportDB"
+            });
 
             return services;
         }
