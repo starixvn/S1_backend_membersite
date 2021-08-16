@@ -169,7 +169,7 @@
     <value>Kata sandi harus terdiri 6-15 karakter, kombinasi huruf dan angka dengan karakter khusus (!@#$%^&amp;*)</value>
   </data>
   <data name="msg_PasswordValidate2" xml:space="preserve">
-    <value>Kata sandi harus terdiri dari 6-15 karakter dan hanya berisi alfanumerik</value>
+    <value>Kata sandi harus terdiri dari 6-15 karakter saja.</value>
   </data>
   <data name="msg_SamePassword" xml:space="preserve">
     <value>Kata Sandi Lama dan Kata Sandi Baru sama!</value>
