@@ -1,29 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Controllers
 {
     public class ExtraController : Controller
     {
-        private readonly CustInfoBLL custInfoBLL;
-        private readonly SelLangBLL selLangBLL;
-        private readonly CommonBLL commonBLL;
-        private readonly Tools tools;
+        private readonly CustInfoBLL _custInfoBll;
+        private readonly SelLangBLL _selLangBll;
+        private readonly CommonBLL _commonBll;
+        private readonly Tools _tools;
+        private readonly ServerInfoBLL _serverInfoBll;
 
-        public ExtraController(CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, CommonBLL commonBLL, Tools tools)
+        public ExtraController(IServiceProvider provider)
         {
-            this.custInfoBLL = custInfoBLL;
-            this.selLangBLL = selLangBLL;
-            this.commonBLL = commonBLL;
-            this.tools = tools;
+            _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
+            _commonBll = provider.GetRequiredService<CommonBLL>();
+            _tools = provider.GetRequiredService<Tools>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
         }
         public class SignupModel : Api.SiteController.RegisteredModel
         {
@@ -38,6 +43,7 @@ namespace MemberSite.Controllers
         {
             var message = "";
             var errorCode = 99;
+            var serverInfo = _serverInfoBll.GetServerInfo();
 
             if (User.Identity.IsAuthenticated)
             {
@@ -52,37 +58,40 @@ namespace MemberSite.Controllers
             if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
             {
                 signupModel.PhoneNo = phoneNo.ToString();
-                phoneExists = custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
+                phoneExists = _custInfoBll.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
                 if (phoneExists)
                     result = -6;
             }
 
             if (!string.IsNullOrWhiteSpace(signupModel.Email))
             {
-                mailExists = custInfoBLL.ExistsEmail(0, signupModel.Email);
+                mailExists = _custInfoBll.ExistsEmail(0, signupModel.Email);
                 if (mailExists)
                     result = -10;
             }
             
             if (!phoneExists && !mailExists)
             {
-                result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName);
+                result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
+                    signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
+                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode,
+                    signupModel.RealName);
             }
 
             if (result == -1)
             {
                 errorCode = result;
-                message = selLangBLL.GetMsg("err_ThisCurrencyNotSupport");
+                message = _selLangBll.GetMsg("err_ThisCurrencyNotSupport");
             }
             else if (result == -2)
             {
                 errorCode = result;
-                message = selLangBLL.GetMsg("msg_UsernameValidate");
+                message = _selLangBll.GetMsg("msg_UsernameValidate");
             }
             else if (result == -3)
             {
                 errorCode = result;
-                message = selLangBLL.GetMsg("msg_PasswordVaildate");
+                message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordValidate" : "msg_PasswordValidate2");
             }
             else if (result == -4)
             {
@@ -92,55 +101,55 @@ namespace MemberSite.Controllers
             else if (result == -5)
             {
                 errorCode = result;
-                message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
             }
             else if (result == -6)
             {
                 errorCode = result;
-                message = $"{selLangBLL.GetResourceValue("lbl_Phone")} {selLangBLL.GetMsg("msg_HasExist")}";
+                message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_HasExist")}";
             }
             else if (result == -10)
             {
                 errorCode = result;
-                message = $"{selLangBLL.GetResourceValue("lbl_Email")} {selLangBLL.GetMsg("msg_HasExist")}";
+                message = $"{_selLangBll.GetResourceValue("lbl_Email")} {_selLangBll.GetMsg("msg_HasExist")}";
             }
             else if (result == -19)
             {
                 errorCode = result;
-                message = selLangBLL.GetMsg("mag_AffiliateNotExist");
+                message = _selLangBll.GetMsg("mag_AffiliateNotExist");
             }
             else if (custId == 0)
             {
                 errorCode = result;
-                message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
             }
             else if (result != 0)
             {
                 errorCode = result;
-                message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
             }
             else
             {
-                commonBLL.SendWelcomeMail(custId);
+                _commonBll.SendWelcomeMail(custId);
 
                 Customer customer = null;
                 string token = null;
-                var userLoginResult = custInfoBLL.UserLogin(signupModel.UserName, signupModel.Userpwd, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
+                var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
 
                 if (userLoginResult == -1)
                 {
                     errorCode = 1101;
-                    message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                    message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
                 }
                 else if (userLoginResult == -2)
                 {
                     errorCode = 1001;
-                    message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                    message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
                 }
                 else if (userLoginResult == -3)
                 {
                     errorCode = 1102;
-                    message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
+                    message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
                 }
                 else if (userLoginResult != 0)
                 {
@@ -150,7 +159,7 @@ namespace MemberSite.Controllers
                 {
                     if(!string.IsNullOrEmpty(signupModel.RealName))
                     {
-                        custInfoBLL.SetCustBankInfo(custId, signupModel.RealName, null);
+                        _custInfoBll.SetCustBankInfo(custId, signupModel.RealName, null);
                     }
 
                     var claims = new List<Claim>
