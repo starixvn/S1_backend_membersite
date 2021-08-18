@@ -127,7 +127,7 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var onlinePayment in onlinePaymentList)
                 {
-                    var iPayCurrency = payCurrency.Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == onlinePayment.ChannelId).FirstOrDefault();
+                    var iPayCurrency = payCurrency.FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == onlinePayment.ChannelId);
                     if (iPayCurrency != null)
                     {
                         onlinePayment.MaxAmount = iPayCurrency.MaxAmount;
@@ -189,7 +189,7 @@ namespace MemberSite.Service.BLL
                                 ChannelId = x.ChannelId
                             }).FirstOrDefault();
 
-            var payCurrency = GetPayCurrency().Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == bankInfo.ChannelId).FirstOrDefault();
+            var payCurrency = GetPayCurrency().FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == bankInfo.ChannelId);
 
             if (payCurrency != null)
             {
@@ -257,7 +257,7 @@ namespace MemberSite.Service.BLL
                                 ChannelId = x.ChannelId
                             }).FirstOrDefault();
 
-            var payCurrency = GetPayCurrency().Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == bankInfo.ChannelId).FirstOrDefault();
+            var payCurrency = GetPayCurrency().FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == bankInfo.ChannelId);
             if (payCurrency != null)
             {
                 bankInfo.MinAmount = payCurrency.MinAmount;

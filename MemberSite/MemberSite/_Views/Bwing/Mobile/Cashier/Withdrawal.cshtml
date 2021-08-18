@@ -92,7 +92,7 @@
         </div>
     </div>
 
-    @if (custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0)
+    @if (custBankInfo == null || custBankInfo.bankInfoDetail == null || !custBankInfo.bankInfoDetail.Any())
     {
 
     <div class="modal" id="WithdrawalAlet" data-open="true">
@@ -154,7 +154,7 @@
     {
         <script src="~/js/component/account/UploadPhotoId.min.js" asp-append-version="true"></script>
     }
-    else if(!(custBankInfo == null || custBankInfo.bankInfoDetail == null || custBankInfo.bankInfoDetail.Count() == 0))
+    else if(!(custBankInfo == null || custBankInfo.bankInfoDetail == null || !custBankInfo.bankInfoDetail.Any()))
     {
         <script type="text/javascript">
             var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })";

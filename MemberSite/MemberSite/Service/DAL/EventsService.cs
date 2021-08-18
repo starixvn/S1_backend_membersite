@@ -166,14 +166,14 @@ namespace MemberSite.Service.DAL
 
             if (result == 100)
             {
-                drawPrize = Prizes.Where(x => x.PrizeId == prizeId).FirstOrDefault();
+                drawPrize = Prizes.FirstOrDefault(x => x.PrizeId == prizeId);
             }
             else if (result == 0)
             {
                 if (quota > 0)
                 {
                     //指定大獎 Jackpot == 1
-                    var bigPrize = Prizes.Where(x => x.Jackpot == 1 && x.Quota > 0).FirstOrDefault();
+                    var bigPrize = Prizes.FirstOrDefault(x => x.Jackpot == 1 && x.Quota > 0);
                     //重新分配Quota個數來改變機率
                     if (quota > 1 && bigPrize != null && bigPrize.Quota > 0 && DateTime.Now > (bigPrize.StartTime.AddHours(((float)new TimeSpan(bigPrize.EndTime.Ticks - bigPrize.StartTime.Ticks).TotalHours * ((float)3 / (float)4)))))
                     {

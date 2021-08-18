@@ -186,7 +186,7 @@
                 var totalRollover = 1m;
                 var totalturnover = 0m;
 
-                if (promotions != null && promotions.Count() > 0)
+                if (promotions != null && promotions.Any())
                 {
                     totalRollover = 0m;
                     rolloverPanelDisplay = "block";
@@ -210,7 +210,7 @@
                 <div class="dropdown__container">
                     <div class="balance-info">
                         <div class="rollover-info">
-                            @if (promotions != null && promotions.Count() > 0)
+                            @if (promotions != null && promotions.Any())
                                 {
                                     foreach (var promotion in promotions)
                                     {
