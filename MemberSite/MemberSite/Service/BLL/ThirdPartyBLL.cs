@@ -10,6 +10,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MemberSite.Service.Model.enums;
+using Serilog.Context;
 
 namespace MemberSite.Service.BLL
 {
@@ -24,7 +26,7 @@ namespace MemberSite.Service.BLL
         private readonly CustInfoBLL custInfoBLL;
         private readonly CourierAdapter courierAdapter;
         private readonly string apiUrl;
-        private readonly ILogger<ThirdPartyBLL> logger;
+        private readonly ILogger<ThirdPartyBLL> _logger;
 
         readonly Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
             {"1","soccer" },
@@ -50,7 +52,7 @@ namespace MemberSite.Service.BLL
             courierAdapter = provider.GetRequiredService<CourierAdapter>();
             var configuration = provider.GetRequiredService<IConfiguration>();
             apiUrl = configuration.GetValue<string>("TpService");
-            logger = provider.GetRequiredService<ILogger<ThirdPartyBLL>>();
+            _logger = provider.GetRequiredService<ILogger<ThirdPartyBLL>>();
         }
 
         public string GetTpLanId(int tpId)
@@ -72,12 +74,12 @@ namespace MemberSite.Service.BLL
             return ThirdPartyModelContainer.ContainsKey(sKet) ? ThirdPartyModelContainer[sKet] : null;
         }
 
-        public string getEntryUrl(int tpId, Dictionary<string, string> parameters)
+        public string GetEntryUrl(int tpId, Dictionary<string, string> parameters)
         {
+            LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(parameters));
             var inputs = JsonConvert.DeserializeObject<Dictionary<string, string>>(thirdPartyService.GetThirdPartyBySite(tpId, serverInfoBLL.GetServerInfo().SiteId).Setting);
             var urlKey = "DesktopBfUrl";
-            string device = null;
-            parameters.TryGetValue("device", out device);
+            parameters.TryGetValue("device", out var device);
 
             if (string.Compare(device, "wap", StringComparison.OrdinalIgnoreCase) == 0)
             {
@@ -92,39 +94,34 @@ namespace MemberSite.Service.BLL
 
             switch (tpId)
             {
-                case 1:
-                    string SportType = null;
-                    var menutype = "0";
-                    parameters.TryGetValue("gameId", out SportType);
-                    parameters.TryGetValue("menutype", out menutype);
+                case (int)Tp.Saba:
+                    parameters.TryGetValue("gameId", out var sportType);
+                    parameters.TryGetValue("menutype", out var menuType);
 
                     if (tools.IsMobile())
                     {
-                        var types = $"{SportType},{menutype},l";
-                        if (SportType == "43")
+                        var types = $"{sportType},{menuType},l";
+                        if (sportType == "43")
                         {
-                            sportTypeDic.TryGetValue(SportType, out types);
+                            sportTypeDic.TryGetValue(sportType, out types);
                             entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}&types={types}";
                         }
                         else
                         {
-                            //entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}#Sports/s={SportType}_0&d=l";
                             entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}&types={types}";
                         }
                     }
                     else
                     {
                         string act = null;
-                        string gameId = null;
-                        string matchId = null;
 
-                        if (parameters.TryGetValue("gameId", out gameId))
+                        if (parameters.TryGetValue("gameId", out var gameId))
                         {
                             sportTypeDic.TryGetValue(gameId, out act);
                         }
-                        parameters.TryGetValue("matchid", out matchId);
+                        parameters.TryGetValue("matchid", out var matchId);
                         
-                        if (SportType == "43")
+                        if (sportType == "43")
                         {
                             entryUrl = $"{entryUrl}?lang={tpLanId}&game={act}";
                         }
@@ -136,10 +133,11 @@ namespace MemberSite.Service.BLL
                             }
                             else
                             {
-                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}&menutype={menutype}";
+                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}&menutype={menuType}";
                             }
                         }
                     }
+                    _logger.LogInformation($"entryUrl={entryUrl}");
 
                     return entryUrl;
                 default:
@@ -259,7 +257,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<TpMaintain> GetTpMaintainList(int siteId)
         {
-            return thirdPartyService.GetTpMaintainList(siteId).Where(item => item.MaintainCheck(DateTime.UtcNow, logger));
+            return thirdPartyService.GetTpMaintainList(siteId).Where(item => item.MaintainCheck(DateTime.UtcNow, _logger));
         }
     }
 }
