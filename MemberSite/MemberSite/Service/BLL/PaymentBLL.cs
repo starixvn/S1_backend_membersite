@@ -390,7 +390,7 @@ namespace MemberSite.Service.BLL
             if (amount <= 0)
                 return -1;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var payCurrency = bankInfoBLL.GetPayCurrency().Where(x => x.ChannelId == channelId && custInfo.CurrencyId == x.CurrencyId).FirstOrDefault();
+            var payCurrency = bankInfoBLL.GetPayCurrency().FirstOrDefault(x => x.ChannelId == channelId && custInfo.CurrencyId == x.CurrencyId);
 
             var depositLimitInfoList = depoistService.GetDepositLimitInfoList();
             var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
@@ -413,7 +413,7 @@ namespace MemberSite.Service.BLL
             }
 
             var onlineBankList = bankInfoBLL.GetOnlineBankList(custInfo.SiteId);
-            onlineBank = onlineBankList.Where(x => vipLevel >= x.PointLevel && x.ChannelId == channelId && (x.SysId == sysId || !x.SelBank) && x.PayId == payId && (x.CurrencyId == custInfo.CurrencyId || !x.SelBank)).FirstOrDefault();
+            onlineBank = onlineBankList.FirstOrDefault(x => vipLevel >= x.PointLevel && x.ChannelId == channelId && (x.SysId == sysId || !x.SelBank) && x.PayId == payId && (x.CurrencyId == custInfo.CurrencyId || !x.SelBank));
 
             if (onlineBank != null)
             {
@@ -510,7 +510,7 @@ namespace MemberSite.Service.BLL
                 {
                     depositInfo.DepositRep = Newtonsoft.Json.JsonConvert.DeserializeObject<DepositInfo3_1>(depositInfo.DepositInfo);
                     var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
-                    depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).Where(x => x.SysId == depositInfoRef.SysId).FirstOrDefault();
+                    depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
                 }
             }
 
@@ -535,7 +535,7 @@ namespace MemberSite.Service.BLL
                 {
                     depositInfo.DepositRep = Newtonsoft.Json.JsonConvert.DeserializeObject<DepositInfo3_1>(depositInfo.DepositInfo);
                     var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
-                    depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).Where(x => x.SysId == depositInfoRef.SysId).FirstOrDefault();
+                    depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
                 }
             }
             return depositInfoHistory;
@@ -621,11 +621,11 @@ namespace MemberSite.Service.BLL
 
                 if (Type.StartsWith("1"))
                 {
-                    tpName = tpList.Where(x => x.Id == tempId).FirstOrDefault()?.TpName;
+                    tpName = tpList.FirstOrDefault(x => x.Id == tempId)?.TpName;
                 }
                 else if (Type.StartsWith("2"))
                 {
-                    tpName = gameTypeList.Where(x => x.Type == tempId).FirstOrDefault()?.TypeName;
+                    tpName = gameTypeList.FirstOrDefault(x => x.Type == tempId)?.TypeName;
                 }
 
                 return $"{tpName} {selLangBLL.GetResourceValue(WalletType)}";
@@ -642,7 +642,7 @@ namespace MemberSite.Service.BLL
                 WalletTransType.TryGetValue(Type.Substring(1, 1), out var TransType);
                 int.TryParse(Type.Substring(2), out var tpId);
 
-                var tpName = TpList.Where(x => x.Id == tpId).FirstOrDefault()?.TpName;
+                var tpName = TpList.FirstOrDefault(x => x.Id == tpId)?.TpName;
                 return $"{tpName} {TransType}";
             }
         }
@@ -708,7 +708,7 @@ namespace MemberSite.Service.BLL
             var withdrawalKycList = cache.Get<IEnumerable<WithdrawalKyc>>(key);
             if (withdrawalKycList != null)
             {
-                return withdrawalKycList.Where(x => x.CurrencyId == CustInfo.CurrencyId).FirstOrDefault();
+                return withdrawalKycList.FirstOrDefault(x => x.CurrencyId == CustInfo.CurrencyId);
             }
 
             withdrawalKycList = withdrawalService.GetWithdrawalKycList(CustInfo.SiteId);
@@ -719,7 +719,7 @@ namespace MemberSite.Service.BLL
                 cache.Set(key, withdrawalKycList, cacheEntryOptions);
             }
 
-            return withdrawalKycList.Where(x => x.CurrencyId == CustInfo.CurrencyId).FirstOrDefault();
+            return withdrawalKycList.FirstOrDefault(x => x.CurrencyId == CustInfo.CurrencyId);
         }
         private void FixDepositLimit(IPaymentLimit paymentLimit, DepositLimitInfo depositLimitInfo)
         {

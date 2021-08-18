@@ -569,7 +569,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            var custSeluSDTDetail = custBankInfo.uSDTDetail.Where(x => x.USDTAddress == withdrawalReqModel.AccountNo).FirstOrDefault();
+            var custSeluSDTDetail = custBankInfo.uSDTDetail.FirstOrDefault(x => x.USDTAddress == withdrawalReqModel.AccountNo);
         
 
 

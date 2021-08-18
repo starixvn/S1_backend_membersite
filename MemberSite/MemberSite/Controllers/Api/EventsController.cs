@@ -279,7 +279,7 @@ namespace MemberSite.Controllers.Api
             if (result == 100)
             {
                 apiResult.Data.PrizeId = prizeId;
-                apiResult.Data.PrizeName = prizes.Where(x => x.PrizeId == prizeId).FirstOrDefault()?.PrizeName;
+                apiResult.Data.PrizeName = prizes.FirstOrDefault(x => x.PrizeId == prizeId)?.PrizeName;
             }
             apiResult.ErrorCode = result;
             //apiResult.ErrorCode = eventsBLL.CheckDrawPrize(custInfo.SiteId, custInfo.CurrencyId, authData.CustId, out prizeId, out giftName);

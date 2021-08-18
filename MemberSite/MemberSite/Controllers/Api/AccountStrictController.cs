@@ -160,7 +160,7 @@ namespace MemberSite.Controllers.Api
             {
                 uSDTInfoList = custBankInfo.uSDTDetail.ToList();
 
-                if (uSDTInfoList.Where(x => x.USDTAddress == uSDTDetailreq.USDTAddress).Count() > 0)
+                if (uSDTInfoList.Any(x => x.USDTAddress == uSDTDetailreq.USDTAddress))
                 {
                     apiResult.ErrorCode = -4;
                     apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
@@ -201,7 +201,7 @@ namespace MemberSite.Controllers.Api
             //}
             //
             // var custUSDTInfoList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custUSDTInfoBatchreq.USDTInfo);
-            if (custUSDTInfoBatchreq.USDTInfo.GroupBy(i => i.USDTAddress).Where(g => g.Count() > 1).Any())
+            if (custUSDTInfoBatchreq.USDTInfo.GroupBy(i => i.USDTAddress).Any(g => g.Count() > 1))
             {
                 apiResult.ErrorCode = -4; //輸入資料重複
                 apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
@@ -227,7 +227,7 @@ namespace MemberSite.Controllers.Api
                 uSDTInfoList = custBankInfo.uSDTDetail.ToList();
                 foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
                 {
-                    if (uSDTInfoList.Where(x => x.USDTAddress == custUSDTInfo.USDTAddress).Count() > 0)
+                    if (uSDTInfoList.Any(x => x.USDTAddress == custUSDTInfo.USDTAddress))
                     {
                         apiResult.ErrorCode = -4;
                         apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");

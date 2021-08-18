@@ -279,7 +279,7 @@ namespace MemberSite.Service.BLL
             {
                 return defCurrencyId;
             }
-            else if (serverInfo.ICurrencyList.Count() > 0)
+            else if (serverInfo.ICurrencyList.Any())
             {
                 foreach (var currencyId in serverInfo.ICurrencyList)
                 {

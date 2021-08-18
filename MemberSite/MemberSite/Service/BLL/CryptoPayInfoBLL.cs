@@ -125,7 +125,7 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
-            cryptoPayInfo = GetCryptoPayInfoListWithCache(custInfo.SiteId).Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId).FirstOrDefault();
+            cryptoPayInfo = GetCryptoPayInfoListWithCache(custInfo.SiteId).FirstOrDefault(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId);
 
             if (depositLimitInfo != null && cryptoPayInfo != null)
             {
