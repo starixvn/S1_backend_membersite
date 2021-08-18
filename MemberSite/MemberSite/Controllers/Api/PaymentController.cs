@@ -794,11 +794,11 @@ namespace MemberSite.Controllers.Api
             public int groupId { set; get; }
         }*/
         [HttpPost]
-        public async Task<ApiResult<IEnumerable<CryptoPayInfo>>> GetCryptoPayInfoListAsync()
+        public ApiResult<IEnumerable<CryptoPayInfo>> GetCryptoPayInfoListAsync()
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<IEnumerable<CryptoPayInfo>>();
-            apiResult.Data = await cryptoPayInfoBLL.GetCryptoPayInfoListAsync(authData.CustId);
+            apiResult.Data = cryptoPayInfoBLL.GetCryptoPayInfoList(authData.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
