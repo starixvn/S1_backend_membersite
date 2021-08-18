@@ -106,4 +106,16 @@ namespace MemberSite.Service.Model
         public string AccountNo { get; set; }
         public string IFSCCode { get; set; }
     }
+
+    public class ExchangeInfo
+    {
+        public decimal Rate { get; set; }
+        public decimal To_Amount { get; set; }
+        public long Updated_timestamp { get; set; }
+    }
+
+    public class PaymentReq
+    {
+        public ExchangeInfo formData { get; set; }
+    }
 }

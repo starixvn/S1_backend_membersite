@@ -1263,5 +1263,27 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+
+        public class GetExchangeReq
+        {
+            public int PayId { get; set; }
+            public decimal Amount { get; set; }
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<ExchangeInfo>> GetExchangeInfoAsync(GetExchangeReq getExchangeReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<ExchangeInfo>();
+            int PayId = 22;
+      
+            var result = await cryptoPayInfoBLL.GetExchangeInfoAsync(authData.CustId, getExchangeReq.Amount, PayId);
+            if (result != null && result.Data != null)
+            {
+                apiResult.Data = result.Data.formData;
+                apiResult.ErrorCode = result.ErrorCode;
+            }
+            return apiResult;
+        }
     }
 }
