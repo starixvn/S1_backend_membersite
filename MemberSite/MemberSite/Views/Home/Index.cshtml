@@ -47,7 +47,7 @@
     else
     {
         CurrencyId = selLangBLL.GetPreferCurrencyId();
-        promotionCnt = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).Count();
+        promotionCnt = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Count(x => x.CurrencyId == CurrencyId);
     }
 
     var entFishingPageUrl = "";

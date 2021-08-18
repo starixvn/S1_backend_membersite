@@ -33,15 +33,15 @@ namespace MemberSite.Service.Library
         {
             try
             {
-                var tReslt = default(TResult);
+                var tResult = default(TResult);
                 var result = await GetDataAsync(url, query);
                 _header.Clear();
                 if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    tReslt = _serializer.DeserializeFormStream<TResult>(result.ContentStream);
+                    tResult = _serializer.DeserializeFormStream<TResult>(result.ContentStream);
                 }
 
-                return (tReslt, result.StatusCode);
+                return (tResult, result.StatusCode);
             }
             catch (Exception ex)
             {

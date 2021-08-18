@@ -66,9 +66,6 @@ namespace MemberSite.Controllers
         public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs, [FromRoute] string LangId = null)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var isNewVersion = true;
-            string SportType = null;
-            var menutype = "0";
             var myUrl = $"{_apiUrl}GotoGame";
             var tpInfo = new TpInfo
             {
@@ -85,97 +82,86 @@ namespace MemberSite.Controllers
                 tpInfo.AppType = appType;
             }
 
-            if (inputs.ContainsKey("gameId") && inputs.TryGetValue("gameId", out SportType))
+            if (inputs.ContainsKey("gameId") && inputs.TryGetValue("gameId", out var sportType))
             {
-                if (SportType == "2001" || SportType == "2002" || SportType == "2003")
+                if (sportType == "2001" || sportType == "2002" || sportType == "2003")
                 {
                     inputs["gameId"] = "1";
-                    menuTypeDic.TryGetValue(SportType, out menutype);
-                    inputs.Add("menutype", menutype);
+                    menuTypeDic.TryGetValue(sportType, out var menuType);
+                    inputs.Add("menutype", menuType);
                 }
             }
-
-            if (_gameBll.IsFunGame(inputs))
-            {
-                tpInfo.CustId = 0;
-                tpInfo.LangId = _selLangBll.GetLangId();
-            }
-            else if (User.Identity.IsAuthenticated)
-            {
-                var authData = _authorizeBll.GetAuthData();
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-
-                if (tpId == (int)Tp.AG)
-                {
-                    var tpCurrency = _thirdPartyBll.GetTpCurrency(tpId, custInfo.CurrencyId);
-                    var balance = _walletBll.GetBalance(authData.CustId);
-                    var bonusAmount = _walletBll.GetBonus(authData.CustId, 2);
-
-                    balance += bonusAmount;
-
-                    if (tpCurrency.ExchangeRate != 0 && tpCurrency.ExchangeRate != 1)
-                    {
-                        balance /= tpCurrency.ExchangeRate;
-                    }
-
-                    inputs.Add("Balance", _tools.Floor(balance, 2).ToString());
-                    inputs.Add("Token", authData.Token);
-                }
-                else
-                {
-                    inputs.Add("Token", authData.Token);
-                }
-                tpInfo.CustId = authData.CustId;
-                tpInfo.LangId = CheckLangId(LangId) ? LangId : custInfo.UserLang;
-            }
-            else if (hasBf(tpId))
-            {
-                LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
-                var entryUrl = _thirdPartyBll.getEntryUrl(tpId, inputs);
-                _logger.LogInformation($"tpId={tpId}, Url={entryUrl}");
-                return Redirect(entryUrl);
-            }
-            else
-            {
-                return StatusCode(400);
-            }
-
-            tpInfo.inputs = inputs;
 
             try
             {
+                if (_gameBll.IsFunGame(inputs))
+                {
+                    tpInfo.CustId = 0;
+                    tpInfo.LangId = _selLangBll.GetLangId();
+                }
+                else if (User.Identity.IsAuthenticated)
+                {
+                    var authData = _authorizeBll.GetAuthData();
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+
+                    if (tpId == (int)Tp.AG)
+                    {
+                        var tpCurrency = _thirdPartyBll.GetTpCurrency(tpId, custInfo.CurrencyId);
+                        var balance = _walletBll.GetBalance(authData.CustId);
+                        var bonusAmount = _walletBll.GetBonus(authData.CustId, 2);
+
+                        balance += bonusAmount;
+
+                        if (tpCurrency.ExchangeRate != 0 && tpCurrency.ExchangeRate != 1)
+                        {
+                            balance /= tpCurrency.ExchangeRate;
+                        }
+
+                        inputs.Add("Balance", _tools.Floor(balance, 2).ToString());
+                        inputs.Add("Token", authData.Token);
+                    }
+                    else
+                    {
+                        inputs.Add("Token", authData.Token);
+                    }
+
+                    tpInfo.CustId = authData.CustId;
+                    tpInfo.LangId = CheckLangId(LangId) ? LangId : custInfo.UserLang;
+                }
+                else if (hasBf(tpId))
+                {
+                    var entryUrl = _thirdPartyBll.GetEntryUrl(tpId, inputs);
+                    return Redirect(entryUrl);
+                }
+                else
+                {
+                    return StatusCode(400);
+                }
+
                 LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
+                tpInfo.inputs = inputs;
                 var data = await _courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
                 if (data.ErrorCode == 0)
                 {
                     var entryUrl = data.Message;
-                    _logger.LogInformation($"ErrorCode=0, Url={entryUrl}");
                     return Redirect(entryUrl);
                 }
-                else if (tpId == 1 && data.RawErrorCode == "10")
+
+                if (tpId == 1 && data.RawErrorCode == "10")
                 {
-                    var entryUrl = _thirdPartyBll.getEntryUrl(tpId, inputs);
-                    _logger.LogInformation($"tpId=1, RawErrorCode=10, Url={entryUrl}");
+                    var entryUrl = _thirdPartyBll.GetEntryUrl(tpId, inputs);
                     return Redirect(entryUrl);
                 }
-                else
-                {
-                    var model = new ErrorData() { Message = data.RawMessage };
-                    if (isNewVersion)
-                        return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
-                    else
-                        return Content(model.Message);
-                }
+
+                var model = new ErrorData() { Message = data.RawMessage };
+                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, ex.Message);
                 var model = new ErrorData() { Message = ex.Message };
-                if (isNewVersion)
-                    return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
-                else
-                    return Content(model.Message);
+                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
             }
-
         }
 
         readonly Dictionary<int, bool> Bf = new Dictionary<int, bool>()

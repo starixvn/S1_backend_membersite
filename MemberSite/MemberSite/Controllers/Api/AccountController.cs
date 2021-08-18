@@ -414,11 +414,11 @@ namespace MemberSite.Controllers.Api
 
             var custBankInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<CustBankInfoRep>(Newtonsoft.Json.JsonConvert.SerializeObject(_custInfoBll.GetCustBankInfo(authData.CustId)));
 
-            if (custBankInfo != null && custBankInfo.bankInfoDetail != null && custBankInfo.bankInfoDetail.Count() > 0)
+            if (custBankInfo != null && custBankInfo.bankInfoDetail != null && custBankInfo.bankInfoDetail.Any())
             {
                 foreach (var bankInfo in custBankInfo.bankInfoDetail)
                 {
-                    var refBankInfo = bankInfoSysList.Where(x => x.SysId == bankInfo.SysId).FirstOrDefault();
+                    var refBankInfo = bankInfoSysList.FirstOrDefault(x => x.SysId == bankInfo.SysId);
                     if (refBankInfo != null)
                     {
                         bankInfo.BankName = refBankInfo.BankName;
@@ -426,7 +426,7 @@ namespace MemberSite.Controllers.Api
                         bankInfo.BankSite = refBankInfo.BankSite;
                     }
 
-                    if (custBankInfo.bankInfoDetail.Count() == 0)
+                    if (!custBankInfo.bankInfoDetail.Any())
                     {
                         custBankInfo.DefAccountNo = custBankInfo.bankInfoDetail.ElementAt(0).AccountNo;
                     }
@@ -461,11 +461,11 @@ namespace MemberSite.Controllers.Api
 
             var custBankInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<CustBankInfoRep>(Newtonsoft.Json.JsonConvert.SerializeObject(_custInfoBll.GetCustBankInfo(getCustBankInfoReq.CustId)));
 
-            if (custBankInfo != null && custBankInfo.bankInfoDetail != null && custBankInfo.bankInfoDetail.Count() > 0)
+            if (custBankInfo != null && custBankInfo.bankInfoDetail != null && custBankInfo.bankInfoDetail.Any())
             {
                 foreach (var bankInfo in custBankInfo.bankInfoDetail)
                 {
-                    var refBankInfo = bankInfoSysList.Where(x => x.SysId == bankInfo.SysId).FirstOrDefault();
+                    var refBankInfo = bankInfoSysList.FirstOrDefault(x => x.SysId == bankInfo.SysId);
                     if (refBankInfo != null)
                     {
                         bankInfo.BankName = refBankInfo.BankName;
@@ -473,7 +473,7 @@ namespace MemberSite.Controllers.Api
                         bankInfo.BankSite = refBankInfo.BankSite;
                     }
 
-                    if (custBankInfo.bankInfoDetail.Count() == 0)
+                    if (!custBankInfo.bankInfoDetail.Any())
                     {
                         custBankInfo.DefAccountNo = custBankInfo.bankInfoDetail.ElementAt(0).AccountNo;
                     }
