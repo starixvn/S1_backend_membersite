@@ -161,5 +161,25 @@ namespace MemberSite.Service.BLL
             return -99;
         }
 
+        public async Task<ExchangeInfo> GetExchangeInfoAsync(int custId, decimal amount,int payId)
+        {
+            var apiResult = new ApiResult<PaymentReq>();
+
+            var exchangeReq = new 
+            {
+                CustId = custId,
+                Amount = amount,
+                PayId = payId
+
+            };
+
+            var myUrl = $"{payApiUrl}CryptoExchange";
+            apiResult = await courierAdapter.MyPostAsync<PaymentReq, dynamic>(myUrl, exchangeReq);
+            return apiResult.Data.formData;
+
+
+
+        }
     }
+    
 }
