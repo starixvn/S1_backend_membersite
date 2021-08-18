@@ -1,6 +1,8 @@
 ﻿using Dapper;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Data;
@@ -11,11 +13,17 @@ namespace MemberSite.Service.DAL
     {
         private readonly IConfiguration configuration;
         private readonly PromotionService promotionService;
+        private readonly MySqlClient _mainDbClient;
+        private readonly MySqlClient _reportDbClient;
+        private readonly string _connectionString;
 
-        public CustInfoService(IConfiguration configuration, PromotionService promotionService)
+        public CustInfoService(IConfiguration configuration, PromotionService promotionService, ILogger<MySqlClient> logger)
         {
             this.configuration = configuration;
             this.promotionService = promotionService;
+            _mainDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionString"), logger);
+            _reportDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionStringReport"), logger);
+            _connectionString = configuration.GetConnectionString("ConnectionString");
         }
         public bool ExistsUserName(string userName, int siteId)
         {
@@ -207,7 +215,49 @@ namespace MemberSite.Service.DAL
             var result = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             var tmp = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo);
-            result = conn.Execute("CustBankInfo_Set", new { CustId = custId, SiteId = siteId, AccountName = accountName, BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo) }, commandType: CommandType.StoredProcedure);
+            result = conn.Execute("CustBankInfoV2_Set", new { CustId = custId, SiteId = siteId, AccountName = accountName, BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo) }, commandType: CommandType.StoredProcedure);
+            return result > 0;
+        }
+        public bool InsertCustBankInfo(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo, IEnumerable<BankInfoDetail> banklog)
+        {
+            using var conn = new MySqlConnection(_connectionString);
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            var bankinfoResult = SetCustBankInfo(custId, siteId, accountName, bankInfo, conn, trans);
+            var banklogResult = SetCustBankInfoLog(custId, siteId, accountName, banklog, conn, trans);
+            if(bankinfoResult& banklogResult)
+            {
+                trans.Commit();
+            }
+            return bankinfoResult & banklogResult;
+        }
+
+        private bool SetCustBankInfo(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo, MySqlConnection conn, MySqlTransaction trans)
+        {
+            var result = 0;
+            var tmp = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo);
+            var parameter = new DynamicParameters(new
+            {
+                CustId = custId,
+                SiteId = siteId,
+                AccountName = accountName,
+                BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo)
+            });
+            result = _mainDbClient.Execute("CustBankInfoV2_Set", parameter, conn,trans);
+            return result > 0;
+        }
+        private bool SetCustBankInfoLog(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo, MySqlConnection conn, MySqlTransaction trans)
+        {
+            var result = 0;
+            var tmp = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo);
+            var parameter = new DynamicParameters(new
+            {
+                CustId = custId,
+                SiteId = siteId,
+                AccountName = accountName,
+                BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo)
+            });
+            result = _mainDbClient.Execute("CustBankInfoLog_Set", parameter, conn, trans);
             return result > 0;
         }
         public bool SetCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo)
