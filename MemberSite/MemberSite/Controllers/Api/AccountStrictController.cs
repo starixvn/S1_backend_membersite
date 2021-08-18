@@ -48,6 +48,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
             List<BankInfoDetail> bankInfoList = null;
+            List<BankInfoDetail> BankInfoLogList = new List<BankInfoDetail>();
 
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             //
@@ -90,8 +91,8 @@ namespace MemberSite.Controllers.Api
             }
 
             bankInfoList.Add(new BankInfoDetail { AccountNo = bankInfo.AccountNo, SysId = bankInfo.SysId, IFSCCode = bankInfo.IFSCCode });
-
-            apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, bankInfo.AccountName, bankInfoList);
+            BankInfoLogList.Add(new BankInfoDetail { AccountNo = bankInfo.AccountNo, SysId = bankInfo.SysId, IFSCCode = bankInfo.IFSCCode });
+            apiResult.ErrorCode = custInfoBLL.InsertCustBankInfo(authData.CustId, bankInfo.AccountName, bankInfoList, BankInfoLogList);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
