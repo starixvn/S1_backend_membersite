@@ -1275,26 +1275,14 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<ExchangeInfo>();
-            apiResult.Data = new ExchangeInfo();
             int PayId = 22;
-            apiResult.ErrorCode = 0;
+      
             var result = await cryptoPayInfoBLL.GetExchangeInfoAsync(authData.CustId, getExchangeReq.Amount, PayId);
-            
-            var amount = result.To_Amount;
-            if (amount.ToString().IndexOf(".") > -1)
+            if (result != null && result.Data != null)
             {
-                decimal.TryParse(amount.ToString("#.##"), out amount);
+                apiResult.Data = result.Data.formData;
+                apiResult.ErrorCode = result.ErrorCode;
             }
-
-            var rate = result.Rate;
-            if (rate.ToString().IndexOf(".") > -1)
-            {
-                decimal.TryParse(rate.ToString("#.##"), out rate);
-            }
-
-            apiResult.Data.To_Amount = amount;
-            apiResult.Data.Rate = rate;
-            apiResult.Data.Updated_timestamp = result.Updated_timestamp;
             return apiResult;
         }
     }

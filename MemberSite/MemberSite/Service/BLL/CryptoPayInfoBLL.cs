@@ -161,10 +161,8 @@ namespace MemberSite.Service.BLL
             return -99;
         }
 
-        public async Task<ExchangeInfo> GetExchangeInfoAsync(int custId, decimal amount,int payId)
-        {
-            var apiResult = new ApiResult<PaymentReq>();
-
+        public async Task<ApiResult<PaymentReq>> GetExchangeInfoAsync(int custId, decimal amount,int payId)
+        { 
             var exchangeReq = new 
             {
                 CustId = custId,
@@ -172,13 +170,8 @@ namespace MemberSite.Service.BLL
                 PayId = payId
 
             };
-
             var myUrl = $"{payApiUrl}CryptoExchange";
-            apiResult = await courierAdapter.MyPostAsync<PaymentReq, dynamic>(myUrl, exchangeReq);
-            return apiResult.Data.formData;
-
-
-
+            return await courierAdapter.MyPostAsync<PaymentReq, dynamic>(myUrl, exchangeReq);
         }
     }
     
