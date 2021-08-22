@@ -1801,4 +1801,7 @@
   <data name="lbl_TpWallet_25" xml:space="preserve">
     <value>Ví V8</value>
   </data>
+  <data name="lbl_Wallet_V8" xml:space="preserve">
+    <value>Ví V8</value>
+  </data>
 </root>

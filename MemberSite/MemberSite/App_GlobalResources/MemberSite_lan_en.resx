@@ -1902,4 +1902,7 @@
   <data name="lbl_Wallet_NineW" xml:space="preserve">
     <value>9W Wallet</value>
   </data>
+  <data name="lbl_Wallet_V8" xml:space="preserve">
+    <value>V8 Wallet</value>
+  </data>
 </root>
