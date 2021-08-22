@@ -1875,6 +1875,9 @@
   <data name="lbl_TpWallet_25" xml:space="preserve">
     <value>V8 Wallet</value>
   </data>
+  <data name="lbl_TpWallet_V8" xml:space="preserve">
+    <value>V8 Wallet</value>
+  </data>
   <data name="lbl_TpWallet_27" xml:space="preserve">
     <value>PT Wallet</value>
   </data>
