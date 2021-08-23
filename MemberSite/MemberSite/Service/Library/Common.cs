@@ -41,7 +41,7 @@ namespace MemberSite.Service.Library
             {
                 return "Q";
             }
-            return "X";
+            return "P";
         }
 
         public async Task SendMailAsync(string FromName, string FromAddress, string ToName, string ToAddress, string Subject, string Content)
