@@ -36,6 +36,7 @@ namespace MemberSite.Controllers
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
             public string RealName { get; set; }
+            public string RedirectUrl { get; set; }
         }
 
         [HttpPost]
@@ -44,7 +45,7 @@ namespace MemberSite.Controllers
             var message = "";
             var errorCode = 99;
             var serverInfo = _serverInfoBll.GetServerInfo();
-            
+
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToRoute(new { action = "Index", controller = "Home" });
@@ -172,14 +173,15 @@ namespace MemberSite.Controllers
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                     errorCode = 0;
-                    if (serverInfo.SiteId == (int)SiteId.Nova88) {
-                        return Redirect($"{signupModel.SignupUrl}/{signupModel.UserLang}/deposit");
+                    if (!string.IsNullOrEmpty(signupModel.RedirectUrl))
+                    {
+                        return Redirect($"{Url.ActionContext.HttpContext.Request.Host.Host}/{signupModel.RedirectUrl}");
                     }
                     else
                     {
                         return RedirectToRoute(new { action = "Index", controller = "Home" });
                     }
-                        
+
                 }
             }
 
