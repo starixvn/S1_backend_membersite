@@ -108,7 +108,7 @@ namespace MemberSite.Service.BLL
                 foreach (var data in leaderboard)
                 {
                     count++;
-                    var item = leaderboardyesterday.Where(x => x.CustId == data.CustId).FirstOrDefault();
+                    var item = leaderboardyesterday.FirstOrDefault(x => x.CustId == data.CustId);
                     if (item == null)
                         data.Status = 1;
                     data.Status = -count.CompareTo(leaderboardyesterday.IndexOf(item) + 1);

@@ -569,7 +569,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            var custSeluSDTDetail = custBankInfo.uSDTDetail.Where(x => x.USDTAddress == withdrawalReqModel.AccountNo).FirstOrDefault();
+            var custSeluSDTDetail = custBankInfo.uSDTDetail.FirstOrDefault(x => x.USDTAddress == withdrawalReqModel.AccountNo);
         
 
 
@@ -794,11 +794,11 @@ namespace MemberSite.Controllers.Api
             public int groupId { set; get; }
         }*/
         [HttpPost]
-        public async Task<ApiResult<IEnumerable<CryptoPayInfo>>> GetCryptoPayInfoListAsync()
+        public ApiResult<IEnumerable<CryptoPayInfo>> GetCryptoPayInfoListAsync()
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<IEnumerable<CryptoPayInfo>>();
-            apiResult.Data = await cryptoPayInfoBLL.GetCryptoPayInfoListAsync(authData.CustId);
+            apiResult.Data = cryptoPayInfoBLL.GetCryptoPayInfoList(authData.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -1261,6 +1261,28 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0
             };
 
+            return apiResult;
+        }
+
+        public class GetExchangeReq
+        {
+            public int PayId { get; set; }
+            public decimal Amount { get; set; }
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<ExchangeInfo>> GetExchangeInfoAsync(GetExchangeReq getExchangeReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<ExchangeInfo>();
+            int PayId = 22;
+      
+            var result = await cryptoPayInfoBLL.GetExchangeInfoAsync(authData.CustId, getExchangeReq.Amount, PayId);
+            if (result != null && result.Data != null)
+            {
+                apiResult.Data = result.Data.formData;
+                apiResult.ErrorCode = result.ErrorCode;
+            }
             return apiResult;
         }
     }

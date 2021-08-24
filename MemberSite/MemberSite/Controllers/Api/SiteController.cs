@@ -433,6 +433,12 @@ namespace MemberSite.Controllers.Api
                 signupModel.SignupUrl = Request.Host.Host;
             }
 
+            // URL tag with specific affcode
+            if((Request.Host.Host == "www.nova88fun.com") || (Request.Host.Host == "m.nova88fun.com"))
+            {
+                signupModel.AffCode = "nova88tvads";
+            }
+
             var custId = 0;
             var result = -99;
             var phoneExists = false;

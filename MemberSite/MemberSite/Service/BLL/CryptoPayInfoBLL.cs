@@ -48,14 +48,15 @@ namespace MemberSite.Service.BLL
             return cryptoPayInfoList;
         }
 
-        public class ExchangeRate
-        {
-            public long Updated_timestamp { get; set; }
-            public decimal BuyRate { get; set; }
-            public decimal SellRate { get; set; }
-        }
+        //public class ExchangeRate
+        //{
+        //    public long Updated_timestamp { get; set; }
+        //    public decimal BuyRate { get; set; }
+        //    public decimal SellRate { get; set; }
+        //}
 
-        public async Task<IEnumerable<CryptoPayInfo>> GetCryptoPayInfoListAsync(int custId/*, int groupId*/)
+        //public async Task<IEnumerable<CryptoPayInfo>> GetCryptoPayInfoListAsync(int custId/*, int groupId*/)
+        public IEnumerable<CryptoPayInfo> GetCryptoPayInfoList(int custId/*, int groupId*/)
         {
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
@@ -71,32 +72,32 @@ namespace MemberSite.Service.BLL
             var cryptoPayInfoList = GetCryptoPayInfoListWithCache(custInfo.SiteId).Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId/* && x.GroupId == groupId*/).ToList();
             var payid = cryptoPayInfoList.FirstOrDefault()?.PayId;
 
-            if (payid != null)
-            {
-                try
-                {
-                    var myUrl = $"{payApiUrl}ReqExchangeRate";
-                    var apiResult = await courierAdapter.MyPostAsync<Dictionary<string, ExchangeRate>, dynamic>(myUrl, new { PayId = payid, CustId = custId });
+            //if (payid != null)
+            //{
+            //    try
+            //    {
+            //        var myUrl = $"{payApiUrl}ReqExchangeRate";
+            //        var apiResult = await courierAdapter.MyPostAsync<Dictionary<string, ExchangeRate>, dynamic>(myUrl, new { PayId = payid, CustId = custId });
 
-                    if (apiResult.ErrorCode == 0)
-                    {
-                        var exchangeRate = apiResult.Data;
-                        foreach (var cryptoPayInfo in cryptoPayInfoList)
-                        {
-                            if (exchangeRate.ContainsKey(cryptoPayInfo.GroupName))
-                            {
-                                cryptoPayInfo.Updated_timestamp = exchangeRate[cryptoPayInfo.GroupName].Updated_timestamp;
-                                cryptoPayInfo.BuyRate = exchangeRate[cryptoPayInfo.GroupName].BuyRate;
-                                cryptoPayInfo.SellRate = exchangeRate[cryptoPayInfo.GroupName].SellRate;
-                            }
-                        }
-                    }
-                }
-                catch
-                {
+            //        if (apiResult.ErrorCode == 0)
+            //        {
+            //            var exchangeRate = apiResult.Data;
+            //            foreach (var cryptoPayInfo in cryptoPayInfoList)
+            //            {
+            //                if (exchangeRate.ContainsKey(cryptoPayInfo.GroupName))
+            //                {
+            //                    cryptoPayInfo.Updated_timestamp = exchangeRate[cryptoPayInfo.GroupName].Updated_timestamp;
+            //                    cryptoPayInfo.BuyRate = exchangeRate[cryptoPayInfo.GroupName].BuyRate;
+            //                    cryptoPayInfo.SellRate = exchangeRate[cryptoPayInfo.GroupName].SellRate;
+            //                }
+            //            }
+            //        }
+            //    }
+            //    catch
+            //    {
 
-                }
-            }
+            //    }
+            //}
 
             if (depositLimitInfo != null && cryptoPayInfoList != null)
             {
@@ -125,7 +126,7 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
-            cryptoPayInfo = GetCryptoPayInfoListWithCache(custInfo.SiteId).Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId).FirstOrDefault();
+            cryptoPayInfo = GetCryptoPayInfoListWithCache(custInfo.SiteId).FirstOrDefault(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId);
 
             if (depositLimitInfo != null && cryptoPayInfo != null)
             {
@@ -161,5 +162,18 @@ namespace MemberSite.Service.BLL
             return -99;
         }
 
+        public async Task<ApiResult<PaymentReq>> GetExchangeInfoAsync(int custId, decimal amount,int payId)
+        { 
+            var exchangeReq = new 
+            {
+                CustId = custId,
+                Amount = amount,
+                PayId = payId
+
+            };
+            var myUrl = $"{payApiUrl}CryptoExchange";
+            return await courierAdapter.MyPostAsync<PaymentReq, dynamic>(myUrl, exchangeReq);
+        }
     }
+    
 }
