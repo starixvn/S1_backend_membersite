@@ -175,7 +175,7 @@ namespace MemberSite.Controllers
                     errorCode = 0;
                     if (!string.IsNullOrEmpty(signupModel.RedirectUrl))
                     {
-                        return Redirect($"{Url.ActionContext.HttpContext.Request.Host.Host}/{signupModel.RedirectUrl}");
+                        return Redirect($"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/{signupModel.RedirectUrl}");
                     }
                     else
                     {
