@@ -39,12 +39,12 @@ namespace MemberSite.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignupAsync([FromForm]SignupModel signupModel)
+        public async Task<IActionResult> SignupAsync([FromForm] SignupModel signupModel)
         {
             var message = "";
             var errorCode = 99;
             var serverInfo = _serverInfoBll.GetServerInfo();
-
+            
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToRoute(new { action = "Index", controller = "Home" });
@@ -69,7 +69,7 @@ namespace MemberSite.Controllers
                 if (mailExists)
                     result = -10;
             }
-            
+
             if (!phoneExists && !mailExists)
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
@@ -157,7 +157,7 @@ namespace MemberSite.Controllers
                 }
                 else
                 {
-                    if(!string.IsNullOrEmpty(signupModel.RealName))
+                    if (!string.IsNullOrEmpty(signupModel.RealName))
                     {
                         _custInfoBll.SetCustBankInfo(custId, signupModel.RealName, null);
                     }
@@ -172,7 +172,14 @@ namespace MemberSite.Controllers
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                     errorCode = 0;
-                    return RedirectToRoute(new { action = "Index", controller = "Home" });
+                    if (serverInfo.SiteId == (int)SiteId.Nova88) {
+                        return Redirect($"{signupModel.SignupUrl}/{signupModel.UserLang}/deposit");
+                    }
+                    else
+                    {
+                        return RedirectToRoute(new { action = "Index", controller = "Home" });
+                    }
+                        
                 }
             }
 
