@@ -173,7 +173,7 @@ namespace MemberSite.Controllers
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                     errorCode = 0;
                     if (serverInfo.SiteId == (int)SiteId.Nova88) {
-                        return Redirect($"{signupModel.SignupUrl}/en/deposit");
+                        return Redirect($"{signupModel.SignupUrl}/{signupModel.UserLang}/deposit");
                     }
                     else
                     {
