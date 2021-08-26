@@ -84,7 +84,7 @@ namespace MemberSite.Controllers
             var apiResult = new ApiResult<PayResult>();
             if (result == 0)
             {
-                if(BonusCode != null)
+                if(BonusCode != null && BonusCode != "")
                     promotionBLL.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
 
                 var reqDepositBank = new ReqDepositBank
