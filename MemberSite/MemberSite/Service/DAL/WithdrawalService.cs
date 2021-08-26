@@ -165,7 +165,7 @@ namespace MemberSite.Service.DAL
                         p.Add("CustId", dbType: DbType.Int32, direction: ParameterDirection.Output);
                         p.Add("UserName", dbType: DbType.String, direction: ParameterDirection.Output);
                         p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-                        result = conn.Execute("WithdrawalInfo_Set", p, trans, commandType: CommandType.StoredProcedure);
+                        result = conn.Execute("Member_WithdrawalInfoV2_Set", p, trans, commandType: CommandType.StoredProcedure);
                         custId = p.Get<int?>("CustId") ?? 0;
                         UserName = p.Get<string>("UserName");
                         var amount = p.Get<decimal>("Amount");

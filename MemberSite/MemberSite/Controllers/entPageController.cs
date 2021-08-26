@@ -147,7 +147,7 @@ namespace MemberSite.Controllers
                     return Redirect(entryUrl);
                 }
 
-                if (tpId == 1 && data.RawErrorCode == "10")
+                if (tpId == (int)Tp.Saba && data.RawErrorCode == "10")
                 {
                     var entryUrl = _thirdPartyBll.GetEntryUrl(tpId, inputs);
                     return Redirect(entryUrl);
