@@ -125,7 +125,7 @@ namespace MemberSite.Controllers
             else
                 return View(apiResult);
         }
-        public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount)
+        public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount, string BonusCode)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             var apiResult = new ApiResult<PayResult>();
@@ -137,6 +137,8 @@ namespace MemberSite.Controllers
             var result = mobilePayInfoBLL.DepositReqMobilePay(authData.CustId, ChannelId, Amount, out transId, out mobilePayInfo);
             if (result == 0)
             {
+                if (BonusCode != null && BonusCode != "")
+                    promotionBLL.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
                 var reqDepositMobile = new ReqDepositMobile
                 {
                     TransId = transId,
@@ -192,7 +194,7 @@ namespace MemberSite.Controllers
         {
             public int ChannelId { get; set; }
         }
-        public async Task<IActionResult> DepositReqCryptoPayAsync(int ChannelId, decimal Amount)
+        public async Task<IActionResult> DepositReqCryptoPayAsync(int ChannelId, decimal Amount, string BonusCode)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             var apiResult = new ApiResult<PayResult>();
@@ -204,6 +206,8 @@ namespace MemberSite.Controllers
             var result = cryptoPayInfoBLL.DepositReqCryptoPay(authData.CustId, ChannelId, Amount, out transId, out cryptoPayInfo);
             if (result == 0)
             {
+                if (BonusCode != null && BonusCode != "")
+                    promotionBLL.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
                 var reqDepositCrypto = new ReqDepositCrypto
                 {
                     TransId = transId,
