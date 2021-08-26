@@ -27,9 +27,10 @@ namespace MemberSite.Controllers
         private readonly TemplateBLL templateBLL;
         private readonly CryptoPayInfoBLL cryptoPayInfoBLL;
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
+        private readonly PromotionBLL promotionBLL;
         private bool isNewVersion = true;
 
-        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, ServerInfoBLL serverInfoBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL, CustInfoBLL custInfoBLL, TemplateBLL templateBLL, CryptoPayInfoBLL cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL)
+        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, ServerInfoBLL serverInfoBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL, CustInfoBLL custInfoBLL, TemplateBLL templateBLL, CryptoPayInfoBLL cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, PromotionBLL promotionBLL)
         {
             this.courierAdapter = courierAdapter;
             payApiUrl = configuration.GetValue<string>("PayService");
@@ -42,6 +43,7 @@ namespace MemberSite.Controllers
             this.templateBLL = templateBLL;
             this.cryptoPayInfoBLL = cryptoPayInfoBLL;
             this.loadCardPayInfoBLL = loadCardPayInfoBLL;
+            this.promotionBLL = promotionBLL;
         }
         public IActionResult Deposit()
         {
@@ -69,7 +71,7 @@ namespace MemberSite.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DepositReqOnlineBankingAsync(int sysId, int payId, int ChannelId, decimal Amount)
+        public async Task<IActionResult> DepositReqOnlineBankingAsync(int sysId, int payId, int ChannelId, decimal Amount, string BonusCode)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             var authData = authorizeBLL.GetAuthData();
@@ -82,6 +84,9 @@ namespace MemberSite.Controllers
             var apiResult = new ApiResult<PayResult>();
             if (result == 0)
             {
+                if(BonusCode != null)
+                    promotionBLL.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
+
                 var reqDepositBank = new ReqDepositBank
                 {
                     TransId = transId,
@@ -119,8 +124,115 @@ namespace MemberSite.Controllers
                 return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
             else
                 return View(apiResult);
-            
+
         }
+        //[HttpGet]
+        //public async Task<IActionResult> DepositReqOnlineBankingAsync(int sysId, int payId, int ChannelId, decimal Amount)
+        //{
+        //    var serverInfo = serverInfoBLL.GetServerInfo();
+        //    var authData = authorizeBLL.GetAuthData();
+        //    var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+        //    string transId = null;
+        //    BankInfoPay onlineBank = null;
+        //    ErrorData model = new ErrorData();
+        //    var result = paymentBLL.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount, out transId, out onlineBank);
+
+        //    var apiResult = new ApiResult<PayResult>();
+        //    if (result == 0)
+        //    {
+        //        var reqDepositBank = new ReqDepositBank
+        //        {
+        //            TransId = transId,
+        //            CustId = authData.CustId,
+        //            Amount = Amount,
+        //            PayId = onlineBank.PayId,
+        //            SysId = onlineBank.SysId,
+        //            ClientIP = tools.GetClientIP(),
+        //            ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+        //        };
+
+        //        var myUrl = $"{payApiUrl}ReqDepositBank";
+        //        apiResult = await courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
+        //        if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
+        //        {
+        //            return View(apiResult);
+        //        }
+        //        else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
+        //        {
+        //            return Redirect(apiResult.Data.Url);
+        //        }
+        //        else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
+        //        {
+        //            return Json(apiResult);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        apiResult.ErrorCode = result;
+        //        apiResult.Message = "Error.";
+        //        model.Message = "DepositReqOnlineBanking Error";
+        //    }
+
+        //    if (isNewVersion)
+        //        return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+        //    else
+        //        return View(apiResult);
+
+        //}
+        //public async Task<IActionResult> DepositReqOnlineBankingwithBonusAsync(int sysId, int payId, int ChannelId, decimal Amount, string BonusCode)
+        //{
+        //    var serverInfo = serverInfoBLL.GetServerInfo();
+        //    var authData = authorizeBLL.GetAuthData();
+        //    var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+        //    string transId = null;
+        //    BankInfoPay onlineBank = null;
+        //    ErrorData model = new ErrorData();
+        //    var result = paymentBLL.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount, out transId, out onlineBank);
+
+        //    var apiResult = new ApiResult<PayResult>();
+        //    if (result == 0)
+        //    {
+        //       // promotionBLL.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
+
+        //        var reqDepositBank = new ReqDepositBank
+        //        {
+        //            TransId = transId,
+        //            CustId = authData.CustId,
+        //            Amount = Amount,
+        //            PayId = onlineBank.PayId,
+        //            SysId = onlineBank.SysId,
+        //            ClientIP = tools.GetClientIP(),
+        //            ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+        //        };
+
+        //        var myUrl = $"{payApiUrl}ReqDepositBank";
+        //        apiResult = await courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
+        //        if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
+        //        {
+        //            return View(apiResult);
+        //        }
+        //        else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
+        //        {
+        //            return Redirect(apiResult.Data.Url);
+        //        }
+        //        else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
+        //        {
+        //            return Json(apiResult);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        apiResult.ErrorCode = result;
+        //        apiResult.Message = "Error.";
+        //        model.Message = "DepositReqOnlineBanking Error";
+        //    }
+
+        //    if (isNewVersion)
+        //        return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+        //    else
+        //        return View(apiResult);
+
+        //}
         public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
