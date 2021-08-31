@@ -79,25 +79,25 @@ namespace MemberSite.Service.BLL
             return casinoService.GetTpDisableUserByCustId(custId);
         }
 
-        public void ExcludeBlockGames(List<GameCasinoListData> casinoGames, IEnumerable<DisableTpGame> disableGames)
+        public void ExcludeBlockGames(List<GameCasinoListData> casinoGames, List<Provider> providers, IEnumerable<DisableTpGame> disableGames)
         {
             foreach (var disableGame in disableGames)
             {
-                if (disableGame.GameList.Any())
+                if (disableGame.GameList != null && disableGame.GameList.Any())
                 {
                     foreach (var gameId in disableGame.GameList)
                     {
-                        var casinoGame = casinoGames.Find(a=>a.GameId == gameId);
-                        if (casinoGame != null)
-                        {
-                            casinoGames.Remove(casinoGame);
-                        }
+                        var excludeGame = casinoGames.Find(a=>a.GameId == gameId);
+                        if (excludeGame != null)
+                            casinoGames.Remove(excludeGame);
+                        
                     }
                 }
                 else
                 {
-                    var excludeTp = casinoGames.Where(a => a.TpId == disableGame.TpId);
-                    casinoGames = casinoGames.Except(excludeTp).ToList();
+                    var excludeTp = providers.Find(a => a.Value == disableGame.TpId);
+                    if(excludeTp != null)
+                        providers.Remove(excludeTp);
                 }
             }
         }

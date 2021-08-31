@@ -1518,7 +1518,7 @@ namespace MemberSite.Controllers.Api
                 gameCasionByCurrencyAndSite = _casinoBll.GetGameCasinoByCurrencyAndSite(custInfo.CurrencyId, custInfo.SiteId);
                 
                 var blockGames = _casinoBll.GetTpDisableUserByCustId(custInfo.CustId);
-                _casinoBll.ExcludeBlockGames(GameCasinoList, blockGames);
+                _casinoBll.ExcludeBlockGames(GameCasinoList, providers, blockGames);
             }
             else
             {
