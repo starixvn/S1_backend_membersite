@@ -44,12 +44,12 @@ namespace MemberSite.Service.DAL
             return conn.Query<GameCasionByCurrencyAndSite>("Member_GameCasino_Get", new { CurrencyId, SiteId }, commandType: CommandType.StoredProcedure);
         }
 
-        public IEnumerable<BlockGames> GetTpDisableUserByCustId(int custId)
+        public IEnumerable<DisableTpGame> GetTpDisableUserByCustId(int custId)
         {
             var p = new DynamicParameters();
             p.Add("_CustId", custId);
-            var result = _sqlClient.QueryFirst<string>("Member_TpDisableUser_Get", p);
-            return !string.IsNullOrEmpty(result) ? JsonConvert.DeserializeObject<IEnumerable<BlockGames>>(result) : new List<BlockGames>();
+            var result = _sqlClient.QueryFirst<string>("Member_TpDisableUserByCustId_Get", p);
+            return !string.IsNullOrEmpty(result) ? JsonConvert.DeserializeObject<IEnumerable<DisableTpGame>>(result) : new List<DisableTpGame>();
         }
     }
 }

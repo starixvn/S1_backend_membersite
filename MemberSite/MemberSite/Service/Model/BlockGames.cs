@@ -1,8 +1,10 @@
-﻿namespace MemberSite.Service.Model
+﻿using System.Collections.Generic;
+
+namespace MemberSite.Service.Model
 {
-    public class BlockGames
+    public class DisableTpGame
     {
         public int TpId { get; set; }
-        public string GameId { get; set; }
+        public List<string> GameList { get; set; }
     }
 }
