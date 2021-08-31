@@ -74,6 +74,13 @@ namespace MemberSite.Service.DAL
             else
                 return conn.Query<Leaderboard>("Member_Leaderboard_LastDateTopV2_Get", new { LBCategoryId = lBCategoryId, EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, BeforeDays = beforeDays }, commandType: CommandType.StoredProcedure);
         }
+        
+
+        public IEnumerable<Leaderboard> GetLeaderboardListMonth(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime selectDays)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<Leaderboard>("Member_Leaderboard_TopMonth_Get", new { LBCategoryId = lBCategoryId, EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, SeletDay = selectDays }, commandType: CommandType.StoredProcedure);
+        }
         public void GetCustRankV3(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out Decimal point)
         {
             custRank = 0;
@@ -103,6 +110,23 @@ namespace MemberSite.Service.DAL
             point = p1.Get<decimal?>("Point") ?? 0;
 
         }
+        public void GetCustRankMonth(int lBCategoryId, string eventCode, int custId, DateTime selectDays, out int custRank, out Decimal point)
+        {
+            custRank = 0;
+            point = 0;
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+
+            var p1 = new DynamicParameters(new { LBCategoryId = lBCategoryId, EventCode = eventCode, CustId = custId, SeletDay = selectDays });
+            p1.Add("CustRank", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p1.Add("Point", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+            {
+                conn.Execute("Member_Leaderboard_CustRank_Month_Get", p1, commandType: CommandType.StoredProcedure);
+            }
+            custRank = p1.Get<int?>("CustRank") ?? 0;
+            point = p1.Get<decimal?>("Point") ?? 0;
+
+        }
+        
         public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId ,int custId, int currencyId, out int prizeId, out int result)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
@@ -142,14 +166,14 @@ namespace MemberSite.Service.DAL
 
             if (result == 100)
             {
-                drawPrize = Prizes.Where(x => x.PrizeId == prizeId).FirstOrDefault();
+                drawPrize = Prizes.FirstOrDefault(x => x.PrizeId == prizeId);
             }
             else if (result == 0)
             {
                 if (quota > 0)
                 {
                     //指定大獎 Jackpot == 1
-                    var bigPrize = Prizes.Where(x => x.Jackpot == 1 && x.Quota > 0).FirstOrDefault();
+                    var bigPrize = Prizes.FirstOrDefault(x => x.Jackpot == 1 && x.Quota > 0);
                     //重新分配Quota個數來改變機率
                     if (quota > 1 && bigPrize != null && bigPrize.Quota > 0 && DateTime.Now > (bigPrize.StartTime.AddHours(((float)new TimeSpan(bigPrize.EndTime.Ticks - bigPrize.StartTime.Ticks).TotalHours * ((float)3 / (float)4)))))
                     {

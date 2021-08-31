@@ -4,6 +4,7 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Caching.Memory;
+using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -70,7 +71,10 @@ namespace MemberSite.Service.BLL
             return isConvert.ContainsKey(CurrencyId);
         }
 
-        public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang, string refId, string affId, string aff, string affCode, out int custId, string signupUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
+        public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
+            string refId, string affId, string aff, string affCode, int siteId, out int custId, string signupUrl = null,
+            string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
+            int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             if (string.IsNullOrEmpty(affId) && !serverInfo.ICurrencyList.Contains(CurrencyId))
@@ -78,76 +82,71 @@ namespace MemberSite.Service.BLL
                 custId = 0;
                 return -1;
             }
-            else if (!tools.CheckUserName(UserName))
+
+            if (!tools.CheckUserName(UserName))
             {
                 custId = 0;
                 return -2;
             }
-            else if (!tools.CheckUserInputPassword(Userpwd))
+
+            if (!tools.CheckUserInputPassword(Userpwd, siteId))
             {
                 custId = 0;
                 return -3;
             }
-            else if (!serverInfo.ILangList.Contains(UserLang))
+
+            if (!serverInfo.ILangList.Contains(UserLang))
             {
                 custId = 0;
                 return -4;
             }
-            else
+
+            Customer agent = null;
+            if (!string.IsNullOrEmpty(affId))
             {
-                Customer agent = null;
-                if (!string.IsNullOrEmpty(affId))
-                {
-                    agent = agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
-
-                    if (agent == null)
-                    {
-                        custId = 0;
-                        return -19;
-                    }
-                }
-                else if (!string.IsNullOrEmpty(refId))
-                {
-                    agent = agentInfoService.GetAffiliateAgent($"{refId}_{CurrencyId}", serverInfo.SiteId);
-
-                    if (agent?.CurrencyId != CurrencyId)
-                    {
-                        custId = 0;
-                        return -6;/*agent Currency != CurrencyId*/
-                    }
-                }
+                agent = agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
 
                 if (agent == null)
-                    agent = agentInfoService.GetSuperAgent(serverInfo.SiteId, CurrencyId);
-
-                var regCustInfo = new Customer();
-                regCustInfo.UserName = UserName;
-                regCustInfo.Userpwd = tools.MD5Encrypt(Userpwd);
-                regCustInfo.AgentId = agent.CustId;
-                regCustInfo.AllAgentId = GetAllAgentByUserId(agent);
-                regCustInfo.ActStatus = (int)CustActStatus.NonDepoist;
-                regCustInfo.CurrencyId = agent.CurrencyId;
-                regCustInfo.IsTest = agent.IsTest;
-                regCustInfo.SiteId = serverInfo.SiteId;
-                regCustInfo.UserLevel = 1;
-                regCustInfo.UserLang = UserLang;
-                regCustInfo.Aff = aff;
-                regCustInfo.AffCode = affCode;
-                /**/
-
-                if (string.IsNullOrEmpty(signupUrl))
                 {
-                    signupUrl = tools.GetFromUrl();
+                    custId = 0;
+                    return -19;
                 }
+            }
+            else if (!string.IsNullOrEmpty(refId))
+            {
+                agent = agentInfoService.GetAffiliateAgent($"{refId}_{CurrencyId}", serverInfo.SiteId);
 
-                var result = custInfoService.AddCustInfo(regCustInfo, Email, out custId, signupUrl, PhoneNo, AreaCode, RealName, promoCode, Birth_d, Birth_m, Birth_y);
-                if (result != 0)
+                if (agent?.CurrencyId != CurrencyId)
                 {
-                    return result;
+                    custId = 0;
+                    return -6; /*agent Currency != CurrencyId*/
                 }
             }
 
-            return 0;
+            agent ??= agentInfoService.GetSuperAgent(serverInfo.SiteId, CurrencyId);
+
+            var regCustInfo = new Customer();
+            regCustInfo.UserName = UserName;
+            regCustInfo.Userpwd = tools.MD5Encrypt(Userpwd);
+            regCustInfo.AgentId = agent.CustId;
+            regCustInfo.AllAgentId = GetAllAgentByUserId(agent);
+            regCustInfo.ActStatus = (int)CustActStatus.NonDepoist;
+            regCustInfo.CurrencyId = agent.CurrencyId;
+            regCustInfo.IsTest = agent.IsTest;
+            regCustInfo.SiteId = serverInfo.SiteId;
+            regCustInfo.UserLevel = 1;
+            regCustInfo.UserLang = UserLang;
+            regCustInfo.Aff = aff;
+            regCustInfo.AffCode = affCode;
+
+            if (string.IsNullOrEmpty(signupUrl))
+            {
+                signupUrl = tools.GetFromUrl();
+            }
+
+            var result = custInfoService.AddCustInfo(regCustInfo, Email, out custId, signupUrl, PhoneNo, AreaCode,
+                RealName, promoCode, Birth_d, Birth_m, Birth_y);
+            return result != 0 ? result : 0;
         }
 
         private string GetAllAgentByUserId(Customer agent)
@@ -317,9 +316,9 @@ namespace MemberSite.Service.BLL
             return pointLevelCache;
         }
 
-        public int SetPassword(int custId, string oldPassword, string newPassword)
+        public int SetPassword(int custId, string oldPassword, string newPassword, int siteId)
         {
-            if (!tools.CheckUserInputPassword(newPassword))
+            if (!tools.CheckUserInputPassword(newPassword, siteId))
             {
                 return -2;
             }
@@ -336,6 +335,7 @@ namespace MemberSite.Service.BLL
                 {
                     return -3;
                 }
+
                 return -4;
             }
             else
@@ -343,6 +343,7 @@ namespace MemberSite.Service.BLL
                 return 0;
             }
         }
+
         public bool SetResetPwd(int custId, string newPassword)
         {
             var md5NewPassword = tools.MD5Encrypt(newPassword);
@@ -364,6 +365,11 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName, bankInfo) ? 0 : -1;
         }
+        public int InsertCustBankInfo(int custId, string accountName, IEnumerable<BankInfoDetail> bankInfo, IEnumerable<BankInfoDetail> banklog)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return custInfoService.InsertCustBankInfo(custId, custInfo.SiteId, accountName, bankInfo, banklog) ? 0 : -1;
+        }
         public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo)
         {
             var custInfo = GetCustInfoWithCache(custId);
@@ -376,15 +382,6 @@ namespace MemberSite.Service.BLL
 
             if (custBankInfo != null && custBankInfo.BankInfo != null)
             {
-                var uSDTDetailList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
-                if (uSDTDetailList != null)
-                {
-                    uSDTDetailList = uSDTDetailList.Where(x => x.USDTAddress != null);//filiter null data
-                    if (uSDTDetailList.Any())
-                    {
-                        custBankInfo.uSDTDetail = uSDTDetailList;
-                    }
-                }
                 var bankInfoDetailList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
                 if (bankInfoDetailList != null)
                 {
@@ -392,6 +389,27 @@ namespace MemberSite.Service.BLL
                     if (bankInfoDetailList.Any())
                     {
                         custBankInfo.bankInfoDetail = bankInfoDetailList;
+                    }
+                }
+                //if (custInfo.CurrencyId == 96)
+                //{
+                //    custBankInfo.uSDTDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
+                //}
+                //else
+                //{
+                //    custBankInfo.bankInfoDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
+                //}
+
+            }
+            if (custBankInfo != null && custBankInfo.USDTInfo != null)
+            {
+                var uSDTDetailList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.USDTInfo);
+                if (uSDTDetailList != null)
+                {
+                    uSDTDetailList = uSDTDetailList.Where(x => x.USDTAddress != null);//filiter null data
+                    if (uSDTDetailList.Any())
+                    {
+                        custBankInfo.uSDTDetail = uSDTDetailList;
                     }
                 }
                 //if (custInfo.CurrencyId == 96)

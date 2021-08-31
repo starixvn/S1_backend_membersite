@@ -162,8 +162,11 @@
   <data name="msg_PasswordReq" xml:space="preserve">
     <value>Mật khẩu là bắt buộc</value>
   </data>
-  <data name="msg_PasswordVaildate" xml:space="preserve">
+  <data name="msg_PasswordValidate" xml:space="preserve">
     <value>Mật khẩu phải có từ 6-15 ký tự, bao gồm cả chữ, số và ký tự đặc biệt (!@#$%^&amp;*)</value>
+  </data>
+  <data name="msg_PasswordValidate2" xml:space="preserve">
+    <value>Mật khẩu phải có 6-15 ký tự.</value>
   </data>
   <data name="msg_SamePassword" xml:space="preserve">
     <value>Mật khẩu cũ và Mật khẩu mới đều giống nhau!</value>
@@ -312,7 +315,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
     <value>Số tiền rút phải lớn hơn {0}</value>
   </data>
   <data name="msg_GreaterThanWithdrawalMax" xml:space="preserve">
-    <value>Đã đạt đến giới hạn hàng ngày của bạn.</value>
+    <value>Bạn Đã Sử Dụng Hết Hạn Mức Trong Ngày.</value>
   </data>
   <data name="msg_WithdrawalExists" xml:space="preserve">
     <value>Yêu cầu giao dịch của bạn hiện đang được xử lý. Vui lòng thử lại sau khi giao dịch được hoàn tất.</value>

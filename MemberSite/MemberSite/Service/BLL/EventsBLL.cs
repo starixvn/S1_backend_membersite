@@ -97,9 +97,40 @@ namespace MemberSite.Service.BLL
             return leaderboard;
 
         }
+
+        public IEnumerable<Leaderboard> GetLeaderboardListV4(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
+        {
+            var leaderboard = eventsService.GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);
+            var leaderboardyesterday = eventsService.GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays +1).ToList();
+            if (leaderboardyesterday.Any())
+            {
+                int count = 0;
+                foreach (var data in leaderboard)
+                {
+                    count++;
+                    var item = leaderboardyesterday.FirstOrDefault(x => x.CustId == data.CustId);
+                    if (item == null)
+                        data.Status = 1;
+                    data.Status = -count.CompareTo(leaderboardyesterday.IndexOf(item) + 1);
+
+                }
+            }
+            return leaderboard;
+
+        }
+        public IEnumerable<Leaderboard> GetLeaderboardListMonth(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime selectDays)
+        {
+            var leaderboard = eventsService.GetLeaderboardListMonth(lBCategoryId, eventCode, siteId, currencyId, topNum, selectDays);
+            return leaderboard;
+
+        }
         public void GetCustRankV3(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out Decimal point)
         {
             eventsService.GetCustRankV3(lBCategoryId, eventCode, custId, beforeDays, out custRank, out point);
+        }
+        public void GetCustRankMonth(int lBCategoryId, string eventCode, int custId, DateTime selectDays, out int custRank, out Decimal point)
+        {
+            eventsService.GetCustRankMonth(lBCategoryId, eventCode, custId, selectDays, out custRank, out point);
         }
         public IEnumerable<Leaderboard> GetLeaderboardListWithCacheV2(int custId, string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
@@ -110,6 +141,45 @@ namespace MemberSite.Service.BLL
                 return leaderboard;
             }
             leaderboard = GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);
+
+            if (leaderboard.Any())
+            {
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+                cache.Set(key, leaderboard, cacheEntryOptions);
+            }
+
+            return leaderboard;
+        }
+        public IEnumerable<Leaderboard> GetLeaderboardListWithCacheV3(int custId, string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
+        {
+            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{beforeDays}_v3";
+            var leaderboard = cache.Get<IEnumerable<Leaderboard>>(key);
+            if (leaderboard != null)
+            {
+                return leaderboard;
+            }
+            leaderboard = GetLeaderboardListV4(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);
+
+            if (leaderboard.Any())
+            {
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+                cache.Set(key, leaderboard, cacheEntryOptions);
+            }
+
+            return leaderboard;
+        }
+        
+        public IEnumerable<Leaderboard> GetLeaderboardListMonthWithCache(int custId, string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, DateTime selectDays)
+        {
+            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{selectDays.Date}";
+            var leaderboard = cache.Get<IEnumerable<Leaderboard>>(key);
+            if (leaderboard != null)
+            {
+                return leaderboard;
+            }
+            leaderboard = GetLeaderboardListMonth(lBCategoryId, eventCode, siteId, currencyId, topNum, selectDays);
 
             if (leaderboard.Any())
             {
@@ -132,6 +202,30 @@ namespace MemberSite.Service.BLL
             }
 
             GetCustRankV3(lBCategoryId, eventCode, custId, beforeDays, out custRank, out point);
+
+            leaderboardCustRank = new LeaderboardCustRank
+            {
+                CustRank = custRank,
+                point = point
+            };
+
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+            .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+            cache.Set(key, leaderboardCustRank, cacheEntryOptions);
+        }
+        
+        public void GetCustRankWithCacheMonth(int lBCategoryId, string eventCode, int custId, DateTime selectDays, out int custRank, out Decimal point)
+        {
+            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{custId}_{selectDays}";
+            var leaderboardCustRank = cache.Get<LeaderboardCustRank>(key);
+            if (leaderboardCustRank != null)
+            {
+                custRank = leaderboardCustRank.CustRank;
+                point = leaderboardCustRank.point;
+                return;
+            }
+
+            GetCustRankMonth(lBCategoryId, eventCode, custId, selectDays, out custRank, out point);
 
             leaderboardCustRank = new LeaderboardCustRank
             {

@@ -8,12 +8,15 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.Library
 {
     public class Tools
     {
         private readonly IOptions<JwtConfig> jwtConfig;
+        private readonly Regex _regexPasswordNova = new Regex(@"^(?=.*[a-zA-Z0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,15}$", RegexOptions.Singleline);
+        private readonly Regex _regexPasswordGaolBwing = new Regex(@"^(?=.{6,15}$)[a-zA-Z0-9!@#$%^&*]*$", RegexOptions.Singleline);
         public IHttpContextAccessor httpContextAccessor { get; }
 
         public Tools(IHttpContextAccessor httpContextAccessor, IOptions<JwtConfig> jwtConfig)
@@ -67,21 +70,21 @@ namespace MemberSite.Service.Library
 
             return mPwd.Success;
         }
+
         /// <summary>
-        /// 验证用户密码：仅限8-10 个字符，数字和字母组合(A-Z, a-z, 0-9) 或特殊字符@$!%*#?&。
+        /// 驗證用戶密碼: Nova88  支援6~15碼大小寫英文數字，必須要有特殊符號!@#$%^&*
+        /// Gaol / Bwing 支援6~15碼大小寫英文數字跟特殊符號!@#$%^&*
         /// </summary>
         /// <param name="userPwd"></param>
+        /// <param name="siteId"></param>
         /// <returns></returns>
-        public bool CheckUserInputPassword(string userPwd)
+        public bool CheckUserInputPassword(string userPwd, int siteId)
         {
-            if (string.IsNullOrEmpty(userPwd) || userPwd.Length < 6 || userPwd.Length > 15)
+            if (string.IsNullOrEmpty(userPwd))
                 return false;
 
-            var regex = new Regex("^(?=.{6,15}$)(?=.*[a-zA-Z0-9])(?=.*[!@#$%^&*]).*$", RegexOptions.Singleline);
-            var mPwd = regex.Match(userPwd);
-
-            
-            return mPwd.Success;
+            var result = siteId == (int)SiteId.Nova88 ? _regexPasswordNova.Match(userPwd) : _regexPasswordGaolBwing.Match(userPwd);
+            return result.Success;
         }
 
         public string GetToken()
