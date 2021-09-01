@@ -65,6 +65,18 @@ namespace MemberSite.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs, [FromRoute] string LangId = null)
         {
+            if (_gameBll.IsMaintain(tpId, inputs))
+            {
+                if (inputs.TryGetValue("errorUrl", out var errorUrl))
+                {
+                    return Redirect(errorUrl);
+                }
+                else
+                {
+                    return StatusCode(403);
+                }
+            }
+
             var serverInfo = _serverInfoBll.GetServerInfo();
             var myUrl = $"{_apiUrl}GotoGame";
             var tpInfo = new TpInfo

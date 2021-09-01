@@ -54,6 +54,14 @@ namespace MemberSite.Controllers.Api
         [AllowAnonymous]
         public async Task<ApiResult> GotoGame(TpInfo inInfo)
         {
+            if (_gameBll.IsMaintain(inInfo.TpId, inInfo.inputs))
+            {
+                return new ApiResult(_selLangBll)
+                {
+                    ErrorCode = 10,
+                };
+            }
+
             var input = new Dictionary<string, string>();
             var custId = 0;
             var langId = "";
