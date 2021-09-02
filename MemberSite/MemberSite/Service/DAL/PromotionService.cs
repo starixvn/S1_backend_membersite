@@ -103,6 +103,13 @@ namespace MemberSite.Service.DAL
             var jResult = p.Get<int>("Result");
             var canJoin = p.Get<byte?>("CanJoin") ?? 0;
             var amount = p.Get<decimal?>("Amount") ?? 0;
+            var refList = p.Get<string>("RefList");
+            IEnumerable<Ref> reference = new List<Ref>();
+            if (refList != null && refList.Contains("DepositId", StringComparison.OrdinalIgnoreCase))
+            {
+                reference = JsonConvert.DeserializeObject<IEnumerable<Ref>>(refList);
+            }
+
             if (canJoin == 1)
             {
                 decimal dBonus = 0;
@@ -261,13 +268,14 @@ namespace MemberSite.Service.DAL
                     {
                         p = new DynamicParameters(new
                         {
-                            PromotionType = (int) promotion.PromotionType, BonusCode = bonusCode, CustId = custId,
+                            PromotionType = (int)promotion.PromotionType, BonusCode = bonusCode, CustId = custId,
                             UserName = userName, CurrencyId = currencyId, SiteId = siteId, BonusInfo = sBonusInfo,
                             LockedAmount = dLockedAmount, BonusAmount = dBonus,
-                            promotion.ExpiryDays, Memo = (string) null, Prefix = $"B{_common.GetEnv()}"
+                            promotion.ExpiryDays, Memo = (string)null, Prefix = $"B{_common.GetEnv()}",
+                            RefList = reference.Any() ? JsonConvert.SerializeObject(reference.FirstOrDefault()) : null
                         });
                         p.Add("TransId", dbType: DbType.String, direction: ParameterDirection.Output);
-                        result = _mainDbClient.Execute("Member_BonusInfo_Ins", p, conn, trans);
+                        result = _mainDbClient.Execute("Member_BonusInfo_InsV2", p, conn, trans);
                         var transId = p.Get<string>("TransId");
                     
                         if (result > 0 && dLockedAmount > 0)
