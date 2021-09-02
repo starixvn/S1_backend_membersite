@@ -3,6 +3,7 @@ using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MemberSite.Service.BLL
 {
@@ -72,6 +73,33 @@ namespace MemberSite.Service.BLL
         {
            return casinoService.GetGameCasinoByCurrencyAndSite(CurrencyId, SiteId);
         }
-        
+
+        public IEnumerable<DisableTpGame> GetTpDisableUserByCustId(int custId)
+        {
+            return casinoService.GetTpDisableUserByCustId(custId);
+        }
+
+        public void ExcludeBlockGames(List<GameCasinoListData> casinoGames, List<Provider> providers, IEnumerable<DisableTpGame> disableGames)
+        {
+            foreach (var disableGame in disableGames)
+            {
+                if (disableGame.GameList != null && disableGame.GameList.Any())
+                {
+                    foreach (var gameId in disableGame.GameList)
+                    {
+                        var excludeGame = casinoGames.Find(a=>a.GameId == gameId);
+                        if (excludeGame != null)
+                            casinoGames.Remove(excludeGame);
+                        
+                    }
+                }
+                else
+                {
+                    var excludeTp = providers.Find(a => a.Value == disableGame.TpId);
+                    if(excludeTp != null)
+                        providers.Remove(excludeTp);
+                }
+            }
+        }
     }
 }

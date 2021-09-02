@@ -5,15 +5,20 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using MemberSite.Service.Library;
+using Microsoft.CodeAnalysis.FlowAnalysis;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.DAL
 {
     public class CasinoService
     {
         private readonly IConfiguration configuration;
-        public CasinoService(IConfiguration configuration)
+        private readonly MySqlClient _sqlClient;
+        public CasinoService(IConfiguration configuration, MySqlClient sqlClient)
         {
             this.configuration = configuration;
+            _sqlClient = sqlClient;
         }
 
         public FavoriteGames GetFavoriteGames(int CustId)
@@ -37,6 +42,14 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<GameCasionByCurrencyAndSite>("Member_GameCasino_Get", new { CurrencyId, SiteId }, commandType: CommandType.StoredProcedure);
+        }
+
+        public IEnumerable<DisableTpGame> GetTpDisableUserByCustId(int custId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId);
+            var result = _sqlClient.QueryFirst<string>("Member_TpDisableUserByCustId_Get", p);
+            return !string.IsNullOrEmpty(result) ? JsonConvert.DeserializeObject<IEnumerable<DisableTpGame>>(result) : new List<DisableTpGame>();
         }
     }
 }
