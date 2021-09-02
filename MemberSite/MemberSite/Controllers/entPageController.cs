@@ -70,13 +70,14 @@ namespace MemberSite.Controllers
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId).Where(i => i.TpId == tpId);
+            
             if (_gameBll.IsMaintain(tpMaintainList, inputs, out var tpMaintain))
-            {
-                var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
-                var endDate = tpMaintain.EndDate;
+            {             
                 if (inputs.TryGetValue("errorUrl", out var errorUrl))
                 {
-                    return Redirect(errorUrl);
+                    var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
+                    var maintainUrl = errorUrl.Replace("404", "TP") + $"?t={tpName}&e={tpMaintain.EndDate:u}";
+                    return Redirect(maintainUrl);
                 }
                 else
                 {
