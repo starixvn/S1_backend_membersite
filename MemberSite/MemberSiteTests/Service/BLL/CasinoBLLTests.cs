@@ -1,15 +1,11 @@
 ﻿using System.IO;
-using System.Linq;
-using MemberSite.Service.BLL;
 using MemberSite.Service.DAL;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
-using NSubstitute.ReturnsExtensions;
 using NUnit.Framework;
 
-namespace MemberSite.Service.Model.Tests
+namespace MemberSite.Service.BLL.Tests
 {
     [TestFixture]
     public class CasinoBLLTests

@@ -11,6 +11,7 @@ using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
+using MemberSite.Service.DAL;
 
 namespace MemberSite.Controllers
 {
@@ -27,6 +28,7 @@ namespace MemberSite.Controllers
         private readonly GameBLL _gameBll;
         private readonly string _apiUrl;
         private readonly ILogger _logger;
+        private readonly StatementService _statementService;
 
         public entPageController(IServiceProvider provider)
         {
@@ -41,6 +43,7 @@ namespace MemberSite.Controllers
             _gameBll = provider.GetRequiredService<GameBLL>();
             _apiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("TpService");
             _logger = provider.GetRequiredService<ILogger<entPageController>>();
+            _statementService = provider.GetRequiredService<StatementService>();
         }
 
         public class TpInfo
@@ -65,8 +68,12 @@ namespace MemberSite.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs, [FromRoute] string LangId = null)
         {
-            if (_gameBll.IsMaintain(tpId, inputs))
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId).Where(i => i.TpId == tpId);
+            if (_gameBll.IsMaintain(tpMaintainList, inputs, out var tpMaintain))
             {
+                var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
+                var endDate = tpMaintain.EndDate;
                 if (inputs.TryGetValue("errorUrl", out var errorUrl))
                 {
                     return Redirect(errorUrl);
@@ -76,8 +83,7 @@ namespace MemberSite.Controllers
                     return StatusCode(403);
                 }
             }
-
-            var serverInfo = _serverInfoBll.GetServerInfo();
+          
             var myUrl = $"{_apiUrl}GotoGame";
             var tpInfo = new TpInfo
             {

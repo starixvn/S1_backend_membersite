@@ -8,13 +8,6 @@ namespace MemberSite.Service.BLL
 {
     public class GameBLL
     {
-        private readonly ServerInfoBLL _serverInfoBLL;
-        private readonly ThirdPartyBLL _thirdPartyBll;
-        public GameBLL(IServiceProvider provider)
-        {
-            _serverInfoBLL = provider.GetRequiredService<ServerInfoBLL>();
-            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBLL>();
-        }
 
         public bool IsFunGame(Dictionary<string, string> inputs)
         {
@@ -31,14 +24,12 @@ namespace MemberSite.Service.BLL
             return false;
         }
 
-        public bool IsMaintain(int tpId, Dictionary<string, string> inputs)
+        public bool IsMaintain(IEnumerable<TpMaintain> tpMaintainList, Dictionary<string, string> inputs , out TpMaintain result)
         {
+            result = null;
             try
-            {          
-                var siteId = _serverInfoBLL.GetServerInfo().SiteId;
-                var tpMaintains = _thirdPartyBll.GetTpMaintainListWithCache(siteId).Where(i => i.TpId == tpId);
-
-                if (!tpMaintains.Any())
+            {           
+                if (!tpMaintainList.Any())
                 {
                     return false;
                 }
@@ -48,10 +39,12 @@ namespace MemberSite.Service.BLL
                     return false;
                 }
 
-                foreach (var item in tpMaintains)
+                var gameType = int.Parse(tpGameType);
+                foreach (var item in tpMaintainList)
                 {
-                    if (item.TpGameType == 0 || item.TpGameType == int.Parse(tpGameType))
+                    if (item.TpGameType == 0 || item.TpGameType == gameType)
                     {
+                        result = item;
                         return true;
                     }
                 }
@@ -60,7 +53,6 @@ namespace MemberSite.Service.BLL
             }
             catch (Exception)
             {
-
                 return false;
             }
         }

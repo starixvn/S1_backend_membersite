@@ -49,7 +49,7 @@ namespace MemberSite.Service.BLL
             tools = provider.GetRequiredService<Tools>();
             TpCurrencyList = new ConcurrentDictionary<string, TpCurrency>();
             ThirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
-            serverInfoBLL = provider.GetRequiredService<ServerInfoBLL>(); 
+            serverInfoBLL = provider.GetRequiredService<ServerInfoBLL>();
             custInfoBLL = provider.GetRequiredService<CustInfoBLL>();
             courierAdapter = provider.GetRequiredService<CourierAdapter>();
             var configuration = provider.GetRequiredService<IConfiguration>();
@@ -123,7 +123,7 @@ namespace MemberSite.Service.BLL
                             sportTypeDic.TryGetValue(gameId, out act);
                         }
                         parameters.TryGetValue("matchid", out var matchId);
-                        
+
                         if (sportType == "43")
                         {
                             entryUrl = $"{entryUrl}?lang={tpLanId}&game={act}";
@@ -255,7 +255,7 @@ namespace MemberSite.Service.BLL
         }
         public IEnumerable<TpWalletList> GetTpWalletList(int custId, int listType)
         {
-            return thirdPartyService.GetTpWalletList(custId,listType);
+            return thirdPartyService.GetTpWalletList(custId, listType);
         }
 
         public IEnumerable<TpMaintain> GetTpMaintainListWithCache(int siteId)
