@@ -129,5 +129,18 @@ namespace MemberSite.Service.BLL
             ApiResult apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
             return apiResult;
         }
+        public async Task<ApiResult<SendOTPSMSResult>> GetOTPVerifyInfo(int custId)
+        {
+            var apiUrl = $"{commonServiceUrl}OTPSMS/GetOTPVerifyInfo";
+
+            dynamic req = new
+            {
+                custId
+            };
+
+            var apiResult = await courierAdapter.MyPostAsync<SendOTPSMSResult, dynamic>(apiUrl, req);
+
+            return apiResult;
+        }
     }
 }
