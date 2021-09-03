@@ -37,6 +37,7 @@ namespace MemberSite.Service.BLL
             {"8","baseball" } ,
             {"9","badminton" } ,
             {"43","esports" },
+            {"50", "indiancricket" },
             {"161","numbergame" },
             {"180","virtualsports" }
         };

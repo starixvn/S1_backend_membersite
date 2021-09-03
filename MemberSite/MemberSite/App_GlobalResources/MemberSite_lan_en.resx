@@ -1872,6 +1872,12 @@
   <data name="lbl_Error_Title" xml:space="preserve">
     <value>Shoot !</value>
   </data>
+  <data name="lbl_TpWallet_25" xml:space="preserve">
+    <value>V8 Wallet</value>
+  </data>
+  <data name="lbl_TpWallet_V8" xml:space="preserve">
+    <value>V8 Wallet</value>
+  </data>
   <data name="lbl_TpWallet_27" xml:space="preserve">
     <value>PT Wallet</value>
   </data>
@@ -1898,5 +1904,11 @@
   </data>
   <data name="lbl_Wallet_NineW" xml:space="preserve">
     <value>9W Wallet</value>
+  </data>
+  <data name="lbl_Wallet_V8" xml:space="preserve">
+    <value>V8 Wallet</value>
+  </data>
+ <data name="lbl_WalletDescription_V8" xml:space="preserve">
+    <value>V8 Wallet</value>
   </data>
 </root>

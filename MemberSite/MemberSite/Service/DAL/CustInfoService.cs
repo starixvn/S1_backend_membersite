@@ -215,7 +215,7 @@ namespace MemberSite.Service.DAL
             var result = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             var tmp = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo);
-            result = conn.Execute("CustBankInfoV2_Set", new { CustId = custId, SiteId = siteId, AccountName = accountName, BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo) }, commandType: CommandType.StoredProcedure);
+            result = conn.Execute("Service_CustBankInfo_SetV2", new { CustId = custId, SiteId = siteId, AccountName = accountName, BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo) }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
         public bool InsertCustBankInfo(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo, IEnumerable<BankInfoDetail> banklog)
@@ -243,7 +243,7 @@ namespace MemberSite.Service.DAL
                 AccountName = accountName,
                 BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo)
             });
-            result = _mainDbClient.Execute("CustBankInfoV2_Set", parameter, conn,trans);
+            result = _mainDbClient.Execute("Service_CustBankInfo_SetV2", parameter, conn,trans);
             return result > 0;
         }
         private bool SetCustBankInfoLog(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo, MySqlConnection conn, MySqlTransaction trans)
@@ -257,7 +257,7 @@ namespace MemberSite.Service.DAL
                 AccountName = accountName,
                 BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo)
             });
-            result = _mainDbClient.Execute("CustBankInfoLog_Set", parameter, conn, trans);
+            result = _mainDbClient.Execute("Service_CustBankInfoLog_Set", parameter, conn, trans);
             return result > 0;
         }
         public bool SetCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo)

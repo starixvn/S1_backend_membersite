@@ -36,10 +36,11 @@ namespace MemberSite.Controllers
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
             public string RealName { get; set; }
+            public string RedirectUrl { get; set; }
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignupAsync([FromForm]SignupModel signupModel)
+        public async Task<IActionResult> SignupAsync([FromForm] SignupModel signupModel)
         {
             var message = "";
             var errorCode = 99;
@@ -69,7 +70,7 @@ namespace MemberSite.Controllers
                 if (mailExists)
                     result = -10;
             }
-            
+
             if (!phoneExists && !mailExists)
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
@@ -157,7 +158,7 @@ namespace MemberSite.Controllers
                 }
                 else
                 {
-                    if(!string.IsNullOrEmpty(signupModel.RealName))
+                    if (!string.IsNullOrEmpty(signupModel.RealName))
                     {
                         _custInfoBll.SetCustBankInfo(custId, signupModel.RealName, null);
                     }
@@ -172,7 +173,15 @@ namespace MemberSite.Controllers
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                     errorCode = 0;
-                    return RedirectToRoute(new { action = "Index", controller = "Home" });
+                    if (!string.IsNullOrEmpty(signupModel.RedirectUrl))
+                    {
+                        return Redirect($"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/{signupModel.RedirectUrl}");
+                    }
+                    else
+                    {
+                        return RedirectToRoute(new { action = "Index", controller = "Home" });
+                    }
+
                 }
             }
 

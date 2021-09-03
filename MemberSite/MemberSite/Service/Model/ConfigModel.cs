@@ -18,4 +18,12 @@
     {
         public string ImageURL { get; set; }
     }
+
+    public class DatabaseConnection
+    {
+        public string ConnectionString { get; set; }
+        public string ConnectionStringReport { get; set; }
+        public string ConnectionStringWager { get; set; }
+        public string ConnectionStringLog { get; set; }
+    }
 }
