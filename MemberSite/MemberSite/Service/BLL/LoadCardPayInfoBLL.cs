@@ -82,7 +82,9 @@ namespace MemberSite.Service.BLL
                                           GroupName = x.GroupName,
                                           PayName = x.PayName,
                                           GSort = x.GSort,
-                                          Mode = x.Mode
+                                          Mode = x.Mode,
+                                          MaxAmount = x.MaxAmount,
+                                          MinAmount = x.MinAmount
                                       }).Distinct(loadCardGroupComparer);
 
             return LoadCardPayGroupList;
