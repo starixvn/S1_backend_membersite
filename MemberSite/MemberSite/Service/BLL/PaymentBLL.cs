@@ -471,7 +471,7 @@ namespace MemberSite.Service.BLL
 
             return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalInfo, out afterAmount, out transId);
         }
-        public int WithdrawalUSDTReq(int custId, string accountName, string nickName, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
+        public int WithdrawalUSDTReq(int custId, string accountName, USDTDetail uSDTDetail, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
         {
             afterAmount = 0;
             transId = "";
@@ -494,9 +494,12 @@ namespace MemberSite.Service.BLL
             withdrawalUSDTInfo.AccountType = "USDT";
             
             withdrawalUSDTInfo.AccountName = accountName;
-            withdrawalUSDTInfo.NickName = nickName;
+            withdrawalUSDTInfo.NickName = uSDTDetail.NickName;
             withdrawalUSDTInfo.AccountNo = accountNo;
-        
+            withdrawalUSDTInfo.Network = uSDTDetail.Network;
+            withdrawalUSDTInfo.CurrencyId = uSDTDetail.CurrencyId;
+
+
 
             return withdrawalService.WithdrawalUSDTReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalUSDTInfo, out afterAmount, out transId);
         }
@@ -776,6 +779,10 @@ namespace MemberSite.Service.BLL
         public CustomerWithdrawalInfoOutput GetWithdrawalInfoCheck(CustomerWithdrawalInfoInput input)
         {
             return withdrawalService.GetWithdrawalInfoCheck(input);
+        }
+        public IEnumerable<NetworkList> GetSupportNetwork( int currencyId)
+        {
+            return statementService.GetSupportNetwork(currencyId);
         }
     }
 }
