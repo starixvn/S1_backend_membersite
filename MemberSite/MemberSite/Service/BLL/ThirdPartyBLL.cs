@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MemberSite.Service.Model.enums;
 using Serilog.Context;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.BLL
 {
@@ -27,6 +28,7 @@ namespace MemberSite.Service.BLL
         private readonly CourierAdapter courierAdapter;
         private readonly string apiUrl;
         private readonly ILogger<ThirdPartyBLL> _logger;
+        private readonly IMemoryCache _cache;
 
         readonly Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
             {"1","soccer" },
@@ -48,12 +50,13 @@ namespace MemberSite.Service.BLL
             tools = provider.GetRequiredService<Tools>();
             TpCurrencyList = new ConcurrentDictionary<string, TpCurrency>();
             ThirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
-            serverInfoBLL = provider.GetRequiredService<ServerInfoBLL>(); 
+            serverInfoBLL = provider.GetRequiredService<ServerInfoBLL>();
             custInfoBLL = provider.GetRequiredService<CustInfoBLL>();
             courierAdapter = provider.GetRequiredService<CourierAdapter>();
             var configuration = provider.GetRequiredService<IConfiguration>();
             apiUrl = configuration.GetValue<string>("TpService");
             _logger = provider.GetRequiredService<ILogger<ThirdPartyBLL>>();
+            _cache = provider.GetRequiredService<IMemoryCache>();
         }
 
         public string GetTpLanId(int tpId)
@@ -121,7 +124,7 @@ namespace MemberSite.Service.BLL
                             sportTypeDic.TryGetValue(gameId, out act);
                         }
                         parameters.TryGetValue("matchid", out var matchId);
-                        
+
                         if (sportType == "43")
                         {
                             entryUrl = $"{entryUrl}?lang={tpLanId}&game={act}";
@@ -253,12 +256,21 @@ namespace MemberSite.Service.BLL
         }
         public IEnumerable<TpWalletList> GetTpWalletList(int custId, int listType)
         {
-            return thirdPartyService.GetTpWalletList(custId,listType);
+            return thirdPartyService.GetTpWalletList(custId, listType);
         }
 
-        public IEnumerable<TpMaintain> GetTpMaintainList(int siteId)
+        public IEnumerable<TpMaintain> GetTpMaintainListWithCache(int siteId)
         {
-            return thirdPartyService.GetTpMaintainList(siteId).Where(item => item.MaintainCheck(DateTime.UtcNow, _logger));
+            var key = $"GetTpMaintainList{siteId}";
+
+            if (!_cache.TryGetValue(key, out IEnumerable<TpMaintain> tpMaintainList))
+            {
+                tpMaintainList = thirdPartyService.GetTpMaintainList(siteId).Where(item => item.MaintainCheck(DateTime.UtcNow, _logger));
+                var cacheEntryOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30));
+                _cache.Set(key, tpMaintainList, cacheEntryOptions);
+            }
+
+            return tpMaintainList;
         }
     }
 }

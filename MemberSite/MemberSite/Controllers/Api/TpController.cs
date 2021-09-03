@@ -28,6 +28,7 @@ namespace MemberSite.Controllers.Api
         private readonly BonusWalletBLL _bonusWalletBll;
         private readonly CustInfoBLL _custInfoBll;
         private readonly GameBLL _gameBll;
+        private readonly ServerInfoBLL _serverInfoBll;
 
         public TpController(IServiceProvider provider)
         {
@@ -41,6 +42,7 @@ namespace MemberSite.Controllers.Api
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
             _gameBll = provider.GetRequiredService<GameBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
         }
 
         public class TpInfo
@@ -54,6 +56,16 @@ namespace MemberSite.Controllers.Api
         [AllowAnonymous]
         public async Task<ApiResult> GotoGame(TpInfo inInfo)
         {
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId);
+            if (_gameBll.IsMaintain(tpMaintainList, inInfo.TpId, inInfo.inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
+            {
+                return new ApiResult(_selLangBll)
+                {
+                    ErrorCode = 10,
+                };
+            }
+
             var input = new Dictionary<string, string>();
             var custId = 0;
             var langId = "";

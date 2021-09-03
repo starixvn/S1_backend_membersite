@@ -1687,7 +1687,7 @@ namespace MemberSite.Controllers.Api
             return new ApiResult<IEnumerable<TpMaintain>>()
             {
                 ErrorCode = 0,
-                Data = _thirdPartyBll.GetTpMaintainList(_serverInfoBll.GetServerInfo().SiteId),
+                Data = _thirdPartyBll.GetTpMaintainListWithCache(_serverInfoBll.GetServerInfo().SiteId),
                 Message = $"UtcNow is {DateTime.UtcNow:yyyy/MM/dd HH:mm:ss}"
             };
         }

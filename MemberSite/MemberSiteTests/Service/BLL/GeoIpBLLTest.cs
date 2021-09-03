@@ -1,18 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using MemberSite.Service.BLL;
-using MemberSite.Service.DAL;
-using MemberSite.Service.Library;
-using Microsoft.Extensions.Configuration;
+﻿using System.Threading.Tasks;
+using MemberSite.Service.Model;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Hosting.Internal;
-using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace MemberSite.Service.Model.Tests
+namespace MemberSite.Service.BLL.Tests
 {
     [TestFixture]
     public class GeoIpBLLTest
