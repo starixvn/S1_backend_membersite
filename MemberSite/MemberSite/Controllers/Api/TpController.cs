@@ -57,8 +57,8 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> GotoGame(TpInfo inInfo)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId).Where(i => i.TpId == inInfo.TpId);
-            if (_gameBll.IsMaintain(tpMaintainList, inInfo.inputs, out var tpMaintain))
+            var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId);
+            if (_gameBll.IsMaintain(tpMaintainList, inInfo.TpId, inInfo.inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
             {
                 return new ApiResult(_selLangBll)
                 {

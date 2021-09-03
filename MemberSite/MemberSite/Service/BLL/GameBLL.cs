@@ -24,17 +24,17 @@ namespace MemberSite.Service.BLL
             return false;
         }
 
-        public bool IsMaintain(IEnumerable<TpMaintain> tpMaintainList, Dictionary<string, string> inputs , out TpMaintain result)
+        public bool IsMaintain(IEnumerable<TpMaintain> tpMaintainList, int tpId, string tpGameType, out TpMaintain result)
         {
             result = null;
             try
-            {           
+            {
                 if (!tpMaintainList.Any())
                 {
                     return false;
                 }
 
-                if (!inputs.TryGetValue("tpGameType", out var tpGameType))
+                if (string.IsNullOrEmpty(tpGameType))
                 {
                     return false;
                 }
@@ -42,7 +42,7 @@ namespace MemberSite.Service.BLL
                 var gameType = int.Parse(tpGameType);
                 foreach (var item in tpMaintainList)
                 {
-                    if (item.TpGameType == 0 || item.TpGameType == gameType)
+                    if ((item.TpId == tpId && item.TpGameType == 0) || (item.TpId == tpId && item.TpGameType == gameType))
                     {
                         result = item;
                         return true;

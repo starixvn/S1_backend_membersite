@@ -69,9 +69,8 @@ namespace MemberSite.Controllers
         public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs, [FromRoute] string LangId = null)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId).Where(i => i.TpId == tpId);
-            
-            if (_gameBll.IsMaintain(tpMaintainList, inputs, out var tpMaintain))
+            var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId);
+            if (_gameBll.IsMaintain(tpMaintainList, tpId, inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
             {             
                 if (inputs.TryGetValue("errorUrl", out var errorUrl))
                 {
