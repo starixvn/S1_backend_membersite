@@ -230,21 +230,21 @@ namespace MemberSite.Service.DAL
         }
         public WithdrawalLimitInfoOutput GetWithdrawalLimitInfo(WithdrawalLimitInfoInput input)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<WithdrawalLimitInfoOutput>("Member_WithdrawalLimitInfo_Get",
                 new {input.SiteId, input.CurrencyId, input.VipLevel}, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
 
         public DailyCustomerWithdrawalInfoOutput GetDailyCustomerWithdrawalInfo(DailyCustomerWithdrawalInfoInput input)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<DailyCustomerWithdrawalInfoOutput>("Member_DailyCustomerWithdrawalInfo_Get",
                 new {input.CustId}, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
         
         public CustomerWithdrawalInfoOutput GetWithdrawalInfoCheck(CustomerWithdrawalInfoInput input)
         {
-            return _reportDbClient.QueryFirst<CustomerWithdrawalInfoOutput>("Member_WithdrawalInfoCheck_Get",
+            return _mainDbClient.QueryFirst<CustomerWithdrawalInfoOutput>("Member_WithdrawalInfoCheck_Get",
                 new DynamicParameters(new {input.CustId}));
         }
     }
