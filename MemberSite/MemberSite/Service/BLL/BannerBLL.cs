@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
@@ -17,20 +18,18 @@ namespace MemberSite.Service.BLL
         private readonly PromotionBLL promotionBLL;
         private readonly IWebHostEnvironment environment;
         private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
+        private readonly Dictionary<string, IGrouping<int, TpGameTypeOption>> tpGameTypeConfig;
 
-        public BannerBLL(BannerService bannerService, ServerInfoBLL serverInfoBLL, IWebHostEnvironment environment, PromotionBLL promotionBLL, IOptions<Dictionary<string, SiteConfig>> siteConfig)
+        public BannerBLL(IServiceProvider provider)
         {
-            this.bannerService = bannerService;
-            this.serverInfoBLL = serverInfoBLL;
-            this.environment = environment;
-            this.promotionBLL = promotionBLL;
-            this.siteConfig = siteConfig;
+            bannerService = provider.GetRequiredService<BannerService>();
+            serverInfoBLL = provider.GetRequiredService<ServerInfoBLL>();
+            environment = provider.GetRequiredService<IWebHostEnvironment>();
+            promotionBLL = provider.GetRequiredService<PromotionBLL>();
+            siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
+            var tpGameTypeOptions = provider.GetRequiredService<IEnumerable<TpGameTypeOption>>();
+            tpGameTypeConfig = tpGameTypeOptions.GroupBy(item => item.TpId).ToDictionary(item => item.Key.ToString(), item => item);
         }
-
-        //public IEnumerable<Banner> GetBanner(int SiteId, string FolderName, string Lang, int CurrencyId)
-        //{
-        //    return bannerService.GetBanner(SiteId, FolderName, Lang, CurrencyId);
-        //}
 
         public IEnumerable<BannerSettingItem> GetBanner(int perferCurr, string FolderName)
         {
@@ -90,6 +89,7 @@ namespace MemberSite.Service.BLL
 
             return bannerFromDB;
         }
+
         public IEnumerable<BannerV2> GetBannerV2(int SiteId, int BannerType, int ShowStatus, int CurrencyId, string LangId)
         {
             var banner = new List<BannerV2>();
@@ -147,7 +147,8 @@ namespace MemberSite.Service.BLL
                             UrlRouter = bannerdetail.UrlRouter,
                             BannerLink = settings["bannerLink"],
                             BannerPCUrl = settings["bannerPCUrl"],
-                            BannerMobileUrl = settings["bannerMobileUrl"]
+                            BannerMobileUrl = settings["bannerMobileUrl"],
+                            tpGameType = GetTpGameType(bannerdetail, CurrencyId),
                         });
                     }
                 }
@@ -161,7 +162,7 @@ namespace MemberSite.Service.BLL
                     if (sportLeaguesId.ContainsKey(LangId) && sportTeamsHome.ContainsKey(LangId) && sportTeamsAway.ContainsKey(LangId))
                     {
                         //if (serverInfo.SiteId == 1 && (bannerdetail.LeaguesId == 1 || bannerdetail.LeaguesId == 2 || bannerdetail.LeaguesId == 3 || bannerdetail.LeaguesId == 4 || bannerdetail.LeaguesId == 5 ))
-                        if (serverInfo.SiteId == 1 && bannerdetail.LeaguesId != 6 )
+                        if (serverInfo.SiteId == 1 && bannerdetail.LeaguesId != 6)
                         {
                             logoPic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{serverInfo.SiteName}/Logo.png";
                             backgroundPic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{serverInfo.SiteName}/Background.jpg";
@@ -192,13 +193,42 @@ namespace MemberSite.Service.BLL
                             AwayOdds = bannerdetail.AwayOdds,
                             Handicap = bannerdetail.Handicap,
                             Logo = logoPic,
-                            BackgroundPic = backgroundPic
+                            BackgroundPic = backgroundPic,
+                            tpGameType = GetTpGameType(bannerdetail, CurrencyId)
                         });
                     }
                 }
             }
 
             return banner;
+        }
+
+        private int GetTpGameType(BannerV3 banner, int currencyId)
+        {
+            if (banner.ActionMode == 2 || banner.ActionMode == 6)//只有這兩種需要回傳tpGameType
+            {
+                var typeList = tpGameTypeConfig[banner.TpId].Where(item => item.CurrencyId == currencyId);
+                if (typeList.Count() == 1)
+                {
+                    return typeList.First().TpGameType;
+                }
+                var tpCategoryId = GetTpCategoryId(banner.BannerType);
+            }
+            return 0;
+        }
+
+        private int GetTpCategoryId(int bannerType)
+        {
+            return bannerType switch
+            {
+                1 => 0,//to getcheck
+                2 => 1,//HotEvent=>Sports
+                3 => 2,//Slots=>Casino
+                4 => 3,//Live Casino=>Live Casino
+                5 => 4,//Fishing=>Fishing
+                6 => 6,//Lottery=>Lottery
+                _ => 0,//HotEvent=>Sports
+            };
         }
     }
 }
