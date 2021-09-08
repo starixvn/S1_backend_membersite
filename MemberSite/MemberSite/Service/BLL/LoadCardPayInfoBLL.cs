@@ -34,7 +34,7 @@ namespace MemberSite.Service.BLL
         }
         public IEnumerable<LoadCardPayInfo> GetLoadCardPayInfoList(int siteId)
         {
-            string key = $"LoadCardPayInfoList_{siteId}";
+            var key = $"LoadCardPayInfoList_{siteId}";
             var LoadCardPayInfoList = cache.Get<IEnumerable<LoadCardPayInfo>>(key);
             if (LoadCardPayInfoList == null)
             {
@@ -82,7 +82,9 @@ namespace MemberSite.Service.BLL
                                           GroupName = x.GroupName,
                                           PayName = x.PayName,
                                           GSort = x.GSort,
-                                          Mode = x.Mode
+                                          Mode = x.Mode,
+                                          MaxAmount = x.MaxAmount,
+                                          MinAmount = x.MinAmount
                                       }).Distinct(loadCardGroupComparer);
 
             return LoadCardPayGroupList;
@@ -151,7 +153,7 @@ namespace MemberSite.Service.BLL
                 loadCardPayInfo.Code = code;
                 loadCardPayInfo.Serial = serial;
 
-                DepositDetailInfo depositDetailInfo = new DepositDetailInfo();
+                var depositDetailInfo = new DepositDetailInfo();
                 depositDetailInfo.Amount = amount;
                 depositDetailInfo.CustId = custId;
                 depositDetailInfo.DepositType = (int)DepositType.LoadCardPayment;

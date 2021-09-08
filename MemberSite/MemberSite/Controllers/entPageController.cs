@@ -11,6 +11,10 @@ using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
+using MemberSite.Service.DAL;
+using Microsoft.Extensions.Options;
+using MemberSite.Service.Model;
+using System.Web;
 
 namespace MemberSite.Controllers
 {
@@ -27,6 +31,8 @@ namespace MemberSite.Controllers
         private readonly GameBLL _gameBll;
         private readonly string _apiUrl;
         private readonly ILogger _logger;
+        private readonly StatementService _statementService;
+        private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
 
         public entPageController(IServiceProvider provider)
         {
@@ -41,6 +47,8 @@ namespace MemberSite.Controllers
             _gameBll = provider.GetRequiredService<GameBLL>();
             _apiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("TpService");
             _logger = provider.GetRequiredService<ILogger<entPageController>>();
+            _statementService = provider.GetRequiredService<StatementService>();
+            _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
         }
 
         public class TpInfo
@@ -66,6 +74,16 @@ namespace MemberSite.Controllers
         public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs, [FromRoute] string LangId = null)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
+            var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId);
+            if (_gameBll.IsMaintain(tpMaintainList, tpId, inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
+            {
+                var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
+                var host = _siteConfig.Value[serverInfo.SiteName].MaintainURL;
+                var maintainUrl = $"{host}/index_{_selLangBll.GetLangId() ?? "en"}.html" +
+                    $"?t={HttpUtility.UrlEncode(tpName)}&e={HttpUtility.UrlEncode($"{tpMaintain.EndDate:u}")}";
+                return Redirect(maintainUrl);
+            }
+
             var myUrl = $"{_apiUrl}GotoGame";
             var tpInfo = new TpInfo
             {

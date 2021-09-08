@@ -104,7 +104,7 @@ namespace MemberSite.Service.BLL
             var leaderboardyesterday = eventsService.GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays +1).ToList();
             if (leaderboardyesterday.Any())
             {
-                int count = 0;
+                var count = 0;
                 foreach (var data in leaderboard)
                 {
                     count++;

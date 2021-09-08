@@ -48,7 +48,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
             List<BankInfoDetail> bankInfoList = null;
-            List<BankInfoDetail> BankInfoLogList = new List<BankInfoDetail>();
+            var BankInfoLogList = new List<BankInfoDetail>();
 
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             //
@@ -125,6 +125,8 @@ namespace MemberSite.Controllers.Api
             public string AccountName { set; get; }
             public string NickName { set; get; }
             public string USDTAddress { set; get; }
+            public string Network { set; get; }
+            public int CurrencyId { set; get; }
         }
 
         [HttpPost]
@@ -173,7 +175,8 @@ namespace MemberSite.Controllers.Api
                 uSDTInfoList = new List<USDTDetail>();
             }
 
-            uSDTInfoList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress });
+            var currencyId = uSDTDetailreq.CurrencyId == 0 ? 96 : uSDTDetailreq.CurrencyId;
+            uSDTInfoList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress , Network = uSDTDetailreq.Network, CurrencyId = currencyId });
 
             apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
@@ -242,7 +245,7 @@ namespace MemberSite.Controllers.Api
             }
             foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
             {
-                uSDTInfoList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress });
+                uSDTInfoList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId });
             }
             apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
@@ -777,6 +780,15 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = await custInfoBLL.VerifyOTPAsync(authData.CustId, verifyOTPReq.inputOTPcode);
+
+            return apiResult;
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<SendOTPSMSResult>> GetOTPVerifyInfo()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = await commonBLL.GetOTPVerifyInfo(authData.CustId);
 
             return apiResult;
         }
