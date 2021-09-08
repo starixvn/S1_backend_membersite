@@ -60,15 +60,6 @@ namespace MemberSite.Controllers
             public Dictionary<string, string> inputs { set; get; }
         }
 
-        // Olympics = GameId:2001,menutype:1
-        // World Cup = GameId:2002,menutype:2
-        // Euro Cup = GameId:2003,menutype:3
-        readonly Dictionary<string, string> menuTypeDic = new Dictionary<string, string>() {
-            {"2001","1" }, 
-            {"2002","2" },
-            {"2003","3" }
-        };
-
         [HttpGet]
         public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs, [FromRoute] string LangId = null)
         {
@@ -96,16 +87,6 @@ namespace MemberSite.Controllers
             if (inputs.ContainsKey("AppType") && int.TryParse(inputs["AppType"], out var appType))
             {
                 tpInfo.AppType = appType;
-            }
-
-            if (inputs.ContainsKey("gameId") && inputs.TryGetValue("gameId", out var sportType))
-            {
-                if (sportType == "2001" || sportType == "2002" || sportType == "2003")
-                {
-                    inputs["gameId"] = "1";
-                    menuTypeDic.TryGetValue(sportType, out var menuType);
-                    inputs.Add("menutype", menuType);
-                }
             }
 
             try
@@ -144,11 +125,6 @@ namespace MemberSite.Controllers
                     tpInfo.CustId = authData.CustId;
                     tpInfo.LangId = CheckLangId(LangId) ? LangId : custInfo.UserLang;
                 }
-                else if (hasBf(tpId))
-                {
-                    var entryUrl = _thirdPartyBll.GetEntryUrl(tpId, inputs);
-                    return Redirect(entryUrl);
-                }
                 else
                 {
                     return StatusCode(400);
@@ -160,12 +136,6 @@ namespace MemberSite.Controllers
                 if (data.ErrorCode == 0)
                 {
                     var entryUrl = data.Message;
-                    return Redirect(entryUrl);
-                }
-
-                if (tpId == (int)Tp.Saba && data.RawErrorCode == "10")
-                {
-                    var entryUrl = _thirdPartyBll.GetEntryUrl(tpId, inputs);
                     return Redirect(entryUrl);
                 }
 
