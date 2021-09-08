@@ -283,7 +283,7 @@ namespace MemberSite.Service.BLL
             var bankInfoPayList = cache.Get<IEnumerable<BankInfoPay>>(key);
             if (bankInfoPayList == null)
             {
-                bankInfoPayList = bankInfoService.GetBankInfoPayList(siteId).OrderBy(x => x.MSort).OrderBy(x => x.SSort);
+                bankInfoPayList = bankInfoService.GetBankInfoPayList(siteId).OrderBy(x => x.MSort).ThenBy(x => x.SSort);
 
                 if (bankInfoPayList != null)
                 {
