@@ -105,7 +105,7 @@ namespace MemberSite.Service.DAL
             }
 
             byte is1stDepoist = 0;
-            int result = -99;
+            var result = -99;
             result = walletService.SetBalance(custId, siteId, userName, amount * -1, typePosition + 1, null, transId, out afterAmount, out is1stDepoist, conn, trans);
             if (result > 0)
             {

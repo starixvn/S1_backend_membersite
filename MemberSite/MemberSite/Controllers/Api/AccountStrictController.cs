@@ -48,7 +48,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
             List<BankInfoDetail> bankInfoList = null;
-            List<BankInfoDetail> BankInfoLogList = new List<BankInfoDetail>();
+            var BankInfoLogList = new List<BankInfoDetail>();
 
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             //
@@ -175,7 +175,7 @@ namespace MemberSite.Controllers.Api
                 uSDTInfoList = new List<USDTDetail>();
             }
 
-            int currencyId = uSDTDetailreq.CurrencyId == 0 ? 96 : uSDTDetailreq.CurrencyId;
+            var currencyId = uSDTDetailreq.CurrencyId == 0 ? 96 : uSDTDetailreq.CurrencyId;
             uSDTInfoList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress , Network = uSDTDetailreq.Network, CurrencyId = currencyId });
 
             apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList);

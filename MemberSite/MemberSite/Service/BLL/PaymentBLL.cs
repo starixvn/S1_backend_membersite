@@ -479,9 +479,9 @@ namespace MemberSite.Service.BLL
             if (amount <= 0)
                 return -99;
 
-            WithdrawalUSDTInfo withdrawalUSDTInfo = new WithdrawalUSDTInfo();
+            var withdrawalUSDTInfo = new WithdrawalUSDTInfo();
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            decimal checkAmount = amount;
+            var checkAmount = amount;
             if (custInfoBLL.IsConvertRequired(CustInfo.CurrencyId))
             {
                 checkAmount /= 1000;
