@@ -13,23 +13,19 @@ namespace MemberSite.Service.BLL
 {
     public class BankInfoOffBLL
     {
-        private readonly IMemoryCache cache;
-        private readonly ServerInfoBLL serverInfoBLL;
-        private readonly BankInfoOffService bankInfoService;
-        private readonly CustInfoBLL custInfoBLL;
-        private readonly DepositBLL depositBLL;
-        private readonly SysBankInfoOffComparer sysBankInfoOffComparer;
+        private readonly BankInfoOffService _bankInfoService;
+        private readonly CustInfoBLL _custInfoBll;
+        private readonly DepositBLL _depositBll;
+        private readonly SysBankInfoOffComparer _sysBankInfoOffComparer;
         private readonly CacheHelper _cacheHelper;
 
-        public BankInfoOffBLL(IServiceProvider provider, IMemoryCache cache, ServerInfoBLL serverInfoBLL, BankInfoOffService bankInfoService, CustInfoBLL custInfoBLL, DepositBLL depositBLL)
+        public BankInfoOffBLL(IServiceProvider provider)
         {
-            this.serverInfoBLL = serverInfoBLL;
-            this.bankInfoService = bankInfoService;
-            this.cache = cache;
-            this.custInfoBLL = custInfoBLL;
-            this.depositBLL = depositBLL;
-            sysBankInfoOffComparer = new SysBankInfoOffComparer();
+            _bankInfoService = provider.GetRequiredService<BankInfoOffService>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
+            _depositBll = provider.GetRequiredService<DepositBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _sysBankInfoOffComparer = new SysBankInfoOffComparer();
         }
 
         public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 1)
@@ -37,7 +33,7 @@ namespace MemberSite.Service.BLL
             var key = $"BankInfoOffList_{siteId}_{queryType}";
             return _cacheHelper.CacheTryGetValueSet<IEnumerable<BankInfoOff>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
-                i => bankInfoService.GetBankAccountOff(siteId, queryType).Where(x => (x.Purpose & 1) == 1));
+                i => _bankInfoService.GetBankAccountOff(siteId, queryType).Where(x => (x.Purpose & 1) == 1));
         }
 
         private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>
@@ -55,15 +51,15 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<SysBankInfoFront> GetBankInfoOffList(int custId, int queryType = 0)
         {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var bankAccountOffList = GetBankAccountOff(custInfo.SiteId, queryType);
             
             var newbankAccountOffList = JsonSerializer.Deserialize<IEnumerable<BankInfoOff>>(JsonSerializer.Serialize(bankAccountOffList));
             var localBankList = new List<BankInfoOff>(newbankAccountOffList?.ToList());
 
             var depositLimitInfoList = JsonSerializer.Deserialize<IEnumerable<DepositLimitInfo>>(
-                    JsonSerializer.Serialize(depositBLL.GetDepositLimitInfoList(custInfo.SiteId))).ToList();
+                    JsonSerializer.Serialize(_depositBll.GetDepositLimitInfoList(custInfo.SiteId))).ToList();
             var depositLimitInfo = depositLimitInfoList.FirstOrDefault(x =>
                 x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int) DepositType.LocalBank &&
                 x.CurrencyId == custInfo.CurrencyId);
@@ -77,7 +73,7 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var localBack in localBankList)
                 {
-                    depositBLL.FixDepositLimit(localBack, depositLimitInfo);
+                    _depositBll.FixDepositLimit(localBack, depositLimitInfo);
                 }
             }
 
@@ -93,7 +89,7 @@ namespace MemberSite.Service.BLL
                              IFSCCode = x.IFSCCode,
                              BankSite = x.BankSite,
                              Status = x.Status,
-                         }).Distinct(sysBankInfoOffComparer).ToList();
+                         }).Distinct(_sysBankInfoOffComparer).ToList();
 
             for (var i = 0; i < _info.Count; i++)
             {
@@ -108,20 +104,6 @@ namespace MemberSite.Service.BLL
                 _info[i].MinAmount = _info1.MinAmount;
                 _info[i].MaxAmount = _info1.MaxAmount;
             }
-
-            //foreach (var bk in _info)
-            //{
-            //    var _info1 = (from x in bankAccountOffList
-            //                  where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && bk.SysId == x.SysId
-            //                  select new
-            //                  {
-            //                      x.MinAmount,
-            //                      x.MaxAmount
-            //                  }).OrderByDescending(x => x.MaxAmount == 0 ? decimal.MaxValue : x.MaxAmount).ThenBy(x => x.MinAmount).Distinct().FirstOrDefault();
-
-            //    bk.MinAmount = _info1.MinAmount;
-            //    bk.MaxAmount = _info1.MaxAmount;
-            //}
 
             return _info;
         }
