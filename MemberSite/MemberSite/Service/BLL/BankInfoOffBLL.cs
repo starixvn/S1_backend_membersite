@@ -31,17 +31,14 @@ namespace MemberSite.Service.BLL
         public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 1)
         {
             var sBankInfoOffListKey = $"BankInfoOffList_{siteId}_{queryType}";
-            var BankInfoOffList = cache.Get<IEnumerable<BankInfoOff>>(sBankInfoOffListKey);
-            if (BankInfoOffList == null)
+            
+            if (!cache.TryGetValue(sBankInfoOffListKey, out IEnumerable<BankInfoOff> bankInfoOffList))
             {
-                BankInfoOffList = bankInfoService.GetBankAccountOff(siteId, queryType).Where(x => (x.Purpose & 1) == 1);
-                if (BankInfoOffList.Any())
-                {
-                    cache.Set(sBankInfoOffListKey, BankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
-                }
+                bankInfoOffList = bankInfoService.GetBankAccountOff(siteId, queryType).Where(x => (x.Purpose & 1) == 1);
+                cache.Set(sBankInfoOffListKey, bankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
             }
 
-            return BankInfoOffList;
+            return bankInfoOffList;
         }
 
         private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>
