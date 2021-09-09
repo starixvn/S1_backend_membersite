@@ -47,6 +47,7 @@ namespace MemberSite.Controllers.Api
         private readonly Regex _regexUserName = new Regex(@"^[a-zA-Z0-9]{6,18}$");
         private readonly Regex _regexAffCode = new Regex(@"^[0-9]{5,20}$");
         private readonly ThirdPartyBLL _thirdPartyBll;
+        private readonly CacheHelper _cacheHelper;
         // private readonly List<SeoModel> _seoModels;
         // private IConfigurationRoot SeoConfiguration => new ConfigurationBuilder()
         //     .SetBasePath(Directory.GetCurrentDirectory())
@@ -70,6 +71,7 @@ namespace MemberSite.Controllers.Api
             _gameCasinoBll = provider.GetRequiredService<GameCasinoBLL>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBLL>();
+
             // _seoModels = SeoConfiguration.GetSection("data").Get<List<SeoModel>>();
         }
 
@@ -1691,7 +1693,7 @@ namespace MemberSite.Controllers.Api
 
         [HttpGet, HttpPost]
         public ApiResult<IEnumerable<TpMaintain>> GetTpMaintainList()
-        {
+        {           
             return new ApiResult<IEnumerable<TpMaintain>>()
             {
                 ErrorCode = 0,
