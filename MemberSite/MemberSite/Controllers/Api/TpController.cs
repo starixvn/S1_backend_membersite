@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using MemberSite.Service.BLL;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -10,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace MemberSite.Controllers.Api
 {
@@ -29,6 +32,8 @@ namespace MemberSite.Controllers.Api
         private readonly CustInfoBLL _custInfoBll;
         private readonly GameBLL _gameBll;
         private readonly ServerInfoBLL _serverInfoBll;
+        private readonly StatementService _statementService;
+        private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
 
         public TpController(IServiceProvider provider)
         {
@@ -43,6 +48,8 @@ namespace MemberSite.Controllers.Api
             _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
             _gameBll = provider.GetRequiredService<GameBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
+            _statementService = provider.GetRequiredService<StatementService>();
+            _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
         }
 
         public class TpInfo
@@ -60,10 +67,11 @@ namespace MemberSite.Controllers.Api
             var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId);
             if (_gameBll.IsMaintain(tpMaintainList, inInfo.TpId, inInfo.inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
             {
-                return new ApiResult(_selLangBll)
-                {
-                    ErrorCode = 10,
-                };
+                var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
+                var host = _siteConfig.Value[serverInfo.SiteName].MaintainURL;
+                var maintainUrl = $"{host}/index_{_selLangBll.GetLangId() ?? "en"}.html" +
+                    $"?t={HttpUtility.UrlEncode(tpName)}&e={HttpUtility.UrlEncode($"{tpMaintain.EndDate:u}")}";    
+                return new ApiResult(3000, maintainUrl);
             }
 
             var input = new Dictionary<string, string>();

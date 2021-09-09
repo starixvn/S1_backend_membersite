@@ -665,7 +665,7 @@ namespace MemberSite.Controllers.Api
                     });
                 }
 
-                result = paymentBLL.WithdrawalUSDTReq(authData.CustId, custBankInfo.AccountName, custSeluSDTDetail, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out decimal afterAmount, out string transId);
+                result = paymentBLL.WithdrawalUSDTReq(authData.CustId, custBankInfo.AccountName, custSeluSDTDetail, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out var afterAmount, out var transId);
 
                 switch (result)
                 {
@@ -1275,7 +1275,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<ExchangeInfo>();
-            int PayId = 22;
+            var PayId = 22;
       
             var result = await cryptoPayInfoBLL.GetExchangeInfoAsync(authData.CustId, getExchangeReq.Amount, PayId);
             if (result != null && result.Data != null)

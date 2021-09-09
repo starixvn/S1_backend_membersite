@@ -78,7 +78,7 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             BankInfoPay onlineBank = null;
-            ErrorData model = new ErrorData();
+            var model = new ErrorData();
             var result = paymentBLL.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount, out transId, out onlineBank);
 
             var apiResult = new ApiResult<PayResult>();
@@ -133,7 +133,7 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             MobilePayInfo mobilePayInfo = null;
-            ErrorData model = new ErrorData();
+            var model = new ErrorData();
             var result = mobilePayInfoBLL.DepositReqMobilePay(authData.CustId, ChannelId, Amount, out transId, out mobilePayInfo);
             if (result == 0)
             {
@@ -202,7 +202,7 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             CryptoPayInfo cryptoPayInfo = null;
-            ErrorData model = new ErrorData();
+            var model = new ErrorData();
             var result = cryptoPayInfoBLL.DepositReqCryptoPay(authData.CustId, ChannelId, Amount, out transId, out cryptoPayInfo);
             if (result == 0)
             {
@@ -259,7 +259,7 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             LoadCardPayInfo loadCardPayInfo = null;
-            ErrorData model = new ErrorData();
+            var model = new ErrorData();
             var result = loadCardPayInfoBLL.DepositReqLoadCardPay(authData.CustId, ChannelId, Code, Serial, Amount, out transId, out loadCardPayInfo);
             if (result == 0)
             {

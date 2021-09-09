@@ -14,6 +14,7 @@ using Serilog.Context;
 using MemberSite.Service.DAL;
 using Microsoft.Extensions.Options;
 using MemberSite.Service.Model;
+using System.Web;
 
 namespace MemberSite.Controllers
 {
@@ -78,7 +79,8 @@ namespace MemberSite.Controllers
             {
                 var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
                 var host = _siteConfig.Value[serverInfo.SiteName].MaintainURL;
-                var maintainUrl = $"{host}/index_{LangId ?? "en"}.html?t={tpName}&e={tpMaintain.EndDate:u}";
+                var maintainUrl = $"{host}/index_{_selLangBll.GetLangId() ?? "en"}.html" +
+                    $"?t={HttpUtility.UrlEncode(tpName)}&e={HttpUtility.UrlEncode($"{tpMaintain.EndDate:u}")}";
                 return Redirect(maintainUrl);
             }
 
