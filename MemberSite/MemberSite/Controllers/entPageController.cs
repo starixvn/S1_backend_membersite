@@ -126,6 +126,7 @@ namespace MemberSite.Controllers
                 {
                     tpInfo.CustId = 0;
                     tpInfo.LangId = _selLangBll.GetLangId();
+                    inputs.TryAdd("fun", "1");
                 }
 
                 LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
