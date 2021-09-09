@@ -102,7 +102,9 @@ namespace MemberSite.Service.BLL
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
             var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
+                x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel &&
+                x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId);
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
