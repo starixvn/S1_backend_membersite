@@ -18,7 +18,7 @@ namespace MemberSite.Service.Library
             if (!_cache.TryGetValue(key, out t))
             {
                 // t = func(t);
-                _cache.Set(key, t, new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(expirationSecond));
+                _cache.Set(key, t, new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(expirationSecond)));
             }
 
 
