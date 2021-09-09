@@ -95,7 +95,7 @@ namespace MemberSite.Service.BLL
                              Status = x.Status,
                          }).Distinct(sysBankInfoOffComparer).ToList();
 
-            for (var i = 0; i < _info.Count(); i++)
+            for (var i = 0; i < _info.Count; i++)
             {
                 var _info1 = (from x in localBankList
                               where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && _info[i].SysId == x.SysId && x.MaxAmount > 0
