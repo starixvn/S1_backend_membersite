@@ -17,7 +17,6 @@ namespace MemberSite.Service.BLL
     {
         private readonly ThirdPartyService thirdPartyService;
         private readonly SelLangBLL selLangBLL;
-        private readonly Tools tools;
         private readonly ConcurrentDictionary<string, TpCurrency> TpCurrencyList;
         private readonly ConcurrentDictionary<string, ThirdPartyModel> ThirdPartyModelContainer;
         private readonly CustInfoBLL custInfoBLL;
@@ -43,7 +42,6 @@ namespace MemberSite.Service.BLL
         {
             thirdPartyService = provider.GetRequiredService<ThirdPartyService>();
             selLangBLL = provider.GetRequiredService<SelLangBLL>();
-            tools = provider.GetRequiredService<Tools>();
             TpCurrencyList = new ConcurrentDictionary<string, TpCurrency>();
             ThirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
             custInfoBLL = provider.GetRequiredService<CustInfoBLL>();
