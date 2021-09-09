@@ -91,12 +91,7 @@ namespace MemberSite.Controllers
 
             try
             {
-                if (_gameBll.IsFunGame(inputs))
-                {
-                    tpInfo.CustId = 0;
-                    tpInfo.LangId = _selLangBll.GetLangId();
-                }
-                else if (User.Identity.IsAuthenticated)
+                if (User.Identity.IsAuthenticated)
                 {
                     var authData = _authorizeBll.GetAuthData();
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
@@ -127,7 +122,8 @@ namespace MemberSite.Controllers
                 }
                 else
                 {
-                    return StatusCode(400);
+                    tpInfo.CustId = 0;
+                    tpInfo.LangId = _selLangBll.GetLangId();
                 }
 
                 LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
