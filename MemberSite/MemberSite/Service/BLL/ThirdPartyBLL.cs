@@ -264,22 +264,10 @@ namespace MemberSite.Service.BLL
         public IEnumerable<TpMaintain> GetTpMaintainListWithCache(int siteId)
         {
             var key = $"GetTpMaintainList{siteId}";
-
-            var result = _cacheHelper.CacheTryGetValueSet<IEnumerable<TpMaintain>>(key, TimeSpan.FromSeconds(30),
-                i => thirdPartyService.GetTpMaintainList(siteId).Where(item => item.MaintainCheck(DateTime.UtcNow, _logger)));
-
-            return result;
-
-
-
-            //if (!_cache.TryGetValue(key, out IEnumerable<TpMaintain> tpMaintainList))
-            //{
-            //    tpMaintainList = thirdPartyService.GetTpMaintainList(siteId).Where(item => item.MaintainCheck(DateTime.UtcNow, _logger));
-            //    var cacheEntryOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30));
-            //    _cache.Set(key, tpMaintainList, cacheEntryOptions);
-            //}
-
-            //return tpMaintainList;
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<TpMaintain>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
+                i => thirdPartyService.GetTpMaintainList(siteId)
+                    .Where(item => item.MaintainCheck(DateTime.UtcNow, _logger)));
         }
     }
 }

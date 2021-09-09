@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using MemberSite.Service.Library;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
@@ -17,8 +19,9 @@ namespace MemberSite.Service.BLL
         private readonly CustInfoBLL custInfoBLL;
         private readonly DepositBLL depositBLL;
         private readonly SysBankInfoOffComparer sysBankInfoOffComparer;
+        private readonly CacheHelper _cacheHelper;
 
-        public BankInfoOffBLL(IMemoryCache cache, ServerInfoBLL serverInfoBLL, BankInfoOffService bankInfoService, CustInfoBLL custInfoBLL, DepositBLL depositBLL)
+        public BankInfoOffBLL(IServiceProvider provider, IMemoryCache cache, ServerInfoBLL serverInfoBLL, BankInfoOffService bankInfoService, CustInfoBLL custInfoBLL, DepositBLL depositBLL)
         {
             this.serverInfoBLL = serverInfoBLL;
             this.bankInfoService = bankInfoService;
@@ -26,19 +29,15 @@ namespace MemberSite.Service.BLL
             this.custInfoBLL = custInfoBLL;
             this.depositBLL = depositBLL;
             sysBankInfoOffComparer = new SysBankInfoOffComparer();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
         public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 1)
         {
-            var sBankInfoOffListKey = $"BankInfoOffList_{siteId}_{queryType}";
-            
-            if (!cache.TryGetValue(sBankInfoOffListKey, out IEnumerable<BankInfoOff> bankInfoOffList))
-            {
-                bankInfoOffList = bankInfoService.GetBankAccountOff(siteId, queryType).Where(x => (x.Purpose & 1) == 1);
-                cache.Set(sBankInfoOffListKey, bankInfoOffList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
-            }
-
-            return bankInfoOffList;
+            var key = $"BankInfoOffList_{siteId}_{queryType}";
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<BankInfoOff>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
+                i => bankInfoService.GetBankAccountOff(siteId, queryType).Where(x => (x.Purpose & 1) == 1));
         }
 
         private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>
