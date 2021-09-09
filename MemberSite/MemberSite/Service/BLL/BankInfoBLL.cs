@@ -214,72 +214,7 @@ namespace MemberSite.Service.BLL
             return bankInfo;
         }
         #region China Pay
-        public IEnumerable<SysBankInfoFront> GetOnlineBankInfoSysList(int custId)
-        {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
-            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
 
-            var bankInfoList = (from x in bankInfoPayList
-                                where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
-                                select new SysBankInfoFront
-                                {
-                                    SysId = x.SysId,
-                                    BankCode = x.SysBankCode,
-                                    BankLogo = x.BankLogo,
-                                    BankName = x.SysBankName,
-                                }).Distinct(sysBankInfoOffComparer);
-
-            return bankInfoList;
-        }
-
-        public BankInfoPayFront GetOnlineBankInfo(int custId, int sysId)
-        {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
-
-            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
-
-            if (depositLimitInfo?.DepositStatus == 0)
-            {
-                return null;
-            }
-
-            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
-
-            var bankInfo = (from x in bankInfoPayList
-                            where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId
-                            orderby x.PointLevel descending, x.MSort, x.SSort
-                            select new BankInfoPayFront
-                            {
-                                SysId = x.SysId,
-                                PayId = x.PayId,
-                                BankCode = x.BankCode,
-                                BankLogo = x.BankLogo,
-                                BankName = x.SysBankName,/*x.SysBankCode*/
-                                ChannelId = x.ChannelId
-                            }).FirstOrDefault();
-
-            var payCurrency = GetPayCurrency().FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == bankInfo.ChannelId);
-            if (payCurrency != null)
-            {
-                bankInfo.MinAmount = payCurrency.MinAmount;
-                bankInfo.MaxAmount = payCurrency.MaxAmount;
-
-                if (depositLimitInfo != null)
-                {
-                    depositBLL.FixDepositLimit(bankInfo, depositLimitInfo);
-                }
-
-                if (bankInfo.MaxAmount < 0)
-                {
-                    return null;
-                }
-            }
-
-            return bankInfo;
-        }
         #endregion
         public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId)
         {
