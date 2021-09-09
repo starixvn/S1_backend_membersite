@@ -5,6 +5,8 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MemberSite.Service.Library;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
@@ -12,43 +14,32 @@ namespace MemberSite.Service.BLL
     {
         private readonly BankInfoService bankInfoService;
         private readonly ServerInfoBLL serverInfoBLL;
-        private readonly IMemoryCache cache;
         private readonly CustInfoBLL custInfoBLL;
         private readonly SysBankInfoOffComparer sysBankInfoOffComparer;
         private readonly PaymentOffComparer paymentOffComparer;
         private readonly PayService payService;
         private readonly DepositBLL depositBLL;
+        private readonly CacheHelper _cacheHelper;
 
-        public BankInfoBLL(IMemoryCache cache, PayService payService, BankInfoService bankInfoService, ServerInfoBLL serverInfoBLL, CustInfoBLL custInfoBLL, DepositBLL depositBLL)
+        public BankInfoBLL(IServiceProvider provider, PayService payService, BankInfoService bankInfoService, ServerInfoBLL serverInfoBLL, CustInfoBLL custInfoBLL, DepositBLL depositBLL)
         {
             this.bankInfoService = bankInfoService;
             this.serverInfoBLL = serverInfoBLL;
-            this.cache = cache;
             this.custInfoBLL = custInfoBLL;
             sysBankInfoOffComparer = new SysBankInfoOffComparer();
             paymentOffComparer = new PaymentOffComparer();
             this.payService = payService;
             this.depositBLL = depositBLL;
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
         public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int CurrencyId)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
 
             var key = $"BankInfoSysList_{serverInfo.SiteId}";
-            var bankInfoSysList = cache.Get<IEnumerable<BankInfoSys>>(key);
-            if (bankInfoSysList != null)
-            {
-                return bankInfoSysList.Where(x => x.CurrencyId == CurrencyId);
-            }
-
-            bankInfoSysList = bankInfoService.GetBankInfoSysList(serverInfo.SiteId);
-
-            if (bankInfoSysList != null)
-            {
-                cache.Set(key, bankInfoSysList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
-            }
-
-            return bankInfoSysList?.Where(x => x.CurrencyId == CurrencyId);
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<BankInfoSys>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                i => bankInfoService.GetBankInfoSysList(serverInfo.SiteId)?.Where(x => x.CurrencyId == CurrencyId));
         }
 
         public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrencyForCtrl(int CurrencyId)
@@ -56,20 +47,9 @@ namespace MemberSite.Service.BLL
             var serverInfo = serverInfoBLL.GetServerInfo();
 
             var key = $"BankInfoSysListForCtrl_{serverInfo.SiteId}";
-            var bankInfoSysList = cache.Get<IEnumerable<BankInfoSys>>(key);
-            if (bankInfoSysList != null)
-            {
-                return bankInfoSysList.Where(x => x.CurrencyId == CurrencyId);
-            }
-
-            bankInfoSysList = bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId);
-
-            if (bankInfoSysList != null)
-            {
-                cache.Set(key, bankInfoSysList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
-            }
-
-            return bankInfoSysList?.Where(x => x.CurrencyId == CurrencyId);
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<BankInfoSys>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                i => bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId)?.Where(x => x.CurrencyId == CurrencyId));
         }
         private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>
         {
@@ -219,35 +199,16 @@ namespace MemberSite.Service.BLL
         public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId)
         {
             var key = $"BankInfoPayList_{siteId}";
-            var bankInfoPayList = cache.Get<IEnumerable<BankInfoPay>>(key);
-            if (bankInfoPayList == null)
-            {
-                bankInfoPayList = bankInfoService.GetBankInfoPayList(siteId).OrderBy(x => x.MSort).ThenBy(x => x.SSort);
-
-                if (bankInfoPayList != null)
-                {
-                    cache.Set(key, bankInfoPayList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)));
-                }
-            }
-
-            return bankInfoPayList;
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<BankInfoPay>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)),
+                i => bankInfoService.GetBankInfoPayList(siteId).OrderBy(x => x.MSort).ThenBy(x => x.SSort));
         }
         public IEnumerable<PayCurrency> GetPayCurrency()
         {
             var key = "PayCurrency";
-            var payCurrency = cache.Get<IEnumerable<PayCurrency>>(key);
-
-            if (payCurrency == null)
-            {
-                payCurrency = payService.GetPayCurrency();
-                if (payCurrency != null)
-                {
-                    var expireTime = TimeSpan.FromMinutes(5);
-                    cache.Set(key, payCurrency, new MemoryCacheEntryOptions().SetAbsoluteExpiration(expireTime));
-                }
-            }
-
-            return payCurrency;
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<PayCurrency>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
+                i => payService.GetPayCurrency());
         }
     }
 }
