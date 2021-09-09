@@ -81,11 +81,7 @@ namespace MemberSite.Controllers.Api
             input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
             input.Add("ClientIP", _tools.GetClientIP());
 
-            if (_gameBll.IsFunGame(inInfo.inputs))
-            {
-                langId = _selLangBll.GetLangId();
-            }
-            else if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
@@ -111,6 +107,11 @@ namespace MemberSite.Controllers.Api
                 {
                     input.Add("Token", authData.Token);
                 }
+            }
+            else
+            {
+                langId = _selLangBll.GetLangId();
+                input.TryAdd("fun", "1");
             }
 
             var myUrl = $"{_apiUrl}GotoGame";
