@@ -11,7 +11,6 @@ using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System.Linq;
 using MemberSite.Service.BLL;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 

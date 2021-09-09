@@ -4,14 +4,11 @@ using MemberSite.Service.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MemberSite.Service.Model.enums;
-using Serilog.Context;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.BLL
@@ -23,12 +20,10 @@ namespace MemberSite.Service.BLL
         private readonly Tools tools;
         private readonly ConcurrentDictionary<string, TpCurrency> TpCurrencyList;
         private readonly ConcurrentDictionary<string, ThirdPartyModel> ThirdPartyModelContainer;
-        private readonly ServerInfoBLL serverInfoBLL;
         private readonly CustInfoBLL custInfoBLL;
         private readonly CourierAdapter courierAdapter;
         private readonly string apiUrl;
         private readonly ILogger<ThirdPartyBLL> _logger;
-        private readonly IMemoryCache _cache;
         private readonly CacheHelper _cacheHelper;
 
         readonly Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
@@ -51,19 +46,12 @@ namespace MemberSite.Service.BLL
             tools = provider.GetRequiredService<Tools>();
             TpCurrencyList = new ConcurrentDictionary<string, TpCurrency>();
             ThirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
-            serverInfoBLL = provider.GetRequiredService<ServerInfoBLL>();
             custInfoBLL = provider.GetRequiredService<CustInfoBLL>();
             courierAdapter = provider.GetRequiredService<CourierAdapter>();
             var configuration = provider.GetRequiredService<IConfiguration>();
             apiUrl = configuration.GetValue<string>("TpService");
             _logger = provider.GetRequiredService<ILogger<ThirdPartyBLL>>();
-            _cache = provider.GetRequiredService<IMemoryCache>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
-        }
-
-        public string GetTpLanId(int tpId)
-        {
-            return thirdPartyService.GetTpLanId(tpId, selLangBLL.GetLangId());
         }
 
         public ThirdPartyModel GetThirdPartyModel(int tpId, int siteId)

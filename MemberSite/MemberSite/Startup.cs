@@ -22,7 +22,6 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 using MemberSite.Extensions;
-using Microsoft.Extensions.Logging;
 
 namespace MemberSite
 {

@@ -20,7 +20,6 @@ using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 
 namespace MemberSite.Controllers.Api
 {
