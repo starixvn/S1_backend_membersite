@@ -45,7 +45,7 @@ namespace MemberSite.Controllers.Api
         private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
         private readonly Regex _regexUserName = new Regex(@"^[a-zA-Z0-9]{6,18}$");
         private readonly Regex _regexAffCode = new Regex(@"^[0-9]{5,20}$");
-        private readonly ThirdPartyBLL _thirdPartyBll;
+        private readonly ThirdPartyBll _thirdPartyBll;
         private readonly CacheHelper _cacheHelper;
         // private readonly List<SeoModel> _seoModels;
         // private IConfigurationRoot SeoConfiguration => new ConfigurationBuilder()
@@ -69,7 +69,7 @@ namespace MemberSite.Controllers.Api
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
             _gameCasinoBll = provider.GetRequiredService<GameCasinoBLL>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
-            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBLL>();
+            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
 
             // _seoModels = SeoConfiguration.GetSection("data").Get<List<SeoModel>>();
         }

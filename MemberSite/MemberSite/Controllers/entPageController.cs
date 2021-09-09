@@ -20,7 +20,7 @@ namespace MemberSite.Controllers
 {
     public class entPageController : Controller
     {
-        private readonly ThirdPartyBLL _thirdPartyBll;
+        private readonly ThirdPartyBll _thirdPartyBll;
         private readonly CourierAdapter _courierAdapter;
         private readonly AuthorizeBLL _authorizeBll;
         private readonly Tools _tools;
@@ -36,7 +36,7 @@ namespace MemberSite.Controllers
 
         public entPageController(IServiceProvider provider)
         {
-            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBLL>();
+            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _tools = provider.GetRequiredService<Tools>();

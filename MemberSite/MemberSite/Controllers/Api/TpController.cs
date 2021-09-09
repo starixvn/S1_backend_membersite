@@ -26,7 +26,7 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL _selLangBll;
         private readonly AuthorizeBLL _authorizeBll;
         private readonly string _apiUrl;
-        private readonly ThirdPartyBLL _thirdPartyBll;
+        private readonly ThirdPartyBll _thirdPartyBll;
         private readonly WalletBLL _walletBll;
         private readonly BonusWalletBLL _bonusWalletBll;
         private readonly CustInfoBLL _custInfoBll;
@@ -42,7 +42,7 @@ namespace MemberSite.Controllers.Api
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _apiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("TpService");
-            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBLL>();
+            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _walletBll = provider.GetRequiredService<WalletBLL>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBLL>();

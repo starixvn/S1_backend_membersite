@@ -13,19 +13,19 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.BLL
 {
-    public class ThirdPartyBLL
+    public class ThirdPartyBll
     {
-        private readonly ThirdPartyService thirdPartyService;
-        private readonly SelLangBLL selLangBLL;
-        private readonly ConcurrentDictionary<string, TpCurrency> TpCurrencyList;
-        private readonly ConcurrentDictionary<string, ThirdPartyModel> ThirdPartyModelContainer;
-        private readonly CustInfoBLL custInfoBLL;
-        private readonly CourierAdapter courierAdapter;
-        private readonly string apiUrl;
-        private readonly ILogger<ThirdPartyBLL> _logger;
+        private readonly ThirdPartyService _thirdPartyService;
+        private readonly SelLangBLL _selLangBll;
+        private readonly ConcurrentDictionary<string, TpCurrency> _tpCurrencyList;
+        private readonly ConcurrentDictionary<string, ThirdPartyModel> _thirdPartyModelContainer;
+        private readonly CustInfoBLL _custInfoBll;
+        private readonly CourierAdapter _courierAdapter;
+        private readonly string _apiUrl;
+        private readonly ILogger<ThirdPartyBll> _logger;
         private readonly CacheHelper _cacheHelper;
 
-        readonly Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
+        readonly Dictionary<string, string> _sportTypeDic = new Dictionary<string, string>() {
             {"1","soccer" },
             {"2","basketball" },
             {"3","football" },
@@ -38,17 +38,17 @@ namespace MemberSite.Service.BLL
             {"161","numbergame" },
             {"180","virtualsports" }
         };
-        public ThirdPartyBLL(IServiceProvider provider)
+        public ThirdPartyBll(IServiceProvider provider)
         {
-            thirdPartyService = provider.GetRequiredService<ThirdPartyService>();
-            selLangBLL = provider.GetRequiredService<SelLangBLL>();
-            TpCurrencyList = new ConcurrentDictionary<string, TpCurrency>();
-            ThirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
-            custInfoBLL = provider.GetRequiredService<CustInfoBLL>();
-            courierAdapter = provider.GetRequiredService<CourierAdapter>();
+            _thirdPartyService = provider.GetRequiredService<ThirdPartyService>();
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
+            _tpCurrencyList = new ConcurrentDictionary<string, TpCurrency>();
+            _thirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
+            _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             var configuration = provider.GetRequiredService<IConfiguration>();
-            apiUrl = configuration.GetValue<string>("TpService");
-            _logger = provider.GetRequiredService<ILogger<ThirdPartyBLL>>();
+            _apiUrl = configuration.GetValue<string>("TpService");
+            _logger = provider.GetRequiredService<ILogger<ThirdPartyBll>>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
@@ -56,54 +56,54 @@ namespace MemberSite.Service.BLL
         {
 
             var sKet = $"{tpId}_{siteId}";
-            if (!ThirdPartyModelContainer.ContainsKey(sKet))
+            if (!_thirdPartyModelContainer.ContainsKey(sKet))
             {
-                var thirdPartyModel = thirdPartyService.GetThirdPartyBySite(tpId, siteId);
+                var thirdPartyModel = _thirdPartyService.GetThirdPartyBySite(tpId, siteId);
                 if (thirdPartyModel != null)
-                    ThirdPartyModelContainer.TryAdd(sKet, thirdPartyModel);
+                    _thirdPartyModelContainer.TryAdd(sKet, thirdPartyModel);
             }
 
-            return ThirdPartyModelContainer.ContainsKey(sKet) ? ThirdPartyModelContainer[sKet] : null;
+            return _thirdPartyModelContainer.ContainsKey(sKet) ? _thirdPartyModelContainer[sKet] : null;
         }
 
         public TpCurrency GetTpCurrency(int tpId, int currencyId)
         {
             var key = $"{tpId}_{currencyId}";
-            if (!TpCurrencyList.ContainsKey(key))
+            if (!_tpCurrencyList.ContainsKey(key))
             {
-                TpCurrencyList.TryAdd(key, thirdPartyService.GetTpCurrency(tpId, currencyId));
+                _tpCurrencyList.TryAdd(key, _thirdPartyService.GetTpCurrency(tpId, currencyId));
             }
 
-            var tpCurrency = TpCurrencyList[key];
+            var tpCurrency = _tpCurrencyList[key];
             return tpCurrency;
         }
         public IEnumerable<TpWallet> GetTpWallet(int custId)
         {
-            return thirdPartyService.GetTpWallet(custId);
+            return _thirdPartyService.GetTpWallet(custId);
         }
 
         public IEnumerable<TpTransferInfoHistory> GetTransferHistory(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var tpTransferInfoHistory = thirdPartyService.GetTransferHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var tpTransferInfoHistory = _thirdPartyService.GetTransferHistory(custInfo.CustId, startDate, endDate, custInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
             if (tpTransferInfoHistory != null)
             {
                 foreach (var tpTransferInfo in tpTransferInfoHistory)
                 {
-                    tpTransferInfo.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{GetThirdPartyModel(tpTransferInfo.TpId, CustInfo.SiteId).TpName}");
+                    tpTransferInfo.TpName = _selLangBll.GetResourceValue($"lbl_Wallet_{GetThirdPartyModel(tpTransferInfo.TpId, custInfo.SiteId).TpName}");
                 }
             }
             return tpTransferInfoHistory;
         }
         public IEnumerable<TpTransferInfoHistory> GetTransferRecent(int custId)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var tpTransferInfoHistory = thirdPartyService.GetTransferRecent(custId, CustInfo.SiteId, 5);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var tpTransferInfoHistory = _thirdPartyService.GetTransferRecent(custId, custInfo.SiteId, 5);
             if (tpTransferInfoHistory != null)
             {
                 foreach (var tpTransferInfo in tpTransferInfoHistory)
                 {
-                    tpTransferInfo.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{GetThirdPartyModel(tpTransferInfo.TpId, CustInfo.SiteId).TpName}");
+                    tpTransferInfo.TpName = _selLangBll.GetResourceValue($"lbl_Wallet_{GetThirdPartyModel(tpTransferInfo.TpId, custInfo.SiteId).TpName}");
                 }
             }
             return tpTransferInfoHistory;
@@ -113,24 +113,24 @@ namespace MemberSite.Service.BLL
         {
             public int TpId { set; get; }
             public int CustId { set; get; }
-            public Dictionary<string, string> inputs { set; get; }
+            public Dictionary<string, string> Inputs { set; get; }
         }
 
         /*Sports Wallet*/
         public async Task<ApiResult<UserBalance>> GetSportsBalanceAsync(int custId)
         {
-            var myUrl = $"{apiUrl}GetBalance";
+            var myUrl = $"{_apiUrl}GetBalance";
             var apiResult = new ApiResult<UserBalance>();
             var oTpInfo = new TpInfo
             {
                 TpId = 1,
                 CustId = custId,
-                inputs = new Dictionary<string, string>()
+                Inputs = new Dictionary<string, string>()
             };
 
             try
             {
-                var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
+                var data = await _courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
                 apiResult.Data = data.Data;
                 apiResult.ErrorCode = data.ErrorCode;
                 apiResult.RawErrorCode = data.RawErrorCode;
@@ -147,18 +147,18 @@ namespace MemberSite.Service.BLL
         /*Sports Wallet*/
         public async Task<ApiResult<UserBalance>> GetTpWalletBalanceAsync(int tpId, int custId)
         {
-            var myUrl = $"{apiUrl}GetBalance";
+            var myUrl = $"{_apiUrl}GetBalance";
             var apiResult = new ApiResult<UserBalance>();
             var oTpInfo = new TpInfo
             {
                 TpId = tpId,
                 CustId = custId,
-                inputs = new Dictionary<string, string>()
+                Inputs = new Dictionary<string, string>()
             };
 
             try
             {
-                var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
+                var data = await _courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
                 apiResult.Data = data.Data;
                 apiResult.ErrorCode = data.ErrorCode;
                 apiResult.RawErrorCode = data.RawErrorCode;
@@ -174,7 +174,7 @@ namespace MemberSite.Service.BLL
         }
         public IEnumerable<TpWalletList> GetTpWalletList(int custId, int listType)
         {
-            return thirdPartyService.GetTpWalletList(custId, listType);
+            return _thirdPartyService.GetTpWalletList(custId, listType);
         }
 
         public IEnumerable<TpMaintain> GetTpMaintainListWithCache(int siteId)
@@ -182,7 +182,7 @@ namespace MemberSite.Service.BLL
             var key = $"GetTpMaintainList{siteId}";
             return _cacheHelper.CacheTryGetValueSet<IEnumerable<TpMaintain>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
-                i => thirdPartyService.GetTpMaintainList(siteId)
+                i => _thirdPartyService.GetTpMaintainList(siteId)
                     .Where(item => item.MaintainCheck(DateTime.UtcNow, _logger)));
         }
     }

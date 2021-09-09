@@ -130,7 +130,7 @@ namespace MemberSite
             services.AddSingleton<LoadCardPayInfoBLL>();
             services.AddSingleton<DepositBLL>();
             services.AddSingleton<PaymentBLL>();
-            services.AddSingleton<ThirdPartyBLL>();
+            services.AddSingleton<ThirdPartyBll>();
             services.AddSingleton<MessageBLL>();
             services.AddSingleton<PromotionBLL>();
             services.AddSingleton<GamingBLL>();
