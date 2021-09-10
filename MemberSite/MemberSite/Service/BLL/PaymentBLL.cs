@@ -64,7 +64,9 @@ namespace MemberSite.Service.BLL
             var bankAccountOffList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
             var localBankList = bankAccountOffList?.ToList();
             var depositLimitInfoList = depoistService.GetDepositLimitInfoList();
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
+                x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank &&
+                x.CurrencyId == custInfo.CurrencyId);
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
@@ -471,7 +473,7 @@ namespace MemberSite.Service.BLL
 
             return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalInfo, out afterAmount, out transId);
         }
-        public int WithdrawalUSDTReq(int custId, string accountName, string nickName, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
+        public int WithdrawalUSDTReq(int custId, string accountName, USDTDetail uSDTDetail, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
         {
             afterAmount = 0;
             transId = "";
@@ -479,9 +481,9 @@ namespace MemberSite.Service.BLL
             if (amount <= 0)
                 return -99;
 
-            WithdrawalUSDTInfo withdrawalUSDTInfo = new WithdrawalUSDTInfo();
+            var withdrawalUSDTInfo = new WithdrawalUSDTInfo();
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            decimal checkAmount = amount;
+            var checkAmount = amount;
             if (custInfoBLL.IsConvertRequired(CustInfo.CurrencyId))
             {
                 checkAmount /= 1000;
@@ -494,9 +496,12 @@ namespace MemberSite.Service.BLL
             withdrawalUSDTInfo.AccountType = "USDT";
             
             withdrawalUSDTInfo.AccountName = accountName;
-            withdrawalUSDTInfo.NickName = nickName;
+            withdrawalUSDTInfo.NickName = uSDTDetail.NickName;
             withdrawalUSDTInfo.AccountNo = accountNo;
-        
+            withdrawalUSDTInfo.Network = uSDTDetail.Network;
+            withdrawalUSDTInfo.CurrencyId = uSDTDetail.CurrencyId;
+
+
 
             return withdrawalService.WithdrawalUSDTReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalUSDTInfo, out afterAmount, out transId);
         }
@@ -776,6 +781,10 @@ namespace MemberSite.Service.BLL
         public CustomerWithdrawalInfoOutput GetWithdrawalInfoCheck(CustomerWithdrawalInfoInput input)
         {
             return withdrawalService.GetWithdrawalInfoCheck(input);
+        }
+        public IEnumerable<NetworkList> GetSupportNetwork( int currencyId)
+        {
+            return statementService.GetSupportNetwork(currencyId);
         }
     }
 }

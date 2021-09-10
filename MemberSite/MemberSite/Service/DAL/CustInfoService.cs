@@ -269,7 +269,7 @@ namespace MemberSite.Service.DAL
         }
         public CustBankInfo GetCustBankInfo(int custId, int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.QueryFirstOrDefault<CustBankInfo>("CustBankInfo_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
         public string GetDefAccountNo(int custId, int siteId)

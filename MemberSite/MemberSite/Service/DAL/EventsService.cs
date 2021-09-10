@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-
 namespace MemberSite.Service.DAL
 {
     public class EventsService
@@ -261,7 +260,6 @@ namespace MemberSite.Service.DAL
             conn.Execute("Member_EventDraw_Get", p, commandType: CommandType.StoredProcedure);
             eventName = p.Get<string>("EventName");
             conditionSP = p.Get<string>("ConditionSP");
-            return;
         }
         public bool CheckEventCondition(string conditionSP, int eventId, int custId, int currencyId)
         {

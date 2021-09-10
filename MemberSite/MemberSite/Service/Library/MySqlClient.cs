@@ -12,6 +12,7 @@ namespace MemberSite.Service.Library
 {
      public sealed class MySqlClient
     {
+        public string Name { get; set; }
         private readonly string _connectionString;
 
         private readonly ILogger<MySqlClient> _logger;

@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
@@ -72,6 +73,8 @@ namespace MemberSite
             services.AddSingleton<CodeGenerator>();
 			services.AddTransient<JsonNetSerializer>();
             services.AddSingleton<IHttpHelper, HttpHelper>();
+            services.AddSingleton<CacheHelper>();
+            services.AddDatabaseConnection(configuration);
 
             /*DAL*/
             services.AddSingleton<ServerInfoService>();
@@ -90,7 +93,12 @@ namespace MemberSite
             services.AddSingleton<PayService>();
             services.AddSingleton<RolloverService>();
             services.AddSingleton<PromotionService>();
-            services.AddSingleton<CasinoService>();
+            services.AddSingleton(serviceProvider =>
+            {
+                var reportDbClient = serviceProvider.GetServices<MySqlClient>()
+                    .First(item => item.Name == "ReportDB");
+                return new CasinoService(configuration, reportDbClient);
+            });
             services.AddSingleton<StatementService>();
             services.AddSingleton<AuthService>();
             services.AddSingleton<BannerService>();
@@ -123,7 +131,7 @@ namespace MemberSite
             services.AddSingleton<LoadCardPayInfoBLL>();
             services.AddSingleton<DepositBLL>();
             services.AddSingleton<PaymentBLL>();
-            services.AddSingleton<ThirdPartyBLL>();
+            services.AddSingleton<ThirdPartyBll>();
             services.AddSingleton<MessageBLL>();
             services.AddSingleton<PromotionBLL>();
             services.AddSingleton<GamingBLL>();

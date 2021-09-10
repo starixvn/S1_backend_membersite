@@ -5,71 +5,51 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MemberSite.Service.Library;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
     public class BankInfoBLL
     {
-        private readonly BankInfoService bankInfoService;
-        private readonly ServerInfoBLL serverInfoBLL;
-        private readonly IMemoryCache cache;
-        private readonly CustInfoBLL custInfoBLL;
-        private readonly SysBankInfoOffComparer sysBankInfoOffComparer;
-        private readonly PaymentOffComparer paymentOffComparer;
-        private readonly PayService payService;
-        private readonly DepositBLL depositBLL;
+        private readonly BankInfoService _bankInfoService;
+        private readonly ServerInfoBLL _serverInfoBll;
+        private readonly CustInfoBLL _custInfoBll;
+        private readonly SysBankInfoOffComparer _sysBankInfoOffComparer;
+        private readonly PaymentOffComparer _paymentOffComparer;
+        private readonly PayService _payService;
+        private readonly DepositBLL _depositBll;
+        private readonly CacheHelper _cacheHelper;
 
-        public BankInfoBLL(IMemoryCache cache, PayService payService, BankInfoService bankInfoService, ServerInfoBLL serverInfoBLL, CustInfoBLL custInfoBLL, DepositBLL depositBLL)
+        public BankInfoBLL(IServiceProvider provider)
         {
-            this.bankInfoService = bankInfoService;
-            this.serverInfoBLL = serverInfoBLL;
-            this.cache = cache;
-            this.custInfoBLL = custInfoBLL;
-            sysBankInfoOffComparer = new SysBankInfoOffComparer();
-            paymentOffComparer = new PaymentOffComparer();
-            this.payService = payService;
-            this.depositBLL = depositBLL;
+            _bankInfoService = provider.GetRequiredService<BankInfoService>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
+            _payService = provider.GetRequiredService<PayService>();
+            _depositBll = provider.GetRequiredService<DepositBLL>();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _sysBankInfoOffComparer = new SysBankInfoOffComparer();
+            _paymentOffComparer = new PaymentOffComparer();
         }
-        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int CurrencyId)
+        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int currencyId)
         {
-            var serverInfo = serverInfoBLL.GetServerInfo();
+            var serverInfo = _serverInfoBll.GetServerInfo();
 
             var key = $"BankInfoSysList_{serverInfo.SiteId}";
-            var bankInfoSysList = cache.Get<IEnumerable<BankInfoSys>>(key);
-            if (bankInfoSysList != null)
-            {
-                return bankInfoSysList.Where(x => x.CurrencyId == CurrencyId);
-            }
-
-            bankInfoSysList = bankInfoService.GetBankInfoSysList(serverInfo.SiteId);
-
-            if (bankInfoSysList != null)
-            {
-                cache.Set(key, bankInfoSysList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
-            }
-
-            return bankInfoSysList?.Where(x => x.CurrencyId == CurrencyId);
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<BankInfoSys>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                i => _bankInfoService.GetBankInfoSysList(serverInfo.SiteId)?.Where(x => x.CurrencyId == currencyId));
         }
 
-        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrencyForCtrl(int CurrencyId)
+        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrencyForCtrl(int currencyId)
         {
-            var serverInfo = serverInfoBLL.GetServerInfo();
+            var serverInfo = _serverInfoBll.GetServerInfo();
 
             var key = $"BankInfoSysListForCtrl_{serverInfo.SiteId}";
-            var bankInfoSysList = cache.Get<IEnumerable<BankInfoSys>>(key);
-            if (bankInfoSysList != null)
-            {
-                return bankInfoSysList.Where(x => x.CurrencyId == CurrencyId);
-            }
-
-            bankInfoSysList = bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId);
-
-            if (bankInfoSysList != null)
-            {
-                cache.Set(key, bankInfoSysList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
-            }
-
-            return bankInfoSysList?.Where(x => x.CurrencyId == CurrencyId);
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<BankInfoSys>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                i => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId)?.Where(x => x.CurrencyId == currencyId));
         }
         private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>
         {
@@ -99,10 +79,12 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<PaymentFront> GetOnlinePaymentList(int custId)
         {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
-            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
+            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
+                x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel &&
+                x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId);
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
@@ -120,7 +102,7 @@ namespace MemberSite.Service.BLL
                                          ChannelId = x.ChannelId,
                                          SelBank = x.SelBank,
                                          Mode = x.Mode
-                                     }).Distinct(paymentOffComparer).ToArray();
+                                     }).Distinct(_paymentOffComparer).ToArray();
             var payCurrency = GetPayCurrency();//.Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == payId).FirstOrDefault()
 
             if (onlinePaymentList != null)
@@ -135,7 +117,7 @@ namespace MemberSite.Service.BLL
 
                         if (depositLimitInfo != null)
                         {
-                            depositBLL.FixDepositLimit(onlinePayment, depositLimitInfo);
+                            _depositBll.FixDepositLimit(onlinePayment, depositLimitInfo);
                         }
                     }
                 }
@@ -146,8 +128,8 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<SysBankInfoFront> GetOnlineBankInfoSysList(int custId, int payId)
         {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
 
             var bankInfoList = (from x in bankInfoPayList
@@ -158,18 +140,20 @@ namespace MemberSite.Service.BLL
                                     BankCode = x.SysBankCode,
                                     BankLogo = x.BankLogo,
                                     BankName = x.SysBankName,
-                                }).Distinct(sysBankInfoOffComparer);
+                                }).Distinct(_sysBankInfoOffComparer);
 
             return bankInfoList;
         }
 
         public BankInfoPayFront GetOnlineBankInfo(int custId, int sysId, int payId)
         {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
 
-            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
+                x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel &&
+                x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId);
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
@@ -198,7 +182,7 @@ namespace MemberSite.Service.BLL
 
                 if (depositLimitInfo != null)
                 {
-                    depositBLL.FixDepositLimit(bankInfo, depositLimitInfo);
+                    _depositBll.FixDepositLimit(bankInfo, depositLimitInfo);
                 }
 
                 if (bankInfo.MaxAmount < 0)
@@ -210,105 +194,21 @@ namespace MemberSite.Service.BLL
             return bankInfo;
         }
         #region China Pay
-        public IEnumerable<SysBankInfoFront> GetOnlineBankInfoSysList(int custId)
-        {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
-            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
 
-            var bankInfoList = (from x in bankInfoPayList
-                                where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
-                                select new SysBankInfoFront
-                                {
-                                    SysId = x.SysId,
-                                    BankCode = x.SysBankCode,
-                                    BankLogo = x.BankLogo,
-                                    BankName = x.SysBankName,
-                                }).Distinct(sysBankInfoOffComparer);
-
-            return bankInfoList;
-        }
-
-        public BankInfoPayFront GetOnlineBankInfo(int custId, int sysId)
-        {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
-
-            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
-
-            if (depositLimitInfo?.DepositStatus == 0)
-            {
-                return null;
-            }
-
-            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
-
-            var bankInfo = (from x in bankInfoPayList
-                            where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId
-                            orderby x.PointLevel descending, x.MSort, x.SSort
-                            select new BankInfoPayFront
-                            {
-                                SysId = x.SysId,
-                                PayId = x.PayId,
-                                BankCode = x.BankCode,
-                                BankLogo = x.BankLogo,
-                                BankName = x.SysBankName,/*x.SysBankCode*/
-                                ChannelId = x.ChannelId
-                            }).FirstOrDefault();
-
-            var payCurrency = GetPayCurrency().FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == bankInfo.ChannelId);
-            if (payCurrency != null)
-            {
-                bankInfo.MinAmount = payCurrency.MinAmount;
-                bankInfo.MaxAmount = payCurrency.MaxAmount;
-
-                if (depositLimitInfo != null)
-                {
-                    depositBLL.FixDepositLimit(bankInfo, depositLimitInfo);
-                }
-
-                if (bankInfo.MaxAmount < 0)
-                {
-                    return null;
-                }
-            }
-
-            return bankInfo;
-        }
         #endregion
         public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId)
         {
             var key = $"BankInfoPayList_{siteId}";
-            var bankInfoPayList = cache.Get<IEnumerable<BankInfoPay>>(key);
-            if (bankInfoPayList == null)
-            {
-                bankInfoPayList = bankInfoService.GetBankInfoPayList(siteId).OrderBy(x => x.MSort).OrderBy(x => x.SSort);
-
-                if (bankInfoPayList != null)
-                {
-                    cache.Set(key, bankInfoPayList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)));
-                }
-            }
-
-            return bankInfoPayList;
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<BankInfoPay>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)),
+                i => _bankInfoService.GetBankInfoPayList(siteId).OrderBy(x => x.MSort).ThenBy(x => x.SSort));
         }
         public IEnumerable<PayCurrency> GetPayCurrency()
         {
             var key = "PayCurrency";
-            var payCurrency = cache.Get<IEnumerable<PayCurrency>>(key);
-
-            if (payCurrency == null)
-            {
-                payCurrency = payService.GetPayCurrency();
-                if (payCurrency != null)
-                {
-                    var expireTime = TimeSpan.FromMinutes(5);
-                    cache.Set(key, payCurrency, new MemoryCacheEntryOptions().SetAbsoluteExpiration(expireTime));
-                }
-            }
-
-            return payCurrency;
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<PayCurrency>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
+                i => _payService.GetPayCurrency());
         }
     }
 }

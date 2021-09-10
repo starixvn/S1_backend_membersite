@@ -20,7 +20,6 @@ using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 
 namespace MemberSite.Controllers.Api
 {
@@ -46,7 +45,8 @@ namespace MemberSite.Controllers.Api
         private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
         private readonly Regex _regexUserName = new Regex(@"^[a-zA-Z0-9]{6,18}$");
         private readonly Regex _regexAffCode = new Regex(@"^[0-9]{5,20}$");
-        private readonly ThirdPartyBLL _thirdPartyBll;
+        private readonly ThirdPartyBll _thirdPartyBll;
+        private readonly CacheHelper _cacheHelper;
         // private readonly List<SeoModel> _seoModels;
         // private IConfigurationRoot SeoConfiguration => new ConfigurationBuilder()
         //     .SetBasePath(Directory.GetCurrentDirectory())
@@ -69,7 +69,8 @@ namespace MemberSite.Controllers.Api
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
             _gameCasinoBll = provider.GetRequiredService<GameCasinoBLL>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
-            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBLL>();
+            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
+
             // _seoModels = SeoConfiguration.GetSection("data").Get<List<SeoModel>>();
         }
 
@@ -1239,30 +1240,38 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> CheckResetPwdTokenAsync([FromForm] string key)
         {
             var apiResult = new ApiResult(_selLangBll);
-            if (User.Identity.IsAuthenticated)
-            {
-                apiResult.ErrorCode = 1;
-            }
-            else if (_authBll.Authenticate(key, out CustInfoProfile custInfoProfile))
+            if (_authBll.Authenticate(key, out CustInfoProfile custInfoProfile))
             {
                 Customer customer = null;
                 var userLoginResult = _custInfoBll.UserLoginForResetPwd(custInfoProfile.UserName, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
-                if (userLoginResult == 0)
+                switch (userLoginResult)
                 {
-                    var claims = new List<Claim>
+                    case 0:
                     {
-                        new Claim(ClaimTypes.Name,custInfoProfile.UserName ),
-                        new Claim(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
-                        new Claim("Token",token ),
-                        new Claim("LangId",custInfoProfile.UserLang )
-                    };
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                    apiResult.ErrorCode = 0;
-                }
-                else if (userLoginResult == -3)
-                {
-                    apiResult.ErrorCode = 401;
+                        if (User.Identity.IsAuthenticated && _authorizeBll.GetAuthData().CustId != customer.CustId)
+                        {
+                            apiResult.ErrorCode = 1;
+                        }
+                        else
+                        {
+                            var claims = new List<Claim>
+                            {
+                                new Claim(ClaimTypes.Name, custInfoProfile.UserName),
+                                new Claim(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
+                                new Claim("Token", token),
+                                new Claim("LangId", custInfoProfile.UserLang)
+                            };
+                            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                            apiResult.ErrorCode = 0;
+                        }
+                        
+                        break;
+                    }
+                    
+                    case -3:
+                        apiResult.ErrorCode = 401;
+                        break;
                 }
             }
             else
@@ -1516,6 +1525,9 @@ namespace MemberSite.Controllers.Api
                 tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
                 //取出有byCurrency跟Site設定的遊戲資訊
                 gameCasionByCurrencyAndSite = _casinoBll.GetGameCasinoByCurrencyAndSite(custInfo.CurrencyId, custInfo.SiteId);
+                
+                var blockGames = _casinoBll.GetTpDisableUserByCustId(custInfo.CustId);
+                _casinoBll.ExcludeBlockGames(GameCasinoList, providers, blockGames);
             }
             else
             {
@@ -1680,11 +1692,11 @@ namespace MemberSite.Controllers.Api
 
         [HttpGet, HttpPost]
         public ApiResult<IEnumerable<TpMaintain>> GetTpMaintainList()
-        {
+        {           
             return new ApiResult<IEnumerable<TpMaintain>>()
             {
                 ErrorCode = 0,
-                Data = _thirdPartyBll.GetTpMaintainList(_serverInfoBll.GetServerInfo().SiteId),
+                Data = _thirdPartyBll.GetTpMaintainListWithCache(_serverInfoBll.GetServerInfo().SiteId),
                 Message = $"UtcNow is {DateTime.UtcNow:yyyy/MM/dd HH:mm:ss}"
             };
         }

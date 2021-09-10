@@ -4,7 +4,6 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Caching.Memory;
-using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -244,17 +243,11 @@ namespace MemberSite.Service.BLL
         public Customer GetCustInfoWithCache(int custId)
         {
             var key = $"CustInfo_{custId}";
-            var customer = cache.Get<Customer>(key);
-            if (customer != null)
-            {
-                return customer;
-            }
 
-            customer = custInfoService.GetCustInfo(custId);
-            if (customer != null)
+            if (!cache.TryGetValue(key, out Customer customer))
             {
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetSlidingExpiration(TimeSpan.FromMinutes(1));
+                customer = custInfoService.GetCustInfo(custId);
+                var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(1));
                 cache.Set(key, customer, cacheEntryOptions);
             }
 
@@ -301,16 +294,14 @@ namespace MemberSite.Service.BLL
         public int GetPointLevelWithCache(int custId)
         {
             var key = $"PointLevelCache_{custId}";
-            var pointLevelCache = cache.Get<int?>(key) ?? -1;
-            if (pointLevelCache != -1)
+            if (!cache.TryGetValue(key, out int pointLevelCache))
             {
-                return pointLevelCache;
-            }
-
-            pointLevelCache = custInfoService.GetPointLevel(custId);
-            if (pointLevelCache != 0)
-            {
-                cache.Set(key, pointLevelCache, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
+                pointLevelCache = custInfoService.GetPointLevel(custId);
+                if (pointLevelCache != 0)
+                {
+                    cache.Set(key, pointLevelCache,
+                        new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
+                }
             }
 
             return pointLevelCache;

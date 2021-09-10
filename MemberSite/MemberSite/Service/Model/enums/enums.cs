@@ -146,7 +146,8 @@
         FreeBet = 3,
         WalletBonus = 5,
         Rebate = 6,
-        Cashback = 7
+        Cashback = 7,
+        StaticPage = 8
     }
 
     public enum BonusType

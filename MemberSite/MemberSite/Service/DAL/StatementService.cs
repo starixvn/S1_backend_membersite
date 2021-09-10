@@ -189,5 +189,11 @@ namespace MemberSite.Service.DAL
             }
             return result;
         }
+        public IEnumerable<NetworkList> GetSupportNetwork(int currencyId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var result = conn.Query<NetworkList>("Member_SupportNetwork_Get", new { CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+            return result;
+        }
     }
 }

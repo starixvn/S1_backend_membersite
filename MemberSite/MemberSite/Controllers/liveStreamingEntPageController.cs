@@ -38,6 +38,12 @@ namespace MemberSite.Controllers
                 Ip = ip,
                 SiteName = serverInfo.SiteName
             };
+
+            if ((serverInfo.SiteName == "Bwing" || serverInfo.SiteName == "Goal123") && !User.Identity.IsAuthenticated)
+            {
+                return Content("Please Log In");
+            }
+
             if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();
