@@ -250,7 +250,7 @@ namespace MemberSite
 
             services.AddControllers();
 
-            services.AddOptionListByDB<TpGameTypeOption>("Member_TpGameType_Get");
+            services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

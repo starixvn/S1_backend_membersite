@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +19,7 @@ namespace MemberSite.Service.BLL
         private readonly PromotionBLL promotionBLL;
         private readonly IWebHostEnvironment environment;
         private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
-        private readonly Dictionary<string, IGrouping<int, TpGameTypeOption>> tpGameTypeConfig;
+        private readonly TpGameTypeHelper tpGameTypeHelper;
 
         public BannerBLL(IServiceProvider provider)
         {
@@ -27,8 +28,7 @@ namespace MemberSite.Service.BLL
             environment = provider.GetRequiredService<IWebHostEnvironment>();
             promotionBLL = provider.GetRequiredService<PromotionBLL>();
             siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
-            var tpGameTypeOptions = provider.GetRequiredService<IEnumerable<TpGameTypeOption>>();
-            tpGameTypeConfig = tpGameTypeOptions.GroupBy(item => item.TpId).ToDictionary(item => item.Key.ToString(), item => item);
+            tpGameTypeHelper = provider.GetRequiredService<TpGameTypeHelper>();
         }
 
         public IEnumerable<BannerSettingItem> GetBanner(int perferCurr, string FolderName)
@@ -148,7 +148,7 @@ namespace MemberSite.Service.BLL
                             BannerLink = settings["bannerLink"],
                             BannerPCUrl = settings["bannerPCUrl"],
                             BannerMobileUrl = settings["bannerMobileUrl"],
-                            tpGameType = GetTpGameType(bannerdetail, CurrencyId),
+                            tpGameType = tpGameTypeHelper.GetTpGameType(bannerdetail, CurrencyId),
                         });
                     }
                 }
@@ -194,41 +194,12 @@ namespace MemberSite.Service.BLL
                             Handicap = bannerdetail.Handicap,
                             Logo = logoPic,
                             BackgroundPic = backgroundPic,
-                            tpGameType = GetTpGameType(bannerdetail, CurrencyId)
+                            tpGameType = tpGameTypeHelper.GetTpGameType(bannerdetail, CurrencyId)
                         });
                     }
                 }
             }
-
             return banner;
-        }
-
-        private int GetTpGameType(BannerV3 banner, int currencyId)
-        {
-            if (banner.ActionMode == 2 || banner.ActionMode == 6)//只有這兩種需要回傳tpGameType
-            {
-                var typeList = tpGameTypeConfig[banner.TpId].Where(item => item.CurrencyId == currencyId);
-                if (typeList.Count() == 1)
-                {
-                    return typeList.First().TpGameType;
-                }
-                var tpCategoryId = GetTpCategoryId(banner.BannerType);
-            }
-            return 0;
-        }
-
-        private int GetTpCategoryId(int bannerType)
-        {
-            return bannerType switch
-            {
-                1 => 0,//to getcheck
-                2 => 1,//HotEvent=>Sports
-                3 => 2,//Slots=>Casino
-                4 => 3,//Live Casino=>Live Casino
-                5 => 4,//Fishing=>Fishing
-                6 => 6,//Lottery=>Lottery
-                _ => 0,//HotEvent=>Sports
-            };
-        }
+        }       
     }
 }

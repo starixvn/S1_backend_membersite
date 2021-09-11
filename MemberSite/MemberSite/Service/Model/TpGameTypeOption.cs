@@ -7,9 +7,9 @@ namespace MemberSite.Service.Model
 {
     public class TpGameTypeOption
     {
+        public int Type { get; set; }
+        public string TypeName { get; set; }
         public int TpId { get; set; }
-        public int TpGameType { get; set; }
-        public int TpCategoryId { get; set; }
-        public int CurrencyId { get; set; }
+        public int CategoryId { get; set; }
     }
 }
