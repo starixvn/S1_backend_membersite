@@ -74,6 +74,7 @@ namespace MemberSite
 			services.AddTransient<JsonNetSerializer>();
             services.AddSingleton<IHttpHelper, HttpHelper>();
             services.AddSingleton<CacheHelper>();
+            services.AddSingleton<TpGameTypeHelper>();
             services.AddDatabaseConnection(configuration);
 
             /*DAL*/
