@@ -50,8 +50,6 @@ namespace MemberSite
             .AddJsonFile($"domain.json", false, true)
             .Build();
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public Startup(IConfiguration configuration, IHostEnvironment environment)
         {
             this.configuration = configuration;
@@ -64,6 +62,8 @@ namespace MemberSite
             services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
 
             services.AddMemoryCache();
+            services.AddDatabaseConnection(configuration);
+
             /*Library*/
             services.AddSingleton<Tools>();
             services.AddSingleton<Common>();
@@ -74,8 +74,7 @@ namespace MemberSite
 			services.AddTransient<JsonNetSerializer>();
             services.AddSingleton<IHttpHelper, HttpHelper>();
             services.AddSingleton<CacheHelper>();
-            services.AddDatabaseConnection(configuration);
-
+            
             /*DAL*/
             services.AddSingleton<ServerInfoService>();
             services.AddSingleton<AgentInfoService>();
@@ -93,12 +92,7 @@ namespace MemberSite
             services.AddSingleton<PayService>();
             services.AddSingleton<RolloverService>();
             services.AddSingleton<PromotionService>();
-            services.AddSingleton(serviceProvider =>
-            {
-                var reportDbClient = serviceProvider.GetServices<MySqlClient>()
-                    .First(item => item.Name == "ReportDB");
-                return new CasinoService(configuration, reportDbClient);
-            });
+            services.AddSingleton<CasinoService>();
             services.AddSingleton<StatementService>();
             services.AddSingleton<AuthService>();
             services.AddSingleton<BannerService>();
@@ -109,12 +103,6 @@ namespace MemberSite
             services.AddSingleton<GameCasinoService>();
             services.AddSingleton<LiveStreamingService>();
             services.AddSingleton<LatestHighlightDataService>();
-            // foreach (var s in AppDomain.CurrentDomain.GetAssemblies()
-            //.SelectMany(t => t.GetTypes())
-            //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.DAL"))
-            // {
-            //     services.AddSingleton(s);
-            // }
 
             /*BLL*/
             services.AddSingleton<ServerInfoBLL>();
@@ -151,14 +139,6 @@ namespace MemberSite
 			services.AddTransient<GeoIpBLL>();
 			services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
             services.AddTransient<GeoIpBLL>();
-            //var bll = AppDomain.CurrentDomain.GetAssemblies()
-            //.SelectMany(t => t.GetTypes())
-            //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.BLL");
-
-            //foreach (var s in bll)
-            //{
-            //    services.AddSingleton(s);
-            //}
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();
@@ -216,10 +196,6 @@ namespace MemberSite
             services.AddDataProtection().DisableAutomaticKeyGeneration();
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("CookieKeys")).SetApplicationName("SharedCookieApp");
 
-            //services.ConfigureApplicationCookie(options =>
-            //{
-            //    options.EventsType = typeof(CustomCookieAuthenticationEvents);
-            //});
             services.Configure<WebEncoderOptions>(options =>
             {
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);

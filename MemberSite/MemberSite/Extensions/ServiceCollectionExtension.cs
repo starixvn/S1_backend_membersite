@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -10,18 +11,23 @@ namespace MemberSite.Extensions
         public static IServiceCollection AddDatabaseConnection(this IServiceCollection services, IConfiguration config)
         {
             var provider = services.BuildServiceProvider();
-
-            var mainConn = config.GetConnectionString("ConnectionString");
-            var reportConn = config.GetConnectionString("ConnectionStringReport");
-
             var logger = provider.GetRequiredService<ILogger<MySqlClient>>();
-            services.AddSingleton(serviceProvider => new MySqlClient(mainConn, logger)
+
+            services.AddSingleton(provider => new MySqlClient(config.GetConnectionString("ConnectionString"), logger)
             {
-                Name = "MainDB"
+                DataBase = DataBase.Main
             });
-            services.AddSingleton(serviceProvider => new MySqlClient(reportConn, logger)
+            services.AddSingleton(provider => new MySqlClient(config.GetConnectionString("ConnectionStringReport"), logger)
             {
-                Name = "ReportDB"
+                DataBase = DataBase.Report
+            });
+            services.AddSingleton(provider => new MySqlClient(config.GetConnectionString("ConnectionStringWager"), logger)
+            {
+                DataBase = DataBase.Wager
+            });
+            services.AddSingleton(provider => new MySqlClient(config.GetConnectionString("ConnectionStringLog"), logger)
+            {
+                DataBase = DataBase.Log
             });
 
             return services;

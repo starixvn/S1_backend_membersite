@@ -33,9 +33,8 @@ namespace MemberSite.Service.DAL
         {
             _configuration = serviceProvider.GetRequiredService<IConfiguration>();
             _connectionString = _configuration.GetConnectionString("ConnectionString");
-            var logger = serviceProvider.GetRequiredService<ILogger<MySqlClient>>();
-            _mainDbClient = new MySqlClient(_connectionString, logger);
-            _reportDbClient = new MySqlClient(_configuration.GetConnectionString("ConnectionStringReport"), logger);
+            _mainDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
+            _reportDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
             _common = serviceProvider.GetRequiredService<Common>();
             _walletService = serviceProvider.GetRequiredService<WalletService>();
             _bonusWalletService = serviceProvider.GetRequiredService<BonusWalletService>();
