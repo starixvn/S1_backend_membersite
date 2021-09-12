@@ -312,7 +312,7 @@ namespace MemberSite.Service.DAL
                         {
                             var currentTime = DateTime.UtcNow.AddHours(8);
                             var calculateDate = currentTime
-                                .AddDays(-(int) DateTime.Today.DayOfWeek + (int) DayOfWeek.Monday)
+                                .AddDays(-(int) DateTime.UtcNow.AddHours(8).DayOfWeek + (int) DayOfWeek.Monday)
                                 .ToString("yyyy-MM-dd");
 
                             result = _bonusWalletService.RewardCashBack(
