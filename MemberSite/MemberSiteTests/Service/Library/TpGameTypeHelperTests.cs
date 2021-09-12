@@ -120,6 +120,32 @@ namespace MemberSite.Service.Library.Tests
                 GameId = gameId
             }, 2);
 
+        [TestCase("sports", "3", ExpectedResult = 1)]
+        [TestCase("casino", "245", ExpectedResult = 22)]
+        public int UrlRouter_Test(string urlRouter, string gameId)
+            => _tpGameTypeHelper.GetTpGameType(new BannerV3()
+            {
+                BannerName = $"testBanner",
+                ActionMode = 2,
+                BannerType = 1,
+                UrlRouter = urlRouter,
+                TpId = "1",
+                GameId = gameId
+            }, 2);
+
+        [TestCase("2", ExpectedResult = 9)]
+        [TestCase("3", ExpectedResult = 8)]
+        [TestCase("4", ExpectedResult = 10)]
+        public int TpId_Test(string TpId)
+            => _tpGameTypeHelper.GetTpGameType(new BannerV3()
+            {
+                BannerName = $"testBanner",
+                ActionMode = 2,
+                BannerType = 1,
+                TpId = TpId,
+            }, 2);
+
+
         [Ignore("開發測試用")]
         public void All_Test()
         {

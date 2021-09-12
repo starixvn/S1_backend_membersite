@@ -43,7 +43,7 @@ namespace MemberSite.Service.Library
 
                 if (!tpGameTypeConfig.TryGetValue(banner.TpId, out var typeList))
                 {
-                    return 0;
+                    return -1;
                 }
 
                 //先用bannerType取得TpCategoryId
@@ -84,6 +84,7 @@ namespace MemberSite.Service.Library
 
         public int MainBannerGetTpCategoryId(BannerV3 banner, List<TpGameTypeOption> typeList)
         {
+            //Get by UrlRouter
             if (banner.UrlRouter?.IndexOf("sports") > -1)
             {
                 return 1;
@@ -94,16 +95,24 @@ namespace MemberSite.Service.Library
                 return 2;
             }
 
+            //Get by Saba 
             if (banner.TpId == "1" && int.TryParse(banner.GameId, out int gameId))
             {
                 var (_, tpCategoryId) = GetSabaDetailByGameId(gameId);
                 return tpCategoryId;
             }
 
+            //Get By BannerName
             var result = typeList.FirstOrDefault(itme => banner.BannerName.Contains(itme.TypeName, StringComparison.OrdinalIgnoreCase));
             if (result != null)
             {
                 return result.CategoryId;
+            }
+
+            //Get By TpId
+            if (int.TryParse(banner.TpId, out var TpId) && TpId != 0)
+            {
+                return typeList.FirstOrDefault(itme => itme.TpId == TpId)?.CategoryId ?? 0;
             }
 
             return 0;
