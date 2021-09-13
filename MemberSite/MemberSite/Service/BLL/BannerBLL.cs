@@ -37,9 +37,9 @@ namespace MemberSite.Service.BLL
             var serverInfo = serverInfoBLL.GetServerInfo();
             var dataPath = Path.Combine(environment.WebRootPath, $"datas/{serverInfo.SiteName}_bannerSetting.json");
             var _bannerSetting = new BannerSetting();
-            if (System.IO.File.Exists(dataPath))
+            if (File.Exists(dataPath))
             {
-                _bannerSetting = JsonConvert.DeserializeObject<BannerSetting>(System.IO.File.ReadAllText(dataPath));
+                _bannerSetting = JsonConvert.DeserializeObject<BannerSetting>(File.ReadAllText(dataPath));
             }
 
             if (FolderName == "Promotion")

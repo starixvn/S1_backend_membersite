@@ -30,7 +30,7 @@ namespace MemberSite.Service.BLL
         {
             this.serverInfoBLL = serverInfoBLL;
             this.httpContextAccessor = httpContextAccessor;
-            this.sLangId = null;
+            sLangId = null;
             this.cache = cache;
         }
 

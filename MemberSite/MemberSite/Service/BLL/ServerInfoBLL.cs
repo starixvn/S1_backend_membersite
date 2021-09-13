@@ -24,7 +24,7 @@ namespace MemberSite.Service.BLL
         public ServerInfoBLL(IHttpContextAccessor httpContextAccessor, IMemoryCache cache, ServerInfoService serverInfoService, IConfiguration configuration)
         {
             this.serverInfoService = serverInfoService;
-            this.serverInfo = null;
+            serverInfo = null;
             this.cache = cache;
             this.httpContextAccessor = httpContextAccessor;
             SiteInfoDic = new ConcurrentDictionary<string, int>(StringComparer.OrdinalIgnoreCase);
