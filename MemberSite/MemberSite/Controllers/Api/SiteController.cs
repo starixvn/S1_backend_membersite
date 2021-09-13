@@ -1641,7 +1641,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<AffiliateAgent>();
             apiResult.Data = new AffiliateAgent();
-            var result = _custInfoBll.GetAffiliateAgentBLL(affiliateAgentReq.AffId);
+            var result = _custInfoBll.GetAffiliateAgentBll(affiliateAgentReq.AffId);
             apiResult.ErrorCode = 0;
             if (result > 0)
             {
