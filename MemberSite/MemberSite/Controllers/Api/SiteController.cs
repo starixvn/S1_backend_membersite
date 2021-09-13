@@ -35,7 +35,7 @@ namespace MemberSite.Controllers.Api
         private readonly CommonBLL _commonBll;
         private readonly IWebHostEnvironment _environment;
         private readonly AuthorizeBLL _authorizeBll;
-        private readonly CasinoBLL _casinoBll;
+        private readonly CasinoBll _casinoBll;
         private readonly ServerInfoBLL _serverInfoBll;
         private readonly BannerBLL _bannerBll;
         private readonly AuthBLL _authBll;
@@ -61,7 +61,7 @@ namespace MemberSite.Controllers.Api
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _environment = provider.GetRequiredService<IWebHostEnvironment>();
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
-            _casinoBll = provider.GetRequiredService<CasinoBLL>();
+            _casinoBll = provider.GetRequiredService<CasinoBll>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
             _bannerBll = provider.GetRequiredService<BannerBLL>();
             _authBll = provider.GetRequiredService<AuthBLL>();

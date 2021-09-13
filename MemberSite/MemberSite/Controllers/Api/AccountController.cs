@@ -38,7 +38,7 @@ namespace MemberSite.Controllers.Api
         private readonly PaymentBLL _paymentBll;
         private readonly PromotionBLL _promotionBll;
         private readonly ThirdPartyBll _thirdPartyBll;
-        private readonly CasinoBLL _casinoBll;
+        private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
         private readonly EventsBLL _eventsBll;
         private readonly ServerInfoBLL _serverInfoBll;
@@ -60,7 +60,7 @@ namespace MemberSite.Controllers.Api
             _paymentBll = provider.GetRequiredService<PaymentBLL>();
             _promotionBll = provider.GetRequiredService<PromotionBLL>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
-            _casinoBll = provider.GetRequiredService<CasinoBLL>();
+            _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
             _eventsBll = provider.GetRequiredService<EventsBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();

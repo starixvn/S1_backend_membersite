@@ -33,7 +33,7 @@ namespace MemberSite.Service.BLL.Tests
             
             var memoryCache = Substitute.For<IMemoryCache>();
             var casinoService = Substitute.For<CasinoService>(_configuration);
-            var casinoBll = new CasinoBLL(memoryCache, casinoService);
+            var casinoBll = new CasinoBll(memoryCache, casinoService);
 
 
             var (actualProviderId,actualGameId )= casinoBll.SplitGameInfo(gameInfo);
