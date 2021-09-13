@@ -126,7 +126,7 @@ namespace MemberSite
             services.AddSingleton<BankInfoOffBLL>();
             services.AddSingleton<BankInfoBLL>();
             services.AddSingleton<MobilePayInfoBLL>();
-            services.AddSingleton<CryptoPayInfoBLL>();
+            services.AddSingleton<CryptoPayInfoBll>();
             services.AddSingleton<LoadCardPayInfoBLL>();
             services.AddSingleton<DepositBLL>();
             services.AddSingleton<PaymentBLL>();

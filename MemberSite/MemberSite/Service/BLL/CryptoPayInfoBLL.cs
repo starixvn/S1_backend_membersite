@@ -8,60 +8,45 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
-    public class CryptoPayInfoBLL
+    public class CryptoPayInfoBll
     {
-        private readonly CustInfoBll custInfoBLL;
-        private readonly DepositBLL depositBLL;
-        private readonly PayService payService;
-        private readonly DepoistService depoistService;
-        private readonly IMemoryCache cache;
-        private readonly CourierAdapter courierAdapter;
-        private readonly string payApiUrl;
+        private readonly CustInfoBll _custInfoBll;
+        private readonly DepositBLL _depositBll;
+        private readonly PayService _payService;
+        private readonly DepoistService _depositService;
+        private readonly CourierAdapter _courierAdapter;
+        private readonly string _payApiUrl;
+        private readonly CacheHelper _cacheHelper;
 
-        public CryptoPayInfoBLL(IMemoryCache cache, IConfiguration configuration, PayService payService, DepoistService depoistService, CustInfoBll custInfoBLL, DepositBLL depositBLL, CourierAdapter courierAdapter)
+        public CryptoPayInfoBll(IServiceProvider provider)
         {
-            this.custInfoBLL = custInfoBLL;
-            this.depositBLL = depositBLL;
-            this.payService = payService;
-            this.depoistService = depoistService;
-            this.cache = cache;
-            payApiUrl = configuration.GetValue<string>("PayService");
-            this.courierAdapter = courierAdapter;
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
+            _depositBll = provider.GetRequiredService<DepositBLL>();
+            _payService = provider.GetRequiredService<PayService>();
+            _depositService = provider.GetRequiredService<DepoistService>();
+            _payApiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("PayService");
+            _courierAdapter = provider.GetRequiredService<CourierAdapter>();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
-        public IEnumerable<CryptoPayInfo> GetCryptoPayInfoListWithCache(int siteId)
+
+        private IEnumerable<CryptoPayInfo> GetCryptoPayInfoListWithCache(int siteId)
         {
             var key = $"CryptoPayInfoList_{siteId}";
-            var cryptoPayInfoList = cache.Get<IEnumerable<CryptoPayInfo>>(key);
-            if (cryptoPayInfoList == null)
-            {
-                cryptoPayInfoList = payService.GetCryptoPayInfo(siteId).OrderBy(x => x.GSort).OrderBy(x => x.SSort);
-
-                if (cryptoPayInfoList != null)
-                {
-                    cache.Set(key, cryptoPayInfoList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
-                }
-            }
-
-            return cryptoPayInfoList;
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<CryptoPayInfo>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                i => _payService.GetCryptoPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
         }
-
-        //public class ExchangeRate
-        //{
-        //    public long Updated_timestamp { get; set; }
-        //    public decimal BuyRate { get; set; }
-        //    public decimal SellRate { get; set; }
-        //}
-
-        //public async Task<IEnumerable<CryptoPayInfo>> GetCryptoPayInfoListAsync(int custId/*, int groupId*/)
+        
         public IEnumerable<CryptoPayInfo> GetCryptoPayInfoList(int custId/*, int groupId*/)
         {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
 
-            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.CryptoPayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -103,7 +88,7 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var cryptoPayInfo in cryptoPayInfoList)
                 {
-                    depositBLL.FixDepositLimit(cryptoPayInfo, depositLimitInfo);
+                    _depositBll.FixDepositLimit(cryptoPayInfo, depositLimitInfo);
                 }
             }
 
@@ -115,10 +100,10 @@ namespace MemberSite.Service.BLL
             cryptoPayInfo = null;
             if (amount <= 0)
                 return -1;
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
 
-            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.CryptoPayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -130,7 +115,7 @@ namespace MemberSite.Service.BLL
 
             if (depositLimitInfo != null && cryptoPayInfo != null)
             {
-                depositBLL.FixDepositLimit(cryptoPayInfo, depositLimitInfo);
+                _depositBll.FixDepositLimit(cryptoPayInfo, depositLimitInfo);
             }
 
             if (cryptoPayInfo == null || cryptoPayInfo.MaxAmount < amount || cryptoPayInfo.MinAmount > amount)
@@ -157,7 +142,7 @@ namespace MemberSite.Service.BLL
                 };
                 string postScript = null;
 
-                depoistService.DepositReq(depositDetailInfo, out transId, out postScript);
+                _depositService.DepositReq(depositDetailInfo, out transId, out postScript);
                 return 0;
             }
 
@@ -173,8 +158,8 @@ namespace MemberSite.Service.BLL
                 PayId = payId
 
             };
-            var myUrl = $"{payApiUrl}CryptoExchange";
-            return await courierAdapter.MyPostAsync<PaymentReq, dynamic>(myUrl, exchangeReq);
+            var myUrl = $"{_payApiUrl}CryptoExchange";
+            return await _courierAdapter.MyPostAsync<PaymentReq, dynamic>(myUrl, exchangeReq);
         }
     }
     
