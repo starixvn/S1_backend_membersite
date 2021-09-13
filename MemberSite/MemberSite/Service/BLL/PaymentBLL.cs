@@ -19,10 +19,9 @@ namespace MemberSite.Service.BLL
         private readonly RolloverService rollOverService;
         private readonly StatementService statementService;
         private readonly SelLangBLL selLangBLL;
-        private readonly IMemoryCache cache;
         private readonly Dictionary<string, string> singleWalletType;
 
-        public PaymentBLL(IMemoryCache cache, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBll custInfoBLL, DepositService depositService, WithdrawalService withdrawalService, RolloverService rollOverService, StatementService statementService, SelLangBLL selLangBLL)
+        public PaymentBLL(BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBll custInfoBLL, DepositService depositService, WithdrawalService withdrawalService, RolloverService rollOverService, StatementService statementService, SelLangBLL selLangBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.custInfoBLL = custInfoBLL;
@@ -32,7 +31,6 @@ namespace MemberSite.Service.BLL
             this.rollOverService = rollOverService;
             this.statementService = statementService;
             this.selLangBLL = selLangBLL;
-            this.cache = cache;
           
             singleWalletType = new Dictionary<string, string>
             {
