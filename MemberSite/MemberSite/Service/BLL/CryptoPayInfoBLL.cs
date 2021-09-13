@@ -84,7 +84,7 @@ namespace MemberSite.Service.BLL
             //    }
             //}
 
-            if (depositLimitInfo != null && cryptoPayInfoList != null)
+            if (depositLimitInfo != null)
             {
                 foreach (var cryptoPayInfo in cryptoPayInfoList)
                 {
