@@ -1,40 +1,41 @@
-﻿using MemberSite.Service.DAL;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
     public class ServerInfoBLL
     {
-        private readonly ServerInfoService serverInfoService;
-        //private ConcurrentDictionary<int, ServerInfo> rm = new ConcurrentDictionary<int, ResourceManager>();
-        private ServerInfo serverInfo;/*Single Site*/
-        private readonly IMemoryCache cache;
-        private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly ConcurrentDictionary<string, int> SiteInfoDic;
-        private readonly ConcurrentDictionary<int, ServerInfo> ServerInfoDic;
-        private readonly int fixSiteID = 0;
+        private readonly ServerInfoService _serverInfoService;
+        private ServerInfo _serverInfo;
+        private readonly IMemoryCache _cache;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ConcurrentDictionary<string, int> _siteInfoDic;
+        private readonly ConcurrentDictionary<int, ServerInfo> _serverInfoDic;
+        private readonly int _fixSiteId;
+        private readonly CacheHelper _cacheHelper;
 
-        public ServerInfoBLL(IHttpContextAccessor httpContextAccessor, IMemoryCache cache, ServerInfoService serverInfoService, IConfiguration configuration)
+        public ServerInfoBLL(IServiceProvider provider)
         {
-            this.serverInfoService = serverInfoService;
-            serverInfo = null;
-            this.cache = cache;
-            this.httpContextAccessor = httpContextAccessor;
-            SiteInfoDic = new ConcurrentDictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-            ServerInfoDic = new ConcurrentDictionary<int, ServerInfo>();
-            fixSiteID = configuration.GetValue<int>("SiteId");
+            _serverInfoService = provider.GetRequiredService<ServerInfoService>();
+            _cache = provider.GetRequiredService<IMemoryCache>();
+            _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+            _siteInfoDic = new ConcurrentDictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+            _serverInfoDic = new ConcurrentDictionary<int, ServerInfo>();
+            _fixSiteId = provider.GetRequiredService<IConfiguration>().GetValue<int>("SiteId");
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
         public ServerInfo GetServerInfo()
         {
-            var host = httpContextAccessor.HttpContext.Request.Host.Host;
+            var host = _httpContextAccessor.HttpContext.Request.Host.Host;
             var dotIndex = host.IndexOf(".");
             if (dotIndex > -1)
             {
@@ -42,48 +43,46 @@ namespace MemberSite.Service.BLL
             }
 
             var siteId = 1;
-            if (fixSiteID != 0)
+            if (_fixSiteId != 0)
             {
-                siteId = fixSiteID;
+                siteId = _fixSiteId;
             }
             else
             {
                 var key = $"{host}";
-                if (cache.Get<ServerInfo>(key) != null)
+                if (_cache.TryGetValue<ServerInfo>(key, out var serverInfo))
                 {
-                    return cache.Get<ServerInfo>(key);
+                    return serverInfo;
                 }
 
-                if (!SiteInfoDic.ContainsKey(host))
+                if (!_siteInfoDic.ContainsKey(host))
                 {
-                    var _siteId = serverInfoService.GetSite(host);
+                    var _siteId = _serverInfoService.GetSite(host);
                     if (_siteId == 0)
                     {
-                        cache.Set(key, GetServerInfo(1), new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
+                        _cache.Set(key, GetServerInfo(1), new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
                         return GetServerInfo(1);
                     }
-                    else
-                    {
-                        SiteInfoDic.TryAdd(host, _siteId);
-                    }
+
+                    _siteInfoDic.TryAdd(host, _siteId);
                 }
 
-                siteId = SiteInfoDic[host];
+                siteId = _siteInfoDic[host];
             }
 
-            serverInfo = GetServerInfo(siteId);
-            serverInfo.host = host;
-            return serverInfo;
+            _serverInfo = GetServerInfo(siteId);
+            _serverInfo.host = host;
+            return _serverInfo;
         }
 
         private ServerInfo GetServerInfo(int siteId)
         {
-            if (!ServerInfoDic.ContainsKey(siteId))
+            if (!_serverInfoDic.ContainsKey(siteId))
             {
-                var serverInfo = serverInfoService.GetModel(siteId);
+                var serverInfo = _serverInfoService.GetModel(siteId);
                 if (serverInfo != null)
                 {
-                    ServerInfoDic.TryAdd(siteId, serverInfo);
+                    _serverInfoDic.TryAdd(siteId, serverInfo);
                 }
                 else
                 {
@@ -91,46 +90,34 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            return ServerInfoDic[siteId];
+            return _serverInfoDic[siteId];
         }
         public IEnumerable<Country> GetCountryList()
         {
-            var countryList = serverInfoService.GetCountryList();
+            var countryList = _serverInfoService.GetCountryList();
             return countryList;
         }
 
         public void ResetServerInfo()
         {
-            SiteInfoDic.Clear();
+            _siteInfoDic.Clear();
         }
 
         public string GetDomain()
         {
-            return httpContextAccessor.HttpContext.Request.Host.Host;
+            return _httpContextAccessor.HttpContext.Request.Host.Host;
         }
         public IEnumerable<Domainlist> GetSupportDomainList(int siteId, int currencyId)
         {
-            return serverInfoService.GetSupportDomainList(siteId, currencyId);
+            return _serverInfoService.GetSupportDomainList(siteId, currencyId);
         }
 
         public IEnumerable<Domainlist> GetSupportDomainListWithCache(int siteId, int currencyId)
         {
             var key = $"GetSupportDomainListWithCache_{siteId}_{currencyId}";
-            var supportDomainList = cache.Get<IEnumerable<Domainlist>>(key);
-            if (supportDomainList != null && supportDomainList.Any())
-            {
-                return supportDomainList;
-            }
-
-            supportDomainList = GetSupportDomainList(siteId, currencyId);
-            if (supportDomainList != null && supportDomainList.Any())
-            {
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromMinutes(5));
-                cache.Set(key, supportDomainList, cacheEntryOptions);
-            }
-
-            return supportDomainList;
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<Domainlist>>(key,
+                new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(5)),
+                i => GetSupportDomainList(siteId, currencyId));
         }
     }
 }
