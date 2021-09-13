@@ -7,7 +7,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -255,11 +254,6 @@ namespace MemberSite.Service.BLL
                 i => _custInfoService.GetCustInfoByMail(email, serverInfo.SiteId));
         }
 
-        public int GetPointLevel(int custId)
-        {
-            return _custInfoService.GetPointLevel(custId);
-        }
-
         public int GetPointLevelWithCache(int custId)
         {
             var key = $"PointLevelCache_{custId}";
@@ -445,35 +439,7 @@ namespace MemberSite.Service.BLL
         {
             return _custInfoService.SetCustPhotoId(custId, siteId, picFileName, photoIdPic);
         }
-        public async Task ForgetPwdAsync(int custId)
-        {
-            var custInfo = GetCustInfoWithCache(custId);
-            var serverInfo = _serverInfoBll.GetServerInfo();
-            var custInfoProfile = _custInfoService.GetCustInfoProfile(custId, custInfo.SiteId);
 
-            if (custInfoProfile?.Email != null)
-            {
-                var path = $@"{_environment.ContentRootPath}\App_Data\{serverInfo.SiteName}\email\{custInfo.UserLang}\new_password.html";
-                string MailBody = null;
-                if (File.Exists(path))
-                {
-                    MailBody = File.ReadAllText(path);
-                    MailBody = MailBody.Replace("{SiteName}", serverInfo.SiteName);
-                    MailBody = MailBody.Replace("{UserName}", custInfo.UserName);
-                    var SendDate = new DateTimeOffset(DateTime.Now).ToOffset(TimeSpan.FromHours(8)).ToString("yyyy-MM-dd hh:mm:sstt", System.Globalization.CultureInfo.InvariantCulture);
-                    MailBody = MailBody.Replace("{SendDate}", SendDate);
-                    _codeGenerator.Maximum = 8;
-                    _codeGenerator.Minimum = 6;
-                    _codeGenerator.RepeatCharacters = true;
-                    var NewPassword = _codeGenerator.Generate();
-                    var md5NewPassword = _tools.MD5Encrypt(NewPassword);
-                    _custInfoService.SetResetPwd(custId, md5NewPassword);
-                    MailBody = MailBody.Replace("{NewPassword}", NewPassword);
-                }
-
-                await _common.SendMailAsync(serverInfo.SiteName, null, custInfo.UserName, custInfoProfile.Email, _selLangBll.GetResourceValue("lbl_ForgetPassword"), MailBody);
-            }
-        }
         public void ForgetPwd1(int custId, string resetPasswordUrl)
         {
             _commonBll.SendResetPwdMail(custId, resetPasswordUrl);
