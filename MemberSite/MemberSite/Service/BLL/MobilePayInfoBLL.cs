@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
-    public class MobilePayInfoBLL
+    public class MobilePayInfoBll
     {
         private readonly PayService _payService;
         private readonly DepositService _depositService;
@@ -18,7 +18,7 @@ namespace MemberSite.Service.BLL
         private readonly CustInfoBll _custInfoBll;
         private readonly MobilePayGroupComparer _mobilePayGroupComparer;
         private readonly CacheHelper _cacheHelper;
-        public MobilePayInfoBLL(IServiceProvider provider)
+        public MobilePayInfoBll(IServiceProvider provider)
         {
             _payService = provider.GetRequiredService<PayService>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
