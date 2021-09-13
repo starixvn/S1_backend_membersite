@@ -11,17 +11,17 @@ namespace MemberSite.Service.BLL
     public class MobilePayInfoBLL
     {
         private readonly PayService payService;
-        private readonly DepoistService depoistService;
+        private readonly DepositService _depositService;
         private readonly DepositBLL depositBLL;
         private readonly IMemoryCache cache;
         private readonly CustInfoBll custInfoBLL;
         private readonly MobilePayGroupComparer mobilePayGroupComparer;
-        public MobilePayInfoBLL(IMemoryCache cache, PayService payService, DepoistService depoistService, CustInfoBll custInfoBLL, DepositBLL depositBLL)
+        public MobilePayInfoBLL(IMemoryCache cache, PayService payService, DepositService depositService, CustInfoBll custInfoBLL, DepositBLL depositBLL)
         {
             this.payService = payService;
             this.cache = cache;
             this.custInfoBLL = custInfoBLL;
-            this.depoistService = depoistService;
+            this._depositService = depositService;
             this.depositBLL = depositBLL;
             mobilePayGroupComparer = new MobilePayGroupComparer();
         }
@@ -166,7 +166,7 @@ namespace MemberSite.Service.BLL
                     DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(mobilePayInfo)
                 };
 
-                depoistService.DepositReq(depositDetailInfo, out transId, out _);
+                _depositService.DepositReq(depositDetailInfo, out transId, out _);
                 return 0;
             }
 

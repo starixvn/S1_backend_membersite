@@ -81,7 +81,7 @@ namespace MemberSite
             services.AddSingleton<AgentInfoService>();
             services.AddSingleton<CustInfoService>();
             services.AddSingleton<AuthenticateService>();
-            services.AddSingleton<DepoistService>();
+            services.AddSingleton<DepositService>();
             services.AddSingleton<WithdrawalService>();
             services.AddSingleton<BankInfoOffService>();
             services.AddSingleton<BankInfoService>();

@@ -11,12 +11,12 @@ namespace MemberSite.Service.BLL
 {
     public class DepositBLL
     {
-        private readonly DepoistService _depositService;
+        private readonly DepositService _depositService;
         private readonly CacheHelper _cacheHelper;
 
         public DepositBLL(IServiceProvider provider)
         {
-            _depositService = provider.GetRequiredService<DepoistService>();
+            _depositService = provider.GetRequiredService<DepositService>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 

@@ -13,7 +13,7 @@ namespace MemberSite.Service.BLL
     {
         private readonly BankInfoOffBLL bankInfoOffBLL;
         private readonly CustInfoBll custInfoBLL;
-        private readonly DepoistService depoistService;
+        private readonly DepositService _depositService;
         private readonly WithdrawalService withdrawalService;
         private readonly BankInfoBLL bankInfoBLL;
         private readonly RolloverService rollOverService;
@@ -22,11 +22,11 @@ namespace MemberSite.Service.BLL
         private readonly IMemoryCache cache;
         private readonly Dictionary<string, string> singleWalletType;
 
-        public PaymentBLL(IMemoryCache cache, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBll custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService, RolloverService rollOverService, StatementService statementService, SelLangBLL selLangBLL)
+        public PaymentBLL(IMemoryCache cache, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBll custInfoBLL, DepositService depositService, WithdrawalService withdrawalService, RolloverService rollOverService, StatementService statementService, SelLangBLL selLangBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.custInfoBLL = custInfoBLL;
-            this.depoistService = depoistService;
+            this._depositService = depositService;
             this.withdrawalService = withdrawalService;
             this.bankInfoBLL = bankInfoBLL;
             this.rollOverService = rollOverService;
@@ -63,7 +63,7 @@ namespace MemberSite.Service.BLL
             var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
             var bankAccountOffList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
             var localBankList = bankAccountOffList?.ToList();
-            var depositLimitInfoList = depoistService.GetDepositLimitInfoList();
+            var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
             var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
                 x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank &&
                 x.CurrencyId == custInfo.CurrencyId);
@@ -120,7 +120,7 @@ namespace MemberSite.Service.BLL
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
 
-                depoistService.DepositReq(depositDetailInfo, out var transId, out var postScript);
+                _depositService.DepositReq(depositDetailInfo, out var transId, out var postScript);
                 depositRep3.TransId = transId;
                 depositRep3.PostScript = postScript;
                 depositRep3.AccountNo = depositInfo3_1.AccountNo;
@@ -175,7 +175,7 @@ namespace MemberSite.Service.BLL
             var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
             var bankAccountOffList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
             var localBankList = bankAccountOffList?.ToList();
-            var depositLimitInfoList = depoistService.GetDepositLimitInfoList();
+            var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -230,7 +230,7 @@ namespace MemberSite.Service.BLL
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
                 
-                depoistService.DepositReqwithFrom(depositDetailInfo, depositFromInfo, out var transId, out var postScript);
+                _depositService.DepositReqwithFrom(depositDetailInfo, depositFromInfo, out var transId, out var postScript);
 
                 depositRep3.TransId = transId;
                 depositRep3.PostScript = postScript;
@@ -284,7 +284,7 @@ namespace MemberSite.Service.BLL
             var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
             var bankAccountOffList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
             var localBankList = bankAccountOffList?.ToList();
-            var depositLimitInfoList = depoistService.GetDepositLimitInfoList();
+            var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -338,7 +338,7 @@ namespace MemberSite.Service.BLL
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
 
-                //depoistService.DepositReq(depositDetailInfo, out var transId, out var postScript);
+                //depositService.DepositReq(depositDetailInfo, out var transId, out var postScript);
                 var transId = "";
                 var postScript = "";
                 depositRep3.TransId = transId;
@@ -394,7 +394,7 @@ namespace MemberSite.Service.BLL
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var payCurrency = bankInfoBLL.GetPayCurrency().FirstOrDefault(x => x.ChannelId == channelId && custInfo.CurrencyId == x.CurrencyId);
 
-            var depositLimitInfoList = depoistService.GetDepositLimitInfoList();
+            var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
             var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
 
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
@@ -441,7 +441,7 @@ namespace MemberSite.Service.BLL
                     DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(onlineBank)
                 };
 
-                depoistService.DepositReq(depositDetailInfo, out transId, out var postScript);
+                _depositService.DepositReq(depositDetailInfo, out transId, out var postScript);
                 return 0;
             }
 
@@ -510,7 +510,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var depositInfoRecent = depoistService.GetDepositInfoRecent(custId, CustInfo.SiteId, 5);
+            var depositInfoRecent = _depositService.GetDepositInfoRecent(custId, CustInfo.SiteId, 5);
             foreach (var depositInfo in depositInfoRecent)
             {
                 if (depositInfo.DepositType == (int)DepositType.LocalBank)
@@ -534,7 +534,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<DepositInfoHistory> GetDepositInfoHistory(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var depositInfoHistory = depoistService.GetDepositInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
+            var depositInfoHistory = _depositService.GetDepositInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
 
             foreach (var depositInfo in depositInfoHistory)
             {
@@ -662,14 +662,14 @@ namespace MemberSite.Service.BLL
             var depositId = 0;
             var m = Regex.Match(transId, @"\d+");
             int.TryParse(m.Value, out depositId);
-            return depoistService.SetDepositReceipt(custId, depositId, refNo, depositTime);
+            return _depositService.SetDepositReceipt(custId, depositId, refNo, depositTime);
         }
         public int SetDepositReceiptPic(int custId, string transId, string picFileName, byte[] depositPic)
         {
             var depositId = 0;
             var m = Regex.Match(transId, @"\d+");
             int.TryParse(m.Value, out depositId);
-            return depoistService.SetDepositReceiptPic(custId, depositId, picFileName, depositPic);
+            return _depositService.SetDepositReceiptPic(custId, depositId, picFileName, depositPic);
         }
         public int SetDepositCancel(int custId, string transId)
         {
@@ -677,7 +677,7 @@ namespace MemberSite.Service.BLL
             var m = Regex.Match(transId, @"\d+");
             int.TryParse(m.Value, out depositId);
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            return depoistService.SetDepositCancel(CustInfo.CustId, depositId, CustInfo.SiteId);
+            return _depositService.SetDepositCancel(CustInfo.CustId, depositId, CustInfo.SiteId);
         }
 
         public int SetWithdrawalCancel(int custId, string transId)
@@ -694,7 +694,7 @@ namespace MemberSite.Service.BLL
             var m = Regex.Match(transId, @"\d+");
             int.TryParse(m.Value, out depositId);
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            return depoistService.GetDepositReceipt(depositId, CustInfo.SiteId);
+            return _depositService.GetDepositReceipt(depositId, CustInfo.SiteId);
         }
         public Rollover ReachedRollover(int custId)
         {

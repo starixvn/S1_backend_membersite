@@ -16,7 +16,7 @@ namespace MemberSite.Service.BLL
         private readonly CustInfoBll _custInfoBll;
         private readonly DepositBLL _depositBll;
         private readonly PayService _payService;
-        private readonly DepoistService _depositService;
+        private readonly DepositService _depositService;
         private readonly LoadCardPayGroupComparer _loadCardGroupComparer;
         private readonly CacheHelper _cacheHelper;
         
@@ -25,7 +25,7 @@ namespace MemberSite.Service.BLL
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
             _payService = provider.GetRequiredService<PayService>();
-            _depositService = provider.GetRequiredService<DepoistService>();
+            _depositService = provider.GetRequiredService<DepositService>();
             _loadCardGroupComparer = new LoadCardPayGroupComparer();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
