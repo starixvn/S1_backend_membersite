@@ -5,42 +5,35 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MemberSite.Service.Library;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
     public class MobilePayInfoBLL
     {
-        private readonly PayService payService;
+        private readonly PayService _payService;
         private readonly DepositService _depositService;
-        private readonly DepositBLL depositBLL;
-        private readonly IMemoryCache cache;
-        private readonly CustInfoBll custInfoBLL;
-        private readonly MobilePayGroupComparer mobilePayGroupComparer;
-        public MobilePayInfoBLL(IMemoryCache cache, PayService payService, DepositService depositService, CustInfoBll custInfoBLL, DepositBLL depositBLL)
+        private readonly DepositBLL _depositBll;
+        private readonly CustInfoBll _custInfoBll;
+        private readonly MobilePayGroupComparer _mobilePayGroupComparer;
+        private readonly CacheHelper _cacheHelper;
+        public MobilePayInfoBLL(IServiceProvider provider)
         {
-            this.payService = payService;
-            this.cache = cache;
-            this.custInfoBLL = custInfoBLL;
-            this._depositService = depositService;
-            this.depositBLL = depositBLL;
-            mobilePayGroupComparer = new MobilePayGroupComparer();
+            _payService = provider.GetRequiredService<PayService>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
+            _depositService = provider.GetRequiredService<DepositService>();
+            _depositBll = provider.GetRequiredService<DepositBLL>();
+            _mobilePayGroupComparer = new MobilePayGroupComparer();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
         public IEnumerable<MobilePayInfo> GetMobilePayInfoList(int siteId)
         {
             var key = $"MobilePayInfoList_{siteId}";
-            var mobilePayInfoList = cache.Get<IEnumerable<MobilePayInfo>>(key);
-            if (mobilePayInfoList == null)
-            {
-                mobilePayInfoList = payService.GetMobilePayInfo(siteId).OrderBy(x => x.GSort).OrderBy(x => x.SSort);
-
-                if (mobilePayInfoList != null)
-                {
-                    cache.Set(key, mobilePayInfoList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
-                }
-            }
-
-            return mobilePayInfoList;
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<MobilePayInfo>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                i => _payService.GetMobilePayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
         }
         private class MobilePayGroupComparer : IEqualityComparer<MobilePayGroup>
         {
@@ -56,11 +49,11 @@ namespace MemberSite.Service.BLL
         }
         public IEnumerable<MobilePayGroup> GetMobilePayGroupList(int custId)
         {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var mobilePayInfoList = GetMobilePayInfoList(custInfo.SiteId);
 
-            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.MobilePayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -89,17 +82,17 @@ namespace MemberSite.Service.BLL
                                                        {
                                                            y.MaxAmount
                                                        }).OrderByDescending(y => y.MaxAmount).FirstOrDefault().MaxAmount
-                                      }).Distinct(mobilePayGroupComparer);
+                                      }).Distinct(_mobilePayGroupComparer);
 
             return mobilePayGroupList;
         }
 
         public IEnumerable<MobilePayInfo> GetMobilePayInfoList(int custId, int groupId)
         {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
 
-            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.MobilePayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -113,7 +106,7 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var mobilePayInfo in mobilePayInfoList)
                 {
-                    depositBLL.FixDepositLimit(mobilePayInfo, depositLimitInfo);
+                    _depositBll.FixDepositLimit(mobilePayInfo, depositLimitInfo);
                 }
             }
 
@@ -125,10 +118,10 @@ namespace MemberSite.Service.BLL
             mobilePayInfo = null;
             if (amount <= 0)
                 return -1;
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
 
-            var depositLimitInfoList = depositBLL.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.MobilePayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -140,7 +133,7 @@ namespace MemberSite.Service.BLL
 
             if (depositLimitInfo != null && mobilePayInfo != null)
             {
-                depositBLL.FixDepositLimit(mobilePayInfo, depositLimitInfo);
+                _depositBll.FixDepositLimit(mobilePayInfo, depositLimitInfo);
             }
 
             if (mobilePayInfo == null || mobilePayInfo.MaxAmount < amount || mobilePayInfo.MinAmount > amount)
