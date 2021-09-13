@@ -14,11 +14,11 @@ namespace MemberSite.Service.BLL
     {
         private readonly BannerService bannerService;
         private readonly ServerInfoBLL serverInfoBLL;
-        private readonly PromotionBLL promotionBLL;
+        private readonly PromotionBll promotionBLL;
         private readonly IWebHostEnvironment environment;
         private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
 
-        public BannerBLL(BannerService bannerService, ServerInfoBLL serverInfoBLL, IWebHostEnvironment environment, PromotionBLL promotionBLL, IOptions<Dictionary<string, SiteConfig>> siteConfig)
+        public BannerBLL(BannerService bannerService, ServerInfoBLL serverInfoBLL, IWebHostEnvironment environment, PromotionBll promotionBLL, IOptions<Dictionary<string, SiteConfig>> siteConfig)
         {
             this.bannerService = bannerService;
             this.serverInfoBLL = serverInfoBLL;

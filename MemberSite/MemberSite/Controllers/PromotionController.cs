@@ -9,12 +9,12 @@ namespace MemberSite.Controllers
     {
         private readonly SelLangBLL selLangBLL;
         private readonly TemplateBLL templateBLL;
-        private readonly PromotionBLL promotionBLL;
+        private readonly PromotionBll promotionBLL;
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly CustInfoBll custInfoBLL;
         private readonly AuthorizeBLL authorizeBLL;
 
-        public PromotionController(SelLangBLL selLangBLL, TemplateBLL templateBLL, PromotionBLL promotionBLL, ServerInfoBLL serverInfoBLL, CustInfoBll custInfoBLL, AuthorizeBLL authorizeBLL)
+        public PromotionController(SelLangBLL selLangBLL, TemplateBLL templateBLL, PromotionBll promotionBLL, ServerInfoBLL serverInfoBLL, CustInfoBll custInfoBLL, AuthorizeBLL authorizeBLL)
         {
             this.selLangBLL = selLangBLL;
             this.templateBLL = templateBLL;

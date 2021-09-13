@@ -26,9 +26,9 @@ namespace MemberSite.Controllers
         private readonly WalletBLL walletBLL;
         private readonly SelLangBLL selLangBLL;
         private readonly MessageService messageService;
-        private readonly PromotionBLL promotionBLL;
+        private readonly PromotionBll promotionBLL;
 
-        public TestController(PromotionBLL promotionBLL, WalletBLL walletBLL, WalletService walletService, IBCDBLibrary iBCDBLibrary, IWebHostEnvironment environment, ServerInfoService serverInfoService, AgentInfoService agentInfoService, CustInfoService custInfoService, CustInfoBll custInfoBLL, AuthenticateService userLoginLogService, Tools tools, DepoistService depoistService, BankInfoOffService bankInfoService, SelLangBLL selLangBLL, MessageService messageService)
+        public TestController(PromotionBll promotionBLL, WalletBLL walletBLL, WalletService walletService, IBCDBLibrary iBCDBLibrary, IWebHostEnvironment environment, ServerInfoService serverInfoService, AgentInfoService agentInfoService, CustInfoService custInfoService, CustInfoBll custInfoBLL, AuthenticateService userLoginLogService, Tools tools, DepoistService depoistService, BankInfoOffService bankInfoService, SelLangBLL selLangBLL, MessageService messageService)
         {
             this.serverInfoService = serverInfoService;
             this.agentInfoService = agentInfoService;

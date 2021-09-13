@@ -36,7 +36,7 @@ namespace MemberSite.Controllers.Api
         private readonly int _mainWalletType;
         private readonly MessageBll _messageBll;
         private readonly PaymentBLL _paymentBll;
-        private readonly PromotionBLL _promotionBll;
+        private readonly PromotionBll _promotionBll;
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
@@ -58,7 +58,7 @@ namespace MemberSite.Controllers.Api
             _isJwt = configuration.GetValue<bool>("JwtSettings:IsJwt");
             _messageBll = provider.GetRequiredService<MessageBll>();
             _paymentBll = provider.GetRequiredService<PaymentBLL>();
-            _promotionBll = provider.GetRequiredService<PromotionBLL>();
+            _promotionBll = provider.GetRequiredService<PromotionBll>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
