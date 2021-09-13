@@ -44,8 +44,7 @@ namespace MemberSite.Service.BLL
         }
         public void SetIovation(int custId, string iovation, IovationType type)
         {
-            string typeName;
-            iovationType.TryGetValue((int)type, out typeName);
+            iovationType.TryGetValue((int)type, out var typeName);
             iovationService.SetIovation(custId, iovation, typeName);
         }
         public async Task<ApiResult> IovationChecks(int CustId, int CurrencyId, string UserName, string blackbox, IovationType type)
@@ -76,8 +75,7 @@ namespace MemberSite.Service.BLL
             transactionInsight.Add("onlineId", UserName);
             transactionInsight.Add("billingCountry", CountryName);
             transactionInsight.Add("valueCurrency", Currencyname);
-            string typeName;
-            iovationType.TryGetValue((int)type, out typeName);
+            iovationType.TryGetValue((int)type, out var typeName);
             dynamic req = new
             {
                 accountCode = CustId,

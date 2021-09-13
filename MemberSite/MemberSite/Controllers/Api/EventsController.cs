@@ -306,10 +306,8 @@ namespace MemberSite.Controllers.Api
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var serverInfo = serverInfoBLL.GetServerInfo();
             var eventId = drawPrizeReq.eventId;
-            string EventName;
-            string ConditionSP;
-            
-            eventsBLL.GetEventDrawInfoWithCache(eventId,out EventName,out ConditionSP);
+
+            eventsBLL.GetEventDrawInfoWithCache(eventId,out var EventName,out var ConditionSP);
 
             if ((custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted) &&(eventId < 6))
             {

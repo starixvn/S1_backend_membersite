@@ -34,9 +34,7 @@ namespace MemberSite.Controllers.Api
             {
                 var serverInfo = serverInfoBLL.GetServerInfo();
                 var pageNumber = NewsReq.PageNumber;
-                int totalPages;
-                int rowCount;
-                result.Data = newsBLL.GetNews(serverInfo.SiteId, NewsReq.PageSize, ref pageNumber, out totalPages, out rowCount);
+                result.Data = newsBLL.GetNews(serverInfo.SiteId, NewsReq.PageSize, ref pageNumber, out var totalPages, out var rowCount);
                 result.PageNumber = pageNumber;
                 result.TotalPages = totalPages;
                 result.RowCount = rowCount;

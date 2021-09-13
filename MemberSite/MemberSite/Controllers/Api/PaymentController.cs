@@ -118,9 +118,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<DepositInfoHistory>();
             var pageNumber = historyReq.PageNumber;
-            int totalPages;
-            int rowCount;
-            apiResult.Data = paymentBLL.GetDepositInfoHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
+            apiResult.Data = paymentBLL.GetDepositInfoHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out var totalPages, out var rowCount);
             apiResult.PageNumber = pageNumber;
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;
@@ -134,9 +132,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<WithdrawalHistory>();
             var pageNumber = historyReq.PageNumber;
-            int totalPages;
-            int rowCount;
-            apiResult.Data = paymentBLL.GetWithdrawalInfoHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
+            apiResult.Data = paymentBLL.GetWithdrawalInfoHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out var totalPages, out var rowCount);
             apiResult.PageNumber = pageNumber;
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;
@@ -1046,9 +1042,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<Statement>();
             var pageNumber = historyReq.PageNumber;
-            int totalPages;
-            int rowCount;
-            apiResult.Data = paymentBLL.GetStatement(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
+            apiResult.Data = paymentBLL.GetStatement(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out var totalPages, out var rowCount);
             apiResult.PageNumber = pageNumber;
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;
@@ -1068,9 +1062,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<BounsLogStatement>();
             var pageNumber = bounsLogReq.PageNumber;
-            int totalPages;
-            int rowCount;
-            apiResult.Data = paymentBLL.GetBounsLogStatement(authData.CustId, bounsLogReq.PromoCategoryId, bounsLogReq.StartDate, bounsLogReq.EndDate, ref pageNumber, out totalPages, out rowCount);
+            apiResult.Data = paymentBLL.GetBounsLogStatement(authData.CustId, bounsLogReq.PromoCategoryId, bounsLogReq.StartDate, bounsLogReq.EndDate, ref pageNumber, out var totalPages, out var rowCount);
             apiResult.PageNumber = pageNumber;
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;

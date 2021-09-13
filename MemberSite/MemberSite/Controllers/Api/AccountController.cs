@@ -507,9 +507,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiListResult<Msg>();
             var pageNumber = msgReq.PageNumber;
-            int totalPages;
-            int rowCount;
-            apiResult.Data = _messageBll.GetMsgList(authData.CustId, 5, ref pageNumber, out totalPages, out rowCount);
+            apiResult.Data = _messageBll.GetMsgList(authData.CustId, 5, ref pageNumber, out var totalPages, out var rowCount);
             apiResult.PageNumber = pageNumber;
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;

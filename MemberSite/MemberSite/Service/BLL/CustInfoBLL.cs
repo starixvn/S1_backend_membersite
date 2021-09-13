@@ -271,10 +271,9 @@ namespace MemberSite.Service.BLL
 
             var md5OldPassword = _tools.MD5Encrypt(oldPassword);
             var md5NewPassword = _tools.MD5Encrypt(newPassword);
-            string md5Userpwd = null;
 
 
-            var isSet = _custInfoService.SetPassword(custId, md5OldPassword, md5NewPassword, out md5Userpwd);
+            var isSet = _custInfoService.SetPassword(custId, md5OldPassword, md5NewPassword, out var md5Userpwd);
             if (!isSet)
             {
                 if (md5OldPassword != md5Userpwd)

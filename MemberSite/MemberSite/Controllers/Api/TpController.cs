@@ -543,9 +543,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiListResult<TpTransferInfoHistory>();
             var pageNumber = historyReq.PageNumber;
-            int totalPages;
-            int rowCount;
-            apiResult.Data = _thirdPartyBll.GetTransferHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
+            apiResult.Data = _thirdPartyBll.GetTransferHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out var totalPages, out var rowCount);
             apiResult.PageNumber = pageNumber;
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;
