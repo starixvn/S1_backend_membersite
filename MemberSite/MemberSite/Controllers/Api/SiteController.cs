@@ -41,7 +41,7 @@ namespace MemberSite.Controllers.Api
         private readonly AuthBLL _authBll;
         private readonly IovationBLL _iovationBll;
         private readonly FPSBLL _sFpsBll;
-        private readonly GameCasinoBLL _gameCasinoBll;
+        private readonly GameCasinoBll _gameCasinoBll;
         private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
         private readonly Regex _regexUserName = new Regex(@"^[a-zA-Z0-9]{6,18}$");
         private readonly Regex _regexAffCode = new Regex(@"^[0-9]{5,20}$");
@@ -67,7 +67,7 @@ namespace MemberSite.Controllers.Api
             _authBll = provider.GetRequiredService<AuthBLL>();
             _iovationBll = provider.GetRequiredService<IovationBLL>();
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
-            _gameCasinoBll = provider.GetRequiredService<GameCasinoBLL>();
+            _gameCasinoBll = provider.GetRequiredService<GameCasinoBll>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
 

@@ -144,7 +144,7 @@ namespace MemberSite
             services.AddSingleton<IovationBLL>();
             services.AddSingleton<FPSBLL>();
             services.AddSingleton<EventsBLL>();
-            services.AddSingleton<GameCasinoBLL>();
+            services.AddSingleton<GameCasinoBll>();
             services.AddSingleton<LiveStreamingBLL>();
             services.AddSingleton<LatestHighlightDataBll>();
             services.AddSingleton<GameBLL>();
