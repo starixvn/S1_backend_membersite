@@ -131,7 +131,7 @@ namespace MemberSite
             services.AddSingleton<DepositBLL>();
             services.AddSingleton<PaymentBLL>();
             services.AddSingleton<ThirdPartyBll>();
-            services.AddSingleton<MessageBLL>();
+            services.AddSingleton<MessageBll>();
             services.AddSingleton<PromotionBLL>();
             services.AddSingleton<GamingBLL>();
             services.AddSingleton<CasinoBLL>();

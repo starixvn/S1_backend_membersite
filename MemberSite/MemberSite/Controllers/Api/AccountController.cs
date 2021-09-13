@@ -34,7 +34,7 @@ namespace MemberSite.Controllers.Api
         private readonly string _apiUrl;
         private readonly bool _isJwt;
         private readonly int _mainWalletType;
-        private readonly MessageBLL _messageBll;
+        private readonly MessageBll _messageBll;
         private readonly PaymentBLL _paymentBll;
         private readonly PromotionBLL _promotionBll;
         private readonly ThirdPartyBll _thirdPartyBll;
@@ -56,7 +56,7 @@ namespace MemberSite.Controllers.Api
             _apiUrl = configuration.GetValue<string>("TpService");
             _mainWalletType = configuration.GetValue<int>("MainWalletType");
             _isJwt = configuration.GetValue<bool>("JwtSettings:IsJwt");
-            _messageBll = provider.GetRequiredService<MessageBLL>();
+            _messageBll = provider.GetRequiredService<MessageBll>();
             _paymentBll = provider.GetRequiredService<PaymentBLL>();
             _promotionBll = provider.GetRequiredService<PromotionBLL>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();

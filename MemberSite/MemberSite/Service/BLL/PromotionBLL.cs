@@ -21,10 +21,10 @@ namespace MemberSite.Service.BLL
         private readonly string apiUrl;
         private readonly int bonusType;
         private readonly SelLangBLL _selLangBll;
-        private readonly MessageBLL _messageBll;
+        private readonly MessageBll _messageBll;
 
         public PromotionBLL(IConfiguration configuration, IMemoryCache cache, PromotionService promotionService,
-            CustInfoBll custInfoBLL, CourierAdapter courierAdapter, SelLangBLL selLangBll, MessageBLL messageBll)
+            CustInfoBll custInfoBLL, CourierAdapter courierAdapter, SelLangBLL selLangBll, MessageBll messageBll)
         {
             this.promotionService = promotionService;
             this.cache = cache;

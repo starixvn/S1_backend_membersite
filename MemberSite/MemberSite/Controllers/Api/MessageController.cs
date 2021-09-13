@@ -12,11 +12,11 @@ namespace MemberSite.Controllers.Api
     public class MessageController : Controller
     {
         private readonly SelLangBLL selLangBLL;
-        private readonly MessageBLL messageBLL;
+        private readonly MessageBll messageBLL;
         private readonly IHostEnvironment environment;
         private readonly ServerInfoBLL serverInfoBLL;
 
-        public MessageController(MessageBLL messageBLL, SelLangBLL selLangBLL, IHostEnvironment environment, ServerInfoBLL serverInfoBLL)
+        public MessageController(MessageBll messageBLL, SelLangBLL selLangBLL, IHostEnvironment environment, ServerInfoBLL serverInfoBLL)
         {
             this.messageBLL = messageBLL;
             this.selLangBLL = selLangBLL;

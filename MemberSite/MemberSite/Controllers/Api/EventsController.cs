@@ -20,10 +20,10 @@ namespace MemberSite.Controllers.Api
         private readonly CustInfoBll custInfoBLL;
         private readonly SelLangBLL selLangBLL;
         private readonly ServerInfoBLL serverInfoBLL;
-        private readonly MessageBLL messageBLL;
+        private readonly MessageBll messageBLL;
         private readonly Dictionary<int, string> perCurrency;
 
-        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, ServerInfoBLL serverInfoBLL, MessageBLL messageBLL)
+        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, ServerInfoBLL serverInfoBLL, MessageBll messageBLL)
 
         {
             this.authorizeBLL = authorizeBLL;
