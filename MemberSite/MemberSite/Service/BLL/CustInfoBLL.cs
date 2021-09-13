@@ -20,10 +20,6 @@ namespace MemberSite.Service.BLL
         private readonly AuthenticateService _authenticateService;
         private readonly ServerInfoBLL _serverInfoBll;
         private readonly AgentInfoService _agentInfoService;
-        private readonly Common _common;
-        private readonly IWebHostEnvironment _environment;
-        private readonly CodeGenerator _codeGenerator;
-        private readonly SelLangBLL _selLangBll;
         private readonly RolloverService _rollOverService;
         private readonly CommonBLL _commonBll;
         private readonly CacheHelper _cacheHelper;
@@ -48,10 +44,6 @@ namespace MemberSite.Service.BLL
             _authenticateService = provider.GetRequiredService<AuthenticateService>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
             _agentInfoService = provider.GetRequiredService<AgentInfoService>();
-            _common = provider.GetRequiredService<Common>();
-            _environment = provider.GetRequiredService<IWebHostEnvironment>();
-            _codeGenerator = provider.GetRequiredService<CodeGenerator>();
-            _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _rollOverService = provider.GetRequiredService<RolloverService>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
