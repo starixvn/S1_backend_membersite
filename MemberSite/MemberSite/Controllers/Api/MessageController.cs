@@ -14,9 +14,9 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL selLangBLL;
         private readonly MessageBll messageBLL;
         private readonly IHostEnvironment environment;
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
 
-        public MessageController(MessageBll messageBLL, SelLangBLL selLangBLL, IHostEnvironment environment, ServerInfoBLL serverInfoBLL)
+        public MessageController(MessageBll messageBLL, SelLangBLL selLangBLL, IHostEnvironment environment, ServerInfoBll serverInfoBLL)
         {
             this.messageBLL = messageBLL;
             this.selLangBLL = selLangBLL;

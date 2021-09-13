@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
-    public class ServerInfoBLL
+    public class ServerInfoBll
     {
         private readonly ServerInfoService _serverInfoService;
         private ServerInfo _serverInfo;
@@ -22,7 +22,7 @@ namespace MemberSite.Service.BLL
         private readonly int _fixSiteId;
         private readonly CacheHelper _cacheHelper;
 
-        public ServerInfoBLL(IServiceProvider provider)
+        public ServerInfoBll(IServiceProvider provider)
         {
             _serverInfoService = provider.GetRequiredService<ServerInfoService>();
             _cache = provider.GetRequiredService<IMemoryCache>();

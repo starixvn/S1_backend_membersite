@@ -13,14 +13,14 @@ namespace MemberSite.Service.BLL
         private readonly IovationService iovationService;
         private readonly IConfiguration configuration;
         private readonly CourierAdapter courierAdapter;
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
         private readonly CustInfoBll custInfoBLL;
         private readonly Tools tools;
         private readonly Dictionary<int, string> iovationType;
         private readonly Dictionary<int, string> perCountry;
         private readonly Dictionary<int, string> perCurrency;
 
-        public IovationBLL(IConfiguration configuration, IovationService iovationService, CourierAdapter courierAdapter, Tools tools, ServerInfoBLL serverInfoBLL, CustInfoBll custInfoBLL)
+        public IovationBLL(IConfiguration configuration, IovationService iovationService, CourierAdapter courierAdapter, Tools tools, ServerInfoBll serverInfoBLL, CustInfoBll custInfoBLL)
         {
             this.iovationService = iovationService;
             this.configuration = configuration;

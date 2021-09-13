@@ -1,7 +1,7 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using MemberSite.Service.BLL
 @using MemberSite.Service.Model
-@inject ServerInfoBLL serverInfoBLL
+@inject ServerInfoBll serverInfoBLL
 @model ApiResult<PayResult>
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();

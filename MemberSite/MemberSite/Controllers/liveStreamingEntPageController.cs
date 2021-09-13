@@ -14,9 +14,9 @@ namespace MemberSite.Controllers
         private readonly Tools tools;
         private readonly CourierAdapter courierAdapter;
         private readonly AuthorizeBLL authorizeBLL;
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
 
-        public liveStreamingEntPageController(IConfiguration configuration, Tools tools, CourierAdapter courierAdapter, AuthorizeBLL authorizeBLL, ServerInfoBLL serverInfoBLL)
+        public liveStreamingEntPageController(IConfiguration configuration, Tools tools, CourierAdapter courierAdapter, AuthorizeBLL authorizeBLL, ServerInfoBll serverInfoBLL)
         {
             this.courierAdapter = courierAdapter;
             this.tools = tools;

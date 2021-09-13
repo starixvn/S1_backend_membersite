@@ -41,7 +41,7 @@ namespace MemberSite.Controllers.Api
         private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
         private readonly EventsBLL _eventsBll;
-        private readonly ServerInfoBLL _serverInfoBll;
+        private readonly ServerInfoBll _serverInfoBll;
 
         public AccountController(IServiceProvider provider)
         {
@@ -63,7 +63,7 @@ namespace MemberSite.Controllers.Api
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
             _eventsBll = provider.GetRequiredService<EventsBLL>();
-            _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
         }
 
         [HttpPost]

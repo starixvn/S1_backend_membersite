@@ -8,9 +8,9 @@ namespace MemberSite.Service.BLL
     {
         private readonly Tools tools;
         private readonly WalletService walletService;
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
 
-        public WalletBLL(Tools tools, WalletService walletService, ServerInfoBLL serverInfoBLL)
+        public WalletBLL(Tools tools, WalletService walletService, ServerInfoBll serverInfoBLL)
         {
             this.tools = tools;
             this.walletService = walletService;

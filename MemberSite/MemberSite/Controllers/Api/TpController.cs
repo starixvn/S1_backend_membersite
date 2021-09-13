@@ -31,7 +31,7 @@ namespace MemberSite.Controllers.Api
         private readonly BonusWalletBLL _bonusWalletBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly GameBLL _gameBll;
-        private readonly ServerInfoBLL _serverInfoBll;
+        private readonly ServerInfoBll _serverInfoBll;
         private readonly StatementService _statementService;
         private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
 
@@ -47,7 +47,7 @@ namespace MemberSite.Controllers.Api
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _gameBll = provider.GetRequiredService<GameBLL>();
-            _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _statementService = provider.GetRequiredService<StatementService>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
         }

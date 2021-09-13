@@ -15,8 +15,8 @@ namespace MemberSite.Controllers
         private readonly IWebHostEnvironment environment;
         private readonly IConfiguration configuration;
         private readonly SelLangBLL selLangBLL;
-        private readonly ServerInfoBLL serverInfoBLL;
-        public ServerInfoController(IWebHostEnvironment environment, IConfiguration configuration, SelLangBLL selLangBLL, ServerInfoBLL serverInfoBLL)
+        private readonly ServerInfoBll serverInfoBLL;
+        public ServerInfoController(IWebHostEnvironment environment, IConfiguration configuration, SelLangBLL selLangBLL, ServerInfoBll serverInfoBLL)
         {
             this.environment = environment;
             this.configuration = configuration;

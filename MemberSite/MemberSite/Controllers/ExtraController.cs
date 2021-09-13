@@ -20,7 +20,7 @@ namespace MemberSite.Controllers
         private readonly SelLangBLL _selLangBll;
         private readonly CommonBLL _commonBll;
         private readonly Tools _tools;
-        private readonly ServerInfoBLL _serverInfoBll;
+        private readonly ServerInfoBll _serverInfoBll;
 
         public ExtraController(IServiceProvider provider)
         {
@@ -28,7 +28,7 @@ namespace MemberSite.Controllers
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _tools = provider.GetRequiredService<Tools>();
-            _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
         }
         public class SignupModel : Api.SiteController.RegisteredModel
         {

@@ -18,7 +18,7 @@ namespace MemberSite.Service.BLL
         private readonly Tools _tools;
         private readonly CustInfoService _custInfoService;
         private readonly AuthenticateService _authenticateService;
-        private readonly ServerInfoBLL _serverInfoBll;
+        private readonly ServerInfoBll _serverInfoBll;
         private readonly AgentInfoService _agentInfoService;
         private readonly RolloverService _rollOverService;
         private readonly CommonBLL _commonBll;
@@ -42,7 +42,7 @@ namespace MemberSite.Service.BLL
             _tools = provider.GetRequiredService<Tools>();
             _custInfoService = provider.GetRequiredService<CustInfoService>();
             _authenticateService = provider.GetRequiredService<AuthenticateService>();
-            _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _agentInfoService = provider.GetRequiredService<AgentInfoService>();
             _rollOverService = provider.GetRequiredService<RolloverService>();
             _commonBll = provider.GetRequiredService<CommonBLL>();

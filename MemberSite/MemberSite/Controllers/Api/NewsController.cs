@@ -9,10 +9,10 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class NewsController : Controller
     {
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
         private readonly NewsBLL newsBLL;
 
-        public NewsController(ServerInfoBLL serverInfoBLL, NewsBLL newsBLL)
+        public NewsController(ServerInfoBll serverInfoBLL, NewsBLL newsBLL)
         {
             this.serverInfoBLL = serverInfoBLL;
             this.newsBLL = newsBLL;

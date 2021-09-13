@@ -23,9 +23,9 @@ namespace MemberSite.Controllers.Api
         private readonly CustInfoBll custInfoBLL;
         private readonly BankInfoBLL bankInfoBLL;
         private readonly CommonBLL commonBLL;
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
 
-        public AccountStrictController(SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, CustInfoBll custInfoBLL, BankInfoBLL bankInfoBLL, CommonBLL commonBLL, ServerInfoBLL serverInfoBLL)
+        public AccountStrictController(SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, CustInfoBll custInfoBLL, BankInfoBLL bankInfoBLL, CommonBLL commonBLL, ServerInfoBll serverInfoBLL)
         {
             this.selLangBLL = selLangBLL;
             this.authorizeBLL = authorizeBLL;

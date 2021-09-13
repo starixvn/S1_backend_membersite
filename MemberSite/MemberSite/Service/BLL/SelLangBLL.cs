@@ -20,13 +20,13 @@ namespace MemberSite.Service.BLL
             {"ko", 45}, {"vn", 51},{"hi", 61}, {"hi_en", 61}
         };
 
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly ConcurrentDictionary<string, ResourceManager> rm = new ConcurrentDictionary<string, ResourceManager>();
         private string sLangId;
         private readonly IMemoryCache cache;
 
-        public SelLangBLL(IMemoryCache cache, IHttpContextAccessor httpContextAccessor, ServerInfoBLL serverInfoBLL)
+        public SelLangBLL(IMemoryCache cache, IHttpContextAccessor httpContextAccessor, ServerInfoBll serverInfoBLL)
         {
             this.serverInfoBLL = serverInfoBLL;
             this.httpContextAccessor = httpContextAccessor;
