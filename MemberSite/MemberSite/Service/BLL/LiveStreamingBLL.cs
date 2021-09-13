@@ -8,12 +8,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
-    public class LiveStreamingBLL
+    public class LiveStreamingBll
     {
         private readonly LiveStreamingService _liveStreamingService;
         private readonly CacheHelper _cacheHelper;
 
-        public LiveStreamingBLL(IServiceProvider provider)
+        public LiveStreamingBll(IServiceProvider provider)
         {
             _liveStreamingService = provider.GetRequiredService<LiveStreamingService>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();

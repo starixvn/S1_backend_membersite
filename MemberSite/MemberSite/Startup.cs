@@ -145,7 +145,7 @@ namespace MemberSite
             services.AddSingleton<FPSBLL>();
             services.AddSingleton<EventsBLL>();
             services.AddSingleton<GameCasinoBll>();
-            services.AddSingleton<LiveStreamingBLL>();
+            services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<LatestHighlightDataBll>();
             services.AddSingleton<GameBLL>();
 			services.AddTransient<GeoIpBLL>();
