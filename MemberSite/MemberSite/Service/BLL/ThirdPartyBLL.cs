@@ -4,31 +4,28 @@ using MemberSite.Service.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MemberSite.Service.Model.enums;
-using Serilog.Context;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.BLL
 {
-    public class ThirdPartyBLL
+    public class ThirdPartyBll
     {
-        private readonly ThirdPartyService thirdPartyService;
-        private readonly SelLangBLL selLangBLL;
-        private readonly Tools tools;
-        private readonly ConcurrentDictionary<string, TpCurrency> TpCurrencyList;
-        private readonly ConcurrentDictionary<string, ThirdPartyModel> ThirdPartyModelContainer;
-        private readonly ServerInfoBLL serverInfoBLL;
-        private readonly CustInfoBLL custInfoBLL;
-        private readonly CourierAdapter courierAdapter;
-        private readonly string apiUrl;
-        private readonly ILogger<ThirdPartyBLL> _logger;
+        private readonly ThirdPartyService _thirdPartyService;
+        private readonly SelLangBLL _selLangBll;
+        private readonly ConcurrentDictionary<string, TpCurrency> _tpCurrencyList;
+        private readonly ConcurrentDictionary<string, ThirdPartyModel> _thirdPartyModelContainer;
+        private readonly CustInfoBLL _custInfoBll;
+        private readonly CourierAdapter _courierAdapter;
+        private readonly string _apiUrl;
+        private readonly ILogger<ThirdPartyBll> _logger;
+        private readonly CacheHelper _cacheHelper;
 
-        readonly Dictionary<string, string> sportTypeDic = new Dictionary<string, string>() {
+        readonly Dictionary<string, string> _sportTypeDic = new Dictionary<string, string>() {
             {"1","soccer" },
             {"2","basketball" },
             {"3","football" },
@@ -41,148 +38,72 @@ namespace MemberSite.Service.BLL
             {"161","numbergame" },
             {"180","virtualsports" }
         };
-        public ThirdPartyBLL(IServiceProvider provider)
+        public ThirdPartyBll(IServiceProvider provider)
         {
-            thirdPartyService = provider.GetRequiredService<ThirdPartyService>();
-            selLangBLL = provider.GetRequiredService<SelLangBLL>();
-            tools = provider.GetRequiredService<Tools>();
-            TpCurrencyList = new ConcurrentDictionary<string, TpCurrency>();
-            ThirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
-            serverInfoBLL = provider.GetRequiredService<ServerInfoBLL>(); 
-            custInfoBLL = provider.GetRequiredService<CustInfoBLL>();
-            courierAdapter = provider.GetRequiredService<CourierAdapter>();
+            _thirdPartyService = provider.GetRequiredService<ThirdPartyService>();
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
+            _tpCurrencyList = new ConcurrentDictionary<string, TpCurrency>();
+            _thirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
+            _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             var configuration = provider.GetRequiredService<IConfiguration>();
-            apiUrl = configuration.GetValue<string>("TpService");
-            _logger = provider.GetRequiredService<ILogger<ThirdPartyBLL>>();
-        }
-
-        public string GetTpLanId(int tpId)
-        {
-            return thirdPartyService.GetTpLanId(tpId, selLangBLL.GetLangId());
+            _apiUrl = configuration.GetValue<string>("TpService");
+            _logger = provider.GetRequiredService<ILogger<ThirdPartyBll>>();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
         public ThirdPartyModel GetThirdPartyModel(int tpId, int siteId)
         {
 
             var sKet = $"{tpId}_{siteId}";
-            if (!ThirdPartyModelContainer.ContainsKey(sKet))
+            if (!_thirdPartyModelContainer.ContainsKey(sKet))
             {
-                var thirdPartyModel = thirdPartyService.GetThirdPartyBySite(tpId, siteId);
+                var thirdPartyModel = _thirdPartyService.GetThirdPartyBySite(tpId, siteId);
                 if (thirdPartyModel != null)
-                    ThirdPartyModelContainer.TryAdd(sKet, thirdPartyModel);
+                    _thirdPartyModelContainer.TryAdd(sKet, thirdPartyModel);
             }
 
-            return ThirdPartyModelContainer.ContainsKey(sKet) ? ThirdPartyModelContainer[sKet] : null;
+            return _thirdPartyModelContainer.ContainsKey(sKet) ? _thirdPartyModelContainer[sKet] : null;
         }
 
-        public string GetEntryUrl(int tpId, Dictionary<string, string> parameters)
-        {
-            LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(parameters));
-            var inputs = JsonConvert.DeserializeObject<Dictionary<string, string>>(thirdPartyService.GetThirdPartyBySite(tpId, serverInfoBLL.GetServerInfo().SiteId).Setting);
-            var urlKey = "DesktopBfUrl";
-            parameters.TryGetValue("device", out var device);
-
-            if (string.Compare(device, "wap", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                urlKey = "WAPUrl";
-            }
-            else if (tools.IsMobile())
-            {
-                urlKey = "MobileBfUrl";
-            }
-            var entryUrl = inputs[urlKey];
-            var tpLanId = thirdPartyService.GetTpLanId(tpId, selLangBLL.GetLangId());
-
-            switch (tpId)
-            {
-                case (int)Tp.Saba:
-                    parameters.TryGetValue("gameId", out var sportType);
-                    parameters.TryGetValue("menutype", out var menuType);
-
-                    if (tools.IsMobile())
-                    {
-                        var types = $"{sportType},{menuType},l";
-                        if (sportType == "43")
-                        {
-                            sportTypeDic.TryGetValue(sportType, out types);
-                            entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}&types={types}";
-                        }
-                        else
-                        {
-                            entryUrl = $"{entryUrl}?lang={tpLanId}&homeUrl={parameters["homeUrl"]}&signupUrl={parameters["signupUrl"]}&LoginUrl={parameters["LoginUrl"]}&types={types}";
-                        }
-                    }
-                    else
-                    {
-                        string act = null;
-
-                        if (parameters.TryGetValue("gameId", out var gameId))
-                        {
-                            sportTypeDic.TryGetValue(gameId, out act);
-                        }
-                        parameters.TryGetValue("matchid", out var matchId);
-                        
-                        if (sportType == "43")
-                        {
-                            entryUrl = $"{entryUrl}?lang={tpLanId}&game={act}";
-                        }
-                        else
-                        {
-                            if (!string.IsNullOrEmpty(matchId) && matchId != "0")
-                            {
-                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}&matchid={matchId}";
-                            }
-                            else
-                            {
-                                entryUrl = $"{entryUrl}?lang={tpLanId}&act={act}&menutype={menuType}";
-                            }
-                        }
-                    }
-                    _logger.LogInformation($"entryUrl={entryUrl}");
-
-                    return entryUrl;
-                default:
-                    return null;
-            }
-        }
         public TpCurrency GetTpCurrency(int tpId, int currencyId)
         {
             var key = $"{tpId}_{currencyId}";
-            if (!TpCurrencyList.ContainsKey(key))
+            if (!_tpCurrencyList.ContainsKey(key))
             {
-                TpCurrencyList.TryAdd(key, thirdPartyService.GetTpCurrency(tpId, currencyId));
+                _tpCurrencyList.TryAdd(key, _thirdPartyService.GetTpCurrency(tpId, currencyId));
             }
 
-            var tpCurrency = TpCurrencyList[key];
+            var tpCurrency = _tpCurrencyList[key];
             return tpCurrency;
         }
         public IEnumerable<TpWallet> GetTpWallet(int custId)
         {
-            return thirdPartyService.GetTpWallet(custId);
+            return _thirdPartyService.GetTpWallet(custId);
         }
 
         public IEnumerable<TpTransferInfoHistory> GetTransferHistory(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var tpTransferInfoHistory = thirdPartyService.GetTransferHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var tpTransferInfoHistory = _thirdPartyService.GetTransferHistory(custInfo.CustId, startDate, endDate, custInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
             if (tpTransferInfoHistory != null)
             {
                 foreach (var tpTransferInfo in tpTransferInfoHistory)
                 {
-                    tpTransferInfo.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{GetThirdPartyModel(tpTransferInfo.TpId, CustInfo.SiteId).TpName}");
+                    tpTransferInfo.TpName = _selLangBll.GetResourceValue($"lbl_Wallet_{GetThirdPartyModel(tpTransferInfo.TpId, custInfo.SiteId).TpName}");
                 }
             }
             return tpTransferInfoHistory;
         }
         public IEnumerable<TpTransferInfoHistory> GetTransferRecent(int custId)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var tpTransferInfoHistory = thirdPartyService.GetTransferRecent(custId, CustInfo.SiteId, 5);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var tpTransferInfoHistory = _thirdPartyService.GetTransferRecent(custId, custInfo.SiteId, 5);
             if (tpTransferInfoHistory != null)
             {
                 foreach (var tpTransferInfo in tpTransferInfoHistory)
                 {
-                    tpTransferInfo.TpName = selLangBLL.GetResourceValue($"lbl_Wallet_{GetThirdPartyModel(tpTransferInfo.TpId, CustInfo.SiteId).TpName}");
+                    tpTransferInfo.TpName = _selLangBll.GetResourceValue($"lbl_Wallet_{GetThirdPartyModel(tpTransferInfo.TpId, custInfo.SiteId).TpName}");
                 }
             }
             return tpTransferInfoHistory;
@@ -192,24 +113,24 @@ namespace MemberSite.Service.BLL
         {
             public int TpId { set; get; }
             public int CustId { set; get; }
-            public Dictionary<string, string> inputs { set; get; }
+            public Dictionary<string, string> Inputs { set; get; }
         }
 
         /*Sports Wallet*/
         public async Task<ApiResult<UserBalance>> GetSportsBalanceAsync(int custId)
         {
-            var myUrl = $"{apiUrl}GetBalance";
+            var myUrl = $"{_apiUrl}GetBalance";
             var apiResult = new ApiResult<UserBalance>();
             var oTpInfo = new TpInfo
             {
                 TpId = 1,
                 CustId = custId,
-                inputs = new Dictionary<string, string>()
+                Inputs = new Dictionary<string, string>()
             };
 
             try
             {
-                var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
+                var data = await _courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
                 apiResult.Data = data.Data;
                 apiResult.ErrorCode = data.ErrorCode;
                 apiResult.RawErrorCode = data.RawErrorCode;
@@ -226,18 +147,18 @@ namespace MemberSite.Service.BLL
         /*Sports Wallet*/
         public async Task<ApiResult<UserBalance>> GetTpWalletBalanceAsync(int tpId, int custId)
         {
-            var myUrl = $"{apiUrl}GetBalance";
+            var myUrl = $"{_apiUrl}GetBalance";
             var apiResult = new ApiResult<UserBalance>();
             var oTpInfo = new TpInfo
             {
                 TpId = tpId,
                 CustId = custId,
-                inputs = new Dictionary<string, string>()
+                Inputs = new Dictionary<string, string>()
             };
 
             try
             {
-                var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
+                var data = await _courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
                 apiResult.Data = data.Data;
                 apiResult.ErrorCode = data.ErrorCode;
                 apiResult.RawErrorCode = data.RawErrorCode;
@@ -253,12 +174,16 @@ namespace MemberSite.Service.BLL
         }
         public IEnumerable<TpWalletList> GetTpWalletList(int custId, int listType)
         {
-            return thirdPartyService.GetTpWalletList(custId,listType);
+            return _thirdPartyService.GetTpWalletList(custId, listType);
         }
 
-        public IEnumerable<TpMaintain> GetTpMaintainList(int siteId)
+        public IEnumerable<TpMaintain> GetTpMaintainListWithCache(int siteId)
         {
-            return thirdPartyService.GetTpMaintainList(siteId).Where(item => item.MaintainCheck(DateTime.UtcNow, _logger));
+            var key = $"GetTpMaintainList{siteId}";
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<TpMaintain>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
+                i => _thirdPartyService.GetTpMaintainList(siteId)
+                    .Where(item => item.MaintainCheck(DateTime.UtcNow, _logger)));
         }
     }
 }

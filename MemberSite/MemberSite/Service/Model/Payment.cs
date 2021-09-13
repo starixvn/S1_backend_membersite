@@ -114,6 +114,8 @@ namespace MemberSite.Service.Model
         public int GSort { get; set; }
         public string PayName { get; internal set; }
         public int Mode { get; set; }
+        public decimal MinAmount { get; set; }
+        public decimal MaxAmount { get; set; }
     }
 
     public interface IPaymentLimit

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using MemberSite.Service.Library;
-using Microsoft.CodeAnalysis.FlowAnalysis;
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.DAL
@@ -49,7 +48,7 @@ namespace MemberSite.Service.DAL
             var p = new DynamicParameters();
             p.Add("_CustId", custId);
             var result = _sqlClient.QueryFirst<string>("Member_TpDisableUserByCustId_Get", p);
-            return !string.IsNullOrEmpty(result) ? JsonConvert.DeserializeObject<IEnumerable<DisableTpGame>>(result) : new List<DisableTpGame>();
+            return (!string.IsNullOrEmpty(result) && result != "null") ? JsonConvert.DeserializeObject<IEnumerable<DisableTpGame>>(result) : new List<DisableTpGame>();
         }
     }
 }

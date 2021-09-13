@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL

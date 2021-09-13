@@ -86,4 +86,8 @@ namespace MemberSite.Service.Model
         public int Type { get; set; }
         public string TypeName { get; set; }
     }
+    public class NetworkList
+    {
+        public string network { get; set; }
+    }
 }

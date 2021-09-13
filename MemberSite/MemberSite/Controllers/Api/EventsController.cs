@@ -53,7 +53,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
-            apiResult.Data = eventsBLL.GetLeaderboardListWithCache(authData.CustId, getLeaderboardListReq.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, getLeaderboardListReq.TopNum, getLeaderboardListReq.BeforeDays);
+            apiResult.Data = eventsBLL.GetLeaderboardListWithCache(getLeaderboardListReq.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, getLeaderboardListReq.TopNum, getLeaderboardListReq.BeforeDays);
             foreach (var L in apiResult.Data)
             {
                 if (L.CustId != authData.CustId)
@@ -123,7 +123,7 @@ namespace MemberSite.Controllers.Api
             }
 
             apiResult.Data = JsonSerializer.Deserialize<IEnumerable<Leaderboard>>(JsonSerializer.Serialize(
-                eventsBLL.GetLeaderboardListWithCacheV2(custId, getLeaderboardListV2Req.EventCode,
+                eventsBLL.GetLeaderboardListWithCacheV2(getLeaderboardListV2Req.EventCode,
                     getLeaderboardListV2Req.LBCategoryId, siteId, currencyId,
                     getLeaderboardListV2Req.TopNum, getLeaderboardListV2Req.BeforeDays)));
             
@@ -159,7 +159,7 @@ namespace MemberSite.Controllers.Api
             }
 
             apiResult.Data = JsonSerializer.Deserialize<IEnumerable<Leaderboard>>(JsonSerializer.Serialize(
-                eventsBLL.GetLeaderboardListWithCacheV3(custId, getLeaderboardListV2Req.EventCode,
+                eventsBLL.GetLeaderboardListWithCacheV3(getLeaderboardListV2Req.EventCode,
                     getLeaderboardListV2Req.LBCategoryId, siteId, currencyId,
                     getLeaderboardListV2Req.TopNum, getLeaderboardListV2Req.BeforeDays)));
 
@@ -202,7 +202,7 @@ namespace MemberSite.Controllers.Api
             }
 
             apiResult.Data = JsonSerializer.Deserialize<IEnumerable<Leaderboard>>(JsonSerializer.Serialize(
-                eventsBLL.GetLeaderboardListMonthWithCache(custId, getLeaderboardListMonthReq.EventCode,
+                eventsBLL.GetLeaderboardListMonthWithCache(getLeaderboardListMonthReq.EventCode,
                     getLeaderboardListMonthReq.LBCategoryId, siteId, currencyId,
                     getLeaderboardListMonthReq.TopNum, getLeaderboardListMonthReq.SelectDays)));
 

@@ -665,7 +665,7 @@ namespace MemberSite.Controllers.Api
                     });
                 }
 
-                result = paymentBLL.WithdrawalUSDTReq(authData.CustId, custBankInfo.AccountName, custSeluSDTDetail.NickName, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out decimal afterAmount, out string transId);
+                result = paymentBLL.WithdrawalUSDTReq(authData.CustId, custBankInfo.AccountName, custSeluSDTDetail, withdrawalReqModel.AccountNo, withdrawalReqModel.amount, withdrawalReqModel.memo, out var afterAmount, out var transId);
 
                 switch (result)
                 {
@@ -1275,7 +1275,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<ExchangeInfo>();
-            int PayId = 22;
+            var PayId = 22;
       
             var result = await cryptoPayInfoBLL.GetExchangeInfoAsync(authData.CustId, getExchangeReq.Amount, PayId);
             if (result != null && result.Data != null)
@@ -1285,5 +1285,18 @@ namespace MemberSite.Controllers.Api
             }
             return apiResult;
         }
+        public class GetSupportNetworkReq
+        {
+            public int CurrencyId { get; set; }
+        }
+        public ApiResult<IEnumerable<NetworkList>> GetSupportNetwork(GetSupportNetworkReq getSupportNetworkReq)
+        {
+
+            var apiResult = new ApiResult<IEnumerable<NetworkList>>();
+            apiResult.Data = paymentBLL.GetSupportNetwork(getSupportNetworkReq.CurrencyId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
     }
 }

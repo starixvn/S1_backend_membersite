@@ -22,7 +22,6 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 using MemberSite.Extensions;
-using Microsoft.Extensions.Logging;
 
 namespace MemberSite
 {
@@ -74,7 +73,8 @@ namespace MemberSite
             services.AddSingleton<CodeGenerator>();
 			services.AddTransient<JsonNetSerializer>();
             services.AddSingleton<IHttpHelper, HttpHelper>();
-			services.AddDatabaseConnection(configuration);
+            services.AddSingleton<CacheHelper>();
+            services.AddDatabaseConnection(configuration);
 
             /*DAL*/
             services.AddSingleton<ServerInfoService>();
@@ -130,7 +130,7 @@ namespace MemberSite
             services.AddSingleton<LoadCardPayInfoBLL>();
             services.AddSingleton<DepositBLL>();
             services.AddSingleton<PaymentBLL>();
-            services.AddSingleton<ThirdPartyBLL>();
+            services.AddSingleton<ThirdPartyBll>();
             services.AddSingleton<MessageBLL>();
             services.AddSingleton<PromotionBLL>();
             services.AddSingleton<GamingBLL>();

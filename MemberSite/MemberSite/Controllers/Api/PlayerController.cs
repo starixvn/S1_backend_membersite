@@ -9,7 +9,7 @@ namespace MemberSite.Controllers.Api
         [HttpHead]
         public IActionResult Index(string url)
         {
-            string poster = url.Replace("video.m3u8", "poster.jpg?v=1627386751522");
+            var poster = url.Replace("video.m3u8", "poster.jpg?v=1627386751522");
 
             ViewData["url"] = url;
             ViewData["poster"] = poster;

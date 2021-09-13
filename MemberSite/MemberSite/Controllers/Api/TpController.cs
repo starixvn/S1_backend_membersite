@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using MemberSite.Service.BLL;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -10,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace MemberSite.Controllers.Api
 {
@@ -23,11 +26,14 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL _selLangBll;
         private readonly AuthorizeBLL _authorizeBll;
         private readonly string _apiUrl;
-        private readonly ThirdPartyBLL _thirdPartyBll;
+        private readonly ThirdPartyBll _thirdPartyBll;
         private readonly WalletBLL _walletBll;
         private readonly BonusWalletBLL _bonusWalletBll;
         private readonly CustInfoBLL _custInfoBll;
         private readonly GameBLL _gameBll;
+        private readonly ServerInfoBLL _serverInfoBll;
+        private readonly StatementService _statementService;
+        private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
 
         public TpController(IServiceProvider provider)
         {
@@ -36,11 +42,14 @@ namespace MemberSite.Controllers.Api
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _apiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("TpService");
-            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBLL>();
+            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _walletBll = provider.GetRequiredService<WalletBLL>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
             _gameBll = provider.GetRequiredService<GameBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
+            _statementService = provider.GetRequiredService<StatementService>();
+            _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
         }
 
         public class TpInfo
@@ -54,6 +63,17 @@ namespace MemberSite.Controllers.Api
         [AllowAnonymous]
         public async Task<ApiResult> GotoGame(TpInfo inInfo)
         {
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId);
+            if (_gameBll.IsMaintain(tpMaintainList, inInfo.TpId, inInfo.inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
+            {
+                var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
+                var host = _siteConfig.Value[serverInfo.SiteName].MaintainURL;
+                var maintainUrl = $"{host}/index_{_selLangBll.GetLangId() ?? "en"}.html" +
+                    $"?t={HttpUtility.UrlEncode(tpName)}&e={HttpUtility.UrlEncode($"{tpMaintain.EndDate:u}")}";    
+                return new ApiResult(3000, maintainUrl);
+            }
+
             var input = new Dictionary<string, string>();
             var custId = 0;
             var langId = "";
@@ -69,11 +89,7 @@ namespace MemberSite.Controllers.Api
             input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
             input.Add("ClientIP", _tools.GetClientIP());
 
-            if (_gameBll.IsFunGame(inInfo.inputs))
-            {
-                langId = _selLangBll.GetLangId();
-            }
-            else if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
@@ -99,6 +115,11 @@ namespace MemberSite.Controllers.Api
                 {
                     input.Add("Token", authData.Token);
                 }
+            }
+            else
+            {
+                langId = _selLangBll.GetLangId();
+                input.TryAdd("fun", "1");
             }
 
             var myUrl = $"{_apiUrl}GotoGame";

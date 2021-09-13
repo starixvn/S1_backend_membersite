@@ -16,6 +16,8 @@ namespace MemberSite.Service.Model
         public string AccountName { get; set; }
         public string NickName { get; set; }
         public string AccountNo { get; set; }
+        public string Network { set; get; }
+        public int CurrencyId { set; get; }
     }
     public class WithdrawalHistory
     {
