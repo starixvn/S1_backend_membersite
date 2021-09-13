@@ -12,12 +12,12 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL authorizeBLL;
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly SelLangBLL selLangBLL;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly LiveStreamingBLL liveStreamingBLL;
         private readonly LatestHighlightDataBLL latestHighlightDataBLL;
 
 
-        public VideoController(AuthorizeBLL authorizeBLL, ServerInfoBLL serverInfoBLL, SelLangBLL selLangBLL, CustInfoBLL custInfoBLL, LiveStreamingBLL liveStreamingBLL, LatestHighlightDataBLL latestHighlightDataBLL)
+        public VideoController(AuthorizeBLL authorizeBLL, ServerInfoBLL serverInfoBLL, SelLangBLL selLangBLL, CustInfoBll custInfoBLL, LiveStreamingBLL liveStreamingBLL, LatestHighlightDataBLL latestHighlightDataBLL)
         {
             this.authorizeBLL = authorizeBLL;
             this.serverInfoBLL = serverInfoBLL;

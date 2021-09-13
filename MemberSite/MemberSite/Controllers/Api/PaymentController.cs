@@ -23,7 +23,7 @@ namespace MemberSite.Controllers.Api
         private readonly BankInfoOffBLL bankInfoOffBLL;
         private readonly AuthorizeBLL authorizeBLL;
         private readonly PaymentBLL paymentBLL;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly BankInfoBLL bankInfoBLL;
         private readonly CourierAdapter courierAdapter;
         private readonly SelLangBLL selLangBLL;
@@ -35,7 +35,7 @@ namespace MemberSite.Controllers.Api
         private readonly string tpApiUrl;
         private readonly int mainWalletType;
 
-        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBLL mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBLL cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL)
+        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBLL mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBLL cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;

@@ -12,7 +12,7 @@ namespace MemberSite.Service.BLL
     public class PaymentBLL
     {
         private readonly BankInfoOffBLL bankInfoOffBLL;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly DepoistService depoistService;
         private readonly WithdrawalService withdrawalService;
         private readonly BankInfoBLL bankInfoBLL;
@@ -22,7 +22,7 @@ namespace MemberSite.Service.BLL
         private readonly IMemoryCache cache;
         private readonly Dictionary<string, string> singleWalletType;
 
-        public PaymentBLL(IMemoryCache cache, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBLL custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService, RolloverService rollOverService, StatementService statementService, SelLangBLL selLangBLL)
+        public PaymentBLL(IMemoryCache cache, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBll custInfoBLL, DepoistService depoistService, WithdrawalService withdrawalService, RolloverService rollOverService, StatementService statementService, SelLangBLL selLangBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.custInfoBLL = custInfoBLL;

@@ -4,7 +4,7 @@
 @inject SelLangBLL selLangBLL
 @inject ServerInfoBLL serverInfoBLL
 @inject Tools tools
-@inject CustInfoBLL custInfoBLL
+@inject CustInfoBll custInfoBLL
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
     var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");

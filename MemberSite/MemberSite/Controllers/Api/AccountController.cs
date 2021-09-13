@@ -24,7 +24,7 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly CustInfoBLL _custInfoBll;
+        private readonly CustInfoBll _custInfoBll;
         private readonly Tools _tools;
         private readonly SelLangBLL _selLangBll;
         private readonly AuthorizeBLL _authorizeBll;
@@ -45,7 +45,7 @@ namespace MemberSite.Controllers.Api
 
         public AccountController(IServiceProvider provider)
         {
-            _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _tools = provider.GetRequiredService<Tools>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();

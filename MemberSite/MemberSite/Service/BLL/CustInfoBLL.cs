@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
-    public class CustInfoBLL
+    public class CustInfoBll
     {
         private readonly Tools _tools;
         private readonly CustInfoService _custInfoService;
@@ -41,7 +41,7 @@ namespace MemberSite.Service.BLL
                 {"+84","VN" }
             };
 
-        public CustInfoBLL(IServiceProvider provider)
+        public CustInfoBll(IServiceProvider provider)
         {
             _tools = provider.GetRequiredService<Tools>();
             _custInfoService = provider.GetRequiredService<CustInfoService>();

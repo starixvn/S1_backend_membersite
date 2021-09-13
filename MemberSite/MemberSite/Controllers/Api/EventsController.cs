@@ -17,13 +17,13 @@ namespace MemberSite.Controllers.Api
     {
         private readonly AuthorizeBLL authorizeBLL;
         private readonly EventsBLL eventsBLL;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly SelLangBLL selLangBLL;
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly MessageBLL messageBLL;
         private readonly Dictionary<int, string> perCurrency;
 
-        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBLL custInfoBLL, SelLangBLL selLangBLL, ServerInfoBLL serverInfoBLL, MessageBLL messageBLL)
+        public EventsController(AuthorizeBLL authorizeBLL, EventsBLL eventsBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, ServerInfoBLL serverInfoBLL, MessageBLL messageBLL)
 
         {
             this.authorizeBLL = authorizeBLL;

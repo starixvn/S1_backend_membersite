@@ -20,12 +20,12 @@ namespace MemberSite.Controllers.Api
     {
         private readonly SelLangBLL selLangBLL;
         private readonly AuthorizeBLL authorizeBLL;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly BankInfoBLL bankInfoBLL;
         private readonly CommonBLL commonBLL;
         private readonly ServerInfoBLL serverInfoBLL;
 
-        public AccountStrictController(SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, CustInfoBLL custInfoBLL, BankInfoBLL bankInfoBLL, CommonBLL commonBLL, ServerInfoBLL serverInfoBLL)
+        public AccountStrictController(SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, CustInfoBll custInfoBLL, BankInfoBLL bankInfoBLL, CommonBLL commonBLL, ServerInfoBLL serverInfoBLL)
         {
             this.selLangBLL = selLangBLL;
             this.authorizeBLL = authorizeBLL;

@@ -16,7 +16,7 @@ namespace MemberSite.Service.BLL
     {
         private readonly PromotionService promotionService;
         private readonly IMemoryCache cache;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly CourierAdapter courierAdapter;
         private readonly string apiUrl;
         private readonly int bonusType;
@@ -24,7 +24,7 @@ namespace MemberSite.Service.BLL
         private readonly MessageBLL _messageBll;
 
         public PromotionBLL(IConfiguration configuration, IMemoryCache cache, PromotionService promotionService,
-            CustInfoBLL custInfoBLL, CourierAdapter courierAdapter, SelLangBLL selLangBll, MessageBLL messageBll)
+            CustInfoBll custInfoBLL, CourierAdapter courierAdapter, SelLangBLL selLangBll, MessageBLL messageBll)
         {
             this.promotionService = promotionService;
             this.cache = cache;

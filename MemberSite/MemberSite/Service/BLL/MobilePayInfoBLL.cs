@@ -14,9 +14,9 @@ namespace MemberSite.Service.BLL
         private readonly DepoistService depoistService;
         private readonly DepositBLL depositBLL;
         private readonly IMemoryCache cache;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly MobilePayGroupComparer mobilePayGroupComparer;
-        public MobilePayInfoBLL(IMemoryCache cache, PayService payService, DepoistService depoistService, CustInfoBLL custInfoBLL, DepositBLL depositBLL)
+        public MobilePayInfoBLL(IMemoryCache cache, PayService payService, DepoistService depoistService, CustInfoBll custInfoBLL, DepositBLL depositBLL)
         {
             this.payService = payService;
             this.cache = cache;

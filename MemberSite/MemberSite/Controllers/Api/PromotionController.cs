@@ -20,7 +20,7 @@ namespace MemberSite.Controllers.Api
         private readonly PromotionBLL promotionBLL;
         private readonly ServerInfoBLL serverInfoBLL;
         private readonly AuthorizeBLL authorizeBLL;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly CourierAdapter courierAdapter;
         private readonly WalletBLL walletBLL;
         private readonly BonusWalletBLL bonusWalletBLL;
@@ -28,7 +28,7 @@ namespace MemberSite.Controllers.Api
         private readonly int mainWalletType;
         private readonly int bonusType;
 
-        public PromotionController(IConfiguration configuration, SelLangBLL selLangBLL, PromotionBLL promotionBLL, ServerInfoBLL serverInfoBLL, AuthorizeBLL authorizeBLL, CustInfoBLL custInfoBLL, CourierAdapter courierAdapter, WalletBLL walletBLL, BonusWalletBLL bonusWalletBLL)
+        public PromotionController(IConfiguration configuration, SelLangBLL selLangBLL, PromotionBLL promotionBLL, ServerInfoBLL serverInfoBLL, AuthorizeBLL authorizeBLL, CustInfoBll custInfoBLL, CourierAdapter courierAdapter, WalletBLL walletBLL, BonusWalletBLL bonusWalletBLL)
         {
             this.selLangBLL = selLangBLL;
             this.promotionBLL = promotionBLL;

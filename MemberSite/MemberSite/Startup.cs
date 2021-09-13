@@ -118,7 +118,7 @@ namespace MemberSite
 
             /*BLL*/
             services.AddSingleton<ServerInfoBLL>();
-            services.AddSingleton<CustInfoBLL>();
+            services.AddSingleton<CustInfoBll>();
             services.AddSingleton<WalletBLL>();
             /*??SelLangBLL?Scope*/
             services.AddSingleton<SelLangBLL>();

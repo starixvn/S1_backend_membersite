@@ -16,10 +16,10 @@ namespace MemberSite.Controllers
     {
         private readonly TemplateBLL templateBLL;
         private readonly AuthBLL authBLL;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly Tools tools;
 
-        public HomeController(TemplateBLL templateBLL, AuthBLL authBLL, CustInfoBLL custInfoBLL, Tools tools)
+        public HomeController(TemplateBLL templateBLL, AuthBLL authBLL, CustInfoBll custInfoBLL, Tools tools)
         {
             this.templateBLL = templateBLL;
             this.authBLL = authBLL;

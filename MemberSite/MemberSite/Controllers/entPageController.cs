@@ -26,7 +26,7 @@ namespace MemberSite.Controllers
         private readonly Tools _tools;
         private readonly SelLangBLL _selLangBll;
         private readonly WalletBLL _walletBll;
-        private readonly CustInfoBLL _custInfoBll;
+        private readonly CustInfoBll _custInfoBll;
         private readonly ServerInfoBLL _serverInfoBll;
         private readonly GameBLL _gameBll;
         private readonly string _apiUrl;
@@ -42,7 +42,7 @@ namespace MemberSite.Controllers
             _tools = provider.GetRequiredService<Tools>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _walletBll = provider.GetRequiredService<WalletBLL>();
-            _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
             _gameBll = provider.GetRequiredService<GameBLL>();
             _apiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("TpService");

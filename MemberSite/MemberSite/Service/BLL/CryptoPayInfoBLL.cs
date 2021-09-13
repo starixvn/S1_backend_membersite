@@ -13,7 +13,7 @@ namespace MemberSite.Service.BLL
 {
     public class CryptoPayInfoBLL
     {
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly DepositBLL depositBLL;
         private readonly PayService payService;
         private readonly DepoistService depoistService;
@@ -21,7 +21,7 @@ namespace MemberSite.Service.BLL
         private readonly CourierAdapter courierAdapter;
         private readonly string payApiUrl;
 
-        public CryptoPayInfoBLL(IMemoryCache cache, IConfiguration configuration, PayService payService, DepoistService depoistService, CustInfoBLL custInfoBLL, DepositBLL depositBLL, CourierAdapter courierAdapter)
+        public CryptoPayInfoBLL(IMemoryCache cache, IConfiguration configuration, PayService payService, DepoistService depoistService, CustInfoBll custInfoBLL, DepositBLL depositBLL, CourierAdapter courierAdapter)
         {
             this.custInfoBLL = custInfoBLL;
             this.depositBLL = depositBLL;
