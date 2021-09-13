@@ -638,21 +638,7 @@ namespace MemberSite.Service.BLL
                 return $"{tpName} {selLangBLL.GetResourceValue(WalletType)}";
             }
         }
-        private string GetTransTypeName(string Type, string TypeName, ref IEnumerable<TpList> TpList, ref Dictionary<string, string> WalletTransType)
-        {
-            if (Type.Length < 5)
-            {
-                return TypeName;
-            }
-            else
-            {
-                WalletTransType.TryGetValue(Type.Substring(1, 1), out var TransType);
-                int.TryParse(Type.Substring(2), out var tpId);
 
-                var tpName = TpList.FirstOrDefault(x => x.Id == tpId)?.TpName;
-                return $"{tpName} {TransType}";
-            }
-        }
         public IEnumerable<PromotionCategory> GetPromotionCategory()
         {
             return statementService.GetPromotionCategory();
@@ -708,26 +694,7 @@ namespace MemberSite.Service.BLL
         {
             return withdrawalService.GetCustWithdrawalLimitInfo(custId);
         }
-        public WithdrawalKyc GetWithdrawalKyc(int custId)
-        {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var key = $"GetWithdrawalKycList_{CustInfo.SiteId}";
-            var withdrawalKycList = cache.Get<IEnumerable<WithdrawalKyc>>(key);
-            if (withdrawalKycList != null)
-            {
-                return withdrawalKycList.FirstOrDefault(x => x.CurrencyId == CustInfo.CurrencyId);
-            }
 
-            withdrawalKycList = withdrawalService.GetWithdrawalKycList(CustInfo.SiteId);
-            if (withdrawalKycList != null)
-            {
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
-                cache.Set(key, withdrawalKycList, cacheEntryOptions);
-            }
-
-            return withdrawalKycList.FirstOrDefault(x => x.CurrencyId == CustInfo.CurrencyId);
-        }
         private void FixDepositLimit(IPaymentLimit paymentLimit, DepositLimitInfo depositLimitInfo)
         {
             if (depositLimitInfo.DepositMin > paymentLimit.MaxAmount || depositLimitInfo.DepositMax < paymentLimit.MinAmount)
