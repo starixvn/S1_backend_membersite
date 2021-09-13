@@ -163,9 +163,8 @@ namespace MemberSite.Service.BLL
                     CurrencyId = custInfo.CurrencyId,
                     DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(loadCardPayInfo)
                 };
-                string postScript = null;
 
-                depoistService.DepositReq(depositDetailInfo, out transId, out postScript);
+                depoistService.DepositReq(depositDetailInfo, out transId, out _);
                 return 0;
             }
 
