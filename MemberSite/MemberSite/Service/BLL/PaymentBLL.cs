@@ -429,15 +429,17 @@ namespace MemberSite.Service.BLL
                     onlineBank.BankName = "";
                 }
 
-                var depositDetailInfo = new DepositDetailInfo();
-                depositDetailInfo.Amount = amount;
-                depositDetailInfo.CustId = custId;
-                depositDetailInfo.DepositType = (int)DepositType.OnlineBanking;
-                depositDetailInfo.Memo = null;
-                depositDetailInfo.SiteId = custInfo.SiteId;
-                depositDetailInfo.UserName = custInfo.UserName;
-                depositDetailInfo.CurrencyId = custInfo.CurrencyId;
-                depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(onlineBank);
+                var depositDetailInfo = new DepositDetailInfo
+                {
+                    Amount = amount,
+                    CustId = custId,
+                    DepositType = (int)DepositType.OnlineBanking,
+                    Memo = null,
+                    SiteId = custInfo.SiteId,
+                    UserName = custInfo.UserName,
+                    CurrencyId = custInfo.CurrencyId,
+                    DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(onlineBank)
+                };
 
                 depoistService.DepositReq(depositDetailInfo, out transId, out var postScript);
                 return 0;

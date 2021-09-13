@@ -527,9 +527,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult<MsgContent> GetMsgContent(MsgContentReq msgContentReq)
         {
             var authData = _authorizeBll.GetAuthData();
-            var apiResult = new ApiResult<MsgContent>();
-            apiResult.Data = _messageBll.GetMsgContent(authData.CustId, msgContentReq.MsgId);
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<MsgContent>
+            {
+                Data = _messageBll.GetMsgContent(authData.CustId, msgContentReq.MsgId),
+                ErrorCode = 0
+            };
             return apiResult;
         }
         public class MsgReadReq
@@ -580,9 +582,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult GetMsgCount()
         {
             var authData = _authorizeBll.GetAuthData();
-            var apiResult = new ApiResult<int>();
-            apiResult.Data = _messageBll.GetMsgCount(authData.CustId);
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<int>
+            {
+                Data = _messageBll.GetMsgCount(authData.CustId),
+                ErrorCode = 0
+            };
 
             return apiResult;
         }
@@ -591,19 +595,23 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult<WalletInfo>> GetWalletInfoAsync()
         {
             var authData = _authorizeBll.GetAuthData();
-            var apiResult = new ApiResult<WalletInfo>();
-            apiResult.Data = _walletBll.GetWalletInfo(authData.CustId);
+            var apiResult = new ApiResult<WalletInfo>
+            {
+                Data = _walletBll.GetWalletInfo(authData.CustId)
+            };
             var isHideBalance = false;
             bool.TryParse(Request.Cookies[$"isHideBalance.{authData.CustId}"], out isHideBalance);
             apiResult.Data.IsHideBalance = isHideBalance;
 
             if (_mainWalletType == 2)
             {
-                var tpWallet = new TpWallet();
-                tpWallet.Balance = apiResult.Data.Balance;
-                tpWallet.TpId = 0;
-                tpWallet.TpName = _selLangBll.GetResourceValue("lbl_MainWallet");
-                tpWallet.displayKey = "lbl_MainWallet";
+                var tpWallet = new TpWallet
+                {
+                    Balance = apiResult.Data.Balance,
+                    TpId = 0,
+                    TpName = _selLangBll.GetResourceValue("lbl_MainWallet"),
+                    displayKey = "lbl_MainWallet"
+                };
                 var sportsBalance = await _thirdPartyBll.GetSportsBalanceAsync(authData.CustId);
                 apiResult.Data.Balance = sportsBalance.Data.balance;
                 apiResult.ErrorCode = sportsBalance.ErrorCode;
@@ -655,8 +663,10 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult();
             var authData = _authorizeBll.GetAuthData();
-            var option = new CookieOptions();
-            option.Expires = DateTime.Now.AddYears(10);
+            var option = new CookieOptions
+            {
+                Expires = DateTime.Now.AddYears(10)
+            };
             var key = $"isHideBalance.{authData.CustId}";
             Response.Cookies.Append(key, value.ToString(), option);
             apiResult.ErrorCode = 0;
@@ -667,9 +677,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult<CustInfoProfile> GetCustInfoProfile()
         {
             var authData = _authorizeBll.GetAuthData();
-            var apiResult = new ApiResult<CustInfoProfile>();
-            apiResult.Data = _custInfoBll.GetCustInfoProfile(authData.CustId);
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<CustInfoProfile>
+            {
+                Data = _custInfoBll.GetCustInfoProfile(authData.CustId),
+                ErrorCode = 0
+            };
 
             return apiResult;
         }
@@ -938,8 +950,10 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<TpWalletList>> GetTpWalletList(TpWalletListReq tpwalletListReq)
         {
             var authData = _authorizeBll.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<TpWalletList>>();
-            apiResult.Data = _thirdPartyBll.GetTpWalletList(authData.CustId, tpwalletListReq.ListType);
+            var apiResult = new ApiResult<IEnumerable<TpWalletList>>
+            {
+                Data = _thirdPartyBll.GetTpWalletList(authData.CustId, tpwalletListReq.ListType)
+            };
             foreach (var tpWalletItem in apiResult.Data)
             {
                 tpWalletItem.Description = _selLangBll.GetResourceValue($"lbl_WalletDescription_{tpWalletItem.TpName}");
@@ -958,9 +972,13 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult<TpWalletData>> GetTpWalletBalanceAsync(TpWalletBalanceReq tpWalletBalanceReq)
         {
             var authData = _authorizeBll.GetAuthData();
-            var apiResult = new ApiResult<TpWalletData>();
-            apiResult.Data = new TpWalletData();
-            apiResult.Data.TpId = tpWalletBalanceReq.TpId;
+            var apiResult = new ApiResult<TpWalletData>
+            {
+                Data = new TpWalletData
+                {
+                    TpId = tpWalletBalanceReq.TpId
+                }
+            };
             var tpWalletBalance = await _thirdPartyBll.GetTpWalletBalanceAsync(tpWalletBalanceReq.TpId, authData.CustId);
             if (tpWalletBalance.ErrorCode == 0)
             {
@@ -983,8 +1001,10 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<WalletBalance>> GetWalletBalanceAsync()
         {
-            var apiResult = new ApiResult<WalletBalance>(_selLangBll);
-            apiResult.Data = new WalletBalance();
+            var apiResult = new ApiResult<WalletBalance>(_selLangBll)
+            {
+                Data = new WalletBalance()
+            };
             var authData = _authorizeBll.GetAuthData();
             var isHideBalance = false;
             bool.TryParse(Request.Cookies[$"isHideBalance.{authData.CustId}"], out isHideBalance);
@@ -1073,8 +1093,10 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult SetFireBaseTroken(SetFireBaseTrokenReq setFireBaseTrokenReq)
         {
-            var apiResult = new ApiResult();
-            apiResult.ErrorCode = 99;
+            var apiResult = new ApiResult
+            {
+                ErrorCode = 99
+            };
             var authData = _authorizeBll.GetAuthData();
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             

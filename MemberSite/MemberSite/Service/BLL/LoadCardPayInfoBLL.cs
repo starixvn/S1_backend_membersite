@@ -152,15 +152,17 @@ namespace MemberSite.Service.BLL
                 loadCardPayInfo.Code = code;
                 loadCardPayInfo.Serial = serial;
 
-                var depositDetailInfo = new DepositDetailInfo();
-                depositDetailInfo.Amount = amount;
-                depositDetailInfo.CustId = custId;
-                depositDetailInfo.DepositType = (int)DepositType.LoadCardPayment;
-                depositDetailInfo.Memo = null;
-                depositDetailInfo.SiteId = custInfo.SiteId;
-                depositDetailInfo.UserName = custInfo.UserName;
-                depositDetailInfo.CurrencyId = custInfo.CurrencyId;
-                depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(loadCardPayInfo);
+                var depositDetailInfo = new DepositDetailInfo
+                {
+                    Amount = amount,
+                    CustId = custId,
+                    DepositType = (int)DepositType.LoadCardPayment,
+                    Memo = null,
+                    SiteId = custInfo.SiteId,
+                    UserName = custInfo.UserName,
+                    CurrencyId = custInfo.CurrencyId,
+                    DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(loadCardPayInfo)
+                };
                 string postScript = null;
 
                 depoistService.DepositReq(depositDetailInfo, out transId, out postScript);

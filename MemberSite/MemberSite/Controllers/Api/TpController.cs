@@ -555,9 +555,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<TpTransferInfoHistory>> GetTransferRecent()
         {
             var authData = _authorizeBll.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<TpTransferInfoHistory>>();
-            apiResult.Data = _thirdPartyBll.GetTransferRecent(authData.CustId);
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<IEnumerable<TpTransferInfoHistory>>
+            {
+                Data = _thirdPartyBll.GetTransferRecent(authData.CustId),
+                ErrorCode = 0
+            };
             return apiResult;
         }
     }

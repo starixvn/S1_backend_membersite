@@ -123,19 +123,21 @@ namespace MemberSite.Service.BLL
 
             agent ??= _agentInfoService.GetSuperAgent(serverInfo.SiteId, CurrencyId);
 
-            var regCustInfo = new Customer();
-            regCustInfo.UserName = UserName;
-            regCustInfo.Userpwd = _tools.MD5Encrypt(Userpwd);
-            regCustInfo.AgentId = agent.CustId;
-            regCustInfo.AllAgentId = GetAllAgentByUserId(agent);
-            regCustInfo.ActStatus = (int)CustActStatus.NonDepoist;
-            regCustInfo.CurrencyId = agent.CurrencyId;
-            regCustInfo.IsTest = agent.IsTest;
-            regCustInfo.SiteId = serverInfo.SiteId;
-            regCustInfo.UserLevel = 1;
-            regCustInfo.UserLang = UserLang;
-            regCustInfo.Aff = aff;
-            regCustInfo.AffCode = affCode;
+            var regCustInfo = new Customer
+            {
+                UserName = UserName,
+                Userpwd = _tools.MD5Encrypt(Userpwd),
+                AgentId = agent.CustId,
+                AllAgentId = GetAllAgentByUserId(agent),
+                ActStatus = (int)CustActStatus.NonDepoist,
+                CurrencyId = agent.CurrencyId,
+                IsTest = agent.IsTest,
+                SiteId = serverInfo.SiteId,
+                UserLevel = 1,
+                UserLang = UserLang,
+                Aff = aff,
+                AffCode = affCode
+            };
 
             if (string.IsNullOrEmpty(signupUrl))
             {

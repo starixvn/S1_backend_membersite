@@ -57,9 +57,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<SysBankInfoFront>> GetBankInfoOffList()
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>();
-            apiResult.Data = bankInfoOffBLL.GetBankInfoOffList(authData.CustId);
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>
+            {
+                Data = bankInfoOffBLL.GetBankInfoOffList(authData.CustId),
+                ErrorCode = 0
+            };
             return apiResult;
         }
         public class GetBankInfoOffListReq
@@ -83,9 +85,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<WithdrawalHistory>> GetWithdrawalInfoRecent()
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<WithdrawalHistory>>();
-            apiResult.Data = paymentBLL.GetWithdrawalInfoRecent(authData.CustId);
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<IEnumerable<WithdrawalHistory>>
+            {
+                Data = paymentBLL.GetWithdrawalInfoRecent(authData.CustId),
+                ErrorCode = 0
+            };
             return apiResult;
         }
 
@@ -93,9 +97,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<DepositInfoHistory>> GetDepositInfoRecent()
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<DepositInfoHistory>>();
-            apiResult.Data = paymentBLL.GetDepositInfoRecent(authData.CustId);
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<IEnumerable<DepositInfoHistory>>
+            {
+                Data = paymentBLL.GetDepositInfoRecent(authData.CustId),
+                ErrorCode = 0
+            };
             return apiResult;
         }
         public class HistoryReq
@@ -769,9 +775,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<MobilePayGroup>> GetMobilePayGroupList()
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<MobilePayGroup>>();
-            apiResult.Data = mobilePayInfoBLL.GetMobilePayGroupList(authData.CustId);
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<IEnumerable<MobilePayGroup>>
+            {
+                Data = mobilePayInfoBLL.GetMobilePayGroupList(authData.CustId),
+                ErrorCode = 0
+            };
             return apiResult;
         }
         public class PayInfoReq
@@ -783,9 +791,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<MobilePayInfo>> GetMobilePayInfoList(PayInfoReq payInfoReq)
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<MobilePayInfo>>();
-            apiResult.Data = mobilePayInfoBLL.GetMobilePayInfoList(authData.CustId, payInfoReq.groupId);
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<IEnumerable<MobilePayInfo>>
+            {
+                Data = mobilePayInfoBLL.GetMobilePayInfoList(authData.CustId, payInfoReq.groupId),
+                ErrorCode = 0
+            };
             return apiResult;
         }
 
@@ -797,9 +807,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<CryptoPayInfo>> GetCryptoPayInfoListAsync()
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<CryptoPayInfo>>();
-            apiResult.Data = cryptoPayInfoBLL.GetCryptoPayInfoList(authData.CustId);
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<IEnumerable<CryptoPayInfo>>
+            {
+                Data = cryptoPayInfoBLL.GetCryptoPayInfoList(authData.CustId),
+                ErrorCode = 0
+            };
             return apiResult;
         }
 
@@ -807,9 +819,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<LoadCardPayGroup>> GetLoadCardPayGroupList()
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<LoadCardPayGroup>>();
-            apiResult.Data = loadCardPayInfoBLL.GetLoadCardPayGroupList(authData.CustId);
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<IEnumerable<LoadCardPayGroup>>
+            {
+                Data = loadCardPayInfoBLL.GetLoadCardPayGroupList(authData.CustId),
+                ErrorCode = 0
+            };
             return apiResult;
         }
 
@@ -817,9 +831,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<LoadCardPayInfo>> GetLoadCardPayInfoList(PayInfoReq payInfoReq)
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<LoadCardPayInfo>>();
-            apiResult.Data = loadCardPayInfoBLL.GetLoadCardPayInfoList(authData.CustId, payInfoReq.groupId);
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<IEnumerable<LoadCardPayInfo>>
+            {
+                Data = loadCardPayInfoBLL.GetLoadCardPayInfoList(authData.CustId, payInfoReq.groupId),
+                ErrorCode = 0
+            };
             return apiResult;
         }
 
@@ -888,9 +904,11 @@ namespace MemberSite.Controllers.Api
                 }
                 else
                 {
-                    var graphicOptions = new GraphicOptions();
-                    graphicOptions.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-                    graphicOptions.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                    var graphicOptions = new GraphicOptions
+                    {
+                        CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed,
+                        SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed
+                    };
                     img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
                 }
                 img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
@@ -981,11 +999,13 @@ namespace MemberSite.Controllers.Api
                 if (mainWalletType == 2)
                 {
                     ApiResult<TransferResult> transferToSabaResult = null;
-                    var input = new TpTransfer();
-                    input.Amount = walletBLL.GetBalance(authData.CustId);
-                    input.CustId = authData.CustId;
-                    input.direction = TpDirection.ToTp;
-                    input.TpId = 1;
+                    var input = new TpTransfer
+                    {
+                        Amount = walletBLL.GetBalance(authData.CustId),
+                        CustId = authData.CustId,
+                        direction = TpDirection.ToTp,
+                        TpId = 1
+                    };
                     transferToSabaResult = await TransferToSabaAsync(input);
                 }
 
@@ -1060,8 +1080,10 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<PromotionCategory>> GetPromotionCategory()
         {
 
-            var apiResult = new ApiResult<IEnumerable<PromotionCategory>>();
-            apiResult.Data = paymentBLL.GetPromotionCategory();
+            var apiResult = new ApiResult<IEnumerable<PromotionCategory>>
+            {
+                Data = paymentBLL.GetPromotionCategory()
+            };
             return apiResult;
         }
 
@@ -1132,9 +1154,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<TpBetRecordListOneWeek>> GetCustTpBetRecordListOneWeek()
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<TpBetRecordListOneWeek>>();
-            apiResult.ErrorCode = 0;
-            apiResult.Data = paymentBLL.GetCustTpBetRecordListOneWeek(authData.CustId);
+            var apiResult = new ApiResult<IEnumerable<TpBetRecordListOneWeek>>
+            {
+                ErrorCode = 0,
+                Data = paymentBLL.GetCustTpBetRecordListOneWeek(authData.CustId)
+            };
             return apiResult;
         }
         public class CustTpBetRecordListOneDayReq
@@ -1292,9 +1316,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<NetworkList>> GetSupportNetwork(GetSupportNetworkReq getSupportNetworkReq)
         {
 
-            var apiResult = new ApiResult<IEnumerable<NetworkList>>();
-            apiResult.Data = paymentBLL.GetSupportNetwork(getSupportNetworkReq.CurrencyId);
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<IEnumerable<NetworkList>>
+            {
+                Data = paymentBLL.GetSupportNetwork(getSupportNetworkReq.CurrencyId),
+                ErrorCode = 0
+            };
             return apiResult;
         }
 

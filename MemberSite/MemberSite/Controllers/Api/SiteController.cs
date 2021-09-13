@@ -1369,9 +1369,11 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<IEnumerable<Country>> GetCountryList()
         {
-            var apiResult = new ApiResult<IEnumerable<Country>>();
-            apiResult.Data = _selLangBll.GetCountryList();
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<IEnumerable<Country>>
+            {
+                Data = _selLangBll.GetCountryList(),
+                ErrorCode = 0
+            };
             return apiResult;
         }
         public enum TypeId
@@ -1384,8 +1386,10 @@ namespace MemberSite.Controllers.Api
         public ApiResult<GameInfo> GetGameListV2()
         {
             var apiResult = new ApiResult<GameInfo>();
-            var resultData = new GameInfo();
-            resultData.ProviderList = new List<Provider>();
+            var resultData = new GameInfo
+            {
+                ProviderList = new List<Provider>()
+            };
 
             //不分Tpid取出GameCasino資料
             var GameCasinoList = _gameCasinoBll.GetGameCasinoList();
@@ -1499,8 +1503,10 @@ namespace MemberSite.Controllers.Api
         public ApiResult<GameInfo> GetGameListByDevice(GetGameListByDeviceReq getGameListByDeviceReq)
         {
             var apiResult = new ApiResult<GameInfo>();
-            var resultData = new GameInfo();
-            resultData.ProviderList = new List<Provider>();
+            var resultData = new GameInfo
+            {
+                ProviderList = new List<Provider>()
+            };
 
             //不分Tpid取出GameCasino資料
             var GameCasinoList = _gameCasinoBll.GetGameCasinoListByDevice(getGameListByDeviceReq.DeviceType);
@@ -1639,8 +1645,10 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<AffiliateAgent> GetAffiliateAgent(AffiliateAgentReq affiliateAgentReq)
         {
-            var apiResult = new ApiResult<AffiliateAgent>();
-            apiResult.Data = new AffiliateAgent();
+            var apiResult = new ApiResult<AffiliateAgent>
+            {
+                Data = new AffiliateAgent()
+            };
             var result = _custInfoBll.GetAffiliateAgentBll(affiliateAgentReq.AffId);
             apiResult.ErrorCode = 0;
             if (result > 0)

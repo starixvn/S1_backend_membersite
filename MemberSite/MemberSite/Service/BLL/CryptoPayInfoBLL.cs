@@ -144,15 +144,17 @@ namespace MemberSite.Service.BLL
 
             if (cryptoPayInfo != null)
             {
-                var depositDetailInfo = new DepositDetailInfo();
-                depositDetailInfo.Amount = amount;
-                depositDetailInfo.CustId = custId;
-                depositDetailInfo.DepositType = (int)DepositType.CryptoPayment;
-                depositDetailInfo.Memo = null;
-                depositDetailInfo.SiteId = custInfo.SiteId;
-                depositDetailInfo.UserName = custInfo.UserName;
-                depositDetailInfo.CurrencyId = custInfo.CurrencyId;
-                depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(cryptoPayInfo);
+                var depositDetailInfo = new DepositDetailInfo
+                {
+                    Amount = amount,
+                    CustId = custId,
+                    DepositType = (int)DepositType.CryptoPayment,
+                    Memo = null,
+                    SiteId = custInfo.SiteId,
+                    UserName = custInfo.UserName,
+                    CurrencyId = custInfo.CurrencyId,
+                    DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(cryptoPayInfo)
+                };
                 string postScript = null;
 
                 depoistService.DepositReq(depositDetailInfo, out transId, out postScript);

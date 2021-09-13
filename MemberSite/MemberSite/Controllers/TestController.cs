@@ -69,20 +69,24 @@ namespace MemberSite.Controllers
             var currencyId = 51;
             var serverInfo = serverInfoService.GetModel(1);
 
-            var customer = new Customer();
-            customer.UserName = "scott010812";
-            customer.CurrencyId = currencyId;
-            customer.Userpwd = "scott010812";
-            customer.SiteId = serverInfo.SiteId;
-            customer.UserLang = "en";
+            var customer = new Customer
+            {
+                UserName = "scott010812",
+                CurrencyId = currencyId,
+                Userpwd = "scott010812",
+                SiteId = serverInfo.SiteId,
+                UserLang = "en"
+            };
             var token = "";
             //var a = custInfoBLL.UserLogin(customer.UserName, customer.SiteId, customer.Userpwd, tools.GetClientIP(this.HttpContext), tools.GetFromUrl(this.HttpContext), Request.Headers["User-Agent"], ref customer, out token);
-            var depositDetailInfo = new DepositDetailInfo();
-            depositDetailInfo.DepositType = 2;
-            depositDetailInfo.CustId = customer.CustId;
-            depositDetailInfo.SiteId = customer.SiteId;
-            depositDetailInfo.UserName = customer.UserName;
-            depositDetailInfo.Amount = -500;
+            var depositDetailInfo = new DepositDetailInfo
+            {
+                DepositType = 2,
+                CustId = customer.CustId,
+                SiteId = customer.SiteId,
+                UserName = customer.UserName,
+                Amount = -500
+            };
             //depositDetailInfo.DispositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfoService.GetBankAccountOff(1, customer.CustId, depositDetailInfo.Amount));
             //@DispositType,@CustId,@UserName,@SiteId,@DispositInfo,@Amount,@Memo,@PostScript,@Status
             var TT = "";

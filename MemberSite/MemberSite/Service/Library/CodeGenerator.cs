@@ -121,8 +121,10 @@ namespace MemberSite.Service.Library
         public string Generate()
         {
             var cryptographicRandomNumber = GetCryptographicRandomNumber(Minimum, Maximum);
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Capacity = Maximum;
+            var stringBuilder = new StringBuilder
+            {
+                Capacity = Maximum
+            };
             char c;
             var c2 = c = '\n';
             for (var i = 0; i < cryptographicRandomNumber; i++)

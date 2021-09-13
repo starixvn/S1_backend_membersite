@@ -85,8 +85,10 @@
             {
                 showResetPwdAlert = true;
 
-                var option = new Microsoft.AspNetCore.Http.CookieOptions();
-                option.Expires = DateTime.Now.AddDays(1);
+                var option = new Microsoft.AspNetCore.Http.CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(1)
+                };
                 Context.Response.Cookies.Append($"InitializationReset{User.Identity.Name}", "1", option);
                 @:<script>ResetPwdAlert = 1;</script>
                 <div id="ResetPwdAlert"></div>
