@@ -1,6 +1,5 @@
-﻿using System.IO;
-using MemberSite.Service.DAL;
-using Microsoft.Extensions.Caching.Memory;
+﻿using System;
+using System.IO;
 using Microsoft.Extensions.Configuration;
 using NSubstitute;
 using NUnit.Framework;
@@ -31,9 +30,8 @@ namespace MemberSite.Service.BLL.Tests
         public void Test_SplitGameInfo(string gameInfo, int providerId, string gameId)
         {
             
-            var memoryCache = Substitute.For<IMemoryCache>();
-            var casinoService = Substitute.For<CasinoService>(_configuration);
-            var casinoBll = new CasinoBll(memoryCache, casinoService);
+            var provider = Substitute.For<IServiceProvider>();
+            var casinoBll = new CasinoBll(provider);
 
 
             var (actualProviderId,actualGameId )= casinoBll.SplitGameInfo(gameInfo);
