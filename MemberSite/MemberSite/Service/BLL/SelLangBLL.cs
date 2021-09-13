@@ -8,36 +8,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
     public class SelLangBLL : ISelLang
     {
-        readonly Dictionary<string, int> LangMapCurr =
+        private readonly Dictionary<string, int> _langMapCurr =
         new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
         {
             {"th", 4}, {"th_en", 4 }, {"cs", 13}, {"ch", 2}, {"id", 15}, {"id_en", 15},{"jp", 32},
             {"ko", 45}, {"vn", 51},{"hi", 61}, {"hi_en", 61}
         };
 
-        private readonly ServerInfoBll serverInfoBLL;
-        private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly ConcurrentDictionary<string, ResourceManager> rm = new ConcurrentDictionary<string, ResourceManager>();
-        private string sLangId;
-        private readonly IMemoryCache cache;
+        private readonly ServerInfoBll _serverInfoBll;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ConcurrentDictionary<string, ResourceManager> _rm = new ConcurrentDictionary<string, ResourceManager>();
+        private string _sLangId;
+        private readonly CacheHelper _cacheHelper;
 
-        public SelLangBLL(IMemoryCache cache, IHttpContextAccessor httpContextAccessor, ServerInfoBll serverInfoBLL)
+        public SelLangBLL(IServiceProvider provider)
         {
-            this.serverInfoBLL = serverInfoBLL;
-            this.httpContextAccessor = httpContextAccessor;
-            sLangId = null;
-            this.cache = cache;
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+            _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+            _sLangId = null;
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
         public IEnumerable<SiteLanguage> GetLangIdList()
         {
             var list = new List<SiteLanguage>();
-            var serverInfo = serverInfoBLL.GetServerInfo();
+            var serverInfo = _serverInfoBll.GetServerInfo();
 
             foreach (var langId in serverInfo.ILangList)
             {
@@ -61,8 +64,8 @@ namespace MemberSite.Service.BLL
         {
             string langId = null;
 
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            var context = httpContextAccessor.HttpContext;
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var context = _httpContextAccessor.HttpContext;
             if (context.User.Identity.IsAuthenticated)
             {
                 langId = context.User.Claims.FirstOrDefault(m => m.Type == "LangId")?.Value;
@@ -75,7 +78,7 @@ namespace MemberSite.Service.BLL
 
             if (string.IsNullOrEmpty(langId))
             {
-                var routes = httpContextAccessor.HttpContext.GetRouteData();
+                var routes = _httpContextAccessor.HttpContext.GetRouteData();
                 var routeDataLandId = routes.Values["LangId"] as string;
                 if (!string.IsNullOrEmpty(routeDataLandId) && serverInfo.ILangList.Contains(routeDataLandId))
                 {
@@ -159,11 +162,11 @@ namespace MemberSite.Service.BLL
             //
             var labelString = string.Empty;
             var sKey = $"{Assembly.GetExecutingAssembly().GetName().Name}.App_GlobalResources.Lan_Info";
-            if (!rm.ContainsKey(sKey))
+            if (!_rm.ContainsKey(sKey))
             {
-                rm.TryAdd(sKey, new ResourceManager(sKey, Assembly.GetExecutingAssembly()));
+                _rm.TryAdd(sKey, new ResourceManager(sKey, Assembly.GetExecutingAssembly()));
             }
-            labelString = rm[sKey].GetString(key);
+            labelString = _rm[sKey].GetString(key);
 
             return labelString;
         }
@@ -173,14 +176,14 @@ namespace MemberSite.Service.BLL
             //
             var labelString = string.Empty;
             var sKey = $"{Assembly.GetExecutingAssembly().GetName().Name}.App_GlobalResources.{categoryId}_{langId}";
-            if (!rm.ContainsKey(sKey))
+            if (!_rm.ContainsKey(sKey))
             {
-                rm.TryAdd(sKey, new ResourceManager(sKey, Assembly.GetExecutingAssembly()));
+                _rm.TryAdd(sKey, new ResourceManager(sKey, Assembly.GetExecutingAssembly()));
             }
 
             try
             {
-                labelString = rm[sKey].GetString(key);
+                labelString = _rm[sKey].GetString(key);
             }
             catch (MissingManifestResourceException mme)
             {
@@ -197,7 +200,7 @@ namespace MemberSite.Service.BLL
         public string GetResourceValue(string key)
         {
             var labelString = "";
-            var serverInfo = serverInfoBLL.GetServerInfo();
+            var serverInfo = _serverInfoBll.GetServerInfo();
             if (serverInfo.SiteId == 1)
             {
                 labelString = GetResourceValue(key, "MemberSite_lan", GetLangId());
@@ -225,7 +228,7 @@ namespace MemberSite.Service.BLL
         public string GetMsg(string key)
         {
             var msgString = "";
-            var serverInfo = serverInfoBLL.GetServerInfo();
+            var serverInfo = _serverInfoBll.GetServerInfo();
             if (serverInfo.SiteId == 1)
             {
                 msgString = GetResourceValue(key, "msg", GetLangId());
@@ -258,7 +261,7 @@ namespace MemberSite.Service.BLL
 
         public int GetPreferCurrencyId()
         {
-            var serverInfo = serverInfoBLL.GetServerInfo();
+            var serverInfo = _serverInfoBll.GetServerInfo();
             if (serverInfo.ICurrencyList == null)
             {
                 return 0;
@@ -267,15 +270,15 @@ namespace MemberSite.Service.BLL
             var langId = GetLangId();
             var defCurrencyId = serverInfo.DefCurrency;
 
-            var userLangs = httpContextAccessor.HttpContext.Request.Headers["Accept-Language"].ToString();
+            var userLangs = _httpContextAccessor.HttpContext.Request.Headers["Accept-Language"].ToString();
 
             if (userLangs.StartsWith("ms", StringComparison.OrdinalIgnoreCase) && serverInfo.ICurrencyList.Contains(2))/*Malay (Malaysia)*/
             {
                 return 2;
             }
-            else if (LangMapCurr.ContainsKey(langId) && serverInfo.ICurrencyList.Contains(LangMapCurr[langId]))
+            else if (_langMapCurr.ContainsKey(langId) && serverInfo.ICurrencyList.Contains(_langMapCurr[langId]))
             {
-                return LangMapCurr[langId];
+                return _langMapCurr[langId];
             }
             else if (defCurrencyId != 0 && serverInfo.ICurrencyList.Contains(defCurrencyId))
             {
@@ -294,21 +297,17 @@ namespace MemberSite.Service.BLL
         public IEnumerable<Country> GetCountryList()
         {
             var key = $"CountryList_{GetLangId()}";
-            var countryList = cache.Get<IEnumerable<Country>>(key);
-            if (countryList == null)
-            {
-                countryList = serverInfoBLL.GetCountryList();
-                if (countryList != null)
-                {
-                    foreach (var country in countryList)
-                    {
-                        country.CountryName = GetResourceValue($"lbl_Country{country.Code}");
-                    }
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<Country>>(key,
+                new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromHours(1)),
+                i => GetCountryListImplement());
+        }
 
-                    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromHours(1));
-                    cache.Set(key, countryList, cacheEntryOptions);
-                }
+        private IEnumerable<Country> GetCountryListImplement()
+        {
+            var countryList = _serverInfoBll.GetCountryList().ToList();
+            foreach (var country in countryList)
+            {
+                country.CountryName = GetResourceValue($"lbl_Country{country.Code}");
             }
 
             return countryList;
