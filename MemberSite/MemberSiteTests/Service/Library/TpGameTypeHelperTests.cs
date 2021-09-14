@@ -12,6 +12,7 @@ using MemberSite.Service.DAL;
 using System.Linq;
 using System;
 using System.Diagnostics;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.Library.Tests
 {
@@ -45,7 +46,7 @@ namespace MemberSite.Service.Library.Tests
             var provider = services.BuildServiceProvider();
 
             _tpGameTypeHelper = new TpGameTypeHelper(provider);
-            _dbClient = provider.GetServices<MySqlClient>().First(p => p.Name == "MainDB");
+            _dbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
         }
 
         [TestCase(1, ExpectedResult = 0)]

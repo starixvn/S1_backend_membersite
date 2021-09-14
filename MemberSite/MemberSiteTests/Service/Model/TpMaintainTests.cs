@@ -9,14 +9,12 @@ namespace MemberSite.Service.Model.Tests
     [TestFixture()]
     public class TpMaintainTests
     {
-        private ILogger<TpMaintainTests> logger;
         private DateTime now;
 
         [SetUp]
         public void Setup()
         {
             now = Convert.ToDateTime("2021-05-25 14:30");
-            logger = Substitute.For<ILogger<TpMaintainTests>>();
         }
 
         [TestCase("2021-01-01 00:00", "2022-01-01 00:00", ExpectedResult = true)]
@@ -29,7 +27,7 @@ namespace MemberSite.Service.Model.Tests
                 EndDate = endDate,
                 MaintainType = MaintainType.Date
             }
-            .MaintainCheck(now, logger);
+            .MaintainCheck(now);
 
         [TestCase("14:29", "14:31", ExpectedResult = true)]
         [TestCase("10:00", "15:00", ExpectedResult = true)]
@@ -44,7 +42,7 @@ namespace MemberSite.Service.Model.Tests
                 BeginTime = beginTime,
                 EndTime = endTime,
             }
-            .MaintainCheck(now, logger);
+            .MaintainCheck(now);
 
 
         [TestCase((int)DayOfWeek.Sunday, ExpectedResult = false)]
@@ -60,7 +58,7 @@ namespace MemberSite.Service.Model.Tests
                 BeginTime = "14:00",
                 EndTime = "15:00",
             }
-            .MaintainCheck(now, logger);
+            .MaintainCheck(now);
 
 
         [TestCase(21, ExpectedResult = false)]
@@ -76,6 +74,6 @@ namespace MemberSite.Service.Model.Tests
                 BeginTime = "14:00",
                 EndTime = "15:00",
             }
-            .MaintainCheck(now, logger);
+            .MaintainCheck(now);
     }
 }
