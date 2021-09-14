@@ -32,7 +32,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<LoadCardPayInfo> GetLoadCardPayInfoList(int siteId)
         {
             var key = $"LoadCardPayInfoList_{siteId}";
-            return _cacheHelper.CacheTryGetValueSet<IEnumerable<LoadCardPayInfo>>(key,
+            return _cacheHelper.TryGetOrCreate<IEnumerable<LoadCardPayInfo>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
                 i => _payService.GetLoadCardPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
         }

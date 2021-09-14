@@ -180,7 +180,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<TpMaintain> GetTpMaintainListWithCache(int siteId)
         {
             var key = $"GetTpMaintainList{siteId}";
-            return _cacheHelper.CacheTryGetValueSet<IEnumerable<TpMaintain>>(key,
+            return _cacheHelper.TryGetOrCreate<IEnumerable<TpMaintain>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
                 i => _thirdPartyService.GetTpMaintainList(siteId)
                     .Where(item => item.MaintainCheck(DateTime.UtcNow, _logger)));

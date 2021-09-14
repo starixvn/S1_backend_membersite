@@ -42,7 +42,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<Promotion> GetPromotionListWithCache(int siteId)
         {
             var key = $"PromotionList_{siteId}";
-            return _cacheHelper.CacheTryGetValueSet<IEnumerable<Promotion>>(key,
+            return _cacheHelper.TryGetOrCreate<IEnumerable<Promotion>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
                 i => GetPromotionList(siteId).OrderBy(x => x.Sort));
         }
@@ -55,7 +55,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<Promotion> GetPromotionListByCustIdWithCache(int custId)
         {
             var key = $"PromotionListByCustId_{custId}";
-            return _cacheHelper.CacheTryGetValueSet<IEnumerable<Promotion>>(key,
+            return _cacheHelper.TryGetOrCreate<IEnumerable<Promotion>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
                 i => GetPromotionListByCustId(custId));
         }
@@ -192,7 +192,7 @@ namespace MemberSite.Service.BLL
         public Promotion GetPromotion(int siteId, string bonusCode, int currencyId)
         {
             var key = $"Promotion_{bonusCode}_{currencyId}_{siteId}";
-            return _cacheHelper.CacheTryGetValueSet<Promotion>(key,
+            return _cacheHelper.TryGetOrCreate<Promotion>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
                 i => _promotionService.GetPromotion(siteId, bonusCode, currencyId));
         }

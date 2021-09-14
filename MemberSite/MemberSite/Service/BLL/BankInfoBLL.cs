@@ -37,7 +37,7 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
 
             var key = $"BankInfoSysList_{serverInfo.SiteId}";
-            return _cacheHelper.CacheTryGetValueSet<IEnumerable<BankInfoSys>>(key,
+            return _cacheHelper.TryGetOrCreate<IEnumerable<BankInfoSys>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
                 i => _bankInfoService.GetBankInfoSysList(serverInfo.SiteId)?.Where(x => x.CurrencyId == currencyId));
         }
@@ -47,7 +47,7 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
 
             var key = $"BankInfoSysListForCtrl_{serverInfo.SiteId}";
-            return _cacheHelper.CacheTryGetValueSet<IEnumerable<BankInfoSys>>(key,
+            return _cacheHelper.TryGetOrCreate<IEnumerable<BankInfoSys>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
                 i => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId)?.Where(x => x.CurrencyId == currencyId));
         }
@@ -199,14 +199,14 @@ namespace MemberSite.Service.BLL
         public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId)
         {
             var key = $"BankInfoPayList_{siteId}";
-            return _cacheHelper.CacheTryGetValueSet<IEnumerable<BankInfoPay>>(key,
+            return _cacheHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)),
                 i => _bankInfoService.GetBankInfoPayList(siteId).OrderBy(x => x.MSort).ThenBy(x => x.SSort));
         }
         public IEnumerable<PayCurrency> GetPayCurrency()
         {
             var key = "PayCurrency";
-            return _cacheHelper.CacheTryGetValueSet<IEnumerable<PayCurrency>>(key,
+            return _cacheHelper.TryGetOrCreate<IEnumerable<PayCurrency>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
                 i => _payService.GetPayCurrency());
         }

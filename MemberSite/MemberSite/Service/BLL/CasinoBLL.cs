@@ -58,7 +58,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<int> GetProviderIdByCurrency(int currencyId, int siteId)
         {
             var key = $"ProviderIdByCurrency_{currencyId}_{siteId}";
-            return _cacheHelper.CacheTryGetValueSet<IEnumerable<int>>(key,
+            return _cacheHelper.TryGetOrCreate<IEnumerable<int>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => _casinoService.GetProviderIdByCurrency(currencyId, siteId));
         }

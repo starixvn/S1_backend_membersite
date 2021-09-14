@@ -49,14 +49,14 @@ namespace MemberSite.Service.BLL
         public IEnumerable<Leaderboard> GetLeaderboardListWithCache(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
             var key = $"Leaderboard_{lBCategoryId}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
-            return _cacheHelper.CacheTryGetValueSet<IEnumerable<Leaderboard>>(key,
+            return _cacheHelper.TryGetOrCreate<IEnumerable<Leaderboard>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetLeaderboardList(lBCategoryId, siteId, currencyId, topNum, beforeDays));
         }
         public void GetCustRankWithCache(int lBCategoryId, int custId, int beforeDays, out int custRank, out decimal point)
         {
             var key = $"Leaderboard_{lBCategoryId}_{custId}_{beforeDays}";
-            var result = _cacheHelper.CacheTryGetValueSet<LeaderboardCustRank>(key,
+            var result = _cacheHelper.TryGetOrCreate<LeaderboardCustRank>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetCustRank(lBCategoryId, custId, beforeDays));
 
@@ -127,14 +127,14 @@ namespace MemberSite.Service.BLL
         public IEnumerable<Leaderboard> GetLeaderboardListWithCacheV2(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
             var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
-            return _cacheHelper.CacheTryGetValueSet<IEnumerable<Leaderboard>>(key,
+            return _cacheHelper.TryGetOrCreate<IEnumerable<Leaderboard>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays));
         }
         public IEnumerable<Leaderboard> GetLeaderboardListWithCacheV3(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
             var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{beforeDays}_v3";
-            return _cacheHelper.CacheTryGetValueSet<IEnumerable<Leaderboard>>(key,
+            return _cacheHelper.TryGetOrCreate<IEnumerable<Leaderboard>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetLeaderboardListV4(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays));
         }
@@ -142,14 +142,14 @@ namespace MemberSite.Service.BLL
         public IEnumerable<Leaderboard> GetLeaderboardListMonthWithCache(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, DateTime selectDays)
         {
             var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{selectDays.Date}";
-            return _cacheHelper.CacheTryGetValueSet<IEnumerable<Leaderboard>>(key,
+            return _cacheHelper.TryGetOrCreate<IEnumerable<Leaderboard>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetLeaderboardListMonth(lBCategoryId, eventCode, siteId, currencyId, topNum, selectDays));
         }
         public void GetCustRankWithCacheV2(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out decimal point)
         {
             var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{custId}_{beforeDays}";
-            var result = _cacheHelper.CacheTryGetValueSet<LeaderboardCustRank>(key,
+            var result = _cacheHelper.TryGetOrCreate<LeaderboardCustRank>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetCustRankV3(lBCategoryId, eventCode, custId, beforeDays));
             
@@ -160,7 +160,7 @@ namespace MemberSite.Service.BLL
         public void GetCustRankWithCacheMonth(int lBCategoryId, string eventCode, int custId, DateTime selectDays, out int custRank, out Decimal point)
         {
             var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{custId}_{selectDays}";
-            var result = _cacheHelper.CacheTryGetValueSet<LeaderboardCustRank>(key,
+            var result = _cacheHelper.TryGetOrCreate<LeaderboardCustRank>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetCustRankMonth(lBCategoryId, eventCode, custId, selectDays));
             
@@ -230,7 +230,7 @@ namespace MemberSite.Service.BLL
         public LeaderboardInfo GetLeaderboardInfoWithCache(string eventCode, int siteId, int currencyId)
         {
             var key = $"tLeaderboardIInfo_{eventCode}_{siteId}_{currencyId}";
-            return _cacheHelper.CacheTryGetValueSet<LeaderboardInfo>(key,
+            return _cacheHelper.TryGetOrCreate<LeaderboardInfo>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(60)),
                 i => GetLeaderboardInfo(eventCode, siteId, currencyId));
         }
@@ -251,7 +251,7 @@ namespace MemberSite.Service.BLL
         public void GetEventDrawInfoWithCache(int eventId, out string eventName, out string conditionSp)
         {
             var key = $"EventDrawInfo_{eventId}";
-            var result = _cacheHelper.CacheTryGetValueSet<EventDrawInfo>(key,
+            var result = _cacheHelper.TryGetOrCreate<EventDrawInfo>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(30)),
                 i => GetEventDrawInfo(eventId));
             

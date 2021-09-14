@@ -31,7 +31,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<MobilePayInfo> GetMobilePayInfoList(int siteId)
         {
             var key = $"MobilePayInfoList_{siteId}";
-            return _cacheHelper.CacheTryGetValueSet<IEnumerable<MobilePayInfo>>(key,
+            return _cacheHelper.TryGetOrCreate<IEnumerable<MobilePayInfo>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
                 i => _payService.GetMobilePayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
         }

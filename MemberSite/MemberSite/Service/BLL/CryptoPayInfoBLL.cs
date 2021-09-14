@@ -36,7 +36,7 @@ namespace MemberSite.Service.BLL
         private IEnumerable<CryptoPayInfo> GetCryptoPayInfoListWithCache(int siteId)
         {
             var key = $"CryptoPayInfoList_{siteId}";
-            return _cacheHelper.CacheTryGetValueSet<IEnumerable<CryptoPayInfo>>(key,
+            return _cacheHelper.TryGetOrCreate<IEnumerable<CryptoPayInfo>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
                 i => _payService.GetCryptoPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
         }

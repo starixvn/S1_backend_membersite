@@ -21,7 +21,7 @@ namespace MemberSite.Service.BLL
         public LatestHighlightData GetLatestHighlightData(int SiteId, string LangId)
         {
             var key = $"GetLatestHighlightData_{SiteId}_{LangId}";
-            return _cacheHelper.CacheTryGetValueSet<LatestHighlightData>(key,
+            return _cacheHelper.TryGetOrCreate<LatestHighlightData>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
                 i => _latestHighlightDataService.GetLatestHighlightData(SiteId, LangId));
         }
