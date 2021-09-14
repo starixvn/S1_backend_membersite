@@ -64,6 +64,8 @@ namespace MemberSite
             services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
 
             services.AddMemoryCache();
+            services.AddDatabaseConnection(configuration);
+
             /*Library*/
             services.AddSingleton<Tools>();
             services.AddSingleton<Common>();
@@ -75,8 +77,7 @@ namespace MemberSite
             services.AddSingleton<IHttpHelper, HttpHelper>();
             services.AddSingleton<CacheHelper>();
             services.AddSingleton<TpGameTypeHelper>();
-            services.AddDatabaseConnection(configuration);
-
+            
             /*DAL*/
             services.AddSingleton<ServerInfoService>();
             services.AddSingleton<AgentInfoService>();
@@ -94,12 +95,7 @@ namespace MemberSite
             services.AddSingleton<PayService>();
             services.AddSingleton<RolloverService>();
             services.AddSingleton<PromotionService>();
-            services.AddSingleton(serviceProvider =>
-            {
-                var reportDbClient = serviceProvider.GetServices<MySqlClient>()
-                    .First(item => item.Name == "ReportDB");
-                return new CasinoService(configuration, reportDbClient);
-            });
+            services.AddSingleton<CasinoService>();
             services.AddSingleton<StatementService>();
             services.AddSingleton<AuthService>();
             services.AddSingleton<BannerService>();
@@ -111,12 +107,6 @@ namespace MemberSite
             services.AddSingleton<LiveStreamingService>();
             services.AddSingleton<LatestHighlightDataService>();
             services.AddSingleton<ConfigService>();
-            // foreach (var s in AppDomain.CurrentDomain.GetAssemblies()
-            //.SelectMany(t => t.GetTypes())
-            //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.DAL"))
-            // {
-            //     services.AddSingleton(s);
-            // }
 
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
@@ -153,14 +143,7 @@ namespace MemberSite
 			services.AddTransient<GeoIpBLL>();
 			services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
             services.AddTransient<GeoIpBLL>();
-            //var bll = AppDomain.CurrentDomain.GetAssemblies()
-            //.SelectMany(t => t.GetTypes())
-            //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.BLL");
 
-            //foreach (var s in bll)
-            //{
-            //    services.AddSingleton(s);
-            //}
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();

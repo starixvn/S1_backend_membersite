@@ -1,11 +1,15 @@
 ﻿using Dapper;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace MemberSite.Service.DAL
 {
@@ -17,14 +21,15 @@ namespace MemberSite.Service.DAL
         private readonly MySqlClient _reportDbClient;
         private readonly string _connectionString;
 
-        public CustInfoService(IConfiguration configuration, PromotionService promotionService, ILogger<MySqlClient> logger)
+        public CustInfoService(IServiceProvider provider)
         {
-            this.configuration = configuration;
-            this.promotionService = promotionService;
-            _mainDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionString"), logger);
-            _reportDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionStringReport"), logger);
+            configuration = provider.GetRequiredService<IConfiguration>();
+            promotionService = provider.GetRequiredService<PromotionService>();
+            _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
+            _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
             _connectionString = configuration.GetConnectionString("ConnectionString");
         }
+
         public bool ExistsUserName(string userName, int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));

@@ -10,7 +10,6 @@ using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace MemberSite.Service.DAL
 {
@@ -30,9 +29,8 @@ namespace MemberSite.Service.DAL
             common = provider.GetRequiredService<Common>();
             walletService = provider.GetRequiredService<WalletService>();
             rolloverService = provider.GetRequiredService<RolloverService>();
-            var logger = provider.GetRequiredService<ILogger<MySqlClient>>();
-            _mainDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionString"), logger);
-            _reportDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionStringReport"), logger);
+            _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
+            _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
         public int WithdrawalReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, WithdrawalInfo withdrawalInfo, out decimal afterAmount, out string transId)
         {

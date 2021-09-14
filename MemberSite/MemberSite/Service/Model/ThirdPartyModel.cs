@@ -53,7 +53,7 @@ namespace MemberSite.Service.Model
         public string BeginTime { get; set; }
         public string EndTime { get; set; }
 
-        public bool MaintainCheck(DateTime utcNow, ILogger logger)
+        public bool MaintainCheck(DateTime utcNow)
         {
             try
             {         
@@ -82,9 +82,8 @@ namespace MemberSite.Service.Model
                     _ => false,
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                logger.LogError(ex, ex.Message);
                 return false;
             }
         }

@@ -8,6 +8,8 @@ using System.Data;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Linq;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
 {
@@ -22,10 +24,10 @@ namespace MemberSite.Service.DAL
         {
             configuration = provider.GetRequiredService<IConfiguration>();
             tools = provider.GetRequiredService<Tools>();
-            var logger = provider.GetRequiredService<ILogger<MySqlClient>>();
-            _mainDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionString"), logger);
-            _reportDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionStringReport"), logger);
+            _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
+            _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
+
         public void AddUserLoginLog(int custId, string userName, int siteId, string loginIp, string fromUrl, string userAgent)
         {
             Task.Run(() =>

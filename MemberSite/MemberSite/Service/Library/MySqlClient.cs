@@ -4,6 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Dapper;
+using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using Serilog.Context;
@@ -12,7 +13,7 @@ namespace MemberSite.Service.Library
 {
      public sealed class MySqlClient
     {
-        public string Name { get; set; }
+        public DataBase DataBase { get; set; }
         private readonly string _connectionString;
 
         private readonly ILogger<MySqlClient> _logger;

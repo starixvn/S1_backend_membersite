@@ -183,7 +183,7 @@ namespace MemberSite.Service.BLL
             return _cacheHelper.TryGetOrCreate<IEnumerable<TpMaintain>>(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
                 i => _thirdPartyService.GetTpMaintainList(siteId)
-                    .Where(item => item.MaintainCheck(DateTime.UtcNow, _logger)));
+                    .Where(item => item.MaintainCheck(DateTime.UtcNow)));
         }
     }
 }
