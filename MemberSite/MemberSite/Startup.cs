@@ -74,6 +74,7 @@ namespace MemberSite
 			services.AddTransient<JsonNetSerializer>();
             services.AddSingleton<IHttpHelper, HttpHelper>();
             services.AddSingleton<CacheHelper>();
+            services.AddSingleton<TpGameTypeHelper>();
             services.AddDatabaseConnection(configuration);
 
             /*DAL*/
@@ -109,6 +110,7 @@ namespace MemberSite
             services.AddSingleton<GameCasinoService>();
             services.AddSingleton<LiveStreamingService>();
             services.AddSingleton<LatestHighlightDataService>();
+            services.AddSingleton<ConfigService>();
             // foreach (var s in AppDomain.CurrentDomain.GetAssemblies()
             //.SelectMany(t => t.GetTypes())
             //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.DAL"))
@@ -248,6 +250,8 @@ namespace MemberSite
             });
 
             services.AddControllers();
+
+            services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

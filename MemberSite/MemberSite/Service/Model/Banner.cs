@@ -91,5 +91,7 @@ namespace MemberSite.Service.Model
         public decimal? Handicap { get; set; }
         public string Logo { get; set; }
         public string BackgroundPic { get; set; }
+
+        public int tpGameType { get; set; }
     }
 }

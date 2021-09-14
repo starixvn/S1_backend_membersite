@@ -1,6 +1,8 @@
 ﻿using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
@@ -17,20 +19,17 @@ namespace MemberSite.Service.BLL
         private readonly PromotionBll promotionBLL;
         private readonly IWebHostEnvironment environment;
         private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
+        private readonly TpGameTypeHelper tpGameTypeHelper;
 
-        public BannerBLL(BannerService bannerService, ServerInfoBll serverInfoBLL, IWebHostEnvironment environment, PromotionBll promotionBLL, IOptions<Dictionary<string, SiteConfig>> siteConfig)
+        public BannerBLL(IServiceProvider provider)
         {
-            this.bannerService = bannerService;
-            this.serverInfoBLL = serverInfoBLL;
-            this.environment = environment;
-            this.promotionBLL = promotionBLL;
-            this.siteConfig = siteConfig;
+            bannerService = provider.GetRequiredService<BannerService>();
+            serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
+            environment = provider.GetRequiredService<IWebHostEnvironment>();
+            promotionBLL = provider.GetRequiredService<PromotionBll>();
+            siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
+            tpGameTypeHelper = provider.GetRequiredService<TpGameTypeHelper>();
         }
-
-        //public IEnumerable<Banner> GetBanner(int SiteId, string FolderName, string Lang, int CurrencyId)
-        //{
-        //    return bannerService.GetBanner(SiteId, FolderName, Lang, CurrencyId);
-        //}
 
         public IEnumerable<BannerSettingItem> GetBanner(int perferCurr, string FolderName)
         {
@@ -90,6 +89,7 @@ namespace MemberSite.Service.BLL
 
             return bannerFromDB;
         }
+
         public IEnumerable<BannerV2> GetBannerV2(int SiteId, int BannerType, int ShowStatus, int CurrencyId, string LangId)
         {
             var banner = new List<BannerV2>();
@@ -147,7 +147,8 @@ namespace MemberSite.Service.BLL
                             UrlRouter = bannerdetail.UrlRouter,
                             BannerLink = settings["bannerLink"],
                             BannerPCUrl = settings["bannerPCUrl"],
-                            BannerMobileUrl = settings["bannerMobileUrl"]
+                            BannerMobileUrl = settings["bannerMobileUrl"],
+                            tpGameType = tpGameTypeHelper.GetTpGameType(bannerdetail, CurrencyId),
                         });
                     }
                 }
@@ -161,7 +162,7 @@ namespace MemberSite.Service.BLL
                     if (sportLeaguesId.ContainsKey(LangId) && sportTeamsHome.ContainsKey(LangId) && sportTeamsAway.ContainsKey(LangId))
                     {
                         //if (serverInfo.SiteId == 1 && (bannerdetail.LeaguesId == 1 || bannerdetail.LeaguesId == 2 || bannerdetail.LeaguesId == 3 || bannerdetail.LeaguesId == 4 || bannerdetail.LeaguesId == 5 ))
-                        if (serverInfo.SiteId == 1 && bannerdetail.LeaguesId != 6 )
+                        if (serverInfo.SiteId == 1 && bannerdetail.LeaguesId != 6)
                         {
                             logoPic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{serverInfo.SiteName}/Logo.png";
                             backgroundPic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{serverInfo.SiteName}/Background.jpg";
@@ -192,13 +193,13 @@ namespace MemberSite.Service.BLL
                             AwayOdds = bannerdetail.AwayOdds,
                             Handicap = bannerdetail.Handicap,
                             Logo = logoPic,
-                            BackgroundPic = backgroundPic
+                            BackgroundPic = backgroundPic,
+                            tpGameType = tpGameTypeHelper.GetTpGameType(bannerdetail, CurrencyId)
                         });
                     }
                 }
             }
-
             return banner;
-        }
+        }       
     }
 }
