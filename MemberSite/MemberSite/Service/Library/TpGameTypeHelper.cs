@@ -77,7 +77,7 @@ namespace MemberSite.Service.Library
             };
         }
 
-        public int MainBannerGetTpCategoryId(BannerV3 banner, List<TpGameTypeOption> typeList)
+        private int MainBannerGetTpCategoryId(BannerV3 banner, List<TpGameTypeOption> typeList)
         {
             //Get by UrlRouter
             if (banner.UrlRouter?.IndexOf("sports") > -1)
@@ -113,7 +113,7 @@ namespace MemberSite.Service.Library
             return 0;
         }
 
-        public int GetSabaGameType(BannerV3 banner, int currencyId)
+        private int GetSabaGameType(BannerV3 banner, int currencyId)
         {
             if (!int.TryParse(banner.GameId, out int gameId))
             {
@@ -124,7 +124,7 @@ namespace MemberSite.Service.Library
             return tpGameType;
         }
 
-        public (int tpGameType, int tpCategoryId) GetSabaDetailByGameId(int gameId)
+        private (int tpGameType, int tpCategoryId) GetSabaDetailByGameId(int gameId)
         {
             return gameId switch
             {
@@ -176,7 +176,7 @@ namespace MemberSite.Service.Library
             };
         }
 
-        public int GetOne789GameType(BannerV3 banner, int currencyId)
+        private int GetOne789GameType(BannerV3 banner, int currencyId)
         {
             return banner.GameId switch
             {
@@ -187,12 +187,12 @@ namespace MemberSite.Service.Library
             };
         }
 
-        public int GetV8GameType(BannerV3 banner, int currencyId)
+        private int GetV8GameType(BannerV3 banner, int currencyId)
         {
             return 42;
         }
 
-        public int GetTCGGameType(BannerV3 banner, int currencyId)
+        private int GetTCGGameType(BannerV3 banner, int currencyId)
         {
             return currencyId switch
             {
@@ -201,7 +201,7 @@ namespace MemberSite.Service.Library
             };
         }
 
-        public int GetMPGameType(BannerV3 banner, int currencyId)
+        private int GetMPGameType(BannerV3 banner, int currencyId)
         {
             return 60;
         }

@@ -6,24 +6,26 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using MemberSite.Service.Library;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.DAL
 {
 
     public class StatementService
     {
-        private readonly IConfiguration configuration;
-        private readonly IMemoryCache cache;
-        public StatementService(IConfiguration configuration, IMemoryCache cache)
+        private readonly IConfiguration _configuration;
+        private readonly CacheHelper _cacheHelper;
+        
+        public StatementService(IServiceProvider provider)
         {
-            this.configuration = configuration;
-            this.cache = cache;
-
+            _configuration = provider.GetRequiredService<IConfiguration>();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
         public IEnumerable<Statement> GetStatement(int custId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { CustId = custId, StartDate = startDate, EndDate = endDate, SiteId = siteId, PageSize = pageSize });
             p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -38,52 +40,31 @@ namespace MemberSite.Service.DAL
         public IEnumerable<TpList> GetTpListWithCache()
         {
             var key = $"CustInfo_TpList";
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            var customer = cache.Get<IEnumerable<TpList>>(key);
-            if (customer != null)
-            {
-                return customer;
-            }
-            customer = conn.Query<TpList>("Member_TpList_Get", commandType: CommandType.StoredProcedure);
-            if (customer != null)
-            {
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetSlidingExpiration(TimeSpan.FromMinutes(1));
-                cache.Set(key, customer, cacheEntryOptions);
-            }
-            return customer;
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(1)),
+                i => GetTpList());
         }
         public IEnumerable<TpList> GetTpList()
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<TpList>("Member_TpList_Get", commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<GameTypeList> GetGameTypeListWithCache()
         {
             var key = $"CustInfo_GameType";
-            var customer = cache.Get<IEnumerable<GameTypeList>>(key);
-            if (customer != null)
-            {
-                return customer;
-            }
-            customer = GetGameTypeList();
-            if (customer != null)
-            {
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromMinutes(60));
-                cache.Set(key, customer, cacheEntryOptions);
-            }
-            return customer;
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(60)),
+                i => GetGameTypeList());
         }
         public IEnumerable<GameTypeList> GetGameTypeList()
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<GameTypeList>("Common_TpGameType_Get", commandType: CommandType.StoredProcedure);
         }
 
         public IEnumerable<BounsLogStatement> GetBounsLogStatement(int custId,int PromoCategoryId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { CustId = custId, PromoCategoryId, StartDate = startDate, EndDate = endDate, SiteId = siteId, PageSize = pageSize });
             p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -98,20 +79,20 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<PromotionCategory> GetPromotionCategory()
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             var result = conn.Query<PromotionCategory>("Member_PromotionCategory_Get", commandType: CommandType.StoredProcedure);
             return result;
         }
         public IEnumerable<TpBetRecordListOneWeek> GetCustTpBetRecordListOneWeek(int custId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             var result = conn.Query<TpBetRecordListOneWeek>("Member_TpBetRecord_byCustIDOneWeek_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
             return result;
         }
         public IEnumerable<TpBetRecordListOneDay> GetCustTpBetRecordListOneDay(int custId, string selDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
             IEnumerable<TpBetRecordListOneDay> result = null;
-            using (var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport")))
+            using (var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport")))
             {
                 var SpName = "Member_TpBetRecord_byOneDay_Get";
                 var props = new DynamicParameters(new { CustId = custId, SelDate = selDate });
@@ -132,7 +113,7 @@ namespace MemberSite.Service.DAL
         {
 
             IEnumerable<TpBetRecordbyCategoryId> result = null;
-            using (var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport")))
+            using (var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport")))
             {
                 var SpName = "Member_TpBetRecord_byCategoryId_Get";
                 var props = new DynamicParameters(new { CustId = custId, SelDate = selDate, CategoryId = categoryId });
@@ -152,7 +133,7 @@ namespace MemberSite.Service.DAL
         public IEnumerable<TpBetRecordDetailbyGameType> GetCustTpBetRecordDetailListbyGameType(int custId, string selDate, int gameTypeId, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
             IEnumerable<TpBetRecordDetailbyGameType> result = null;
-            using (var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport")))
+            using (var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport")))
             {
                 var SpName = "Member_TpBetRecord_byGameTypeList_Get";
                 var props = new DynamicParameters(new { CustId = custId, SelDate = selDate, TypeId = gameTypeId });
@@ -172,7 +153,7 @@ namespace MemberSite.Service.DAL
         public IEnumerable<TpBetRecordListDateRange> GetCustTpBetRecordDateRange(int custId, string startDate, string endDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
             IEnumerable<TpBetRecordListDateRange> result = null;
-            using (var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport")))
+            using (var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport")))
             {
                 var SpName = "Member_TpBetRecord_byDateRange_Get";
                 var props = new DynamicParameters(new { CustId = custId, StartDate = startDate, EndDate = endDate });
@@ -191,7 +172,7 @@ namespace MemberSite.Service.DAL
         }
         public IEnumerable<NetworkList> GetSupportNetwork(int currencyId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             var result = conn.Query<NetworkList>("Member_SupportNetwork_Get", new { CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
             return result;
         }
