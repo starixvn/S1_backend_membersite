@@ -50,6 +50,8 @@ namespace MemberSite
             .AddJsonFile($"domain.json", false, true)
             .Build();
 
+        // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public Startup(IConfiguration configuration, IHostEnvironment environment)
         {
             this.configuration = configuration;
@@ -74,13 +76,14 @@ namespace MemberSite
 			services.AddTransient<JsonNetSerializer>();
             services.AddSingleton<IHttpHelper, HttpHelper>();
             services.AddSingleton<CacheHelper>();
+            services.AddSingleton<TpGameTypeHelper>();
             
             /*DAL*/
             services.AddSingleton<ServerInfoService>();
             services.AddSingleton<AgentInfoService>();
             services.AddSingleton<CustInfoService>();
             services.AddSingleton<AuthenticateService>();
-            services.AddSingleton<DepoistService>();
+            services.AddSingleton<DepositService>();
             services.AddSingleton<WithdrawalService>();
             services.AddSingleton<BankInfoOffService>();
             services.AddSingleton<BankInfoService>();
@@ -103,26 +106,27 @@ namespace MemberSite
             services.AddSingleton<GameCasinoService>();
             services.AddSingleton<LiveStreamingService>();
             services.AddSingleton<LatestHighlightDataService>();
+            services.AddSingleton<ConfigService>();
 
             /*BLL*/
-            services.AddSingleton<ServerInfoBLL>();
-            services.AddSingleton<CustInfoBLL>();
+            services.AddSingleton<ServerInfoBll>();
+            services.AddSingleton<CustInfoBll>();
             services.AddSingleton<WalletBLL>();
             /*??SelLangBLL?Scope*/
             services.AddSingleton<SelLangBLL>();
             services.AddSingleton<AuthorizeBLL>();
             services.AddSingleton<BankInfoOffBLL>();
             services.AddSingleton<BankInfoBLL>();
-            services.AddSingleton<MobilePayInfoBLL>();
-            services.AddSingleton<CryptoPayInfoBLL>();
+            services.AddSingleton<MobilePayInfoBll>();
+            services.AddSingleton<CryptoPayInfoBll>();
             services.AddSingleton<LoadCardPayInfoBLL>();
             services.AddSingleton<DepositBLL>();
             services.AddSingleton<PaymentBLL>();
             services.AddSingleton<ThirdPartyBll>();
-            services.AddSingleton<MessageBLL>();
-            services.AddSingleton<PromotionBLL>();
+            services.AddSingleton<MessageBll>();
+            services.AddSingleton<PromotionBll>();
             services.AddSingleton<GamingBLL>();
-            services.AddSingleton<CasinoBLL>();
+            services.AddSingleton<CasinoBll>();
             services.AddSingleton<CommonBLL>();
             services.AddSingleton<TemplateBLL>();
             services.AddSingleton<AuthBLL>();
@@ -132,13 +136,14 @@ namespace MemberSite
             services.AddSingleton<IovationBLL>();
             services.AddSingleton<FPSBLL>();
             services.AddSingleton<EventsBLL>();
-            services.AddSingleton<GameCasinoBLL>();
-            services.AddSingleton<LiveStreamingBLL>();
-            services.AddSingleton<LatestHighlightDataBLL>();
+            services.AddSingleton<GameCasinoBll>();
+            services.AddSingleton<LiveStreamingBll>();
+            services.AddSingleton<LatestHighlightDataBll>();
             services.AddSingleton<GameBLL>();
 			services.AddTransient<GeoIpBLL>();
 			services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
             services.AddTransient<GeoIpBLL>();
+
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();
@@ -196,6 +201,10 @@ namespace MemberSite
             services.AddDataProtection().DisableAutomaticKeyGeneration();
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("CookieKeys")).SetApplicationName("SharedCookieApp");
 
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.EventsType = typeof(CustomCookieAuthenticationEvents);
+            //});
             services.Configure<WebEncoderOptions>(options =>
             {
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
@@ -224,6 +233,8 @@ namespace MemberSite
             });
 
             services.AddControllers();
+
+            services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,14 +10,14 @@ namespace MemberSite.Controllers.Api
     public class VideoController : Controller
     {
         private readonly AuthorizeBLL authorizeBLL;
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
         private readonly SelLangBLL selLangBLL;
-        private readonly CustInfoBLL custInfoBLL;
-        private readonly LiveStreamingBLL liveStreamingBLL;
-        private readonly LatestHighlightDataBLL latestHighlightDataBLL;
+        private readonly CustInfoBll custInfoBLL;
+        private readonly LiveStreamingBll liveStreamingBLL;
+        private readonly LatestHighlightDataBll latestHighlightDataBLL;
 
 
-        public VideoController(AuthorizeBLL authorizeBLL, ServerInfoBLL serverInfoBLL, SelLangBLL selLangBLL, CustInfoBLL custInfoBLL, LiveStreamingBLL liveStreamingBLL, LatestHighlightDataBLL latestHighlightDataBLL)
+        public VideoController(AuthorizeBLL authorizeBLL, ServerInfoBll serverInfoBLL, SelLangBLL selLangBLL, CustInfoBll custInfoBLL, LiveStreamingBll liveStreamingBLL, LatestHighlightDataBll latestHighlightDataBLL)
         {
             this.authorizeBLL = authorizeBLL;
             this.serverInfoBLL = serverInfoBLL;

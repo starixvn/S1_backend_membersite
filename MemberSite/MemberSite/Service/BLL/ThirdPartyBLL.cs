@@ -19,7 +19,7 @@ namespace MemberSite.Service.BLL
         private readonly SelLangBLL _selLangBll;
         private readonly ConcurrentDictionary<string, TpCurrency> _tpCurrencyList;
         private readonly ConcurrentDictionary<string, ThirdPartyModel> _thirdPartyModelContainer;
-        private readonly CustInfoBLL _custInfoBll;
+        private readonly CustInfoBll _custInfoBll;
         private readonly CourierAdapter _courierAdapter;
         private readonly string _apiUrl;
         private readonly ILogger<ThirdPartyBll> _logger;
@@ -44,7 +44,7 @@ namespace MemberSite.Service.BLL
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _tpCurrencyList = new ConcurrentDictionary<string, TpCurrency>();
             _thirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
-            _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             var configuration = provider.GetRequiredService<IConfiguration>();
             _apiUrl = configuration.GetValue<string>("TpService");

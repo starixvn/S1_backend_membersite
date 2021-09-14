@@ -29,19 +29,19 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class SiteController : ControllerBase
     {
-        private readonly CustInfoBLL _custInfoBll;
+        private readonly CustInfoBll _custInfoBll;
         private readonly Tools _tools;
         private readonly SelLangBLL _selLangBll;
         private readonly CommonBLL _commonBll;
         private readonly IWebHostEnvironment _environment;
         private readonly AuthorizeBLL _authorizeBll;
-        private readonly CasinoBLL _casinoBll;
-        private readonly ServerInfoBLL _serverInfoBll;
+        private readonly CasinoBll _casinoBll;
+        private readonly ServerInfoBll _serverInfoBll;
         private readonly BannerBLL _bannerBll;
         private readonly AuthBLL _authBll;
         private readonly IovationBLL _iovationBll;
         private readonly FPSBLL _sFpsBll;
-        private readonly GameCasinoBLL _gameCasinoBll;
+        private readonly GameCasinoBll _gameCasinoBll;
         private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
         private readonly Regex _regexUserName = new Regex(@"^[a-zA-Z0-9]{6,18}$");
         private readonly Regex _regexAffCode = new Regex(@"^[0-9]{5,20}$");
@@ -55,19 +55,19 @@ namespace MemberSite.Controllers.Api
 
         public SiteController(IServiceProvider provider)
         {
-            _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _tools = provider.GetRequiredService<Tools>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _environment = provider.GetRequiredService<IWebHostEnvironment>();
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
-            _casinoBll = provider.GetRequiredService<CasinoBLL>();
-            _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
+            _casinoBll = provider.GetRequiredService<CasinoBll>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _bannerBll = provider.GetRequiredService<BannerBLL>();
             _authBll = provider.GetRequiredService<AuthBLL>();
             _iovationBll = provider.GetRequiredService<IovationBLL>();
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
-            _gameCasinoBll = provider.GetRequiredService<GameCasinoBLL>();
+            _gameCasinoBll = provider.GetRequiredService<GameCasinoBll>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
 
@@ -1369,9 +1369,11 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<IEnumerable<Country>> GetCountryList()
         {
-            var apiResult = new ApiResult<IEnumerable<Country>>();
-            apiResult.Data = _selLangBll.GetCountryList();
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<IEnumerable<Country>>
+            {
+                Data = _selLangBll.GetCountryList(),
+                ErrorCode = 0
+            };
             return apiResult;
         }
         public enum TypeId
@@ -1384,8 +1386,10 @@ namespace MemberSite.Controllers.Api
         public ApiResult<GameInfo> GetGameListV2()
         {
             var apiResult = new ApiResult<GameInfo>();
-            var resultData = new GameInfo();
-            resultData.ProviderList = new List<Provider>();
+            var resultData = new GameInfo
+            {
+                ProviderList = new List<Provider>()
+            };
 
             //不分Tpid取出GameCasino資料
             var GameCasinoList = _gameCasinoBll.GetGameCasinoList();
@@ -1499,8 +1503,10 @@ namespace MemberSite.Controllers.Api
         public ApiResult<GameInfo> GetGameListByDevice(GetGameListByDeviceReq getGameListByDeviceReq)
         {
             var apiResult = new ApiResult<GameInfo>();
-            var resultData = new GameInfo();
-            resultData.ProviderList = new List<Provider>();
+            var resultData = new GameInfo
+            {
+                ProviderList = new List<Provider>()
+            };
 
             //不分Tpid取出GameCasino資料
             var GameCasinoList = _gameCasinoBll.GetGameCasinoListByDevice(getGameListByDeviceReq.DeviceType);
@@ -1639,9 +1645,11 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<AffiliateAgent> GetAffiliateAgent(AffiliateAgentReq affiliateAgentReq)
         {
-            var apiResult = new ApiResult<AffiliateAgent>();
-            apiResult.Data = new AffiliateAgent();
-            var result = _custInfoBll.GetAffiliateAgentBLL(affiliateAgentReq.AffId);
+            var apiResult = new ApiResult<AffiliateAgent>
+            {
+                Data = new AffiliateAgent()
+            };
+            var result = _custInfoBll.GetAffiliateAgentBll(affiliateAgentReq.AffId);
             apiResult.ErrorCode = 0;
             if (result > 0)
             {

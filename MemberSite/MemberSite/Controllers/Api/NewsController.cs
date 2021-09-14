@@ -9,10 +9,10 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class NewsController : Controller
     {
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
         private readonly NewsBLL newsBLL;
 
-        public NewsController(ServerInfoBLL serverInfoBLL, NewsBLL newsBLL)
+        public NewsController(ServerInfoBll serverInfoBLL, NewsBLL newsBLL)
         {
             this.serverInfoBLL = serverInfoBLL;
             this.newsBLL = newsBLL;
@@ -34,9 +34,7 @@ namespace MemberSite.Controllers.Api
             {
                 var serverInfo = serverInfoBLL.GetServerInfo();
                 var pageNumber = NewsReq.PageNumber;
-                int totalPages;
-                int rowCount;
-                result.Data = newsBLL.GetNews(serverInfo.SiteId, NewsReq.PageSize, ref pageNumber, out totalPages, out rowCount);
+                result.Data = newsBLL.GetNews(serverInfo.SiteId, NewsReq.PageSize, ref pageNumber, out var totalPages, out var rowCount);
                 result.PageNumber = pageNumber;
                 result.TotalPages = totalPages;
                 result.RowCount = rowCount;

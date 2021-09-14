@@ -3,9 +3,9 @@
 @using MemberSite.Service.BLL
 @inject IWebHostEnvironment environment
 @inject SelLangBLL selLangBLL
-@inject ServerInfoBLL serverInfoBLL
+@inject ServerInfoBll serverInfoBLL
 @inject AuthorizeBLL authorizeBLL
-@inject CustInfoBLL custInfoBLL
+@inject CustInfoBll custInfoBLL
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Deposit");
     Layout = "~/Views/Shared/_Layout.cshtml";

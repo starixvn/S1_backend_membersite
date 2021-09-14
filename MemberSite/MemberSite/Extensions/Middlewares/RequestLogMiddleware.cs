@@ -17,11 +17,11 @@ namespace MemberSite.Extensions.Middlewares
         private readonly ILogger _logger;
         private readonly RequestDelegate _next;
         private readonly AuthorizeBLL _authorizeBll;
-        private readonly ServerInfoBLL _serverInfoBll;
+        private readonly ServerInfoBll _serverInfoBll;
         private readonly Tools _tools;
 
         public RequestLogMiddleware(RequestDelegate next, ILoggerFactory factory, AuthorizeBLL authorizeBll,
-            ServerInfoBLL serverInfoBll, Tools tools)
+            ServerInfoBll serverInfoBll, Tools tools)
         {
             _next = next;
             _logger = factory.CreateLogger("RequestLog");

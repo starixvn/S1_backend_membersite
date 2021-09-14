@@ -310,7 +310,7 @@ namespace MemberSite.Service.DAL
                         {
                             var currentTime = DateTime.UtcNow.AddHours(8);
                             var calculateDate = currentTime
-                                .AddDays(-(int) DateTime.Today.DayOfWeek + (int) DayOfWeek.Monday)
+                                .AddDays(-(int) DateTime.UtcNow.AddHours(8).DayOfWeek + (int) DayOfWeek.Monday)
                                 .ToString("yyyy-MM-dd");
 
                             result = _bonusWalletService.RewardCashBack(
@@ -735,7 +735,7 @@ namespace MemberSite.Service.DAL
         private void GetCashbackInfo(int custId, int siteId, int currencyId, CustPromotion promotion, bool getDetail)
         {
             var calculateDate = DateTime.UtcNow.AddHours(8)
-                .AddDays(-(int) DateTime.Today.DayOfWeek + (int) DayOfWeek.Monday)
+                .AddDays(-(int) DateTime.UtcNow.AddHours(8).DayOfWeek + (int) DayOfWeek.Monday)
                 .ToString("yyyy-MM-dd");
 
             var result =

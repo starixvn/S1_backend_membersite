@@ -29,9 +29,9 @@ namespace MemberSite.Controllers.Api
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly WalletBLL _walletBll;
         private readonly BonusWalletBLL _bonusWalletBll;
-        private readonly CustInfoBLL _custInfoBll;
+        private readonly CustInfoBll _custInfoBll;
         private readonly GameBLL _gameBll;
-        private readonly ServerInfoBLL _serverInfoBll;
+        private readonly ServerInfoBll _serverInfoBll;
         private readonly StatementService _statementService;
         private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
 
@@ -45,9 +45,9 @@ namespace MemberSite.Controllers.Api
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _walletBll = provider.GetRequiredService<WalletBLL>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
-            _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _gameBll = provider.GetRequiredService<GameBLL>();
-            _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _statementService = provider.GetRequiredService<StatementService>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
         }
@@ -543,9 +543,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiListResult<TpTransferInfoHistory>();
             var pageNumber = historyReq.PageNumber;
-            int totalPages;
-            int rowCount;
-            apiResult.Data = _thirdPartyBll.GetTransferHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
+            apiResult.Data = _thirdPartyBll.GetTransferHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out var totalPages, out var rowCount);
             apiResult.PageNumber = pageNumber;
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;
@@ -555,9 +553,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<TpTransferInfoHistory>> GetTransferRecent()
         {
             var authData = _authorizeBll.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<TpTransferInfoHistory>>();
-            apiResult.Data = _thirdPartyBll.GetTransferRecent(authData.CustId);
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<IEnumerable<TpTransferInfoHistory>>
+            {
+                Data = _thirdPartyBll.GetTransferRecent(authData.CustId),
+                ErrorCode = 0
+            };
             return apiResult;
         }
     }

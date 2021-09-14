@@ -17,17 +17,17 @@ namespace MemberSite.Controllers
         private readonly string payApiUrl;
         private readonly Tools tools;
         private readonly AuthorizeBLL authorizeBLL;
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
         private readonly PaymentBLL paymentBLL;
-        private readonly MobilePayInfoBLL mobilePayInfoBLL;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly MobilePayInfoBll mobilePayInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly TemplateBLL templateBLL;
-        private readonly CryptoPayInfoBLL cryptoPayInfoBLL;
+        private readonly CryptoPayInfoBll cryptoPayInfoBLL;
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
-        private readonly PromotionBLL promotionBLL;
+        private readonly PromotionBll promotionBLL;
         private bool isNewVersion = true;
 
-        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, ServerInfoBLL serverInfoBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL, CustInfoBLL custInfoBLL, TemplateBLL templateBLL, CryptoPayInfoBLL cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, PromotionBLL promotionBLL)
+        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, ServerInfoBll serverInfoBLL, PaymentBLL paymentBLL, MobilePayInfoBll mobilePayInfoBLL, CustInfoBll custInfoBLL, TemplateBLL templateBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, PromotionBll promotionBLL)
         {
             this.courierAdapter = courierAdapter;
             payApiUrl = configuration.GetValue<string>("PayService");

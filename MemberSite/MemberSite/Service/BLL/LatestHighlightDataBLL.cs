@@ -1,38 +1,29 @@
 ﻿using System;
 using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
-    public class LatestHighlightDataBLL
+    public class LatestHighlightDataBll
     {
-        private readonly IMemoryCache cache;
-        private readonly LatestHighlightDataService latestHighlightDataService;
+        private readonly LatestHighlightDataService _latestHighlightDataService;
+        private readonly CacheHelper _cacheHelper;
 
-        public LatestHighlightDataBLL(IMemoryCache cache, LatestHighlightDataService latestHighlightDataService)
+        public LatestHighlightDataBll(IServiceProvider provider)
         {
-            this.cache = cache;
-            this.latestHighlightDataService = latestHighlightDataService;
+            _latestHighlightDataService = provider.GetRequiredService<LatestHighlightDataService>();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
         public LatestHighlightData GetLatestHighlightData(int SiteId, string LangId)
         {
             var key = $"GetLatestHighlightData_{SiteId}_{LangId}";
-            var latestHighlightData = cache.Get<LatestHighlightData>(key);
-            if (latestHighlightData != null)
-            {
-                return latestHighlightData;
-            }
-
-            latestHighlightData = latestHighlightDataService.GetLatestHighlightData(SiteId, LangId);
-
-            if (latestHighlightData != null)
-            {
-                cache.Set(key, latestHighlightData, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
-            }
-
-            return latestHighlightData;
+            return _cacheHelper.CacheTryGetValueSet<LatestHighlightData>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                i => _latestHighlightDataService.GetLatestHighlightData(SiteId, LangId));
         }
     }
 }

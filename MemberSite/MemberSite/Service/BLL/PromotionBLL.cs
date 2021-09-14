@@ -8,78 +8,56 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using static MemberSite.Controllers.Api.TpController;
 
 namespace MemberSite.Service.BLL
 {
-    public class PromotionBLL
+    public class PromotionBll
     {
-        private readonly PromotionService promotionService;
-        private readonly IMemoryCache cache;
-        private readonly CustInfoBLL custInfoBLL;
-        private readonly CourierAdapter courierAdapter;
-        private readonly string apiUrl;
-        private readonly int bonusType;
+        private readonly PromotionService _promotionService;
+        private readonly CustInfoBll _custInfoBll;
+        private readonly CourierAdapter _courierAdapter;
+        private readonly string _apiUrl;
         private readonly SelLangBLL _selLangBll;
-        private readonly MessageBLL _messageBll;
+        private readonly MessageBll _messageBll;
+        private readonly CacheHelper _cacheHelper;
 
-        public PromotionBLL(IConfiguration configuration, IMemoryCache cache, PromotionService promotionService,
-            CustInfoBLL custInfoBLL, CourierAdapter courierAdapter, SelLangBLL selLangBll, MessageBLL messageBll)
+        public PromotionBll(IServiceProvider provider)
         {
-            this.promotionService = promotionService;
-            this.cache = cache;
-            this.custInfoBLL = custInfoBLL;
-            this.courierAdapter = courierAdapter;
-            apiUrl = configuration.GetValue<string>("TpService");
-            bonusType = configuration.GetValue<int>("BonusType");
-            _selLangBll = selLangBll;
-            _messageBll = messageBll;
+            _promotionService = provider.GetRequiredService<PromotionService>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
+            _courierAdapter = provider.GetRequiredService<CourierAdapter>();
+            _apiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("TpService");
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
+            _messageBll = provider.GetRequiredService<MessageBll>();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
         public IEnumerable<Promotion> GetPromotionList(int siteId)
         {
-            return promotionService.GetPromotionList(siteId);
+            return _promotionService.GetPromotionList(siteId);
         }
 
         public IEnumerable<Promotion> GetPromotionListWithCache(int siteId)
         {
             var key = $"PromotionList_{siteId}";
-            var promotionList = cache.Get<IEnumerable<Promotion>>(key);
-
-            if (promotionList == null)
-            {
-                promotionList = GetPromotionList(siteId);
-
-                if (promotionList != null)
-                {
-                    cache.Set(key, promotionList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
-                }
-            }
-
-            return promotionList.OrderBy(x => x.Sort);
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<Promotion>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                i => GetPromotionList(siteId).OrderBy(x => x.Sort));
         }
         public IEnumerable<Promotion> GetPromotionListByCustId(int custId)
         {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            return promotionService.GetPromotionListByCustId(custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId)?.Where(x => GetCanJoin(custInfo.CustId, x.BonusCode) || x.BonusInfoStatus > 0 || custInfo.ActStatus == 1);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            return _promotionService.GetPromotionListByCustId(custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId)?.Where(x => GetCanJoin(custInfo.CustId, x.BonusCode) || x.BonusInfoStatus > 0 || custInfo.ActStatus == 1);
         }
-        /*Radis*/
+        
         public IEnumerable<Promotion> GetPromotionListByCustIdWithCache(int custId)
         {
             var key = $"PromotionListByCustId_{custId}";
-            var promotionList = cache.Get<IEnumerable<Promotion>>(key);
-
-            if (promotionList == null)
-            {
-                promotionList = GetPromotionListByCustId(custId);
-
-                if (promotionList != null)
-                {
-                    cache.Set(key, promotionList, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)));
-                }
-            }
-
-            return promotionList;
+            return _cacheHelper.CacheTryGetValueSet<IEnumerable<Promotion>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
+                i => GetPromotionListByCustId(custId));
         }
         private class TpBonusTransfer
         {
@@ -96,14 +74,14 @@ namespace MemberSite.Service.BLL
         {
             var apiResult1 = new ApiResult();
             var lockedAmount = dLockedAmount ?? 0;
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var result = promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, deviceType, out var bonusAmount, ref lockedAmount, out var rollOver, out var expiryTime, out var promotion);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var result = _promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, deviceType, out var bonusAmount, ref lockedAmount, out var rollOver, out var expiryTime, out var promotion);
 
             if (result > 0)
             {
                 if (promotion?.TpId > 0)
                 {
-                    var myUrl = $"{apiUrl}BonusTransfer";
+                    var myUrl = $"{_apiUrl}BonusTransfer";
                     var apiResult = new ApiResult<TransferResult>();
                     var tpBonusTransfer = new TpBonusTransfer
                     {
@@ -117,7 +95,7 @@ namespace MemberSite.Service.BLL
                         inputs = new Dictionary<string, string>()
                     };
 
-                    var data = await courierAdapter.MyPostAsync<TransferResult, TpBonusTransfer>(myUrl, tpBonusTransfer);
+                    var data = await _courierAdapter.MyPostAsync<TransferResult, TpBonusTransfer>(myUrl, tpBonusTransfer);
                     apiResult.Data = data.Data;
                     apiResult.ErrorCode = data.ErrorCode;
                     apiResult.RawErrorCode = data.RawErrorCode;
@@ -152,7 +130,7 @@ namespace MemberSite.Service.BLL
             {
                 apiResult1.ErrorCode = -2;
                 var dRequiredAmount = lockedAmount.ToString("#,##0");
-                if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
+                if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
                 {
                     dRequiredAmount = $"{lockedAmount / 1000:#,##0} ('000)";
                 }
@@ -173,7 +151,7 @@ namespace MemberSite.Service.BLL
             {
                 apiResult1.ErrorCode = -4;
                 var dRequiredAmount = promotion.RequiredAmount.ToString("#,##0");
-                if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
+                if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
                 {
                     dRequiredAmount = $"{promotion.RequiredAmount / 1000:#,##0} ('000)";
                 }
@@ -203,79 +181,66 @@ namespace MemberSite.Service.BLL
         }
         public bool GetCanJoin(int custId, string bonusCode)
         {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            return promotionService.GetCanJoin(custId, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out var _, out var _, out var _);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            return _promotionService.GetCanJoin(custId, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out var _, out var _, out var _);
         }
         public bool GetCanJoin(int custId, string bonusCode, out int result, out string depositId, out decimal dpositAmount)
         {
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            return promotionService.GetCanJoin(custId, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out result, out depositId, out dpositAmount);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            return _promotionService.GetCanJoin(custId, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out result, out depositId, out dpositAmount);
         }
         public Promotion GetPromotion(int siteId, string bonusCode, int currencyId)
         {
             var key = $"Promotion_{bonusCode}_{currencyId}_{siteId}";
-            var promotion = cache.Get<Promotion>(key);
-
-            if (promotion == null)
-            {
-                promotion = promotionService.GetPromotion(siteId, bonusCode, currencyId);
-
-                if (promotion != null)
-                {
-                    cache.Set(key, promotion, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
-                }
-            }
-
-            return promotion;
+            return _cacheHelper.CacheTryGetValueSet<Promotion>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                i => _promotionService.GetPromotion(siteId, bonusCode, currencyId));
         }
 
         public List<CustPromotion> GetPromotionListV2(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang)
         {
-            return promotionService.GetPromotionListv2(SiteId, CustId, CurrencyId, IsLogin, langId, defLang);
+            return _promotionService.GetPromotionListv2(SiteId, CustId, CurrencyId, IsLogin, langId, defLang);
         }
         public List<CustPromotion> GetPromotionListV3(int SiteId, int CustId, int CurrencyId, int DeviceType, bool IsLogin, string langId, string defLang)
         {
-            return promotionService.GetPromotionListv3(SiteId, CustId, CurrencyId, DeviceType, IsLogin, langId, defLang);
+            return _promotionService.GetPromotionListv3(SiteId, CustId, CurrencyId, DeviceType, IsLogin, langId, defLang);
         }
         public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode, int? DeviceType)
         {
-            return promotionService.GetPromotionDetail(SiteId, CustId, CurrencyId, IsLogin, langId, defLang, BonusCode, DeviceType);
+            return _promotionService.GetPromotionDetail(SiteId, CustId, CurrencyId, IsLogin, langId, defLang, BonusCode, DeviceType);
         }
         public List<CustPromotion> GetSpecialPromotionList(int SiteId, int CustId, int CurrencyId, string langId, string defLang)
         {
-            return promotionService.GetSpecialPromotionList(SiteId, CustId, CurrencyId, langId, defLang);
+            return _promotionService.GetSpecialPromotionList(SiteId, CustId, CurrencyId, langId, defLang);
         }
         public List<CustPromotion> GetSpecialPromotionListV2(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int deviceType)
         {
-            return promotionService.GetSpecialPromotionListV2(SiteId, CustId, CurrencyId, langId, defLang, deviceType);
+            return _promotionService.GetSpecialPromotionListV2(SiteId, CustId, CurrencyId, langId, defLang, deviceType);
         }
         public bool CheckSpecialCode(string specialCode)
         {
-            return promotionService.CheckSpecialCode(specialCode);
+            return _promotionService.CheckSpecialCode(specialCode);
         }
         public bool CheckScratchCardCode(string specialCode)
         {
-            return promotionService.CheckScratchCardCode(specialCode);
+            return _promotionService.CheckScratchCardCode(specialCode);
         }
         public int SetScratchCardCode(int custId, string specialCode, int? deviceType)
         {
-            return promotionService.SetScratchCardCode(custId, specialCode, deviceType);
+            return _promotionService.SetScratchCardCode(custId, specialCode, deviceType);
         }
         public bool SetSpecialCode(int custId, string specialCode, int? deviceType)
         {
-            return promotionService.SetSpecialCode(custId, specialCode, deviceType);
+            return _promotionService.SetSpecialCode(custId, specialCode, deviceType);
         }
-        public void SetSpecialCodeJoined(int custId, string specialCode, string bonusCode)
-        {
-            promotionService.SetSpecialCodeJoined(custId, specialCode, bonusCode);
-        }
+
         public List<CustPromotion> GetDepositPromotionList(int CustId, int DeviceType, string langId, string defLang)
         {
-            return promotionService.GetDepositPromotionList(CustId, DeviceType, langId, defLang);
+            return _promotionService.GetDepositPromotionList(CustId, DeviceType, langId, defLang);
         }
         public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, int siteId, string userName, int currencyId, int deviceType, decimal lockedAmount)
         {
-            return promotionService.SetDepositPromotionQueue(transId, bonusCode, custId, siteId, userName, currencyId, deviceType, lockedAmount);
+            return _promotionService.SetDepositPromotionQueue(transId, bonusCode, custId, siteId, userName, currencyId, deviceType, lockedAmount);
         }
     }
 }

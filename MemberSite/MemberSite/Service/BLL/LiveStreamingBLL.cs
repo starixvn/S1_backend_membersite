@@ -1,79 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
 using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
-    public class LiveStreamingBLL
+    public class LiveStreamingBll
     {
-        private readonly IMemoryCache cache;
-        private readonly LiveStreamingService liveStreamingService;
+        private readonly LiveStreamingService _liveStreamingService;
+        private readonly CacheHelper _cacheHelper;
 
-        public LiveStreamingBLL(IMemoryCache cache, LiveStreamingService liveStreamingService)
+        public LiveStreamingBll(IServiceProvider provider)
         {
-            this.cache = cache;
-            this.liveStreamingService = liveStreamingService;
+            _liveStreamingService = provider.GetRequiredService<LiveStreamingService>();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
-        public IEnumerable<LiveStreamingData> GetLiveStreamingList(int SiteId, string LangId)
+        public IEnumerable<LiveStreamingData> GetLiveStreamingList(int siteId, string langId)
         {
             var liveStreaming = new List<LiveStreamingData>();
 
-            var key = $"LiveStreamingList_{SiteId}";
-            var liveStreaminglist = cache.Get<IEnumerable<LiveStreaming>>(key);
-            if (liveStreaminglist == null)
+            var key = $"LiveStreamingList_{siteId}";
+            var liveStreamingList = _cacheHelper.CacheTryGetValueSet<IEnumerable<LiveStreaming>>(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
+                i => _liveStreamingService.GetLiveStreamingList());
+
+            foreach (var liveStreamingDetail in liveStreamingList)
             {
-                liveStreaminglist = liveStreamingService.GetLiveStreamingList();
-                if (liveStreaminglist != null)
+                string home;
+                string away;
+                string league;
+                if (langId == "th")
                 {
-                    cache.Set(key, liveStreaminglist, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
+                    home = liveStreamingDetail.HomeTH;
+                    away = liveStreamingDetail.AwayTH;
+                    league = liveStreamingDetail.LeagueTH;
                 }
-            }
-
-            string home;
-            string away;
-            string league;
-
-            foreach (var liveStreamingdetail in liveStreaminglist)
-            {
-
-                if (LangId == "th")
+                else if (langId == "cs")
                 {
-                    home = liveStreamingdetail.HomeTH;
-                    away = liveStreamingdetail.AwayTH;
-                    league = liveStreamingdetail.LeagueTH;
-                }
-                else if (LangId == "cs")
-                {
-                    home = liveStreamingdetail.HomeCH;
-                    away = liveStreamingdetail.AwayCH;
-                    league = liveStreamingdetail.LeagueCH;
+                    home = liveStreamingDetail.HomeCH;
+                    away = liveStreamingDetail.AwayCH;
+                    league = liveStreamingDetail.LeagueCH;
                 }
                 else
                 {
-                    home = liveStreamingdetail.Home;
-                    away = liveStreamingdetail.Away;
-                    league = liveStreamingdetail.League;
+                    home = liveStreamingDetail.Home;
+                    away = liveStreamingDetail.Away;
+                    league = liveStreamingDetail.League;
                 }
 
                 liveStreaming.Add(new LiveStreamingData()
                 {
-                    MatchID = liveStreamingdetail.MatchID,
-                    Channel = liveStreamingdetail.Channel,
-                    TimeStart = liveStreamingdetail.TimeStart,
-                    TimeStop = liveStreamingdetail.TimeStop,
-                    Name = liveStreamingdetail.Name,
+                    MatchID = liveStreamingDetail.MatchID,
+                    Channel = liveStreamingDetail.Channel,
+                    TimeStart = liveStreamingDetail.TimeStart,
+                    TimeStop = liveStreamingDetail.TimeStop,
+                    Name = liveStreamingDetail.Name,
                     Home = home,
                     Away = away,
-                    Type = liveStreamingdetail.Type,
+                    Type = liveStreamingDetail.Type,
                     League = league,
-                    NowPlaying = liveStreamingdetail.NowPlaying,
-                    IsLive = liveStreamingdetail.IsLive,
-                    State = liveStreamingdetail.State,
-                    HomeScore = liveStreamingdetail.HomeScore,
-                    AwayScore = liveStreamingdetail.AwayScore,
+                    NowPlaying = liveStreamingDetail.NowPlaying,
+                    IsLive = liveStreamingDetail.IsLive,
+                    State = liveStreamingDetail.State,
+                    HomeScore = liveStreamingDetail.HomeScore,
+                    AwayScore = liveStreamingDetail.AwayScore,
 
                 });
             }

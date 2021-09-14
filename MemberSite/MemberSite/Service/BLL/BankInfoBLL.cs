@@ -13,8 +13,8 @@ namespace MemberSite.Service.BLL
     public class BankInfoBLL
     {
         private readonly BankInfoService _bankInfoService;
-        private readonly ServerInfoBLL _serverInfoBll;
-        private readonly CustInfoBLL _custInfoBll;
+        private readonly ServerInfoBll _serverInfoBll;
+        private readonly CustInfoBll _custInfoBll;
         private readonly SysBankInfoOffComparer _sysBankInfoOffComparer;
         private readonly PaymentOffComparer _paymentOffComparer;
         private readonly PayService _payService;
@@ -24,8 +24,8 @@ namespace MemberSite.Service.BLL
         public BankInfoBLL(IServiceProvider provider)
         {
             _bankInfoService = provider.GetRequiredService<BankInfoService>();
-            _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
-            _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _payService = provider.GetRequiredService<PayService>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();

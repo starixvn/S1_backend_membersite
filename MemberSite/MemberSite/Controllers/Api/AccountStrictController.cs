@@ -20,12 +20,12 @@ namespace MemberSite.Controllers.Api
     {
         private readonly SelLangBLL selLangBLL;
         private readonly AuthorizeBLL authorizeBLL;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly BankInfoBLL bankInfoBLL;
         private readonly CommonBLL commonBLL;
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
 
-        public AccountStrictController(SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, CustInfoBLL custInfoBLL, BankInfoBLL bankInfoBLL, CommonBLL commonBLL, ServerInfoBLL serverInfoBLL)
+        public AccountStrictController(SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, CustInfoBll custInfoBLL, BankInfoBLL bankInfoBLL, CommonBLL commonBLL, ServerInfoBll serverInfoBLL)
         {
             this.selLangBLL = selLangBLL;
             this.authorizeBLL = authorizeBLL;
@@ -683,9 +683,11 @@ namespace MemberSite.Controllers.Api
                 }
                 else
                 {
-                    var graphicOptions = new GraphicOptions();
-                    graphicOptions.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-                    graphicOptions.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                    var graphicOptions = new GraphicOptions
+                    {
+                        CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed,
+                        SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed
+                    };
                     img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
                 }
 
