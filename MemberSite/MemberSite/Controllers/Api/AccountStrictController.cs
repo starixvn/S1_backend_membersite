@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LazZiya.ImageResize;
 using MemberSite.Service.BLL;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using static MemberSite.Controllers.Api.SiteController;
 
 namespace MemberSite.Controllers.Api
 {
@@ -176,7 +178,7 @@ namespace MemberSite.Controllers.Api
             }
 
             int currencyId = uSDTDetailreq.CurrencyId == 0 ? 96 : uSDTDetailreq.CurrencyId;
-            uSDTInfoList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress , Network = uSDTDetailreq.Network, CurrencyId = currencyId });
+            uSDTInfoList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress, Network = uSDTDetailreq.Network, CurrencyId = currencyId });
 
             apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
@@ -420,7 +422,7 @@ namespace MemberSite.Controllers.Api
                     var result = custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"], null);
                 }
             }
-            
+
             if (custProfile.TryGetValue("Email", out var email) && !string.IsNullOrEmpty(email) &&
                 custInfoBLL.ExistsEmail(authData.CustId, email))
             {
@@ -792,5 +794,82 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+
+        public class SendOTPEmailReq
+        {
+            public int flag { get; set; }/*1: Has LangId*/
+        }
+        [HttpPost]
+        public async Task<ApiResult> SendOTPEmailAsync(SendOTPEmailReq sendOTPEmailReq)
+        {
+            var apiResult = new ApiResult<bool>(selLangBLL);
+            try
+            {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    apiResult.ErrorCode = -1;
+                }
+                else
+                {
+                    var authData = authorizeBLL.GetAuthData();
+                    var otpEmailUrl = Url.RouteUrl("desktop", new { action = "", controller = "resetPassword", LangId = sendOTPEmailReq.flag == 1 ? selLangBLL.GetLangId() : "" }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
+
+                    if (sendOTPEmailReq.flag == 1)
+                    {
+                        otpEmailUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/{selLangBLL.GetLangId()}/OTPEmail";
+                    }
+                    else if (sendOTPEmailReq.flag == 2)
+                    {
+                        if (Url.ActionContext.HttpContext.Request.Host.Host == "app.n17881788.com")
+                        {
+                            otpEmailUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.n17881788.com/{selLangBLL.GetLangId()}/OTPEmail";
+                        }
+                        else if (Url.ActionContext.HttpContext.Request.Host.Host == "app.bwing.com")
+                        {
+                            otpEmailUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.bwing.com/{selLangBLL.GetLangId()}/OTPEmail";
+                        }
+                        else if (Url.ActionContext.HttpContext.Request.Host.Host == "app.goal123.com")
+                        {
+                            otpEmailUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.goal123.com/{selLangBLL.GetLangId()}/OTPEmail";
+                        }
+                        else
+                        {
+                            //H5
+                            otpEmailUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/OTPEmail";
+                        }
+                    }
+                    else
+                    {
+                        otpEmailUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/OTPEmail";
+                    }
+
+                    var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
+                    var pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
+                    var result = Regex.Replace(custInfoProfile.Email, pattern, m => new string('*', m.Length));
+                    var commonResult = await commonBLL.SendOTPEmailAsync(authData.CustId, otpEmailUrl);
+
+                    if (commonResult.ErrorCode == 0)
+                    {
+                        apiResult.Message = $"Has send to {result}.";
+                        apiResult.ErrorCode = 0;
+                    }
+                    else
+                    {
+                        apiResult.ErrorCode = commonResult.ErrorCode;
+                        apiResult.Message = commonResult.Message;
+                        apiResult.RawErrorCode = commonResult.RawErrorCode;
+                        apiResult.RawMessage = commonResult.RawMessage;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                apiResult.RawMessage = ex.Message;
+            }
+
+            return apiResult;
+        }
+
     }
 }
