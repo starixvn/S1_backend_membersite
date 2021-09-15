@@ -107,6 +107,7 @@ namespace MemberSite
             services.AddSingleton<LiveStreamingService>();
             services.AddSingleton<LatestHighlightDataService>();
             services.AddSingleton<ConfigService>();
+            services.AddSingleton<AppLinkService>();
 
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
@@ -143,6 +144,7 @@ namespace MemberSite
 			services.AddTransient<GeoIpBLL>();
 			services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
             services.AddTransient<GeoIpBLL>();
+            services.AddTransient<AppLinkBLL>();
 
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
