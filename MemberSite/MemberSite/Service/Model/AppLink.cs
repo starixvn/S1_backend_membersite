@@ -16,7 +16,7 @@ namespace MemberSite.Service.Model
     {
         public int AppType { get; set; }
         public string AppTypeName { get; set; }
-        public string Domain { get; set; }
+        public string DownloadLink { get; set; }
 
     }
 }

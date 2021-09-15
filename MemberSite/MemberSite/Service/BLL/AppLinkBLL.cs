@@ -27,7 +27,7 @@ namespace MemberSite.Service.BLL
                 {
                     AppType = x.AppType,
                     AppTypeName = Enum.GetName(typeof(AppLinkAppType), x.AppType),
-                    Domain = EncodeDomain($"{Enum.GetName(typeof(AppLinkProtocolType), x.ProtocolType)}://{x.Domain}")
+                    DownloadLink = EncodeDomain($"{Enum.GetName(typeof(AppLinkProtocolType), x.ProtocolType)}://{x.Domain}")
                 });
             });
 
