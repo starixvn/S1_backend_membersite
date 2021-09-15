@@ -257,4 +257,14 @@
         Wager,//ConnectionStringWager
         Log,//ConnectionStringLog
     }
+    public enum AppLinkAppType
+    {
+        Andriod = 1,
+        IOS = 2
+    }
+    public enum AppLinkProtocolType
+    {
+        http = 1,
+        https = 2
+    }
 }
