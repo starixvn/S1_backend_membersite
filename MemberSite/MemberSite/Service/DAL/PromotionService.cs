@@ -924,11 +924,14 @@ namespace MemberSite.Service.DAL
                 promo.canJoin = canJoinResult == 1 || canJoinResult == 3;
                 promo.Result = canJoinParams.Get<int>("Result");
 
-                if (promo.PromotionType == (int)PromotionType.FstDeposit && promo.Result == 2)
+                if ((promo.PromotionType == (int)PromotionType.FstDeposit || promo.PromotionType == (int)PromotionType.ReDeposit) 
+                    && promo.Result == 2)
                 {
                     promo.DepositId = canJoinParams.Get<string>("RefId");
                     promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
-                    promo.MaxAmount = _walletService.GetBalance(CustId);
+                    promo.MaxAmount = promo.PromotionType == (int)PromotionType.FstDeposit
+                        ? _walletService.GetBalance(CustId)
+                        : promo.DepositAmount;
                     if (promo.RequiredAmount == 0)
                     {
                         promo.RequiredAmount = 1;
