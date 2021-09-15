@@ -929,6 +929,8 @@ namespace MemberSite.Service.DAL
                 {
                     promo.DepositId = canJoinParams.Get<string>("RefId");
                     promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
+                    promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
+                    
                     promo.MaxAmount = promo.PromotionType == (int)PromotionType.FstDeposit
                         ? _walletService.GetBalance(CustId)
                         : promo.DepositAmount;
