@@ -27,18 +27,11 @@ namespace MemberSite.Service.BLL
                 {
                     AppType = x.AppType,
                     AppTypeName = Enum.GetName(typeof(AppLinkAppType), x.AppType),
-                    DownloadLink = EncodeDomain($"{Enum.GetName(typeof(AppLinkProtocolType), x.ProtocolType)}://{x.Domain}")
+                    DownloadLink = $"{Enum.GetName(typeof(AppLinkProtocolType), x.ProtocolType)}://{x.Domain}"
                 });
             });
 
             return result;
-        }
-        private string EncodeDomain(string Domain)
-        {
-            var s = Encoding.UTF8.GetBytes(Domain);
-            var encoded = Convert.ToBase64String(s).Replace('+', '-').Replace('/', '_');
-
-            return encoded;
         }
     }
 }
