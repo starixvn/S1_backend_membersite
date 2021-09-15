@@ -115,7 +115,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<Domainlist> GetSupportDomainListWithCache(int siteId, int currencyId)
         {
             var key = $"GetSupportDomainListWithCache_{siteId}_{currencyId}";
-            return _cacheHelper.TryGetOrCreate<IEnumerable<Domainlist>>(key,
+            return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(5)),
                 i => GetSupportDomainList(siteId, currencyId));
         }

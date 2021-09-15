@@ -37,7 +37,7 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
 
             var key = $"BankInfoSysList_{serverInfo.SiteId}";
-            return _cacheHelper.TryGetOrCreate<IEnumerable<BankInfoSys>>(key,
+            return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
                 i => _bankInfoService.GetBankInfoSysList(serverInfo.SiteId)?.Where(x => x.CurrencyId == currencyId));
         }
@@ -47,7 +47,7 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
 
             var key = $"BankInfoSysListForCtrl_{serverInfo.SiteId}";
-            return _cacheHelper.TryGetOrCreate<IEnumerable<BankInfoSys>>(key,
+            return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
                 i => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId)?.Where(x => x.CurrencyId == currencyId));
         }
@@ -206,7 +206,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<PayCurrency> GetPayCurrency()
         {
             var key = "PayCurrency";
-            return _cacheHelper.TryGetOrCreate<IEnumerable<PayCurrency>>(key,
+            return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
                 i => _payService.GetPayCurrency());
         }

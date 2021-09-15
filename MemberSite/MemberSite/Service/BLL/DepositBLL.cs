@@ -23,7 +23,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<DepositLimitInfo> GetDepositLimitInfoList(int siteId)
         {
             var key = $"DepositLimitInfoList_{siteId}";
-            return _cacheHelper.TryGetOrCreate<IEnumerable<DepositLimitInfo>>(key,
+            return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
                 i => _depositService.GetDepositLimitInfoList().Where(x => x.SiteId == siteId));
         }

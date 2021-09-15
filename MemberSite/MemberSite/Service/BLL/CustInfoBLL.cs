@@ -158,7 +158,7 @@ namespace MemberSite.Service.BLL
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             var key = $"CustInfoByUserName_{serverInfo.SiteId}_{userName}";
-            return _cacheHelper.TryGetOrCreate<Customer>(key,
+            return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(1)),
                 i => _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId));
         }
@@ -222,7 +222,7 @@ namespace MemberSite.Service.BLL
         public Customer GetCustInfoWithCache(int custId)
         {
             var key = $"CustInfo_{custId}";
-            return _cacheHelper.TryGetOrCreate<Customer>(key,
+            return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(1)),
                 i => _custInfoService.GetCustInfo(custId));
         }
@@ -241,7 +241,7 @@ namespace MemberSite.Service.BLL
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             var key = $"CustInfoByMai_{serverInfo.SiteId}_{email}";
-            return _cacheHelper.TryGetOrCreate<Customer>(key,
+            return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(1)),
                 i => _custInfoService.GetCustInfoByMail(email, serverInfo.SiteId));
         }
@@ -249,7 +249,7 @@ namespace MemberSite.Service.BLL
         public int GetPointLevelWithCache(int custId)
         {
             var key = $"PointLevelCache_{custId}";
-            return _cacheHelper.TryGetOrCreate<int>(key,
+            return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
                 i => _custInfoService.GetPointLevel(custId));
         }
@@ -417,7 +417,7 @@ namespace MemberSite.Service.BLL
         public CustInfoProfile GetCustInfoProfileWithCache(int custId)
         {
             var key = $"CustInfoProfile_{custId}";
-            return _cacheHelper.TryGetOrCreate<CustInfoProfile>(key,
+            return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
                 i => GetCustInfoProfile(custId));
         }

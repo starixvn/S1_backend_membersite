@@ -297,7 +297,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<Country> GetCountryList()
         {
             var key = $"CountryList_{GetLangId()}";
-            return _cacheHelper.TryGetOrCreate<IEnumerable<Country>>(key,
+            return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromHours(1)),
                 i => GetCountryListImplement());
         }

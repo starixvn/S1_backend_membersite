@@ -24,7 +24,7 @@ namespace MemberSite.Service.BLL
             var liveStreaming = new List<LiveStreamingData>();
 
             var key = $"LiveStreamingList_{siteId}";
-            var liveStreamingList = _cacheHelper.TryGetOrCreate<IEnumerable<LiveStreaming>>(key,
+            var liveStreamingList = _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
                 i => _liveStreamingService.GetLiveStreamingList());
 
