@@ -122,22 +122,6 @@ namespace MemberSite.Controllers.Api
                     deviceType = promotionReq.DeviceType;
                 }
                 apiResult = await promotionBLL.SetClaimPromotionAsync(authData.CustId, promotionReq.BonusCode, promotionReq.LockedAmount, deviceType);
-
-                //if (result > 0)
-                //{
-                //    if (mainWalletType == 2)
-                //    {
-                //        ApiResult<TransferResult> transferToSabaResult = null;
-                //        var input = new TpTransfer();
-                //        input.Amount = walletBLL.GetBalance(authData.CustId);
-                //        input.CustId = authData.CustId;
-                //        input.direction = TpDirection.ToTp;
-                //        input.TpId = 1;
-                //        transferToSabaResult = await TransferToSabaAsync(input);
-                //    }
-
-                //    apiResult.ErrorCode = 0;
-                //}
             }
             catch (Exception ex)
             {
@@ -152,27 +136,6 @@ namespace MemberSite.Controllers.Api
         {
             ToTp = 1,
             ToMain = 2
-        }
-        private async Task<ApiResult<TransferResult>> TransferToSabaAsync(TpTransfer inTpTransfer)
-        {
-            var amount = inTpTransfer.Amount;
-            if (amount.ToString().IndexOf(".") > -1)
-            {
-                decimal.TryParse(amount.ToString("#.##"), out amount);
-            }
-
-            var tpTransfer = new TpTransfer
-            {
-                TpId = inTpTransfer.TpId,
-                CustId = inTpTransfer.CustId,
-                Amount = amount,
-                direction = inTpTransfer.direction,
-                inputs = null
-            };
-            var myUrl = $"{tpApiUrl}Transfer";
-            var data = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
-
-            return data;
         }
 
         public class PromotionDeviceReq
@@ -238,30 +201,6 @@ namespace MemberSite.Controllers.Api
             result.ErrorCode = 0;
 
             return result;
-        }
-
-        public class TpTransfer
-        {
-            public int TpId { set; get; }
-            public int CustId { set; get; }
-            public decimal Amount { set; get; }
-            public TpDirection direction { set; get; }
-            public Dictionary<string, string> inputs { set; get; }
-        }
-
-        public class TransferResult
-        {
-            public TransferResult()
-            {
-                Status = TransferStatus.Pending;
-            }
-            public TransferStatus Status { get; set; }
-            public string ThirdId { get; set; }
-            public decimal Difference { get; set; }
-        }
-        public enum TransferStatus
-        {
-            Success = 0, Fail = 1, Pending = 2, PendingD = 3
         }
 
         [Authorize]
@@ -343,12 +282,6 @@ namespace MemberSite.Controllers.Api
             }
 
             return result;
-        }
-        public class SetSpecialCodeJoinedReq
-        {
-            public string SpecialCode { set; get; }
-            public string BonusCode { set; get; }
-
         }
 
         [Authorize]

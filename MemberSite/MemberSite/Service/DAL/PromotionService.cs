@@ -852,11 +852,6 @@ namespace MemberSite.Service.DAL
             var Result = Params.Get<int>("Result");
             return Result;
         }
-        public void SetSpecialCodeJoined(int custId, string specialCode, string bonusCode)
-        {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionString"));
-            conn.Execute("Member_CustSpecialCodeJoin_Set", new { CustId = custId, SpecialCode = specialCode, BonusCode = bonusCode }, commandType: CommandType.StoredProcedure);
-        }
 
         public List<CustPromotion> GetDepositPromotionList(int CustId, int DeviceType, string langId, string defLang)
         {

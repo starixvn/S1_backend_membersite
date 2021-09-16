@@ -6,11 +6,7 @@
         UM = 2,
         Error = 3,
     }
-    public enum Direction
-    {
-        Add = 1,
-        Deduct = 2
-    }
+
     public enum CustActStatus
     {
         NonDepoist = 1,
