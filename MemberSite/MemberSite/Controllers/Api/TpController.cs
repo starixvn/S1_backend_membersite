@@ -89,7 +89,11 @@ namespace MemberSite.Controllers.Api
             input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
             input.Add("ClientIP", _tools.GetClientIP());
 
-            if (User.Identity.IsAuthenticated)
+            if (input.TryGetValue("fun", out var fun) && fun.Equals("1"))
+            {
+                langId = _selLangBll.GetLangId();
+            }
+            else if (User.Identity.IsAuthenticated)
             {
                 var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
@@ -116,10 +120,16 @@ namespace MemberSite.Controllers.Api
                     input.Add("Token", authData.Token);
                 }
             }
-            else
+            else if (input.TryGetValue("token", out var jwtToken) 
+                && _authorizeBll.TryValidateJwtToken(jwtToken, out var appAuthData))
             {
-                langId = _selLangBll.GetLangId();
-                input.TryAdd("fun", "1");
+                //將inputs參數的token換成jwtToken避免與原本的Token混淆
+                input.Remove("token");
+                input.Add("jwtToken", jwtToken);
+
+                langId = appAuthData.LangId;
+                custId = appAuthData.CustId;
+                input.Add("Token", appAuthData.Token);
             }
 
             var myUrl = $"{_apiUrl}GotoGame";

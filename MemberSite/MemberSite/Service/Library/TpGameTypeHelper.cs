@@ -1,10 +1,8 @@
-﻿using MemberSite.Extensions;
-using MemberSite.Service.Model;
+﻿using MemberSite.Service.Model;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.Library
 {
@@ -14,12 +12,11 @@ namespace MemberSite.Service.Library
 
         private readonly Dictionary<string, Func<BannerV3, int, int>> _tpHandler;
 
-    
-
         public TpGameTypeHelper(IServiceProvider provider)
         {
             var tpGameTypeOptions = provider.GetRequiredService<IEnumerable<TpGameTypeOption>>();
-            tpGameTypeConfig = tpGameTypeOptions.GroupBy(item => item.TpId).ToDictionary(item => item.Key.ToString(), item => item.ToList());
+            tpGameTypeConfig = tpGameTypeOptions.GroupBy(item => item.TpId)
+                .ToDictionary(item => item.Key.ToString(), item => item.ToList());
             _tpHandler = new Dictionary<string, Func<BannerV3, int, int>>()
             {
                 { "1", GetSabaGameType},
@@ -27,9 +24,7 @@ namespace MemberSite.Service.Library
                 { "25", GetV8GameType},
                 { "33", GetTCGGameType},
                 { "35", GetMPGameType}
-            };
-
-           
+            };        
         }
 
         public int GetTpGameType(BannerV3 banner, int currencyId)
