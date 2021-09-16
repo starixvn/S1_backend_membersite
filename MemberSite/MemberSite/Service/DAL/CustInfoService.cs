@@ -304,11 +304,6 @@ namespace MemberSite.Service.DAL
             return conn.Execute("Member_ResetPwd_Set", new { CustId = custId, Md5NewPassword = md5NewPassword }, commandType: CommandType.StoredProcedure) > 0;
         }
 
-        public int GetCustLevel(int CustId)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<int>("VipLevel_Get", new { CustId }, commandType: CommandType.StoredProcedure);
-        }
         public int SetPhoneVerified(int custId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));

@@ -28,37 +28,6 @@ namespace MemberSite.Service.DAL
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
-        public bool SetBonusTransferOutAll(int custId, int siteId, string userName, int tpId, string Memo, string RefTransId, out decimal Bonus, out decimal LockedAmount, out decimal BonusAmount, out long ExpiryTime, MySqlConnection conn, MySqlTransaction trans)
-        {
-            var type = typePosition + tpId;
-            Bonus = 0;
-            LockedAmount = 0;
-            BonusAmount = 0;
-            ExpiryTime = 0;
-
-            var p = new DynamicParameters(new { CustId = custId, SiteId = siteId, UserName = userName, Type = type, Memo, RefTransId });
-            p.Add("Bonus", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            p.Add("LockedAmount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            p.Add("BonusAmount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            p.Add("ExpiryTime", dbType: DbType.Int64, direction: ParameterDirection.Output);
-            conn.Execute("Common_BonusTransferOutAll_Set", p, transaction: trans, commandType: CommandType.StoredProcedure);
-            Bonus = p.Get<decimal>("Bonus");
-            LockedAmount = p.Get<decimal>("LockedAmount");
-            BonusAmount = p.Get<decimal>("BonusAmount");
-            ExpiryTime = p.Get<long>("ExpiryTime");
-            return Bonus > 0m;
-        }
-        public bool SetBonusByBonusId(int bonusId, int custId, int siteId, string userName, decimal Bonus, int type, string Memo, string RefTransId, out decimal afterBonus, MySqlConnection conn, MySqlTransaction trans)
-        {
-            var p = new DynamicParameters(new { CustId = custId, SiteId = siteId, UserName = userName,
-                Bonus, Type = type,
-                Memo,
-                RefTransId });
-            p.Add("AfterBonus", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            conn.Execute("Common_BonusByBonusId_Set", p, transaction: trans, commandType: CommandType.StoredProcedure);
-            afterBonus = p.Get<decimal>("AfterBonus");
-            return afterBonus >= 0;
-        }
         public bool RewardBonus(int bonusId, int promoCategoryId, int tpId, int custId, int siteId, string userName, decimal bonusAmount, decimal lockedAmount, decimal rollover, long expiryTime, int type, string Memo, string RefTransId, MySqlConnection conn, MySqlTransaction trans)
         {
             var p = new DynamicParameters(new { BonusId = bonusId, PromoCategoryId = promoCategoryId, TpId = tpId, CustId = custId, SiteId = siteId, UserName = userName, BonusAmount = bonusAmount, LockedAmount = lockedAmount, Rollover = rollover, ExpiryTime = expiryTime, Type = type,
@@ -99,11 +68,6 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<BonusWallet>("Member_CustBonusByCode_Get", new { CustId, BonusCode = bonusCode }, commandType: CommandType.StoredProcedure);
-        }
-        public BonusWallet CustBonusInfo(int CustId, string BonusCode)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<BonusWallet>("Member_CustBonusInfo_Get", new { CustId, BonusCode }, commandType: CommandType.StoredProcedure);
         }
 
         public BonusWallet CustBonusInfo(int CustId, string BonusCode, int TpId, int PromoCategoryId)

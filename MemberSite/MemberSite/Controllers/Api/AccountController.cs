@@ -364,26 +364,7 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-        private async Task<decimal> GetWithdrawalAvailableBalanceAsync(int custId)
-        {
-            var withdrawalAvailableBalance = _paymentBll.GetWithdrawalAvailableBalance(custId);
 
-            if (_mainWalletType == 2)
-            {
-                var sportsWallet = await _thirdPartyBll.GetSportsBalanceAsync(custId);
-                if (sportsWallet.ErrorCode == 0)
-                {
-                    withdrawalAvailableBalance += sportsWallet.Data.balance;
-                }
-            }
-
-            if (withdrawalAvailableBalance < 0)
-            {
-                withdrawalAvailableBalance = 0;
-            }
-
-            return withdrawalAvailableBalance;
-        }
         private class TpInfo
         {
             public int TpId { set; get; }

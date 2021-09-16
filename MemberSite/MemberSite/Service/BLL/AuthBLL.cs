@@ -1,5 +1,4 @@
 ﻿using MemberSite.Service.DAL;
-using System;
 
 namespace MemberSite.Service.BLL
 {
@@ -11,21 +10,7 @@ namespace MemberSite.Service.BLL
         {
             this.authService = authService;
         }
-        public string ApplyToken<T>(T t)
-        {
-            var g = Guid.NewGuid();
-            var GuidString = Convert.ToBase64String(g.ToByteArray());
-            GuidString = GuidString.Replace("=", "");
-            GuidString = GuidString.Replace("+", "");
-            if (authService.ApplyToken(GuidString, Newtonsoft.Json.JsonConvert.SerializeObject(t), 1) > 0)
-            {
-                return GuidString;
-            }
-            else
-            {
-                return null;
-            }
-        }
+
         public bool Authenticate<T>(string sToken, out T t)
         {
             var sPermissionData = "";

@@ -49,11 +49,6 @@ namespace MemberSite.Service.DAL
             return ThirdPartyHelperContainer[tpId];
         }*/
 
-        public string GetTpLanId(int tpId, string langId)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<string>("TpLangId_Get", new { TpId = tpId, LangId = langId }, commandType: CommandType.StoredProcedure);
-        }
         public TpCurrency GetTpCurrency(int tpId, int currencyId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));

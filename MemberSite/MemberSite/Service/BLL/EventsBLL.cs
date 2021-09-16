@@ -63,16 +63,7 @@ namespace MemberSite.Service.BLL
             custRank = result.CustRank;
             point = result.point;
         }
-        public IEnumerable<Leaderboard> GetLeaderboardListV2(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
-        {
-            var leaderboard = _eventsService.GetLeaderboardListV2(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);
-            return leaderboard;
 
-        }
-        public void GetCustRankV2(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out Decimal point)
-        {
-            _eventsService.GetCustRankV2(lBCategoryId, eventCode, custId, beforeDays, out custRank, out point);
-        }
         public IEnumerable<Leaderboard> GetLeaderboardListV3(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
         {
             var leaderboard = _eventsService.GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);

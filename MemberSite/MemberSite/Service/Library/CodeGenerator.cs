@@ -1,6 +1,4 @@
-﻿using System;
-using System.Security.Cryptography;
-using System.Text;
+﻿using System.Security.Cryptography;
 
 namespace MemberSite.Service.Library
 {
@@ -87,81 +85,6 @@ namespace MemberSite.Service.Library
             ExcludeSymbols = false;
             Exclusions = null;
             rng = new RNGCryptoServiceProvider();
-        }
-
-        protected int GetCryptographicRandomNumber(int lBound, int uBound)
-        {
-            var array = new byte[4];
-            if (lBound == uBound - 1)
-            {
-                return lBound;
-            }
-            var num = (uint)(-1 - (int)(uint.MaxValue % (uint)(uBound - lBound)));
-            uint num2;
-            do
-            {
-                rng.GetBytes(array);
-                num2 = BitConverter.ToUInt32(array, 0);
-            }
-            while (num2 >= num);
-            return (int)((long)num2 % (long)(uBound - lBound)) + lBound;
-        }
-
-        protected char GetRandomCharacter()
-        {
-            var uBound = pwdCharArray.GetUpperBound(0);
-            if (ExcludeSymbols)
-            {
-                uBound = 61;
-            }
-            var cryptographicRandomNumber = GetCryptographicRandomNumber(pwdCharArray.GetLowerBound(0), uBound);
-            return pwdCharArray[cryptographicRandomNumber];
-        }
-
-        public string Generate()
-        {
-            var cryptographicRandomNumber = GetCryptographicRandomNumber(Minimum, Maximum);
-            var stringBuilder = new StringBuilder
-            {
-                Capacity = Maximum
-            };
-            char c;
-            var c2 = c = '\n';
-            for (var i = 0; i < cryptographicRandomNumber; i++)
-            {
-                c = GetRandomCharacter();
-                if (!ConsecutiveCharacters)
-                {
-                    while (c2 == c)
-                    {
-                        c = GetRandomCharacter();
-                    }
-                }
-                if (!RepeatCharacters)
-                {
-                    var text = stringBuilder.ToString();
-                    var num = text.IndexOf(c);
-                    while (-1 != num)
-                    {
-                        c = GetRandomCharacter();
-                        num = text.IndexOf(c);
-                    }
-                }
-                if (Exclusions != null)
-                {
-                    while (-1 != Exclusions.IndexOf(c))
-                    {
-                        c = GetRandomCharacter();
-                    }
-                }
-                stringBuilder.Append(c);
-                c2 = c;
-            }
-            if (stringBuilder != null)
-            {
-                return stringBuilder.ToString();
-            }
-            return string.Empty;
         }
     }
 

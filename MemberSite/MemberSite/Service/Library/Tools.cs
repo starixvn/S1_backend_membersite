@@ -40,21 +40,7 @@ namespace MemberSite.Service.Library
             }
             return sBuilder.ToString();
         }
-        /// <summary>
-        /// MD5加密16位
-        /// </summary>
-        /// <param name="ConvertString"></param>
-        /// <returns></returns>
-        public string MD5Encrypt16(string ConvertString)
-        {
-            var md5 = new MD5CryptoServiceProvider();
-            var t2 = BitConverter.ToString(md5.ComputeHash(Encoding.Default.GetBytes(ConvertString)), 4, 8);
-            t2 = t2.Replace("-", "");
 
-            t2 = t2.ToLower();
-
-            return t2;
-        }
         /// <summary>
         /// 验证用户名 必须是字母和数字的组合
         /// </summary>
@@ -204,15 +190,6 @@ namespace MemberSite.Service.Library
         {
             var value = (long)Math.Pow(10.0, decimals);
             return Convert.ToDecimal(Math.Floor(d * (decimal)value) / (decimal)value);
-        }
-        /// <summary>
-        /// 余额
-        /// </summary>
-        /// <param name="dBalance"></param>
-        /// <returns></returns>
-        public string FmtBalance(decimal dBalance)
-        {
-            return Floor(dBalance, 2).ToString("#,##0.#0");
         }
 
         public bool IsMobile()

@@ -5,7 +5,6 @@ using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using static MemberSite.Controllers.entPageController;
 
 namespace MemberSite.Controllers
@@ -177,14 +176,6 @@ namespace MemberSite.Controllers
                 return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
             else
                 return View(apiResult);
-        }
-
-        private string ToJson(object t)
-        {
-            return JsonConvert.SerializeObject(t, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
         }
 
         public class ReqDepositCrypto : ReqDeposit

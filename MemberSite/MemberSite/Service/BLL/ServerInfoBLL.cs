@@ -98,11 +98,6 @@ namespace MemberSite.Service.BLL
             return countryList;
         }
 
-        public void ResetServerInfo()
-        {
-            _siteInfoDic.Clear();
-        }
-
         public string GetDomain()
         {
             return _httpContextAccessor.HttpContext.Request.Host.Host;

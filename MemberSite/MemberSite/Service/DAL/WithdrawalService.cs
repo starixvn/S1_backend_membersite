@@ -216,11 +216,6 @@ namespace MemberSite.Service.DAL
             return conn.Query<WithdrawalLimitInfo>("Member_CustWithdrawalLimit_Get", new { custId }, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
 
-        public IEnumerable<WithdrawalKyc> GetWithdrawalKycList(int sitId)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<WithdrawalKyc>("Member_WithdrawalKyc_Get", new { SitId = sitId }, commandType: CommandType.StoredProcedure);
-        }
         public WithdrawalLimitInfoOutput GetWithdrawalLimitInfo(WithdrawalLimitInfoInput input)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));

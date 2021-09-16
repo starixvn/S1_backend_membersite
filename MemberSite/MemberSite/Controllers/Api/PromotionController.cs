@@ -132,12 +132,6 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        public enum TpDirection
-        {
-            ToTp = 1,
-            ToMain = 2
-        }
-
         public class PromotionDeviceReq
         {
             public int DeviceType { set; get; }
@@ -225,8 +219,6 @@ namespace MemberSite.Controllers.Api
             public int? DeviceType { set; get; }
         }
 
-
-        
         [Authorize]
         [HttpPost]
         public ApiResult SetSpecialCode(SetSpecialCodeReq setSpecialCodeReq)

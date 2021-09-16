@@ -24,13 +24,6 @@ namespace MemberSite.Service.DAL
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
         }
 
-        public int GetCount(int custId, bool isUnread)
-        {
-            var result = 0;
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            result = conn.ExecuteScalar<int>("MsgCount_Get", new { CustId = custId, IsUnread = isUnread }, commandType: CommandType.StoredProcedure);
-            return result;
-        }
         public bool SetRead(int msgId, int custId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));

@@ -50,15 +50,5 @@ namespace MemberSite.Service.BLL
             });
             return provider;
         }
-        public Dictionary<string, string> OrgFileNameFilter(Dictionary<string, string> imgNameDictionary)
-        {
-            var newImgNameDictionary = new Dictionary<string, string>();
-            foreach (var imgName in imgNameDictionary)
-            {
-                newImgNameDictionary.Add(imgName.Key, imgName.Value.Replace(" ", "-").Replace("&", "-").Replace(":", "-").Replace("'", "").Replace("’", "").Replace(".", "").Replace("™", "").Replace("---", "-").Replace("--", "-").ToLower()
-                    + ".jpg");
-            }
-            return newImgNameDictionary;
-        }
     }
 }

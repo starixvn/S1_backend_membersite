@@ -21,14 +21,13 @@ namespace MemberSite.Controllers
         private readonly IWebHostEnvironment environment;
         private readonly DepositService _depositService;
         private readonly BankInfoOffService bankInfoService;
-        private readonly IBCDBLibrary iBCDBLibrary;
         private readonly WalletService walletService;
         private readonly WalletBLL walletBLL;
         private readonly SelLangBLL selLangBLL;
         private readonly MessageService messageService;
         private readonly PromotionBll promotionBLL;
 
-        public TestController(PromotionBll promotionBLL, WalletBLL walletBLL, WalletService walletService, IBCDBLibrary iBCDBLibrary, IWebHostEnvironment environment, ServerInfoService serverInfoService, AgentInfoService agentInfoService, CustInfoService custInfoService, CustInfoBll custInfoBLL, AuthenticateService userLoginLogService, Tools tools, DepositService depositService, BankInfoOffService bankInfoService, SelLangBLL selLangBLL, MessageService messageService)
+        public TestController(PromotionBll promotionBLL, WalletBLL walletBLL, WalletService walletService, IWebHostEnvironment environment, ServerInfoService serverInfoService, AgentInfoService agentInfoService, CustInfoService custInfoService, CustInfoBll custInfoBLL, AuthenticateService userLoginLogService, Tools tools, DepositService depositService, BankInfoOffService bankInfoService, SelLangBLL selLangBLL, MessageService messageService)
         {
             this.serverInfoService = serverInfoService;
             this.agentInfoService = agentInfoService;
@@ -39,7 +38,6 @@ namespace MemberSite.Controllers
             this.environment = environment;
             this._depositService = depositService;
             this.bankInfoService = bankInfoService;
-            this.iBCDBLibrary = iBCDBLibrary;
             this.walletService = walletService;
             this.walletBLL = walletBLL;
             this.selLangBLL = selLangBLL;

@@ -196,11 +196,6 @@ namespace MemberSite.Controllers
         }
 
 
-        private bool hasBf(int tpId)
-        {
-            return Bf.ContainsKey(tpId);
-        }
-
         public class ErrorData
         {
             public string Message { get; set; }
