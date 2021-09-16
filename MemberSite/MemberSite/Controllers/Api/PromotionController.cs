@@ -174,32 +174,7 @@ namespace MemberSite.Controllers.Api
 
             return data;
         }
-        [HttpPost]
-        public ApiResult<List<CustPromotion>> GetPromotionListV2()
-        {
-            var result = new ApiResult<List<CustPromotion>>();
 
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            var isLogin = User.Identity.IsAuthenticated;
-            var custId = 0;
-            int currencyId;
-            if (isLogin)
-            {
-                var authData = authorizeBLL.GetAuthData();
-                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                custId = authData.CustId;
-                currencyId = custInfo.CurrencyId;
-            }
-            else
-            {
-                currencyId = selLangBLL.GetPreferCurrencyId();
-            }
-
-            result.Data = promotionBLL.GetPromotionListV2(serverInfo.SiteId, custId, currencyId, isLogin, selLangBLL.GetLangId(), serverInfo.DefLang);
-            result.ErrorCode = 0;
-
-            return result;
-        }
         public class PromotionDeviceReq
         {
             public int DeviceType { set; get; }
@@ -287,21 +262,6 @@ namespace MemberSite.Controllers.Api
         public enum TransferStatus
         {
             Success = 0, Fail = 1, Pending = 2, PendingD = 3
-        }
-
-        [Authorize]
-        [HttpPost]
-        public ApiResult<List<CustPromotion>> GetSpecialPromotionList()
-        {
-            var result = new ApiResult<List<CustPromotion>>();
-
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            var authData = authorizeBLL.GetAuthData();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            result.Data = promotionBLL.GetSpecialPromotionList(serverInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, selLangBLL.GetLangId(), serverInfo.DefLang);
-            result.ErrorCode = 0;
-
-            return result;
         }
 
         [Authorize]
