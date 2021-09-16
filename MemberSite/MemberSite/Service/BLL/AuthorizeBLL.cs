@@ -108,7 +108,7 @@ namespace MemberSite.Service.BLL
                 };
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
