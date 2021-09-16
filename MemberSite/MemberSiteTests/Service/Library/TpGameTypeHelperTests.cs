@@ -45,7 +45,7 @@ namespace MemberSite.Service.Library.Tests
             startup.ConfigureServices(services);
             var provider = services.BuildServiceProvider();
 
-            _tpGameTypeHelper = new TpGameTypeHelper(provider);
+            _tpGameTypeHelper = provider.GetRequiredService<TpGameTypeHelper>();
             _dbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
         }
 
