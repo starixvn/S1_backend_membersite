@@ -3,81 +3,72 @@ using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
+using MemberSite.Service.Library;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
-    public class MessageBLL
+    public class MessageBll
     {
-        private readonly MessageService messageService;
-        private readonly IMemoryCache cache;
+        private readonly MessageService _messageService;
+        private readonly CacheHelper _cacheHelper;
 
-        public MessageBLL(MessageService messageService, IMemoryCache cache)
+        public MessageBll(IServiceProvider provider)
         {
-            this.messageService = messageService;
-            this.cache = cache;
+            _messageService = provider.GetRequiredService<MessageService>();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
         public IEnumerable<Msg> GetMsgList(int custId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
             totalPages = 0;
-            return messageService.GetMsgList(custId, pageSize, ref pageNumber, out totalPages, out rowCount);
+            return _messageService.GetMsgList(custId, pageSize, ref pageNumber, out totalPages, out rowCount);
         }
 
         public MsgContent GetMsgContent(int custId, int msgId)
         {
-            return messageService.GetMsgContent(custId, msgId);
+            return _messageService.GetMsgContent(custId, msgId);
         }
         public bool SetMsgRead(int custId, int[] msgIds)
         {
-            var resalt = true;
+            var result = true;
             foreach (var msgId in msgIds)
             {
-                resalt &= messageService.SetRead( msgId, custId);
+                result &= _messageService.SetRead( msgId, custId);
             }
 
-            return resalt;
+            return result;
         }
         public bool DelMsg(int custId, int[] msgIds)
         {
-            var resalt = true;
+            var result = true;
             foreach (var msgId in msgIds)
             {
-                resalt &= messageService.DelMsg(custId, msgId);
+                result &= _messageService.DelMsg(custId, msgId);
             }
 
-            return resalt;
+            return result;
         }
 
         public int GetMsgCount(int custId)
         {
-            return messageService.GetMsgCount(custId);
+            return _messageService.GetMsgCount(custId);
         }
 
         public IEnumerable<Announcement> GetAnnouncement(string LangCode, string DefaultLangCode, int LimitRow, bool IsTest, int SiteId)
         {
             var key = $"Announcement_{SiteId}_{LangCode}";
-            var cacheData = cache.Get<IEnumerable<Announcement>>(key);
-            if (cacheData == null)
-            {
-                cacheData = messageService.GetAnnouncement(LangCode, DefaultLangCode, LimitRow, IsTest, SiteId);
-
-                if (cacheData != null)
-                {
-                    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(3));
-                    cache.Set(key, cacheData, cacheEntryOptions);
-                }
-            }
-
-            return cacheData;
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)),
+                i => _messageService.GetAnnouncement(LangCode, DefaultLangCode, LimitRow, IsTest, SiteId));
         }
         public int SendMessage(int siteId, string sender, string title, string content, int custId, string CustUserName, string lang)
         {
-            return messageService.SendMessage(siteId, sender, title, content, custId, CustUserName, lang);
+            return _messageService.SendMessage(siteId, sender, title, content, custId, CustUserName, lang);
         }
 
         public async void SendMessage(Message message)
         {
-            await messageService.SendMessageAsync(new Message(message.SiteId, message.Sender, message.Title, message.Content, message.CustId,
+            await _messageService.SendMessageAsync(new Message(message.SiteId, message.Sender, message.Title, message.Content, message.CustId,
                 message.CustUserName, message.LangId));
         }
     }

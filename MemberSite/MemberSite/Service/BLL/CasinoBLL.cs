@@ -4,26 +4,29 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MemberSite.Service.Library;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
-    public class CasinoBLL
+    public class CasinoBll
     {
-        private readonly CasinoService casinoService;
-        private readonly IMemoryCache cache;
-        public CasinoBLL(IMemoryCache cache, CasinoService casinoService)
+        private readonly CasinoService _casinoService;
+        private readonly CacheHelper _cacheHelper;
+        
+        public CasinoBll(IServiceProvider provider)
         {
-            this.casinoService = casinoService;
-            this.cache = cache;
+            _casinoService = provider.GetRequiredService<CasinoService>();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
-        public IEnumerable<MemberFavorite> GetFavoriteGames(int CustId)
+        public IEnumerable<MemberFavorite> GetFavoriteGames(int custId)
         {
-            var datas = casinoService.GetFavoriteGames(CustId);
+            var data = _casinoService.GetFavoriteGames(custId);
             var result = new List<MemberFavorite>();
-            if(datas != null)
+            if(data != null)
             {
-                var tmp = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<string>>(datas.Favorite);
+                var tmp = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<string>>(data.Favorite);
                 foreach(var gameInfo in tmp)
                 {
                     var (providerId, gameId) = SplitGameInfo(gameInfo); 
@@ -35,10 +38,10 @@ namespace MemberSite.Service.BLL
             return result;
         }
 
-        public void SetFavoriteGames(int CustId, int ProviderId, string GameId, bool IsRemove)
+        public void SetFavoriteGames(int custId, int providerId, string gameId, bool isRemove)
         {
-            var gameInfo = $"{ProviderId}_{GameId}";
-            casinoService.SetFavoriteGames(CustId, gameInfo, IsRemove);
+            var gameInfo = $"{providerId}_{gameId}";
+            _casinoService.SetFavoriteGames(custId, gameInfo, isRemove);
         }
 
         public (int providerId, string gameId) SplitGameInfo(string gameInfo)
@@ -52,31 +55,21 @@ namespace MemberSite.Service.BLL
             return (providerId, gameId);
         }
 
-        public IEnumerable<int> GetProviderIdByCurrency(int CurrencyId, int SiteId)
+        public IEnumerable<int> GetProviderIdByCurrency(int currencyId, int siteId)
         {
-            var key = $"ProviderIdByCurrency_{CurrencyId}_{SiteId}";
-            var providerIdByCurrency = cache.Get<IEnumerable<int>>(key);
-
-            if (providerIdByCurrency == null)
-            {
-                providerIdByCurrency = casinoService.GetProviderIdByCurrency(CurrencyId, SiteId);
-                if (providerIdByCurrency != null)
-                {
-                    var expireTime = TimeSpan.FromMinutes(10);
-                    cache.Set(key, providerIdByCurrency, new MemoryCacheEntryOptions().SetAbsoluteExpiration(expireTime));
-                }
-            }
-
-            return providerIdByCurrency;
+            var key = $"ProviderIdByCurrency_{currencyId}_{siteId}";
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
+                i => _casinoService.GetProviderIdByCurrency(currencyId, siteId));
         }
-        public IEnumerable<GameCasionByCurrencyAndSite> GetGameCasinoByCurrencyAndSite(int CurrencyId, int SiteId)
+        public IEnumerable<GameCasionByCurrencyAndSite> GetGameCasinoByCurrencyAndSite(int currencyId, int siteId)
         {
-           return casinoService.GetGameCasinoByCurrencyAndSite(CurrencyId, SiteId);
+           return _casinoService.GetGameCasinoByCurrencyAndSite(currencyId, siteId);
         }
 
         public IEnumerable<DisableTpGame> GetTpDisableUserByCustId(int custId)
         {
-            return casinoService.GetTpDisableUserByCustId(custId);
+            return _casinoService.GetTpDisableUserByCustId(custId);
         }
 
         public void ExcludeBlockGames(List<GameCasinoListData> casinoGames, List<Provider> providers, IEnumerable<DisableTpGame> disableGames)

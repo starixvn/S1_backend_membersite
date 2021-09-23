@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using static MemberSite.Controllers.entPageController;
 
 namespace MemberSite.Controllers
@@ -20,17 +16,17 @@ namespace MemberSite.Controllers
         private readonly string payApiUrl;
         private readonly Tools tools;
         private readonly AuthorizeBLL authorizeBLL;
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
         private readonly PaymentBLL paymentBLL;
-        private readonly MobilePayInfoBLL mobilePayInfoBLL;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly MobilePayInfoBll mobilePayInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly TemplateBLL templateBLL;
-        private readonly CryptoPayInfoBLL cryptoPayInfoBLL;
+        private readonly CryptoPayInfoBll cryptoPayInfoBLL;
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
-        private readonly PromotionBLL promotionBLL;
+        private readonly PromotionBll promotionBLL;
         private bool isNewVersion = true;
 
-        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, ServerInfoBLL serverInfoBLL, PaymentBLL paymentBLL, MobilePayInfoBLL mobilePayInfoBLL, CustInfoBLL custInfoBLL, TemplateBLL templateBLL, CryptoPayInfoBLL cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, PromotionBLL promotionBLL)
+        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, ServerInfoBll serverInfoBLL, PaymentBLL paymentBLL, MobilePayInfoBll mobilePayInfoBLL, CustInfoBll custInfoBLL, TemplateBLL templateBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, PromotionBll promotionBLL)
         {
             this.courierAdapter = courierAdapter;
             payApiUrl = configuration.GetValue<string>("PayService");
@@ -78,7 +74,7 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             BankInfoPay onlineBank = null;
-            ErrorData model = new ErrorData();
+            var model = new ErrorData();
             var result = paymentBLL.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount, out transId, out onlineBank);
 
             var apiResult = new ApiResult<PayResult>();
@@ -133,7 +129,7 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             MobilePayInfo mobilePayInfo = null;
-            ErrorData model = new ErrorData();
+            var model = new ErrorData();
             var result = mobilePayInfoBLL.DepositReqMobilePay(authData.CustId, ChannelId, Amount, out transId, out mobilePayInfo);
             if (result == 0)
             {
@@ -182,14 +178,6 @@ namespace MemberSite.Controllers
                 return View(apiResult);
         }
 
-        private string ToJson(object t)
-        {
-            return JsonConvert.SerializeObject(t, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
-        }
-
         public class ReqDepositCrypto : ReqDeposit
         {
             public int ChannelId { get; set; }
@@ -202,7 +190,7 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             CryptoPayInfo cryptoPayInfo = null;
-            ErrorData model = new ErrorData();
+            var model = new ErrorData();
             var result = cryptoPayInfoBLL.DepositReqCryptoPay(authData.CustId, ChannelId, Amount, out transId, out cryptoPayInfo);
             if (result == 0)
             {
@@ -251,7 +239,7 @@ namespace MemberSite.Controllers
                 return View(apiResult);
         }
 
-        public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, string Code, string Serial, decimal Amount)
+        public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, string Code, string Serial, decimal Amount, string BonusCode)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             var apiResult = new ApiResult<PayResult>();
@@ -259,10 +247,12 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             string transId = null;
             LoadCardPayInfo loadCardPayInfo = null;
-            ErrorData model = new ErrorData();
+            var model = new ErrorData();
             var result = loadCardPayInfoBLL.DepositReqLoadCardPay(authData.CustId, ChannelId, Code, Serial, Amount, out transId, out loadCardPayInfo);
             if (result == 0)
             {
+                if (BonusCode != null && BonusCode != "")
+                    promotionBLL.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
                 var reqDeposit = new 
                 {
                     TransId = transId,

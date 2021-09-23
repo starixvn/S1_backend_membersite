@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using Dapper;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using Microsoft.Extensions.Logging;
+using System;
+using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
 {
@@ -15,19 +18,12 @@ namespace MemberSite.Service.DAL
         private readonly IConfiguration configuration;
         private readonly MySqlClient _mainDbClient;
 
-        public MessageService(IConfiguration configuration, ILogger<MySqlClient> logger)
+        public MessageService(IServiceProvider provider)
         {
-            this.configuration = configuration;
-            _mainDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionString"), logger);
+            configuration = provider.GetRequiredService<IConfiguration>();
+            _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
         }
 
-        public int GetCount(int custId, bool isUnread)
-        {
-            var result = 0;
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            result = conn.ExecuteScalar<int>("MsgCount_Get", new { CustId = custId, IsUnread = isUnread }, commandType: CommandType.StoredProcedure);
-            return result;
-        }
         public bool SetRead(int msgId, int custId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));

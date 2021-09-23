@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using MemberSite.Service.BLL;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -10,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace MemberSite.Controllers.Api
 {
@@ -23,12 +26,14 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL _selLangBll;
         private readonly AuthorizeBLL _authorizeBll;
         private readonly string _apiUrl;
-        private readonly ThirdPartyBLL _thirdPartyBll;
+        private readonly ThirdPartyBll _thirdPartyBll;
         private readonly WalletBLL _walletBll;
         private readonly BonusWalletBLL _bonusWalletBll;
-        private readonly CustInfoBLL _custInfoBll;
+        private readonly CustInfoBll _custInfoBll;
         private readonly GameBLL _gameBll;
-        private readonly ServerInfoBLL _serverInfoBll;
+        private readonly ServerInfoBll _serverInfoBll;
+        private readonly StatementService _statementService;
+        private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
 
         public TpController(IServiceProvider provider)
         {
@@ -37,12 +42,14 @@ namespace MemberSite.Controllers.Api
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _apiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("TpService");
-            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBLL>();
+            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _walletBll = provider.GetRequiredService<WalletBLL>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
-            _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _gameBll = provider.GetRequiredService<GameBLL>();
-            _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+            _statementService = provider.GetRequiredService<StatementService>();
+            _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
         }
 
         public class TpInfo
@@ -60,10 +67,11 @@ namespace MemberSite.Controllers.Api
             var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId);
             if (_gameBll.IsMaintain(tpMaintainList, inInfo.TpId, inInfo.inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
             {
-                return new ApiResult(_selLangBll)
-                {
-                    ErrorCode = 10,
-                };
+                var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
+                var host = _siteConfig.Value[serverInfo.SiteName].MaintainURL;
+                var maintainUrl = $"{host}/index_{_selLangBll.GetLangId() ?? "en"}.html" +
+                    $"?t={HttpUtility.UrlEncode(tpName)}&e={HttpUtility.UrlEncode($"{tpMaintain.EndDate:u}")}";    
+                return new ApiResult(3000, maintainUrl);
             }
 
             var input = new Dictionary<string, string>();
@@ -81,7 +89,7 @@ namespace MemberSite.Controllers.Api
             input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
             input.Add("ClientIP", _tools.GetClientIP());
 
-            if (_gameBll.IsFunGame(inInfo.inputs))
+            if (input.TryGetValue("fun", out var fun) && fun.Equals("1"))
             {
                 langId = _selLangBll.GetLangId();
             }
@@ -111,6 +119,17 @@ namespace MemberSite.Controllers.Api
                 {
                     input.Add("Token", authData.Token);
                 }
+            }
+            else if (input.TryGetValue("token", out var jwtToken) 
+                && _authorizeBll.TryValidateJwtToken(jwtToken, out var appAuthData))
+            {
+                //將inputs參數的token換成jwtToken避免與原本的Token混淆
+                input.Remove("token");
+                input.Add("jwtToken", jwtToken);
+
+                langId = appAuthData.LangId;
+                custId = appAuthData.CustId;
+                input.Add("Token", appAuthData.Token);
             }
 
             var myUrl = $"{_apiUrl}GotoGame";
@@ -534,9 +553,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiListResult<TpTransferInfoHistory>();
             var pageNumber = historyReq.PageNumber;
-            int totalPages;
-            int rowCount;
-            apiResult.Data = _thirdPartyBll.GetTransferHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out totalPages, out rowCount);
+            apiResult.Data = _thirdPartyBll.GetTransferHistory(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out var totalPages, out var rowCount);
             apiResult.PageNumber = pageNumber;
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;
@@ -546,9 +563,11 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<TpTransferInfoHistory>> GetTransferRecent()
         {
             var authData = _authorizeBll.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<TpTransferInfoHistory>>();
-            apiResult.Data = _thirdPartyBll.GetTransferRecent(authData.CustId);
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<IEnumerable<TpTransferInfoHistory>>
+            {
+                Data = _thirdPartyBll.GetTransferRecent(authData.CustId),
+                ErrorCode = 0
+            };
             return apiResult;
         }
     }

@@ -4,6 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Dapper;
+using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using Serilog.Context;
@@ -12,7 +13,7 @@ namespace MemberSite.Service.Library
 {
      public sealed class MySqlClient
     {
-        public string Name { get; set; }
+        public DataBase DataBase { get; set; }
         private readonly string _connectionString;
 
         private readonly ILogger<MySqlClient> _logger;
@@ -183,6 +184,26 @@ namespace MemberSite.Service.Library
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
             _logger.LogDebug($"{name} {sw.Elapsed:c}");
+            return result;
+        }
+
+        public IEnumerable<T> Query<T>(string sql, object parameters, CommandType commandType = CommandType.StoredProcedure)
+        {
+            IEnumerable<T> result;
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                using var connection = new MySqlConnection(_connectionString);
+                result = connection.Query<T>(sql, param: parameters, commandType: commandType);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, sql);
+                throw;
+            }
+
+            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
+            _logger.LogDebug($"{sql} {sw.Elapsed:c}");
             return result;
         }
 

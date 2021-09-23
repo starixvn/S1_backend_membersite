@@ -6,11 +6,7 @@
         UM = 2,
         Error = 3,
     }
-    public enum Direction
-    {
-        Add = 1,
-        Deduct = 2
-    }
+
     public enum CustActStatus
     {
         NonDepoist = 1,
@@ -146,7 +142,8 @@
         FreeBet = 3,
         WalletBonus = 5,
         Rebate = 6,
-        Cashback = 7
+        Cashback = 7,
+        StaticPage = 8
     }
 
     public enum BonusType
@@ -247,5 +244,23 @@
         Day,
         Week,
         Month
+    }
+
+    public enum DataBase
+    {
+        Main, //ConnectionString
+        Report,//ConnectionStringReport
+        Wager,//ConnectionStringWager
+        Log,//ConnectionStringLog
+    }
+    public enum AppLinkAppType
+    {
+        Andriod = 1,
+        IOS = 2
+    }
+    public enum AppLinkProtocolType
+    {
+        http = 1,
+        https = 2
     }
 }

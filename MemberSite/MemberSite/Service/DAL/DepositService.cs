@@ -8,12 +8,12 @@ using System.Data;
 
 namespace MemberSite.Service.DAL
 {
-    public class DepoistService
+    public class DepositService
     {
         private readonly IConfiguration configuration;
         private readonly Common common;
 
-        public DepoistService(IConfiguration configuration, Common common)
+        public DepositService(IConfiguration configuration, Common common)
         {
             this.configuration = configuration;
             this.common = common;

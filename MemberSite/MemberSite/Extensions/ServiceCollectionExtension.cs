@@ -1,7 +1,11 @@
 ﻿using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MemberSite.Service.DAL;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MemberSite.Extensions
 {
@@ -10,20 +14,43 @@ namespace MemberSite.Extensions
         public static IServiceCollection AddDatabaseConnection(this IServiceCollection services, IConfiguration config)
         {
             var provider = services.BuildServiceProvider();
-
-            var mainConn = config.GetConnectionString("ConnectionString");
-            var reportConn = config.GetConnectionString("ConnectionStringReport");
-
             var logger = provider.GetRequiredService<ILogger<MySqlClient>>();
-            services.AddSingleton(serviceProvider => new MySqlClient(mainConn, logger)
+
+            services.AddSingleton(factory => new MySqlClient(config.GetConnectionString("ConnectionString"), logger)
             {
-                Name = "MainDB"
+                DataBase = DataBase.Main
             });
-            services.AddSingleton(serviceProvider => new MySqlClient(reportConn, logger)
+            services.AddSingleton(factory => new MySqlClient(config.GetConnectionString("ConnectionStringReport"), logger)
             {
-                Name = "ReportDB"
+                DataBase = DataBase.Report
+            });
+            services.AddSingleton(factory => new MySqlClient(config.GetConnectionString("ConnectionStringWager"), logger)
+            {
+                DataBase = DataBase.Wager
+            });
+            services.AddSingleton(factory => new MySqlClient(config.GetConnectionString("ConnectionStringLog"), logger)
+            {
+                DataBase = DataBase.Log
             });
 
+            return services;
+        }
+    
+        public static IServiceCollection AddOptionListByDB<T>(this IServiceCollection services, string sql, object parameters = null)
+        {
+            var provider = services.BuildServiceProvider();
+            var configService = provider.GetRequiredService<ConfigService>();
+            var option = configService.Query<T>(sql, parameters);
+            services.AddSingleton(typeof(IEnumerable<T>), p => option);
+            return services;
+        }
+
+        public static IServiceCollection AddOptionByDB<T>(this IServiceCollection services, string sql, object parameters = null)
+        {
+            var provider = services.BuildServiceProvider();
+            var configService = provider.GetRequiredService<ConfigService>();
+            var option = configService.Query<T>(sql, parameters).FirstOrDefault();
+            services.AddSingleton(typeof(T), p => option);
             return services;
         }
     }

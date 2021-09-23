@@ -7,9 +7,9 @@ namespace MemberSite.Service.BLL
     public class TemplateBLL
     {
         private readonly Tools tools;
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
 
-        public TemplateBLL(Tools tools, ServerInfoBLL serverInfoBLL)
+        public TemplateBLL(Tools tools, ServerInfoBll serverInfoBLL)
         {
             this.tools = tools;
             this.serverInfoBLL = serverInfoBLL;

@@ -4,36 +4,28 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MemberSite.Service.Library;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
     public class DepositBLL
     {
-        private readonly DepoistService depoistService;
-        private readonly IMemoryCache cache;
+        private readonly DepositService _depositService;
+        private readonly CacheHelper _cacheHelper;
 
-        public DepositBLL(IMemoryCache cache, DepoistService depoistService)
+        public DepositBLL(IServiceProvider provider)
         {
-            this.depoistService = depoistService;
-            this.cache = cache;
+            _depositService = provider.GetRequiredService<DepositService>();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
         public IEnumerable<DepositLimitInfo> GetDepositLimitInfoList(int siteId)
         {
             var key = $"DepositLimitInfoList_{siteId}";
-            var depositLimitInfoList = cache.Get<IEnumerable<DepositLimitInfo>>(key);
-            if (depositLimitInfoList == null)
-            {
-                depositLimitInfoList = depoistService.GetDepositLimitInfoList().Where(x => x.SiteId == siteId);
-                if (depositLimitInfoList.Any())
-                {
-                    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
-                    cache.Set(key, depositLimitInfoList, cacheEntryOptions);
-                }
-            }
-
-            return depositLimitInfoList;
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                i => _depositService.GetDepositLimitInfoList().Where(x => x.SiteId == siteId));
         }
         public void FixDepositLimit(IPaymentLimit paymentLimit, DepositLimitInfo depositLimitInfo)
         {

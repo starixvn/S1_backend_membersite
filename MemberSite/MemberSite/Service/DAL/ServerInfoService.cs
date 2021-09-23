@@ -20,11 +20,7 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<ServerInfo>("ServerInfo_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
-        public dynamic GetModel1()
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<dynamic>("TestDate", new { T = "2019-12-19T18:00:00" }, commandType: CommandType.StoredProcedure);
-        }
+
         public IEnumerable<Country> GetCountryList()
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));

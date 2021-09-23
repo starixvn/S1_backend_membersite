@@ -14,19 +14,20 @@ using Serilog.Context;
 using MemberSite.Service.DAL;
 using Microsoft.Extensions.Options;
 using MemberSite.Service.Model;
+using System.Web;
 
 namespace MemberSite.Controllers
 {
     public class entPageController : Controller
     {
-        private readonly ThirdPartyBLL _thirdPartyBll;
+        private readonly ThirdPartyBll _thirdPartyBll;
         private readonly CourierAdapter _courierAdapter;
         private readonly AuthorizeBLL _authorizeBll;
         private readonly Tools _tools;
         private readonly SelLangBLL _selLangBll;
         private readonly WalletBLL _walletBll;
-        private readonly CustInfoBLL _custInfoBll;
-        private readonly ServerInfoBLL _serverInfoBll;
+        private readonly CustInfoBll _custInfoBll;
+        private readonly ServerInfoBll _serverInfoBll;
         private readonly GameBLL _gameBll;
         private readonly string _apiUrl;
         private readonly ILogger _logger;
@@ -35,14 +36,14 @@ namespace MemberSite.Controllers
 
         public entPageController(IServiceProvider provider)
         {
-            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBLL>();
+            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _tools = provider.GetRequiredService<Tools>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _walletBll = provider.GetRequiredService<WalletBLL>();
-            _custInfoBll = provider.GetRequiredService<CustInfoBLL>();
-            _serverInfoBll = provider.GetRequiredService<ServerInfoBLL>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _gameBll = provider.GetRequiredService<GameBLL>();
             _apiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("TpService");
             _logger = provider.GetRequiredService<ILogger<entPageController>>();
@@ -60,15 +61,6 @@ namespace MemberSite.Controllers
             public Dictionary<string, string> inputs { set; get; }
         }
 
-        // Olympics = GameId:2001,menutype:1
-        // World Cup = GameId:2002,menutype:2
-        // Euro Cup = GameId:2003,menutype:3
-        readonly Dictionary<string, string> menuTypeDic = new Dictionary<string, string>() {
-            {"2001","1" }, 
-            {"2002","2" },
-            {"2003","3" }
-        };
-
         [HttpGet]
         public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs, [FromRoute] string LangId = null)
         {
@@ -78,7 +70,8 @@ namespace MemberSite.Controllers
             {
                 var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
                 var host = _siteConfig.Value[serverInfo.SiteName].MaintainURL;
-                var maintainUrl = $"{host}/index_{LangId ?? "en"}.html?t={tpName}&e={tpMaintain.EndDate:u}";
+                var maintainUrl = $"{host}/index_{_selLangBll.GetLangId() ?? "en"}.html" +
+                    $"?t={HttpUtility.UrlEncode(tpName)}&e={HttpUtility.UrlEncode($"{tpMaintain.EndDate:u}")}";
                 return Redirect(maintainUrl);
             }
 
@@ -98,24 +91,9 @@ namespace MemberSite.Controllers
                 tpInfo.AppType = appType;
             }
 
-            if (inputs.ContainsKey("gameId") && inputs.TryGetValue("gameId", out var sportType))
-            {
-                if (sportType == "2001" || sportType == "2002" || sportType == "2003")
-                {
-                    inputs["gameId"] = "1";
-                    menuTypeDic.TryGetValue(sportType, out var menuType);
-                    inputs.Add("menutype", menuType);
-                }
-            }
-
             try
             {
-                if (_gameBll.IsFunGame(inputs))
-                {
-                    tpInfo.CustId = 0;
-                    tpInfo.LangId = _selLangBll.GetLangId();
-                }
-                else if (User.Identity.IsAuthenticated)
+                if (User.Identity.IsAuthenticated)
                 {
                     var authData = _authorizeBll.GetAuthData();
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
@@ -144,14 +122,11 @@ namespace MemberSite.Controllers
                     tpInfo.CustId = authData.CustId;
                     tpInfo.LangId = CheckLangId(LangId) ? LangId : custInfo.UserLang;
                 }
-                else if (hasBf(tpId))
-                {
-                    var entryUrl = _thirdPartyBll.GetEntryUrl(tpId, inputs);
-                    return Redirect(entryUrl);
-                }
                 else
                 {
-                    return StatusCode(400);
+                    tpInfo.CustId = 0;
+                    tpInfo.LangId = _selLangBll.GetLangId();
+                    inputs.TryAdd("fun", "1");
                 }
 
                 LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
@@ -160,12 +135,6 @@ namespace MemberSite.Controllers
                 if (data.ErrorCode == 0)
                 {
                     var entryUrl = data.Message;
-                    return Redirect(entryUrl);
-                }
-
-                if (tpId == (int)Tp.Saba && data.RawErrorCode == "10")
-                {
-                    var entryUrl = _thirdPartyBll.GetEntryUrl(tpId, inputs);
                     return Redirect(entryUrl);
                 }
 
@@ -226,11 +195,6 @@ namespace MemberSite.Controllers
             return StatusCode(400);
         }
 
-
-        private bool hasBf(int tpId)
-        {
-            return Bf.ContainsKey(tpId);
-        }
 
         public class ErrorData
         {

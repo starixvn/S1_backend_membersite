@@ -13,14 +13,14 @@ namespace MemberSite.Service.BLL
         private readonly IovationService iovationService;
         private readonly IConfiguration configuration;
         private readonly CourierAdapter courierAdapter;
-        private readonly ServerInfoBLL serverInfoBLL;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly Tools tools;
         private readonly Dictionary<int, string> iovationType;
         private readonly Dictionary<int, string> perCountry;
         private readonly Dictionary<int, string> perCurrency;
 
-        public IovationBLL(IConfiguration configuration, IovationService iovationService, CourierAdapter courierAdapter, Tools tools, ServerInfoBLL serverInfoBLL, CustInfoBLL custInfoBLL)
+        public IovationBLL(IConfiguration configuration, IovationService iovationService, CourierAdapter courierAdapter, Tools tools, ServerInfoBll serverInfoBLL, CustInfoBll custInfoBLL)
         {
             this.iovationService = iovationService;
             this.configuration = configuration;
@@ -44,8 +44,7 @@ namespace MemberSite.Service.BLL
         }
         public void SetIovation(int custId, string iovation, IovationType type)
         {
-            string typeName;
-            iovationType.TryGetValue((int)type, out typeName);
+            iovationType.TryGetValue((int)type, out var typeName);
             iovationService.SetIovation(custId, iovation, typeName);
         }
         public async Task<ApiResult> IovationChecks(int CustId, int CurrencyId, string UserName, string blackbox, IovationType type)
@@ -76,8 +75,7 @@ namespace MemberSite.Service.BLL
             transactionInsight.Add("onlineId", UserName);
             transactionInsight.Add("billingCountry", CountryName);
             transactionInsight.Add("valueCurrency", Currencyname);
-            string typeName;
-            iovationType.TryGetValue((int)type, out typeName);
+            iovationType.TryGetValue((int)type, out var typeName);
             dynamic req = new
             {
                 accountCode = CustId,

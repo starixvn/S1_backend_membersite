@@ -7,12 +7,12 @@
 @using System.Security.Claims
 @using MemberSite.Service.Model.enums
 @inject SelLangBLL selLangBLL
-@inject ServerInfoBLL serverInfoBLL
+@inject ServerInfoBll serverInfoBLL
 @inject IWebHostEnvironment environment
 @inject IConfiguration configuration
 @inject WalletBLL walletBLL
-@inject CustInfoBLL custInfoBLL
-@inject PromotionBLL promotionBLL
+@inject CustInfoBll custInfoBLL
+@inject PromotionBll promotionBLL
 @inject Tools tools
 @inject CourierAdapter courierAdapter
 @inject GamingBLL gamingBLL
@@ -444,8 +444,10 @@ var announcementUrl = '@(User.Identity.IsAuthenticated ?　Url.RouteUrl("desktop
 
                 @:<script>DepositAlert = 1;</script>
             }
-            var option = new Microsoft.AspNetCore.Http.CookieOptions();
-            option.Expires = DateTime.Now.AddDays(1);
+            var option = new Microsoft.AspNetCore.Http.CookieOptions
+            {
+                Expires = DateTime.Now.AddDays(1)
+            };
             Context.Response.Cookies.Append($"Initialization{User.Identity.Name}", "1", option);
         }
     }
