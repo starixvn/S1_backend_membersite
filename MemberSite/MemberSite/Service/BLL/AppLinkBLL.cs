@@ -23,12 +23,15 @@ namespace MemberSite.Service.BLL
 
             applink.ForEach(x =>
             {
-                result.Add(new GetAppLinkRep
+                if (!string.IsNullOrWhiteSpace(x.Domain))
                 {
-                    AppType = x.AppType,
-                    AppTypeName = Enum.GetName(typeof(AppLinkAppType), x.AppType),
-                    DownloadLink = $"{Enum.GetName(typeof(AppLinkProtocolType), x.ProtocolType)}://{x.Domain}"
-                });
+                    result.Add(new GetAppLinkRep
+                    {
+                        AppType = x.AppType,
+                        AppTypeName = Enum.GetName(typeof(AppLinkAppType), x.AppType),
+                        DownloadLink = $"{Enum.GetName(typeof(AppLinkProtocolType), x.ProtocolType)}://{x.Domain}"
+                    });
+                }               
             });
 
             return result;
