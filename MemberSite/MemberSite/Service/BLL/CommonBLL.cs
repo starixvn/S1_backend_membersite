@@ -142,5 +142,19 @@ namespace MemberSite.Service.BLL
 
             return apiResult;
         }
+        public async Task<ApiResult> SendOTPEmailAsync(int custId, string OTPEmailUrl)
+        {
+            var apiUrl = $"{commonServiceUrl}Mail/OTPEmail";
+
+            dynamic req = new
+            {
+                custId,
+                OTPEmailUrl
+            };
+
+            var apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
+
+            return apiResult;
+        }
     }
 }
