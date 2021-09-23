@@ -423,6 +423,9 @@ namespace MemberSite.Controllers.Api
                 }
             }
 
+            custBankInfo.bankInfoDetail = custBankInfo.bankInfoDetail ?? Enumerable.Empty<BankInfoDetailRep>();
+            custBankInfo.uSDTDetail = custBankInfo.uSDTDetail ?? Enumerable.Empty<USDTDetail>();
+
             apiResult.Data = custBankInfo;
             apiResult.ErrorCode = 0;
 
