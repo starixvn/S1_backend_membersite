@@ -32,6 +32,13 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<int>("Member_SiteId_Get", new { Domain = domain }, commandType: CommandType.StoredProcedure);
         }
+        
+        public SeoModel GetSeo(string domain)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.QueryFirstOrDefault<SeoModel>("Service_Site_Get", new { Domain = domain }, commandType: CommandType.StoredProcedure);
+        }
+        
         public IEnumerable<Domainlist> GetSupportDomainList(int siteId, int currencyId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));

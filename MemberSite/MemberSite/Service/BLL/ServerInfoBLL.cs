@@ -114,5 +114,13 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(5)),
                 i => GetSupportDomainList(siteId, currencyId));
         }
+
+        public SeoModel GetSeoWithCache(string domain)
+        {
+            var key = $"GetSeoWithCache_{domain}";
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(10)),
+                i => _serverInfoService.GetSeo(domain));
+        }
     }
 }

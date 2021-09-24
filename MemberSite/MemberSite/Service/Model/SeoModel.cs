@@ -2,8 +2,8 @@
 {
     public class SeoModel
     {
-        public string Domain { get; set; }
         public string Title { get; set; }
         public string Meta { get; set; }
+        public string DefaultLang { get; set; }
     }
 }
