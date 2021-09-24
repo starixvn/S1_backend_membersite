@@ -1709,23 +1709,23 @@ namespace MemberSite.Controllers.Api
             };
         }
         
-        // [HttpGet, HttpPost]
-        // public ApiResult<SeoModel> Seo()
-        // {
-        //     var match = Regex.Match(HttpContext.Request.Host.ToString(), "([^.]+\\.[^.]{1,3}(\\.[^.]{1,3})?)$");
-        //     var domain = match.Groups[1].Success ? match.Groups[1].Value : null;
-        //     var data = _seoModels.FirstOrDefault(item => item.Domain.Equals(domain));
-        //         
-        //     return new ApiResult<SeoModel>()
-        //     {
-        //         ErrorCode = 0,
-        //         Data = data ?? new SeoModel
-        //         {
-        //             Domain = "",
-        //             Title = "",
-        //             Meta = ""
-        //         }
-        //     };
-        // }
+        [HttpGet, HttpPost]
+        public ApiResult<SeoModel> Seo()
+        {
+            var match = Regex.Match(HttpContext.Request.Host.ToString(), "([^.]+\\.[^.]{1,3}(\\.[^.]{1,3})?)$");
+            var domain = match.Groups[1].Success ? match.Groups[1].Value : null;
+            // var data = _seoModels.FirstOrDefault(item => item.Domain.Equals(domain));
+                
+            return new ApiResult<SeoModel>()
+            {
+                ErrorCode = 0,
+                Data = new SeoModel
+                {
+                    Domain = "",
+                    Title = "",
+                    Meta = ""
+                }
+            };
+        }
     }
 }
