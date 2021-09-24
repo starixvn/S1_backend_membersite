@@ -35,6 +35,11 @@ namespace MemberSite.Service.DAL
         
         public SeoModel GetSeo(string domain)
         {
+            if (string.IsNullOrEmpty(domain))
+            {
+                return null;
+            }
+            
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<SeoModel>("Service_Site_Get", new { Domain = domain }, commandType: CommandType.StoredProcedure);
         }

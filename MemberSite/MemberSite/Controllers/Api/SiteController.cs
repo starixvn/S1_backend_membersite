@@ -1705,7 +1705,8 @@ namespace MemberSite.Controllers.Api
         [HttpGet, HttpPost]
         public ApiResult<SeoModel> Seo()
         {
-            var domain = _serverInfoBll.GetDomain();
+            var match = Regex.Match(_serverInfoBll.GetDomain(), "([^.]+\\.[^.]{1,3}(\\.[^.]{1,3})?)$");
+            var domain = match.Groups[1].Success ? match.Groups[1].Value : string.Empty;
             var data = _serverInfoBll.GetSeoWithCache(domain);
 
             return new ApiResult<SeoModel>()
