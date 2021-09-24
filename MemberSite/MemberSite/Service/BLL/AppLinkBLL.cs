@@ -21,17 +21,14 @@ namespace MemberSite.Service.BLL
             List<GetAppLinkRep> result = new List<GetAppLinkRep>();
             var applink = appLinkService.GetAppLink(SiteId);
 
-            applink.ForEach(x =>
+            applink.FindAll(item => !string.IsNullOrWhiteSpace(item.Domain)).ForEach(x =>
             {
-                if (!string.IsNullOrWhiteSpace(x.Domain))
-                {
-                    result.Add(new GetAppLinkRep
-                    {
-                        AppType = x.AppType,
-                        AppTypeName = Enum.GetName(typeof(AppLinkAppType), x.AppType),
-                        DownloadLink = $"{Enum.GetName(typeof(AppLinkProtocolType), x.ProtocolType)}://{x.Domain}"
-                    });
-                }               
+                 result.Add(new GetAppLinkRep
+                 {
+                     AppType = x.AppType,
+                     AppTypeName = Enum.GetName(typeof(AppLinkAppType), x.AppType),
+                     DownloadLink = $"{Enum.GetName(typeof(AppLinkProtocolType), x.ProtocolType)}://{x.Domain}"
+                 });
             });
 
             return result;
