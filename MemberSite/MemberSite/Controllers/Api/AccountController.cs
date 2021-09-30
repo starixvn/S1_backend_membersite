@@ -423,8 +423,11 @@ namespace MemberSite.Controllers.Api
                 }
             }
 
-            custBankInfo.bankInfoDetail = custBankInfo.bankInfoDetail ?? Enumerable.Empty<BankInfoDetailRep>();
-            custBankInfo.uSDTDetail = custBankInfo.uSDTDetail ?? Enumerable.Empty<USDTDetail>();
+            if (custBankInfo != null)
+            {
+                custBankInfo.bankInfoDetail = custBankInfo.bankInfoDetail ?? Enumerable.Empty<BankInfoDetailRep>();
+                custBankInfo.uSDTDetail = custBankInfo.uSDTDetail ?? Enumerable.Empty<USDTDetail>();
+            }
 
             apiResult.Data = custBankInfo;
             apiResult.ErrorCode = 0;
@@ -1081,12 +1084,12 @@ namespace MemberSite.Controllers.Api
             };
             var authData = _authorizeBll.GetAuthData();
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            
-            if (_custInfoBll.SetFireBaseTroken(authData.CustId, custInfo.SiteId, setFireBaseTrokenReq.FireBaseTroken) >0)
+
+            if (_custInfoBll.SetFireBaseTroken(authData.CustId, custInfo.SiteId, setFireBaseTrokenReq.FireBaseTroken) > 0)
             {
                 apiResult.ErrorCode = 0;
             }
-           
+
             return apiResult;
         }
     }
