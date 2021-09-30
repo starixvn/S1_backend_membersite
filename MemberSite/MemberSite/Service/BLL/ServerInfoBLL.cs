@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -35,13 +36,7 @@ namespace MemberSite.Service.BLL
 
         public ServerInfo GetServerInfo()
         {
-            var host = _httpContextAccessor.HttpContext.Request.Host.Host;
-            var dotIndex = host.IndexOf(".");
-            if (dotIndex > -1)
-            {
-                host = host.Substring(dotIndex + 1);
-            }
-
+            var host = GetMainDomain();
             var siteId = 1;
             if (_fixSiteId != 0)
             {
@@ -102,6 +97,14 @@ namespace MemberSite.Service.BLL
         {
             return _httpContextAccessor.HttpContext.Request.Host.Host;
         }
+        
+        public string GetMainDomain()
+        {
+            var match = Regex.Match(GetDomain(), "([^.]+\\.[^.]{1,3}(\\.[^.]{1,3})?)$");
+            var domain = match.Groups[1].Success ? match.Groups[1].Value : string.Empty;
+            return domain;
+        }
+        
         public IEnumerable<Domainlist> GetSupportDomainList(int siteId, int currencyId)
         {
             return _serverInfoService.GetSupportDomainList(siteId, currencyId);
