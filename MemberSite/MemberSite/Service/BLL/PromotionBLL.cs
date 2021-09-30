@@ -74,6 +74,7 @@ namespace MemberSite.Service.BLL
         {
             var apiResult1 = new ApiResult();
             var lockedAmount = dLockedAmount ?? 0;
+            bonusCode = bonusCode.Trim();
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var result = _promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, deviceType, out var bonusAmount, ref lockedAmount, out var rollOver, out var expiryTime, out var promotion);
 
