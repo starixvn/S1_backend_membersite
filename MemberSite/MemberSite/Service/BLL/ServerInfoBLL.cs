@@ -36,7 +36,12 @@ namespace MemberSite.Service.BLL
 
         public ServerInfo GetServerInfo()
         {
-            var host = GetMainDomain();
+            var host = _httpContextAccessor.HttpContext.Request.Host.Host;
+            var dotIndex = host.IndexOf(".");
+            if (dotIndex > -1)
+            {
+                host = host.Substring(dotIndex + 1);
+            }
             var siteId = 1;
             if (_fixSiteId != 0)
             {
