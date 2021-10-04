@@ -20,11 +20,7 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<ServerInfo>("ServerInfo_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
-        public dynamic GetModel1()
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<dynamic>("TestDate", new { T = "2019-12-19T18:00:00" }, commandType: CommandType.StoredProcedure);
-        }
+
         public IEnumerable<Country> GetCountryList()
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
@@ -33,9 +29,25 @@ namespace MemberSite.Service.DAL
 
         public int GetSite(string domain)
         {
+            if (string.IsNullOrEmpty(domain))
+            {
+                return 0;
+            }
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<int>("Member_SiteId_Get", new { Domain = domain }, commandType: CommandType.StoredProcedure);
         }
+        
+        public SeoModel GetSeo(string domain)
+        {
+            if (string.IsNullOrEmpty(domain))
+            {
+                return null;
+            }
+            
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.QueryFirstOrDefault<SeoModel>("Service_Site_Get", new { Domain = domain }, commandType: CommandType.StoredProcedure);
+        }
+        
         public IEnumerable<Domainlist> GetSupportDomainList(int siteId, int currencyId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));

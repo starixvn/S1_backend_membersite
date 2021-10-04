@@ -3,10 +3,6 @@ using System.Collections.Generic;
 
 namespace MemberSite.Service.Model
 {
-    public class Evnets
-    {
-
-    }
     public class Leaderboard
     {
         public DateTime Date { get; set; }
@@ -15,11 +11,13 @@ namespace MemberSite.Service.Model
         public int CustId { get; set; }
         public string UserName { get; set; }
         public decimal WTurnover { get; set; }
+        public int Status { get; set; }
     }
     public class LeaderboardCustRank
     {
         public int CustRank { get; set; }
         public decimal point { get; set; }
+        public int Status { get; set; }
     }
     public class Prize
     {
@@ -33,16 +31,6 @@ namespace MemberSite.Service.Model
         public int Quota { get; set; }
     }
 
-    public class Prizeleft
-    {
-        public int PrizeId { get; set; }
-        public int EventId { get; set; }
-        public string GiftName { get; set; }
-        public int Quantity { get; set; }
-        public int UsedQuantity { get; set; }
-        public int LeftCount { get; set; }
-        public int Cumsum { get; set; }
-    }
     public class CustGift
     {
         public int Jackpot { get; set; }

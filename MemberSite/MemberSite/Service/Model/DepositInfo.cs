@@ -27,18 +27,7 @@ namespace MemberSite.Service.Model
         public string PostScript { get; set; }
         public int Status { get; set; }
     }
-    public class DepositInfo1_1 : IDepositInfo
-    {
-        public int Ver { get; set; }
-        public int CurrencyId { get; set; }
-    }
-    public class DepositInfo2_1 : IDepositInfo
-    {
-        public int Ver { get; set; }
-        public int PayId { get; set; }
-        public int ChannelId { get; set; }
-        public int CurrencyId { get; set; }
-    }
+
     public class DepositInfo3_1 : IDepositInfo
     {
         public int Ver { get; set; }
@@ -105,5 +94,17 @@ namespace MemberSite.Service.Model
         public int SysId { get; set; }
         public string AccountNo { get; set; }
         public string IFSCCode { get; set; }
+    }
+
+    public class ExchangeInfo
+    {
+        public decimal Rate { get; set; }
+        public decimal To_Amount { get; set; }
+        public long Updated_timestamp { get; set; }
+    }
+
+    public class PaymentReq
+    {
+        public ExchangeInfo formData { get; set; }
     }
 }

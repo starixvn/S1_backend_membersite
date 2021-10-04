@@ -3,9 +3,9 @@
 @using System.Security.Claims
 @using MemberSite.Service.Model.enums
 @inject SelLangBLL selLangBLL
-@inject ServerInfoBLL serverInfoBLL
-@inject PromotionBLL promotionBLL
-@inject CustInfoBLL custInfoBLL
+@inject ServerInfoBll serverInfoBLL
+@inject PromotionBll promotionBLL
+@inject CustInfoBll custInfoBLL
 @inject Tools tools
 @inject GamingBLL gamingBLL
 @{
@@ -24,7 +24,7 @@
     else
     {
         CurrencyId = selLangBLL.GetPreferCurrencyId();
-        promotionCnt = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == CurrencyId).Count();
+        promotionCnt = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Count(x => x.CurrencyId == CurrencyId);
     }
 
 
@@ -113,7 +113,7 @@
             var totalRollover = 1m;
             var totalturnover = 0m;
 
-            if (promotions != null && promotions.Count() > 0)
+            if (promotions != null && promotions.Any())
             {
 
                 rolloverPanelDisplay = "block";
@@ -138,7 +138,7 @@
                 <div class="dropdown__container">
                     <div class="balance-info">
                         <div class="rollover-info">
-                            @if (promotions != null && promotions.Count() > 0)
+                            @if (promotions != null && promotions.Any())
                             {
                                 foreach (var promotion in promotions)
                                 {

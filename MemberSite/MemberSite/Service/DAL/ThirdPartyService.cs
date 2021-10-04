@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +10,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace MemberSite.Service.DAL
 {
@@ -23,8 +25,7 @@ namespace MemberSite.Service.DAL
         {
             environment = provider.GetRequiredService<IWebHostEnvironment>();
             configuration = provider.GetRequiredService<IConfiguration>();
-            var logger = provider.GetRequiredService<ILogger<MySqlClient>>();
-            _mainDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionString"), logger);
+            _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
         }
 
         public ThirdPartyModel GetThirdPartyBySite(int tpId, int siteId)
@@ -48,11 +49,6 @@ namespace MemberSite.Service.DAL
             return ThirdPartyHelperContainer[tpId];
         }*/
 
-        public string GetTpLanId(int tpId, string langId)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<string>("TpLangId_Get", new { TpId = tpId, LangId = langId }, commandType: CommandType.StoredProcedure);
-        }
         public TpCurrency GetTpCurrency(int tpId, int currencyId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));

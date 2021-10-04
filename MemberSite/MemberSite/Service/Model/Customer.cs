@@ -26,17 +26,13 @@ namespace MemberSite.Service.Model
         public string AffCode { get; set; }
     }
 
-    public class CustProfile
-    {
-        public string RealName { get; set; }
-        public string EMail { get; set; }
-    }
     //{"Ver": 1, "SysId": 8, "AccountNo": "9876543210", "AccountName": "Eddie Wu"}
     public class CustBankInfo
     {
         public string AccountName { set; get; }
         [JsonIgnore]
         public string BankInfo { set; get; }
+        public string USDTInfo { set; get; }
         public IEnumerable<BankInfoDetail> bankInfoDetail { set; get; }
         public IEnumerable<USDTDetail> uSDTDetail { set; get; }
     }
@@ -51,6 +47,8 @@ namespace MemberSite.Service.Model
     {
         public string NickName { set; get; }
         public string USDTAddress { set; get; }
+        public string Network { set; get; }
+        public int CurrencyId { set; get; }
     }
 
     public class BankInfoDetailRep : BankInfoDetail
@@ -130,11 +128,6 @@ namespace MemberSite.Service.Model
         public string PhoneNo { get; set; }
     }
 
-    public class RegCust
-    {
-        public int CustId { get; set; }
-        public int ErrorCode { get; set; }
-    }
     public class TpWalletList
     {
         public int TpId { set; get; }

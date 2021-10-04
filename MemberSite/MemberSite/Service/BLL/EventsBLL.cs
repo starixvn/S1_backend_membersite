@@ -6,13 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using MemberSite.Service.Library;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
     public class EventsBLL
     {
-        private readonly EventsService eventsService;
-        private readonly IMemoryCache cache;
+        private readonly EventsService _eventsService;
+        private readonly CacheHelper _cacheHelper;
         public string MaskName(string input)
         {
             if (string.IsNullOrEmpty(input))
@@ -23,147 +25,160 @@ namespace MemberSite.Service.BLL
                 pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1})";
             return Regex.Replace(input, pattern, m => new string('*', m.Length));
         }
-        public EventsBLL(EventsService eventsService, IMemoryCache cache)
+        public EventsBLL(IServiceProvider provider)
         {
-            this.eventsService = eventsService;
-            this.cache = cache;
+            _eventsService = provider.GetRequiredService<EventsService>();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
         public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
-            var leaderboard = eventsService.GetLeaderboardList(lBCategoryId, siteId, currencyId, topNum, beforeDays);
+            var leaderboard = _eventsService.GetLeaderboardList(lBCategoryId, siteId, currencyId, topNum, beforeDays);
             return leaderboard;
 
         }
-        public void GetCustRank(int lBCategoryId, int custId, int beforeDays, out int custRank, out Decimal point)
+        public LeaderboardCustRank GetCustRank(int lBCategoryId, int custId, int beforeDays)
         {
-            eventsService.GetCustRank(lBCategoryId, custId, beforeDays, out custRank, out point);
+            _eventsService.GetCustRank(lBCategoryId, custId, beforeDays, out var custRank, out var point);
+            return new LeaderboardCustRank
+            {
+                CustRank = custRank,
+                point = point
+            };
         }
         
-        public IEnumerable<Leaderboard> GetLeaderboardListWithCache(int custId ,int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
+        public IEnumerable<Leaderboard> GetLeaderboardListWithCache(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
             var key = $"Leaderboard_{lBCategoryId}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
-            var leaderboard = cache.Get<IEnumerable<Leaderboard>>(key);
-            if (leaderboard != null)
-            {
-                return leaderboard;
-            }
-            leaderboard = GetLeaderboardList(lBCategoryId, siteId, currencyId, topNum, beforeDays);
-            
-            if (leaderboard != null)
-            {
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
-                cache.Set(key, leaderboard, cacheEntryOptions);
-            }
-
-            return leaderboard;
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
+                i => GetLeaderboardList(lBCategoryId, siteId, currencyId, topNum, beforeDays));
         }
-        public void GetCustRankWithCache(int lBCategoryId, int custId, int beforeDays, out int custRank, out Decimal point)
+        public void GetCustRankWithCache(int lBCategoryId, int custId, int beforeDays, out int custRank, out decimal point)
         {
             var key = $"Leaderboard_{lBCategoryId}_{custId}_{beforeDays}";
-            var leaderboardCustRank = cache.Get<LeaderboardCustRank>(key);
-            if (leaderboardCustRank != null)
-            {
-                custRank = leaderboardCustRank.CustRank;
-                point = leaderboardCustRank.point;
-                return;
-            }
+            var result = _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
+                i => GetCustRank(lBCategoryId, custId, beforeDays));
 
-            GetCustRank(lBCategoryId, custId, beforeDays, out custRank, out point);
-
-            leaderboardCustRank = new LeaderboardCustRank
-            {
-                CustRank = custRank,
-                point = point
-            };
-
-            var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
-            cache.Set(key, leaderboardCustRank, cacheEntryOptions);
+            custRank = result.CustRank;
+            point = result.point;
         }
-        public IEnumerable<Leaderboard> GetLeaderboardListV2(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
-        {
-            var leaderboard = eventsService.GetLeaderboardListV2(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);
-            return leaderboard;
 
-        }
-        public void GetCustRankV2(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out Decimal point)
-        {
-            eventsService.GetCustRankV2(lBCategoryId, eventCode, custId, beforeDays, out custRank, out point);
-        }
         public IEnumerable<Leaderboard> GetLeaderboardListV3(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
         {
-            var leaderboard = eventsService.GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);
+            var leaderboard = _eventsService.GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);
             return leaderboard;
 
         }
-        public void GetCustRankV3(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out Decimal point)
-        {
-            eventsService.GetCustRankV3(lBCategoryId, eventCode, custId, beforeDays, out custRank, out point);
-        }
-        public IEnumerable<Leaderboard> GetLeaderboardListWithCacheV2(int custId, string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
-        {
-            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
-            var leaderboard = cache.Get<IEnumerable<Leaderboard>>(key);
-            if (leaderboard != null)
-            {
-                return leaderboard;
-            }
-            leaderboard = GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);
 
-            if (leaderboard.Any())
+        public IEnumerable<Leaderboard> GetLeaderboardListV4(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
+        {
+            var leaderboard = _eventsService.GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);
+            var leaderboardyesterday = _eventsService.GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays +1).ToList();
+            if (leaderboardyesterday.Any())
             {
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
-                cache.Set(key, leaderboard, cacheEntryOptions);
-            }
+                var count = 0;
+                foreach (var data in leaderboard)
+                {
+                    count++;
+                    var item = leaderboardyesterday.FirstOrDefault(x => x.CustId == data.CustId);
+                    if (item == null)
+                        data.Status = 1;
+                    data.Status = -count.CompareTo(leaderboardyesterday.IndexOf(item) + 1);
 
+                }
+            }
             return leaderboard;
+
         }
-        public void GetCustRankWithCacheV2(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out Decimal point)
+        public IEnumerable<Leaderboard> GetLeaderboardListMonth(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime selectDays)
         {
-            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{custId}_{beforeDays}";
-            var leaderboardCustRank = cache.Get<LeaderboardCustRank>(key);
-            if (leaderboardCustRank != null)
-            {
-                custRank = leaderboardCustRank.CustRank;
-                point = leaderboardCustRank.point;
-                return;
-            }
+            var leaderboard = _eventsService.GetLeaderboardListMonth(lBCategoryId, eventCode, siteId, currencyId, topNum, selectDays);
+            return leaderboard;
 
-            GetCustRankV3(lBCategoryId, eventCode, custId, beforeDays, out custRank, out point);
-
-            leaderboardCustRank = new LeaderboardCustRank
+        }
+        public LeaderboardCustRank GetCustRankV3(int lBCategoryId, string eventCode, int custId, int beforeDays)
+        {
+            _eventsService.GetCustRankV3(lBCategoryId, eventCode, custId, beforeDays, out var custRank, out var point);
+            return new LeaderboardCustRank
             {
                 CustRank = custRank,
                 point = point
             };
-
-            var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
-            cache.Set(key, leaderboardCustRank, cacheEntryOptions);
+        }
+        public LeaderboardCustRank GetCustRankMonth(int lBCategoryId, string eventCode, int custId, DateTime selectDays)
+        {
+            _eventsService.GetCustRankMonth(lBCategoryId, eventCode, custId, selectDays, out var custRank, out var point);
+            return new LeaderboardCustRank
+            {
+                CustRank = custRank,
+                point = point
+            };
+        }
+        public IEnumerable<Leaderboard> GetLeaderboardListWithCacheV2(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
+        {
+            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
+                i => GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays));
+        }
+        public IEnumerable<Leaderboard> GetLeaderboardListWithCacheV3(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
+        {
+            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{beforeDays}_v3";
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
+                i => GetLeaderboardListV4(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays));
+        }
+        
+        public IEnumerable<Leaderboard> GetLeaderboardListMonthWithCache(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, DateTime selectDays)
+        {
+            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{selectDays.Date}";
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
+                i => GetLeaderboardListMonth(lBCategoryId, eventCode, siteId, currencyId, topNum, selectDays));
+        }
+        public void GetCustRankWithCacheV2(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out decimal point)
+        {
+            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{custId}_{beforeDays}";
+            var result = _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
+                i => GetCustRankV3(lBCategoryId, eventCode, custId, beforeDays));
+            
+            custRank = result.CustRank;
+            point = result.point;
+        }
+        
+        public void GetCustRankWithCacheMonth(int lBCategoryId, string eventCode, int custId, DateTime selectDays, out int custRank, out Decimal point)
+        {
+            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{custId}_{selectDays}";
+            var result = _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
+                i => GetCustRankMonth(lBCategoryId, eventCode, custId, selectDays));
+            
+            custRank = result.CustRank;
+            point = result.point;
         }
         public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int result)
         {
-            return eventsService.CheckDrawPrize(ref eventId, siteId, custId, currencyId, out prizeId, out result);
+            return _eventsService.CheckDrawPrize(ref eventId, siteId, custId, currencyId, out prizeId, out result);
         }
         public int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
         {
             
-            return eventsService.DrawPrize(ref eventId, custId, currencyId, userName, siteId, out result, out drawPrize);
+            return _eventsService.DrawPrize(ref eventId, custId, currencyId, userName, siteId, out result, out drawPrize);
         }
         public IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId)
         {
-            return eventsService.GetCustDrawPrizeList( eventId, siteId, custId);
+            return _eventsService.GetCustDrawPrizeList( eventId, siteId, custId);
         }
         public void GetLeaderboardEventCode(int siteId, out string eventCodeNow, out string eventCodeLast)
         {
-            eventsService.GetLeaderboardEventCode( siteId, out eventCodeNow, out eventCodeLast);
+            _eventsService.GetLeaderboardEventCode( siteId, out eventCodeNow, out eventCodeLast);
         }
         public LeaderboardInfo GetLeaderboardInfo(string eventCode, int siteId, int currencyId)
         {
             var events = new List<RewardInfo>();
-            var eventslist = eventsService.GetLeaderboardInfo(eventCode, siteId, currencyId);
+            var eventslist = _eventsService.GetLeaderboardInfo(eventCode, siteId, currencyId);
             Dictionary<string, string> TitalList = null;
             if(eventslist.Tital != null)
                 TitalList = JsonConvert.DeserializeObject<Dictionary<string, string>>(eventslist.Tital);
@@ -206,61 +221,37 @@ namespace MemberSite.Service.BLL
         public LeaderboardInfo GetLeaderboardInfoWithCache(string eventCode, int siteId, int currencyId)
         {
             var key = $"tLeaderboardIInfo_{eventCode}_{siteId}_{currencyId}";
-            var leaderboardInfo = cache.Get<LeaderboardInfo>(key);
-            if (leaderboardInfo != null)
-            {
-                return leaderboardInfo;
-            }
-
-            leaderboardInfo = GetLeaderboardInfo(eventCode, siteId, currencyId);
-
-            if (leaderboardInfo != null)
-            {
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromMinutes(60));
-                cache.Set(key, leaderboardInfo, cacheEntryOptions);
-            }
-
-            return leaderboardInfo;
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(60)),
+                i => GetLeaderboardInfo(eventCode, siteId, currencyId));
         }
-        public void GetEventDrawInfo(int eventId, out string eventName, out string conditionSP)
+        public EventDrawInfo GetEventDrawInfo(int eventId)
         {
-            eventsService.GetEventDrawInfo( eventId, out eventName, out conditionSP);
+            _eventsService.GetEventDrawInfo( eventId, out var eventName, out var conditionSp);
+            return new EventDrawInfo
+            {
+                EventName = eventName,
+                ConditionSp = conditionSp
+            };
         }
         public class EventDrawInfo
         {
-            public string eventName { get; set; }
-            public string conditionSP { get; set; }
+            public string EventName { get; set; }
+            public string ConditionSp { get; set; }
         }
-        public void GetEventDrawInfoWithCache(int eventId, out string eventName, out string conditionSP)
+        public void GetEventDrawInfoWithCache(int eventId, out string eventName, out string conditionSp)
         {
             var key = $"EventDrawInfo_{eventId}";
-            var eventDrawInfo = cache.Get<EventDrawInfo>(key);
-            if (eventDrawInfo != null)
-            {
-                eventName = eventDrawInfo.eventName;
-                conditionSP = eventDrawInfo.conditionSP;
-                return;
-            }
+            var result = _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(30)),
+                i => GetEventDrawInfo(eventId));
             
-            eventsService.GetEventDrawInfo(eventId, out eventName, out conditionSP);
-
-            eventDrawInfo = new EventDrawInfo
-            {
-                eventName = eventName,
-                conditionSP = conditionSP
-            };
-
-            var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(TimeSpan.FromMinutes(30));
-            cache.Set(key, eventDrawInfo, cacheEntryOptions);
-
-
-
+            eventName = result.EventName;
+            conditionSp = result.ConditionSp;
         }
-        public bool CheckEventCondition(string conditionSP, int eventId, int custId, int currencyId)
+        public bool CheckEventCondition(string conditionSp, int eventId, int custId, int currencyId)
         {
-            return eventsService.CheckEventCondition(conditionSP, eventId, custId, currencyId);
+            return _eventsService.CheckEventCondition(conditionSp, eventId, custId, currencyId);
         }
     }
 }

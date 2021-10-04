@@ -5,15 +5,22 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using MemberSite.Service.Library;
+using Newtonsoft.Json;
+using System;
+using Microsoft.Extensions.DependencyInjection;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
 {
     public class CasinoService
     {
         private readonly IConfiguration configuration;
-        public CasinoService(IConfiguration configuration)
+        private readonly MySqlClient _reportDb;
+        public CasinoService(IServiceProvider provider)
         {
-            this.configuration = configuration;
+            configuration = provider.GetRequiredService<IConfiguration>();
+            _reportDb = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report); 
         }
 
         public FavoriteGames GetFavoriteGames(int CustId)
@@ -37,6 +44,14 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<GameCasionByCurrencyAndSite>("Member_GameCasino_Get", new { CurrencyId, SiteId }, commandType: CommandType.StoredProcedure);
+        }
+
+        public IEnumerable<DisableTpGame> GetTpDisableUserByCustId(int custId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId);
+            var result = _reportDb.QueryFirst<string>("Member_TpDisableUserByCustId_Get", p);
+            return (!string.IsNullOrEmpty(result) && result != "null") ? JsonConvert.DeserializeObject<IEnumerable<DisableTpGame>>(result) : new List<DisableTpGame>();
         }
     }
 }

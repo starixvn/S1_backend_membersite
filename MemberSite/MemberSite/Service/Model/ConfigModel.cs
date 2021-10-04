@@ -17,5 +17,7 @@
     public class SiteConfig
     {
         public string ImageURL { get; set; }
+
+        public string MaintainURL { get; set; }
     }
 }

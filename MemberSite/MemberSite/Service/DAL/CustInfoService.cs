@@ -1,9 +1,15 @@
 ﻿using Dapper;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace MemberSite.Service.DAL
 {
@@ -11,12 +17,19 @@ namespace MemberSite.Service.DAL
     {
         private readonly IConfiguration configuration;
         private readonly PromotionService promotionService;
+        private readonly MySqlClient _mainDbClient;
+        private readonly MySqlClient _reportDbClient;
+        private readonly string _connectionString;
 
-        public CustInfoService(IConfiguration configuration, PromotionService promotionService)
+        public CustInfoService(IServiceProvider provider)
         {
-            this.configuration = configuration;
-            this.promotionService = promotionService;
+            configuration = provider.GetRequiredService<IConfiguration>();
+            promotionService = provider.GetRequiredService<PromotionService>();
+            _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
+            _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
+            _connectionString = configuration.GetConnectionString("ConnectionString");
         }
+
         public bool ExistsUserName(string userName, int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
@@ -207,7 +220,49 @@ namespace MemberSite.Service.DAL
             var result = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             var tmp = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo);
-            result = conn.Execute("CustBankInfo_Set", new { CustId = custId, SiteId = siteId, AccountName = accountName, BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo) }, commandType: CommandType.StoredProcedure);
+            result = conn.Execute("Service_CustBankInfo_SetV2", new { CustId = custId, SiteId = siteId, AccountName = accountName, BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo) }, commandType: CommandType.StoredProcedure);
+            return result > 0;
+        }
+        public bool InsertCustBankInfo(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo, IEnumerable<BankInfoDetail> banklog)
+        {
+            using var conn = new MySqlConnection(_connectionString);
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            var bankinfoResult = SetCustBankInfo(custId, siteId, accountName, bankInfo, conn, trans);
+            var banklogResult = SetCustBankInfoLog(custId, siteId, accountName, banklog, conn, trans);
+            if(bankinfoResult& banklogResult)
+            {
+                trans.Commit();
+            }
+            return bankinfoResult & banklogResult;
+        }
+
+        private bool SetCustBankInfo(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo, MySqlConnection conn, MySqlTransaction trans)
+        {
+            var result = 0;
+            var tmp = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo);
+            var parameter = new DynamicParameters(new
+            {
+                CustId = custId,
+                SiteId = siteId,
+                AccountName = accountName,
+                BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo)
+            });
+            result = _mainDbClient.Execute("Service_CustBankInfo_SetV2", parameter, conn,trans);
+            return result > 0;
+        }
+        private bool SetCustBankInfoLog(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo, MySqlConnection conn, MySqlTransaction trans)
+        {
+            var result = 0;
+            var tmp = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo);
+            var parameter = new DynamicParameters(new
+            {
+                CustId = custId,
+                SiteId = siteId,
+                AccountName = accountName,
+                BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo)
+            });
+            result = _mainDbClient.Execute("Service_CustBankInfoLog_Set", parameter, conn, trans);
             return result > 0;
         }
         public bool SetCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo)
@@ -219,7 +274,7 @@ namespace MemberSite.Service.DAL
         }
         public CustBankInfo GetCustBankInfo(int custId, int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.QueryFirstOrDefault<CustBankInfo>("CustBankInfo_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
         public string GetDefAccountNo(int custId, int siteId)
@@ -249,11 +304,6 @@ namespace MemberSite.Service.DAL
             return conn.Execute("Member_ResetPwd_Set", new { CustId = custId, Md5NewPassword = md5NewPassword }, commandType: CommandType.StoredProcedure) > 0;
         }
 
-        public int GetCustLevel(int CustId)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<int>("VipLevel_Get", new { CustId }, commandType: CommandType.StoredProcedure);
-        }
         public int SetPhoneVerified(int custId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));

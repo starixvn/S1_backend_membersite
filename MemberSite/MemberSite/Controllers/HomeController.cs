@@ -16,10 +16,10 @@ namespace MemberSite.Controllers
     {
         private readonly TemplateBLL templateBLL;
         private readonly AuthBLL authBLL;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly Tools tools;
 
-        public HomeController(TemplateBLL templateBLL, AuthBLL authBLL, CustInfoBLL custInfoBLL, Tools tools)
+        public HomeController(TemplateBLL templateBLL, AuthBLL authBLL, CustInfoBll custInfoBLL, Tools tools)
         {
             this.templateBLL = templateBLL;
             this.authBLL = authBLL;
@@ -33,8 +33,10 @@ namespace MemberSite.Controllers
                 // VN Affiliate
                 if (aff != null)
                 {
-                    var option = new CookieOptions();
-                    option.Expires = DateTime.Now.AddMonths(1);
+                    var option = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddMonths(1)
+                    };
                     Response.Cookies.Append(nameof(aff), aff, option);
 
                     if (affId == null)
@@ -50,8 +52,10 @@ namespace MemberSite.Controllers
                 // Marketing Affiliate
                 if (refId != null)
                 {
-                    var option = new CookieOptions();
-                    option.Expires = DateTime.Now.AddMonths(1);
+                    var option = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddMonths(1)
+                    };
                     Response.Cookies.Append(nameof(refId), refId, option);
 
                     if (affId == null)
@@ -67,8 +71,10 @@ namespace MemberSite.Controllers
                 // Affiliate
                 if (affId != null)
                 {
-                    var option = new CookieOptions();
-                    option.Expires = DateTime.Now.AddMonths(1);
+                    var option = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddMonths(1)
+                    };
                     Response.Cookies.Append(nameof(affId), affId, option);
 
                     if (refId == null)
@@ -95,8 +101,10 @@ namespace MemberSite.Controllers
             // VN Affiliate
             if (aff != null)
             {
-                var option = new CookieOptions();
-                option.Expires = DateTime.Now.AddMonths(1);
+                var option = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddMonths(1)
+                };
                 Response.Cookies.Append(nameof(aff), aff, option);
 
                 if (affId == null)
@@ -112,8 +120,10 @@ namespace MemberSite.Controllers
             // Marketing Affiliate
             if (refId != null)
             {
-                var option = new CookieOptions();
-                option.Expires = DateTime.Now.AddMonths(1);
+                var option = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddMonths(1)
+                };
                 Response.Cookies.Append(nameof(refId), refId, option);
 
                 if (affId == null)
@@ -129,8 +139,10 @@ namespace MemberSite.Controllers
             //Affiliate
             if (affId != null)
             {
-                var option = new CookieOptions();
-                option.Expires = DateTime.Now.AddMonths(1);
+                var option = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddMonths(1)
+                };
                 Response.Cookies.Append(nameof(affId), affId, option);
 
                 if (refId == null)

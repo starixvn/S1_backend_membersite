@@ -12,11 +12,7 @@ namespace MemberSite.Service.DAL
         {
             this.configuration = configuration;
         }
-        public int ApplyToken(string Key, string Value, int Expiry)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("Common_AuthToken_Ins", new { Token = Key, PermissionData = Value, Expiry }, commandType: CommandType.StoredProcedure);
-        }
+
         public string Authenticate(string Key)
         {
             string permissionData = null;

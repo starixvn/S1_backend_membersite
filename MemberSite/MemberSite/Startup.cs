@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
@@ -63,20 +64,24 @@ namespace MemberSite
             services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
 
             services.AddMemoryCache();
+            services.AddDatabaseConnection(configuration);
+
             /*Library*/
             services.AddSingleton<Tools>();
             services.AddSingleton<Common>();
             services.AddSingleton<CourierAdapter>();
-            services.AddSingleton<RegexUtilities>();
-            services.AddSingleton<IBCDBLibrary>();
             services.AddSingleton<CodeGenerator>();
-
+			services.AddTransient<JsonNetSerializer>();
+            services.AddSingleton<IHttpHelper, HttpHelper>();
+            services.AddSingleton<CacheHelper>();
+            services.AddSingleton<TpGameTypeHelper>();
+            
             /*DAL*/
             services.AddSingleton<ServerInfoService>();
             services.AddSingleton<AgentInfoService>();
             services.AddSingleton<CustInfoService>();
             services.AddSingleton<AuthenticateService>();
-            services.AddSingleton<DepoistService>();
+            services.AddSingleton<DepositService>();
             services.AddSingleton<WithdrawalService>();
             services.AddSingleton<BankInfoOffService>();
             services.AddSingleton<BankInfoService>();
@@ -99,32 +104,28 @@ namespace MemberSite
             services.AddSingleton<GameCasinoService>();
             services.AddSingleton<LiveStreamingService>();
             services.AddSingleton<LatestHighlightDataService>();
-            // foreach (var s in AppDomain.CurrentDomain.GetAssemblies()
-            //.SelectMany(t => t.GetTypes())
-            //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.DAL"))
-            // {
-            //     services.AddSingleton(s);
-            // }
+            services.AddSingleton<ConfigService>();
+            services.AddSingleton<AppLinkService>();
 
             /*BLL*/
-            services.AddSingleton<ServerInfoBLL>();
-            services.AddSingleton<CustInfoBLL>();
+            services.AddSingleton<ServerInfoBll>();
+            services.AddSingleton<CustInfoBll>();
             services.AddSingleton<WalletBLL>();
             /*??SelLangBLL?Scope*/
             services.AddSingleton<SelLangBLL>();
             services.AddSingleton<AuthorizeBLL>();
             services.AddSingleton<BankInfoOffBLL>();
             services.AddSingleton<BankInfoBLL>();
-            services.AddSingleton<MobilePayInfoBLL>();
-            services.AddSingleton<CryptoPayInfoBLL>();
+            services.AddSingleton<MobilePayInfoBll>();
+            services.AddSingleton<CryptoPayInfoBll>();
             services.AddSingleton<LoadCardPayInfoBLL>();
             services.AddSingleton<DepositBLL>();
             services.AddSingleton<PaymentBLL>();
-            services.AddSingleton<ThirdPartyBLL>();
-            services.AddSingleton<MessageBLL>();
-            services.AddSingleton<PromotionBLL>();
+            services.AddSingleton<ThirdPartyBll>();
+            services.AddSingleton<MessageBll>();
+            services.AddSingleton<PromotionBll>();
             services.AddSingleton<GamingBLL>();
-            services.AddSingleton<CasinoBLL>();
+            services.AddSingleton<CasinoBll>();
             services.AddSingleton<CommonBLL>();
             services.AddSingleton<TemplateBLL>();
             services.AddSingleton<AuthBLL>();
@@ -134,18 +135,15 @@ namespace MemberSite
             services.AddSingleton<IovationBLL>();
             services.AddSingleton<FPSBLL>();
             services.AddSingleton<EventsBLL>();
-            services.AddSingleton<GameCasinoBLL>();
-            services.AddSingleton<LiveStreamingBLL>();
-            services.AddSingleton<LatestHighlightDataBLL>();
+            services.AddSingleton<GameCasinoBll>();
+            services.AddSingleton<LiveStreamingBll>();
+            services.AddSingleton<LatestHighlightDataBll>();
             services.AddSingleton<GameBLL>();
-            //var bll = AppDomain.CurrentDomain.GetAssemblies()
-            //.SelectMany(t => t.GetTypes())
-            //.Where(t => t.IsClass && t.Namespace == "MemberSite.Service.BLL");
+			services.AddTransient<GeoIpBLL>();
+			services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
+            services.AddTransient<GeoIpBLL>();
+            services.AddTransient<AppLinkBLL>();
 
-            //foreach (var s in bll)
-            //{
-            //    services.AddSingleton(s);
-            //}
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();
@@ -235,6 +233,8 @@ namespace MemberSite
             });
 
             services.AddControllers();
+
+            services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

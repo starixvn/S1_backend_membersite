@@ -6,11 +6,7 @@
         UM = 2,
         Error = 3,
     }
-    public enum Direction
-    {
-        Add = 1,
-        Deduct = 2
-    }
+
     public enum CustActStatus
     {
         NonDepoist = 1,
@@ -146,7 +142,8 @@
         FreeBet = 3,
         WalletBonus = 5,
         Rebate = 6,
-        Cashback = 7
+        Cashback = 7,
+        StaticPage = 8
     }
 
     public enum BonusType
@@ -174,20 +171,41 @@
     }
     public enum Tp
     {
+        None = 0,
         Saba = 1,
         SA = 2,
         AG = 3,
         DG = 4,
+        PP = 5,
         GPI = 6,
         YL = 7,
         YGG = 8,
         Joker = 9,
         SG = 10,
+        KM = 11,
         Allbet = 12,
+        OneGaming = 13,
         PG = 14,
         Sexy = 15,
+        CQ9 = 16,
         CF = 17,
-        NineW = 31
+        EBet = 18,
+        AWC = 19,
+        WM = 20,
+        Kiss918 = 21,
+        Mega = 22,
+        One789 = 23,
+        Iconic = 24,
+        V8 = 25,
+        PT = 27,
+        N2Live = 28,
+        BTI = 29,
+        AMB = 30,
+        NineW = 31,
+        JILI = 32,
+        TCG = 33,
+        MG = 34,
+        MP = 35
     }
     public enum GameType
     {
@@ -226,5 +244,23 @@
         Day,
         Week,
         Month
+    }
+
+    public enum DataBase
+    {
+        Main, //ConnectionString
+        Report,//ConnectionStringReport
+        Wager,//ConnectionStringWager
+        Log,//ConnectionStringLog
+    }
+    public enum AppLinkAppType
+    {
+        Andriod = 1,
+        IOS = 2
+    }
+    public enum AppLinkProtocolType
+    {
+        http = 1,
+        https = 2
     }
 }

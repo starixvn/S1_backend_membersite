@@ -17,10 +17,10 @@ namespace MemberSite.Controllers.Api
     public class PromotionController : ControllerBase
     {
         private readonly SelLangBLL selLangBLL;
-        private readonly PromotionBLL promotionBLL;
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly PromotionBll promotionBLL;
+        private readonly ServerInfoBll serverInfoBLL;
         private readonly AuthorizeBLL authorizeBLL;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly CourierAdapter courierAdapter;
         private readonly WalletBLL walletBLL;
         private readonly BonusWalletBLL bonusWalletBLL;
@@ -28,7 +28,7 @@ namespace MemberSite.Controllers.Api
         private readonly int mainWalletType;
         private readonly int bonusType;
 
-        public PromotionController(IConfiguration configuration, SelLangBLL selLangBLL, PromotionBLL promotionBLL, ServerInfoBLL serverInfoBLL, AuthorizeBLL authorizeBLL, CustInfoBLL custInfoBLL, CourierAdapter courierAdapter, WalletBLL walletBLL, BonusWalletBLL bonusWalletBLL)
+        public PromotionController(IConfiguration configuration, SelLangBLL selLangBLL, PromotionBll promotionBLL, ServerInfoBll serverInfoBLL, AuthorizeBLL authorizeBLL, CustInfoBll custInfoBLL, CourierAdapter courierAdapter, WalletBLL walletBLL, BonusWalletBLL bonusWalletBLL)
         {
             this.selLangBLL = selLangBLL;
             this.promotionBLL = promotionBLL;
@@ -122,22 +122,6 @@ namespace MemberSite.Controllers.Api
                     deviceType = promotionReq.DeviceType;
                 }
                 apiResult = await promotionBLL.SetClaimPromotionAsync(authData.CustId, promotionReq.BonusCode, promotionReq.LockedAmount, deviceType);
-
-                //if (result > 0)
-                //{
-                //    if (mainWalletType == 2)
-                //    {
-                //        ApiResult<TransferResult> transferToSabaResult = null;
-                //        var input = new TpTransfer();
-                //        input.Amount = walletBLL.GetBalance(authData.CustId);
-                //        input.CustId = authData.CustId;
-                //        input.direction = TpDirection.ToTp;
-                //        input.TpId = 1;
-                //        transferToSabaResult = await TransferToSabaAsync(input);
-                //    }
-
-                //    apiResult.ErrorCode = 0;
-                //}
             }
             catch (Exception ex)
             {
@@ -148,58 +132,6 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        public enum TpDirection
-        {
-            ToTp = 1,
-            ToMain = 2
-        }
-        private async Task<ApiResult<TransferResult>> TransferToSabaAsync(TpTransfer inTpTransfer)
-        {
-            var amount = inTpTransfer.Amount;
-            if (amount.ToString().IndexOf(".") > -1)
-            {
-                decimal.TryParse(amount.ToString("#.##"), out amount);
-            }
-
-            var tpTransfer = new TpTransfer
-            {
-                TpId = inTpTransfer.TpId,
-                CustId = inTpTransfer.CustId,
-                Amount = amount,
-                direction = inTpTransfer.direction,
-                inputs = null
-            };
-            var myUrl = $"{tpApiUrl}Transfer";
-            var data = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
-
-            return data;
-        }
-        [HttpPost]
-        public ApiResult<List<CustPromotion>> GetPromotionListV2()
-        {
-            var result = new ApiResult<List<CustPromotion>>();
-
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            var isLogin = User.Identity.IsAuthenticated;
-            var custId = 0;
-            int currencyId;
-            if (isLogin)
-            {
-                var authData = authorizeBLL.GetAuthData();
-                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                custId = authData.CustId;
-                currencyId = custInfo.CurrencyId;
-            }
-            else
-            {
-                currencyId = selLangBLL.GetPreferCurrencyId();
-            }
-
-            result.Data = promotionBLL.GetPromotionListV2(serverInfo.SiteId, custId, currencyId, isLogin, selLangBLL.GetLangId(), serverInfo.DefLang);
-            result.ErrorCode = 0;
-
-            return result;
-        }
         public class PromotionDeviceReq
         {
             public int DeviceType { set; get; }
@@ -265,45 +197,6 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
-        public class TpTransfer
-        {
-            public int TpId { set; get; }
-            public int CustId { set; get; }
-            public decimal Amount { set; get; }
-            public TpDirection direction { set; get; }
-            public Dictionary<string, string> inputs { set; get; }
-        }
-
-        public class TransferResult
-        {
-            public TransferResult()
-            {
-                Status = TransferStatus.Pending;
-            }
-            public TransferStatus Status { get; set; }
-            public string ThirdId { get; set; }
-            public decimal Difference { get; set; }
-        }
-        public enum TransferStatus
-        {
-            Success = 0, Fail = 1, Pending = 2, PendingD = 3
-        }
-
-        [Authorize]
-        [HttpPost]
-        public ApiResult<List<CustPromotion>> GetSpecialPromotionList()
-        {
-            var result = new ApiResult<List<CustPromotion>>();
-
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            var authData = authorizeBLL.GetAuthData();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            result.Data = promotionBLL.GetSpecialPromotionList(serverInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, selLangBLL.GetLangId(), serverInfo.DefLang);
-            result.ErrorCode = 0;
-
-            return result;
-        }
-
         [Authorize]
         [HttpPost]
         public ApiResult<List<CustPromotion>> GetSpecialPromotionListV2(PromotionDeviceReq promotionDeviceReq)
@@ -326,8 +219,6 @@ namespace MemberSite.Controllers.Api
             public int? DeviceType { set; get; }
         }
 
-
-        
         [Authorize]
         [HttpPost]
         public ApiResult SetSpecialCode(SetSpecialCodeReq setSpecialCodeReq)
@@ -383,12 +274,6 @@ namespace MemberSite.Controllers.Api
             }
 
             return result;
-        }
-        public class SetSpecialCodeJoinedReq
-        {
-            public string SpecialCode { set; get; }
-            public string BonusCode { set; get; }
-
         }
 
         [Authorize]

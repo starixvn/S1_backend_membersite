@@ -13,16 +13,7 @@ namespace MemberSite.Service.DAL
         {
             this.configuration = configuration;
         }
-        public int SetRollOver(int custId, int siteId, string userName, string bonusCode, decimal rollOver, string Memo, string RefTransId, out decimal afterRollOver, MySqlConnection conn, MySqlTransaction trans)
-        {
-            var p = new DynamicParameters(new { CustId = custId, SiteId = siteId, UserName = userName, BonusCode = bonusCode, RollOver = rollOver,
-                Memo,
-                RefTransId });
-            p.Add("AfterRollOver", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            var result = conn.Execute("Common_RollOver_Set", p, transaction: trans, commandType: CommandType.StoredProcedure);
-            afterRollOver = p.Get<decimal?>("AfterRollOver") ?? 0;
-            return result;
-        }
+
         public CustRollOver GetCustRollOver(int custId, string bonusCode)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));

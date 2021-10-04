@@ -20,12 +20,12 @@ namespace MemberSite.Controllers.Api
     {
         private readonly SelLangBLL selLangBLL;
         private readonly AuthorizeBLL authorizeBLL;
-        private readonly CustInfoBLL custInfoBLL;
+        private readonly CustInfoBll custInfoBLL;
         private readonly BankInfoBLL bankInfoBLL;
         private readonly CommonBLL commonBLL;
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
 
-        public AccountStrictController(SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, CustInfoBLL custInfoBLL, BankInfoBLL bankInfoBLL, CommonBLL commonBLL, ServerInfoBLL serverInfoBLL)
+        public AccountStrictController(SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, CustInfoBll custInfoBLL, BankInfoBLL bankInfoBLL, CommonBLL commonBLL, ServerInfoBll serverInfoBLL)
         {
             this.selLangBLL = selLangBLL;
             this.authorizeBLL = authorizeBLL;
@@ -48,6 +48,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult(selLangBLL);
             var authData = authorizeBLL.GetAuthData();
             List<BankInfoDetail> bankInfoList = null;
+            var BankInfoLogList = new List<BankInfoDetail>();
 
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             //
@@ -90,8 +91,8 @@ namespace MemberSite.Controllers.Api
             }
 
             bankInfoList.Add(new BankInfoDetail { AccountNo = bankInfo.AccountNo, SysId = bankInfo.SysId, IFSCCode = bankInfo.IFSCCode });
-
-            apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, bankInfo.AccountName, bankInfoList);
+            BankInfoLogList.Add(new BankInfoDetail { AccountNo = bankInfo.AccountNo, SysId = bankInfo.SysId, IFSCCode = bankInfo.IFSCCode });
+            apiResult.ErrorCode = custInfoBLL.InsertCustBankInfo(authData.CustId, bankInfo.AccountName, bankInfoList, BankInfoLogList);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
@@ -124,6 +125,8 @@ namespace MemberSite.Controllers.Api
             public string AccountName { set; get; }
             public string NickName { set; get; }
             public string USDTAddress { set; get; }
+            public string Network { set; get; }
+            public int CurrencyId { set; get; }
         }
 
         [HttpPost]
@@ -135,12 +138,12 @@ namespace MemberSite.Controllers.Api
             List<USDTDetail> uSDTInfoList = null;
 
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            if (custInfo.CurrencyId != 96)
-            {
-                apiResult.ErrorCode = -6;
-                apiResult.Message = "Error Currency ";
-                return apiResult;
-            }
+            //if (custInfo.CurrencyId != 96)
+            //{
+            //    apiResult.ErrorCode = -6;
+            //    apiResult.Message = "Error Currency ";
+            //    return apiResult;
+            //}
             //
 
             var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
@@ -160,7 +163,7 @@ namespace MemberSite.Controllers.Api
             {
                 uSDTInfoList = custBankInfo.uSDTDetail.ToList();
 
-                if (uSDTInfoList.Where(x => x.USDTAddress == uSDTDetailreq.USDTAddress).Count() > 0)
+                if (uSDTInfoList.Any(x => x.USDTAddress == uSDTDetailreq.USDTAddress))
                 {
                     apiResult.ErrorCode = -4;
                     apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
@@ -172,7 +175,8 @@ namespace MemberSite.Controllers.Api
                 uSDTInfoList = new List<USDTDetail>();
             }
 
-            uSDTInfoList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress });
+            var currencyId = uSDTDetailreq.CurrencyId == 0 ? 96 : uSDTDetailreq.CurrencyId;
+            uSDTInfoList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress , Network = uSDTDetailreq.Network, CurrencyId = currencyId });
 
             apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
@@ -193,15 +197,15 @@ namespace MemberSite.Controllers.Api
             List<USDTDetail> uSDTInfoList = null;
 
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            if (custInfo.CurrencyId != 96)
-            {
-                apiResult.ErrorCode = -6;
-                apiResult.Message = "Error Currency ";
-                return apiResult;
-            }
+            //if (custInfo.CurrencyId != 96)
+            //{
+            //    apiResult.ErrorCode = -6;
+            //    apiResult.Message = "Error Currency ";
+            //    return apiResult;
+            //}
             //
             // var custUSDTInfoList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custUSDTInfoBatchreq.USDTInfo);
-            if (custUSDTInfoBatchreq.USDTInfo.GroupBy(i => i.USDTAddress).Where(g => g.Count() > 1).Any())
+            if (custUSDTInfoBatchreq.USDTInfo.GroupBy(i => i.USDTAddress).Any(g => g.Count() > 1))
             {
                 apiResult.ErrorCode = -4; //輸入資料重複
                 apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
@@ -227,7 +231,7 @@ namespace MemberSite.Controllers.Api
                 uSDTInfoList = custBankInfo.uSDTDetail.ToList();
                 foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
                 {
-                    if (uSDTInfoList.Where(x => x.USDTAddress == custUSDTInfo.USDTAddress).Count() > 0)
+                    if (uSDTInfoList.Any(x => x.USDTAddress == custUSDTInfo.USDTAddress))
                     {
                         apiResult.ErrorCode = -4;
                         apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
@@ -241,7 +245,7 @@ namespace MemberSite.Controllers.Api
             }
             foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
             {
-                uSDTInfoList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress });
+                uSDTInfoList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId });
             }
             apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
@@ -254,12 +258,12 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
 
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            if (custInfo.CurrencyId != 96)
-            {
-                apiResult.ErrorCode = -6;
-                apiResult.Message = "Error Currency ";
-                return apiResult;
-            }
+            //if (custInfo.CurrencyId != 96)
+            //{
+            //    apiResult.ErrorCode = -6;
+            //    apiResult.Message = "Error Currency ";
+            //    return apiResult;
+            //}
 
             IEnumerable<USDTDetail> USDTInfoList = null;
 
@@ -679,9 +683,11 @@ namespace MemberSite.Controllers.Api
                 }
                 else
                 {
-                    var graphicOptions = new GraphicOptions();
-                    graphicOptions.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-                    graphicOptions.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                    var graphicOptions = new GraphicOptions
+                    {
+                        CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed,
+                        SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed
+                    };
                     img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
                 }
 
@@ -776,6 +782,15 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = await custInfoBLL.VerifyOTPAsync(authData.CustId, verifyOTPReq.inputOTPcode);
+
+            return apiResult;
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<SendOTPSMSResult>> GetOTPVerifyInfo()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = await commonBLL.GetOTPVerifyInfo(authData.CustId);
 
             return apiResult;
         }

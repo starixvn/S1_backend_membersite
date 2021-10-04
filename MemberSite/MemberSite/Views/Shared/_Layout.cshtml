@@ -3,10 +3,10 @@
 @using MemberSite.Service.Library
 @using Microsoft.AspNetCore.Hosting
 @inject SelLangBLL selLangBLL
-@inject ServerInfoBLL serverInfoBLL
+@inject ServerInfoBll serverInfoBLL
 @inject IWebHostEnvironment environment
 @inject WalletBLL walletBLL
-@inject CustInfoBLL custInfoBLL
+@inject CustInfoBll custInfoBLL
 @inject Tools tools
 @inject SelLangBLL selLangBLL
 @inject AuthorizeBLL authorizeBLL
@@ -154,7 +154,7 @@
             {
                 i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
                 i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
-                i18n.Add("msg_PasswordVaildate", selLangBLL.GetMsg("msg_PasswordVaildate"));
+                i18n.Add("msg_PasswordValidate", selLangBLL.GetMsg("msg_PasswordValidate"));
 
                 i18n.Add("lbl_ChangePassword", selLangBLL.GetResourceValue("lbl_ChangePassword"));
                 i18n.Add("lbl_OldPassword", selLangBLL.GetResourceValue("lbl_OldPassword"));
@@ -178,7 +178,7 @@
             i18n.Add("lbl_UsernameTooltip", selLangBLL.GetResourceValue("lbl_UsernameTooltip"));
             i18n.Add("lbl_Password", selLangBLL.GetResourceValue("lbl_Password"));
             i18n.Add("lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip"));
-            i18n.Add("msg_PasswordVaildate", selLangBLL.GetMsg("msg_PasswordVaildate"));
+            i18n.Add("msg_PasswordValidate", selLangBLL.GetMsg("msg_PasswordValidate"));
             i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
             i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
             i18n.Add("msg_UsernameValidate", selLangBLL.GetMsg("msg_UsernameValidate"));

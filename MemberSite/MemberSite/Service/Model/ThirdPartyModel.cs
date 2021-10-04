@@ -44,6 +44,7 @@ namespace MemberSite.Service.Model
     {
         public int SiteId { get; set; }
         public int TpId { get; set; }
+        public int TpGameType { get; set; }
         public int TpCategoryId { get; set; }
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -52,7 +53,7 @@ namespace MemberSite.Service.Model
         public string BeginTime { get; set; }
         public string EndTime { get; set; }
 
-        public bool MaintainCheck(DateTime utcNow, ILogger logger)
+        public bool MaintainCheck(DateTime utcNow)
         {
             try
             {         
@@ -81,9 +82,8 @@ namespace MemberSite.Service.Model
                     _ => false,
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                logger.LogError(ex, ex.Message);
                 return false;
             }
         }

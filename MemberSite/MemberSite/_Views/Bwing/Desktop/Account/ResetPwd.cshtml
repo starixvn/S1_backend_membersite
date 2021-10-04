@@ -3,7 +3,7 @@
 @using MemberSite.Service.BLL
 @inject IWebHostEnvironment environment
 @inject SelLangBLL selLangBLL
-@inject ServerInfoBLL serverInfoBLL
+@inject ServerInfoBll serverInfoBLL
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_ChangePassword");
     Layout = "~/_Views/Bwing/Desktop/Shared/_Layout.cshtml";
@@ -15,7 +15,7 @@
     i18n.Add("lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit"));
     i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
     i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
-    i18n.Add("msg_PasswordVaildate", selLangBLL.GetMsg("msg_PasswordVaildate"));
+    i18n.Add("msg_PasswordValidate", selLangBLL.GetMsg("msg_PasswordValidate"));
 }
     <div class="system-content">
         <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />

@@ -10,7 +10,6 @@ using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace MemberSite.Service.DAL
 {
@@ -30,9 +29,8 @@ namespace MemberSite.Service.DAL
             common = provider.GetRequiredService<Common>();
             walletService = provider.GetRequiredService<WalletService>();
             rolloverService = provider.GetRequiredService<RolloverService>();
-            var logger = provider.GetRequiredService<ILogger<MySqlClient>>();
-            _mainDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionString"), logger);
-            _reportDbClient = new MySqlClient(configuration.GetConnectionString("ConnectionStringReport"), logger);
+            _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
+            _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
         public int WithdrawalReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, WithdrawalInfo withdrawalInfo, out decimal afterAmount, out string transId)
         {
@@ -58,9 +56,53 @@ namespace MemberSite.Service.DAL
                 return -3;
             }
 
-            byte is1stDepoist = 0;
             var result = -99;
-            result = walletService.SetBalance(custId, siteId, userName, amount * -1, typePosition + 1, null, transId, out afterAmount, out is1stDepoist, conn, trans);
+            result = walletService.SetBalance(custId, siteId, userName, amount * -1, typePosition + 1, null, transId, out afterAmount, out _, conn, trans);
+            if (result > 0)
+            {
+                trans.Commit();
+
+                if ((p.Get<byte?>("ToKyc") ?? 0) == 1)
+                {
+                    return 2;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return result;
+            }
+        }
+
+        public int WithdrawalUSDTReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, WithdrawalUSDTInfo withdrawalUSDTInfo, out decimal afterAmount, out string transId)
+        {
+            transId = "";
+            afterAmount = 0;
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            var p = new DynamicParameters(new { CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, Amount = amount, Memo = memo, WithdrawalInfo = Newtonsoft.Json.JsonConvert.SerializeObject(withdrawalUSDTInfo), Prefix = $"W{common.GetEnv()}" });
+            p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
+            p.Add("ToKyc", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+
+            conn.Execute("Member_WithdrawalInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
+            transId = p.Get<string>("vTransId");
+            var rollover = rolloverService.ReachedRollover(custId, conn, trans);
+
+            if (!rollover.ReachedRollover)
+            {
+                return -2;
+            }
+            else if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
+            {
+                return -3;
+            }
+
+            var result = -99;
+            result = walletService.SetBalance(custId, siteId, userName, amount * -1, typePosition + 1, null, transId, out afterAmount, out _, conn, trans);
             if (result > 0)
             {
                 trans.Commit();
@@ -119,7 +161,7 @@ namespace MemberSite.Service.DAL
                         p.Add("CustId", dbType: DbType.Int32, direction: ParameterDirection.Output);
                         p.Add("UserName", dbType: DbType.String, direction: ParameterDirection.Output);
                         p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-                        result = conn.Execute("WithdrawalInfo_Set", p, trans, commandType: CommandType.StoredProcedure);
+                        result = conn.Execute("Member_WithdrawalInfoV2_Set", p, trans, commandType: CommandType.StoredProcedure);
                         custId = p.Get<int?>("CustId") ?? 0;
                         UserName = p.Get<string>("UserName");
                         var amount = p.Get<decimal>("Amount");
@@ -129,10 +171,7 @@ namespace MemberSite.Service.DAL
 
                             if (status == WithdrawalStatus.Cancelled)
                             {
-                                byte is1stDepoist = 0;
-                                decimal afterAmount = 0;
-
-                                result = walletService.SetBalance(custId, siteId, UserName, amount, type, $"Withdrawal Canceled: {amount}", transId, out afterAmount, out is1stDepoist, conn, trans);
+                                result = walletService.SetBalance(custId, siteId, UserName, amount, type, $"Withdrawal Canceled: {amount}", transId, out _, out _, conn, trans);
                             }
                             
                             if (result > 0)
@@ -177,28 +216,23 @@ namespace MemberSite.Service.DAL
             return conn.Query<WithdrawalLimitInfo>("Member_CustWithdrawalLimit_Get", new { custId }, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
 
-        public IEnumerable<WithdrawalKyc> GetWithdrawalKycList(int sitId)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<WithdrawalKyc>("Member_WithdrawalKyc_Get", new { SitId = sitId }, commandType: CommandType.StoredProcedure);
-        }
         public WithdrawalLimitInfoOutput GetWithdrawalLimitInfo(WithdrawalLimitInfoInput input)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<WithdrawalLimitInfoOutput>("Member_WithdrawalLimitInfo_Get",
                 new {input.SiteId, input.CurrencyId, input.VipLevel}, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
 
         public DailyCustomerWithdrawalInfoOutput GetDailyCustomerWithdrawalInfo(DailyCustomerWithdrawalInfoInput input)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<DailyCustomerWithdrawalInfoOutput>("Member_DailyCustomerWithdrawalInfo_Get",
                 new {input.CustId}, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
         
         public CustomerWithdrawalInfoOutput GetWithdrawalInfoCheck(CustomerWithdrawalInfoInput input)
         {
-            return _reportDbClient.QueryFirst<CustomerWithdrawalInfoOutput>("Member_WithdrawalInfoCheck_Get",
+            return _mainDbClient.QueryFirst<CustomerWithdrawalInfoOutput>("Member_WithdrawalInfoCheck_Get",
                 new DynamicParameters(new {input.CustId}));
         }
     }

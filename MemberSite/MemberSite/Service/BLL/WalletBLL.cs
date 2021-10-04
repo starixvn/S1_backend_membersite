@@ -8,9 +8,9 @@ namespace MemberSite.Service.BLL
     {
         private readonly Tools tools;
         private readonly WalletService walletService;
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
 
-        public WalletBLL(Tools tools, WalletService walletService, ServerInfoBLL serverInfoBLL)
+        public WalletBLL(Tools tools, WalletService walletService, ServerInfoBll serverInfoBLL)
         {
             this.tools = tools;
             this.walletService = walletService;
@@ -23,10 +23,6 @@ namespace MemberSite.Service.BLL
         public decimal GetBonus(int custId, int promoCategoryId)
         {
             return tools.Floor(walletService.GetBonus(custId, promoCategoryId), 2);
-        }
-        public string GetFmtBalance(int custId)
-        {
-            return tools.FmtBalance(walletService.GetBalance(custId));
         }
 
         public WalletInfo GetWalletInfo(int custId)

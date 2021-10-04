@@ -7,6 +7,8 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Linq;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
 {
@@ -16,12 +18,11 @@ namespace MemberSite.Service.DAL
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
 
-        public WalletService(IServiceProvider serviceProvider, IConfiguration configuration)
+        public WalletService(IServiceProvider serviceProvider)
         {
-            _configuration = configuration;
-            var logger = serviceProvider.GetRequiredService<ILogger<MySqlClient>>();
-            _mainDbClient = new MySqlClient(_configuration.GetConnectionString("ConnectionString"), logger);
-            _reportDbClient = new MySqlClient(_configuration.GetConnectionString("ConnectionStringReport"), logger);
+            _configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            _mainDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
+            _reportDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
         public int SetBalance(int custId, int siteId, string userName, decimal Amount, int type, string Memo, string RefTransId, out decimal afterAmount, out byte is1stDepoist, MySqlConnection conn, MySqlTransaction trans)
@@ -51,7 +52,7 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             conn.Open();
-            var walletInfo = conn.QueryFirstOrDefault<WalletInfo>("CustInfoLog1_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            var walletInfo = conn.QueryFirstOrDefault<WalletInfo>("Service_CustInfoLog_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
             walletInfo.Balance = GetBalance(custId);
 
             return walletInfo;

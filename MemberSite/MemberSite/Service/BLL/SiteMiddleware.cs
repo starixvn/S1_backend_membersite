@@ -16,9 +16,9 @@ namespace MemberSite.Service.BLL
         private readonly SelLangBLL selLangBLL;
         private readonly Tools tools;
         private readonly IConfiguration configuration;
-        private readonly ServerInfoBLL serverInfoBLL;
+        private readonly ServerInfoBll serverInfoBLL;
 
-        public SiteMiddleware(IConfiguration configuration, RequestDelegate next, SelLangBLL selLangBLL, Tools tools, ServerInfoBLL serverInfoBLL)
+        public SiteMiddleware(IConfiguration configuration, RequestDelegate next, SelLangBLL selLangBLL, Tools tools, ServerInfoBll serverInfoBLL)
         {
             _next = next;
             this.selLangBLL = selLangBLL;

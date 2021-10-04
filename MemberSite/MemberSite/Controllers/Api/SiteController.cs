@@ -29,42 +29,42 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class SiteController : ControllerBase
     {
-        private readonly CustInfoBLL custInfoBLL;
-        private readonly Tools tools;
-        private readonly SelLangBLL selLangBLL;
-        private readonly CommonBLL commonBLL;
-        private readonly IWebHostEnvironment environment;
-        private readonly AuthorizeBLL authorizeBLL;
-        private readonly CasinoBLL casinoBLL;
-        private readonly ServerInfoBLL serverInfoBLL;
-        private readonly BannerBLL bannerBLL;
-        private readonly AuthBLL authBLL;
-        private readonly IovationBLL iovationBLL;
-        private readonly FPSBLL sFPSBLL;
-        private readonly GameCasinoBLL gameCasinoBLL;
-        private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
+        private readonly CustInfoBll _custInfoBll;
+        private readonly Tools _tools;
+        private readonly SelLangBLL _selLangBll;
+        private readonly CommonBLL _commonBll;
+        private readonly IWebHostEnvironment _environment;
+        private readonly AuthorizeBLL _authorizeBll;
+        private readonly CasinoBll _casinoBll;
+        private readonly ServerInfoBll _serverInfoBll;
+        private readonly BannerBLL _bannerBll;
+        private readonly AuthBLL _authBll;
+        private readonly IovationBLL _iovationBll;
+        private readonly FPSBLL _sFpsBll;
+        private readonly GameCasinoBll _gameCasinoBll;
+        private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
         private readonly Regex _regexUserName = new Regex(@"^[a-zA-Z0-9]{6,18}$");
         private readonly Regex _regexAffCode = new Regex(@"^[0-9]{5,20}$");
-        private readonly ThirdPartyBLL thirdPartyBLL;
-        //private readonly IOptions<Dictionary<string, FPSServicesConfig>> fpsServicesConfig;
+        private readonly ThirdPartyBll _thirdPartyBll;
+        private readonly CacheHelper _cacheHelper;
 
         public SiteController(IServiceProvider provider)
         {
-            custInfoBLL = provider.GetRequiredService<CustInfoBLL>();
-            tools = provider.GetRequiredService<Tools>();
-            selLangBLL = provider.GetRequiredService<SelLangBLL>();
-            commonBLL = provider.GetRequiredService<CommonBLL>();
-            environment = provider.GetRequiredService<IWebHostEnvironment>();
-            authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
-            casinoBLL = provider.GetRequiredService<CasinoBLL>();
-            serverInfoBLL = provider.GetRequiredService<ServerInfoBLL>();
-            bannerBLL = provider.GetRequiredService<BannerBLL>();
-            authBLL = provider.GetRequiredService<AuthBLL>();
-            iovationBLL = provider.GetRequiredService<IovationBLL>();
-            sFPSBLL = provider.GetRequiredService<FPSBLL>();
-            gameCasinoBLL = provider.GetRequiredService<GameCasinoBLL>();
-            siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
-            thirdPartyBLL = provider.GetRequiredService<ThirdPartyBLL>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
+            _tools = provider.GetRequiredService<Tools>();
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
+            _commonBll = provider.GetRequiredService<CommonBLL>();
+            _environment = provider.GetRequiredService<IWebHostEnvironment>();
+            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
+            _casinoBll = provider.GetRequiredService<CasinoBll>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+            _bannerBll = provider.GetRequiredService<BannerBLL>();
+            _authBll = provider.GetRequiredService<AuthBLL>();
+            _iovationBll = provider.GetRequiredService<IovationBLL>();
+            _sFpsBll = provider.GetRequiredService<FPSBLL>();
+            _gameCasinoBll = provider.GetRequiredService<GameCasinoBll>();
+            _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
+            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
         }
 
         public class LoginModel
@@ -82,32 +82,32 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
-            var apiResult = new ApiResult(selLangBLL);
+            var apiResult = new ApiResult(_selLangBll);
             if (!_regexUserName.IsMatch(loginModel.UserName))
             {
                 apiResult.ErrorCode = 1103;
-                apiResult.Message = selLangBLL.GetMsg("msg_UsernameValidate");
+                apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
                 return apiResult;
             }
 
             Customer customer = null;
-            var ip = tools.GetClientIP();
-            var userLoginResult = custInfoBLL.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, tools.GetFromUrl(),
+            var ip = _tools.GetClientIP();
+            var userLoginResult = _custInfoBll.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, _tools.GetFromUrl(),
                 Request.Headers["User-Agent"], ref customer, out var token);
 
             switch (userLoginResult)
             {
                 case -1:
                     apiResult.ErrorCode = 1101;
-                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
                     break;
                 case -2:
                     apiResult.ErrorCode = 1001;
-                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
                     break;
                 case -3:
                     apiResult.ErrorCode = 1102;
-                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
                     break;
                 default:
                     {
@@ -140,7 +140,7 @@ namespace MemberSite.Controllers.Api
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30)
             };
 
-            if (tools.IsMobile())
+            if (_tools.IsMobile())
             {
                 authProperties = new AuthenticationProperties
                 {
@@ -153,14 +153,14 @@ namespace MemberSite.Controllers.Api
             {
                 _ = Task.Run(async () =>
                 {
-                    await sFPSBLL.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
+                    await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
                 });
             }
 
             Response.Cookies.Delete($"Initialization{User.Identity.Name}");
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-            apiResult.Message = Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() });
+            apiResult.Message = Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = _selLangBll.GetLangId() });
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -168,32 +168,32 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<JwtAuthData> SignInApp(LoginModel loginModel)
         {
-            var apiResult = new ApiResult<JwtAuthData>(selLangBLL);
+            var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
             if (!_regexUserName.IsMatch(loginModel.UserName))
             {
                 apiResult.ErrorCode = -8;
-                apiResult.Message = selLangBLL.GetMsg("msg_UsernameValidate");
+                apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
                 return apiResult;
             }
 
             Customer customer = null;
-            var ip = tools.GetClientIP();
-            var userLoginResult = custInfoBLL.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, tools.GetFromUrl(),
+            var ip = _tools.GetClientIP();
+            var userLoginResult = _custInfoBll.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, _tools.GetFromUrl(),
                 Request.Headers["User-Agent"], ref customer, out var token);
 
             switch (userLoginResult)
             {
                 case -1:
                     apiResult.ErrorCode = 1101;
-                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
                     break;
                 case -2:
                     apiResult.ErrorCode = 1001;
-                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
                     break;
                 case -3:
                     apiResult.ErrorCode = 1102;
-                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
                     break;
                 default:
                     {
@@ -229,7 +229,7 @@ namespace MemberSite.Controllers.Api
             {
                 _ = Task.Run(async () =>
                 {
-                    await sFPSBLL.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
+                    await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
                 });
             }
 
@@ -237,7 +237,7 @@ namespace MemberSite.Controllers.Api
             //var claimsIdentity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
             //await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 
-            var accessToken = tools.GenerateJwtTokens(claims);
+            var accessToken = _tools.GenerateJwtTokens(claims);
             var data = new JwtAuthData
             {
                 AccessToken = accessToken
@@ -265,7 +265,8 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> RegisterAsync(RegisteredModel registeredModel)
         {
-            var apiResult = new ApiResult(selLangBLL);
+            var apiResult = new ApiResult(_selLangBll);
+            var serverInfo = _serverInfoBll.GetServerInfo();
             if (User.Identity.IsAuthenticated)
             {
                 apiResult.ErrorCode = 9000;
@@ -274,86 +275,88 @@ namespace MemberSite.Controllers.Api
 
             var custId = 0;
 
-            if (!string.IsNullOrWhiteSpace(registeredModel.Email) && custInfoBLL.ExistsEmail(custId, registeredModel.Email))
+            if (!string.IsNullOrWhiteSpace(registeredModel.Email) && _custInfoBll.ExistsEmail(custId, registeredModel.Email))
             {
                 apiResult.ErrorCode = -10;
-                apiResult.Message = $"{registeredModel.Email} {selLangBLL.GetMsg("msg_HasExist")}";
+                apiResult.Message = $"{registeredModel.Email} {_selLangBll.GetMsg("msg_HasExist")}";
                 return apiResult;
             }
 
-            var result = custInfoBLL.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd, registeredModel.Email, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId, registeredModel.AffId, registeredModel.Aff, registeredModel.AffCode, out custId, Request.Host.Host);
+            var result = _custInfoBll.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd,
+                registeredModel.Email, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId,
+                registeredModel.AffId, registeredModel.Aff, registeredModel.AffCode, serverInfo.SiteId, out custId, Request.Host.Host);
             if (result == -1)
             {
                 apiResult.ErrorCode = result;
-                apiResult.Message = selLangBLL.GetMsg("err_ThisCurrencyNotSupport");
+                apiResult.Message = _selLangBll.GetMsg("err_ThisCurrencyNotSupport");
             }
             else if (result == -2)
             {
                 apiResult.ErrorCode = result;
-                apiResult.Message = selLangBLL.GetMsg("msg_UsernameValidate");
+                apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
             }
             else if (result == -3)
             {
                 apiResult.ErrorCode = result;
-                apiResult.Message = selLangBLL.GetMsg("msg_PasswordVaildate");
+                apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordValidate" : "msg_PasswordValidate2");
             }
             else if (result == -4)
             {
-                apiResult.ErrorCode = result;/**/
+                apiResult.ErrorCode = result;
                 apiResult.Message = "";
             }
             else if (result == -5)
             {
                 apiResult.ErrorCode = result;
-                apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
             }
             else if (result == -19)
             {
                 apiResult.ErrorCode = result;
-                apiResult.Message = selLangBLL.GetMsg("mag_AffiliateNotExist");
+                apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
             }
             else if (custId == 0)
             {
                 apiResult.ErrorCode = result;
-                apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
             }
             else if (result != 0)
             {
                 apiResult.ErrorCode = result;
-                apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
             }
             else
             {
                 _ = Task.Run(async () =>
                 {
-                    commonBLL.SendWelcomeMail(custId);
+                    _commonBll.SendWelcomeMail(custId);
 
                     if (registeredModel.blackbox != null)
                     {
-                        var apiResultIovation = await iovationBLL.IovationChecks(custId, registeredModel.CurrencyId, registeredModel.UserName, registeredModel.blackbox, IovationType.registration);
+                        var apiResultIovation = await _iovationBll.IovationChecks(custId, registeredModel.CurrencyId, registeredModel.UserName, registeredModel.blackbox, IovationType.registration);
                         if (apiResultIovation.ErrorCode == 0)
-                            iovationBLL.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
+                            _iovationBll.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
                     }
                 });
 
                 Customer customer = null;
                 string token = null;
-                var userLoginResult = custInfoBLL.UserLogin(registeredModel.UserName, registeredModel.Userpwd, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
+                var userLoginResult = _custInfoBll.UserLogin(registeredModel.UserName, registeredModel.Userpwd, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
 
                 if (userLoginResult == -1)
                 {
                     apiResult.ErrorCode = 1101;
-                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
                 }
                 else if (userLoginResult == -2)
                 {
                     apiResult.ErrorCode = 1001;
-                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
                 }
                 else if (userLoginResult == -3)
                 {
                     apiResult.ErrorCode = 1102;
-                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
                 }
                 else if (userLoginResult != 0)
                 {
@@ -371,7 +374,7 @@ namespace MemberSite.Controllers.Api
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                     apiResult.ErrorCode = 0;
-                    apiResult.Message = Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = selLangBLL.GetLangId() });
+                    apiResult.Message = Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = _selLangBll.GetLangId() });
                 }
             }
 
@@ -393,7 +396,8 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> SignupAsync(SignupModel signupModel)
         {
-            var apiResult = new ApiResult(selLangBLL);
+            var apiResult = new ApiResult(_selLangBll);
+            var serverInfo = _serverInfoBll.GetServerInfo();
             if (User.Identity.IsAuthenticated || (string.IsNullOrEmpty(signupModel.AreaCode) && !string.IsNullOrEmpty(signupModel.PhoneNo)))
             {
                 apiResult.ErrorCode = 9000;
@@ -403,7 +407,7 @@ namespace MemberSite.Controllers.Api
             if (!_regexUserName.IsMatch(signupModel.UserName))
             {
                 apiResult.ErrorCode = -8;
-                apiResult.Message = selLangBLL.GetMsg("msg_UsernameValidate");
+                apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
                 return apiResult;
             }
 
@@ -413,7 +417,7 @@ namespace MemberSite.Controllers.Api
                 if (!_regexAffCode.IsMatch(signupModel.AffCode))
                 {
                     apiResult.ErrorCode = -9;
-                    apiResult.Message = selLangBLL.GetMsg("msg_AffCodeValidate");
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
                     return apiResult;
                 }
             }
@@ -421,6 +425,12 @@ namespace MemberSite.Controllers.Api
             if (string.IsNullOrEmpty(signupModel.SignupUrl))
             {
                 signupModel.SignupUrl = Request.Host.Host;
+            }
+
+            // URL tag with specific affcode
+            if((Request.Host.Host == "www.nova88fun.com") || (Request.Host.Host == "m.nova88fun.com"))
+            {
+                signupModel.AffCode = "nova88tvads";
             }
 
             var custId = 0;
@@ -431,36 +441,40 @@ namespace MemberSite.Controllers.Api
             if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
             {
                 signupModel.PhoneNo = phoneNo.ToString();
-                phoneExists = custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
+                phoneExists = _custInfoBll.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
                 if (phoneExists)
                     result = -6;
             }
 
             if (!string.IsNullOrWhiteSpace(signupModel.Email))
             {
-                mailExists = custInfoBLL.ExistsEmail(0, signupModel.Email);
+                mailExists = _custInfoBll.ExistsEmail(0, signupModel.Email);
                 if (mailExists)
                     result = -10;
             }
 
             if (!phoneExists && !mailExists)
             {
-                result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d, signupModel.Birth_m, signupModel.Birth_y);
+                result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
+                    signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
+                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode,
+                    signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d, signupModel.Birth_m,
+                    signupModel.Birth_y);
             }
 
             switch (result)
             {
                 case -1:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("err_ThisCurrencyNotSupport");
+                    apiResult.Message = _selLangBll.GetMsg("err_ThisCurrencyNotSupport");
                     break;
                 case -2:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("msg_UsernameValidate");
+                    apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
                     break;
                 case -3:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("msg_PasswordVaildate");
+                    apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordValidate" : "msg_PasswordValidate2");
                     break;
                 case -4:
                     apiResult.ErrorCode = result;/**/
@@ -468,66 +482,66 @@ namespace MemberSite.Controllers.Api
                     break;
                 case -5:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                    apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
                     break;
                 case -6:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = $"{selLangBLL.GetResourceValue("lbl_Phone")} {selLangBLL.GetMsg("msg_HasExist")}";
+                    apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_HasExist")}";
                     break;
                 case -7:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeIncorrect");
+                    apiResult.Message = _selLangBll.GetMsg("msg_PromoCodeIncorrect");
                     break;
                 case -10:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = $"{selLangBLL.GetResourceValue("lbl_Email")} {selLangBLL.GetMsg("msg_HasExist")}";
+                    apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Email")} {_selLangBll.GetMsg("msg_HasExist")}";
                     break;
                 case -19:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("mag_AffiliateNotExist");
+                    apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
                     break;
                 default:
                     {
                         if (custId == 0)
                         {
                             apiResult.ErrorCode = result;
-                            apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                            apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
                         }
                         else if (result != 0)
                         {
                             apiResult.ErrorCode = result;
-                            apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                            apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
                         }
                         else
                         {
                             _ = Task.Run(async () =>
                             {
-                                commonBLL.SendWelcomeMail(custId);
+                                _commonBll.SendWelcomeMail(custId);
 
                                 if (signupModel.blackbox != null)
                                 {
-                                    var apiResultIovation = await iovationBLL.IovationChecks(custId, signupModel.CurrencyId, signupModel.UserName, signupModel.blackbox, IovationType.registration);
+                                    var apiResultIovation = await _iovationBll.IovationChecks(custId, signupModel.CurrencyId, signupModel.UserName, signupModel.blackbox, IovationType.registration);
                                     if (apiResultIovation.ErrorCode == 0)
-                                        iovationBLL.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
+                                        _iovationBll.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
                                 }
                             });
 
                             Customer customer = null;
-                            var userLoginResult = custInfoBLL.UserLogin(signupModel.UserName, signupModel.Userpwd, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
+                            var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
 
                             switch (userLoginResult)
                             {
                                 case -1:
                                     apiResult.ErrorCode = 1101;
-                                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
                                     break;
                                 case -2:
                                     apiResult.ErrorCode = 1001;
-                                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
                                     break;
                                 case -3:
                                     apiResult.ErrorCode = 1102;
-                                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
+                                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
                                     break;
                                 default:
                                     {
@@ -539,7 +553,7 @@ namespace MemberSite.Controllers.Api
                                         {
                                             if (!string.IsNullOrEmpty(signupModel.RealName))
                                             {
-                                                custInfoBLL.SetCustBankInfo(custId, signupModel.RealName, null);
+                                                _custInfoBll.SetCustBankInfo(custId, signupModel.RealName, null);
                                             }
 
                                             var claims = new List<Claim>
@@ -571,7 +585,8 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<JwtAuthData> SignupApp(SignupModel signupModel)
         {
-            var apiResult = new ApiResult<JwtAuthData>(selLangBLL);
+            var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
+            var serverInfo = _serverInfoBll.GetServerInfo();
             if (User.Identity.IsAuthenticated || (string.IsNullOrEmpty(signupModel.AreaCode) && !string.IsNullOrEmpty(signupModel.PhoneNo)))
             {
                 apiResult.ErrorCode = 9000;
@@ -581,7 +596,7 @@ namespace MemberSite.Controllers.Api
             if (!_regexUserName.IsMatch(signupModel.UserName))
             {
                 apiResult.ErrorCode = -8;
-                apiResult.Message = selLangBLL.GetMsg("msg_UsernameValidate");
+                apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
                 return apiResult;
             }
 
@@ -591,7 +606,7 @@ namespace MemberSite.Controllers.Api
                 if (!_regexAffCode.IsMatch(signupModel.AffCode))
                 {
                     apiResult.ErrorCode = -9;
-                    apiResult.Message = selLangBLL.GetMsg("msg_AffCodeValidate");
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
                     return apiResult;
                 }
             }
@@ -604,36 +619,39 @@ namespace MemberSite.Controllers.Api
             if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
             {
                 signupModel.PhoneNo = phoneNo.ToString();
-                phoneExists = custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
+                phoneExists = _custInfoBll.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
                 if (phoneExists)
                     result = -6;
             }
 
             if (!string.IsNullOrWhiteSpace(signupModel.Email))
             {
-                mailExists = custInfoBLL.ExistsEmail(0, signupModel.Email);
+                mailExists = _custInfoBll.ExistsEmail(0, signupModel.Email);
                 if (mailExists)
                     result = -10;
             }
             
             if (!phoneExists && !mailExists)
             {
-                result = custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff, signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode);
+                result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
+                    signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
+                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode,
+                    signupModel.RealName, signupModel.PromoCode);
             }
 
             switch (result)
             {
                 case -1:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("err_ThisCurrencyNotSupport");
+                    apiResult.Message = _selLangBll.GetMsg("err_ThisCurrencyNotSupport");
                     break;
                 case -2:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("msg_UsernameValidate");
+                    apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
                     break;
                 case -3:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("msg_PasswordVaildate");
+                    apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordValidate" : "msg_PasswordValidate2");
                     break;
                 case -4:
                     apiResult.ErrorCode = result;/**/
@@ -641,66 +659,66 @@ namespace MemberSite.Controllers.Api
                     break;
                 case -5:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                    apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
                     break;
                 case -6:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = $"{selLangBLL.GetResourceValue("lbl_Phone")} {selLangBLL.GetMsg("msg_HasExist")}";
+                    apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_HasExist")}";
                     break;
                 case -7:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeIncorrect");
+                    apiResult.Message = _selLangBll.GetMsg("msg_PromoCodeIncorrect");
                     break;
                 case -10:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = $"{selLangBLL.GetResourceValue("lbl_Email")} {selLangBLL.GetMsg("msg_HasExist")}";
+                    apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Email")} {_selLangBll.GetMsg("msg_HasExist")}";
                     break;
                 case -19:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = selLangBLL.GetMsg("mag_AffiliateNotExist");
+                    apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
                     break;
                 default:
                     {
                         if (custId == 0)
                         {
                             apiResult.ErrorCode = result;
-                            apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                            apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
                         }
                         else if (result != 0)
                         {
                             apiResult.ErrorCode = result;
-                            apiResult.Message = selLangBLL.GetMsg("msg_UsernameNotAvailable");
+                            apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
                         }
                         else
                         {
                             _ = Task.Run(async () =>
                             {
-                                commonBLL.SendWelcomeMail(custId);
+                                _commonBll.SendWelcomeMail(custId);
 
                                 if (signupModel.blackbox != null)
                                 {
-                                    var apiResultIovation = await iovationBLL.IovationChecks(custId, signupModel.CurrencyId, signupModel.UserName, signupModel.blackbox, IovationType.registration);
+                                    var apiResultIovation = await _iovationBll.IovationChecks(custId, signupModel.CurrencyId, signupModel.UserName, signupModel.blackbox, IovationType.registration);
                                     if (apiResultIovation.ErrorCode == 0)
-                                        iovationBLL.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
+                                        _iovationBll.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
                                 }
                             });
 
                             Customer customer = null;
-                            var userLoginResult = custInfoBLL.UserLogin(signupModel.UserName, signupModel.Userpwd, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
+                            var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
 
                             switch (userLoginResult)
                             {
                                 case -1:
                                     apiResult.ErrorCode = 1101;
-                                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
                                     break;
                                 case -2:
                                     apiResult.ErrorCode = 1001;
-                                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
                                     break;
                                 case -3:
                                     apiResult.ErrorCode = 1102;
-                                    apiResult.Message = selLangBLL.GetMsg("msg_DepositProcessLogin_ACLocked");
+                                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
                                     break;
                                 default:
                                     {
@@ -712,7 +730,7 @@ namespace MemberSite.Controllers.Api
                                         {
                                             if (!string.IsNullOrEmpty(signupModel.RealName))
                                             {
-                                                custInfoBLL.SetCustBankInfo(custId, signupModel.RealName, null);
+                                                _custInfoBll.SetCustBankInfo(custId, signupModel.RealName, null);
                                             }
 
                                             var claims = new[] {
@@ -724,7 +742,7 @@ namespace MemberSite.Controllers.Api
                                     };
 
 
-                                            var accessToken = tools.GenerateJwtTokens(claims);
+                                            var accessToken = _tools.GenerateJwtTokens(claims);
                                             var data = new JwtAuthData
                                             {
                                                 AccessToken = accessToken
@@ -752,18 +770,18 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<bool> ExistsUserName(RegisteredModel registeredModel)
         {
-            var apiResult = new ApiResult<bool>(selLangBLL);
+            var apiResult = new ApiResult<bool>(_selLangBll);
             if (!_regexUserName.IsMatch(registeredModel.UserName))
             {
                 apiResult.Data = true;
                 apiResult.ErrorCode = 0;
-                apiResult.Message = selLangBLL.GetMsg("msg_UsernameValidate");
+                apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
                 return apiResult;
             }
 
-            apiResult.Data = custInfoBLL.ExistsUserName(registeredModel.UserName);
+            apiResult.Data = _custInfoBll.ExistsUserName(registeredModel.UserName);
             apiResult.ErrorCode = 0;
-            apiResult.Message = apiResult.Data ? selLangBLL.GetMsg("msg_UsernameNotAvailable") : string.Empty;
+            apiResult.Message = apiResult.Data ? _selLangBll.GetMsg("msg_UsernameNotAvailable") : string.Empty;
             return apiResult;
         }
 
@@ -774,9 +792,9 @@ namespace MemberSite.Controllers.Api
         //}
         public ApiResult<bool> ExistsEmail(RegisteredModel registeredModel)
         {
-            var apiResult = new ApiResult<bool>(selLangBLL)
+            var apiResult = new ApiResult<bool>(_selLangBll)
             {
-                Data = custInfoBLL.ExistsEmail(0, registeredModel.Email),
+                Data = _custInfoBll.ExistsEmail(0, registeredModel.Email),
                 ErrorCode = 0
             };
             return apiResult;
@@ -795,41 +813,41 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult ForgetPwd(ForgetPwdReq forgetPwdReq)
         {
-            var apiResult = new ApiResult<bool>(selLangBLL);
+            var apiResult = new ApiResult<bool>(_selLangBll);
             try
             {
 
                 Customer custInfo = null;
 
-                var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "ResetPassword", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
+                var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "ResetPassword", controller = "Home", LangId = _selLangBll.GetLangId() }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
                 if (!string.IsNullOrEmpty(forgetPwdReq.Username))
                 {
-                    custInfo = custInfoBLL.GetCustInfoByUserName(forgetPwdReq.Username.Trim());
+                    custInfo = _custInfoBll.GetCustInfoByUserName(forgetPwdReq.Username.Trim());
                 }
                 else
                 {
-                    custInfo = custInfoBLL.GetCustInfoByMail(forgetPwdReq.Email.Trim());
+                    custInfo = _custInfoBll.GetCustInfoByMail(forgetPwdReq.Email.Trim());
                 }
 
                 if (custInfo == null)
                 {
-                    apiResult.Message = selLangBLL.GetMsg("ForgetPwdFail");
+                    apiResult.Message = _selLangBll.GetMsg("ForgetPwdFail");
                 }
                 else
                 {
-                    var custInfoProfile = custInfoBLL.GetCustInfoProfile(custInfo.CustId);
+                    var custInfoProfile = _custInfoBll.GetCustInfoProfile(custInfo.CustId);
 
                     var pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
                     var result = Regex.Replace(custInfoProfile.Email, pattern, m => new string('*', m.Length));
 
-                    custInfoBLL.ForgetPwd1(custInfo.CustId, resetPasswordUrl);
+                    _custInfoBll.ForgetPwd1(custInfo.CustId, resetPasswordUrl);
                     if (!string.IsNullOrEmpty(forgetPwdReq.Username))
                     {
                         apiResult.Message = $"Has send to {result}.";//selLangBLL.GetMsg("ForgetPwdSuccess");
                     }
                     else
                     {
-                        apiResult.Message = selLangBLL.GetMsg("ForgetPwdSuccess");
+                        apiResult.Message = _selLangBll.GetMsg("ForgetPwdSuccess");
                     }
 
                     apiResult.ErrorCode = 0;
@@ -850,31 +868,31 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> ForgetPwdV2Async(ForgetPwdReqV2 forgetPwdReq)
         {
-            var apiResult = new ApiResult<bool>(selLangBLL);
+            var apiResult = new ApiResult<bool>(_selLangBll);
             try
             {
 
                 Customer custInfo = null;
 
-                var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "", controller = "resetPassword", LangId = forgetPwdReq.flag == 1 ? selLangBLL.GetLangId() : "" }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
+                var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "", controller = "resetPassword", LangId = forgetPwdReq.flag == 1 ? _selLangBll.GetLangId() : "" }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
 
                 if (forgetPwdReq.flag == 1)
                 {
-                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/{selLangBLL.GetLangId()}/resetPassword";
+                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/{_selLangBll.GetLangId()}/resetPassword";
                 }
                 else if (forgetPwdReq.flag == 2)
                 {
                     if (Url.ActionContext.HttpContext.Request.Host.Host == "app.n17881788.com")
                     {
-                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.n17881788.com/{selLangBLL.GetLangId()}/resetPassword";
+                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.n17881788.com/{_selLangBll.GetLangId()}/resetPassword";
                     }
                     else if (Url.ActionContext.HttpContext.Request.Host.Host == "app.bwing.com")
                     {
-                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.bwing.com/{selLangBLL.GetLangId()}/resetPassword";
+                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.bwing.com/{_selLangBll.GetLangId()}/resetPassword";
                     }
                     else if (Url.ActionContext.HttpContext.Request.Host.Host == "app.goal123.com")
                     {
-                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.goal123.com/{selLangBLL.GetLangId()}/resetPassword";
+                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.goal123.com/{_selLangBll.GetLangId()}/resetPassword";
                     }
                     else
                     {
@@ -889,25 +907,25 @@ namespace MemberSite.Controllers.Api
 
                 if (!string.IsNullOrEmpty(forgetPwdReq.Username))
                 {
-                    custInfo = custInfoBLL.GetCustInfoByUserName(forgetPwdReq.Username.Trim());
+                    custInfo = _custInfoBll.GetCustInfoByUserName(forgetPwdReq.Username.Trim());
                 }
                 else
                 {
-                    custInfo = custInfoBLL.GetCustInfoByMail(forgetPwdReq.Email.Trim());
+                    custInfo = _custInfoBll.GetCustInfoByMail(forgetPwdReq.Email.Trim());
                 }
 
                 if (custInfo == null)
                 {
-                    apiResult.Message = selLangBLL.GetMsg("ForgetPwdFail");
+                    apiResult.Message = _selLangBll.GetMsg("ForgetPwdFail");
                 }
                 else
                 {
-                    var custInfoProfile = custInfoBLL.GetCustInfoProfile(custInfo.CustId);
+                    var custInfoProfile = _custInfoBll.GetCustInfoProfile(custInfo.CustId);
 
                     var pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
                     var result = Regex.Replace(custInfoProfile.Email, pattern, m => new string('*', m.Length));
 
-                    var commonResult = await custInfoBLL.ForgetPwd1Async(custInfo.CustId, resetPasswordUrl);
+                    var commonResult = await _custInfoBll.ForgetPwd1Async(custInfo.CustId, resetPasswordUrl);
                     if (commonResult.ErrorCode == 0)
                     {
                         if (!string.IsNullOrEmpty(forgetPwdReq.Username))
@@ -916,7 +934,7 @@ namespace MemberSite.Controllers.Api
                         }
                         else
                         {
-                            apiResult.Message = selLangBLL.GetMsg("ForgetPwdSuccess");
+                            apiResult.Message = _selLangBll.GetMsg("ForgetPwdSuccess");
                         }
 
                         apiResult.ErrorCode = 0;
@@ -947,7 +965,7 @@ namespace MemberSite.Controllers.Api
                 var datas = new Dictionary<string, string>();
                 foreach (var k in keys)
                 {
-                    var lang = selLangBLL.GetResourceValue(k) ?? selLangBLL.GetMsg(k);
+                    var lang = _selLangBll.GetResourceValue(k) ?? _selLangBll.GetMsg(k);
                     if (!datas.ContainsKey(k))
                     {
                         datas.Add(k, lang);
@@ -971,7 +989,7 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<IEnumerable<int>>();
             try
             {
-                var serverInfo = serverInfoBLL.GetServerInfo();
+                var serverInfo = _serverInfoBll.GetServerInfo();
                 result.Data = serverInfo.ICurrencyList;
                 result.ErrorCode = 0;
             }
@@ -990,7 +1008,7 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<IEnumerable<SiteLanguage>>();
             try
             {
-                result.Data = selLangBLL.GetLangIdList();
+                result.Data = _selLangBll.GetLangIdList();
                 result.ErrorCode = 0;
             }
             catch (Exception ex)
@@ -1031,7 +1049,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<List<Provider>>();
 
             var providers = new List<Provider> {
-                new Provider { Value = 6, Name = "GPI", DisplayText = selLangBLL.GetResourceValue("lbl_GPI"), PlayFree = true, DisplayKey = "lbl_GPI" },
+                new Provider { Value = 6, Name = "GPI", DisplayText = _selLangBll.GetResourceValue("lbl_GPI"), PlayFree = true, DisplayKey = "lbl_GPI" },
                 new Provider { Value = 8, Name = "YGG", DisplayText = "YGG", PlayFree = true },
                 new Provider { Value = 9, Name = "Joker", DisplayText = "Joker", PlayFree = false },
                 new Provider { Value = 10, Name = "SG", DisplayText = "SG", PlayFree = true },
@@ -1045,20 +1063,20 @@ namespace MemberSite.Controllers.Api
 
             if (User.Identity.IsAuthenticated)
             {
-                var authData = authorizeBLL.GetAuthData();
-                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                tpIds = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
             }
             else
             {
-                var serverInfo = serverInfoBLL.GetServerInfo();
-                tpIds = casinoBLL.GetProviderIdByCurrency(0, serverInfo.SiteId);
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                tpIds = _casinoBll.GetProviderIdByCurrency(0, serverInfo.SiteId);
             }
 
             apiResult.Data = providers?.Where(x => tpIds.Contains(x.Value)).ToList();
             foreach (var provider in providers)
             {
-                var datePath = Path.Combine(environment.WebRootPath, "datas", provider.Name, "GameList.json");
+                var datePath = Path.Combine(_environment.WebRootPath, "datas", provider.Name, "GameList.json");
                 if (System.IO.File.Exists(datePath))
                     provider.GameList = JsonConvert.DeserializeObject<GameDesc>(System.IO.File.ReadAllText(datePath));
             }
@@ -1071,14 +1089,14 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<IEnumerable<int>>();
             if (User.Identity.IsAuthenticated)
             {
-                var authData = authorizeBLL.GetAuthData();
-                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                apiResult.Data = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                apiResult.Data = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
             }
             else
             {
-                var serverInfo = serverInfoBLL.GetServerInfo();
-                apiResult.Data = casinoBLL.GetProviderIdByCurrency(0, serverInfo.SiteId);
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                apiResult.Data = _casinoBll.GetProviderIdByCurrency(0, serverInfo.SiteId);
             }
 
             apiResult.ErrorCode = 0;
@@ -1090,8 +1108,8 @@ namespace MemberSite.Controllers.Api
         {
             var result = new ApiResult<IEnumerable<BannerSettingItem>>();
 
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            var dataPath = Path.Combine(environment.WebRootPath, $"datas/{serverInfo.SiteName}_bannerSetting.json");
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var dataPath = Path.Combine(_environment.WebRootPath, $"datas/{serverInfo.SiteName}_bannerSetting.json");
             var _bannerSetting = new BannerSetting();
             if (System.IO.File.Exists(dataPath))
             {
@@ -1102,14 +1120,14 @@ namespace MemberSite.Controllers.Api
             var beforeLogin = true;
             if (User.Identity.IsAuthenticated)
             {
-                var authData = authorizeBLL.GetAuthData();
-                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 perferCurr = custInfo.CurrencyId;
                 beforeLogin = false;
             }
             else
             {
-                perferCurr = selLangBLL.GetPreferCurrencyId();
+                perferCurr = _selLangBll.GetPreferCurrencyId();
             }
 
             if (FolderName == "Promotion")
@@ -1153,28 +1171,28 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<BannerV2>>();
 
-            var serverInfo = serverInfoBLL.GetServerInfo();
+            var serverInfo = _serverInfoBll.GetServerInfo();
             var perferCurr = 0;
             var SiteId = 0;
             var ShowStatus = 1;
             if (User.Identity.IsAuthenticated)
             {
-                var authData = authorizeBLL.GetAuthData();
-                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 SiteId = custInfo.SiteId;
                 perferCurr = custInfo.CurrencyId;
                 ShowStatus = 2;
             }
             else
             {
-                perferCurr = selLangBLL.GetPreferCurrencyId();
+                perferCurr = _selLangBll.GetPreferCurrencyId();
                 SiteId = serverInfo.SiteId;
             }
 
             var banner_CurrencyId = !User.Identity.IsAuthenticated && perferCurr == 13 ? 2 : perferCurr;
 
             apiResult.ErrorCode = 0;
-            apiResult.Data = bannerBLL.GetBannerV2(SiteId, bannerReq.BannerType, ShowStatus, banner_CurrencyId, selLangBLL.GetLangId());
+            apiResult.Data = _bannerBll.GetBannerV2(SiteId, bannerReq.BannerType, ShowStatus, banner_CurrencyId, _selLangBll.GetLangId());
 
             return apiResult;
         }
@@ -1184,28 +1202,28 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
-            var serverInfo = serverInfoBLL.GetServerInfo();
+            var serverInfo = _serverInfoBll.GetServerInfo();
             var perferCurr = 0;
             var SiteId = 0;
             var ShowStatus = 1;
             if (User.Identity.IsAuthenticated)
             {
-                var authData = authorizeBLL.GetAuthData();
-                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 SiteId = custInfo.SiteId;
                 perferCurr = custInfo.CurrencyId;
                 ShowStatus = 2;
             }
             else
             {
-                perferCurr = selLangBLL.GetPreferCurrencyId();
+                perferCurr = _selLangBll.GetPreferCurrencyId();
                 SiteId = serverInfo.SiteId;
             }
 
             var banner_CurrencyId = !User.Identity.IsAuthenticated && perferCurr == 13 ? 2 : perferCurr;
 
             apiResult.ErrorCode = 0;
-            apiResult.Data = bannerBLL.GetBannerV3(SiteId, bannerReq.BannerType, ShowStatus, banner_CurrencyId, selLangBLL.GetLangId(), serverInfo);
+            apiResult.Data = _bannerBll.GetBannerV3(SiteId, bannerReq.BannerType, ShowStatus, banner_CurrencyId, _selLangBll.GetLangId(), serverInfo);
 
             return apiResult;
         }
@@ -1214,31 +1232,39 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> CheckResetPwdTokenAsync([FromForm] string key)
         {
-            var apiResult = new ApiResult(selLangBLL);
-            if (User.Identity.IsAuthenticated)
-            {
-                apiResult.ErrorCode = 1;
-            }
-            else if (authBLL.Authenticate(key, out CustInfoProfile custInfoProfile))
+            var apiResult = new ApiResult(_selLangBll);
+            if (_authBll.Authenticate(key, out CustInfoProfile custInfoProfile))
             {
                 Customer customer = null;
-                var userLoginResult = custInfoBLL.UserLoginForResetPwd(custInfoProfile.UserName, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
-                if (userLoginResult == 0)
+                var userLoginResult = _custInfoBll.UserLoginForResetPwd(custInfoProfile.UserName, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
+                switch (userLoginResult)
                 {
-                    var claims = new List<Claim>
+                    case 0:
                     {
-                        new Claim(ClaimTypes.Name,custInfoProfile.UserName ),
-                        new Claim(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
-                        new Claim("Token",token ),
-                        new Claim("LangId",custInfoProfile.UserLang )
-                    };
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                    apiResult.ErrorCode = 0;
-                }
-                else if (userLoginResult == -3)
-                {
-                    apiResult.ErrorCode = 401;
+                        if (User.Identity.IsAuthenticated && _authorizeBll.GetAuthData().CustId != customer.CustId)
+                        {
+                            apiResult.ErrorCode = 1;
+                        }
+                        else
+                        {
+                            var claims = new List<Claim>
+                            {
+                                new Claim(ClaimTypes.Name, custInfoProfile.UserName),
+                                new Claim(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
+                                new Claim("Token", token),
+                                new Claim("LangId", custInfoProfile.UserLang)
+                            };
+                            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                            apiResult.ErrorCode = 0;
+                        }
+                        
+                        break;
+                    }
+                    
+                    case -3:
+                        apiResult.ErrorCode = 401;
+                        break;
                 }
             }
             else
@@ -1257,8 +1283,8 @@ namespace MemberSite.Controllers.Api
                 var ServerInfoData = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
                 result.Data = ServerInfoData;
                 ServerInfoData.Add("Now", DateTime.Now.ToString());
-                ServerInfoData.Add("EnvironmentName", environment.EnvironmentName);
-                ServerInfoData.Add("LangId", selLangBLL.GetLangId());
+                ServerInfoData.Add("EnvironmentName", _environment.EnvironmentName);
+                ServerInfoData.Add("LangId", _selLangBll.GetLangId());
                 var host = Dns.GetHostEntry(Dns.GetHostName());
                 var i = 1;
                 foreach (var ip in host.AddressList)
@@ -1270,7 +1296,7 @@ namespace MemberSite.Controllers.Api
                 }
                 ServerInfoData.Add("Url.Host", Request.Host.Host);
                 ServerInfoData.Add("Url.Port", Request.Host.Port.ToString());
-                var serverInfo = serverInfoBLL.GetServerInfo();
+                var serverInfo = _serverInfoBll.GetServerInfo();
                 ServerInfoData.Add("SiteId", serverInfo.SiteId.ToString());
                 ServerInfoData.Add("SiteName", serverInfo.SiteName);
                 ServerInfoData.Add("LangList", serverInfo.LangList);
@@ -1319,11 +1345,11 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<bool> ExistsPhoneNo(RrofileReq req)
         {
-            var apiResult = new ApiResult<bool>(selLangBLL);
+            var apiResult = new ApiResult<bool>(_selLangBll);
             if (long.TryParse(req.PhoneNo, out var phoneNo))
             {
                 req.PhoneNo = phoneNo.ToString();
-                apiResult.Data = custInfoBLL.ExistsPhoneNo(0, req.AreaCode, req.PhoneNo);
+                apiResult.Data = _custInfoBll.ExistsPhoneNo(0, req.AreaCode, req.PhoneNo);
             }
             else
             {
@@ -1336,9 +1362,11 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<IEnumerable<Country>> GetCountryList()
         {
-            var apiResult = new ApiResult<IEnumerable<Country>>();
-            apiResult.Data = selLangBLL.GetCountryList();
-            apiResult.ErrorCode = 0;
+            var apiResult = new ApiResult<IEnumerable<Country>>
+            {
+                Data = _selLangBll.GetCountryList(),
+                ErrorCode = 0
+            };
             return apiResult;
         }
         public enum TypeId
@@ -1351,33 +1379,35 @@ namespace MemberSite.Controllers.Api
         public ApiResult<GameInfo> GetGameListV2()
         {
             var apiResult = new ApiResult<GameInfo>();
-            var resultData = new GameInfo();
-            resultData.ProviderList = new List<Provider>();
+            var resultData = new GameInfo
+            {
+                ProviderList = new List<Provider>()
+            };
 
             //不分Tpid取出GameCasino資料
-            var GameCasinoList = gameCasinoBLL.GetGameCasinoList();
+            var GameCasinoList = _gameCasinoBll.GetGameCasinoList();
 
             //GameCasinoList裡總共有多少種TpId
             var GameCasinoHasTpid = GameCasinoList.Select(x => x.TpId).Distinct();
-            var providers = gameCasinoBLL.GetProviderList();
+            var providers = _gameCasinoBll.GetProviderList();
 
             IEnumerable<int> tpIds = null;
             IEnumerable<GameCasionByCurrencyAndSite> gameCasionByCurrencyAndSite = null;
 
-            var serverInfo = serverInfoBLL.GetServerInfo();
+            var serverInfo = _serverInfoBll.GetServerInfo();
             if (User.Identity.IsAuthenticated)
             {
-                var authData = authorizeBLL.GetAuthData();
-                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                tpIds = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
                 //取出有byCurrency跟Site設定的遊戲資訊
-                gameCasionByCurrencyAndSite = casinoBLL.GetGameCasinoByCurrencyAndSite(custInfo.CurrencyId, custInfo.SiteId);
+                gameCasionByCurrencyAndSite = _casinoBll.GetGameCasinoByCurrencyAndSite(custInfo.CurrencyId, custInfo.SiteId);
             }
             else
             {
-                tpIds = casinoBLL.GetProviderIdByCurrency(0, serverInfo.SiteId);
+                tpIds = _casinoBll.GetProviderIdByCurrency(0, serverInfo.SiteId);
                 //取出有byCurrency跟Site設定的遊戲資訊
-                gameCasionByCurrencyAndSite = casinoBLL.GetGameCasinoByCurrencyAndSite(selLangBLL.GetPreferCurrencyId(), serverInfo.SiteId);
+                gameCasionByCurrencyAndSite = _casinoBll.GetGameCasinoByCurrencyAndSite(_selLangBll.GetPreferCurrencyId(), serverInfo.SiteId);
             }
 
             //濾掉不符合權限的
@@ -1454,7 +1484,7 @@ namespace MemberSite.Controllers.Api
                 resultData.ProviderList.Add(provider);
             }
             apiResult.Data = resultData;
-            apiResult.Data.ImgUrl = siteConfig.Value[serverInfo.SiteName].ImageURL;
+            apiResult.Data.ImgUrl = _siteConfig.Value[serverInfo.SiteName].ImageURL;
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -1466,11 +1496,13 @@ namespace MemberSite.Controllers.Api
         public ApiResult<GameInfo> GetGameListByDevice(GetGameListByDeviceReq getGameListByDeviceReq)
         {
             var apiResult = new ApiResult<GameInfo>();
-            var resultData = new GameInfo();
-            resultData.ProviderList = new List<Provider>();
+            var resultData = new GameInfo
+            {
+                ProviderList = new List<Provider>()
+            };
 
             //不分Tpid取出GameCasino資料
-            var GameCasinoList = gameCasinoBLL.GetGameCasinoListByDevice(getGameListByDeviceReq.DeviceType);
+            var GameCasinoList = _gameCasinoBll.GetGameCasinoListByDevice(getGameListByDeviceReq.DeviceType);
 
             if (getGameListByDeviceReq.DeviceType == 3)
             {
@@ -1479,25 +1511,28 @@ namespace MemberSite.Controllers.Api
 
             //GameCasinoList裡總共有多少種TpId
             var GameCasinoHasTpid = GameCasinoList.Select(x => x.TpId).Distinct();
-            var providers = gameCasinoBLL.GetProviderList();
+            var providers = _gameCasinoBll.GetProviderList();
 
             IEnumerable<int> tpIds = null;
             IEnumerable<GameCasionByCurrencyAndSite> gameCasionByCurrencyAndSite = null;
 
-            var serverInfo = serverInfoBLL.GetServerInfo();
+            var serverInfo = _serverInfoBll.GetServerInfo();
             if (User.Identity.IsAuthenticated)
             {
-                var authData = authorizeBLL.GetAuthData();
-                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                tpIds = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
                 //取出有byCurrency跟Site設定的遊戲資訊
-                gameCasionByCurrencyAndSite = casinoBLL.GetGameCasinoByCurrencyAndSite(custInfo.CurrencyId, custInfo.SiteId);
+                gameCasionByCurrencyAndSite = _casinoBll.GetGameCasinoByCurrencyAndSite(custInfo.CurrencyId, custInfo.SiteId);
+                
+                var blockGames = _casinoBll.GetTpDisableUserByCustId(custInfo.CustId);
+                _casinoBll.ExcludeBlockGames(GameCasinoList, providers, blockGames);
             }
             else
             {
-                tpIds = casinoBLL.GetProviderIdByCurrency(0, serverInfo.SiteId);
+                tpIds = _casinoBll.GetProviderIdByCurrency(0, serverInfo.SiteId);
                 //取出有byCurrency跟Site設定的遊戲資訊
-                gameCasionByCurrencyAndSite = casinoBLL.GetGameCasinoByCurrencyAndSite(selLangBLL.GetPreferCurrencyId(), serverInfo.SiteId);
+                gameCasionByCurrencyAndSite = _casinoBll.GetGameCasinoByCurrencyAndSite(_selLangBll.GetPreferCurrencyId(), serverInfo.SiteId);
             }
 
             //濾掉不符合權限的
@@ -1574,7 +1609,7 @@ namespace MemberSite.Controllers.Api
                 resultData.ProviderList.Add(provider);
             }
             apiResult.Data = resultData;
-            apiResult.Data.ImgUrl = siteConfig.Value[serverInfo.SiteName].ImageURL;
+            apiResult.Data.ImgUrl = _siteConfig.Value[serverInfo.SiteName].ImageURL;
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -1603,9 +1638,11 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<AffiliateAgent> GetAffiliateAgent(AffiliateAgentReq affiliateAgentReq)
         {
-            var apiResult = new ApiResult<AffiliateAgent>();
-            apiResult.Data = new AffiliateAgent();
-            var result = custInfoBLL.GetAffiliateAgentBLL(affiliateAgentReq.AffId);
+            var apiResult = new ApiResult<AffiliateAgent>
+            {
+                Data = new AffiliateAgent()
+            };
+            var result = _custInfoBll.GetAffiliateAgentBll(affiliateAgentReq.AffId);
             apiResult.ErrorCode = 0;
             if (result > 0)
             {
@@ -1619,7 +1656,7 @@ namespace MemberSite.Controllers.Api
             else if (result == -19)
             {
                 apiResult.ErrorCode = result;
-                apiResult.Message = selLangBLL.GetMsg("mag_AffiliateNotExist");
+                apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
             }
             else
             {
@@ -1637,31 +1674,50 @@ namespace MemberSite.Controllers.Api
             var currencyId = 0;
             if (User.Identity.IsAuthenticated)
             {
-                var authData = authorizeBLL.GetAuthData();
-                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 siteId = custInfo.SiteId;
                 currencyId = custInfo.CurrencyId;
             }
             else
             {
-                var serverInfo = serverInfoBLL.GetServerInfo();
+                var serverInfo = _serverInfoBll.GetServerInfo();
                 siteId = serverInfo.SiteId;
-                currencyId = selLangBLL.GetPreferCurrencyId();
+                currencyId = _selLangBll.GetPreferCurrencyId();
             }
 
-            apiResult.Data = serverInfoBLL.GetSupportDomainListWithCache(siteId, currencyId);
+            apiResult.Data = _serverInfoBll.GetSupportDomainListWithCache(siteId, currencyId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
 
         [HttpGet, HttpPost]
         public ApiResult<IEnumerable<TpMaintain>> GetTpMaintainList()
-        {
+        {           
             return new ApiResult<IEnumerable<TpMaintain>>()
             {
                 ErrorCode = 0,
-                Data = thirdPartyBLL.GetTpMaintainList(serverInfoBLL.GetServerInfo().SiteId),
+                Data = _thirdPartyBll.GetTpMaintainListWithCache(_serverInfoBll.GetServerInfo().SiteId),
                 Message = $"UtcNow is {DateTime.UtcNow:yyyy/MM/dd HH:mm:ss}"
+            };
+        }
+        
+        [HttpGet, HttpPost]
+        public ApiResult<SeoModel> Seo()
+        {
+            var domain = _serverInfoBll.GetMainDomain();
+            var data = _serverInfoBll.GetSeoWithCache(domain);
+            
+            if (string.IsNullOrEmpty(data.Meta) || 
+                string.IsNullOrEmpty(data.Title))
+            {
+                data = null;
+            }
+
+            return new ApiResult<SeoModel>()
+            {
+                ErrorCode = 0,
+                Data = data
             };
         }
     }
