@@ -53,11 +53,6 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<Promotion>("Member_PromotionListByCustId_Get", new { SiteId = siteId, CustId = custId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
-        public Promotion GetPromotion(int siteId, string bonusCode, int currencyId)
-        {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<Promotion>("Member_Promotion_Get", new { SiteId = siteId, BonusCode = bonusCode, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
-        }
         public int SetClaimPromotion(int custId, string userName, int siteId, string bonusCode, int currencyId, int? deviceType, out decimal bonusAmount, ref decimal lockedAmount, out decimal rollOver, out long expiryTime, out Promotion promotion)
         {
             bonusAmount = 0;
