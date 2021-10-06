@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
@@ -49,12 +50,20 @@ namespace MemberSite.Service.Model
         public int CurrencyId { get; set; }
         public int VipLevel { get; set; }
     }
-
+    public class USDTWithdrawalLimitInfoInput: WithdrawalLimitInfoInput
+    {
+        public string Network { get; set; }
+    }
     public class WithdrawalLimitInfoOutput
     {
         public decimal WithdrawalMin { get; set; }
         public decimal WithdrawalMax { get; set; }
         
+    }
+    public class USDTWithdrawalLimitInfoOutput: WithdrawalLimitInfoOutput
+    {
+        public string Network { get; set; }
+
     }
 
     public class WithdrawalLimitOutput
@@ -62,6 +71,7 @@ namespace MemberSite.Service.Model
         public decimal WithdrawalMin { get; set; }
         public bool Unlimited { get; set; }
         public decimal WithdrawalAvailableAmount { get; set; }
+        public List<USDTWithdrawalLimitOutput> USDTList { get; set; }
     }
 
     public class DailyCustomerWithdrawalInfoInput
@@ -82,5 +92,12 @@ namespace MemberSite.Service.Model
     public class CustomerWithdrawalInfoOutput
     {
         public bool WithdrawalExists { get; set; }
+    }
+    public class USDTWithdrawalLimitOutput 
+    {
+        public string Network { get; set; }
+        public decimal WithdrawalMin { get; set; }
+        public bool Unlimited { get; set; }
+        public decimal WithdrawalAvailableAmount { get; set; }
     }
 }

@@ -263,4 +263,9 @@
         http = 1,
         https = 2
     }
+    public enum NetworkType
+    {
+        ERC20,
+        TRC20
+    }
 }

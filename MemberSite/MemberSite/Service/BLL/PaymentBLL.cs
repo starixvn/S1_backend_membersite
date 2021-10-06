@@ -753,5 +753,13 @@ namespace MemberSite.Service.BLL
         {
             return statementService.GetSupportNetwork(currencyId);
         }
+        public WithdrawalLimitInfoOutput GetUSDTWithdrawalLimitInfo(USDTWithdrawalLimitInfoInput input)
+        {
+            return withdrawalService.GetUSDTWithdrawalLimitInfo(input);
+        }
+        public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoList(USDTWithdrawalLimitInfoInput input)
+        {
+            return withdrawalService.GetUSDTWithdrawalLimitInfoList(input);
+        }
     }
 }

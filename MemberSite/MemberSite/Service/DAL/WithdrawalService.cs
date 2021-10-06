@@ -235,5 +235,18 @@ namespace MemberSite.Service.DAL
             return _mainDbClient.QueryFirst<CustomerWithdrawalInfoOutput>("Member_WithdrawalInfoCheck_Get",
                 new DynamicParameters(new {input.CustId}));
         }
+
+        public WithdrawalLimitInfoOutput GetUSDTWithdrawalLimitInfo(USDTWithdrawalLimitInfoInput input)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<WithdrawalLimitInfoOutput>("Member_USDTWithdrawalLimitInfo_Get",
+                new { input.SiteId, input.CurrencyId, input.VipLevel, input.Network}, commandType: CommandType.StoredProcedure).FirstOrDefault();
+        }
+        public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoList(USDTWithdrawalLimitInfoInput input)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<USDTWithdrawalLimitInfoOutput>("Member_USDTWithdrawalLimitInfo_Get",
+                new { input.SiteId, input.CurrencyId, input.VipLevel, input.Network }, commandType: CommandType.StoredProcedure);
+        }
     }
 }
