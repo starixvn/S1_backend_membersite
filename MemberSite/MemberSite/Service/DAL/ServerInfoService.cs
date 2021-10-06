@@ -29,6 +29,10 @@ namespace MemberSite.Service.DAL
 
         public int GetSite(string domain)
         {
+            if (string.IsNullOrEmpty(domain))
+            {
+                return 0;
+            }
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<int>("Member_SiteId_Get", new { Domain = domain }, commandType: CommandType.StoredProcedure);
         }

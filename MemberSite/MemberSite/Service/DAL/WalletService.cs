@@ -52,7 +52,7 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             conn.Open();
-            var walletInfo = conn.QueryFirstOrDefault<WalletInfo>("CustInfoLog1_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            var walletInfo = conn.QueryFirstOrDefault<WalletInfo>("Service_CustInfoLog_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
             walletInfo.Balance = GetBalance(custId);
 
             return walletInfo;
