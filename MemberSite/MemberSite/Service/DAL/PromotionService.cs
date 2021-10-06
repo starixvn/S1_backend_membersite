@@ -265,7 +265,7 @@ namespace MemberSite.Service.DAL
                             UserName = userName, CurrencyId = currencyId, SiteId = siteId, BonusInfo = sBonusInfo,
                             LockedAmount = dLockedAmount, BonusAmount = dBonus,
                             promotion.ExpiryDays, Memo = (string)null, Prefix = $"B{_common.GetEnv()}",
-                            RefList = reference.Any() ? JsonConvert.SerializeObject(reference.FirstOrDefault()) : null
+                            RefList = reference.Any() ? JsonConvert.SerializeObject(reference) : null
                         });
                         p.Add("TransId", dbType: DbType.String, direction: ParameterDirection.Output);
                         result = _mainDbClient.Execute("Member_BonusInfo_InsV2", p, conn, trans);
