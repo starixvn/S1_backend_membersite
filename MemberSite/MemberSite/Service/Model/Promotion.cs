@@ -52,6 +52,7 @@ namespace MemberSite.Service.Model
         public int BonusType { get; set; }
         public int Sort { get; set; }
         public int CategoryId { get; set; }
+        public int WalletType { get; set; }
         public int TpId { get; set; }
         public decimal CustRollOver { get; set; }
         public decimal CustTurnOver { get; set; }
