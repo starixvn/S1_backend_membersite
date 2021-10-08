@@ -20,6 +20,7 @@ namespace MemberSite.Service.BLL
         private readonly PayService _payService;
         private readonly DepositBLL _depositBll;
         private readonly CacheHelper _cacheHelper;
+        private readonly IMemoryCache _cache;
 
         public BankInfoBLL(IServiceProvider provider)
         {
@@ -31,15 +32,17 @@ namespace MemberSite.Service.BLL
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
             _sysBankInfoOffComparer = new SysBankInfoOffComparer();
             _paymentOffComparer = new PaymentOffComparer();
+            _cache = provider.GetRequiredService<IMemoryCache>();
         }
         public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int currencyId)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
 
             var key = $"BankInfoSysList_{serverInfo.SiteId}";
-            return _cacheHelper.TryGetOrCreate(key,
+            var result = _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
-                i => _bankInfoService.GetBankInfoSysList(serverInfo.SiteId)?.Where(x => x.CurrencyId == currencyId));
+                i => _bankInfoService.GetBankInfoSysList(serverInfo.SiteId));
+            return result?.Where(x => x.CurrencyId == currencyId);
         }
 
         public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrencyForCtrl(int currencyId)
@@ -47,9 +50,10 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
 
             var key = $"BankInfoSysListForCtrl_{serverInfo.SiteId}";
-            return _cacheHelper.TryGetOrCreate(key,
+            var result = _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
-                i => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId)?.Where(x => x.CurrencyId == currencyId));
+                i => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId));
+            return result?.Where(x => x.CurrencyId == currencyId);
         }
         private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>
         {
