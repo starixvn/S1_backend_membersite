@@ -163,7 +163,7 @@ namespace MemberSite.Service.DAL
 
         public Customer GetCustInfoByUserName(string userName, int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.QueryFirstOrDefault<Customer>("LoginCustInfo_Get", new { UserName = userName, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
         public bool SetLanguage(int custId, string langId)
