@@ -9,6 +9,9 @@ using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace MemberSite.Controllers.Api
 {
@@ -16,37 +19,26 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class PromotionController : ControllerBase
     {
-        private readonly SelLangBLL selLangBLL;
-        private readonly PromotionBll promotionBLL;
-        private readonly ServerInfoBll serverInfoBLL;
-        private readonly AuthorizeBLL authorizeBLL;
-        private readonly CustInfoBll custInfoBLL;
-        private readonly CourierAdapter courierAdapter;
-        private readonly WalletBLL walletBLL;
-        private readonly BonusWalletBLL bonusWalletBLL;
-        private readonly string tpApiUrl;
-        private readonly int mainWalletType;
-        private readonly int bonusType;
+        private readonly SelLangBLL _selLangBLL;
+        private readonly PromotionBll _promotionBLL;
+        private readonly ServerInfoBll _serverInfoBLL;
+        private readonly AuthorizeBLL _authorizeBLL;
+        private readonly CustInfoBll _custInfoBLL;
+        private readonly ILogger<PromotionController> _logger;
 
-        public PromotionController(IConfiguration configuration, SelLangBLL selLangBLL, PromotionBll promotionBLL, ServerInfoBll serverInfoBLL, AuthorizeBLL authorizeBLL, CustInfoBll custInfoBLL, CourierAdapter courierAdapter, WalletBLL walletBLL, BonusWalletBLL bonusWalletBLL)
+        public PromotionController(IServiceProvider provider)
         {
-            this.selLangBLL = selLangBLL;
-            this.promotionBLL = promotionBLL;
-            this.serverInfoBLL = serverInfoBLL;
-            this.authorizeBLL = authorizeBLL;
-            this.custInfoBLL = custInfoBLL;
-            this.courierAdapter = courierAdapter;
-            this.walletBLL = walletBLL;
-            this.bonusWalletBLL = bonusWalletBLL;
-
-            tpApiUrl = configuration.GetValue<string>("TpService");
-            mainWalletType = configuration.GetValue<int>("MainWalletType");
-            bonusType = configuration.GetValue<int>("BonusType");
+            _selLangBLL = provider.GetRequiredService<SelLangBLL>();
+            _promotionBLL = provider.GetRequiredService<PromotionBll>();
+            _serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
+            _authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
+            _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
+            _logger = provider.GetRequiredService<ILogger<PromotionController>>();
         }
 
         public ApiResult<IEnumerable<Promotion>> GetPromotionList()
         {
-            var apiResult = new ApiResult<IEnumerable<Promotion>>(selLangBLL);
+            var apiResult = new ApiResult<IEnumerable<Promotion>>(_selLangBLL);
 
             try
             {
@@ -54,39 +46,39 @@ namespace MemberSite.Controllers.Api
 
                 if (User.Identity.IsAuthenticated)
                 {
-                    var authData = authorizeBLL.GetAuthData();
-                    promotionList = promotionBLL.GetPromotionListByCustId(authData.CustId);
+                    var authData = _authorizeBLL.GetAuthData();
+                    promotionList = _promotionBLL.GetPromotionListByCustId(authData.CustId);
                     if (promotionList != null)
                     {
                         foreach (var promotion in promotionList)
                         {
                             if (promotion.BonusInfoStatus == 1)
                             {
-                                promotion.custRollOver = custInfoBLL.GetCustRollOver(authData.CustId, promotion.BonusCode);
+                                promotion.custRollOver = _custInfoBLL.GetCustRollOver(authData.CustId, promotion.BonusCode);
                             }
                         }
                     }
                 }
                 else
                 {
-                    var serverInfo = serverInfoBLL.GetServerInfo();
-                    var ccccurrencyId = selLangBLL.GetPreferCurrencyId();
-                    promotionList = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == ccccurrencyId);
+                    var serverInfo = _serverInfoBLL.GetServerInfo();
+                    var ccccurrencyId = _selLangBLL.GetPreferCurrencyId();
+                    promotionList = _promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == ccccurrencyId);
                 }
 
                 if (promotionList != null)
                 {
                     foreach (var promotion in promotionList)
                     {
-                        promotion.Title = selLangBLL.GetResourceValue($"{promotion.BonusCode}Title");
-                        promotion.Description = selLangBLL.GetResourceValue($"{promotion.BonusCode}Description");
+                        promotion.Title = _selLangBLL.GetResourceValue($"{promotion.BonusCode}Title");
+                        promotion.Description = _selLangBLL.GetResourceValue($"{promotion.BonusCode}Description");
                         if (promotion.CurrencyId == 13)
                         {
-                            promotion.Title = selLangBLL.GetResourceValue($"{promotion.BonusCode}Title13");
-                            promotion.Description = selLangBLL.GetResourceValue($"{promotion.BonusCode}Description13");
+                            promotion.Title = _selLangBLL.GetResourceValue($"{promotion.BonusCode}Title13");
+                            promotion.Description = _selLangBLL.GetResourceValue($"{promotion.BonusCode}Description13");
                         }
 
-                        promotion.CategoryName = selLangBLL.GetResourceValue($"PromotionCategory{promotion.CategoryId}");
+                        promotion.CategoryName = _selLangBLL.GetResourceValue($"PromotionCategory{promotion.CategoryId}");
                     }
                 }
 
@@ -112,16 +104,16 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> SetClaimPromotionAsync(PromotionReq promotionReq)
         {
-            var apiResult = new ApiResult(selLangBLL);
+            var apiResult = new ApiResult(_selLangBLL);
             try
             {
-                var authData = authorizeBLL.GetAuthData();
+                var authData = _authorizeBLL.GetAuthData();
                 int? deviceType = 1;
                 if (promotionReq.DeviceType != null)
                 {
                     deviceType = promotionReq.DeviceType;
                 }
-                apiResult = await promotionBLL.SetClaimPromotionAsync(authData.CustId, promotionReq.BonusCode, promotionReq.LockedAmount, deviceType);
+                apiResult = await _promotionBLL.SetClaimPromotionAsync(authData.CustId, promotionReq.BonusCode, promotionReq.LockedAmount, deviceType);
             }
             catch (Exception ex)
             {
@@ -141,23 +133,23 @@ namespace MemberSite.Controllers.Api
         {
             var result = new ApiResult<List<CustPromotion>>();
 
-            var serverInfo = serverInfoBLL.GetServerInfo();
+            var serverInfo = _serverInfoBLL.GetServerInfo();
             var isLogin = User.Identity.IsAuthenticated;
             var custId = 0;
             int currencyId;
             if (isLogin)
             {
-                var authData = authorizeBLL.GetAuthData();
-                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                var authData = _authorizeBLL.GetAuthData();
+                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 custId = authData.CustId;
                 currencyId = custInfo.CurrencyId;
             }
             else
             {
-                currencyId = selLangBLL.GetPreferCurrencyId();
+                currencyId = _selLangBLL.GetPreferCurrencyId();
             }
 
-            result.Data = promotionBLL.GetPromotionListV3(serverInfo.SiteId, custId, currencyId, promotionDeviceReq.DeviceType, isLogin, selLangBLL.GetLangId(), serverInfo.DefLang);
+            result.Data = _promotionBLL.GetPromotionListV3(serverInfo.SiteId, custId, currencyId, promotionDeviceReq.DeviceType, isLogin, _selLangBLL.GetLangId(), serverInfo.DefLang);
             result.ErrorCode = 0;
 
             return result;
@@ -169,21 +161,21 @@ namespace MemberSite.Controllers.Api
         {
             var result = new ApiResult<CustPromotion>();
 
-            var serverInfo = serverInfoBLL.GetServerInfo();
+            var serverInfo = _serverInfoBLL.GetServerInfo();
             var isLogin = User.Identity.IsAuthenticated;
             var custId = 0;
             int currencyId;
             int? DeviceType = 1;
             if (isLogin)
             {
-                var authData = authorizeBLL.GetAuthData();
-                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                var authData = _authorizeBLL.GetAuthData();
+                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 custId = authData.CustId;
                 currencyId = custInfo.CurrencyId;
             }
             else
             {
-                currencyId = selLangBLL.GetPreferCurrencyId();
+                currencyId = _selLangBLL.GetPreferCurrencyId();
             }
 
             if (data.DeviceType != null)
@@ -191,7 +183,7 @@ namespace MemberSite.Controllers.Api
                 DeviceType = data.DeviceType;
             }
 
-            result.Data = promotionBLL.GetPromotionDetail(serverInfo.SiteId, custId, currencyId, isLogin, selLangBLL.GetLangId(), serverInfo.DefLang, data.BonusCode, DeviceType);
+            result.Data = _promotionBLL.GetPromotionDetail(serverInfo.SiteId, custId, currencyId, isLogin, _selLangBLL.GetLangId(), serverInfo.DefLang, data.BonusCode, DeviceType);
             result.ErrorCode = 0;
 
             return result;
@@ -203,13 +195,18 @@ namespace MemberSite.Controllers.Api
         {
             var result = new ApiResult<List<CustPromotion>>();
 
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            var authData = authorizeBLL.GetAuthData();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var serverInfo = _serverInfoBLL.GetServerInfo();
+            var authData = _authorizeBLL.GetAuthData();
+            var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
-            result.Data = promotionBLL.GetSpecialPromotionListV2(serverInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, selLangBLL.GetLangId(), serverInfo.DefLang, promotionDeviceReq.DeviceType);
+            _logger.LogInformation(JsonConvert.SerializeObject(new { serverInfo, authData, custInfo }));
+
+            result.Data = _promotionBLL.GetSpecialPromotionListV2(serverInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, _selLangBLL.GetLangId(), serverInfo.DefLang, promotionDeviceReq.DeviceType);
+           
             result.ErrorCode = 0;
-
+            
+            _logger.LogInformation(JsonConvert.SerializeObject(result));
+            
             return result;
         }
 
@@ -226,25 +223,25 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult
             {
                 ErrorCode = (int)SpecialCodeErrorcode.SpecialCodeError,
-                Message = selLangBLL.GetMsg("msg_SpecialCodeErr")
+                Message = _selLangBLL.GetMsg("msg_SpecialCodeErr")
             };
 
             try
             {
-                var authData = authorizeBLL.GetAuthData();
-                if (!promotionBLL.CheckSpecialCode(setSpecialCodeReq.SpecialCode))
+                var authData = _authorizeBLL.GetAuthData();
+                if (!_promotionBLL.CheckSpecialCode(setSpecialCodeReq.SpecialCode))
                 {
                     result.ErrorCode = 99;
                 }
-                else if (promotionBLL.CheckScratchCardCode(setSpecialCodeReq.SpecialCode.ToUpper()))
+                else if (_promotionBLL.CheckScratchCardCode(setSpecialCodeReq.SpecialCode.ToUpper()))
                 {
-                    result.ErrorCode = promotionBLL.SetScratchCardCode(authData.CustId, setSpecialCodeReq.SpecialCode.ToUpper(), setSpecialCodeReq.DeviceType);
+                    result.ErrorCode = _promotionBLL.SetScratchCardCode(authData.CustId, setSpecialCodeReq.SpecialCode.ToUpper(), setSpecialCodeReq.DeviceType);
                     if (result.ErrorCode == 0)
                         result.Message = "";
                 }
                 else
                 {
-                    if (promotionBLL.SetSpecialCode(authData.CustId, setSpecialCodeReq.SpecialCode, setSpecialCodeReq.DeviceType))
+                    if (_promotionBLL.SetSpecialCode(authData.CustId, setSpecialCodeReq.SpecialCode, setSpecialCodeReq.DeviceType))
                     {
                         result.ErrorCode = 0;
                         result.Message = "";
@@ -282,12 +279,12 @@ namespace MemberSite.Controllers.Api
         {
             var result = new ApiResult<List<CustPromotion>>();
 
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            var authData = authorizeBLL.GetAuthData();
+            var serverInfo = _serverInfoBLL.GetServerInfo();
+            var authData = _authorizeBLL.GetAuthData();
             var custId = authData.CustId;
            
 
-            result.Data = promotionBLL.GetDepositPromotionList( custId, promotionDeviceReq.DeviceType, selLangBLL.GetLangId(), serverInfo.DefLang);
+            result.Data = _promotionBLL.GetDepositPromotionList( custId, promotionDeviceReq.DeviceType, _selLangBLL.GetLangId(), serverInfo.DefLang);
             result.ErrorCode = 0;
 
             return result;
@@ -310,13 +307,13 @@ namespace MemberSite.Controllers.Api
             {
                 deviceType = (int)setDepositPromotionQueueReq.DeviceType;
             }
-            var authData = authorizeBLL.GetAuthData();
+            var authData = _authorizeBLL.GetAuthData();
             var apiResult = new ApiResult();
             var lockedAmount = setDepositPromotionQueueReq.LockedAmount ?? 0;
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
             try
             {
-                if (promotionBLL.SetDepositPromotionQueue(setDepositPromotionQueueReq.TransId, setDepositPromotionQueueReq.BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, deviceType, lockedAmount))
+                if (_promotionBLL.SetDepositPromotionQueue(setDepositPromotionQueueReq.TransId, setDepositPromotionQueueReq.BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, deviceType, lockedAmount))
                 {
                     apiResult.ErrorCode = 0;
                 }
