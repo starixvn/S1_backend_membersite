@@ -36,12 +36,7 @@ namespace MemberSite.Service.BLL
 
         public ServerInfo GetServerInfo()
         {
-            var host = _httpContextAccessor.HttpContext.Request.Host.Host;
-            var dotIndex = host.IndexOf(".");
-            if (dotIndex > -1)
-            {
-                host = host.Substring(dotIndex + 1);
-            }
+            var host = GetMainDomain();
             var siteId = 1;
             if (_fixSiteId != 0)
             {
@@ -105,9 +100,14 @@ namespace MemberSite.Service.BLL
         
         public string GetMainDomain()
         {
-            var match = Regex.Match(GetDomain(), "([^.]+\\.[^.]{1,3}(\\.[^.]{1,3})?)$");
-            var domain = match.Groups[1].Success ? match.Groups[1].Value : string.Empty;
-            return domain;
+            var host = GetDomain();
+            var dotIndex = host.IndexOf(".");
+            if (dotIndex > -1)
+            {
+                host = host.Substring(dotIndex + 1);
+            }
+            
+            return host;
         }
         
         public IEnumerable<Domainlist> GetSupportDomainList(int siteId, int currencyId)
