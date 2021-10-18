@@ -670,7 +670,7 @@ namespace MemberSite.Service.DAL
         public List<CustPromotion> GetSpecialPromotionListV2(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int deviceType)
         {
             var promotionList = _reportDbClient.Query<CustPromotion>("Member_SPCodePromotionListV3_Get", new DynamicParameters(new { CustId, DeviceType = deviceType }));
-            _logger.LogInformation(JsonConvert.SerializeObject(new { promotionList }));
+            _logger.LogInformation(JsonConvert.SerializeObject(new { promotionList, CustId, DeviceType = deviceType }));
 
             var _promotion = new List<CustPromotion>();
 
