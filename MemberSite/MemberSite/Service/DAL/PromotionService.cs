@@ -28,6 +28,7 @@ namespace MemberSite.Service.DAL
         private readonly WithdrawalLimitService _withdrawalLimitService;
         private readonly Tools _tools;
         private readonly SelLangBLL _selLangBll;
+        private readonly ILogger<PromotionService> _logger;
 
         public PromotionService(IServiceProvider serviceProvider)
         {
@@ -41,6 +42,7 @@ namespace MemberSite.Service.DAL
             _withdrawalLimitService = serviceProvider.GetRequiredService<WithdrawalLimitService>();
             _tools = serviceProvider.GetRequiredService<Tools>();
             _selLangBll = serviceProvider.GetRequiredService<SelLangBLL>();
+            _logger = serviceProvider.GetRequiredService<ILogger<PromotionService>>();
         }
 
         public IEnumerable<Promotion> GetPromotionList(int siteId)
@@ -668,6 +670,7 @@ namespace MemberSite.Service.DAL
         public List<CustPromotion> GetSpecialPromotionListV2(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int deviceType)
         {
             var promotionList = _reportDbClient.Query<CustPromotion>("Member_SPCodePromotionListV3_Get", new DynamicParameters(new { CustId, DeviceType = deviceType }));
+            _logger.LogInformation(JsonConvert.SerializeObject(new { promotionList }));
 
             var _promotion = new List<CustPromotion>();
 
