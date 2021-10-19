@@ -35,8 +35,9 @@ namespace MemberSite.Controllers.Api
         private readonly string tpApiUrl;
         private readonly int mainWalletType;
         private readonly FileInfoBLL _fileInfoBll;
+        private readonly BitmapBLL _bitmapBll;
 
-        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBll mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, FileInfoBLL fileInfoBll)
+        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBll mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, FileInfoBLL fileInfoBll, BitmapBLL bitmapBll)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;
@@ -51,6 +52,7 @@ namespace MemberSite.Controllers.Api
             this.cryptoPayInfoBLL = cryptoPayInfoBLL;
             this.loadCardPayInfoBLL = loadCardPayInfoBLL;
             _fileInfoBll = fileInfoBll;
+            _bitmapBll = bitmapBll;
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
         }
@@ -853,51 +855,12 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult();
             var authData = authorizeBLL.GetAuthData();
             
-            Image img;
             if (_contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
             {
-                var xSize = 500m;
-                decimal xCell = 1;
-                using var fileStream = depositReceipt.Receipt.OpenReadStream();
+                await using var fileStream = depositReceipt.Receipt.OpenReadStream();
                 using var uploadedImage = Image.FromStream(fileStream);
-                using var ms = new System.IO.MemoryStream();
-                if (uploadedImage.Width > xSize || uploadedImage.Height > xSize)
-                {
-
-                    if (uploadedImage.Width > uploadedImage.Height)
-                    {
-                        xCell = xSize / uploadedImage.Width;
-                    }
-                    else
-                    {
-                        xCell = xSize / uploadedImage.Height;
-                    }
-
-                }
-
-                if (uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Undefined ||
-                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.DontCare ||
-                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format16bppArgb1555 ||
-                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format1bppIndexed ||
-                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format4bppIndexed ||
-                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format8bppIndexed)
-                {
-                    var bitmap = new Bitmap(Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
-                    var graphics = Graphics.FromImage(bitmap);
-                    graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
-                    graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-                    graphics.DrawImage(uploadedImage, 0, 0, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
-                    img = Image.FromHbitmap(bitmap.GetHbitmap());
-                }
-                else
-                {
-                    var graphicOptions = new GraphicOptions
-                    {
-                        CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed,
-                        SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed
-                    };
-                    img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
-                }
+                var img = _bitmapBll.Resize(uploadedImage);
+                await using var ms = new System.IO.MemoryStream();
                 img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
                 
                 var fileName = _fileInfoBll
