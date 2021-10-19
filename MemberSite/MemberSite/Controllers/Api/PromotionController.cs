@@ -24,7 +24,6 @@ namespace MemberSite.Controllers.Api
         private readonly ServerInfoBll _serverInfoBLL;
         private readonly AuthorizeBLL _authorizeBLL;
         private readonly CustInfoBll _custInfoBLL;
-        private readonly ILogger<PromotionController> _logger;
 
         public PromotionController(IServiceProvider provider)
         {
@@ -33,7 +32,6 @@ namespace MemberSite.Controllers.Api
             _serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
             _authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
             _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
-            _logger = provider.GetRequiredService<ILogger<PromotionController>>();
         }
 
         public ApiResult<IEnumerable<Promotion>> GetPromotionList()
@@ -193,21 +191,15 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<List<CustPromotion>> GetSpecialPromotionListV2(PromotionDeviceReq promotionDeviceReq)
         {
-            var result = new ApiResult<List<CustPromotion>>();
-
             var serverInfo = _serverInfoBLL.GetServerInfo();
             var authData = _authorizeBLL.GetAuthData();
             var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
-            _logger.LogInformation(JsonConvert.SerializeObject(new { serverInfo, authData, custInfo }));
-
-            result.Data = _promotionBLL.GetSpecialPromotionListV2(serverInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, _selLangBLL.GetLangId(), serverInfo.DefLang, promotionDeviceReq.DeviceType);
-           
-            result.ErrorCode = 0;
-            
-            _logger.LogInformation(JsonConvert.SerializeObject(result));
-            
-            return result;
+            return new ApiResult<List<CustPromotion>>
+            {
+                Data = _promotionBLL.GetSpecialPromotionListV2(serverInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, _selLangBLL.GetLangId(), serverInfo.DefLang, promotionDeviceReq.DeviceType),
+                ErrorCode = 0
+            };
         }
 
         public class SetSpecialCodeReq
