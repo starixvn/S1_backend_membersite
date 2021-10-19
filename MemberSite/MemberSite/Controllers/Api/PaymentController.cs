@@ -846,7 +846,7 @@ namespace MemberSite.Controllers.Api
 
         [HttpPost]
         //[DisableFormValueModelBinding]
-        public ApiResult UploadReceipt([FromForm] DepositReceiptFile depositReceipt)
+        public async Task<ApiResult> UploadReceipt([FromForm] DepositReceiptFile depositReceipt)
         {
             var xSize = 500m;
             var apiResult = new ApiResult();
@@ -901,7 +901,7 @@ namespace MemberSite.Controllers.Api
                 fileName = $"{fileName.Substring(0, fileName.LastIndexOf('.'))}.jpg";
 
                 var fileBytes = ms.ToArray();
-                var result = paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, fileBytes);
+                var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, fileBytes);
 
                 if (result > 0)
                 {
@@ -911,10 +911,6 @@ namespace MemberSite.Controllers.Api
                 {
                     apiResult.ErrorCode = -1;
                 }
-            }
-            else
-            {
-
             }
 
             return apiResult;
