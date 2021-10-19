@@ -858,7 +858,7 @@ namespace MemberSite.Controllers.Api
             if (_contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
             {
                 await using var fileStream = depositReceipt.Receipt.OpenReadStream();
-                using var uploadedImage = Image.FromStream(fileStream);
+                using var uploadedImage = new Bitmap(fileStream);
                 var img = _bitmapBll.Resize(uploadedImage);
                 await using var ms = new System.IO.MemoryStream();
                 img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);

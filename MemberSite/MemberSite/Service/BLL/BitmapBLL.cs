@@ -7,7 +7,7 @@ namespace MemberSite.Service.BLL
     public class BitmapBLL
     {
         private const double xSize = 500.0;
-        private static double xCell = 1;
+        private double xCell = 1;
         
         public Bitmap Resize(Bitmap originImage)
         {
