@@ -34,8 +34,9 @@ namespace MemberSite.Controllers.Api
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
         private readonly string tpApiUrl;
         private readonly int mainWalletType;
+        private readonly FileInfoBLL _fileInfoBll;
 
-        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBll mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL)
+        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBll mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, FileInfoBLL fileInfoBll)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;
@@ -49,6 +50,7 @@ namespace MemberSite.Controllers.Api
             this.iovationBLL = iovationBLL;
             this.cryptoPayInfoBLL = cryptoPayInfoBLL;
             this.loadCardPayInfoBLL = loadCardPayInfoBLL;
+            _fileInfoBll = fileInfoBll;
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
         }
@@ -848,13 +850,14 @@ namespace MemberSite.Controllers.Api
         //[DisableFormValueModelBinding]
         public async Task<ApiResult> UploadReceipt([FromForm] DepositReceiptFile depositReceipt)
         {
-            var xSize = 500m;
             var apiResult = new ApiResult();
             var authData = authorizeBLL.GetAuthData();
-            decimal xCell = 1;
+            
             Image img;
             if (_contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
             {
+                var xSize = 500m;
+                decimal xCell = 1;
                 using var fileStream = depositReceipt.Receipt.OpenReadStream();
                 using var uploadedImage = Image.FromStream(fileStream);
                 using var ms = new System.IO.MemoryStream();
@@ -896,9 +899,12 @@ namespace MemberSite.Controllers.Api
                     img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
                 }
                 img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                var fileName = depositReceipt.Receipt.FileName;
-                fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
-                fileName = $"{fileName.Substring(0, fileName.LastIndexOf('.'))}.jpg";
+                
+                var fileName = _fileInfoBll
+                    .SetFileName(depositReceipt.Receipt.FileName)
+                    .ExcludePath()
+                    .SetFilenameExtension("jpg")
+                    .FileName ;
 
                 var fileBytes = ms.ToArray();
                 var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, fileBytes);
