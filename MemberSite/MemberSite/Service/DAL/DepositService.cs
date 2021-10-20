@@ -1,10 +1,15 @@
-﻿using MemberSite.Service.Model;
+﻿using System;
+using MemberSite.Service.Model;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using Dapper;
 using System.Collections.Generic;
 using MemberSite.Service.Library;
 using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+using MemberSite.Service.Model.enums;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.DAL
 {
@@ -12,11 +17,13 @@ namespace MemberSite.Service.DAL
     {
         private readonly IConfiguration configuration;
         private readonly Common common;
+        private readonly MySqlClient _mainDbClient;
 
-        public DepositService(IConfiguration configuration, Common common)
+        public DepositService(IServiceProvider provider)
         {
-            this.configuration = configuration;
-            this.common = common;
+            this.configuration = provider.GetRequiredService<IConfiguration>();
+            this.common = provider.GetService<Common>();
+            _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
         }
         public int DepositReq(DepositDetailInfo depositDetailInfo, out string transId, out string postScript)
         {
@@ -83,10 +90,11 @@ namespace MemberSite.Service.DAL
             return conn.Execute("DepositReceipt_Set", new { CustId = custId, DepositId = depositId, RefNo = refNo, DepositTime = depositTime }, commandType: CommandType.StoredProcedure);
         }
 
-        public int SetDepositReceiptPic(int custId, int depositId, string picFileName, byte[] depositPic)
+        public async Task<int> SetDepositReceiptPic(int custId, int depositId, string picFileName, byte[] depositPic)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("DepositReceiptPic_Set", new { CustId = custId, DepositId = depositId, PicFileName = picFileName, DepositPic = depositPic }, commandType: CommandType.StoredProcedure);
+            var p = new DynamicParameters(new
+                {CustId = custId, DepositId = depositId, PicFileName = picFileName, DepositPic = depositPic});
+            return await _mainDbClient.ExecuteAsync("DepositReceiptPic_Set", p);
         }
         public int SetDepositCancel(int custId, int depositId, int siteid)
         {
