@@ -265,11 +265,11 @@ namespace MemberSite.Service.DAL
             result = _mainDbClient.Execute("Service_CustBankInfoLog_Set", parameter, conn, trans);
             return result > 0;
         }
-        public bool SetCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo)
+        public bool SetCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo , byte type)
         {
             var result = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            result = conn.Execute("Member_CustUSDTInfo_Set", new { CustId = custId, SiteId = siteId, AccountName = accountName, USDTInfo = Newtonsoft.Json.JsonConvert.SerializeObject(uSDTInfo) }, commandType: CommandType.StoredProcedure);
+            result = conn.Execute("Member_CustUSDTInfo_Set", new { CustId = custId, SiteId = siteId, AccountName = accountName, USDTInfo = Newtonsoft.Json.JsonConvert.SerializeObject(uSDTInfo) , Type = type}, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
         public CustBankInfo GetCustBankInfo(int custId, int siteId)

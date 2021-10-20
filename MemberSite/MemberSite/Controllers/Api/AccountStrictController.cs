@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LazZiya.ImageResize;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -178,7 +179,7 @@ namespace MemberSite.Controllers.Api
             var currencyId = uSDTDetailreq.CurrencyId == 0 ? 96 : uSDTDetailreq.CurrencyId;
             uSDTInfoList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress , Network = uSDTDetailreq.Network, CurrencyId = currencyId });
 
-            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList);
+            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList ,(byte)CustUSDTInfoType.Add);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
@@ -247,7 +248,7 @@ namespace MemberSite.Controllers.Api
             {
                 uSDTInfoList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId });
             }
-            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList);
+            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList , (byte)CustUSDTInfoType.Add);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
@@ -279,7 +280,7 @@ namespace MemberSite.Controllers.Api
                 USDTInfoList = custBankInfo.uSDTDetail.Where(x => !(x.USDTAddress == uSDTDetailreq.USDTAddress));
             }
 
-            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, custBankInfo.AccountName, USDTInfoList);
+            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, custBankInfo.AccountName, USDTInfoList , (byte)CustUSDTInfoType.Delete);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
