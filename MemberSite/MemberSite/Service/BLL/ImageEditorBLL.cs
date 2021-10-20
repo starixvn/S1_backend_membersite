@@ -20,8 +20,8 @@ namespace MemberSite.Service.BLL
             var newWidth = Convert.ToInt32(originImage.Width * _xCell);
             var newHeight = Convert.ToInt32(originImage.Height * _xCell);
 
-            using var bitmap = new Bitmap(newWidth, newHeight);
-            using var graphics = Graphics.FromImage(bitmap);
+            var bitmap = new Bitmap(newWidth, newHeight);
+            var graphics = Graphics.FromImage(bitmap);
             graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
             graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
             graphics.DrawImage(originImage, 0, 0, newWidth, newHeight);
