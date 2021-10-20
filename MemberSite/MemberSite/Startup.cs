@@ -143,6 +143,8 @@ namespace MemberSite
 			services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
             services.AddTransient<GeoIpBLL>();
             services.AddTransient<AppLinkBLL>();
+            services.AddTransient<FileNameBLL>();
+            services.AddTransient<ImageEditorBLL>();
 
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
