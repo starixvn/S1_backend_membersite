@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LazZiya.ImageResize;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -186,12 +187,6 @@ namespace MemberSite.Controllers.Api
         {
             public string AccountName { set; get; }
             public IEnumerable<USDTDetail> USDTInfo { set; get; }
-        }
-        
-        public enum CustUSDTInfoType
-        {
-            Add = 1,
-            Delete = 2
         }
 
         [HttpPost]
