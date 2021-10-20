@@ -34,10 +34,10 @@ namespace MemberSite.Controllers.Api
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
         private readonly string tpApiUrl;
         private readonly int mainWalletType;
-        private readonly FileInfoBLL _fileInfoBll;
+        private readonly FileNameBLL _fileNameBll;
         private readonly BitmapBLL _bitmapBll;
 
-        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBll mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, FileInfoBLL fileInfoBll, BitmapBLL bitmapBll)
+        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBll mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, FileNameBLL fileNameBll, BitmapBLL bitmapBll)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;
@@ -51,7 +51,7 @@ namespace MemberSite.Controllers.Api
             this.iovationBLL = iovationBLL;
             this.cryptoPayInfoBLL = cryptoPayInfoBLL;
             this.loadCardPayInfoBLL = loadCardPayInfoBLL;
-            _fileInfoBll = fileInfoBll;
+            _fileNameBll = fileNameBll;
             _bitmapBll = bitmapBll;
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
@@ -863,7 +863,7 @@ namespace MemberSite.Controllers.Api
                 await using var ms = new System.IO.MemoryStream();
                 img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
                 
-                var fileName = _fileInfoBll
+                var fileName = _fileNameBll
                     .SetFileName(depositReceipt.Receipt.FileName)
                     .ExcludePath()
                     .SetFilenameExtension("jpg")
