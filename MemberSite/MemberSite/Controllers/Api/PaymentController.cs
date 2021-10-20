@@ -35,9 +35,9 @@ namespace MemberSite.Controllers.Api
         private readonly string tpApiUrl;
         private readonly int mainWalletType;
         private readonly FileNameBLL _fileNameBll;
-        private readonly BitmapBLL _bitmapBll;
+        private readonly ImageEditorBLL _imageEditorBll;
 
-        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBll mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, FileNameBLL fileNameBll, BitmapBLL bitmapBll)
+        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBll mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, FileNameBLL fileNameBll, ImageEditorBLL imageEditorBll)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;
@@ -52,7 +52,7 @@ namespace MemberSite.Controllers.Api
             this.cryptoPayInfoBLL = cryptoPayInfoBLL;
             this.loadCardPayInfoBLL = loadCardPayInfoBLL;
             _fileNameBll = fileNameBll;
-            _bitmapBll = bitmapBll;
+            _imageEditorBll = imageEditorBll;
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
         }
@@ -859,7 +859,7 @@ namespace MemberSite.Controllers.Api
             {
                 await using var fileStream = depositReceipt.Receipt.OpenReadStream();
                 using var uploadedImage = new Bitmap(fileStream);
-                var img = _bitmapBll.Resize(uploadedImage);
+                var img = _imageEditorBll.Resize(uploadedImage);
                 await using var ms = new System.IO.MemoryStream();
                 img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
                 

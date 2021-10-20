@@ -144,7 +144,7 @@ namespace MemberSite
             services.AddTransient<GeoIpBLL>();
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
-            services.AddTransient<BitmapBLL>();
+            services.AddTransient<ImageEditorBLL>();
 
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
