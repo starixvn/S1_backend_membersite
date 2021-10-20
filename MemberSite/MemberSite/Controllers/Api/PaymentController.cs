@@ -857,7 +857,8 @@ namespace MemberSite.Controllers.Api
             
             if (_contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
             {
-                await using var fileStream = depositReceipt.Receipt.OpenReadStream();
+                await using var fileStream = new System.IO.MemoryStream();
+                await depositReceipt.Receipt.CopyToAsync(fileStream);
                 using var uploadedImage = new Bitmap(fileStream);
                 var img = _imageEditorBll.Resize(uploadedImage);
                 await using var ms = new System.IO.MemoryStream();
