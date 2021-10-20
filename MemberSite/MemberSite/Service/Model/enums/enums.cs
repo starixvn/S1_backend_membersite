@@ -268,10 +268,4 @@
         ERC20,
         TRC20
     }
-    
-    public enum CustUSDTInfoType
-    {
-        Add = 1,
-        Delete = 2
-    }
 }

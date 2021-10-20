@@ -179,7 +179,7 @@ namespace MemberSite.Controllers.Api
             var currencyId = uSDTDetailreq.CurrencyId == 0 ? 96 : uSDTDetailreq.CurrencyId;
             uSDTInfoList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress , Network = uSDTDetailreq.Network, CurrencyId = currencyId });
 
-            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList ,(byte)CustUSDTInfoType.Add);
+            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
@@ -248,7 +248,7 @@ namespace MemberSite.Controllers.Api
             {
                 uSDTInfoList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId });
             }
-            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList , (byte)CustUSDTInfoType.Add);
+            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList );
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
@@ -280,7 +280,7 @@ namespace MemberSite.Controllers.Api
                 USDTInfoList = custBankInfo.uSDTDetail.Where(x => !(x.USDTAddress == uSDTDetailreq.USDTAddress));
             }
 
-            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, custBankInfo.AccountName, USDTInfoList , (byte)CustUSDTInfoType.Delete);
+            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, custBankInfo.AccountName, USDTInfoList);
             apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
