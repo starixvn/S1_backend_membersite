@@ -310,7 +310,7 @@ namespace MemberSite.Service.BLL
         public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo ,byte type)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.SetCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo) ? 0 : -1;
+            return _custInfoService.SetCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo , type) ? 0 : -1;
         }
         public CustBankInfo GetCustBankInfo(int custId)
         {
