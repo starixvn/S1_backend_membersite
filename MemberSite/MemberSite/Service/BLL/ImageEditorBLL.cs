@@ -2,6 +2,8 @@
 using System.Drawing;
 using System.Threading.Tasks;
 using LazZiya.ImageResize;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
 
 namespace MemberSite.Service.BLL
 {
@@ -68,6 +70,23 @@ namespace MemberSite.Service.BLL
             }
 
             return img;
+        }
+
+        public byte[] Resize(SixLabors.ImageSharp.Image originImage)
+        {
+            if (originImage.Width > BaseSize || originImage.Height > BaseSize)
+            {
+                _xCell = BaseSize / Math.Max(originImage.Width, originImage.Height);
+            }
+
+            var newWidth = Convert.ToInt32(originImage.Width * _xCell);
+            var newHeight = Convert.ToInt32(originImage.Height * _xCell);
+
+            originImage.Mutate(x => x.Resize(newWidth, newHeight));
+
+            using var ms = new System.IO.MemoryStream();
+            originImage.Save(ms, new JpegEncoder());
+            return ms.ToArray();
         }
     }
 }

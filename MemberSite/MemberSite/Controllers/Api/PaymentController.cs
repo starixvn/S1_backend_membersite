@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using LazZiya.ImageResize;
@@ -12,6 +13,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
 
 namespace MemberSite.Controllers.Api
 {
@@ -857,12 +860,14 @@ namespace MemberSite.Controllers.Api
             
             if (_contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
             {
-                await using var fileStream = new System.IO.MemoryStream();
-                await depositReceipt.Receipt.CopyToAsync(fileStream);
-                using var uploadedImage = new Bitmap(fileStream);
-                var img = _imageEditorBll.Resize(uploadedImage);
-                await using var ms = new System.IO.MemoryStream();
-                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                var fileStream = depositReceipt.Receipt.OpenReadStream();
+                using var image = await SixLabors.ImageSharp.Image.LoadAsync(fileStream);
+                // var tempStream = new System.IO.MemoryStream();
+                // await image.SaveAsJpegAsync(tempStream);
+                // using var uploadedImage = new Bitmap(tempStream);
+                var img = _imageEditorBll.Resize(image);
+                // await using var ms = new System.IO.MemoryStream();
+                // img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
                 
                 var fileName = _fileNameBll
                     .SetFileName(depositReceipt.Receipt.FileName)
@@ -870,8 +875,7 @@ namespace MemberSite.Controllers.Api
                     .SetFilenameExtension("jpg")
                     .FileName ;
 
-                var fileBytes = ms.ToArray();
-                var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, fileBytes);
+                var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, img);
 
                 if (result > 0)
                 {
