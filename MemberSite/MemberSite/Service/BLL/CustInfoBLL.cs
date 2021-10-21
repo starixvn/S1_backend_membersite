@@ -307,10 +307,16 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.InsertCustBankInfo(custId, custInfo.SiteId, accountName, bankInfo, banklog) ? 0 : -1;
         }
+
         public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo)
         {
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.SetCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo) ? 0 : -1;
+        }
+        public int InsertCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo ,IEnumerable<USDTDetail> uSDTInfoLog)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.InsertCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo ,uSDTInfoLog) ? 0 : -1;
         }
         public CustBankInfo GetCustBankInfo(int custId)
         {
