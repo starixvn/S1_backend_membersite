@@ -2,6 +2,8 @@
 using System.Drawing;
 using System.Threading.Tasks;
 using LazZiya.ImageResize;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
 
 namespace MemberSite.Service.BLL
 {
@@ -10,7 +12,7 @@ namespace MemberSite.Service.BLL
         private const double BaseSize = 500.0;
         private double _xCell = 1;
         
-        public Bitmap Resize(Bitmap originImage)
+        public async Task<byte[]> Resize(Bitmap originImage)
         {
             if (originImage.Width > BaseSize || originImage.Height > BaseSize)
             {
@@ -25,10 +27,13 @@ namespace MemberSite.Service.BLL
             graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
             graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
             graphics.DrawImage(originImage, 0, 0, newWidth, newHeight);
-            return bitmap;
+            
+            await using var ms = new System.IO.MemoryStream();
+            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+            return ms.ToArray();
         }
 
-        public Image Resize(Image uploadedImage)
+        public async Task<byte[]> Resize(Image uploadedImage)
         {
             Image img;
             if (uploadedImage.Width > BaseSize || uploadedImage.Height > BaseSize)
@@ -66,8 +71,26 @@ namespace MemberSite.Service.BLL
                 };
                 img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * _xCell), Convert.ToInt32(uploadedImage.Height * _xCell), graphicOptions);
             }
+            await using var ms = new System.IO.MemoryStream();
+            img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+            return ms.ToArray();
+        }
 
-            return img;
+        public async Task<byte[]> Resize(SixLabors.ImageSharp.Image originImage)
+        {
+            if (originImage.Width > BaseSize || originImage.Height > BaseSize)
+            {
+                _xCell = BaseSize / Math.Max(originImage.Width, originImage.Height);
+            }
+
+            var newWidth = Convert.ToInt32(originImage.Width * _xCell);
+            var newHeight = Convert.ToInt32(originImage.Height * _xCell);
+
+            originImage.Mutate(x => x.Resize(newWidth, newHeight));
+
+            await using var ms = new System.IO.MemoryStream();
+            await originImage.SaveAsync(ms, new JpegEncoder());
+            return ms.ToArray();
         }
     }
 }
