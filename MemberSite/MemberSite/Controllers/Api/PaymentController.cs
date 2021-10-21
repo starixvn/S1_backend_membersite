@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using LazZiya.ImageResize;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -13,8 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Jpeg;
 
 namespace MemberSite.Controllers.Api
 {
@@ -860,14 +855,9 @@ namespace MemberSite.Controllers.Api
             
             if (_contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
             {
-                var fileStream = depositReceipt.Receipt.OpenReadStream();
-                using var image = await SixLabors.ImageSharp.Image.LoadAsync(fileStream);
-                // var tempStream = new System.IO.MemoryStream();
-                // await image.SaveAsJpegAsync(tempStream);
-                // using var uploadedImage = new Bitmap(tempStream);
-                var img = _imageEditorBll.Resize(image);
-                // await using var ms = new System.IO.MemoryStream();
-                // img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                await using var fileStream = depositReceipt.Receipt.OpenReadStream();
+                using var uploadedImage = await SixLabors.ImageSharp.Image.LoadAsync(fileStream);
+                var fileBytes = await _imageEditorBll.Resize(uploadedImage);
                 
                 var fileName = _fileNameBll
                     .SetFileName(depositReceipt.Receipt.FileName)
@@ -875,7 +865,7 @@ namespace MemberSite.Controllers.Api
                     .SetFilenameExtension("jpg")
                     .FileName ;
 
-                var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, img);
+                var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, fileBytes);
 
                 if (result > 0)
                 {
