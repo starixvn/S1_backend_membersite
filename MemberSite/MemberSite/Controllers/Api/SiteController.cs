@@ -1707,8 +1707,9 @@ namespace MemberSite.Controllers.Api
         {
             var domain = _serverInfoBll.GetMainDomain();
             var data = _serverInfoBll.GetSeoWithCache(domain);
-            
-            if (string.IsNullOrEmpty(data.Meta) || 
+
+            if (data == null ||
+                string.IsNullOrEmpty(data.Meta) ||
                 string.IsNullOrEmpty(data.Title))
             {
                 data = null;
