@@ -1,5 +1,7 @@
 ﻿using System.Drawing;
+using System.IO;
 using FluentAssertions;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace MemberSite.Service.BLL.Tests
@@ -10,49 +12,53 @@ namespace MemberSite.Service.BLL.Tests
         [Test]
         public void Resize_Jpeg()
         {
-            var srcPic = new Bitmap(@"./Service/TestData/test1.jpeg");
+            var srcPic = SixLabors.ImageSharp.Image.Load(@"./Service/TestData/test1.jpeg");
             var imageEditorBll = new ImageEditorBLL();
 
-            var actual = imageEditorBll.Resize(srcPic);
-
-            actual.Width.Should().Be(500);
-            actual.Height.Should().Be(375);
+            var byteArray = imageEditorBll.Resize(srcPic).Result;
+            var ms = new MemoryStream(byteArray);
+            var img = new Bitmap(ms);
+            img.Width.Should().Be(500);
+            img.Height.Should().Be(375);
         }
         
         [Test]
         public void Resize_Jeg()
         {
-            var srcPic = new Bitmap(@"./Service/TestData/test2.jpg");
+            var srcPic = SixLabors.ImageSharp.Image.Load(@"./Service/TestData/test2.jpg");
             var imageEditorBll = new ImageEditorBLL();
 
-            var actual = imageEditorBll.Resize(srcPic);
-
-            actual.Width.Should().Be(500);
-            actual.Height.Should().Be(375);
+            var byteArray = imageEditorBll.Resize(srcPic).Result;
+            var ms = new MemoryStream(byteArray);
+            var img = new Bitmap(ms);
+            img.Width.Should().Be(500);
+            img.Height.Should().Be(375);
         }
         
         [Test]
         public void Resize_4K_Jpg()
         {
-            var srcPic = new Bitmap(@"./Service/TestData/test3.jpg");
+            var srcPic = SixLabors.ImageSharp.Image.Load(@"./Service/TestData/test3.jpg");
             var imageEditorBll = new ImageEditorBLL();
 
-            var actual = imageEditorBll.Resize(srcPic);
-
-            actual.Width.Should().Be(500);
-            actual.Height.Should().Be(333);
+            var byteArray = imageEditorBll.Resize(srcPic).Result;
+            var ms = new MemoryStream(byteArray);
+            var img = new Bitmap(ms);
+            img.Width.Should().Be(500);
+            img.Height.Should().Be(333);
         }
         
         [Test]
         public void Resize_Normal_Size_Png()
         {
-            var srcPic = new Bitmap(@"./Service/TestData/test4.png");
+            var srcPic = SixLabors.ImageSharp.Image.Load(@"./Service/TestData/test4.png");
             var imageEditorBll = new ImageEditorBLL();
 
-            var actual = imageEditorBll.Resize(srcPic);
-
-            actual.Width.Should().Be(320);
-            actual.Height.Should().Be(240);
+            var byteArray = imageEditorBll.Resize(srcPic).Result;
+            var ms = new MemoryStream(byteArray);
+            var img = new Bitmap(ms);
+            img.Width.Should().Be(320);
+            img.Height.Should().Be(240);
         }
     }
 }
