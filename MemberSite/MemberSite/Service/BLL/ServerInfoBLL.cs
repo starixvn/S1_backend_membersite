@@ -119,7 +119,7 @@ namespace MemberSite.Service.BLL
         {
             var key = $"GetSupportDomainListWithCache_{siteId}_{currencyId}";
             return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(5)),
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
                 i => GetSupportDomainList(siteId, currencyId));
         }
 
@@ -127,7 +127,7 @@ namespace MemberSite.Service.BLL
         {
             var key = $"GetSeoWithCache_{domain}";
             return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(10)),
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => _serverInfoService.GetSeo(domain));
         }
     }
