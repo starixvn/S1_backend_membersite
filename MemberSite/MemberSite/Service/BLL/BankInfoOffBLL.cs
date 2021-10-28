@@ -120,7 +120,7 @@ namespace MemberSite.Service.BLL
             var key = $"GetBankInfoOffList_{SiteId}_{CurrencyId}_{vipLevel}_{queryType}";
             return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
-                i => GetBankAccountOffList( SiteId,  CurrencyId, vipLevel, queryType = 0));
+                i => GetBankAccountOffList( SiteId,  CurrencyId, vipLevel, queryType));
         }
 
         public IEnumerable<SysBankInfoFront> GetBankAccountOffList(int SiteId, int CurrencyId, int vipLevel,  int queryType = 0)
