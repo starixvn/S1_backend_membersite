@@ -76,6 +76,18 @@ namespace MemberSite.Controllers.Api
             var queryType = 0;
             if (getBankInfoOffListReq != null && getBankInfoOffListReq.QueryType != null)
                 queryType = (int)getBankInfoOffListReq.QueryType;
+            apiResult.Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, queryType);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        public ApiResult<IEnumerable<SysBankInfoFront>> GetBankInfoOffListStatusORG(GetBankInfoOffListReq getBankInfoOffListReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>();
+            var queryType = 0;
+            if (getBankInfoOffListReq != null && getBankInfoOffListReq.QueryType != null)
+                queryType = (int)getBankInfoOffListReq.QueryType;
             apiResult.Data = bankInfoOffBLL.GetBankInfoOffList(authData.CustId, queryType);
             apiResult.ErrorCode = 0;
             return apiResult;
