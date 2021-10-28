@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using LazZiya.ImageResize;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -34,8 +32,10 @@ namespace MemberSite.Controllers.Api
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
         private readonly string tpApiUrl;
         private readonly int mainWalletType;
+        private readonly FileNameBLL _fileNameBll;
+        private readonly ImageEditorBLL _imageEditorBll;
 
-        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBll mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL)
+        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBll mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, FileNameBLL fileNameBll, ImageEditorBLL imageEditorBll)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;
@@ -49,6 +49,8 @@ namespace MemberSite.Controllers.Api
             this.iovationBLL = iovationBLL;
             this.cryptoPayInfoBLL = cryptoPayInfoBLL;
             this.loadCardPayInfoBLL = loadCardPayInfoBLL;
+            _fileNameBll = fileNameBll;
+            _imageEditorBll = imageEditorBll;
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
         }
@@ -858,62 +860,24 @@ namespace MemberSite.Controllers.Api
 
         [HttpPost]
         //[DisableFormValueModelBinding]
-        public ApiResult UploadReceipt([FromForm] DepositReceiptFile depositReceipt)
+        public async Task<ApiResult> UploadReceipt([FromForm] DepositReceiptFile depositReceipt)
         {
-            var xSize = 500m;
             var apiResult = new ApiResult();
             var authData = authorizeBLL.GetAuthData();
-            decimal xCell = 1;
-            Image img;
+            
             if (_contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
             {
-                using var fileStream = depositReceipt.Receipt.OpenReadStream();
-                using var uploadedImage = Image.FromStream(fileStream);
-                using var ms = new System.IO.MemoryStream();
-                if (uploadedImage.Width > xSize || uploadedImage.Height > xSize)
-                {
+                await using var fileStream = depositReceipt.Receipt.OpenReadStream();
+                using var uploadedImage = await SixLabors.ImageSharp.Image.LoadAsync(fileStream);
+                var fileBytes = await _imageEditorBll.Resize(uploadedImage);
+                
+                var fileName = _fileNameBll
+                    .SetFileName(depositReceipt.Receipt.FileName)
+                    .ExcludePath()
+                    .SetFilenameExtension("jpg")
+                    .FileName ;
 
-                    if (uploadedImage.Width > uploadedImage.Height)
-                    {
-                        xCell = xSize / uploadedImage.Width;
-                    }
-                    else
-                    {
-                        xCell = xSize / uploadedImage.Height;
-                    }
-
-                }
-
-                if (uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Undefined ||
-                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.DontCare ||
-                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format16bppArgb1555 ||
-                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format1bppIndexed ||
-                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format4bppIndexed ||
-                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format8bppIndexed)
-                {
-                    var bitmap = new Bitmap(Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
-                    var graphics = Graphics.FromImage(bitmap);
-                    graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
-                    graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-                    graphics.DrawImage(uploadedImage, 0, 0, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
-                    img = Image.FromHbitmap(bitmap.GetHbitmap());
-                }
-                else
-                {
-                    var graphicOptions = new GraphicOptions
-                    {
-                        CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed,
-                        SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed
-                    };
-                    img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
-                }
-                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                var fileName = depositReceipt.Receipt.FileName;
-                fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
-                fileName = $"{fileName.Substring(0, fileName.LastIndexOf('.'))}.jpg";
-
-                var fileBytes = ms.ToArray();
-                var result = paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, fileBytes);
+                var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, fileBytes);
 
                 if (result > 0)
                 {
@@ -923,10 +887,6 @@ namespace MemberSite.Controllers.Api
                 {
                     apiResult.ErrorCode = -1;
                 }
-            }
-            else
-            {
-
             }
 
             return apiResult;

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -648,12 +649,12 @@ namespace MemberSite.Service.BLL
             int.TryParse(m.Value, out depositId);
             return _depositService.SetDepositReceipt(custId, depositId, refNo, depositTime);
         }
-        public int SetDepositReceiptPic(int custId, string transId, string picFileName, byte[] depositPic)
+        public async Task<int> SetDepositReceiptPic(int custId, string transId, string picFileName, byte[] depositPic)
         {
             var depositId = 0;
             var m = Regex.Match(transId, @"\d+");
             int.TryParse(m.Value, out depositId);
-            return _depositService.SetDepositReceiptPic(custId, depositId, picFileName, depositPic);
+            return await _depositService.SetDepositReceiptPic(custId, depositId, picFileName, depositPic);
         }
         public int SetDepositCancel(int custId, string transId)
         {
