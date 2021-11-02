@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Linq;
+using System.Threading.Tasks;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -129,6 +130,25 @@ namespace MemberSite.Service.BLL
             return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => _serverInfoService.GetSeo(domain));
+        }
+
+        public async Task<IEnumerable<MenuOfGame>> GetMenuOfGames(int siteId, string langId)
+        {
+            var menuOfGamesData = await _serverInfoService.GetMenuOfGames(siteId, langId);
+            var menuOfGames = menuOfGamesData
+                .GroupBy(a => a.MenuId)
+                .Select(b => new MenuOfGame() 
+                {
+                    MenuId = b.Key,
+                    MenuItems = b.Select(c => new MenuItem()
+                    {
+                        TpId = c.TpId,
+                        GameId = c.GameId,
+                        TpGameType = c.TpGameType,
+                        Sort = c.Sort
+                    }).ToList()
+                });
+            return menuOfGames;
         }
     }
 }
