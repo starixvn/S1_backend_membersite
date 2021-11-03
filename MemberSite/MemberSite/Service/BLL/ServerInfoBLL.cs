@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MemberSite.Service.DAL;
+using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +16,7 @@ namespace MemberSite.Service.BLL
 {
     public class ServerInfoBll
     {
-        private readonly ServerInfoService _serverInfoService;
+        private readonly IServerInfoService _serverInfoService;
         private ServerInfo _serverInfo;
         private readonly IMemoryCache _cache;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -26,7 +27,7 @@ namespace MemberSite.Service.BLL
 
         public ServerInfoBll(IServiceProvider provider)
         {
-            _serverInfoService = provider.GetRequiredService<ServerInfoService>();
+            _serverInfoService = provider.GetRequiredService<IServerInfoService>();
             _cache = provider.GetRequiredService<IMemoryCache>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _siteInfoDic = new ConcurrentDictionary<string, int>(StringComparer.OrdinalIgnoreCase);
