@@ -7,13 +7,14 @@ using Dapper;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.DAL
 {
-    public class ServerInfoService
+    public class ServerInfoService : IServerInfoService
     {
         private readonly IConfiguration configuration;
         private readonly MySqlClient _reportDbClient;
