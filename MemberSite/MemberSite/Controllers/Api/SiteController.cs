@@ -1721,5 +1721,22 @@ namespace MemberSite.Controllers.Api
                 Data = data
             };
         }
+
+        [HttpPost]
+        public async Task<ApiResult<IEnumerable<MenuOfGame>>> GetMenuOfGames()
+        {
+            var domain = _serverInfoBll.GetMainDomain();
+            var data = _serverInfoBll.GetSeoWithCache(domain);
+            var apiResult = new ApiResult<IEnumerable<MenuOfGame>>()
+            {
+                ErrorCode = 0
+            };
+            if (data != null && !string.IsNullOrEmpty(data.DefaultLang))
+            {
+                apiResult.Data = await _serverInfoBll.GetMenuOfGames(data.SiteId, data.DefaultLang);
+            }
+
+            return apiResult;
+        }
     }
 }

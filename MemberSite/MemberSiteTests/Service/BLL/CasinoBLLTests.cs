@@ -1,6 +1,12 @@
 ﻿using System;
 using System.IO;
+using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -29,11 +35,15 @@ namespace MemberSite.Service.BLL.Tests
         [TestCase("34SMGtikiVikings", 0, "")]
         public void Test_SplitGameInfo(string gameInfo, int providerId, string gameId)
         {
+            var services = new ServiceCollection();
+            services.AddSingleton(_configuration);
+            services.AddTransient(p => new MySqlClient("", Substitute.For<ILogger<MySqlClient>>()) {DataBase = DataBase.Report});
+            services.AddTransient(p => Substitute.For<IMemoryCache>());
+            services.AddTransient<CacheHelper>();
+            services.AddTransient<CasinoService>();
+            var serviceProvider = services.BuildServiceProvider();
+            var casinoBll = new CasinoBll(serviceProvider);
             
-            var provider = Substitute.For<IServiceProvider>();
-            var casinoBll = new CasinoBll(provider);
-
-
             var (actualProviderId,actualGameId )= casinoBll.SplitGameInfo(gameInfo);
             
             Assert.AreEqual(providerId, actualProviderId);
