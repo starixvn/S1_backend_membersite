@@ -384,7 +384,7 @@ namespace MemberSite.Service.DAL
 
         public List<CustPromotion> GetPromotionListv3(int SiteId, int CustId, int CurrencyId, int DeviceType, bool IsLogin, string langId, string defLang)
         {
-            var promotionList = _reportDbClient.Query<CustPromotion>("Member_PromotionListV5_Get", new DynamicParameters(new {CustId, SiteId, CurrencyId, DeviceType}));
+            var promotionList = _reportDbClient.Query<CustPromotion>("Member_PromotionListV6_Get", new DynamicParameters(new {CustId, SiteId, CurrencyId, DeviceType}));
             var promotion = new List<CustPromotion>();
 
             foreach (var promo in promotionList)
@@ -680,7 +680,7 @@ namespace MemberSite.Service.DAL
 
         public List<CustPromotion> GetSpecialPromotionListV2(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int deviceType)
         {
-            var promotionList = _reportDbClient.Query<CustPromotion>("Member_SPCodePromotionListV3_Get", new DynamicParameters(new { CustId, DeviceType = deviceType }));
+            var promotionList = _reportDbClient.Query<CustPromotion>("Member_SPCodePromotionListV4_Get", new DynamicParameters(new { CustId, DeviceType = deviceType }));
 
             var _promotion = new List<CustPromotion>();
 
