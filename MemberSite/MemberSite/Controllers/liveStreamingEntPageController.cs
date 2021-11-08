@@ -39,11 +39,6 @@ namespace MemberSite.Controllers
                 SiteName = serverInfo.SiteName
             };
 
-            if ((serverInfo.SiteName == "Bwing" || serverInfo.SiteName == "Goal123") && !User.Identity.IsAuthenticated)
-            {
-                return Content("Please Log In");
-            }
-
             if (User.Identity.IsAuthenticated)
             {
                 var authData = authorizeBLL.GetAuthData();
@@ -52,7 +47,7 @@ namespace MemberSite.Controllers
             }
             else
             {
-                liveStreamingLinkReq.Uid = "NoLogin";
+                return Content("Please Log In");
             }
             try
             {

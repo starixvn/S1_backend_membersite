@@ -22,6 +22,7 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 using MemberSite.Extensions;
+using MemberSite.Service.DAL.Interface;
 
 namespace MemberSite
 {
@@ -77,7 +78,7 @@ namespace MemberSite
             services.AddSingleton<TpGameTypeHelper>();
             
             /*DAL*/
-            services.AddSingleton<ServerInfoService>();
+            services.AddSingleton<IServerInfoService, ServerInfoService>();
             services.AddSingleton<AgentInfoService>();
             services.AddSingleton<CustInfoService>();
             services.AddSingleton<AuthenticateService>();
