@@ -1708,11 +1708,11 @@ namespace MemberSite.Controllers.Api
             var domain = _serverInfoBll.GetMainDomain();
             var data = _serverInfoBll.GetSeoWithCache(domain);
 
-            if (data == null ||
-                string.IsNullOrEmpty(data.Meta) ||
-                string.IsNullOrEmpty(data.Title))
+            if (data != null)
             {
-                data = null;
+                data.Meta = string.IsNullOrEmpty(data.Meta) ? null : data.Meta;
+                data.Title = string.IsNullOrEmpty(data.Title) ? null : data.Title;
+                data.DefaultLang = string.IsNullOrEmpty(data.DefaultLang) ? null : data.DefaultLang;
             }
 
             return new ApiResult<SeoModel>()
