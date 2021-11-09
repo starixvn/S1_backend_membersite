@@ -97,7 +97,7 @@ namespace MemberSite
             services.AddSingleton<CasinoService>();
             services.AddSingleton<StatementService>();
             services.AddSingleton<AuthService>();
-            services.AddSingleton<BannerService>();
+            services.AddSingleton<IBannerService, BannerService>();
             services.AddSingleton<BonusWalletService>();
             services.AddSingleton<NewsService>();
             services.AddSingleton<IovationService>();
