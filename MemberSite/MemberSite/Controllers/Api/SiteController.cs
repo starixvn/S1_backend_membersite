@@ -1228,6 +1228,25 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        public class HotGameReq
+        {
+            public int DeviceType { get; set; }
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult<IEnumerable<HotGame>>> GetHotGames(HotGameReq req)
+        {
+            var domain = _serverInfoBll.GetMainDomain();
+            var data = _serverInfoBll.GetSeoWithCache(domain);
+            
+            var apiResult = new ApiResult<IEnumerable<HotGame>>
+            {
+                ErrorCode = 0, 
+                Data = await _bannerBll.GetHotGames(data.SiteId, data.DefaultLang, req.DeviceType)
+            };
+
+            return apiResult;
+        }
 
         [HttpPost]
         public async Task<ApiResult> CheckResetPwdTokenAsync([FromForm] string key)
