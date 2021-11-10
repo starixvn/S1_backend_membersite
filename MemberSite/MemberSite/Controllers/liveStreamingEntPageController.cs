@@ -3,35 +3,39 @@ using System.Threading.Tasks;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Controllers
 {
     public class liveStreamingEntPageController : Controller
     {
-        private readonly IConfiguration configuration;
-        private readonly Tools tools;
-        private readonly CourierAdapter courierAdapter;
-        private readonly AuthorizeBLL authorizeBLL;
-        private readonly ServerInfoBll serverInfoBLL;
+        private readonly IConfiguration _configuration;
+        private readonly Tools _tools;
+        private readonly CourierAdapter _courierAdapter;
+        private readonly AuthorizeBLL _authorizeBll;
+        private readonly ServerInfoBll _serverInfoBll;
+        private readonly CustInfoBll _custInfoBll;
 
-        public liveStreamingEntPageController(IConfiguration configuration, Tools tools, CourierAdapter courierAdapter, AuthorizeBLL authorizeBLL, ServerInfoBll serverInfoBLL)
+        public liveStreamingEntPageController(IServiceProvider provider)
         {
-            this.courierAdapter = courierAdapter;
-            this.tools = tools;
-            this.authorizeBLL = authorizeBLL;
-            this.serverInfoBLL = serverInfoBLL;
-            this.configuration = configuration;
+            _courierAdapter = provider.GetRequiredService<CourierAdapter>();;
+            _tools = provider.GetRequiredService<Tools>();
+            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();;
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();;
+            _configuration = provider.GetRequiredService<IConfiguration>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
         }
 
         [HttpGet]
         public async Task<IActionResult> IndexAsync(int ch)
         {
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            var commonServiceUrl = configuration.GetValue<string>("CommonService");
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var commonServiceUrl = _configuration.GetValue<string>("CommonService");
             var apiUrl = $"{commonServiceUrl}LiveStreaming/GetLiveStreamingLink";
-            var ip = tools.GetClientIP();
+            var ip = _tools.GetClientIP();
             var liveStreamingLinkReq = new LiveStreamingLinkReq
             {
                 Ch = ch,
@@ -39,39 +43,42 @@ namespace MemberSite.Controllers
                 SiteName = serverInfo.SiteName
             };
 
-            if ((serverInfo.SiteName == "Bwing" || serverInfo.SiteName == "Goal123") && !User.Identity.IsAuthenticated)
+            switch (User.Identity.IsAuthenticated)
             {
-                return Content("Please Log In");
+                case false:
+                    return Content("Please Log In");
+                
+                case true:
+                {
+                    var authData = _authorizeBll.GetAuthData();
+                    var uid = $"{serverInfo.SiteName}_{authData.CustId}";
+                    liveStreamingLinkReq.Uid = uid;
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    if (custInfo.ActStatus == (int)ActStatus.NonDeposit)
+                    {
+                        return Content("Please Deposit");
+                    }
+
+                    break;
+                }
             }
 
-            if (User.Identity.IsAuthenticated)
-            {
-                var authData = authorizeBLL.GetAuthData();
-                var uid = $"{serverInfo.SiteName}_{authData.CustId}";
-                liveStreamingLinkReq.Uid = uid;
-            }
-            else
-            {
-                liveStreamingLinkReq.Uid = "NoLogin";
-            }
             try
             {
-                var data = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, liveStreamingLinkReq);
+                var data = await _courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, liveStreamingLinkReq);
 
                 if (data.ErrorCode == 0)
                 {
                     var entryUrl = data.Message;
                     return Redirect(entryUrl);
                 }
-                else
-                {
-                    var model = new ErrorData() { Message = data.Message };
-                    return Content(model.Message);
-                }
+
+                var model = new ErrorData { Message = data.Message };
+                return Content(model.Message);
             }
             catch (Exception ex)
             {
-                var model = new ErrorData() { Message = ex.Message };
+                var model = new ErrorData { Message = ex.Message };
                 return Content(model.Message);
             }
         }
