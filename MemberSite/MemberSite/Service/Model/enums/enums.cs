@@ -268,4 +268,10 @@
         ERC20,
         TRC20
     }
+
+    public enum ActStatus
+    {
+        NonDeposit = 1,
+        HasDeposit = 2
+    }
 }
