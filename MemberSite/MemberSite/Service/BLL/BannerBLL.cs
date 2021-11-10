@@ -213,6 +213,7 @@ namespace MemberSite.Service.BLL
                     TpId = a.TpId,
                     GameId = a.GameId,
                     TpGameType = a.TpGameType,
+                    TpCategory = a.TpCategory,
                     GameName = a.GameName,
                     GameLogo = DeserializeGameLogo(a.GameLogo, deviceType),
                     TpName = a.TpName,
