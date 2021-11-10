@@ -45,6 +45,12 @@ namespace MemberSite.Service.DAL
 
             conn.Execute("Member_WithdrawalInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
             transId = p.Get<string>("vTransId");
+
+            if(string.IsNullOrEmpty(transId))
+            {
+                return 3; //Insert Fail
+            }
+
             var rollover = rolloverService.ReachedRollover(custId, conn, trans);
 
             if (!rollover.ReachedRollover)
