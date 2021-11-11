@@ -1232,17 +1232,32 @@ namespace MemberSite.Controllers.Api
         {
             public int DeviceType { get; set; }
         }
-        
+
         [HttpPost]
         public async Task<ApiResult<IEnumerable<HotGame>>> GetHotGames(HotGameReq req)
         {
             var domain = _serverInfoBll.GetMainDomain();
             var data = _serverInfoBll.GetSeoWithCache(domain);
+
+            int currencyId;
+            int siteId;
+            if (data != null && !string.IsNullOrEmpty(data.DefaultLang))
+            {
+                currencyId = _selLangBll.GetPreferCurrencyIdByLang(data.DefaultLang);
+                siteId = data.SiteId;
+            }
+            else
+            {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                siteId = serverInfo.SiteId;
+                currencyId = _selLangBll.GetPreferCurrencyId();
+                currencyId = currencyId == 13 ? 2 : currencyId;
+            }
             
             var apiResult = new ApiResult<IEnumerable<HotGame>>
             {
                 ErrorCode = 0, 
-                Data = await _bannerBll.GetHotGames(data.SiteId, data.DefaultLang, req.DeviceType)
+                Data = await _bannerBll.GetHotGames(siteId, currencyId, req.DeviceType)
             };
 
             return apiResult;

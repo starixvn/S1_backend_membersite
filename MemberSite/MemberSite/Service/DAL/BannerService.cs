@@ -36,11 +36,11 @@ namespace MemberSite.Service.DAL
             return conn.Query<BannerV3>("Member_Banner_Get_V3", new { SiteId, BannerType, ShowStatus, CurrencyId }, commandType: CommandType.StoredProcedure);
         }
 
-        public async Task<IEnumerable<HotGameData>> GetHotGames(int siteId, string langId)
+        public async Task<IEnumerable<HotGameData>> GetHotGames(int siteId, int currencyId)
         {
             var p = new DynamicParameters();
             p.Add("_SiteId", siteId);
-            p.Add("_LangId", langId);
+            p.Add("_CurrencyId", currencyId);
             var result = await _reportDbClient.QueryAsync<HotGameData>("Member_HotGames_Get", p);
             return result;
         }

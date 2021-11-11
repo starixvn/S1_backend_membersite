@@ -204,9 +204,9 @@ namespace MemberSite.Service.BLL
             return banner;
         }
 
-        public async Task<IEnumerable<HotGame>> GetHotGames(int siteId, string langId, int deviceType)
+        public async Task<IEnumerable<HotGame>> GetHotGames(int siteId, int currencyId, int deviceType)
         {
-            var hotGamesData = await bannerService.GetHotGames(siteId, langId);
+            var hotGamesData = await bannerService.GetHotGames(siteId, currencyId);
             var hotGames = hotGamesData
                 .Select(a => new HotGame()
                 {
