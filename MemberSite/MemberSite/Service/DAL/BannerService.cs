@@ -1,30 +1,48 @@
-﻿using Dapper;
+﻿using System;
+using Dapper;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.DAL
 {
-    public class BannerService
+    public class BannerService : IBannerService
     {
-        private readonly IConfiguration configuration;
-        public BannerService(IConfiguration configuration)
+        private readonly IConfiguration _configuration;
+        private readonly MySqlClient _reportDbClient;
+        public BannerService(IServiceProvider serviceProvider, IConfiguration configuration)
         {
-            this.configuration = configuration;
+            _configuration = configuration;
+            _reportDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
         public IEnumerable<BannerV2> GetBannerV2(int SiteId, int BannerType, int ShowStatus, int CurrencyId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<BannerV2>("Member_Banner_Get", new { SiteId, BannerType, ShowStatus, CurrencyId}, commandType: CommandType.StoredProcedure);
         }
 
         public IEnumerable<BannerV3> GetBannerV3(int SiteId, int BannerType, int ShowStatus, int CurrencyId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<BannerV3>("Member_Banner_Get_V3", new { SiteId, BannerType, ShowStatus, CurrencyId }, commandType: CommandType.StoredProcedure);
+        }
+
+        public async Task<IEnumerable<HotGameData>> GetHotGames(int siteId, int currencyId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId);
+            p.Add("_CurrencyId", currencyId);
+            var result = await _reportDbClient.QueryAsync<HotGameData>("Member_HotGames_Get", p);
+            return result;
         }
     }
 }

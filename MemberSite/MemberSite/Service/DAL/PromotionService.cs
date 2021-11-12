@@ -336,6 +336,7 @@ namespace MemberSite.Service.DAL
 
                 if (result > 0)
                 {
+                    CancelAllWaitingBonus(custId, conn, trans);
                     trans.Commit();
                 }
 
@@ -350,7 +351,19 @@ namespace MemberSite.Service.DAL
             return 0;
 
         }
+        public void CancelAllWaitingBonus(int custId, MySqlConnection conn, MySqlTransaction trans)
+        {//當領取BONUS成功   將客戶DepositBonusQueue中的BONUS CANCEL掉
 
+            var BonusList = _mainDbClient.Query<DepositBonus>("Service_DepositBonusQueueByCustId_Get", new DynamicParameters(new { CustId = custId }));//改變狀態用mainDb取得資料，避免資料不同步
+
+            foreach (var depositBonus in BonusList)
+            {
+                {
+                    var p = new DynamicParameters(new { TransId = depositBonus.TransId, Status = (int)DepositBonusQueueStatus.Cancel_other_Bonus });
+                    _mainDbClient.Execute("Service_DepositBonusStatus_Set", p, conn, trans);
+                }
+            }
+        }
         public bool GetCanJoin(int custId, int siteId, string bonusCode, int currencyId, out int result, out string depositId, out decimal dpositAmount)
         {
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionString"));

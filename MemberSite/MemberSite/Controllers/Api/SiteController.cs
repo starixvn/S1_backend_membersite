@@ -1228,6 +1228,40 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        public class HotGameReq
+        {
+            public int DeviceType { get; set; }
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<IEnumerable<HotGame>>> GetHotGames(HotGameReq req)
+        {
+            var domain = _serverInfoBll.GetMainDomain();
+            var data = _serverInfoBll.GetSeoWithCache(domain);
+
+            int currencyId;
+            int siteId;
+            if (data != null && !string.IsNullOrEmpty(data.DefaultLang))
+            {
+                currencyId = _selLangBll.GetPreferCurrencyIdByLang(data.DefaultLang);
+                siteId = data.SiteId;
+            }
+            else
+            {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                siteId = serverInfo.SiteId;
+                currencyId = _selLangBll.GetPreferCurrencyId();
+                currencyId = currencyId == 13 ? 2 : currencyId;
+            }
+            
+            var apiResult = new ApiResult<IEnumerable<HotGame>>
+            {
+                ErrorCode = 0, 
+                Data = await _bannerBll.GetHotGames(siteId, currencyId, req.DeviceType)
+            };
+
+            return apiResult;
+        }
 
         [HttpPost]
         public async Task<ApiResult> CheckResetPwdTokenAsync([FromForm] string key)
@@ -1708,11 +1742,11 @@ namespace MemberSite.Controllers.Api
             var domain = _serverInfoBll.GetMainDomain();
             var data = _serverInfoBll.GetSeoWithCache(domain);
 
-            if (data == null ||
-                string.IsNullOrEmpty(data.Meta) ||
-                string.IsNullOrEmpty(data.Title))
+            if (data != null)
             {
-                data = null;
+                data.Meta = string.IsNullOrEmpty(data.Meta) ? null : data.Meta;
+                data.Title = string.IsNullOrEmpty(data.Title) ? null : data.Title;
+                data.DefaultLang = string.IsNullOrEmpty(data.DefaultLang) ? null : data.DefaultLang;
             }
 
             return new ApiResult<SeoModel>()

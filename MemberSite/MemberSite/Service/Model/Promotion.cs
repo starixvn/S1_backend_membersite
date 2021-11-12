@@ -97,4 +97,26 @@ namespace MemberSite.Service.Model
         public string DepositId { get; set; }
         public decimal Amount { get; set; }
     }
+    public class DepositBonus
+    {
+        public string TransId { set; get; }
+        public string BonusCode { set; get; }
+        public int CustId { set; get; }
+        public int SiteId { set; get; }
+        public string UserName { set; get; }
+        public int CurrencyId { set; get; }
+        public decimal LockedAmount { set; get; }
+        public int DeviceType { set; get; }
+        public decimal Amount { set; get; }
+        public int DepositStatus { set; get; }
+    }
+    public enum DepositBonusQueueStatus : int
+    {
+        Undo = 1,
+        Finish = 2,
+        Expiry = 3,
+        Cancel_other_Bonus = 4,//Rewarded other Bonus
+        Cancel_not_eligible = 5,
+        Cancel_Rejected = 6
+    }
 }
