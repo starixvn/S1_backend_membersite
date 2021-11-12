@@ -43,13 +43,13 @@ namespace MemberSite.Service.BLL.Tests
             services.AddTransient(p => Substitute.For<IWebHostEnvironment>());
             services.AddTransient<TpGameTypeHelper>();
             var serverInfoService = Substitute.For<IBannerService>();
-            serverInfoService.GetHotGames(Arg.Any<int>(), Arg.Any<string>())
+            serverInfoService.GetHotGames(Arg.Any<int>(), Arg.Any<int>())
                 .Returns(_hotGames);
             services.AddTransient(p => serverInfoService);
             var serviceProvider = services.BuildServiceProvider();
             var bannerBll = new BannerBLL(serviceProvider);
 
-            var actual = await bannerBll.GetHotGames(1, "en", 1);
+            var actual = await bannerBll.GetHotGames(1,2,1);
 
             var expected = new List<HotGame>();
             

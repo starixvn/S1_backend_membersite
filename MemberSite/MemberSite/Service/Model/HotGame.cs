@@ -5,6 +5,7 @@
         public int TpId { get; set; }
         public string GameId { get; set; }
         public int TpGameType { get; set; }
+        public int TpCategory { get; set; }
         public string GameName { get; set; }
         public string GameLogo { get; set; }
         public string TpName { get; set; }
@@ -16,6 +17,7 @@
         public int TpId { get; set; }
         public string GameId { get; set; }
         public int TpGameType { get; set; }
+        public int TpCategory { get; set; }
         public string GameName { get; set; }
         public string GameLogo { get; set; }
         public string TpName { get; set; }

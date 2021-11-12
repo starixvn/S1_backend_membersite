@@ -8,6 +8,6 @@ namespace MemberSite.Service.DAL.Interface
     {
         IEnumerable<BannerV2> GetBannerV2(int SiteId, int BannerType, int ShowStatus, int CurrencyId);
         IEnumerable<BannerV3> GetBannerV3(int SiteId, int BannerType, int ShowStatus, int CurrencyId);
-        Task<IEnumerable<HotGameData>> GetHotGames(int siteId, string langId);
+        Task<IEnumerable<HotGameData>> GetHotGames(int siteId, int currencyId);
     }
 }
