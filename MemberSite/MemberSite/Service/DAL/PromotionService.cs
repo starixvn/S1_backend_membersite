@@ -866,7 +866,7 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             conn.Open();
 
-            var promotionList = conn.Query<CustPromotion>("Member_DepositPromotionV3_Get", new { CustId, DeviceType }, commandType: CommandType.StoredProcedure);
+            var promotionList = conn.Query<CustPromotion>("Member_DepositPromotion_Get_V3", new { CustId, DeviceType }, commandType: CommandType.StoredProcedure);
             var _promotion = new List<CustPromotion>();
 
             foreach (var promo in promotionList)
