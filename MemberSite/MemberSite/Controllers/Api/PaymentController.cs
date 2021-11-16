@@ -34,8 +34,9 @@ namespace MemberSite.Controllers.Api
         private readonly int mainWalletType;
         private readonly FileNameBLL _fileNameBll;
         private readonly ImageEditorBLL _imageEditorBll;
+        private readonly PromotionBll _promotionBLL;
 
-        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBll mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, FileNameBLL fileNameBll, ImageEditorBLL imageEditorBll)
+        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBll mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, FileNameBLL fileNameBll, ImageEditorBLL imageEditorBll, PromotionBll promotionBLL)
         {
             this.bankInfoOffBLL = bankInfoOffBLL;
             this.authorizeBLL = authorizeBLL;
@@ -49,8 +50,10 @@ namespace MemberSite.Controllers.Api
             this.iovationBLL = iovationBLL;
             this.cryptoPayInfoBLL = cryptoPayInfoBLL;
             this.loadCardPayInfoBLL = loadCardPayInfoBLL;
+            this.loadCardPayInfoBLL = loadCardPayInfoBLL;
             _fileNameBll = fileNameBll;
             _imageEditorBll = imageEditorBll;
+            _promotionBLL = promotionBLL;
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
         }
@@ -1304,6 +1307,114 @@ namespace MemberSite.Controllers.Api
             };
             return apiResult;
         }
+        public class CheckDepositSpecialCodeReq
+        {
+            public string SpecialCode { get; set; }
+            public int DeviceType { get; set; }
+        }
+        [HttpPost]
+        public ApiResult<CheckDepositSpecialCodeRsp> CheckDepositSpecialCode(CheckDepositSpecialCodeReq checkDepositSpecialCodeReq)
+        {
+            var apiResult = new ApiResult<CheckDepositSpecialCodeRsp>();
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
 
+            //檢核SpecialCode格式是否正確
+            bool IsSpecialCode = _promotionBLL.CheckSpecialCode(checkDepositSpecialCodeReq.SpecialCode);
+            bool IsScratchCardCode = _promotionBLL.CheckScratchCardCode(checkDepositSpecialCodeReq.SpecialCode.ToUpper());
+            if (!IsSpecialCode && !IsScratchCardCode)
+            {
+                apiResult.ErrorCode = 99;
+                apiResult.Message = "specialCode有誤";
+                return apiResult;
+            }
+            if(!custInfoProfile.PhoneVerified 
+                || string.IsNullOrEmpty(custInfoProfile.RealName) 
+                || string.IsNullOrEmpty(custInfoProfile.Birth_y) 
+                || string.IsNullOrEmpty(custInfoProfile.Birth_m) 
+                || string.IsNullOrEmpty(custInfoProfile.Birth_d))
+            {
+                apiResult.ErrorCode = 99;
+                apiResult.Message = "此使用者驗證未完成";
+                return apiResult;
+            }
+            if (IsSpecialCode)
+            {
+                //檢核是否真有這筆specialCode
+                var promotion = _promotionBLL.GetPromotionBySpecialCode(custInfo.SiteId, checkDepositSpecialCodeReq.SpecialCode);
+                if(promotion != null)
+                {
+                    if (promotion.PromotionType != (int)PromotionType.FstDeposit && promotion.PromotionType != (int)PromotionType.ReDeposit)
+                    {
+                        apiResult.ErrorCode = 99;
+                        apiResult.Message = "此specialCode有誤";
+                        return apiResult;
+                    }
+                    //寫入CustSpecialCode Table,並檢核是否輸入相同specialCode過
+                    //有輸入相同specialCode過
+                    if (!_promotionBLL.SetSpecialCode(authData.CustId, checkDepositSpecialCodeReq.SpecialCode, checkDepositSpecialCodeReq.DeviceType))
+                    {
+                        //檢核是否領過這個BonusCode
+                        if(_promotionBLL.GetBonusinfoByBonusCode(authData.CustId, promotion.BonusCode) != null)
+                        {
+                            apiResult.ErrorCode = 99;
+                            apiResult.Message = "此specialCode已重複使用過";
+                            return apiResult;
+                        }
+                    }
+                    apiResult.ErrorCode = 0;
+                    apiResult.Data = new CheckDepositSpecialCodeRsp() { BonusCode = promotion.BonusCode };
+                }
+                else
+                {
+                    apiResult.ErrorCode = 99;
+                    apiResult.Message = "specialCode有誤";
+                    return apiResult;
+                }
+            }
+            if (IsScratchCardCode)
+            {
+                //檢核是否真有這筆ScratchCardCode
+                var promotion = _promotionBLL.GetPromotionBySpecialScratchCard(custInfo.SiteId, checkDepositSpecialCodeReq.SpecialCode);
+                if(promotion != null)
+                {
+                    if (promotion.PromotionType  != (int)PromotionType.FstDeposit && promotion.PromotionType != (int)PromotionType.ReDeposit)
+                    {
+                        apiResult.ErrorCode = 99;
+                        apiResult.Message = "此ScratchCard有誤";
+                        return apiResult;
+                    }
+                    if (promotion.CustId != authData.CustId)
+                    {
+                        apiResult.ErrorCode = 99;
+                        apiResult.Message = "此ScratchCard已被其他帳號使用過";
+                        return apiResult;
+                    }
+                    //寫入CustSpecialCode Table,並檢核是否輸入相同ScratchCard過
+                    //有輸入相同ScratchCard過
+                    if (_promotionBLL.SetScratchCardCode(authData.CustId, checkDepositSpecialCodeReq.SpecialCode, checkDepositSpecialCodeReq.DeviceType) != 0)
+                    {
+                        //檢核是否領過這個BonusCode
+                        if (_promotionBLL.GetBonusinfoByBonusCode(authData.CustId, promotion.BonusCode) != null)
+                        {
+                            apiResult.ErrorCode = 99;
+                            apiResult.Message = "此ScratchCard已重複使用過";
+                            return apiResult;
+                        }
+                    }
+                    apiResult.ErrorCode = 0;
+                    apiResult.Data = new CheckDepositSpecialCodeRsp() { BonusCode = promotion.BonusCode };
+                }
+                else
+                {
+                    apiResult.ErrorCode = 99;
+                    apiResult.Message = "ScratchCard有誤";
+                    return apiResult;
+                }
+            }
+
+            return apiResult;
+        }
     }
 }
