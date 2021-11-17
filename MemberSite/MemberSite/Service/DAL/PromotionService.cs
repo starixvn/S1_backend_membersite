@@ -949,7 +949,7 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             conn.Open();
 
-            return conn.Query<PromotionBySpecialScratchCard>("Member_PromotionBySpecialScratchCard_Get", new { SpecialCode = specialCode, SiteId = siteid }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+            return conn.Query<PromotionBySpecialScratchCard>("Member_PromotionBySpecialScratchCard_Get", new { ScratchCardCode = specialCode, SiteId = siteid }, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
         public BonusinfoByBonusCode GetBonusinfoByBonusCode(int CustId, string BonusCode)
         {
