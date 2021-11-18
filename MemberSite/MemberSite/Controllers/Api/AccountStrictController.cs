@@ -619,7 +619,8 @@ namespace MemberSite.Controllers.Api
                     langId = custInfo.UserLang,
                     custInfo.UserLevel,
                     custInfo.PhoneVerified,
-                    custInfo.EnablePromotion
+                    custInfo.EnablePromotion,
+                    custInfo.ActStatus
                 };
 
                 apiResult.ErrorCode = 0;

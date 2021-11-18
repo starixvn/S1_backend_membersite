@@ -294,6 +294,16 @@ namespace MemberSite.Service.BLL
 
             return 0;
         }
+
+        public int GetPreferCurrencyIdByLang(string langId)
+        {
+            if (_langMapCurr.ContainsKey(langId))
+            {
+                return _langMapCurr[langId];
+            }
+            return 2;
+        }
+
         public IEnumerable<Country> GetCountryList()
         {
             var key = $"CountryList_{GetLangId()}";

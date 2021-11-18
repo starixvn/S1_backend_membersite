@@ -265,10 +265,11 @@ namespace MemberSite.Service.DAL
                             UserName = userName, CurrencyId = currencyId, SiteId = siteId, BonusInfo = sBonusInfo,
                             LockedAmount = dLockedAmount, BonusAmount = dBonus,
                             promotion.ExpiryDays, Memo = (string)null, Prefix = $"B{_common.GetEnv()}",
-                            RefList = reference.Any() ? JsonConvert.SerializeObject(reference) : null
+                            RefList = reference.Any() ? JsonConvert.SerializeObject(reference) : null,
+                            AtPage = (int)BonusInfoAtPage.Promotion
                         });
                         p.Add("TransId", dbType: DbType.String, direction: ParameterDirection.Output);
-                        result = _mainDbClient.Execute("Member_BonusInfo_InsV2", p, conn, trans);
+                        result = _mainDbClient.Execute("Member_BonusInfo_Ins_V3", p, conn, trans);
                         var transId = p.Get<string>("TransId");
                     
                         if (result > 0 && dLockedAmount > 0)
@@ -384,7 +385,7 @@ namespace MemberSite.Service.DAL
 
         public List<CustPromotion> GetPromotionListv3(int SiteId, int CustId, int CurrencyId, int DeviceType, bool IsLogin, string langId, string defLang)
         {
-            var promotionList = _reportDbClient.Query<CustPromotion>("Member_PromotionListV6_Get", new DynamicParameters(new {CustId, SiteId, CurrencyId, DeviceType}));
+            var promotionList = _reportDbClient.Query<CustPromotion>("Member_PromotionList_Get_V6", new DynamicParameters(new {CustId, SiteId, CurrencyId, DeviceType}));
             var promotion = new List<CustPromotion>();
 
             foreach (var promo in promotionList)
@@ -680,7 +681,7 @@ namespace MemberSite.Service.DAL
 
         public List<CustPromotion> GetSpecialPromotionListV2(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int deviceType)
         {
-            var promotionList = _reportDbClient.Query<CustPromotion>("Member_SPCodePromotionListV4_Get", new DynamicParameters(new { CustId, DeviceType = deviceType }));
+            var promotionList = _reportDbClient.Query<CustPromotion>("Member_SPCodePromotionList_Get_V4", new DynamicParameters(new { CustId, DeviceType = deviceType }));
 
             var _promotion = new List<CustPromotion>();
 
@@ -866,7 +867,7 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             conn.Open();
 
-            var promotionList = conn.Query<CustPromotion>("Member_DepositPromotionV3_Get", new { CustId, DeviceType }, commandType: CommandType.StoredProcedure);
+            var promotionList = conn.Query<CustPromotion>("Member_DepositPromotion_Get_V3", new { CustId, DeviceType }, commandType: CommandType.StoredProcedure);
             var _promotion = new List<CustPromotion>();
 
             foreach (var promo in promotionList)
