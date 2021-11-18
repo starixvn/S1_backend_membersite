@@ -375,6 +375,32 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        public ApiResult<IEnumerable<PrizeDisPlayList>> GetDisplayDrawPrizeList(DrawPrizeReq drawPrizeReq)
+        {
+            int siteId = 0;
+            int currencyId = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                siteId = custInfo.SiteId;
+                currencyId = custInfo.CurrencyId;
+            }
+            else
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                siteId = serverInfo.SiteId;
+                currencyId = selLangBLL.GetPreferCurrencyId();
+            }
+
+            var apiResult = new ApiResult<IEnumerable<PrizeDisPlayList>>();
+
+            apiResult.Data = eventsBLL.GetDrawPrizeDisPlayListWithCache(drawPrizeReq.eventId, currencyId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        [HttpPost]
         public ApiResult<LeaderboardEvent> GetLeaderboardEventCode()
         {
             var apiResult = new ApiResult<LeaderboardEvent>

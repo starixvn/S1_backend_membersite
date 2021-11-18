@@ -217,6 +217,16 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<CustGiftList>("Member_CustDrawPrizeList_Get", new { EventId = eventId, SiteId = siteId, CustId = custId  }, commandType: CommandType.StoredProcedure);
         }
+        public IEnumerable<PrizeList> GetDrawPrizeList(int eventId, int currencyId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<PrizeList>("Member_DrawPrizeList_Get", new { EventId = eventId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+        }
+        public IEnumerable<PrizeDisPlayList> GetDrawPrizeDisPlaySetting(int eventId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<PrizeDisPlayList>("Member_DrawPrizeDisPlaySetting_Get", new { EventId = eventId }, commandType: CommandType.StoredProcedure);
+        }
         public void GetLeaderboardEventCode( int siteId,out string eventCodeNow,out string eventCodeLast)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));

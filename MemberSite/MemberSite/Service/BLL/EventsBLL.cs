@@ -171,6 +171,29 @@ namespace MemberSite.Service.BLL
         {
             return _eventsService.GetCustDrawPrizeList( eventId, siteId, custId);
         }
+
+        public IEnumerable<PrizeDisPlayList> GetDrawPrizeDisPlayList(int eventId, int currencyId)
+        {
+             var prizeList = _eventsService.GetDrawPrizeList(eventId, currencyId).ToList();
+            var disPlaySetting = _eventsService.GetDrawPrizeDisPlaySetting(eventId).ToList();
+            if (prizeList.Any() && disPlaySetting.Any())
+            {
+                disPlaySetting.ForEach(x =>
+                {
+                    x.PrizeId = prizeList.FirstOrDefault(y => y.PrizeIndex == x.PrizeIndex).PrizeId;
+                    x.PrizeName = prizeList.FirstOrDefault(y => y.PrizeIndex == x.PrizeIndex).PrizeName;
+                });
+            }
+            
+            return disPlaySetting;
+        }
+        public IEnumerable<PrizeDisPlayList> GetDrawPrizeDisPlayListWithCache(int eventId, int currencyId)
+        {
+            var key = $"DrawPrizeDisPlaySetting_{eventId}_{currencyId}";
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
+                i => GetDrawPrizeDisPlayList(eventId, currencyId));
+        }
         public void GetLeaderboardEventCode(int siteId, out string eventCodeNow, out string eventCodeLast)
         {
             _eventsService.GetLeaderboardEventCode( siteId, out eventCodeNow, out eventCodeLast);
