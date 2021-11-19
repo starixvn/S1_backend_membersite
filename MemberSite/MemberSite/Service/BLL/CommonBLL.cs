@@ -142,7 +142,7 @@ namespace MemberSite.Service.BLL
 
             return apiResult;
         }
-        public async Task<ApiResult> SendOTPEmailAsync(int custId, string OTPEmailUrl)
+        public async Task<ApiResult<SendOTPEmailResult>> SendOTPEmailAsync(int custId, string OTPEmailUrl)
         {
             var apiUrl = $"{commonServiceUrl}Mail/OTPEmail";
 
@@ -152,7 +152,7 @@ namespace MemberSite.Service.BLL
                 OTPEmailUrl
             };
 
-            var apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
+            var apiResult = await courierAdapter.MyPostAsync<SendOTPEmailResult, dynamic>(apiUrl, req);
 
             return apiResult;
         }

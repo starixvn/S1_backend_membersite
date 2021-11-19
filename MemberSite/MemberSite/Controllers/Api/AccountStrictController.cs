@@ -16,6 +16,7 @@ namespace MemberSite.Controllers.Api
 {
     [Authorize]
     [Route("api/[controller]/[action]")]
+    [Route("api/[controller]/[action]/{LangId}")]
     [ApiController]
     public class AccountStrictController : ControllerBase
     {
@@ -771,6 +772,31 @@ namespace MemberSite.Controllers.Api
             var apiResult = await _commonBLL.GetOTPVerifyInfo(authData.CustId);
 
             return apiResult;
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult<SendOTPEmailResult>> SendOTPEmailAsync()
+        {
+            var authData = authorizeBLL.GetAuthData();
+
+            var verifyEmailUrl = serverInfoBLL.GetHttpDomain();
+            
+            var langId = selLangBLL.GetLangId();
+            if (!string.IsNullOrEmpty(langId)) 
+                verifyEmailUrl += $"/{langId}";
+            
+            verifyEmailUrl += "/verifyEmail";
+            
+            var apiResult = await commonBLL.SendOTPEmailAsync(authData.CustId, verifyEmailUrl);
+
+            return apiResult;
+        }
+
+        public async Task<ApiResult> VerifyEmailAsync(string code)
+        {
+            // 驗證6位數驗證碼
+            // 領取Reward
+            return new ApiResult();
         }
     }
 }
