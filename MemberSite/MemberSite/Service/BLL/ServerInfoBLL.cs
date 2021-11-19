@@ -24,6 +24,7 @@ namespace MemberSite.Service.BLL
         private readonly ConcurrentDictionary<int, ServerInfo> _serverInfoDic;
         private readonly int _fixSiteId;
         private readonly CacheHelper _cacheHelper;
+        private readonly string[] _appHost = {"app.n17881788.com", "app.bwing.com", "app.goal123.com"};
 
         public ServerInfoBll(IServiceProvider provider)
         {
@@ -111,7 +112,18 @@ namespace MemberSite.Service.BLL
             
             return host;
         }
-        
+
+        public string GetHttpDomain()
+        {
+            var http = _httpContextAccessor.HttpContext.Request.Scheme;
+            var host = _httpContextAccessor.HttpContext.Request.Host.Host;
+
+            if(_appHost.Any(a=> a == host)) 
+                host = $"m{host[host.IndexOf('.')..]}";
+
+            return $"{http}://{host}";
+        }
+
         public IEnumerable<Domainlist> GetSupportDomainList(int siteId, int currencyId)
         {
             return _serverInfoService.GetSupportDomainList(siteId, currencyId);
