@@ -97,6 +97,7 @@ namespace MemberSite.Service.Model
         public string Birth_y { get; set; }
         public string RealName { get; set; }
         public bool PhoneVerified { get; set; }
+        public bool EmailVerified { get; set; }
         public int EnablePromotion { get; set; }
     }
     public class CustRollOver
