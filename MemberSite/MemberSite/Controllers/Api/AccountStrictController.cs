@@ -620,6 +620,7 @@ namespace MemberSite.Controllers.Api
                     langId = custInfo.UserLang,
                     custInfo.UserLevel,
                     custInfo.PhoneVerified,
+                    custInfo.EmailVerified,
                     custInfo.EnablePromotion,
                     custInfo.ActStatus
                 };
