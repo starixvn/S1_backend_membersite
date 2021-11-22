@@ -353,6 +353,13 @@ namespace MemberSite.Service.DAL
             var result = conn.Execute("Common_PhoneVerified_Set", new { CustId = custId }, commandType: CommandType.StoredProcedure);
             return result;
         }
+
+        public int SetEmailVerified(int custId)
+        {
+            var result = _mainDbClient.Execute("Common_EmailVerified_Set", new DynamicParameters(new { _CustId = custId }));
+            return result;
+        }
+
         public int SetFireBaseTroken(int custId, int siteId, string fireBaseToken)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
