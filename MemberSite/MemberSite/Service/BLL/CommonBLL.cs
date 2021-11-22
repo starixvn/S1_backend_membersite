@@ -156,5 +156,18 @@ namespace MemberSite.Service.BLL
 
             return apiResult;
         }
+        public async Task<ApiResult> VerifyEmailAsync(int custId, string inputOTP)
+        {
+            var apiUrl = $"{commonServiceUrl}Mail/VerifyOTP";
+
+            dynamic req = new
+            {
+                CustId = custId,
+                InputOTP = inputOTP
+            };
+
+            ApiResult apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
+            return apiResult;
+        }
     }
 }

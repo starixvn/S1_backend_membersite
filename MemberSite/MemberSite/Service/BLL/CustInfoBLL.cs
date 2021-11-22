@@ -479,6 +479,18 @@ namespace MemberSite.Service.BLL
             }
             return apiResult;
         }
+
+        public async Task<ApiResult> VerifyEmailAsync(int custId, string inputOtp)
+        {
+            var apiResult = await _commonBll.VerifyEmailAsync(custId, inputOtp);
+
+            if (apiResult.ErrorCode == 0)
+            {
+                _custInfoService.SetEmailVerified(custId);
+            }
+            return apiResult;
+        }
+
         public string GetAffiliateId(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);

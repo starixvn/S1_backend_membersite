@@ -820,11 +820,18 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        public async Task<ApiResult> VerifyEmailAsync(string code)
+        public class VerifyEmailReq
         {
-            // 驗證6位數驗證碼
-            // 領取Reward
-            return new ApiResult();
+            public string inputOTPcode { set; get; }
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult> VerifyEmailAsync(VerifyEmailReq verifyEmailReq)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = await custInfoBLL.VerifyEmailAsync(authData.CustId, verifyEmailReq.inputOTPcode);
+
+            return apiResult;
         }
     }
 }
