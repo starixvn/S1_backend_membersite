@@ -1330,7 +1330,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             if (!custInfoProfile.PhoneVerified
-                || string.IsNullOrEmpty(custInfoProfile.RealName)
+                || string.IsNullOrEmpty(custInfoProfile.AccountName)
                 || string.IsNullOrEmpty(custInfoProfile.Birth_y)
                 || string.IsNullOrEmpty(custInfoProfile.Birth_m)
                 || string.IsNullOrEmpty(custInfoProfile.Birth_d))
