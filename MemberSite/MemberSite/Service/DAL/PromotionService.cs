@@ -867,7 +867,7 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             conn.Open();
 
-            var promotionList = conn.Query<CustPromotion>("Member_DepositPromotion_Get_V3", new { CustId, DeviceType }, commandType: CommandType.StoredProcedure);
+            var promotionList = conn.Query<CustPromotion>("Member_DepositPromotion_Get_V4", new { CustId, DeviceType }, commandType: CommandType.StoredProcedure);
             var _promotion = new List<CustPromotion>();
 
             foreach (var promo in promotionList)
@@ -936,6 +936,28 @@ namespace MemberSite.Service.DAL
             var mPwd = regex.Match(specialCode);
 
             return mPwd.Success;
+        }
+
+        public PromotionBySpecialCode GetPromotionBySpecialCode(int siteid,string specialCode)
+        {
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
+            conn.Open();
+
+            return conn.Query<PromotionBySpecialCode>("Member_PromotionBySpecialCode_Get", new { SpecialCode = specialCode, SiteId = siteid }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+        }
+        public PromotionBySpecialScratchCard GetPromotionBySpecialScratchCard(int siteid, string specialCode)
+        {
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
+            conn.Open();
+
+            return conn.Query<PromotionBySpecialScratchCard>("Member_PromotionBySpecialScratchCard_Get", new { ScratchCardCode = specialCode, SiteId = siteid }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+        }
+        public BonusinfoByBonusCode GetBonusinfoByBonusCode(int CustId, string BonusCode)
+        {
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
+            conn.Open();
+
+            return conn.Query<BonusinfoByBonusCode>("Member_BonusinfoByBonusCode_Get", new { CustId = CustId, BonusCode = BonusCode }, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
     }
 }

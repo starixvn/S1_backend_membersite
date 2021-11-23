@@ -1755,7 +1755,10 @@ namespace MemberSite.Controllers.Api
                 Data = data
             };
         }
-
+        
+        [HttpGet]
+        public string Domain() => _serverInfoBll.GetMainDomain();
+        
         [HttpPost]
         public async Task<ApiResult<IEnumerable<MenuOfGame>>> GetMenuOfGames()
         {
