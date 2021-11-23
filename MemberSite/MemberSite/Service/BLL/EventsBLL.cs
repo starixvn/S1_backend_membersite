@@ -182,6 +182,10 @@ namespace MemberSite.Service.BLL
                 {
                     x.PrizeId = prizeList.FirstOrDefault(y => y.PrizeIndex == x.PrizeIndex).PrizeId;
                     x.PrizeName = prizeList.FirstOrDefault(y => y.PrizeIndex == x.PrizeIndex).PrizeName;
+                    var PrizeType = prizeList.FirstOrDefault(y => y.PrizeIndex == x.PrizeIndex).PrizeType;
+
+                    if (currencyId == 51 && PrizeType == 1)
+                        x.PrizeName =$"VND {x.PrizeName}";
                 });
             }
             

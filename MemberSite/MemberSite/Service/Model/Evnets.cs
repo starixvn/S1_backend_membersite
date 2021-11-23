@@ -50,6 +50,7 @@ namespace MemberSite.Service.Model
         public int PrizeIndex { get; set; }
         public int PrizeId { get; set; }
         public string PrizeName { get; set; }
+        public int PrizeType { get; set; }
     }
     public class PrizeDisPlayList
     {
