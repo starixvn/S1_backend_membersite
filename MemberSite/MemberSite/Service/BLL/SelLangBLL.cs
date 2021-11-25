@@ -55,6 +55,11 @@ namespace MemberSite.Service.BLL
             return list;
         }
 
+        public bool CheckLangId(string langId)
+        {
+            return GetLangIdList().Any(item => item.LangId == langId);
+        }
+
         /// <summary>
         /// Get Language ID
         /// </summary>
