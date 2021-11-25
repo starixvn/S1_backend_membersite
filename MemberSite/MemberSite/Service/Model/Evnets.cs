@@ -60,6 +60,11 @@ namespace MemberSite.Service.Model
         public int PrizeId { get; set; }
         public string PrizeName { get; set; }
     }
+    public class DrawPrizeMessage
+    {
+        public string Tital { get; set; }
+        public string Message { get; set; }
+    }
 
     public class LeaderboardEvent
     {
