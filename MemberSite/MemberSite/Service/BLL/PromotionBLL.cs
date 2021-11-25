@@ -228,17 +228,5 @@ namespace MemberSite.Service.BLL
         {
             return _promotionService.SetDepositPromotionQueue(transId, bonusCode, custId, siteId, userName, currencyId, deviceType, lockedAmount);
         }
-        public PromotionBySpecialCode GetPromotionBySpecialCode(int siteId, string SpecialCode)
-        {
-            return _promotionService.GetPromotionBySpecialCode(siteId,SpecialCode);
-        }
-        public PromotionBySpecialScratchCard GetPromotionBySpecialScratchCard(int siteId, string SpecialCode)
-        {
-            return _promotionService.GetPromotionBySpecialScratchCard(siteId, SpecialCode);
-        }
-        public BonusinfoByBonusCode GetBonusinfoByBonusCode(int CustId, string BonusCode)
-        {
-            return _promotionService.GetBonusinfoByBonusCode(CustId, BonusCode);
-        }
     }
 }
