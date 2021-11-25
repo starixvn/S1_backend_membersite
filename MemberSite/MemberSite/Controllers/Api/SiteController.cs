@@ -1198,7 +1198,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<BannerV3>> GetBannerV3(BannerReq bannerReq)
+        public ApiResult<IEnumerable<BannerV3>> GetBannerV3(BannerReq bannerReq, [FromRoute] string langId = null)
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
@@ -1213,17 +1213,19 @@ namespace MemberSite.Controllers.Api
                 SiteId = custInfo.SiteId;
                 perferCurr = custInfo.CurrencyId;
                 ShowStatus = 2;
+                langId = _selLangBll.GetLangId();
             }
             else
             {
                 perferCurr = _selLangBll.GetPreferCurrencyId();
                 SiteId = serverInfo.SiteId;
+                langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
             }
 
             var banner_CurrencyId = !User.Identity.IsAuthenticated && perferCurr == 13 ? 2 : perferCurr;
 
             apiResult.ErrorCode = 0;
-            apiResult.Data = _bannerBll.GetBannerV3(SiteId, bannerReq.BannerType, ShowStatus, banner_CurrencyId, _selLangBll.GetLangId(), serverInfo);
+            apiResult.Data = _bannerBll.GetBannerV3(SiteId, bannerReq.BannerType, ShowStatus, banner_CurrencyId, langId, serverInfo);
 
             return apiResult;
         }
