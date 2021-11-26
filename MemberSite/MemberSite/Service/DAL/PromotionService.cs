@@ -91,7 +91,7 @@ namespace MemberSite.Service.DAL
                 p.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                 p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 p.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                _mainDbClient.Execute("Member_PromotionCanJoinV6_Get", p, conn, trans);
+                _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", p, conn, trans);
 
             var jResult = p.Get<int>("Result");
             var canJoin = p.Get<byte?>("CanJoin") ?? 0;
@@ -398,7 +398,7 @@ namespace MemberSite.Service.DAL
                     canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                     canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                     canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                    _mainDbClient.Execute("Member_PromotionCanJoinV6_Get", canJoinParams);
+                    _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                     promo.canJoin = canJoinResult == 1;
@@ -551,7 +551,7 @@ namespace MemberSite.Service.DAL
                     canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                     canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                     canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                    _mainDbClient.Execute("Member_PromotionCanJoinV6_Get", canJoinParams);
+                    _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                     promo.canJoin = canJoinResult == 1;
@@ -693,7 +693,7 @@ namespace MemberSite.Service.DAL
                 canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                 canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                _mainDbClient.Execute("Member_PromotionCanJoinV6_Get", canJoinParams);
+                _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
 
                 var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                 promo.canJoin = canJoinResult == 1 || canJoinResult == 3;
