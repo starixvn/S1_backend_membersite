@@ -263,5 +263,16 @@ namespace MemberSite.Service.DAL
             var Result  = p.Get<int?>("Result") ?? 0;
             return Result > 0;
         }
+        public int GetDrawPrizeMessage(int eventId, string langId, out string tital, out string message)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var p = new DynamicParameters(new { EventId = eventId, LangId = langId});
+            p.Add("Tital", dbType: DbType.String, direction: ParameterDirection.Output);
+            p.Add("Message", dbType: DbType.String, direction: ParameterDirection.Output);
+            var rtn = conn.Execute("Member_DrawPrizeMessage_Get", p, commandType: CommandType.StoredProcedure);
+            tital = p.Get<String>("Tital");
+            message = p.Get<String>("Message");
+            return rtn;
+        }
     }
 }

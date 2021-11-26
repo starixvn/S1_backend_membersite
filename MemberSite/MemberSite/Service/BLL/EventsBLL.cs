@@ -137,6 +137,62 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetLeaderboardListMonth(lBCategoryId, eventCode, siteId, currencyId, topNum, selectDays));
         }
+        public void GetLeaderboardEventCode(int siteId, out string eventCodeNow, out string eventCodeLast)
+        {
+            _eventsService.GetLeaderboardEventCode(siteId, out eventCodeNow, out eventCodeLast);
+        }
+
+        public LeaderboardInfo GetLeaderboardInfo(string eventCode, int siteId, int currencyId)
+        {
+            var events = new List<RewardInfo>();
+            var eventslist = _eventsService.GetLeaderboardInfo(eventCode, siteId, currencyId);
+            Dictionary<string, string> TitalList = null;
+            if (eventslist.Tital != null)
+                TitalList = JsonConvert.DeserializeObject<Dictionary<string, string>>(eventslist.Tital);
+            Dictionary<string, Dictionary<string, string>> RewardDESCList = null;
+            if (eventslist.RewardDESC != null)
+                RewardDESCList = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(eventslist.RewardDESC);
+            foreach (var eventsdetail in eventslist.RewardInfolist)
+            {
+                if (eventsdetail.DetailUrl != null && eventsdetail.Rewards != null)
+                {
+                    var detailUrlList = JsonConvert.DeserializeObject<Dictionary<string, string>>(eventsdetail.DetailUrl);
+                    var rewardsList = JsonConvert.DeserializeObject<Dictionary<string, List<Dictionary<string, string>>>>(eventsdetail.Rewards);
+
+                    events.Add(new RewardInfo()
+                    {
+
+                        CurrencyId = eventsdetail.CurrencyId,
+                        CategoryId = eventsdetail.CategoryId,
+                        RewardsTotal = eventsdetail.RewardsTotal,
+                        DetailUrlList = detailUrlList,
+                        RewardsList = rewardsList
+                    });
+
+                }
+            }
+
+            var newevents = new LeaderboardInfo()
+            {
+                EventCode = eventslist.EventCode,
+                TitalList = TitalList,
+                LobbyPic = eventslist.LobbyPic,
+                RewardPic = eventslist.RewardPic,
+                RewardDESCList = RewardDESCList,
+                StartTime = eventslist.StartTime,
+                EndTime = eventslist.EndTime,
+                RewardInfolist = events
+            };
+
+            return newevents;
+        }
+        public LeaderboardInfo GetLeaderboardInfoWithCache(string eventCode, int siteId, int currencyId)
+        {
+            var key = $"tLeaderboardIInfo_{eventCode}_{siteId}_{currencyId}";
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(60)),
+                i => GetLeaderboardInfo(eventCode, siteId, currencyId));
+        }
         public void GetCustRankWithCacheV2(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out decimal point)
         {
             var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{custId}_{beforeDays}";
@@ -182,6 +238,10 @@ namespace MemberSite.Service.BLL
                 {
                     x.PrizeId = prizeList.FirstOrDefault(y => y.PrizeIndex == x.PrizeIndex).PrizeId;
                     x.PrizeName = prizeList.FirstOrDefault(y => y.PrizeIndex == x.PrizeIndex).PrizeName;
+                    var PrizeType = prizeList.FirstOrDefault(y => y.PrizeIndex == x.PrizeIndex).PrizeType;
+
+                    //if (currencyId == 51 && PrizeType == 1)
+                    //    x.PrizeName =$"VND {x.PrizeName}";
                 });
             }
             
@@ -194,60 +254,7 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetDrawPrizeDisPlayList(eventId, currencyId));
         }
-        public void GetLeaderboardEventCode(int siteId, out string eventCodeNow, out string eventCodeLast)
-        {
-            _eventsService.GetLeaderboardEventCode( siteId, out eventCodeNow, out eventCodeLast);
-        }
-        public LeaderboardInfo GetLeaderboardInfo(string eventCode, int siteId, int currencyId)
-        {
-            var events = new List<RewardInfo>();
-            var eventslist = _eventsService.GetLeaderboardInfo(eventCode, siteId, currencyId);
-            Dictionary<string, string> TitalList = null;
-            if(eventslist.Tital != null)
-                TitalList = JsonConvert.DeserializeObject<Dictionary<string, string>>(eventslist.Tital);
-            Dictionary<string, Dictionary<string, string>> RewardDESCList = null;
-            if (eventslist.RewardDESC != null)
-                RewardDESCList = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(eventslist.RewardDESC);
-            foreach (var eventsdetail in eventslist.RewardInfolist)
-            {
-                if (eventsdetail.DetailUrl != null && eventsdetail.Rewards != null)
-                {
-                    var detailUrlList = JsonConvert.DeserializeObject<Dictionary<string, string>>(eventsdetail.DetailUrl);
-                    var rewardsList = JsonConvert.DeserializeObject<Dictionary<string, List<Dictionary<string,string>>>>(eventsdetail.Rewards);
-                   
-                        events.Add(new RewardInfo()
-                        {
-
-                            CurrencyId = eventsdetail.CurrencyId,
-                            CategoryId = eventsdetail.CategoryId,
-                            RewardsTotal = eventsdetail.RewardsTotal,
-                            DetailUrlList = detailUrlList,
-                            RewardsList = rewardsList
-                        });
-                    
-                }
-            }
-
-            var newevents = new LeaderboardInfo() {
-                EventCode = eventslist.EventCode,
-                TitalList = TitalList,
-                LobbyPic = eventslist.LobbyPic,
-                RewardPic = eventslist.RewardPic,
-                RewardDESCList = RewardDESCList,
-                StartTime = eventslist.StartTime,
-                EndTime = eventslist.EndTime,
-                RewardInfolist =events
-            };
-
-            return newevents;
-        }
-        public LeaderboardInfo GetLeaderboardInfoWithCache(string eventCode, int siteId, int currencyId)
-        {
-            var key = $"tLeaderboardIInfo_{eventCode}_{siteId}_{currencyId}";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(60)),
-                i => GetLeaderboardInfo(eventCode, siteId, currencyId));
-        }
+        
         public EventDrawInfo GetEventDrawInfo(int eventId)
         {
             _eventsService.GetEventDrawInfo( eventId, out var eventName, out var conditionSp);
@@ -266,7 +273,7 @@ namespace MemberSite.Service.BLL
         {
             var key = $"EventDrawInfo_{eventId}";
             var result = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(30)),
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetEventDrawInfo(eventId));
             
             eventName = result.EventName;
@@ -275,6 +282,27 @@ namespace MemberSite.Service.BLL
         public bool CheckEventCondition(string conditionSp, int eventId, int custId, int currencyId)
         {
             return _eventsService.CheckEventCondition(conditionSp, eventId, custId, currencyId);
+        }
+        public DrawPrizeMessage GetDrawPrizeMessage(int eventId, string langId)
+        {
+            var drawPrizeMessage = new DrawPrizeMessage();
+
+            _eventsService.GetDrawPrizeMessage(eventId, "en", out var tital, out var message); //預設用英文
+            drawPrizeMessage.Tital = tital;
+            drawPrizeMessage.Message = message;
+            if (_eventsService.GetDrawPrizeMessage(eventId, langId, out var titalLan, out var messageLan) > 0)
+            {
+                drawPrizeMessage.Tital = titalLan;
+                drawPrizeMessage.Message = messageLan;
+            }
+            return drawPrizeMessage;
+        }
+        public DrawPrizeMessage GetDrawPrizeMessageWithCache(int eventId, string langId)
+        {
+            var key = $"GetDrawPrizeMessageWithCache_{eventId}_{langId}";
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
+                i => GetDrawPrizeMessage( eventId, langId));
         }
     }
 }
