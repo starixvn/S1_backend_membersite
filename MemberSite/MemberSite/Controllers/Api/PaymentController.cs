@@ -191,6 +191,20 @@ namespace MemberSite.Controllers.Api
             {
 
             }
+
+            //check PhoneVerified,AccountName,Birth
+            var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
+            if (!custInfoProfile.PhoneVerified
+                || string.IsNullOrEmpty(custInfoProfile.AccountName)
+                || string.IsNullOrEmpty(custInfoProfile.Birth_y)
+                || string.IsNullOrEmpty(custInfoProfile.Birth_m)
+                || string.IsNullOrEmpty(custInfoProfile.Birth_d))
+            {
+                apiResult.ErrorCode = 2000;
+                apiResult.Message = selLangBLL.GetResourceValue("msg_OTPHint");
+                return apiResult;
+            }
+
             var result = -1;
             DepositRep3 depositRep3 = null;
             var depositFromInfo = new DepositFromInfo
@@ -1336,7 +1350,7 @@ namespace MemberSite.Controllers.Api
                 || string.IsNullOrEmpty(custInfoProfile.Birth_d))
             {
                 apiResult.ErrorCode = 2000;
-                apiResult.Message = selLangBLL.GetResourceValue("lbl_UpdatePersonalInfo");
+                apiResult.Message = selLangBLL.GetResourceValue("msg_OTPHint");
                 return apiResult;
             }
 
