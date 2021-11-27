@@ -615,11 +615,21 @@ namespace MemberSite.Service.DAL
 
             return promo;
         }
+        
+        private static DateTime StartOfWeek(DateTime dateTime, DayOfWeek startOfWeek)
+        {
+            var diff = (7 + (dateTime.DayOfWeek - startOfWeek)) % 7;
+            return dateTime.AddDays(-1 * diff).Date;
+        }
 
         private void GetCashbackInfo(int custId, int siteId, int currencyId, CustPromotion promotion, bool getDetail)
         {
-            var calculateDate = DateTime.UtcNow.AddHours(8)
-                .AddDays(-(int) DateTime.UtcNow.AddHours(8).DayOfWeek + (int) DayOfWeek.Monday)
+            var currentTime = DateTime.UtcNow.AddHours(8);
+            if (siteId == (int)SiteId.Goal123 || siteId == (int)SiteId.Bwing)
+            {
+                currentTime = DateTime.UtcNow.AddHours(7);
+            }
+            var calculateDate = StartOfWeek(currentTime, DayOfWeek.Monday)
                 .ToString("yyyy-MM-dd");
 
             var result =
