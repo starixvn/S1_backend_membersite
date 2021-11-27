@@ -644,12 +644,14 @@ namespace MemberSite.Service.DAL
             promotion.isJoin = result.FirstOrDefault()?.Claimed ?? false;
             promotion.canJoin = result.Any();
 
-            var lastMonday = StartOfWeek(currentTime.AddDays(-7), DayOfWeek.Monday).Date;
-            var lastSunday = lastMonday.AddDays(6);
-            promotion.PeriodFrom = ((DateTimeOffset) lastMonday).ToUnixTimeSeconds();
-            promotion.PeriodTo = ((DateTimeOffset) lastSunday).ToUnixTimeSeconds();
+            var utcMonday = StartOfWeek(DateTime.UtcNow, DayOfWeek.Monday);
+            var utcSunday = utcMonday.AddDays(7).AddTicks(-1);
+            promotion.PeriodFrom = ((DateTimeOffset) utcMonday).ToUnixTimeSeconds();
+            promotion.PeriodTo = ((DateTimeOffset) utcSunday).ToUnixTimeSeconds();
 
             if (!getDetail) return;
+            var lastMonday = StartOfWeek(currentTime.AddDays(-7), DayOfWeek.Monday).Date;
+            var lastSunday = lastMonday.AddDays(6);
             var detail = _reportDbClient.Query<CashBackDetail>("Member_CashBackInfo_Get",
                 new DynamicParameters(new
                 {
