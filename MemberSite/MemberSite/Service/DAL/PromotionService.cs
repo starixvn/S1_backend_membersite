@@ -643,20 +643,17 @@ namespace MemberSite.Service.DAL
             promotion.isJoin = result.FirstOrDefault()?.Claimed ?? false;
             promotion.canJoin = result.Any();
 
-            var currentDate = DateTime.UtcNow.AddHours(8).Date;
-            var utcMonday = currentDate.AddDays(-(int) currentDate.DayOfWeek + (int) DayOfWeek.Monday).AddHours(-8);
-            var utcSunday = utcMonday.AddDays(7).AddTicks(-1);
-            promotion.PeriodFrom = ((DateTimeOffset) utcMonday).ToUnixTimeSeconds();
-            promotion.PeriodTo = ((DateTimeOffset) utcSunday).ToUnixTimeSeconds();
+            var lastMonday = StartOfWeek(currentTime.AddDays(-7), DayOfWeek.Monday).Date;
+            var lastSunday = lastMonday.AddDays(6);
+            promotion.PeriodFrom = ((DateTimeOffset) lastMonday).ToUnixTimeSeconds();
+            promotion.PeriodTo = ((DateTimeOffset) lastSunday).ToUnixTimeSeconds();
 
             if (!getDetail) return;
-            var lastMonday = currentDate.AddDays(-(int) currentDate.DayOfWeek - 6).Date;
-            var lastSunday = lastMonday.AddDays(6).ToString("yyyy-MM-dd");
             var detail = _reportDbClient.Query<CashBackDetail>("Member_CashBackInfo_Get",
                 new DynamicParameters(new
                 {
                     CustId = custId, promotion.BonusCode, PeriodFrom = lastMonday.ToString("yyyy-MM-dd"),
-                    PeriodTo = lastSunday, PromoCategoryId = promotion.CategoryId
+                    PeriodTo = lastSunday.ToString("yyyy-MM-dd"), PromoCategoryId = promotion.CategoryId
                 })).ToList();
 
             if (detail.Any() && detail.First().TpId == (int)Tp.Saba)
@@ -678,8 +675,7 @@ namespace MemberSite.Service.DAL
                 new DynamicParameters(new
                 {
                     CustId = custId, promotion.BonusCode, PromoCategoryId = promotion.CategoryId,
-                    CalculateDate = currentDate.AddDays(-(int) currentDate.DayOfWeek + (int) DayOfWeek.Monday)
-                        .ToString("yyyy-MM-dd"),
+                    CalculateDate = calculateDate,
                     CurrencyId = currencyId, SiteId = siteId
                 })).ToList();
 
