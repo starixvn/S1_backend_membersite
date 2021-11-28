@@ -645,7 +645,7 @@ namespace MemberSite.Service.DAL
             promotion.isJoin = result.FirstOrDefault()?.Claimed ?? false;
             promotion.canJoin = result.Any();
 
-            var utcMonday = StartOfWeek(DateTime.UtcNow, DayOfWeek.Monday).AddHours(-offset);
+            var utcMonday = StartOfWeek(currentTime, DayOfWeek.Monday).AddHours(-offset);
             var utcSunday = utcMonday.AddDays(7).AddTicks(-1);
             promotion.PeriodFrom = ((DateTimeOffset) utcMonday).ToUnixTimeSeconds();
             promotion.PeriodTo = ((DateTimeOffset) utcSunday).ToUnixTimeSeconds();
