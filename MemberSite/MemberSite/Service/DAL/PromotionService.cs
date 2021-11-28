@@ -625,11 +625,12 @@ namespace MemberSite.Service.DAL
 
         private void GetCashbackInfo(int custId, int siteId, int currencyId, CustPromotion promotion, bool getDetail)
         {
-            var currentTime = DateTime.UtcNow.AddHours(8);
+            var offset = 8;
             if (siteId == (int)SiteId.Goal123 || siteId == (int)SiteId.Bwing)
             {
-                currentTime = DateTime.UtcNow.AddHours(7);
+                offset = 7;
             }
+            var currentTime = DateTime.UtcNow.AddHours(offset);
             var calculateDate = StartOfWeek(currentTime, DayOfWeek.Monday)
                 .ToString("yyyy-MM-dd");
 
@@ -644,7 +645,7 @@ namespace MemberSite.Service.DAL
             promotion.isJoin = result.FirstOrDefault()?.Claimed ?? false;
             promotion.canJoin = result.Any();
 
-            var utcMonday = StartOfWeek(currentTime, DayOfWeek.Monday);
+            var utcMonday = StartOfWeek(DateTime.UtcNow, DayOfWeek.Monday).AddHours(-offset);
             var utcSunday = utcMonday.AddDays(7).AddTicks(-1);
             promotion.PeriodFrom = ((DateTimeOffset) utcMonday).ToUnixTimeSeconds();
             promotion.PeriodTo = ((DateTimeOffset) utcSunday).ToUnixTimeSeconds();
