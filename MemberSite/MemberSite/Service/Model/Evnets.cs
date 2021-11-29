@@ -45,6 +45,27 @@ namespace MemberSite.Service.Model
         public decimal Amount { get; set; }
         public DateTime DrawTime { get; set; }
     }
+    public class PrizeList
+    {
+        public int PrizeIndex { get; set; }
+        public int PrizeId { get; set; }
+        public string PrizeName { get; set; }
+        public int PrizeType { get; set; }
+    }
+    public class PrizeDisPlayList
+    {
+        public int EventId { get; set; }
+        public int Index { get; set; }
+        public int PrizeIndex { get; set; }
+        public int PrizeId { get; set; }
+        public string PrizeName { get; set; }
+    }
+    public class DrawPrizeMessage
+    {
+        public string Tital { get; set; }
+        public string Message { get; set; }
+    }
+
     public class LeaderboardEvent
     {
         public string NowEventCode { get; set; }

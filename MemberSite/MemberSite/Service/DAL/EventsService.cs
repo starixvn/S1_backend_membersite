@@ -217,6 +217,16 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<CustGiftList>("Member_CustDrawPrizeList_Get", new { EventId = eventId, SiteId = siteId, CustId = custId  }, commandType: CommandType.StoredProcedure);
         }
+        public IEnumerable<PrizeList> GetDrawPrizeList(int eventId, int currencyId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<PrizeList>("Member_DrawPrizeList_Get", new { EventId = eventId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+        }
+        public IEnumerable<PrizeDisPlayList> GetDrawPrizeDisPlaySetting(int eventId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<PrizeDisPlayList>("Member_DrawPrizeDisPlaySetting_Get", new { EventId = eventId }, commandType: CommandType.StoredProcedure);
+        }
         public void GetLeaderboardEventCode( int siteId,out string eventCodeNow,out string eventCodeLast)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
@@ -252,6 +262,17 @@ namespace MemberSite.Service.DAL
             conn.Execute(conditionSP, p, commandType: CommandType.StoredProcedure);
             var Result  = p.Get<int?>("Result") ?? 0;
             return Result > 0;
+        }
+        public int GetDrawPrizeMessage(int eventId, string langId, out string tital, out string message)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            var p = new DynamicParameters(new { EventId = eventId, LangId = langId});
+            p.Add("Tital", dbType: DbType.String, direction: ParameterDirection.Output);
+            p.Add("Message", dbType: DbType.String, direction: ParameterDirection.Output);
+            var rtn = conn.Execute("Member_DrawPrizeMessage_Get", p, commandType: CommandType.StoredProcedure);
+            tital = p.Get<String>("Tital");
+            message = p.Get<String>("Message");
+            return rtn;
         }
     }
 }

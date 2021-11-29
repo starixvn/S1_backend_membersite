@@ -339,7 +339,7 @@ namespace MemberSite.Controllers.Api
                 if(result == 0)
                 {
 
-                    perCurrency.TryGetValue((int)custInfo.CurrencyId, out var Currencyname);
+                    perCurrency.TryGetValue((int)custInfo.CurrencyId, out var currencyName);
                     var dAmount = prize.Amount.ToString("#,##0.##");
                     if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
                     {
@@ -347,12 +347,25 @@ namespace MemberSite.Controllers.Api
                     }
                     var Tital = string.Format(selLangBLL.GetMsg("msg_DrawPrizeTital1"), serverInfo.SiteName);
 
-                    var msg = string.Format(selLangBLL.GetMsg("msg_DrawPrize1"),Tital,Currencyname,dAmount);
-                    if ((eventId == 1 || eventId == 2 || eventId == 3))//old event
+                    var msg = string.Format(selLangBLL.GetMsg("msg_DrawPrize1"),Tital,currencyName,dAmount);
+                    //活動已結束 找時間移除
+                    //if ((eventId == 1 || eventId == 2 || eventId == 3))//old event
+                    //{
+                    //    Tital = selLangBLL.GetMsg("msg_DrawPrizeTital");
+
+                    //    msg = string.Format(selLangBLL.GetMsg("msg_DrawPrize"), dAmount);
+                    //}
+                    if (eventId > 8)//得獎訊息抽出到db設定
                     {
-                        Tital = selLangBLL.GetMsg("msg_DrawPrizeTital");
-                        
-                        msg = string.Format(selLangBLL.GetMsg("msg_DrawPrize"), dAmount);
+                        var Message = eventsBLL.GetDrawPrizeMessageWithCache(eventId, selLangBLL.GetLangId());
+                        if (!string.IsNullOrEmpty(Message.Tital) && !string.IsNullOrEmpty(Message.Message))
+                        {
+                            string prizeName = $"{currencyName} {dAmount}";
+                            if(selLangBLL.GetLangId() == "vn")
+                                prizeName = $"{dAmount} {currencyName}";
+                            Tital = Message.Tital;
+                            msg = string.Format(Message.Message, prizeName);
+                        }
                     }
                     messageBLL.SendMessage(custInfo.SiteId, "DrawPrize", Tital, msg, custInfo.CustId, custInfo.UserName, custInfo.UserLang);
                 }
@@ -370,6 +383,32 @@ namespace MemberSite.Controllers.Api
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var eventId = drawPrizeReq.eventId;
             apiResult.Data = eventsBLL.GetCustDrawPrizeList(eventId, custInfo.SiteId, authData.CustId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+        
+        [HttpPost]
+        public ApiResult<IEnumerable<PrizeDisPlayList>> GetDisplayDrawPrizeList(DrawPrizeReq drawPrizeReq)
+        {
+            int siteId = 0;
+            int currencyId = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                siteId = custInfo.SiteId;
+                currencyId = custInfo.CurrencyId;
+            }
+            else
+            {
+                var serverInfo = serverInfoBLL.GetServerInfo();
+                siteId = serverInfo.SiteId;
+                currencyId = selLangBLL.GetPreferCurrencyId();
+            }
+
+            var apiResult = new ApiResult<IEnumerable<PrizeDisPlayList>>();
+
+            apiResult.Data = eventsBLL.GetDrawPrizeDisPlayListWithCache(drawPrizeReq.eventId, currencyId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }

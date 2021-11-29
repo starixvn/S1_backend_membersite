@@ -91,7 +91,7 @@ namespace MemberSite.Service.DAL
                 p.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                 p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 p.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                _mainDbClient.Execute("Member_PromotionCanJoinV6_Get", p, conn, trans);
+                _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", p, conn, trans);
 
             var jResult = p.Get<int>("Result");
             var canJoin = p.Get<byte?>("CanJoin") ?? 0;
@@ -265,10 +265,11 @@ namespace MemberSite.Service.DAL
                             UserName = userName, CurrencyId = currencyId, SiteId = siteId, BonusInfo = sBonusInfo,
                             LockedAmount = dLockedAmount, BonusAmount = dBonus,
                             promotion.ExpiryDays, Memo = (string)null, Prefix = $"B{_common.GetEnv()}",
-                            RefList = reference.Any() ? JsonConvert.SerializeObject(reference) : null
+                            RefList = reference.Any() ? JsonConvert.SerializeObject(reference) : null,
+                            AtPage = (int)BonusInfoAtPage.Promotion
                         });
                         p.Add("TransId", dbType: DbType.String, direction: ParameterDirection.Output);
-                        result = _mainDbClient.Execute("Member_BonusInfo_InsV2", p, conn, trans);
+                        result = _mainDbClient.Execute("Member_BonusInfo_Ins_V3", p, conn, trans);
                         var transId = p.Get<string>("TransId");
                     
                         if (result > 0 && dLockedAmount > 0)
@@ -397,7 +398,7 @@ namespace MemberSite.Service.DAL
                     canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                     canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                     canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                    _mainDbClient.Execute("Member_PromotionCanJoinV6_Get", canJoinParams);
+                    _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                     promo.canJoin = canJoinResult == 1;
@@ -550,7 +551,7 @@ namespace MemberSite.Service.DAL
                     canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                     canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                     canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                    _mainDbClient.Execute("Member_PromotionCanJoinV6_Get", canJoinParams);
+                    _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                     promo.canJoin = canJoinResult == 1;
@@ -615,11 +616,22 @@ namespace MemberSite.Service.DAL
 
             return promo;
         }
+        
+        private static DateTime StartOfWeek(DateTime dateTime, DayOfWeek startOfWeek)
+        {
+            var diff = (7 + (dateTime.DayOfWeek - startOfWeek)) % 7;
+            return dateTime.AddDays(-1 * diff).Date;
+        }
 
         private void GetCashbackInfo(int custId, int siteId, int currencyId, CustPromotion promotion, bool getDetail)
         {
-            var calculateDate = DateTime.UtcNow.AddHours(8)
-                .AddDays(-(int) DateTime.UtcNow.AddHours(8).DayOfWeek + (int) DayOfWeek.Monday)
+            var offset = 8;
+            if (siteId == (int)SiteId.Goal123 || siteId == (int)SiteId.Bwing)
+            {
+                offset = 7;
+            }
+            var currentTime = DateTime.UtcNow.AddHours(offset);
+            var calculateDate = StartOfWeek(currentTime, DayOfWeek.Monday)
                 .ToString("yyyy-MM-dd");
 
             var result =
@@ -633,20 +645,19 @@ namespace MemberSite.Service.DAL
             promotion.isJoin = result.FirstOrDefault()?.Claimed ?? false;
             promotion.canJoin = result.Any();
 
-            var currentDate = DateTime.UtcNow.AddHours(8).Date;
-            var utcMonday = currentDate.AddDays(-(int) currentDate.DayOfWeek + (int) DayOfWeek.Monday).AddHours(-8);
+            var utcMonday = StartOfWeek(currentTime, DayOfWeek.Monday).AddHours(-offset);
             var utcSunday = utcMonday.AddDays(7).AddTicks(-1);
             promotion.PeriodFrom = ((DateTimeOffset) utcMonday).ToUnixTimeSeconds();
             promotion.PeriodTo = ((DateTimeOffset) utcSunday).ToUnixTimeSeconds();
 
             if (!getDetail) return;
-            var lastMonday = currentDate.AddDays(-(int) currentDate.DayOfWeek - 6).Date;
-            var lastSunday = lastMonday.AddDays(6).ToString("yyyy-MM-dd");
+            var lastMonday = StartOfWeek(currentTime.AddDays(-7), DayOfWeek.Monday).Date;
+            var lastSunday = lastMonday.AddDays(6);
             var detail = _reportDbClient.Query<CashBackDetail>("Member_CashBackInfo_Get",
                 new DynamicParameters(new
                 {
                     CustId = custId, promotion.BonusCode, PeriodFrom = lastMonday.ToString("yyyy-MM-dd"),
-                    PeriodTo = lastSunday, PromoCategoryId = promotion.CategoryId
+                    PeriodTo = lastSunday.ToString("yyyy-MM-dd"), PromoCategoryId = promotion.CategoryId
                 })).ToList();
 
             if (detail.Any() && detail.First().TpId == (int)Tp.Saba)
@@ -668,8 +679,7 @@ namespace MemberSite.Service.DAL
                 new DynamicParameters(new
                 {
                     CustId = custId, promotion.BonusCode, PromoCategoryId = promotion.CategoryId,
-                    CalculateDate = currentDate.AddDays(-(int) currentDate.DayOfWeek + (int) DayOfWeek.Monday)
-                        .ToString("yyyy-MM-dd"),
+                    CalculateDate = calculateDate,
                     CurrencyId = currencyId, SiteId = siteId
                 })).ToList();
 
@@ -692,7 +702,7 @@ namespace MemberSite.Service.DAL
                 canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                 canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                _mainDbClient.Execute("Member_PromotionCanJoinV6_Get", canJoinParams);
+                _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
 
                 var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                 promo.canJoin = canJoinResult == 1 || canJoinResult == 3;
@@ -866,7 +876,7 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             conn.Open();
 
-            var promotionList = conn.Query<CustPromotion>("Member_DepositPromotion_Get_V3", new { CustId, DeviceType }, commandType: CommandType.StoredProcedure);
+            var promotionList = conn.Query<CustPromotion>("Member_DepositPromotion_Get_V4", new { CustId, DeviceType }, commandType: CommandType.StoredProcedure);
             var _promotion = new List<CustPromotion>();
 
             foreach (var promo in promotionList)
@@ -935,6 +945,28 @@ namespace MemberSite.Service.DAL
             var mPwd = regex.Match(specialCode);
 
             return mPwd.Success;
+        }
+
+        public PromotionBySpecialCode GetPromotionBySpecialCode(int siteid,string specialCode)
+        {
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
+            conn.Open();
+
+            return conn.Query<PromotionBySpecialCode>("Member_PromotionBySpecialCode_Get", new { SpecialCode = specialCode, SiteId = siteid }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+        }
+        public PromotionBySpecialScratchCard GetPromotionBySpecialScratchCard(int siteid, string specialCode)
+        {
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
+            conn.Open();
+
+            return conn.Query<PromotionBySpecialScratchCard>("Member_PromotionBySpecialScratchCard_Get", new { ScratchCardCode = specialCode, SiteId = siteid }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+        }
+        public BonusinfoByBonusCode GetBonusinfoByBonusCode(int CustId, string BonusCode)
+        {
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
+            conn.Open();
+
+            return conn.Query<BonusinfoByBonusCode>("Member_BonusinfoByBonusCode_Get", new { CustId = CustId, BonusCode = BonusCode }, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
     }
 }
