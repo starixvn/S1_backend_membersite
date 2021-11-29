@@ -201,7 +201,7 @@ namespace MemberSite.Controllers.Api
                 || string.IsNullOrEmpty(custInfoProfile.Birth_d))
             {
                 apiResult.ErrorCode = 2000;
-                apiResult.Message = selLangBLL.GetResourceValue("msg_OTPHint");
+                apiResult.Message = selLangBLL.GetMsg("msg_OTPHint");
                 return apiResult;
             }
 
@@ -1350,7 +1350,7 @@ namespace MemberSite.Controllers.Api
                 || string.IsNullOrEmpty(custInfoProfile.Birth_d))
             {
                 apiResult.ErrorCode = 2000;
-                apiResult.Message = selLangBLL.GetResourceValue("msg_OTPHint");
+                apiResult.Message = selLangBLL.GetMsg("msg_OTPHint");
                 return apiResult;
             }
 

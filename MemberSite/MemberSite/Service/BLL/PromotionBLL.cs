@@ -84,7 +84,7 @@ namespace MemberSite.Service.BLL
                 || string.IsNullOrEmpty(custInfoProfile.Birth_d))
             {
                 apiResult1.ErrorCode = 2000;
-                apiResult1.Message = _selLangBll.GetResourceValue("msg_OTPHint");
+                apiResult1.Message = _selLangBll.GetMsg("msg_OTPHint");
                 return apiResult1;
             }
 
