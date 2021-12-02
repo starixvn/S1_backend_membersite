@@ -478,7 +478,6 @@ namespace MemberSite.Service.BLL
             if (apiResult.ErrorCode == 0)
             {
                 await _verificationRewardBll.PhoneReward(custId);
-                //_custInfoService.SetPhoneVerified(custId);
             }
             return apiResult;
         }
@@ -489,7 +488,7 @@ namespace MemberSite.Service.BLL
 
             if (apiResult.ErrorCode == 0)
             {
-                _custInfoService.SetEmailVerified(custId);
+                await _verificationRewardBll.EmailReward(custId);
             }
             return apiResult;
         }

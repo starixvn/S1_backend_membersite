@@ -56,7 +56,7 @@ namespace MemberSite.Service.DAL
             using var trans = conn.BeginTransaction();
             _custInfoService.SetPhoneVerified(custId);
             var transId = "";
-            var type = 123;
+            var type = 20;
             var result = _walletService.SetBalance(custId, siteId, userName, reward, type,$"phone verification reward: {reward:#,##0.##}", transId, out _, out _, conn, trans);
 
             if (result > 0)
