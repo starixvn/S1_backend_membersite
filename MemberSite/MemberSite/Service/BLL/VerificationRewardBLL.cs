@@ -15,13 +15,11 @@ namespace MemberSite.Service.BLL
         }
         public async Task PhoneReward(int custId)
         {
-            // 取得用戶驗證狀況
             var custReward = await _verificationRewardService.GetCustVerificationReward(custId);
-            // 檢查是否領過
-            if(custReward.MailRewardTime.HasValue)
+            if(custReward.PhoneRewardTime.HasValue)
                 return;
-            // 取得設定
             var verificationReward = await _verificationRewardService.GetVerificationReward(custReward.SiteId, custReward.CurrencyId);
+            
             if(verificationReward.VerificationType == 0 ||
                (verificationReward.VerificationType == 1 && custReward.EmailVerified))
             {
@@ -31,15 +29,16 @@ namespace MemberSite.Service.BLL
 
         public async Task EmailReward(int custId)
         {
-            // 取得用戶驗證狀況
-            // 檢查是否領過
-            // 取得設定
-            // case 兩者需都驗證 且 Phone已驗證
-            // case 只須通過一驗證
-                // 設定已驗證
-                // 更新錢包
-                // 設定提領限額
-                // 寫入領取紀錄紀錄
+            var custReward = await _verificationRewardService.GetCustVerificationReward(custId);
+            if(custReward.EmailRewardTime.HasValue)
+                return;
+            var verificationReward = await _verificationRewardService.GetVerificationReward(custReward.SiteId, custReward.CurrencyId);
+            
+            if(verificationReward.VerificationType == 0 ||
+               (verificationReward.VerificationType == 1 && custReward.PhoneVerified))
+            {
+                _verificationRewardService.GiveVerificationReward(custReward.CustId, custReward.SiteId, custReward.UserName, verificationReward.EmailReward, 1);
+            }
         }
     }
 }

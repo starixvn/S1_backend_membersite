@@ -8,7 +8,7 @@ namespace MemberSite.Service.Model
         public int CurrencyId { get; set; }
         public int VerificationType { get; set; }
         public decimal PhoneReward { get; set; }
-        public decimal MailReward { get; set; }
+        public decimal EmailReward { get; set; }
     }
     
     public class CustVerificationRewardData
@@ -21,7 +21,7 @@ namespace MemberSite.Service.Model
         public decimal? PhoneReward { get; set; }
         public DateTime? PhoneRewardTime { get; set; }
         public bool EmailVerified { get; set; }
-        public decimal? MailReward { get; set; }
-        public DateTime? MailRewardTime { get; set; }
+        public decimal? EmailReward { get; set; }
+        public DateTime? EmailRewardTime { get; set; }
     }
 }
