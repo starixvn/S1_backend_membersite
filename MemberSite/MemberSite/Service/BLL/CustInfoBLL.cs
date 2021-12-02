@@ -16,6 +16,7 @@ namespace MemberSite.Service.BLL
     public class CustInfoBll
     {
         private readonly Tools _tools;
+        private readonly VerificationRewardBLL _verificationRewardBll;
         private readonly CustInfoService _custInfoService;
         private readonly AuthenticateService _authenticateService;
         private readonly ServerInfoBll _serverInfoBll;
@@ -40,6 +41,7 @@ namespace MemberSite.Service.BLL
         public CustInfoBll(IServiceProvider provider)
         {
             _tools = provider.GetRequiredService<Tools>();
+            _verificationRewardBll = provider.GetRequiredService<VerificationRewardBLL>();
             _custInfoService = provider.GetRequiredService<CustInfoService>();
             _authenticateService = provider.GetRequiredService<AuthenticateService>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
@@ -475,7 +477,8 @@ namespace MemberSite.Service.BLL
 
             if (apiResult.ErrorCode == 0)
             {
-                _custInfoService.SetPhoneVerified(custId);
+                await _verificationRewardBll.PhoneReward(custId);
+                //_custInfoService.SetPhoneVerified(custId);
             }
             return apiResult;
         }
