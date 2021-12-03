@@ -280,7 +280,7 @@
         Deposit = 1
     }
 
-    public enum VerificationType
+    public enum VerificationItem
     {
         SMS = 0,
         Email = 1

@@ -34,7 +34,6 @@ namespace MemberSite.Service.BLL.Tests
                     PhoneReward = 50,
                     EmailReward = 30
                 });
-            verificationRewardService.PayoutVerificationReward(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<decimal>(), Arg.Any<VerificationType>());
             services.AddTransient(p => verificationRewardService);
             
             var serviceProvider = services.BuildServiceProvider();
