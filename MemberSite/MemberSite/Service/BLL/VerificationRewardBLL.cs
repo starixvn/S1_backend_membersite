@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.DependencyInjection;
 using MySql.Data.MySqlClient;
 
@@ -23,7 +24,7 @@ namespace MemberSite.Service.BLL
             if(verificationReward.VerificationType == 0 ||
                (verificationReward.VerificationType == 1 && custReward.EmailVerified))
             {
-                _verificationRewardService.GiveVerificationReward(custReward.CustId, custReward.SiteId, custReward.UserName, verificationReward.PhoneReward, 0);
+                _verificationRewardService.PayoutVerificationReward(custReward.CustId, custReward.SiteId, custReward.UserName, verificationReward.PhoneReward, VerificationType.SMS);
             }
         }
 
@@ -37,7 +38,7 @@ namespace MemberSite.Service.BLL
             if(verificationReward.VerificationType == 0 ||
                (verificationReward.VerificationType == 1 && custReward.PhoneVerified))
             {
-                _verificationRewardService.GiveVerificationReward(custReward.CustId, custReward.SiteId, custReward.UserName, verificationReward.EmailReward, 1);
+                _verificationRewardService.PayoutVerificationReward(custReward.CustId, custReward.SiteId, custReward.UserName, verificationReward.EmailReward, VerificationType.Email);
             }
         }
     }

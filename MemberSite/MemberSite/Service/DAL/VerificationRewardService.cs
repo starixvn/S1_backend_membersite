@@ -48,32 +48,36 @@ namespace MemberSite.Service.DAL
             var p = new DynamicParameters(new {_CustId = custId, _SiteId = siteId, _PhoneReward = reward});
             return _mainDb.Execute("Member_PhoneReward_Set", p, conn, trans);
         }
+        
+        public int SetCustEmailVerifiedReward(int custId, int siteId, decimal reward, MySqlConnection conn, MySqlTransaction trans)
+        {
+            var p = new DynamicParameters(new {_CustId = custId, _SiteId = siteId, _EmailReward = reward});
+            return _mainDb.Execute("Member_EmailReward_Set", p, conn, trans);
+        }
 
-        public void GiveVerificationReward(int custId, int siteId, string userName, decimal reward, int verificationType)
+        public int PayoutVerificationReward(int custId, int siteId, string userName, decimal reward, VerificationType verificationType)
         {
             using var conn = new MySqlConnection(_connectionString);
             conn.Open();
             using var trans = conn.BeginTransaction();
-            _custInfoService.SetPhoneVerified(custId);
             var transId = "";
             var type = 20;
-            var result = _walletService.SetBalance(custId, siteId, userName, reward, type,$"phone verification reward: {reward:#,##0.##}", transId, out _, out _, conn, trans);
-
-            if (result > 0)
-            {
-                _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, reward, null, transId, out _, conn, trans);
-            }
-            else
-            {
-                return;
-            }
-
-            result = SetCustPhoneVerifiedReward(custId, siteId, reward, conn, trans);
+            var result = 0;
+            if(verificationType == VerificationType.SMS) result = _custInfoService.SetPhoneVerified(custId);
+            else if(verificationType == VerificationType.Email) result = _custInfoService.SetEmailVerified(custId);
+            if (result <= 0) return result;
             
-            if (result > 0)
-            {
-                trans.Commit();
-            }
+            result = _walletService.SetBalance(custId, siteId, userName, reward, type,$"phone verification reward: {reward:#,##0.##}", transId, out _, out _, conn, trans);
+            if (result <= 0) return result;
+            result = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, reward, null, transId, out _, conn, trans);
+            if (result <= 0) return result;
+
+            if(verificationType == VerificationType.SMS) result = SetCustPhoneVerifiedReward(custId, siteId, reward, conn, trans);
+            else if (verificationType == VerificationType.Email) result = SetCustEmailVerifiedReward(custId, siteId, reward, conn, trans);
+            if (result <= 0) return result;
+            
+            trans.Commit();
+            return result;
         }
     }
 }
