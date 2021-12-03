@@ -769,30 +769,29 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBLL.GetAuthData();
 
             var verifyEmailUrl = _serverInfoBLL.GetHttpDomain();
+
+            verifyEmailUrl += "/api/AccountStrict/VerifyEmail";
             
             var langId = _selLangBLL.GetLangId();
             if (!string.IsNullOrEmpty(langId)) 
                 verifyEmailUrl += $"/{langId}";
-            
-            verifyEmailUrl += "/verifyEmail";
             
             var apiResult = await _commonBLL.SendOTPEmailAsync(authData.CustId, verifyEmailUrl);
 
             return apiResult;
         }
 
-        public class VerifyEmailReq
-        {
-            public string inputOTPcode { set; get; }
-        }
-        
-        [HttpPost]
-        public async Task<ApiResult> VerifyEmailAsync(VerifyEmailReq verifyEmailReq)
+        [HttpGet]
+        public async Task<IActionResult> VerifyEmailAsync(string code, string LangId)
         {
             var authData = _authorizeBLL.GetAuthData();
-            var apiResult = await _custInfoBLL.VerifyEmailAsync(authData.CustId, verifyEmailReq.inputOTPcode);
+            var apiResult = await _custInfoBLL.VerifyEmailAsync(authData.CustId, code);
 
-            return apiResult;
+            if (apiResult.ErrorCode == 0)
+            {
+                return RedirectToRoute(new { action = "Index", controller = "Home" });
+            }
+            return StatusCode(403);
         }
     }
 }
