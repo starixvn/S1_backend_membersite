@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using NUnit.Framework;
@@ -33,7 +34,7 @@ namespace MemberSite.Service.BLL.Tests
                     PhoneReward = 50,
                     EmailReward = 30
                 });
-            verificationRewardService.PayoutVerificationReward(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<decimal>(), Arg.Any<int>());
+            verificationRewardService.PayoutVerificationReward(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<decimal>(), Arg.Any<VerificationType>());
             services.AddTransient(p => verificationRewardService);
             
             var serviceProvider = services.BuildServiceProvider();

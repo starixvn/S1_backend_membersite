@@ -766,17 +766,17 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<SendOTPEmailResult>> SendOTPEmailAsync()
         {
-            var authData = authorizeBLL.GetAuthData();
+            var authData = _authorizeBLL.GetAuthData();
 
-            var verifyEmailUrl = serverInfoBLL.GetHttpDomain();
+            var verifyEmailUrl = _serverInfoBLL.GetHttpDomain();
             
-            var langId = selLangBLL.GetLangId();
+            var langId = _selLangBLL.GetLangId();
             if (!string.IsNullOrEmpty(langId)) 
                 verifyEmailUrl += $"/{langId}";
             
             verifyEmailUrl += "/verifyEmail";
             
-            var apiResult = await commonBLL.SendOTPEmailAsync(authData.CustId, verifyEmailUrl);
+            var apiResult = await _commonBLL.SendOTPEmailAsync(authData.CustId, verifyEmailUrl);
 
             return apiResult;
         }
@@ -789,8 +789,8 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> VerifyEmailAsync(VerifyEmailReq verifyEmailReq)
         {
-            var authData = authorizeBLL.GetAuthData();
-            var apiResult = await custInfoBLL.VerifyEmailAsync(authData.CustId, verifyEmailReq.inputOTPcode);
+            var authData = _authorizeBLL.GetAuthData();
+            var apiResult = await _custInfoBLL.VerifyEmailAsync(authData.CustId, verifyEmailReq.inputOTPcode);
 
             return apiResult;
         }
