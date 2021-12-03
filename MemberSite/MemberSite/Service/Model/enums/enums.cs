@@ -279,4 +279,10 @@
         Promotion = 0,
         Deposit = 1
     }
+
+    public enum VerificationType
+    {
+        SMS = 0,
+        Email = 1
+    }
 }
