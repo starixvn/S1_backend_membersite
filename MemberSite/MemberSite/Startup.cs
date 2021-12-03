@@ -108,6 +108,8 @@ namespace MemberSite
             services.AddSingleton<ConfigService>();
             services.AddSingleton<AppLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
+            services.AddSingleton<IRewardStrategy, EmailVerificationRewardStrategy>();
+            services.AddSingleton<IRewardStrategy, PhoneVerificationRewardStrategy>();
 
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();

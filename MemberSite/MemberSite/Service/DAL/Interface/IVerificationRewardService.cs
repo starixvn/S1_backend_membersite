@@ -9,8 +9,6 @@ namespace MemberSite.Service.DAL.Interface
     {
         Task<CustVerificationRewardData> GetCustVerificationReward(int custId);
         Task<VerificationRewardData> GetVerificationReward(int siteId, int currencyId);
-        int PayoutVerificationReward(int custId, int siteId, string userName, decimal reward, VerificationType verificationType);
-        int SetCustPhoneVerifiedReward(int custId, int siteId, decimal reward, MySqlConnection conn, MySqlTransaction trans);
-        int SetCustEmailVerifiedReward(int custId, int siteId, decimal reward, MySqlConnection conn, MySqlTransaction trans);
+        int SetCustVerifiedReward(int custId, int siteId, int currencyId, int verifyItem, MySqlConnection conn, MySqlTransaction trans);
     }
 }

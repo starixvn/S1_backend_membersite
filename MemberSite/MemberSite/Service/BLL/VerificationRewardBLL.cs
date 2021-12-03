@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Model.enums;
@@ -9,9 +11,11 @@ namespace MemberSite.Service.BLL
 {
     public class VerificationRewardBLL
     {
-        private IVerificationRewardService _verificationRewardService;
+        private readonly IVerificationRewardService _verificationRewardService;
+        private readonly IEnumerable<IRewardStrategy> _strategies;
         public VerificationRewardBLL(IServiceProvider provider)
         {
+            _strategies = provider.GetServices<IRewardStrategy>();
             _verificationRewardService = provider.GetRequiredService<IVerificationRewardService>();
         }
         public async Task PhoneReward(int custId)
@@ -24,7 +28,8 @@ namespace MemberSite.Service.BLL
             if(verificationReward.VerificationType == 0 ||
                (verificationReward.VerificationType == 1 && custReward.EmailVerified))
             {
-                _verificationRewardService.PayoutVerificationReward(custReward.CustId, custReward.SiteId, custReward.UserName, verificationReward.PhoneReward, VerificationType.SMS);
+                var rewardStrategy = CreateStrategy(VerificationItem.SMS);
+                rewardStrategy.PayoutVerificationReward(custReward.CustId, custReward.SiteId, custReward.CurrencyId, custReward.UserName, verificationReward.PhoneReward);
             }
         }
 
@@ -38,8 +43,14 @@ namespace MemberSite.Service.BLL
             if(verificationReward.VerificationType == 0 ||
                (verificationReward.VerificationType == 1 && custReward.PhoneVerified))
             {
-                _verificationRewardService.PayoutVerificationReward(custReward.CustId, custReward.SiteId, custReward.UserName, verificationReward.EmailReward, VerificationType.Email);
+                var rewardStrategy = CreateStrategy(VerificationItem.Email);
+                rewardStrategy.PayoutVerificationReward(custReward.CustId, custReward.SiteId, custReward.CurrencyId, custReward.UserName, verificationReward.EmailReward);
             }
+        }
+
+        private IRewardStrategy CreateStrategy(VerificationItem item)
+        {
+            return _strategies.First(a => a.VerificationItem == item);
         }
     }
 }
