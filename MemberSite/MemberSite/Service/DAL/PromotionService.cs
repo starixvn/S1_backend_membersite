@@ -949,24 +949,15 @@ namespace MemberSite.Service.DAL
 
         public PromotionBySpecialCode GetPromotionBySpecialCode(int siteid,string specialCode)
         {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            conn.Open();
-
-            return conn.Query<PromotionBySpecialCode>("Member_PromotionBySpecialCode_Get", new { SpecialCode = specialCode, SiteId = siteid }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+            return _reportDbClient.QueryFirst<PromotionBySpecialCode>("Member_PromotionBySpecialCode_Get", new DynamicParameters(new { SpecialCode = specialCode, SiteId = siteid }));
         }
         public PromotionBySpecialScratchCard GetPromotionBySpecialScratchCard(int siteid, string specialCode)
         {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            conn.Open();
-
-            return conn.Query<PromotionBySpecialScratchCard>("Member_PromotionBySpecialScratchCard_Get", new { ScratchCardCode = specialCode, SiteId = siteid }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+            return _reportDbClient.QueryFirst<PromotionBySpecialScratchCard>("Member_PromotionBySpecialScratchCard_Get", new DynamicParameters(new { ScratchCardCode = specialCode, SiteId = siteid }));
         }
         public BonusinfoByBonusCode GetBonusinfoByBonusCode(int CustId, string BonusCode)
         {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            conn.Open();
-
-            return conn.Query<BonusinfoByBonusCode>("Member_BonusinfoByBonusCode_Get", new { CustId = CustId, BonusCode = BonusCode }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+            return _reportDbClient.QueryFirst<BonusinfoByBonusCode>("Member_BonusinfoByBonusCode_Get", new DynamicParameters(new { CustId = CustId, BonusCode = BonusCode }));
         }
     }
 }
