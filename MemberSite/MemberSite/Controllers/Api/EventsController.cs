@@ -282,7 +282,7 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var eventId = drawPrizeReq.eventId;
-            //檢查活動及獎品狀態
+            //檢查活動,獎品狀態,使用者是否抽過
             var prizes = eventsBLL.CheckDrawPrize(ref eventId, custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, out var prizeId, out var result);
             if (result == 100)
             {
