@@ -9,6 +9,7 @@ using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
 namespace MemberSite.Controllers.Api
@@ -19,22 +20,25 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class AccountStrictController : ControllerBase
     {
-        private readonly SelLangBLL selLangBLL;
-        private readonly AuthorizeBLL authorizeBLL;
-        private readonly CustInfoBll custInfoBLL;
-        private readonly BankInfoBLL bankInfoBLL;
-        private readonly CommonBLL commonBLL;
-        private readonly ServerInfoBll serverInfoBLL;
+        private readonly SelLangBLL _selLangBLL;
+        private readonly AuthorizeBLL _authorizeBLL;
+        private readonly CustInfoBll _custInfoBLL;
+        private readonly BankInfoBLL _bankInfoBLL;
+        private readonly CommonBLL _commonBLL;
+        private readonly ServerInfoBll _serverInfoBLL;
+        private readonly ImageEditorBLL _imageEditorBll;
 
-        public AccountStrictController(SelLangBLL selLangBLL, AuthorizeBLL authorizeBLL, CustInfoBll custInfoBLL, BankInfoBLL bankInfoBLL, CommonBLL commonBLL, ServerInfoBll serverInfoBLL)
+        public AccountStrictController(IServiceProvider provider)
         {
-            this.selLangBLL = selLangBLL;
-            this.authorizeBLL = authorizeBLL;
-            this.custInfoBLL = custInfoBLL;
-            this.bankInfoBLL = bankInfoBLL;
-            this.commonBLL = commonBLL;
-            this.serverInfoBLL = serverInfoBLL;
+            _selLangBLL = provider.GetRequiredService<SelLangBLL>();
+            _authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
+            _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
+            _bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
+            _commonBLL = provider.GetRequiredService<CommonBLL>();
+            _serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
+            _imageEditorBll = provider.GetRequiredService<ImageEditorBLL>();
         }
+
         public class BankInfo
         {
             public int SysId { set; get; }
@@ -46,33 +50,33 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult SetCustBankInfo(BankInfo bankInfo)
         {
-            var apiResult = new ApiResult(selLangBLL);
-            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult(_selLangBLL);
+            var authData = _authorizeBLL.GetAuthData();
             List<BankInfoDetail> bankInfoList = null;
             var BankInfoLogList = new List<BankInfoDetail>();
 
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
             //
-            var bankInfoSysList = bankInfoBLL.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId);
+            var bankInfoSysList = _bankInfoBLL.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId);
 
             if (bankInfoSysList == null || bankInfoSysList.Count(x => x.SysId == bankInfo.SysId) == 0)
             {
                 apiResult.ErrorCode = -1;
-                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                 return apiResult;
             }
 
-            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+            var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
             if (custBankInfo == null && string.IsNullOrEmpty(bankInfo.AccountName))
             {
                 apiResult.ErrorCode = -2;
-                apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
+                apiResult.Message = _selLangBLL.GetMsg("msg_NeedAccountName");
                 return apiResult;
             }
             else if (custBankInfo != null && custBankInfo.BankInfo != null && custBankInfo.bankInfoDetail?.Count() >= 3)
             {
                 apiResult.ErrorCode = -3;
-                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                 return apiResult;
             }
             else if (custBankInfo != null && custBankInfo.bankInfoDetail != null)
@@ -82,7 +86,7 @@ namespace MemberSite.Controllers.Api
                 if (bankInfoList.Count(x => x.SysId == bankInfo.SysId && x.AccountNo == bankInfo.AccountNo) > 0)
                 {
                     apiResult.ErrorCode = -4;
-                    apiResult.Message = selLangBLL.GetMsg("msg_BankAccountExists");
+                    apiResult.Message = _selLangBLL.GetMsg("msg_BankAccountExists");
                     return apiResult;
                 }
             }
@@ -93,23 +97,23 @@ namespace MemberSite.Controllers.Api
 
             bankInfoList.Add(new BankInfoDetail { AccountNo = bankInfo.AccountNo, SysId = bankInfo.SysId, IFSCCode = bankInfo.IFSCCode });
             BankInfoLogList.Add(new BankInfoDetail { AccountNo = bankInfo.AccountNo, SysId = bankInfo.SysId, IFSCCode = bankInfo.IFSCCode });
-            apiResult.ErrorCode = custInfoBLL.InsertCustBankInfo(authData.CustId, bankInfo.AccountName, bankInfoList, BankInfoLogList);
-            apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+            apiResult.ErrorCode = _custInfoBLL.InsertCustBankInfo(authData.CustId, bankInfo.AccountName, bankInfoList, BankInfoLogList);
+            apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
 
         [HttpPost]
         public ApiResult DelCustBankInfo(BankInfo bankInfo)
         {
-            var apiResult = new ApiResult(selLangBLL);
-            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult(_selLangBLL);
+            var authData = _authorizeBLL.GetAuthData();
             IEnumerable<BankInfoDetail> bankInfoList = null;
 
-            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+            var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
             if (custBankInfo == null || custBankInfo.bankInfoDetail == null)
             {
                 apiResult.ErrorCode = -2;
-                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                 return apiResult;
             }
             else if (custBankInfo != null && custBankInfo.bankInfoDetail != null)
@@ -117,8 +121,8 @@ namespace MemberSite.Controllers.Api
                 bankInfoList = custBankInfo.bankInfoDetail.Where(x => !(x.SysId == bankInfo.SysId && x.AccountNo == bankInfo.AccountNo));
             }
 
-            apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, custBankInfo.AccountName, bankInfoList);
-            apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+            apiResult.ErrorCode = _custInfoBLL.SetCustBankInfo(authData.CustId, custBankInfo.AccountName, bankInfoList);
+            apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
         public class USDTDetailreq
@@ -133,13 +137,13 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult SetCustUSDTInfo(USDTDetailreq uSDTDetailreq)
         {
-            var apiResult = new ApiResult(selLangBLL);
-            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult(_selLangBLL);
+            var authData = _authorizeBLL.GetAuthData();
 
             List<USDTDetail> uSDTInfoList = null;
             var uSDTInfoLogList = new List<USDTDetail>();
 
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
             //if (custInfo.CurrencyId != 96)
             //{
             //    apiResult.ErrorCode = -6;
@@ -148,17 +152,17 @@ namespace MemberSite.Controllers.Api
             //}
             //
 
-            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+            var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
             if (custBankInfo == null && string.IsNullOrEmpty(uSDTDetailreq.AccountName))
             {
                 apiResult.ErrorCode = -2;
-                apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
+                apiResult.Message = _selLangBLL.GetMsg("msg_NeedAccountName");
                 return apiResult;
             }
             else if (custBankInfo != null && custBankInfo.BankInfo != null && custBankInfo.uSDTDetail?.Count() >= 3)
             {
                 apiResult.ErrorCode = -3;
-                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                 return apiResult;
             }
             else if (custBankInfo != null && custBankInfo.uSDTDetail != null)
@@ -168,7 +172,7 @@ namespace MemberSite.Controllers.Api
                 if (uSDTInfoList.Any(x => x.USDTAddress == uSDTDetailreq.USDTAddress))
                 {
                     apiResult.ErrorCode = -4;
-                    apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                    apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                     return apiResult;
                 }
             }
@@ -181,8 +185,8 @@ namespace MemberSite.Controllers.Api
             uSDTInfoList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress , Network = uSDTDetailreq.Network, CurrencyId = currencyId });
             uSDTInfoLogList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress , Network = uSDTDetailreq.Network, CurrencyId = currencyId });
 
-            apiResult.ErrorCode = custInfoBLL.InsertCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList,uSDTInfoLogList);
-            apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+            apiResult.ErrorCode = _custInfoBLL.InsertCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList,uSDTInfoLogList);
+            apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
         public class CustUSDTInfoBatchreq
@@ -194,13 +198,13 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult SetCustUSDTInfoBatch(CustUSDTInfoBatchreq custUSDTInfoBatchreq)
         {
-            var apiResult = new ApiResult(selLangBLL);
-            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult(_selLangBLL);
+            var authData = _authorizeBLL.GetAuthData();
 
             List<USDTDetail> uSDTInfoList = null;
             var uSDTInfoLogList = new List<USDTDetail>();
 
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
             //if (custInfo.CurrencyId != 96)
             //{
             //    apiResult.ErrorCode = -6;
@@ -212,21 +216,21 @@ namespace MemberSite.Controllers.Api
             if (custUSDTInfoBatchreq.USDTInfo.GroupBy(i => i.USDTAddress).Any(g => g.Count() > 1))
             {
                 apiResult.ErrorCode = -4; //輸入資料重複
-                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                 return apiResult;
 
             }
-            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+            var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
             if (custBankInfo == null && string.IsNullOrEmpty(custUSDTInfoBatchreq.AccountName))
             {
                 apiResult.ErrorCode = -2;
-                apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
+                apiResult.Message = _selLangBLL.GetMsg("msg_NeedAccountName");
                 return apiResult;
             }
             else if (custBankInfo != null && custBankInfo.BankInfo != null && (custBankInfo.uSDTDetail?.Count() >= 3 || (custBankInfo.uSDTDetail?.Count() + custUSDTInfoBatchreq.USDTInfo?.Count() > 3)))
             {
                 apiResult.ErrorCode = -3;
-                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                 return apiResult;
             }
             else if (custBankInfo != null && custBankInfo.uSDTDetail != null)
@@ -238,7 +242,7 @@ namespace MemberSite.Controllers.Api
                     if (uSDTInfoList.Any(x => x.USDTAddress == custUSDTInfo.USDTAddress))
                     {
                         apiResult.ErrorCode = -4;
-                        apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                        apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                         return apiResult;
                     }
                 }
@@ -253,17 +257,17 @@ namespace MemberSite.Controllers.Api
                 uSDTInfoLogList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress , Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId });
             }
             
-            apiResult.ErrorCode = custInfoBLL.InsertCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList ,uSDTInfoLogList );
-            apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+            apiResult.ErrorCode = _custInfoBLL.InsertCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList ,uSDTInfoLogList );
+            apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
         [HttpPost]
         public ApiResult DelCustUSDTInfo(USDTDetailreq uSDTDetailreq)
         {
-            var apiResult = new ApiResult(selLangBLL);
-            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult(_selLangBLL);
+            var authData = _authorizeBLL.GetAuthData();
 
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
             //if (custInfo.CurrencyId != 96)
             //{
             //    apiResult.ErrorCode = -6;
@@ -273,11 +277,11 @@ namespace MemberSite.Controllers.Api
 
             IEnumerable<USDTDetail> USDTInfoList = null;
 
-            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+            var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
             if (custBankInfo == null || custBankInfo.uSDTDetail == null)
             {
                 apiResult.ErrorCode = -2;
-                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                 return apiResult;
             }
             else if (custBankInfo != null && custBankInfo.uSDTDetail != null)
@@ -285,8 +289,8 @@ namespace MemberSite.Controllers.Api
                 USDTInfoList = custBankInfo.uSDTDetail.Where(x => !(x.USDTAddress == uSDTDetailreq.USDTAddress));
             }
 
-            apiResult.ErrorCode = custInfoBLL.SetCustUSDTInfo(authData.CustId, custBankInfo.AccountName, USDTInfoList);
-            apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+            apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, custBankInfo.AccountName, USDTInfoList);
+            apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
         //        public class SetAccountNameReq
@@ -346,13 +350,13 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult SetAccountName(SetAccountNameReq content)
         {
-            var apiResult = new ApiResult(selLangBLL);
-            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult(_selLangBLL);
+            var authData = _authorizeBLL.GetAuthData();
             //check input
             if (string.IsNullOrEmpty(content.Name))
             {
                 apiResult.ErrorCode = -3;
-                apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
+                apiResult.Message = _selLangBLL.GetMsg("msg_NeedAccountName");
                 return apiResult;
             }
             if (content.Name.Length > 50)
@@ -363,14 +367,14 @@ namespace MemberSite.Controllers.Api
 
             //check AccountName exist or not
             //existed
-            if (custInfoBLL.CheckAccountName(authData.CustId))
+            if (_custInfoBLL.CheckAccountName(authData.CustId))
             {
                 apiResult.ErrorCode = -5;
                 return apiResult;
             }
             //not existed, update (custInfoBLL.SetCustBankInfo only return 0 or -1)
-            apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, content.Name, null);
-            apiResult.Message = selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
+            apiResult.ErrorCode = _custInfoBLL.SetCustBankInfo(authData.CustId, content.Name, null);
+            apiResult.Message = _selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
 
             return apiResult;
         }
@@ -378,14 +382,14 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<object> SetProfile(Dictionary<string, string> custProfile)
         {
-            var apiResult = new ApiResult<object>(selLangBLL);
-            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<object>(_selLangBLL);
+            var authData = _authorizeBLL.GetAuthData();
 
-            var beforeCustInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
+            var beforeCustInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
             if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
             {
                 string AccountName = custProfile[nameof(AccountName)];
-                var result = custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
+                var result = _custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
                 if (!string.IsNullOrEmpty(beforeCustInfo.CountryCode))
                     custProfile["CountryCode"] = beforeCustInfo.CountryCode;
                 if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
@@ -403,10 +407,10 @@ namespace MemberSite.Controllers.Api
                     PhoneNo = phoneNo.ToString();
                 }
 
-                if (custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
+                if (_custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
                 {
                     apiResult.ErrorCode = 21;
-                    apiResult.Message = $"({AreaCode}){PhoneNo} {selLangBLL.GetMsg("msg_HasExist")}";
+                    apiResult.Message = $"({AreaCode}){PhoneNo} {_selLangBLL.GetMsg("msg_HasExist")}";
                     return apiResult;
                 }
 
@@ -423,15 +427,15 @@ namespace MemberSite.Controllers.Api
                 }
                 else
                 {
-                    var result = custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"], null);
+                    var result = _custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"], null);
                 }
             }
             
             if (custProfile.TryGetValue("Email", out var email) && !string.IsNullOrEmpty(email) &&
-                custInfoBLL.ExistsEmail(authData.CustId, email))
+                _custInfoBLL.ExistsEmail(authData.CustId, email))
             {
                 apiResult.ErrorCode = 21;
-                apiResult.Message = $"{email} {selLangBLL.GetMsg("msg_HasExist")}";
+                apiResult.Message = $"{email} {_selLangBLL.GetMsg("msg_HasExist")}";
                 return apiResult;
             }
 
@@ -440,15 +444,15 @@ namespace MemberSite.Controllers.Api
                 custProfile["Email"] = beforeCustInfo.Email;
             }
 
-            apiResult.ErrorCode = custInfoBLL.SetProfile(authData.CustId, custProfile);
+            apiResult.ErrorCode = _custInfoBLL.SetProfile(authData.CustId, custProfile);
             if (apiResult.ErrorCode == 0)
             {
-                apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+                apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
 
-                var custInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
+                var custInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
                 apiResult.Data = new
                 {
-                    LangCode = selLangBLL.GetLangId(),
+                    LangCode = _selLangBLL.GetLangId(),
                     custInfo.UserName,
                     custInfo.Email,
                     custInfo.AccountName,
@@ -463,7 +467,7 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
             }
 
             return apiResult;
@@ -472,15 +476,15 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<object> SetProfileV2(Dictionary<string, string> custProfile)
         {
-            var apiResult = new ApiResult<object>(selLangBLL);
-            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<object>(_selLangBLL);
+            var authData = _authorizeBLL.GetAuthData();
             try
             {
-                var beforeCustInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
+                var beforeCustInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
                 if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
                 {
                     string AccountName = custProfile[nameof(AccountName)];
-                    var result = custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
+                    var result = _custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
 
                     if (!string.IsNullOrEmpty(beforeCustInfo.CountryCode))
                         custProfile["CountryCode"] = beforeCustInfo.CountryCode;
@@ -501,10 +505,10 @@ namespace MemberSite.Controllers.Api
                         PhoneNo = phoneNo.ToString();
                     }
 
-                    if (custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
+                    if (_custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
                     {
                         apiResult.ErrorCode = 21;
-                        apiResult.Message = $"({AreaCode}){PhoneNo} {selLangBLL.GetMsg("msg_HasExist")}";
+                        apiResult.Message = $"({AreaCode}){PhoneNo} {_selLangBLL.GetMsg("msg_HasExist")}";
                         return apiResult;
                     }
 
@@ -523,15 +527,15 @@ namespace MemberSite.Controllers.Api
                     }
                     else
                     {
-                        var result = custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"], null);
+                        var result = _custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"], null);
                     }
                 }
 
                 if (custProfile.TryGetValue("Email", out var email) && !string.IsNullOrEmpty(email) &&
-                    custInfoBLL.ExistsEmail(authData.CustId, email))
+                    _custInfoBLL.ExistsEmail(authData.CustId, email))
                 {
                     apiResult.ErrorCode = 21;
-                    apiResult.Message = $"{email} {selLangBLL.GetMsg("msg_HasExist")}";
+                    apiResult.Message = $"{email} {_selLangBLL.GetMsg("msg_HasExist")}";
                     return apiResult;
                 }
 
@@ -540,15 +544,15 @@ namespace MemberSite.Controllers.Api
                     custProfile["Email"] = beforeCustInfo.Email;
                 }
 
-                apiResult.ErrorCode = custInfoBLL.SetProfileV2(authData.CustId, custProfile);
+                apiResult.ErrorCode = _custInfoBLL.SetProfileV2(authData.CustId, custProfile);
                 if (apiResult.ErrorCode == 0)
                 {
-                    apiResult.Message = selLangBLL.GetMsg("msg_Updatesuccessful");
+                    apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
 
-                    var custInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
+                    var custInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
                     apiResult.Data = new
                     {
-                        LangCode = selLangBLL.GetLangId(),
+                        LangCode = _selLangBLL.GetLangId(),
                         custInfo.UserName,
                         custInfo.Email,
                         custInfo.AccountName,
@@ -564,7 +568,7 @@ namespace MemberSite.Controllers.Api
                 }
                 else
                 {
-                    apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                    apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                 }
             }
             catch (Exception ex)
@@ -579,8 +583,8 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<object> GetCustProfile()
         {
-            var apiResult = new ApiResult<object>(selLangBLL);
-            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<object>(_selLangBLL);
+            var authData = _authorizeBLL.GetAuthData();
             var PerCountry = new Dictionary<int, string>()
             {
                     {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{61,"IN" },{96,"MY" }
@@ -588,13 +592,13 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                var custInfo = custInfoBLL.GetCustInfoProfile(authData.CustId);
+                var custInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
                 var _perCountry = "";
                 if (custInfo != null)
                 {
                     if (custInfo.CurrencyId == 96)
                     {
-                        _perCountry = custInfoBLL.GetCountryNameByAreaCode(custInfo.AreaCode);
+                        _perCountry = _custInfoBLL.GetCountryNameByAreaCode(custInfo.AreaCode);
                     }
                     else
                     {
@@ -647,80 +651,36 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult UploadCustPhotoId([FromForm] CustPhotoIdReq custPhotoIdReq)
+        public async Task<ApiResult> UploadCustPhotoId([FromForm] CustPhotoIdReq custPhotoIdReq)
         {
-            var xSize = 500m;
             var apiResult = new ApiResult();
-            var authData = authorizeBLL.GetAuthData();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            decimal xCell = 1;
-            Image img;
-            if (_contentTypesCheck.ContainsKey(custPhotoIdReq.PhotoId.ContentType))
+            var authData = _authorizeBLL.GetAuthData();
+            var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+
+            if (!_contentTypesCheck.ContainsKey(custPhotoIdReq.PhotoId.ContentType))
             {
-                using var fileStream = custPhotoIdReq.PhotoId.OpenReadStream();
-                using var uploadedImage = Image.FromStream(fileStream);
-                using var ms = new System.IO.MemoryStream();
+                return new ApiResult { ErrorCode = -1 , Message = _selLangBLL.GetMsg("msg_UpdateFailed") };
+            }
 
-                if (uploadedImage.Width > xSize || uploadedImage.Height > xSize)
-                {
+            using var fileStream = custPhotoIdReq.PhotoId.OpenReadStream();
+            using var uploadedImage = await SixLabors.ImageSharp.Image.LoadAsync(fileStream);
+            var fileBytes = await _imageEditorBll.Resize(uploadedImage);
+                
+            var fileName = custPhotoIdReq.PhotoId.FileName;
+            fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
+            fileName = $"{fileName.Substring(0, fileName.LastIndexOf('.'))}.jpg";
 
-                    if (uploadedImage.Width > uploadedImage.Height)
-                    {
-                        xCell = xSize / uploadedImage.Width;
-                    }
-                    else
-                    {
-                        xCell = xSize / uploadedImage.Height;
-                    }
+            var result = _custInfoBLL.SetCustPhotoId(custInfo.CustId, custInfo.SiteId, fileName, fileBytes);
 
-                }
-
-                if (uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Undefined ||
-                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.DontCare ||
-                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format16bppArgb1555 ||
-                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format1bppIndexed ||
-                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format4bppIndexed ||
-                    uploadedImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format8bppIndexed)
-                {
-                    var bitmap = new Bitmap(Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
-                    var graphics = Graphics.FromImage(bitmap);
-                    graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
-                    graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-                    graphics.DrawImage(uploadedImage, 0, 0, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell));
-                    img = Image.FromHbitmap(bitmap.GetHbitmap());
-                }
-                else
-                {
-                    var graphicOptions = new GraphicOptions
-                    {
-                        CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed,
-                        SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed
-                    };
-                    img = ImageResize.Scale(uploadedImage, Convert.ToInt32(uploadedImage.Width * xCell), Convert.ToInt32(uploadedImage.Height * xCell), graphicOptions);
-                }
-
-                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-                var fileName = custPhotoIdReq.PhotoId.FileName;
-                fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
-                fileName = $"{fileName.Substring(0, fileName.LastIndexOf('.'))}.jpg";
-
-                var fileBytes = ms.ToArray();
-                var result = custInfoBLL.SetCustPhotoId(custInfo.CustId, custInfo.SiteId, fileName, fileBytes);
-
-                if (result > 0)
-                {
-                    apiResult.ErrorCode = 0;
-                }
-                else
-                {
-                    apiResult.ErrorCode = -1;
-                }
+            if (result > 0)
+            {
+                apiResult.ErrorCode = 0;
             }
             else
             {
-
+                apiResult.ErrorCode = -1;
             }
+
 
             return apiResult;
         }
@@ -734,15 +694,15 @@ namespace MemberSite.Controllers.Api
         public ApiResult ResetPassword(ResetPasswordModel resetPassword)
         {
             var apiResult = new ApiResult();
-            var authData = authorizeBLL.GetAuthData();
-            if (custInfoBLL.SetResetPwd(authData.CustId, resetPassword.NewPassword))
+            var authData = _authorizeBLL.GetAuthData();
+            if (_custInfoBLL.SetResetPwd(authData.CustId, resetPassword.NewPassword))
             {
                 apiResult.ErrorCode = 0;
-                apiResult.Message = selLangBLL.GetMsg("ResetPwdSuccess");
+                apiResult.Message = _selLangBLL.GetMsg("ResetPwdSuccess");
             }
             else
             {
-                apiResult.Message = selLangBLL.GetMsg("msg_UpdateFailed");
+                apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
             }
 
             return apiResult;
@@ -751,8 +711,8 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> SendVerifySMSAsync()
         {
-            var authData = authorizeBLL.GetAuthData();
-            var apiResult = await custInfoBLL.SendVerifySMSAsync(authData.CustId);
+            var authData = _authorizeBLL.GetAuthData();
+            var apiResult = await _custInfoBLL.SendVerifySMSAsync(authData.CustId);
 
             return apiResult;
         }
@@ -765,8 +725,8 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> VerifyPhoneAsync(VerifyPhoneReq verifyPhoneReq)
         {
-            var authData = authorizeBLL.GetAuthData();
-            var apiResult = await custInfoBLL.AcknowledgeVerifySMS(authData.CustId, serverInfoBLL.GetServerInfo().SiteName, verifyPhoneReq.request_id, verifyPhoneReq.code);
+            var authData = _authorizeBLL.GetAuthData();
+            var apiResult = await _custInfoBLL.AcknowledgeVerifySMS(authData.CustId, _serverInfoBLL.GetServerInfo().SiteName, verifyPhoneReq.request_id, verifyPhoneReq.code);
 
             return apiResult;
         }
@@ -775,8 +735,8 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<SendOTPSMSResult>> SendOTPSMSAsync()
         {
-            var authData = authorizeBLL.GetAuthData();
-            var apiResult = await commonBLL.SendOTPSMSAsync(authData.CustId);
+            var authData = _authorizeBLL.GetAuthData();
+            var apiResult = await _commonBLL.SendOTPSMSAsync(authData.CustId);
 
             return apiResult;
         }
@@ -788,8 +748,8 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> VerifyOTPAsync(VerifyOTPReq verifyOTPReq)
         {
-            var authData = authorizeBLL.GetAuthData();
-            var apiResult = await custInfoBLL.VerifyOTPAsync(authData.CustId, verifyOTPReq.inputOTPcode);
+            var authData = _authorizeBLL.GetAuthData();
+            var apiResult = await _custInfoBLL.VerifyOTPAsync(authData.CustId, verifyOTPReq.inputOTPcode);
 
             return apiResult;
         }
@@ -797,8 +757,8 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<SendOTPSMSResult>> GetOTPVerifyInfo()
         {
-            var authData = authorizeBLL.GetAuthData();
-            var apiResult = await commonBLL.GetOTPVerifyInfo(authData.CustId);
+            var authData = _authorizeBLL.GetAuthData();
+            var apiResult = await _commonBLL.GetOTPVerifyInfo(authData.CustId);
 
             return apiResult;
         }
