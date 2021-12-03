@@ -6,7 +6,6 @@ using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MySql.Data.MySqlClient;
 
@@ -14,21 +13,12 @@ namespace MemberSite.Service.DAL
 {
     public class VerificationRewardService : IVerificationRewardService
     {
-        private readonly string _connectionString;
         private readonly MySqlClient _reportDb;
         private readonly MySqlClient _mainDb;
-        private readonly CustInfoService _custInfoService;
-        private readonly WalletService _walletService;
-        private readonly WithdrawalLimitService _withdrawalLimitService;
         public VerificationRewardService(IServiceProvider provider)
         {
-            var configuration = provider.GetRequiredService<IConfiguration>();
-            _connectionString = configuration.GetConnectionString("ConnectionString");
             _mainDb = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDb = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
-            _custInfoService = provider.GetRequiredService<CustInfoService>();
-            _walletService = provider.GetRequiredService<WalletService>();
-            _withdrawalLimitService = provider.GetRequiredService<WithdrawalLimitService>();
         }
 
         public async Task<CustVerificationRewardData> GetCustVerificationReward(int custId)
