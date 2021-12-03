@@ -282,12 +282,21 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var eventId = drawPrizeReq.eventId;
-
+            //檢查活動及獎品狀態
             var prizes = eventsBLL.CheckDrawPrize(ref eventId, custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, out var prizeId, out var result);
             if (result == 100)
             {
                 apiResult.Data.PrizeId = prizeId;
                 apiResult.Data.PrizeName = prizes.FirstOrDefault(x => x.PrizeId == prizeId)?.PrizeName;
+            }else if(result == 0 )
+            {
+                eventsBLL.GetEventDrawInfoWithCache(eventId, out var EventName, out var ConditionSP);
+                //檢查使用者抽獎資格
+                if (ConditionSP != null && !eventsBLL.CheckEventCondition(ConditionSP, eventId, authData.CustId, custInfo.CurrencyId))
+                {
+                    result = 102;//使用者資格不符
+                    apiResult.Message = selLangBLL.GetMsg("msg_Ineligible");
+                }
             }
             apiResult.ErrorCode = result;
             //apiResult.ErrorCode = eventsBLL.CheckDrawPrize(custInfo.SiteId, custInfo.CurrencyId, authData.CustId, out prizeId, out giftName);
