@@ -12,6 +12,7 @@ namespace MemberSite.Service.DAL
     public class PhoneVerificationRewardStrategy : IRewardStrategy
     {
         public VerificationItem VerificationItem => VerificationItem.SMS;
+        private const int Type = 20;
         private readonly string _connectionString;
         private readonly CustInfoService _custInfoService;
         private readonly WalletService _walletService;
@@ -34,19 +35,18 @@ namespace MemberSite.Service.DAL
             using var trans = conn.BeginTransaction();
             
             var transId = "";
-            var type = 20;
             var result = 0;
-            result = _custInfoService.SetPhoneVerified(custId);
+            result = _custInfoService.SetPhoneVerified(custId, conn, trans);
             if (result <= 0) return result;
             
-            result = _walletService.SetBalance(custId, siteId, userName, reward, type,
+            result = _walletService.SetBalance(custId, siteId, userName, reward, Type,
                 $"phone verification reward: {reward:#,##0.##}", transId, out _, out _, conn, trans);
             if (result <= 0) return result;
             
             result = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, reward, null, transId, out _, conn, trans);
             if (result <= 0) return result;
 
-            result = _verificationRewardService.SetCustVerifiedReward(custId, siteId, currencyId, (int) VerificationItem.SMS, conn, trans);
+            result = _verificationRewardService.SetCustVerifiedReward(custId, siteId, currencyId, (int) VerificationItem, conn, trans);
             if (result <= 0) return result;
             
             trans.Commit();
@@ -57,6 +57,7 @@ namespace MemberSite.Service.DAL
     public class EmailVerificationRewardStrategy : IRewardStrategy
     {
         public VerificationItem VerificationItem => VerificationItem.Email;
+        private const int Type = 20;
         private readonly string _connectionString;
         private readonly CustInfoService _custInfoService;
         private readonly WalletService _walletService;
@@ -80,12 +81,11 @@ namespace MemberSite.Service.DAL
             using var trans = conn.BeginTransaction();
 
             var transId = "";
-            var type = 20;
             var result = 0;
-            result = _custInfoService.SetEmailVerified(custId);
+            result = _custInfoService.SetEmailVerified(custId, conn, trans);
             if (result <= 0) return result;
 
-            result = _walletService.SetBalance(custId, siteId, userName, reward, type,
+            result = _walletService.SetBalance(custId, siteId, userName, reward, Type,
                 $"email verification reward: {reward:#,##0.##}", transId, out _, out _, conn, trans);
             if (result <= 0) return result;
 
@@ -93,8 +93,7 @@ namespace MemberSite.Service.DAL
                 conn, trans);
             if (result <= 0) return result;
 
-            result = _verificationRewardService.SetCustVerifiedReward(custId, siteId, currencyId,
-                (int) VerificationItem.Email, conn, trans);
+            result = _verificationRewardService.SetCustVerifiedReward(custId, siteId, currencyId, (int) VerificationItem, conn, trans);
             if (result <= 0) return result;
 
             trans.Commit();
