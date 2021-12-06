@@ -119,21 +119,4 @@ namespace MemberSite.Service.Model
         Cancel_not_eligible = 5,
         Cancel_Rejected = 6
     }
-    public class PromotionBySpecialCode
-    {
-        public string BonusCode { set; get; }
-        public int PromotionType { get; set; }
-    }
-    public class PromotionBySpecialScratchCard : PromotionBySpecialCode
-    {
-        public int CustId { get; set; }
-    }
-    public class BonusinfoByBonusCode
-    {
-        public int Status { get; set; }
-    }
-    public class CheckDepositSpecialCodeRsp
-    {
-        public string BonusCode { get; set; }
-    }
 }

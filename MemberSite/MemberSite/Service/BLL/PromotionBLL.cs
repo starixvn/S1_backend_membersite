@@ -75,19 +75,6 @@ namespace MemberSite.Service.BLL
             var apiResult1 = new ApiResult();
             var lockedAmount = dLockedAmount ?? 0;
             bonusCode = bonusCode.Trim();
-            //check PhoneVerified,AccountName,Birth
-            var custInfoProfile = _custInfoBll.GetCustInfoProfile(custId);
-            if (!custInfoProfile.PhoneVerified
-                || string.IsNullOrEmpty(custInfoProfile.AccountName)
-                || string.IsNullOrEmpty(custInfoProfile.Birth_y)
-                || string.IsNullOrEmpty(custInfoProfile.Birth_m)
-                || string.IsNullOrEmpty(custInfoProfile.Birth_d))
-            {
-                apiResult1.ErrorCode = 2000;
-                apiResult1.Message = _selLangBll.GetMsg("msg_OTPHint");
-                return apiResult1;
-            }
-
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var result = _promotionService.SetClaimPromotion(custId, custInfo.UserName, custInfo.SiteId, bonusCode, custInfo.CurrencyId, deviceType, out var bonusAmount, ref lockedAmount, out var rollOver, out var expiryTime, out var promotion);
 
@@ -240,18 +227,6 @@ namespace MemberSite.Service.BLL
         public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, int siteId, string userName, int currencyId, int deviceType, decimal lockedAmount)
         {
             return _promotionService.SetDepositPromotionQueue(transId, bonusCode, custId, siteId, userName, currencyId, deviceType, lockedAmount);
-        }
-        public PromotionBySpecialCode GetPromotionBySpecialCode(int siteId, string SpecialCode)
-        {
-            return _promotionService.GetPromotionBySpecialCode(siteId,SpecialCode);
-        }
-        public PromotionBySpecialScratchCard GetPromotionBySpecialScratchCard(int siteId, string SpecialCode)
-        {
-            return _promotionService.GetPromotionBySpecialScratchCard(siteId, SpecialCode);
-        }
-        public BonusinfoByBonusCode GetBonusinfoByBonusCode(int CustId, string BonusCode)
-        {
-            return _promotionService.GetBonusinfoByBonusCode(CustId, BonusCode);
         }
     }
 }
