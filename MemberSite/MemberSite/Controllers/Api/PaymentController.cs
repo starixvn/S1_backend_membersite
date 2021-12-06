@@ -192,18 +192,18 @@ namespace MemberSite.Controllers.Api
 
             }
 
-            //check PhoneVerified,AccountName,Birth
-            var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
-            if (!custInfoProfile.PhoneVerified
-                || string.IsNullOrEmpty(custInfoProfile.AccountName)
-                || string.IsNullOrEmpty(custInfoProfile.Birth_y)
-                || string.IsNullOrEmpty(custInfoProfile.Birth_m)
-                || string.IsNullOrEmpty(custInfoProfile.Birth_d))
-            {
-                apiResult.ErrorCode = 2000;
-                apiResult.Message = selLangBLL.GetMsg("msg_OTPHint");
-                return apiResult;
-            }
+            ////check PhoneVerified,AccountName,Birth
+            //var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
+            //if (!custInfoProfile.PhoneVerified
+            //    || string.IsNullOrEmpty(custInfoProfile.AccountName)
+            //    || string.IsNullOrEmpty(custInfoProfile.Birth_y)
+            //    || string.IsNullOrEmpty(custInfoProfile.Birth_m)
+            //    || string.IsNullOrEmpty(custInfoProfile.Birth_d))
+            //{
+            //    apiResult.ErrorCode = 2000;
+            //    apiResult.Message = selLangBLL.GetMsg("msg_OTPHint");
+            //    return apiResult;
+            //}
 
             var result = -1;
             DepositRep3 depositRep3 = null;
