@@ -91,7 +91,7 @@ namespace MemberSite.Service.DAL
                 p.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                 p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 p.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", p, conn, trans);
+                _mainDbClient.Execute("Member_PromotionCanJoinV6_Get", p, conn, trans);
 
             var jResult = p.Get<int>("Result");
             var canJoin = p.Get<byte?>("CanJoin") ?? 0;
@@ -265,11 +265,10 @@ namespace MemberSite.Service.DAL
                             UserName = userName, CurrencyId = currencyId, SiteId = siteId, BonusInfo = sBonusInfo,
                             LockedAmount = dLockedAmount, BonusAmount = dBonus,
                             promotion.ExpiryDays, Memo = (string)null, Prefix = $"B{_common.GetEnv()}",
-                            RefList = reference.Any() ? JsonConvert.SerializeObject(reference) : null,
-                            AtPage = (int)BonusInfoAtPage.Promotion
+                            RefList = reference.Any() ? JsonConvert.SerializeObject(reference) : null
                         });
                         p.Add("TransId", dbType: DbType.String, direction: ParameterDirection.Output);
-                        result = _mainDbClient.Execute("Member_BonusInfo_Ins_V3", p, conn, trans);
+                        result = _mainDbClient.Execute("Member_BonusInfo_InsV2", p, conn, trans);
                         var transId = p.Get<string>("TransId");
                     
                         if (result > 0 && dLockedAmount > 0)
@@ -398,7 +397,7 @@ namespace MemberSite.Service.DAL
                     canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                     canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                     canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                    _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
+                    _mainDbClient.Execute("Member_PromotionCanJoinV6_Get", canJoinParams);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                     promo.canJoin = canJoinResult == 1;
@@ -551,7 +550,7 @@ namespace MemberSite.Service.DAL
                     canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                     canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                     canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                    _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
+                    _mainDbClient.Execute("Member_PromotionCanJoinV6_Get", canJoinParams);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                     promo.canJoin = canJoinResult == 1;
@@ -702,7 +701,7 @@ namespace MemberSite.Service.DAL
                 canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                 canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
+                _mainDbClient.Execute("Member_PromotionCanJoinV6_Get", canJoinParams);
 
                 var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                 promo.canJoin = canJoinResult == 1 || canJoinResult == 3;
@@ -876,7 +875,7 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             conn.Open();
 
-            var promotionList = conn.Query<CustPromotion>("Member_DepositPromotion_Get_V4", new { CustId, DeviceType }, commandType: CommandType.StoredProcedure);
+            var promotionList = conn.Query<CustPromotion>("Member_DepositPromotion_Get_V3", new { CustId, DeviceType }, commandType: CommandType.StoredProcedure);
             var _promotion = new List<CustPromotion>();
 
             foreach (var promo in promotionList)
@@ -945,19 +944,6 @@ namespace MemberSite.Service.DAL
             var mPwd = regex.Match(specialCode);
 
             return mPwd.Success;
-        }
-
-        public PromotionBySpecialCode GetPromotionBySpecialCode(int siteid,string specialCode)
-        {
-            return _reportDbClient.QueryFirst<PromotionBySpecialCode>("Member_PromotionBySpecialCode_Get", new DynamicParameters(new { SpecialCode = specialCode, SiteId = siteid }));
-        }
-        public PromotionBySpecialScratchCard GetPromotionBySpecialScratchCard(int siteid, string specialCode)
-        {
-            return _reportDbClient.QueryFirst<PromotionBySpecialScratchCard>("Member_PromotionBySpecialScratchCard_Get", new DynamicParameters(new { ScratchCardCode = specialCode, SiteId = siteid }));
-        }
-        public BonusinfoByBonusCode GetBonusinfoByBonusCode(int CustId, string BonusCode)
-        {
-            return _reportDbClient.QueryFirst<BonusinfoByBonusCode>("Member_BonusinfoByBonusCode_Get", new DynamicParameters(new { CustId = CustId, BonusCode = BonusCode }));
         }
     }
 }
