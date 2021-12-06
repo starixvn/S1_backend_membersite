@@ -107,6 +107,9 @@ namespace MemberSite
             services.AddSingleton<LatestHighlightDataService>();
             services.AddSingleton<ConfigService>();
             services.AddSingleton<AppLinkService>();
+            services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
+            services.AddSingleton<IRewardStrategy, EmailVerificationRewardStrategy>();
+            services.AddSingleton<IRewardStrategy, PhoneVerificationRewardStrategy>();
 
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
@@ -140,12 +143,12 @@ namespace MemberSite
             services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<LatestHighlightDataBll>();
             services.AddSingleton<GameBLL>();
-			services.AddTransient<GeoIpBLL>();
 			services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
             services.AddTransient<GeoIpBLL>();
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
             services.AddTransient<ImageEditorBLL>();
+            services.AddTransient<VerificationRewardBLL>();
 
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();

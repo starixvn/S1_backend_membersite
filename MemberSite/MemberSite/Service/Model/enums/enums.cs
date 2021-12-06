@@ -279,4 +279,10 @@
         Promotion = 0,
         Deposit = 1
     }
+
+    public enum VerificationItem
+    {
+        SMS = 0,
+        Email = 1
+    }
 }

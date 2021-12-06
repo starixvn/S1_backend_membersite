@@ -349,10 +349,22 @@ namespace MemberSite.Service.DAL
 
         public int SetPhoneVerified(int custId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            var result = conn.Execute("Common_PhoneVerified_Set", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            var result = _mainDbClient.Execute("Common_PhoneVerified_Set", new DynamicParameters(new { CustId = custId }));
             return result;
         }
+        
+        public int SetPhoneVerified(int custId, MySqlConnection conn, MySqlTransaction trans)
+        {
+            var result = _mainDbClient.Execute("Common_PhoneVerified_Set", new DynamicParameters(new { CustId = custId }), conn, trans);
+            return result;
+        }
+
+        public int SetEmailVerified(int custId, MySqlConnection conn, MySqlTransaction trans)
+        {
+            var result = _mainDbClient.Execute("Common_EmailVerified_Set", new DynamicParameters(new { _CustId = custId }), conn, trans);
+            return result;
+        }
+
         public int SetFireBaseTroken(int custId, int siteId, string fireBaseToken)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));

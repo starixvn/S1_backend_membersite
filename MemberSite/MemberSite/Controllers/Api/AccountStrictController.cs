@@ -16,6 +16,7 @@ namespace MemberSite.Controllers.Api
 {
     [Authorize]
     [Route("api/[controller]/[action]")]
+    [Route("api/[controller]/[action]/{LangId}")]
     [ApiController]
     public class AccountStrictController : ControllerBase
     {
@@ -623,6 +624,7 @@ namespace MemberSite.Controllers.Api
                     langId = custInfo.UserLang,
                     custInfo.UserLevel,
                     custInfo.PhoneVerified,
+                    custInfo.EmailVerified,
                     custInfo.EnablePromotion,
                     custInfo.ActStatus
                 };
@@ -759,6 +761,37 @@ namespace MemberSite.Controllers.Api
             var apiResult = await _commonBLL.GetOTPVerifyInfo(authData.CustId);
 
             return apiResult;
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult<SendOTPEmailResult>> SendOTPEmailAsync()
+        {
+            var authData = _authorizeBLL.GetAuthData();
+
+            var verifyEmailUrl = _serverInfoBLL.GetHttpDomain();
+
+            verifyEmailUrl += "/api/AccountStrict/VerifyEmail";
+            
+            var langId = _selLangBLL.GetLangId();
+            if (!string.IsNullOrEmpty(langId)) 
+                verifyEmailUrl += $"/{langId}";
+            
+            var apiResult = await _commonBLL.SendOTPEmailAsync(authData.CustId, verifyEmailUrl);
+
+            return apiResult;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> VerifyEmailAsync(string code, string LangId)
+        {
+            var authData = _authorizeBLL.GetAuthData();
+            var apiResult = await _custInfoBLL.VerifyEmailAsync(authData.CustId, code);
+
+            if (apiResult.ErrorCode == 0)
+            {
+                return RedirectToRoute(new { action = "Index", controller = "Home" });
+            }
+            return StatusCode(403);
         }
     }
 }
