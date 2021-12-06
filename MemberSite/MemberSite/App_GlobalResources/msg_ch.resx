@@ -315,4 +315,10 @@
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>您已經存儲此信息。</value>
   </data>
+  <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
+    <value>此優惠代碼已使用過。</value>
+  </data>
+  <data name="msg_OTPHint" xml:space="preserve">
+    <value>請完成您的個人資料並驗證您的手機號碼以享受我們的促銷</value>
+  </data>
 </root>
