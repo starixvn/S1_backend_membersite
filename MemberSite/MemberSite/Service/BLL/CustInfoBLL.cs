@@ -475,8 +475,9 @@ namespace MemberSite.Service.BLL
         {
             var apiResult = await _commonBll.VerifyOTPAsync(custId, inputOTP);
 
-            if (apiResult.ErrorCode == 0)
+            if (apiResult.ErrorCode == 0 && !await _custInfoService.GetPhoneVerified(custId))
             {
+                _custInfoService.SetPhoneVerified(custId);
                 await _verificationRewardBll.PhoneReward(custId);
             }
             return apiResult;
@@ -486,8 +487,9 @@ namespace MemberSite.Service.BLL
         {
             var apiResult = await _commonBll.VerifyEmailAsync(custId, inputOtp);
 
-            if (apiResult.ErrorCode == 0)
+            if (apiResult.ErrorCode == 0 && !await _custInfoService.GetEmailVerified(custId))
             {
+                _custInfoService.SetEmailVerified(custId);
                 await _verificationRewardBll.EmailReward(custId);
             }
             return apiResult;
