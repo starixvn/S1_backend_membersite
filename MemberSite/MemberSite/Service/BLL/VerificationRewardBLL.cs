@@ -25,11 +25,16 @@ namespace MemberSite.Service.BLL
                 return;
             var verificationReward = await _verificationRewardService.GetVerificationReward(custReward.SiteId, custReward.CurrencyId);
             
-            if(verificationReward.VerificationType == 0 ||
-               (verificationReward.VerificationType == 1 && custReward.EmailVerified))
+            var rewardStrategy = CreateStrategy(VerificationItem.SMS);
+            if(verificationReward.VerificationType == 0)
             {
-                var rewardStrategy = CreateStrategy(VerificationItem.SMS);
-                rewardStrategy.PayoutVerificationReward(custReward.CustId, custReward.SiteId, custReward.CurrencyId, custReward.UserName, verificationReward.PhoneReward);
+                rewardStrategy.PayoutVerificationReward(custReward.CustId, custReward.SiteId, custReward.CurrencyId, 
+                    custReward.UserName, verificationReward.PhoneReward, $"phone verification reward: {verificationReward.PhoneReward:#,##0.##}");
+            }
+            else if(verificationReward.VerificationType == 1 && custReward.EmailVerified)
+            {
+                rewardStrategy.PayoutVerificationReward(custReward.CustId, custReward.SiteId, custReward.CurrencyId, 
+                    custReward.UserName, verificationReward.PhoneReward, $"phone & email verification reward: {verificationReward.PhoneReward:#,##0.##}");
             }
         }
 
@@ -39,12 +44,16 @@ namespace MemberSite.Service.BLL
             if(custReward.EmailRewardTime.HasValue)
                 return;
             var verificationReward = await _verificationRewardService.GetVerificationReward(custReward.SiteId, custReward.CurrencyId);
-            
-            if(verificationReward.VerificationType == 0 ||
-               (verificationReward.VerificationType == 1 && custReward.PhoneVerified))
+            var rewardStrategy = CreateStrategy(VerificationItem.Email);
+            if(verificationReward.VerificationType == 0)
             {
-                var rewardStrategy = CreateStrategy(VerificationItem.Email);
-                rewardStrategy.PayoutVerificationReward(custReward.CustId, custReward.SiteId, custReward.CurrencyId, custReward.UserName, verificationReward.EmailReward);
+                rewardStrategy.PayoutVerificationReward(custReward.CustId, custReward.SiteId, custReward.CurrencyId,
+                    custReward.UserName, verificationReward.EmailReward, $"email verification reward: {verificationReward.EmailReward:#,##0.##}");
+            }
+            else if (verificationReward.VerificationType == 1 && custReward.PhoneVerified)
+            {
+                rewardStrategy.PayoutVerificationReward(custReward.CustId, custReward.SiteId, custReward.CurrencyId, 
+                    custReward.UserName, verificationReward.PhoneReward, $"phone & email verification reward: {verificationReward.PhoneReward:#,##0.##}");
             }
         }
 
