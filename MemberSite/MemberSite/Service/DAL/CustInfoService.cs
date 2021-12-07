@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MemberSite.Service.DAL
 {
@@ -352,16 +353,22 @@ namespace MemberSite.Service.DAL
             var result = _mainDbClient.Execute("Common_PhoneVerified_Set", new DynamicParameters(new { CustId = custId }));
             return result;
         }
-        
-        public int SetPhoneVerified(int custId, MySqlConnection conn, MySqlTransaction trans)
+
+        public async Task<bool> GetPhoneVerified(int custId)
         {
-            var result = _mainDbClient.Execute("Common_PhoneVerified_Set", new DynamicParameters(new { CustId = custId }), conn, trans);
+            var result = await _mainDbClient.QueryFirstAsync<bool>("Member_PhoneVerified_Get", new DynamicParameters(new { _CustId = custId }));
             return result;
         }
 
-        public int SetEmailVerified(int custId, MySqlConnection conn, MySqlTransaction trans)
+        public int SetEmailVerified(int custId)
         {
-            var result = _mainDbClient.Execute("Common_EmailVerified_Set", new DynamicParameters(new { _CustId = custId }), conn, trans);
+            var result = _mainDbClient.Execute("Common_EmailVerified_Set", new DynamicParameters(new { _CustId = custId }));
+            return result;
+        }
+        
+        public async Task<bool> GetEmailVerified(int custId)
+        {
+            var result = await _mainDbClient.QueryFirstAsync<bool>("Member_EmailVerified_Get", new DynamicParameters(new { _CustId = custId }));
             return result;
         }
 
