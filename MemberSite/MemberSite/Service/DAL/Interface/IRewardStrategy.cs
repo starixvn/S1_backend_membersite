@@ -5,6 +5,6 @@ namespace MemberSite.Service.DAL.Interface
     public interface IRewardStrategy
     {
         VerificationItem VerificationItem { get; }
-        int PayoutVerificationReward(int custId, int siteId, int currencyId, string userName, decimal reward);
+        int PayoutVerificationReward(int custId, int siteId, int currencyId, string userName, decimal reward, string memo);
     }
 }

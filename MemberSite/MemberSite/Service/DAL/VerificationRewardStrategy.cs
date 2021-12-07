@@ -28,7 +28,7 @@ namespace MemberSite.Service.DAL
             _withdrawalLimitService = provider.GetRequiredService<WithdrawalLimitService>();
             _verificationRewardService = provider.GetRequiredService<IVerificationRewardService>();
         }
-        public int PayoutVerificationReward(int custId, int siteId, int currencyId, string userName, decimal reward)
+        public int PayoutVerificationReward(int custId, int siteId, int currencyId, string userName, decimal reward, string memo)
         {
             using var conn = new MySqlConnection(_connectionString);
             conn.Open();
@@ -36,14 +36,11 @@ namespace MemberSite.Service.DAL
             
             var transId = "";
             var result = 0;
-            result = _custInfoService.SetPhoneVerified(custId, conn, trans);
+            
+            result = _walletService.SetBalance(custId, siteId, userName, reward, Type, memo, transId, out _, out _, conn, trans);
             if (result <= 0) return result;
             
-            result = _walletService.SetBalance(custId, siteId, userName, reward, Type,
-                $"phone verification reward: {reward:#,##0.##}", transId, out _, out _, conn, trans);
-            if (result <= 0) return result;
-            
-            result = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, reward, null, transId, out _, conn, trans);
+            result = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, reward, memo, transId, out _, conn, trans);
             if (result <= 0) return result;
 
             result = _verificationRewardService.SetCustVerifiedReward(custId, siteId, currencyId, (int) VerificationItem, conn, trans);
@@ -74,7 +71,7 @@ namespace MemberSite.Service.DAL
             _verificationRewardService = provider.GetRequiredService<IVerificationRewardService>();
         }
 
-        public int PayoutVerificationReward(int custId, int siteId, int currencyId, string userName, decimal reward)
+        public int PayoutVerificationReward(int custId, int siteId, int currencyId, string userName, decimal reward, string memo)
         {
             using var conn = new MySqlConnection(_connectionString);
             conn.Open();
@@ -82,15 +79,11 @@ namespace MemberSite.Service.DAL
 
             var transId = "";
             var result = 0;
-            result = _custInfoService.SetEmailVerified(custId, conn, trans);
+            
+            result = _walletService.SetBalance(custId, siteId, userName, reward, Type, memo, transId, out _, out _, conn, trans);
             if (result <= 0) return result;
 
-            result = _walletService.SetBalance(custId, siteId, userName, reward, Type,
-                $"email verification reward: {reward:#,##0.##}", transId, out _, out _, conn, trans);
-            if (result <= 0) return result;
-
-            result = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, reward, null, transId, out _,
-                conn, trans);
+            result = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, reward, memo, transId, out _, conn, trans);
             if (result <= 0) return result;
 
             result = _verificationRewardService.SetCustVerifiedReward(custId, siteId, currencyId, (int) VerificationItem, conn, trans);
