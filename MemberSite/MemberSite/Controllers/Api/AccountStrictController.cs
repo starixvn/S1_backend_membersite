@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using LazZiya.ImageResize;
@@ -27,6 +28,8 @@ namespace MemberSite.Controllers.Api
         private readonly CommonBLL _commonBLL;
         private readonly ServerInfoBll _serverInfoBLL;
         private readonly ImageEditorBLL _imageEditorBll;
+        private readonly SelLangBLL _selLangBll;
+        private readonly AuthBLL _authBll;
 
         public AccountStrictController(IServiceProvider provider)
         {
@@ -37,6 +40,8 @@ namespace MemberSite.Controllers.Api
             _commonBLL = provider.GetRequiredService<CommonBLL>();
             _serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
             _imageEditorBll = provider.GetRequiredService<ImageEditorBLL>();
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
+            _authBll = provider.GetRequiredService<AuthBLL>();
         }
 
         public class BankInfo
@@ -765,35 +770,65 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
         
+        public class SendOTPEmailReq
+        {
+            public string route { get; set; }
+        }
+        
         [HttpPost]
-        public async Task<ApiResult<SendOTPEmailResult>> SendOTPEmailAsync()
+        public async Task<ApiResult<SendOTPEmailResult>> SendOTPEmailAsync(SendOTPEmailReq req)
         {
             var authData = _authorizeBLL.GetAuthData();
-
-            var verifyEmailUrl = _serverInfoBLL.GetHttpDomain();
-
-            verifyEmailUrl += "/api/AccountStrict/VerifyEmail";
+            var profileUrl = _serverInfoBLL.GetHttpDomain();
             
             var langId = _selLangBLL.GetLangId();
             if (!string.IsNullOrEmpty(langId)) 
-                verifyEmailUrl += $"/{langId}";
+                profileUrl += $"/{langId}";
             
-            var apiResult = await _commonBLL.SendOTPEmailAsync(authData.CustId, verifyEmailUrl);
+            profileUrl += $"/{req.route}";
+            
+            var apiResult = await _commonBLL.SendOTPEmailAsync(authData.CustId, profileUrl);
 
             return apiResult;
         }
-
-        [HttpGet]
-        public async Task<IActionResult> VerifyEmailAsync(string code, string LangId)
+        
+        public class VerifyEmailReq
         {
-            var authData = _authorizeBLL.GetAuthData();
-            var apiResult = await _custInfoBLL.VerifyEmailAsync(authData.CustId, code);
-
-            if (apiResult.ErrorCode == 0)
+            public string key { get; set; }
+            public string code { get; set; }
+        }
+        
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ApiResult> VerifyEmailAsync(VerifyEmailReq req, [FromRoute] string langId)
+        {
+            var apiResult = new ApiResult(_selLangBll);
+            if (_authBll.Authenticate(req.key, out CustInfoProfile custInfoProfile))
             {
-                return RedirectToRoute(new { action = "Index", controller = "Home" });
+                Customer customer = null;
+                var result = _custInfoBLL.GetCustomer(custInfoProfile.UserName, ref customer);
+                if (result != 0)
+                {
+                    apiResult.ErrorCode = result;
+                    return apiResult;
+                }
+
+                if (User.Identity.IsAuthenticated && _authorizeBLL.GetAuthData().CustId != customer.CustId)
+                {
+                    apiResult.ErrorCode = 1;
+                }
+                else
+                {
+                    var verifyResult = await _custInfoBLL.VerifyEmailAsync(customer.CustId, req.code);
+                    apiResult.ErrorCode = verifyResult.ErrorCode;
+                }
             }
-            return StatusCode(403);
+            else
+            {
+                apiResult.ErrorCode = 403;
+            }
+
+            return apiResult;
         }
     }
 }
