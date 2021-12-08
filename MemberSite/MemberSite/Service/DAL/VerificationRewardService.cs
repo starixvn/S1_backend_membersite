@@ -1,42 +1,43 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Dapper;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using MemberSite.Service.Model.enums;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MySql.Data.MySqlClient;
 
 namespace MemberSite.Service.DAL
 {
     public class VerificationRewardService : IVerificationRewardService
     {
-        private readonly MySqlClient _reportDb;
-        private readonly MySqlClient _mainDb;
+        private readonly CourierAdapter _courierAdapter;
+        private readonly string _bonusServiceUrl;
         public VerificationRewardService(IServiceProvider provider)
         {
-            _mainDb = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
-            _reportDb = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
+            _courierAdapter = provider.GetService<CourierAdapter>();
+            var configuration = provider.GetRequiredService<IConfiguration>();
+            _bonusServiceUrl = configuration.GetValue<string>("BonusService");
         }
 
-        public async Task<CustVerificationRewardData> GetCustVerificationReward(int custId)
+        public async Task<ApiResult> SetVerificationReward(int custId, int verificationType)
         {
-            var p = new DynamicParameters(new {_CustId = custId});
-            return await _reportDb.QueryFirstAsync<CustVerificationRewardData>("Member_CustVerificationReward_Get", p);
+            var apiUrl = $"{_bonusServiceUrl}SetVerificationReward";
+
+            var req = new VerificationRewardObj
+            {
+                CustId = custId,
+                VerificationType = verificationType
+            };
+
+            var result = await _courierAdapter.MyPostAsync<ApiResult, VerificationRewardObj>(apiUrl, req);
+
+            return result;
         }
 
-        public async Task<VerificationRewardData> GetVerificationReward(int siteId, int currencyId)
+        private class VerificationRewardObj
         {
-            var p = new DynamicParameters(new {_SiteId = siteId, _CurrencyId = currencyId});
-            return await _reportDb.QueryFirstAsync<VerificationRewardData>("Member_VerificationReward_Get", p);
-        }
-        
-        public int SetCustVerifiedReward(int custId, int siteId, int currencyId,int verifyItem, MySqlConnection conn, MySqlTransaction trans)
-        {
-            var p = new DynamicParameters(new {_CustId = custId, _SiteId = siteId, _CurrencyId = currencyId, _VerificationItem = verifyItem});
-            return _mainDb.Execute("Member_CustVerificationReward_Set", p, conn, trans);
+            public int CustId { get; set; }
+            public int VerificationType { get; set; }
         }
     }
 }
