@@ -209,6 +209,18 @@ namespace MemberSite.Service.BLL
             return 0;
         }
 
+        public int GetCustomer(string userName, ref Customer customer)
+        {
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            customer = _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId);
+            if (customer == null)
+            {
+                return -1;
+            }
+
+            return 0;
+        }
+
         public int SetLanguage(int custId, string langId)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
