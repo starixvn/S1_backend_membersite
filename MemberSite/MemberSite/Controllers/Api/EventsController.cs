@@ -297,6 +297,9 @@ namespace MemberSite.Controllers.Api
                     result = 102;//使用者資格不符
                     apiResult.Message = selLangBLL.GetMsg("msg_Ineligible");
                 }
+            }else
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_Ineligible");
             }
             apiResult.ErrorCode = result;
             //apiResult.ErrorCode = eventsBLL.CheckDrawPrize(custInfo.SiteId, custInfo.CurrencyId, authData.CustId, out prizeId, out giftName);
@@ -377,6 +380,10 @@ namespace MemberSite.Controllers.Api
                         }
                     }
                     messageBLL.SendMessage(custInfo.SiteId, "DrawPrize", Tital, msg, custInfo.CustId, custInfo.UserName, custInfo.UserLang);
+                }
+                else
+                {
+                    apiResult.Message = selLangBLL.GetMsg("msg_Ineligible");
                 }
                 apiResult.ErrorCode = result;
             }
