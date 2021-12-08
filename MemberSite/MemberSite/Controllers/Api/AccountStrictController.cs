@@ -777,24 +777,28 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
         
+        public class SendOTPEmailReq
+        {
+            public string route { get; set; }
+        }
+        
         [HttpPost]
-        public async Task<ApiResult<SendOTPEmailResult>> SendOTPEmailAsync()
+        public async Task<ApiResult<SendOTPEmailResult>> SendOTPEmailAsync(SendOTPEmailReq req)
         {
             var authData = _authorizeBLL.GetAuthData();
-
-            var verifyEmailUrl = _serverInfoBLL.GetHttpDomain();
-
-            verifyEmailUrl += "/api/AccountStrict/VerifyEmail";
+            var profileUrl = _serverInfoBLL.GetHttpDomain();
             
             var langId = _selLangBLL.GetLangId();
             if (!string.IsNullOrEmpty(langId)) 
-                verifyEmailUrl += $"/{langId}";
+                profileUrl += $"/{langId}";
             
-            var apiResult = await _commonBLL.SendOTPEmailAsync(authData.CustId, verifyEmailUrl);
+            profileUrl += req.route;
+            
+            var apiResult = await _commonBLL.SendOTPEmailAsync(authData.CustId, profileUrl);
 
             return apiResult;
         }
-
+        
         [HttpGet]
         public async Task<IActionResult> VerifyEmailAsync(string code, string LangId)
         {
