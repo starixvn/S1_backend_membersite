@@ -345,4 +345,7 @@
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>You have already stored this information.</value>
   </data>
+  <data name="msg_PhoneWrongFormat" xml:space="preserve">
+    <value>Phone Format is wrong.</value>
+  </data>
 </root>
