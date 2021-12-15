@@ -348,4 +348,7 @@
   <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
     <value>This Promo Code has been used.</value>
   </data>
+  <data name="msg_PhoneWrongFormat" xml:space="preserve">
+    <value>Phone Format is wrong.</value>
+  </data>
 </root>
