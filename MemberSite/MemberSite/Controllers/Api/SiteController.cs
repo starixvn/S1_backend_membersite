@@ -445,7 +445,7 @@ namespace MemberSite.Controllers.Api
                 if (phoneExists)
                     result = -6;
             }
-            else
+            else if (!string.IsNullOrEmpty(signupModel.PhoneNo))
             {
                 apiResult.ErrorCode = -20;
                 apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
@@ -633,7 +633,7 @@ namespace MemberSite.Controllers.Api
                 if (phoneExists)
                     result = -6;
             }
-            else
+            else if (!string.IsNullOrEmpty(signupModel.PhoneNo))
             {
                 apiResult.ErrorCode = -20;
                 apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
