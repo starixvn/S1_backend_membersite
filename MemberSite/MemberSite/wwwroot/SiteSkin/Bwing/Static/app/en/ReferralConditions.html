@@ -10,6 +10,17 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="shortcut icon" href="../../../common/images/favicon.ico" type="image/x-icon">
     <link href="../../../Desktop/assets/css/bwinghelp.css" rel="stylesheet" />
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script> -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+        $(function () {
+            /* 按下GoTop按鈕時的事件 */
+            $('#gotop').click(function(){
+                $('html,body').animate({ scrollTop: 0 }, 'slow');   /* 返回到最頂上 */
+                return false;
+            });
+        });
+    </script>
 </head>
 
 <style>
@@ -59,6 +70,7 @@
 </style>
 
 <body>
+    <a href="" id="gotop"><img src="../../images/arrow-up2.png" /></a>
     <div class="app app--help">
         <div class="header">
             <div class="header__main">
