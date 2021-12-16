@@ -64,7 +64,7 @@ namespace MemberSite.Controllers
                 if (phoneExists)
                     result = -6;
             }
-            else
+            else if (!string.IsNullOrEmpty(signupModel.PhoneNo))
             {
                 phoneNoValidation = false;
                 result = -20;
