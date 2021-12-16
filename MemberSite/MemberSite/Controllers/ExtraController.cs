@@ -53,6 +53,7 @@ namespace MemberSite.Controllers
 
             var custId = 0;
             var result = -99;
+            var phoneNoValidation = true;
             var phoneExists = false;
             var mailExists = false;
 
@@ -65,6 +66,7 @@ namespace MemberSite.Controllers
             }
             else
             {
+                phoneNoValidation = false;
                 result = -20;
             }
 
@@ -75,7 +77,7 @@ namespace MemberSite.Controllers
                     result = -10;
             }
 
-            if (!phoneExists && !mailExists)
+            if (!phoneExists && phoneNoValidation && !mailExists)
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
                     signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
