@@ -447,7 +447,9 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                result = -20;
+                apiResult.ErrorCode = -20;
+                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
+                return apiResult;
             }
 
             if (!string.IsNullOrWhiteSpace(signupModel.Email))
@@ -633,7 +635,9 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                result = -20;
+                apiResult.ErrorCode = -20;
+                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
+                return apiResult;
             }
 
             if (!string.IsNullOrWhiteSpace(signupModel.Email))
