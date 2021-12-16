@@ -26,7 +26,7 @@ namespace MemberSite.Service.DAL
             var req = new VerificationRewardObj
             {
                 CustId = custId,
-                VerificationType = verificationType
+                OTPType = verificationType
             };
 
             var result = await _courierAdapter.MyPostAsync<ApiResult, VerificationRewardObj>(apiUrl, req);
@@ -37,7 +37,7 @@ namespace MemberSite.Service.DAL
         private class VerificationRewardObj
         {
             public int CustId { get; set; }
-            public int VerificationType { get; set; }
+            public int OTPType { get; set; }
         }
     }
 }
