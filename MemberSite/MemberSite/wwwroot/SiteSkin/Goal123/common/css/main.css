@@ -5127,7 +5127,7 @@ button.swiper-pagination-bullet {
   display: block;
   width: calc(190px * 0.8);
   height: calc(46px * 0.8);
-  background-image: url("../images/logo.png");
+  background-image: url("https://www.goal123.com/static/logo_event-858e852821eb8a21ac32fad717fddfa3.png");
   background-repeat: no-repeat;
   background-size: 100%;
   transition: ease .15s;
@@ -7842,4 +7842,24 @@ ul {
 }
 table, td, th{
   border: 1px solid white !important;
+}
+
+#gotop {
+  position:fixed;
+  z-index:90;
+  right:30px;
+  bottom:30px;
+  width:40px;
+  height:40px;
+  color:#fff;
+  background:rgba(250,182,23,.85);
+  line-height:40px;
+  border-radius:50%;
+  text-align: center;
+  box-shadow: 0 2px 5px 0 rgba(53, 44, 44, 0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+}
+
+#gotop img{
+  width: 13px;
+  height: 13px;
 }
