@@ -337,4 +337,7 @@
   <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
     <value>此优惠代码已使用过。</value>
   </data>
+  <data name="msg_PhoneWrongFormat" xml:space="preserve">
+    <value>手机格式不符</value>
+  </data>
 </root>

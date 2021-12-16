@@ -445,6 +445,12 @@ namespace MemberSite.Controllers.Api
                 if (phoneExists)
                     result = -6;
             }
+            else if (!string.IsNullOrEmpty(signupModel.PhoneNo))
+            {
+                apiResult.ErrorCode = -20;
+                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
+                return apiResult;
+            }
 
             if (!string.IsNullOrWhiteSpace(signupModel.Email))
             {
@@ -499,6 +505,10 @@ namespace MemberSite.Controllers.Api
                 case -19:
                     apiResult.ErrorCode = result;
                     apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
+                    break;
+                case -20:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
                     break;
                 default:
                     {
@@ -623,6 +633,12 @@ namespace MemberSite.Controllers.Api
                 if (phoneExists)
                     result = -6;
             }
+            else if (!string.IsNullOrEmpty(signupModel.PhoneNo))
+            {
+                apiResult.ErrorCode = -20;
+                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
+                return apiResult;
+            }
 
             if (!string.IsNullOrWhiteSpace(signupModel.Email))
             {
@@ -676,6 +692,10 @@ namespace MemberSite.Controllers.Api
                 case -19:
                     apiResult.ErrorCode = result;
                     apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
+                    break;
+                case -20:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
                     break;
                 default:
                     {

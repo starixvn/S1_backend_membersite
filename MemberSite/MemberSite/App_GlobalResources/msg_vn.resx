@@ -323,4 +323,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>Bạn đã lưu thông tin này.</value>
   </data>
+  <data name="msg_PhoneWrongFormat" xml:space="preserve">
+    <value>Định dạng Phone không đúng</value>
+  </data>
 </root>

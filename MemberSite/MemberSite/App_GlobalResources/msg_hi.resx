@@ -344,4 +344,7 @@
   <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
     <value>इस प्रोमो कोड का इस्तेमाल किया गया है।</value>
   </data>
+  <data name="msg_PhoneWrongFormat" xml:space="preserve">
+    <value>Phone Format is wrong.</value>
+  </data>
 </root>

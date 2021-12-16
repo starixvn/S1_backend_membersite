@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace MemberSite.Controllers
 {
@@ -21,6 +22,7 @@ namespace MemberSite.Controllers
         private readonly CommonBLL _commonBll;
         private readonly Tools _tools;
         private readonly ServerInfoBll _serverInfoBll;
+        private readonly ILogger<ExtraController> _logger;
 
         public ExtraController(IServiceProvider provider)
         {
@@ -29,6 +31,7 @@ namespace MemberSite.Controllers
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _tools = provider.GetRequiredService<Tools>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+            _logger = provider.GetRequiredService<ILogger<ExtraController>>();
         }
         public class SignupModel : Api.SiteController.RegisteredModel
         {
@@ -53,6 +56,7 @@ namespace MemberSite.Controllers
 
             var custId = 0;
             var result = -99;
+            var phoneNoValidation = true;
             var phoneExists = false;
             var mailExists = false;
 
@@ -63,6 +67,11 @@ namespace MemberSite.Controllers
                 if (phoneExists)
                     result = -6;
             }
+            else if (!string.IsNullOrEmpty(signupModel.PhoneNo))
+            {
+                phoneNoValidation = false;
+                result = -20;
+            }
 
             if (!string.IsNullOrWhiteSpace(signupModel.Email))
             {
@@ -71,7 +80,7 @@ namespace MemberSite.Controllers
                     result = -10;
             }
 
-            if (!phoneExists && !mailExists)
+            if (!phoneExists && phoneNoValidation && !mailExists)
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
                     signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
@@ -118,6 +127,11 @@ namespace MemberSite.Controllers
             {
                 errorCode = result;
                 message = _selLangBll.GetMsg("mag_AffiliateNotExist");
+            }
+            else if (result == -20)
+            {
+                errorCode = result;
+                message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
             }
             else if (custId == 0)
             {
@@ -184,6 +198,8 @@ namespace MemberSite.Controllers
 
                 }
             }
+
+            _logger.LogInformation($"({errorCode}) {message}");
 
             return Redirect($"{signupModel.SignupUrl}{(signupModel.SignupUrl.IndexOf("?") > -1 ? $"&message={HttpUtility.UrlEncode(message)}&errorCode={errorCode}" : $"?message={HttpUtility.UrlEncode(message)}&errorCode={errorCode}")}");
         }
