@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace MemberSite.Controllers
 {
@@ -21,6 +22,7 @@ namespace MemberSite.Controllers
         private readonly CommonBLL _commonBll;
         private readonly Tools _tools;
         private readonly ServerInfoBll _serverInfoBll;
+        private readonly ILogger<ExtraController> _logger;
 
         public ExtraController(IServiceProvider provider)
         {
@@ -29,6 +31,7 @@ namespace MemberSite.Controllers
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _tools = provider.GetRequiredService<Tools>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+            _logger = provider.GetRequiredService<ILogger<ExtraController>>();
         }
         public class SignupModel : Api.SiteController.RegisteredModel
         {
@@ -195,6 +198,8 @@ namespace MemberSite.Controllers
 
                 }
             }
+
+            _logger.LogInformation($"({errorCode}) {message}");
 
             return Redirect($"{signupModel.SignupUrl}{(signupModel.SignupUrl.IndexOf("?") > -1 ? $"&message={HttpUtility.UrlEncode(message)}&errorCode={errorCode}" : $"?message={HttpUtility.UrlEncode(message)}&errorCode={errorCode}")}");
         }
