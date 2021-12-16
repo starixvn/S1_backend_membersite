@@ -337,4 +337,7 @@
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>Anda telah menyimpan informasi ini.</value>
   </data>
+  <data name="msg_PhoneWrongFormat" xml:space="preserve">
+    <value>Format Phone salah</value>
+  </data>
 </root>

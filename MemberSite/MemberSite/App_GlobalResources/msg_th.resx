@@ -341,4 +341,7 @@
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>คุณได้ทำการจัดเก็บข้อมูลนี้ไว้เรียบร้อยแล้ว</value>
   </data>
+  <data name="msg_PhoneWrongFormat" xml:space="preserve">
+    <value>Phone Format is wrong.</value>
+  </data>
 </root>

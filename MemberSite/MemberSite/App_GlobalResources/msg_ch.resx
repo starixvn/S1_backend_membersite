@@ -150,6 +150,9 @@
   <data name="msg_MailWrongFormat" xml:space="preserve">
     <value>電子郵件格式不符</value>
   </data>
+  <data name="msg_PhoneWrongFormat" xml:space="preserve">
+    <value>手機格式不符</value>
+  </data>
   <data name="msg_NeedAccountName" xml:space="preserve">
     <value>需要帳戶名稱</value>
   </data>

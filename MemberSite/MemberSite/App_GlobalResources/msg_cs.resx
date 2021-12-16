@@ -334,4 +334,7 @@
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>您已经存储此信息。</value>
   </data>
+  <data name="msg_PhoneWrongFormat" xml:space="preserve">
+    <value>手机格式不符</value>
+  </data>
 </root>

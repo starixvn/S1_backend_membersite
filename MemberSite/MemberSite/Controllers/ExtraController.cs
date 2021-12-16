@@ -53,6 +53,7 @@ namespace MemberSite.Controllers
 
             var custId = 0;
             var result = -99;
+            var phoneNoValidation = true;
             var phoneExists = false;
             var mailExists = false;
 
@@ -63,6 +64,11 @@ namespace MemberSite.Controllers
                 if (phoneExists)
                     result = -6;
             }
+            else
+            {
+                phoneNoValidation = false;
+                result = -20;
+            }
 
             if (!string.IsNullOrWhiteSpace(signupModel.Email))
             {
@@ -71,7 +77,7 @@ namespace MemberSite.Controllers
                     result = -10;
             }
 
-            if (!phoneExists && !mailExists)
+            if (!phoneExists && phoneNoValidation && !mailExists)
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
                     signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
@@ -118,6 +124,11 @@ namespace MemberSite.Controllers
             {
                 errorCode = result;
                 message = _selLangBll.GetMsg("mag_AffiliateNotExist");
+            }
+            else if (result == -20)
+            {
+                errorCode = result;
+                message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
             }
             else if (custId == 0)
             {

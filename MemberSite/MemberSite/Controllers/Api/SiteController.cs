@@ -445,6 +445,12 @@ namespace MemberSite.Controllers.Api
                 if (phoneExists)
                     result = -6;
             }
+            else
+            {
+                apiResult.ErrorCode = -20;
+                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
+                return apiResult;
+            }
 
             if (!string.IsNullOrWhiteSpace(signupModel.Email))
             {
@@ -622,6 +628,12 @@ namespace MemberSite.Controllers.Api
                 phoneExists = _custInfoBll.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
                 if (phoneExists)
                     result = -6;
+            }
+            else
+            {
+                apiResult.ErrorCode = -20;
+                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
+                return apiResult;
             }
 
             if (!string.IsNullOrWhiteSpace(signupModel.Email))
