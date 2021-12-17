@@ -6,9 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../../common/css/main.css">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script> -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
     <script>
         $(function msieversion() {
@@ -60,6 +61,11 @@
                 var $target = $(this).parent();
                 $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
             });
+            /* 按下GoTop按鈕時的事件 */
+            $('#gotop').click(function(){
+                $('html,body').animate({ scrollTop: 0 }, 'slow');   /* 返回到最頂上 */
+                return false;
+            });
         });
     </script>
 
@@ -76,6 +82,7 @@
 </head>
 
 <body>
+    <a href="" id="gotop"><img src="../images/arrow-up2.png" /></a>
     <div class="app app--help">
         <div class="side-bar" role="desktop-drawer">
             <div class="overlay"></div>
@@ -87,7 +94,7 @@
                 </div>
                 <div class="side-nav__list">
                     <div class="side-nav__item">
-                        <a class="side-nav__btn" href="/">
+                        <a class="side-nav__btn" href="https://www.nova88.net">
                             <i class="icon icon-home"></i>
                             <span class="text">Home</span>
                         </a>
@@ -135,9 +142,6 @@
                             <a class="side-nav__subitem" href="Downloads.html" target="_self">
                                 <span class="text">Downloads</span>
                             </a>-->
-                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
-                                <span class="text">Account Terms</span>
-                            </a>
                         </div>
                     </div>
                     <div class="side-nav__item" data-open="true">
@@ -171,7 +175,7 @@
                     <i class="icon icon-menu"></i>
                 </a>
                 <div class="header__logo">
-                    <a class="logo" href="/"></a>
+                    <a class="logo" ></a>
                 </div>
             </div>
         </div>
