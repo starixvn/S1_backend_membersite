@@ -6,9 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../../common/css/main.css">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script> -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
     <script>
         $(function msieversion() {
@@ -60,11 +61,17 @@
                 var $target = $(this).parent();
                 $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
             });
+            /* 按下GoTop按鈕時的事件 */
+            $('#gotop').click(function(){
+                $('html,body').animate({ scrollTop: 0 }, 'slow');   /* 返回到最頂上 */
+                return false;
+            });
         });
     </script>
 </head>
 
 <body>
+    <a href="" id="gotop"><img src="../images/arrow-up2.png" /></a>
     <div class="app app--help">
         <div class="side-bar" role="desktop-drawer">
             <div class="overlay"></div>
@@ -76,7 +83,7 @@
                 </div>
                 <div class="side-nav__list">
                     <div class="side-nav__item">
-                        <a class="side-nav__btn" href="/">
+                        <a class="side-nav__btn" href="https://www.nova88.net">
                             <i class="icon icon-home"></i>
                             <span class="text">首页</span>
                         </a>
@@ -124,9 +131,6 @@
                             <a class="side-nav__subitem" href="Downloads.html" target="_self">
                                 <span class="text">下载</span>
                             </a>-->
-                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
-                                <span class="text">账户条款</span>
-                            </a>
                         </div>
                     </div>
                     <div class="side-nav__item" data-open="true">
@@ -160,7 +164,7 @@
                     <i class="icon icon-menu"></i>
                 </a>
                 <div class="header__logo">
-                    <a class="logo" href="/"></a>
+                    <a class="logo" ></a>
                 </div>
             </div>
         </div>
@@ -172,7 +176,7 @@
                     </div>
                     <div class="article">
                         <p>
-                            Nova88（“公司”）是一个远程赌博或在线博彩运营商的品牌。本公司获得并持有菲律宾娱乐和博彩公司（“PAGCOR”）签发的体育博彩和电子赌场境外博彩许可证，并以Nova88的品牌经营和开展境外博彩活动。
+                            NOVA88.net（简称"网站"）由位于库拉索的远程博彩公司Dynaconnect技术公司B.V.（简称"公司"）运营。该网站主许可证持有人——Antillephone N.V.-  8048/JAZ，由库拉索政府批准运营。
                         </p>
                         <p>
                             在本公司博彩运营的核心是我们引以为豪，相辅相成的管理和运营团队。团队成员在远程赌博或在线博彩行业拥有宝贵的经验，并认同将本公司发展成为当今世界上最值得信赖的博彩品牌的宏伟愿景。
@@ -204,7 +208,7 @@
                         <p>
                             我们为本公司建立的品牌而感到无比自豪，并希望您能在一个安全、富有娱乐性和收获感的博彩氛围中亲身体验我们的产品和服务。这就是Nova88！
                         </p>
-                            </div>
+                    </div>
                 </div>
             </div>
         </div>

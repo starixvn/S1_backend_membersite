@@ -6434,7 +6434,7 @@ a.lobby-quicklink:hover {
 
 [data-layout=desktop] .app--help .main {
   max-width: 912px;
-  min-width: 769px;
+  /* min-width: 769px; */
   padding: 0;
   max-width: none;
   /* background-color: white; */

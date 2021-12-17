@@ -6,9 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../../common/css/main.css">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script> -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
     <script>
         $(function msieversion() {
@@ -60,11 +61,17 @@
                 var $target = $(this).parent();
                 $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
             });
+            /* 按下GoTop按鈕時的事件 */
+            $('#gotop').click(function(){
+                $('html,body').animate({ scrollTop: 0 }, 'slow');   /* 返回到最頂上 */
+                return false;
+            });
         });
     </script>
 </head>
 
 <body>
+    <a href="" id="gotop"><img src="../images/arrow-up2.png" /></a>
     <div class="app app--help">
         <div class="side-bar" role="desktop-drawer">
             <div class="overlay"></div>
@@ -76,7 +83,7 @@
                 </div>
                 <div class="side-nav__list">
                     <div class="side-nav__item">
-                        <a class="side-nav__btn" href="/">
+                        <a class="side-nav__btn" href="https://www.nova88.net">
                             <i class="icon icon-home"></i>
                             <span class="text">Beranda</span>
                         </a>
@@ -123,10 +130,7 @@
                             </a>
                             <a class="side-nav__subitem" href="Downloads.html" target="_self">
                                 <span class="text">Downloads</span>
-                            </a>-->
-                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
-                                <span class="text">Ketentuan Akun</span>
-                            </a>
+                            <</a>-->
                         </div>
                     </div>
                     <div class="side-nav__item" data-open="true">
@@ -160,7 +164,7 @@
                     <i class="icon icon-menu"></i>
                 </a>
                 <div class="header__logo">
-                    <a class="logo" href="/"></a>
+                    <a class="logo" ></a>
                 </div>
             </div>
         </div>
@@ -172,538 +176,360 @@
                     </div>
                     <div class="article">
                         <h3>
-                            PENTING: HARAP BACA INFORMASI YANG DIPAPARKAN BERIKUT INI DENGAN SAKSAMA SEBELUM MENERIMA SYARAT DAN KETENTUAN INI, KEMUDIAN CETAK DAN SIMPAN SYARAT DAN KETENTUAN INI BERSAMA DENGAN SEMUA DATA TRANSAKSI, ATURAN DAN REGULASI, SERTA METODE PEMBAYARAN YANG RELEVAN DENGAN PENGGUNAAN SITUS WEB INI OLEH ANDA.
+                            PENTING: HARAP BACA INFORMASI YANG TERCANTUM DI BAWAH INI DENGAN SEKSAMA SEBELUM MENERIMA SYARAT DAN KETENTUAN INI, LALU CETAK DAN SIMPAN SYARAT DAN KETENTUAN INI BERSAMA SEMUA DATA TRANSAKSI, ATURAN DAN PERATURAN SERTA METODE PEMBAYARAN YANG RELEVAN DENGAN PENGGUNAAN SITUS WEB INI.
                         </h3>
                         <h3>
-                            Pendahuluan
+                            Pengantar
                         </h3>
-                        <p>
-                            NOVA88 (“Perusahaan”) adalah merek operator perjudian jarak jauh. Perusahaan berlisensi dan dioperasikan sesuai dengan aturan dan regulasi Philippine Amusement and Gaming Corporation (“PAGCOR”). Perusahaan beroperasi melalui Situs Webnya.
-                        </p>
-                        <p>
-                            Pemberitahuan dan penerimaan syarat dan ketentuan ini merupakan pembuatan perjanjian, yang Anda terima dengan memilih “Setuju” di halaman ini dan melanjutkan mengakses Situs Web. Saat Anda melakukannya, perjanjian yang mengikat secara hukum sesuai dengan syarat dan ketentuan ini dibuat antara (a) Anda, pengguna akhir Situs Web (“Pemain”), dan (b) Perusahaan.
-                        </p>
+                        <p>NOVA88.net (“Situs Web”) dioperasikan oleh Dynaconnect Technologies B.V. (“Perusahaan”), sebuah perusahaan game jarak jauh yang berbasis di Curacao. Situs web ini beroperasi di bawah pemegang Lisensi Utama – Antillephone N.V. - 8048/JAZ, diberikan oleh Pemerintah Curacao.</p>
+                        <p>Pemberitahuan dan penerimaan syarat dan ketentuan ini merupakan pembuatan perjanjian, yang Anda terima dengan memilih "Setuju" di halaman ini dan melanjutkan untuk mengakses Situs Web. Ketika Anda melakukannya, perjanjian yang mengikat secara hukum sesuai dengan syarat dan ketentuan ini dibuat antara (a) Anda, pengguna akhir Situs Web (“Pemain”), dan (b) Perusahaan.</p>
+                        <p>Kami juga berhak untuk mengubah Syarat dan Ketentuan ini setiap saat tanpa pemberitahuan sebelumnya.</p>
                         <h3>
                             Syarat dan Ketentuan Umum
                         </h3>
                         <p>
-                            Berikut ini syarat dan ketentuan yang mengatur penggunaan Situs web ini. Semua aktivitas Pemain di Situs Web tunduk pada dan diatur oleh Syarat dan Ketentuan ini.
-
-                            <ul>
-                                <li>
-                                    <strong>Definisi</strong>
-                                    <ul>
-                                        <li>
-                                            Istilah berikut akan memiliki arti sebagai berikut:
-                                            <ul>
-                                                <li>
-                                                    Informasi Taruhan: Nama acara, lokasi, statistik, skor, tanggal dan/atau waktu; Informasi terkait acara; nama tim atau pemain; statistik dan informasi terkait dengan statistik; peluang (odd); harga; handicap; jenis taruhan; uang taruhan; informasi tentang taruhan tertentu, jenis taruhan, atau Acara yang terkait dengan taruhan;
-                                                </li>
-                                                <li>
-                                                    Layanan Perusahaan: Layanan pemasangan taruhan dan permainan game melalui perangkat permainan judi jarak jauh atau permainan game online tersedia melalui Situs Web dan disediakan oleh Perusahaan:
-                                                </li>
-                                                <li>
-                                                    Dokumentasi: Syarat dan Ketentuan ini, Kebijakan Privasi, Aturan dan Regulasi Taruhan;
-                                                </li>
-                                                <li>
-                                                    Acara: Acara, insiden, kejadian, atau perhelatan yang untuk itu Perusahaan mengizinkan taruhan melalui Situs web dan Layanan Perusahaan;
-                                                </li>
-                                                <li>
-                                                    Ilegal: Akan mencakup tapi tidak terbatas pada upaya untuk mengelak dari Dokumentasi; batas taruhan; batas kemenangan; meretas, penggunaan tanpa wewenang atau penyalahgunaan Akun Pemain atau ID Masuk; upaya untuk mengelak dari atau memintas mekanisme keamanan apa pun di Situs web atau sistem atau jaringan Perusahaan; secara salah, berupaya untuk mentransfer atau mentransfer dana dari Akun Pemain orang ketiga; setiap tindakan atau kelalaian melalui penggunaan Situs web Layanan Perusahaan yang menimbulkan kerugian bagi Perusahaan atau pihak ketiga; pemberian ID Pemain palsu; kolusi, bertindak bersama-sama atau sindikat untuk menipu Perusahaan dan/atau, "chip dumping (kalah dengan sengaja dari pemain lain)"; setiap tindakan dan/atau kelalaian yang bertentangan dengan hukum yang berlaku atas Syarat dan Ketentuan ini; dan setiap tindakan dan/atau kelalaian yang dipandang secara wajar oleh Perusahaan sebagai penipuan;
-                                                </li>
-                                                <li>
-                                                    Pasar: jenis taruhan yang terkait dengan, atau kemungkinan dan/atau opsi untuk memasang taruhan pada, Acara tertentu sebagaimana ditawarkan oleh Perusahaan melalui Situs web.
-                                                </li>
-                                                <li>
-                                                    Informasi Pribadi: Akan memiliki makna yang sama seperti dalam Kebijakan Privasi sebagai tambahan pada ID Pemain (sebagaimana didefinisikan di sini:);
-                                                </li>
-                                                <li>
-                                                    Kebijakan Privasi: Kebijakan Perusahaan tentang privasi dan penanganan informasi terkait dengan Pemain, Situs web, dan Layanan Perusahaan, dipublikasikan oleh Perusahaan dari waktu ke waktu tersedia di Situs web;
-                                                </li>
-                                                <li>
-                                                    Yurisdiksi Terlarang: Negara atau yurisdiksi yang memiliki undang-undang yang melarang partisipasi dalam aktivitas permainan judi jarak jauh atau permainan game online dalam wilayah mereka.
-                                                </li>
-                                                <li>
-                                                    Aturan dan Regulasi Taruhan: Aturan untuk bertaruh di Situs web ini dan menggunakan Layanan Perusahaan, diterbitkan oleh Perusahaan dari waktu ke waktu tersedia di Situs web;
-                                                </li>
-                                                <li>
-                                                    Syarat dan Ketentuan: Dokumen ini, ketentuan yang tercakup di sini dan semua dokumen yang disebutkan di sini tersedia di Situs web;
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <strong>Penafsiran</strong>
-                                    <ul>
-                                        <li>
-                                            Kecuali dinyatakan spesifik secara tertulis, setiap referensi di sini ke:
-                                            <ul>
-                                                <li>
-                                                    Statuta, penegakan, atau ketentuan perundang-undangan menyertakan referensi ke statuta, penegakan, atau ketentuan perundang-undangan tersebut sesuai modifikasi atau penegakan ulang atau keduanya dari waktu ke waktu, dan ke setiap undang-undang subordinat yang dibuat di bawahnya;
-                                                </li>
-                                                <li>
-                                                    Dokumen adalah referensi ke dokumen seperti yang diperbarui, ditambahkan, atau diubah dari ke waktu;
-                                                </li>
-                                                <li>
-                                                    Kata tunggal mencakup jamak dan sebaliknya, dan maskulin mencakup feminin dan gender netral dan sebaliknya;
-                                                </li>
-                                                <li>
-                                                    Orang mencakup orang perorangan, firma, kemitraan, perusahaan, korporasi, asosiasi, organisasi, pemerintah, negara bagian, badan pemerintah atau negara bagian, yayasan dan kartel (dalam tiap kasus, baik memiliki kepribadian hukum terpisah atau tidak);
-                                                </li>
-                                                <li>
-                                                    Tahun, bulan, dan minggu, adalah untuk tahun, bulan, dan minggu kalender masing-masing; hari adalah untuk Hari Kerja; dan waktu dalam hari adalah untuk Greenwich Mean Time (GMT) ditambah delapan jam, di mana “Jam Kerja” adalah pukul delapan (8) hingga enam belas (16) pada Hari Kerja; dan
-                                                </li>
-                                                <li>
-                                                    Menulis termasuk transmisi faks, email, pesan teks (SMS), pesan elektronik, dan cara komunikasi serupa lainnya.
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            Kebijakan Privasi, Ketentuan Penggunaan, serta Aturan dan Regulasi Taruhan membentuk bagian dari Syarat dan Ketentuan ini. Referensi ke Syarat dan Ketentuan ini mencakup Dokumentasi yang disebutkan sebelumnya.
-                                        </li>
-                                        <li>
-                                            Tajuk dan singkatan yang digunakan dalam Dokumentasi ini disertakan hanya demi kemudahan dan tidak akan memengaruhi penafsiran Dokumentasi.
-                                        </li>
-                                        <li>
-                                            Dalam Dokumentasi, setiap frasa yang didahului dengan kata “mencakup”, “termasuk”, “tercakup”, dan sebagainya dipandang sebagai ilustrasi dan tidak akan membatasi arti kata yang mendahului kata tersebut.
-                                        </li>
-                                        <li>
-                                            Bahasa asli Dokumentasi menggunakan bahasa Inggris. Jika Dokumentasi ini diterjemahkan ke bahasa lain, versi bahasa Inggris yang akan berlaku. Jika terdapat ketidakkonsistenan antara Dokumentasi, setiap Dokumentasi Pelengkap atau setiap dokumen lain yang digabungkan melalui referensi, Syarat dan Ketentuan ini yang akan berlaku setiap saat.
-
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <strong>Pemberlakuan dan Penerimaan</strong>
-                                    <ul>
-                                        <li>
-                                            Pemain dipandang menerima Dokumentasi ini dengan memilih tombol “Setuju” di halaman ini dan melanjutkan mengakses Situs web atau membuat akun dengan Perusahaan atau menggunakan Layanan Perusahaan. Dengan menyetujui Dokumentasi ini dan/atau karena Pemain menggunakan Situs web atau Layanan Perusahaan, Pemain terikat oleh Dokumentasi ini.
-                                        </li>
-                                        <li>
-                                            Perusahaan berhak mengubah Dokumentasi seperti yang dipandangnya sesuai dari waktu ke waktu tanpa pemberitahuan sebelumnya kepada Pemain. Meski demikian, Perusahaan akan melakukan upaya yang wajar agar pemberitahuan yang menyolok di Situs web menampilkan perubahan signifikan atas Dokumentasi. Versi terbaru Dokumentasi dapat ditemukan di Situs web.
-                                        </li>
-                                        <li>
-                                            Merupakan tanggung jawab Pemain untuk membaca, menyetujui, dan menerima Dokumentasi, termasuk perubahan atau modifikasi apa pun yang dibuat pada Dokumentasi. Akses dan penggunaan berkelanjutan Pemain atas Situs web dan/atau Layanan Perusahaan akan dipandang sebagai penerimaan tanpa syarat dan tidak dapat ditarik kembali terhadap Dokumentasi dan perubahan apa pun yang dibuat pada Dokumentasi. Setiap taruhan yang diterima, dicatat, dan diselesaikan akan diatur oleh Dokumentasi yang ada yang dipublikasikan di Situs web, dan semua perubahan pada Dokumentasi pada saat taruhan diterima, dicatat dan diselesaikan oleh Perusahaan.
-
-
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <strong>Identifikasi dan Akun Pemain</strong>
-                                    <ul>
-                                        <li>
-                                            Untuk menggunakan Layanan Perusahaan dan Situs web, seseorang harus lebih dahulu membuka akun awal dengan Perusahaan (“Akun Pemain”) dengan memberikan setidaknya informasi berikut, (“ID Pemain”) sebagaimana ditentukan oleh Perusahaan dengan pertimbangan mutlak dan absolutnya dari waktu ke waktu dan kapan saja: <ul>
-                                                <li>
-                                                    Usulan Nama Pengguna;
-                                                </li>
-                                                <li>
-                                                    Kata Sandi;
-                                                </li>
-                                                <li>
-                                                    Mata uang yang digunakan;
-                                                </li>
-                                                <li>
-                                                    Alamat email terkini dan valid;
-                                                </li>
-                                                <li>
-                                                    Konfirmasi bahwa Pemain berusia minimal dua puluh satu (21) tahun;
-                                                </li>
-                                                <li>
-                                                    Konfirmasi bahwa Pemain menyetujui Syarat dan Ketentuan di atas;
-
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            Pemain mengakui telah membaca dan menyetujui Kebijakan Privasi dan lebih lanjut menyetujui bahwa: <ul>
-                                                <li>
-                                                    Persetujuan untuk pemrosesan dan penggunaan Informasi Pribadi, sesuai dengan Kebijakan Privasi, dengan ini diberikan;
-                                                </li>
-                                                <li>
-                                                    Perusahaan dapat mengungkapkan Informasi Pribadi Pemain kepada pihak ketiga mana pun tanpa persetujuan tertulis sebelumnya dari Pemain, jika perintah pengadilan atau pemerintah yang sah menurut hukum meminta informasi tersebut; dalam investigasi pencucian uang oleh Perusahaan atau pihak ketiga mana pun; dan saat terdapat kecurigaan beralasan oleh Perusahaan bahwa Akun Pemain atau Pemain terlibat dalam transaksi ilegal, sekalipun tidak terkait dengan Perusahaan; dan
-                                                </li>
-                                                <li>
-                                                    Perusahaan dapat memproses, menggunakan, mentransfer, dan membuang Informasi Pribadi Pemain di seluruh dunia dengan cara apa pun yang dipilih Perusahaan.
-
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            Hanya setelah menerima Dokumentasi, membuka Akun Pemain, melanjutkan membuka Akun Setoran dan terus menggunakan Layanan Perusahaan seseorang dianggap sebagai Pemain di Perusahaan. Perusahaan berhak menerima atau menolak Pemain untuk alasan apa pun dan kapan pun. Aktivitas atau transaksi apa pun oleh orang yang tidak dianggap Pemain dianggap tidak valid dan dibatalkan.
-                                        </li>
-                                        <li>
-                                            Merupakan tanggung jawab Pemain untuk memastikan bahwa Perusahaan tetap memiliki ID Pemain terbaru. Pemain harus memberikan informasi akurat saat mendaftar, membuka, atau memperbarui Akun Pemain dan Akun Setoran, kegagalan untuk melakukannya akan mengakibatkan pelanggaran terhadap Syarat dan Ketentuan ini dan penutupan segera Akun Pemain dan Akun Setoran, dengan semua dana dihanguskan.
-
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <strong>Membuka Akun Setoran Pemain</strong>
-                                    <ul>
-                                        <li>
-                                            Untuk melanjutkan mengakses Layanan dan Situs web Perusahaan, seseorang yang awalnya telah membuat Akun Pemain harus membuka Akun Setoran di Perusahaan (“Akun Setoran”) dengan memberikan setidaknya informasi berikut (“Informasi Pemain”) sebagaimana ditetapkan oleh Perusahaan atas kebijakan mutlak dan absolutnya dari waktu ke waktu dan kapan saja:<ul>
-                                                <li>
-                                                    Nama lengkap (harus informasi yang sama seperti yang dikirimkan ke institusi perbankan atau fasilitas kredit);
-                                                </li>
-                                                <li>
-                                                    Alamat surat lengkap;
-                                                </li>
-                                                <li>
-                                                    Nomor telepon terkini dan valid; dan
-                                                </li>
-                                                <li>
-                                                    Kewarganegaraan;
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>Pemain harus berhati-hati dan waspada dalam mengirimkan informasi Pemain yang diwajibkan. Nama lengkap yang dikirimkan akan permanen dan tidak dapat diubah.</li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <strong>Sebelum Melakukan Penarikan</strong>
-                                    <ul>
-                                        <li>
-                                            Sebelum melakukan penarikan dan atas permintaan Perusahaan, Pemain setuju untuk dengan segera memberikan kepada Perusahaan salinan identifikasi Pemain dan dokumentasi apa pun untuk memverifikasi informasi ID Pemain dan Akun Setoran Pemain.
-                                        </li>
-                                        <li>
-                                            Pemain memberikan wewenang kepada Perusahaan untuk menggunakan cara apa pun yang sah menurut hukum yang menurut pertimbangan Perusahaan perlu untuk memverifikasi informasi ID Pemain dan Akun Setoran Pemain.
-                                        </li>
-                                        <li>
-                                            Setelah Pemain memberikan Informasi ID Pemain seperti yang diuraikan di sini, Perusahaan akan mengonfirmasi dan memverifikasi ketersediaan dan penerimaan Usulan Nama Pengguna dan Kata Sandi (bersama-sama “ID Masuk”), yang terhadapnya syarat dan ketentuan berikut akan berlaku:
-                                            <ul>
-                                                <li>
-                                                    ID Masuk bersifat pribadi bagi Pemain dan hanya dapat digunakan oleh Pemain. Menjaga kerahasiaan ID Masuk merupakan tanggung jawab Pemain. Pemain akan bertanggung jawab penuh atas setiap aktivitas dan transaksi di Situs web yang dilaksanakan dengan ID Masuknya serta setiap penggunaan oleh, dan/atau pengungkapan tanpa izin ID Masuk kepada siapa pun. Pemain harus rutin mengubah Kata Sandi ID Masuk setidaknya sekali sebulan untuk meminimalkan kemungkinan terjadinya atau kecurigaan penyalahgunaan, pembobolan, atau kebocoran ID Masuk.
-                                                </li>
-                                                <li>
-                                                    Pemain harus segera memberitahu Perusahaan secara tertulis mengenai terjadinya atau kecurigaan penyalahgunaan, pembobolan, atau kebocoran ID Masuk. Sampai Perusahaan menerima pemberitahuan tersebut, Pemain akan terus bertanggung jawab untuk semua aktivitas dan transaksi yang dilakukan dengan ID Masuk Pemain. Setelah menerima pemberitahuan tersebut, Perusahaan akan kemudian menangguhkan Akun Pemain. Perusahaan tidak akan bertanggung jawab atau memiliki liabilitas dengan cara apa pun untuk setiap penundaan yang wajar dalam penangguhan Akun Pemain tersebut. Untuk menghindari keraguan, hingga pemberitahuan tersebut diterima oleh Perusahaan dan Akun Pemain ditangguhkan, aktivitas dan transaksi melalui Akun Pemain akan terus dipandang valid dan hanya setelah pemberitahuan diterima Akun Pemain akan ditangguhkan dan semua aktivitas serta transaksi melalui Akun Pemain akan dipandang tidak valid;
-                                                </li>
-                                                <li>
-                                                    Jika Perusahaan memiliki alasan untuk memercayai bahwa kemungkinan ada pembobolan keamanan atau penyalahgunaan Situs web atau kejadian atau kecurigaan penyalahgunaan, pembobolan, atau kebocoran ID Masuk Pemain, Perusahaan atas kebijakan mutlak dan absolutnya dapat menangguhkan Akun Pemain dan/atau mengubah Kata Sandi ID Masuk dengan memberi tahu Pemain mengenai fakta tersebut. Ini hanya langkah pencegahan tanpa menimbulkan tanggung jawab atau kewajiban apa pun bagi Perusahaan seandainya Perusahaan memilih untuk tidak menerapkan klausul ini.
-                                                </li>
-                                                <li>
-                                                    Perusahaan dapat melakukan pemeriksaan keamanan acak pada Akun Pemain kapan saja atau dari waktu ke waktu. Dengan ini Pemain menerima bahwa Perusahaan terus memiliki hak untuk melakukan pemeriksaan tersebut dan meminta informasi dan/atau dokumentasi tambahan dari Pemain.
-                                                </li>
-                                                <li>
-                                                    Perusahaan berhak atas pertimbangan mutlak dan absolut wajar Perusahaan, tanpa penjelasan lebih lanjut pada Pemain, terkait dengan Akun Pemain:
-                                                    <ul>
-                                                        <li>
-                                                            Untuk menangguhkan Akun Pemain, jika Perusahaan memercayai dengan beralasan bahwa penggunaan berkelanjutan Akun Pemain akan menimbulkan kerugian atau kehilangan tidak terduga jenis apa pun bagi Pemain atau Perusahaan;
-                                                        </li>
-                                                        <li>
-                                                            Untuk menangguhkan Akun Pemain selama penyelidikan pelanggaran Dokumentasi;
-                                                        </li>
-                                                        <li>
-                                                            Untuk menutup Akun Pemain jika Pemain melakukan pelanggaran atas ketentuan mana pun pada Dokumentasi, sebagaimana ditentukan oleh Perusahaan atas pertimbangan mutlak dan absolut Perusahaan. Perusahaan memiliki semua hak dan meminta ganti rugi dari Pemain menurut Dokumentasi dan hukum dan berhak menahan dana apa pun yang harus dibayarkan kepada Pemain sebagai jawaban atas kewajiban Pemain dalam syarat dan ketentuan ini dan/atau semua tanggung jawab yang muncul dari pelanggaran Dokumentasi tersebut oleh Pemain;
-                                                        </li>
-                                                        <li>
-                                                            Untuk menutup Akun Pemain jika Perusahaan memiliki kecurigaan beralasan mengenai transaksi ilegal dan/atau Pemain terlibat dalam aktivitas ilegal, meskipun tidak terkait dengan Perusahaan;
-                                                        </li>
-                                                        <li>
-                                                            Untuk menutup Akun Pemain jika Akun Pemain menjadi tidak aktif selama satu (1) tahun atau lebih lama, dalam hal itu Pemain setuju bahwa semua dana dan semua klaimnya terhadap Perusahaan akan hangus;
-                                                        </li>
-                                                        <li>
-                                                            Untuk menutup Akun Pemain jika Pemain, orang atau Pemain atau kelompok orang bertindak bersama-sama atau sebagai sindikat untuk berkolusi dan/atau menipu Perusahaan;
-                                                        </li>
-                                                        <li>
-                                                            Untuk menutup atau menangguhkan Akun Pemain (atas pilihan Perusahaan) kapan saja dengan atau tanpa penyebab. Tapi dalam kasus ini, transaksi yang belum selesai akan dihormati (asalkan transaksi ini sesuai dengan Dokumentasi) dan semua dana yang menjadi hak Pemain akan dikembalikan.
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            Saat Akun Pemain ditangguhkan, Perusahaan memiliki hak, tanpa menimbulkan kewajiban apa pun dari hilangnya laba, tabungan, atau kontrak, untuk membekukan dana apa pun yang seharusnya dibayarkan kepada Pemain; menghentikan penggunaan Akun Pemain dan transaksi apa pun terkait dengan Akun Pemain; membatalkan setiap dan semua taruhan yang menunggu diterima; menggunakan informasi apa pun yang tersedia bagi Perusahaan dan cara penyelidikan apa pun yang dipilih Perusahaan (termasuk menghubungi pihak ketiga, kantor Pemerintah, dan/atau meminta dokumentasi dan informasi dari Pemain) untuk melakukan penyelidikan atas insiden yang menyebabkan penangguhan; dengan ini Pemain menyetujui dan menyepakati untuk bekerja sama penuh untuk semua itu. Kurangnya kerja sama dari Pemain akan mengakibatkan penutupan Akun Pemain dengan segera.
-                                        </li>
-                                        <li>
-                                            Saat Akun Pemain ditutup, Perusahaan memiliki hak, tanpa menimbulkan kewajiban akibat hilangnya laba, tabungan, atau kontrak, untuk menahan dana apa pun yang seharusnya dibayarkan kepada Pemain sebagai jawaban atas kewajiban, tanggung jawab Pemain, atau untuk kecurigaan aktivitas ilegal yang mungkin terkait dengan Akun Pemain; menghentikan penggunaan Akun Pemain dan transaksi apa pun yang terkait dengannya; membatalkan setiap dan semua taruhan yang menunggu untuk diterima, menggunakan informasi apa pun yang tersedia bagi Perusahaan dalam melakukan penyelidikan (termasuk menghubungi pihak ketiga, kantor Pemerintah, dan/atau meminta dokumentasi dan informasi dari Pemain) terkait pertanyaan yang menyebabkan penutupan Akun Pemain; dengan ini Pemain menyetujui dan menyepakati untuk bekerja sama penuh untuk semua itu.
-                                        </li>
-                                        <li>
-                                            Pemain dapat menutup Akun Pemain di Perusahaan kapan saja dengan memberi tahu Perusahaan secara tertulis. Setelah mengirim pemberitahuan tersebut, Pemain harus segera berhenti menggunakan Situs web dan Akun Pemain. Hanya setelah Perusahaan memberi tahu Pemain bahwa Akun Pemainnya telah ditutup, transaksi yang dilakukan dengan Akun Pemain akan dipandang tidak berlaku dan Akun Pemain dipandang telah ditutup. Pemain akan terus bertanggung jawab atas setiap aktivitas dan transaksi sampai Akun Pemain ditutup. Setelah penutupan Akun Pemain, Perusahaan akan mengembalikan (jika sesuai) semua dana yang seharusnya dibayarkan ke Pemain.
-                                        </li>
-                                        <li>
-                                            Merupakan tanggung jawab Pemain untuk memelihara Akun Pemain tetap aktif. Akun Pemain dipandang aktif jika Pemain masuk dan memanfaatkan Layanan Perusahaan menggunakan Akun Pemain setidaknya satu kali dalam tiga puluh (30) hari terakhir sejak terakhir masuk, jika tidak, Akun Pemain akan dipandang tidak aktif.
-                                        </li>
-                                    </ul>
-                                <li>
-                                    Seseorang hanya dapat membuka atau memiliki satu Akun Pemain. Setiap Akun Pemain tambahan yang dibuka akan ditutup oleh Perusahaan dan (jika sesuai) semua dana yang seharusnya dibayarkan ke Pemain akan dikembalikan, atau semua akun tersebut dapat diperlakukan sebagai satu akun gabungan dan digabungkan menjadi satu oleh Perusahaan, yang mana pun atas pertimbangan mutlak dan absolut Perusahaan. Pemain menyetujui bahwa Perusahaan akan menggunakan metode apa pun yang dipandangnya wajar untuk menentukan apakah dua atau lebih Akun Pemain dimiliki oleh Pemain yang sama.
-                                </li>
-                                <li>
-                                    Perusahaan dapat menerbitkan Akun Pemain sementara untuk tujuan pemasaran atau demonstrasi. Akun ini akan berakhir masa berlakunya dalam periode waktu yang telah ditetapkan sebelumnya, yang tidak melebihi tiga puluh (30) hari sejak pembuatan akun. Setelah periode tersebut, Akun Pemain sementara akan ditutup oleh Perusahaan atau Pemain harus memenuhi kriteria untuk, dan membuka, Akun Pemain reguler.
-
-                                </li>
-                                <li>
-                                    <strong>Pernyataan Awal Pemain</strong>
-                                    <ul>
-                                        <li>
-                                            Selain pernyataan atau jaminan lain yang tercakup dalam Dokumentasi ini, Pemain dengan tidak dapat ditarik dan tanpa syarat menerima, menyatakan dan menjamin dan terikat tanpa reservasi atau batasan (sebagaimana kasusnya) bahwa Pemain:
-                                            <ul>
-                                                <li>
-                                                    Berusia setidaknya 21 tahun, atau usia legal, atau usia dewasa di yurisdiksi tempat tinggal sehari-hari atau lokasi Pemain saat ini, mana yang lebih tinggi;
-                                                </li>
-                                                <li>
-                                                    Memiliki kapasitas mental untuk bertanggung jawab atas tindakan pribadi Pemain dan terikat oleh Dokumentasi, tanpa paksaan atau koersi;
-                                                </li>
-                                                <li>
-                                                    Memahami bahwa berjudi lewat internet atau perangkat komunikasi jarak jauh atau berjudi secara umum, mungkin melanggar hukum di yurisdiksi lokasi Pemain. Pemain mutlak bertanggung jawab untuk memastikan kepatuhan dengan hukum lokal dan nasional yang berlaku sebelum membuka Akun Pemain, menggunakan Layanan Perusahaan atau mengakses Situs web;
-                                                </li>
-                                                <li>
-                                                    Tidak akan mengakses Situs web kapan saja:
-                                                    <ul>
-                                                        <li>
-                                                            Dari wilayah Filipina atau yurisdiksi mana pun yang melarang permainan judi jarak jauh atau permainan game online;
-                                                        </li>
-                                                        <li>
-                                                            Jika Pemain adalah warga negara Filipina atau warga negara dari negara atau negara bagian yang melarang warga negaranya berpartisipasi dalam permainan judi jarak jauh atau permainan game online (tanpa memandang lokasi Pemain saat ini); dan
-                                                        </li>
-                                                        <li>
-                                                            Jika Pemain adalah warga negara atau penduduk dari, atau berlokasi di, salah satu Yurisdiksi Terlarang, wilayah dependensi, dan teritori mereka.
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    Memanfaatkan atau menerima Layanan Perusahaan dari yurisdiksi dan/atau negara dan/atau beroperasi secara sah dan berlisensi untuk penyediaan Layanan Perusahaan tersebut dari lokasi tempat Perusahaan diizinkan secara sah untuk melakukannya, dan bahwa Perusahaan berupaya untuk tidak mengundang atau menjalankan bisnis dari atau di Yurisdiksi Terlarang atau dengan Pemain di, atau dari Yurisdiksi Terlarang (jika Pemain dari atau berada di Yurisdiksi Terlarang).
-                                                </li>
-                                                <li>
-                                                    Tidak diundang atau ditawari Layanan Perusahaan oleh Perusahaan, dan Pemainlah yang mencari dan meminta Layanan Perusahaan dari Perusahaan sesuai dengan Dokumentasi.
-                                                </li>
-                                                <li>
-                                                    Tidak mengetahui adanya pemasaran atau publisitas dari Perusahaan di yurisdiksi tempat tinggalnya sehari-hari yang melarang permainan judi jarak jauh atau permainan game online.
-                                                </li>
-                                                <li>
-                                                    Akan menggunakan Situs web atas risiko pribadinya, memahami bahwa uang mungkin akan hilang dengan penggunaan Layanan Perusahaan, dan untuk itu menerima tanggung jawab penuh untuk kehilangan seperti itu (yang dianggap dapat diprediksi).
-                                                </li>
-                                                <li>
-                                                    Tidak akan menyatakan dirinya sebagai agen atau afiliasi Perusahaan dan dengan cara apa pun tidak akan memasarkan, mengiklankan, memublikasikan, atau mempromosikan Perusahaan atau Layanan Perusahaan tanpa izin tertulis sebelumnya dari Perusahaan.
-                                                </li>
-                                                <li>
-                                                    Tidak akan (atau bahkan berupaya untuk) menyerang, meretas,melakukan aktivitas jahat, membuat perubahan tanpa wewenang ke, atau memasukkan kode jahat apa pun ke Situs web. Karena itu, Pemain tidak akan, termasuk tanpa batasan, (a) merekayasa balik atau mendekompilasi (seluruhnya atau sebagian) perangkat lunak apa pun yang tersedia melalui Situs web; atau (b) membuat salinan, memodifikasi, mereproduksi, mentransmisikan, mengubah, menggunakan, atau menyebarkan semua atau bagian mana pun dari Situs web atau materi atau informasi apa pun yang terkandung di dalamnya; atau (c) menggunakan tanpa wewenang, atau mengungkapkan informasi di Situs web dan/atau Akun Pemain kepada orang mana pun; atau (d) melanggar ketentuan mana pun pada Dokumentasi; atau (e) mencurangi, mengelabui, mengakali, memberikan informasi yang salah, atau menipu Perusahaan dengan cara apa pun melalui penggunaan atau penyalahgunaan Layanan Perusahaan atau Situs Web. JIKA PERUSAHAAN MENCURIGAI BAHWA PEMAIN GAGAL MEMATUHI KETENTUAN PERSYARATAN INI, PERUSAHAAN AKAN, SELAIN PEMULIHAN HAK LAIN, BERHAK MENANGGUHKAN AKUN PEMAIN UNTUK MELAKSANAKAN PENYELIDIKAN. JIKA KEGAGALAN PEMAIN UNTUK MEMATUHI KETENTUAN PERSYARATAN INI TERBUKTI, PERUSAHAAN, ATAS KEBIJAKAN MUTLAK DAN ABSOLUTNYA, DAPAT MEMERINTAHKAN PENUTUPAN AKUN PEMAIN DAN MENGHANGUSKAN DANA DI AKUN PEMAIN SUBJEK.
-                                                </li>
-                                                <li>
-                                                    Tidak akan mengizinkan atau memberikan wewenang kepada orang lain atau pihak ketiga (termasuk, tanpa batasan, orang yang berusia kurang dari dua puluh satu [21] tahun dan/atau warga negara Filipina) untuk menggunakan Layanan Perusahaan, menggunakan Akun Pemain atau menerima kemenangan atas nama mereka.
-                                                </li>
-                                                <li>
-                                                    Akan segera melaporkan setiap dan semua kemenangan kepada pihak berwenang yang tepat jika Pemain tinggal di yurisdiksi tempat kemenangan tersebut dikenai pajak atau wajib diungkapkan menurut hukum, dan Perusahaan tidak akan bertanggung jawab dengan cara apa pun atas kegagalan Pemain untuk melakukannya.
-                                                </li>
-                                                <li>
-                                                    Akan mengganti rugi penuh, melindungi dan membebaskan Perusahaan, pemegang saham, direktur, pejabat, karyawan, konsultan, penasihat, agen, afiliasi, dan pemasoknya serta perwakilan lain (“Pihak-Pihak yang Diperluas”), dari dan terhadap semua klaim, tanggung jawab, kerugian, kehilangan, biaya dan pengeluaran, termasuk biaya legal, (tanpa memandang teori hukum) yang muncul dari pelanggaran Dokumentasi oleh Pemain atau dari tanggung jawab lain yang muncul dari Dokumentasi atau penggunaan Layanan Perusahaan oleh Pemain.
-                                                </li>
-                                                <li>
-                                                    Mengakui dan memahami bahwa keahlian dan/atau bakat Pemain TIDAK DAPAT memengaruhi hasil aktivitas permainan judi yang dilakukan di sini, dan bahwa keahlian dan/atau bakat Pemain tidak dapat dengan cara apa pun mengubah hasil permainan atau akan memastikan kemenangan di pihak Pemain.
-                                                </li>
-                                                <li>
-                                                    Mengakui dan memahami bahwa permainan judi hanyalah suatu bentuk hiburan, kesenangan, dan pengisi waktu luang. Perjudian BUKAN aktivitas untuk menghasilkan uang ATAU bentuk mata pencaharian atau bisnis yang dapat memecahkan masalah keuangan.
-
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>Pemain setuju bahwa setiap dan semua jaminan dan pernyataan yang dibuat di sini adalah benar dan akurat dan bahwa dia akan mematuhi dan mempertahankan kepatuhan terhadap setiap dan semua jaminan dan pernyataan yang dibuat di sini selagi dia tetap menjadi Pemain dengan Akun Pemain.</li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <strong>Ketentuan Transaksi</strong>
-                                    <ul>
-                                        <li>
-                                            Perusahaan berlisensi untuk menerima taruhan melalui perangkat komunikasi jarak jauh pada basis global di bawah Lisensi Permainan Game Luar Negeri Perusahaan yang diterbitkan oleh PAGCOR.
-                                        </li>
-                                        <li>
-                                            Secara umum dan tunduk pada serangkaian aturan yang lebih spesifik yang diberikan di Situs web ini, jika ada, taruhan hanya dianggap telah dipasang (“Taruhan Dipasang”) saat dipasang oleh Pemain melalui Situs web. Taruhan dipandang telah diterima dan dicatat (“Taruhan Diterima”) hanya setelah taruhan diterima dan dicatat sesuai dengan Dokumentasi di server permainan game Perusahaan. Taruhan dipandang telah lengkap (“Taruhan Lengkap”) saat diterima dan dicatat dan Pemain telah mendapat pemberitahuan (melalui pengakuan elektronik yang dikirimkan Perusahaan kepada Pemain lewat Situs web) tentang penerimaan tersebut. Meski demikian, harap diperhatikan bahwa SEMUA TARUHAN AKAN DIPANDANG BATAL JIKA DILARANG OLEH HUKUM.
-                                        </li>
-                                        <li>
-                                            Akun Pemain harus berisi saldo dana tersedia yang setara dengan setidaknya nilai jumlah minimum untuk taruhan di Acara atau Pasar agar Pemain dapat memasang taruhan.
-                                        </li>
-                                        <li>
-                                            Pemain tidak diizinkan membatalkan atau mengubah Taruhan Diterima. Perusahaan tidak berkewajiban untuk membatalkan Taruhan Diterima.
-                                        </li>
-                                        <li>
-                                            Taruhan akan diterima hingga tenggat yang diiklankan sampai saat taruhan diterima untuk Acara atau Pasar tertentu.
-                                        </li>
-                                        <li>
-                                            Perusahaan berhak untuk seterusnya atau sementara menangguhkan atau melarang taruhan lebih lanjut pada suatu Acara atau Pasar kapan saja tanpa pemberitahuan lebih dulu kepada Pemain atas pertimbangan mutlak dan absolut Perusahaan. Jika Acara atau Pasar ditangguhkan atau akses ke Acara atau Pasar itu dilarang, semua upaya untuk memasang taruhan oleh Pemain akan ditolak.
-                                        </li>
-                                        <li>
-                                            Taruhan juga akan dipandang dibatalkan (“Taruhan Batal”) jika:
-
-                                            <ul>
-                                                <li>
-                                                    Tidak ditransmisikan sepenuhnya, termasuk tapi tidak terbatas pada kejadian ketika transmisi taruhan terganggu atau terputus akibat masalah teknis atau komunikasi;
-                                                </li>
-                                                <li>
-                                                    Secara tidak sengaja diterima oleh Perusahaan, bertentangan dengan Dokumentasi;
-                                                </li>
-                                                <li>
-                                                    Perusahaan memiliki keyakinan beralasan bahwa Pemain atau orang atau kelompok orang bertindak bersama-sama atau sebagai sindikat untuk berkolusi terhadap, atau menipu Perusahaan;
-                                                </li>
-                                                <li>
-                                                    Keadaan dan/atau asumsi yang dipertimbangkan oleh Perusahaan untuk Acara tertentu berubah;
-                                                </li>
-                                                <li>
-                                                    Pasar atau Acara tidak ditangguhkan di waktu yang tepat, sebagaimana ditentukan melalui pertimbangan mutlak absolut Perusahaan;
-                                                </li>
-                                                <li>
-                                                    Setiap kesalahan ketik, teknis, manusia, atau terlihat jelas dalam mengungkap, memasang, atau menggunakan Informasi Taruhan.
-
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            Perusahaan memiliki hak dengan pertimbangan mutlak dan absolutnya tanpa perlu memberikan penjelasan atau pemberitahuan lebih dahulu kepada Pemain untuk menolak setiap atau sebagian dari taruhan tersebut.
-                                        </li>
-                                        <li>
-                                            Semua Informasi Taruhan dapat berubah tapi menjadi tetap pada saat Taruhan Dipasang menjadi Taruhan Diterima, kecuali untuk taruhan pool yang menjadi tetap pada saat pool terkait ditutup. Perusahaan memiliki hak atas pertimbangan mutlak dan absolutnya untuk mengubah Informasi Taruhan kapan saja tanpa penjelasan atau pemberitahuan lebih dahulu kepada Pemain. Kapan saja Informasi Taruhan yang salah akibat galat, kelalaian, atau kesalahan ditampilkan, Perusahaan memiliki hak dengan pertimbangan mutlaknya tanpa pemberitahuan sebelumnya kepada Pemain untuk membatalkan, menolak, atau menerima setiap taruhan yang terdampak dan/atau mengoreksi setiap galat, kelalaian, atau kesalahan. Perusahaan akan memasang pemberitahuan menyolok di Situs web jika itu terjadi.
-                                        </li>
-                                        <li>
-                                            Jumlah taruhan maksimum dan minimum yang dapat dipasang Pemain di setiap Pasar atau Acara beragam menurut Acara atau Pasar tertentu dan dapat berubah tanpa pemberitahuan sebelumnya atas pertimbangan mutlak dan absolut Perusahaan. Pemain harus mematuhi jumlah dan batas taruhan minimum dan maksimum yang diposting.
-                                        </li>
-                                        <li>
-                                            Kemenangan akan dikreditkan ke, dan kekalahan dipotong dari, Akun Pemain, setelah konfirmasi tentang hasil akhir Acara dari sumber resmi yang relevan dan patut secara wajar sebagaimana ditentukan oleh Perusahaan atas pertimbangan mutlak dan absolutnya.
-                                        </li>
-                                        <li>
-                                            Pemain harus memeriksa saldo dana Akun Pemainnya setiap kali masuk. Jika dana dikreditkan ke atau dipotong dari Akun Pemain karena kesalahan, merupakan tanggung jawab Pemain untuk segera memberi tahu Perusahaan mengenai kesalahan tersebut tanpa penundaan. Setiap jumlah yang dikreditkan ke Akun Pemain karena kesalahan akan dipandang tidak valid dan harus dikembalikan ke Perusahaan. Pemain tidak boleh menggunakan dana yang dikreditkan ke Akun Pemain karena kesalahan dan Perusahaan berhak untuk membatalkan transaksi apa pun (termasuk taruhan) yang melibatkan dana tersebut. Pemain setuju untuk mengganti rugi ke Perusahaan untuk pengembalian setiap dana yang dikreditkan karena kesalahan yang telah digunakan Pemain.
-                                        </li>
-                                        <li>
-                                            Perusahaan memiliki hak atas pertimbangan mutlak dan absolutnya, tanpa menimbulkan tanggung jawab apa pun, terkait dengan dana yang seharusnya dibayarkan ke Pemain untuk:
-                                            <ul>
-                                                <li>
-                                                    Membekukannya jika Akun Pemain ditangguhkan; ada kecurigaan akan transaksi ilegal atau pelanggaran Dokumentasi; menunggu hasil penyelidikan dari otoritas Pemerintah atau institusi keuangan mana pun; dan/atau
-                                                </li>
-                                                <li>
-                                                    Menahannya jika Akun Pemain ditutup karena transaksi ilegal atau pelanggaran Dokumentasi; dan/atau atas permintaan otoritas Pemerintah atau institusi keuangan mana pun.
-                                                </li>
-                                                <li>
-                                                    Setiap dan semua pembayaran yang dilakukan ke Pemain mencakup setiap pajak, termasuk PPN atau setiap pajak penjualan lokal, yang dapat ditagihkan dengan tarif yang berlaku pada tanggal transaksi terkait. Setiap jumlah yang dibayarkan kepada Perusahaan akan dibayarkan dengan ditambah setiap potongan, pungutan, kompensasi atau tuntutan balik, termasuk setiap potongan atau pungutan yang mungkin diwajibkan oleh hukum terkait dengan pajak. Pemain akan bertanggung jawab, jika berlaku, untuk pembayaran setiap dan semua pajak, bea, atau cukai yang berlaku untuk setiap transaksi.
-
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>Semua transaksi dan komunikasi antar Pemain dan Perusahaan akan dicatat (“Catatan”) oleh Perusahaan demi kepentingan Pemain dan Perusahaan. Catatan akan disimpan selama periode satu (1) bulan sejak tanggal transaksi atau komunikasi, masing-masing; setelah periode tersebut, Catatan akan dibuang. Pemain harus memberitahukan setiap perselisihan terkait dengan transaksi apa pun kepada Perusahaan dalam waktu satu (1) bulan sejak tanggal transaksi. Saat terjadi perselisihan yang tidak dapat diselesaikan oleh manajemen Perusahaan dengan iktikad baik, Catatan akan digunakan sebagai bukti dalam perselisihan tersebut. Pemain dan Perusahaan setuju bahwa Catatan benar dan akurat dan akan menjadi otoritas pamungkas dalam menyelesaikan perselisihan tersebut sebagai cara terakhir. Manajemen Perusahaan akan membuat keputusan akhir terkait dengan perselisihan dan menyampaikannya kepada Pemain yang setuju untuk terikat oleh keputusan Perusahaan.</li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <strong>Batasan Tanggung Jawab</strong>
-                                    <ul>
-                                        <li>
-                                            Perusahaan tidak akan bertanggung jawab kepada Pemain atau orang lain untuk yang mana pun dari jenis kerugian atau kerusakan berikut dalam kontrak, perbuatan melawan hukum, kelalaian, atau lainnya (atau teori hukum apa pun), bahkan dalam tiap kasus jika Perusahaan telah diberi tahu tentang kemungkinan kerugian atau kerusakan tersebut, baik secara langsung atau tidak langsung, tanpa batasan, yang dipandang atau diduga diakibatkan dari atau disebabkan oleh Situs web; Layanan Perusahaan; transaksi; dan/atau hubungan Pemain dengan Perusahaan:<ul>
-                                                <li>
-                                                    Kerugian atau kehilangan tidak langsung, khusus, atau konsekuensial;
-                                                </li>
-                                                <li>
-                                                    Hilangnya laba, pendapatan, kontrak, atau tabungan yang diantisipasi; atau
-                                                </li>
-                                                <li>
-                                                    Kehilangan atau kerugian yang timbul dari:
-
-                                                    <ul>
-                                                        <li>
-                                                            Kehilangan, kerusakan, atau korupnya data apa pun;
-                                                        </li>
-                                                        <li>
-                                                            Penundaan dan/atau interupsi dan/atau kegagalan dari, atau akibat konsekuensi dari, setiap layanan telekomunikasi dan/atau perangkat; perlengkapan perangkat keras; tindakan pihak ketiga (termasuk peretasan dan DDOS); dan/atau
-                                                        </li>
-                                                        <li>
-                                                            Pembatalan dan/atau perubahan transaksi apa saja sesuai dengan Dokumentasi;
-                                                        </li>
-                                                        <li>
-                                                            Penangguhan atau penutupan Akun Pemain sesuai dengan Dokumentasi;
-                                                        </li>
-                                                        <li>
-                                                            Pembekuan atau penahanan dana Pemain sesuai dengan Dokumentasi;
-                                                        </li>
-                                                        <li>
-                                                            Memenuhi tindakan dan/atau permintaan dari otoritas atau kantor Pemerintah mana saja dan/atau institusi keuangan mana saja;
-                                                        </li>
-                                                        <li>
-                                                            Setiap kesalahan ketik, teknis, manusia, atau yang jelas terlihat dalam pengungkapan, posting, atau penggunaan Informasi Taruhan atau informasi lain di Situs web,
-                                                        </li>
-                                                        <li>
-                                                            Kejadian yang berada di luar kendali wajar Perusahaan (Keadaan Kahar).
-
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            Pemain tanpa membatasi hak lain hak dan upaya perbaikan lain Perusahaan menurut Syarat dan Ketentuan ini, Dokumentasi dan/atau menurut hukum yang berlaku, menjamin dan menyetujui untuk membebaskan Perusahaan dan Pihak-Pihak yang Diperluas dari semua tuntutan, klaim, dan tindakan lain, dan untuk mengganti rugi Perusahaan dan Pihak-Pihak yang Diperluas atas permintaan tertulis, dan memebaskan mereka dari semua kerugian, kehilangan, dan biaya, termasuk biaya pengacara yang wajar, dibayarkan ke pihak ketiga oleh Perusahaan atau Pihak-Pihak Diperluasnya, yang muncul dari klaim oleh orang ketiga terkait langsung atau tidak langsung dengan penipuan, pencucian uang, atau aktivitas ilegal; pelanggaran Dokumentasi; yang dipandang atau dicurigai timbul dari atau disebabkan oleh penggunaan Situs web; Layanan Perusahaan; dan/atau hubungan Pemain dengan Perusahaan.
-                                        </li>
-                                        <li>
-                                            Tanpa membatasi kemampuannya untuk mencari upaya pemulihan alternatif, Perusahaan dapat membatasi kemampuan Pemain untuk menggunakan Situs web dan/atau Layanan Perusahaan; menangguhkan atau mengakhiri Akun Pemain; membatalkan taruhan apa pun; dan/atau, menahan dana, dengan pertimbangan absolutnya, jika Perusahaan memiliki alasan untuk memercayai atau mencurigai bahwa transaksi Pemain dengan Perusahaan merupakan aktivitas ilegal. Pemain mengakui bahwa jika hak mereka menggunakan Situs web melanggar hukum lokal atau nasional mana saja terkait dengan penipuan atau pencucian uang, setiap pembayaran yang dilakukan Pemain tersebut ke atau oleh Perusahaan dapat disita dan/atau mungkin ditahan oleh Perusahaan. Hingga sejauh yang diizinkan oleh hukum, Perusahaan tidak akan bertanggung jawab kepada Pemain untuk tindakan tersebut, juga tidak akan menimbulkan tanggung jawab apa pun kepada Pemain mana pun jika Perusahaan diwajibkan untuk memberikan informasi atau dokumentasi terkait dengan Pemain ke otoritas relevan dalam kasus tersebut.
-
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <strong>Penggunaan Situs Web dan Streaming Video</strong>
-                                    <ul>
-                                        <li>
-                                            Penggunaan umum Situs web diatur sebagai tambahan terhadap Syarat dan Ketentuan ini, oleh Ketentuan Penggunaan dan Kebijakan Privasi.
-                                        </li>
-                                        <li>
-                                            Perusahaan berhak menarik Situs web atau elemennya kapan saja, dan tidak akan bertanggung jawab kepada Pemain dengan cara apa pun sebagai akibat dari tindakan tersebut.
-                                        </li>
-                                        <li>
-                                            Penawaran streaming video Acara melalui Internet oleh Perusahaan merupakan hak milik, dimiliki, dan dipegang hak ciptanya oleh pemilik kekayaan intelektual yang sah (yang hak ciptanya dilindungi undang-undang) dan dilisensikan kepada Perusahaan. Pemain hanya dapat mengakses penawaran streaming video Acara melalui Internet sesuai dengan aturan spesifik, syarat dan ketentuan yang mungkin berlaku untuk penawaran khusus tersebut sebagaimana dipublikasikan secara terpisah oleh Perusahaan dari waktu ke waktu dan yang dengan ini diterima Pemain untuk dipatuhi sepenuhnya. Pemain dilarang menyalin, mengedarkan ulang, atau menggunakan tanpa wewenang umpan video yang ditawarkan, hal ini akan dipandang sebagai pelanggaran Syarat dan Ketentuan ini dan mengizinkan Perusahaan untuk menutup dengan segera Akun Pemain.
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <strong>Promosi & Penawaran Khusus</strong>
-                                    <ul>
-                                        <li>
-                                            Dari waktu ke waktu Perusahaan dapat mengeluarkan promosi, penawaran khusus, atau insentif lain bagi Pemain. Ini tidak memiliki nilai tunai alternatif dan tunduk pada ketentuan yang ditetapkan dalam promosi, penawaran khusus, atau insentif tersebut, yang harus diikuti dan dipatuhi oleh Pemain. Perusahaan memiliki hak tanpa perlu memberitahukan sebelumnya kepada Pemain, untuk menarik atau mengubah promosi, penawaran khusus, atau insentif kapan saja atas pertimbangan mutlak Perusahaan.
-
-</li>
-</ul>
-                                </li>
-                                <li>
-                                    <strong>Aturan Umum dan Aturan Acara Spesifik</strong>
-                                    <ul>
-                                        <li>
-                                            Layanan Perusahaan, semua transaksi, taruhan, Acara dan Informasi Taruhan tunduk pada Syarat dan Ketentuan ini, Dokumentasi, serta Aturan dan Regulasi Taruhan, yang dengan ini Pemain mengakui telah membaca dan menerimanya dan lebih lanjut menyetujui untuk mematuhinya. Selain Syarat dan Ketentuan dan Dokumentasi, khususnya Aturan dan Regulasi Taruhan menetapkan aturan taruhan yang berlaku bagi semua Layanan Perusahaan, transaksi, taruhan, Acara, dan Informasi Taruhan, di mana Aturan dan Regulasi Acara Spesifik dan Taruhan menetapkan aturan taruhan khusus untuk Acara atau jenis taruhan spesifik.
-                                        </li>
-                                        <li>
-                                            Jika terdapat ketidakkonsistenan, perbedaan, atau kontradiksi antara Syarat dan Ketentuan serta Aturan dan Regulasi Taruhan, yang berlaku adalah Aturan dan Regulasi Taruhan. Jika Aturan dan Regulasi Taruhan tidak mengatur hal tersebut, ketentuan relevan dari Otoritas Badan Pengatur Acara akan berlaku melalui analogi atau penafsiran (jika sesuai).
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <strong>Umum</strong>
-                                    <ul>
-                                        <li>
-                                        </li>
-                                        <li>
-                                            Situs web tidak, dan tidak boleh dipandang sebagai tawaran, solisitasi, atau undangan dari Perusahaan untuk menggunakan, atau berlangganan, layanan permainan judi di yurisdiksi mana saja di tempat aktivitas tersebut dilarang oleh hukum.
-                                        </li>
-                                        <li>
-                                            Semua pernyataan atau pengaturan, baik tertulis maupun lisan, secara maupun tersirat (termasuk setiap penggunaan atau kebiasaan dan ketentuan apa pun yang timbul melalui kesepakatan), antara Pemain dan Perusahaan terkait dengan perihal di sini akan dipandang telah digantikan, dibatalkan, tidak berlaku, dan tidak efektif.
-                                        </li>
-                                        <li>
-                                            Tidak ada apa pun dalam Dokumentasi ini yang akan ditafsirkan atau dimaknai sebagai penciptaan atau pembuatan jenis hubungan lain antara Perusahaan dan Pemain.
-
-                                        </li>
-                                        <li>
-                                            Kegagalan atau penundaan oleh Perusahaan untuk melaksanakan hak atau upaya pemulihan menurut Dokumentasi tidak boleh dimaknai atau berfungsi sebagai pengesampingan hak atau upaya pemulihan tersebut, demikian pula pelaksanaan satu atau sebagian hak atau upaya pemulihan apa pun tidak menghalangi pelaksanaan lebih lanjut hak atau upaya pemulihan tersebut.
-                                        </li>
-                                        <li>
-                                            Tiap ketentuan yang terkandung dalam Dokumentasi harus ditafsirkan sebagai mandiri dari setiap ketentuan lain, sehingga jika ketentuan Dokumentasi mana pun dipandang ilegal, tidak valid, dan/atau tidak dapat ditegakkan oleh pengadilan atau otoritas yang kompeten, maka penentuan tersebut tidak akan memengaruhi ketentuan lain pada Dokumentasi, semua ketentuan lain akan tetap berlaku dan efektif.
-                                        </li>
-                                        <li>
-                                            Pemain mengakui dan menjamin bahwa Pemain telah secara independen mencari dan menerima penasihat legal yang independen dan kompeten terkait dengan hak, kewajiban, persyaratan, ketentuan, dan konsekuensi menurut Dokumentasi. Pemain juga mengakui bahwa semua syarat dan ketentuan telah dijelaskan kepadanya dan bahwa dia memahami sepenuhnya syarat dan ketentuan tersebut.
-                                        </li>
-                                        <li>
-                                            Syarat dan Ketentuan ini akan diatur oleh dan ditafsirkan sesuai dengan hukum Filipina. Setiap dan semua perselisihan terkait dengan Syarat dan Ketentuan serta Dokumentasi ini akan diajukan secara eksklusif ke pengadilan yang sesuai di Kota Makati, Filipina, dengan mengesampingkan pengadilan lain.
-                                        </li>
-                                        <li>
-                                            Pemberitahuan kepada Pemain atau Perusahaan terkait dengan Dokumentasi harus dilakukan secara tertulis dan harus disampaikan sendiri secara langsung atau dikirimkan melalui pos kilat khusus prabayar, pos udara prabayar, surat elektronik atau transmisi faksimili ke alamat atau nomor faks yang tertera berikut ini:
-                                            <ul>
-                                                <li>Kepada Pemain: Ke informasi yang diberikan sebagai ID Pemain, jika pemberitahuan dengan cara yang tercakup dalam ID Pemain gagal tiga (3) kali berturut-turut dengan selang waktu satu (1) jam, pemberitahuan akan dipandang telah dilakukan setelah upaya ketiga.</li>
-                                                <li>Kepada Perusahaan: Alamat email: _______________.</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
+                            Berikut ini adalah syarat dan ketentuan yang mengatur penggunaan Situs Web. Semua aktivitas Pemain di Situs Web tunduk dan diatur oleh Syarat dan Ketentuan ini.
+                        </p>
+                        <ul>
+                            <li>
+                                <strong>Definisi</strong>
+                                <ul>
+                                    <li>
+                                        Istilah-istilah berikut akan memiliki arti sebagai berikut:
+                                        <ol>
+                                            <li>Informasi Taruhan: Nama acara, lokasi, statistik, skor, tanggal dan/atau waktu; Informasi terkait acara; nama tim atau pemain, statistik dan informasi terkait; kemungkinan; harga; cacat; jenis taruhan; mempertaruhkan; informasi tentang taruhan, jenis taruhan, atau acara tertentu yang terkait dengan taruhan;</li>
+                                            <li>Layanan Perusahaan: Layanan taruhan, taruhan, dan game melalui perjudian jarak jauh atau perangkat game online yang tersedia melalui Situs Web dan disediakan oleh Perusahaan;</li>
+                                            <li>Dokumentasi: Syarat dan Ketentuan ini, Kebijakan Privasi, Aturan dan Regulasi Taruhan;</li>
+                                            <li>Peristiwa: Peristiwa, insiden, atau kejadian di mana Perusahaan mengizinkan taruhan melalui Situs Web dan Layanan Perusahaan;</li>
+                                            <li>Ilegal: Termasuk namun tidak terbatas pada upaya untuk menghindari Dokumentasi; batas taruhan; batas kemenangan; peretasan; penggunaan yang tidak sah atau penyalahgunaan Akun Pemain atau ID Login; upaya untuk menghindari atau melewati mekanisme keamanan apa pun yang tersedia di Situs Web atau sistem atau jaringan Perusahaan; upaya yang salah untuk mentransfer atau mentransfer dana dari Akun Pemain orang ketiga; tindakan atau kelalaian apa pun melalui penggunaan Situs Web atau Layanan Perusahaan yang menyebabkan kerugian bagi Perusahaan atau orang ketiga mana pun; pemberian ID Pemain palsu; kolusi, bertindak bersama-sama atau sindikat untuk menipu Perusahaan dan/atau, "chip dumping"; segala tindakan dan/atau kelalaian yang bertentangan dengan hukum yang berlaku pada Syarat dan Ketentuan ini; dan, setiap tindakan dan/atau kelalaian yang dianggap wajar oleh Perusahaan sebagai penipuan;</li>
+                                            <li>Pasar: jenis taruhan yang terkait dengan, atau kemungkinan dan/atau opsi untuk memasang taruhan pada, Acara tertentu yang ditawarkan oleh Perusahaan melalui Situs Web;</li>
+                                            <li>Informasi Pribadi: Akan memiliki arti yang sama seperti dalam Kebijakan Privasi selain ID Pemain (sebagaimana didefinisikan di sini);</li>
+                                            <li>Kebijakan Privasi: Kebijakan Perusahaan tentang privasi dan penanganan informasi sehubungan dengan Pemain, Situs Web dan Layanan Perusahaan, yang diterbitkan oleh Perusahaan dari waktu ke waktu tersedia di Situs Web;</li>
+                                            <li>Yurisdiksi Terlarang: Negara atau yurisdiksi yang memiliki undang-undang yang melarang partisipasi dalam perjudian jarak jauh atau aktivitas game online di dalam wilayah mereka.</li>
+                                            <li>Aturan dan Regulasi Taruhan: Aturan untuk bertaruh di Situs Web dan menggunakan Layanan Perusahaan, diterbitkan oleh Perusahaan dari waktu ke waktu, tersedia di Situs Web;</li>
+                                            <li>Syarat dan Ketentuan: Dokumen ini, ketentuan yang disertakan di sini dan semua dokumen yang dirujuk di sini tersedia di Situs Web;</li>
+                                        </ol>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Interpretasi</strong>
+                                <ul>
+                                    <li>
+                                        Kecuali ditentukan lain secara khusus secara tertulis, setiap referensi di sini untuk:
+                                        <ol>
+                                            <li>Suatu undang-undang, atau ketentuan undang-undang mencakup referensi ke undang-undang, atau ketentuan undang-undang yang dimodifikasi atau diberlakukan kembali atau keduanya dari waktu ke waktu, dan untuk setiap undang-undang bawahan yang dibuat di bawahnya;</li>
+                                            <li>Dokumen adalah referensi ke dokumen yang dari waktu ke waktu diperbarui, ditambah atau diubah;</li>
+                                            <li>Bentuk tunggal mencakup jamak dan sebaliknya dan maskulin mencakup jenis kelamin feminin dan netral dan sebaliknya;</li>
+                                            <li>Seseorang termasuk orang perseorangan, firma, kemitraan, perusahaan, korporasi, asosiasi, organisasi, pemerintah, negara bagian, lembaga pemerintah atau negara bagian, yayasan dan perwalian (dalam setiap kasus, apakah memiliki kepribadian hukum yang terpisah atau tidak);</li>
+                                            <li>Tahun, bulan dan minggu, adalah tahun kalender, bulan dan minggu masing-masing; hari adalah untuk hari Kerja; dan, waktu dalam sehari adalah Greenwich Mean Time (GMT) ditambah delapan jam, di mana “Jam Kerja” adalah delapan (8) jam sampai enam belas (16) jam pada Hari Kerja; dan</li>
+                                            <li>Menulis termasuk transmisi faks, email, pesan teks (SMS), pesan elektronik dan sarana komunikasi serupa lainnya.</li>
+                                        </ol>
+                                    </li>
+                                    <li>Kebijakan Privasi, Syarat Penggunaan, dan Aturan dan Regulasi Taruhan merupakan bagian dari Syarat dan Ketentuan ini. Referensi untuk Syarat dan Ketentuan ini termasuk Dokumentasi yang disebutkan di atas.</li>
+                                    <li>Judul dan singkatan yang digunakan dalam Dokumentasi disisipkan hanya untuk kemudahan dan tidak akan mempengaruhi interpretasi Dokumentasi.</li>
+                                    <li>Dalam Dokumentasi, setiap frasa yang diperkenalkan dengan kata "termasuk" dan semacamnya harus ditafsirkan sebagai ilustrasi dan tidak akan membatasi arti kata-kata sebelum kata-kata itu.</li>
+                                    <li>Dokumentasi awalnya ditulis dalam bahasa Inggris. Jika Dokumentasi diterjemahkan ke dalam bahasa lain, versi bahasa Inggris yang akan berlaku. Jika ada ketidakkonsistenan antara Dokumentasi, Dokumentasi Tambahan atau dokumen lain apa pun yang digabungkan dengan referensi, Syarat dan Ketentuan ini akan selalu berlaku.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Penerapan dan Penerimaan</strong>
+                                <p>Pemain dianggap telah menerima Dokumentasi dengan memilih tombol "Setuju" di halaman ini dan melanjutkan untuk mengakses Situs Web atau sebaliknya dengan membuat akun di Perusahaan atau menggunakan Layanan Perusahaan. Dengan menyetujui Dokumentasi dan/atau karena penggunaan Situs Web atau Layanan Perusahaan oleh Pemain, Pemain terikat oleh Dokumentasi.</p>
+                                <p>Perusahaan berhak untuk mengubah Dokumentasi sesuai kebutuhan dari waktu ke waktu tanpa pemberitahuan sebelumnya kepada Pemain. Namun, Perusahaan akan melakukan upaya yang wajar sehingga pemberitahuan mencolok di Situs Web menampilkan setiap perubahan signifikan pada Dokumentasi. Versi Dokumentasi terbaru dapat ditemukan di Situs Web.</p>
+                                <p>Merupakan tanggung jawab Pemain untuk membaca, menyetujui dan menerima Dokumentasi, termasuk setiap perubahan atau modifikasi yang dibuat di dalamnya. Akses berkelanjutan dan penggunaan Situs Web dan/atau Layanan Perusahaan oleh Pemain akan dianggap sebagai penerimaan Dokumentasi tanpa syarat dan tidak dapat dibatalkan dan setiap perubahan yang dibuat di dalamnya. Setiap taruhan yang diterima, diterima, dicatat, dan diselesaikan akan diatur oleh Dokumentasi yang ada yang dipublikasikan di Situs Web dan setiap perubahannya pada saat taruhan diterima, diterima, dicatat, dan diselesaikan oleh Perusahaan.</p>
+                            </li>
+                            <li>
+                                <strong>Identifikasi Pemain dan Verifikasi Akun</strong>
+                                <ul>
+                                    <li>
+                                        Untuk menggunakan Layanan Perusahaan dan Situs Web, seseorang harus terlebih dahulu membuat akun awal dengan Perusahaan (“Akun Pemain”) dengan memberikan setidaknya informasi berikut, (“ID Pemain”) sebagaimana ditentukan oleh Perusahaan dalam satu-satunya dan kebijaksanaan mutlak dari waktu ke waktu dan setiap saat:
+                                        <ol>
+                                            <li>Nama Pengguna yang Dinominasikan;</li>
+                                            <li>Kata sandi;</li>
+                                            <li>Mata uang yang akan digunakan;</li>
+                                            <li>Alamat email saat ini dan valid;</li>
+                                            <li>Konfirmasi bahwa Pemain berusia minimal delapan belas (18) tahun;</li>
+                                            <li>Konfirmasi bahwa Pemain setuju dengan Syarat dan Ketentuan di atas;</li>
+                                        </ol>
+                                    </li>
+                                    <li>
+                                        Pemain mengakui telah membaca dan menyetujui Kebijakan Privasi dan selanjutnya setuju bahwa:
+                                        <ol>
+                                            <li>Persetujuan untuk pemrosesan dan penggunaan Informasi Pribadi, sesuai dengan Kebijakan Privasi, dengan ini diberikan;</li>
+                                            <li>Perusahaan dapat mengungkapkan Informasi Pribadi Pemain kepada orang ketiga mana pun tanpa persetujuan tertulis sebelumnya dari Pemain, dalam hal pengadilan yang sah atau perintah pemerintah meminta informasi tersebut; dalam proses investigasi pencucian uang oleh Perusahaan atau pihak ketiga; dan, ketika ada kecurigaan yang wajar oleh Perusahaan bahwa Akun Pemain atau Pemain terlibat dalam transaksi ilegal, meskipun tidak terkait dengan Perusahaan; dan</li>
+                                            <li>Perusahaan dapat memproses, menggunakan, mentransfer, dan membuang Informasi Pribadi Pemain di seluruh dunia dengan cara apa pun yang dipilih Perusahaan.</li>
+                                        </ol>
+                                    </li>
+                                    <li>Hanya setelah menerima Dokumentasi, membuat Akun Pemain, melanjutkan untuk membuka Akun Deposit dan terus menggunakan Layanan Perusahaan, seseorang dianggap sebagai Pemain Perusahaan. Perusahaan berhak untuk menerima atau menolak Pemain dengan alasan apapun dan kapanpun. Setiap aktivitas atau transaksi oleh seseorang yang tidak dianggap sebagai Pemain dianggap batal demi hukum.</li>
+                                    <li>Merupakan tanggung jawab Pemain untuk memastikan bahwa ID Pemain tetap up-to-date dengan Perusahaan. Pemain harus memberikan informasi yang akurat saat mendaftar, membuka atau memperbarui Akun Pemain dan Akun Deposit, kegagalan untuk melakukannya akan mengakibatkan pelanggaran Syarat dan Ketentuan ini dan penutupan segera Akun Pemain dan Akun Deposit, kehilangan semua dana.</li>
+                                </ul>
+                            </li>
+                            <h3>Ketentuan Akun</h3>
+                            <p><strong>Limitasi</strong></p>
+                            <p>Peraturan dan batasan perjudian bervariasi dari satu negara ke negara lain. Dengan demikian, perjudian jarak jauh atau permainan online mungkin ilegal di negara dan yurisdiksi tertentu, yang berarti bahwa Perusahaan tidak menerima pendaftaran dan taruhan oleh individu yang berlokasi di negara atau yurisdiksi tersebut.</p>
+                            <p>Penting bagi seseorang untuk memastikan bahwa undang-undang yang berlaku baginya terkait perjudian jarak jauh atau permainan online tidak melarangnya membuka akun dan memasang taruhan dengan Perusahaan.</p>
+                            <p>Untuk mengakses layanan taruhan Perusahaan, pemain harus terlebih dahulu membuka akun. Setiap pemain hanya dapat membuka satu (1) akun. Jika Perusahaan menemukan pemain dengan lebih dari satu akun, Perusahaan memiliki hak eksklusif untuk memperlakukan akun tersebut sebagai satu akun gabungan atau menutup semua akun lainnya.</p>
+                            <p>Usia minimum untuk membuka akun adalah delapan belas (18) tahun, dan individu yang tinggal di negara yang tidak tersedia di halaman pendaftaran tidak dapat mendaftarkan akun dan bermain.</p>
+                            <p>Pemain hanya dapat memasang taruhan hingga batas tertentu yang tersedia di akun taruhan mereka.</p>
+                            <p><strong>Tanggung jawab</strong></p>
+                            <p>Dengan membuka akun bersama kami, ada tanggung jawab penting yang harus selalu diingat oleh seorang Pemain.</p>
+                            <p>Itu akan selalu menjadi tanggung jawab Pemain untuk memastikan bahwa catatannya dengan Perusahaan tetap mutakhir, terutama yang berkaitan dengan alamat, nomor telepon dan rincian pembayaran/bank. Namun Perusahaan berhak meminta Pemain untuk memperbarui informasinya dan memberikan hal yang sama kepada Perusahaan dari waktu ke waktu. Jika Pemain tidak dapat memberikan informasi atau dokumen yang diperlukan untuk memverifikasi identitasnya, Perusahaan berhak menolak pembukaan akun atau menghentikan transaksi apa pun dengan Pemain.</p>
+                            <p>Merupakan tanggung jawab tunggal Pemain untuk memastikan bahwa dia menjaga kerahasiaan nama pengguna, kata sandi, dan detail keamanan lainnya. Jika Pemain merasa bahwa kerahasiaan nama pengguna dan detail keamanan lainnya dilanggar, ia harus membuat pemberitahuan yang sesuai kepada Perusahaan dan mendapatkan kata sandi baru. Setiap taruhan yang dilakukan secara online di mana nama pengguna dan kata sandi yang benar telah digunakan akan dianggap sah dan mengikat Pemain.</p>
+                            <p>Pemain juga harus secara rutin memeriksa saldo akunnya setiap kali mereka masuk ke situs web game Perusahaan. Jika terjadi ketidaksesuaian, adalah tanggung jawab pemain untuk segera memberi tahu Perusahaan bersama dengan catatan transaksi pemain sejak saldo akun terakhir diverifikasi dan dokumen pendukung lainnya.</p>
+                            <p>Pemain dapat berpartisipasi dalam permainan apa pun hanya jika ada dana yang cukup di Akun mereka. Merupakan kebijakan Perusahaan untuk tidak menerima uang tunai dan tidak memberikan kredit apa pun untuk partisipasi dalam permainan apa pun</p>
+                            <p>Pemain hanya boleh menggunakan kartu kredit tersebut dan instrumen keuangan lainnya yang sah dan terdaftar secara sah atas nama mereka sendiri untuk menyetor dana ke Akun mereka.</p>
+                            <p>Pemain tidak boleh menggunakan dana yang berasal dari aktivitas atau sumber ilegal atau yang tercemar atau terkait dengan ilegalitas atau cara yang tidak sah.</p>
+                            <p>Pemain dapat menarik uang dari akun mereka kapan saja asalkan saldo akun telah dikonfirmasi, tunduk pada kebijakan Perusahaan yang berlaku tentang penarikan.</p>
+                            <p>Pemain tidak diperbolehkan untuk mentransfer dana Akun mereka ke pemain lain atau menerima uang dari pemain lain ke Akun mereka, atau untuk mentransfer, menjual dan/atau memperoleh akun pengguna.</p>
+                            <h3>Reservasi Penting</h3>
+                            <p>Perusahaan berhak untuk menolak setiap taruhan atau bagian dari taruhan tanpa memberikan alasan kapan pun.</p>
+                            <p>Perusahaan berhak untuk menutup akun taruhan pemain dan mengembalikan saldo akunnya tanpa penjelasan lebih lanjut.</p>
+                            <p>Jika akun taruhan tidak aktif selama satu (1) tahun atau lebih, Perusahaan berhak untuk kehilangan saldo terutang.</p>
+                            <p>Oleh karena itu, Perusahaan memiliki hak eksklusif untuk membatasi akses Anda ke situs web permainan kami, menangguhkan atau menghentikan akun taruhan Anda, menolak tawaran Anda untuk taruhan apa pun, dan kehilangan taruhan yang belum diselesaikan atau cocok dengan kebijaksanaan mutlak kami tanpa alasan kapan pun.</p>
+                            <p>Untuk informasi lebih lanjut tentang kebijakan akun pemain Perusahaan, silakan merujuk ke <a href="AccountTerms.html">Syarat dan Ketentuan </a>yang diposting di Situs Web ini.</p>
+                           
+                            <li>
+                                <strong>Kebijakan Setoran</strong>
+                                <p><strong>Membuka Akun Deposit Pemain</strong></p>
+                                <ul>
+                                    <li>
+                                        Untuk terus mengakses Layanan Perusahaan dan Situs Web, seseorang yang pertama kali membuat Akun Pemain harus terlebih dahulu membuka Akun Deposit di Perusahaan (“Akun Deposit”) dengan memberikan setidaknya informasi berikut (“Informasi Pemain”) sebagaimana ditentukan oleh Perusahaan atas kebijakannya sendiri dan mutlak dari waktu ke waktu dan setiap saat:
+                                        <ol>
+                                            <li>Nama lengkap (harus sama dengan informasi yang disampaikan ke lembaga perbankan atau fasilitas kredit);</li>
+                                            <li>Alamat surat lengkap;</li>
+                                            <li>Nomor telepon saat ini dan yang valid; dan</li>
+                                            <li>Kebangsaan;</li>
+                                        </ol>
+                                    </li>
+                                    <li>Pemain harus berhati-hati dalam mengirimkan informasi Pemain yang diperlukan. Nama lengkap yang dikirimkan bersifat permanen dan tidak dapat diubah.</li>
+                                    <li>Pemain dapat menyetor melalui metode berikut:
+                                        <ol>
+                                            <li>Perbankan Online</li>
+                                            <li>Perbankan Lokal</li>
+                                        </ol>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Kebijakan Penarikan</strong>
+                                <p><strong>Sebelum Melakukan Penarikan</strong></p>
+                                <p>Sebelum melakukan penarikan dan atas permintaan Perusahaan, Pemain setuju untuk mematuhi Kebijakan Anti Pencucian Uang perusahaan dan segera memberikan kepada Perusahaan salinan identifikasi Pemain dan dokumentasi apa pun untuk memverifikasi informasi ID Pemain dan Akun Deposit Pemain.</p>
+                                <ul>
+                                    <li>Pemain memberi wewenang kepada Perusahaan untuk menggunakan segala cara yang sah yang dianggap perlu untuk memverifikasi informasi ID Pemain dan Akun Deposit Pemain.</li>
+                                    <p><strong>Melakukan Penarikan</strong></p>
+                                    <p>Anda dapat menarik melalui metode berikut:
+                                        <ol>
+                                            <li>Gerbang Pembayaran Online</li>
+                                            <li>Transfer Bank Lokal</li>
+                                        </ol>
+                                    </p>
+                                    <li>Anda hanya dapat menarik dalam mata uang yang saat ini Anda daftarkan di akun taruhan Anda.</li>
+                                    <li>Semua penarikan hanya dapat dilakukan atas nama dan detail yang terdaftar.</li>
+                                    <li>Anda diharuskan untuk bertaruh setidaknya 100% dari jumlah deposit sebelum Anda dapat meminta penarikan. Semua taruhan yang ditolak, dibatalkan, seri dan seri akan dikecualikan dalam perhitungan persyaratan turnover. Jika syarat taruhan ini tidak terpenuhi, akan dikenakan biaya administrasi 20% untuk penarikan.</li>
+                                    <li>
+                                        Sesuai Kebijakan Anti Pencucian Uang, kami berhak meminta informasi lebih lanjut terkait akun Pemain seperti:
+                                        <ol>
+                                            <li>Salinan paspor Anda yang menunjukkan foto dan nomor paspor; atau </li>
+                                            <li>Salinan SIM Anda yang menunjukkan nomor SIM; atau</li>
+                                            <li>Salinan kartu identitas berfoto yang dikeluarkan pemerintah yang menunjukkan foto dan nomor identitas.</li>
+                                        </ol>
+                                    </li>
+                                    <li>Kami berhak untuk mengubah cara atau metode pembayaran untuk permintaan penarikan (fund-out) Anda atas kebijakan kami sendiri dan mutlak dan untuk mengurangi sebagian atau seluruh biaya transfer dana yang timbul sebagai akibatnya. Perusahaan akan memberi tahu Pelanggan tentang keputusannya melalui email. Keputusan Perusahaan bersifat final dan mengikat.</li>
+                                    <li>Penarikan hanya dapat dilakukan atas nama dan kepada pemegang rekening yang terdaftar.li</li>
+                                    <li>Perusahaan dapat meminta identifikasi dan dokumen yang sah dalam melakukan uji tuntas sehubungan dengan permintaan penarikan.</li>
+                                </ul>
+                            </li>
+                        
+                            <li>
+                                <strong>Ketentuan Akun Lainnya</strong>
+                                <ul>
+                                    <li>Setelah disediakan oleh Pemain Informasi ID Pemain sebagaimana didefinisikan di sini, Perusahaan harus mengkonfirmasi dan memverifikasi ketersediaan dan penerimaan Nama Pengguna dan Kata Sandi yang Dinominasikan (secara kolektif disebut "ID Login"), yang syarat dan ketentuan berikut akan berlaku:
+                                        <ol>
+                                            <li>ID Login bersifat pribadi untuk Pemain dan hanya dapat digunakan oleh Pemain. Menjaga kerahasiaan atau kerahasiaan ID Login adalah tanggung jawab Pemain. Pemain bertanggung jawab penuh atas setiap aktivitas dan transaksi di Situs Web yang dilakukan dengan ID Loginnya serta atas penyalahgunaan oleh, dan/atau pengungkapan ID Login yang tidak sah kepada, siapa pun. Pemain harus terus menerus mengubah Kata Sandi ID Login setidaknya sebulan sekali untuk meminimalkan kemungkinan penyalahgunaan, pelanggaran, atau kompromi ID Login yang sebenarnya atau yang dicurigai.</li>
+                                            <li>Pemain harus segera memberi tahu Perusahaan secara tertulis tentang penyalahgunaan, pelanggaran, atau kompromi ID Login yang sebenarnya atau yang dicurigai. Sampai Perusahaan menerima pemberitahuan tersebut, Pemain akan terus bertanggung jawab atas semua aktivitas dan transaksi yang dilakukan dengan ID Login Pemain. Setelah menerima pemberitahuan tersebut, Perusahaan akan segera menangguhkan Akun Pemain. Perusahaan tidak akan bertanggung jawab atau berkewajiban dengan cara apa pun atas keterlambatan yang wajar dalam penangguhan Akun Pemain tersebut. Untuk menghindari keraguan, hingga pemberitahuan tersebut diterima oleh Perusahaan dan Akun Pemain ditangguhkan, aktivitas dan transaksi melalui Akun Pemain akan tetap dianggap sah dan hanya setelah menerima pemberitahuan tersebut, Akun Pemain akan ditangguhkan dan semua aktivitas dan transaksi melalui Akun Pemain dianggap batal;</li>
+                                            <li>Jika Perusahaan memiliki alasan untuk meyakini bahwa kemungkinan akan terjadi pelanggaran keamanan atau penyalahgunaan Situs Web atau penyalahgunaan, pelanggaran, atau kompromi ID Masuk Pemain, Perusahaan atas kebijakannya sendiri dan mutlak dapat menangguhkan Akun Pemain dan/atau mengubah Kata Sandi dari ID Masuk yang memberi tahu Pemain setelah kejadian itu. Ini adalah tindakan pencegahan saja tanpa mengimpor kewajiban atau kewajiban apa pun kepada Perusahaan jika Perusahaan memilih untuk tidak menerapkan klausul ini.</li>
+                                            <li>Perusahaan dapat melakukan pemeriksaan keamanan acak pada Akun Pemain setiap saat atau dari waktu ke waktu. Pemain dengan ini menerima bahwa Perusahaan memiliki hak untuk membawa cek tersebut dan meminta informasi dan/atau dokumentasi tambahan dari Pemain.</li>
+                                            <li>Perusahaan berhak atas kebijaksanaan tunggal dan mutlak Perusahaan, tanpa penjelasan lebih lanjut kepada Pemain, sehubungan dengan Akun Pemain:</li>
+                                            <li>Untuk menangguhkan Akun Pemain, jika Perusahaan memiliki keyakinan yang wajar bahwa terus menggunakan Akun Pemain akan menimbulkan kerusakan atau kerugian yang tidak terduga dalam bentuk apa pun kepada Pemain atau Perusahaan;</li>
+                                            <li>Untuk menangguhkan Akun Pemain selama penyelidikan pelanggaran Dokumentasi;</li>
+                                            <li>Untuk menutup Akun Pemain jika Pemain melanggar salah satu persyaratan Dokumentasi, sebagaimana ditentukan oleh Perusahaan dalam kebijakan tunggal dan mutlak Perusahaan. Perusahaan mencadangkan semua hak dan upaya hukumnya terhadap Pemain berdasarkan Dokumentasi dan menurut hukum dan berhak untuk menahan dana apa pun yang jatuh tempo kepada Pemain untuk menjawab kewajiban Pemain berdasarkan Perjanjian ini dan/atau kewajiban apa pun yang timbul dari pelanggaran Dokumentasi tersebut oleh Pemain;</li>
+                                            <li>Menutup Akun Pemain jika ada kecurigaan yang wajar oleh Perusahaan atas transaksi ilegal dan/atau Pemain terlibat dalam aktivitas ilegal, meskipun tidak terkait dengan Perusahaan;</li>
+                                            <li>Untuk menutup Akun Pemain jika Akun Pemain menjadi tidak aktif selama satu (1) tahun atau lebih, dalam hal ini Pemain setuju untuk kehilangan dana dan semua klaimnya terhadap Perusahaan;</li>
+                                            <li>Untuk menutup Akun Pemain jika ada Pemain, orang atau Pemain atau sekelompok orang yang bertindak dalam konser atau sebagai sindikat untuk berkolusi dan/atau menipu Perusahaan;</li>
+                                            <li>Menutup atau menangguhkan Akun Pemain (sesuai pilihan Perusahaan), setiap saat dengan atau tanpa sebab. Namun, dalam acara ini, transaksi yang belum diselesaikan akan dihormati (asalkan transaksi ini sesuai dengan Dokumentasi) dan dana apa pun yang jatuh tempo kepada Pemain akan dikembalikan.</li>
+                                            <li>Ketika Akun Pemain ditangguhkan, Perusahaan berhak, tanpa menimbulkan kewajiban apa pun yang timbul dari hilangnya keuntungan, tabungan atau kontrak, untuk membekukan dana yang harus dibayarkan kepada Pemain; menghentikan penggunaan Akun Pemain dan setiap transaksi yang terkait dengannya; membatalkan setiap dan semua taruhan yang menunggu untuk diterima; menggunakan informasi apa pun yang tersedia untuk Perusahaan dan segala cara investigasi yang dipilih Perusahaan (termasuk menghubungi orang ketiga, kantor Pemerintah dan/atau meminta dokumentasi dan informasi dari Pemain) untuk melakukan penyelidikan atas insiden yang menyebabkan penangguhan; semua yang Pemain dengan ini setuju dan setuju untuk bekerja sama sepenuhnya. Kurangnya kerjasama oleh Pemain akan mengakibatkan penutupan segera Akun Pemain.</li>
+                                            <li>Ketika Akun Pemain ditutup, Perusahaan, tanpa menimbulkan kewajiban apapun yang timbul dari hilangnya keuntungan, tabungan atau kontrak, berhak untuk menahan dana yang dibayarkan kepada Pemain untuk menjawab kewajiban Pemain, kewajiban, atau untuk kegiatan ilegal yang dicurigai. yang mungkin terkait dengan Akun Pemain; menghentikan penggunaan Akun Pemain dan setiap transaksi yang terkait dengannya; membatalkan setiap dan semua taruhan yang menunggu untuk diterima; menggunakan informasi apa pun yang tersedia untuk Perusahaan dalam melakukan penyelidikan (termasuk menghubungi orang ketiga, kantor Pemerintah dan/atau meminta dokumentasi dan informasi dari Pemain) terkait dengan penyelidikan yang mengarah pada penutupan Akun Pemain, yang dengan ini disetujui oleh Pemain dan setuju untuk bekerja sama sepenuhnya.</li>
+                                            <li>Pemain dapat menutup Akun Pemain dengan Perusahaan kapan saja dengan memberi tahu Perusahaan secara tertulis. Setelah mengirimkan pemberitahuan tersebut, Pemain harus segera berhenti menggunakan Situs Web dan Akun Pemain. Hanya setelah pemberitahuan oleh Perusahaan kepada Pemain bahwa Akun Pemainnya telah ditutup, transaksi yang dilakukan menggunakan Akun Pemain akan dianggap batal dan Akun Pemain dianggap ditutup. Pemain akan terus bertanggung jawab atas aktivitas dan transaksi apa pun hingga Akun Pemain ditutup. Setelah penutupan Akun Pemain, Perusahaan akan mengembalikan (jika berlaku) dana apa pun yang harus dibayarkan kepada Pemain.li</li>
+                                            <li>Merupakan tanggung jawab Pemain untuk secara aktif memelihara Akun Pemain. Akun Pemain dianggap aktif jika Pemain telah login dan menggunakan Layanan Perusahaan menggunakan Akun Pemain setidaknya sekali dalam tiga puluh (30) hari terakhir sejak login terakhir, jika tidak, Akun Pemain akan dianggap tidak aktif.</li>
+                                        </ol>
+                                    </li>
+                                    <li>Seseorang hanya dapat membuka atau menahan satu (1) Akun Pemain. Setiap Akun Pemain tambahan yang dibuka akan ditutup oleh Perusahaan dan (jika berlaku) dana apa pun yang jatuh tempo kepada Pemain akan dikembalikan atau semua akun tersebut dapat diperlakukan sebagai satu akun gabungan dan digabungkan bersama oleh Perusahaan, dalam kedua kasus di Kebijaksanaan tunggal dan mutlak perusahaan. Pemain setuju bahwa Perusahaan akan menggunakan metode apapun yang dianggap masuk akal untuk menentukan apakah dua atau lebih Akun Pemain milik Pemain yang sama.</li>
+                                    <li>Perusahaan dapat menerbitkan Akun Pemain sementara untuk tujuan pemasaran atau demonstrasi. Akun ini akan kedaluwarsa dalam jangka waktu yang telah ditentukan tidak melebihi tiga puluh (30) hari sejak pembuatan akun. Setelah periode tersebut, Akun Pemain sementara akan ditutup oleh Perusahaan atau Pemain harus memenuhi kriteria untuk, dan membuka, Akun Pemain reguler.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Representasi Pemain Awal</strong>
+                                <ul>
+                                    <li>Selain pernyataan atau jaminan lain yang termasuk dalam Dokumentasi, Pemain menerima, menyatakan dan menjamin tanpa syarat dan tanpa syarat dan terikat tanpa syarat atau batasan (sesuai kasusnya) bahwa Pemain:
+                                        <ol>
+                                            <li>Berusia setidaknya delapan belas (18) tahun, atau usia persetujuan, atau usia mayoritas di yurisdiksi Pemain tempat tinggal biasa atau lokasi saat ini, mana yang lebih tinggi;</li>
+                                            <li>Memiliki kapasitas mental untuk bertanggung jawab atas tindakan Pemain sendiri dan terikat oleh Dokumentasi, tanpa paksaan atau paksaan;</li>
+                                            <li>Memahami bahwa perjudian melalui internet atau perangkat komunikasi jarak jauh lainnya atau perjudian secara umum, mungkin melanggar hukum di yurisdiksi tempat Pemain berada. Pemain bertanggung jawab penuh untuk memastikan kepatuhan terhadap hukum lokal atau nasional yang berlaku sebelum membuka Akun Pemain, menggunakan Layanan Perusahaan atau mengakses Situs Web;</li>
+                                            <li>Tidak akan mendaftar atau mengakses Situs Web kapan saja dari Aruba, Bonaire, Curacao, Prancis dan wilayahnya, Belanda dan wilayahnya, Saba, St Martin, St Eustatius dan Amerika Serikat dan wilayahnya, dan/atau yurisdiksi lain yang Central Pemerintah Curacao menganggap perjudian online ilegal atau yurisdiksi apa pun yang melarang perjudian jarak jauh atau game online;</li>
+                                            <li>Sedang memanfaatkan atau menerima Layanan Perusahaan dari yurisdiksi dan/atau negara dan/atau beroperasi secara legal dan berlisensi untuk penyediaan Layanan Perusahaan tersebut dari lokasi yang secara hukum diizinkan untuk melakukannya, dan bahwa Perusahaan telah berusaha untuk tidak untuk meminta atau menjalani bisnis dari atau di Yurisdiksi Terlarang atau dengan Pemain di, atau dari Yurisdiksi Terlarang (jika Pemain berasal atau berada di Yurisdiksi Terlarang).</li>
+                                            <li>Belum diminta atau ditawarkan Layanan Perusahaan oleh Perusahaan, dan Pemainlah yang telah mencari dan meminta Layanan Perusahaan dari Perusahaan sesuai dengan Dokumentasi.</li>
+                                            <li>Tidak mengetahui adanya pemasaran atau publisitas oleh Perusahaan di yurisdiksi tempat tinggalnya yang biasa di mana perjudian jarak jauh atau permainan online dilarang.</li>
+                                            <li>Akan menggunakan Situs Web dengan risikonya sendiri, memahami bahwa uang dapat hilang dengan menggunakan Layanan Perusahaan yang menerima tanggung jawab penuh atas kerugian tersebut (yang dianggap dapat diperkirakan).</li>
+                                            <li>Tidak akan menyatakan dirinya sebagai agen atau afiliasi Perusahaan dan sama sekali tidak memasarkan, mengiklankan, mempublikasikan, atau mempromosikan Perusahaan atau Layanan Perusahaan tanpa persetujuan tertulis sebelumnya dari Perusahaan.</li>
+                                            <li>Tidak akan (atau bahkan mencoba) menyerang, meretas, melakukan aktivitas jahat apa pun, membuat perubahan tanpa izin, atau memasukkan segala jenis kode berbahaya ke, Situs Web. Dengan demikian, Pemain tidak akan, termasuk tanpa batasan, (a) merekayasa balik atau mendekompilasi (seluruhnya atau sebagian) perangkat lunak apa pun yang tersedia melalui Situs Web; atau (b) membuat salinan, memodifikasi, mereproduksi, mengirimkan, mengubah, menggunakan atau mendistribusikan semua atau sebagian dari Situs Web atau materi atau informasi apa pun yang terkandung di dalamnya; atau (c) menggunakan secara tidak sah, atau mengungkapkan, informasi di Situs Web dan/atau Akun Pemain kepada siapa pun; atau (d) bertentangan dengan salah satu ketentuan Dokumentasi; atau (e) menipu, menipu, menipu, memberikan informasi yang salah, atau menipu Perusahaan dengan cara apa pun melalui penggunaan atau penyalahgunaan Layanan Perusahaan atau Situs Web. APABILA PERUSAHAAN MENCEGAH BAHWA PEMAIN TELAH GAGAL MEMATUHI PERSYARATAN KETENTUAN INI, PERUSAHAAN HARUS MEMILIKI, SELAIN UPAYA UPAYA LAINNYA, HAK UNTUK MENANGGUHKAN AKUN PEMAIN UNTUK MELAKUKAN INVESTIGASI. APABILA KEGAGALAN PEMAIN UNTUK MEMATUHI KETENTUAN KETENTUAN INI TERBUKTI, PERUSAHAAN, ATAS KEBIJAKAN SATU-SATUNYA DAN MUTLAKNYA, DAPAT MEMINTA PENUTUPAN AKUN PEMAIN DAN MENGHILANGKAN DANA DI AKUN PEMAIN SUBJEK.</li>
+                                            <li>Tidak akan mengizinkan atau mengizinkan orang lain atau pihak ketiga mana pun (termasuk, tanpa batasan, orang di bawah usia delapan belas [18] tahun) untuk menggunakan Layanan Perusahaan, menggunakan Akun Pemain, atau menerima kemenangan apa pun atas nama mereka.</li>
+                                            <li>Akan segera melaporkan setiap dan semua kemenangan kepada otoritas yang tepat jika Pemain tinggal di yurisdiksi di mana kemenangan tersebut dikenakan pajak atau diwajibkan oleh hukum untuk diungkapkan, dan Perusahaan tidak akan bertanggung jawab dengan cara apa pun atas kegagalan Pemain untuk melakukannya.</li>
+                                            <li>Akan sepenuhnya mengganti kerugian, membela dan membebaskan Perusahaan, dan pemegang saham, direktur, pejabat, karyawan, konsultan, penasihat, agen, afiliasi, dan pemasok serta perwakilan lainnya (“Pihak yang Diperluas”) dari dan terhadap semua klaim, kewajiban, kerusakan , kerugian, biaya dan pengeluaran, termasuk biaya hukum, (terlepas dari teori hukum) yang timbul dari pelanggaran Dokumentasi oleh Pemain atau kewajiban lain yang timbul dari Dokumentasi atau penggunaan Layanan Perusahaan oleh Pemain.</li>
+                                            <li>Mengakui dan memahami bahwa keterampilan dan/atau bakat Pemain TIDAK DAPAT mempengaruhi hasil dari aktivitas perjudian yang dilakukan di sini, dan bahwa keterampilan dan/atau bakat Pemain tidak dapat dengan cara apa pun mengubah hasil permainan atau akan menjamin kemenangan di pihak Pemain </li>
+                                            <li>Mengakui dan memahami bahwa perjudian hanyalah suatu bentuk hiburan, kesenangan dan rekreasi. Perjudian BUKAN kegiatan mencari uang, BUKAN bentuk mata pencaharian atau bisnis yang dapat memecahkan masalah keuangan.</li>
+                                        </ol>
+                                    </li>
+                                    <li>Pemain setuju bahwa setiap dan semua jaminan dan pernyataan yang dibuat di sini adalah benar dan akurat dan bahwa dia akan mematuhi dan menjaga kepatuhan terhadap setiap dan setiap jaminan dan pernyataan yang dibuat di sini selama dia tetap menjadi Pemain dengan Akun Pemain.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Ketentuan Transaksi</strong>
+                                <ul>
+                                    <li>Perusahaan memiliki lisensi untuk menerima taruhan melalui perangkat komunikasi jarak jauh secara global di bawah lisensi permainan Perusahaan yang dikeluarkan berdasarkan Lisensi Master Antillephone N.V. No. 8048/JAZ yang diberikan oleh Pemerintah Curacao.</li>
+                                    <li>Secara umum dan tunduk pada seperangkat aturan yang lebih spesifik yang disediakan di Situs Web ini, jika ada, taruhan hanya dianggap ditempatkan (“Taruhan yang Ditempatkan”) ketika dilakukan oleh Pemain melalui Situs Web. Taruhan dianggap diterima dan dicatat ("Taruhan yang Diterima") hanya jika telah diterima dan dicatat sesuai dengan Dokumentasi oleh server permainan Perusahaan. Taruhan dianggap selesai ("Taruhan Selesai") ketika diterima dan dicatat dan Pemain telah diberitahu (melalui pengakuan elektronik yang dikirim oleh Perusahaan kepada Pemain melalui Situs Web) tentang penerimaan tersebut. Namun perhatikan bahwa SEMUA TARUHAN AKAN DIANGGAP BATAL DI MANA DILARANG OLEH HUKUM.</li>
+                                    <li>Akun Pemain harus memiliki saldo dana yang tersedia setara dengan setidaknya nilai jumlah minimum untuk taruhan di Acara atau Pasar agar Pemain dapat memasang taruhan.</li>
+                                    <li>Pemain tidak diperbolehkan untuk membatalkan atau mengubah Taruhan yang Diterima. Perusahaan tidak berkewajiban untuk membatalkan Taruhan yang Diterima.</li>
+                                    <li>Taruhan akan diterima hingga batas waktu yang diiklankan hingga taruhan diterima untuk Acara atau Pasar apa pun.</li>
+                                    <li>Perusahaan berhak untuk secara pasti atau sementara menangguhkan atau melarang taruhan lebih lanjut pada suatu Acara atau Pasar kapan saja tanpa pemberitahuan sebelumnya kepada Pemain atas kebijakan tunggal dan mutlak Perusahaan. Dimana suatu Acara atau Pasar ditangguhkan atau akses ke itu dilarang, setiap upaya untuk menempatkan taruhan oleh Pemain akan ditolak.</li>
+                                    <li>Taruhan juga akan dianggap batal (“Taruhan Batal”) jika:
+                                        <ol>
+                                            <li>Itu tidak ditransmisikan secara penuh, termasuk namun tidak terbatas pada kasus di mana transmisi taruhan telah terganggu atau terputus karena kegagalan teknis atau komunikasi;</li>
+                                            <li>Secara tidak sengaja diterima oleh Perusahaan yang bertentangan dengan Dokumentasi;</li>
+                                            <li>Perusahaan memiliki keyakinan yang wajar bahwa Pemain atau orang atau sekelompok orang bertindak secara bersama-sama atau sebagai sindikat untuk berkolusi melawan, atau menipu Perusahaan;</li>
+                                            <li>Keadaan dan/atau asumsi yang dipertimbangkan oleh Perusahaan untuk Peristiwa tertentu berubah;</li>
+                                            <li>Pasar atau Acara tidak ditangguhkan pada waktu yang tepat, sebagaimana ditentukan melalui kebijakan mutlak Perusahaan;</li>
+                                            <li>Setiap kesalahan tipografi, teknis, manusia atau gamblang dalam mengungkapkan, memposting atau menggunakan Informasi Taruhan.</li>
+                                        </ol>
+                                    </li>
+                                    <li>Perusahaan berhak atas kebijakannya sendiri dan mutlak tanpa perlu penjelasan atau pemberitahuan sebelumnya yang diberikan kepada Pemain untuk menolak taruhan atau bagiannya.</li>
+                                    <li>Semua Informasi Taruhan dapat berubah tetapi akan menjadi tetap pada saat Taruhan yang Ditempatkan menjadi Taruhan yang Diterima, kecuali untuk taruhan pool yang menjadi tetap pada saat pool masing-masing ditutup. Perusahaan berhak atas kebijakannya sendiri dan mutlak tanpa penjelasan atau pemberitahuan sebelumnya kepada Pemain untuk mengubah Informasi Taruhan setiap saat. Setiap kali karena kesalahan, kelalaian atau kesalahan Informasi Taruhan yang salah telah ditampilkan, Perusahaan berhak atas kebijakannya sendiri tanpa pemberitahuan sebelumnya kepada Pemain untuk membatalkan, menolak, atau menerima taruhan yang terpengaruh dan/atau untuk memperbaiki kesalahan, kelalaian atau kesalahan. Perusahaan akan menempatkan pemberitahuan penting di Situs Web dalam acara-acara tersebut.</li>
+                                    <li>Jumlah taruhan maksimum dan minimum yang dapat dipasang Pemain di Pasar atau Acara apa pun bervariasi sesuai dengan Acara atau Pasar tertentu dan dapat berubah tanpa pemberitahuan sebelumnya atas kebijakan tunggal dan mutlak Perusahaan. Pemain harus mematuhi jumlah dan batas taruhan minimum dan maksimum yang diposting.</li>
+                                    <li>Kemenangan akan dikreditkan ke dan kerugian dikurangkan dari Akun Pemain, setelah konfirmasi hasil akhir Acara dari sumber resmi yang relevan, sesuai, sebagaimana ditentukan oleh Perusahaan atas kebijakannya sendiri dan mutlak.</li>
+                                    <li>Pemain harus memeriksa saldo dana Akun Pemain masing-masing pada setiap login. Jika dana tertentu ditambahkan ke atau dikurangkan dari Akun Pemain karena kesalahan, merupakan tanggung jawab Pemain untuk segera memberi tahu Perusahaan tentang kesalahan tersebut tanpa penundaan. Setiap jumlah yang dikreditkan ke Akun Pemain karena kesalahan akan dianggap tidak sah dan harus dikembalikan ke Perusahaan. Pemain tidak boleh membuang dana yang ditambahkan ke Akun Pemain karena kesalahan dan Perusahaan berhak untuk membatalkan setiap transaksi (termasuk taruhan) yang melibatkan dana tersebut. Pemain setuju untuk mengganti kerugian Perusahaan atas pengembalian dana yang ditambahkan secara keliru yang telah dibuang oleh Pemain.</li>
+                                    <li>Perusahaan berhak atas kebijakannya sendiri dan mutlak, tanpa menimbulkan kewajiban apa pun, sehubungan dengan dana apa pun yang dibayarkan kepada Pemain untuk:
+                                        <ol>
+                                            <li>Membekukan mereka jika Akun Pemain ditangguhkan; kecurigaan adanya transaksi ilegal atau pelanggaran Dokumentasi; menunggu hasil investigasi dari otoritas Pemerintah atau lembaga keuangan mana pun; dan/atau,</li>
+                                            <li>Menahannya jika Akun Pemain ditutup karena transaksi ilegal atau pelanggaran Dokumentasi; dan/atau atas permintaan otoritas Pemerintah atau lembaga keuangan mana pun.</li>
+                                            <li>Setiap dan semua pembayaran yang dilakukan kepada Pemain termasuk pajak apa pun, termasuk PPN atau pajak penjualan lokal yang dikenakan pada tarif yang berlaku pada tanggal transaksi terkait. Setiap jumlah yang harus dibayar kepada Perusahaan harus dibayar sebagai tambahan dari setiap pemotongan, pemotongan, kompensasi atau tuntutan balik, termasuk pengurangan atau pemotongan yang mungkin diwajibkan oleh hukum sehubungan dengan pajak. Pemain bertanggung jawab, jika berlaku, untuk pembayaran setiap dan semua pajak, bea atau retribusi yang berlaku untuk transaksi apa pun.</li>
+                                        </ol>
+                                    </li>
+                                    <li>Semua transaksi dan komunikasi antara Pemain dan Perusahaan akan dicatat (“Rekaman”) oleh Perusahaan untuk kepentingan Pemain dan Perusahaan. Rekaman akan disimpan untuk jangka waktu masing-masing 1 (satu) bulan sejak tanggal transaksi atau komunikasi; setelah jangka waktu tersebut, Rekaman harus dibuang. Pemain harus memberi tahu perselisihan apa pun yang terkait dengan transaksi apa pun kepada Perusahaan dalam waktu satu (1) bulan sejak tanggal transaksi. Apabila terjadi perselisihan yang tidak dapat diselesaikan oleh manajemen Perusahaan dengan itikad baik, Rekaman tersebut akan digunakan sebagai alat bukti dalam perselisihan tersebut. Pemain dan Perusahaan setuju bahwa Rekaman itu benar dan akurat dan akan menjadi otoritas tertinggi dalam menyelesaikan perselisihan tersebut sebagai jalan terakhir. Manajemen Perusahaan akan membuat keputusan akhir sehubungan dengan perselisihan dan mengkomunikasikannya kepada Pemain yang setuju untuk terikat dengan keputusan Perusahaan.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Batasan Tanggung Jawab</strong>
+                                <ul>
+                                    <li>Perusahaan tidak akan bertanggung jawab kepada Pemain atau orang lain untuk setiap jenis kerugian atau kerusakan berikut dalam kontrak, kesalahan, kelalaian, atau lainnya (atau teori hukum apa pun) bahkan dalam setiap kasus jika Perusahaan telah diberitahu tentang kemungkinan kerugian atau kerusakan tersebut, baik langsung maupun tidak langsung, tanpa batasan, yang dianggap atau diduga sebagai akibat dari atau disebabkan oleh Situs Web; Layanan Perusahaan; transaksi; dan/atau hubungan Pemain dengan Perusahaan:</li>
+                                    <ol>
+                                        <li>Kerusakan atau kerugian tidak langsung, khusus atau konsekuensial;</li>
+                                        <li>Kehilangan keuntungan, pendapatan, kontrak atau penghematan yang diantisipasi; atau</li>
+                                        <li>Kerugian atau kerusakan yang timbul dari:</li>
+                                        <li>Kehilangan, kerusakan, atau korupsi data apa pun;</li>
+                                        <li>Keterlambatan dan/atau gangguan dan/atau kegagalan dari, atau sebagai akibat dari, setiap layanan dan/atau perangkat telekomunikasi; peralatan perangkat keras; tindakan orang ketiga (termasuk peretasan dan DDOS); dan/atau</li>
+                                        <li>Membatalkan dan/atau mengubah transaksi apa pun sesuai dengan Dokumentasi;</li>
+                                        <li>Penangguhan atau penutupan Akun Pemain sesuai dengan Dokumentasi;</li>
+                                        <li>Pembekuan atau pemotongan dana Pemain sesuai dengan Dokumentasi;</li>
+                                        <li>Memenuhi tindakan dan/atau permintaan dari otoritas atau kantor Pemerintah dan/atau lembaga keuangan mana pun;</li>
+                                        <li>Setiap kesalahan ketik, teknis, manusia atau gamblang dalam mengungkapkan, memposting atau menggunakan Informasi Taruhan atau informasi lainnya di Situs Web,</li>
+                                        <li>Peristiwa di luar kendali wajar Perusahaan (Force Majeure).</li>
+                                    </ol>
+                                    <li>Pemain tanpa membatasi hak dan upaya hukum Perusahaan lainnya berdasarkan Syarat dan Ketentuan ini, Dokumentasi dan/atau berdasarkan undang-undang yang berlaku, menjamin dan setuju untuk membela Perusahaan dan Pihak Terbesarnya terhadap semua tuntutan, klaim, atau tindakan lain, dan untuk mengganti kerugian Perusahaan dan Para Pihak Terbesarnya atas permintaan tertulis, dan untuk membebaskan mereka dari segala kerusakan, kerugian dan pengeluaran, termasuk biaya pengacara yang wajar, yang harus dibayarkan kepada orang ketiga oleh Perusahaan atau salah satu Pihak Terbesarnya, yang timbul dari klaim apa pun oleh orang ketiga yang berhubungan langsung atau tidak langsung dengan penipuan, pencucian uang atau kegiatan ilegal; pelanggaran Dokumentasi; yang dianggap atau diduga telah dihasilkan dari atau disebabkan oleh penggunaan Situs Web; Layanan Perusahaan; dan/atau hubungan Pemain dengan Perusahaan.</li>
+                                    <li>Tanpa membatasi kemampuannya untuk mencari solusi alternatif, Perusahaan dapat membatasi kemampuan Pemain untuk menggunakan Situs Web dan/atau Layanan Perusahaan; menangguhkan atau mengakhiri Akun Pemain; membatalkan taruhan apa pun; dan/atau, menahan dana, atas kebijakan mutlaknya, jika Perusahaan memiliki alasan untuk percaya atau curiga bahwa transaksi Pemain dengan Perusahaan merupakan kegiatan ilegal. Para Pemain mengakui bahwa jika penggunaan Situs Web mereka melanggar undang-undang lokal atau nasional sehubungan dengan penipuan atau pencucian uang, pembayaran apa pun yang dilakukan oleh Pemain kepada atau oleh Perusahaan dapat disita dan/atau dapat ditahan oleh Perusahaan. Sejauh diizinkan oleh undang-undang, Perusahaan tidak akan bertanggung jawab kepada Pemain atas tindakan tersebut, juga tidak akan menimbulkan kewajiban apa pun kepada Pemain mana pun di mana diperlukan untuk memberikan informasi atau dokumentasi yang berkaitan dengan Pemain kepada otoritas terkait dalam kasus tersebut.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Penggunaan Situs Web dan Streaming Video</strong>
+                                <ul>
+                                    <li>Penggunaan umum Situs Web diatur sebagai tambahan dari Syarat dan Ketentuan ini, oleh Syarat Penggunaan dan Kebijakan Privasi.</li>
+                                    <li>Perusahaan berhak untuk menarik Situs Web atau elemennya kapan saja, dan tidak akan bertanggung jawab kepada Pemain dengan cara apa pun sebagai akibat dari tindakan tersebut.</li>
+                                    <li>Penawaran Perusahaan untuk streaming video Acara melalui Internet, adalah hak milik, dimiliki, dan hak cipta oleh pemilik kekayaan intelektual yang sah (yang memiliki semua hak) dan dilisensikan kepada Perusahaan. Pemain hanya dapat mengakses penawaran streaming video Acara melalui Internet sesuai dengan aturan, syarat, dan ketentuan khusus apa pun yang mungkin berlaku untuk penawaran tertentu sebagaimana dipublikasikan secara terpisah oleh Perusahaan dari waktu ke waktu dan dengan ini Pemain dengan ini menerima untuk sepenuhnya mematuhi. Pemain tidak boleh menyalin, mendistribusikan ulang, atau menggunakan umpan video secara tidak sah, ini akan dianggap sebagai pelanggaran terhadap Syarat dan Ketentuan ini dan memungkinkan Perusahaan untuk segera menutup Akun Pemain.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Promosi & Penawaran Khusus</strong>
+                                <ul>
+                                    <li>Dari waktu ke waktu Perusahaan dapat mengeluarkan promosi, penawaran khusus atau insentif lainnya kepada Pemain. Ini tidak memiliki nilai tunai alternatif dan tunduk pada persyaratan yang ditentukan dalam promosi tertentu, penawaran khusus atau insentif yang harus diikuti dan dipatuhi oleh Pemain. Perusahaan berhak tanpa perlu pemberitahuan sebelumnya kepada Pemain, untuk menarik atau mengubah promosi, penawaran khusus, atau insentif kapan saja atas kebijakan Perusahaan sendiri.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Aturan Umum dan Aturan Acara Khusus</strong>
+                                <ul>
+                                    <li>Layanan Perusahaan, semua transaksi, taruhan, Acara dan Informasi Taruhan tunduk pada Syarat dan Ketentuan ini, Dokumentasi, dan Aturan dan Regulasi Taruhan, dimana Pemain dengan ini mengakui telah membaca dan menerima dan selanjutnya setuju untuk mematuhi hal yang sama. Selain Syarat dan Ketentuan dan Dokumentasi ini, khususnya Peraturan dan Peraturan Taruhan menentukan aturan taruhan yang berlaku untuk semua Layanan Perusahaan, transaksi, taruhan, Acara, dan Informasi Taruhan, di mana Peraturan dan Peraturan Acara dan Taruhan Tertentu menentukan aturan taruhan khusus untuk Acara atau jenis taruhan tertentu.</li>
+                                    <li>Jika ada inkonsistensi, perbedaan atau kontradiksi antara Syarat dan Ketentuan dan Peraturan Taruhan dan Peraturan yang terakhir akan berlaku. Jika Peraturan dan Regulasi Taruhan tidak membahas masalah tertentu, ketentuan yang relevan dari Otoritas Badan Pengatur Acara akan berlaku dengan analogi atau interpretasi (jika berlaku).</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Pelanggaran Syarat dan Ketentuan</strong>
+                                <ul>
+                                    <li>Jika Anda melanggar ketentuan apa pun dari Syarat dan Ketentuan ini, atau jika Perusahaan memiliki alasan yang masuk akal untuk mencurigai bahwa Pemain telah melanggarnya, Perusahaan berhak untuk tidak membuka, menangguhkan, atau menutup akun, atau menahan pembayaran kemenangan dan menerapkan dana tersebut pada akun untuk setiap kerusakan karena plater yang bersangkutan.</li>
+                                    <li>Pemain mengakui bahwa Perusahaan akan menjadi pengambil keputusan akhir apakah Pemain telah melanggar aturan, kebijakan dan/atau syarat atau ketentuan perusahaan, dengan cara yang mengakibatkan penangguhan atau larangan permanen untuk berpartisipasi menggunakan Situs Web.</li>
+                                    <li>Perusahaan tidak akan bertanggung jawab kepada Pemain atas setiap pelanggaran Syarat dan Ketentuan ini, yang timbul karena keadaan apa pun yang secara wajar tidak dapat diharapkan oleh Perusahaan untuk dikendalikan.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Umum</strong>
+                                <ul>
+                                    <li>Situs web tidak, dan tidak boleh dianggap sebagai tawaran, ajakan, atau undangan oleh Perusahaan untuk penggunaan, atau berlangganan, layanan perjudian di yurisdiksi mana pun di mana kegiatan tersebut dilarang oleh hukum.</li>
+                                    <li>Semua pernyataan atau pengaturan lain, baik tertulis atau lisan, tersurat atau tersirat (termasuk penggunaan atau kebiasaan dan persyaratan apa pun yang timbul melalui proses transaksi apa pun), antara Pemain dan Perusahaan yang berkaitan dengan materi pokok di sini akan dianggap telah digantikan , dibatalkan, batal demi hukum.</li>
+                                    <li>Tidak ada dalam Dokumentasi yang akan ditafsirkan atau ditafsirkan sebagai menciptakan atau membangun jenis hubungan lain apa pun antara Perusahaan dan Pemain.</li>
+                                    <li>Kegagalan atau penundaan oleh Perusahaan untuk melaksanakan hak atau upaya hukum apa pun berdasarkan Dokumentasi tidak akan ditafsirkan atau dijalankan sebagai pelepasan hak atau upaya hukum tersebut, juga tidak boleh ada satu atau sebagian pelaksanaan hak atau pemulihan apa pun yang menghalangi pelaksanaan lebih lanjut dari hak tersebut atau memperbaiki.</li>
+                                    <li>Setiap ketentuan yang terkandung dalam Dokumentasi harus ditafsirkan sebagai independen dari setiap ketentuan lainnya, sehingga jika ada ketentuan dalam Dokumentasi yang diputuskan oleh pengadilan atau otoritas yang berwenang sebagai tidak sah, tidak sah dan/atau tidak dapat dilaksanakan, maka penetapan tersebut tidak akan mempengaruhi setiap ketentuan lain dari Dokumentasi, yang semuanya ketentuan lainnya akan tetap berlaku penuh.</li>
+                                    <li>Pemain mengakui dan menjamin bahwa ia telah secara independen mencari dan menerima penasihat hukum independen dan kompeten sehubungan dengan hak, kewajiban, syarat, ketentuan, dan konsekuensi berdasarkan Dokumentasi. Pemain juga mengakui bahwa semua syarat dan ketentuan telah dijelaskan kepadanya dan bahwa dia sepenuhnya memahami hal yang sama.</li>
+                                    <li>Syarat dan Ketentuan ini akan diatur oleh dan ditafsirkan sesuai dengan hukum Curacao. Setiap dan semua kasus atau perselisihan yang berkaitan dengan Syarat dan Ketentuan dan Dokumentasi ini harus diajukan secara eksklusif ke pengadilan yang sesuai di Curacao dengan mengesampingkan pengadilan lain.</li>
+                                    <li>Pemberitahuan kepada Pemain atau Perusahaan yang berkaitan dengan Dokumentasi harus dibuat secara tertulis dan harus disampaikan secara pribadi atau dikirim melalui pos kelas satu prabayar, pos pos udara prabayar, surat elektronik atau transmisi faksimili ke alamat atau nomor faks yang tercantum di bawah ini:
+                                        <ol>
+                                            <li>Kepada Pemain: Untuk informasi yang diberikan sebagai ID Pemain, jika pemberitahuan dengan cara apa pun yang termasuk dalam ID Pemain gagal tiga (3) kali berturut-turut dengan interval satu (1) jam, pemberitahuan akan dianggap dilakukan setelah upaya ketiga.</li>
+                                            <li>Kepada Perusahaan: Alamat email: <a href="support@dynatech.com">support@dynatech.com</a>.</li>
+                                        </ol>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Keluhan</strong>
+                                <ul>
+                                    <li>Keluhan ditangani oleh tim dukungan kami dan dieskalasi di organisasi kapan pun diperlukan. Pemain akan diberitahu sesuai dengan itu oleh Perusahaan. Pemain memiliki hak untuk membawa perselisihan yang belum terselesaikan ke Curacao Antillephone N.V. melalui <a href="complaints@gaminglicenses.com">complaints@gaminglicenses.com</a>. Untuk informasi lebih lanjut tentang Otoritas, silakan kunjungi <a href="www.curacao-egaming.com">www.curacao-egaming.com </a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h3>Kebijakan Pribadi</h3>
+                        <p>Kebijakan Privasi ini mencakup perlakuan Perusahaan terhadap informasi pengenal pribadi yang kami kumpulkan dari Anda saat Anda mengakses Situs Web ini atau saat menghubungi kami untuk meminta informasi, layanan, atau dukungan pelanggan. Yang kami maksud dengan "informasi pengenal pribadi" adalah nama, alamat, nomor telepon, alamat email, nomor identifikasi dan dokumen Anda, serta informasi perbankan Anda. Kebijakan ini juga berlaku untuk perlakuan kami terhadap informasi pengenal pribadi apa pun yang dibagikan oleh mitra bisnis kami dengan Perusahaan. Kebijakan ini tidak berlaku untuk praktik entitas perusahaan lain yang tidak dimiliki atau dikendalikan oleh Perusahaan atau orang yang tidak dipekerjakan atau dikelola oleh Perusahaan.</p>
+                        <h3>Penerimaan Kebijakan Privasi</h3>
+                        <p>Dengan mengakses dan menggunakan Situs Web ini, Anda dianggap menerima Syarat Penggunaan Situs Web ini, serta syarat dan ketentuan Kebijakan Privasi kami.</p>
+                        <h3>Pengumpulan dan Penggunaan Informasi</h3>
+                        <p>Kami dapat mengumpulkan informasi yang dapat diidentifikasi secara pribadi dari Anda ketika Anda mengirimkan formulir di situs web, mengirim email atau menulis kepada kami ketika meminta informasi atau layanan atau dukungan pelanggan. Kami juga dapat menerima informasi pengenal pribadi dari Anda ketika Anda menggunakan produk dan layanannya atau dari mitra bisnisnya. Kami tidak mengumpulkan informasi pengenal pribadi apa pun ketika Anda berada di situs web kami sebelum Anda masuk. Kami hanya menggunakan informasi pengenal pribadi untuk memenuhi permintaan Anda akan informasi atau untuk menyediakan produk atau layanan kepada Anda.</p>
+                        <h3>Berbagi dan Pengungkapan Informasi</h3>
+                        <p>Kami tidak akan menjual atau menyewakan informasi pengenal pribadi Anda kepada siapa pun. Kami akan mengirimkan informasi pengenal pribadi tentang Anda ke perusahaan atau orang lain hanya jika:
+                            <ol>
+                                <li>Kami memiliki persetujuan Anda untuk membagikan informasi tersebut; atau </li>
+                                <li>Kami perlu membagikan informasi Anda untuk menyediakan layanan atau produk yang Anda minta; atau</li>
+                                <li>Kami perlu mengirimkan informasi tersebut kepada perusahaan yang bekerja atas nama perusahaan kami untuk menyediakan layanan yang Anda minta (kecuali jika kami memberi tahu Anda saat kami mengumpulkan informasi tersebut, perusahaan tersebut tidak akan memiliki hak untuk menggunakan informasi pengenal pribadi yang kami berikan kepada mereka di luar apa yang secara wajar diperlukan untuk membantu kami menanggapi permintaan Anda); atau</li>
+                                <li>Kami menanggapi panggilan pengadilan, perintah pengadilan, atau proses hukum; atau</li>
+                                <li>Kami menemukan bahwa tindakan Anda di situs web kami melanggar persyaratan layanan, atau salah satu pedoman penggunaan kami untuk layanan tertentu.</li>
+                            </ol>
+                        </p>
+                        <p>Untuk memberikan informasi atau layanan yang Anda minta dari kami, kami dapat mentransfer atau menyimpan informasi pengenal pribadi Anda pada peralatan komputer atau di kantor yang berlokasi di seluruh negara atau yurisdiksi, dan dapat dikelola dan diproses oleh perusahaan kami secara internal sesuai keinginan. dan Anda dianggap menyetujui hal yang sama.</p>
+                        <h3>Kebijakan Perlindungan Data</h3>
+                        <p>Perusahaan dengan ini menjamin untuk mengadopsi langkah-langkah teknis dan organisasi yang memadai untuk memastikan keamanan sistem kami dan integritas data yang dikirimkan di Situs Web kami. Anda dengan ini menjamin untuk mengambil tindakan yang wajar untuk memastikan keamanan sistem Anda dan integritas data yang dikirimkan kepada kami.</p>
+                        <p>Pemain dengan ini mengakui bahwa data pribadinya akan diproses oleh Perusahaan atau oleh orang lain, perusahaan atau firma yang terkait dengan cara apa pun atau dilibatkan oleh Perusahaan untuk memberikan layanan kepadanya agar kami dapat memberikan layanan kepada pemain sebagaimana diatur dalam Syarat dan Ketentuan ini.</p>
+                        <p>Perusahaan akan memproses data pribadi pemain sesuai dengan Kebijakan Privasi di Situs Web ini. Perusahaan harus mematuhi dan akan mengadakan perjanjian kontrak dengan orang, perusahaan atau firma terkait dan setiap orang, perusahaan atau firma lain yang dipekerjakan olehnya untuk memberikan layanan kepadanya dan yang memproses data pribadi atas namanya, untuk memastikan kepatuhan terhadap semua undang-undang yang relevan. dan peraturan terkait dengan penanganan dan pemrosesan data pribadi tersebut.</p>
+                        <h3>Hubungi Kami</h3>
+                        <p>Jika Anda memiliki pertanyaan tentang informasi pengenal pribadi Anda yang dimiliki Perusahaan atau Anda ingin informasi tersebut diperbarui atau dihapus, silakan kirim email atau tulis kepada kami di alamat yang disebutkan di bagian Hubungi Kami di Situs Web ini.</p>
+                        <h3>Kebijakan Anti Pencucian Uang dan Anti Pendanaan Terorisme</h3>
+                        <p>Perusahaan tunduk pada undang-undang dan peraturan anti pencucian uang dan pendanaan anti terorisme, yang dalam hal ini kita harus melakukan uji tuntas terhadap pelanggan. </p>
+                        <p>Dalam hal ini, informasi yang diberikan kepada kami untuk tujuan kewajiban uji tuntas kami akan ditangani sesuai dengan Kebijakan Privasi dan Kebijakan Privasi Data kami.</p>
+                        <p>Pemain dengan ini mengakui bahwa kami akan menggunakan informasi yang diperoleh darinya untuk kewajiban uji tuntas kami untuk melakukan pencarian publik dan melakukan pemeriksaan untuk memverifikasi informasi yang diberikan kepada kami. Sementara kami melakukan tindakan uji tuntas kami, Pemain dapat diizinkan untuk terus menggunakan Akunnya. Namun, dia tidak akan diizinkan untuk memengaruhi penarikan apa pun dari Akun tersebut sampai prosedur verifikasi kami selesai.</p>
+                        <p>Jika kami tidak dapat menyelesaikan kewajiban uji tuntas kami karena kami belum menerima informasi yang diperlukan dari Pemain atau kami tidak dapat memverifikasi identitasnya, tidak ada aktivitas yang dapat dilakukan dari Akun, dan Akun akan diblokir dan/atau dihentikan. Dalam hal demikian, kami akan mengembalikan sisa saldo yang ada di Akun pada saat pemblokiran dan/atau penghentian, kecuali jika kami perlu menunda atau menahan pembayaran semua atau sebagian dana Pemain untuk mematuhi kewajiban hukum kami.</p>
+                        <p>Perusahaan juga berhak untuk meminta informasi dan dokumentasi tambahan untuk memenuhi kewajiban uji tuntas kami, dan komunikasi apa pun untuk penyediaan informasi/dokumentasi tidak akan dianggap sebagai komunikasi akhir dalam hal ini. Jika kami mengetahui atau mencurigai bahwa informasi yang diberikan oleh Pemain secara material salah, kami akan membatalkan pendaftaran dan mengambil langkah lain yang mungkin diwajibkan oleh kami berdasarkan hukum. Kami tidak akan membayarkan kemenangan apa pun dalam keadaan seperti itu.</p>
                     </div>
                 </div>
             </div>

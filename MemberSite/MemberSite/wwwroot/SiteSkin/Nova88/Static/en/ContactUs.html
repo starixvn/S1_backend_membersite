@@ -6,9 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <link rel="shortcut icon" href="../../common/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../../common/css/main.css">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script> -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
     <script>
         $(function msieversion() {
@@ -60,11 +61,17 @@
                 var $target = $(this).parent();
                 $target.attr("data-open") == "true" ? $target.removeAttr("data-open") : $target.attr("data-open", "true");
             });
+            /* 按下GoTop按鈕時的事件 */
+            $('#gotop').click(function(){
+                $('html,body').animate({ scrollTop: 0 }, 'slow');   /* 返回到最頂上 */
+                return false;
+            });
         });
     </script>
 </head>
 
 <body>
+    <a href="" id="gotop"><img src="../images/arrow-up2.png" /></a>
     <div class="app app--help">
         <div class="side-bar" role="desktop-drawer">
             <div class="overlay"></div>
@@ -76,7 +83,7 @@
                 </div>
                 <div class="side-nav__list">
                     <div class="side-nav__item">
-                        <a class="side-nav__btn" href="/">
+                        <a class="side-nav__btn" href="https://www.nova88.net">
                             <i class="icon icon-home"></i>
                             <span class="text">Home</span>
                         </a>
@@ -124,9 +131,6 @@
                             <a class="side-nav__subitem" href="Downloads.html" target="_self">
                                 <span class="text">Downloads</span>
                             </a>-->
-                            <a class="side-nav__subitem" href="AccountTerms.html" target="_self">
-                                <span class="text">Account Terms</span>
-                            </a>
                         </div>
                     </div>
                     <div class="side-nav__item" data-open="true">
@@ -160,7 +164,7 @@
                     <i class="icon icon-menu"></i>
                 </a>
                 <div class="header__logo">
-                    <a class="logo" href="/"></a>
+                    <a class="logo" ></a>
                 </div>
             </div>
         </div>
@@ -209,21 +213,21 @@
                                     </div>
                                 </li>
                             </a>
-                            <a href="https://wa.me/639456388147" target="_blank">
+                            <a href="https://api.whatsapp.com/message/5MSRIOLNMO4SJ1" target="_blank">
                                 <li>
                                     <div>
                                         <span>
-                                            <img src="../images/whatsapp.jpeg" />
+                                            <img src="https://banner.0814media.net/img/whatsapp.jpg" />
                                         </span>
                                     </div>
                                     <div>
-                                        <p>Whatsapp</p>+63 945 638 8147
+                                        <p>Whatsapp</p>+63 929 285 6772
                                     </div>
                                 </li>
                             </a>
                         </ul>
                         <ul>
-                            <a href="https://www.instagram.com/nova88_official" target="_blank">
+                            <a href="https://www.instagram.com/nova88.net_official" target="_blank">
                                 <li>
                                     <div>
                                         <span class="icon-instagram"></span>
@@ -242,6 +246,28 @@
                                     </div>
                                     <div>
                                         <p>Line</p>@Nova88thai
+                                    </div>
+                                </li>
+                            </a>
+                        </ul>
+                        <ul>
+                            <a href="https://t.me/Nova88Support1" target="_blank">
+                                <li>
+                                    <div>
+                                        <span class="icon-telegram"></span>
+                                    </div>
+                                    <div>
+                                        <p>Telegram</p>@Nova88Support1
+                                    </div>
+                                </li>
+                            </a>
+                            <a href="mailto:support@nova88.com" target="_blank">
+                                <li>
+                                    <div>
+                                        <span class="icon-email"></span>
+                                    </div>
+                                    <div>
+                                        <p>E-mail</p>support@nova88.com
                                     </div>
                                 </li>
                             </a>
