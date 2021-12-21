@@ -1051,7 +1051,7 @@ body::before {
   display: block;
   width: calc(134px * 0.8);
   height: calc(46px * 0.8);
-  background-image: url("https://www.bwing.com/static/logo-new-a972235ff632bf7746d339a87e3fec72.png");
+  background-image: url("../../../Static/images/logo.png");
   background-size: cover;
   transition: ease 0.15s;
 }
@@ -1807,4 +1807,16 @@ ul {
 #gotop img{
   width: 13px;
   height: 13px;
+}
+.promotions-module table.mobile{
+  display: none;
+}
+@media (max-width: 768px){
+  .desktop{
+    display: none;
+  }
+  .mobile {
+      display: table !important;
+      width: 95%;
+  }
 }
