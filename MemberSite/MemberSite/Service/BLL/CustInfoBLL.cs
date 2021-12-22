@@ -570,5 +570,9 @@ namespace MemberSite.Service.BLL
         {
             return _custInfoService.SetFireBaseTroken( custId, siteId, fireBaseToken);
         }
+        public int SetCustActStatus(int custId, string Operator)
+        {
+            return _custInfoService.SetCustActStatus(custId, Operator);
+        }
     }
 }
