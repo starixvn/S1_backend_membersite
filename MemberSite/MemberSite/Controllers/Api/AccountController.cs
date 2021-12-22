@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing.Drawing2D;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -20,7 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace MemberSite.Controllers.Api
 {
     [Authorize]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]/[action]")]S
     [Route("api/[controller]/[action]/{LangId}")]
     [ApiController]
     public class AccountController : ControllerBase
