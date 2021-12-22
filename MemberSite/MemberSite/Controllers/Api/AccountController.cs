@@ -19,7 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace MemberSite.Controllers.Api
 {
     [Authorize]
-    [Route("api/[controller]/[action]")]S
+    [Route("api/[controller]/[action]")]
     [Route("api/[controller]/[action]/{LangId}")]
     [ApiController]
     public class AccountController : ControllerBase
