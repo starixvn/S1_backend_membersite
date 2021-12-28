@@ -16,6 +16,7 @@ namespace MemberSite.Service.BLL
     public class CustInfoBll
     {
         private readonly Tools _tools;
+        private readonly VerificationRewardBLL _verificationRewardBll;
         private readonly CustInfoService _custInfoService;
         private readonly AuthenticateService _authenticateService;
         private readonly ServerInfoBll _serverInfoBll;
@@ -40,6 +41,7 @@ namespace MemberSite.Service.BLL
         public CustInfoBll(IServiceProvider provider)
         {
             _tools = provider.GetRequiredService<Tools>();
+            _verificationRewardBll = provider.GetRequiredService<VerificationRewardBLL>();
             _custInfoService = provider.GetRequiredService<CustInfoService>();
             _authenticateService = provider.GetRequiredService<AuthenticateService>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
@@ -204,6 +206,18 @@ namespace MemberSite.Service.BLL
 
             _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, out token);
             _authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
+            return 0;
+        }
+
+        public int GetCustomer(string userName, ref Customer customer)
+        {
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            customer = _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId);
+            if (customer == null)
+            {
+                return -1;
+            }
+
             return 0;
         }
 
@@ -473,12 +487,26 @@ namespace MemberSite.Service.BLL
         {
             var apiResult = await _commonBll.VerifyOTPAsync(custId, inputOTP);
 
-            if (apiResult.ErrorCode == 0)
+            if (apiResult.ErrorCode == 0 && !await _custInfoService.GetPhoneVerified(custId))
             {
                 _custInfoService.SetPhoneVerified(custId);
+                await _verificationRewardBll.PhoneReward(custId);
             }
             return apiResult;
         }
+
+        public async Task<ApiResult> VerifyEmailAsync(int custId, string inputOtp)
+        {
+            var apiResult = await _commonBll.VerifyEmailAsync(custId, inputOtp);
+
+            if (apiResult.ErrorCode == 0 && !await _custInfoService.GetEmailVerified(custId))
+            {
+                _custInfoService.SetEmailVerified(custId);
+                await _verificationRewardBll.EmailReward(custId);
+            }
+            return apiResult;
+        }
+
         public string GetAffiliateId(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);

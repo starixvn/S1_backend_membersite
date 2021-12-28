@@ -11,4 +11,9 @@
         public string DomainName { get; set; }
     }
 
+    public class SendOTPEmailResult
+    {
+        public int Status { get; set; }
+        public long StartUnixTime { get; set; }
+    }
 }
