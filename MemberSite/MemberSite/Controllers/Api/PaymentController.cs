@@ -193,9 +193,9 @@ namespace MemberSite.Controllers.Api
 
             }
 
+            //check PhoneVerified,AccountName,Birth
             if (depositReqWireTransferReq.hasPromotion)
             {
-                //check PhoneVerified,AccountName,Birth
                 var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
                 if (!custInfoProfile.PhoneVerified
                     || string.IsNullOrEmpty(custInfoProfile.AccountName)
