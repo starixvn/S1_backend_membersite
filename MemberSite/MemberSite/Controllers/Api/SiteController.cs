@@ -506,6 +506,10 @@ namespace MemberSite.Controllers.Api
                     apiResult.ErrorCode = result;
                     apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
                     break;
+                case -20:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
+                    break;
                 default:
                     {
                         if (custId == 0)
@@ -688,6 +692,10 @@ namespace MemberSite.Controllers.Api
                 case -19:
                     apiResult.ErrorCode = result;
                     apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
+                    break;
+                case -20:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
                     break;
                 default:
                     {
