@@ -78,7 +78,7 @@ namespace MemberSite.Controllers.Api
             var queryType = 0;
             if (getBankInfoOffListReq != null && getBankInfoOffListReq.QueryType != null)
                 queryType = (int)getBankInfoOffListReq.QueryType;
-            apiResult.Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, queryType);
+            apiResult.Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, authData.LangId, queryType);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
