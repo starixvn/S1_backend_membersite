@@ -727,7 +727,7 @@ namespace MemberSite.Controllers.Api
             if (custInfo.SiteId == (int) SiteId.Nova88
                 && custInfo.CurrencyId == (int) CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
             {
-                bankInfoBLL.BankNameLocalization(result, custInfo.UserLang);
+                bankInfoBLL.BankNameLocalization(result, authData.LangId);
             }
 
             apiResult.Data = result;
