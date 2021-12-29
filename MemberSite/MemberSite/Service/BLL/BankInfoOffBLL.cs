@@ -16,7 +16,6 @@ namespace MemberSite.Service.BLL
         private readonly BankInfoOffService _bankInfoService;
         private readonly BankInfoBLL _bankInfoBll;
         private readonly CustInfoBll _custInfoBll;
-        private readonly AuthorizeBLL _authorizeBLL;
         private readonly DepositBLL _depositBll;
         private readonly SysBankInfoOffComparer _sysBankInfoOffComparer;
         private readonly DepositService _depositService;
@@ -27,7 +26,6 @@ namespace MemberSite.Service.BLL
             _bankInfoService = provider.GetRequiredService<BankInfoOffService>();
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
-            _authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
             _sysBankInfoOffComparer = new SysBankInfoOffComparer();
@@ -114,30 +112,29 @@ namespace MemberSite.Service.BLL
             return _info;
         }
 
-        public IEnumerable<SysBankInfoFront> GetBankInfoOffListWithCache(int custId, int queryType = 0)
+        public IEnumerable<SysBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang, int queryType = 0)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
             int SiteId = custInfo.SiteId;
             int CurrencyId = custInfo.CurrencyId;
 
-            var key = $"GetBankInfoOffList_{SiteId}_{CurrencyId}_{vipLevel}_{queryType}";
+            var key = $"GetBankInfoOffList_{SiteId}_{CurrencyId}_{vipLevel}_{lang}_{queryType}";
             return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
-                i => GetBankAccountOffList(SiteId, CurrencyId, vipLevel, queryType));
+                i => GetBankAccountOffList(SiteId, CurrencyId, vipLevel, lang, queryType));
         }
 
-        public IEnumerable<SysBankInfoFront> GetBankAccountOffList(int siteId, int currencyId, int vipLevel, int queryType = 0)
+        public IEnumerable<SysBankInfoFront> GetBankAccountOffList(int siteId, int currencyId, int vipLevel, string lang, int queryType = 0)
         {
             var newbankAccountOffList = _bankInfoService.GetBankAccountOff(siteId, queryType)
                 .Where(x => (x.Purpose & 1) == 1) //(x.Purpose & 1):選出x.Purpose為奇數的項目
                 .ToList();
-            var authData = _authorizeBLL.GetAuthData();
 
             if (siteId == (int) SiteId.Nova88
                 && currencyId == (int) CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
             {
-                BankNameLocalization(newbankAccountOffList, authData.LangId);
+                BankNameLocalization(newbankAccountOffList, lang);
             }
 
             var localBankList = new List<BankInfoOff>(newbankAccountOffList);
