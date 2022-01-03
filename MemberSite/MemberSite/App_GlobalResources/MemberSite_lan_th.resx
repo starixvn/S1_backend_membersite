@@ -1361,7 +1361,7 @@
     <value>โอนเงินออก</value>
   </data>
   <data name="lbl_Wallet_Saba" xml:space="preserve">
-    <value>สปอร์ตบุค วอลเล็ท</value>
+    <value>กระเป๋าเงินกีฬา</value>
   </data>
   <data name="lbl_WithdrawalHistory" xml:space="preserve">
     <value>ประวัติการถอนเงิน
@@ -1669,7 +1669,7 @@
     <value>รายชื่อเกม</value>
   </data>
   <data name="lbl_TpWallet_1" xml:space="preserve">
-    <value>สปอร์ตบุค วอลเล็ท</value>
+    <value>กระเป๋าเงินกีฬา</value>
   </data>
   <data name="lbl_TurnoverAccmulateHint" xml:space="preserve">
     <value>สมาชิกต้องทำตามกติตาการทำเทิร์นโอเวอร์ก่อนทำรายการโอนเงินได้ค่ะ</value>
@@ -1708,7 +1708,7 @@
     <value>อุ๊ปส์!</value>
   </data>
   <data name="lbl_TpWallet_27" xml:space="preserve">
-    <value>กระเป๋าสตางค์ PT</value>
+    <value>กระเป๋าเงิน PT</value>
   </data>
   <data name="lbl_Cashback_Sports" xml:space="preserve">
     <value>กีฬา</value>
@@ -1723,10 +1723,10 @@
     <value>กีฬาจำลอง</value>
   </data>
   <data name="lbl_Wallet_PT" xml:space="preserve">
-    <value>กระเป๋าสตางค์ PT</value>
+    <value>กระเป๋าเงิน PT</value>
   </data>
   <data name="lbl_WalletDescription_PT" xml:space="preserve">
-    <value>กระเป๋าสตางค์ PT</value>
+    <value>กระเป๋าเงิน PT</value>
   </data>
   <data name="lbl_WalletDescription_NineW" xml:space="preserve">
     <value>กระเป๋าสตางค์ 9W</value>
