@@ -1092,5 +1092,28 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+        public class SetCustActStatusReq
+        {
+            public int CustId { get; set; }
+            public string Operator { get; set; }
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public ApiResult<bool> SetCustActStatus(SetCustActStatusReq setCustActStatusReq)
+        {
+            var apiResult = new ApiResult<bool>(_selLangBll);
+            int setResult = _custInfoBll.SetCustActStatus(setCustActStatusReq.CustId, setCustActStatusReq.Operator);
+            if (setResult > 0)
+            {
+                apiResult.Data = true;
+                apiResult.ErrorCode = 0;
+            }
+            else
+            {
+                apiResult.Data = false;
+                apiResult.ErrorCode = 99;
+            }
+            return apiResult;
+        }
     }
 }
