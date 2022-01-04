@@ -1,4 +1,7 @@
-﻿namespace MemberSite.Service.Model
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
+
+namespace MemberSite.Service.Model
 {
     public class SeoModel
     {
@@ -7,5 +10,24 @@
         public string Meta { get; set; }
         public string DefaultLang { get; set; }
         public bool ActiveDomain { get; set; }
+        
+        [JsonIgnore]
+        public string FollowUsData { get; set; }
+        public List<FollowUs> FollowUs { get; set; }
+        
+        [JsonIgnore]
+        public string PaymentMethodData { get; set; }
+        public List<PaymentMethod> PaymentMethod { get; set; }
+    }
+
+    public class FollowUs
+    {
+        public string Url { get; set; }
+        public string Image { get; set; }
+    }
+    
+    public class PaymentMethod
+    {
+        public string Image { get; set; }
     }
 }
