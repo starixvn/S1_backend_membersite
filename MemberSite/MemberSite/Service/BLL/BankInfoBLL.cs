@@ -55,6 +55,37 @@ namespace MemberSite.Service.BLL
                 i => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId));
             return result?.Where(x => x.CurrencyId == currencyId);
         }
+
+        public IEnumerable<BankInfoName> GetBankInfoName(string lang)
+        {
+            var key = $"BankInfoNameList_{lang}";
+            var result = _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
+                i => _bankInfoService.GetBankInfoNameList(lang));
+
+            return result;
+        }
+
+        public void BankNameLocalization(in List<BankInfoSys> list, string lang)
+        {
+            var bankNameList = GetBankInfoName(lang);
+            if (bankNameList.Any())
+            {
+                list.ForEach(x => x.BankName =
+                    bankNameList.FirstOrDefault(y => y.SysId == x.SysId)?.BankName ?? x.BankName);
+            }
+        }
+
+        public void BankNameLocalization(in List<SysBankInfoFront> list, string lang)
+        {
+            var bankNameList = GetBankInfoName(lang);
+            if (bankNameList.Any())
+            {
+                list.ForEach(x => x.BankName =
+                    bankNameList.FirstOrDefault(y => y.SysId == x.SysId)?.BankName ?? x.BankName);
+            }
+        }
+
         private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>
         {
             public bool Equals(SysBankInfoFront t1, SysBankInfoFront t2)
