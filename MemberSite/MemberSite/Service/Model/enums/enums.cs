@@ -274,6 +274,12 @@
         NonDeposit = 1,
         HasDeposit = 2
     }
+    public enum BonusInfoAtPage
+    {
+        Promotion = 0,
+        Deposit = 1
+    }
+    
     public enum CurrencyId
     {
         MYR = 2,
