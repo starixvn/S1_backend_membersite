@@ -25,7 +25,7 @@ namespace MemberSite.Service.Library
         }
         public string GetEnv()
         {
-            if (environment.EnvironmentName == "Development")
+            if (environment.EnvironmentName == "Development" || environment.EnvironmentName == "Local")
             {
                 return "D";
             }
