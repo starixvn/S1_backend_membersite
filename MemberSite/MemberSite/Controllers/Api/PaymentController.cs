@@ -767,7 +767,16 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            apiResult.Data = bankInfoBLL.GetOnlineBankInfoSysList(custInfo.CustId, payment.payId);
+            var result = bankInfoBLL.GetOnlineBankInfoSysList(custInfo.CustId, payment.payId)
+                .ToList();
+            
+            if (custInfo.SiteId == (int)SiteId.Nova88
+                && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            {
+                bankInfoBLL.BankNameLocalization(result, authData.LangId);
+            }
+
+            apiResult.Data = result;
             apiResult.ErrorCode = 0;
             return apiResult;
         }
