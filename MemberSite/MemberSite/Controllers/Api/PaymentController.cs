@@ -81,7 +81,7 @@ namespace MemberSite.Controllers.Api
             var queryType = 0;
             if (getBankInfoOffListReq != null && getBankInfoOffListReq.QueryType != null)
                 queryType = (int)getBankInfoOffListReq.QueryType;
-            apiResult.Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, queryType);
+            apiResult.Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, authData.LangId, queryType);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -743,7 +743,16 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<IEnumerable<BankInfoSys>>();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            apiResult.Data = bankInfoBLL.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId);
+            var result = bankInfoBLL.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId)
+                .ToList();
+
+            if (custInfo.SiteId == (int) SiteId.Nova88
+                && custInfo.CurrencyId == (int) CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            {
+                bankInfoBLL.BankNameLocalization(result, authData.LangId);
+            }
+
+            apiResult.Data = result;
             apiResult.ErrorCode = 0;
             return apiResult;
         }
