@@ -76,6 +76,16 @@ namespace MemberSite.Service.BLL
             }
         }
 
+        public void BankNameLocalization(in List<SysBankInfoFront> list, string lang)
+        {
+            var bankNameList = GetBankInfoName(lang);
+            if (bankNameList.Any())
+            {
+                list.ForEach(x => x.BankName =
+                    bankNameList.FirstOrDefault(y => y.SysId == x.SysId)?.BankName ?? x.BankName);
+            }
+        }
+
         private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>
         {
             public bool Equals(SysBankInfoFront t1, SysBankInfoFront t2)

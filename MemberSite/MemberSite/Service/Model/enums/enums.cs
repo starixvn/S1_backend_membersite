@@ -285,6 +285,7 @@
         SMS = 0,
         Email = 1
     }
+    
     public enum CurrencyId
     {
         MYR = 2,
