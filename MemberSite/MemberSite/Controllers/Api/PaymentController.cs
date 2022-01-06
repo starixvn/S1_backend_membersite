@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Controllers.Api
 {
@@ -35,25 +36,29 @@ namespace MemberSite.Controllers.Api
         private readonly FileNameBLL _fileNameBll;
         private readonly ImageEditorBLL _imageEditorBll;
         private readonly PromotionBll _promotionBLL;
+        private readonly PayInfoBLL _payInfoBLL;
 
-        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBll mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, FileNameBLL fileNameBll, ImageEditorBLL imageEditorBll, PromotionBll promotionBLL)
+        public PaymentController(IServiceProvider provider)
         {
-            this.bankInfoOffBLL = bankInfoOffBLL;
-            this.authorizeBLL = authorizeBLL;
-            this.paymentBLL = paymentBLL;
-            this.custInfoBLL = custInfoBLL;
-            this.bankInfoBLL = bankInfoBLL;
-            this.courierAdapter = courierAdapter;
-            this.selLangBLL = selLangBLL;
-            this.walletBLL = walletBLL;
-            this.mobilePayInfoBLL = mobilePayInfoBLL;
-            this.iovationBLL = iovationBLL;
-            this.cryptoPayInfoBLL = cryptoPayInfoBLL;
-            this.loadCardPayInfoBLL = loadCardPayInfoBLL;
-            this.loadCardPayInfoBLL = loadCardPayInfoBLL;
-            _fileNameBll = fileNameBll;
-            _imageEditorBll = imageEditorBll;
-            _promotionBLL = promotionBLL;
+            bankInfoOffBLL = provider.GetRequiredService<BankInfoOffBLL>();
+            authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
+            paymentBLL = provider.GetRequiredService<PaymentBLL>();
+            custInfoBLL = provider.GetRequiredService<CustInfoBll>();
+            bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
+            courierAdapter = provider.GetRequiredService<CourierAdapter>();
+            selLangBLL = provider.GetRequiredService<SelLangBLL>();
+            walletBLL = provider.GetRequiredService<WalletBLL>();
+            mobilePayInfoBLL = provider.GetRequiredService<MobilePayInfoBll>();
+            iovationBLL = provider.GetRequiredService<IovationBLL>();
+            cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
+            loadCardPayInfoBLL = provider.GetRequiredService<LoadCardPayInfoBLL>();
+
+            _fileNameBll = provider.GetRequiredService<FileNameBLL>();
+            _imageEditorBll = provider.GetRequiredService<ImageEditorBLL>();
+            _promotionBLL = provider.GetRequiredService<PromotionBll>();
+            _payInfoBLL = provider.GetRequiredService<PayInfoBLL>();
+
+            var configuration = provider.GetRequiredService<IConfiguration>();
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
         }
@@ -1490,6 +1495,26 @@ namespace MemberSite.Controllers.Api
             }
 
             return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<PayGroup>> GetQRPayGroupList()
+        {
+            return new ApiResult<IEnumerable<PayGroup>>
+            {
+                Data = _payInfoBLL.GetPayGroupList(authorizeBLL.GetAuthData().CustId, DepositType.QRPayPayment),
+                ErrorCode = 0
+            };
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<PayInfo>> GetQRPayInfoList(PayInfoReq payInfoReq)
+        {
+            return new ApiResult<IEnumerable<PayInfo>>
+            {
+                Data = _payInfoBLL.GetPayInfoList(authorizeBLL.GetAuthData().CustId, payInfoReq.groupId, DepositType.QRPayPayment),
+                ErrorCode = 0
+            };
         }
     }
 }
