@@ -34,7 +34,7 @@ namespace MemberSite.Service.BLL
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
 
             var depositLimitInfo = GetDepositLimitInfo(custInfo, vipLevel, depositType);
-            if (depositLimitInfo == null || depositLimitInfo.DepositStatus == 0)
+            if (depositLimitInfo?.DepositStatus == 0)
             {
                 return new List<PayGroup>();
             }
@@ -62,7 +62,7 @@ namespace MemberSite.Service.BLL
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
 
             var depositLimitInfo = GetDepositLimitInfo(custInfo, vipLevel, depositType);
-            if (depositLimitInfo == null || depositLimitInfo.DepositStatus == 0)
+            if (depositLimitInfo?.DepositStatus == 0)
             {
                 return new List<PayInfo>();
             }
@@ -70,7 +70,7 @@ namespace MemberSite.Service.BLL
             var payInfoList = GetPayInfoList(custInfo.SiteId, depositType)
                 .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.GroupId == groupId);
 
-            if (payInfoList != null)
+            if (depositLimitInfo != null && payInfoList != null)
             {
                 foreach (var payInfo in payInfoList)
                 {
