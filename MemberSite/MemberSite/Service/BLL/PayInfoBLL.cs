@@ -25,7 +25,6 @@ namespace MemberSite.Service.BLL
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositService = provider.GetRequiredService<DepositService>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
-            _qrPayGroupComparer = new QRPayGroupComparer();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
