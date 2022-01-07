@@ -376,7 +376,8 @@ namespace MemberSite.Controllers
                     custInfo.SiteId, 
                     custInfo.UserName,
                     custInfo.CurrencyId,
-                    1, 0);
+                    1,
+                    0);
             }
 
             var apiResult = await courierAdapter.MyPostAsync<PayResult, dynamic>($"{payApiUrl}ReqDepositQR", new

@@ -94,7 +94,7 @@ namespace MemberSite.Service.BLL
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
 
             var depositLimitInfo = GetDepositLimitInfo(custInfo, vipLevel, depositType);
-            if (depositLimitInfo == null || depositLimitInfo.DepositStatus == 0)
+            if (depositLimitInfo?.DepositStatus == 0)
             {
                 return -3;
             }
@@ -102,7 +102,7 @@ namespace MemberSite.Service.BLL
             payInfo = GetPayInfoList(custInfo.SiteId, depositType)
                 .FirstOrDefault(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId);
 
-            if (payInfo != null)
+            if (depositLimitInfo != null && payInfo != null)
             {
                 _depositBll.FixDepositLimit(payInfo, depositLimitInfo);
             }
