@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using static MemberSite.Controllers.entPageController;
 
 namespace MemberSite.Controllers
@@ -25,21 +28,25 @@ namespace MemberSite.Controllers
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
         private readonly PromotionBll promotionBLL;
         private bool isNewVersion = true;
+        private readonly PayInfoBLL _payInfoBLL;
 
-        public CashierController(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools, AuthorizeBLL authorizeBLL, ServerInfoBll serverInfoBLL, PaymentBLL paymentBLL, MobilePayInfoBll mobilePayInfoBLL, CustInfoBll custInfoBLL, TemplateBLL templateBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, PromotionBll promotionBLL)
+        public CashierController(IServiceProvider provider)
         {
-            this.courierAdapter = courierAdapter;
+            courierAdapter = provider.GetRequiredService<CourierAdapter>();     
+            tools = provider.GetRequiredService<Tools>();
+            authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
+            serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
+            paymentBLL = provider.GetRequiredService<PaymentBLL>();
+            mobilePayInfoBLL = provider.GetRequiredService<MobilePayInfoBll>();
+            custInfoBLL = provider.GetRequiredService<CustInfoBll>();
+            templateBLL = provider.GetRequiredService<TemplateBLL>();
+            cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
+            loadCardPayInfoBLL = provider.GetRequiredService<LoadCardPayInfoBLL>();
+            promotionBLL = provider.GetRequiredService<PromotionBll>();
+            _payInfoBLL = provider.GetRequiredService<PayInfoBLL>();
+
+            var configuration = provider.GetRequiredService<IConfiguration>();
             payApiUrl = configuration.GetValue<string>("PayService");
-            this.tools = tools;
-            this.authorizeBLL = authorizeBLL;
-            this.serverInfoBLL = serverInfoBLL;
-            this.paymentBLL = paymentBLL;
-            this.mobilePayInfoBLL = mobilePayInfoBLL;
-            this.custInfoBLL = custInfoBLL;
-            this.templateBLL = templateBLL;
-            this.cryptoPayInfoBLL = cryptoPayInfoBLL;
-            this.loadCardPayInfoBLL = loadCardPayInfoBLL;
-            this.promotionBLL = promotionBLL;
         }
         public IActionResult Deposit()
         {
@@ -343,6 +350,66 @@ namespace MemberSite.Controllers
             }
             var image = depositReceipt.DepositPic;
             return File(image, "image/jpeg");
+        }
+
+        public async Task<IActionResult> DepositReqQRPayAsync(int ChannelId, decimal Amount, string BonusCode)
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            
+            var result = _payInfoBLL.DepositReqPay(authData.CustId, ChannelId, Amount, out var transId, out var payInfo, DepositType.QRPayPayment);
+            if (result != 0)
+            {
+               return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", new ErrorData
+                    {
+                        Message = "DepositReqQRPayAsync Error"
+                    });
+            }
+
+            if (BonusCode != null && BonusCode != "")
+            {
+                promotionBLL.SetDepositPromotionQueue(
+                    transId,
+                    BonusCode,
+                    authData.CustId, 
+                    custInfo.SiteId, 
+                    custInfo.UserName,
+                    custInfo.CurrencyId,
+                    1,
+                    0);
+            }
+
+            var apiResult = await courierAdapter.MyPostAsync<PayResult, dynamic>($"{payApiUrl}ReqDepositQR", new
+            {
+                TransId = transId,
+                authData.CustId,
+                Amount,
+                payInfo.ChannelId,
+                payInfo.PayId,
+                ClientIP = tools.GetClientIP(),
+                ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+            });
+            
+            if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
+            {
+                return View(apiResult);
+            }
+            else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
+            {
+                return Redirect(apiResult.Data.Url);
+            }
+            else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
+            {
+                return Json(apiResult);
+            }
+            else
+            {
+                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", new ErrorData
+                {
+                    Message = apiResult.RawMessage
+                });
+            }          
         }
     }
 }

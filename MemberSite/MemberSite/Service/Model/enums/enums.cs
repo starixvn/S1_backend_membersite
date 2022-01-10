@@ -26,6 +26,7 @@
         LocalBank = 3,
         CryptoPayment = 4,
         LoadCardPayment = 5,
+        QRPayPayment = 6,
     }
 
     /// <summary>
@@ -278,5 +279,21 @@
     {
         Promotion = 0,
         Deposit = 1
+    }
+
+    public enum OTPType
+    {
+        SMS = 0,
+        Email = 1
+    }
+    
+    public enum CurrencyId
+    {
+        MYR = 2,
+        THB = 4,
+        IDR = 15,
+        VND = 51,
+        INR = 61,
+        USDT = 96
     }
 }
