@@ -1750,10 +1750,14 @@ namespace MemberSite.Controllers.Api
             };
         }
         
+        [Route("{domain?}")]
         [HttpGet, HttpPost]
-        public ApiResult<SeoModel> Seo()
+        public ApiResult<SeoModel> Seo([FromRoute] string? domain)
         {
-            var domain = _serverInfoBll.GetMainDomain();
+            if (string.IsNullOrWhiteSpace(domain))
+            {
+                domain = _serverInfoBll.GetMainDomain();
+            }
             var data = _serverInfoBll.GetSeoWithCache(domain);
 
             if (data != null)
@@ -1761,7 +1765,16 @@ namespace MemberSite.Controllers.Api
                 data.Meta = string.IsNullOrEmpty(data.Meta) ? null : data.Meta;
                 data.Title = string.IsNullOrEmpty(data.Title) ? null : data.Title;
                 data.DefaultLang = string.IsNullOrEmpty(data.DefaultLang) ? null : data.DefaultLang;
+                if (!string.IsNullOrEmpty(data.FollowUsData))
+                {
+                    data.FollowUs = JsonConvert.DeserializeObject<List<FollowUs>>(data.FollowUsData);
+                }
+                if (!string.IsNullOrEmpty(data.PaymentMethodData))
+                {
+                    data.PaymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(data.PaymentMethodData);
+                }
             }
+            
 
             return new ApiResult<SeoModel>()
             {
