@@ -886,7 +886,7 @@ namespace MemberSite.Controllers.Api
 
                 Customer custInfo = null;
 
-                var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "", controller = "resetPassword", LangId = forgetPwdReq.flag == 1 ? _selLangBll.GetLangId() : "" }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
+                string resetPasswordUrl;
 
                 if (forgetPwdReq.flag == 1)
                 {
@@ -1795,7 +1795,7 @@ namespace MemberSite.Controllers.Api
             {
                 ErrorCode = 0
             };
-            if (data != null && !string.IsNullOrEmpty(data.DefaultLang))
+            if (data != null && !string.IsNullOrEmpty(data.DefaultLang) && _serverInfoBll.IsSeoDomain(domain))
             {
                 apiResult.Data = await _serverInfoBll.GetMenuOfGames(data.SiteId, data.DefaultLang);
             }
