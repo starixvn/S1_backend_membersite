@@ -24,6 +24,8 @@ namespace MemberSite.Service.BLL
         private readonly ConcurrentDictionary<int, ServerInfo> _serverInfoDic;
         private readonly int _fixSiteId;
         private readonly CacheHelper _cacheHelper;
+        private readonly List<string> _seoDomain = new List<string>()
+            {"nova88bkk.com", "nova88my5.com", "hasil88.com", "nova88khel.com"};
 
         public ServerInfoBll(IServiceProvider provider)
         {
@@ -150,6 +152,11 @@ namespace MemberSite.Service.BLL
                     }).ToList()
                 });
             return menuOfGames;
+        }
+
+        public bool IsSeoDomain(string domain)
+        {
+            return _seoDomain.Exists(seoDomain => seoDomain == domain);
         }
     }
 }
