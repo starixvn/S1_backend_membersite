@@ -1908,7 +1908,10 @@
   <data name="lbl_Wallet_V8" xml:space="preserve">
     <value>V8 Wallet</value>
   </data>
- <data name="lbl_WalletDescription_V8" xml:space="preserve">
+  <data name="lbl_WalletDescription_V8" xml:space="preserve">
     <value>V8 Wallet</value>
+  </data>
+  <data name="lbl_DepositType6" xml:space="preserve">
+    <value>QR Payment</value>
   </data>
 </root>
