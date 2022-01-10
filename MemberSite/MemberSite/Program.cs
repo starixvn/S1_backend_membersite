@@ -51,7 +51,7 @@ namespace MemberSite
                         .UseStartup<Startup>();
                 });
 
-        private static MemoryStream GetRemoteConfig(IEnumerable<string> remoteUrls)
+        public static MemoryStream GetRemoteConfig(IEnumerable<string> remoteUrls)
         {
             using var client = new HttpClient();
             Stream result = null;

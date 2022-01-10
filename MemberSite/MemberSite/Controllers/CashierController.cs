@@ -21,7 +21,6 @@ namespace MemberSite.Controllers
         private readonly AuthorizeBLL authorizeBLL;
         private readonly ServerInfoBll serverInfoBLL;
         private readonly PaymentBLL paymentBLL;
-        private readonly MobilePayInfoBll mobilePayInfoBLL;
         private readonly CustInfoBll custInfoBLL;
         private readonly TemplateBLL templateBLL;
         private readonly CryptoPayInfoBll cryptoPayInfoBLL;
@@ -37,7 +36,6 @@ namespace MemberSite.Controllers
             authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
             serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
             paymentBLL = provider.GetRequiredService<PaymentBLL>();
-            mobilePayInfoBLL = provider.GetRequiredService<MobilePayInfoBll>();
             custInfoBLL = provider.GetRequiredService<CustInfoBll>();
             templateBLL = provider.GetRequiredService<TemplateBLL>();
             cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
@@ -134,10 +132,9 @@ namespace MemberSite.Controllers
             var apiResult = new ApiResult<PayResult>();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            string transId = null;
-            MobilePayInfo mobilePayInfo = null;
+
             var model = new ErrorData();
-            var result = mobilePayInfoBLL.DepositReqMobilePay(authData.CustId, ChannelId, Amount, out transId, out mobilePayInfo);
+            var result = _payInfoBLL.DepositReqPay(authData.CustId, ChannelId, Amount, out var transId, out var payInfo, DepositType.MobilePayment);
             if (result == 0)
             {
                 if (BonusCode != null && BonusCode != "")
@@ -147,8 +144,8 @@ namespace MemberSite.Controllers
                     TransId = transId,
                     CustId = authData.CustId,
                     Amount = Amount,
-                    ChannelId = mobilePayInfo.ChannelId,
-                    PayId = mobilePayInfo.PayId,
+                    ChannelId = payInfo.ChannelId,
+                    PayId = payInfo.PayId,
                     ClientIP = tools.GetClientIP(),
                     ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
                 };

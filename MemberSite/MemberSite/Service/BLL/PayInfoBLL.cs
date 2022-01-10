@@ -18,6 +18,7 @@ namespace MemberSite.Service.BLL
         private readonly DepositBLL _depositBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly CacheHelper _cacheHelper;
+        private readonly PayGroupComparer _payGroupComparer;
 
         public PayInfoBLL(IServiceProvider provider)
         {
@@ -26,7 +27,21 @@ namespace MemberSite.Service.BLL
             _depositService = provider.GetRequiredService<DepositService>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _payGroupComparer = new PayGroupComparer();
         }
+        private class PayGroupComparer : IEqualityComparer<PayGroup>
+        {
+            public bool Equals(PayGroup t1, PayGroup t2)
+            {
+                return (t1.GroupId == t2.GroupId);
+            }
+
+            public int GetHashCode(PayGroup t)
+            {
+                return t.ToString().GetHashCode();
+            }
+        }
+
 
         public IEnumerable<PayGroup> GetPayGroupList(int custId, DepositType depositType)
         {
@@ -40,20 +55,19 @@ namespace MemberSite.Service.BLL
             }
 
             var payInfoList = GetPayInfoList(custInfo.SiteId, depositType)
-                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId);
+                .Where(info=> vipLevel >= info.PointLevel && info.CurrencyId == custInfo.CurrencyId);
 
-            return payInfoList
-                .Select(x => new PayGroup()
-                {
-                    GroupId = x.GroupId,
-                    GroupName = x.GroupName,
-                    ChannelName = x.ChannelName,
-                    GSort = x.GSort,
-                    Mode = x.Mode,
-                    MinAmount = payInfoList.Where(y => x.ChannelId == y.ChannelId).OrderBy(y => y.MinAmount).First().MinAmount,
-                    MaxAmount = payInfoList.Where(y => x.ChannelId == y.ChannelId).OrderByDescending(y => y.MaxAmount).First().MaxAmount
-                })
-                .Distinct(p => new { p.GroupId });
+            return payInfoList.Select(x => new PayGroup()
+            {
+                GroupId = x.GroupId,
+                GroupName = x.GroupName,
+                ChannelName = x.ChannelName,
+                GSort = x.GSort,
+                Mode = x.Mode,
+                MinAmount = payInfoList.Where(y => x.ChannelId == y.ChannelId).OrderBy(y => y.MinAmount).First().MinAmount,
+                MaxAmount = payInfoList.Where(y => x.ChannelId == y.ChannelId).OrderByDescending(y => y.MaxAmount).First().MaxAmount
+            })
+                .Distinct(_payGroupComparer);
         }
 
         public IEnumerable<PayInfo> GetPayInfoList(int custId, int groupId, DepositType depositType)
