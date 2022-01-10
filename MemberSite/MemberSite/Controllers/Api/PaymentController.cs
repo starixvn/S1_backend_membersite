@@ -27,7 +27,7 @@ namespace MemberSite.Controllers.Api
         private readonly CourierAdapter courierAdapter;
         private readonly SelLangBLL selLangBLL;
         private readonly WalletBLL walletBLL;
-        private readonly MobilePayInfoBll mobilePayInfoBLL;
+        //private readonly MobilePayInfoBll mobilePayInfoBLL;
         private readonly IovationBLL iovationBLL;
         private readonly CryptoPayInfoBll cryptoPayInfoBLL;
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
@@ -48,7 +48,7 @@ namespace MemberSite.Controllers.Api
             courierAdapter = provider.GetRequiredService<CourierAdapter>();
             selLangBLL = provider.GetRequiredService<SelLangBLL>();
             walletBLL = provider.GetRequiredService<WalletBLL>();
-            mobilePayInfoBLL = provider.GetRequiredService<MobilePayInfoBll>();
+            //mobilePayInfoBLL = provider.GetRequiredService<MobilePayInfoBll>();
             iovationBLL = provider.GetRequiredService<IovationBLL>();
             cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
             loadCardPayInfoBLL = provider.GetRequiredService<LoadCardPayInfoBLL>();
@@ -815,12 +815,12 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<MobilePayGroup>> GetMobilePayGroupList()
+        public ApiResult<IEnumerable<PayGroup>> GetMobilePayGroupList()
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<MobilePayGroup>>
+            var apiResult = new ApiResult<IEnumerable<PayGroup>>
             {
-                Data = mobilePayInfoBLL.GetMobilePayGroupList(authData.CustId),
+                Data = _payInfoBLL.GetPayGroupList(authData.CustId, DepositType.MobilePayment),
                 ErrorCode = 0
             };
             return apiResult;
@@ -831,12 +831,12 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<MobilePayInfo>> GetMobilePayInfoList(PayInfoReq payInfoReq)
+        public ApiResult<IEnumerable<PayInfo>> GetMobilePayInfoList(PayInfoReq payInfoReq)
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<MobilePayInfo>>
+            var apiResult = new ApiResult<IEnumerable<PayInfo>>
             {
-                Data = mobilePayInfoBLL.GetMobilePayInfoList(authData.CustId, payInfoReq.groupId),
+                Data = _payInfoBLL.GetPayInfoList(authData.CustId, payInfoReq.groupId, DepositType.MobilePayment),
                 ErrorCode = 0
             };
             return apiResult;

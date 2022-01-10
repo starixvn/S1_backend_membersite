@@ -135,7 +135,7 @@ namespace MemberSite.Service.Model
         public string ChannelName { get; set; }
         public int Mode { get; set; }
         public int PointLevel { get; set; }
-        public string PayCode { get; set; }
+        //public string PayCode { get; set; }
         public int CurrencyId { get; set; }
         public string PayCurrencyId { get; set; }
         public decimal MinAmount { get; set; }

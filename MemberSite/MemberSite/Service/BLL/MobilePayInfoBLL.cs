@@ -47,6 +47,7 @@ namespace MemberSite.Service.BLL
                 return t.ToString().GetHashCode();
             }
         }
+
         public IEnumerable<MobilePayGroup> GetMobilePayGroupList(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
@@ -112,6 +113,7 @@ namespace MemberSite.Service.BLL
 
             return mobilePayInfoList.Where(x => x.MaxAmount > 0);
         }
+
         public int DepositReqMobilePay(int custId, int channelId, decimal amount, out string transId, out MobilePayInfo mobilePayInfo)
         {
             transId = null;
