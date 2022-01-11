@@ -50,6 +50,6 @@ namespace MemberSite.Service.Model
 
     public class PopupMsg
     {
-        public string PopUpMessage { get; set; }
+        public string PopupMessage { get; set; }
     }
 }
