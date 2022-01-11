@@ -30,6 +30,12 @@ namespace MemberSite.Service.DAL
             return conn.Execute("Member_MsgRead_Set", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure) > 0;
         }
 
+        public async Task<int> SetReadPopupMessageTime(int custid, int taskId)
+        {
+            var p = new DynamicParameters(new {_CustId = custid, _TaskId = taskId});
+            return await _mainDbClient.ExecuteAsync("Member_PopupMsgRead_Set", p);
+        }
+
         public IEnumerable<Msg> GetMsgList(int custId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
             totalPages = 0;
@@ -53,6 +59,13 @@ namespace MemberSite.Service.DAL
             var msgContent = conn.QueryFirstOrDefault<MsgContent>("MsgContent_Get", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure);
             return msgContent;
         }
+        
+        public async Task<PopupMsg> GetPopupMessage(int custId)
+        {
+            var p = new DynamicParameters(new {_CustId = custId});
+            return await _mainDbClient.QueryFirstAsync<PopupMsg>("Member_PopupMsg_Get", p);
+        }
+        
         public bool DelMsg(int custId, int msgId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
