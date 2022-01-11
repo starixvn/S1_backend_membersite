@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Controllers.Api
 {
@@ -26,7 +27,7 @@ namespace MemberSite.Controllers.Api
         private readonly CourierAdapter courierAdapter;
         private readonly SelLangBLL selLangBLL;
         private readonly WalletBLL walletBLL;
-        private readonly MobilePayInfoBll mobilePayInfoBLL;
+        //private readonly MobilePayInfoBll mobilePayInfoBLL;
         private readonly IovationBLL iovationBLL;
         private readonly CryptoPayInfoBll cryptoPayInfoBLL;
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
@@ -35,25 +36,29 @@ namespace MemberSite.Controllers.Api
         private readonly FileNameBLL _fileNameBll;
         private readonly ImageEditorBLL _imageEditorBll;
         private readonly PromotionBll _promotionBLL;
+        private readonly PayInfoBLL _payInfoBLL;
 
-        public PaymentController(CourierAdapter courierAdapter, IConfiguration configuration, BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, AuthorizeBLL authorizeBLL, PaymentBLL paymentBLL, CustInfoBll custInfoBLL, SelLangBLL selLangBLL, WalletBLL walletBLL, MobilePayInfoBll mobilePayInfoBLL, IovationBLL iovationBLL, CryptoPayInfoBll cryptoPayInfoBLL, LoadCardPayInfoBLL loadCardPayInfoBLL, FileNameBLL fileNameBll, ImageEditorBLL imageEditorBll, PromotionBll promotionBLL)
+        public PaymentController(IServiceProvider provider)
         {
-            this.bankInfoOffBLL = bankInfoOffBLL;
-            this.authorizeBLL = authorizeBLL;
-            this.paymentBLL = paymentBLL;
-            this.custInfoBLL = custInfoBLL;
-            this.bankInfoBLL = bankInfoBLL;
-            this.courierAdapter = courierAdapter;
-            this.selLangBLL = selLangBLL;
-            this.walletBLL = walletBLL;
-            this.mobilePayInfoBLL = mobilePayInfoBLL;
-            this.iovationBLL = iovationBLL;
-            this.cryptoPayInfoBLL = cryptoPayInfoBLL;
-            this.loadCardPayInfoBLL = loadCardPayInfoBLL;
-            this.loadCardPayInfoBLL = loadCardPayInfoBLL;
-            _fileNameBll = fileNameBll;
-            _imageEditorBll = imageEditorBll;
-            _promotionBLL = promotionBLL;
+            bankInfoOffBLL = provider.GetRequiredService<BankInfoOffBLL>();
+            authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
+            paymentBLL = provider.GetRequiredService<PaymentBLL>();
+            custInfoBLL = provider.GetRequiredService<CustInfoBll>();
+            bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
+            courierAdapter = provider.GetRequiredService<CourierAdapter>();
+            selLangBLL = provider.GetRequiredService<SelLangBLL>();
+            walletBLL = provider.GetRequiredService<WalletBLL>();
+            //mobilePayInfoBLL = provider.GetRequiredService<MobilePayInfoBll>();
+            iovationBLL = provider.GetRequiredService<IovationBLL>();
+            cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
+            loadCardPayInfoBLL = provider.GetRequiredService<LoadCardPayInfoBLL>();
+
+            _fileNameBll = provider.GetRequiredService<FileNameBLL>();
+            _imageEditorBll = provider.GetRequiredService<ImageEditorBLL>();
+            _promotionBLL = provider.GetRequiredService<PromotionBll>();
+            _payInfoBLL = provider.GetRequiredService<PayInfoBLL>();
+
+            var configuration = provider.GetRequiredService<IConfiguration>();
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
         }
@@ -810,12 +815,12 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<MobilePayGroup>> GetMobilePayGroupList()
+        public ApiResult<IEnumerable<PayGroup>> GetMobilePayGroupList()
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<MobilePayGroup>>
+            var apiResult = new ApiResult<IEnumerable<PayGroup>>
             {
-                Data = mobilePayInfoBLL.GetMobilePayGroupList(authData.CustId),
+                Data = _payInfoBLL.GetPayGroupList(authData.CustId, DepositType.MobilePayment),
                 ErrorCode = 0
             };
             return apiResult;
@@ -826,12 +831,12 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<MobilePayInfo>> GetMobilePayInfoList(PayInfoReq payInfoReq)
+        public ApiResult<IEnumerable<PayInfo>> GetMobilePayInfoList(PayInfoReq payInfoReq)
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<MobilePayInfo>>
+            var apiResult = new ApiResult<IEnumerable<PayInfo>>
             {
-                Data = mobilePayInfoBLL.GetMobilePayInfoList(authData.CustId, payInfoReq.groupId),
+                Data = _payInfoBLL.GetPayInfoList(authData.CustId, payInfoReq.groupId, DepositType.MobilePayment),
                 ErrorCode = 0
             };
             return apiResult;
@@ -1490,6 +1495,26 @@ namespace MemberSite.Controllers.Api
             }
 
             return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<PayGroup>> GetQRPayGroupList()
+        {
+            return new ApiResult<IEnumerable<PayGroup>>
+            {
+                Data = _payInfoBLL.GetPayGroupList(authorizeBLL.GetAuthData().CustId, DepositType.QRPayPayment),
+                ErrorCode = 0
+            };
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<PayInfo>> GetQRPayInfoList(PayInfoReq payInfoReq)
+        {
+            return new ApiResult<IEnumerable<PayInfo>>
+            {
+                Data = _payInfoBLL.GetPayInfoList(authorizeBLL.GetAuthData().CustId, payInfoReq.groupId, DepositType.QRPayPayment),
+                ErrorCode = 0
+            };
         }
     }
 }

@@ -15,25 +15,25 @@ namespace MemberSite.Extensions
         {
             var provider = services.BuildServiceProvider();
             var logger = provider.GetRequiredService<ILogger<MySqlClient>>();
+            var serviceType = config.GetValue<string>("ServiceType");
 
-            services.AddSingleton(factory => new MySqlClient(config.GetConnectionString("ConnectionString"), logger)
-            {
-                DataBase = DataBase.Main
-            });
-            services.AddSingleton(factory => new MySqlClient(config.GetConnectionString("ConnectionStringReport"), logger)
-            {
-                DataBase = DataBase.Report
-            });
-            services.AddSingleton(factory => new MySqlClient(config.GetConnectionString("ConnectionStringWager"), logger)
-            {
-                DataBase = DataBase.Wager
-            });
-            services.AddSingleton(factory => new MySqlClient(config.GetConnectionString("ConnectionStringLog"), logger)
-            {
-                DataBase = DataBase.Log
-            });
-
-            return services;
+            return services
+               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_MainDB"), logger)
+               {
+                   DataBase = DataBase.Main
+               })
+               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_ReportDB"), logger)
+               {
+                   DataBase = DataBase.Report
+               })
+               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_WagerDB"), logger)
+               {
+                   DataBase = DataBase.Wager
+               })
+               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_LogDB"), logger)
+               {
+                   DataBase = DataBase.Log
+               });
         }
     
         public static IServiceCollection AddOptionListByDB<T>(this IServiceCollection services, string sql, object parameters = null)

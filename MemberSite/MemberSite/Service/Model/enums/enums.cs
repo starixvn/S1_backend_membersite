@@ -26,6 +26,7 @@
         LocalBank = 3,
         CryptoPayment = 4,
         LoadCardPayment = 5,
+        QRPayPayment = 6,
     }
 
     /// <summary>

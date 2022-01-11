@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
@@ -23,7 +24,8 @@ namespace MemberSite.Service.BLL.Tests
             var configBuilder = new ConfigurationBuilder();
             configBuilder.SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", false, false)
-                .AddJsonFile("appsettings.Local.json", false, false);
+                .AddJsonFile("appsettings.Local.json", false, false)
+                .AddJsonStream(Program.GetRemoteConfig(new List<string> { "http://52.221.19.140:7243/" }));
             _configuration = configBuilder.Build();
             
         }
