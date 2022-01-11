@@ -3,6 +3,7 @@ using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using MemberSite.Service.Library;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -38,6 +39,12 @@ namespace MemberSite.Service.BLL
 
             return result;
         }
+        
+        public async Task<int> SetPopupMsgRead(int custId)
+        {
+            return await _messageService.SetReadPopupMessageTime(custId, 1);
+        }
+        
         public bool DelMsg(int custId, int[] msgIds)
         {
             var result = true;
