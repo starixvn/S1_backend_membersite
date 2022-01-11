@@ -59,6 +59,13 @@ namespace MemberSite.Service.DAL
             var msgContent = conn.QueryFirstOrDefault<MsgContent>("MsgContent_Get", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure);
             return msgContent;
         }
+        
+        public async Task<PopupMsg> GetPopupMessage(int custId)
+        {
+            var p = new DynamicParameters(new {_CustId = custId});
+            return await _mainDbClient.QueryFirstAsync<PopupMsg>("Member_PopupMsg_Get", p);
+        }
+        
         public bool DelMsg(int custId, int msgId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));

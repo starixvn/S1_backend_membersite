@@ -29,6 +29,12 @@ namespace MemberSite.Service.BLL
         {
             return _messageService.GetMsgContent(custId, msgId);
         }
+        
+        public async Task<PopupMsg> GetPopupMessage(int custId)
+        {
+            return await _messageService.GetPopupMessage(custId);
+        }
+        
         public bool SetMsgRead(int custId, int[] msgIds)
         {
             var result = true;

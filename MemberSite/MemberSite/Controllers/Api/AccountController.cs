@@ -548,6 +548,18 @@ namespace MemberSite.Controllers.Api
         }
         
         [HttpPost]
+        public async Task<ApiResult<PopupMsg>> GetPopupMsg()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            var apiResult = new ApiResult<PopupMsg>
+            {
+                Data = await _messageBll.GetPopupMessage(authData.CustId),
+                ErrorCode = 0
+            };
+            return apiResult;
+        }
+        
+        [HttpPost]
         public async Task<ApiResult> SetPopupMsgRead()
         {
             var authData = _authorizeBll.GetAuthData();
