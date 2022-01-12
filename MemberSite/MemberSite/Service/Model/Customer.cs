@@ -34,7 +34,7 @@ namespace MemberSite.Service.Model
         public string BankInfo { set; get; }
         public string USDTInfo { set; get; }
         public IEnumerable<BankInfoDetail> bankInfoDetail { set; get; }
-        public IEnumerable<USDTDetail> uSDTDetail { set; get; }
+        public IEnumerable<USDTDetail> usdtDetail { set; get; }
     }
 
     public class BankInfoDetail

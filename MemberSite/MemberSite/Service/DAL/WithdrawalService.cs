@@ -248,6 +248,21 @@ namespace MemberSite.Service.DAL
             return conn.Query<WithdrawalLimitInfoOutput>("Member_USDTWithdrawalLimitInfo_Get",
                 new { input.SiteId, input.CurrencyId, input.VipLevel, input.Network}, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
+
+        public WithdrawalLimitInfoOutput GetUSDTWithdrawalLimitInfoV2(USDTWithdrawalLimitInfoInput input)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<WithdrawalLimitInfoOutput>("Member_USDTWithdrawalLimitInfo_Get_V2",
+                new
+                {
+                    _SiteId = input.SiteId,
+                    _CurrencyId = input.CurrencyId,
+                    _VipLevel = input.VipLevel,
+                    _CryptoCurrencyId = input.CryptoCurrencyId,
+                    _Network = input.Network
+                }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+        }
+
         public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoList(USDTWithdrawalLimitInfoInput input)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));

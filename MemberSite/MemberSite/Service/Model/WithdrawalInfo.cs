@@ -19,6 +19,7 @@ namespace MemberSite.Service.Model
         public string AccountNo { get; set; }
         public string Network { set; get; }
         public int CurrencyId { set; get; }
+        public string CryptoCurrency { set; get; }
     }
     public class WithdrawalHistory
     {
@@ -52,6 +53,8 @@ namespace MemberSite.Service.Model
     }
     public class USDTWithdrawalLimitInfoInput: WithdrawalLimitInfoInput
     {
+        public int CryptoCurrencyId { get; set; }
+
         public string Network { get; set; }
     }
     public class WithdrawalLimitInfoOutput
