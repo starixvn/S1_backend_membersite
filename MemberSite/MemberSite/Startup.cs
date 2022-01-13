@@ -107,6 +107,7 @@ namespace MemberSite
             services.AddSingleton<LatestHighlightDataService>();
             services.AddSingleton<ConfigService>();
             services.AddSingleton<AppLinkService>();
+            services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
 
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
@@ -140,12 +141,12 @@ namespace MemberSite
             services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<LatestHighlightDataBll>();
             services.AddSingleton<GameBLL>();
-			services.AddTransient<GeoIpBLL>();
 			services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
             services.AddTransient<GeoIpBLL>();
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
             services.AddTransient<ImageEditorBLL>();
+            services.AddTransient<VerificationRewardBLL>();
             services.AddSingleton<PayInfoBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
@@ -155,31 +156,31 @@ namespace MemberSite
             if (configuration.GetValue<bool>("JwtSettings:IsJwt"))
             {
                 services
-                   // ÀË¬d HTTP Header ªº Authorization ¬O§_¦³ JWT Bearer Token
+                   // ï¿½Ë¬d HTTP Header ï¿½ï¿½ Authorization ï¿½Oï¿½_ï¿½ï¿½ JWT Bearer Token
                    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                   // ³]©w JWT Bearer Token ªºÀË¬d¿ï¶µ
+                   // ï¿½]ï¿½w JWT Bearer Token ï¿½ï¿½ï¿½Ë¬dï¿½ï¶µ
                    .AddJwtBearer(options =>
                    {
-                       // ·íÅçÃÒ¥¢±Ñ®É¡A¦^À³¼ÐÀY·|¥]§t WWW-Authenticate ¼ÐÀY¡A³o¸Ì·|Åã¥Ü¥¢±Ñªº¸Ô²Ó¿ù»~­ì¦]
+                       // ï¿½ï¿½ï¿½ï¿½ï¿½Ò¥ï¿½ï¿½Ñ®É¡Aï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Yï¿½|ï¿½]ï¿½t WWW-Authenticate ï¿½ï¿½ï¿½Yï¿½Aï¿½oï¿½Ì·|ï¿½ï¿½Ü¥ï¿½ï¿½Ñªï¿½ï¿½Ô²Ó¿ï¿½ï¿½~ï¿½ï¿½]
                        options.IncludeErrorDetails = true;
-                       // ¨­¥÷ÅçÃÒ»Ý­nHTTPS
+                       // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Ý­nHTTPS
                        options.RequireHttpsMetadata = true;
-                       // ¥¦±NJWT³X°Ý¥OµP«O¦s¦b·í«eHttpContext¡A¥H«K§Ú­Ì¥i¥H¨Ï¥Î¤èªkawait HttpContext.GetTokenAsync(¡§Bearer¡¨, ¡§access_token¡¨)©ÎÃþ¦ü¤èªkÀË¯Á¥¦¡C
+                       // ï¿½ï¿½ï¿½NJWTï¿½Xï¿½Ý¥Oï¿½Pï¿½Oï¿½sï¿½bï¿½ï¿½eHttpContextï¿½Aï¿½Hï¿½Kï¿½Ú­Ì¥iï¿½Hï¿½Ï¥Î¤ï¿½kawait HttpContext.GetTokenAsync(ï¿½ï¿½Bearerï¿½ï¿½, ï¿½ï¿½access_tokenï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½kï¿½Ë¯ï¿½ï¿½ï¿½ï¿½C
                        options.SaveToken = true;
 
                        options.TokenValidationParameters = new TokenValidationParameters
                        {
-                           // ¤@¯ë§Ú­Ì³£·|ÅçÃÒ Issuer
+                           // ï¿½@ï¿½ï¿½Ú­Ì³ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½ Issuer
                            ValidateIssuer = true,
                            ValidIssuer = configuration.GetValue<string>("JwtSettings:Issuer"),
-                           // ³q±`¤£¤Ó»Ý­nÅçÃÒ Audience
+                           // ï¿½qï¿½`ï¿½ï¿½ï¿½Ó»Ý­nï¿½ï¿½ï¿½ï¿½ Audience
                            ValidateAudience = false,
-                           //ValidAudience = "JwtAuthDemo", // ¤£ÅçÃÒ´N¤£»Ý­n¶ñ¼g
-                           // ¤@¯ë§Ú­Ì³£·|ÅçÃÒ Token ªº¦³®Ä´Á¶¡
+                           //ValidAudience = "JwtAuthDemo", // ï¿½ï¿½ï¿½ï¿½ï¿½Ò´Nï¿½ï¿½ï¿½Ý­nï¿½ï¿½g
+                           // ï¿½@ï¿½ï¿½Ú­Ì³ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½ Token ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½
                            ValidateLifetime = true,
-                           // ¦pªG Token ¤¤¥]§t key ¤~»Ý­nÅçÃÒ¡A¤@¯ë³£¥u¦³Ã±³¹¦Ó¤w
+                           // ï¿½pï¿½G Token ï¿½ï¿½ï¿½]ï¿½t key ï¿½~ï¿½Ý­nï¿½ï¿½ï¿½Ò¡Aï¿½@ï¿½ë³£ï¿½uï¿½ï¿½Ã±ï¿½ï¿½ï¿½Ó¤w
                            ValidateIssuerSigningKey = true,
-                           // "1234567890123456" À³¸Ó±q IConfiguration ¨ú±o
+                           // "1234567890123456" ï¿½ï¿½ï¿½Ó±q IConfiguration ï¿½ï¿½ï¿½o
                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JwtSettings:SignKey"))),
                        };
                    });
@@ -188,13 +189,13 @@ namespace MemberSite
             {
                 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
                 {
-                    //©Î³\­n±q²ÕºAÀÉÅª¨ú¡A¦Û¤v·r°u¨M©w
-                    //option.LoginPath = new PathString("/Home/Login");//µn¤J­¶
-                    //option.LogoutPath = new PathString("/Home/Logout");//µn¥XAction
-                    //¥Î¤á­¶­±°±¯d¤Ó¤[¡Aµn¤J¹O´Á¡A©ÎController¤¤¥Î¤áµn¤J®É¾÷ÂI¤]¥i¥H³]©w¡õ
+                    //ï¿½Î³\ï¿½nï¿½qï¿½ÕºAï¿½ï¿½Åªï¿½ï¿½ï¿½Aï¿½Û¤vï¿½rï¿½uï¿½Mï¿½w
+                    //option.LoginPath = new PathString("/Home/Login");//ï¿½nï¿½Jï¿½ï¿½
+                    //option.LogoutPath = new PathString("/Home/Logout");//ï¿½nï¿½XAction
+                    //ï¿½Î¤á­¶ï¿½ï¿½ï¿½ï¿½ï¿½dï¿½Ó¤[ï¿½Aï¿½nï¿½Jï¿½Oï¿½ï¿½ï¿½Aï¿½ï¿½Controllerï¿½ï¿½ï¿½Î¤ï¿½nï¿½Jï¿½É¾ï¿½ï¿½Iï¿½]ï¿½iï¿½Hï¿½]ï¿½wï¿½ï¿½
                     option.LoginPath = "/";
                     option.Cookie.Name = ".ES";
-                    option.ExpireTimeSpan = TimeSpan.FromMinutes(30);//¨Sµ¹¹w³]14¤Ñ
+                    option.ExpireTimeSpan = TimeSpan.FromMinutes(30);//ï¿½Sï¿½ï¿½ï¿½wï¿½]14ï¿½ï¿½
                     option.EventsType = typeof(CustomCookieAuthenticationEvents);
                     //option.Cookie.SameSite = environment.IsDevelopment() ? SameSiteMode.None : SameSiteMode.Unspecified;
                     option.Cookie.SameSite = SameSiteMode.Unspecified;
