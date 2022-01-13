@@ -392,7 +392,13 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<CustBankInfoRep>(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId);
+            var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId).ToList();
+
+            if (custInfo.SiteId == (int)SiteId.Nova88
+                && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            {
+                _bankInfoBll.BankNameLocalization(bankInfoSysList, authData.LangId);
+            }
 
             var custBankInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<CustBankInfoRep>(Newtonsoft.Json.JsonConvert.SerializeObject(_custInfoBll.GetCustBankInfo(authData.CustId)));
 
@@ -1090,6 +1096,29 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = 0;
             }
 
+            return apiResult;
+        }
+        public class SetCustActStatusReq
+        {
+            public int CustId { get; set; }
+            public string Operator { get; set; }
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public ApiResult<bool> SetCustActStatus(SetCustActStatusReq setCustActStatusReq)
+        {
+            var apiResult = new ApiResult<bool>(_selLangBll);
+            int setResult = _custInfoBll.SetCustActStatus(setCustActStatusReq.CustId, setCustActStatusReq.Operator);
+            if (setResult > 0)
+            {
+                apiResult.Data = true;
+                apiResult.ErrorCode = 0;
+            }
+            else
+            {
+                apiResult.Data = false;
+                apiResult.ErrorCode = 99;
+            }
             return apiResult;
         }
     }

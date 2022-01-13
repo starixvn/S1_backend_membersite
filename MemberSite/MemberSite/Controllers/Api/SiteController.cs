@@ -886,7 +886,7 @@ namespace MemberSite.Controllers.Api
 
                 Customer custInfo = null;
 
-                var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "", controller = "resetPassword", LangId = forgetPwdReq.flag == 1 ? _selLangBll.GetLangId() : "" }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
+                string resetPasswordUrl;
 
                 if (forgetPwdReq.flag == 1)
                 {
@@ -1750,10 +1750,14 @@ namespace MemberSite.Controllers.Api
             };
         }
         
+        [Route("{domain?}")]
         [HttpGet, HttpPost]
-        public ApiResult<SeoModel> Seo()
+        public ApiResult<SeoModel> Seo([FromRoute] string? domain)
         {
-            var domain = _serverInfoBll.GetMainDomain();
+            if (string.IsNullOrWhiteSpace(domain))
+            {
+                domain = _serverInfoBll.GetMainDomain();
+            }
             var data = _serverInfoBll.GetSeoWithCache(domain);
 
             if (data != null)
@@ -1761,7 +1765,16 @@ namespace MemberSite.Controllers.Api
                 data.Meta = string.IsNullOrEmpty(data.Meta) ? null : data.Meta;
                 data.Title = string.IsNullOrEmpty(data.Title) ? null : data.Title;
                 data.DefaultLang = string.IsNullOrEmpty(data.DefaultLang) ? null : data.DefaultLang;
+                if (!string.IsNullOrEmpty(data.FollowUsData))
+                {
+                    data.FollowUs = JsonConvert.DeserializeObject<List<FollowUs>>(data.FollowUsData);
+                }
+                if (!string.IsNullOrEmpty(data.PaymentMethodData))
+                {
+                    data.PaymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(data.PaymentMethodData);
+                }
             }
+            
 
             return new ApiResult<SeoModel>()
             {
@@ -1782,7 +1795,7 @@ namespace MemberSite.Controllers.Api
             {
                 ErrorCode = 0
             };
-            if (data != null && !string.IsNullOrEmpty(data.DefaultLang))
+            if (data != null && !string.IsNullOrEmpty(data.DefaultLang) && _serverInfoBll.IsSeoDomain(domain))
             {
                 apiResult.Data = await _serverInfoBll.GetMenuOfGames(data.SiteId, data.DefaultLang);
             }

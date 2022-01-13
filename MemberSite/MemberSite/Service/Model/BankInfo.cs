@@ -33,4 +33,11 @@
         public decimal MaxAmount { get; set; }
         public int Status { get; set; }
     }
+
+    public class BankInfoName
+    {
+        public int SysId { set; get; }
+        public string Lang { set; get; }
+        public string BankName { set; get; }
+    }
 }
