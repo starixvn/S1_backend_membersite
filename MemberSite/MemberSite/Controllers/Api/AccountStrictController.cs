@@ -561,6 +561,19 @@ namespace MemberSite.Controllers.Api
                     custProfile["Email"] = beforeCustInfo.Email;
                 }
 
+                if (string.IsNullOrEmpty(custProfile["AreaCode"]))
+                {
+                    var perCountry = new Dictionary<int, string>()
+                    {
+                        {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{61,"IN" },{96,"MY" }
+                    };
+                    perCountry.TryGetValue(beforeCustInfo.CurrencyId, out var countryCode);
+                    custProfile["CountryCode"] = countryCode;
+                    
+                    var areaCode  = _custInfoBLL.GetAreaCodeByCountryName(countryCode);
+                    custProfile["AreaCode"] = areaCode;
+                }
+
                 apiResult.ErrorCode = _custInfoBLL.SetProfileV2(authData.CustId, custProfile);
                 if (apiResult.ErrorCode == 0)
                 {
