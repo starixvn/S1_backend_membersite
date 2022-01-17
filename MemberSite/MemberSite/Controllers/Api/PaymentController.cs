@@ -312,6 +312,7 @@ namespace MemberSite.Controllers.Api
             public decimal amount { set; get; }
             public string memo { set; get; }
             public string blackbox { get; set; }
+            public int CurrencyId { get; set; }
         }
 
         [HttpPost]
@@ -616,9 +617,11 @@ namespace MemberSite.Controllers.Api
             var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
 
             if (custBankInfo?.usdtDetail == null
-                || custBankInfo.usdtDetail.All(x => x.USDTAddress != withdrawalReqModel.AccountNo))
+                || !custBankInfo.usdtDetail.Any(x => x.USDTAddress == withdrawalReqModel.AccountNo
+                    && x.CurrencyId == withdrawalReqModel.CurrencyId))
             {
-                _logger.LogError("CustBankInfo Has No USDTDetail");
+                _logger.LogError(
+                    $"CustBankInfo has no match USDTDetail address: {withdrawalReqModel.AccountNo}, currency: {withdrawalReqModel.CurrencyId}");
                 return apiResult;
             }
 
@@ -1270,7 +1273,7 @@ namespace MemberSite.Controllers.Api
         public class GetExchangeReq
         {
             public int PayId { get; set; }
-            public string CryptoCurrency { get; set; }
+            public string CurrencyName { get; set; }
             public string Network { get; set; }
             public decimal Amount { get; set; }
         }
@@ -1282,9 +1285,9 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<ExchangeInfo>();
             var payId = 22; // 先留著讓新舊相容
             var channelName =
-                getExchangeReq.CryptoCurrency == getExchangeReq.Network
-                    ? getExchangeReq.CryptoCurrency
-                    : $"{getExchangeReq.CryptoCurrency}-{getExchangeReq.Network}";
+                getExchangeReq.CurrencyName == getExchangeReq.Network
+                    ? getExchangeReq.CurrencyName
+                    : $"{getExchangeReq.CurrencyName}-{getExchangeReq.Network}";
 
             var result = await cryptoPayInfoBLL.GetExchangeInfoAsync(authData.CustId,
                 getExchangeReq.Amount, payId, channelName);
