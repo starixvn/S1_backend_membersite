@@ -168,7 +168,8 @@ namespace MemberSite.Controllers.Api
             {
                 uSDTInfoList = custBankInfo.usdtDetail.ToList();
 
-                if (uSDTInfoList.Any(x => x.USDTAddress == uSDTDetailreq.USDTAddress))
+                if (uSDTInfoList.Any(x => x.USDTAddress == uSDTDetailreq.USDTAddress
+                    && x.CurrencyId == uSDTDetailreq.CurrencyId)) // 可能幣種不同但錢包位址相同
                 {
                     apiResult.ErrorCode = -4;
                     apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
@@ -202,17 +203,9 @@ namespace MemberSite.Controllers.Api
 
             List<USDTDetail> uSDTInfoList = null;
             var uSDTInfoLogList = new List<USDTDetail>();
-
-            var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            //if (custInfo.CurrencyId != 96)
-            //{
-            //    apiResult.ErrorCode = -6;
-            //    apiResult.Message = "Error Currency ";
-            //    return apiResult;
-            //}
-            //
-            // var custUSDTInfoList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custUSDTInfoBatchreq.USDTInfo);
-            if (custUSDTInfoBatchreq.USDTInfo.GroupBy(i => i.USDTAddress).Any(g => g.Count() > 1))
+            
+            if (custUSDTInfoBatchreq.USDTInfo.GroupBy(i => new { i.USDTAddress, i.CurrencyId }) // 可能幣種不同但錢包位址相同
+                .Any(g => g.Count() > 1))
             {
                 apiResult.ErrorCode = -4; //輸入資料重複
                 apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
@@ -226,19 +219,19 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBLL.GetMsg("msg_NeedAccountName");
                 return apiResult;
             }
-            else if (custBankInfo != null && custBankInfo.BankInfo != null && (custBankInfo.usdtDetail?.Count() >= 3 || (custBankInfo.usdtDetail?.Count() + custUSDTInfoBatchreq.USDTInfo?.Count() > 3)))
+            if (custBankInfo != null && custBankInfo.BankInfo != null && (custBankInfo.usdtDetail?.Count() >= 3 || (custBankInfo.usdtDetail?.Count() + custUSDTInfoBatchreq.USDTInfo?.Count() > 3)))
             {
                 apiResult.ErrorCode = -3;
                 apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                 return apiResult;
             }
-            else if (custBankInfo != null && custBankInfo.usdtDetail != null)
+            if (custBankInfo != null && custBankInfo.usdtDetail != null)
             {
-
                 uSDTInfoList = custBankInfo.usdtDetail.ToList();
                 foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
                 {
-                    if (uSDTInfoList.Any(x => x.USDTAddress == custUSDTInfo.USDTAddress))
+                    if (uSDTInfoList.Any(x => x.USDTAddress == custUSDTInfo.USDTAddress
+                        && x.CurrencyId == custUSDTInfo.CurrencyId)) // 可能幣種不同但錢包位址相同
                     {
                         apiResult.ErrorCode = -4;
                         apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
@@ -283,9 +276,12 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                 return apiResult;
             }
-            else if (custBankInfo != null && custBankInfo.usdtDetail != null)
+
+            if (custBankInfo != null && custBankInfo.usdtDetail != null)
             {
-                USDTInfoList = custBankInfo.usdtDetail.Where(x => !(x.USDTAddress == uSDTDetailreq.USDTAddress));
+                USDTInfoList = custBankInfo.usdtDetail.Where(x => 
+                    !(x.USDTAddress == uSDTDetailreq.USDTAddress && 
+                    x.CurrencyId == uSDTDetailreq.CurrencyId));
             }
 
             apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, custBankInfo.AccountName, USDTInfoList);
