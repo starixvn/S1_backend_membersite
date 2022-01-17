@@ -88,7 +88,7 @@
             i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
     }
 
-    var PerCountry = CurrencyMapping.CountryMap;
+    var PerCountry = new CurrencyMapping().CountryMap;
     var currencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
 }
 

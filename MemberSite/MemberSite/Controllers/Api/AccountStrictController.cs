@@ -564,7 +564,7 @@ namespace MemberSite.Controllers.Api
 
                 if (string.IsNullOrEmpty(custProfile["AreaCode"]))
                 {
-                    var perCountry = CurrencyMapping.CountryMap;
+                    var perCountry = new CurrencyMapping().CountryMap;
                     perCountry.TryGetValue(beforeCustInfo.CurrencyId, out var countryCode);
                     custProfile["CountryCode"] = countryCode;
                     
@@ -613,7 +613,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<object>(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
-            var perCountry = CurrencyMapping.CountryMap;
+            var perCountry = new CurrencyMapping().CountryMap;
 
             try
             {
