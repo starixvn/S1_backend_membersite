@@ -494,18 +494,20 @@ namespace MemberSite.Service.BLL
             {
                 return -1;
             }
-            withdrawalUSDTInfo.AccountType = "USDT";
-            
+
+            var currencyEnum = (CryptoCurrencyId) uSDTDetail.CurrencyId;
+
+            withdrawalUSDTInfo.AccountType = "crypto";
+            withdrawalUSDTInfo.CryptoCurrency = currencyEnum.ToString();
             withdrawalUSDTInfo.AccountName = accountName;
             withdrawalUSDTInfo.NickName = uSDTDetail.NickName;
             withdrawalUSDTInfo.AccountNo = accountNo;
             withdrawalUSDTInfo.Network = uSDTDetail.Network;
             withdrawalUSDTInfo.CurrencyId = uSDTDetail.CurrencyId;
-
-
-
+            
             return withdrawalService.WithdrawalUSDTReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalUSDTInfo, out afterAmount, out transId);
         }
+        
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
@@ -754,10 +756,20 @@ namespace MemberSite.Service.BLL
         {
             return statementService.GetSupportNetwork(currencyId);
         }
+        public IEnumerable<CryptoInfo> GetSupportCryptoInfo()
+        {
+            return statementService.GetSupportCryptoInfo();
+        }
         public WithdrawalLimitInfoOutput GetUSDTWithdrawalLimitInfo(USDTWithdrawalLimitInfoInput input)
         {
             return withdrawalService.GetUSDTWithdrawalLimitInfo(input);
         }
+
+        public WithdrawalLimitInfoOutput GetUSDTWithdrawalLimitInfoV2(USDTWithdrawalLimitInfoInput input)
+        {
+            return withdrawalService.GetUSDTWithdrawalLimitInfoV2(input);
+        }
+
         public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoList(USDTWithdrawalLimitInfoInput input)
         {
             return withdrawalService.GetUSDTWithdrawalLimitInfoList(input);

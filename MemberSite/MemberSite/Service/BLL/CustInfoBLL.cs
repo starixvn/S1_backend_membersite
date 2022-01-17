@@ -373,7 +373,7 @@ namespace MemberSite.Service.BLL
                     uSDTDetailList = uSDTDetailList.Where(x => x.USDTAddress != null);//filiter null data
                     if (uSDTDetailList.Any())
                     {
-                        custBankInfo.uSDTDetail = uSDTDetailList;
+                        custBankInfo.usdtDetail = uSDTDetailList;
                     }
                 }
                 //if (custInfo.CurrencyId == 96)

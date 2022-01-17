@@ -90,4 +90,13 @@ namespace MemberSite.Service.Model
     {
         public string network { get; set; }
     }
+
+    public class CryptoInfo
+    {
+        public string CurrencyId { get; set; }
+
+        public string CurrencyName { get; set; }
+
+        public string Network { get; set; }
+    }
 }
