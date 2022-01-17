@@ -288,6 +288,11 @@
         IDR = 15,
         VND = 51,
         INR = 61,
+        USDT = 96
+    }
+
+    public enum CryptoCurrencyId
+    {
         USDT = 96,
         USDC = 97,
         ETH = 98,

@@ -49,6 +49,8 @@ namespace MemberSite.Service.Model
         public string USDTAddress { set; get; }
         public string Network { set; get; }
         public int CurrencyId { set; get; }
+
+        public int CryptoCurrency { set; get; }
     }
 
     public class BankInfoDetailRep : BankInfoDetail

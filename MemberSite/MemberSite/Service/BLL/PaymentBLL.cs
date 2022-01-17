@@ -495,7 +495,7 @@ namespace MemberSite.Service.BLL
                 return -1;
             }
 
-            var currencyEnum = (CurrencyId) uSDTDetail.CurrencyId;
+            var currencyEnum = (CryptoCurrencyId) uSDTDetail.CurrencyId;
 
             withdrawalUSDTInfo.AccountType = "crypto";
             withdrawalUSDTInfo.CryptoCurrency = currencyEnum.ToString();
@@ -507,6 +507,7 @@ namespace MemberSite.Service.BLL
             
             return withdrawalService.WithdrawalUSDTReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalUSDTInfo, out afterAmount, out transId);
         }
+        
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);

@@ -148,14 +148,14 @@ namespace MemberSite.Service.BLL
             return -99;
         }
 
-        public async Task<ApiResult<PaymentReq>> GetExchangeInfoAsync(int custId, decimal amount,int payId, int channelId)
+        public async Task<ApiResult<PaymentReq>> GetExchangeInfoAsync(int custId, decimal amount,int payId, string channelName)
         { 
             var exchangeReq = new 
             {
                 CustId = custId,
                 Amount = amount,
                 PayId = payId,
-                ChannelId = channelId
+                ChannelName = channelName
             };
             var myUrl = $"{_payApiUrl}CryptoExchange";
             return await _courierAdapter.MyPostAsync<PaymentReq, dynamic>(myUrl, exchangeReq);

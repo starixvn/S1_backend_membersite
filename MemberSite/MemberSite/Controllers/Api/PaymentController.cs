@@ -1271,7 +1271,8 @@ namespace MemberSite.Controllers.Api
         public class GetExchangeReq
         {
             public int PayId { get; set; }
-            public int ChannelId { get; set; }
+            public string CryptoCurrency { get; set; }
+            public string Network { get; set; }
             public decimal Amount { get; set; }
         }
 
@@ -1280,9 +1281,14 @@ namespace MemberSite.Controllers.Api
         {
             var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<ExchangeInfo>();
+            var payId = 22; // 先留著讓新舊相容
+            var channelName =
+                getExchangeReq.CryptoCurrency == getExchangeReq.Network
+                    ? getExchangeReq.CryptoCurrency
+                    : $"{getExchangeReq.CryptoCurrency}-{getExchangeReq.Network}";
 
             var result = await cryptoPayInfoBLL.GetExchangeInfoAsync(authData.CustId,
-                getExchangeReq.Amount, getExchangeReq.PayId, getExchangeReq.ChannelId);
+                getExchangeReq.Amount, payId, channelName);
             if (result != null && result.Data != null)
             {
                 apiResult.Data = result.Data.formData;
