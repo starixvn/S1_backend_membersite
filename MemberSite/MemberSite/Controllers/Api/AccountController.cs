@@ -565,7 +565,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiResult()
             {
-                ErrorCode = await _messageBll.SetPopupMsgRead(authData.CustId) > 0 ? 0 : 99
+                ErrorCode = await _messageBll.SetPopupMsgRead(authData.CustId) ? 0 : 99
             };
             return apiResult;
         }
