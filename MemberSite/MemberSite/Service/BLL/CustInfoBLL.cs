@@ -57,6 +57,13 @@ namespace MemberSite.Service.BLL
                 _areaCodeCountryList.TryGetValue(areaCode, out countryName);
             return countryName;
         }
+        
+        public string GetAreaCodeByCountryName(string countryName)
+        {
+            var areaCode = _areaCodeCountryList.FirstOrDefault(x => x.Value == countryName ).Key;
+            return areaCode;
+        }
+        
         public bool IsConvertRequired(int currencyId)
         {
             return _isConvert.ContainsKey(currencyId);

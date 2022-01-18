@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LazZiya.ImageResize;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.Mapping;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -561,6 +562,16 @@ namespace MemberSite.Controllers.Api
                     custProfile["Email"] = beforeCustInfo.Email;
                 }
 
+                if (string.IsNullOrEmpty(custProfile["AreaCode"]))
+                {
+                    var perCountry = new CurrencyMapping().CountryMap;
+                    perCountry.TryGetValue(beforeCustInfo.CurrencyId, out var countryCode);
+                    custProfile["CountryCode"] = countryCode;
+                    
+                    var areaCode  = _custInfoBLL.GetAreaCodeByCountryName(countryCode);
+                    custProfile["AreaCode"] = areaCode;
+                }
+
                 apiResult.ErrorCode = _custInfoBLL.SetProfileV2(authData.CustId, custProfile);
                 if (apiResult.ErrorCode == 0)
                 {
@@ -602,10 +613,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<object>(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
-            var PerCountry = new Dictionary<int, string>()
-            {
-                    {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{61,"IN" },{96,"MY" }
-                };
+            var perCountry = new CurrencyMapping().CountryMap;
 
             try
             {
@@ -619,7 +627,7 @@ namespace MemberSite.Controllers.Api
                     }
                     else
                     {
-                        PerCountry.TryGetValue(custInfo.CurrencyId, out _perCountry);
+                        perCountry.TryGetValue(custInfo.CurrencyId, out _perCountry);
                     }
                 }
 

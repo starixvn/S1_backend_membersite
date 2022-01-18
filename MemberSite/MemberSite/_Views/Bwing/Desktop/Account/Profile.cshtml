@@ -1,6 +1,7 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.AspNetCore.Hosting
 @using MemberSite.Service.BLL
+@using MemberSite.Service.Model.Mapping
 @inject IWebHostEnvironment environment
 @inject SelLangBLL selLangBLL
 @inject AuthorizeBLL authorizeBLL
@@ -87,10 +88,7 @@
             i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
     }
 
-    var PerCountry = new Dictionary<int, string>()
-{
-        {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{96,"MY" }
-    };
+    var PerCountry = new CurrencyMapping().CountryMap;
     var currencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
 }
 
