@@ -46,7 +46,7 @@ namespace MemberSite.Service.BLL
             return result;
         }
         
-        public async Task<int> SetPopupMsgRead(int custId)
+        public async Task<bool> SetPopupMsgRead(int custId)
         {
             return await _messageService.SetReadPopupMessageTime(custId, 1);
         }
