@@ -546,6 +546,30 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+        
+        [HttpPost]
+        public async Task<ApiResult<PopupMsg>> GetPopupMsg()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            var apiResult = new ApiResult<PopupMsg>
+            {
+                Data = await _messageBll.GetPopupMessage(authData.CustId),
+                ErrorCode = 0
+            };
+            return apiResult;
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult> SetPopupMsgRead()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            var apiResult = new ApiResult()
+            {
+                ErrorCode = await _messageBll.SetPopupMsgRead(authData.CustId) ? 0 : 99
+            };
+            return apiResult;
+        }
+        
         public class DelMsgReq
         {
             public int[] MsgIds { get; set; }
