@@ -5,6 +5,7 @@ using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MemberSite.Service.Model.Mapping;
 
 namespace MemberSite.Service.BLL
 {
@@ -33,10 +34,7 @@ namespace MemberSite.Service.BLL
                 {1, "registration"  },
                 {2, "withdrawal" }
             };
-            perCountry = new Dictionary<int, string>()
-            {
-              {2,"MY" },{4,"TH" },{13,"CS" },{15,"ID" },{51,"VN" },{61,"IN" }
-            };
+            perCountry = new CurrencyMapping().CountryMap;
             perCurrency = new Dictionary<int, string>()
             {
               {2,"MYR" },{4,"THB" },{13,"RMB" },{15,"IDR" },{61,"INR" },{51,"VND" }
