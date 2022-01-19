@@ -103,7 +103,10 @@ namespace MemberSite.Controllers
                 apiResult = await courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
                 if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
                 {
-                    return View(apiResult);
+                    if (!string.IsNullOrEmpty(apiResult.Message))
+                        return View(apiResult);
+                    else
+                        return View(apiResult.Message);
                 }
                 else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
                 {
