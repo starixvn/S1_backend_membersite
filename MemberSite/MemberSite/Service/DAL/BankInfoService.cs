@@ -41,10 +41,10 @@ namespace MemberSite.Service.DAL
             return conn.Query<BankInfoName>("Member_BankInfoName_Get", new { _Lang = lang }, commandType: CommandType.StoredProcedure);
         }
 
-        public IEnumerable<BankInfoPay> GetBankInfoPayList(int siteId, DepositType depositType)
+        public IEnumerable<AutoChannelBankInfo> GetAutoChannelBankInfoList(int siteId, DepositType depositType)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<BankInfoPay>("Service_BankInfo_Get", new { SiteId = siteId, DepositType = (int)depositType }, commandType: CommandType.StoredProcedure);
+            return conn.Query<AutoChannelBankInfo>("Service_AutoChannelBankInfo_Get", new { SiteId = siteId, DepositType = (int)depositType }, commandType: CommandType.StoredProcedure);
         }
     }
 }

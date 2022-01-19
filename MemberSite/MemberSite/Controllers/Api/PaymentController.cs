@@ -1518,11 +1518,20 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<SysBankInfoFront>> GetOnlinePaymentAvailableBankList()
+        public ApiResult<IEnumerable<SysBankInfoFront>> GetAutoChannelBankGroupList()
         {
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(authData.CustId);
+            var result = bankInfoBLL.GetAutoChannelBankGroupList(custInfo, vipLevel).ToList();
+            if (custInfo.SiteId == (int)SiteId.Nova88 && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            {
+                bankInfoBLL.BankNameLocalization(result, authData.LangId);
+            }
+
             return new ApiResult<IEnumerable<SysBankInfoFront>>
             {
-                Data = bankInfoBLL.GetOnlinePaymentAvailableBankList(authorizeBLL.GetAuthData().CustId),
+                Data = result,
                 ErrorCode = 0
             };
         }

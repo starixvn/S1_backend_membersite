@@ -248,29 +248,38 @@ namespace MemberSite.Service.BLL
         }
 
 
-        public IEnumerable<SysBankInfoFront> GetOnlinePaymentAvailableBankList(int custId)
+        public IEnumerable<SysBankInfoFront> GetAutoChannelBankGroupList(Customer customer, int vipLevel)
         {
-            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
-            var depositType = custInfo.SiteId == 1 ? DepositType.BankAutoChannel : DepositType.OnlineBanking;
-            
-            return GetOnlineBankList(custInfo.SiteId, depositType)
-                .Where(i => vipLevel >= i.PointLevel && i.CurrencyId == custInfo.CurrencyId && (i.Method == 0 || i.Method == 1))
-                .Select(i => new SysBankInfoFront
-                {
-                    SysId = i.SysId,
-                    BankCode = i.SysBankCode,
-                    BankLogo = i.BankLogo,
-                    BankName = i.SysBankName,
-                })
-                .Distinct(i =>  new { i.SysId, i.BankCode });
+            return GetAutoChannelBankInfoList(customer, vipLevel)
+                    .GroupBy(bank => bank.SysId)
+                    .Select(reuslt => new SysBankInfoFront
+                    {
+                        SysId = reuslt.Key,
+                        BankCode = reuslt.First().SysBankCode,
+                        BankLogo = reuslt.First().BankLogo,
+                        BankName = reuslt.First().SysBankName,
+                        MaxAmount = reuslt.Max(i => i.MaxAmount),
+                        MinAmount = reuslt.Min(i => i.MinAmount),
+                    });
         }
 
-        public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId, DepositType depositType)
+        public IEnumerable<AutoChannelBankInfo> GetAutoChannelBankInfoList(Customer customer, int vipLevel)
         {
-            return _cacheHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>($"BankInfoPayList_{siteId}_{depositType}",
+            return GetAutoChannelBankInfoListByDepositType(customer.SiteId, GetAutoChannelDepositType(customer))
+                    .Where(i => vipLevel >= i.PointLevel && i.CurrencyId == customer.CurrencyId && (i.Method == 0 || i.Method == 1) && i.SelBank);
+        }
+
+        public DepositType GetAutoChannelDepositType(Customer customer)
+        {
+            //nova88使用新的DepositType，Bwing&goal123調整OnlineBanking
+            return customer.SiteId == 1 ? DepositType.BankAutoChannel : DepositType.OnlineBanking;
+        }
+
+        public IEnumerable<AutoChannelBankInfo> GetAutoChannelBankInfoListByDepositType(int siteId, DepositType depositType)
+        {
+            return _cacheHelper.TryGetOrCreate($"BankInfoPayList_{siteId}_{depositType}",
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)),
-                i => _bankInfoService.GetBankInfoPayList(siteId, depositType).OrderBy(x => x.MSort).ThenBy(x => x.SSort));
+                i => _bankInfoService.GetAutoChannelBankInfoList(siteId, depositType));
         }
     }
 }
