@@ -1516,5 +1516,15 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0
             };
         }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<SysBankInfoFront>> GetOnlinePaymentAvailableBankList()
+        {
+            return new ApiResult<IEnumerable<SysBankInfoFront>>
+            {
+                Data = bankInfoBLL.GetOnlinePaymentAvailableBankList(authorizeBLL.GetAuthData().CustId),
+                ErrorCode = 0
+            };
+        }
     }
 }
