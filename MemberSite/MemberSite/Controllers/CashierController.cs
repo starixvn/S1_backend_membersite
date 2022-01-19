@@ -422,10 +422,12 @@ namespace MemberSite.Controllers
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var vipLevel = custInfoBLL.GetPointLevelWithCache(authData.CustId);
             var depositType = _bankInfoBLL.GetAutoChannelDepositType(custInfo);
+            var url = depositType == DepositType.BankAutoChannel ? $"{payApiUrl}BankAutoChannel" : $"{payApiUrl}ReqDepositBank";
+            
             //取得可用銀行列表
             var bankList = _bankInfoBLL.GetAutoChannelBankInfoList(custInfo, vipLevel)
                 .Where(i => i.SysId == sysId && Amount <= i.MaxAmount && Amount >= i.MinAmount);
-
+          
             foreach (var bank in bankList.OrderBy(i => i.SSort))
             {
                 var result = paymentBLL.DepositReqOnlineBanking(authData.CustId, sysId, bank.PayId, bank.ChannelId, Amount, out var transId, out var onlineBank, depositType);
@@ -439,7 +441,7 @@ namespace MemberSite.Controllers
                     promotionBLL.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
                 }
 
-                var apiResult = await courierAdapter.MyPostAsync<PayResult, ReqDepositBank>($"{payApiUrl}ReqDepositBank", new ReqDepositBank
+                var apiResult = await courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(url, new ReqDepositBank
                 {
                     TransId = transId,
                     CustId = authData.CustId,
