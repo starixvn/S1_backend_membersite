@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
@@ -28,10 +29,11 @@ namespace MemberSite.Controllers
         private readonly PromotionBll promotionBLL;
         private bool isNewVersion = true;
         private readonly PayInfoBLL _payInfoBLL;
+        private readonly BankInfoBLL _bankInfoBLL;
 
         public CashierController(IServiceProvider provider)
         {
-            courierAdapter = provider.GetRequiredService<CourierAdapter>();     
+            courierAdapter = provider.GetRequiredService<CourierAdapter>();
             tools = provider.GetRequiredService<Tools>();
             authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
             serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
@@ -42,6 +44,7 @@ namespace MemberSite.Controllers
             loadCardPayInfoBLL = provider.GetRequiredService<LoadCardPayInfoBLL>();
             promotionBLL = provider.GetRequiredService<PromotionBll>();
             _payInfoBLL = provider.GetRequiredService<PayInfoBLL>();
+            _bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
 
             var configuration = provider.GetRequiredService<IConfiguration>();
             payApiUrl = configuration.GetValue<string>("PayService");
@@ -85,7 +88,7 @@ namespace MemberSite.Controllers
             var apiResult = new ApiResult<PayResult>();
             if (result == 0)
             {
-                if(BonusCode != null && BonusCode != "")
+                if (BonusCode != null && BonusCode != "")
                     promotionBLL.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
 
                 var reqDepositBank = new ReqDepositBank
@@ -259,7 +262,7 @@ namespace MemberSite.Controllers
             {
                 if (BonusCode != null && BonusCode != "")
                     promotionBLL.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
-                var reqDeposit = new 
+                var reqDeposit = new
                 {
                     TransId = transId,
                     authData.CustId,
@@ -356,14 +359,14 @@ namespace MemberSite.Controllers
             var serverInfo = serverInfoBLL.GetServerInfo();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            
+
             var result = _payInfoBLL.DepositReqPay(authData.CustId, ChannelId, Amount, out var transId, out var payInfo, DepositType.QRPayPayment);
             if (result != 0)
             {
-               return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", new ErrorData
-                    {
-                        Message = "DepositReqQRPayAsync Error"
-                    });
+                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", new ErrorData
+                {
+                    Message = "DepositReqQRPayAsync Error"
+                });
             }
 
             if (BonusCode != null && BonusCode != "")
@@ -371,8 +374,8 @@ namespace MemberSite.Controllers
                 promotionBLL.SetDepositPromotionQueue(
                     transId,
                     BonusCode,
-                    authData.CustId, 
-                    custInfo.SiteId, 
+                    authData.CustId,
+                    custInfo.SiteId,
                     custInfo.UserName,
                     custInfo.CurrencyId,
                     1,
@@ -389,7 +392,7 @@ namespace MemberSite.Controllers
                 ClientIP = tools.GetClientIP(),
                 ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
             });
-            
+
             if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
             {
                 return View(apiResult);
@@ -408,7 +411,63 @@ namespace MemberSite.Controllers
                 {
                     Message = apiResult.RawMessage
                 });
-            }          
+            }
+        }
+
+
+        public async Task<IActionResult> DepositReqBankAutoChannelAsync(int sysId, decimal Amount, string BonusCode)
+        {
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(authData.CustId);
+            var depositType = _bankInfoBLL.GetAutoChannelDepositType(custInfo);
+            //取得可用銀行列表
+            var bankList = _bankInfoBLL.GetAutoChannelBankInfoList(custInfo, vipLevel)
+                .Where(i => i.SysId == sysId && Amount <= i.MaxAmount && Amount >= i.MinAmount);
+
+            foreach (var bank in bankList.OrderBy(i => i.SSort))
+            {
+                var result = paymentBLL.DepositReqOnlineBanking(authData.CustId, sysId, bank.PayId, bank.ChannelId, Amount, out var transId, out var onlineBank, depositType);
+                if (result != 0)
+                {
+                    continue;
+                }
+
+                if (BonusCode != null && BonusCode != "")
+                {
+                    promotionBLL.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
+                }
+
+                var apiResult = await courierAdapter.MyPostAsync<PayResult, ReqDepositBank>($"{payApiUrl}ReqDepositBank", new ReqDepositBank
+                {
+                    TransId = transId,
+                    CustId = authData.CustId,
+                    Amount = Amount,
+                    PayId = onlineBank.PayId,
+                    SysId = onlineBank.SysId,
+                    ClientIP = tools.GetClientIP(),
+                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                });
+                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
+                {
+                    return View(apiResult);
+                }
+                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
+                {
+                    return Redirect(apiResult.Data.Url);
+                }
+                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
+                {
+                    return Json(apiResult);
+                }
+            }
+
+            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", new ErrorData
+            {
+                Message = "all Channel fail."
+            });
+
         }
     }
 }
