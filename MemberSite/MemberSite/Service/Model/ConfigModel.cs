@@ -1,4 +1,6 @@
-﻿namespace MemberSite.Service.Model
+﻿using System.Collections.Generic;
+
+namespace MemberSite.Service.Model
 {
     public class MailConfig
     {
@@ -19,5 +21,10 @@
         public string ImageURL { get; set; }
 
         public string MaintainURL { get; set; }
+    }
+
+    public class LoginDeviceConfig
+    {
+        public string Url { get; set; }
     }
 }

@@ -16,7 +16,6 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
@@ -63,7 +62,7 @@ namespace MemberSite
             services.Configure<MailConfig>(configuration.GetSection("MailConfig"));
             services.Configure<JwtConfig>(configuration.GetSection("JwtSettings"));
             services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
-
+            services.Configure<Dictionary<string, string>>(configuration.GetSection("LoginDeviceConfig"));
             services.AddMemoryCache();
             services.AddDatabaseConnection(configuration);
 

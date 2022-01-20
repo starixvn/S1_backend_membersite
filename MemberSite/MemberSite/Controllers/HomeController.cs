@@ -177,7 +177,9 @@ namespace MemberSite.Controllers
             else if (authBLL.Authenticate(key, out CustInfoProfile custInfoProfile))
             {
                 Customer customer = null;
-                var userLoginResult = custInfoBLL.UserLoginForResetPwd(custInfoProfile.UserName, tools.GetClientIP(), tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
+                var fromUrl = tools.GetFromUrl();
+                var deviceType = (int) tools.GetDeviceId(fromUrl);
+                var userLoginResult = custInfoBLL.UserLoginForResetPwd(custInfoProfile.UserName, tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out var token);
                 if (userLoginResult == 0)
                 {
                     var claims = new List<Claim>

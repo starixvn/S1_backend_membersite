@@ -305,4 +305,12 @@
         ETH = 98,
         BTC = 99
     }
+    
+    public enum DeviceId
+    {
+        Old = 0,
+        Desktop = 1,
+        H5 = 2,
+        APP = 3
+    }
 }
