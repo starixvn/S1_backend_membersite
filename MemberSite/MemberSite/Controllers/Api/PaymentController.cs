@@ -1315,11 +1315,11 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<CryptoInfo>> GetSupportCryptoInfo()
+        public ApiResult<CryptoInfoData> GetSupportCryptoInfo()
         {
             var result = paymentBLL.GetSupportCryptoInfo();
 
-            var apiResult = new ApiResult<IEnumerable<CryptoInfo>>
+            var apiResult = new ApiResult<CryptoInfoData>
             {
                 Data = result,
                 ErrorCode = 0

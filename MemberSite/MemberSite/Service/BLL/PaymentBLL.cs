@@ -756,9 +756,27 @@ namespace MemberSite.Service.BLL
         {
             return statementService.GetSupportNetwork(currencyId);
         }
-        public IEnumerable<CryptoInfo> GetSupportCryptoInfo()
+        public CryptoInfoData GetSupportCryptoInfo()
         {
-            return statementService.GetSupportCryptoInfo();
+            var infos = statementService.GetSupportCryptoInfo();
+            var cryptoCurrency = infos
+                .Select(x => new CryptoCurrency
+                {
+                    CurrencyId = x.CurrencyId,
+                    CurrencyName = x.CurrencyName
+                }).Distinct(new CryptoCurrencyComparer());
+
+            var cryptoNetwork = infos.Select(x => new CryptoNetwork
+            {
+                CurrencyId = x.CurrencyId,
+                Network = x.Network
+            });
+
+            return new CryptoInfoData
+            {
+                CryptoCurrency = cryptoCurrency,
+                CryptoNetwork = cryptoNetwork
+            };
         }
         public WithdrawalLimitInfoOutput GetUSDTWithdrawalLimitInfo(USDTWithdrawalLimitInfoInput input)
         {
