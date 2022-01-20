@@ -419,7 +419,7 @@ namespace MemberSite.Controllers
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var vipLevel = custInfoBLL.GetPointLevelWithCache(authData.CustId);
-            var depositType = _bankInfoBLL.GetAutoChannelDepositType(custInfo);
+            var depositType = _bankInfoBLL.GetAutoChannelDepositType(custInfo.SiteId);
             var url = depositType == DepositType.BankAutoChannel ? $"{payApiUrl}BankAutoChannel" : $"{payApiUrl}ReqDepositBank";
             
             //取得可用銀行列表

@@ -265,14 +265,14 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<AutoChannelBankInfo> GetAutoChannelBankInfoList(Customer customer, int vipLevel)
         {
-            return GetAutoChannelBankInfoListByDepositType(customer.SiteId, GetAutoChannelDepositType(customer))
+            return GetAutoChannelBankInfoListByDepositType(customer.SiteId, GetAutoChannelDepositType(customer.SiteId))
                     .Where(i => vipLevel >= i.PointLevel && i.CurrencyId == customer.CurrencyId && (i.Method == 0 || i.Method == 1) && i.SelBank);
         }
 
-        public DepositType GetAutoChannelDepositType(Customer customer)
+        public DepositType GetAutoChannelDepositType(int siteId)
         {
             //nova88使用新的DepositType，Bwing&goal123調整OnlineBanking
-            return customer.SiteId == 1 ? DepositType.BankAutoChannel : DepositType.OnlineBanking;
+            return siteId == 1 ? DepositType.BankAutoChannel : DepositType.OnlineBanking;
         }
 
         public IEnumerable<AutoChannelBankInfo> GetAutoChannelBankInfoListByDepositType(int siteId, DepositType depositType)
