@@ -294,4 +294,11 @@
         INR = 61,
         USDT = 96
     }
+    public enum DeviceId
+    {
+        Old = 0,
+        Desktop = 1,
+        H5 = 2,
+        APP = 3
+    }
 }
