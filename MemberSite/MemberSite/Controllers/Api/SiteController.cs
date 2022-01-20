@@ -1270,15 +1270,14 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<IEnumerable<HotGame>>> GetHotGames(HotGameReq req)
         {
-            var domain = _serverInfoBll.GetMainDomain();
-            var data = _serverInfoBll.GetSeoWithCache(domain);
-
             int currencyId;
             int siteId;
-            if (data != null && !string.IsNullOrEmpty(data.DefaultLang))
+            if (User.Identity.IsAuthenticated)
             {
-                currencyId = _selLangBll.GetPreferCurrencyIdByLang(data.DefaultLang);
-                siteId = data.SiteId;
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                siteId = custInfo.SiteId;
+                currencyId = custInfo.CurrencyId;
             }
             else
             {
@@ -1287,7 +1286,7 @@ namespace MemberSite.Controllers.Api
                 currencyId = _selLangBll.GetPreferCurrencyId();
                 currencyId = currencyId == 13 ? 2 : currencyId;
             }
-            
+
             var apiResult = new ApiResult<IEnumerable<HotGame>>
             {
                 ErrorCode = 0, 
