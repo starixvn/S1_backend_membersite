@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MemberSite.Service.Model
 {
@@ -93,10 +94,49 @@ namespace MemberSite.Service.Model
 
     public class CryptoInfo
     {
-        public string CurrencyId { get; set; }
+        public int CurrencyId { get; set; }
 
         public string CurrencyName { get; set; }
 
+        public string Network { get; set; }
+    }
+
+    public class CryptoInfoData
+    {
+        /// <summary>
+        /// 加密貨幣幣別
+        /// </summary>
+        public IEnumerable<CryptoCurrency> CryptoCurrency { get; set; }
+
+        /// <summary>
+        /// 加密貨幣協定
+        /// </summary>
+        public IEnumerable<CryptoNetwork> CryptoNetwork { get; set; }
+    }
+
+    public class CryptoCurrency
+    {
+        public int CurrencyId { get; set; }
+        public string CurrencyName { get; set; }
+    }
+
+    internal class CryptoCurrencyComparer : EqualityComparer<CryptoCurrency>
+    {
+        public override bool Equals(CryptoCurrency x, CryptoCurrency y)
+        {
+            return x.CurrencyId == y.CurrencyId 
+                   && x.CurrencyName == y.CurrencyName;
+        }
+
+        public override int GetHashCode(CryptoCurrency obj)
+        {
+            return 0;
+        }
+    }
+
+    public class CryptoNetwork
+    {
+        public int CurrencyId { get; set; }
         public string Network { get; set; }
     }
 }
