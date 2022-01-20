@@ -413,7 +413,9 @@ namespace MemberSite.Service.BLL
                 return -2;
             }
 
-            var onlineBankList = bankInfoBLL.GetOnlineBankList(custInfo.SiteId);
+            var onlineBankList = depositType == DepositType.OnlineBanking ? 
+                bankInfoBLL.GetOnlineBankList(custInfo.SiteId) : 
+                bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType);
             onlineBank = onlineBankList.FirstOrDefault(x => vipLevel >= x.PointLevel && x.ChannelId == channelId && (x.SysId == sysId || !x.SelBank) && x.PayId == payId && (x.CurrencyId == custInfo.CurrencyId || !x.SelBank));
 
             if (onlineBank != null)

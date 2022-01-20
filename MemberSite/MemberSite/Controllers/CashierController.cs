@@ -423,7 +423,7 @@ namespace MemberSite.Controllers
             var url = depositType == DepositType.BankAutoChannel ? $"{payApiUrl}BankAutoChannel" : $"{payApiUrl}ReqDepositBank";
             
             //取得可用銀行列表
-            var bankList = _bankInfoBLL.GetAutoChannelBankInfoList(custInfo, vipLevel)
+            var bankList = _bankInfoBLL.GetAutoChannelBankList(custInfo, vipLevel)
                 .Where(i => i.SysId == sysId && Amount <= i.MaxAmount && Amount >= i.MinAmount);
           
             foreach (var bank in bankList.OrderBy(i => i.SSort))
@@ -465,7 +465,7 @@ namespace MemberSite.Controllers
 
             return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", new ErrorData
             {
-                Message = "all Channel fail."
+                Message = "All Channel fail."
             });
 
         }
