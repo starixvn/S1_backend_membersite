@@ -109,8 +109,7 @@ namespace MemberSite.Controllers
                     }
                     else
                     {
-                        ViewBag.Message = apiResult.Message;
-                        return View();
+                        return base.Content(apiResult.Message, "text/html");
                     }
                 }
                 else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
