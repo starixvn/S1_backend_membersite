@@ -27,6 +27,7 @@
         CryptoPayment = 4,
         LoadCardPayment = 5,
         QRPayPayment = 6,
+        BankAutoChannel = 7,
     }
 
     /// <summary>
