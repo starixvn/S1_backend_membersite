@@ -62,7 +62,7 @@ namespace MemberSite.Service.DAL
             return msgContent;
         }
         
-        public async Task<PopupMsg> GetPopupMessage(int custId)
+        public async Task<PopupMsg> GetPopupMessage(int custId, int pageSize = 10)
         {
             var p = new DynamicParameters(new {_CustId = custId});
             return await _reportClient.QueryFirstAsync<PopupMsg>("Member_PopupMsg_Get", p);
