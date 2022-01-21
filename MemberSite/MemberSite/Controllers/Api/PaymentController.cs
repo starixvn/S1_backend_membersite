@@ -1516,5 +1516,24 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0
             };
         }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<SysBankInfoFront>> GetAutoChannelBankGroupList()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var vipLevel = custInfoBLL.GetPointLevelWithCache(authData.CustId);
+            var result = bankInfoBLL.GetAutoChannelBankGroupList(custInfo, vipLevel).ToList();
+            if (custInfo.SiteId == (int)SiteId.Nova88 && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            {
+                bankInfoBLL.BankNameLocalization(result, authData.LangId);
+            }
+
+            return new ApiResult<IEnumerable<SysBankInfoFront>>
+            {
+                Data = result,
+                ErrorCode = 0
+            };
+        }
     }
 }
