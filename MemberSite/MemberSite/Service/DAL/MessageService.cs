@@ -17,17 +17,25 @@ namespace MemberSite.Service.DAL
     {
         private readonly IConfiguration configuration;
         private readonly MySqlClient _mainDbClient;
+        private readonly MySqlClient _reportClient;
 
         public MessageService(IServiceProvider provider)
         {
             configuration = provider.GetRequiredService<IConfiguration>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
+            _reportClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
         public bool SetRead(int msgId, int custId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Execute("Member_MsgRead_Set", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure) > 0;
+        }
+
+        public async Task<bool> SetReadPopupMessageTime(int custid, int taskId)
+        {
+            var p = new DynamicParameters(new {_CustId = custid, _TaskId = taskId});
+            return await _mainDbClient.ExecuteAsync("Member_PopupMsgRead_Set", p) > 0;
         }
 
         public IEnumerable<Msg> GetMsgList(int custId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
@@ -53,6 +61,19 @@ namespace MemberSite.Service.DAL
             var msgContent = conn.QueryFirstOrDefault<MsgContent>("MsgContent_Get", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure);
             return msgContent;
         }
+        
+        public async Task<PopupMsg> GetPopupMessage(int custId, int pageSize = 10)
+        {
+            var pageNumber = 0;
+            var p = new DynamicParameters(new {_CustId = custId, _PageSize = pageSize});
+            p.Add("_PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.Output);
+            var msg = await _reportClient.QueryFirstAsync<PopupMsg>("Member_PopupMsg_Get", p);
+            if (msg == null) return null;
+            pageNumber = p.Get<int>("_PageNumber");
+            msg.PageNumber = pageNumber;
+            return msg;
+        }
+        
         public bool DelMsg(int custId, int msgId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
