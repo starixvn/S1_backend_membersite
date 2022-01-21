@@ -460,7 +460,14 @@ namespace MemberSite.Controllers
                 });
                 if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
                 {
-                    return View(apiResult);
+                    if (string.IsNullOrEmpty(apiResult.Data.Message))
+                    {
+                        return View(apiResult);
+                    }
+                    else
+                    {
+                        return Content(apiResult.Data.Message, "text/html");
+                    }
                 }
                 else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
                 {

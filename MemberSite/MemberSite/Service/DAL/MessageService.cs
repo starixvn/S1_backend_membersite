@@ -64,14 +64,8 @@ namespace MemberSite.Service.DAL
         
         public async Task<PopupMsg> GetPopupMessage(int custId, int pageSize = 5)
         {
-            var pageNumber = 0;
-            var p = new DynamicParameters(new {_CustId = custId, _PageSize = pageSize});
-            p.Add("_PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.Output);
-            var msg = await _reportClient.QueryFirstAsync<PopupMsg>("Member_PopupMsg_Get", p);
-            if (msg == null) return null;
-            pageNumber = p.Get<int>("_PageNumber");
-            msg.PageNumber = pageNumber;
-            return msg;
+            var p = new DynamicParameters(new {_CustId = custId});
+            return await _reportClient.QueryFirstAsync<PopupMsg>("Member_PopupMsg_Get", p);
         }
         
         public bool DelMsg(int custId, int msgId)
