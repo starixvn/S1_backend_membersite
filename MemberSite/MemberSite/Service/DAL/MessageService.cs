@@ -62,7 +62,7 @@ namespace MemberSite.Service.DAL
             return msgContent;
         }
         
-        public async Task<PopupMsg> GetPopupMessage(int custId, int pageSize = 10)
+        public async Task<PopupMsg> GetPopupMessage(int custId, int pageSize = 5)
         {
             var pageNumber = 0;
             var p = new DynamicParameters(new {_CustId = custId, _PageSize = pageSize});
