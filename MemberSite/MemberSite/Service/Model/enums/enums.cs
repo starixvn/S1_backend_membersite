@@ -26,6 +26,8 @@
         LocalBank = 3,
         CryptoPayment = 4,
         LoadCardPayment = 5,
+        QRPayPayment = 6,
+        BankAutoChannel = 7,
     }
 
     /// <summary>
@@ -279,7 +281,11 @@
         Promotion = 0,
         Deposit = 1
     }
-    
+    public enum OTPType
+    {
+        SMS = 0,
+        Email = 1
+    }
     public enum CurrencyId
     {
         MYR = 2,

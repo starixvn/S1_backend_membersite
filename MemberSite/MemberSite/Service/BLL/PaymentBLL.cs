@@ -384,7 +384,7 @@ namespace MemberSite.Service.BLL
             return 0;
         }
 
-        public int DepositReqOnlineBanking(int custId, int sysId, int payId, int channelId, decimal amount, out string transId, out BankInfoPay onlineBank)
+        public int DepositReqOnlineBanking(int custId, int sysId, int payId, int channelId, decimal amount, out string transId, out BankInfoPay onlineBank, DepositType depositType = DepositType.OnlineBanking)
         {
             transId = null;
             onlineBank = null;
@@ -396,7 +396,7 @@ namespace MemberSite.Service.BLL
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
             var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
 
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)depositType && x.CurrencyId == custInfo.CurrencyId);
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
@@ -413,7 +413,9 @@ namespace MemberSite.Service.BLL
                 return -2;
             }
 
-            var onlineBankList = bankInfoBLL.GetOnlineBankList(custInfo.SiteId);
+            var onlineBankList = depositType == DepositType.OnlineBanking ? 
+                bankInfoBLL.GetOnlineBankList(custInfo.SiteId) : 
+                bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType);
             onlineBank = onlineBankList.FirstOrDefault(x => vipLevel >= x.PointLevel && x.ChannelId == channelId && (x.SysId == sysId || !x.SelBank) && x.PayId == payId && (x.CurrencyId == custInfo.CurrencyId || !x.SelBank));
 
             if (onlineBank != null)
@@ -432,7 +434,7 @@ namespace MemberSite.Service.BLL
                 {
                     Amount = amount,
                     CustId = custId,
-                    DepositType = (int)DepositType.OnlineBanking,
+                    DepositType = (int)depositType,
                     Memo = null,
                     SiteId = custInfo.SiteId,
                     UserName = custInfo.UserName,
