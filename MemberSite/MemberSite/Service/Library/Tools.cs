@@ -255,7 +255,7 @@ namespace MemberSite.Service.Library
 
         public DeviceId GetDeviceId(string url)
         {
-            var deviceType = DeviceId.Old;
+            var deviceType = DeviceId.Desktop;
             foreach (var (key, value) in _loginDeviceConfig.Value)
             {
                 if (url.Contains(value))
