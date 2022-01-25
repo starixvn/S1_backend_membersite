@@ -496,11 +496,8 @@ namespace MemberSite.Service.BLL
             {
                 return -1;
             }
-
-            var currencyEnum = (CryptoCurrencyId) uSDTDetail.CurrencyId;
-
+            
             withdrawalUSDTInfo.AccountType = "crypto";
-            withdrawalUSDTInfo.CryptoCurrency = currencyEnum.ToString();
             withdrawalUSDTInfo.AccountName = accountName;
             withdrawalUSDTInfo.NickName = uSDTDetail.NickName;
             withdrawalUSDTInfo.AccountNo = accountNo;
