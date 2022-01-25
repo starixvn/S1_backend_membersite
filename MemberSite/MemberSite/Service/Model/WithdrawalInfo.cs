@@ -19,7 +19,6 @@ namespace MemberSite.Service.Model
         public string AccountNo { get; set; }
         public string Network { set; get; }
         public int CurrencyId { set; get; }
-        public string CryptoCurrency { set; get; }
     }
     public class WithdrawalHistory
     {
