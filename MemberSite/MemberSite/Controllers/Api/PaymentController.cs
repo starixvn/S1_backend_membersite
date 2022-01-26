@@ -627,7 +627,8 @@ namespace MemberSite.Controllers.Api
             }
 
             var usdtDetail = custBankInfo.usdtDetail
-                .FirstOrDefault(x => x.USDTAddress == withdrawalReqModel.AccountNo);
+                .FirstOrDefault(x => x.USDTAddress == withdrawalReqModel.AccountNo
+                                     && x.CurrencyId == withdrawalReqModel.CurrencyId);
             var usdtWithdrawalLimitInfo = paymentBLL.GetUSDTWithdrawalLimitInfoV2(new USDTWithdrawalLimitInfoInput
             {
                 SiteId = custInfo.SiteId,
