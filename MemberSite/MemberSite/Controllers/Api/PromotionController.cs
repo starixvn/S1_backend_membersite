@@ -111,7 +111,9 @@ namespace MemberSite.Controllers.Api
                 {
                     deviceType = promotionReq.DeviceType;
                 }
-                apiResult = await _promotionBLL.SetClaimPromotionAsync(authData.CustId, promotionReq.BonusCode, promotionReq.LockedAmount, deviceType);
+               // apiResult = await _promotionBLL.SetClaimPromotionAsync(authData.CustId, promotionReq.BonusCode, promotionReq.LockedAmount, deviceType);
+                apiResult = await _promotionBLL.SetClaimPromotionV2Async(authData.CustId, promotionReq.BonusCode, promotionReq.LockedAmount, deviceType);
+                
             }
             catch (Exception ex)
             {
