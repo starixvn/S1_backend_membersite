@@ -43,6 +43,7 @@ namespace MemberSite.Controllers.Api
         private readonly FPSBLL _sFpsBll;
         private readonly GameCasinoBll _gameCasinoBll;
         private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
+        private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
         private readonly Regex _regexUserName = new Regex(@"^[a-zA-Z0-9]{6,18}$");
         private readonly Regex _regexAffCode = new Regex(@"^[0-9]{5,20}$");
         private readonly ThirdPartyBll _thirdPartyBll;
@@ -64,6 +65,7 @@ namespace MemberSite.Controllers.Api
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
             _gameCasinoBll = provider.GetRequiredService<GameCasinoBll>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
+            _loginDeviceConfig = provider.GetRequiredService<IOptions<Dictionary<string, string>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
         }
 
@@ -71,6 +73,7 @@ namespace MemberSite.Controllers.Api
         {
             public string UserName { get; set; }
             public string Userpwd { get; set; }
+            
             public bool isPersistent { get; set; }
             public string url { get; set; }
             public string platform { get; set; }
@@ -92,8 +95,10 @@ namespace MemberSite.Controllers.Api
 
             Customer customer = null;
             var ip = _tools.GetClientIP();
-            var userLoginResult = _custInfoBll.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, _tools.GetFromUrl(),
-                Request.Headers["User-Agent"], ref customer, out var token);
+            var fromUrl = _tools.GetFromUrl();
+            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+            var userLoginResult = _custInfoBll.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
+                Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             switch (userLoginResult)
             {
@@ -178,8 +183,10 @@ namespace MemberSite.Controllers.Api
 
             Customer customer = null;
             var ip = _tools.GetClientIP();
-            var userLoginResult = _custInfoBll.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, _tools.GetFromUrl(),
-                Request.Headers["User-Agent"], ref customer, out var token);
+            var fromUrl = _tools.GetFromUrl();
+            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+            var userLoginResult = _custInfoBll.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
+                Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             switch (userLoginResult)
             {
@@ -340,8 +347,9 @@ namespace MemberSite.Controllers.Api
                 });
 
                 Customer customer = null;
-                string token = null;
-                var userLoginResult = _custInfoBll.UserLogin(registeredModel.UserName, registeredModel.Userpwd, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
+                var fromUrl = _tools.GetFromUrl();
+                var deviceType = (int) _tools.GetDeviceId(fromUrl);
+                var userLoginResult = _custInfoBll.UserLogin(registeredModel.UserName, registeredModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out string token);
 
                 if (userLoginResult == -1)
                 {
@@ -533,7 +541,9 @@ namespace MemberSite.Controllers.Api
                             });
 
                             Customer customer = null;
-                            var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
+                            var fromUrl = _tools.GetFromUrl();
+                            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+                            var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
                             switch (userLoginResult)
                             {
@@ -716,7 +726,9 @@ namespace MemberSite.Controllers.Api
                             });
 
                             Customer customer = null;
-                            var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
+                            var fromUrl = _tools.GetFromUrl();
+                            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+                            var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out var token);
 
                             switch (userLoginResult)
                             {
@@ -828,9 +840,9 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<bool>(_selLangBll);
             try
             {
-
-                Customer custInfo = null;
-
+                Customer custInfo;
+                var host = Request.Host.ToString();
+                var deviceType = (int) _tools.GetDeviceId(host);
                 var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "ResetPassword", controller = "Home", LangId = _selLangBll.GetLangId() }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
                 if (!string.IsNullOrEmpty(forgetPwdReq.Username))
                 {
@@ -1283,7 +1295,9 @@ namespace MemberSite.Controllers.Api
             if (_authBll.Authenticate(key, out CustInfoProfile custInfoProfile))
             {
                 Customer customer = null;
-                var userLoginResult = _custInfoBll.UserLoginForResetPwd(custInfoProfile.UserName, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
+                var fromUrl = _tools.GetFromUrl();
+                var deviceType = (int) _tools.GetDeviceId(fromUrl);
+                var userLoginResult = _custInfoBll.UserLoginForResetPwd(custInfoProfile.UserName, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out var token);
                 switch (userLoginResult)
                 {
                     case 0:

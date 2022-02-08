@@ -148,8 +148,10 @@ namespace MemberSite.Controllers
                 _commonBll.SendWelcomeMail(custId);
 
                 Customer customer = null;
-                string token = null;
-                var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
+                var fromUrl = _tools.GetFromUrl();
+                var deviceType = (int) _tools.GetDeviceId(fromUrl);
+                
+                var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out string token);
 
                 if (userLoginResult == -1)
                 {

@@ -38,7 +38,7 @@ namespace MemberSite.Service.DAL
                 }
             });
         }
-        public void AddLoginRecord(int custId, int siteId, string ip, out string token)
+        public void AddLoginRecord(int custId, int siteId, string ip,int deviceType, out string token)
         {
             token = tools.GetToken();
             using (var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
@@ -46,7 +46,7 @@ namespace MemberSite.Service.DAL
                 conn.Open();
                 using (var trans = conn.BeginTransaction())
                 {
-                    conn.Execute("LoginRecord_Set", new { CustId = custId, SiteId = siteId, IP = ip, Token = token }, trans, commandType: CommandType.StoredProcedure);
+                    conn.Execute("LoginRecord_Set_V2", new { CustId = custId, SiteId = siteId, IP = ip, Token = token ,DeviceType = deviceType}, trans, commandType: CommandType.StoredProcedure);
                     trans.Commit();
                 }
             }

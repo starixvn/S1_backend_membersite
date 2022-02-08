@@ -171,7 +171,7 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(1)),
                 i => _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId));
         }
-        public int UserLogin(string userName, string pwd, string ip, string fromUrl, string userAgent, ref Customer customer, out string token)
+        public int UserLogin(string userName, string pwd, string ip, string fromUrl, string userAgent,int deviceType ,ref Customer customer, out string token)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             customer = _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId);
@@ -191,12 +191,12 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
-            _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, out token);
+            _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip , deviceType , out token);
             _authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
             return 0;
         }
 
-        public int UserLoginForResetPwd(string userName, string ip, string fromUrl, string userAgent, ref Customer customer, out string token)
+        public int UserLoginForResetPwd(string userName, string ip, string fromUrl, string userAgent,int deviceType, ref Customer customer, out string token)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             customer = _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId);
@@ -211,7 +211,7 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
-            _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, out token);
+            _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip,deviceType, out token);
             _authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
             return 0;
         }
