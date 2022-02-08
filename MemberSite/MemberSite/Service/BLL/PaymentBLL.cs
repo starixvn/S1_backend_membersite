@@ -172,8 +172,7 @@ namespace MemberSite.Service.BLL
                 return -1;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
-            var bankAccountOffList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
-            var localBankList = JsonConvert.DeserializeObject<List<BankInfoOff>>(JsonConvert.SerializeObject(bankAccountOffList));
+            var localBankList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
             var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
