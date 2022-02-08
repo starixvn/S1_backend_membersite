@@ -62,10 +62,16 @@ namespace MemberSite.Service.DAL
             return msgContent;
         }
         
-        public async Task<PopupMsg> GetPopupMessage(int custId, int pageSize = 10)
+        public async Task<PopupMsg> GetPopupMessage(int custId, int pageSize = 5)
         {
-            var p = new DynamicParameters(new {_CustId = custId});
-            return await _reportClient.QueryFirstAsync<PopupMsg>("Member_PopupMsg_Get", p);
+            var pageNumber = 0;
+            var p = new DynamicParameters(new {_CustId = custId, _PageSize = pageSize});
+            p.Add("_PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.Output);
+            var msg = await _reportClient.QueryFirstAsync<PopupMsg>("Member_PopupMsg_Get_V2", p);
+            if (msg == null) return null;
+            pageNumber = p.Get<int>("_PageNumber");
+            msg.PageNumber = pageNumber;
+            return msg;
         }
         
         public bool DelMsg(int custId, int msgId)
