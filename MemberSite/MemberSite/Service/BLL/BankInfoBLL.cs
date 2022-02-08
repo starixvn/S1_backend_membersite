@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MemberSite.Service.Library;
 using Microsoft.Extensions.DependencyInjection;
+using MemberSite.Extensions;
 
 namespace MemberSite.Service.BLL
 {
@@ -55,6 +56,37 @@ namespace MemberSite.Service.BLL
                 i => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId));
             return result?.Where(x => x.CurrencyId == currencyId);
         }
+
+        public IEnumerable<BankInfoName> GetBankInfoName(string lang)
+        {
+            var key = $"BankInfoNameList_{lang}";
+            var result = _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
+                i => _bankInfoService.GetBankInfoNameList(lang));
+
+            return result;
+        }
+
+        public void BankNameLocalization(in List<BankInfoSys> list, string lang)
+        {
+            var bankNameList = GetBankInfoName(lang);
+            if (bankNameList.Any())
+            {
+                list.ForEach(x => x.BankName =
+                    bankNameList.FirstOrDefault(y => y.SysId == x.SysId)?.BankName ?? x.BankName);
+            }
+        }
+
+        public void BankNameLocalization(in List<SysBankInfoFront> list, string lang)
+        {
+            var bankNameList = GetBankInfoName(lang);
+            if (bankNameList.Any())
+            {
+                list.ForEach(x => x.BankName =
+                    bankNameList.FirstOrDefault(y => y.SysId == x.SysId)?.BankName ?? x.BankName);
+            }
+        }
+
         private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>
         {
             public bool Equals(SysBankInfoFront t1, SysBankInfoFront t2)
@@ -213,6 +245,41 @@ namespace MemberSite.Service.BLL
             return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
                 i => _payService.GetPayCurrency());
+        }
+
+
+        public IEnumerable<SysBankInfoFront> GetAutoChannelBankGroupList(Customer customer, int vipLevel)
+        {
+            return GetAutoChannelBankList(customer, vipLevel)
+                    .GroupBy(bank => bank.SysId)
+                    .Select(reuslt => new SysBankInfoFront
+                    {
+                        SysId = reuslt.Key,
+                        BankCode = reuslt.First().SysBankCode,
+                        BankLogo = reuslt.First().BankLogo,
+                        BankName = reuslt.First().SysBankName,
+                        MaxAmount = reuslt.Max(i => i.MaxAmount),
+                        MinAmount = reuslt.Min(i => i.MinAmount),
+                    });
+        }
+
+        public IEnumerable<AutoChannelBankInfo> GetAutoChannelBankList(Customer customer, int vipLevel)
+        {
+            return GetAutoChannelBankInfoList(customer.SiteId, GetAutoChannelDepositType(customer.SiteId))
+                    .Where(i => vipLevel >= i.PointLevel && i.CurrencyId == customer.CurrencyId && (i.Method == 0 || i.Method == 1) && i.SelBank);
+        }
+
+        public DepositType GetAutoChannelDepositType(int siteId)
+        {
+            //nova88使用新的DepositType，Bwing&goal123調整OnlineBanking
+            return siteId == 1 ? DepositType.BankAutoChannel : DepositType.OnlineBanking;
+        }
+
+        public IEnumerable<AutoChannelBankInfo> GetAutoChannelBankInfoList(int siteId, DepositType depositType)
+        {
+            return _cacheHelper.TryGetOrCreate($"BankInfoPayList_{siteId}_{depositType}",
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)),
+                i => _bankInfoService.GetAutoChannelBankInfoList(siteId, depositType));
         }
     }
 }

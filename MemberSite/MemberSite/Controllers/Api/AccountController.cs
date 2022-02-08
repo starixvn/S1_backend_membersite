@@ -392,7 +392,13 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<CustBankInfoRep>(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId);
+            var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId).ToList();
+
+            if (custInfo.SiteId == (int)SiteId.Nova88
+                && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            {
+                _bankInfoBll.BankNameLocalization(bankInfoSysList, authData.LangId);
+            }
 
             var custBankInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<CustBankInfoRep>(Newtonsoft.Json.JsonConvert.SerializeObject(_custInfoBll.GetCustBankInfo(authData.CustId)));
 
@@ -485,7 +491,7 @@ namespace MemberSite.Controllers.Api
         public class MsgReq
         {
             public int PageNumber { get; set; }
-            //public int PageSize { get; set; }
+            public int PageSize { get; set; }
         }
 
         [HttpPost]
@@ -494,7 +500,8 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiListResult<Msg>();
             var pageNumber = msgReq.PageNumber;
-            apiResult.Data = _messageBll.GetMsgList(authData.CustId, 5, ref pageNumber, out var totalPages, out var rowCount);
+            var pageSize = msgReq.PageSize == 0 ? 5 : msgReq.PageSize;
+            apiResult.Data = _messageBll.GetMsgList(authData.CustId, pageSize, ref pageNumber, out var totalPages, out var rowCount);
             apiResult.PageNumber = pageNumber;
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;
@@ -540,6 +547,30 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+        
+        [HttpPost]
+        public async Task<ApiResult<PopupMsg>> GetPopupMsg()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            var apiResult = new ApiResult<PopupMsg>
+            {
+                Data = await _messageBll.GetPopupMessage(authData.CustId),
+                ErrorCode = 0
+            };
+            return apiResult;
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult> SetPopupMsgRead()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            var apiResult = new ApiResult()
+            {
+                ErrorCode = await _messageBll.SetPopupMsgRead(authData.CustId) ? 0 : 99
+            };
+            return apiResult;
+        }
+        
         public class DelMsgReq
         {
             public int[] MsgIds { get; set; }
@@ -1090,6 +1121,29 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = 0;
             }
 
+            return apiResult;
+        }
+        public class SetCustActStatusReq
+        {
+            public int CustId { get; set; }
+            public string Operator { get; set; }
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public ApiResult<bool> SetCustActStatus(SetCustActStatusReq setCustActStatusReq)
+        {
+            var apiResult = new ApiResult<bool>(_selLangBll);
+            int setResult = _custInfoBll.SetCustActStatus(setCustActStatusReq.CustId, setCustActStatusReq.Operator);
+            if (setResult > 0)
+            {
+                apiResult.Data = true;
+                apiResult.ErrorCode = 0;
+            }
+            else
+            {
+                apiResult.Data = false;
+                apiResult.ErrorCode = 99;
+            }
             return apiResult;
         }
     }
