@@ -65,7 +65,8 @@ namespace MemberSite.Service.Model
     public class USDTWithdrawalLimitInfoOutput: WithdrawalLimitInfoOutput
     {
         public string Network { get; set; }
-
+        public int CurrencyId { get; set; }
+        public string CurrencyName { get; set; }
     }
 
     public class WithdrawalLimitOutput
@@ -73,7 +74,7 @@ namespace MemberSite.Service.Model
         public decimal WithdrawalMin { get; set; }
         public bool Unlimited { get; set; }
         public decimal WithdrawalAvailableAmount { get; set; }
-        public List<USDTWithdrawalLimitOutput> USDTList { get; set; }
+        public List<CryptoWithdrawalLimitOutput> CryptoList { get; set; }
     }
 
     public class DailyCustomerWithdrawalInfoInput
@@ -95,8 +96,10 @@ namespace MemberSite.Service.Model
     {
         public bool WithdrawalExists { get; set; }
     }
-    public class USDTWithdrawalLimitOutput 
+    public class CryptoWithdrawalLimitOutput
     {
+        public int CurrencyId { get; set; }
+        public string CurrencyName { get; set; }
         public string Network { get; set; }
         public decimal WithdrawalMin { get; set; }
         public bool Unlimited { get; set; }
