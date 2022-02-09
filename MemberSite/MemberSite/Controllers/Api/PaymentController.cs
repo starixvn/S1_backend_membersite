@@ -1269,7 +1269,7 @@ namespace MemberSite.Controllers.Api
                 WithdrawalAvailableAmount = output.WithdrawalMax == 0
                     ? dailyCustomerWithdrawalInfo.Amount
                     : output.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount,
-                CryptoList = cryptoList
+                USDTList = cryptoList
             };
 
             var apiResult = new ApiResult<WithdrawalLimitOutput>
