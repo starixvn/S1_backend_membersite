@@ -267,7 +267,9 @@
     public enum NetworkType
     {
         ERC20,
-        TRC20
+        TRC20,
+        ETH,
+        BTC
     }
 
     public enum ActStatus
