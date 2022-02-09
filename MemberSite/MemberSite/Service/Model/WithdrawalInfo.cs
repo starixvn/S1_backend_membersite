@@ -74,7 +74,7 @@ namespace MemberSite.Service.Model
         public decimal WithdrawalMin { get; set; }
         public bool Unlimited { get; set; }
         public decimal WithdrawalAvailableAmount { get; set; }
-        public List<CryptoWithdrawalLimitOutput> CryptoList { get; set; }
+        public List<CryptoWithdrawalLimitOutput> USDTList { get; set; }
     }
 
     public class DailyCustomerWithdrawalInfoInput
