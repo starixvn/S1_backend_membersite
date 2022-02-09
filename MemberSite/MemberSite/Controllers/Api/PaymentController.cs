@@ -635,7 +635,7 @@ namespace MemberSite.Controllers.Api
                 VipLevel = custInfo.UserLevel,
                 CryptoCurrencyId = usdtDetail.CurrencyId,
                 Network = usdtDetail.Network
-            });
+            }).FirstOrDefault();
 
             if (usdtWithdrawalLimitInfo != null
                 && usdtWithdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
@@ -1218,32 +1218,34 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<WithdrawalLimitOutput> GetWithdrawalLimit()
         {
-            List<USDTWithdrawalLimitOutput> USDTList = new List<USDTWithdrawalLimitOutput>();
+            var cryptoList = new List<CryptoWithdrawalLimitOutput>();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+
             var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(new WithdrawalLimitInfoInput
-            { SiteId = custInfo.SiteId, CurrencyId = custInfo.CurrencyId, VipLevel = custInfo.UserLevel });
-            var dailyCustomerWithdrawalInfo = paymentBLL.GetDailyCustomerWithdrawalInfo(new DailyCustomerWithdrawalInfoInput { CustId = custInfo.CustId });
-            var USDTwithdrawalLimitInfo = paymentBLL.GetUSDTWithdrawalLimitInfoList(new USDTWithdrawalLimitInfoInput
-            { SiteId = custInfo.SiteId, CurrencyId = custInfo.CurrencyId, VipLevel = custInfo.UserLevel, Network = null }).ToList();
-
-            foreach (string name in Enum.GetNames(typeof(NetworkType)))
             {
-                if (!USDTwithdrawalLimitInfo.ToList().Any(b => b.Network == name))
-                {
-                    USDTwithdrawalLimitInfo.Add(new USDTWithdrawalLimitInfoOutput
-                    {
-                        Network = name,
-                        WithdrawalMax = 0,
-                        WithdrawalMin = 0
-                    });
-                }
-            }
+                SiteId = custInfo.SiteId,
+                CurrencyId = custInfo.CurrencyId,
+                VipLevel = custInfo.UserLevel
+            });
 
-            USDTwithdrawalLimitInfo.ForEach(x =>
+            var dailyCustomerWithdrawalInfo =
+                paymentBLL.GetDailyCustomerWithdrawalInfo(new DailyCustomerWithdrawalInfoInput { CustId = custInfo.CustId });
+            
+            var cryptoWithdrawalLimitInfo = paymentBLL.GetUSDTWithdrawalLimitInfoV2(new USDTWithdrawalLimitInfoInput
             {
-                USDTList.Add(new USDTWithdrawalLimitOutput
+                SiteId = custInfo.SiteId,
+                CurrencyId = custInfo.CurrencyId,
+                VipLevel = custInfo.UserLevel,
+                CryptoCurrencyId = 0
+            }).ToList();
+            
+            cryptoWithdrawalLimitInfo.ForEach(x =>
+            {
+                cryptoList.Add(new CryptoWithdrawalLimitOutput
                 {
+                    CurrencyId = x.CurrencyId,
+                    CurrencyName = x.CurrencyName,
                     Network = x.Network,
                     WithdrawalMin = x.WithdrawalMin,
                     Unlimited = x.WithdrawalMax == 0,
@@ -1252,7 +1254,13 @@ namespace MemberSite.Controllers.Api
                     : x.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount
                 });
             });
-            var output = withdrawalLimitInfo ?? new WithdrawalLimitInfoOutput() { WithdrawalMin = 0, WithdrawalMax = 0 };
+
+            var output = withdrawalLimitInfo ?? new WithdrawalLimitInfoOutput()
+            {
+                WithdrawalMin = 0,
+                WithdrawalMax = 0
+            };
+
             var data = new WithdrawalLimitOutput
             {
                 WithdrawalMin = output.WithdrawalMin,
@@ -1260,8 +1268,9 @@ namespace MemberSite.Controllers.Api
                 WithdrawalAvailableAmount = output.WithdrawalMax == 0
                     ? dailyCustomerWithdrawalInfo.Amount
                     : output.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount,
-                USDTList = USDTList
+                CryptoList = cryptoList
             };
+
             var apiResult = new ApiResult<WithdrawalLimitOutput>
             {
                 Data = data,

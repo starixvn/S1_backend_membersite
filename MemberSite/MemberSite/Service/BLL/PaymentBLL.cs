@@ -781,7 +781,7 @@ namespace MemberSite.Service.BLL
             return withdrawalService.GetUSDTWithdrawalLimitInfo(input);
         }
 
-        public WithdrawalLimitInfoOutput GetUSDTWithdrawalLimitInfoV2(USDTWithdrawalLimitInfoInput input)
+        public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoV2(USDTWithdrawalLimitInfoInput input)
         {
             return withdrawalService.GetUSDTWithdrawalLimitInfoV2(input);
         }
