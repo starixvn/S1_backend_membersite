@@ -1221,7 +1221,8 @@ namespace MemberSite.Controllers.Api
         {
             var cryptoList = new List<CryptoWithdrawalLimitOutput>();
             var authData = authorizeBLL.GetAuthData();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var a = 249674;
+            var custInfo = custInfoBLL.GetCustInfoWithCache(a);
 
             var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(new WithdrawalLimitInfoInput
             {
@@ -1240,9 +1241,15 @@ namespace MemberSite.Controllers.Api
                 VipLevel = custInfo.UserLevel,
                 CryptoCurrencyId = 0
             }).ToList();
-            
+
+            var tmpWithdrawalAvailableAmount = 0m;
+
             cryptoWithdrawalLimitInfo.ForEach(x =>
             {
+                tmpWithdrawalAvailableAmount = x.WithdrawalMax == 0
+                    ? dailyCustomerWithdrawalInfo.Amount
+                    : x.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount;
+
                 cryptoList.Add(new CryptoWithdrawalLimitOutput
                 {
                     CurrencyId = x.CurrencyId,
@@ -1250,9 +1257,8 @@ namespace MemberSite.Controllers.Api
                     Network = x.Network,
                     WithdrawalMin = x.WithdrawalMin,
                     Unlimited = x.WithdrawalMax == 0,
-                    WithdrawalAvailableAmount = x.WithdrawalMax == 0
-                    ? dailyCustomerWithdrawalInfo.Amount
-                    : x.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount
+                    WithdrawalAvailableAmount = tmpWithdrawalAvailableAmount < 0 
+                        ? 0 : tmpWithdrawalAvailableAmount
                 });
             });
 
@@ -1262,13 +1268,16 @@ namespace MemberSite.Controllers.Api
                 WithdrawalMax = 0
             };
 
+            tmpWithdrawalAvailableAmount = output.WithdrawalMax == 0
+                ? dailyCustomerWithdrawalInfo.Amount
+                : output.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount;
+
             var data = new WithdrawalLimitOutput
             {
                 WithdrawalMin = output.WithdrawalMin,
                 Unlimited = output.WithdrawalMax == 0,
-                WithdrawalAvailableAmount = output.WithdrawalMax == 0
-                    ? dailyCustomerWithdrawalInfo.Amount
-                    : output.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount,
+                WithdrawalAvailableAmount = tmpWithdrawalAvailableAmount < 0
+                    ? 0 : tmpWithdrawalAvailableAmount,
                 USDTList = cryptoList
             };
 
