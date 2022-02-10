@@ -1220,8 +1220,7 @@ namespace MemberSite.Controllers.Api
         {
             var cryptoList = new List<CryptoWithdrawalLimitOutput>();
             var authData = authorizeBLL.GetAuthData();
-            var a = 249674;
-            var custInfo = custInfoBLL.GetCustInfoWithCache(a);
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
             var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(new WithdrawalLimitInfoInput
             {
