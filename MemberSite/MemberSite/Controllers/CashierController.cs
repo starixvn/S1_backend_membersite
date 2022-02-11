@@ -462,7 +462,7 @@ namespace MemberSite.Controllers
                 {
                     if (string.IsNullOrEmpty(apiResult.Data.Message))
                     {
-                        return View(apiResult);
+                        return View("DepositReqOnlineBanking",apiResult);
                     }
                     else
                     {
