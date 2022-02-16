@@ -324,4 +324,7 @@
   <data name="msg_OTPHint" xml:space="preserve">
     <value>請完成您的個人資料並驗證您的手機號碼以享受我們的促銷</value>
   </data>
+  <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
+    <value>您的加密錢包地址格式不符！</value>
+  </data>
 </root>

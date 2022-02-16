@@ -347,4 +347,7 @@
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>Phone Format is wrong.</value>
   </data>
+  <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
+    <value>अमान्य क्रिप्टो वॉलेट पता।</value>
+  </data>
 </root>

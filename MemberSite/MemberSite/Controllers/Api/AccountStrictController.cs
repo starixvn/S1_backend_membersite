@@ -26,6 +26,7 @@ namespace MemberSite.Controllers.Api
         private readonly CommonBLL _commonBLL;
         private readonly ServerInfoBll _serverInfoBLL;
         private readonly ImageEditorBLL _imageEditorBll;
+        private readonly CryptoPayInfoBll _cryptoPayInfoBLL;
 
         public AccountStrictController(IServiceProvider provider)
         {
@@ -36,6 +37,7 @@ namespace MemberSite.Controllers.Api
             _commonBLL = provider.GetRequiredService<CommonBLL>();
             _serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
             _imageEditorBll = provider.GetRequiredService<ImageEditorBLL>();
+            _cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
         }
 
         public class BankInfo
@@ -203,6 +205,14 @@ namespace MemberSite.Controllers.Api
 
             List<USDTDetail> uSDTInfoList = null;
             var uSDTInfoLogList = new List<USDTDetail>();
+
+            if (custUSDTInfoBatchreq.USDTInfo.Any(x =>
+                    !_cryptoPayInfoBLL.CryptoAddressValidation(x.Network, x.USDTAddress)))
+            {
+                apiResult.ErrorCode = -5; // 錢包地址格式錯誤
+                apiResult.Message = _selLangBLL.GetMsg("msg_InvalidCryptoWalletAddress");
+                return apiResult;
+            }
             
             if (custUSDTInfoBatchreq.USDTInfo.GroupBy(i => new { i.USDTAddress, i.CurrencyId }) // 可能幣種不同但錢包位址相同
                 .Any(g => g.Count() > 1))
