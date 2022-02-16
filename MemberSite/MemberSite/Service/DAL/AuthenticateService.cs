@@ -51,12 +51,9 @@ namespace MemberSite.Service.DAL
                 }
             }
         }
-        public bool UpdateOnline(int custId, bool isOnline, string token, string ip)
+        public bool UpdateOnline(int custId, bool isOnline, string token, string ip ,int? deviceType)
         {
-            using (var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
-            {
-                return conn.Execute("LoginCheckIn_Set", new { IsOnline = isOnline, CustId = custId, IP = ip, Token = token }, commandType: CommandType.StoredProcedure) > 0;
-            }
+            return _mainDbClient.Execute("LoginCheckIn_Set_V2", new DynamicParameters(new { IsOnline = isOnline, CustId = custId, IP = ip, Token = token ,DeviceType = deviceType })) > 0;
         }
         
         public OnUser GetOnUser(int custId)
