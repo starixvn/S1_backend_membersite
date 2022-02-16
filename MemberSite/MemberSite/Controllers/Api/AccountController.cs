@@ -71,7 +71,9 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
-            var result = _authorizeBll.LoginCheckin();
+            var fromUrl = _tools.GetFromUrl();
+            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+            var result = _authorizeBll.LoginCheckin(deviceType);
             if (!result)
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -95,7 +97,9 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
-            var result = _authorizeBll.LoginCheckin();
+            var fromUrl = _tools.GetFromUrl();
+            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+            var result = _authorizeBll.LoginCheckin(deviceType);
             if (!result)
             {
                 //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
