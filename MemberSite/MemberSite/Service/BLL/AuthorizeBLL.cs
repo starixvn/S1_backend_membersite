@@ -29,12 +29,11 @@ namespace MemberSite.Service.BLL
             _jwtConfig = provider.GetRequiredService<IOptions<JwtConfig>>()?.Value;
         }
 
-        public bool LoginCheckin()
+        public bool LoginCheckin(int? deviceType)
         {
             var authData = GetAuthData();
-
             var ip = tools.GetClientIP();
-            var result = authenticateService.UpdateOnline(authData.CustId, true, authData.Token, ip);
+            var result = authenticateService.UpdateOnline(authData.CustId, true, authData.Token, ip, deviceType);
 
             return result;
         }
@@ -68,7 +67,7 @@ namespace MemberSite.Service.BLL
             var authData = GetAuthData();
 
             var ip = tools.GetClientIP();
-            var result = authenticateService.UpdateOnline(authData.CustId, false, authData.Token, ip);
+            var result = authenticateService.UpdateOnline(authData.CustId, false, authData.Token, ip ,null);
 
             return result;
         }
