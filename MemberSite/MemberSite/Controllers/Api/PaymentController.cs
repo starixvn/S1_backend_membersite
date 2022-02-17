@@ -1411,6 +1411,12 @@ namespace MemberSite.Controllers.Api
                             apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed");
                             return apiResult;
                         }
+                        else
+                        {
+                            apiResult.ErrorCode = 1000;
+                            apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
+                            return apiResult;
+                        }
                     }
                     apiResult.ErrorCode = 0;
                     apiResult.Data = new CheckDepositSpecialCodeRsp() { BonusCode = promotion.BonusCode };
@@ -1444,6 +1450,12 @@ namespace MemberSite.Controllers.Api
                                 {
                                     apiResult.ErrorCode = 3000;
                                     apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed");
+                                    return apiResult;
+                                }
+                                else
+                                {
+                                    apiResult.ErrorCode = 1000;
+                                    apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
                                     return apiResult;
                                 }
                             }
@@ -1480,6 +1492,12 @@ namespace MemberSite.Controllers.Api
                         {
                             apiResult.ErrorCode = 3000;
                             apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed");
+                            return apiResult;
+                        }
+                        else
+                        {
+                            apiResult.ErrorCode = 1000;
+                            apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
                             return apiResult;
                         }
                     }
