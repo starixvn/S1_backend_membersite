@@ -34,10 +34,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 1)
         {
-            var key = $"BankInfoOffList_{siteId}_{queryType}";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
-                i => _bankInfoService.GetBankAccountOff(siteId, queryType).Where(x => (x.Purpose & 1) == 1));
+            return _bankInfoService.GetBankAccountOff(siteId, queryType).Where(x => (x.Purpose & 1) == 1);
         }
 
         private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>

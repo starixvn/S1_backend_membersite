@@ -71,7 +71,9 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
-            var result = _authorizeBll.LoginCheckin();
+            var fromUrl = _tools.GetFromUrl();
+            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+            var result = _authorizeBll.LoginCheckin(deviceType);
             if (!result)
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -95,7 +97,9 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
-            var result = _authorizeBll.LoginCheckin();
+            var fromUrl = _tools.GetFromUrl();
+            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+            var result = _authorizeBll.LoginCheckin(deviceType);
             if (!result)
             {
                 //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -491,7 +495,7 @@ namespace MemberSite.Controllers.Api
         public class MsgReq
         {
             public int PageNumber { get; set; }
-            //public int PageSize { get; set; }
+            public int PageSize { get; set; }
         }
 
         [HttpPost]
@@ -500,7 +504,8 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiListResult<Msg>();
             var pageNumber = msgReq.PageNumber;
-            apiResult.Data = _messageBll.GetMsgList(authData.CustId, 5, ref pageNumber, out var totalPages, out var rowCount);
+            var pageSize = msgReq.PageSize == 0 ? 5 : msgReq.PageSize;
+            apiResult.Data = _messageBll.GetMsgList(authData.CustId, pageSize, ref pageNumber, out var totalPages, out var rowCount);
             apiResult.PageNumber = pageNumber;
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;
@@ -546,6 +551,30 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+        
+        [HttpPost]
+        public async Task<ApiResult<PopupMsg>> GetPopupMsg()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            var apiResult = new ApiResult<PopupMsg>
+            {
+                Data = await _messageBll.GetPopupMessage(authData.CustId),
+                ErrorCode = 0
+            };
+            return apiResult;
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult> SetPopupMsgRead()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            var apiResult = new ApiResult()
+            {
+                ErrorCode = await _messageBll.SetPopupMsgRead(authData.CustId) ? 0 : 99
+            };
+            return apiResult;
+        }
+        
         public class DelMsgReq
         {
             public int[] MsgIds { get; set; }

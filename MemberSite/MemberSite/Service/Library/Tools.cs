@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -15,15 +16,18 @@ namespace MemberSite.Service.Library
     public class Tools
     {
         private readonly IOptions<JwtConfig> jwtConfig;
+        private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
         private readonly Regex _regexPasswordNova = new Regex(@"^(?=.*[a-zA-Z0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,15}$", RegexOptions.Singleline);
         private readonly Regex _regexPasswordGaolBwing = new Regex(@"^(?=.{6,15}$)[a-zA-Z0-9!@#$%^&*]*$", RegexOptions.Singleline);
         public IHttpContextAccessor httpContextAccessor { get; }
 
-        public Tools(IHttpContextAccessor httpContextAccessor, IOptions<JwtConfig> jwtConfig)
+        public Tools(IHttpContextAccessor httpContextAccessor, IOptions<JwtConfig> jwtConfig ,IOptions<Dictionary<string, string>> loginDeviceConfig)
         {
             this.httpContextAccessor = httpContextAccessor;
+            this._loginDeviceConfig = loginDeviceConfig;
             this.jwtConfig = jwtConfig;
         }
+        
         /// <summary>
         /// MD5加密
         /// </summary>
@@ -82,7 +86,9 @@ namespace MemberSite.Service.Library
 
             return GuidString;
         }
+        
         #region GetClientIP
+        
         /// <summary>
         /// 获取客户端IP
         /// </summary>
@@ -112,7 +118,6 @@ namespace MemberSite.Service.Library
 
             return httpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
         }
-
         private string GetIPAddress(string[] IPArry)
         {
             foreach (var ip in IPArry)
@@ -164,7 +169,9 @@ namespace MemberSite.Service.Library
         {
             return (userIp >= begin) && (userIp <= end);
         }
+        
         #endregion
+        
         public string GetFromUrl()
         {
             var fromUrl = "";
@@ -208,6 +215,7 @@ namespace MemberSite.Service.Library
                 return false;
             }
         }
+        
         public string GenerateJwtTokens(Claim[] claims)
         {
             var _jwtConfig = jwtConfig.Value;
@@ -244,5 +252,21 @@ namespace MemberSite.Service.Library
 
             return accessToken;
         }
+
+        public DeviceId GetDeviceId(string url)
+        {
+            var deviceType = DeviceId.Desktop;
+            foreach (var (key, value) in _loginDeviceConfig.Value)
+            {
+                if (url.Contains(value))
+                {
+                    deviceType = (DeviceId) Enum.Parse(typeof(DeviceId), key);
+                    break;
+                }
+            }
+
+            return deviceType;
+        }
+        
     }
 }

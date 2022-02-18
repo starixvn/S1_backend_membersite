@@ -47,4 +47,11 @@ namespace MemberSite.Service.Model
         public string CustUserName { get; }
         public string LangId { get; }
     }
+
+    public class PopupMsg
+    {
+        public int Id { get; set; }
+        public string PopupMessage { get; set; }
+        public int PageNumber { get; set; }
+    }
 }

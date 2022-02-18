@@ -35,4 +35,10 @@
         public decimal MaxAmount { get; set; }
         public int Mode { get; set; }
     }
+
+    public class AutoChannelBankInfo : BankInfoPay
+    {
+        public decimal MinAmount { get; set; }
+        public decimal MaxAmount { get; set; }
+    }
 }

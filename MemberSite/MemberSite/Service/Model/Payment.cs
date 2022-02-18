@@ -10,6 +10,7 @@ namespace MemberSite.Service.Model
         public Dictionary<string, string> FormData { get; set; }
         public int Mode { get; set; }
         public string ThirdId { get; set; }
+        public string Message { get; set; }
     }
 
     public class PayCurrency : IPaymentLimit
