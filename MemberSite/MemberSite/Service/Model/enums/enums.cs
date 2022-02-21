@@ -268,7 +268,9 @@
     public enum NetworkType
     {
         ERC20,
-        TRC20
+        TRC20,
+        ETH,
+        BTC
     }
 
     public enum ActStatus
@@ -303,5 +305,13 @@
         Desktop = 1,
         H5 = 2,
         APP = 3
+    }
+
+    public enum CryptoCurrencyId
+    {
+        USDT = 96,
+        USDC = 97,
+        ETH = 98,
+        BTC = 99
     }
 }

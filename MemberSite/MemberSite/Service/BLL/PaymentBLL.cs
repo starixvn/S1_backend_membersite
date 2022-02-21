@@ -495,18 +495,17 @@ namespace MemberSite.Service.BLL
             {
                 return -1;
             }
-            withdrawalUSDTInfo.AccountType = "USDT";
             
+            withdrawalUSDTInfo.AccountType = "crypto";
             withdrawalUSDTInfo.AccountName = accountName;
             withdrawalUSDTInfo.NickName = uSDTDetail.NickName;
             withdrawalUSDTInfo.AccountNo = accountNo;
             withdrawalUSDTInfo.Network = uSDTDetail.Network;
             withdrawalUSDTInfo.CurrencyId = uSDTDetail.CurrencyId;
-
-
-
+            
             return withdrawalService.WithdrawalUSDTReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalUSDTInfo, out afterAmount, out transId);
         }
+        
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
@@ -755,10 +754,38 @@ namespace MemberSite.Service.BLL
         {
             return statementService.GetSupportNetwork(currencyId);
         }
+        public CryptoInfoData GetSupportCryptoInfo()
+        {
+            var infos = statementService.GetSupportCryptoInfo();
+            var cryptoCurrency = infos
+                .Select(x => new CryptoCurrency
+                {
+                    CurrencyId = x.CurrencyId,
+                    CurrencyName = x.CurrencyName
+                }).Distinct(new CryptoCurrencyComparer());
+
+            var cryptoNetwork = infos.Select(x => new CryptoNetwork
+            {
+                CurrencyId = x.CurrencyId,
+                Network = x.Network
+            });
+
+            return new CryptoInfoData
+            {
+                CryptoCurrency = cryptoCurrency,
+                CryptoNetwork = cryptoNetwork
+            };
+        }
         public WithdrawalLimitInfoOutput GetUSDTWithdrawalLimitInfo(USDTWithdrawalLimitInfoInput input)
         {
             return withdrawalService.GetUSDTWithdrawalLimitInfo(input);
         }
+
+        public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoV2(USDTWithdrawalLimitInfoInput input)
+        {
+            return withdrawalService.GetUSDTWithdrawalLimitInfoV2(input);
+        }
+
         public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoList(USDTWithdrawalLimitInfoInput input)
         {
             return withdrawalService.GetUSDTWithdrawalLimitInfoList(input);

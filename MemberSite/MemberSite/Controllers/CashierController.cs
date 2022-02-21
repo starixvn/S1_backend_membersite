@@ -194,6 +194,7 @@ namespace MemberSite.Controllers
 
         public class ReqDepositCrypto : ReqDeposit
         {
+            public string DepositInfo { get; set; }
             public int ChannelId { get; set; }
         }
         public async Task<IActionResult> DepositReqCryptoPayAsync(int ChannelId, decimal Amount, string BonusCode)
@@ -218,6 +219,7 @@ namespace MemberSite.Controllers
                     ChannelId = cryptoPayInfo.ChannelId,
                     PayId = cryptoPayInfo.PayId,
                     ClientIP = tools.GetClientIP(),
+                    DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(cryptoPayInfo),
                     ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
                 };
 
