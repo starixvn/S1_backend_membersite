@@ -1123,7 +1123,13 @@ namespace MemberSite.Controllers.Api
             {
                 var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                apiResult.Data = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
+                var tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId).ToList();
+                if (string.CompareOrdinal(custInfo.AffCode, "67253") == 0)
+                {
+                    tpIds.RemoveAll(item => item == (int)Tp.TCG);
+                }
+
+                apiResult.Data = tpIds;
             }
             else
             {
