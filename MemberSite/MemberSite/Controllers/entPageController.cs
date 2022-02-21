@@ -97,6 +97,11 @@ namespace MemberSite.Controllers
                 {
                     var authData = _authorizeBll.GetAuthData();
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    
+                    if (string.CompareOrdinal(custInfo.AffCode, "67253") == 0)
+                    {
+                        return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", new ErrorData() { Message = "Access Denied" });
+                    }
 
                     if (tpId == (int)Tp.AG)
                     {
