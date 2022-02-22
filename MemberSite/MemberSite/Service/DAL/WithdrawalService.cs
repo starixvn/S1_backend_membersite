@@ -50,14 +50,8 @@ namespace MemberSite.Service.DAL
             {
                 return 3; //Insert Fail
             }
-
-            var rollover = rolloverService.ReachedRollover(custId, conn, trans);
-
-            if (!rollover.ReachedRollover)
-            {
-                return -2;
-            }
-            else if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
+       
+            if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
             {
                 return -3;
             }
@@ -96,13 +90,8 @@ namespace MemberSite.Service.DAL
 
             conn.Execute("Member_WithdrawalInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
             transId = p.Get<string>("vTransId");
-            var rollover = rolloverService.ReachedRollover(custId, conn, trans);
-
-            if (!rollover.ReachedRollover)
-            {
-                return -2;
-            }
-            else if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
+           
+            if(GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
             {
                 return -3;
             }

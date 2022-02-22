@@ -680,15 +680,6 @@ namespace MemberSite.Controllers.Api
                 return false;
             }
 
-            var rollover = paymentBLL.ReachedRollover(authData.CustId);
-
-            if (!rollover.ReachedRollover)
-            {
-                apiResult.Message = $"{rollover.Lack}";
-                apiResult.ErrorCode = -1;
-                return false;
-            }
-
             if (custInfo.ActStatus == 1)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_MustDeposit");
