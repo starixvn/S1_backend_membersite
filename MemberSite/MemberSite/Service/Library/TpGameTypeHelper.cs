@@ -1,25 +1,37 @@
 ﻿using MemberSite.Service.Model;
+using MemberSite.Service.Model.Options;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MemberSite.Service.Library
 {
     public class TpGameTypeHelper
     {
-        private readonly Dictionary<string, List<TpGameTypeOption>> tpGameTypeConfig;
+        private readonly Dictionary<string, List<TpGameTypeOption>> _tpGameTypeConfig;
+
+        private readonly Dictionary<int, SabaSportTypeOption> _sportTypeConfig;
 
         private readonly Dictionary<string, Func<BannerV3, int, int>> _tpHandler;
 
         public TpGameTypeHelper(IServiceProvider provider)
         {
-            var tpGameTypeOptions = provider.GetRequiredService<IEnumerable<TpGameTypeOption>>();
-            tpGameTypeConfig = tpGameTypeOptions.GroupBy(item => item.TpId)
+            _tpGameTypeConfig = provider.GetRequiredService<IEnumerable<TpGameTypeOption>>()
+                .GroupBy(item => item.TpId)
                 .ToDictionary(item => item.Key.ToString(), item => item.ToList());
+
+            _sportTypeConfig = provider.GetRequiredService<IEnumerable<SabaSportTypeOption>>()
+                .ToDictionary(item => item.SportType, item => item);
+
             _tpHandler = new Dictionary<string, Func<BannerV3, int, int>>()
             {
-                { "1", GetSabaGameType},
+                { "41", GetSabaGameType},
                 { "23", GetOne789GameType},
                 { "25", GetV8GameType},
                 { "33", GetTCGGameType},
                 { "35", GetMPGameType}
+
             };        
         }
 
@@ -32,7 +44,7 @@ namespace MemberSite.Service.Library
                     return 0;
                 }
 
-                if (!tpGameTypeConfig.TryGetValue(banner.TpId, out var typeList))
+                if (!_tpGameTypeConfig.TryGetValue(banner.TpId, out var typeList))
                 {
                     return -1;
                 }
@@ -87,7 +99,7 @@ namespace MemberSite.Service.Library
             }
 
             //Get by Saba 
-            if (banner.TpId == "1" && int.TryParse(banner.GameId, out var gameId))
+            if (banner.TpId == "41" && int.TryParse(banner.GameId, out int gameId))
             {
                 var (_, tpCategoryId) = GetSabaDetailByGameId(gameId);
                 return tpCategoryId;
@@ -122,54 +134,12 @@ namespace MemberSite.Service.Library
 
         private (int tpGameType, int tpCategoryId) GetSabaDetailByGameId(int gameId)
         {
-            return gameId switch
+            if (!_sportTypeConfig.TryGetValue(gameId, out var sabaSportType))
             {
-                // OW Number Game
-                161 => (2, 6),
-                164 => (2, 6),
-                168 => (2, 6),
-                //OW Virtual Sports
-                180 => (3, 7),
-                181 => (3, 7),
-                182 => (3, 7),
-                183 => (3, 7),
-                184 => (3, 7),
-                185 => (3, 7),
-                186 => (3, 7),
-                //OW RNG
-                208 => (4, 2),
-                //OW Keno
-                202 => (5, 6),
-                //OW Lottery
-                220 => (19, 6),
-                //OW Togel 4D
-                223 => (20, 6),
-                //OW Card Club
-                165 => (21, 2),
-                //OW Virtual Games
-                245 => (22, 2),
-                //OW Table Game
-                222 => (23, 2),
-                //OW Virtual Sports 2
-                190 => (24, 7),
-                191 => (24, 7),
-                192 => (24, 7),
-                193 => (24, 7),
-                194 => (24, 7),
-                195 => (24, 7),
-                196 => (24, 7),
-                197 => (24, 7),
-                199 => (24, 7),
-                //OW Saba Club
-                200 => (25, 2),
-                //OW Macau Game
-                212 => (26, 2),
-                //OW China Lottery
-                56 => (38, 6),
-                //OW Vgaming
-                171 => (59, 2),
-                _ => (1, 1),
-            };
+                return (0, 0);
+            }
+
+            return (sabaSportType.TpGameType, sabaSportType.TpCategoryId);
         }
 
         private int GetOne789GameType(BannerV3 banner, int currencyId)
