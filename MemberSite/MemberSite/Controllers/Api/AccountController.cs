@@ -81,7 +81,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 _ = Task.Run(async () =>
                 {
-                    _ = await LogoutAsync(1, authData.CustId);
+                    _ = await LogoutAsync(41, authData.CustId);
                 });
             }
             else
@@ -107,7 +107,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 _ = Task.Run(async () =>
                 {
-                    _ = await LogoutAsync(1, authData.CustId);
+                    _ = await LogoutAsync(41, authData.CustId);
                 });
             }
             else
@@ -132,7 +132,7 @@ namespace MemberSite.Controllers.Api
 
             _ = Task.Run(async () =>
               {
-                  _ = await LogoutAsync(1, authData.CustId);
+                  _ = await LogoutAsync(41, authData.CustId);
               });
 
             return apiResult;
@@ -208,7 +208,7 @@ namespace MemberSite.Controllers.Api
 
             _ = Task.Run(async () =>
             {
-                _ = await LogoutAsync(1, authData.CustId);
+                _ = await LogoutAsync(41, authData.CustId);
             });
 
             return apiResult;
