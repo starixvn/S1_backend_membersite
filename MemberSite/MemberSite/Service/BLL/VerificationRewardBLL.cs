@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.DependencyInjection;
 namespace MemberSite.Service.BLL
@@ -12,14 +13,14 @@ namespace MemberSite.Service.BLL
         {
             _verificationRewardService = provider.GetRequiredService<IVerificationRewardService>();
         }
-        public async Task PhoneReward(int custId)
+        public async Task<ApiResult> PhoneReward(int custId)
         {
-            await _verificationRewardService.SetVerificationReward(custId, (int) OTPType.SMS);
+            return await _verificationRewardService.SetVerificationReward(custId, (int) OTPType.SMS);
         }
 
-        public async Task EmailReward(int custId)
+        public async Task<ApiResult> EmailReward(int custId)
         {
-            await _verificationRewardService.SetVerificationReward(custId, (int) OTPType.Email);
+            return await _verificationRewardService.SetVerificationReward(custId, (int) OTPType.Email);
         }
     }
 }
