@@ -76,7 +76,7 @@ namespace MemberSite.Service.BLL
             var slotsLobbyUrl = urlHelper.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
 
             string entPageUrl;
-            if (tpId == 1)
+            if (tpId == 41)
             {
                 int.TryParse(gameId, out var iGameId);
                 if (!urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
