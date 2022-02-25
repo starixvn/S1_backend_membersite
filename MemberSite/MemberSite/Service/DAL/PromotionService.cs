@@ -660,7 +660,7 @@ namespace MemberSite.Service.DAL
                     PeriodTo = lastSunday.ToString("yyyy-MM-dd"), PromoCategoryId = promotion.CategoryId
                 })).ToList();
 
-            if (detail.Any() && detail.First().TpId == (int)Tp.Saba)
+            if (detail.Any() && detail.First().TpId == (int)Tp.SBSW)
             {
                 foreach (var d in detail)
                 {

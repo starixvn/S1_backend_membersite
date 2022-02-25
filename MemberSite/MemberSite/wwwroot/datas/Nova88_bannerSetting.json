@@ -108,7 +108,7 @@
   ],
   "Sports": [
     {
-      "tpId": "1",
+      "tpId": "41",
       "gameId": "1",
       "matchid": "41273100",
       "actionLink": "Sports/Index",
@@ -117,7 +117,7 @@
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
-      "tpId": "1",
+      "tpId": "41",
       "gameId": "1",
       "matchid": "41255296",
       "actionLink": "Sports/Index",
@@ -126,7 +126,7 @@
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
-      "tpId": "1",
+      "tpId": "41",
       "gameId": "1",
       "matchid": "41256060",
       "actionLink": "Sports/Index",
@@ -135,7 +135,7 @@
       "lang": [ "th", "id", "en", "cs" ]
     },
     {
-      "tpId": "1",
+      "tpId": "41",
       "gameId": "1",
       "matchid": "41239265",
       "actionLink": "Sports/Index",
