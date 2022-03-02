@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LazZiya.ImageResize;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Mapping;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +17,7 @@ using Newtonsoft.Json;
 
 namespace MemberSite.Controllers.Api
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]/[action]")]
     [Route("api/[controller]/[action]/{LangId}")]
     [ApiController]
@@ -31,6 +32,7 @@ namespace MemberSite.Controllers.Api
         private readonly ImageEditorBLL _imageEditorBll;
         private readonly SelLangBLL _selLangBll;
         private readonly AuthBLL _authBll;
+        private readonly VerificationRewardBLL _verificationRewardBll;
         private readonly CryptoPayInfoBll _cryptoPayInfoBLL;
 
         public AccountStrictController(IServiceProvider provider)
@@ -44,6 +46,7 @@ namespace MemberSite.Controllers.Api
             _imageEditorBll = provider.GetRequiredService<ImageEditorBLL>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _authBll = provider.GetRequiredService<AuthBLL>();
+            _verificationRewardBll = provider.GetRequiredService<VerificationRewardBLL>();
             _cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
         }
 
@@ -768,8 +771,20 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<SendOTPSMSResult>> SendOTPSMSAsync()
         {
+            var apiResult = new ApiResult<SendOTPSMSResult>();
             var authData = _authorizeBLL.GetAuthData();
-            var apiResult = await _commonBLL.SendOTPSMSAsync(authData.CustId);
+            var custInfo = _custInfoBLL.GetCustInfo(authData.CustId);
+            var check = _verificationRewardBll.CheckRewardCondition(custInfo ,OTPType.SMS);
+
+            if (check.Result.ErrorCode == 0)
+            { 
+                apiResult = await _commonBLL.SendOTPSMSAsync(authData.CustId);
+            }
+            else
+            {
+                apiResult.ErrorCode = check.Result.ErrorCode;
+                apiResult.Message = check.Result.Message;
+            }
 
             return apiResult;
         }
@@ -804,17 +819,29 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<SendOTPEmailResult>> SendOTPEmailAsync(SendOTPEmailReq req)
         {
+            var apiResult = new ApiResult<SendOTPEmailResult>();
             var authData = _authorizeBLL.GetAuthData();
-            var profileUrl = _serverInfoBLL.GetHttpDomain();
-            
-            var langId = _selLangBLL.GetLangId();
-            if (!string.IsNullOrEmpty(langId)) 
-                profileUrl += $"/{langId}";
-            
-            profileUrl += $"/{req.route}";
-            
-            var apiResult = await _commonBLL.SendOTPEmailAsync(authData.CustId, profileUrl);
+            var custInfo = _custInfoBLL.GetCustInfo(authData.CustId);
+            var check = _verificationRewardBll.CheckRewardCondition(custInfo ,OTPType.Email);
 
+            if (check.Result.ErrorCode == 0)
+            { 
+                var profileUrl = _serverInfoBLL.GetHttpDomain();
+            
+                var langId = _selLangBLL.GetLangId();
+                if (!string.IsNullOrEmpty(langId)) 
+                    profileUrl += $"/{langId}";
+            
+                profileUrl += $"/{req.route}";
+            
+                apiResult = await _commonBLL.SendOTPEmailAsync(authData.CustId, profileUrl);
+            }
+            else
+            {
+                apiResult.ErrorCode = check.Result.ErrorCode;
+                apiResult.Message = check.Result.Message;
+            }
+            
             return apiResult;
         }
         

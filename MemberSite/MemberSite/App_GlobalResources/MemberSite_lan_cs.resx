@@ -1769,4 +1769,7 @@
   <data name="lbl_Wallet_Mega" xml:space="preserve">
     <value>Mega钱包</value>
   </data>
+  <data name="lbl_DepositLimit" xml:space="preserve">
+    <value>请累计您的存款额达马币 {1} 以享受验证奖励。</value>
+  </data>
 </root>
