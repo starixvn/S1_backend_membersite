@@ -8,5 +8,9 @@ namespace MemberSite.Service.DAL.Interface
     public interface IVerificationRewardService
     {
         Task<ApiResult> SetVerificationReward(int custId, int verificationType);
+        
+        CustVerificationRewardData GetCustVerificationReward(int custId);
+        
+        VerificationRewardLimit GetVerificationRewardLimit(int siteId ,int currencyId ,OTPType inputType);
     }
 }
