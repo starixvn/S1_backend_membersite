@@ -841,6 +841,7 @@ namespace MemberSite.Controllers.Api
                 {
                     var verifyResult = await _custInfoBLL.VerifyEmailAsync(customer.CustId, req.code);
                     apiResult.ErrorCode = verifyResult.ErrorCode;
+                    apiResult.Message = verifyResult.Message;
                 }
             }
             else
