@@ -1898,4 +1898,10 @@
   <data name="lbl_Wallet_NineW" xml:space="preserve">
     <value>9W पर्स</value>
   </data>
+  <data name="lbl_WalletDescription_Mega" xml:space="preserve">
+    <value>Megaपर्स</value>
+  </data>
+  <data name="lbl_Wallet_Mega" xml:space="preserve">
+    <value>Megaपर्स</value>
+  </data>
 </root>
