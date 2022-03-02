@@ -496,8 +496,11 @@ namespace MemberSite.Service.BLL
 
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetPhoneVerified(custId))
             {
-                _custInfoService.SetPhoneVerified(custId);
                 apiResult = await _verificationRewardBll.PhoneReward(custId);
+                if (apiResult.ErrorCode == 0)
+                {
+                    _custInfoService.SetPhoneVerified(custId);
+                }
             }
             return apiResult;
         }
@@ -508,8 +511,11 @@ namespace MemberSite.Service.BLL
 
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetEmailVerified(custId))
             {
-                _custInfoService.SetEmailVerified(custId);
                 apiResult = await _verificationRewardBll.EmailReward(custId);
+                if (apiResult.ErrorCode == 0)
+                {
+                    _custInfoService.SetEmailVerified(custId);
+                }
             }
             return apiResult;
         }
