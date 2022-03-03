@@ -22,6 +22,8 @@ namespace MemberSite.Service.BLL
         private readonly SelLangBLL _selLangBll;
         private readonly MessageBll _messageBll;
         private readonly CacheHelper _cacheHelper;
+        private readonly string _bonusServiceUrl;
+        private readonly Tools _tools;
 
         public PromotionBll(IServiceProvider provider)
         {
@@ -32,6 +34,8 @@ namespace MemberSite.Service.BLL
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _messageBll = provider.GetRequiredService<MessageBll>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _bonusServiceUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("BonusService");
+            _tools = provider.GetRequiredService<Tools>();
         }
 
         public IEnumerable<Promotion> GetPromotionList(int siteId)
@@ -193,7 +197,33 @@ namespace MemberSite.Service.BLL
 
             return apiResult1;
         }
-        public bool GetCanJoin(int custId, string bonusCode)
+        public class PromotionReq
+        {
+            public string BonusCode { set; get; }
+            public int CustId { set; get; }
+            public string custIP { set; get; }
+            public decimal? LockedAmount { set; get; }
+            public int? DeviceType { set; get; }
+        }
+        public async Task<ApiResult> SetClaimPromotionV2Async(int custId, string bonusCode, decimal? dLockedAmount, int? deviceType)
+        {
+            var apiUrl = $"{_bonusServiceUrl}SetClaimPromotion";
+
+            var req = new PromotionReq
+            {
+                BonusCode = bonusCode,
+                CustId = custId,
+                custIP = _tools.GetClientIP(),
+                LockedAmount = dLockedAmount,
+                DeviceType = deviceType
+            };
+
+            var result = await _courierAdapter.MyPostAsync<ApiResult, PromotionReq>(apiUrl, req);
+
+            return result;
+
+        }
+            public bool GetCanJoin(int custId, string bonusCode)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             return _promotionService.GetCanJoin(custId, custInfo.SiteId, bonusCode, custInfo.CurrencyId, out var _, out var _, out var _);
