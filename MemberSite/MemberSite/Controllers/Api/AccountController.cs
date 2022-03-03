@@ -917,13 +917,31 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public void SetFavoriteGame(MemberFavorite FavoriteInfo)
+        public ApiResult SetFavoriteGame(MemberFavorite FavoriteInfo)
         {
-            if (User.Identity.IsAuthenticated)
+            var result = new ApiResult();
+            try
             {
-                var authData = _authorizeBll.GetAuthData();
-                _casinoBll.SetFavoriteGames(authData.CustId, FavoriteInfo.ProviderId, FavoriteInfo.GameId, FavoriteInfo.IsRemove);
+                if (User.Identity.IsAuthenticated)
+                {
+                    var authData = _authorizeBll.GetAuthData();
+                    _casinoBll.SetFavoriteGames(authData.CustId, FavoriteInfo.ProviderId, FavoriteInfo.GameId, FavoriteInfo.IsRemove);
+                    result.ErrorCode = 0;
+                }
+                else
+                {
+                    result.ErrorCode = 1103;
+                    result.Message = _selLangBll.GetErrMsg(result.ErrorCode);
+                }
             }
+            catch (Exception ex)
+            {
+                result.ErrorCode = 9000;
+                result.RawMessage = ex.Message;
+                result.Message = _selLangBll.GetErrMsg(result.ErrorCode);
+            }
+
+            return result;
         }
 
         [HttpPost]
