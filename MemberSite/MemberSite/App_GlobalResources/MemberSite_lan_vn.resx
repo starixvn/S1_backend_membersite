@@ -1810,13 +1810,4 @@
  <data name="lbl_WalletDescription_V8" xml:space="preserve">
     <value>Ví V8</value>
   </data>
-  <data name="lbl_WalletDescription_Mega" xml:space="preserve">
-    <value>Ví Mega</value>
-  </data>
-  <data name="lbl_Wallet_Mega" xml:space="preserve">
-    <value>Ví Mega</value>
-  </data>
-  <data name="lbl_DepositLimit" xml:space="preserve">
-    <value>Vui lòng tích lũy khoản tiền gửi của bạn lên đến {0} {1} để tận hưởng chương trình phần thưởng xác minh.</value>
-  </data>
 </root>
