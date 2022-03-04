@@ -239,6 +239,7 @@ namespace MemberSite
             services.AddControllers();
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
+            services.AddOptionListByDB<BlockIP>("Member_BlockIP_Get");
             services.AddOptionListByDB<SabaSportTypeOption>("Service_SabaSportType_Get");
         }
 
