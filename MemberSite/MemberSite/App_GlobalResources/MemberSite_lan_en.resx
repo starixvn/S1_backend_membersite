@@ -1908,16 +1908,7 @@
   <data name="lbl_Wallet_V8" xml:space="preserve">
     <value>V8 Wallet</value>
   </data>
-  <data name="lbl_WalletDescription_V8" xml:space="preserve">
+ <data name="lbl_WalletDescription_V8" xml:space="preserve">
     <value>V8 Wallet</value>
-  </data>
-  <data name="lbl_WalletDescription_Mega" xml:space="preserve">
-    <value>Mega Wallet</value>
-  </data>
-  <data name="lbl_Wallet_Mega" xml:space="preserve">
-    <value>Mega Wallet</value>
-  </data>
-  <data name="lbl_DepositLimit" xml:space="preserve">
-    <value>Please accumulate your deposit up to {0} {1} to enjoy verification reward program.</value>
   </data>
 </root>

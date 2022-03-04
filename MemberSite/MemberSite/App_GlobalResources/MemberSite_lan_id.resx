@@ -1755,13 +1755,4 @@
   <data name="lbl_Wallet_NineW" xml:space="preserve">
     <value>9W Wallet</value>
   </data>
-  <data name="lbl_WalletDescription_Mega" xml:space="preserve">
-    <value>Mega Wallet</value>
-  </data>
-  <data name="lbl_Wallet_Mega" xml:space="preserve">
-    <value>Mega Wallet</value>
-  </data>
-  <data name="lbl_DepositLimit" xml:space="preserve">
-    <value>Silahkan kumpulkan deposit Anda hingga Rp {1} untuk menikmati program hadiah verifikasi.</value>
-  </data>
 </root>
