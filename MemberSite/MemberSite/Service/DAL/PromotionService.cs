@@ -623,10 +623,15 @@ namespace MemberSite.Service.DAL
 
             return _promotion;
         }
-        public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, int siteId, string userName, int currencyId, int deviceType, decimal lockedAmount)
+        public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, int siteId, string userName, int currencyId, int deviceType, decimal lockedAmount, string custIp)
         {
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("Member_DepositBonusQueue_Set", new { TransId = transId, BonusCode = bonusCode, CustId = custId, SiteId = siteId, UserName = userName, CurrencyId = currencyId, DeviceType = deviceType, LockedAmount = lockedAmount}, commandType: CommandType.StoredProcedure)>0;
+            return conn.Execute("Member_DepositBonusQueue_Set_V2",
+                new
+                {
+                    TransId = transId, BonusCode = bonusCode, CustId = custId, SiteId = siteId, UserName = userName,
+                    CurrencyId = currencyId, DeviceType = deviceType, LockedAmount = lockedAmount, IP = custIp
+                }, commandType: CommandType.StoredProcedure) > 0;
         }
         public bool CheckSpecialCode(string specialCode)
         {
