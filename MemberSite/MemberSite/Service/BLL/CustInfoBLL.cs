@@ -71,7 +71,7 @@ namespace MemberSite.Service.BLL
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
             string refId, string affId, string aff, string affCode, int siteId, out int custId, string signupUrl = null,
-            string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
+            string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
@@ -144,7 +144,7 @@ namespace MemberSite.Service.BLL
                 signupUrl = _tools.GetFromUrl();
             }
 
-            var result = _custInfoService.AddCustInfo(regCustInfo, Email, out custId, signupUrl, PhoneNo, AreaCode,
+            var result = _custInfoService.AddCustInfo(regCustInfo, Email, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
             return result != 0 ? result : 0;
         }

@@ -48,7 +48,7 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
         }
-        public int AddCustInfo(Customer customer, string Email, out int custId, string signupUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
+        public int AddCustInfo(Customer customer, string Email, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
             custId = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
@@ -99,10 +99,10 @@ namespace MemberSite.Service.DAL
                     SetCustBankInfo(custId, customer.SiteId, RealName, null);
             }
 
-            if (result > 0 && !string.IsNullOrEmpty(signupUrl))
+            if (result > 0 && (!string.IsNullOrEmpty(signupUrl) || !string.IsNullOrEmpty(referralUrl)))
             {
                 //custId = p.Get<int?>("CustId") ?? 0;
-                result = conn.Execute("Member_CustRegInfo_Ins", new { CustId = custId, customer.SiteId, SignupUrl = signupUrl }, trans, commandType: CommandType.StoredProcedure);
+                result = conn.Execute("Member_CustRegInfo_Ins_V2", new { CustId = custId, customer.SiteId, SignupUrl = signupUrl ,ReferralUrl = referralUrl }, trans, commandType: CommandType.StoredProcedure);
             }
 
             if (result > 0 && !string.IsNullOrEmpty(promoCode)&& promotionService.CheckSpecialCode(promoCode))
