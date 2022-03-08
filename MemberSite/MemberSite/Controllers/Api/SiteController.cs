@@ -392,6 +392,7 @@ namespace MemberSite.Controllers.Api
         public class SignupModel : RegisteredModel
         {
             public string SignupUrl { get; set; }
+            public string ReferralUrl { get; set; }
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
             public string RealName { get; set; }
@@ -471,7 +472,7 @@ namespace MemberSite.Controllers.Api
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
                     signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode,
+                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl,signupModel.ReferralUrl, signupModel.PhoneNo, signupModel.AreaCode,
                     signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d, signupModel.Birth_m,
                     signupModel.Birth_y);
             }
@@ -661,8 +662,8 @@ namespace MemberSite.Controllers.Api
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
                     signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode,
-                    signupModel.RealName, signupModel.PromoCode);
+                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.ReferralUrl,
+                    signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode);
             }
 
             switch (result)

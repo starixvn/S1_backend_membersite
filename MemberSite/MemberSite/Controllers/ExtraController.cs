@@ -36,6 +36,7 @@ namespace MemberSite.Controllers
         public class SignupModel : Api.SiteController.RegisteredModel
         {
             public string SignupUrl { get; set; }
+            public string ReferralUrl { get; set; }
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
             public string RealName { get; set; }
@@ -84,7 +85,7 @@ namespace MemberSite.Controllers
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
                     signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode,
+                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo, signupModel.AreaCode,
                     signupModel.RealName);
             }
 
