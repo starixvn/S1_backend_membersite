@@ -145,7 +145,7 @@ namespace MemberSite.Service.BLL
         }
         public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, int siteId, string userName, int currencyId, int deviceType, decimal lockedAmount)
         {
-            return _promotionService.SetDepositPromotionQueue(transId, bonusCode, custId, siteId, userName, currencyId, deviceType, lockedAmount);
+            return _promotionService.SetDepositPromotionQueue(transId, bonusCode, custId, siteId, userName, currencyId, deviceType, lockedAmount, _tools.GetClientIP());
         }
         public PromotionBySpecialCode GetPromotionBySpecialCode(int siteId, string SpecialCode)
         {
