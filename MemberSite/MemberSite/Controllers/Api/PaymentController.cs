@@ -681,15 +681,6 @@ namespace MemberSite.Controllers.Api
                 return false;
             }
 
-            var rollover = paymentBLL.ReachedRollover(authData.CustId);
-
-            if (!rollover.ReachedRollover)
-            {
-                apiResult.Message = $"{rollover.Lack}";
-                apiResult.ErrorCode = -1;
-                return false;
-            }
-
             if (custInfo.ActStatus == 1)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_MustDeposit");
@@ -1408,6 +1399,12 @@ namespace MemberSite.Controllers.Api
                             apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed");
                             return apiResult;
                         }
+                        else
+                        {
+                            apiResult.ErrorCode = 1000;
+                            apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
+                            return apiResult;
+                        }
                     }
                     apiResult.ErrorCode = 0;
                     apiResult.Data = new CheckDepositSpecialCodeRsp() { BonusCode = promotion.BonusCode };
@@ -1441,6 +1438,12 @@ namespace MemberSite.Controllers.Api
                                 {
                                     apiResult.ErrorCode = 3000;
                                     apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed");
+                                    return apiResult;
+                                }
+                                else
+                                {
+                                    apiResult.ErrorCode = 1000;
+                                    apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
                                     return apiResult;
                                 }
                             }
@@ -1477,6 +1480,12 @@ namespace MemberSite.Controllers.Api
                         {
                             apiResult.ErrorCode = 3000;
                             apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed");
+                            return apiResult;
+                        }
+                        else
+                        {
+                            apiResult.ErrorCode = 1000;
+                            apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
                             return apiResult;
                         }
                     }

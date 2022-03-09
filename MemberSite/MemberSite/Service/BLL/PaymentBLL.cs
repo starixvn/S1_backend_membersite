@@ -681,10 +681,7 @@ namespace MemberSite.Service.BLL
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
             return _depositService.GetDepositReceipt(depositId, CustInfo.SiteId);
         }
-        public Rollover ReachedRollover(int custId)
-        {
-            return rollOverService.ReachedRollover(custId);
-        }
+
         public decimal GetWithdrawalAvailableBalance(int custId)
         {
             return withdrawalService.GetWithdrawalAvailableBalance(custId);

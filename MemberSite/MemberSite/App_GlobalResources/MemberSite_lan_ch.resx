@@ -1724,4 +1724,10 @@
   <data name="lbl_Wallet_NineW" xml:space="preserve">
     <value>9W錢包</value>
   </data>
+  <data name="lbl_WalletDescription_Mega" xml:space="preserve">
+    <value>Mega錢包</value>
+  </data>
+  <data name="lbl_Wallet_Mega" xml:space="preserve">
+    <value>Mega錢包</value>
+  </data>
 </root>

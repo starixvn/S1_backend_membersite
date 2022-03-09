@@ -238,6 +238,7 @@ namespace MemberSite
             services.AddControllers();
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
+            services.AddOptionListByDB<BlockIP>("Member_BlockIP_Get");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
