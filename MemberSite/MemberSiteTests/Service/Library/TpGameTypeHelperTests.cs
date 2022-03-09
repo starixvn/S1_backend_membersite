@@ -14,6 +14,8 @@ using System;
 using System.Diagnostics;
 using MemberSite.Service.Model.enums;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Builder;
+using MemberSite.Extensions;
 
 namespace MemberSite.Service.Library.Tests
 {
@@ -28,12 +30,13 @@ namespace MemberSite.Service.Library.Tests
         {
             var services = new ServiceCollection();
 
-            var configBuilder = new ConfigurationBuilder();
-            configBuilder.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false, false)
-                .AddJsonFile("appsettings.Local.json", false, false)
-                .AddJsonStream(Program.GetRemoteConfig(new List<string> { "http://52.221.19.140:7243/" }));
-            _configuration = configBuilder.Build();
+            var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
+            {
+                EnvironmentName = "Local",
+            });
+            builder.Configuration.AddRemoteJsonConfig(builder.Configuration.GetSection("ConfigService").Get<string[]>());
+            var app = builder.Build();
+            _configuration = app.Configuration;
             services.AddSingleton(_configuration);
 
             var logger = Substitute.For<ILogger<MySqlClient>>();
