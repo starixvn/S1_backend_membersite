@@ -1734,4 +1734,10 @@
   <data name="lbl_Wallet_NineW" xml:space="preserve">
     <value>กระเป๋าสตางค์ 9W</value>
   </data>
+  <data name="lbl_WalletDescription_Mega" xml:space="preserve">
+    <value>กระเป๋าเงิน Mega</value>
+  </data>
+  <data name="lbl_Wallet_Mega" xml:space="preserve">
+    <value>กระเป๋าเงิน Mega</value>
+  </data>
 </root>
