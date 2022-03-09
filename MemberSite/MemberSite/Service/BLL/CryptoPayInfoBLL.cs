@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,6 +22,7 @@ namespace MemberSite.Service.BLL
         private readonly CourierAdapter _courierAdapter;
         private readonly string _payApiUrl;
         private readonly CacheHelper _cacheHelper;
+        private readonly Dictionary<NetworkType, Func<string, bool>> _cryptoValidateHandler;
 
         public CryptoPayInfoBll(IServiceProvider provider)
         {
@@ -31,6 +33,13 @@ namespace MemberSite.Service.BLL
             _payApiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("PayService");
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _cryptoValidateHandler = new Dictionary<NetworkType, Func<string, bool>>
+                {
+                    { NetworkType.ERC20, Erc20AddressValidation },
+                    { NetworkType.ETH, Erc20AddressValidation },
+                    { NetworkType.TRC20, Trc20AddressValidation },
+                    { NetworkType.BTC, BitCoinAddressValidation },
+                };
         }
 
         private IEnumerable<CryptoPayInfo> GetCryptoPayInfoListWithCache(int siteId)
@@ -148,18 +157,52 @@ namespace MemberSite.Service.BLL
             return -99;
         }
 
-        public async Task<ApiResult<PaymentReq>> GetExchangeInfoAsync(int custId, decimal amount,int payId)
+        public async Task<ApiResult<PaymentReq>> GetExchangeInfoAsync(int custId, decimal amount,int payId, string channelName)
         { 
             var exchangeReq = new 
             {
                 CustId = custId,
                 Amount = amount,
-                PayId = payId
-
+                PayId = payId,
+                ChannelName = channelName
             };
             var myUrl = $"{_payApiUrl}CryptoExchange";
             return await _courierAdapter.MyPostAsync<PaymentReq, dynamic>(myUrl, exchangeReq);
         }
+
+        public bool CryptoAddressValidation(string network, string address)
+        {
+            var networkEnum = (NetworkType)Enum.Parse((typeof(NetworkType)), network);
+
+            return CryptoAddressValidation(networkEnum, address);
+        }
+
+        public bool CryptoAddressValidation(NetworkType network, string address)
+        {
+            if (_cryptoValidateHandler.ContainsKey(network))
+            {
+                return _cryptoValidateHandler[network].Invoke(address);
+            }
+
+            return false;
+        }
+
+        private bool Erc20AddressValidation(string address)
+        {
+            var regex = new Regex(@"^0x[a-fA-F0-9]{40}$");
+            return regex.IsMatch(address);
+        }
+        private bool Trc20AddressValidation(string address)
+        {
+            var regex = new Regex(@"^T[A-Za-z1-9]{33}$");
+            return regex.IsMatch(address);
+        }
+
+        private bool BitCoinAddressValidation(string address)
+        {
+            // m/n/2 開頭為測試鏈
+            var regex = new Regex(@"^(?:[1mn32]{1}[a-km-zA-HJ-NP-Z1-9]{26,33}|bc1[a-z0-9]{39,59})$");
+            return regex.IsMatch(address);
+        }
     }
-    
 }

@@ -34,7 +34,7 @@ namespace MemberSite.Service.Model
         public string BankInfo { set; get; }
         public string USDTInfo { set; get; }
         public IEnumerable<BankInfoDetail> bankInfoDetail { set; get; }
-        public IEnumerable<USDTDetail> uSDTDetail { set; get; }
+        public IEnumerable<USDTDetail> usdtDetail { set; get; }
     }
 
     public class BankInfoDetail
@@ -49,6 +49,21 @@ namespace MemberSite.Service.Model
         public string USDTAddress { set; get; }
         public string Network { set; get; }
         public int CurrencyId { set; get; }
+
+        public string CurrencyName
+        {
+            get
+            {
+                try
+                {
+                    return ((CryptoCurrencyId) this.CurrencyId).ToString();
+                }
+                catch
+                {
+                    return CryptoCurrencyId.USDT.ToString();
+                }
+            }
+        }
     }
 
     public class BankInfoDetailRep : BankInfoDetail

@@ -176,5 +176,15 @@ namespace MemberSite.Service.DAL
             var result = conn.Query<NetworkList>("Member_SupportNetwork_Get", new { CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
             return result;
         }
+        
+        public IEnumerable<CryptoInfo> GetSupportCryptoInfo()
+        {
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
+            var result = conn.Query<CryptoInfo>(
+                "Member_SupportCryptoInfo_Get", 
+                commandType: CommandType.StoredProcedure);
+            
+            return result;
+        }
     }
 }

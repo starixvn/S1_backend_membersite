@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MemberSite.Service.Model
 {
@@ -62,6 +63,7 @@ namespace MemberSite.Service.Model
         public string GroupName { get; set; }
         public int ChannelId { get; set; }
         public string ChannelName { get; set; }
+        public string CurrencyName => ChannelName?.Split('-').FirstOrDefault();
         public int Mode { get; set; }
         public int PointLevel { get; set; }
         public int CurrencyId { get; set; }
