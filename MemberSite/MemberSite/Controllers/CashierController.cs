@@ -402,7 +402,7 @@ namespace MemberSite.Controllers
 
             if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
             {
-                return View(apiResult);
+                return View("DepositReqMobilePay", apiResult);
             }
             else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
             {
