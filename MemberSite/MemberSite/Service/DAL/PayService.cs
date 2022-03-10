@@ -41,5 +41,11 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<PayInfo>("Service_PayInfo_Get", new { SiteId = siteId , DepositType = (int)depositType }, commandType: CommandType.StoredProcedure);
         }
+
+        public LineChannel? GetLineChannel(int siteId, int currencyId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.QueryFirstOrDefault<LineChannel?>("Member_LineChannel_Get", new { _SiteId = siteId, _CurrencyId = (int)currencyId }, commandType: CommandType.StoredProcedure);
+        }
     }
 }
