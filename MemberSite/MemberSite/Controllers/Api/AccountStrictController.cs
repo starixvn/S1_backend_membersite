@@ -806,9 +806,15 @@ namespace MemberSite.Controllers.Api
         {
             var authData = _authorizeBLL.GetAuthData();
             var profileUrl = _serverInfoBLL.GetHttpDomain();
-            
             var langId = _selLangBLL.GetLangId();
-            if (!string.IsNullOrEmpty(langId)) 
+
+            var host = Url.ActionContext.HttpContext.Request.Host.Host;
+            if (host.Split('.')[0] == "app")
+            {
+                profileUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{host.Replace("app", "m")}";
+                req.route = host == "app.n17881788.com" ? "profile" : "member";
+            }
+            if (!string.IsNullOrEmpty(langId) && req.route != "member") 
                 profileUrl += $"/{langId}";
             
             profileUrl += $"/{req.route}";
