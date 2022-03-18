@@ -32,6 +32,7 @@ namespace MemberSite.Extensions.Middlewares
 
         public async Task Invoke(HttpContext context)
         {
+            context.Request.EnableBuffering();
             var url = context.Request.GetDisplayUrl();
             var path = context.Request.Path.Value;
             if (path == "/" && (context.Request.Method.Equals("OPTIONS", StringComparison.OrdinalIgnoreCase) ||
