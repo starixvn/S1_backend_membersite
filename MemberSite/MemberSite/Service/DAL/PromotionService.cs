@@ -100,7 +100,7 @@ namespace MemberSite.Service.DAL
                     canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                     canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                     canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                    _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
+                    _mainDbClient.Execute("Member_PromotionCanJoin_Get_V8", canJoinParams);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                     promo.canJoin = canJoinResult == 1;
@@ -253,7 +253,7 @@ namespace MemberSite.Service.DAL
                     canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                     canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                     canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                    _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
+                    _mainDbClient.Execute("Member_PromotionCanJoin_Get_V8", canJoinParams);
 
                     var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                     promo.canJoin = canJoinResult == 1;
@@ -404,7 +404,7 @@ namespace MemberSite.Service.DAL
                 canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
                 canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
+                _mainDbClient.Execute("Member_PromotionCanJoin_Get_V8", canJoinParams);
 
                 var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
                 promo.canJoin = canJoinResult == 1 || canJoinResult == 3;
