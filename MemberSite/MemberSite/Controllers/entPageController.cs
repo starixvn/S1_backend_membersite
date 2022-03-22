@@ -171,22 +171,22 @@ namespace MemberSite.Controllers
         {
             var SNameTable = new Dictionary<string, SNameSubTable>
             {
-                {"sports",        new SNameSubTable { tpId = 41, gameId = "1" } },
-                {"eSport",        new SNameSubTable { tpId = 41, gameId = "43" } },
-                {"numberGame",    new SNameSubTable { tpId = 41, gameId = "161" } },
-                {"virtualSports", new SNameSubTable { tpId = 41, gameId = "180" } },
-                {"lottery",       new SNameSubTable { tpId = 41, gameId = "220" } },
-                {"keno",          new SNameSubTable { tpId = 41, gameId = "202" } },
+                {"sports",        new SNameSubTable { tpId = 1, gameId = "1" } },
+                {"eSport",        new SNameSubTable { tpId = 1, gameId = "43" } },
+                {"numberGame",    new SNameSubTable { tpId = 1, gameId = "161" } },
+                {"virtualSports", new SNameSubTable { tpId = 1, gameId = "180" } },
+                {"lottery",       new SNameSubTable { tpId = 1, gameId = "220" } },
+                {"keno",          new SNameSubTable { tpId = 1, gameId = "202" } },
                 {"fishing",       new SNameSubTable { tpId = 7, gameId = "10" } },
                 {"cockFighting",  new SNameSubTable { tpId = 17, gameId = "" } },
-                {"sabaClub",      new SNameSubTable { tpId = 41, gameId = "200" } },
-                {"soccer",        new SNameSubTable { tpId = 41, gameId = "1" } },
-                {"basketball",    new SNameSubTable { tpId = 41, gameId = "2" } },
-                {"badminton",     new SNameSubTable { tpId = 41, gameId = "9" } },
-                {"football",      new SNameSubTable { tpId = 41, gameId = "3" } },
-                {"tennis",        new SNameSubTable { tpId = 41, gameId = "5" } },
-                {"hockey",        new SNameSubTable { tpId = 41, gameId = "4" } },
-                {"baseball",      new SNameSubTable { tpId = 41, gameId = "8" } }
+                {"sabaClub",      new SNameSubTable { tpId = 1, gameId = "200" } },
+                {"soccer",        new SNameSubTable { tpId = 1, gameId = "1" } },
+                {"basketball",    new SNameSubTable { tpId = 1, gameId = "2" } },
+                {"badminton",     new SNameSubTable { tpId = 1, gameId = "9" } },
+                {"football",      new SNameSubTable { tpId = 1, gameId = "3" } },
+                {"tennis",        new SNameSubTable { tpId = 1, gameId = "5" } },
+                {"hockey",        new SNameSubTable { tpId = 1, gameId = "4" } },
+                {"baseball",      new SNameSubTable { tpId = 1, gameId = "8" } }
 
             };
             var sNameSubTable = new SNameSubTable();
