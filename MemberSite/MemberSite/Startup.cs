@@ -22,7 +22,6 @@ using System.Text.Unicode;
 using System.Threading.Tasks;
 using MemberSite.Extensions;
 using MemberSite.Service.DAL.Interface;
-using MemberSite.Service.Model.Options;
 
 namespace MemberSite
 {
@@ -240,7 +239,6 @@ namespace MemberSite
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
             services.AddOptionListByDB<BlockIP>("Member_BlockIP_Get");
-            services.AddOptionListByDB<SabaSportTypeOption>("Service_SabaSportType_Get");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
