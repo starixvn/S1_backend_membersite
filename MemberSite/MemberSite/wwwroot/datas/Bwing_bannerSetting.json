@@ -28,12 +28,12 @@
       "lang": [ "vn", "en" ]
     },
     //{
-    //  "tpId": 41,
+    //  "tpId": 1,
     //  "gameId": 200,
     //  "img": "banner-Saba.png"
     //},
     //{
-    //  "tpId": 41,
+    //  "tpId": 1,
     //  "gameId": 43,
     //  "img": "banner-Esport.jpg"
     //},
@@ -64,7 +64,7 @@
   ],
   "Sports": [
     {
-      "tpId": "41",
+      "tpId": "1",
       "gameId": "1",
       "matchid": "41273100",
       "actionLink": "Sports/Index",
@@ -73,7 +73,7 @@
       "lang": [ "en", "vn" ]
     },
     {
-      "tpId": "41",
+      "tpId": "1",
       "gameId": "1",
       "matchid": "41255296",
       "actionLink": "Sports/Index",
@@ -82,7 +82,7 @@
       "lang": [ "en", "vn" ]
     },
     {
-      "tpId": "41",
+      "tpId": "1",
       "gameId": "1",
       "matchid": "41256060",
       "actionLink": "Sports/Index",
@@ -91,7 +91,7 @@
       "lang": [ "en", "vn" ]
     },
     {
-      "tpId": "41",
+      "tpId": "1",
       "gameId": "1",
       "matchid": "41239265",
       "actionLink": "Sports/Index",
