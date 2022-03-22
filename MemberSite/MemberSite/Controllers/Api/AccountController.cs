@@ -81,7 +81,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 _ = Task.Run(async () =>
                 {
-                    _ = await LogoutAsync(41, authData.CustId);
+                    _ = await LogoutAsync(1, authData.CustId);
                 });
             }
             else
@@ -107,7 +107,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 _ = Task.Run(async () =>
                 {
-                    _ = await LogoutAsync(41, authData.CustId);
+                    _ = await LogoutAsync(1, authData.CustId);
                 });
             }
             else
@@ -132,7 +132,7 @@ namespace MemberSite.Controllers.Api
 
             _ = Task.Run(async () =>
               {
-                  _ = await LogoutAsync(41, authData.CustId);
+                  _ = await LogoutAsync(1, authData.CustId);
               });
 
             return apiResult;
@@ -208,7 +208,7 @@ namespace MemberSite.Controllers.Api
 
             _ = Task.Run(async () =>
             {
-                _ = await LogoutAsync(41, authData.CustId);
+                _ = await LogoutAsync(1, authData.CustId);
             });
 
             return apiResult;
@@ -865,9 +865,30 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<decimal>(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var balance = _walletBll.GetBalance(custInfo.CustId);
-            apiResult.Data = balance;
-            apiResult.ErrorCode = 0;
+            if (checkWelletReq.TpId == 1)
+            {
+                var tpWalletBalanceData = await _thirdPartyBll.GetTpWalletBalanceAsync(checkWelletReq.TpId, authData.CustId);
+                if (tpWalletBalanceData.ErrorCode == 0)
+                {
+                    apiResult.Data = tpWalletBalanceData.Data.balance + tpWalletBalanceData.Data.bonus;
+                    apiResult.ErrorCode = 0;
+                }
+                else if (tpWalletBalanceData.ErrorCode == 10)
+                {
+                    apiResult.ErrorCode = 10;
+                }
+                else
+                {
+                    apiResult.ErrorCode = tpWalletBalanceData.ErrorCode;
+                    apiResult.Message = tpWalletBalanceData.Message;
+                }
+            }
+            else
+            {
+                var balance = _walletBll.GetBalance(custInfo.CustId);
+                apiResult.Data = balance;
+                apiResult.ErrorCode = 0;
+            }
 
             return apiResult;
         }

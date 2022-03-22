@@ -207,8 +207,7 @@
         JILI = 32,
         TCG = 33,
         MG = 34,
-        MP = 35,
-        SBSW = 41
+        MP = 35
     }
     public enum GameType
     {
