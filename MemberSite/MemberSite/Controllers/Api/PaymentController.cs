@@ -215,7 +215,7 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
             }
-            
+
 
             var result = -1;
             DepositRep3 depositRep3 = null;
@@ -374,7 +374,7 @@ namespace MemberSite.Controllers.Api
                 }
             }
             #endregion
-            
+
             return await DoWithdrawalAsync(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, false, null);
         }
 
@@ -386,7 +386,7 @@ namespace MemberSite.Controllers.Api
             public string blackbox { get; set; }
         }
 
-        private async Task<ApiResult>  DoWithdrawalAsync(ApiResult apiResult, 
+        private async Task<ApiResult> DoWithdrawalAsync(ApiResult apiResult,
             AuthData authData,
             Customer custInfo,
             WithdrawalReqModel withdrawalReqModel,
@@ -658,7 +658,7 @@ namespace MemberSite.Controllers.Api
 
             return await DoWithdrawalAsync(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, true, usdtDetail);
         }
-        
+
         private bool WithdrawalReqCheck(ref ApiResult apiResult, WithdrawalReqModel withdrawalReqModel, AuthData authData, Customer custInfo)
         {
             if (withdrawalReqModel.amount <= 0)
@@ -700,8 +700,8 @@ namespace MemberSite.Controllers.Api
             var result = bankInfoBLL.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId)
                 .ToList();
 
-            if (custInfo.SiteId == (int) SiteId.Nova88
-                && custInfo.CurrencyId == (int) CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            if (custInfo.SiteId == (int)SiteId.Nova88
+                && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
             {
                 bankInfoBLL.BankNameLocalization(result, authData.LangId);
             }
@@ -723,7 +723,7 @@ namespace MemberSite.Controllers.Api
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var result = bankInfoBLL.GetOnlineBankInfoSysList(custInfo.CustId, payment.payId)
                 .ToList();
-            
+
             if (custInfo.SiteId == (int)SiteId.Nova88
                 && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
             {
@@ -1223,7 +1223,7 @@ namespace MemberSite.Controllers.Api
 
             var dailyCustomerWithdrawalInfo =
                 paymentBLL.GetDailyCustomerWithdrawalInfo(new DailyCustomerWithdrawalInfoInput { CustId = custInfo.CustId });
-            
+
             var cryptoWithdrawalLimitInfo = paymentBLL.GetUSDTWithdrawalLimitInfoV2(new USDTWithdrawalLimitInfoInput
             {
                 SiteId = custInfo.SiteId,
@@ -1247,7 +1247,7 @@ namespace MemberSite.Controllers.Api
                     Network = x.Network,
                     WithdrawalMin = x.WithdrawalMin,
                     Unlimited = x.WithdrawalMax == 0,
-                    WithdrawalAvailableAmount = tmpWithdrawalAvailableAmount < 0 
+                    WithdrawalAvailableAmount = tmpWithdrawalAvailableAmount < 0
                         ? 0 : tmpWithdrawalAvailableAmount
                 });
             });
@@ -1541,5 +1541,44 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0
             };
         }
+
+        /// <summary>
+        /// 取得存款Line頻道
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiResult<LineChannel> GetLineChannelForDpeosit()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            if (authData.CustId == 0)
+                return new ApiResult<LineChannel>
+                {
+                    ErrorCode = -1,
+                    Message = "Cust is Invalid.Please Contact to CSD."
+                };
+
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            if (custInfo == null)
+                return new ApiResult<LineChannel>
+                {
+                    ErrorCode = -1,
+                    Message = "Cust Not Found.Please Contact to CSD."
+                };
+
+            var result = bankInfoBLL.GetLineChannel(custInfo.SiteId, custInfo.CurrencyId);
+            if(result == null)
+                return new ApiResult<LineChannel>
+                {
+                    ErrorCode = -1,
+                    Message = "Link Not Found.Please Contact to CSD."
+                };
+
+            return new ApiResult<LineChannel>
+            {
+                Data = result,
+                ErrorCode = 0
+            }; ;
+        }
+
     }
 }
