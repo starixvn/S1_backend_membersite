@@ -283,11 +283,13 @@
         Promotion = 0,
         Deposit = 1
     }
+
     public enum OTPType
     {
         SMS = 0,
         Email = 1
     }
+    
     public enum CurrencyId
     {
         MYR = 2,
