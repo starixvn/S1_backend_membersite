@@ -478,6 +478,13 @@ namespace MemberSite.Service.DAL
                 promo.MaxAmount = promo.PromotionType == (int)PromotionType.FstDeposit
                     ? _walletService.GetBalance(CustId)
                     : promo.DepositAmount;
+                
+                if (promo.PromotionType == (int)PromotionType.FstDeposit
+                    && promo.MaxAmount > promo.DepositAmount)
+                {
+                    promo.MaxAmount = promo.DepositAmount;
+                }
+
                 if (promo.RequiredAmount == 0)
                 {
                     promo.RequiredAmount = 1;
