@@ -1,7 +1,6 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace MemberSite.Controllers.Api
 {

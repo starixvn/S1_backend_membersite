@@ -1,13 +1,9 @@
 ﻿using Dapper;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using MemberSite.Service.Library;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.DAL
 {

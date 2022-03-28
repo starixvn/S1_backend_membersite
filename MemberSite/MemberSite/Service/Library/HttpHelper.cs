@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Net;
 using System.Xml.Linq;
 using Flurl.Http;
 using Flurl.Http.Content;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.Library

@@ -1,12 +1,7 @@
 ﻿using MemberSite.Service.Model;
 using Newtonsoft.Json;
-using System;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Serilog.Context;
 
 namespace MemberSite.Service.Library

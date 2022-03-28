@@ -1,6 +1,5 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
-using System.Collections.Generic;
 
 namespace MemberSite.Service.BLL
 {

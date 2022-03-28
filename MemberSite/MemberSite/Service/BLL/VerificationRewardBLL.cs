@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using MemberSite.Service.DAL.Interface;
+﻿using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.DependencyInjection;
+
 namespace MemberSite.Service.BLL
 {
     public class VerificationRewardBLL

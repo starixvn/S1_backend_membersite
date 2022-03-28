@@ -1,14 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using MemberSite.Service.BLL;
+﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using static MemberSite.Controllers.entPageController;
 
 namespace MemberSite.Controllers

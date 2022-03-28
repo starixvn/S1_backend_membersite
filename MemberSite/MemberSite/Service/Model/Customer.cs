@@ -1,6 +1,4 @@
 ﻿using MemberSite.Service.Model.enums;
-using System;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model

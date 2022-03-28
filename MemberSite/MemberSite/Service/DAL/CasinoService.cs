@@ -1,14 +1,9 @@
 ﻿using Dapper;
 using MemberSite.Service.Model;
-using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using MemberSite.Service.Library;
 using Newtonsoft.Json;
-using System;
-using Microsoft.Extensions.DependencyInjection;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL

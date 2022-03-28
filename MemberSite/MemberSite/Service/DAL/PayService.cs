@@ -1,9 +1,7 @@
 ﻿using Dapper;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
 using System.Data;
 
 namespace MemberSite.Service.DAL
