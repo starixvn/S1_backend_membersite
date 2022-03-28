@@ -94,18 +94,7 @@ namespace MemberSite.Service.DAL
             {
                 if (IsLogin)
                 {
-                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, promo.BonusCode, DeviceType });
-                    canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
-                    canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-                    canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
-                    canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                    canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                    _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
-
-                    var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
-                    promo.canJoin = canJoinResult == 1;
-                    promo.Result = canJoinParams.Get<int>("Result");
-
+                    var canJoinParams = GetPromotionCanJoin(SiteId, CustId, CurrencyId, DeviceType, promo);
                     SetPromotion(SiteId, CustId, CurrencyId, false, promo, canJoinParams);
                 }
 
@@ -117,7 +106,7 @@ namespace MemberSite.Service.DAL
             return promotion;
         }
 
-        public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode, int? DeviceType)
+        public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode, int DeviceType)
         {
             var promo = _reportDbClient.QueryFirst<CustPromotion>("Member_PromotionV3_Get", new DynamicParameters(new {CustId, SiteId, CurrencyId, BonusCode, DeviceType}));
 
@@ -127,18 +116,7 @@ namespace MemberSite.Service.DAL
 
                 if (IsLogin)
                 {
-                    var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, promo.BonusCode, DeviceType });
-                    canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
-                    canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-                    canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
-                    canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                    canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                    _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
-
-                    var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
-                    promo.canJoin = canJoinResult == 1;
-                    promo.Result = canJoinParams.Get<int>("Result");
-
+                    var canJoinParams = GetPromotionCanJoin(SiteId, CustId, CurrencyId, DeviceType, promo);
                     SetPromotion(SiteId, CustId, CurrencyId, true, promo, canJoinParams);
                 }
             }
@@ -225,18 +203,7 @@ namespace MemberSite.Service.DAL
 
             foreach (var promo in promotionList)
             {
-                var canJoinParams = new DynamicParameters(new { CustId, CurrencyId, SiteId, promo.BonusCode, DeviceType = deviceType });
-                canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
-                canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-                canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
-                canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-                _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
-
-                var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
-                promo.canJoin = canJoinResult == 1 || canJoinResult == 3;
-                promo.Result = canJoinParams.Get<int>("Result");
-
+                var canJoinParams = GetPromotionCanJoin(SiteId, CustId, CurrencyId, deviceType, promo);
                 SetPromotion(SiteId, CustId, CurrencyId, false, promo, canJoinParams);
                 SetPromotionDetail(langId, defLang, true, promo);
 
@@ -244,6 +211,24 @@ namespace MemberSite.Service.DAL
             }
 
             return _promotion;
+        }
+        
+        private DynamicParameters GetPromotionCanJoin(int siteId, int custId, int currencyId, int deviceType,
+            CustPromotion promo)
+        {
+            var canJoinParams = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, promo.BonusCode,
+                DeviceType = deviceType });
+            canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+            canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+            canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
+            canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
+            _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
+
+            var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
+            promo.canJoin = canJoinResult == 1;
+            promo.Result = canJoinParams.Get<int>("Result");
+            return canJoinParams;
         }
         
         private void SetPromotion(int siteId, int custId, int currencyId, bool getCashbackDetail, CustPromotion promo, DynamicParameters canJoinParams)
