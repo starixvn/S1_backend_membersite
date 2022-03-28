@@ -106,104 +106,10 @@ namespace MemberSite.Service.DAL
                     promo.canJoin = canJoinResult == 1;
                     promo.Result = canJoinParams.Get<int>("Result");
 
-                    if ((promo.PromotionType == (int)PromotionType.FstDeposit || promo.PromotionType == (int)PromotionType.ReDeposit) && promo.canJoin)
-                    {
-                        promo.DepositId = canJoinParams.Get<string>("RefId");
-                        promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
-                        promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
-
-                        promo.MaxAmount = promo.PromotionType == (int)PromotionType.FstDeposit
-                            ? _walletService.GetBalance(CustId)
-                            : promo.DepositAmount;
-
-                        if (promo.PromotionType == (int)PromotionType.FstDeposit
-                            && promo.MaxAmount > promo.DepositAmount)
-                        {
-                            promo.MaxAmount = promo.DepositAmount;
-                        }
-
-                        if (promo.RequiredAmount == 0)
-                        {
-                            promo.RequiredAmount = 1;
-                        }
-
-                        if (promo.BonusType == (int)BonusType.Amount)
-                        {
-                            promo.MaxAmount = promo.RequiredAmount;
-                        }
-                        else
-                        {
-                            if (promo.MaxBonus > 0)
-                            {
-                                var dBonus = Math.Ceiling(promo.Bonus * promo.DepositAmount / 100);
-                                if (dBonus > promo.MaxBonus)
-                                {
-                                    promo.MaxAmount = promo.MaxBonus * 100 / promo.Bonus;
-                                }
-                            }
-                        }
-                    }
-
-                    if (promo.PromotionType == (int)PromotionType.Rebate)
-                    {
-                        promo.isJoin = _reportDbClient.Execute("Member_RebateInfo_GetByCust",
-                            new DynamicParameters(new {promo.BonusCode, RebateType = promo.PromotionType - 5, CustId})) > 0;
-                    }
-                    else
-                    {
-                        var custBonusInfo = _reportDbClient.QueryFirst<BonusWallet>("Member_BonusInfo_GetByCust",
-                            new DynamicParameters(new {promo.BonusCode, PromoCategoryId = promo.CategoryId, promo.TpId, CustId}));
-                        if (custBonusInfo != null)
-                        {
-                            promo.CustExpiryTime = custBonusInfo.ExpiryTime;
-                            promo.CustRollOver = custBonusInfo.Rollover;
-                            promo.CustTurnOver = custBonusInfo.Turnover;
-                            promo.Status = custBonusInfo.Status;
-                            promo.isJoin = true;
-                        }
-
-                        if (promo.PromotionType == (int)PromotionType.Cashback)
-                        {
-                            GetCashbackInfo(CustId, SiteId, CurrencyId, promo, false);
-                        }
-                    }
+                    SetPromotion(SiteId, CustId, CurrencyId, false, promo, canJoinParams);
                 }
 
-                if (!string.IsNullOrEmpty(promo.Details))
-                {
-                    var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
-                    Dictionary<string, string> settings = null;
-                    if (details.ContainsKey(langId))
-                    {
-                        settings = details[langId];
-                    }
-                    else if (details.ContainsKey(defLang))
-                    {
-                        settings = details[defLang];
-                    }
-                    else
-                    {
-                        foreach (var item in details)
-                        {
-                            settings = item.Value;
-                            break;
-                        }
-                    }
-
-                    promo.Details = null;
-                    if (settings != null)
-                    {
-                        settings.TryGetValue("title", out var title);
-                        settings.TryGetValue("bannerUrl", out var bannerUrl);
-                        settings.TryGetValue("description", out var description);
-                        settings.TryGetValue("promotionLink", out var promotionLink);
-
-                        promo.Title = title;
-                        promo.Banner = bannerUrl;
-                        promo.Description = description;
-                        promo.PromotionLink = promotionLink;
-                    }
-                }
+                SetPromotionDetail(langId, defLang, true, promo);
 
                 promotion.Add(promo);
             }
@@ -217,40 +123,7 @@ namespace MemberSite.Service.DAL
 
             if (promo != null)
             {
-                if (!string.IsNullOrEmpty(promo.Details))
-                {
-                    var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
-                    Dictionary<string, string> settings = null;
-                    if (details.ContainsKey(langId))
-                    {
-                        settings = details[langId];
-                    }
-                    else if (details.ContainsKey(defLang))
-                    {
-                        settings = details[defLang];
-                    }
-                    else
-                    {
-                        foreach (var item in details)
-                        {
-                            settings = item.Value;
-                            break;
-                        }
-                    }
-
-                    if (settings != null)
-                    {
-                        settings.TryGetValue("title", out var title);
-                        settings.TryGetValue("bannerUrl", out var bannerUrl);
-                        settings.TryGetValue("description", out var description);
-                        settings.TryGetValue("detail", out var detail);
-
-                        promo.Title = title;
-                        promo.Banner = bannerUrl;
-                        promo.Description = description;
-                        promo.Details = detail;
-                    }
-                }
+                SetPromotionDetail(langId, defLang, false, promo);
 
                 if (IsLogin)
                 {
@@ -266,67 +139,7 @@ namespace MemberSite.Service.DAL
                     promo.canJoin = canJoinResult == 1;
                     promo.Result = canJoinParams.Get<int>("Result");
 
-                    if ((promo.PromotionType == (int)PromotionType.FstDeposit || promo.PromotionType == (int)PromotionType.ReDeposit) && promo.canJoin)
-                    {
-                        promo.DepositId = canJoinParams.Get<string>("RefId");
-                        promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
-                        promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
-
-                        promo.MaxAmount = promo.PromotionType == (int)PromotionType.FstDeposit
-                            ? _walletService.GetBalance(CustId)
-                            : promo.DepositAmount;
-                        
-                        if (promo.PromotionType == (int)PromotionType.FstDeposit
-                            && promo.MaxAmount > promo.DepositAmount)
-                        {
-                            promo.MaxAmount = promo.DepositAmount;
-                        }
-
-                        if (promo.RequiredAmount == 0)
-                        {
-                            promo.RequiredAmount = 1;
-                        }
-
-                        if (promo.BonusType == (int)BonusType.Amount)
-                        {
-                            promo.MaxAmount = promo.RequiredAmount;
-                        }
-                        else
-                        {
-                            if (promo.MaxBonus > 0)
-                            {
-                                var dBonus = Math.Ceiling(promo.Bonus * promo.DepositAmount / 100);
-                                if (dBonus > promo.MaxBonus)
-                                {
-                                    promo.MaxAmount = promo.MaxBonus * 100 / promo.Bonus;
-                                }
-                            }
-                        }
-                    }
-
-                    if (promo.PromotionType == (int)PromotionType.Rebate)
-                    {
-                        promo.isJoin = _reportDbClient.Execute("Member_RebateInfo_GetByCust",
-                            new DynamicParameters(new {promo.BonusCode, RebateType = promo.PromotionType - 5, CustId})) > 0;
-                    }
-                    else
-                    {
-                        var custBonusInfo = _reportDbClient.QueryFirst<BonusWallet>("Member_BonusInfo_GetByCust",
-                            new DynamicParameters(new {promo.BonusCode, PromoCategoryId = promo.CategoryId, promo.TpId, CustId}));
-                        if (custBonusInfo != null)
-                        {
-                            promo.CustExpiryTime = custBonusInfo.ExpiryTime;
-                            promo.CustRollOver = custBonusInfo.Rollover;
-                            promo.CustTurnOver = custBonusInfo.Turnover;
-                            promo.Status = custBonusInfo.Status;
-                            promo.isJoin = true;
-                        }
-
-                        if (promo.PromotionType == (int) PromotionType.Cashback)
-                        {
-                            GetCashbackInfo(CustId, SiteId, CurrencyId, promo, true);
-                        }
-                    }
+                    SetPromotion(SiteId, CustId, CurrencyId, true, promo, canJoinParams);
                 }
             }
 
@@ -424,59 +237,26 @@ namespace MemberSite.Service.DAL
                 promo.canJoin = canJoinResult == 1 || canJoinResult == 3;
                 promo.Result = canJoinParams.Get<int>("Result");
 
-                promotion(CustId, promo, canJoinParams);
-
-                if (!string.IsNullOrEmpty(promo.Details))
-                {
-                    var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
-                    Dictionary<string, string> settings = null;
-                    if (details.ContainsKey(langId))
-                    {
-                        settings = details[langId];
-                    }
-                    else if (details.ContainsKey(defLang))
-                    {
-                        settings = details[defLang];
-                    }
-                    else
-                    {
-                        foreach (var item in details)
-                        {
-                            settings = item.Value;
-                            break;
-                        }
-                    }
-
-                    promo.Details = null;
-                    if (settings != null)
-                    {
-                        settings.TryGetValue("title", out var title);
-                        settings.TryGetValue("bannerUrl", out var bannerUrl);
-                        settings.TryGetValue("description", out var description);
-
-                        promo.Title = title;
-                        promo.Banner = bannerUrl;
-                        promo.Description = description;
-                    }
-                }
+                SetPromotion(SiteId, CustId, CurrencyId, false, promo, canJoinParams);
+                SetPromotionDetail(langId, defLang, true, promo);
 
                 _promotion.Add(promo);
             }
 
             return _promotion;
         }
-
-        private void promotion(int CustId, CustPromotion promo, DynamicParameters canJoinParams)
+        
+        private void SetPromotion(int siteId, int custId, int currencyId, bool getCashbackDetail, CustPromotion promo, DynamicParameters canJoinParams)
         {
-            if ((promo.PromotionType == (int)PromotionType.FstDeposit || promo.PromotionType == (int)PromotionType.ReDeposit)
-                && promo.Result == 2)
+            if (promo.PromotionType is (int)PromotionType.FstDeposit or (int)PromotionType.ReDeposit
+                && promo.canJoin)
             {
                 promo.DepositId = canJoinParams.Get<string>("RefId");
                 promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
                 promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
 
                 promo.MaxAmount = promo.PromotionType == (int)PromotionType.FstDeposit
-                    ? _walletService.GetBalance(CustId)
+                    ? _walletService.GetBalance(custId)
                     : promo.DepositAmount;
                 
                 if (promo.PromotionType == (int)PromotionType.FstDeposit
@@ -507,15 +287,16 @@ namespace MemberSite.Service.DAL
                 }
             }
 
-            if (promo.PromotionType == (int)PromotionType.Rebate || promo.PromotionType == (int)PromotionType.Cashback)
+            if (promo.PromotionType == (int)PromotionType.Rebate)
             {
                 promo.isJoin = _reportDbClient.Execute("Member_RebateInfo_GetByCust",
-                    new DynamicParameters(new { promo.BonusCode, RebateType = promo.PromotionType - 5, CustId })) > 0;
+                    new DynamicParameters(new { promo.BonusCode, RebateType = promo.PromotionType - 5, CustId = custId })) > 0;
+
             }
             else
             {
                 var custBonusInfo = _reportDbClient.QueryFirst<BonusWallet>("Member_BonusInfo_GetByCust",
-                    new DynamicParameters(new { promo.BonusCode, PromoCategoryId = promo.CategoryId, promo.TpId, CustId }));
+                    new DynamicParameters(new { promo.BonusCode, PromoCategoryId = promo.CategoryId, promo.TpId, CustId = custId }));
                 if (custBonusInfo != null)
                 {
                     promo.CustExpiryTime = custBonusInfo.ExpiryTime;
@@ -524,66 +305,71 @@ namespace MemberSite.Service.DAL
                     promo.Status = custBonusInfo.Status;
                     promo.isJoin = true;
                 }
+                
+                if (promo.PromotionType == (int)PromotionType.Cashback)
+                {
+                    GetCashbackInfo(custId, siteId, currencyId, promo, getCashbackDetail);
+                }
+            }
+        }
+        
+        private void SetPromotionDetail(string langId, string defLang, bool clearDetails, CustPromotion promo)
+        {
+            if (!string.IsNullOrEmpty(promo.Details))
+            {
+                var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
+                Dictionary<string, string> settings = null;
+                if (details.ContainsKey(langId))
+                {
+                    settings = details[langId];
+                }
+                else if (details.ContainsKey(defLang))
+                {
+                    settings = details[defLang];
+                }
+                else
+                {
+                    foreach (var item in details)
+                    {
+                        settings = item.Value;
+                        break;
+                    }
+                }
+
+                if (clearDetails)
+                {
+                    promo.Details = null;
+                }
+
+                if (settings != null)
+                {
+                    settings.TryGetValue("title", out var title);
+                    settings.TryGetValue("bannerUrl", out var bannerUrl);
+                    settings.TryGetValue("description", out var description);
+                    settings.TryGetValue("promotionLink", out var promotionLink);
+
+                    promo.Title = title;
+                    promo.Banner = bannerUrl;
+                    promo.Description = description;
+                    promo.PromotionLink = promotionLink;
+
+                    if (!clearDetails)
+                    {
+                        settings.TryGetValue("detail", out var detail);
+                        promo.Details = detail;
+                    }
+                }
             }
         }
 
-        public class SSpecialCode
-        {
-            public string SpecialCode { get; set; }
-        }
+        
         public bool SetSpecialCode(int custId, string specialCode, int? deviceType)
         {
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionString"));
             var result = conn.Execute("Member_CustSpecialCodeV3_Ins", new { CustId = custId, SpecialCode = specialCode, DeviceType = deviceType }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
-        //test code
-        //public bool SetSpecialCode(int custId, string specialCode, int? deviceType)
-        //{
-
-        //    using MySqlConnection conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-        //    var rtn = conn.Query<SSpecialCode>("Member_SpecialCodeTest_Get", commandType: CommandType.StoredProcedure);
-        //    foreach (var Info in rtn)
-        //    {
-        //        if (!CheckSpecialCode(Info.SpecialCode))
-        //        {
-        //            Debug.WriteLine($" ERROR SpecialCode {Info.SpecialCode}");
-
-        //        }
-        //        else
-        //        {
-        //            Debug.WriteLine($" SUCCESS SpecialCode {Info.SpecialCode}");
-        //        }
-
-        //    }
-        //    var rtn2 = conn.Query<SSpecialCode>("Member_ScratchCardCodeTest_Get", commandType: CommandType.StoredProcedure);
-        //    foreach (var Info in rtn2)
-        //    {
-        //        if (!CheckSpecialCode(Info.SpecialCode))
-        //        {
-        //            Debug.WriteLine($" ERROR SpecialCode {Info.SpecialCode}");
-
-        //        }
-        //        else
-        //        {
-        //            Debug.WriteLine($" SUCCESS SpecialCode {Info.SpecialCode}");
-        //        }
-        //        if (!CheckScratchCardCode(Info.SpecialCode))
-        //        {
-        //            Debug.WriteLine($" ERROR ScratchCard {Info.SpecialCode}");
-
-        //        }
-        //        else
-        //        {
-        //            Debug.WriteLine($" SUCCESS ScratchCard {Info.SpecialCode}");
-        //        }
-        //    }
-
-        //    return true;
-        //    //using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-        //    //int result = conn.Execute("Member_CustSpecialCodeV3_Ins", new { CustId = custId, SpecialCode = specialCode, DeviceType = deviceType }, commandType: CommandType.StoredProcedure);
-        //    //return result > 0;
-        //}
+        
         public int SetScratchCardCode(int custId, string scratchCardCode, int? deviceType)
         {
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionString"));
@@ -604,40 +390,7 @@ namespace MemberSite.Service.DAL
 
             foreach (var promo in promotionList)
             { 
-                if (!string.IsNullOrEmpty(promo.Details))
-                {
-                    var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
-                    Dictionary<string, string> settings = null;
-                    if (details.ContainsKey(langId))
-                    {
-                        settings = details[langId];
-                    }
-                    else if (details.ContainsKey(defLang))
-                    {
-                        settings = details[defLang];
-                    }
-                    else
-                    {
-                        foreach (var item in details)
-                        {
-                            settings = item.Value;
-                            break;
-                        }
-                    }
-
-                    promo.Details = null;
-                    if (settings != null)
-                    {
-                        settings.TryGetValue("title", out var title);
-                        settings.TryGetValue("bannerUrl", out var bannerUrl);
-                        settings.TryGetValue("description", out var description);
-
-                        promo.Title = title;
-                        promo.Banner = bannerUrl;
-                        promo.Description = description;
-                    }
-                }
-
+                SetPromotionDetail(langId, defLang, true, promo);
                 _promotion.Add(promo);
             }
 
