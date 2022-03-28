@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -11,10 +7,7 @@ using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Controllers.Api
 {
@@ -36,7 +29,6 @@ namespace MemberSite.Controllers.Api
         private readonly int _mainWalletType;
         private readonly MessageBll _messageBll;
         private readonly PaymentBLL _paymentBll;
-        private readonly PromotionBll _promotionBll;
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
@@ -58,7 +50,6 @@ namespace MemberSite.Controllers.Api
             _isJwt = configuration.GetValue<bool>("JwtSettings:IsJwt");
             _messageBll = provider.GetRequiredService<MessageBll>();
             _paymentBll = provider.GetRequiredService<PaymentBLL>();
-            _promotionBll = provider.GetRequiredService<PromotionBll>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
@@ -299,22 +290,6 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-        //[HttpPost]
-        //public async Task<ApiResult<decimal>> GetWithdrawalAvailableBalanceAsync()
-        //{
-        //    var apiResult = new ApiResult<decimal>(selLangBLL);
-        //    var authData = authorizeBLL.GetAuthData();
-        //    var withdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
-
-        //    apiResult.Data = withdrawalAvailableBalance;
-        //    var rollover = paymentBLL.ReachedRollover(authData.CustId);
-        //    if (!rollover.ReachedRollover)
-        //    {
-        //        apiResult.Data = 0;
-        //    }
-        //    apiResult.ErrorCode = 0;
-        //    return apiResult;
-        //}
 
         [HttpPost]
         public ApiResult<dynamic> GetWithdrawalAvailableBalanceAsync()
@@ -324,7 +299,6 @@ namespace MemberSite.Controllers.Api
             var limitInfo = _paymentBll.GetCustWithdrawalLimitInfo(authData.CustId);
             if (limitInfo != null)
             {
-                //var withdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
                 var tmpDeduction = limitInfo.WithdrawalLimit - limitInfo.TurnOver;
                 var deduction = tmpDeduction < 0 ? 0 : tmpDeduction;
                 var balance = limitInfo.Balance - (deduction);
@@ -337,35 +311,6 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = 0;
             }
 
-            return apiResult;
-        }
-
-        public class RolloverPanel
-        {
-            public IEnumerable<Promotion> promotions { get; set; }
-            public decimal WithdrawalAvailableBalance { get; set; }
-        }
-
-        [HttpPost]
-        public ApiResult<RolloverPanel> GetRolloverPanelData()
-        {
-            var apiResult = new ApiResult<RolloverPanel>(_selLangBll);
-            var authData = _authorizeBll.GetAuthData();
-            var rolloverPanel = new RolloverPanel();
-            var promotions = _promotionBll.GetPromotionListByCustIdWithCache(authData.CustId).Where(x => x.BonusInfoStatus == 1);
-            if (promotions?.Count() > 0)
-            {
-                foreach (var promotion in promotions)
-                {
-                    promotion.Title = _selLangBll.GetResourceValue($"{promotion.BonusCode}Title");
-                    promotion.custRollOver = _custInfoBll.GetCustRollOver(authData.CustId, promotion.BonusCode);
-                }
-                rolloverPanel.promotions = promotions;
-                //rolloverPanel.WithdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
-            }
-
-            apiResult.Data = rolloverPanel;
-            apiResult.ErrorCode = 0;
             return apiResult;
         }
 

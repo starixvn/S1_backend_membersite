@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using MemberSite.Service.Model;
-using Microsoft.Extensions.DependencyInjection;
+﻿using MemberSite.Service.Model;
 
 namespace MemberSite.Service.BLL
 {

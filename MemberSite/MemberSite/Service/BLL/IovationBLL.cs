@@ -2,9 +2,6 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using MemberSite.Service.Model.Mapping;
 
 namespace MemberSite.Service.BLL

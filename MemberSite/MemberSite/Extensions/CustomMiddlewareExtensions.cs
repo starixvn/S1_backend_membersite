@@ -1,5 +1,4 @@
 ﻿using MemberSite.Extensions.Middlewares;
-using Microsoft.AspNetCore.Builder;
 
 namespace MemberSite.Extensions
 {

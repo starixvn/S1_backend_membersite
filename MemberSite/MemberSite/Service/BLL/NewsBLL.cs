@@ -1,7 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace MemberSite.Service.BLL
 {

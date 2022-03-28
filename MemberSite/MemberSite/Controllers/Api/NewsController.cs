@@ -1,5 +1,4 @@
-﻿using System;
-using MemberSite.Service.BLL;
+﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Mvc;
 

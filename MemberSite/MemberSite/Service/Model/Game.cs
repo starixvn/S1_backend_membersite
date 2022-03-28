@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace MemberSite.Service.Model
+﻿namespace MemberSite.Service.Model
 {
     public class Provider
     {

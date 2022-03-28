@@ -1,15 +1,7 @@
-﻿using MemberSite.Service.DAL;
-using MemberSite.Service.Library;
+﻿using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using MemberSite.Service.DAL.Interface;
 
 namespace MemberSite.Service.BLL
