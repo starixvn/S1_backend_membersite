@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using MemberSite.Extensions;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,13 +23,13 @@ namespace MemberSite.Service.BLL.Tests
         [SetUp]
         public void SetUp()
         {
-            var configBuilder = new ConfigurationBuilder();
-            configBuilder.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false, false)
-                .AddJsonFile("appsettings.Local.json", false, false)
-                .AddJsonStream(Program.GetRemoteConfig(new List<string> { "http://52.221.19.140:7243/" }));
-            _configuration = configBuilder.Build();
-            
+            var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
+            {
+                EnvironmentName = "Local",
+            });
+            builder.Configuration.AddRemoteJsonConfig(builder.Configuration.GetSection("ConfigService").Get<string[]>());
+            var app = builder.Build();
+            _configuration = app.Configuration;
         }
 
         [TestCase("32_6", 32, "6")]
@@ -39,10 +41,13 @@ namespace MemberSite.Service.BLL.Tests
         {
             var services = new ServiceCollection();
             services.AddSingleton(_configuration);
-            services.AddTransient(p => new MySqlClient("", Substitute.For<ILogger<MySqlClient>>()) {DataBase = DataBase.Report});
+            services.AddTransient(p => new MySqlClient("", Substitute.For<ILogger<MySqlClient>>(), DataBase.Report));
             services.AddTransient(p => Substitute.For<IMemoryCache>());
+            services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>());
             services.AddTransient<CacheHelper>();
             services.AddTransient<CasinoService>();
+            services.AddDatabaseConnection(_configuration);
+
             var serviceProvider = services.BuildServiceProvider();
             var casinoBll = new CasinoBll(serviceProvider);
             
