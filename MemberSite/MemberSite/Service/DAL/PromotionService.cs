@@ -259,7 +259,7 @@ namespace MemberSite.Service.DAL
                     promo.canJoin = canJoinResult == 1;
                     promo.Result = canJoinParams.Get<int>("Result");
 
-                    if ((promo.PromotionType == (int)PromotionType.FstDeposit || promo.PromotionType == (int)PromotionType.ReDeposit) && promo.Result == 2)
+                    if ((promo.PromotionType == (int)PromotionType.FstDeposit || promo.PromotionType == (int)PromotionType.ReDeposit) && promo.canJoin)
                     {
                         promo.DepositId = canJoinParams.Get<string>("RefId");
                         promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
