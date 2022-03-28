@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using MemberSite.Service.BLL;
+﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
 
 namespace MemberSite.Controllers.Api
 {

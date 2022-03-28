@@ -1,15 +1,7 @@
 ﻿using MemberSite.Service.Library;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Template;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using MemberSite.Service.Model;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {

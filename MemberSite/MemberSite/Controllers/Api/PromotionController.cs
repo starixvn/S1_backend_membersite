@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MemberSite.Service.BLL;
-using MemberSite.Service.Library;
+﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace MemberSite.Controllers.Api
 {
@@ -33,64 +24,7 @@ namespace MemberSite.Controllers.Api
             _authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
             _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
         }
-
-        public ApiResult<IEnumerable<Promotion>> GetPromotionList()
-        {
-            var apiResult = new ApiResult<IEnumerable<Promotion>>(_selLangBLL);
-
-            try
-            {
-                IEnumerable<Promotion> promotionList = null;
-
-                if (User.Identity.IsAuthenticated)
-                {
-                    var authData = _authorizeBLL.GetAuthData();
-                    promotionList = _promotionBLL.GetPromotionListByCustId(authData.CustId);
-                    if (promotionList != null)
-                    {
-                        foreach (var promotion in promotionList)
-                        {
-                            if (promotion.BonusInfoStatus == 1)
-                            {
-                                promotion.custRollOver = _custInfoBLL.GetCustRollOver(authData.CustId, promotion.BonusCode);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    var serverInfo = _serverInfoBLL.GetServerInfo();
-                    var ccccurrencyId = _selLangBLL.GetPreferCurrencyId();
-                    promotionList = _promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Where(x => x.CurrencyId == ccccurrencyId);
-                }
-
-                if (promotionList != null)
-                {
-                    foreach (var promotion in promotionList)
-                    {
-                        promotion.Title = _selLangBLL.GetResourceValue($"{promotion.BonusCode}Title");
-                        promotion.Description = _selLangBLL.GetResourceValue($"{promotion.BonusCode}Description");
-                        if (promotion.CurrencyId == 13)
-                        {
-                            promotion.Title = _selLangBLL.GetResourceValue($"{promotion.BonusCode}Title13");
-                            promotion.Description = _selLangBLL.GetResourceValue($"{promotion.BonusCode}Description13");
-                        }
-
-                        promotion.CategoryName = _selLangBLL.GetResourceValue($"PromotionCategory{promotion.CategoryId}");
-                    }
-                }
-
-
-                apiResult.Data = promotionList;
-                apiResult.ErrorCode = 0;
-            }
-            catch (Exception ex)
-            {
-                apiResult.RawMessage = ex.Message;
-            }
-
-            return apiResult;
-        }
+        
         public class PromotionReq
         {
             public string BonusCode { set; get; }

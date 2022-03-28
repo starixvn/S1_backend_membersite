@@ -35,7 +35,6 @@
 
         bonusInfo = bonusWalletBLL.CheckBonusWallet(custId, ViewContext.HttpContext.Request.Query["BonusCode"]);
         decimal dpositAmount = 0;
-        conJoin = promotionBLL.GetCanJoin(authorizeBLL.GetAuthData().CustId, ViewContext.HttpContext.Request.Query["BonusCode"], out result, out depositId, out dpositAmount);
 
         if (conJoin)
         {

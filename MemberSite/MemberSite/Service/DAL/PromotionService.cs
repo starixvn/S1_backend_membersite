@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Text.RegularExpressions;
 using Dapper;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
-using System.Linq;
 using MemberSite.Service.BLL;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace MemberSite.Service.DAL
 {
@@ -21,25 +15,15 @@ namespace MemberSite.Service.DAL
         private readonly IConfiguration _configuration;
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
-        private readonly string _connectionString;
-        private readonly Common _common;
         private readonly WalletService _walletService;
-        private readonly BonusWalletService _bonusWalletService;
-        private readonly WithdrawalLimitService _withdrawalLimitService;
-        private readonly Tools _tools;
         private readonly SelLangBLL _selLangBll;
 
         public PromotionService(IServiceProvider serviceProvider)
         {
             _configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            _connectionString = _configuration.GetConnectionString("ConnectionString");
             _mainDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
-            _common = serviceProvider.GetRequiredService<Common>();
             _walletService = serviceProvider.GetRequiredService<WalletService>();
-            _bonusWalletService = serviceProvider.GetRequiredService<BonusWalletService>();
-            _withdrawalLimitService = serviceProvider.GetRequiredService<WithdrawalLimitService>();
-            _tools = serviceProvider.GetRequiredService<Tools>();
             _selLangBll = serviceProvider.GetRequiredService<SelLangBLL>();
         }
 
@@ -52,37 +36,6 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<Promotion>("Member_PromotionListByCustId_Get", new { SiteId = siteId, CustId = custId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
-        }
-
-        public void CancelAllWaitingBonus(int custId, MySqlConnection conn, MySqlTransaction trans)
-        {//當領取BONUS成功   將客戶DepositBonusQueue中的BONUS CANCEL掉
-
-            var BonusList = _mainDbClient.Query<DepositBonus>("Service_DepositBonusQueueByCustId_Get", new DynamicParameters(new { CustId = custId }));//改變狀態用mainDb取得資料，避免資料不同步
-
-            foreach (var depositBonus in BonusList)
-            {
-                {
-                    var p = new DynamicParameters(new { TransId = depositBonus.TransId, Status = (int)DepositBonusQueueStatus.Cancel_other_Bonus });
-                    _mainDbClient.Execute("Service_DepositBonusStatus_Set", p, conn, trans);
-                }
-            }
-        }
-        public bool GetCanJoin(int custId, int siteId, string bonusCode, int currencyId, out int result, out string depositId, out decimal dpositAmount)
-        {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionString"));
-            var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, BonusCode = bonusCode });
-            p.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
-            p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            p.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
-            p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            p.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-            conn.Execute("Member_PromotionCanJoinV4_Get", p, commandType: CommandType.StoredProcedure);
-            var canJoin = p.Get<byte?>("CanJoin") ?? 0;
-            result = p.Get<int>("Result");
-            depositId = p.Get<string>("RefId");
-            dpositAmount = p.Get<decimal?>("Amount") ?? 0m;
-
-            return canJoin == 1;
         }
 
         public List<CustPromotion> GetPromotionListv3(int SiteId, int CustId, int CurrencyId, int DeviceType, bool IsLogin, string langId, string defLang)

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MemberSite.Extensions
+﻿namespace MemberSite.Extensions
 {
     public static class DateTimeExtensions
     {
