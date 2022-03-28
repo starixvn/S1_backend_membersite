@@ -1,8 +1,4 @@
 ﻿using NUnit.Framework;
-using MemberSite.Service.BLL;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using MemberSiteTests.Stubs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -10,17 +6,14 @@ using Microsoft.Extensions.Hosting.Internal;
 using NSubstitute;
 using MemberSite.Service.Library;
 using Microsoft.Extensions.Logging;
-using System.IO;
 using Microsoft.Extensions.DependencyInjection;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Hosting;
 using FluentAssertions;
 using Newtonsoft.Json;
-using System.Diagnostics;
-using System.Threading;
+using Microsoft.AspNetCore.Builder;
+using MemberSite.Extensions;
 
 namespace MemberSite.Service.BLL.Tests
 {
@@ -32,28 +25,22 @@ namespace MemberSite.Service.BLL.Tests
         private readonly MobilePayInfoBll _mobilePayInfoBLL;
         public PayInfoBLLTests()
         {
-            var services = new ServiceCollection();
-            var configBuilder = new ConfigurationBuilder();
-            configBuilder.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false, false)
-                .AddJsonFile("appsettings.Local.json", false, false)
-                .AddJsonStream(Program.GetRemoteConfig(new List<string> { "http://52.221.19.140:7243/" }));
-            _configuration = configBuilder.Build();
-            services.AddSingleton(_configuration);
-            services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>());
-            services.AddSingleton(p => Substitute.For<IWebHostEnvironment>());
-            services.AddSingleton(p => Substitute.For<ILogger<CourierAdapter>>());
-
-            var startup = new StubStartUp(_configuration, new HostingEnvironment()
+            var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
             {
-                EnvironmentName = Environments.Development,
+                EnvironmentName = "Local",
             });
+            builder.Configuration.AddRemoteJsonConfig(builder.Configuration.GetSection("ConfigService").Get<string[]>());
+            builder.Services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>());
+            builder.Services.AddSingleton(p => Substitute.For<IWebHostEnvironment>());
+            builder.Services.AddSingleton(p => Substitute.For<ILogger<CourierAdapter>>());
 
-            startup.ConfigureServices(services);
-            var provider = services.BuildServiceProvider();
+            var startup = new Startup(builder.Configuration, builder.Environment);
+            startup.ConfigureServices(builder.Services);
+            var app = builder.Build();
 
-            _payInfoBLL = provider.GetRequiredService<PayInfoBLL>();
-            _mobilePayInfoBLL = provider.GetRequiredService<MobilePayInfoBll>();
+            _configuration = app.Configuration;
+            _payInfoBLL = app.Services.GetRequiredService<PayInfoBLL>();
+            _mobilePayInfoBLL = app.Services.GetRequiredService<MobilePayInfoBll>();
         }
 
 
