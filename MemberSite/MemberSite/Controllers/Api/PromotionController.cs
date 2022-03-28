@@ -182,7 +182,7 @@ namespace MemberSite.Controllers.Api
                 DeviceType = data.DeviceType;
             }
 
-            result.Data = _promotionBLL.GetPromotionDetail(serverInfo.SiteId, custId, currencyId, isLogin, _selLangBLL.GetLangId(), serverInfo.DefLang, data.BonusCode, DeviceType);
+            result.Data = _promotionBLL.GetPromotionDetail(serverInfo.SiteId, custId, currencyId, isLogin, _selLangBLL.GetLangId(), serverInfo.DefLang, data.BonusCode, Convert.ToInt32(DeviceType));
             result.ErrorCode = 0;
 
             return result;
