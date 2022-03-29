@@ -18,7 +18,7 @@ namespace MemberSite.Service.BLL
             var datas = bonusWalletService.GetCustBonusWallet(CustId);
             foreach (var data in datas)
             {
-                data.Rollover = data.Rollover < 0 ? 0 : data.Rollover;
+                data.Turnover = data.Turnover < 0 ? 0 : data.Turnover;
             }
             return datas;
         }
