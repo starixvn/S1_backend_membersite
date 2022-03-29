@@ -239,7 +239,8 @@ namespace MemberSite.Service.DAL
                 {
                     promo.CustExpiryTime = custBonusInfo.ExpiryTime;
                     promo.CustRollOver = custBonusInfo.Rollover;
-                    promo.CustTurnOver = custBonusInfo.Turnover;
+                    promo.CustTurnOver = custBonusInfo.Turnover < 0 ? 0 : custBonusInfo.Turnover;
+                    promo.FullFillType = custBonusInfo.FullFillType;
                     promo.Status = custBonusInfo.Status;
                     promo.isJoin = true;
                 }
