@@ -50,7 +50,7 @@ namespace MemberSite.Service.DAL
         public IEnumerable<BonusWallet> GetCustBonusWallet(int CustId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<BonusWallet>("Member_CustBonus_Get", new { CustId }, commandType: CommandType.StoredProcedure);
+            return conn.Query<BonusWallet>("Member_CustBonus_Get_V2", new { CustId }, commandType: CommandType.StoredProcedure);
         }
 
         public BonusWallet CheckBonusWallet(int CustId, int TpId)
