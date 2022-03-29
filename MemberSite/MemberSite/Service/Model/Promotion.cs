@@ -55,6 +55,7 @@ namespace MemberSite.Service.Model
         public int WalletType { get; set; }
         public int TpId { get; set; }
         public decimal CustRollOver { get; set; }
+        public int FullFillType { get; set; }
         public decimal CustTurnOver { get; set; }
         public int Status { get; set; }
         public DateTime? CustExpiryTime { get; set; }
