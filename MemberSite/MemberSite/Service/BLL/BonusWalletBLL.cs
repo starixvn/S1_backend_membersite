@@ -15,7 +15,12 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<BonusWallet> GetCustBonusWallet(int CustId)
         {
-            return bonusWalletService.GetCustBonusWallet(CustId);
+            var datas = bonusWalletService.GetCustBonusWallet(CustId);
+            foreach (var data in datas)
+            {
+                data.Rollover = data.Rollover < 0 ? 0 : data.Rollover;
+            }
+            return datas;
         }
 
         public BonusWallet CheckBonusWallet(int CustId, int TpId)
