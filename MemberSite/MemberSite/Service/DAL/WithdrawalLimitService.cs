@@ -1,12 +1,7 @@
-﻿using System;
-using Dapper;
-using Microsoft.Extensions.Configuration;
+﻿using Dapper;
 using MySql.Data.MySqlClient;
 using System.Data;
 using MemberSite.Service.Library;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System.Linq;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL

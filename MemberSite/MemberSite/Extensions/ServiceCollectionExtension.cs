@@ -1,11 +1,6 @@
 ﻿using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using MemberSite.Service.DAL;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MemberSite.Extensions
 {

@@ -28,7 +28,6 @@
     Layout = $"~/_Views/{serverInfo.SiteName}/Mobile/Shared/_Layout.cshtml";
 
     var CurrencyId = 0;
-    var promotionCnt = 0;
     var mainWalletType = configuration.GetValue<int>("MainWalletType");
     Customer customer = null;
 
@@ -37,12 +36,10 @@
         var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
         customer = custInfoBLL.GetCustInfoWithCache(custId);
         CurrencyId = customer.CurrencyId;
-        promotionCnt = promotionBLL.GetPromotionListByCustId(custId).Count();
     }
     else
     {
         CurrencyId = selLangBLL.GetPreferCurrencyId();
-        promotionCnt = promotionBLL.GetPromotionListWithCache(serverInfo.SiteId).Count(x => x.CurrencyId == CurrencyId);
     }
 
     var entFishingPageUrl = "";

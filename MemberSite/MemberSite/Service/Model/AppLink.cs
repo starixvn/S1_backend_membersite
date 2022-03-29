@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MemberSite.Service.Model
+﻿namespace MemberSite.Service.Model
 {
     public class AppLink
     {

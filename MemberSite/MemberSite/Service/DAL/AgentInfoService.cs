@@ -1,7 +1,5 @@
 ﻿using MemberSite.Service.Model;
-using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
 using Dapper;
 using System.Data;
 

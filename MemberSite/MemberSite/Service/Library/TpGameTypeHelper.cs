@@ -1,8 +1,4 @@
 ﻿using MemberSite.Service.Model;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MemberSite.Service.Library
 {

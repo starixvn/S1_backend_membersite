@@ -1,7 +1,4 @@
 ﻿using MemberSite.Service.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MemberSite.Service.BLL
 {

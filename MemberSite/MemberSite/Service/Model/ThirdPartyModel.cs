@@ -1,7 +1,5 @@
 ﻿using MemberSite.Extensions;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
