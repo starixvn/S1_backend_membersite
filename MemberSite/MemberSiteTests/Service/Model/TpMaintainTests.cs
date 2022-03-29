@@ -1,8 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Logging;
-using NSubstitute;
 
 namespace MemberSite.Service.Model.Tests
 {

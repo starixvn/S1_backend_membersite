@@ -1,11 +1,8 @@
 ﻿using MemberSite.Service.Model;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
-using System;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.Library
 {

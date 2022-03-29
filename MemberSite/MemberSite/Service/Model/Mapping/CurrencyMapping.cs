@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace MemberSite.Service.Model.Mapping
+﻿namespace MemberSite.Service.Model.Mapping
 {
     public class CurrencyMapping
     {

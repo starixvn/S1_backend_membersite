@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MemberSite.Service.Model
+﻿namespace MemberSite.Service.Model
 {
     public class Msg
     {

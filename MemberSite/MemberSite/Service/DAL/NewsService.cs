@@ -1,8 +1,6 @@
 ﻿using Dapper;
 using MemberSite.Service.Model;
-using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
 using System.Data;
 
 namespace MemberSite.Service.DAL

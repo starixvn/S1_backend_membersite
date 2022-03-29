@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
 using MemberSite.Service.DAL.Interface;
-using MemberSite.Service.Model;
-using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using NUnit.Framework;

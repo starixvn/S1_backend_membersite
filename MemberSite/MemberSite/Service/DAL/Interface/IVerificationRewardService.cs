@@ -1,7 +1,4 @@
-﻿using System.Threading.Tasks;
-using MemberSite.Service.Model;
-using MemberSite.Service.Model.enums;
-using MySql.Data.MySqlClient;
+﻿using MemberSite.Service.Model;
 
 namespace MemberSite.Service.DAL.Interface
 {

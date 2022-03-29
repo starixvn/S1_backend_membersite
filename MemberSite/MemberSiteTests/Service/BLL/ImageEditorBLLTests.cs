@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.IO;
 using FluentAssertions;
-using NSubstitute;
 using NUnit.Framework;
 
 namespace MemberSite.Service.BLL.Tests

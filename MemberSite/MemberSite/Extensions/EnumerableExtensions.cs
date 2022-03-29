@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace MemberSite.Extensions
+﻿namespace MemberSite.Extensions
 { 
     public static class EnumerableExtensions
     {
