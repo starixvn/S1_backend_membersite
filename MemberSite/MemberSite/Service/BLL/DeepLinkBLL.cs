@@ -14,15 +14,15 @@ namespace MemberSite.Service.BLL
         public List<GetDeepLinkRep> GetDeepLink(int SiteId, int DeepLinkId)
         {
             List<GetDeepLinkRep> result = new List<GetDeepLinkRep>();
-            var applink = deepLinkService.GetDeepLink(SiteId, DeepLinkId);
+            var deeplink = deepLinkService.GetDeepLink(SiteId, DeepLinkId);
 
-            applink.FindAll(item => !string.IsNullOrWhiteSpace(item.Domain)).ForEach(x =>
+            deeplink.FindAll(item => !string.IsNullOrWhiteSpace(item.Domain)).ForEach(x =>
             {
                 result.Add(new GetDeepLinkRep
                 {
                     Type = x.Type,
                     TypeName = Enum.GetName(typeof(DeepLinkType), x.Type),
-                    DownloadLink = $"{Enum.GetName(typeof(DeepLinkProtocolType), x.ProtocolType)}://{x.Domain}"
+                    DeepLink = $"{Enum.GetName(typeof(DeepLinkProtocolType), x.ProtocolType)}://{x.Domain}"
                 });
             });
 

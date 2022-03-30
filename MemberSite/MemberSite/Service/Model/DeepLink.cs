@@ -10,7 +10,7 @@
     {
         public int Type { get; set; }
         public string TypeName { get; set; }
-        public string DownloadLink { get; set; }
+        public string DeepLink { get; set; }
 
     }
 }
