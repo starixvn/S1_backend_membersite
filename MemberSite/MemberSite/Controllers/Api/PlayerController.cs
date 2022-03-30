@@ -10,10 +10,12 @@ namespace MemberSite.Controllers.Api
     {
         private readonly ServerInfoBll serverInfoBLL;
         private readonly AppLinkBLL appLinkBLL;
-        public PlayerController(ServerInfoBll serverInfoBLL, AppLinkBLL appLinkBLL)
+        private readonly DeepLinkBLL deepLinkBLL;
+        public PlayerController(ServerInfoBll serverInfoBLL, AppLinkBLL appLinkBLL, DeepLinkBLL deepLinkBLL)
         {
             this.serverInfoBLL = serverInfoBLL;
             this.appLinkBLL = appLinkBLL;
+            this.deepLinkBLL = deepLinkBLL;
         }
         [HttpGet]
         [HttpHead]
@@ -31,6 +33,20 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<List<GetAppLinkRep>>();
             var serverInfo = serverInfoBLL.GetServerInfo();
             var result = appLinkBLL.GetAppLink(serverInfo.SiteId);
+            apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+        public class GetDeepLinkReq
+        {
+            public int DeepLinkId { get; set; }
+        }
+        [HttpPost]
+        public ApiResult<List<GetDeepLinkRep>> GetDeepLink(GetDeepLinkReq req)
+        {
+            var apiResult = new ApiResult<List<GetDeepLinkRep>>();
+            var serverInfo = serverInfoBLL.GetServerInfo();
+            var result = deepLinkBLL.GetDeepLink(serverInfo.SiteId, req.DeepLinkId);
             apiResult.Data = result;
             apiResult.ErrorCode = 0;
             return apiResult;

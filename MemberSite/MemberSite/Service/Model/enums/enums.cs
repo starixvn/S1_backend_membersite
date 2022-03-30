@@ -315,4 +315,15 @@
         H5 = 2,
         APP = 3
     }
+    public enum DeepLinkType
+    {
+        Andriod = 1,
+        IOS = 2,
+        Desktop = 3
+    }
+    public enum DeepLinkProtocolType
+    {
+        http = 1,
+        https = 2
+    }
 }
