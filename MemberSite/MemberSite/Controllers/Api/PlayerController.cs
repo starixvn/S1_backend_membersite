@@ -39,14 +39,14 @@ namespace MemberSite.Controllers.Api
         }
         public class GetDeepLinkReq
         {
+            public int SiteId { get; set; }
             public int DeepLinkId { get; set; }
         }
         [HttpPost]
         public ApiResult<List<GetDeepLinkRep>> GetDeepLink(GetDeepLinkReq req)
         {
             var apiResult = new ApiResult<List<GetDeepLinkRep>>();
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            var result = deepLinkBLL.GetDeepLink(serverInfo.SiteId, req.DeepLinkId);
+            var result = deepLinkBLL.GetDeepLink(req.SiteId, req.DeepLinkId);
             apiResult.Data = result;
             apiResult.ErrorCode = 0;
             return apiResult;
