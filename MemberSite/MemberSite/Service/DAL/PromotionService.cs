@@ -176,7 +176,7 @@ namespace MemberSite.Service.DAL
             canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
             canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
             canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-            _mainDbClient.Execute("Member_PromotionCanJoin_Get_V7", canJoinParams);
+            _mainDbClient.Execute("Member_PromotionCanJoin_Get_V8", canJoinParams);
 
             var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
             promo.canJoin = canJoinResult == 1;
@@ -187,7 +187,7 @@ namespace MemberSite.Service.DAL
         private void SetPromotion(int siteId, int custId, int currencyId, bool getCashbackDetail, CustPromotion promo, DynamicParameters canJoinParams)
         {
             if (promo.PromotionType is (int)PromotionType.FstDeposit or (int)PromotionType.ReDeposit
-                && promo.Result == 2)
+                && promo.canJoin)
             {
                 promo.DepositId = canJoinParams.Get<string>("RefId");
                 promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
@@ -239,7 +239,8 @@ namespace MemberSite.Service.DAL
                 {
                     promo.CustExpiryTime = custBonusInfo.ExpiryTime;
                     promo.CustRollOver = custBonusInfo.Rollover;
-                    promo.CustTurnOver = custBonusInfo.Turnover;
+                    promo.CustTurnOver = custBonusInfo.Turnover < 0 ? 0 : custBonusInfo.Turnover;
+                    promo.FullFillType = custBonusInfo.FullFillType;
                     promo.Status = custBonusInfo.Status;
                     promo.isJoin = true;
                 }
