@@ -276,5 +276,10 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)),
                 i => _bankInfoService.GetAutoChannelBankInfoList(siteId, depositType));
         }
+
+        public LineChannel? GetLineChannel(int siteId, int currencyId)
+        {
+            return _payService.GetLineChannel(siteId, currencyId);
+        }
     }
 }
