@@ -6,6 +6,7 @@ namespace MemberSite.Controllers.Api
 {
     [Route("api/[controller]")]
     [Route("api/[controller]/[action]")]
+    [ApiController]
     public class PlayerController : Controller
     {
         private readonly ServerInfoBll serverInfoBLL;
