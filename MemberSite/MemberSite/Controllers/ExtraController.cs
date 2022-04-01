@@ -187,6 +187,10 @@ namespace MemberSite.Controllers
                     errorCode = 0;
                     if (!string.IsNullOrEmpty(signupModel.RedirectUrl))
                     {
+                        if (signupModel.RedirectUrl.IndexOf(".", StringComparison.Ordinal) > -1)
+                        {
+                            return Redirect(signupModel.RedirectUrl);
+                        }
                         return Redirect($"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/{signupModel.RedirectUrl}");
                     }
                     else
