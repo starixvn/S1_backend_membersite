@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:60930",
+      "applicationUrl": "http://localhost:5000",
       "sslPort": 0
     }
   },
@@ -14,8 +14,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Local"
       },
-      "sqlDebugging": false,
-      "nativeDebugging": false
+      "applicationUrl": "http://localhost:5000"
     },
     "MemberSite": {
       "commandName": "Project",
