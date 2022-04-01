@@ -1190,14 +1190,17 @@ namespace MemberSite.Controllers.Api
                     WithdrawalMin = x.WithdrawalMin,
                     Unlimited = x.WithdrawalMax == 0,
                     WithdrawalAvailableAmount = tmpWithdrawalAvailableAmount < 0
-                        ? 0 : tmpWithdrawalAvailableAmount
+                        ? 0 : tmpWithdrawalAvailableAmount,
+                    MaxTimes = x.Times,
+                    WithdrawalTimes = dailyCustomerWithdrawalInfo.Count
                 });
             });
 
             var output = withdrawalLimitInfo ?? new WithdrawalLimitInfoOutput()
             {
                 WithdrawalMin = 0,
-                WithdrawalMax = 0
+                WithdrawalMax = 0,
+                Times = 0
             };
 
             tmpWithdrawalAvailableAmount = output.WithdrawalMax == 0
@@ -1210,6 +1213,8 @@ namespace MemberSite.Controllers.Api
                 Unlimited = output.WithdrawalMax == 0,
                 WithdrawalAvailableAmount = tmpWithdrawalAvailableAmount < 0
                     ? 0 : tmpWithdrawalAvailableAmount,
+                MaxTimes = output.Times,
+                WithdrawalTimes = dailyCustomerWithdrawalInfo.Count,
                 USDTList = cryptoList
             };
 
