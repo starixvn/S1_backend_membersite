@@ -246,91 +246,91 @@ namespace MemberSite.Service.DAL
             return _promotion;
         }
 
-        private DynamicParameters GetPromotionCanJoin(int siteId, int custId, int currencyId, int deviceType,
-            CustPromotion promo)
-        {
-            var canJoinParams = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, promo.BonusCode,
-                DeviceType = deviceType });
-            canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
-            canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
-            canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
-            _mainDbClient.Execute("Member_PromotionCanJoin_Get_V8", canJoinParams);
+        //private DynamicParameters GetPromotionCanJoin(int siteId, int custId, int currencyId, int deviceType,
+        //    CustPromotion promo)
+        //{
+        //    var canJoinParams = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId, SiteId = siteId, promo.BonusCode,
+        //        DeviceType = deviceType });
+        //    canJoinParams.Add("CanJoin", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+        //    canJoinParams.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+        //    canJoinParams.Add("RefId", dbType: DbType.String, direction: ParameterDirection.Output);
+        //    canJoinParams.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+        //    canJoinParams.Add("RefList", dbType: DbType.String, direction: ParameterDirection.Output);
+        //    _mainDbClient.Execute("Member_PromotionCanJoin_Get_V8", canJoinParams);
 
-            var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
-            promo.canJoin = canJoinResult == 1;
-            promo.Result = canJoinParams.Get<int>("Result");
-            return canJoinParams;
-        }
+        //    var canJoinResult = canJoinParams.Get<byte?>("CanJoin") ?? 0;
+        //    promo.canJoin = canJoinResult == 1;
+        //    promo.Result = canJoinParams.Get<int>("Result");
+        //    return canJoinParams;
+        //}
         
-        private void SetPromotion(int siteId, int custId, int currencyId, bool getCashbackDetail, CustPromotion promo, DynamicParameters canJoinParams)
-        {
-            if (promo.PromotionType is (int)PromotionType.FstDeposit or (int)PromotionType.ReDeposit
-                && promo.canJoin)
-            {
-                promo.DepositId = canJoinParams.Get<string>("RefId");
-                promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
-                promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
+        //private void SetPromotion(int siteId, int custId, int currencyId, bool getCashbackDetail, CustPromotion promo, DynamicParameters canJoinParams)
+        //{
+        //    if (promo.PromotionType is (int)PromotionType.FstDeposit or (int)PromotionType.ReDeposit
+        //        && promo.canJoin)
+        //    {
+        //        promo.DepositId = canJoinParams.Get<string>("RefId");
+        //        promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
+        //        promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
 
-                promo.MaxAmount = promo.PromotionType == (int)PromotionType.FstDeposit
-                    ? _walletService.GetBalance(custId)
-                    : promo.DepositAmount;
+        //        promo.MaxAmount = promo.PromotionType == (int)PromotionType.FstDeposit
+        //            ? _walletService.GetBalance(custId)
+        //            : promo.DepositAmount;
                 
-                if (promo.PromotionType == (int)PromotionType.FstDeposit
-                    && promo.MaxAmount > promo.DepositAmount)
-                {
-                    promo.MaxAmount = promo.DepositAmount;
-                }
+        //        if (promo.PromotionType == (int)PromotionType.FstDeposit
+        //            && promo.MaxAmount > promo.DepositAmount)
+        //        {
+        //            promo.MaxAmount = promo.DepositAmount;
+        //        }
 
-                if (promo.RequiredAmount == 0)
-                {
-                    promo.RequiredAmount = 1;
-                }
+        //        if (promo.RequiredAmount == 0)
+        //        {
+        //            promo.RequiredAmount = 1;
+        //        }
 
-                if (promo.BonusType == (int)BonusType.Amount)
-                {
-                    promo.MaxAmount = promo.RequiredAmount;
-                }
-                else
-                {
-                    if (promo.MaxBonus > 0)
-                    {
-                        var dBonus = Math.Ceiling(promo.Bonus * promo.DepositAmount / 100);
-                        if (dBonus > promo.MaxBonus)
-                        {
-                            promo.MaxAmount = promo.MaxBonus * 100 / promo.Bonus;
-                        }
-                    }
-                }
-            }
+        //        if (promo.BonusType == (int)BonusType.Amount)
+        //        {
+        //            promo.MaxAmount = promo.RequiredAmount;
+        //        }
+        //        else
+        //        {
+        //            if (promo.MaxBonus > 0)
+        //            {
+        //                var dBonus = Math.Ceiling(promo.Bonus * promo.DepositAmount / 100);
+        //                if (dBonus > promo.MaxBonus)
+        //                {
+        //                    promo.MaxAmount = promo.MaxBonus * 100 / promo.Bonus;
+        //                }
+        //            }
+        //        }
+        //    }
 
-            if (promo.PromotionType == (int)PromotionType.Rebate)
-            {
-                promo.isJoin = _reportDbClient.Execute("Member_RebateInfo_GetByCust",
-                    new DynamicParameters(new { promo.BonusCode, RebateType = promo.PromotionType - 5, CustId = custId })) > 0;
+        //    if (promo.PromotionType == (int)PromotionType.Rebate)
+        //    {
+        //        promo.isJoin = _reportDbClient.Execute("Member_RebateInfo_GetByCust",
+        //            new DynamicParameters(new { promo.BonusCode, RebateType = promo.PromotionType - 5, CustId = custId })) > 0;
 
-            }
-            else
-            {
-                var custBonusInfo = _reportDbClient.QueryFirst<BonusWallet>("Member_BonusInfo_GetByCust",
-                    new DynamicParameters(new { promo.BonusCode, PromoCategoryId = promo.CategoryId, promo.TpId, CustId = custId }));
-                if (custBonusInfo != null)
-                {
-                    promo.CustExpiryTime = custBonusInfo.ExpiryTime;
-                    promo.CustRollOver = custBonusInfo.Rollover;
-                    promo.CustTurnOver = custBonusInfo.Turnover < 0 ? 0 : custBonusInfo.Turnover;
-                    promo.FullFillType = custBonusInfo.FullFillType;
-                    promo.Status = custBonusInfo.Status;
-                    promo.isJoin = true;
-                }
+        //    }
+        //    else
+        //    {
+        //        var custBonusInfo = _reportDbClient.QueryFirst<BonusWallet>("Member_BonusInfo_GetByCust",
+        //            new DynamicParameters(new { promo.BonusCode, PromoCategoryId = promo.CategoryId, promo.TpId, CustId = custId }));
+        //        if (custBonusInfo != null)
+        //        {
+        //            promo.CustExpiryTime = custBonusInfo.ExpiryTime;
+        //            promo.CustRollOver = custBonusInfo.Rollover;
+        //            promo.CustTurnOver = custBonusInfo.Turnover < 0 ? 0 : custBonusInfo.Turnover;
+        //            promo.FullFillType = custBonusInfo.FullFillType;
+        //            promo.Status = custBonusInfo.Status;
+        //            promo.isJoin = true;
+        //        }
                 
-                if (promo.PromotionType == (int)PromotionType.Cashback)
-                {
-                    GetCashbackInfo(custId, siteId, currencyId, promo, getCashbackDetail);
-                }
-            }
-        }
+        //        if (promo.PromotionType == (int)PromotionType.Cashback)
+        //        {
+        //            GetCashbackInfo(custId, siteId, currencyId, promo, getCashbackDetail);
+        //        }
+        //    }
+        //}
         private void SetPromotionV2(int siteId, int custId, int currencyId, bool getCashbackDetail, CustPromotion promo)
         {
             if (promo.PromotionType is (int)PromotionType.FstDeposit or (int)PromotionType.ReDeposit
