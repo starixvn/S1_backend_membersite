@@ -68,18 +68,28 @@ namespace MemberSite.Service.DAL
         {
             var promotionList = _reportDbClient.Query<CustPromotion>("Member_PromotionList_Get_V6", new DynamicParameters(new { CustId, SiteId, CurrencyId, DeviceType }));
             var promotion = new List<CustPromotion>();
+            List < PromotionCondition > PromotionConditionlist = null;
             if (IsLogin)
             {
-                var result = GetPromotionListConditionInfo(CustId, promotionList, CurrencyId, SiteId, DeviceType);
+                var bonusCodeList = new List<string>();
+                promotionList.ToList().ForEach(x =>{ bonusCodeList.Add(x.BonusCode); });
+                var result = GetPromotionListConditionInfo(CustId, bonusCodeList, CurrencyId, SiteId, DeviceType);
                 if (result.Result.ErrorCode == 0)
                 {
-                    promotionList = result.Result.Data;
+                    PromotionConditionlist = result.Result.Data;
                 }
             }
             foreach (var promo in promotionList)
             {
+                
                 if (IsLogin)
                 {
+                    var promotionCondition = PromotionConditionlist.FirstOrDefault(x => x.BonusCode == promo.BonusCode);
+                    promo.DepositId = promotionCondition.DepositId;
+                    promo.DepositAmount = promotionCondition.DepositAmount;
+                    promo.RefList = promotionCondition.RefList;
+                    promo.canJoin = promotionCondition.CanJoin;
+                    promo.Result = promotionCondition.Result;
                     SetPromotionV2(SiteId, CustId, CurrencyId, false, promo);
                 }
 
@@ -228,14 +238,23 @@ namespace MemberSite.Service.DAL
 
             var _promotion = new List<CustPromotion>();
 
-            var result = GetPromotionListConditionInfo(CustId, promotionList, CurrencyId, SiteId, deviceType);
+            List<PromotionCondition> PromotionConditionlist = null;
+            var bonusCodeList = new List<string>();
+            promotionList.ToList().ForEach(x => { bonusCodeList.Add(x.BonusCode); });
+            var result = GetPromotionListConditionInfo(CustId, bonusCodeList, CurrencyId, SiteId, deviceType);
             if (result.Result.ErrorCode == 0)
             {
-                promotionList = result.Result.Data;
+                PromotionConditionlist = result.Result.Data;
             }
 
             foreach (var promo in promotionList)
             {
+                var promotionCondition = PromotionConditionlist.FirstOrDefault(x => x.BonusCode == promo.BonusCode);
+                promo.DepositId = promotionCondition.DepositId;
+                promo.DepositAmount = promotionCondition.DepositAmount;
+                promo.RefList = promotionCondition.RefList;
+                promo.canJoin = promotionCondition.CanJoin;
+                promo.Result = promotionCondition.Result;
                 
                 SetPromotionV2(SiteId, CustId, CurrencyId, false, promo);
                 SetPromotionDetail(langId, defLang, true, promo);
@@ -576,27 +595,27 @@ namespace MemberSite.Service.DAL
         }
         public class GetPromotionListConditionReq
         {
-            public IEnumerable<CustPromotion> PromotionList { set; get; }
+            public List<string> BonusCodeList { set; get; }
             public int CustId { set; get; }
             public int CurrencyId { set; get; }
             public int SiteId { set; get; }
             public int? DeviceType { set; get; }
 
         }
-        public async Task<ApiResult<IEnumerable<CustPromotion>>> GetPromotionListConditionInfo(int custId, IEnumerable<CustPromotion> promotionList, int currencyId, int siteId, int? deviceType)
+        public async Task<ApiResult<List<PromotionCondition>>> GetPromotionListConditionInfo(int custId, List<string> bonusCodeList, int currencyId, int siteId, int? deviceType)
         {
             var apiUrl = $"{_bonusServiceUrl}GetPromotionListConditionInfo";
 
             var req = new GetPromotionListConditionReq
             {
-                PromotionList = promotionList,
+                BonusCodeList = bonusCodeList,
                 CustId = custId,
                 CurrencyId = currencyId,
                 SiteId = siteId,
                 DeviceType = deviceType
             };
 
-            var result = await _courierAdapter.MyPostAsync< IEnumerable < CustPromotion >, GetPromotionListConditionReq>(apiUrl, req);
+            var result = await _courierAdapter.MyPostAsync< List< PromotionCondition >, GetPromotionListConditionReq>(apiUrl, req);
 
             return result;
 

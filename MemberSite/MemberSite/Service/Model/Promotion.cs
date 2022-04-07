@@ -71,6 +71,15 @@ namespace MemberSite.Service.Model
         public CashBackDetails CashBackDetails { get; set; }
         public bool BeenUsed { get; set; }
     }
+    public class PromotionCondition
+    {
+        public string BonusCode { get; set; }
+        public string DepositId { get; set; }
+        public decimal DepositAmount { get; set; }
+        public IEnumerable<Ref> RefList { get; set; }
+        public bool CanJoin { get; set; }
+        public int Result { get; set; }
+    }
 
     public class CashBackDetails
     {
