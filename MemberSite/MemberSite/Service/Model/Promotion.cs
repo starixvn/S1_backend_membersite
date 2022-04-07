@@ -135,4 +135,13 @@ namespace MemberSite.Service.Model
     {
         public string BonusCode { get; set; }
     }
+    public class CustCondition
+    {
+        public byte CanJoin { set; get; }
+        public decimal Amount { set; get; }
+        public string RefId { set; get; }
+        public int Result { set; get; }
+        public string RefList { set; get; }
+        public IEnumerable<Ref> reference { set; get; }
+    }
 }
