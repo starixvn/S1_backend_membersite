@@ -341,7 +341,9 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             
-            if (withdrawalLimitInfo != null && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
+            if (withdrawalLimitInfo != null
+                && withdrawalLimitInfo.Times != 0
+                && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
                 apiResult.ErrorCode = -7;
@@ -606,6 +608,7 @@ namespace MemberSite.Controllers.Api
             }
             
             if (usdtWithdrawalLimitInfo != null
+                && usdtWithdrawalLimitInfo.Times != 0
                 && dailyCustomerWithdrawalInfo.Count >= usdtWithdrawalLimitInfo.Times)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
