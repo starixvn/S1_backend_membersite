@@ -17,6 +17,9 @@ namespace MemberSite.Service.DAL
         private readonly MySqlClient _reportDbClient;
         private readonly WalletService _walletService;
         private readonly SelLangBLL _selLangBll;
+        private readonly CourierAdapter _courierAdapter;
+        private readonly string _bonusServiceUrl;
+        private readonly Tools _tools;
 
         public PromotionService(IServiceProvider serviceProvider)
         {
@@ -25,6 +28,9 @@ namespace MemberSite.Service.DAL
             _reportDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
             _walletService = serviceProvider.GetRequiredService<WalletService>();
             _selLangBll = serviceProvider.GetRequiredService<SelLangBLL>();
+            _courierAdapter = serviceProvider.GetRequiredService<CourierAdapter>();
+            _bonusServiceUrl = serviceProvider.GetRequiredService<IConfiguration>().GetValue<string>("BonusService");
+            _tools = serviceProvider.GetRequiredService<Tools>();
         }
 
         public IEnumerable<Promotion> GetPromotionList(int siteId)
@@ -38,17 +44,43 @@ namespace MemberSite.Service.DAL
             return conn.Query<Promotion>("Member_PromotionListByCustId_Get", new { SiteId = siteId, CustId = custId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
 
+        //public List<CustPromotion> GetPromotionListv3_bk(int SiteId, int CustId, int CurrencyId, int DeviceType, bool IsLogin, string langId, string defLang)
+        //{
+        //    var promotionList = _reportDbClient.Query<CustPromotion>("Member_PromotionList_Get_V6", new DynamicParameters(new {CustId, SiteId, CurrencyId, DeviceType}));
+        //    var promotion = new List<CustPromotion>();
+
+        //    foreach (var promo in promotionList)
+        //    {
+        //        if (IsLogin)
+        //        {
+        //            var canJoinParams = GetPromotionCanJoin(SiteId, CustId, CurrencyId, DeviceType, promo);
+        //            SetPromotion(SiteId, CustId, CurrencyId, false, promo, canJoinParams);
+        //        }
+
+        //        SetPromotionDetail(langId, defLang, true, promo);
+
+        //        promotion.Add(promo);
+        //    }
+
+        //    return promotion;
+        //}
         public List<CustPromotion> GetPromotionListv3(int SiteId, int CustId, int CurrencyId, int DeviceType, bool IsLogin, string langId, string defLang)
         {
-            var promotionList = _reportDbClient.Query<CustPromotion>("Member_PromotionList_Get_V6", new DynamicParameters(new {CustId, SiteId, CurrencyId, DeviceType}));
+            var promotionList = _reportDbClient.Query<CustPromotion>("Member_PromotionList_Get_V6", new DynamicParameters(new { CustId, SiteId, CurrencyId, DeviceType }));
             var promotion = new List<CustPromotion>();
-
+            if (IsLogin)
+            {
+                var result = GetPromotionListConditionInfo(CustId, promotionList, CurrencyId, SiteId, DeviceType);
+                if (result.Result.ErrorCode == 0)
+                {
+                    promotionList = result.Result.Data;
+                }
+            }
             foreach (var promo in promotionList)
             {
                 if (IsLogin)
                 {
-                    var canJoinParams = GetPromotionCanJoin(SiteId, CustId, CurrencyId, DeviceType, promo);
-                    SetPromotion(SiteId, CustId, CurrencyId, false, promo, canJoinParams);
+                    SetPromotionV2(SiteId, CustId, CurrencyId, false, promo);
                 }
 
                 SetPromotionDetail(langId, defLang, true, promo);
@@ -58,7 +90,23 @@ namespace MemberSite.Service.DAL
 
             return promotion;
         }
+        //public CustPromotion GetPromotionDetail_bk(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode, int DeviceType)
+        //{
+        //    var promo = _reportDbClient.QueryFirst<CustPromotion>("Member_PromotionV3_Get", new DynamicParameters(new { CustId, SiteId, CurrencyId, BonusCode, DeviceType }));
 
+        //    if (promo != null)
+        //    {
+        //        SetPromotionDetail(langId, defLang, false, promo);
+
+        //        if (IsLogin)
+        //        {
+        //            var canJoinParams = GetPromotionCanJoin(SiteId, CustId, CurrencyId, DeviceType, promo);
+        //            SetPromotion(SiteId, CustId, CurrencyId, true, promo, canJoinParams);
+        //        }
+        //    }
+
+        //    return promo;
+        //}
         public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode, int DeviceType)
         {
             var promo = _reportDbClient.QueryFirst<CustPromotion>("Member_PromotionV3_Get", new DynamicParameters(new {CustId, SiteId, CurrencyId, BonusCode, DeviceType}));
@@ -66,11 +114,20 @@ namespace MemberSite.Service.DAL
             if (promo != null)
             {
                 SetPromotionDetail(langId, defLang, false, promo);
-
+                
                 if (IsLogin)
                 {
-                    var canJoinParams = GetPromotionCanJoin(SiteId, CustId, CurrencyId, DeviceType, promo);
-                    SetPromotion(SiteId, CustId, CurrencyId, true, promo, canJoinParams);
+                    var result = GetCustConditionInfo(CustId, promo.BonusCode, CurrencyId, SiteId, DeviceType);
+                    if (result.Result.ErrorCode == 0)
+                    {
+                       var CustCondition = result.Result.Data;
+                        promo.DepositId = CustCondition.RefId;
+                        promo.DepositAmount = CustCondition.Amount;
+                        promo.RefList = promo.RefList = CustCondition.reference.Any() ? CustCondition.reference : null;
+                        promo.canJoin = CustCondition.CanJoin == 1;
+                        promo.Result = CustCondition.Result;
+                    }
+                    SetPromotionV2(SiteId, CustId, CurrencyId, true, promo);
                 }
             }
 
@@ -148,16 +205,39 @@ namespace MemberSite.Service.DAL
             promotion.CashBackDetails = details.First();
         }
 
+        //public List<CustPromotion> GetSpecialPromotionListV2_bk(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int deviceType)
+        //{
+        //    var promotionList = _reportDbClient.Query<CustPromotion>("Member_SPCodePromotionList_Get_V4", new DynamicParameters(new { CustId, DeviceType = deviceType }));
+
+        //    var _promotion = new List<CustPromotion>();
+
+        //    foreach (var promo in promotionList)
+        //    {
+        //        var canJoinParams = GetPromotionCanJoin(SiteId, CustId, CurrencyId, deviceType, promo);
+        //        SetPromotion(SiteId, CustId, CurrencyId, false, promo, canJoinParams);
+        //        SetPromotionDetail(langId, defLang, true, promo);
+
+        //        _promotion.Add(promo);
+        //    }
+
+        //    return _promotion;
+        //}
         public List<CustPromotion> GetSpecialPromotionListV2(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int deviceType)
         {
             var promotionList = _reportDbClient.Query<CustPromotion>("Member_SPCodePromotionList_Get_V4", new DynamicParameters(new { CustId, DeviceType = deviceType }));
 
             var _promotion = new List<CustPromotion>();
 
+            var result = GetPromotionListConditionInfo(CustId, promotionList, CurrencyId, SiteId, deviceType);
+            if (result.Result.ErrorCode == 0)
+            {
+                promotionList = result.Result.Data;
+            }
+
             foreach (var promo in promotionList)
             {
-                var canJoinParams = GetPromotionCanJoin(SiteId, CustId, CurrencyId, deviceType, promo);
-                SetPromotion(SiteId, CustId, CurrencyId, false, promo, canJoinParams);
+                
+                SetPromotionV2(SiteId, CustId, CurrencyId, false, promo);
                 SetPromotionDetail(langId, defLang, true, promo);
 
                 _promotion.Add(promo);
@@ -165,7 +245,7 @@ namespace MemberSite.Service.DAL
 
             return _promotion;
         }
-        
+
         private DynamicParameters GetPromotionCanJoin(int siteId, int custId, int currencyId, int deviceType,
             CustPromotion promo)
         {
@@ -251,7 +331,70 @@ namespace MemberSite.Service.DAL
                 }
             }
         }
-        
+        private void SetPromotionV2(int siteId, int custId, int currencyId, bool getCashbackDetail, CustPromotion promo)
+        {
+            if (promo.PromotionType is (int)PromotionType.FstDeposit or (int)PromotionType.ReDeposit
+                && promo.canJoin)
+            {
+                promo.MaxAmount = promo.PromotionType == (int)PromotionType.FstDeposit
+                    ? _walletService.GetBalance(custId)
+                    : promo.DepositAmount;
+
+                if (promo.PromotionType == (int)PromotionType.FstDeposit
+                    && promo.MaxAmount > promo.DepositAmount)
+                {
+                    promo.MaxAmount = promo.DepositAmount;
+                }
+
+                if (promo.RequiredAmount == 0)
+                {
+                    promo.RequiredAmount = 1;
+                }
+
+                if (promo.BonusType == (int)BonusType.Amount)
+                {
+                    promo.MaxAmount = promo.RequiredAmount;
+                }
+                else
+                {
+                    if (promo.MaxBonus > 0)
+                    {
+                        var dBonus = Math.Ceiling(promo.Bonus * promo.DepositAmount / 100);
+                        if (dBonus > promo.MaxBonus)
+                        {
+                            promo.MaxAmount = promo.MaxBonus * 100 / promo.Bonus;
+                        }
+                    }
+                }
+            }
+
+            if (promo.PromotionType == (int)PromotionType.Rebate)
+            {
+                promo.isJoin = _reportDbClient.Execute("Member_RebateInfo_GetByCust",
+                    new DynamicParameters(new { promo.BonusCode, RebateType = promo.PromotionType - 5, CustId = custId })) > 0;
+
+            }
+            else
+            {
+                var custBonusInfo = _reportDbClient.QueryFirst<BonusWallet>("Member_BonusInfo_GetByCust",
+                    new DynamicParameters(new { promo.BonusCode, PromoCategoryId = promo.CategoryId, promo.TpId, CustId = custId }));
+                if (custBonusInfo != null)
+                {
+                    promo.CustExpiryTime = custBonusInfo.ExpiryTime;
+                    promo.CustRollOver = custBonusInfo.Rollover;
+                    promo.CustTurnOver = custBonusInfo.Turnover < 0 ? 0 : custBonusInfo.Turnover;
+                    promo.FullFillType = custBonusInfo.FullFillType;
+                    promo.Status = custBonusInfo.Status;
+                    promo.isJoin = true;
+                }
+
+                if (promo.PromotionType == (int)PromotionType.Cashback)
+                {
+                    GetCashbackInfo(custId, siteId, currencyId, promo, getCashbackDetail);
+                }
+            }
+        }
+
         private void SetPromotionDetail(string langId, string defLang, bool clearDetails, CustPromotion promo)
         {
             if (!string.IsNullOrEmpty(promo.Details))
@@ -378,6 +521,85 @@ namespace MemberSite.Service.DAL
         public BonusinfoByBonusCode GetBonusinfoByBonusCode(int CustId, string BonusCode)
         {
             return _reportDbClient.QueryFirst<BonusinfoByBonusCode>("Member_BonusinfoByBonusCode_Get", new DynamicParameters(new { CustId = CustId, BonusCode = BonusCode }));
+        }
+        public class PromotionReq
+        {
+            public string BonusCode { set; get; }
+            public int CustId { set; get; }
+            public string custIP { set; get; }
+            public decimal? LockedAmount { set; get; }
+            public int? DeviceType { set; get; }
+        }
+        public async Task<ApiResult> SetClaimPromotionV2Async(int custId, string bonusCode, decimal? dLockedAmount, int? deviceType)
+        {
+            var apiUrl = $"{_bonusServiceUrl}SetClaimPromotion";
+
+            var req = new PromotionReq
+            {
+                BonusCode = bonusCode,
+                CustId = custId,
+                custIP = _tools.GetClientIP(),
+                LockedAmount = dLockedAmount,
+                DeviceType = deviceType
+            };
+
+            var result = await _courierAdapter.MyPostAsync<ApiResult, PromotionReq>(apiUrl, req);
+
+            return result;
+
+        }
+        public class CustConditionInfoReq
+        {
+            public string BonusCode { set; get; }
+            public int CustId { set; get; }
+            public int CurrencyId { set; get; }
+            public int SiteId { set; get; }
+            public int? DeviceType { set; get; }
+        }
+        public async Task<ApiResult<CustCondition>> GetCustConditionInfo(int custId, string bonusCode, int currencyId, int siteId, int? deviceType)
+        {
+            var apiUrl = $"{_bonusServiceUrl}GetCustConditionInfo";
+
+            var req = new CustConditionInfoReq
+            {
+                BonusCode = bonusCode,
+                CustId = custId,
+                CurrencyId = currencyId,
+                SiteId = siteId,
+                DeviceType = deviceType
+            };
+
+            var result = await _courierAdapter.MyPostAsync<CustCondition, CustConditionInfoReq>(apiUrl, req);
+
+            return result;
+
+        }
+        public class GetPromotionListConditionReq
+        {
+            public IEnumerable<CustPromotion> PromotionList { set; get; }
+            public int CustId { set; get; }
+            public int CurrencyId { set; get; }
+            public int SiteId { set; get; }
+            public int? DeviceType { set; get; }
+
+        }
+        public async Task<ApiResult<IEnumerable<CustPromotion>>> GetPromotionListConditionInfo(int custId, IEnumerable<CustPromotion> promotionList, int currencyId, int siteId, int? deviceType)
+        {
+            var apiUrl = $"{_bonusServiceUrl}GetPromotionListConditionInfo";
+
+            var req = new GetPromotionListConditionReq
+            {
+                PromotionList = promotionList,
+                CustId = custId,
+                CurrencyId = currencyId,
+                SiteId = siteId,
+                DeviceType = deviceType
+            };
+
+            var result = await _courierAdapter.MyPostAsync< IEnumerable < CustPromotion >, GetPromotionListConditionReq>(apiUrl, req);
+
+            return result;
+
         }
     }
 }
