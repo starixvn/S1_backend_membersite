@@ -768,10 +768,6 @@ namespace MemberSite.Service.BLL
                 CryptoNetwork = cryptoNetwork
             };
         }
-        public WithdrawalLimitInfoOutput GetUSDTWithdrawalLimitInfo(USDTWithdrawalLimitInfoInput input)
-        {
-            return withdrawalService.GetUSDTWithdrawalLimitInfo(input);
-        }
 
         public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoV2(USDTWithdrawalLimitInfoInput input)
         {
