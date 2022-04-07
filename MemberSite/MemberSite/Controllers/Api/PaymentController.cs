@@ -340,6 +340,14 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -6;
                 return apiResult;
             }
+            
+            if (withdrawalLimitInfo != null && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
+                apiResult.ErrorCode = -7;
+                return apiResult;
+            }
+            
             #endregion
 
             #region - Check CustBankInfo -
@@ -594,6 +602,14 @@ namespace MemberSite.Controllers.Api
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
                 apiResult.ErrorCode = -6;
+                return apiResult;
+            }
+            
+            if (usdtWithdrawalLimitInfo != null
+                && dailyCustomerWithdrawalInfo.Count >= usdtWithdrawalLimitInfo.Times)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
+                apiResult.ErrorCode = -7;
                 return apiResult;
             }
             #endregion
