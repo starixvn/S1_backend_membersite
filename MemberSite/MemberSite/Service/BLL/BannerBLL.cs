@@ -195,7 +195,7 @@ namespace MemberSite.Service.BLL
             }
             if (BannerType == 2)
             {
-                banner = banner.OrderByDescending(x => x.SportBattleDateTime).ToList();
+                banner = banner.OrderBy(x => x.SportBattleDateTime).ToList();
             }
             return banner;
         }
