@@ -14,6 +14,7 @@ namespace MemberSite.Service.BLL
         private readonly IWebHostEnvironment environment;
         private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
         private readonly TpGameTypeHelper tpGameTypeHelper;
+        private readonly ICacheHelper _redisHelper;
 
         public BannerBLL(IServiceProvider provider)
         {
@@ -23,6 +24,7 @@ namespace MemberSite.Service.BLL
             promotionBLL = provider.GetRequiredService<PromotionBll>();
             siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             tpGameTypeHelper = provider.GetRequiredService<TpGameTypeHelper>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
         public IEnumerable<BannerSettingItem> GetBanner(int perferCurr, string FolderName)
@@ -202,8 +204,10 @@ namespace MemberSite.Service.BLL
 
         public async Task<IEnumerable<HotGame>> GetHotGames(int siteId, int currencyId, int deviceType)
         {
-            var hotGamesData = await bannerService.GetHotGames(siteId, currencyId);
-            var hotGames = hotGamesData
+            var key = $"GetHotGames_{siteId}_{currencyId}";
+            var hotGame = await _redisHelper.TryGetOrCreateAsync(key, TimeSpan.FromHours(1),
+                async _ => await bannerService.GetHotGames(siteId, currencyId));
+            var hotGames = hotGame
                 .Select(a => new HotGame()
                 {
                     TpId = a.TpId,
