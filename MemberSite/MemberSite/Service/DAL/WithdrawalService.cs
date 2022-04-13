@@ -226,13 +226,6 @@ namespace MemberSite.Service.DAL
                 new DynamicParameters(new {input.CustId}));
         }
 
-        public WithdrawalLimitInfoOutput GetUSDTWithdrawalLimitInfo(USDTWithdrawalLimitInfoInput input)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<WithdrawalLimitInfoOutput>("Member_USDTWithdrawalLimitInfo_Get",
-                new { input.SiteId, input.CurrencyId, input.VipLevel, input.Network}, commandType: CommandType.StoredProcedure).FirstOrDefault();
-        }
-
         public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoV2(USDTWithdrawalLimitInfoInput input)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
