@@ -37,7 +37,7 @@ namespace MemberSite.Service.Library
 
                 if (result != null)
                 {
-                    _redis.StringSet(key, JsonConvert.SerializeObject(result), timeSpan);
+                    await _redis.StringSetAsync(key, JsonConvert.SerializeObject(result), timeSpan);
                 }
 
                 return result;
