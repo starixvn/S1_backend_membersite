@@ -559,13 +559,17 @@ namespace MemberSite.Controllers.Api
                     custProfile["Email"] = beforeCustInfo.Email;
                 }
 
-                if (string.IsNullOrEmpty(custProfile["AreaCode"]))
+                var perCountry = new CurrencyMapping().CountryMap;
+                if (string.IsNullOrEmpty(custProfile["CountryCode"]) || 
+                    perCountry.FirstOrDefault(x => x.Value == custProfile["CountryCode"]).Equals(default(KeyValuePair<int, string>)))
                 {
-                    var perCountry = new CurrencyMapping().CountryMap;
                     perCountry.TryGetValue(beforeCustInfo.CurrencyId, out var countryCode);
                     custProfile["CountryCode"] = countryCode;
-                    
-                    var areaCode  = _custInfoBLL.GetAreaCodeByCountryName(countryCode);
+                }
+
+                if (string.IsNullOrEmpty(custProfile["AreaCode"]))
+                {
+                    var areaCode  = _custInfoBLL.GetAreaCodeByCountryName(custProfile["CountryCode"]);
                     custProfile["AreaCode"] = areaCode;
                 }
 
