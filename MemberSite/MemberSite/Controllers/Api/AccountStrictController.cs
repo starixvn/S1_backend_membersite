@@ -452,6 +452,8 @@ namespace MemberSite.Controllers.Api
             {
                 custProfile["Email"] = beforeCustInfo.Email;
             }
+            
+            SetCountryCodeAndAreaCode(custProfile, beforeCustInfo);
 
             apiResult.ErrorCode = _custInfoBLL.SetProfile(authData.CustId, custProfile);
             if (apiResult.ErrorCode == 0)
@@ -559,19 +561,7 @@ namespace MemberSite.Controllers.Api
                     custProfile["Email"] = beforeCustInfo.Email;
                 }
 
-                var perCountry = new CurrencyMapping().CountryMap;
-                if (string.IsNullOrEmpty(custProfile["CountryCode"]) || 
-                    perCountry.FirstOrDefault(x => x.Value == custProfile["CountryCode"]).Equals(default(KeyValuePair<int, string>)))
-                {
-                    perCountry.TryGetValue(beforeCustInfo.CurrencyId, out var countryCode);
-                    custProfile["CountryCode"] = countryCode;
-                }
-
-                if (string.IsNullOrEmpty(custProfile["AreaCode"]))
-                {
-                    var areaCode  = _custInfoBLL.GetAreaCodeByCountryName(custProfile["CountryCode"]);
-                    custProfile["AreaCode"] = areaCode;
-                }
+                SetCountryCodeAndAreaCode(custProfile, beforeCustInfo);
 
                 apiResult.ErrorCode = _custInfoBLL.SetProfileV2(authData.CustId, custProfile);
                 if (apiResult.ErrorCode == 0)
@@ -607,6 +597,24 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = ex.ToString();
             }
             return apiResult;
+        }
+
+        private Dictionary<string, string> SetCountryCodeAndAreaCode(Dictionary<string, string> custProfile, CustInfoProfile beforeCustInfo)
+        {
+            var perCountry = new CurrencyMapping().CountryMap;
+            if (string.IsNullOrEmpty(custProfile["CountryCode"]) || 
+                perCountry.FirstOrDefault(x => x.Value == custProfile["CountryCode"]).Equals(default(KeyValuePair<int, string>)))
+            {
+                perCountry.TryGetValue(beforeCustInfo.CurrencyId, out var countryCode);
+                custProfile["CountryCode"] = countryCode;
+            }
+
+            if (string.IsNullOrEmpty(custProfile["AreaCode"]))
+            {
+                var areaCode  = _custInfoBLL.GetAreaCodeByCountryName(custProfile["CountryCode"]);
+                custProfile["AreaCode"] = areaCode;
+            }
+
         }
 
         [HttpPost]
