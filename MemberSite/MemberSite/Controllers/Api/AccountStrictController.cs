@@ -609,10 +609,12 @@ namespace MemberSite.Controllers.Api
                 custProfile["CountryCode"] = countryCode;
             }
 
-            if (string.IsNullOrEmpty(custProfile["AreaCode"]))
+            var areaCodeMap = new CurrencyMapping().AreaCodeMap;
+            custProfile.TryGetValue("AreaCode", out var areaCode);
+            if (string.IsNullOrEmpty(areaCode) ||
+                !areaCodeMap.TryGetValue(areaCode, out _))
             {
-                var areaCode  = _custInfoBLL.GetAreaCodeByCountryName(custProfile["CountryCode"]);
-                custProfile["AreaCode"] = areaCode;
+                custProfile["AreaCode"] = _custInfoBLL.GetAreaCodeByCountryName(custProfile["CountryCode"]);
             }
 
             return custProfile;
