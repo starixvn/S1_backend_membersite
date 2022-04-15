@@ -453,7 +453,7 @@ namespace MemberSite.Controllers.Api
                 custProfile["Email"] = beforeCustInfo.Email;
             }
             
-            SetCountryCodeAndAreaCode(custProfile, beforeCustInfo);
+            custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo);
 
             apiResult.ErrorCode = _custInfoBLL.SetProfile(authData.CustId, custProfile);
             if (apiResult.ErrorCode == 0)
@@ -561,7 +561,7 @@ namespace MemberSite.Controllers.Api
                     custProfile["Email"] = beforeCustInfo.Email;
                 }
 
-                SetCountryCodeAndAreaCode(custProfile, beforeCustInfo);
+                custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo);
 
                 apiResult.ErrorCode = _custInfoBLL.SetProfileV2(authData.CustId, custProfile);
                 if (apiResult.ErrorCode == 0)
@@ -614,6 +614,8 @@ namespace MemberSite.Controllers.Api
                 var areaCode  = _custInfoBLL.GetAreaCodeByCountryName(custProfile["CountryCode"]);
                 custProfile["AreaCode"] = areaCode;
             }
+
+            return custProfile;
 
         }
 
