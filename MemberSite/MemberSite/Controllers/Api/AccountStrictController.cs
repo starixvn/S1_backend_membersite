@@ -602,8 +602,8 @@ namespace MemberSite.Controllers.Api
         private Dictionary<string, string> SetCountryCodeAndAreaCode(Dictionary<string, string> custProfile, CustInfoProfile beforeCustInfo)
         {
             var perCountry = new CurrencyMapping().CountryMap;
-            if (string.IsNullOrEmpty(custProfile["CountryCode"]) || 
-                perCountry.FirstOrDefault(x => x.Value == custProfile["CountryCode"]).Equals(default(KeyValuePair<int, string>)))
+            custProfile.TryGetValue("CountryCode",out var country);
+            if (string.IsNullOrEmpty(country) || perCountry.FirstOrDefault(x => x.Value == country).Equals(default(KeyValuePair<int, string>)))
             {
                 perCountry.TryGetValue(beforeCustInfo.CurrencyId, out var countryCode);
                 custProfile["CountryCode"] = countryCode;
