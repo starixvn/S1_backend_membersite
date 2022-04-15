@@ -2,6 +2,7 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using MemberSite.Service.Model.Mapping;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 
@@ -18,19 +19,12 @@ namespace MemberSite.Service.BLL
         private readonly RolloverService _rollOverService;
         private readonly CommonBLL _commonBll;
         private readonly CacheHelper _cacheHelper;
-        private readonly Dictionary<int, bool> _isConvert = new Dictionary<int, bool>()
+        private readonly Dictionary<int, bool> _isConvert = new()
             {
                 {51,false },{15,false }
             };
-        private readonly Dictionary<string, string> _areaCodeCountryList = new Dictionary<string, string>()
-            {
-                {"+60","MY" },
-                {"+66","TH" },
-                {"+86","CS" },
-                {"+62","ID" },
-                {"+91","IN" },
-                {"+84","VN" }
-            };
+
+        private readonly Dictionary<string, string> _areaCodeCountryList;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -43,6 +37,7 @@ namespace MemberSite.Service.BLL
             _rollOverService = provider.GetRequiredService<RolloverService>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _areaCodeCountryList = new CurrencyMapping().AreaCodeMap;
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -54,7 +49,7 @@ namespace MemberSite.Service.BLL
         
         public string GetAreaCodeByCountryName(string countryName)
         {
-            var areaCode = _areaCodeCountryList.FirstOrDefault(x => x.Value == countryName ).Key;
+            var areaCode = _areaCodeCountryList.FirstOrDefault(x => x.Value == countryName).Key;
             return areaCode;
         }
         
