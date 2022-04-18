@@ -350,4 +350,7 @@
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>ที่อยู่กระเป๋าเงินเข้ารหัสลับไม่ถูกต้อง</value>
   </data>
+  <data name="msg_DecimalOutOfRange" xml:space="preserve">
+    <value>การโอนล้มเหลวเนื่องจากมีทศนิยมมากกว่า 2 หลัก</value>
+  </data>
 </root>
