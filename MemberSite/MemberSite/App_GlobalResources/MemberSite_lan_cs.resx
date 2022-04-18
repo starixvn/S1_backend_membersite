@@ -1769,4 +1769,7 @@
   <data name="lbl_Wallet_Mega" xml:space="preserve">
     <value>Mega钱包</value>
   </data>
+  <data name="Currency_74" xml:space="preserve">
+    <value>BDT</value>
+  </data>
 </root>

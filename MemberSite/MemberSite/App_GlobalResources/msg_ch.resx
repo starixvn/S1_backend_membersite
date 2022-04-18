@@ -327,4 +327,7 @@
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>您的加密錢包地址格式不符！</value>
   </data>
+  <data name="msg_DecimalOutOfRange" xml:space="preserve">
+    <value>轉賬失敗由於小數點多於二位數</value>
+  </data>
 </root>
