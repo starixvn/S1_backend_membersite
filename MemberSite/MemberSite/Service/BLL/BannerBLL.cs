@@ -205,9 +205,9 @@ namespace MemberSite.Service.BLL
         public async Task<IEnumerable<HotGame>> GetHotGames(int siteId, int currencyId, int deviceType)
         {
             var key = $"GetHotGames_{siteId}_{currencyId}";
-            var hotGame = await _redisHelper.TryGetOrCreateAsync(key, TimeSpan.FromHours(1),
+            var hotGames = await _redisHelper.TryGetOrCreateAsync(key, null,
                 async _ => await bannerService.GetHotGames(siteId, currencyId));
-            var hotGames = hotGame
+            return hotGames
                 .Select(a => new HotGame()
                 {
                     TpId = a.TpId,
@@ -219,8 +219,6 @@ namespace MemberSite.Service.BLL
                     TpName = a.TpName,
                     TpLogo = a.TpLogo
                 });
-
-            return hotGames;
         }
 
         private string DeserializeGameLogo(string jsonGameLogo, int device)
