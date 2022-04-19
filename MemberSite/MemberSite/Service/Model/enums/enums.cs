@@ -312,4 +312,16 @@
         ETH = 98,
         BTC = 99
     }
+
+    public enum TransferAction
+    {
+        RestoreAll = 0,
+        Manual = 1
+    }
+    public enum WalletMode
+    {
+        Seamless = 0,
+        Restore = 1,
+        Manual = 2,
+    }
 }

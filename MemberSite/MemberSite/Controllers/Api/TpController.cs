@@ -246,7 +246,7 @@ namespace MemberSite.Controllers.Api
             public int FromTpId { set; get; }
             public int ToTpId { set; get; }
             public decimal Amount { set; get; }
-            public int TransferType { set; get; }
+            public int TransferAction { set; get; }
         }
 
         [HttpPost]
@@ -264,7 +264,7 @@ namespace MemberSite.Controllers.Api
             int fromWalletmode = fromWallet == null?0: fromWallet.WalletMode;
             int toWalletmode = toWallet == null ? 0 : toWallet.WalletMode;
 
-            if (inTpTransfer.TransferType == 0 && ((fromWalletmode == 2) || toWalletmode == 2)) //restore all not support  Wallet which WalletMode = 2
+            if (inTpTransfer.TransferAction != (int)TransferAction.Manual && ((fromWalletmode == (int)WalletMode.Manual) || toWalletmode == (int)WalletMode.Manual)) //restore all not support  Wallet which WalletMode = Manual
             {
                 result.ErrorCode = 1208;
                 result.Message = $"Not Support";
@@ -346,7 +346,7 @@ namespace MemberSite.Controllers.Api
                         FromTpId = 0,
                         ToTpId = inTpTransfer.ToTpId,
                         Amount = inTpTransfer.Amount,
-                        TransferType = inTpTransfer.TransferType
+                        TransferAction = inTpTransfer.TransferAction
                     };
 
                     result = await TransferEX(transferEXReq);
