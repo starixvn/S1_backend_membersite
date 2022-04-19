@@ -246,15 +246,31 @@ namespace MemberSite.Controllers.Api
             public int FromTpId { set; get; }
             public int ToTpId { set; get; }
             public decimal Amount { set; get; }
+            public int TransferType { set; get; }
         }
 
         [HttpPost]
         public async Task<ApiResult<TransferResult>> TransferEX(TransferEXReq inTpTransfer)
         {
+            
+
             var authData = _authorizeBll.GetAuthData();
+            var TpWalletList = _thirdPartyBll.GetTpWalletList(authData.CustId, 0);//0:全部列表
             var result = new ApiResult<TransferResult>();
             var direction = new TpDirection();
             var activeTpId = 0;
+            var fromWallet = TpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.FromTpId);
+            var toWallet = TpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.ToTpId);
+            int fromWalletmode = fromWallet == null?0: fromWallet.WalletMode;
+            int toWalletmode = toWallet == null ? 0 : toWallet.WalletMode;
+
+            if (inTpTransfer.TransferType == 0 && ((fromWalletmode == 2) || toWalletmode == 2)) //restore all not support  Wallet which WalletMode = 2
+            {
+                result.ErrorCode = 1208;
+                result.Message = $"Not Support";
+
+                return result;
+            }
             if (inTpTransfer.FromTpId != 0)
             {
                 direction = TpDirection.ToMain;
@@ -313,6 +329,8 @@ namespace MemberSite.Controllers.Api
                 {
                     if (result.RawErrorCode == "3")
                         result.Message = _selLangBll.GetMsg("msg_InsufficientFund");
+                    else if (result.RawErrorCode == "1207")
+                        result.Message = _selLangBll.GetMsg("msg_DecimalOutOfRange");
                     else
                         result.Message = result.RawMessage;
                 }
@@ -327,7 +345,8 @@ namespace MemberSite.Controllers.Api
                     {
                         FromTpId = 0,
                         ToTpId = inTpTransfer.ToTpId,
-                        Amount = inTpTransfer.Amount
+                        Amount = inTpTransfer.Amount,
+                        TransferType = inTpTransfer.TransferType
                     };
 
                     result = await TransferEX(transferEXReq);
