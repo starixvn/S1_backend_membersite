@@ -329,8 +329,9 @@
 
     public enum TransferAction
     {
-        RestoreAll = 0,
-        Manual = 1
+        Unknow = 0,
+        Manual = 1,
+        RestoreAll = 2
     }
     public enum WalletMode
     {

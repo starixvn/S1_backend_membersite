@@ -268,7 +268,11 @@ namespace MemberSite.Controllers.Api
             {
                 result.ErrorCode = 1208;
                 result.Message = $"Not Support";
-
+                if (inTpTransfer.TransferAction == (int) TransferAction.RestoreAll) //當TransferAction.RestoreAll不執行動作但是不噴錯
+                {
+                    result.ErrorCode = 0;
+                    result.Message = $"Transfer Skip";
+                }
                 return result;
             }
             if (inTpTransfer.FromTpId != 0)
