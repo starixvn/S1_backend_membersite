@@ -29,7 +29,7 @@ namespace MemberSite.Service.Library
             return JsonConvert.DeserializeObject<TItem>(json);
         }
         
-        public async Task<TItem> TryGetOrCreateAsync<TItem>(string key, TimeSpan timeSpan, Func<string, Task<TItem>> factory)
+        public async Task<TItem> TryGetOrCreateAsync<TItem>(string key, TimeSpan? timeSpan, Func<string, Task<TItem>> factory)
         {
             if (!_redis.KeyExists(key))
             {
@@ -37,7 +37,7 @@ namespace MemberSite.Service.Library
 
                 if (result != null)
                 {
-                    _redis.StringSet(key, JsonConvert.SerializeObject(result), timeSpan);
+                    await _redis.StringSetAsync(key, JsonConvert.SerializeObject(result), timeSpan);
                 }
 
                 return result;
