@@ -75,7 +75,7 @@ namespace MemberSite.Service.DAL
         public IEnumerable<TpWalletList> GetTpWalletList(int custId,int listType)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<TpWalletList>("Member_TpWalletV2_Get", new { CustId = custId, ListType = listType }, commandType: CommandType.StoredProcedure);
+            return conn.Query<TpWalletList>("Member_TpWallet_Get_V3", new { CustId = custId, ListType = listType }, commandType: CommandType.StoredProcedure);
         }
 
         public IEnumerable<TpMaintain> GetTpMaintainList(int siteId)
