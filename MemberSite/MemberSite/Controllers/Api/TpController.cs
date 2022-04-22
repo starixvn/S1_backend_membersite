@@ -266,7 +266,7 @@ namespace MemberSite.Controllers.Api
 
             if (inTpTransfer.TransferAction != (int)TransferAction.Manual && ((fromWalletmode == (int)WalletMode.Manual) || toWalletmode == (int)WalletMode.Manual)) //restore all not support  Wallet which WalletMode = Manual
             {
-                if (inTpTransfer.ToTpId != 0)
+                if (inTpTransfer.ToTpId != 0) //main wallet can restore all
                 {
                     result.ErrorCode = 1208;
                     result.Message = $"Not Support";
