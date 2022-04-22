@@ -266,14 +266,17 @@ namespace MemberSite.Controllers.Api
 
             if (inTpTransfer.TransferAction != (int)TransferAction.Manual && ((fromWalletmode == (int)WalletMode.Manual) || toWalletmode == (int)WalletMode.Manual)) //restore all not support  Wallet which WalletMode = Manual
             {
-                result.ErrorCode = 1208;
-                result.Message = $"Not Support";
-                if (inTpTransfer.TransferAction == (int) TransferAction.RestoreAll) //當TransferAction.RestoreAll不執行動作但是不噴錯
+                if (inTpTransfer.ToTpId != 0)
                 {
-                    result.ErrorCode = 0;
-                    result.Message = $"Transfer Skip";
+                    result.ErrorCode = 1208;
+                    result.Message = $"Not Support";
+                    if (inTpTransfer.TransferAction == (int)TransferAction.RestoreAll) //當TransferAction.RestoreAll不執行動作但是不噴錯
+                    {
+                        result.ErrorCode = 0;
+                        result.Message = $"Transfer Skip";
+                    }
+                    return result;
                 }
-                return result;
             }
             if (inTpTransfer.FromTpId != 0)
             {
