@@ -180,18 +180,33 @@ namespace MemberSite.Controllers.Api
 
             //check AccountName first
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-
-            if (custInfo.SiteId == 2 && custInfoBLL.GetCustBankInfo(authData.CustId) == null)
+            
+            if (custInfo.SiteId == (int)SiteId.Goal123 && custInfoBLL.GetCustBankInfo(authData.CustId) == null)
             {
                 apiResult.ErrorCode = -2;
                 apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
                 return apiResult;
             }
-            else /**/
+            
+            var decimalPlaces = 0;
+            switch ((CurrencyId)custInfo.CurrencyId)
             {
+                case CurrencyId.VND:
+                case CurrencyId.IDR:
+                    decimalPlaces = 3;
+                    break;
 
+                default:
+                    decimalPlaces = 2;
+                    break;
             }
 
+            if (!HasThisManyDecimalPlacesOrLess(depositReqWireTransferReq.amount, decimalPlaces))
+            {
+                apiResult.ErrorCode = -5;
+                apiResult.Message = "Amount format is wrong.";
+                return apiResult;
+            }
             //check PhoneVerified,AccountName,Birth
             if (depositReqWireTransferReq.hasPromotion)
             {
@@ -1544,6 +1559,10 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0
             }; ;
         }
-
+        
+        private bool HasThisManyDecimalPlacesOrLess(decimal value, int decimalPlaces)
+        {
+            return (decimal.Round(value, decimalPlaces) == value);
+        }
     }
 }
