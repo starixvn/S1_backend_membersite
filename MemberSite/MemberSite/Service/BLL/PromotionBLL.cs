@@ -34,21 +34,9 @@ namespace MemberSite.Service.BLL
         }
         public async Task<ApiResult> SetClaimPromotionV2Async(int custId, string bonusCode, decimal? dLockedAmount, int? deviceType)
         {
-            var apiUrl = $"{_bonusServiceUrl}SetClaimPromotion";
-
-            var req = new PromotionReq
-            {
-                BonusCode = bonusCode,
-                CustId = custId,
-                custIP = _tools.GetClientIP(),
-                LockedAmount = dLockedAmount,
-                DeviceType = deviceType
-            };
-
-            var result = await _courierAdapter.MyPostAsync<ApiResult, PromotionReq>(apiUrl, req);
+            var result = await _promotionService.SetClaimPromotionV2Async(custId, bonusCode, dLockedAmount, deviceType);
 
             return result;
-
         }
 
         public List<CustPromotion> GetPromotionListV3(int SiteId, int CustId, int CurrencyId, int DeviceType, bool IsLogin, string langId, string defLang)

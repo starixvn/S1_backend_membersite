@@ -207,7 +207,7 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
             }
-            
+
 
             var result = -1;
             DepositRep3 depositRep3 = null;
@@ -340,6 +340,16 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -6;
                 return apiResult;
             }
+            
+            if (withdrawalLimitInfo != null
+                && withdrawalLimitInfo.Times != 0
+                && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
+                apiResult.ErrorCode = -7;
+                return apiResult;
+            }
+            
             #endregion
 
             #region - Check CustBankInfo -
@@ -366,7 +376,7 @@ namespace MemberSite.Controllers.Api
                 }
             }
             #endregion
-            
+
             return await DoWithdrawalAsync(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, false, null);
         }
 
@@ -378,7 +388,7 @@ namespace MemberSite.Controllers.Api
             public string blackbox { get; set; }
         }
 
-        private async Task<ApiResult>  DoWithdrawalAsync(ApiResult apiResult, 
+        private async Task<ApiResult> DoWithdrawalAsync(ApiResult apiResult,
             AuthData authData,
             Customer custInfo,
             WithdrawalReqModel withdrawalReqModel,
@@ -543,56 +553,6 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult> WithdrawalUSDTReqAsync(WithdrawalReqModel withdrawalReqModel)
-        {
-            var apiResult = new ApiResult(selLangBLL);
-            var authData = authorizeBLL.GetAuthData(true);
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(new WithdrawalLimitInfoInput
-            { SiteId = custInfo.SiteId, CurrencyId = custInfo.CurrencyId, VipLevel = custInfo.UserLevel });
-            var dailyCustomerWithdrawalInfo = paymentBLL.GetDailyCustomerWithdrawalInfo(new DailyCustomerWithdrawalInfoInput { CustId = custInfo.CustId });
-
-            #region - Check -
-            if (!WithdrawalReqCheck(ref apiResult, withdrawalReqModel, authData, custInfo))
-            {
-                return apiResult;
-            }
-            #endregion
-
-            #region - Check USDTwithdrawalLimit -
-            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
-
-            if (custBankInfo?.usdtDetail == null
-                || !custBankInfo.usdtDetail.Any()
-                || custBankInfo.usdtDetail.All(x => x.USDTAddress != withdrawalReqModel.AccountNo))
-            {
-                return apiResult;
-            }
-
-            var custSeluSDTDetail = custBankInfo.usdtDetail.FirstOrDefault(x => x.USDTAddress == withdrawalReqModel.AccountNo);
-            var USDTwithdrawalLimitInfo = paymentBLL.GetUSDTWithdrawalLimitInfo(new USDTWithdrawalLimitInfoInput
-            { SiteId = custInfo.SiteId, CurrencyId = custInfo.CurrencyId, VipLevel = custInfo.UserLevel, Network = custSeluSDTDetail.Network });
-
-            if (USDTwithdrawalLimitInfo != null && USDTwithdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
-            {
-                apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), USDTwithdrawalLimitInfo.WithdrawalMin);
-                apiResult.ErrorCode = -5;
-                return apiResult;
-            }
-
-            if (USDTwithdrawalLimitInfo != null && USDTwithdrawalLimitInfo.WithdrawalMax != 0 &&
-                dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > USDTwithdrawalLimitInfo.WithdrawalMax)
-            {
-                apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
-                apiResult.ErrorCode = -6;
-                return apiResult;
-            }
-            #endregion
-
-            return await DoWithdrawalAsync(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, true, custSeluSDTDetail);
-        }
-
-        [HttpPost]
         public async Task<ApiResult> WithdrawalCryptoReqAsync(WithdrawalReqModel withdrawalReqModel)
         {
             var apiResult = new ApiResult(selLangBLL);
@@ -646,11 +606,20 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -6;
                 return apiResult;
             }
+            
+            if (usdtWithdrawalLimitInfo != null
+                && usdtWithdrawalLimitInfo.Times != 0
+                && dailyCustomerWithdrawalInfo.Count >= usdtWithdrawalLimitInfo.Times)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
+                apiResult.ErrorCode = -7;
+                return apiResult;
+            }
             #endregion
 
             return await DoWithdrawalAsync(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, true, usdtDetail);
         }
-        
+
         private bool WithdrawalReqCheck(ref ApiResult apiResult, WithdrawalReqModel withdrawalReqModel, AuthData authData, Customer custInfo)
         {
             if (withdrawalReqModel.amount <= 0)
@@ -692,8 +661,8 @@ namespace MemberSite.Controllers.Api
             var result = bankInfoBLL.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId)
                 .ToList();
 
-            if (custInfo.SiteId == (int) SiteId.Nova88
-                && custInfo.CurrencyId == (int) CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            if (custInfo.SiteId == (int)SiteId.Nova88
+                && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
             {
                 bankInfoBLL.BankNameLocalization(result, authData.LangId);
             }
@@ -715,7 +684,7 @@ namespace MemberSite.Controllers.Api
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var result = bankInfoBLL.GetOnlineBankInfoSysList(custInfo.CustId, payment.payId)
                 .ToList();
-            
+
             if (custInfo.SiteId == (int)SiteId.Nova88
                 && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
             {
@@ -1215,7 +1184,7 @@ namespace MemberSite.Controllers.Api
 
             var dailyCustomerWithdrawalInfo =
                 paymentBLL.GetDailyCustomerWithdrawalInfo(new DailyCustomerWithdrawalInfoInput { CustId = custInfo.CustId });
-            
+
             var cryptoWithdrawalLimitInfo = paymentBLL.GetUSDTWithdrawalLimitInfoV2(new USDTWithdrawalLimitInfoInput
             {
                 SiteId = custInfo.SiteId,
@@ -1239,15 +1208,18 @@ namespace MemberSite.Controllers.Api
                     Network = x.Network,
                     WithdrawalMin = x.WithdrawalMin,
                     Unlimited = x.WithdrawalMax == 0,
-                    WithdrawalAvailableAmount = tmpWithdrawalAvailableAmount < 0 
-                        ? 0 : tmpWithdrawalAvailableAmount
+                    WithdrawalAvailableAmount = tmpWithdrawalAvailableAmount < 0
+                        ? 0 : tmpWithdrawalAvailableAmount,
+                    MaxTimes = x.Times,
+                    WithdrawalTimes = dailyCustomerWithdrawalInfo.Count
                 });
             });
 
             var output = withdrawalLimitInfo ?? new WithdrawalLimitInfoOutput()
             {
                 WithdrawalMin = 0,
-                WithdrawalMax = 0
+                WithdrawalMax = 0,
+                Times = 0
             };
 
             tmpWithdrawalAvailableAmount = output.WithdrawalMax == 0
@@ -1260,6 +1232,8 @@ namespace MemberSite.Controllers.Api
                 Unlimited = output.WithdrawalMax == 0,
                 WithdrawalAvailableAmount = tmpWithdrawalAvailableAmount < 0
                     ? 0 : tmpWithdrawalAvailableAmount,
+                MaxTimes = output.Times,
+                WithdrawalTimes = dailyCustomerWithdrawalInfo.Count,
                 USDTList = cryptoList
             };
 
@@ -1533,5 +1507,44 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0
             };
         }
+
+        /// <summary>
+        /// 取得存款Line頻道
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiResult<LineChannel> GetLineChannelForDpeosit()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            if (authData.CustId == 0)
+                return new ApiResult<LineChannel>
+                {
+                    ErrorCode = -1,
+                    Message = "Cust is Invalid.Please Contact to CSD."
+                };
+
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            if (custInfo == null)
+                return new ApiResult<LineChannel>
+                {
+                    ErrorCode = -1,
+                    Message = "Cust Not Found.Please Contact to CSD."
+                };
+
+            var result = bankInfoBLL.GetLineChannel(custInfo.SiteId, custInfo.CurrencyId);
+            if(result == null)
+                return new ApiResult<LineChannel>
+                {
+                    ErrorCode = -1,
+                    Message = "Link Not Found.Please Contact to CSD."
+                };
+
+            return new ApiResult<LineChannel>
+            {
+                Data = result,
+                ErrorCode = 0
+            }; ;
+        }
+
     }
 }

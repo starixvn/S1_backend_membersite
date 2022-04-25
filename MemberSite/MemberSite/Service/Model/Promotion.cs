@@ -41,6 +41,7 @@ namespace MemberSite.Service.Model
         public string Banner { get; set; }
         public long PeriodFrom { get; set; }
         public long PeriodTo { get; set; }
+        public int WinOver { get; set; }
         public int RollOver { get; set; }
         public string Details { get; set; }
         public decimal Bonus { get; set; }
@@ -53,6 +54,7 @@ namespace MemberSite.Service.Model
         public int WalletType { get; set; }
         public int TpId { get; set; }
         public decimal CustRollOver { get; set; }
+        public int FullFillType { get; set; }
         public decimal CustTurnOver { get; set; }
         public int Status { get; set; }
         public DateTime? CustExpiryTime { get; set; }
@@ -68,6 +70,15 @@ namespace MemberSite.Service.Model
         public int? PromotionAction { set; get; }
         public CashBackDetails CashBackDetails { get; set; }
         public bool BeenUsed { get; set; }
+    }
+    public class PromotionCondition
+    {
+        public string BonusCode { get; set; }
+        public string DepositId { get; set; }
+        public decimal DepositAmount { get; set; }
+        public IEnumerable<Ref> RefList { get; set; }
+        public bool CanJoin { get; set; }
+        public int Result { get; set; }
     }
 
     public class CashBackDetails
@@ -133,5 +144,14 @@ namespace MemberSite.Service.Model
     public class CheckDepositSpecialCodeRsp
     {
         public string BonusCode { get; set; }
+    }
+    public class CustCondition
+    {
+        public byte CanJoin { set; get; }
+        public decimal Amount { set; get; }
+        public string RefId { set; get; }
+        public int Result { set; get; }
+        public string RefList { set; get; }
+        public IEnumerable<Ref> reference { set; get; }
     }
 }

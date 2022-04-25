@@ -159,4 +159,14 @@ namespace MemberSite.Service.Model
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
     }
+
+    public class LineChannel
+    {
+        public int Id { get; set; }
+        public int SiteId { get; set; }
+        public string SiteName { get; set; }
+        public int CurrencyId { get; set; }
+        public string IsoCode { get; set; }
+        public string Link { get; set; }
+    }
 }
