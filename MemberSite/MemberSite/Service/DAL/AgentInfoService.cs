@@ -2,16 +2,20 @@
 using MySql.Data.MySqlClient;
 using Dapper;
 using System.Data;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
 {
     public class AgentInfoService
     {
         private readonly IConfiguration configuration;
+        private readonly MySqlClient _reportDbClient; 
 
-        public AgentInfoService(IConfiguration configuration)
+        public AgentInfoService(IConfiguration configuration, IEnumerable<MySqlClient> dbClients)
         {
             this.configuration = configuration;
+            _reportDbClient = dbClients.FirstOrDefault(a => a.DataBase == DataBase.Report);
         }
         public Customer GetSuperAgent(int siteId, int currencyId)
         {
@@ -37,7 +41,13 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<ReferralSetting>("Member_ReferralSetting_Get", new { SiteId = siteId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
-           
+        }
+        public async Task<ReferralSettingDetailData> GetReferralSettingDetailAsync(int siteId, int currencyId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId);
+            p.Add("_CurrencyId", currencyId);
+            return await _reportDbClient.QueryFirstAsync<ReferralSettingDetailData>("Member_ReferralSetting_Get_V2", p);
         }
         public void GetReferralSummary(int custId, out int referralCount, out int conditionCount, out int amountCount, out int amountSum)
         {
