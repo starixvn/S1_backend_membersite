@@ -350,4 +350,7 @@
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>अमान्य क्रिप्टो वॉलेट पता।</value>
   </data>
+  <data name="msg_DecimalOutOfRange" xml:space="preserve">
+    <value>2 अंकों से अधिक दशमलव के कारण ट्रांसफर असफल रहा</value>
+  </data>
 </root>

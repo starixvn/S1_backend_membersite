@@ -312,6 +312,17 @@
         ETH = 98,
         BTC = 99
     }
+    public enum DeepLinkType
+    {
+        Android = 1,
+        IOS = 2,
+        Desktop = 3
+    }
+    public enum DeepLinkProtocolType
+    {
+        http = 1,
+        https = 2
+    }
 
     public enum TransferAction
     {
