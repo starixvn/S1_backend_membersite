@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MemberSite.Service.BLL;
+﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Serilog.Context;
 using MemberSite.Service.DAL;
 using Microsoft.Extensions.Options;
@@ -97,6 +90,11 @@ namespace MemberSite.Controllers
                 {
                     var authData = _authorizeBll.GetAuthData();
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    
+                    if (tpId == (int)Tp.TCG && string.CompareOrdinal(custInfo.AffCode, "67253") == 0)
+                    {
+                        return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", new ErrorData() { Message = "Access Denied" });
+                    }
 
                     if (tpId == (int)Tp.AG)
                     {
@@ -120,7 +118,7 @@ namespace MemberSite.Controllers
                     }
 
                     tpInfo.CustId = authData.CustId;
-                    tpInfo.LangId = CheckLangId(LangId) ? LangId : custInfo.UserLang;
+                    tpInfo.LangId = _selLangBll.CheckLangId(LangId) ? LangId : custInfo.UserLang;
                 }
                 else
                 {
@@ -199,11 +197,6 @@ namespace MemberSite.Controllers
         public class ErrorData
         {
             public string Message { get; set; }
-        }
-
-        private bool CheckLangId(string LangId)
-        {
-            return _selLangBll.GetLangIdList().Any(item => item.LangId == LangId);
         }
     }
 }

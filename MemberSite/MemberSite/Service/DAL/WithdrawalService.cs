@@ -2,14 +2,9 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Text.RegularExpressions;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.DAL
 {
@@ -45,13 +40,13 @@ namespace MemberSite.Service.DAL
 
             conn.Execute("Member_WithdrawalInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
             transId = p.Get<string>("vTransId");
-            var rollover = rolloverService.ReachedRollover(custId, conn, trans);
 
-            if (!rollover.ReachedRollover)
+            if(string.IsNullOrEmpty(transId))
             {
-                return -2;
+                return 3; //Insert Fail
             }
-            else if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
+       
+            if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
             {
                 return -3;
             }
@@ -90,13 +85,8 @@ namespace MemberSite.Service.DAL
 
             conn.Execute("Member_WithdrawalInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
             transId = p.Get<string>("vTransId");
-            var rollover = rolloverService.ReachedRollover(custId, conn, trans);
-
-            if (!rollover.ReachedRollover)
-            {
-                return -2;
-            }
-            else if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
+           
+            if(GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
             {
                 return -3;
             }
@@ -236,12 +226,20 @@ namespace MemberSite.Service.DAL
                 new DynamicParameters(new {input.CustId}));
         }
 
-        public WithdrawalLimitInfoOutput GetUSDTWithdrawalLimitInfo(USDTWithdrawalLimitInfoInput input)
+        public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoV2(USDTWithdrawalLimitInfoInput input)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<WithdrawalLimitInfoOutput>("Member_USDTWithdrawalLimitInfo_Get",
-                new { input.SiteId, input.CurrencyId, input.VipLevel, input.Network}, commandType: CommandType.StoredProcedure).FirstOrDefault();
+            return conn.Query<USDTWithdrawalLimitInfoOutput>("Member_USDTWithdrawalLimitInfo_Get_V2",
+                new
+                {
+                    _SiteId = input.SiteId,
+                    _CurrencyId = input.CurrencyId,
+                    _VipLevel = input.VipLevel,
+                    _CryptoCurrencyId = input.CryptoCurrencyId,
+                    _Network = input.Network
+                }, commandType: CommandType.StoredProcedure);
         }
+
         public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoList(USDTWithdrawalLimitInfoInput input)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));

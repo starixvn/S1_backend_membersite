@@ -1,7 +1,5 @@
 ﻿using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
 
 namespace MemberSite.Service.BLL
 {
@@ -142,7 +140,7 @@ namespace MemberSite.Service.BLL
 
             return apiResult;
         }
-        public async Task<ApiResult> SendOTPEmailAsync(int custId, string OTPEmailUrl)
+        public async Task<ApiResult<SendOTPEmailResult>> SendOTPEmailAsync(int custId, string OTPEmailUrl)
         {
             var apiUrl = $"{commonServiceUrl}Mail/OTPEmail";
 
@@ -152,8 +150,21 @@ namespace MemberSite.Service.BLL
                 OTPEmailUrl
             };
 
-            var apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
+            var apiResult = await courierAdapter.MyPostAsync<SendOTPEmailResult, dynamic>(apiUrl, req);
 
+            return apiResult;
+        }
+        public async Task<ApiResult> VerifyEmailAsync(int custId, string inputOTP)
+        {
+            var apiUrl = $"{commonServiceUrl}Mail/VerifyOTP";
+
+            dynamic req = new
+            {
+                CustId = custId,
+                InputOTP = inputOTP
+            };
+
+            ApiResult apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
             return apiResult;
         }
     }

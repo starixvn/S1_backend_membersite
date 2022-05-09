@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MemberSite.Service.Model
+﻿namespace MemberSite.Service.Model
 {
     public class BonusWallet
     {
@@ -8,6 +6,7 @@ namespace MemberSite.Service.Model
         public decimal Bonus { get; set; }
         public decimal Rollover { get; set; }
         public decimal Turnover { get; set; }
+        public int FullFillType { get; set; }
         public int PromoCategoryId { get; set; }
         public int TpId { get; set; }
         public int Status { get; set; }

@@ -1,6 +1,4 @@
 ﻿using MemberSite.Service.Model.enums;
-using System;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
@@ -34,7 +32,7 @@ namespace MemberSite.Service.Model
         public string BankInfo { set; get; }
         public string USDTInfo { set; get; }
         public IEnumerable<BankInfoDetail> bankInfoDetail { set; get; }
-        public IEnumerable<USDTDetail> uSDTDetail { set; get; }
+        public IEnumerable<USDTDetail> usdtDetail { set; get; }
     }
 
     public class BankInfoDetail
@@ -49,6 +47,21 @@ namespace MemberSite.Service.Model
         public string USDTAddress { set; get; }
         public string Network { set; get; }
         public int CurrencyId { set; get; }
+
+        public string CurrencyName
+        {
+            get
+            {
+                try
+                {
+                    return ((CryptoCurrencyId) this.CurrencyId).ToString();
+                }
+                catch
+                {
+                    return CryptoCurrencyId.USDT.ToString();
+                }
+            }
+        }
     }
 
     public class BankInfoDetailRep : BankInfoDetail
@@ -97,6 +110,9 @@ namespace MemberSite.Service.Model
         public string Birth_y { get; set; }
         public string RealName { get; set; }
         public bool PhoneVerified { get; set; }
+        public decimal PhoneReward { get; set; }
+        public bool EmailVerified { get; set; }
+        public decimal EmailReward { get; set; }
         public int EnablePromotion { get; set; }
     }
     public class CustRollOver
@@ -134,6 +150,7 @@ namespace MemberSite.Service.Model
         public string TpName { set; get; }
         public string displayKey { get; set; }
         public string Description { set; get; }
+        public int WalletMode { set; get; } //0.Semless Wallet 1.Restore All 2.Manual
     }
     public class TpWalletData
     {

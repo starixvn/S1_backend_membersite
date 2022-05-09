@@ -1,8 +1,7 @@
 ﻿using Dapper;
 using MemberSite.Service.Model;
-using Microsoft.Extensions.Configuration;
+using MemberSite.Service.Model.enums;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
 using System.Data;
 
 namespace MemberSite.Service.DAL
@@ -33,6 +32,18 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<LoadCardPayInfo>("Common_LoadCardPay_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+        }
+
+        public IEnumerable<PayInfo> GetPayInfo(int siteId, DepositType depositType)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<PayInfo>("Service_PayInfo_Get", new { SiteId = siteId , DepositType = (int)depositType }, commandType: CommandType.StoredProcedure);
+        }
+
+        public LineChannel? GetLineChannel(int siteId, int currencyId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.QueryFirstOrDefault<LineChannel?>("Member_LineChannel_Get", new { _SiteId = siteId, _CurrencyId = (int)currencyId }, commandType: CommandType.StoredProcedure);
         }
     }
 }

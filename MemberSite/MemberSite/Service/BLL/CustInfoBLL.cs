@@ -2,20 +2,16 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using Microsoft.AspNetCore.Hosting;
+using MemberSite.Service.Model.Mapping;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
     public class CustInfoBll
     {
         private readonly Tools _tools;
+        private readonly VerificationRewardBLL _verificationRewardBll;
         private readonly CustInfoService _custInfoService;
         private readonly AuthenticateService _authenticateService;
         private readonly ServerInfoBll _serverInfoBll;
@@ -23,23 +19,17 @@ namespace MemberSite.Service.BLL
         private readonly RolloverService _rollOverService;
         private readonly CommonBLL _commonBll;
         private readonly CacheHelper _cacheHelper;
-        private readonly Dictionary<int, bool> _isConvert = new Dictionary<int, bool>()
+        private readonly Dictionary<int, bool> _isConvert = new()
             {
                 {51,false },{15,false }
             };
-        private readonly Dictionary<string, string> _areaCodeCountryList = new Dictionary<string, string>()
-            {
-                {"+60","MY" },
-                {"+66","TH" },
-                {"+86","CS" },
-                {"+62","ID" },
-                {"+91","IN" },
-                {"+84","VN" }
-            };
+
+        private readonly Dictionary<string, string> _areaCodeCountryList;
 
         public CustInfoBll(IServiceProvider provider)
         {
             _tools = provider.GetRequiredService<Tools>();
+            _verificationRewardBll = provider.GetRequiredService<VerificationRewardBLL>();
             _custInfoService = provider.GetRequiredService<CustInfoService>();
             _authenticateService = provider.GetRequiredService<AuthenticateService>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
@@ -47,6 +37,7 @@ namespace MemberSite.Service.BLL
             _rollOverService = provider.GetRequiredService<RolloverService>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _areaCodeCountryList = new CurrencyMapping().AreaCodeMap;
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -55,6 +46,13 @@ namespace MemberSite.Service.BLL
                 _areaCodeCountryList.TryGetValue(areaCode, out countryName);
             return countryName;
         }
+        
+        public string GetAreaCodeByCountryName(string countryName)
+        {
+            var areaCode = _areaCodeCountryList.FirstOrDefault(x => x.Value == countryName).Key;
+            return areaCode;
+        }
+        
         public bool IsConvertRequired(int currencyId)
         {
             return _isConvert.ContainsKey(currencyId);
@@ -62,7 +60,7 @@ namespace MemberSite.Service.BLL
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
             string refId, string affId, string aff, string affCode, int siteId, out int custId, string signupUrl = null,
-            string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
+            string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
@@ -135,7 +133,7 @@ namespace MemberSite.Service.BLL
                 signupUrl = _tools.GetFromUrl();
             }
 
-            var result = _custInfoService.AddCustInfo(regCustInfo, Email, out custId, signupUrl, PhoneNo, AreaCode,
+            var result = _custInfoService.AddCustInfo(regCustInfo, Email, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
             return result != 0 ? result : 0;
         }
@@ -162,7 +160,7 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(1)),
                 i => _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId));
         }
-        public int UserLogin(string userName, string pwd, string ip, string fromUrl, string userAgent, ref Customer customer, out string token)
+        public int UserLogin(string userName, string pwd, string ip, string fromUrl, string userAgent,int deviceType ,ref Customer customer, out string token)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             customer = _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId);
@@ -182,12 +180,12 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
-            _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, out token);
+            _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip , deviceType , out token);
             _authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
             return 0;
         }
 
-        public int UserLoginForResetPwd(string userName, string ip, string fromUrl, string userAgent, ref Customer customer, out string token)
+        public int UserLoginForResetPwd(string userName, string ip, string fromUrl, string userAgent,int deviceType, ref Customer customer, out string token)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             customer = _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId);
@@ -202,8 +200,20 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
-            _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, out token);
+            _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip,deviceType, out token);
             _authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
+            return 0;
+        }
+
+        public int GetCustomer(string userName, ref Customer customer)
+        {
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            customer = _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId);
+            if (customer == null)
+            {
+                return -1;
+            }
+
             return 0;
         }
 
@@ -352,7 +362,7 @@ namespace MemberSite.Service.BLL
                     uSDTDetailList = uSDTDetailList.Where(x => x.USDTAddress != null);//filiter null data
                     if (uSDTDetailList.Any())
                     {
-                        custBankInfo.uSDTDetail = uSDTDetailList;
+                        custBankInfo.usdtDetail = uSDTDetailList;
                     }
                 }
                 //if (custInfo.CurrencyId == 96)
@@ -473,12 +483,26 @@ namespace MemberSite.Service.BLL
         {
             var apiResult = await _commonBll.VerifyOTPAsync(custId, inputOTP);
 
-            if (apiResult.ErrorCode == 0)
+            if (apiResult.ErrorCode == 0 && !await _custInfoService.GetPhoneVerified(custId))
             {
                 _custInfoService.SetPhoneVerified(custId);
+                await _verificationRewardBll.PhoneReward(custId);
             }
             return apiResult;
         }
+
+        public async Task<ApiResult> VerifyEmailAsync(int custId, string inputOtp)
+        {
+            var apiResult = await _commonBll.VerifyEmailAsync(custId, inputOtp);
+
+            if (apiResult.ErrorCode == 0 && !await _custInfoService.GetEmailVerified(custId))
+            {
+                _custInfoService.SetEmailVerified(custId);
+                await _verificationRewardBll.EmailReward(custId);
+            }
+            return apiResult;
+        }
+
         public string GetAffiliateId(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
@@ -569,6 +593,10 @@ namespace MemberSite.Service.BLL
         public int SetFireBaseTroken(int custId, int siteId, string fireBaseToken)
         {
             return _custInfoService.SetFireBaseTroken( custId, siteId, fireBaseToken);
+        }
+        public int SetCustActStatus(int custId, string Operator)
+        {
+            return _custInfoService.SetCustActStatus(custId, Operator);
         }
     }
 }

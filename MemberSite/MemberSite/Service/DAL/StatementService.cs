@@ -1,13 +1,9 @@
 ﻿using Dapper;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using MemberSite.Service.Library;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.DAL
 {
@@ -174,6 +170,16 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             var result = conn.Query<NetworkList>("Member_SupportNetwork_Get", new { CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+            return result;
+        }
+        
+        public IEnumerable<CryptoInfo> GetSupportCryptoInfo()
+        {
+            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
+            var result = conn.Query<CryptoInfo>(
+                "Member_SupportCryptoInfo_Get", 
+                commandType: CommandType.StoredProcedure);
+            
             return result;
         }
     }

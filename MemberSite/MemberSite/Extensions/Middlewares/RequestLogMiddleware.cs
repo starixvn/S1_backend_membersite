@@ -1,12 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Serilog.Context;
 
@@ -32,6 +27,7 @@ namespace MemberSite.Extensions.Middlewares
 
         public async Task Invoke(HttpContext context)
         {
+            context.Request.EnableBuffering();
             var url = context.Request.GetDisplayUrl();
             var path = context.Request.Path.Value;
             if (path == "/" && (context.Request.Method.Equals("OPTIONS", StringComparison.OrdinalIgnoreCase) ||

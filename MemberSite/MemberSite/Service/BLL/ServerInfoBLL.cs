@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using MemberSite.Service.DAL;
+﻿using System.Collections.Concurrent;
+using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
     public class ServerInfoBll
     {
-        private readonly ServerInfoService _serverInfoService;
+        private readonly IServerInfoService _serverInfoService;
         private ServerInfo _serverInfo;
         private readonly IMemoryCache _cache;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -22,10 +16,12 @@ namespace MemberSite.Service.BLL
         private readonly ConcurrentDictionary<int, ServerInfo> _serverInfoDic;
         private readonly int _fixSiteId;
         private readonly CacheHelper _cacheHelper;
+        private readonly List<string> _seoDomain = new List<string>(){};
+        private readonly string[] _appHost = {"app.n17881788.com", "app.bwing.com", "app.goal123.com"};
 
         public ServerInfoBll(IServiceProvider provider)
         {
-            _serverInfoService = provider.GetRequiredService<ServerInfoService>();
+            _serverInfoService = provider.GetRequiredService<IServerInfoService>();
             _cache = provider.GetRequiredService<IMemoryCache>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _siteInfoDic = new ConcurrentDictionary<string, int>(StringComparer.OrdinalIgnoreCase);
@@ -109,7 +105,18 @@ namespace MemberSite.Service.BLL
             
             return host;
         }
-        
+
+        public string GetHttpDomain()
+        {
+            var http = _httpContextAccessor.HttpContext.Request.Scheme;
+            var host = _httpContextAccessor.HttpContext.Request.Host.Host;
+
+            if(_appHost.Any(a=> a == host)) 
+                host = $"m{host[host.IndexOf('.')..]}";
+
+            return $"{http}://{host}";
+        }
+
         public IEnumerable<Domainlist> GetSupportDomainList(int siteId, int currencyId)
         {
             return _serverInfoService.GetSupportDomainList(siteId, currencyId);
@@ -129,6 +136,30 @@ namespace MemberSite.Service.BLL
             return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => _serverInfoService.GetSeo(domain));
+        }
+
+        public async Task<IEnumerable<MenuOfGame>> GetMenuOfGames(int siteId, string langId)
+        {
+            var menuOfGamesData = await _serverInfoService.GetMenuOfGames(siteId, langId);
+            var menuOfGames = menuOfGamesData
+                .GroupBy(a => a.MenuId)
+                .Select(b => new MenuOfGame() 
+                {
+                    MenuId = b.Key,
+                    MenuItems = b.Select(c => new MenuItem()
+                    {
+                        TpId = c.TpId,
+                        GameId = c.GameId,
+                        TpGameType = c.TpGameType,
+                        Sort = c.Sort
+                    }).ToList()
+                });
+            return menuOfGames;
+        }
+
+        public bool IsSeoDomain(string domain)
+        {
+            return _seoDomain.Exists(seoDomain => seoDomain == domain);
         }
     }
 }

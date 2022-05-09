@@ -345,4 +345,16 @@
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>You have already stored this information.</value>
   </data>
+  <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
+    <value>This Promo Code has been used.</value>
+  </data>
+  <data name="msg_PhoneWrongFormat" xml:space="preserve">
+    <value>Phone Format is wrong.</value>
+  </data>
+  <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
+    <value>Invalid crypto wallet address.</value>
+  </data>
+  <data name="msg_DecimalOutOfRange" xml:space="preserve">
+    <value>Transfer failed due to decimal greater than 2 digits</value>
+  </data>
 </root>

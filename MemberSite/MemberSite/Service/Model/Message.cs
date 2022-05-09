@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MemberSite.Service.Model
+﻿namespace MemberSite.Service.Model
 {
     public class Msg
     {
@@ -46,5 +44,12 @@ namespace MemberSite.Service.Model
         public int CustId { get; }
         public string CustUserName { get; }
         public string LangId { get; }
+    }
+
+    public class PopupMsg
+    {
+        public int Id { get; set; }
+        public string PopupMessage { get; set; }
+        public int PageNumber { get; set; }
     }
 }

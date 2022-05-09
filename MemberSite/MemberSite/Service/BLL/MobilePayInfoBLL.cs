@@ -2,11 +2,7 @@
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using MemberSite.Service.Library;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
@@ -47,6 +43,7 @@ namespace MemberSite.Service.BLL
                 return t.ToString().GetHashCode();
             }
         }
+
         public IEnumerable<MobilePayGroup> GetMobilePayGroupList(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
@@ -112,6 +109,7 @@ namespace MemberSite.Service.BLL
 
             return mobilePayInfoList.Where(x => x.MaxAmount > 0);
         }
+
         public int DepositReqMobilePay(int custId, int channelId, decimal amount, out string transId, out MobilePayInfo mobilePayInfo)
         {
             transId = null;

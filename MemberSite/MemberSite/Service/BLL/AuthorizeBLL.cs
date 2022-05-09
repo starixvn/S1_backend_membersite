@@ -1,12 +1,7 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Linq;
 using System.Security.Claims;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
@@ -29,12 +24,11 @@ namespace MemberSite.Service.BLL
             _jwtConfig = provider.GetRequiredService<IOptions<JwtConfig>>()?.Value;
         }
 
-        public bool LoginCheckin()
+        public bool LoginCheckin(int? deviceType)
         {
             var authData = GetAuthData();
-
             var ip = tools.GetClientIP();
-            var result = authenticateService.UpdateOnline(authData.CustId, true, authData.Token, ip);
+            var result = authenticateService.UpdateOnline(authData.CustId, true, authData.Token, ip, deviceType);
 
             return result;
         }
@@ -68,7 +62,7 @@ namespace MemberSite.Service.BLL
             var authData = GetAuthData();
 
             var ip = tools.GetClientIP();
-            var result = authenticateService.UpdateOnline(authData.CustId, false, authData.Token, ip);
+            var result = authenticateService.UpdateOnline(authData.CustId, false, authData.Token, ip ,null);
 
             return result;
         }

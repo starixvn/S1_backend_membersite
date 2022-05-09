@@ -1,14 +1,9 @@
 ﻿using Dapper;
 using MemberSite.Service.Model;
-using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using MemberSite.Service.Library;
 using Newtonsoft.Json;
-using System;
-using Microsoft.Extensions.DependencyInjection;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
@@ -16,11 +11,13 @@ namespace MemberSite.Service.DAL
     public class CasinoService
     {
         private readonly IConfiguration configuration;
+        private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDb;
         public CasinoService(IServiceProvider provider)
         {
             configuration = provider.GetRequiredService<IConfiguration>();
-            _reportDb = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report); 
+            _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
+            _reportDb = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
         public FavoriteGames GetFavoriteGames(int CustId)
@@ -31,8 +28,7 @@ namespace MemberSite.Service.DAL
 
         public void SetFavoriteGames(int CustId, string GameInfo, bool IsRemove)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            conn.Execute("Member_Favorite_Set", new { CustId, GameInfo, IsRemove}, commandType: CommandType.StoredProcedure);
+            _mainDbClient.Execute("Member_Favorite_Set",  new DynamicParameters(new { CustId, GameInfo, IsRemove}));
         }
 
         public IEnumerable<int> GetProviderIdByCurrency(int CurrencyId, int SiteId)

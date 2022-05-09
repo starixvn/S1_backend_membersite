@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Dapper;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using Serilog.Context;
 
@@ -18,10 +14,11 @@ namespace MemberSite.Service.Library
 
         private readonly ILogger<MySqlClient> _logger;
 
-        public MySqlClient(string connectionString, ILogger<MySqlClient> logger)
+        public MySqlClient(string connectionString, ILogger<MySqlClient> logger, DataBase dataBase)
         {
             _connectionString = connectionString;
             _logger = logger;
+            DataBase = dataBase;
         }
 
         public async Task<T> QueryFirstAsync<T>(string name, SqlMapper.IDynamicParameters parameters)

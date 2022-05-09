@@ -124,7 +124,7 @@
     <value>GBP</value>
   </data>
   <data name="Currency_13" xml:space="preserve">
-    <value>RMB</value>
+    <value>CNY</value>
   </data>
   <data name="Currency_15" xml:space="preserve">
     <value>IDR</value>
@@ -1807,7 +1807,16 @@
   <data name="lbl_Wallet_V8" xml:space="preserve">
     <value>Ví V8</value>
   </data>
- <data name="lbl_WalletDescription_V8" xml:space="preserve">
+  <data name="lbl_WalletDescription_V8" xml:space="preserve">
     <value>Ví V8</value>
+  </data>
+  <data name="lbl_WalletDescription_Mega" xml:space="preserve">
+    <value>Ví Mega</value>
+  </data>
+  <data name="lbl_Wallet_Mega" xml:space="preserve">
+    <value>Ví Mega</value>
+  </data>
+  <data name="Currency_74" xml:space="preserve">
+    <value>BDT</value>
   </data>
 </root>

@@ -1,6 +1,4 @@
 ﻿using MemberSite.Service.Model.enums;
-using System;
-using System.Collections.Generic;
 
 namespace MemberSite.Service.Model
 {
@@ -43,6 +41,7 @@ namespace MemberSite.Service.Model
         public string Banner { get; set; }
         public long PeriodFrom { get; set; }
         public long PeriodTo { get; set; }
+        public int WinOver { get; set; }
         public int RollOver { get; set; }
         public string Details { get; set; }
         public decimal Bonus { get; set; }
@@ -55,6 +54,7 @@ namespace MemberSite.Service.Model
         public int WalletType { get; set; }
         public int TpId { get; set; }
         public decimal CustRollOver { get; set; }
+        public int FullFillType { get; set; }
         public decimal CustTurnOver { get; set; }
         public int Status { get; set; }
         public DateTime? CustExpiryTime { get; set; }
@@ -70,6 +70,15 @@ namespace MemberSite.Service.Model
         public int? PromotionAction { set; get; }
         public CashBackDetails CashBackDetails { get; set; }
         public bool BeenUsed { get; set; }
+    }
+    public class PromotionCondition
+    {
+        public string BonusCode { get; set; }
+        public string DepositId { get; set; }
+        public decimal DepositAmount { get; set; }
+        public IEnumerable<Ref> RefList { get; set; }
+        public bool CanJoin { get; set; }
+        public int Result { get; set; }
     }
 
     public class CashBackDetails
@@ -96,5 +105,53 @@ namespace MemberSite.Service.Model
     {
         public string DepositId { get; set; }
         public decimal Amount { get; set; }
+    }
+    public class DepositBonus
+    {
+        public string TransId { set; get; }
+        public string BonusCode { set; get; }
+        public int CustId { set; get; }
+        public int SiteId { set; get; }
+        public string UserName { set; get; }
+        public int CurrencyId { set; get; }
+        public decimal LockedAmount { set; get; }
+        public int DeviceType { set; get; }
+        public decimal Amount { set; get; }
+        public int DepositStatus { set; get; }
+    }
+    public enum DepositBonusQueueStatus : int
+    {
+        Undo = 1,
+        Finish = 2,
+        Expiry = 3,
+        Cancel_other_Bonus = 4,//Rewarded other Bonus
+        Cancel_not_eligible = 5,
+        Cancel_Rejected = 6
+    }
+    public class PromotionBySpecialCode
+    {
+        public string BonusCode { set; get; }
+        public int PromotionType { get; set; }
+    }
+    public class PromotionBySpecialScratchCard : PromotionBySpecialCode
+    {
+        public int CustId { get; set; }
+    }
+    public class BonusinfoByBonusCode
+    {
+        public int Status { get; set; }
+    }
+    public class CheckDepositSpecialCodeRsp
+    {
+        public string BonusCode { get; set; }
+    }
+    public class CustCondition
+    {
+        public byte CanJoin { set; get; }
+        public decimal Amount { set; get; }
+        public string RefId { set; get; }
+        public int Result { set; get; }
+        public string RefList { set; get; }
+        public IEnumerable<Ref> reference { set; get; }
     }
 }

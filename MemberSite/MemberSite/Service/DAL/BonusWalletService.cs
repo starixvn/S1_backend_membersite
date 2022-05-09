@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+﻿using System.Data;
 using Dapper;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 
 namespace MemberSite.Service.DAL
@@ -56,7 +50,15 @@ namespace MemberSite.Service.DAL
         public IEnumerable<BonusWallet> GetCustBonusWallet(int CustId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<BonusWallet>("Member_CustBonus_Get", new { CustId }, commandType: CommandType.StoredProcedure);
+            var datas = conn.Query<BonusWallet>("Member_CustBonus_Get_V2", new {CustId},
+                commandType: CommandType.StoredProcedure);
+            
+            foreach (var data in datas)
+            {
+                data.Turnover = data.Turnover < 0 ? 0 : data.Turnover;
+            }
+
+            return datas;
         }
 
         public BonusWallet CheckBonusWallet(int CustId, int TpId)

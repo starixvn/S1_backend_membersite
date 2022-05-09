@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using System.Web;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
@@ -10,7 +7,6 @@ using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Controllers
 {
@@ -21,6 +17,7 @@ namespace MemberSite.Controllers
         private readonly CommonBLL _commonBll;
         private readonly Tools _tools;
         private readonly ServerInfoBll _serverInfoBll;
+        private readonly ILogger<ExtraController> _logger;
 
         public ExtraController(IServiceProvider provider)
         {
@@ -29,10 +26,12 @@ namespace MemberSite.Controllers
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _tools = provider.GetRequiredService<Tools>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+            _logger = provider.GetRequiredService<ILogger<ExtraController>>();
         }
         public class SignupModel : Api.SiteController.RegisteredModel
         {
             public string SignupUrl { get; set; }
+            public string ReferralUrl { get; set; }
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
             public string RealName { get; set; }
@@ -53,6 +52,7 @@ namespace MemberSite.Controllers
 
             var custId = 0;
             var result = -99;
+            var phoneNoValidation = true;
             var phoneExists = false;
             var mailExists = false;
 
@@ -63,6 +63,11 @@ namespace MemberSite.Controllers
                 if (phoneExists)
                     result = -6;
             }
+            else if (!string.IsNullOrEmpty(signupModel.PhoneNo))
+            {
+                phoneNoValidation = false;
+                result = -20;
+            }
 
             if (!string.IsNullOrWhiteSpace(signupModel.Email))
             {
@@ -71,11 +76,11 @@ namespace MemberSite.Controllers
                     result = -10;
             }
 
-            if (!phoneExists && !mailExists)
+            if (!phoneExists && phoneNoValidation && !mailExists)
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
                     signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode,
+                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo, signupModel.AreaCode,
                     signupModel.RealName);
             }
 
@@ -119,6 +124,11 @@ namespace MemberSite.Controllers
                 errorCode = result;
                 message = _selLangBll.GetMsg("mag_AffiliateNotExist");
             }
+            else if (result == -20)
+            {
+                errorCode = result;
+                message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
+            }
             else if (custId == 0)
             {
                 errorCode = result;
@@ -134,8 +144,10 @@ namespace MemberSite.Controllers
                 _commonBll.SendWelcomeMail(custId);
 
                 Customer customer = null;
-                string token = null;
-                var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
+                var fromUrl = _tools.GetFromUrl();
+                var deviceType = (int) _tools.GetDeviceId(fromUrl);
+                
+                var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out string token);
 
                 if (userLoginResult == -1)
                 {
@@ -175,6 +187,10 @@ namespace MemberSite.Controllers
                     errorCode = 0;
                     if (!string.IsNullOrEmpty(signupModel.RedirectUrl))
                     {
+                        if (signupModel.RedirectUrl.IndexOf(".", StringComparison.Ordinal) > -1)
+                        {
+                            return Redirect(signupModel.RedirectUrl);
+                        }
                         return Redirect($"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/{signupModel.RedirectUrl}");
                     }
                     else
@@ -184,6 +200,8 @@ namespace MemberSite.Controllers
 
                 }
             }
+
+            _logger.LogInformation($"({errorCode}) {message}");
 
             return Redirect($"{signupModel.SignupUrl}{(signupModel.SignupUrl.IndexOf("?") > -1 ? $"&message={HttpUtility.UrlEncode(message)}&errorCode={errorCode}" : $"?message={HttpUtility.UrlEncode(message)}&errorCode={errorCode}")}");
         }

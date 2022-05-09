@@ -1,8 +1,5 @@
 ﻿using NUnit.Framework;
-using MemberSite.Service.BLL;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using MemberSiteTests.Stubs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -10,10 +7,11 @@ using Microsoft.Extensions.Hosting.Internal;
 using NSubstitute;
 using MemberSite.Service.Library;
 using Microsoft.Extensions.Logging;
-using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Builder;
+using MemberSite.Extensions;
 
 namespace MemberSite.Service.BLL.Tests
 {
@@ -27,11 +25,14 @@ namespace MemberSite.Service.BLL.Tests
         {
             var services = new ServiceCollection();
 
-            var configBuilder = new ConfigurationBuilder();
-            configBuilder.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false, false)
-                .AddJsonFile("appsettings.Local.json", false, false);
-            _configuration = configBuilder.Build();
+            var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
+            {
+                EnvironmentName = "Local",
+            });
+            builder.Configuration.AddRemoteJsonConfig(builder.Configuration.GetSection("ConfigService").Get<string[]>());
+            var app = builder.Build();
+            _configuration = app.Configuration;
+
             services.AddSingleton(_configuration);
             services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>());
 

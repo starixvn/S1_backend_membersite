@@ -26,6 +26,8 @@
         LocalBank = 3,
         CryptoPayment = 4,
         LoadCardPayment = 5,
+        QRPayPayment = 6,
+        BankAutoChannel = 7,
     }
 
     /// <summary>
@@ -266,6 +268,72 @@
     public enum NetworkType
     {
         ERC20,
-        TRC20
+        TRC20,
+        ETH,
+        BTC
+    }
+
+    public enum ActStatus
+    {
+        NonDeposit = 1,
+        HasDeposit = 2
+    }
+    public enum BonusInfoAtPage
+    {
+        Promotion = 0,
+        Deposit = 1
+    }
+    public enum OTPType
+    {
+        SMS = 0,
+        Email = 1
+    }
+    public enum CurrencyId
+    {
+        MYR = 2,
+        THB = 4,
+        IDR = 15,
+        VND = 51,
+        INR = 61,
+        USDT = 96
+    }
+    public enum DeviceId
+    {
+        Old = 0,
+        Desktop = 1,
+        H5 = 2,
+        APP = 3
+    }
+
+    public enum CryptoCurrencyId
+    {
+        USDT = 96,
+        USDC = 97,
+        ETH = 98,
+        BTC = 99
+    }
+    public enum DeepLinkType
+    {
+        Android = 1,
+        IOS = 2,
+        Desktop = 3
+    }
+    public enum DeepLinkProtocolType
+    {
+        http = 1,
+        https = 2
+    }
+
+    public enum TransferAction
+    {
+        Unknow = 0,
+        Manual = 1,
+        RestoreAll = 2
+    }
+    public enum WalletMode
+    {
+        Seamless = 0,
+        Restore = 1,
+        Manual = 2,
     }
 }

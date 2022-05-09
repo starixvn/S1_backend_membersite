@@ -1,30 +1,27 @@
 ﻿using MemberSite.Service.Library;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Template;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
+using MemberSite.Service.Model;
 
 namespace MemberSite.Service.BLL
 {
     public class SiteMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly SelLangBLL selLangBLL;
-        private readonly Tools tools;
-        private readonly IConfiguration configuration;
-        private readonly ServerInfoBll serverInfoBLL;
+        private readonly SelLangBLL _selLangBll;
+        private readonly Tools _tools;
+        private readonly IConfiguration _configuration;
+        private readonly ServerInfoBll _serverInfoBll;
+        private readonly IEnumerable<BlockIP> _blockIp;
 
-        public SiteMiddleware(IConfiguration configuration, RequestDelegate next, SelLangBLL selLangBLL, Tools tools, ServerInfoBll serverInfoBLL)
+        public SiteMiddleware(IServiceProvider provider, RequestDelegate next)
         {
             _next = next;
-            this.selLangBLL = selLangBLL;
-            this.tools = tools;
-            this.configuration = configuration;
-            this.serverInfoBLL = serverInfoBLL;
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
+            _tools = provider.GetRequiredService<Tools>();
+            _configuration = provider.GetRequiredService<IConfiguration>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+            _blockIp = provider.GetRequiredService<IEnumerable<BlockIP>>();
         }
         public RouteValueDictionary Match(string routeTemplate, string requestPath)
         {
@@ -58,9 +55,9 @@ namespace MemberSite.Service.BLL
                 else if (IsGetMethod(context) && IsSupportContentType(context))
                 {
                     var host = context.Request.Host.Host;
-                    var supportH5 = configuration.GetSection("SupportH5").Get<int[]>();
+                    var supportH5 = _configuration.GetSection("SupportH5").Get<int[]>();
 
-                    if (!IPAddress.TryParse(host, out var pAddress) && supportH5 != null && tools.IsMobile() && supportH5.Any(x => x == serverInfoBLL.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase) && !host.StartsWith("mrelease.", StringComparison.OrdinalIgnoreCase))
+                    if (!IPAddress.TryParse(host, out var pAddress) && supportH5 != null && _tools.IsMobile() && supportH5.Any(x => x == _serverInfoBll.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase) && !host.StartsWith("mrelease.", StringComparison.OrdinalIgnoreCase))
                     {
                         var AnticipationRouteData = Match("{controller=Home}/{action=Index}", context.Request.Path);
                         AnticipationRouteData.TryGetValue("controller", out var controller);
@@ -97,9 +94,9 @@ namespace MemberSite.Service.BLL
                         {
                             var AnticipationRouteData = Match("{controller=Home}/{action=Index}", context.Request.Path);
 
-                            if (AnticipationRouteData.TryGetValue("controller", out var controller) && AnticipationRouteData.TryGetValue("action", out var action) && controller as string != selLangBLL.GetLangId())
+                            if (AnticipationRouteData.TryGetValue("controller", out var controller) && AnticipationRouteData.TryGetValue("action", out var action) && controller as string != _selLangBll.GetLangId())
                             {
-                                context.Response.Redirect($"/{selLangBLL.GetLangId()}/{controller}/{action}{context.Request.QueryString.Value}");
+                                context.Response.Redirect($"/{_selLangBll.GetLangId()}/{controller}/{action}{context.Request.QueryString.Value}");
                                 return;
                             }
                         }
@@ -126,16 +123,13 @@ namespace MemberSite.Service.BLL
         }
         private bool IsBlockIP(HttpContext context)
         {
-            var IPs = configuration.GetSection("BlockIP").Get<string[]>();
-            if (IPs == null)
+            if (_blockIp == null || !_blockIp.Any())
             {
                 return false;
             }
-            else
-            {
-                var clientIP = tools.GetClientIP(context);
-                return IPs.Any(x => x == clientIP);
-            }
+
+            var clientIp = _tools.GetClientIP(context);
+            return _blockIp.Any(x => x.IP == clientIp);
         }
     }
 }

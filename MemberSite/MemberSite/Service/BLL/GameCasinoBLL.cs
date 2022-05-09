@@ -1,11 +1,7 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using MemberSite.Service.Library;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
@@ -14,12 +10,17 @@ namespace MemberSite.Service.BLL
         private readonly GameCasinoService _gameCasinoService;
         private readonly StatementService _statementService;
         private readonly CacheHelper _cacheHelper;
+        private readonly Dictionary<string, string> _changeDisplayName;
 
         public GameCasinoBll(IServiceProvider provider)
         {
             _gameCasinoService = provider.GetRequiredService<GameCasinoService>();
             _statementService = provider.GetRequiredService<StatementService>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _changeDisplayName = new Dictionary<string, string>()
+            {
+              {"Iconic","AT" },
+            };
         }
         public List<GameCasinoListData> GetGameCasinoList()
         {
@@ -37,6 +38,7 @@ namespace MemberSite.Service.BLL
         }
         public List<Provider> GetProviderList()
         {
+            
             var provider = new List<Provider>();
             var tpList = _statementService.GetTpListWithCache().ToList();
             tpList.ForEach(x =>
@@ -45,7 +47,7 @@ namespace MemberSite.Service.BLL
                     Value = Convert.ToInt16(x.Id),
                     Name = x.TpName,
                     PlayFree = x.Fun,
-                    DisplayText = x.TpName
+                    DisplayText = _changeDisplayName.TryGetValue(x.TpName, out var changeName) ? changeName: x.TpName
                 });
             });
             return provider;

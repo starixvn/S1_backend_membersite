@@ -1,47 +1,30 @@
-using System;
-using System.IO;
-using System.Linq;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
+using MemberSite;
+using MemberSite.Extensions;
 using Serilog;
 using Serilog.Exceptions;
 
-namespace MemberSite
+var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddRemoteJsonConfig(builder.Configuration.GetSection("ConfigService").Get<string[]>());
+
+var excludesMessage = builder.Configuration.GetSection("ExcludesMessage").Get<string[]>();
+var excludesApiEndpoints = builder.Configuration.GetSection("ExcludesApiEndpoint").Get<string[]>();
+builder.Host.UseSerilog((context, Configuration) =>
 {
-    public class Program
-    {
-        private static IConfigurationRoot Configuration => new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddEnvironmentVariables()
-            .AddJsonFile($"appsettings.json", false, true)
-            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", false, true)
-            .Build();
-        
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    Configuration
+        .ReadFrom.Configuration(builder.Configuration)
+        .Enrich.FromLogContext()
+        .Filter.ByExcluding(c =>
+            c.Properties.Any(p =>
+                excludesApiEndpoints.Any(item => p.Value.ToString().Contains(item))
+                || excludesMessage.Any(item => c.MessageTemplate.ToString().Contains(item))))
+        .Enrich.WithExceptionDetails();
+});
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    var excludesMessage = Configuration.GetSection("ExcludesMessage").Get<string[]>();
-                    var excludesApiEndpoints = Configuration.GetSection("ExcludesApiEndpoint").Get<string[]>();
+var startup = new Startup(builder.Configuration, builder.Environment);
+startup.ConfigureServices(builder.Services);
 
-                    webBuilder.UseSerilog((hostContext, loggerConfiguration) =>
-                        {
-                            loggerConfiguration
-                                .ReadFrom.Configuration(Configuration)
-                                .Enrich.FromLogContext()
-                                .Filter.ByExcluding(c =>
-                                    c.Properties.Any(p =>
-                                        excludesApiEndpoints.Any(item => p.Value.ToString().Contains(item))
-                                        || excludesMessage.Any(item => c.MessageTemplate.ToString().Contains(item))))
-                                .Enrich.WithExceptionDetails();
-                        })
-                        .UseStartup<Startup>();
-                });
-    }
-}
+var app = builder.Build();
+startup.Configure(app, builder.Environment);
+
+app.Run();
+

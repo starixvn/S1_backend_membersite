@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Web;
 using MemberSite.Service.BLL;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
@@ -10,8 +6,6 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace MemberSite.Controllers.Api
@@ -252,15 +246,38 @@ namespace MemberSite.Controllers.Api
             public int FromTpId { set; get; }
             public int ToTpId { set; get; }
             public decimal Amount { set; get; }
+            public int TransferAction { set; get; }
         }
 
         [HttpPost]
         public async Task<ApiResult<TransferResult>> TransferEX(TransferEXReq inTpTransfer)
         {
+            
+
             var authData = _authorizeBll.GetAuthData();
+            var TpWalletList = _thirdPartyBll.GetTpWalletList(authData.CustId, 0);//0:全部列表
             var result = new ApiResult<TransferResult>();
             var direction = new TpDirection();
             var activeTpId = 0;
+            var fromWallet = TpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.FromTpId);
+            var toWallet = TpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.ToTpId);
+            int fromWalletmode = fromWallet == null?0: fromWallet.WalletMode;
+            int toWalletmode = toWallet == null ? 0 : toWallet.WalletMode;
+
+            if (inTpTransfer.TransferAction != (int)TransferAction.Manual && ((fromWalletmode == (int)WalletMode.Manual) || toWalletmode == (int)WalletMode.Manual)) //restore all not support  Wallet which WalletMode = Manual
+            {
+                if (inTpTransfer.ToTpId != 0) //main wallet can restore all
+                {
+                    result.ErrorCode = 1208;
+                    result.Message = $"Not Support";
+                    if (inTpTransfer.TransferAction == (int)TransferAction.RestoreAll) //當TransferAction.RestoreAll不執行動作但是不噴錯
+                    {
+                        result.ErrorCode = 0;
+                        result.Message = $"Transfer Skip";
+                    }
+                    return result;
+                }
+            }
             if (inTpTransfer.FromTpId != 0)
             {
                 direction = TpDirection.ToMain;
@@ -319,6 +336,8 @@ namespace MemberSite.Controllers.Api
                 {
                     if (result.RawErrorCode == "3")
                         result.Message = _selLangBll.GetMsg("msg_InsufficientFund");
+                    else if (result.RawErrorCode == "1207")
+                        result.Message = _selLangBll.GetMsg("msg_DecimalOutOfRange");
                     else
                         result.Message = result.RawMessage;
                 }
@@ -333,7 +352,8 @@ namespace MemberSite.Controllers.Api
                     {
                         FromTpId = 0,
                         ToTpId = inTpTransfer.ToTpId,
-                        Amount = inTpTransfer.Amount
+                        Amount = inTpTransfer.Amount,
+                        TransferAction = inTpTransfer.TransferAction
                     };
 
                     result = await TransferEX(transferEXReq);

@@ -2,14 +2,8 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 
 namespace MemberSite.Service.DAL
 {
@@ -47,7 +41,7 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
         }
-        public int AddCustInfo(Customer customer, string Email, out int custId, string signupUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
+        public int AddCustInfo(Customer customer, string Email, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
             custId = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
@@ -98,10 +92,10 @@ namespace MemberSite.Service.DAL
                     SetCustBankInfo(custId, customer.SiteId, RealName, null);
             }
 
-            if (result > 0 && !string.IsNullOrEmpty(signupUrl))
+            if (result > 0 && (!string.IsNullOrEmpty(signupUrl) || !string.IsNullOrEmpty(referralUrl)))
             {
                 //custId = p.Get<int?>("CustId") ?? 0;
-                result = conn.Execute("Member_CustRegInfo_Ins", new { CustId = custId, customer.SiteId, SignupUrl = signupUrl }, trans, commandType: CommandType.StoredProcedure);
+                result = conn.Execute("Member_CustRegInfo_Ins_V2", new { CustId = custId, customer.SiteId, SignupUrl = signupUrl ,ReferralUrl = referralUrl }, trans, commandType: CommandType.StoredProcedure);
             }
 
             if (result > 0 && !string.IsNullOrEmpty(promoCode)&& promotionService.CheckSpecialCode(promoCode))
@@ -349,14 +343,41 @@ namespace MemberSite.Service.DAL
 
         public int SetPhoneVerified(int custId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            var result = conn.Execute("Common_PhoneVerified_Set", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            var result = _mainDbClient.Execute("Common_PhoneVerified_Set", new DynamicParameters(new { CustId = custId }));
             return result;
         }
+
+        public async Task<bool> GetPhoneVerified(int custId)
+        {
+            var result = await _mainDbClient.QueryFirstAsync<bool>("Member_PhoneVerified_Get", new DynamicParameters(new { _CustId = custId }));
+            return result;
+        }
+
+        public int SetEmailVerified(int custId)
+        {
+            var result = _mainDbClient.Execute("Common_EmailVerified_Set", new DynamicParameters(new { _CustId = custId }));
+            return result;
+        }
+        
+        public async Task<bool> GetEmailVerified(int custId)
+        {
+            var result = await _mainDbClient.QueryFirstAsync<bool>("Member_EmailVerified_Get", new DynamicParameters(new { _CustId = custId }));
+            return result;
+        }
+
         public int SetFireBaseTroken(int custId, int siteId, string fireBaseToken)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Execute("Member_FireBaseToken_Set", new { CustId = custId, SiteId = siteId, FireBaseToken = fireBaseToken }, commandType: CommandType.StoredProcedure);
+        }
+        public int SetCustActStatus(int custId, string Operator)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            var result = conn.Execute("Member_CustActStatus_Set", new { CustId = custId, Operator = Operator }, transaction: trans, commandType: CommandType.StoredProcedure);
+            trans.Commit();
+            return result;
         }
     }
 }

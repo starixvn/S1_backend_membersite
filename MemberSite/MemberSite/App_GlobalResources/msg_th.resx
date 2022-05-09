@@ -341,4 +341,16 @@
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>คุณได้ทำการจัดเก็บข้อมูลนี้ไว้เรียบร้อยแล้ว</value>
   </data>
+  <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
+    <value>รหัสโปรโมชั่นนี้ถูกใช้แล้ว</value>
+  </data>
+  <data name="msg_PhoneWrongFormat" xml:space="preserve">
+    <value>Phone Format is wrong.</value>
+  </data>
+  <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
+    <value>ที่อยู่กระเป๋าเงินเข้ารหัสลับไม่ถูกต้อง</value>
+  </data>
+  <data name="msg_DecimalOutOfRange" xml:space="preserve">
+    <value>การโอนล้มเหลวเนื่องจากมีทศนิยมมากกว่า 2 หลัก</value>
+  </data>
 </root>

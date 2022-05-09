@@ -1,6 +1,12 @@
-﻿using System;
-using System.IO;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -14,12 +20,13 @@ namespace MemberSite.Service.BLL.Tests
         [SetUp]
         public void SetUp()
         {
-            var configBuilder = new ConfigurationBuilder();
-            configBuilder.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false, false)
-                .AddJsonFile("appsettings.Local.json", false, false);
-            _configuration = configBuilder.Build();
-            
+            var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
+            {
+                EnvironmentName = "Local",
+            });
+            builder.Configuration.AddRemoteJsonConfig(builder.Configuration.GetSection("ConfigService").Get<string[]>());
+            var app = builder.Build();
+            _configuration = app.Configuration;
         }
 
         [TestCase("32_6", 32, "6")]
@@ -29,11 +36,18 @@ namespace MemberSite.Service.BLL.Tests
         [TestCase("34SMGtikiVikings", 0, "")]
         public void Test_SplitGameInfo(string gameInfo, int providerId, string gameId)
         {
+            var services = new ServiceCollection();
+            services.AddSingleton(_configuration);
+            services.AddTransient(p => new MySqlClient("", Substitute.For<ILogger<MySqlClient>>(), DataBase.Report));
+            services.AddTransient(p => Substitute.For<IMemoryCache>());
+            services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>());
+            services.AddTransient<CacheHelper>();
+            services.AddTransient<CasinoService>();
+            services.AddDatabaseConnection(_configuration);
+
+            var serviceProvider = services.BuildServiceProvider();
+            var casinoBll = new CasinoBll(serviceProvider);
             
-            var provider = Substitute.For<IServiceProvider>();
-            var casinoBll = new CasinoBll(provider);
-
-
             var (actualProviderId,actualGameId )= casinoBll.SplitGameInfo(gameInfo);
             
             Assert.AreEqual(providerId, actualProviderId);

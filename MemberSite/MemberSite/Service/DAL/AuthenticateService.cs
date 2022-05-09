@@ -1,14 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
-using System.Threading.Tasks;
 using Dapper;
-using Microsoft.Extensions.Configuration;
 using MemberSite.Service.Library;
 using System.Data;
 using MemberSite.Service.Model;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System.Linq;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
@@ -38,7 +32,7 @@ namespace MemberSite.Service.DAL
                 }
             });
         }
-        public void AddLoginRecord(int custId, int siteId, string ip, out string token)
+        public void AddLoginRecord(int custId, int siteId, string ip,int deviceType, out string token)
         {
             token = tools.GetToken();
             using (var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
@@ -46,17 +40,14 @@ namespace MemberSite.Service.DAL
                 conn.Open();
                 using (var trans = conn.BeginTransaction())
                 {
-                    conn.Execute("LoginRecord_Set", new { CustId = custId, SiteId = siteId, IP = ip, Token = token }, trans, commandType: CommandType.StoredProcedure);
+                    conn.Execute("LoginRecord_Set_V2", new { CustId = custId, SiteId = siteId, IP = ip, Token = token ,DeviceType = deviceType}, trans, commandType: CommandType.StoredProcedure);
                     trans.Commit();
                 }
             }
         }
-        public bool UpdateOnline(int custId, bool isOnline, string token, string ip)
+        public bool UpdateOnline(int custId, bool isOnline, string token, string ip ,int? deviceType)
         {
-            using (var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
-            {
-                return conn.Execute("LoginCheckIn_Set", new { IsOnline = isOnline, CustId = custId, IP = ip, Token = token }, commandType: CommandType.StoredProcedure) > 0;
-            }
+            return _mainDbClient.Execute("LoginCheckIn_Set_V2", new DynamicParameters(new { IsOnline = isOnline, CustId = custId, IP = ip, Token = token ,DeviceType = deviceType })) > 0;
         }
         
         public OnUser GetOnUser(int custId)

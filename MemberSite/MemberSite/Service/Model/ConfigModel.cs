@@ -20,4 +20,9 @@
 
         public string MaintainURL { get; set; }
     }
+
+    public class LoginDeviceConfig
+    {
+        public string Url { get; set; }
+    }
 }

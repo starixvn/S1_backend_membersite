@@ -1,20 +1,14 @@
-﻿using MemberSite.Service.DAL;
-using MemberSite.Service.Library;
+﻿using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using MemberSite.Service.DAL.Interface;
 
 namespace MemberSite.Service.BLL
 {
     public class BannerBLL
     {
-        private readonly BannerService bannerService;
+        private readonly IBannerService bannerService;
         private readonly ServerInfoBll serverInfoBLL;
         private readonly PromotionBll promotionBLL;
         private readonly IWebHostEnvironment environment;
@@ -23,7 +17,7 @@ namespace MemberSite.Service.BLL
 
         public BannerBLL(IServiceProvider provider)
         {
-            bannerService = provider.GetRequiredService<BannerService>();
+            bannerService = provider.GetRequiredService<IBannerService>();
             serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
             environment = provider.GetRequiredService<IWebHostEnvironment>();
             promotionBLL = provider.GetRequiredService<PromotionBll>();
@@ -199,7 +193,41 @@ namespace MemberSite.Service.BLL
                     }
                 }
             }
+            if (BannerType == 2)
+            {
+                banner = banner.OrderBy(x => x.SportBattleDateTime).ToList();
+            }
             return banner;
-        }       
+        }
+
+        public async Task<IEnumerable<HotGame>> GetHotGames(int siteId, int currencyId, int deviceType)
+        {
+            var hotGamesData = await bannerService.GetHotGames(siteId, currencyId);
+            var hotGames = hotGamesData
+                .Select(a => new HotGame()
+                {
+                    TpId = a.TpId,
+                    GameId = a.GameId,
+                    TpGameType = a.TpGameType,
+                    TpCategory = a.TpCategory,
+                    GameName = a.GameName,
+                    GameLogo = DeserializeGameLogo(a.GameLogo, deviceType),
+                    TpName = a.TpName,
+                    TpLogo = a.TpLogo
+                });
+
+            return hotGames;
+        }
+
+        private string DeserializeGameLogo(string jsonGameLogo, int device)
+        {
+            var gameLogo = JsonConvert.DeserializeObject<HotGameLogoUrl>(jsonGameLogo);
+            return device switch
+            {
+                1 => gameLogo.HotGamePcUrl,
+                2 => gameLogo.HotGameMobileUrl,
+                _ => ""
+            };
+        }
     }
 }

@@ -341,4 +341,16 @@
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>आप पहले ही यह जानकारी संग्रहीत कर चुके हैं।</value>
   </data>
+  <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
+    <value>इस प्रोमो कोड का इस्तेमाल किया गया है।</value>
+  </data>
+  <data name="msg_PhoneWrongFormat" xml:space="preserve">
+    <value>Phone Format is wrong.</value>
+  </data>
+  <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
+    <value>अमान्य क्रिप्टो वॉलेट पता।</value>
+  </data>
+  <data name="msg_DecimalOutOfRange" xml:space="preserve">
+    <value>2 अंकों से अधिक दशमलव के कारण ट्रांसफर असफल रहा</value>
+  </data>
 </root>

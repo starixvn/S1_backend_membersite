@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -11,10 +7,7 @@ using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Controllers.Api
 {
@@ -36,7 +29,6 @@ namespace MemberSite.Controllers.Api
         private readonly int _mainWalletType;
         private readonly MessageBll _messageBll;
         private readonly PaymentBLL _paymentBll;
-        private readonly PromotionBll _promotionBll;
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
@@ -58,7 +50,6 @@ namespace MemberSite.Controllers.Api
             _isJwt = configuration.GetValue<bool>("JwtSettings:IsJwt");
             _messageBll = provider.GetRequiredService<MessageBll>();
             _paymentBll = provider.GetRequiredService<PaymentBLL>();
-            _promotionBll = provider.GetRequiredService<PromotionBll>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
@@ -71,7 +62,9 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
-            var result = _authorizeBll.LoginCheckin();
+            var fromUrl = _tools.GetFromUrl();
+            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+            var result = _authorizeBll.LoginCheckin(deviceType);
             if (!result)
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -95,7 +88,9 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
-            var result = _authorizeBll.LoginCheckin();
+            var fromUrl = _tools.GetFromUrl();
+            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+            var result = _authorizeBll.LoginCheckin(deviceType);
             if (!result)
             {
                 //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -295,22 +290,6 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-        //[HttpPost]
-        //public async Task<ApiResult<decimal>> GetWithdrawalAvailableBalanceAsync()
-        //{
-        //    var apiResult = new ApiResult<decimal>(selLangBLL);
-        //    var authData = authorizeBLL.GetAuthData();
-        //    var withdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
-
-        //    apiResult.Data = withdrawalAvailableBalance;
-        //    var rollover = paymentBLL.ReachedRollover(authData.CustId);
-        //    if (!rollover.ReachedRollover)
-        //    {
-        //        apiResult.Data = 0;
-        //    }
-        //    apiResult.ErrorCode = 0;
-        //    return apiResult;
-        //}
 
         [HttpPost]
         public ApiResult<dynamic> GetWithdrawalAvailableBalanceAsync()
@@ -320,7 +299,6 @@ namespace MemberSite.Controllers.Api
             var limitInfo = _paymentBll.GetCustWithdrawalLimitInfo(authData.CustId);
             if (limitInfo != null)
             {
-                //var withdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
                 var tmpDeduction = limitInfo.WithdrawalLimit - limitInfo.TurnOver;
                 var deduction = tmpDeduction < 0 ? 0 : tmpDeduction;
                 var balance = limitInfo.Balance - (deduction);
@@ -333,35 +311,6 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = 0;
             }
 
-            return apiResult;
-        }
-
-        public class RolloverPanel
-        {
-            public IEnumerable<Promotion> promotions { get; set; }
-            public decimal WithdrawalAvailableBalance { get; set; }
-        }
-
-        [HttpPost]
-        public ApiResult<RolloverPanel> GetRolloverPanelData()
-        {
-            var apiResult = new ApiResult<RolloverPanel>(_selLangBll);
-            var authData = _authorizeBll.GetAuthData();
-            var rolloverPanel = new RolloverPanel();
-            var promotions = _promotionBll.GetPromotionListByCustIdWithCache(authData.CustId).Where(x => x.BonusInfoStatus == 1);
-            if (promotions?.Count() > 0)
-            {
-                foreach (var promotion in promotions)
-                {
-                    promotion.Title = _selLangBll.GetResourceValue($"{promotion.BonusCode}Title");
-                    promotion.custRollOver = _custInfoBll.GetCustRollOver(authData.CustId, promotion.BonusCode);
-                }
-                rolloverPanel.promotions = promotions;
-                //rolloverPanel.WithdrawalAvailableBalance = await GetWithdrawalAvailableBalanceAsync(authData.CustId);
-            }
-
-            apiResult.Data = rolloverPanel;
-            apiResult.ErrorCode = 0;
             return apiResult;
         }
 
@@ -392,7 +341,13 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<CustBankInfoRep>(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId);
+            var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId).ToList();
+
+            if (custInfo.SiteId == (int)SiteId.Nova88
+                && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            {
+                _bankInfoBll.BankNameLocalization(bankInfoSysList, authData.LangId);
+            }
 
             var custBankInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<CustBankInfoRep>(Newtonsoft.Json.JsonConvert.SerializeObject(_custInfoBll.GetCustBankInfo(authData.CustId)));
 
@@ -485,7 +440,7 @@ namespace MemberSite.Controllers.Api
         public class MsgReq
         {
             public int PageNumber { get; set; }
-            //public int PageSize { get; set; }
+            public int PageSize { get; set; }
         }
 
         [HttpPost]
@@ -494,7 +449,8 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiListResult<Msg>();
             var pageNumber = msgReq.PageNumber;
-            apiResult.Data = _messageBll.GetMsgList(authData.CustId, 5, ref pageNumber, out var totalPages, out var rowCount);
+            var pageSize = msgReq.PageSize == 0 ? 5 : msgReq.PageSize;
+            apiResult.Data = _messageBll.GetMsgList(authData.CustId, pageSize, ref pageNumber, out var totalPages, out var rowCount);
             apiResult.PageNumber = pageNumber;
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;
@@ -540,6 +496,30 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+        
+        [HttpPost]
+        public async Task<ApiResult<PopupMsg>> GetPopupMsg()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            var apiResult = new ApiResult<PopupMsg>
+            {
+                Data = await _messageBll.GetPopupMessage(authData.CustId),
+                ErrorCode = 0
+            };
+            return apiResult;
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult> SetPopupMsgRead()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            var apiResult = new ApiResult()
+            {
+                ErrorCode = await _messageBll.SetPopupMsgRead(authData.CustId) ? 0 : 99
+            };
+            return apiResult;
+        }
+        
         public class DelMsgReq
         {
             public int[] MsgIds { get; set; }
@@ -882,13 +862,31 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public void SetFavoriteGame(MemberFavorite FavoriteInfo)
+        public ApiResult SetFavoriteGame(MemberFavorite FavoriteInfo)
         {
-            if (User.Identity.IsAuthenticated)
+            var result = new ApiResult();
+            try
             {
-                var authData = _authorizeBll.GetAuthData();
-                _casinoBll.SetFavoriteGames(authData.CustId, FavoriteInfo.ProviderId, FavoriteInfo.GameId, FavoriteInfo.IsRemove);
+                if (User.Identity.IsAuthenticated)
+                {
+                    var authData = _authorizeBll.GetAuthData();
+                    _casinoBll.SetFavoriteGames(authData.CustId, FavoriteInfo.ProviderId, FavoriteInfo.GameId, FavoriteInfo.IsRemove);
+                    result.ErrorCode = 0;
+                }
+                else
+                {
+                    result.ErrorCode = 1103;
+                    result.Message = _selLangBll.GetErrMsg(result.ErrorCode);
+                }
             }
+            catch (Exception ex)
+            {
+                result.ErrorCode = 9000;
+                result.RawMessage = ex.Message;
+                result.Message = _selLangBll.GetErrMsg(result.ErrorCode);
+            }
+
+            return result;
         }
 
         [HttpPost]
@@ -1090,6 +1088,29 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = 0;
             }
 
+            return apiResult;
+        }
+        public class SetCustActStatusReq
+        {
+            public int CustId { get; set; }
+            public string Operator { get; set; }
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public ApiResult<bool> SetCustActStatus(SetCustActStatusReq setCustActStatusReq)
+        {
+            var apiResult = new ApiResult<bool>(_selLangBll);
+            int setResult = _custInfoBll.SetCustActStatus(setCustActStatusReq.CustId, setCustActStatusReq.Operator);
+            if (setResult > 0)
+            {
+                apiResult.Data = true;
+                apiResult.ErrorCode = 0;
+            }
+            else
+            {
+                apiResult.Data = false;
+                apiResult.ErrorCode = 99;
+            }
             return apiResult;
         }
     }

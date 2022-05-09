@@ -5,21 +5,14 @@ using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace MemberSite.Controllers.Api
 {
@@ -43,6 +36,7 @@ namespace MemberSite.Controllers.Api
         private readonly FPSBLL _sFpsBll;
         private readonly GameCasinoBll _gameCasinoBll;
         private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
+        private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
         private readonly Regex _regexUserName = new Regex(@"^[a-zA-Z0-9]{6,18}$");
         private readonly Regex _regexAffCode = new Regex(@"^[0-9]{5,20}$");
         private readonly ThirdPartyBll _thirdPartyBll;
@@ -64,6 +58,7 @@ namespace MemberSite.Controllers.Api
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
             _gameCasinoBll = provider.GetRequiredService<GameCasinoBll>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
+            _loginDeviceConfig = provider.GetRequiredService<IOptions<Dictionary<string, string>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
         }
 
@@ -71,6 +66,7 @@ namespace MemberSite.Controllers.Api
         {
             public string UserName { get; set; }
             public string Userpwd { get; set; }
+            
             public bool isPersistent { get; set; }
             public string url { get; set; }
             public string platform { get; set; }
@@ -92,8 +88,10 @@ namespace MemberSite.Controllers.Api
 
             Customer customer = null;
             var ip = _tools.GetClientIP();
-            var userLoginResult = _custInfoBll.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, _tools.GetFromUrl(),
-                Request.Headers["User-Agent"], ref customer, out var token);
+            var fromUrl = _tools.GetFromUrl();
+            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+            var userLoginResult = _custInfoBll.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
+                Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             switch (userLoginResult)
             {
@@ -178,8 +176,10 @@ namespace MemberSite.Controllers.Api
 
             Customer customer = null;
             var ip = _tools.GetClientIP();
-            var userLoginResult = _custInfoBll.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, _tools.GetFromUrl(),
-                Request.Headers["User-Agent"], ref customer, out var token);
+            var fromUrl = _tools.GetFromUrl();
+            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+            var userLoginResult = _custInfoBll.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
+                Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             switch (userLoginResult)
             {
@@ -340,8 +340,9 @@ namespace MemberSite.Controllers.Api
                 });
 
                 Customer customer = null;
-                string token = null;
-                var userLoginResult = _custInfoBll.UserLogin(registeredModel.UserName, registeredModel.Userpwd, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out token);
+                var fromUrl = _tools.GetFromUrl();
+                var deviceType = (int) _tools.GetDeviceId(fromUrl);
+                var userLoginResult = _custInfoBll.UserLogin(registeredModel.UserName, registeredModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out string token);
 
                 if (userLoginResult == -1)
                 {
@@ -384,6 +385,7 @@ namespace MemberSite.Controllers.Api
         public class SignupModel : RegisteredModel
         {
             public string SignupUrl { get; set; }
+            public string ReferralUrl { get; set; }
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
             public string RealName { get; set; }
@@ -445,6 +447,12 @@ namespace MemberSite.Controllers.Api
                 if (phoneExists)
                     result = -6;
             }
+            else if (!string.IsNullOrEmpty(signupModel.PhoneNo))
+            {
+                apiResult.ErrorCode = -20;
+                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
+                return apiResult;
+            }
 
             if (!string.IsNullOrWhiteSpace(signupModel.Email))
             {
@@ -457,7 +465,7 @@ namespace MemberSite.Controllers.Api
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
                     signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode,
+                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl,signupModel.ReferralUrl, signupModel.PhoneNo, signupModel.AreaCode,
                     signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d, signupModel.Birth_m,
                     signupModel.Birth_y);
             }
@@ -527,7 +535,9 @@ namespace MemberSite.Controllers.Api
                             });
 
                             Customer customer = null;
-                            var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
+                            var fromUrl = _tools.GetFromUrl();
+                            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+                            var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
                             switch (userLoginResult)
                             {
@@ -623,6 +633,12 @@ namespace MemberSite.Controllers.Api
                 if (phoneExists)
                     result = -6;
             }
+            else if (!string.IsNullOrEmpty(signupModel.PhoneNo))
+            {
+                apiResult.ErrorCode = -20;
+                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
+                return apiResult;
+            }
 
             if (!string.IsNullOrWhiteSpace(signupModel.Email))
             {
@@ -635,8 +651,8 @@ namespace MemberSite.Controllers.Api
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
                     signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.PhoneNo, signupModel.AreaCode,
-                    signupModel.RealName, signupModel.PromoCode);
+                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.ReferralUrl,
+                    signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode);
             }
 
             switch (result)
@@ -704,7 +720,9 @@ namespace MemberSite.Controllers.Api
                             });
 
                             Customer customer = null;
-                            var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
+                            var fromUrl = _tools.GetFromUrl();
+                            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+                            var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out var token);
 
                             switch (userLoginResult)
                             {
@@ -816,9 +834,9 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<bool>(_selLangBll);
             try
             {
-
-                Customer custInfo = null;
-
+                Customer custInfo;
+                var host = Request.Host.ToString();
+                var deviceType = (int) _tools.GetDeviceId(host);
                 var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "ResetPassword", controller = "Home", LangId = _selLangBll.GetLangId() }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
                 if (!string.IsNullOrEmpty(forgetPwdReq.Username))
                 {
@@ -874,7 +892,7 @@ namespace MemberSite.Controllers.Api
 
                 Customer custInfo = null;
 
-                var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "", controller = "resetPassword", LangId = forgetPwdReq.flag == 1 ? _selLangBll.GetLangId() : "" }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
+                string resetPasswordUrl;
 
                 if (forgetPwdReq.flag == 1)
                 {
@@ -1091,7 +1109,13 @@ namespace MemberSite.Controllers.Api
             {
                 var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                apiResult.Data = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
+                var tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId).ToList();
+                if (string.CompareOrdinal(custInfo.AffCode, "67253") == 0)
+                {
+                    tpIds.RemoveAll(item => item == (int)Tp.TCG);
+                }
+
+                apiResult.Data = tpIds;
             }
             else
             {
@@ -1198,7 +1222,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<BannerV3>> GetBannerV3(BannerReq bannerReq)
+        public ApiResult<IEnumerable<BannerV3>> GetBannerV3(BannerReq bannerReq, [FromRoute] string langId = null)
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
@@ -1213,21 +1237,56 @@ namespace MemberSite.Controllers.Api
                 SiteId = custInfo.SiteId;
                 perferCurr = custInfo.CurrencyId;
                 ShowStatus = 2;
+                langId = _selLangBll.GetLangId();
             }
             else
             {
                 perferCurr = _selLangBll.GetPreferCurrencyId();
                 SiteId = serverInfo.SiteId;
+                langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
             }
 
             var banner_CurrencyId = !User.Identity.IsAuthenticated && perferCurr == 13 ? 2 : perferCurr;
 
             apiResult.ErrorCode = 0;
-            apiResult.Data = _bannerBll.GetBannerV3(SiteId, bannerReq.BannerType, ShowStatus, banner_CurrencyId, _selLangBll.GetLangId(), serverInfo);
+            apiResult.Data = _bannerBll.GetBannerV3(SiteId, bannerReq.BannerType, ShowStatus, banner_CurrencyId, langId, serverInfo);
 
             return apiResult;
         }
 
+        public class HotGameReq
+        {
+            public int DeviceType { get; set; }
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<IEnumerable<HotGame>>> GetHotGames(HotGameReq req)
+        {
+            int currencyId;
+            int siteId;
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                siteId = custInfo.SiteId;
+                currencyId = custInfo.CurrencyId;
+            }
+            else
+            {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                siteId = serverInfo.SiteId;
+                currencyId = _selLangBll.GetPreferCurrencyId();
+                currencyId = currencyId == 13 ? 2 : currencyId;
+            }
+
+            var apiResult = new ApiResult<IEnumerable<HotGame>>
+            {
+                ErrorCode = 0, 
+                Data = await _bannerBll.GetHotGames(siteId, currencyId, req.DeviceType)
+            };
+
+            return apiResult;
+        }
 
         [HttpPost]
         public async Task<ApiResult> CheckResetPwdTokenAsync([FromForm] string key)
@@ -1236,7 +1295,9 @@ namespace MemberSite.Controllers.Api
             if (_authBll.Authenticate(key, out CustInfoProfile custInfoProfile))
             {
                 Customer customer = null;
-                var userLoginResult = _custInfoBll.UserLoginForResetPwd(custInfoProfile.UserName, _tools.GetClientIP(), _tools.GetFromUrl(), Request.Headers["User-Agent"], ref customer, out var token);
+                var fromUrl = _tools.GetFromUrl();
+                var deviceType = (int) _tools.GetDeviceId(fromUrl);
+                var userLoginResult = _custInfoBll.UserLoginForResetPwd(custInfoProfile.UserName, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out var token);
                 switch (userLoginResult)
                 {
                     case 0:
@@ -1702,24 +1763,57 @@ namespace MemberSite.Controllers.Api
             };
         }
         
+        [Route("{domain?}")]
         [HttpGet, HttpPost]
-        public ApiResult<SeoModel> Seo()
+        public ApiResult<SeoModel> Seo([FromRoute] string? domain)
         {
-            var domain = _serverInfoBll.GetMainDomain();
+            if (string.IsNullOrWhiteSpace(domain))
+            {
+                domain = _serverInfoBll.GetMainDomain();
+            }
             var data = _serverInfoBll.GetSeoWithCache(domain);
 
-            if (data == null ||
-                string.IsNullOrEmpty(data.Meta) ||
-                string.IsNullOrEmpty(data.Title))
+            if (data != null)
             {
-                data = null;
+                data.Meta = string.IsNullOrEmpty(data.Meta) ? null : data.Meta;
+                data.Title = string.IsNullOrEmpty(data.Title) ? null : data.Title;
+                data.DefaultLang = string.IsNullOrEmpty(data.DefaultLang) ? null : data.DefaultLang;
+                if (!string.IsNullOrEmpty(data.FollowUsData))
+                {
+                    data.FollowUs = JsonConvert.DeserializeObject<List<FollowUs>>(data.FollowUsData);
+                }
+                if (!string.IsNullOrEmpty(data.PaymentMethodData))
+                {
+                    data.PaymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(data.PaymentMethodData);
+                }
             }
+            
 
             return new ApiResult<SeoModel>()
             {
                 ErrorCode = 0,
                 Data = data
             };
+        }
+        
+        [HttpGet]
+        public string Domain() => _serverInfoBll.GetMainDomain();
+        
+        [HttpPost]
+        public async Task<ApiResult<IEnumerable<MenuOfGame>>> GetMenuOfGames()
+        {
+            var domain = _serverInfoBll.GetMainDomain();
+            var data = _serverInfoBll.GetSeoWithCache(domain);
+            var apiResult = new ApiResult<IEnumerable<MenuOfGame>>()
+            {
+                ErrorCode = 0
+            };
+            if (data != null && !string.IsNullOrEmpty(data.DefaultLang) && _serverInfoBll.IsSeoDomain(domain))
+            {
+                apiResult.Data = await _serverInfoBll.GetMenuOfGames(data.SiteId, data.DefaultLang);
+            }
+
+            return apiResult;
         }
     }
 }

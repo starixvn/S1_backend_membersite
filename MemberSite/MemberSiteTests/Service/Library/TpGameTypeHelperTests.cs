@@ -4,15 +4,14 @@ using MemberSite.Service.Model;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Configuration;
-using System.IO;
 using MemberSiteTests.Stubs;
 using NSubstitute;
 using Microsoft.Extensions.Logging;
-using MemberSite.Service.DAL;
 using System.Linq;
-using System;
 using System.Diagnostics;
 using MemberSite.Service.Model.enums;
+using Microsoft.AspNetCore.Builder;
+using MemberSite.Extensions;
 
 namespace MemberSite.Service.Library.Tests
 {
@@ -27,11 +26,13 @@ namespace MemberSite.Service.Library.Tests
         {
             var services = new ServiceCollection();
 
-            var configBuilder = new ConfigurationBuilder();
-            configBuilder.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false, false)
-                .AddJsonFile("appsettings.Local.json", false, false);
-            _configuration = configBuilder.Build();
+            var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
+            {
+                EnvironmentName = "Local",
+            });
+            builder.Configuration.AddRemoteJsonConfig(builder.Configuration.GetSection("ConfigService").Get<string[]>());
+            var app = builder.Build();
+            _configuration = app.Configuration;
             services.AddSingleton(_configuration);
 
             var logger = Substitute.For<ILogger<MySqlClient>>();

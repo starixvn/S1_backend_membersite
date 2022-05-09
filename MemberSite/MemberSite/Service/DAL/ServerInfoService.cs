@@ -1,19 +1,22 @@
 ﻿using MemberSite.Service.Model;
-using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
 using Dapper;
 using System.Data;
+using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
 {
-    public class ServerInfoService
+    public class ServerInfoService : IServerInfoService
     {
         private readonly IConfiguration configuration;
+        private readonly MySqlClient _reportDbClient;
 
-        public ServerInfoService(IConfiguration configuration)
+        public ServerInfoService(IServiceProvider serviceProvider, IConfiguration configuration)
         {
             this.configuration = configuration;
+            _reportDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
         public ServerInfo GetModel(int siteId)
         {
@@ -53,5 +56,16 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<Domainlist>("Member_DomainTable_Get", new { SiteId = siteId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
+
+        public async Task<IEnumerable<MenuOfGameData>> GetMenuOfGames(int siteId, string langId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId);
+            p.Add("_LangId", langId);
+            var result = await _reportDbClient.QueryAsync<MenuOfGameData>("Member_SiteMenuOfGames_Get", p);
+            return result;
+        }
     }
+
+    
 }

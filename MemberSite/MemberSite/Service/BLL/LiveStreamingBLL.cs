@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MemberSite.Service.BLL
 {
@@ -21,6 +19,8 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<LiveStreamingData> GetLiveStreamingList(int siteId, string langId)
         {
+            string[] passBetType = { "GOLF" };
+
             var liveStreaming = new List<LiveStreamingData>();
 
             var key = $"LiveStreamingList_{siteId}";
@@ -33,6 +33,7 @@ namespace MemberSite.Service.BLL
                 string home;
                 string away;
                 string league;
+
                 if (langId == "th")
                 {
                     home = liveStreamingDetail.HomeTH;
@@ -52,24 +53,29 @@ namespace MemberSite.Service.BLL
                     league = liveStreamingDetail.League;
                 }
 
-                liveStreaming.Add(new LiveStreamingData()
-                {
-                    MatchID = liveStreamingDetail.MatchID,
-                    Channel = liveStreamingDetail.Channel,
-                    TimeStart = liveStreamingDetail.TimeStart,
-                    TimeStop = liveStreamingDetail.TimeStop,
-                    Name = liveStreamingDetail.Name,
-                    Home = home,
-                    Away = away,
-                    Type = liveStreamingDetail.Type,
-                    League = league,
-                    NowPlaying = liveStreamingDetail.NowPlaying,
-                    IsLive = liveStreamingDetail.IsLive,
-                    State = liveStreamingDetail.State,
-                    HomeScore = liveStreamingDetail.HomeScore,
-                    AwayScore = liveStreamingDetail.AwayScore,
+                bool exists = ((IList)passBetType).Contains(liveStreamingDetail.Type);
 
-                });
+                if (!exists)
+                {
+                    liveStreaming.Add(new LiveStreamingData()
+                    {
+                        MatchID = liveStreamingDetail.MatchID,
+                        Channel = liveStreamingDetail.Channel,
+                        TimeStart = liveStreamingDetail.TimeStart,
+                        TimeStop = liveStreamingDetail.TimeStop,
+                        Name = liveStreamingDetail.Name,
+                        Home = home,
+                        Away = away,
+                        Type = liveStreamingDetail.Type,
+                        League = league,
+                        NowPlaying = liveStreamingDetail.NowPlaying,
+                        IsLive = liveStreamingDetail.IsLive,
+                        State = liveStreamingDetail.State,
+                        HomeScore = liveStreamingDetail.HomeScore,
+                        AwayScore = liveStreamingDetail.AwayScore,
+
+                    });
+                }
             }
             return liveStreaming;
         }
