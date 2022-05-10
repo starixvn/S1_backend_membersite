@@ -96,6 +96,7 @@ namespace MemberSite
             services.AddSingleton<LatestHighlightDataService>();
             services.AddSingleton<ConfigService>();
             services.AddSingleton<AppLinkService>();
+            services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
 
             /*BLL*/
@@ -136,6 +137,7 @@ namespace MemberSite
             services.AddTransient<FileNameBLL>();
             services.AddTransient<ImageEditorBLL>();
             services.AddTransient<VerificationRewardBLL>();
+            services.AddTransient<DeepLinkBLL>();
             services.AddSingleton<PayInfoBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
