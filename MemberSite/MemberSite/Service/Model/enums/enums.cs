@@ -295,7 +295,7 @@
         MYR = 2,
         USD = 3,
         THB = 4,
-        RMB = 13,
+        CNY = 13,
         IDR = 15,
         VND = 51,
         INR = 61,
