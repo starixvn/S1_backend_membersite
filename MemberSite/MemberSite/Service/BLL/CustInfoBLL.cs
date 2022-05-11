@@ -558,6 +558,29 @@ namespace MemberSite.Service.BLL
         {
             return _agentInfoService.GetReferralSetting(siteId, currencyId);
         }
+        
+        public async Task<ReferralSettingDetail> GetReferralSettingDetailAsync(int siteId, int currencyId, string langId)
+        {
+            var referralData = await _agentInfoService.GetReferralSettingDetailAsync(siteId, currencyId);
+            var referralSettingDetail = new ReferralSettingDetail()
+            {
+                ReferralReward = referralData.BonusAmount,
+                InvitationLimit = referralData.InvitationLimit,
+                MemberReward = referralData.ReferralFreeCredit,
+                Deposit = referralData.Deposit,
+                VaildBet = referralData.VaildBet,
+                PeriodDays = referralData.PeriodDays,
+                ReferralContent = DeserializeReferralContent(referralData.Details, langId)
+            };
+            return referralSettingDetail;
+        }
+
+        private ReferralContent DeserializeReferralContent(string details, string langId)
+        {
+            var referralContents = JsonConvert.DeserializeObject<IEnumerable<ReferralContent>>(details);
+            return referralContents?.FirstOrDefault(a => a.LangId == langId);
+        }
+
         public int GetAffiliateAgentBll(string affId)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
