@@ -281,5 +281,10 @@ namespace MemberSite.Service.BLL
         {
             return _payService.GetLineChannel(siteId, currencyId);
         }
+
+        public IEnumerable<BlockAccount> GetBlockBankAccount(int sysId, string accountNum)
+        {
+            return _bankInfoService.GetBlockBankAccount(sysId, accountNum);
+        }
     }
 }
