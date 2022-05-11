@@ -1823,5 +1823,33 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+
+        [HttpPost]
+        public async Task<ApiResult<IEnumerable<SocialChannelResponse>>> GetSocialChannel(SocialChannelRequest request,
+            [FromRoute] string langId = "en")
+        {
+            var authData = _authorizeBll.GetAuthData();
+            if (authData != null)
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                request.CurrencyId = custInfo.CurrencyId;
+                request.LangId = authData.LangId;
+            }
+
+            request.LangId ??= langId;
+
+            var data = await _serverInfoBll.GetSocialChannel(request);
+            var apiResult = new ApiResult<IEnumerable<SocialChannelResponse>>()
+            {
+                ErrorCode = 0
+            };
+
+            if (data != null)
+            {
+                apiResult.Data = data;
+            }
+
+            return apiResult;
+        }
     }
 }

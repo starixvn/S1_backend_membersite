@@ -65,6 +65,15 @@ namespace MemberSite.Service.DAL
             var result = await _reportDbClient.QueryAsync<MenuOfGameData>("Member_SiteMenuOfGames_Get", p);
             return result;
         }
+
+        public async Task<IEnumerable<SocialChannelResponse>> GetSocialChannel(SocialChannelRequest request)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CurrencyId", request.CurrencyId);
+            p.Add("_LangId", request.LangId);
+            p.Add("DisplayPage", request.DisplayPage);
+            return await _reportDbClient.QueryAsync<SocialChannelResponse>("Member_SocialChannel_Get", p);
+        }
     }
 
     
