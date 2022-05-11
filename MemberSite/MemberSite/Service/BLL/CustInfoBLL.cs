@@ -17,6 +17,7 @@ namespace MemberSite.Service.BLL
         private readonly ServerInfoBll _serverInfoBll;
         private readonly AgentInfoService _agentInfoService;
         private readonly RolloverService _rollOverService;
+        private readonly BankInfoService _bankInfoService;
         private readonly CommonBLL _commonBll;
         private readonly CacheHelper _cacheHelper;
         private readonly Dictionary<int, bool> _isConvert = new()
@@ -35,6 +36,7 @@ namespace MemberSite.Service.BLL
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _agentInfoService = provider.GetRequiredService<AgentInfoService>();
             _rollOverService = provider.GetRequiredService<RolloverService>();
+            _bankInfoService = provider.GetRequiredService<BankInfoService>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
             _areaCodeCountryList = new CurrencyMapping().AreaCodeMap;
@@ -339,6 +341,15 @@ namespace MemberSite.Service.BLL
                 if (bankInfoDetailList != null)
                 {
                     bankInfoDetailList = bankInfoDetailList.Where(x => x.SysId != 0 && x.AccountNo != null);//filiter null data
+                    bankInfoDetailList.ToList().ForEach(x =>
+                    {
+                        var blockBankAccountList = _bankInfoService.GetBlockBankAccount(x.SysId, x.AccountNo).ToList();
+                        if(blockBankAccountList.Count > 0)
+                        {
+                            x.IsBlock = true;
+                        }
+                    });
+
                     if (bankInfoDetailList.Any())
                     {
                         custBankInfo.bankInfoDetail = bankInfoDetailList;
