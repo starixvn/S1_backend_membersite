@@ -17,5 +17,5 @@ public class SocialChannelResponse
     public string ChannelName { get; set; }
     public string Title { get; set; }
     public string Link { get; set; }
-    public string LinkType { get; set; }
+    public int LinkType { get; set; }
 }
