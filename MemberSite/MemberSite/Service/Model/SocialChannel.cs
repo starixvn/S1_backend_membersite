@@ -4,6 +4,8 @@ namespace MemberSite.Service.Model;
 
 public class SocialChannelRequest
 {
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+    public int SiteId { get; set; }
     public int CurrencyId { get; set; }
     
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

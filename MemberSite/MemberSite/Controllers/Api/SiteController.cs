@@ -1834,6 +1834,12 @@ namespace MemberSite.Controllers.Api
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 request.CurrencyId = custInfo.CurrencyId;
                 request.LangId = authData.LangId;
+                request.SiteId = custInfo.SiteId;
+            }
+            else
+            {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                request.SiteId = serverInfo.SiteId;
             }
 
             request.LangId ??= langId;
