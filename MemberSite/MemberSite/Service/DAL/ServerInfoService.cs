@@ -69,6 +69,7 @@ namespace MemberSite.Service.DAL
         public async Task<IEnumerable<SocialChannelResponse>> GetSocialChannel(SocialChannelRequest request)
         {
             var p = new DynamicParameters();
+            p.Add("_SiteId", request.SiteId);
             p.Add("_CurrencyId", request.CurrencyId);
             p.Add("_LangId", request.LangId);
             p.Add("DisplayPage", request.DisplayPage);
