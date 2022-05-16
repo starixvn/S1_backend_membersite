@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Cors;
 
 namespace MemberSite.Controllers.Api
 {
@@ -1825,6 +1826,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        [EnableCors("SocialChannel")]
         public async Task<ApiResult<IEnumerable<SocialChannelResponse>>> GetSocialChannel(SocialChannelRequest request,
             [FromRoute] string langId = "en")
         {
