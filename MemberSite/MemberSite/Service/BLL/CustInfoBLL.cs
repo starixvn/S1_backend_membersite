@@ -566,6 +566,8 @@ namespace MemberSite.Service.BLL
             {
                 ReferralReward = referralData.BonusAmount,
                 InvitationLimit = referralData.InvitationLimit,
+                AgentValidBet = referralData.AgentValidBet,
+                AgentDeposit = referralData.AgentDeposit,
                 MemberReward = referralData.ReferralFreeCredit,
                 Deposit = referralData.Deposit,
                 VaildBet = referralData.VaildBet,
