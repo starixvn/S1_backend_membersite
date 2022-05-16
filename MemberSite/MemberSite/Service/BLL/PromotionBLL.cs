@@ -24,14 +24,14 @@ namespace MemberSite.Service.BLL
             return _promotionService.GetPromotionList(siteId);
         }
 
-        public class PromotionReq
-        {
-            public string BonusCode { set; get; }
-            public int CustId { set; get; }
-            public string custIP { set; get; }
-            public decimal? LockedAmount { set; get; }
-            public int? DeviceType { set; get; }
-        }
+        // public class PromotionReq
+        // {
+        //     public string BonusCode { set; get; }
+        //     public int CustId { set; get; }
+        //     public string custIP { set; get; }
+        //     public decimal? LockedAmount { set; get; }
+        //     public int? DeviceType { set; get; }
+        // }
         public async Task<ApiResult> SetClaimPromotionV2Async(int custId, string bonusCode, decimal? dLockedAmount, int? deviceType)
         {
             var result = await _promotionService.SetClaimPromotionV2Async(custId, bonusCode, dLockedAmount, deviceType);
