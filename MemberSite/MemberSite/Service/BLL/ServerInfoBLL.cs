@@ -161,5 +161,10 @@ namespace MemberSite.Service.BLL
         {
             return _seoDomain.Exists(seoDomain => seoDomain == domain);
         }
+        
+        public async Task<IEnumerable<SocialChannelResponse>> GetSocialChannel(SocialChannelRequest request)
+        {
+            return await _serverInfoService.GetSocialChannel(request);
+        }
     }
 }
