@@ -113,7 +113,7 @@ namespace MemberSite.Controllers.Api
 
             //TODO: 如果走登入流程，要檢查參數是否有效
 
-            var storeData = new LineLoginDataModel()
+            var storeLoginData = new LineLoginDataModel()
             {
                 Type = request.type,
                 IsPersistent = request.isPersistent,
@@ -125,7 +125,7 @@ namespace MemberSite.Controllers.Api
                 Di = request.di
             };
 
-            var storeDataString = JsonConvert.SerializeObject(storeData);
+            var storeDataString = JsonConvert.SerializeObject(storeLoginData);
 
             if (!_lineLoginBll.IssueLineToken(request.type, storeDataString, out string token))
             {
@@ -200,16 +200,7 @@ namespace MemberSite.Controllers.Api
                     };
                 case FlowType.Login:
                     {
-                        var fromUrl = _tools.GetFromUrl();
-                        var deviceType = (int)_tools.GetDeviceId(fromUrl);
-                        if (deviceType == (int)DeviceId.APP)
-                        {
-                            return await LineLoginFlowFromAppAsync(result.CustId, result.LoginInfo);
-                        }
-                        else
-                        {
-                            return await LineLoginFlowAsync(result.CustId, result.LoginInfo);
-                        }
+                        return await LineLoginFlowAsync(result.CustId, result.LoginInfo);
                     }
                 default:
                     return new ApiResult<dynamic>()
@@ -223,14 +214,12 @@ namespace MemberSite.Controllers.Api
 
         #endregion
 
-        /// <summary>
-        /// copy from signin.
-        /// </summary>
-        /// <param name="loginInfo"></param>
-        /// <returns></returns>
         public async Task<ApiResult> LineLoginFlowAsync(int custId, string loginInfo)
         {
-            var apiResult = new ApiResult(_selLangBll);
+            var apiResult = new ApiResult<dynamic>(_selLangBll);
+
+            var desktopClaims = new List<Claim>(); //Initial Destop & H5 Claims
+            var appClaims = new Claim[0]; //Initial App Claims
 
             var info = JsonConvert.DeserializeObject<LineLoginDataModel>(loginInfo);
             Customer customer = null;
@@ -267,108 +256,37 @@ namespace MemberSite.Controllers.Api
 
             if (userLoginResult != 0)
             {
-                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                if (deviceType != (int)DeviceId.APP)
+                {
+                    //Desktop & H5
+                    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                }
                 return apiResult;
             }
 
-            var claims = new List<Claim>
+            if (deviceType != (int)DeviceId.APP)
+            {
+                //Desktop & H5
+                desktopClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name,customer.UserName ),
                     new Claim(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
                     new Claim("Token",token ),
                     new Claim("LangId",customer.UserLang )
                 };
-
-            var authProperties = new AuthenticationProperties
-            {
-                IsPersistent = false,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30)
-            };
-
-            if (_tools.IsMobile())
-            {
-                authProperties = new AuthenticationProperties
-                {
-                    IsPersistent = true,
-                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
-                };
             }
-
-            if (info.Di != null)
+            else
             {
-                _ = Task.Run(async () =>
-                {
-                    await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", info.Url, info.Platform, info.UserAgent, info.Screen, info.Di, ip);
-                });
-            }
-
-            Response.Cookies.Delete($"Initialization{User.Identity.Name}");
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-            apiResult.Message = Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = _selLangBll.GetLangId() });
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-
-        /// <summary>
-        /// copy from signinapp.
-        /// </summary>
-        /// <param name="loginInfo"></param>
-        /// <returns></returns>
-        public async Task<ApiResult> LineLoginFlowFromAppAsync(int custId, string loginInfo)
-        {
-            var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
-            var info = JsonConvert.DeserializeObject<LineLoginDataModel>(loginInfo);
-            Customer customer = null;
-            var ip = _tools.GetClientIP();
-            var fromUrl = _tools.GetFromUrl();
-            var deviceType = (int)_tools.GetDeviceId(fromUrl);
-            var userLoginResult = _custInfoBll.UserLogin(true, custId, null, null, ip, fromUrl,
-               info.RequestHeaderUserAgent, deviceType, ref customer, out var token);
-
-            switch (userLoginResult)
-            {
-                case -1:
-                    apiResult.ErrorCode = 1101;
-                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                    break;
-                case -2:
-                    apiResult.ErrorCode = 1001;
-                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                    break;
-                case -3:
-                    apiResult.ErrorCode = 1102;
-                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
-                    break;
-                default:
-                    {
-                        if (userLoginResult != 0)
-                        {
-                            apiResult.ErrorCode = 9000;
-                        }
-
-                        break;
-                    }
-            }
-
-            if (userLoginResult != 0)
-            {
-                //await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
-                return apiResult;
-            }
-
-            var claims = new[]
+                //App
+                appClaims = new[]
                 {
                     new Claim(ClaimTypes.Name,customer.UserName ),
                     new Claim(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
                     new Claim("Token",token ),
                     new Claim("LangId",customer.UserLang ),
-                    //new Claim("CustId",customer.CustId.ToString() ),
-                    //new Claim("SiteId",customer.SiteId.ToString() ),
-                    //new Claim("UserName",customer.UserName ),
-                    //new Claim(JwtRegisteredClaimNames.Sub, customer.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString() )
                 };
+            }
 
             if (info.Di != null)
             {
@@ -378,17 +296,38 @@ namespace MemberSite.Controllers.Api
                 });
             }
 
-            //Response.Cookies.Delete($"Initialization{User.Identity.Name}");
-            //var claimsIdentity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
-            //await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-
-            var accessToken = _tools.GenerateJwtTokens(claims);
-            var data = new JwtAuthData
+            if (deviceType != (int)DeviceId.APP)
             {
-                AccessToken = accessToken
-            };
-            apiResult.Data = data;
-            apiResult.Message = "";
+                //Desktop & H5
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = false,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30)
+                };
+
+                if (_tools.IsMobile())
+                {
+                    authProperties = new AuthenticationProperties
+                    {
+                        IsPersistent = true,
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
+                    };
+                }
+
+                Response.Cookies.Delete($"Initialization{User.Identity.Name}");
+                var claimsIdentity = new ClaimsIdentity(desktopClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+                apiResult.Message = Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = _selLangBll.GetLangId() });
+            }
+            else
+            {
+                //App
+                var accessToken = _tools.GenerateJwtTokens(appClaims);
+                var data = new JwtAuthData { AccessToken = accessToken };
+                apiResult.Data = data;
+            }
+
             apiResult.ErrorCode = 0;
             return apiResult;
         }
