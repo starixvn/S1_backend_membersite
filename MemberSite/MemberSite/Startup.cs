@@ -61,11 +61,11 @@ namespace MemberSite
             services.AddSingleton<Common>();
             services.AddSingleton<CourierAdapter>();
             services.AddSingleton<CodeGenerator>();
-			services.AddTransient<JsonNetSerializer>();
+            services.AddTransient<JsonNetSerializer>();
             services.AddSingleton<IHttpHelper, HttpHelper>();
             services.AddSingleton<CacheHelper>();
             services.AddSingleton<TpGameTypeHelper>();
-            
+
             /*DAL*/
             services.AddSingleton<IServerInfoService, ServerInfoService>();
             services.AddSingleton<AgentInfoService>();
@@ -131,7 +131,7 @@ namespace MemberSite
             services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<LatestHighlightDataBll>();
             services.AddSingleton<GameBLL>();
-			services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
+            services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
             services.AddTransient<GeoIpBLL>();
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
@@ -139,6 +139,7 @@ namespace MemberSite
             services.AddTransient<VerificationRewardBLL>();
             services.AddTransient<DeepLinkBLL>();
             services.AddSingleton<PayInfoBLL>();
+            services.AddSingleton<LineLoginBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();

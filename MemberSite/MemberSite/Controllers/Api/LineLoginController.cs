@@ -1,15 +1,16 @@
-﻿using MemberSite.Service.Model.Line;
+﻿using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model;
+using MemberSite.Service.Model.Line;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System.IdentityModel.Tokens.Jwt;
 using System.Web;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Controllers.Api
 {
@@ -17,30 +18,57 @@ namespace MemberSite.Controllers.Api
     [Route("api/[controller]/[action]")]
     [Route("api/[controller]/[action]/{LangId}")]
     [ApiController]
-    public class LineLoginController : Controller
+    public class LineLoginController : ControllerBase
     {
         private readonly string _channelId;
-        private readonly string _channelSecret;
-        private readonly string _sitePassword;
         private readonly string _redirectUri;
+        private readonly Tools _tools;
+        private readonly LineLoginBLL _lineLoginBll;
+        private readonly AuthorizeBLL _authorizeBll;
+        private readonly SelLangBLL _selLangBll;
+        private readonly CustInfoBll _custInfoBll;
+        private readonly FPSBLL _sFpsBll;
+        private readonly ILogger<LineLoginController> _logger;
 
         #region Constructor
 
         public LineLoginController(IServiceProvider provider)
         {
+            _tools = provider.GetRequiredService<Tools>();
+            _lineLoginBll = provider.GetRequiredService<LineLoginBLL>();
+            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
+            _sFpsBll = provider.GetRequiredService<FPSBLL>();
+            _logger = provider.GetRequiredService<ILogger<LineLoginController>>();
             _channelId = "1656486984"; //之後改成用config設定
-            _channelSecret = "0acdbf41d3fdc94fa7185e812100f8a4"; //之後改成用config設定
-            _sitePassword = "Nova88Test"; //之後改成用config設定
             _redirectUri = "http://localhost:5000/api/LineLogin/callback";//之後改成用config設定
+        }
+
+        #endregion
+
+        #region Api Model
+
+        public class LineLoginModel
+        {
+            public FlowType type { get; set; }
+            public bool isPersistent { get; set; }
+            public string url { get; set; }
+            public string platform { get; set; }
+            public string userAgent { get; set; }
+            public string screen { get; set; }
+            public string di { get; set; }
         }
 
         #endregion
 
         #region Action
 
-        public ActionResult LineLoginDirect()
+        [HttpPost]
+        public async Task<ApiResult> LineLoginDirectAsync(LineLoginModel request)
         {
             #region API Example & Description
+            //local run 之後，要在brower 上輸入：http://localhost:5000/api/LineLogin/LineLoginDirect/en?type=1
 
             //Reference=https://developers.line.biz/zh-hant/docs/line-login/integrate-line-login/#making-an-authorization-request
             //Example=https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1234567890&redirect_uri=https%3A%2F%2Fexample.com%2Fauth&state=12345abcde&scope=profile%20openid&nonce=09876xyz
@@ -48,7 +76,7 @@ namespace MemberSite.Controllers.Api
             //Url= https://access.line.me/oauth2/v2.1/authorize
 
             //Parameter
-            //response_type          (String,必須)：code
+            //response_type          (String,必須)：code(10分鐘內有效)
             //client_id              (String, 必須)：LINE Login Channel 的 Channel ID。您可以在LINE Developers console中查看。
             //redirect_uri           (String, 必須)：在 LINE Developers Console 中註冊的 Callback URL。
             //state                  (String, 必須)：用於防止跨站請求偽造(opens new window)的唯一性屬性。 請在 Web app 請求中，針對每個登入階段隨機生成。注意，不能使用 URL 編碼過後的文字。
@@ -67,84 +95,302 @@ namespace MemberSite.Controllers.Api
             string response_type = "code";
             string client_id = _channelId;
             string redirect_uri = HttpUtility.UrlEncode(_redirectUri);
-            string state = _sitePassword;
-            string LineLoginUrl = string.Format("https://access.line.me/oauth2/v2.1/authorize?"+
+            string state = string.Empty;
+
+            #region TODO: 搬BLL
+
+            if (request.type == FlowType.Binding)
+            {
+                //如果走綁定流程，先檢查是否已經綁定，已綁定則不可再次載綁定
+                var authData = _authorizeBll.GetAuthData();
+                if (authData != null && authData.CustId != 0)
+                {
+                    var custLineProfile = await _lineLoginBll.GetCustLinePrfile(authData.CustId, null);
+                    if (custLineProfile != null)
+                        return new ApiResult() { ErrorCode = -1, Message = "Already Binding!" };
+                }
+            }
+
+            //TODO: 如果走登入流程，要檢查參數是否有效
+
+            var storeData = new LineLoginDataModel()
+            {
+                Type = request.type,
+                IsPersistent = request.isPersistent,
+                Url = request.url,
+                Platform = request.platform,
+                RequestHeaderUserAgent = Request.Headers["User-Agent"],
+                UserAgent = request.userAgent,
+                Screen = request.screen,
+                Di = request.di
+            };
+
+            var storeDataString = JsonConvert.SerializeObject(storeData);
+
+            if (!_lineLoginBll.IssueLineToken(request.type, storeDataString, out string token))
+            {
+                return new ApiResult() { ErrorCode = -1, Message = "Issue Line Token Error!" };
+            }
+            state = token;
+
+            #endregion
+
+            string LineLoginUrl = string.Format("https://access.line.me/oauth2/v2.1/authorize?" +
                 "response_type={0}"
-                +"&client_id={1}"
-                +"&redirect_uri={2}"
-                +"&state={3}"
-                +"&scope=profile%20openid%20email"
-                //+ "&scope=openid%20profile%20real_name%20gender%20birthdate%20phone%20address%20email" //公司要申請Profile+才可以使用
-                + "&nonce=1q2w3e4r",
+                + "&client_id={1}"
+                + "&redirect_uri={2}"
+                + "&state={3}"
+                + "&scope=profile%20openid",
                 response_type,
                 client_id,
                 redirect_uri,
                 state
             );
-            return Redirect(LineLoginUrl);
+            return new ApiResult<string>() { Data = LineLoginUrl, ErrorCode = 0 };
         }
 
-        public ActionResult callback(string code, string state, string error, string error_description)
+        [HttpGet]
+        public async Task<ApiResult> callbackAsync(string code, string state, string error, string error_description)
         {
-            if(string.IsNullOrEmpty(code))
+            var apiResult = new ApiResult(_selLangBll);
+            var result = await _lineLoginBll.LineLoginCallBack(code, state, error, error_description);
+
+            if (result.ErrorCode != 0) //Fail
             {
-                string a = "aaa";
-                //用戶在Line驗證畫面選擇取消，重新導頁回homepage
-                //string a = VirtualPathUtility.ToAbsolute("~/");
-            }
-
-            if (state == _sitePassword)
-            {
-                #region Declare 
-
-                WebClient wc = new WebClient();
-                wc.Encoding = Encoding.UTF8;
-                wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                string result = string.Empty;
-                NameValueCollection nvc = new NameValueCollection();
-
-                #endregion
-
-                try
+                switch (result.Type)
                 {
-                    #region OAuth (Get Access Token)
-
-                    string ApiUrl_Token = "https://api.line.me/oauth2/v2.1/token";
-                    nvc.Add("grant_type", "authorization_code");
-                    nvc.Add("code", code);
-                    nvc.Add("redirect_uri", _redirectUri);
-                    nvc.Add("client_id", _channelId);
-                    nvc.Add("client_secret", _channelSecret);
-                    string JsonStr = Encoding.UTF8.GetString(wc.UploadValues(ApiUrl_Token, "POST", nvc));
-                    IssueAccessTokenResponseModel ToKenObj = JsonConvert.DeserializeObject<IssueAccessTokenResponseModel>(JsonStr);
-                    wc.Headers.Clear();
-
-                    #endregion
-
-                    //取回User Profile
-                    //string ApiUrl_Profile = "https://api.line.me/v2/profile";
-                    //wc.Headers.Add("Authorization", "Bearer " + ToKenObj.access_token);
-                    //string UserProfile = wc.DownloadString(ApiUrl_Profile);
-                    //LineProfile ProfileObj = JsonConvert.DeserializeObject<LineProfile>(UserProfile);
-                    
-                    //取email
-                    var JwtSecurityToken = new System.IdentityModel.Tokens.Jwt.JwtSecurityToken(ToKenObj.id_token);
-                    var email = "";
-                    //如果有email
-                    if (JwtSecurityToken.Claims.ToList().Find(c => c.Type == "email") != null)
-                        email = JwtSecurityToken.Claims.First(c => c.Type == "email").Value;
-
-                    return Json(JwtSecurityToken);
-                }
-                catch (Exception ex)
-                {
-                    string msg = ex.Message;
-                    throw;
+                    case FlowType.Register:
+                        return new ApiResult<dynamic>()
+                        {
+                            Data = new { Type = result.Type, UserId = result.UserId },
+                            ErrorCode = result.ErrorCode,
+                            Message = result.Message
+                        };
+                    case FlowType.Binding:
+                    case FlowType.Login:
+                        return new ApiResult<dynamic>()
+                        {
+                            Data = new { Type = result.Type },
+                            ErrorCode = result.ErrorCode,
+                            Message = result.Message
+                        };
+                    default:
+                        return new ApiResult<dynamic>()
+                        {
+                            Data = new { Type = result.Type },
+                            ErrorCode = result.ErrorCode,
+                            Message = result.Message
+                        };
                 }
             }
-            return View();
+
+            switch (result.Type)
+            {
+                case FlowType.Register:
+                    return new ApiResult<dynamic>()
+                    {
+                        Data = new { Type = result.Type, UserId = result.UserId },
+                        ErrorCode = 0
+                    };
+                case FlowType.Binding:
+                    return new ApiResult<dynamic>()
+                    {
+                        Data = new { Type = result.Type },
+                        ErrorCode = 0
+                    };
+                case FlowType.Login:
+                    {
+                        var fromUrl = _tools.GetFromUrl();
+                        var deviceType = (int)_tools.GetDeviceId(fromUrl);
+                        if (deviceType == (int)DeviceId.APP)
+                        {
+                            return await LineLoginFlowFromAppAsync(result.CustId, result.LoginInfo);
+                        }
+                        else
+                        {
+                            return await LineLoginFlowAsync(result.CustId, result.LoginInfo);
+                        }
+                    }
+                default:
+                    return new ApiResult<dynamic>()
+                    {
+                        Data = new { Type = result.Type },
+                        ErrorCode = -1,
+                        Message = "Flow Type Error."
+                    };
+            }
         }
 
         #endregion
+
+        /// <summary>
+        /// copy from signin.
+        /// </summary>
+        /// <param name="loginInfo"></param>
+        /// <returns></returns>
+        public async Task<ApiResult> LineLoginFlowAsync(int custId, string loginInfo)
+        {
+            var apiResult = new ApiResult(_selLangBll);
+
+            var info = JsonConvert.DeserializeObject<LineLoginDataModel>(loginInfo);
+            Customer customer = null;
+            var ip = _tools.GetClientIP();
+            var fromUrl = _tools.GetFromUrl();
+            var deviceType = (int)_tools.GetDeviceId(fromUrl);
+            var userLoginResult = _custInfoBll.UserLogin(true, custId, null, null, ip, fromUrl,
+                info.RequestHeaderUserAgent, deviceType, ref customer, out var token);
+
+            switch (userLoginResult)
+            {
+                case -1:
+                    apiResult.ErrorCode = 1101;
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                    break;
+                case -2:
+                    apiResult.ErrorCode = 1001;
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                    break;
+                case -3:
+                    apiResult.ErrorCode = 1102;
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
+                    break;
+                default:
+                    {
+                        if (userLoginResult != 0)
+                        {
+                            apiResult.ErrorCode = 9000;
+                        }
+
+                        break;
+                    }
+            }
+
+            if (userLoginResult != 0)
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                return apiResult;
+            }
+
+            var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name,customer.UserName ),
+                    new Claim(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
+                    new Claim("Token",token ),
+                    new Claim("LangId",customer.UserLang )
+                };
+
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = false,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30)
+            };
+
+            if (_tools.IsMobile())
+            {
+                authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
+                };
+            }
+
+            if (info.Di != null)
+            {
+                _ = Task.Run(async () =>
+                {
+                    await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", info.Url, info.Platform, info.UserAgent, info.Screen, info.Di, ip);
+                });
+            }
+
+            Response.Cookies.Delete($"Initialization{User.Identity.Name}");
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+            apiResult.Message = Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = _selLangBll.GetLangId() });
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        /// <summary>
+        /// copy from signinapp.
+        /// </summary>
+        /// <param name="loginInfo"></param>
+        /// <returns></returns>
+        public async Task<ApiResult> LineLoginFlowFromAppAsync(int custId, string loginInfo)
+        {
+            var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
+            var info = JsonConvert.DeserializeObject<LineLoginDataModel>(loginInfo);
+            Customer customer = null;
+            var ip = _tools.GetClientIP();
+            var fromUrl = _tools.GetFromUrl();
+            var deviceType = (int)_tools.GetDeviceId(fromUrl);
+            var userLoginResult = _custInfoBll.UserLogin(true, custId, null, null, ip, fromUrl,
+               info.RequestHeaderUserAgent, deviceType, ref customer, out var token);
+
+            switch (userLoginResult)
+            {
+                case -1:
+                    apiResult.ErrorCode = 1101;
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                    break;
+                case -2:
+                    apiResult.ErrorCode = 1001;
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                    break;
+                case -3:
+                    apiResult.ErrorCode = 1102;
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
+                    break;
+                default:
+                    {
+                        if (userLoginResult != 0)
+                        {
+                            apiResult.ErrorCode = 9000;
+                        }
+
+                        break;
+                    }
+            }
+
+            if (userLoginResult != 0)
+            {
+                //await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
+                return apiResult;
+            }
+
+            var claims = new[]
+                {
+                    new Claim(ClaimTypes.Name,customer.UserName ),
+                    new Claim(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
+                    new Claim("Token",token ),
+                    new Claim("LangId",customer.UserLang ),
+                    //new Claim("CustId",customer.CustId.ToString() ),
+                    //new Claim("SiteId",customer.SiteId.ToString() ),
+                    //new Claim("UserName",customer.UserName ),
+                    //new Claim(JwtRegisteredClaimNames.Sub, customer.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString() )
+                };
+
+            if (info.Di != null)
+            {
+                _ = Task.Run(async () =>
+                {
+                    await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", info.Url, info.Platform, info.UserAgent, info.Screen, info.Di, ip);
+                });
+            }
+
+            //Response.Cookies.Delete($"Initialization{User.Identity.Name}");
+            //var claimsIdentity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
+            //await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+            var accessToken = _tools.GenerateJwtTokens(claims);
+            var data = new JwtAuthData
+            {
+                AccessToken = accessToken
+            };
+            apiResult.Data = data;
+            apiResult.Message = "";
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
     }
 }
