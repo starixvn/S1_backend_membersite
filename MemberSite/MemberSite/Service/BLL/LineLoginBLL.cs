@@ -25,7 +25,6 @@ namespace MemberSite.Service.BLL
         private readonly AuthorizeBLL _authorizeBll;
         private readonly string _channelId;
         private readonly string _channelSecret;
-        private readonly string _sitePassword;
         private readonly string _redirectUri;
         private readonly ILogger<LineLoginBLL> _logger;
 
@@ -41,10 +40,9 @@ namespace MemberSite.Service.BLL
             _authenticateService = provider.GetRequiredService<AuthenticateService>();
             _authService = provider.GetRequiredService<AuthService>();
             _logger = provider.GetRequiredService<ILogger<LineLoginBLL>>();
-            _channelId = "1656486984"; //之後改成用config設定
-            _channelSecret = "0acdbf41d3fdc94fa7185e812100f8a4"; //之後改成用config設定
-            _sitePassword = "Nova88Test"; //之後改成用config設定
-            _redirectUri = "http://localhost:5000/api/LineLogin/callback";//之後改成用config設定
+            _channelId = "1656472592"; //之後改成用config設定
+            _channelSecret = "0ffb666498ba7ec9780384f779119ac0"; //之後改成用config設定
+            _redirectUri = "http://www.n88dev.com/api/LineLogin/callback";//之後改成用config設定
         }
 
         #endregion
