@@ -41,8 +41,8 @@ namespace MemberSite.Controllers.Api
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
             _logger = provider.GetRequiredService<ILogger<LineLoginController>>();
-            _channelId = "1656486984"; //之後改成用config設定
-            _redirectUri = "http://localhost:5000/api/LineLogin/callback";//之後改成用config設定
+            _channelId = "1656472592"; //之後改成用config設定
+            _redirectUri = "http://www.n88dev.com/api/LineLogin/callback";//之後改成用config設定
         }
 
         #endregion
