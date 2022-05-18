@@ -21,5 +21,12 @@ namespace MemberSite.Service.DAL
             else
                 return conn.Query<BankInfoOff>("Member_BankAccountOffAllStatus_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
+        
+        public IEnumerable<int> GetCustOffDepositSysId(int custId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+      
+            return conn.Query<int>("Member_CustOffDepositSysId_Get", new { _CustId = custId }, commandType: CommandType.StoredProcedure);
+        }
     }
 }
