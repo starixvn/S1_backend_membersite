@@ -67,8 +67,9 @@ namespace MemberSite.Controllers.Api
             public string code { get; set; }
             public string state { get; set; }
             public string error { get; set; }
+            public int errorCode { get; set; }
             public string error_description { get; set; }
-            public string errormessage { get; set; }
+            public string errorMessage { get; set; }
         }
 
         #endregion
@@ -172,7 +173,7 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> LineCallbackAsync(LineCallbackModel request)
         {
             var apiResult = new ApiResult(_selLangBll);
-            var result = await _lineLoginBll.LineLoginCallBack(request.code, request.state, request.error, request.error_description, request.errormessage);
+            var result = await _lineLoginBll.LineLoginCallBack(request.code, request.state, request.error,request.errorCode, request.error_description, request.errorMessage);
 
             if (result.ErrorCode != 0) //Fail
             {
