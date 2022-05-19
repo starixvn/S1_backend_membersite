@@ -62,6 +62,15 @@ namespace MemberSite.Controllers.Api
             public string di { get; set; }
         }
 
+        public class LineCallbackModel
+        {
+            public string code { get; set; }
+            public string state { get; set; }
+            public string error { get; set; }
+            public string error_description { get; set; }
+            public string errormessage { get; set; }
+        }
+
         #endregion
 
         #region Action
@@ -155,8 +164,15 @@ namespace MemberSite.Controllers.Api
         [Route("callback")]
         public async Task<ApiResult> callbackAsync(string code, string state, string error, string error_description)
         {
+            //原本的邏輯移至LineCallbackAsync
+            return null;
+        }
+
+        [HttpPost]
+        public async Task<ApiResult> LineCallbackAsync(LineCallbackModel request)
+        {
             var apiResult = new ApiResult(_selLangBll);
-            var result = await _lineLoginBll.LineLoginCallBack(code, state, error, error_description);
+            var result = await _lineLoginBll.LineLoginCallBack(request.code, request.state, request.error, request.error_description, request.errormessage);
 
             if (result.ErrorCode != 0) //Fail
             {
