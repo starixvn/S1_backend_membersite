@@ -62,12 +62,12 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        public async Task<CallBackReponseModel> LineLoginCallBack(string code, string state, string error, string error_description)
+        public async Task<CallBackReponseModel> LineLoginCallBack(string code, string state, string error, string error_description, string errormessage)
         {
             var message = string.Empty;
             var lineUserId = string.Empty;
 
-            if (!CheckLineResponse(code, state, error, error_description, out message))
+            if (!CheckLineResponse(code, state, error, error_description, errormessage, out message))
             {
                 return new CallBackReponseModel { Type = FlowType.Undefine, ErrorCode = -1, Message = message };
             }
@@ -175,14 +175,14 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        private bool CheckLineResponse(string code, string state, string error, string error_description, out string message)
+        private bool CheckLineResponse(string code, string state, string error, string error_description, string errormessage, out string message)
         {
             message = string.Empty;
 
             if (!string.IsNullOrWhiteSpace(error))
             {
                 message = "Line Error Happened. Please Cantanct to CSD.";
-                _logger.LogError($"CheckLineResponse Fail：error hapeen. error={error}. error_description={error_description}.");
+                _logger.LogError($"CheckLineResponse Fail：error hapeen. error={error}. error_description={error_description}. errormessage={errormessage}");
                 return false;
             }
 
