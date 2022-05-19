@@ -62,7 +62,7 @@ namespace MemberSite.Controllers.Api
             public string di { get; set; }
         }
 
-        public class LineCallbackModel
+        public class LineResponseModel
         {
             public string code { get; set; }
             public string state { get; set; }
@@ -70,6 +70,25 @@ namespace MemberSite.Controllers.Api
             public int errorCode { get; set; }
             public string error_description { get; set; }
             public string errorMessage { get; set; }
+
+        }
+
+        public class LoginModel
+        {
+            public bool isPersistent { get; set; }
+            public string url { get; set; }
+            public string platform { get; set; }
+            public string userAgent { get; set; }
+            public string screen { get; set; }
+            public string di { get; set; }
+
+        }
+
+        public class LineCallbackModel
+        {
+            public LineResponseModel LineLoginResponse { get; set; }
+            public LoginModel LoginData { get; set; }
+
         }
 
         #endregion
@@ -173,7 +192,12 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> LineCallbackAsync(LineCallbackModel request)
         {
             var apiResult = new ApiResult(_selLangBll);
-            var result = await _lineLoginBll.LineLoginCallBack(request.code, request.state, request.error,request.errorCode, request.error_description, request.errorMessage);
+            var result = await _lineLoginBll.LineLoginCallBack(request.LineLoginResponse.code,
+                request.LineLoginResponse.state, 
+                request.LineLoginResponse.error, 
+                request.LineLoginResponse.errorCode, 
+                request.LineLoginResponse.error_description, 
+                request.LineLoginResponse.errorMessage);
 
             if (result.ErrorCode != 0) //Fail
             {
@@ -220,7 +244,7 @@ namespace MemberSite.Controllers.Api
                     };
                 case FlowType.Login:
                     {
-                        return await LineLoginFlowAsync(result.CustId, result.LoginInfo);
+                        return await LineLoginFlowAsync(result.CustId, request.LoginData);
                     }
                 default:
                     return new ApiResult<dynamic>()
@@ -234,20 +258,19 @@ namespace MemberSite.Controllers.Api
 
         #endregion
 
-        public async Task<ApiResult> LineLoginFlowAsync(int custId, string loginInfo)
+        public async Task<ApiResult> LineLoginFlowAsync(int custId, LoginModel loginData)
         {
             var apiResult = new ApiResult<dynamic>(_selLangBll);
 
             var desktopClaims = new List<Claim>(); //Initial Destop & H5 Claims
             var appClaims = new Claim[0]; //Initial App Claims
 
-            var info = JsonConvert.DeserializeObject<LineLoginDataModel>(loginInfo);
             Customer customer = null;
             var ip = _tools.GetClientIP();
             var fromUrl = _tools.GetFromUrl();
             var deviceType = (int)_tools.GetDeviceId(fromUrl);
             var userLoginResult = _custInfoBll.UserLogin(true, custId, null, null, ip, fromUrl,
-                info.RequestHeaderUserAgent, deviceType, ref customer, out var token);
+                Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             switch (userLoginResult)
             {
@@ -308,11 +331,11 @@ namespace MemberSite.Controllers.Api
                 };
             }
 
-            if (info.Di != null)
+            if (loginData.di != null)
             {
                 _ = Task.Run(async () =>
                 {
-                    await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", info.Url, info.Platform, info.UserAgent, info.Screen, info.Di, ip);
+                    await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginData.url, loginData.platform, loginData.userAgent, loginData.screen, loginData.di, ip);
                 });
             }
 
