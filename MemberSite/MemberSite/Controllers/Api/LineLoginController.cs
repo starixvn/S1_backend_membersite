@@ -28,6 +28,7 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL _selLangBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly FPSBLL _sFpsBll;
+        //private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
         private readonly ILogger<LineLoginController> _logger;
 
         #region Constructor
@@ -41,8 +42,9 @@ namespace MemberSite.Controllers.Api
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
             _logger = provider.GetRequiredService<ILogger<LineLoginController>>();
+            //_loginDeviceConfig = provider.GetRequiredService<IOptions<Dictionary<string, string>>>();
             _channelId = "1656472592"; //之後改成用config設定
-            _redirectUri = "http://www.n88dev.com/api/LineLogin/callback";//之後改成用config設定
+            _redirectUri = "http://www.n88dev.com/callback";//之後改成用config設定
         }
 
         #endregion
@@ -150,6 +152,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpGet]
+        [Route("callback")]
         public async Task<ApiResult> callbackAsync(string code, string state, string error, string error_description)
         {
             var apiResult = new ApiResult(_selLangBll);

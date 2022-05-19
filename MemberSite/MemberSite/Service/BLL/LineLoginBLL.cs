@@ -42,7 +42,7 @@ namespace MemberSite.Service.BLL
             _logger = provider.GetRequiredService<ILogger<LineLoginBLL>>();
             _channelId = "1656472592"; //之後改成用config設定
             _channelSecret = "0ffb666498ba7ec9780384f779119ac0"; //之後改成用config設定
-            _redirectUri = "http://www.n88dev.com/api/LineLogin/callback";//之後改成用config設定
+            _redirectUri = "http://www.n88dev.com/callback";//之後改成用config設定
         }
 
         #endregion
