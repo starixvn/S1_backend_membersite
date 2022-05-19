@@ -105,7 +105,7 @@ namespace MemberSite.Service.BLL
             return _info;
         }
 
-        public IEnumerable<SysBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang, int queryType = 0)
+        public IEnumerable<OfflineBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang, int queryType = 0)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
@@ -113,9 +113,14 @@ namespace MemberSite.Service.BLL
             int CurrencyId = custInfo.CurrencyId;
 
             var key = $"GetBankInfoOffList_{SiteId}_{CurrencyId}_{vipLevel}_{lang}_{queryType}";
-            return _cacheHelper.TryGetOrCreate(key,
+            var offBankList = _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
                 i => GetBankAccountOffList(SiteId, CurrencyId, vipLevel, lang, queryType));
+
+            var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
+            var result = offBankList
+                .Select(x => new OfflineBankInfoFront(x, !custDepositSysIds.Contains(x.SysId)));
+            return result;
         }
 
         public IEnumerable<SysBankInfoFront> GetBankAccountOffList(int siteId, int currencyId, int vipLevel, string lang, int queryType = 0)
