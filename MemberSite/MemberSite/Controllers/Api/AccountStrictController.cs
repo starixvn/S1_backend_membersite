@@ -63,16 +63,7 @@ namespace MemberSite.Controllers.Api
             //
             var bankInfoSysList = _bankInfoBLL.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId);
 
-            var blockBankAccountList = _bankInfoBLL.GetBlockBankAccount(bankInfo.SysId, bankInfo.AccountNo).ToList();
-
             if (bankInfoSysList == null || bankInfoSysList.Count(x => x.SysId == bankInfo.SysId) == 0)
-            {
-                apiResult.ErrorCode = -1;
-                apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
-                return apiResult;
-            }
-
-            if (blockBankAccountList.Count > 0)
             {
                 apiResult.ErrorCode = -1;
                 apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");

@@ -406,7 +406,7 @@ namespace MemberSite.Service.DAL
             else
             {
                 //Execute in transaction
-                result = conn.Execute(sp, param, commandType: CommandType.StoredProcedure);
+                result = conn.Execute(sp, param, transaction: trans, commandType: CommandType.StoredProcedure);
             }
             return (result == 0) ? false : true;
         }
