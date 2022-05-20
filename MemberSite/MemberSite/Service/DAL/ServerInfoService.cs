@@ -73,7 +73,8 @@ namespace MemberSite.Service.DAL
             p.Add("_CurrencyId", request.CurrencyId);
             p.Add("_LangId", request.LangId);
             p.Add("DisplayPage", request.DisplayPage);
-            return await _reportDbClient.QueryAsync<SocialChannelResponse>("Member_SocialChannel_Get", p);
+            p.Add("Device", request.Device);
+            return await _reportDbClient.QueryAsync<SocialChannelResponse>("Member_SocialChannel_Get_V2", p);
         }
     }
 
