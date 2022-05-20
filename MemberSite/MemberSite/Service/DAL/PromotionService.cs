@@ -289,8 +289,12 @@ namespace MemberSite.Service.DAL
                 && promo.canJoin)
             {
                 promo.DepositId = canJoinParams.Get<string>("RefId");
-                promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
-                promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
+                promo.DepositAmount = canJoinParams.Get<decimal?>("Amount") ?? 0;
+                var refList = canJoinParams.Get<string>("RefList");
+                if (refList != null && refList.Contains("DepositId", StringComparison.OrdinalIgnoreCase))
+                {
+                    promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(refList);
+                }
 
                 promo.MaxAmount = promo.PromotionType == (int)PromotionType.FstDeposit
                     ? _walletService.GetBalance(custId)
