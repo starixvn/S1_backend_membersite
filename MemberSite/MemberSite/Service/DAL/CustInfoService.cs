@@ -401,12 +401,12 @@ namespace MemberSite.Service.DAL
             if (conn == null)
             {
                 //No execute in transaction
-                result = _mainDbClient.QueryFirstAsync<int>(sp, param).Result;
+                result = _mainDbClient.Execute(sp, param);
             }
             else
             {
                 //Execute in transaction
-                result = conn.QueryFirstAsync<int>(sp, param, trans).Result;
+                result = conn.Execute(sp, param, commandType: CommandType.StoredProcedure);
             }
             return (result == 0) ? false : true;
         }
