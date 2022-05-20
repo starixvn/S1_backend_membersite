@@ -12,6 +12,9 @@ public class SocialChannelRequest
     public string LangId { get; set; }
     
     public int DisplayPage { get; set; }
+    
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+    public int Device { get; set; }
 }
 
 public class SocialChannelResponse
