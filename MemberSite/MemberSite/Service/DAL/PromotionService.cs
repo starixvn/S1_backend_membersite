@@ -326,6 +326,11 @@ namespace MemberSite.Service.DAL
                         }
                     }
                 }
+
+                if (promo.RequiredAmount > promo.DepositAmount)
+                {
+                    promo.canJoin = false;
+                }
             }
 
             if (promo.PromotionType == (int)PromotionType.Rebate)
