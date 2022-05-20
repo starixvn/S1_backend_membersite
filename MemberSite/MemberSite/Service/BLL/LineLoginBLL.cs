@@ -3,6 +3,7 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.Line;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,7 @@ namespace MemberSite.Service.BLL
         private readonly AuthenticateService _authenticateService;
         private readonly AuthService _authService;
         private readonly AuthorizeBLL _authorizeBll;
-        private readonly string _channelId;
-        private readonly string _channelSecret;
-        private readonly string _redirectUri;
+        private readonly IOptions<LineLoginChannelConfig> _lineLoginChannelConfig;
         private readonly ILogger<LineLoginBLL> _logger;
 
         #region Constructor
@@ -40,19 +39,18 @@ namespace MemberSite.Service.BLL
             _authenticateService = provider.GetRequiredService<AuthenticateService>();
             _authService = provider.GetRequiredService<AuthService>();
             _logger = provider.GetRequiredService<ILogger<LineLoginBLL>>();
-            _channelId = "1656472592"; //之後改成用config設定
-            _channelSecret = "0ffb666498ba7ec9780384f779119ac0"; //之後改成用config設定
-            _redirectUri = "http://www.n88dev.com/callback";//之後改成用config設定
+            _lineLoginChannelConfig = provider.GetRequiredService<IOptions<LineLoginChannelConfig>>();
+            _logger = provider.GetRequiredService<ILogger<LineLoginBLL>>();
         }
 
         #endregion
 
-        public bool IssueLineToken(FlowType type, string paramString, out string token)
+        public bool IssueLineToken(FlowType type, out string token)
         {
             token = Guid.NewGuid().ToString();
             try
             {
-                if (!_authService.IssueLineToken((int)type, paramString, token)) return false;
+                if (!_authService.IssueLineToken((int)type, token)) return false;
                 return true;
             }
             catch (Exception ex)
@@ -66,6 +64,7 @@ namespace MemberSite.Service.BLL
         {
             var message = string.Empty;
             var lineUserId = string.Empty;
+            var config = _lineLoginChannelConfig.Value;
 
             if (!CheckLineResponse(code, state, error, errorCode, error_description, errorMessage, out message))
             {
@@ -74,12 +73,12 @@ namespace MemberSite.Service.BLL
 
             var lineIssueToken = await _authService.GetLineToken(state);
 
-            if (!CheckToken(lineIssueToken, out message))
+            if (!CheckToken(config, lineIssueToken, out message))
             {
                 return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = -1, Message = message };
             }
 
-            if (!GetLineUserId(code, out lineUserId, out message))
+            if (!GetLineUserId(config, code, out lineUserId, out message))
             {
                 return new CallBackReponseModel { ErrorCode = -2, Message = message };
             }
@@ -117,7 +116,7 @@ namespace MemberSite.Service.BLL
                             _logger.LogError("Login Flow Error: This is Login Token But custLineProfile is null.");
                             return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = -1, Message = message };
                         }
-                        return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = 0, CustId = custLineProfile.CustId, LoginInfo = lineIssueToken.Info };
+                        return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = 0, CustId = custLineProfile.CustId };
                     }
                 case FlowType.Binding:
                     {
@@ -204,7 +203,7 @@ namespace MemberSite.Service.BLL
             return true;
         }
 
-        private bool CheckToken(LineIssueTokenModel data, out string message)
+        private bool CheckToken(LineLoginChannelConfig config, LineIssueTokenModel data, out string message)
         {
             message = string.Empty;
 
@@ -221,27 +220,21 @@ namespace MemberSite.Service.BLL
             //    // Do something
             //}
 
-            if (data.FlowType == FlowType.Login && string.IsNullOrWhiteSpace(data.Info))
-            {
-                message = "Somthing Wrong. Please Back To Try Again.";
-                _logger.LogError("CheckToken Fail：not found this login token's info.");
-                return false;
-            }
-
             //TODO:Token 時效性???
-            if (data.CreateTime <= DateTime.UtcNow.AddMinutes(0 - 10))
+            if (data.CreateTime <= DateTime.UtcNow.AddSeconds(0 - config.ExpiredSeconds))
             {
-                message = "Expired. Please Back To Try Again.";
-                _logger.LogError($"CheckToken Fail：Token要求時間超出有效時間{ data.CreateTime.AddMinutes(10)}.\r\n" +
-                                 $"Token Generate Time ={data.CreateTime}，有效時間為 10 分鐘以內。");
+                message = "Token Expired. Please Back To Try Again.";
+                _logger.LogError($"CheckToken Fail：Token Expired. have to in { data.CreateTime.AddSeconds(config.ExpiredSeconds)}.\r\n" +
+                                 $"Token Generate Time ={data.CreateTime}，ExpiredSeconds = {config.ExpiredSeconds}.");
                 return false;
             }
 
             return true;
         }
 
-        private bool GetLineUserId(string code, out string lineUserId, out string message)
+        private bool GetLineUserId(LineLoginChannelConfig config, string code, out string lineUserId, out string message)
         {
+
             message = string.Empty;
             WebClient wc = new WebClient();
             wc.Encoding = Encoding.UTF8;
@@ -256,9 +249,9 @@ namespace MemberSite.Service.BLL
                 string ApiUrl_Token = "https://api.line.me/oauth2/v2.1/token";
                 nvc.Add("grant_type", "authorization_code");
                 nvc.Add("code", code);
-                nvc.Add("redirect_uri", _redirectUri);
-                nvc.Add("client_id", _channelId);
-                nvc.Add("client_secret", _channelSecret);
+                nvc.Add("redirect_uri", config.RedirectUri);
+                nvc.Add("client_id", config.ChannelId);
+                nvc.Add("client_secret", config.ChannelSecret);
                 string JsonStr = Encoding.UTF8.GetString(wc.UploadValues(ApiUrl_Token, "POST", nvc));
                 IssueAccessTokenResponseModel ToKenObj = JsonConvert.DeserializeObject<IssueAccessTokenResponseModel>(JsonStr);
                 wc.Headers.Clear();
