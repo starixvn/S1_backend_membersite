@@ -193,10 +193,10 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBll);
             var result = await _lineLoginBll.LineLoginCallBack(request.LineLoginResponse.code,
-                request.LineLoginResponse.state, 
-                request.LineLoginResponse.error, 
-                request.LineLoginResponse.errorCode, 
-                request.LineLoginResponse.error_description, 
+                request.LineLoginResponse.state,
+                request.LineLoginResponse.error,
+                request.LineLoginResponse.errorCode,
+                request.LineLoginResponse.error_description,
                 request.LineLoginResponse.errorMessage);
 
             if (result.ErrorCode != 0) //Fail
@@ -261,6 +261,7 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> LineLoginFlowAsync(int custId, LoginModel loginData)
         {
             var apiResult = new ApiResult<dynamic>(_selLangBll);
+            apiResult.Data.Type = FlowType.Login;
 
             var desktopClaims = new List<Claim>(); //Initial Destop & H5 Claims
             var appClaims = new Claim[0]; //Initial App Claims
@@ -368,7 +369,7 @@ namespace MemberSite.Controllers.Api
                 //App
                 var accessToken = _tools.GenerateJwtTokens(appClaims);
                 var data = new JwtAuthData { AccessToken = accessToken };
-                apiResult.Data = data;
+                apiResult.Data.JwtAuthData = data;
             }
 
             apiResult.ErrorCode = 0;

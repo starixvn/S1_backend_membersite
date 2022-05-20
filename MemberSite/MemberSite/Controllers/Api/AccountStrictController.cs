@@ -24,8 +24,8 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL _selLangBll;
         private readonly AuthBLL _authBll;
         private readonly CryptoPayInfoBll _cryptoPayInfoBLL;
+        private readonly LineLoginBLL _lineLoginBll;
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
-        
 
         public AccountStrictController(IServiceProvider provider)
         {
@@ -39,6 +39,7 @@ namespace MemberSite.Controllers.Api
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _authBll = provider.GetRequiredService<AuthBLL>();
             _cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
+            _lineLoginBll = provider.GetRequiredService<LineLoginBLL>();
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
         }
 
@@ -71,7 +72,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            if(blockBankAccountList.Count > 0)
+            if (blockBankAccountList.Count > 0)
             {
                 apiResult.ErrorCode = -1;
                 apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
@@ -195,10 +196,10 @@ namespace MemberSite.Controllers.Api
             }
 
             var currencyId = uSDTDetailreq.CurrencyId == 0 ? 96 : uSDTDetailreq.CurrencyId;
-            uSDTInfoList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress , Network = uSDTDetailreq.Network, CurrencyId = currencyId });
-            uSDTInfoLogList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress , Network = uSDTDetailreq.Network, CurrencyId = currencyId });
+            uSDTInfoList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress, Network = uSDTDetailreq.Network, CurrencyId = currencyId });
+            uSDTInfoLogList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress, Network = uSDTDetailreq.Network, CurrencyId = currencyId });
 
-            apiResult.ErrorCode = _custInfoBLL.InsertCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList,uSDTInfoLogList);
+            apiResult.ErrorCode = _custInfoBLL.InsertCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList, uSDTInfoLogList);
             apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
@@ -224,7 +225,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBLL.GetMsg("msg_InvalidCryptoWalletAddress");
                 return apiResult;
             }
-            
+
             if (custUSDTInfoBatchreq.USDTInfo.GroupBy(i => new { i.USDTAddress, i.CurrencyId }) // 可能幣種不同但錢包位址相同
                 .Any(g => g.Count() > 1))
             {
@@ -267,10 +268,10 @@ namespace MemberSite.Controllers.Api
             foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
             {
                 uSDTInfoList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId });
-                uSDTInfoLogList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress , Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId });
+                uSDTInfoLogList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId });
             }
-            
-            apiResult.ErrorCode = _custInfoBLL.InsertCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList ,uSDTInfoLogList );
+
+            apiResult.ErrorCode = _custInfoBLL.InsertCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList, uSDTInfoLogList);
             apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
@@ -300,8 +301,8 @@ namespace MemberSite.Controllers.Api
 
             if (custBankInfo != null && custBankInfo.usdtDetail != null)
             {
-                USDTInfoList = custBankInfo.usdtDetail.Where(x => 
-                    !(x.USDTAddress == uSDTDetailreq.USDTAddress && 
+                USDTInfoList = custBankInfo.usdtDetail.Where(x =>
+                    !(x.USDTAddress == uSDTDetailreq.USDTAddress &&
                     x.CurrencyId == uSDTDetailreq.CurrencyId));
             }
 
@@ -453,7 +454,7 @@ namespace MemberSite.Controllers.Api
                     var result = _custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"], null);
                 }
             }
-            
+
             if (custProfile.TryGetValue("Email", out var email) && !string.IsNullOrEmpty(email) &&
                 _custInfoBLL.ExistsEmail(authData.CustId, email))
             {
@@ -466,7 +467,7 @@ namespace MemberSite.Controllers.Api
             {
                 custProfile["Email"] = beforeCustInfo.Email;
             }
-            
+       
             custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo, custInfo.SiteId);
 
             apiResult.ErrorCode = _custInfoBLL.SetProfile(authData.CustId, custProfile);
@@ -617,9 +618,10 @@ namespace MemberSite.Controllers.Api
 
         private Dictionary<string, string> SetCountryCodeAndAreaCode(Dictionary<string, string> custProfile, CustInfoProfile beforeCustInfo, int siteId)
         {
-            custProfile.TryGetValue("CountryCode",out var reqCountryCode);
-            
-            if (string.IsNullOrEmpty(reqCountryCode) || !_areaCodeMap.Any(i => i.Code == reqCountryCode))
+
+            var perCountry = new CurrencyMapping().CountryMap;
+            custProfile.TryGetValue("CountryCode", out var country);
+            if (string.IsNullOrEmpty(country) || perCountry.FirstOrDefault(x => x.Value == country).Equals(default(KeyValuePair<int, string>)))
             {
                 if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
                 {
@@ -671,6 +673,8 @@ namespace MemberSite.Controllers.Api
                     }
                 }
 
+                var isLineBinding = _lineLoginBll.GetCustLinePrfile(authData.CustId, null) == null ? false : true;
+
                 apiResult.Data = new
                 {
                     custInfo.UserName,
@@ -693,7 +697,8 @@ namespace MemberSite.Controllers.Api
                     custInfo.EmailVerified,
                     custInfo.EmailReward,
                     custInfo.EnablePromotion,
-                    custInfo.ActStatus
+                    custInfo.ActStatus,
+                    IsLineBinding = isLineBinding
                 };
 
                 apiResult.ErrorCode = 0;
@@ -726,13 +731,13 @@ namespace MemberSite.Controllers.Api
 
             if (!_contentTypesCheck.ContainsKey(custPhotoIdReq.PhotoId.ContentType))
             {
-                return new ApiResult { ErrorCode = -1 , Message = _selLangBLL.GetMsg("msg_UpdateFailed") };
+                return new ApiResult { ErrorCode = -1, Message = _selLangBLL.GetMsg("msg_UpdateFailed") };
             }
 
             using var fileStream = custPhotoIdReq.PhotoId.OpenReadStream();
             using var uploadedImage = await SixLabors.ImageSharp.Image.LoadAsync(fileStream);
             var fileBytes = await _imageEditorBll.Resize(uploadedImage);
-                
+
             var fileName = custPhotoIdReq.PhotoId.FileName;
             fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
             fileName = $"{fileName.Substring(0, fileName.LastIndexOf('.'))}.jpg";
@@ -829,12 +834,12 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-        
+
         public class SendOTPEmailReq
         {
             public string route { get; set; }
         }
-        
+
         [HttpPost]
         public async Task<ApiResult<SendOTPEmailResult>> SendOTPEmailAsync(SendOTPEmailReq req)
         {
@@ -848,22 +853,22 @@ namespace MemberSite.Controllers.Api
                 profileUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{host.Replace("app", "m")}";
                 req.route = host == "app.n17881788.com" ? "profile" : "member";
             }
-            if (!string.IsNullOrEmpty(langId) && req.route != "member") 
+            if (!string.IsNullOrEmpty(langId) && req.route != "member")
                 profileUrl += $"/{langId}";
-            
+
             profileUrl += $"/{req.route}";
-            
+
             var apiResult = await _commonBLL.SendOTPEmailAsync(authData.CustId, profileUrl);
 
             return apiResult;
         }
-        
+
         public class VerifyEmailReq
         {
             public string key { get; set; }
             public string code { get; set; }
         }
-        
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<ApiResult> VerifyEmailAsync(VerifyEmailReq req, [FromRoute] string langId)
