@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Cors;
 
 namespace MemberSite.Controllers.Api
 {
@@ -1813,6 +1814,41 @@ namespace MemberSite.Controllers.Api
             if (data != null && !string.IsNullOrEmpty(data.DefaultLang) && _serverInfoBll.IsSeoDomain(domain))
             {
                 apiResult.Data = await _serverInfoBll.GetMenuOfGames(data.SiteId, data.DefaultLang);
+            }
+
+            return apiResult;
+        }
+
+        [HttpPost]
+        [EnableCors("SocialChannel")]
+        public async Task<ApiResult<IEnumerable<SocialChannelResponse>>> GetSocialChannel(SocialChannelRequest request,
+            [FromRoute] string langId = "en")
+        {
+            var authData = _authorizeBll.GetAuthData();
+            if (authData != null)
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                request.CurrencyId = custInfo.CurrencyId;
+                request.LangId = authData.LangId;
+                request.SiteId = custInfo.SiteId;
+            }
+            else
+            {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                request.SiteId = serverInfo.SiteId;
+            }
+
+            request.LangId ??= langId;
+
+            var data = await _serverInfoBll.GetSocialChannel(request);
+            var apiResult = new ApiResult<IEnumerable<SocialChannelResponse>>()
+            {
+                ErrorCode = 0
+            };
+
+            if (data != null)
+            {
+                apiResult.Data = data;
             }
 
             return apiResult;
