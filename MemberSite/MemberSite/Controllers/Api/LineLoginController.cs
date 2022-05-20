@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Web;
 using MemberSite.Service.Model.enums;
+using Microsoft.Extensions.Options;
 
 namespace MemberSite.Controllers.Api
 {
@@ -20,15 +21,13 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class LineLoginController : ControllerBase
     {
-        private readonly string _channelId;
-        private readonly string _redirectUri;
         private readonly Tools _tools;
         private readonly LineLoginBLL _lineLoginBll;
         private readonly AuthorizeBLL _authorizeBll;
         private readonly SelLangBLL _selLangBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly FPSBLL _sFpsBll;
-        //private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
+        private readonly IOptions<LineLoginChannelConfig> _lineLoginChannelConfig;
         private readonly ILogger<LineLoginController> _logger;
 
         #region Constructor
@@ -42,9 +41,7 @@ namespace MemberSite.Controllers.Api
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
             _logger = provider.GetRequiredService<ILogger<LineLoginController>>();
-            //_loginDeviceConfig = provider.GetRequiredService<IOptions<Dictionary<string, string>>>();
-            _channelId = "1656472592"; //之後改成用config設定
-            _redirectUri = "http://www.n88dev.com/callback";//之後改成用config設定
+            _lineLoginChannelConfig = provider.GetRequiredService<IOptions<LineLoginChannelConfig>>();
         }
 
         #endregion
@@ -123,10 +120,7 @@ namespace MemberSite.Controllers.Api
 
             #endregion
 
-            string response_type = "code";
-            string client_id = _channelId;
-            string redirect_uri = HttpUtility.UrlEncode(_redirectUri);
-            string state = string.Empty;
+            var config = _lineLoginChannelConfig.Value;
 
             #region TODO: 搬BLL
 
@@ -142,27 +136,10 @@ namespace MemberSite.Controllers.Api
                 }
             }
 
-            //TODO: 如果走登入流程，要檢查參數是否有效
-
-            var storeLoginData = new LineLoginDataModel()
-            {
-                Type = request.type,
-                IsPersistent = request.isPersistent,
-                Url = request.url,
-                Platform = request.platform,
-                RequestHeaderUserAgent = Request.Headers["User-Agent"],
-                UserAgent = request.userAgent,
-                Screen = request.screen,
-                Di = request.di
-            };
-
-            var storeDataString = JsonConvert.SerializeObject(storeLoginData);
-
-            if (!_lineLoginBll.IssueLineToken(request.type, storeDataString, out string token))
+            if (!_lineLoginBll.IssueLineToken(request.type, out string token))
             {
                 return new ApiResult() { ErrorCode = -1, Message = "Issue Line Token Error!" };
             }
-            state = token;
 
             #endregion
 
@@ -172,11 +149,12 @@ namespace MemberSite.Controllers.Api
                 + "&redirect_uri={2}"
                 + "&state={3}"
                 + "&scope=profile%20openid",
-                response_type,
-                client_id,
-                redirect_uri,
-                state
+                "code",
+                config.ChannelId,
+                HttpUtility.UrlEncode(config.RedirectUri),
+                token
             );
+
             return new ApiResult<string>() { Data = LineLoginUrl, ErrorCode = 0 };
         }
 
@@ -244,7 +222,16 @@ namespace MemberSite.Controllers.Api
                     };
                 case FlowType.Login:
                     {
-                        return await LineLoginFlowAsync(result.CustId, request.LoginData);
+                        var loginReuslt = await LineLoginFlowAsync(result.CustId, request.LoginData);
+
+                        return new ApiResult<dynamic>()
+                        {
+                            Data = new { Type = FlowType.Login, Data = loginReuslt.Data },
+                            ErrorCode = loginReuslt.ErrorCode,
+                            Message = loginReuslt.Message,
+                            RawErrorCode = loginReuslt.RawErrorCode,
+                            RawMessage = loginReuslt.RawMessage
+                        };
                     }
                 default:
                     return new ApiResult<dynamic>()
@@ -258,10 +245,9 @@ namespace MemberSite.Controllers.Api
 
         #endregion
 
-        public async Task<ApiResult> LineLoginFlowAsync(int custId, LoginModel loginData)
+        public async Task<ApiResult<dynamic>> LineLoginFlowAsync(int custId, LoginModel loginData)
         {
             var apiResult = new ApiResult<dynamic>(_selLangBll);
-            apiResult.Data.Type = FlowType.Login;
 
             var desktopClaims = new List<Claim>(); //Initial Destop & H5 Claims
             var appClaims = new Claim[0]; //Initial App Claims
@@ -369,7 +355,7 @@ namespace MemberSite.Controllers.Api
                 //App
                 var accessToken = _tools.GenerateJwtTokens(appClaims);
                 var data = new JwtAuthData { AccessToken = accessToken };
-                apiResult.Data.JwtAuthData = data;
+                apiResult.Data = data;
             }
 
             apiResult.ErrorCode = 0;

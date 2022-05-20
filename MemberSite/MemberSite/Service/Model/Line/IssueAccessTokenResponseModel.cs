@@ -34,7 +34,6 @@ namespace MemberSite.Service.Model.Line
     {
         public FlowType FlowType { get; set; }
         public string Token { get; set; }
-        public string Info { get; set; }
         public DateTime CreateTime { get; set; }
     }
 
@@ -45,7 +44,6 @@ namespace MemberSite.Service.Model.Line
         public string Message { get; set; }
         public int CustId { get; set; }
         public string UserId { get; set; }
-        public string LoginInfo { get; set; }
     }
 
     public class LineLoginDataModel

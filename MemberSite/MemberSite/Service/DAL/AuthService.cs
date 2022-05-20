@@ -42,12 +42,12 @@ namespace MemberSite.Service.DAL
             }));
         }
 
-        public bool IssueLineToken(int type, string paramString, string token,
+        public bool IssueLineToken(int type, string token,
             MySqlConnection conn = null, MySqlTransaction trans = null)
         {
             var sp = "Member_LineIssueToken_Ins";
             var result = 0;
-            var param = new DynamicParameters(new { _FlowType = type, _Info = paramString, _Token = token });
+            var param = new DynamicParameters(new { _FlowType = type, _Token = token });
 
             if (conn == null)
             {
