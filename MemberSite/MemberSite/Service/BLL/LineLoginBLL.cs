@@ -63,7 +63,7 @@ namespace MemberSite.Service.BLL
                         if (custLineProfile != null)
                         {
                             errorCode = 1;
-                            _logger.LogError($"IssueLineToken Error：Binding Flow Error: Already Binding. Can't Bind Again. Account={authData.UserName}");
+                            _logger.LogError($"IssueLineToken Error：Binding Flow Error: Already Binding. Can't Bind Again. authData={JsonConvert.SerializeObject(authData)}");
                             return false;
                         }
                     }
@@ -112,7 +112,7 @@ namespace MemberSite.Service.BLL
 
             var authData = _authorizeBll.GetAuthData();
 
-            var custLineProfile = await GetCustLinePrfile(0, encryptUserId);
+            var custLineProfile = GetCustLinePrfile(0, encryptUserId);
 
             switch (lineIssueToken.FlowType)
             {
@@ -173,9 +173,9 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        public async Task<CustLineProfileModel> GetCustLinePrfile(int custId, string encryptUserId)
+        public CustLineProfileModel GetCustLinePrfile(int custId, string encryptUserId)
         {
-            return await _custInfoService.GetCustLineProfile(custId, encryptUserId);
+            return _custInfoService.GetCustLineProfile(custId, encryptUserId);
         }
 
         public bool InsertCustLineProfile(int custId, string lineUserId, out int resultCode)

@@ -130,9 +130,7 @@ namespace MemberSite.Service.DAL
 
             if (result > 0 && !string.IsNullOrWhiteSpace(lineUserId))
             {
-                var isExist = GetCustLineProfile(0, lineUserId).Result != null ? true : false;
-
-                if (!isExist)
+                if(GetCustLineProfile(0, lineUserId) == null)
                     result = InsertCustLineProfile(custId, lineUserId, conn, trans) ? 1 : 0;
             }
 
@@ -414,9 +412,9 @@ namespace MemberSite.Service.DAL
             return (result == 0) ? false : true;
         }
 
-        public async Task<CustLineProfileModel> GetCustLineProfile(int custId, string lineUserId)
+        public CustLineProfileModel GetCustLineProfile(int custId, string lineUserId)
         {
-            return await _reportDbClient.QueryFirstAsync<CustLineProfileModel>("Member_CustLineProfile_Get", new DynamicParameters(new
+            return _reportDbClient.QueryFirst<CustLineProfileModel>("Member_CustLineProfile_Get", new DynamicParameters(new
             {
                 _CustId = custId,
                 _userId = lineUserId
