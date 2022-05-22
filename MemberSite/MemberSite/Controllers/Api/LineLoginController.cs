@@ -121,27 +121,13 @@ namespace MemberSite.Controllers.Api
             #endregion
 
             var config = _lineLoginChannelConfig.Value;
+            var lang = _selLangBll.GetLangId();
+            int errorCode = 0;
 
-            #region TODO: 搬BLL
-
-            if (request.type == FlowType.Binding)
+            if (!_lineLoginBll.IssueLineToken(request.type, out errorCode, out string token))
             {
-                //如果走綁定流程，先檢查是否已經綁定，已綁定則不可再次載綁定
-                var authData = _authorizeBll.GetAuthData();
-                if (authData != null && authData.CustId != 0)
-                {
-                    var custLineProfile = await _lineLoginBll.GetCustLinePrfile(authData.CustId, null);
-                    if (custLineProfile != null)
-                        return new ApiResult() { ErrorCode = -1, Message = "Already Binding!" };
-                }
+                return new ApiResult(_selLangBll) { ErrorCode = errorCode, Message = _selLangBll.GetMsg("msg_ApiServerError") };
             }
-
-            if (!_lineLoginBll.IssueLineToken(request.type, out string token))
-            {
-                return new ApiResult() { ErrorCode = -1, Message = "Issue Line Token Error!" };
-            }
-
-            #endregion
 
             string LineLoginUrl = string.Format("https://access.line.me/oauth2/v2.1/authorize?" +
                 "response_type={0}"
@@ -155,7 +141,7 @@ namespace MemberSite.Controllers.Api
                 token
             );
 
-            return new ApiResult<string>() { Data = LineLoginUrl, ErrorCode = 0 };
+            return new ApiResult<string>() { Data = LineLoginUrl, ErrorCode = errorCode };
         }
 
         [HttpGet]
@@ -169,7 +155,6 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> LineCallbackAsync(LineCallbackModel request)
         {
-            var apiResult = new ApiResult(_selLangBll);
             var result = await _lineLoginBll.LineLoginCallBack(request.LineLoginResponse.code,
                 request.LineLoginResponse.state,
                 request.LineLoginResponse.error,
@@ -182,26 +167,26 @@ namespace MemberSite.Controllers.Api
                 switch (result.Type)
                 {
                     case FlowType.Register:
-                        return new ApiResult<dynamic>()
+                        return new ApiResult<dynamic>(_selLangBll)
                         {
                             Data = new { Type = result.Type, UserId = result.UserId },
                             ErrorCode = result.ErrorCode,
-                            Message = result.Message
+                            Message = _selLangBll.GetMsg("msg_ApiServerError")
                         };
                     case FlowType.Binding:
                     case FlowType.Login:
-                        return new ApiResult<dynamic>()
+                        return new ApiResult<dynamic>(_selLangBll)
                         {
                             Data = new { Type = result.Type },
                             ErrorCode = result.ErrorCode,
-                            Message = result.Message
+                            Message = _selLangBll.GetMsg("msg_ApiServerError")
                         };
                     default:
-                        return new ApiResult<dynamic>()
+                        return new ApiResult<dynamic>(_selLangBll)
                         {
                             Data = new { Type = result.Type },
                             ErrorCode = result.ErrorCode,
-                            Message = result.Message
+                            Message = _selLangBll.GetMsg("msg_ApiServerError")
                         };
                 }
             }
@@ -209,22 +194,22 @@ namespace MemberSite.Controllers.Api
             switch (result.Type)
             {
                 case FlowType.Register:
-                    return new ApiResult<dynamic>()
+                    return new ApiResult<dynamic>(_selLangBll)
                     {
                         Data = new { Type = result.Type, UserId = result.UserId },
-                        ErrorCode = 0
+                        ErrorCode = result.ErrorCode
                     };
                 case FlowType.Binding:
-                    return new ApiResult<dynamic>()
+                    return new ApiResult<dynamic>(_selLangBll)
                     {
                         Data = new { Type = result.Type },
-                        ErrorCode = 0
+                        ErrorCode = result.ErrorCode
                     };
                 case FlowType.Login:
                     {
                         var loginReuslt = await LineLoginFlowAsync(result.CustId, request.LoginData);
 
-                        return new ApiResult<dynamic>()
+                        return new ApiResult<dynamic>(_selLangBll)
                         {
                             Data = new { Type = FlowType.Login, Data = loginReuslt.Data },
                             ErrorCode = loginReuslt.ErrorCode,
@@ -233,12 +218,12 @@ namespace MemberSite.Controllers.Api
                             RawMessage = loginReuslt.RawMessage
                         };
                     }
-                default:
-                    return new ApiResult<dynamic>()
+                default: //Type Undefine
+                    return new ApiResult<dynamic>(_selLangBll)
                     {
                         Data = new { Type = result.Type },
-                        ErrorCode = -1,
-                        Message = "Flow Type Error."
+                        ErrorCode = result.ErrorCode,
+                        Message = _selLangBll.GetMsg("msg_ApiServerError")
                     };
             }
         }

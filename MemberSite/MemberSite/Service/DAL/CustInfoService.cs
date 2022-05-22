@@ -130,7 +130,10 @@ namespace MemberSite.Service.DAL
 
             if (result > 0 && !string.IsNullOrWhiteSpace(lineUserId))
             {
-                result = InsertCustLineProfile(custId, lineUserId, conn, trans) ? 1 : 0;
+                var isExist = GetCustLineProfile(0, lineUserId).Result != null ? true : false;
+
+                if (!isExist)
+                    result = InsertCustLineProfile(custId, lineUserId, conn, trans) ? 1 : 0;
             }
 
             if (result > 0)
