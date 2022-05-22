@@ -63,7 +63,7 @@ namespace MemberSite.Service.BLL
                         if (custLineProfile != null)
                         {
                             errorCode = 1;
-                            _logger.LogError($"IssueLineToken Error：Binding Flow Error: Already Binding. Can't Bind Again. authData={authData.ToString()}");
+                            _logger.LogError($"IssueLineToken Error：Binding Flow Error: Already Binding. Can't Bind Again. Account={authData.UserName}");
                             return false;
                         }
                     }
