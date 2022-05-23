@@ -291,10 +291,28 @@ namespace MemberSite.Service.BLL
 
                 nvc.Add("grant_type", "authorization_code");
                 nvc.Add("code", code);
-                nvc.Add("redirect_uri", HttpUtility.UrlEncode(config.RedirectUri));
+                nvc.Add("redirect_uri", config.RedirectUri);
                 nvc.Add("client_id", config.ChannelId);
                 nvc.Add("client_secret", config.ChannelSecret);
-                string tokenResponseStr = Encoding.UTF8.GetString(wc.UploadValues(ApiUrl_Token, "POST", nvc));
+
+                string tokenResponseStr = string.Empty;
+
+                try
+                {
+                    tokenResponseStr = Encoding.UTF8.GetString(wc.UploadValues(ApiUrl_Token, "POST", nvc));
+                }
+                catch (WebException ex)
+                {
+                    using (HttpWebResponse hr = (HttpWebResponse)ex.Response)
+                    {
+                        int statusCode = (int)hr.StatusCode;
+                        StringBuilder sb = new StringBuilder();
+                        StreamReader sr = new StreamReader(hr.GetResponseStream(), Encoding.UTF8);
+                        sb.Append(sr.ReadToEnd());
+                        _logger.LogError($"AccessLineToken Fail: StatusCode:{statusCode},Content:{sb}");
+                    }
+                    return false;
+                }
 
                 if (string.IsNullOrWhiteSpace(tokenResponseStr))
                 {
@@ -310,7 +328,25 @@ namespace MemberSite.Service.BLL
 
                 //取回User Profile
                 wc.Headers.Add("Authorization", "Bearer " + tokenResponse.access_token);
-                string userProfileResponseStr = wc.DownloadString(ApiUrl_Profile);
+
+                var userProfileResponseStr = string.Empty;
+
+                try
+                {
+                    userProfileResponseStr = wc.DownloadString(ApiUrl_Profile);
+                }
+                catch (WebException ex)
+                {
+                    using (HttpWebResponse hr = (HttpWebResponse)ex.Response)
+                    {
+                        int statusCode = (int)hr.StatusCode;
+                        StringBuilder sb = new StringBuilder();
+                        StreamReader sr = new StreamReader(hr.GetResponseStream(), Encoding.UTF8);
+                        sb.Append(sr.ReadToEnd());
+                        _logger.LogError($"AccessLineToken Fail: StatusCode:{statusCode},Content:{sb}");
+                    }
+                    return false;
+                }
 
                 if (string.IsNullOrWhiteSpace(userProfileResponseStr))
                 {
