@@ -129,6 +129,8 @@ namespace MemberSite.Controllers.Api
                 return new ApiResult(_selLangBll) { ErrorCode = errorCode, Message = _selLangBll.GetMsg("msg_ApiServerError") };
             }
 
+            _logger.LogInformation($"Config={JsonConvert.SerializeObject(config)}");
+
             string LineLoginUrl = string.Format("https://access.line.me/oauth2/v2.1/authorize?" +
                 "response_type={0}"
                 + "&client_id={1}"
