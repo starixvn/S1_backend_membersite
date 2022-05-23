@@ -170,7 +170,7 @@ namespace MemberSite.Controllers.Api
                         return new ApiResult<dynamic>(_selLangBll)
                         {
                             Data = new { Type = result.Type, UserId = result.UserId },
-                            ErrorCode = result.ErrorCode,
+                            ErrorCode = (int)result.ErrorCode,
                             Message = _selLangBll.GetMsg("msg_ApiServerError")
                         };
                     case FlowType.Binding:
@@ -178,14 +178,14 @@ namespace MemberSite.Controllers.Api
                         return new ApiResult<dynamic>(_selLangBll)
                         {
                             Data = new { Type = result.Type },
-                            ErrorCode = result.ErrorCode,
+                            ErrorCode = (int)result.ErrorCode,
                             Message = _selLangBll.GetMsg("msg_ApiServerError")
                         };
                     default:
                         return new ApiResult<dynamic>(_selLangBll)
                         {
                             Data = new { Type = result.Type },
-                            ErrorCode = result.ErrorCode,
+                            ErrorCode = (int)result.ErrorCode,
                             Message = _selLangBll.GetMsg("msg_ApiServerError")
                         };
                 }
@@ -197,13 +197,13 @@ namespace MemberSite.Controllers.Api
                     return new ApiResult<dynamic>(_selLangBll)
                     {
                         Data = new { Type = result.Type, UserId = result.UserId },
-                        ErrorCode = result.ErrorCode
+                        ErrorCode = (int)result.ErrorCode
                     };
                 case FlowType.Binding:
                     return new ApiResult<dynamic>(_selLangBll)
                     {
                         Data = new { Type = result.Type },
-                        ErrorCode = result.ErrorCode
+                        ErrorCode = (int)result.ErrorCode
                     };
                 case FlowType.Login:
                     {
@@ -222,7 +222,7 @@ namespace MemberSite.Controllers.Api
                     return new ApiResult<dynamic>(_selLangBll)
                     {
                         Data = new { Type = result.Type },
-                        ErrorCode = result.ErrorCode,
+                        ErrorCode = (int)result.ErrorCode,
                         Message = _selLangBll.GetMsg("msg_ApiServerError")
                     };
             }

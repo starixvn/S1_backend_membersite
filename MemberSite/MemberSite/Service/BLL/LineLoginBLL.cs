@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MemberSite.Service.BLL
 {
@@ -62,7 +64,7 @@ namespace MemberSite.Service.BLL
                         var custLineProfile = GetCustLinePrfile(authData.CustId, null);
                         if (custLineProfile != null)
                         {
-                            errorCode = 1;
+                            errorCode = (int)LineLoginErrorCode.MemberAccountAlreadyBinding;
                             _logger.LogError($"IssueLineToken Error：Binding Flow Error: Already Binding. Can't Bind Again. authData={JsonConvert.SerializeObject(authData)}");
                             return false;
                         }
@@ -71,7 +73,7 @@ namespace MemberSite.Service.BLL
 
                 if (!_authService.IssueLineToken((int)type, token))
                 {
-                    errorCode = -1;
+                    errorCode = (int)LineLoginErrorCode.IssueLineTokenFail;
                     _logger.LogError($"IssueLineToken Fail.");
                     return false;
                 }
@@ -79,7 +81,7 @@ namespace MemberSite.Service.BLL
             }
             catch (Exception ex)
             {
-                errorCode = 9000;
+                errorCode = (int)LineLoginErrorCode.IssueLineTokenException;
                 _logger.LogError($"IssueLineToken Fail: Exception happend. Message={ex.Message}");
                 return false;
             }
@@ -89,7 +91,7 @@ namespace MemberSite.Service.BLL
         {
             var lineUserId = string.Empty;
             var config = _lineLoginChannelConfig.Value;
-            var resultCode = 0;
+            var resultCode = LineLoginErrorCode.Success;
 
             if (!CheckLineResponse(code, state, error, errorCode, error_description, errorMessage, out resultCode))
             {
@@ -108,68 +110,77 @@ namespace MemberSite.Service.BLL
                 return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
             }
 
-            var encryptUserId = _tools.MD5Encrypt(lineUserId);
-
-            var authData = _authorizeBll.GetAuthData();
-
-            var custLineProfile = GetCustLinePrfile(0, encryptUserId);
-
-            switch (lineIssueToken.FlowType)
+            try
             {
-                case FlowType.Register:
-                    {
-                        _logger.LogInformation("This is Register Flow.");
-                        if (authData != null && authData.CustId != 0)
+                var encryptUserId = _tools.MD5Encrypt(lineUserId);
+
+                var authData = _authorizeBll.GetAuthData();
+
+                var custLineProfile = GetCustLinePrfile(0, encryptUserId);
+
+                switch (lineIssueToken.FlowType)
+                {
+                    case FlowType.Register:
                         {
-                            resultCode = 3001;
-                            _logger.LogError("Register Flow Error: This is Register Token But authData is not null and CustId != 0.");
+                            _logger.LogInformation("This is Register Flow.");
+                            if (authData != null && authData.CustId != 0)
+                            {
+                                resultCode = LineLoginErrorCode.RegisterAuthInvaild;
+                                _logger.LogError("Register Flow Error: This is Register Token But authData is not null and CustId != 0.");
+                                return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
+                            }
+                            if (custLineProfile != null)
+                            {
+                                resultCode = LineLoginErrorCode.RegisterLineProfileInvaild;
+                                _logger.LogError("Register Flow Error: This is Register Token But custLineProfile is not null.");
+                                return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
+                            }
+                            return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode, UserId = encryptUserId };
+                        }
+                    case FlowType.Login:
+                        {
+                            if (custLineProfile == null)
+                            {
+                                resultCode = LineLoginErrorCode.LoginLineProfileInvaild;
+                                _logger.LogError("Login Flow Error: This is Login Token But custLineProfile is null.");
+                                return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
+                            }
+                            return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode, CustId = custLineProfile.CustId };
+                        }
+                    case FlowType.Binding:
+                        {
+                            _logger.LogInformation("This is Binding Flow.");
+                            if (authData == null || authData.CustId == 0)
+                            {
+                                resultCode = LineLoginErrorCode.BindingAuthInvaild;
+                                _logger.LogError("Binding Flow Error: This is Binding Token But authData is null and CustId = 0.");
+                                return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
+                            }
+                            if (custLineProfile != null)
+                            {
+                                resultCode = LineLoginErrorCode.BindingLineProfileInvaild;
+                                _logger.LogError("Binding Flow Error: This is Binding Token But custLineProfile already exist.");
+                                return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
+                            }
+                            if (!InsertCustLineProfile(authData.CustId, encryptUserId, out resultCode))
+                            {
+                                return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
+                            }
                             return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
                         }
-                        if (custLineProfile != null)
+                    default:
                         {
-                            resultCode = 3002;
-                            _logger.LogError("Register Flow Error: This is Register Token But custLineProfile is not null.");
+                            resultCode = LineLoginErrorCode.UndefineFlow;
+                            _logger.LogInformation("Flow Error: Can't define which flow it is.");
                             return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
                         }
-                        return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode, UserId = encryptUserId };
-                    }
-                case FlowType.Login:
-                    {
-                        if (custLineProfile == null)
-                        {
-                            resultCode = 3003;
-                            _logger.LogError("Login Flow Error: This is Login Token But custLineProfile is null.");
-                            return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
-                        }
-                        return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode, CustId = custLineProfile.CustId };
-                    }
-                case FlowType.Binding:
-                    {
-                        _logger.LogInformation("This is Binding Flow.");
-                        if (authData == null || authData.CustId == 0)
-                        {
-                            resultCode = 3004;
-                            _logger.LogError("Register Flow Error: This is Binding Token But authData is null and CustId = 0.");
-                            return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
-                        }
-                        if (custLineProfile != null)
-                        {
-                            resultCode = 3005;
-                            _logger.LogError("Binding Flow Error: This is Binding Token But custLineProfile already exist.");
-                            return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
-                        }
-                        if (!InsertCustLineProfile(authData.CustId, encryptUserId, out resultCode))
-                        {
-                            return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
-                        }
-                        return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
-                    }
-                default:
-                    {
-                        resultCode = 3009;
-                        _logger.LogInformation("Flow Error: Can't define which flow it is.");
-                        return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
-                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                resultCode = LineLoginErrorCode.CallBackException;
+                _logger.LogError($"LineLoginCallBack Fail：Exception happen.message={ex.Message}.");
+                return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
             }
         }
 
@@ -178,14 +189,14 @@ namespace MemberSite.Service.BLL
             return _custInfoService.GetCustLineProfile(custId, encryptUserId);
         }
 
-        public bool InsertCustLineProfile(int custId, string lineUserId, out int resultCode)
+        public bool InsertCustLineProfile(int custId, string lineUserId, out LineLoginErrorCode resultCode)
         {
-            resultCode = 0;
+            resultCode = LineLoginErrorCode.Success;
             try
             {
                 if (!_custInfoService.InsertCustLineProfile(custId, lineUserId))
                 {
-                    resultCode = 3001;
+                    resultCode = LineLoginErrorCode.InsertLineProfileFail;
                     _logger.LogInformation("InsertCustLineProfile Fail.");
                     return false;
                 }
@@ -193,19 +204,19 @@ namespace MemberSite.Service.BLL
             }
             catch (Exception ex)
             {
-                resultCode = 3009;
+                resultCode = LineLoginErrorCode.InsertLineProfileException;
                 _logger.LogInformation($"InsertCustLineProfile Fai: Exception happend. message={ex.Message}.");
                 return false;
             }
         }
 
-        private bool CheckLineResponse(string code, string state, string error, int errorCode, string error_description, string errorMessage, out int resultCode)
+        private bool CheckLineResponse(string code, string state, string error, int errorCode, string error_description, string errorMessage, out LineLoginErrorCode resultCode)
         {
             resultCode = 0;
             if (!string.IsNullOrWhiteSpace(error))
             {
                 //message = "Line Error Happened. Please Cantanct to CSD.";
-                resultCode = 1001;
+                resultCode = LineLoginErrorCode.LineCallbackError;
                 _logger.LogError($"CheckLineResponse Fail：error hapeen. error={error}.errorCode={errorCode}. error_description={error_description}. errormessage={errorMessage}");
                 return false;
             }
@@ -214,14 +225,14 @@ namespace MemberSite.Service.BLL
             {
                 //用戶在Line驗證畫面選擇取消，應該不算錯誤？使用者選擇不綁了
                 //message = "Cancel And Back To Pervious.";
-                resultCode = 1002;
+                resultCode = LineLoginErrorCode.CodeInvaild;
                 _logger.LogError("CheckLineResponse Fail：code is null or empty.");
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(state))
             {
-                resultCode = 1003;
+                resultCode = LineLoginErrorCode.StateInvaid;
                 _logger.LogError("CheckLineResponse Fail：state (token) is null or empty.");
                 return false;
             }
@@ -229,20 +240,20 @@ namespace MemberSite.Service.BLL
             return true;
         }
 
-        private bool CheckToken(LineLoginChannelConfig config, LineIssueTokenModel data, out int resultCode)
+        private bool CheckToken(LineLoginChannelConfig config, LineIssueTokenModel data, out LineLoginErrorCode resultCode)
         {
             resultCode = 0;
 
             if (data == null)
             {
-                resultCode = 1004;
+                resultCode = LineLoginErrorCode.NotFoundToken;
                 _logger.LogError("CheckToken Fail：not found this token.");
                 return false;
             }
 
             if (!Enum.IsDefined(typeof(FlowType), data.FlowType) || data.FlowType == FlowType.Undefine)
             {
-                resultCode = 1005;
+                resultCode = LineLoginErrorCode.FlowTypeInvaild;
                 _logger.LogError($"CheckToken Fail：Flow Type Is Invalid. FlowType={data.FlowType.ToString()}");
                 return false;
             }
@@ -250,7 +261,7 @@ namespace MemberSite.Service.BLL
 
             if (data.CreateTime <= DateTime.UtcNow.AddSeconds(0 - config.ExpiredSeconds))
             {
-                resultCode = 1006;
+                resultCode = LineLoginErrorCode.TokenExpired;
                 _logger.LogError($"CheckToken Fail：LineIssueToken Expired. have to in { data.CreateTime.AddSeconds(config.ExpiredSeconds)}.\r\n" +
                                  $"Token Generate Time ={data.CreateTime}，ExpiredSeconds = {config.ExpiredSeconds}.");
                 return false;
@@ -259,7 +270,7 @@ namespace MemberSite.Service.BLL
             return true;
         }
 
-        private bool GetLineUserId(LineLoginChannelConfig config, string code, out string lineUserId, out int resultCode)
+        private bool GetLineUserId(LineLoginChannelConfig config, string code, out string lineUserId, out LineLoginErrorCode resultCode)
         {
 
             resultCode = 0;
@@ -278,15 +289,15 @@ namespace MemberSite.Service.BLL
 
                 nvc.Add("grant_type", "authorization_code");
                 nvc.Add("code", code);
-                nvc.Add("redirect_uri", config.RedirectUri);
+                nvc.Add("redirect_uri", HttpUtility.UrlEncode(config.RedirectUri));
                 nvc.Add("client_id", config.ChannelId);
                 nvc.Add("client_secret", config.ChannelSecret);
                 string tokenResponseStr = Encoding.UTF8.GetString(wc.UploadValues(ApiUrl_Token, "POST", nvc));
 
                 if (string.IsNullOrWhiteSpace(tokenResponseStr))
                 {
-                    resultCode = 2001;
-                    _logger.LogError($"GetLineUserId Fail：userId not found.");
+                    resultCode = LineLoginErrorCode.LineTokenInvaild;
+                    _logger.LogError($"GetLineUserId Fail：token not found.");
                     return false;
                 }
 
@@ -301,7 +312,7 @@ namespace MemberSite.Service.BLL
 
                 if (string.IsNullOrWhiteSpace(userProfileResponseStr))
                 {
-                    resultCode = 2002;
+                    resultCode = LineLoginErrorCode.LineUserProfileInvaild;
                     _logger.LogError($"GetLineUserId Fail：UserProfile is null.");
                     return false;
                 }
@@ -310,7 +321,7 @@ namespace MemberSite.Service.BLL
 
                 if (string.IsNullOrWhiteSpace(ProfileObj.userId))
                 {
-                    resultCode = 2003;
+                    resultCode = LineLoginErrorCode.LineUserIdNotFound;
                     _logger.LogError($"GetLineUserId Fail：userId not found.");
                     return false;
                 }
@@ -321,7 +332,7 @@ namespace MemberSite.Service.BLL
             }
             catch (Exception ex)
             {
-                resultCode = 2009;
+                resultCode = LineLoginErrorCode.LineGetUserIdException;
                 _logger.LogError($"GetLineUserId Fail：Exception happen.message={ex.Message}.");
                 return false;
             }
