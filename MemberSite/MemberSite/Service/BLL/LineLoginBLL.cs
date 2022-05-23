@@ -285,6 +285,8 @@ namespace MemberSite.Service.BLL
                 string result = string.Empty;
                 NameValueCollection nvc = new NameValueCollection();
 
+                _logger.LogInformation($"Config={JsonConvert.SerializeObject(config)}");
+
                 #region OAuth (Get Access Token)
 
                 nvc.Add("grant_type", "authorization_code");
