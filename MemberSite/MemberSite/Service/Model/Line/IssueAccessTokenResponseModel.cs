@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MemberSite.Service.Model.enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,7 +41,7 @@ namespace MemberSite.Service.Model.Line
     public class CallBackReponseModel
     {
         public FlowType Type { get; set; }
-        public int ErrorCode { get; set; }
+        public LineLoginErrorCode ErrorCode { get; set; }
         public string Message { get; set; }
         public int CustId { get; set; }
         public string UserId { get; set; }
