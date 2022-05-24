@@ -354,9 +354,11 @@
         TokenExpired = 1007,
 
         IssueLineTokenFail = 2001,
-        LineTokenInvaild = 2002,
-        LineUserProfileInvaild = 2003,
-        LineUserIdNotFound = 2004,
+        GetLineTokenFail = 2002,
+        LineTokenInvaild = 2003,
+        GetLineUserProfileFail = 2004,
+        LineUserProfileInvaild = 2005,
+        LineUserIdNotFound = 2006,
         LineGetUserIdException = 2009,
 
         RegisterAuthInvaild = 3001,
