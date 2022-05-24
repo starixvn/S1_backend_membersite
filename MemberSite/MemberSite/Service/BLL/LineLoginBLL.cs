@@ -303,6 +303,7 @@ namespace MemberSite.Service.BLL
                 }
                 catch (WebException ex)
                 {
+                    resultCode = LineLoginErrorCode.GetLineTokenFail;
                     using (HttpWebResponse hr = (HttpWebResponse)ex.Response)
                     {
                         int statusCode = (int)hr.StatusCode;
@@ -337,6 +338,7 @@ namespace MemberSite.Service.BLL
                 }
                 catch (WebException ex)
                 {
+                    resultCode = LineLoginErrorCode.GetLineUserProfileFail;
                     using (HttpWebResponse hr = (HttpWebResponse)ex.Response)
                     {
                         int statusCode = (int)hr.StatusCode;
