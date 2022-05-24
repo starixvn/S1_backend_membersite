@@ -66,15 +66,14 @@ namespace MemberSite.Service.DAL
             return result;
         }
 
-        public async Task<IEnumerable<SocialChannelResponse>> GetSocialChannel(SocialChannelRequest request)
+        public async Task<IEnumerable<SocialChannel>> GetSocialChannel(SocialChannelRequest request)
         {
             var p = new DynamicParameters();
             p.Add("_SiteId", request.SiteId);
             p.Add("_CurrencyId", request.CurrencyId);
             p.Add("_LangId", request.LangId);
             p.Add("DisplayPage", request.DisplayPage);
-            p.Add("Device", request.Device);
-            return await _reportDbClient.QueryAsync<SocialChannelResponse>("Member_SocialChannel_Get_V2", p);
+            return await _reportDbClient.QueryAsync<SocialChannel>("Member_SocialChannel_Get", p);
         }
     }
 
