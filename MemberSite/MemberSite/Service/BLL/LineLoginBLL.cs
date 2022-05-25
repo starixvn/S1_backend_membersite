@@ -112,11 +112,9 @@ namespace MemberSite.Service.BLL
 
             try
             {
-                var encryptUserId = _tools.MD5Encrypt(lineUserId);
-
                 var authData = _authorizeBll.GetAuthData();
 
-                var custLineProfile = GetCustLinePrfile(0, encryptUserId);
+                var custLineProfile = GetCustLinePrfile(0, lineUserId);
 
                 switch (lineIssueToken.FlowType)
                 {
@@ -135,7 +133,7 @@ namespace MemberSite.Service.BLL
                                 _logger.LogError("Register Flow Error: This is Register Token But custLineProfile is not null.");
                                 return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
                             }
-                            return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode, UserId = encryptUserId };
+                            return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode, UserId = lineUserId };
                         }
                     case FlowType.Login:
                         {
@@ -162,7 +160,7 @@ namespace MemberSite.Service.BLL
                                 _logger.LogError("Binding Flow Error: This is Binding Token But custLineProfile already exist.");
                                 return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
                             }
-                            if (!InsertCustLineProfile(authData.CustId, encryptUserId, out resultCode))
+                            if (!InsertCustLineProfile(authData.CustId, lineUserId, out resultCode))
                             {
                                 return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
                             }
