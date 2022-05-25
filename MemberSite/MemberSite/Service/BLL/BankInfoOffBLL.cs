@@ -46,7 +46,7 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        public IEnumerable<SysBankInfoFront> GetBankInfoOffList(int custId, int queryType = 0)
+        public IEnumerable<OfflineBankInfoFront> GetBankInfoOffList(int custId, int queryType = 0)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
@@ -60,10 +60,11 @@ namespace MemberSite.Service.BLL
             var depositLimitInfo = depositLimitInfoList.FirstOrDefault(x =>
                 x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank &&
                 x.CurrencyId == custInfo.CurrencyId);
-
+            var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
+            
             if (depositLimitInfo?.DepositStatus == 0)
             {
-                return new SysBankInfoFront[] { };
+                return new OfflineBankInfoFront[] { };
             }
 
             if (depositLimitInfo != null && localBankList.Any())
@@ -102,7 +103,10 @@ namespace MemberSite.Service.BLL
                 _info[i].MaxAmount = _info1.MaxAmount;
             }
 
-            return _info;
+            var result =
+                _info.Select(x => new OfflineBankInfoFront(x, !custDepositSysIds.Contains(x.SysId)));
+            
+            return result;
         }
 
         public IEnumerable<OfflineBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang, int queryType = 0)
