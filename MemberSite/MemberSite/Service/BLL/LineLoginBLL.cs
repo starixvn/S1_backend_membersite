@@ -137,6 +137,7 @@ namespace MemberSite.Service.BLL
                         }
                     case FlowType.Login:
                         {
+                            _logger.LogInformation("This is Login Flow.");
                             if (custLineProfile == null)
                             {
                                 resultCode = LineLoginErrorCode.LoginLineProfileInvaild;
