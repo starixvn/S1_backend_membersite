@@ -148,7 +148,7 @@ namespace MemberSite.Service.BLL
                         }
                     case FlowType.Binding:
                         {
-                            _logger.LogInformation("This is Binding Flow.");
+                            _logger.LogInformation($"This is Binding Flow. authData={JsonConvert.SerializeObject(authData)}");
                             if (authData == null || authData.CustId == 0)
                             {
                                 resultCode = LineLoginErrorCode.BindingAuthInvaild;
