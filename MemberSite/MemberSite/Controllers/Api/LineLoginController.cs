@@ -164,33 +164,28 @@ namespace MemberSite.Controllers.Api
                 request.LineLoginResponse.error_description,
                 request.LineLoginResponse.errorMessage);
 
-            if (result.ErrorCode != 0) //Fail
+            if (result.ErrorCode != LineLoginErrorCode.Success)
             {
-                switch (result.Type)
+                var data = new { Type = result.Type, UserId = result.UserId };
+                string meesage = string.Empty;
+
+                switch (result.ErrorCode)
                 {
-                    case FlowType.Register:
-                        return new ApiResult<dynamic>(_selLangBll)
-                        {
-                            Data = new { Type = result.Type, UserId = result.UserId },
-                            ErrorCode = (int)result.ErrorCode,
-                            Message = _selLangBll.GetMsg("msg_ApiServerError")
-                        };
-                    case FlowType.Binding:
-                    case FlowType.Login:
-                        return new ApiResult<dynamic>(_selLangBll)
-                        {
-                            Data = new { Type = result.Type },
-                            ErrorCode = (int)result.ErrorCode,
-                            Message = _selLangBll.GetMsg("msg_ApiServerError")
-                        };
+                    case LineLoginErrorCode.RegisterLineProfileInvaild:
+                    case LineLoginErrorCode.BindingLineProfileInvaild:
+                        meesage = _selLangBll.GetMsg("msg_LineAccountAlreadyBind");
+                        break;
                     default:
-                        return new ApiResult<dynamic>(_selLangBll)
-                        {
-                            Data = new { Type = result.Type },
-                            ErrorCode = (int)result.ErrorCode,
-                            Message = _selLangBll.GetMsg("msg_ApiServerError")
-                        };
+                        meesage = _selLangBll.GetMsg("msg_ApiServerError");
+                        break;
                 }
+
+                return new ApiResult<dynamic>(_selLangBll)
+                {
+                    Data = data,
+                    ErrorCode = (int)result.ErrorCode,
+                    Message = meesage
+                };
             }
 
             switch (result.Type)
