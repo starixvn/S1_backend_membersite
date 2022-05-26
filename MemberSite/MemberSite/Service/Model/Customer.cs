@@ -150,6 +150,7 @@ namespace MemberSite.Service.Model
         public string TpName { set; get; }
         public string displayKey { get; set; }
         public string Description { set; get; }
+        public int WalletMode { set; get; } //0.Semless Wallet 1.Restore All 2.Manual
     }
     public class TpWalletData
     {

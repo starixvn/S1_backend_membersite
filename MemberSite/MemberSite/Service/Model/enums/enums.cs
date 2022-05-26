@@ -291,10 +291,13 @@
     public enum CurrencyId
     {
         MYR = 2,
+        USD = 3,
         THB = 4,
+        CNY = 13,
         IDR = 15,
         VND = 51,
         INR = 61,
+        BDT = 74,
         USDT = 96
     }
     public enum DeviceId
@@ -322,5 +325,18 @@
     {
         http = 1,
         https = 2
+    }
+
+    public enum TransferAction
+    {
+        Unknow = 0,
+        Manual = 1,
+        RestoreAll = 2
+    }
+    public enum WalletMode
+    {
+        Seamless = 0,
+        Restore = 1,
+        Manual = 2,
     }
 }
