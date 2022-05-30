@@ -92,7 +92,7 @@ namespace MemberSite.Controllers.Api
             var ip = _tools.GetClientIP();
             var fromUrl = _tools.GetFromUrl();
             var deviceType = (int)_tools.GetDeviceId(fromUrl);
-            var userLoginResult = _custInfoBll.UserLogin(false, 0,loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
+            var userLoginResult = _custInfoBll.UserLogin(false, 0, loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             switch (userLoginResult)
@@ -180,7 +180,7 @@ namespace MemberSite.Controllers.Api
             var ip = _tools.GetClientIP();
             var fromUrl = _tools.GetFromUrl();
             var deviceType = (int)_tools.GetDeviceId(fromUrl);
-            var userLoginResult = _custInfoBll.UserLogin(false,0, loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
+            var userLoginResult = _custInfoBll.UserLogin(false, 0, loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             switch (userLoginResult)
@@ -345,7 +345,7 @@ namespace MemberSite.Controllers.Api
                 Customer customer = null;
                 var fromUrl = _tools.GetFromUrl();
                 var deviceType = (int)_tools.GetDeviceId(fromUrl);
-                var userLoginResult = _custInfoBll.UserLogin(false, 0,registeredModel.UserName, registeredModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out string token);
+                var userLoginResult = _custInfoBll.UserLogin(false, 0, registeredModel.UserName, registeredModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out string token);
 
                 if (userLoginResult == -1)
                 {
@@ -515,6 +515,10 @@ namespace MemberSite.Controllers.Api
                     apiResult.ErrorCode = result;
                     apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
                     break;
+                case 3002:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_LineAccountAlreadyBind");
+                    break;
                 default:
                     {
                         if (custId == 0)
@@ -544,7 +548,7 @@ namespace MemberSite.Controllers.Api
                             Customer customer = null;
                             var fromUrl = _tools.GetFromUrl();
                             var deviceType = (int)_tools.GetDeviceId(fromUrl);
-                            var userLoginResult = _custInfoBll.UserLogin(false,0, signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out var token);
+                            var userLoginResult = _custInfoBll.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
                             switch (userLoginResult)
                             {
@@ -704,6 +708,10 @@ namespace MemberSite.Controllers.Api
                     apiResult.ErrorCode = result;
                     apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
                     break;
+                case 3002:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_LineAccountAlreadyBind");
+                    break;
                 default:
                     {
                         if (custId == 0)
@@ -733,7 +741,7 @@ namespace MemberSite.Controllers.Api
                             Customer customer = null;
                             var fromUrl = _tools.GetFromUrl();
                             var deviceType = (int)_tools.GetDeviceId(fromUrl);
-                            var userLoginResult = _custInfoBll.UserLogin(false,0, signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out var token);
+                            var userLoginResult = _custInfoBll.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
                             switch (userLoginResult)
                             {
