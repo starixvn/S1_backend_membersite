@@ -132,7 +132,7 @@ namespace MemberSite.Service.DAL
             {
                 if(GetCustLineProfile(0, lineUserId) != null)
                 {
-                    result = 3002;
+                    result = -3002;
                 }
                 else
                 {
