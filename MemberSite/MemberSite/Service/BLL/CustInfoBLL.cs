@@ -581,8 +581,10 @@ namespace MemberSite.Service.BLL
 
         private ReferralContent DeserializeReferralContent(string details, string langId)
         {
+            var oldLang = langId.Split('_');
+            var lang = oldLang.Length == 2 ? oldLang[1] : oldLang[0];
             var referralContents = JsonConvert.DeserializeObject<IEnumerable<ReferralContent>>(details);
-            return referralContents?.FirstOrDefault(a => a.LangId == langId);
+            return referralContents?.FirstOrDefault(a => a.LangId == lang);
         }
 
         public int GetAffiliateAgentBll(string affId)
