@@ -284,8 +284,6 @@ namespace MemberSite.Service.BLL
                 string result = string.Empty;
                 NameValueCollection nvc = new NameValueCollection();
 
-                _logger.LogInformation($"Config={JsonConvert.SerializeObject(config)}");
-
                 #region OAuth (Get Access Token)
 
                 nvc.Add("grant_type", "authorization_code");
@@ -299,6 +297,8 @@ namespace MemberSite.Service.BLL
                 try
                 {
                     tokenResponseStr = Encoding.UTF8.GetString(wc.UploadValues(ApiUrl_Token, "POST", nvc));
+                    _logger.LogInformation($"AccessLineToken Success:{tokenResponseStr}");
+
                 }
                 catch (WebException ex)
                 {
@@ -334,6 +334,7 @@ namespace MemberSite.Service.BLL
                 try
                 {
                     userProfileResponseStr = wc.DownloadString(ApiUrl_Profile);
+                    _logger.LogInformation($"AccessLineToken Success:{userProfileResponseStr}");
                 }
                 catch (WebException ex)
                 {
