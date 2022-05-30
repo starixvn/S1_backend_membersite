@@ -96,7 +96,6 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> LineLoginDirectAsync(LineLoginModel request)
         {
             #region API Example & Description
-            //local run 之後，要在brower 上輸入：http://localhost:5000/api/LineLogin/LineLoginDirect/en?type=1
 
             //Reference=https://developers.line.biz/zh-hant/docs/line-login/integrate-line-login/#making-an-authorization-request
             //Example=https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1234567890&redirect_uri=https%3A%2F%2Fexample.com%2Fauth&state=12345abcde&scope=profile%20openid&nonce=09876xyz
@@ -129,8 +128,6 @@ namespace MemberSite.Controllers.Api
                 return new ApiResult(_selLangBll) { ErrorCode = errorCode, Message = _selLangBll.GetMsg("msg_ApiServerError") };
             }
 
-            _logger.LogInformation($"Config={JsonConvert.SerializeObject(config)}");
-
             string LineLoginUrl = string.Format("https://access.line.me/oauth2/v2.1/authorize?" +
                 "response_type={0}"
                 + "&client_id={1}"
@@ -146,13 +143,13 @@ namespace MemberSite.Controllers.Api
             return new ApiResult<string>() { Data = LineLoginUrl, ErrorCode = errorCode };
         }
 
-        [HttpGet]
-        [Route("callback")]
-        public async Task<ApiResult> callbackAsync(string code, string state, string error, string error_description)
-        {
-            //原本的邏輯移至LineCallbackAsync
-            return null;
-        }
+        //[HttpGet]
+        //[Route("callback")]
+        //public async Task<ApiResult> callbackAsync(string code, string state, string error, string error_description)
+        //{
+        //    //原本的邏輯移至LineCallbackAsync
+        //    return null;
+        //}
 
         [HttpPost]
         public async Task<ApiResult> LineCallbackAsync(LineCallbackModel request)

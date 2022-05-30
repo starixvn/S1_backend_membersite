@@ -511,6 +511,10 @@ namespace MemberSite.Controllers.Api
                     apiResult.ErrorCode = result;
                     apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
                     break;
+                case 3002:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_LineAccountAlreadyBind");
+                    break;
                 default:
                     {
                         if (custId == 0)
@@ -695,6 +699,10 @@ namespace MemberSite.Controllers.Api
                 case -19:
                     apiResult.ErrorCode = result;
                     apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
+                    break;
+                case 3002:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_LineAccountAlreadyBind");
                     break;
                 default:
                     {
