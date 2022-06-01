@@ -31,7 +31,7 @@ namespace MemberSite.Service.BLL
 
         private string GetProtocolTypeName(DeepLinkType type, DeepLinkProtocolType protocolType)
         {
-            return type == DeepLinkType.IOS ? "itms-services" : Enum.GetName(typeof(DeepLinkProtocolType), protocolType);
+            return Enum.GetName(typeof(DeepLinkProtocolType), protocolType);
         }
     }
 }
