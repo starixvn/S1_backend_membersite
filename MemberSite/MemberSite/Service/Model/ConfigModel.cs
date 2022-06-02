@@ -32,8 +32,6 @@
 
         public string ChannelSecret { get; set; }
 
-        public string RedirectUri { get; set; }
-
         public int ExpiredSeconds { get; set; }
     }
 }

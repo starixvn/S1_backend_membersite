@@ -51,12 +51,6 @@ namespace MemberSite.Controllers.Api
         public class LineLoginModel
         {
             public FlowType type { get; set; }
-            public bool isPersistent { get; set; }
-            public string url { get; set; }
-            public string platform { get; set; }
-            public string userAgent { get; set; }
-            public string screen { get; set; }
-            public string di { get; set; }
         }
 
         public class LineResponseModel
@@ -120,13 +114,14 @@ namespace MemberSite.Controllers.Api
             #endregion
 
             var config = _lineLoginChannelConfig.Value;
-            var lang = _selLangBll.GetLangId();
             int errorCode = 0;
 
             if (!_lineLoginBll.IssueLineToken(request.type, out errorCode, out string token))
             {
                 return new ApiResult(_selLangBll) { ErrorCode = errorCode, Message = _selLangBll.GetMsg("msg_ApiServerError") };
             }
+            var fromUrl = _tools.GetFromUrl();
+            string domainUrl = $"{Request.Scheme}://{fromUrl}/callback";
 
             string LineLoginUrl = string.Format("https://access.line.me/oauth2/v2.1/authorize?" +
                 "response_type={0}"
@@ -136,7 +131,7 @@ namespace MemberSite.Controllers.Api
                 + "&scope=profile%20openid",
                 "code",
                 config.ChannelId,
-                HttpUtility.UrlEncode(config.RedirectUri),
+                HttpUtility.UrlEncode(domainUrl),
                 token
             );
 
@@ -154,12 +149,16 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> LineCallbackAsync(LineCallbackModel request)
         {
+            var fromUrl = _tools.GetFromUrl();
+            string domainUrl = $"{Request.Scheme}://{fromUrl}/callback";
+
             var result = await _lineLoginBll.LineLoginCallBack(request.LineLoginResponse.code,
                 request.LineLoginResponse.state,
                 request.LineLoginResponse.error,
                 request.LineLoginResponse.errorCode,
                 request.LineLoginResponse.error_description,
-                request.LineLoginResponse.errorMessage);
+                request.LineLoginResponse.errorMessage,
+                domainUrl);
 
             if (result.ErrorCode != LineLoginErrorCode.Success)
             {
