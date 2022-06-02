@@ -121,6 +121,7 @@ namespace MemberSite.Controllers.Api
                 return new ApiResult(_selLangBll) { ErrorCode = errorCode, Message = _selLangBll.GetMsg("msg_ApiServerError") };
             }
             var fromUrl = _tools.GetFromUrl();
+            _logger.LogInformation($"fromUrl:{fromUrl}");
             string domainUrl = $"{Request.Scheme}://{fromUrl}/callback";
 
             string LineLoginUrl = string.Format("https://access.line.me/oauth2/v2.1/authorize?" +
@@ -150,6 +151,7 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> LineCallbackAsync(LineCallbackModel request)
         {
             var fromUrl = _tools.GetFromUrl();
+            _logger.LogInformation($"fromUrl:{fromUrl}");
             string domainUrl = $"{Request.Scheme}://{fromUrl}/callback";
 
             var result = await _lineLoginBll.LineLoginCallBack(request.LineLoginResponse.code,
