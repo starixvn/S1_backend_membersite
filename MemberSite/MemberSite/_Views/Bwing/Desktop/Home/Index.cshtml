@@ -56,20 +56,9 @@
     var BannerList = bannerBLL.GetBanner(CurrencyId, "Promotion");
     var langId = selLangBLL.GetLangId();
     var banner_CurrencyId = !User.Identity.IsAuthenticated && CurrencyId == 13 ? 2 : CurrencyId;
-    var bannerFromDB = bannerBLL.GetBannerFromDB(banner_CurrencyId, langId);
 }
 <!-- Slider -->
     <div class="home-slider">
-        @foreach (var b in bannerFromDB)
-        {
-            <div class="slide-item">
-                <a href='@Url.Content($"~/{langId}/{b.actionLink}")'>
-                    <img src="@b.imgURL" asp-append-version="true" />
-                    <div class="slide-inside container"></div>
-                </a>
-            </div>
-        }
-
         @foreach (var b in BannerList)
         {
             if (b.hideInHome) continue;

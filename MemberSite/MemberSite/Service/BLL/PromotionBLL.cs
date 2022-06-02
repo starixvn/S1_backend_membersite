@@ -19,11 +19,6 @@ namespace MemberSite.Service.BLL
             _tools = provider.GetRequiredService<Tools>();
         }
 
-        public IEnumerable<Promotion> GetPromotionList(int siteId)
-        {
-            return _promotionService.GetPromotionList(siteId);
-        }
-        
         public async Task<ApiResult> SetClaimPromotionV2Async(int custId, string bonusCode, decimal? dLockedAmount, int? deviceType)
         {
             var result = await _promotionService.SetClaimPromotionV2Async(custId, bonusCode, dLockedAmount, deviceType);
