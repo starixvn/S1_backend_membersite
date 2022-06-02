@@ -56,7 +56,6 @@
     }
 
     var banner_CurrencyId = !User.Identity.IsAuthenticated && CurrencyId == 13 ? 2 : CurrencyId;
-    var bannerFromDB = bannerBLL.GetBannerFromDB(banner_CurrencyId, langId);
 }
 
 
@@ -64,16 +63,6 @@
 <div class="system-content">
     <div class="page-title">@selLangBLL.GetResourceValue("lbl_PromotionsList")</div>
     <div id="content">
-
-        @foreach (var b in bannerFromDB)
-        {
-            <div class="promotions-module">
-                <a href='@b.actionLink'>
-                    <img src="@b.imgURL" asp-append-version="true" />
-                </a>
-            </div>
-        }
-
         @foreach (var b in BannerList)
         {
             if (!b.isBonus) continue;

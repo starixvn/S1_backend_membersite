@@ -33,17 +33,6 @@ namespace MemberSite.Service.DAL
             _tools = serviceProvider.GetRequiredService<Tools>();
         }
 
-        public IEnumerable<Promotion> GetPromotionList(int siteId)
-        {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<Promotion>("Member_PromotionList_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
-        }
-        public IEnumerable<Promotion> GetPromotionListByCustId(int siteId, int custId, int currencyId)
-        {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<Promotion>("Member_PromotionListByCustId_Get", new { SiteId = siteId, CustId = custId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
-        }
-
         public List<CustPromotion> GetPromotionListv3(int SiteId, int CustId, int CurrencyId, int DeviceType, bool IsLogin, string langId, string defLang)
         {
             var promotionList = _reportDbClient.Query<CustPromotion>("Member_PromotionList_Get_V6", new DynamicParameters(new {CustId, SiteId, CurrencyId, DeviceType}));
