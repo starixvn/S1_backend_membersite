@@ -87,7 +87,7 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        public async Task<CallBackReponseModel> LineLoginCallBack(string code, string state, string error, int errorCode, string error_description, string errorMessage)
+        public async Task<CallBackReponseModel> LineLoginCallBack(string code, string state, string error, int errorCode, string error_description, string errorMessage,string domainUrl)
         {
             var lineUserId = string.Empty;
             var config = _lineLoginChannelConfig.Value;
@@ -105,7 +105,7 @@ namespace MemberSite.Service.BLL
                 return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
             }
 
-            if (!GetLineUserId(config, code, out lineUserId, out resultCode))
+            if (!GetLineUserId(config, code,domainUrl, out lineUserId, out resultCode))
             {
                 return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
             }
@@ -269,7 +269,7 @@ namespace MemberSite.Service.BLL
             return true;
         }
 
-        private bool GetLineUserId(LineLoginChannelConfig config, string code, out string lineUserId, out LineLoginErrorCode resultCode)
+        private bool GetLineUserId(LineLoginChannelConfig config, string code,string domainUrl, out string lineUserId, out LineLoginErrorCode resultCode)
         {
 
             resultCode = 0;
@@ -288,7 +288,8 @@ namespace MemberSite.Service.BLL
 
                 nvc.Add("grant_type", "authorization_code");
                 nvc.Add("code", code);
-                nvc.Add("redirect_uri", config.RedirectUri);
+                //nvc.Add("redirect_uri", config.RedirectUri);
+                nvc.Add("redirect_uri", domainUrl);
                 nvc.Add("client_id", config.ChannelId);
                 nvc.Add("client_secret", config.ChannelSecret);
 
