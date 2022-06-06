@@ -27,24 +27,6 @@ namespace MemberSite.Service.DAL
             _selLangBll = serviceProvider.GetRequiredService<SelLangBLL>();
         }
 
-        public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode, int DeviceType)
-        {
-            var promo = _reportDbClient.QueryFirst<CustPromotion>("Member_PromotionV3_Get", new DynamicParameters(new { CustId, SiteId, CurrencyId, BonusCode, DeviceType }));
-
-            if (promo != null)
-            {
-                SetPromotionDetail(langId, defLang, false, promo);
-
-                if (IsLogin)
-                {
-                    var canJoinParams = GetPromotionCanJoin(SiteId, CustId, CurrencyId, DeviceType, promo);
-                    SetPromotion(SiteId, CustId, CurrencyId, true, promo, canJoinParams);
-                }
-            }
-
-            return promo;
-        }
-
         private static DateTime StartOfWeek(DateTime dateTime, DayOfWeek startOfWeek)
         {
             var diff = (7 + (dateTime.DayOfWeek - startOfWeek)) % 7;
