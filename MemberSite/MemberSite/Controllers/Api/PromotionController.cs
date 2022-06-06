@@ -61,6 +61,21 @@ namespace MemberSite.Controllers.Api
             public string LangId { set; get; }
             public string DefLang { set; get; }
         }
+        
+        public class PromotionDetailRequest : CustPromotionRequest
+        {
+            public string BonusCode { set; get; }
+        }
+        
+        public class PromotionDeviceReq
+        {
+            public int DeviceType { set; get; }
+        }
+
+        public class PromotionDetailReq : PromotionDeviceReq
+        {
+            public string BonusCode { set; get; }
+        }
 
         [Authorize]
         [HttpPost]
@@ -98,11 +113,6 @@ namespace MemberSite.Controllers.Api
             }
 
             return apiResult;
-        }
-
-        public class PromotionDeviceReq
-        {
-            public int DeviceType { set; get; }
         }
         
         [HttpPost]
@@ -150,34 +160,46 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<CustPromotion> GetPromotionDetail(CustPromotion data)
+        public ApiResult<CustPromotion> GetPromotionDetail(PromotionDetailReq data)
         {
             var result = new ApiResult<CustPromotion>();
-
-            var serverInfo = _serverInfoBLL.GetServerInfo();
-            var isLogin = User.Identity.IsAuthenticated;
-            var custId = 0;
-            int currencyId;
-            int? deviceType = 1;
-            if (isLogin)
+            try
             {
-                var authData = _authorizeBLL.GetAuthData();
-                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                custId = authData.CustId;
-                currencyId = custInfo.CurrencyId;
-            }
-            else
-            {
-                currencyId = _selLangBLL.GetPreferCurrencyId();
-            }
+                var serverInfo = _serverInfoBLL.GetServerInfo();
+                var isLogin = User.Identity.IsAuthenticated;
+                var custId = 0;
+                int currencyId;
+                if (isLogin)
+                {
+                    var authData = _authorizeBLL.GetAuthData();
+                    var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                    custId = authData.CustId;
+                    currencyId = custInfo.CurrencyId;
+                }
+                else
+                {
+                    currencyId = _selLangBLL.GetPreferCurrencyId();
+                }
 
-            if (data.DeviceType != null)
-            {
-                deviceType = data.DeviceType;
-            }
+                var apiUrl = $"{_bonusServiceUrl}GetPromotionDetail";
+                var req = new PromotionDetailRequest
+                {
+                    SiteId = serverInfo.SiteId,
+                    CustId = custId,
+                    CurrencyId = currencyId,
+                    DeviceType = data.DeviceType,
+                    IsLogin = isLogin,
+                    LangId = _selLangBLL.GetLangId(),
+                    DefLang = serverInfo.DefLang,
+                    BonusCode = data.BonusCode
+                };
 
-            result.Data = _promotionBLL.GetPromotionDetail(serverInfo.SiteId, custId, currencyId, isLogin, _selLangBLL.GetLangId(), serverInfo.DefLang, data.BonusCode, Convert.ToInt32(deviceType));
-            result.ErrorCode = 0;
+                result = _courierAdapter.MyPostAsync<CustPromotion, PromotionDetailRequest>(apiUrl, req).Result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+            }
 
             return result;
         }
