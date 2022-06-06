@@ -17,9 +17,6 @@ namespace MemberSite.Service.DAL
         private readonly MySqlClient _reportDbClient;
         private readonly WalletService _walletService;
         private readonly SelLangBLL _selLangBll;
-        private readonly CourierAdapter _courierAdapter;
-        private readonly string _bonusServiceUrl;
-        private readonly Tools _tools;
 
         public PromotionService(IServiceProvider serviceProvider)
         {
@@ -28,32 +25,8 @@ namespace MemberSite.Service.DAL
             _reportDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
             _walletService = serviceProvider.GetRequiredService<WalletService>();
             _selLangBll = serviceProvider.GetRequiredService<SelLangBLL>();
-            _courierAdapter = serviceProvider.GetRequiredService<CourierAdapter>();
-            _bonusServiceUrl = serviceProvider.GetRequiredService<IConfiguration>().GetValue<string>("BonusService");
-            _tools = serviceProvider.GetRequiredService<Tools>();
         }
 
-        public List<CustPromotion> GetPromotionListv3(int SiteId, int CustId, int CurrencyId, int DeviceType, bool IsLogin, string langId, string defLang)
-        {
-            var promotionList = _reportDbClient.Query<CustPromotion>("Member_PromotionList_Get_V6", new DynamicParameters(new {CustId, SiteId, CurrencyId, DeviceType}));
-            var promotion = new List<CustPromotion>();
-
-            foreach (var promo in promotionList)
-            {
-                if (IsLogin)
-                {
-                    var canJoinParams = GetPromotionCanJoin(SiteId, CustId, CurrencyId, DeviceType, promo);
-                    SetPromotion(SiteId, CustId, CurrencyId, false, promo, canJoinParams);
-                }
-
-                SetPromotionDetail(langId, defLang, true, promo);
-
-                promotion.Add(promo);
-            }
-
-            return promotion;
-        }
-        
         public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode, int DeviceType)
         {
             var promo = _reportDbClient.QueryFirst<CustPromotion>("Member_PromotionV3_Get", new DynamicParameters(new { CustId, SiteId, CurrencyId, BonusCode, DeviceType }));
@@ -381,32 +354,6 @@ namespace MemberSite.Service.DAL
         public BonusinfoByBonusCode GetBonusinfoByBonusCode(int CustId, string BonusCode)
         {
             return _reportDbClient.QueryFirst<BonusinfoByBonusCode>("Member_BonusinfoByBonusCode_Get", new DynamicParameters(new { CustId = CustId, BonusCode = BonusCode }));
-        }
-        public class PromotionReq
-        {
-            public string BonusCode { set; get; }
-            public int CustId { set; get; }
-            public string custIP { set; get; }
-            public decimal? LockedAmount { set; get; }
-            public int? DeviceType { set; get; }
-        }
-        public async Task<ApiResult> SetClaimPromotionV2Async(int custId, string bonusCode, decimal? dLockedAmount, int? deviceType)
-        {
-            var apiUrl = $"{_bonusServiceUrl}SetClaimPromotion";
-
-            var req = new PromotionReq
-            {
-                BonusCode = bonusCode,
-                CustId = custId,
-                custIP = _tools.GetClientIP(),
-                LockedAmount = dLockedAmount,
-                DeviceType = deviceType
-            };
-
-            var result = await _courierAdapter.MyPostAsync<ApiResult, PromotionReq>(apiUrl, req);
-
-            return result;
-
         }
     }
 }
