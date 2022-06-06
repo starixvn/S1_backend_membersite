@@ -120,9 +120,10 @@ namespace MemberSite.Controllers.Api
             {
                 return new ApiResult(_selLangBll) { ErrorCode = errorCode, Message = _selLangBll.GetMsg("msg_ApiServerError") };
             }
-            var fromUrl = _tools.GetDomainUrl();
-            _logger.LogInformation($"fromUrl:{fromUrl}");
-            string domainUrl = $"{Request.Scheme}://{fromUrl}/callback";
+
+            var domainUrl = _tools.GetDomainUrl();
+            _logger.LogInformation($"fromUrl:{domainUrl}");
+            string redirectUri = $"{Request.Scheme}://{domainUrl}/callback";
 
             string LineLoginUrl = string.Format("https://access.line.me/oauth2/v2.1/authorize?" +
                 "response_type={0}"
@@ -132,27 +133,19 @@ namespace MemberSite.Controllers.Api
                 + "&scope=profile%20openid",
                 "code",
                 config.ChannelId,
-                HttpUtility.UrlEncode(domainUrl),
+                HttpUtility.UrlEncode(redirectUri),
                 token
             );
 
             return new ApiResult<string>() { Data = LineLoginUrl, ErrorCode = errorCode };
         }
 
-        //[HttpGet]
-        //[Route("callback")]
-        //public async Task<ApiResult> callbackAsync(string code, string state, string error, string error_description)
-        //{
-        //    //原本的邏輯移至LineCallbackAsync
-        //    return null;
-        //}
-
         [HttpPost]
         public async Task<ApiResult> LineCallbackAsync(LineCallbackModel request)
         {
-            var fromUrl = _tools.GetDomainUrl();
-            _logger.LogInformation($"fromUrl:{fromUrl}");
-            string domainUrl = $"{Request.Scheme}://{fromUrl}/callback";
+            var domainUrl = _tools.GetDomainUrl();
+            _logger.LogInformation($"fromUrl:{domainUrl}");
+            string redirectUri = $"{Request.Scheme}://{domainUrl}/callback";
 
             var result = await _lineLoginBll.LineLoginCallBack(request.LineLoginResponse.code,
                 request.LineLoginResponse.state,
@@ -160,7 +153,7 @@ namespace MemberSite.Controllers.Api
                 request.LineLoginResponse.errorCode,
                 request.LineLoginResponse.error_description,
                 request.LineLoginResponse.errorMessage,
-                domainUrl);
+                redirectUri);
 
             if (result.ErrorCode != LineLoginErrorCode.Success)
             {
