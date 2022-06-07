@@ -208,15 +208,32 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<List<CustPromotion>> GetSpecialPromotionListV2(PromotionDeviceReq promotionDeviceReq)
         {
-            var serverInfo = _serverInfoBLL.GetServerInfo();
-            var authData = _authorizeBLL.GetAuthData();
-            var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
-
-            return new ApiResult<List<CustPromotion>>
+            var result = new ApiResult<List<CustPromotion>>();
+            try
             {
-                Data = _promotionBLL.GetSpecialPromotionListV2(serverInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, _selLangBLL.GetLangId(), serverInfo.DefLang, promotionDeviceReq.DeviceType),
-                ErrorCode = 0
-            };
+                var serverInfo = _serverInfoBLL.GetServerInfo();
+                var authData = _authorizeBLL.GetAuthData();
+                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+
+                var apiUrl = $"{_bonusServiceUrl}GetSpecialPromotionListV2";
+                var req = new CustPromotionRequest
+                {
+                    SiteId = serverInfo.SiteId,
+                    CustId = custInfo.CustId,
+                    CurrencyId = custInfo.CurrencyId,
+                    DeviceType = promotionDeviceReq.DeviceType,
+                    LangId = _selLangBLL.GetLangId(),
+                    DefLang = serverInfo.DefLang
+                };
+
+                result = _courierAdapter.MyPostAsync<List<CustPromotion>, CustPromotionRequest>(apiUrl, req).Result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+            }
+
+            return result;
         }
 
         public class SetSpecialCodeReq
