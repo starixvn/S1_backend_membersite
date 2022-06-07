@@ -18,11 +18,7 @@ namespace MemberSite.Service.BLL
             _bonusServiceUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("BonusService");
             _tools = provider.GetRequiredService<Tools>();
         }
-
-        public List<CustPromotion> GetSpecialPromotionListV2(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int deviceType)
-        {
-            return _promotionService.GetSpecialPromotionListV2(SiteId, CustId, CurrencyId, langId, defLang, deviceType);
-        }
+        
         public bool CheckSpecialCode(string specialCode)
         {
             return _promotionService.CheckSpecialCode(specialCode);
