@@ -36,10 +36,6 @@ namespace MemberSite.Service.BLL
             return _promotionService.SetSpecialCode(custId, specialCode, deviceType);
         }
 
-        public List<CustPromotion> GetDepositPromotionList(int CustId, int DeviceType, string langId, string defLang)
-        {
-            return _promotionService.GetDepositPromotionList(CustId, DeviceType, langId, defLang);
-        }
         public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, int siteId, string userName, int currencyId, int deviceType, decimal lockedAmount)
         {
             return _promotionService.SetDepositPromotionQueue(transId, bonusCode, custId, siteId, userName, currencyId, deviceType, lockedAmount, _tools.GetClientIP());

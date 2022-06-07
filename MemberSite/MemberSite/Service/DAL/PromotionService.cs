@@ -5,7 +5,6 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MySql.Data.MySqlClient;
-using Newtonsoft.Json;
 using MemberSite.Service.BLL;
 
 namespace MemberSite.Service.DAL
@@ -13,69 +12,14 @@ namespace MemberSite.Service.DAL
     public class PromotionService
     {
         private readonly IConfiguration _configuration;
-        private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
-        private readonly WalletService _walletService;
-        private readonly SelLangBLL _selLangBll;
 
         public PromotionService(IServiceProvider serviceProvider)
         {
             _configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            _mainDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
-            _walletService = serviceProvider.GetRequiredService<WalletService>();
-            _selLangBll = serviceProvider.GetRequiredService<SelLangBLL>();
         }
 
-        private void SetPromotionDetail(string langId, string defLang, bool clearDetails, CustPromotion promo)
-        {
-            if (!string.IsNullOrEmpty(promo.Details))
-            {
-                var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
-                Dictionary<string, string> settings = null;
-                if (details.ContainsKey(langId))
-                {
-                    settings = details[langId];
-                }
-                else if (details.ContainsKey(defLang))
-                {
-                    settings = details[defLang];
-                }
-                else
-                {
-                    foreach (var item in details)
-                    {
-                        settings = item.Value;
-                        break;
-                    }
-                }
-
-                if (clearDetails)
-                {
-                    promo.Details = null;
-                }
-
-                if (settings != null)
-                {
-                    settings.TryGetValue("title", out var title);
-                    settings.TryGetValue("bannerUrl", out var bannerUrl);
-                    settings.TryGetValue("description", out var description);
-                    settings.TryGetValue("promotionLink", out var promotionLink);
-
-                    promo.Title = title;
-                    promo.Banner = bannerUrl;
-                    promo.Description = description;
-                    promo.PromotionLink = promotionLink;
-
-                    if (!clearDetails)
-                    {
-                        settings.TryGetValue("detail", out var detail);
-                        promo.Details = detail;
-                    }
-                }
-            }
-        }
-        
         public bool SetSpecialCode(int custId, string specialCode, int? deviceType)
         {
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionString"));
@@ -92,24 +36,7 @@ namespace MemberSite.Service.DAL
             var Result = Params.Get<int>("Result");
             return Result;
         }
-
-        public List<CustPromotion> GetDepositPromotionList(int CustId, int DeviceType, string langId, string defLang)
-        {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            conn.Open();
-
-            var promotionList = conn.Query<CustPromotion>("Member_DepositPromotion_Get_V4", new { CustId, DeviceType }, commandType: CommandType.StoredProcedure);
-            var _promotion = new List<CustPromotion>();
-
-            foreach (var promo in promotionList)
-            { 
-                SetPromotionDetail(langId, defLang, true, promo);
-                _promotion.Add(promo);
-            }
-
-
-            return _promotion;
-        }
+        
         public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, int siteId, string userName, int currencyId, int deviceType, decimal lockedAmount, string custIp)
         {
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionString"));
