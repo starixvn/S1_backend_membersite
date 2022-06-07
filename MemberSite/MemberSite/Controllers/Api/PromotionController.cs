@@ -304,17 +304,31 @@ namespace MemberSite.Controllers.Api
         public ApiResult<List<CustPromotion>> GetDepositPromotionList(PromotionDeviceReq promotionDeviceReq)
         {
             var result = new ApiResult<List<CustPromotion>>();
+            try
+            {
+                var serverInfo = _serverInfoBLL.GetServerInfo();
+                var authData = _authorizeBLL.GetAuthData();
 
-            var serverInfo = _serverInfoBLL.GetServerInfo();
-            var authData = _authorizeBLL.GetAuthData();
-            var custId = authData.CustId;
-           
+                var apiUrl = $"{_bonusServiceUrl}GetDepositPromotionList";
+                var req = new CustPromotionRequest
+                {
+                    CustId = authData.CustId,
+                    DeviceType = promotionDeviceReq.DeviceType,
+                    LangId = _selLangBLL.GetLangId(),
+                    DefLang = serverInfo.DefLang
+                };
 
-            result.Data = _promotionBLL.GetDepositPromotionList( custId, promotionDeviceReq.DeviceType, _selLangBLL.GetLangId(), serverInfo.DefLang);
-            result.ErrorCode = 0;
+                result = _courierAdapter.MyPostAsync<List<CustPromotion>, CustPromotionRequest>(apiUrl, req).Result;
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+            }
 
             return result;
         }
+
         public class SetDepositPromotionQueueReq
         {
             public string TransId { set; get; }
