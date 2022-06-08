@@ -172,6 +172,7 @@ namespace MemberSite.Service.Model
         public decimal BonusAmount { get; set; }
         public decimal VaildBet { get; set; }
         public decimal Deposit { get; set; }
+        public bool Status { get; set; }
     }
 
     public class ReferralSettingDetailData
@@ -185,7 +186,6 @@ namespace MemberSite.Service.Model
         public decimal Deposit { get; set; }
         public int PeriodDays { get; set; }
         public string Details { get; set; }
-        public bool Status { get; set; }
     }
     
     public class ReferralSettingDetail
@@ -198,7 +198,6 @@ namespace MemberSite.Service.Model
         public decimal VaildBet { get; set; }
         public decimal Deposit { get; set; }
         public int PeriodDays { get; set; }
-        public bool Status { get; set; }
         public ReferralContent ReferralContent { get; set; }
     }
 

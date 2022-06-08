@@ -561,7 +561,6 @@ namespace MemberSite.Service.BLL
                 Deposit = referralData.Deposit,
                 VaildBet = referralData.VaildBet,
                 PeriodDays = referralData.PeriodDays,
-                Status = referralData.Status,
                 ReferralContent = DeserializeReferralContent(referralData.Details, langId)
             };
             return referralSettingDetail;
