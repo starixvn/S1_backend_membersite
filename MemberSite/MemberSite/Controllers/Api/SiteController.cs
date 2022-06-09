@@ -263,134 +263,6 @@ namespace MemberSite.Controllers.Api
             public string blackbox { get; set; }
         }
 
-        [HttpPost]
-        public async Task<ApiResult> RegisterAsync(RegisteredModel registeredModel)
-        {
-            var apiResult = new ApiResult(_selLangBll);
-            var serverInfo = _serverInfoBll.GetServerInfo();
-            if (User.Identity.IsAuthenticated)
-            {
-                apiResult.ErrorCode = 9000;
-                return apiResult;
-            }
-
-            var custId = 0;
-
-            if (!string.IsNullOrWhiteSpace(registeredModel.Email) && _custInfoBll.ExistsEmail(custId, registeredModel.Email))
-            {
-                apiResult.ErrorCode = -10;
-                apiResult.Message = $"{registeredModel.Email} {_selLangBll.GetMsg("msg_HasExist")}";
-                return apiResult;
-            }
-
-            var result = _custInfoBll.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd,
-                registeredModel.Email, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId,
-                registeredModel.AffId, registeredModel.Aff, registeredModel.AffCode, out custId, Request.Host.Host);
-            
-            switch (result)
-            {
-                case -1:
-                    apiResult.ErrorCode = result;
-                    apiResult.Message = _selLangBll.GetMsg("err_ThisCurrencyNotSupport");
-                    break;
-                case -2:
-                    apiResult.ErrorCode = result;
-                    apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
-                    break;
-                case -3:
-                    apiResult.ErrorCode = result;
-                    apiResult.Message = _selLangBll.GetMsg("msg_PasswordValidate");
-                    break;
-                case -4:
-                    apiResult.ErrorCode = result;
-                    apiResult.Message = "";
-                    break;
-                case -5:
-                    apiResult.ErrorCode = result;
-                    apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
-                    break;
-                case -19:
-                    apiResult.ErrorCode = result;
-                    apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
-                    break;
-                default:
-                {
-                    if (custId == 0)
-                    {
-                        apiResult.ErrorCode = result;
-                        apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
-                    }
-                    else if (result != 0)
-                    {
-                        apiResult.ErrorCode = result;
-                        apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
-                    }
-                    else
-                    {
-                        _ = Task.Run(async () =>
-                        {
-                            _commonBll.SendWelcomeMail(custId);
-
-                            if (registeredModel.blackbox != null)
-                            {
-                                var apiResultIovation = await _iovationBll.IovationChecks(custId, registeredModel.CurrencyId, registeredModel.UserName, registeredModel.blackbox, IovationType.registration);
-                                if (apiResultIovation.ErrorCode == 0)
-                                    _iovationBll.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
-                            }
-                        });
-
-                        Customer customer = null;
-                        var fromUrl = _tools.GetFromUrl();
-                        var deviceType = (int) _tools.GetDeviceId(fromUrl);
-                        var userLoginResult = _custInfoBll.UserLogin(registeredModel.UserName, registeredModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out string token);
-
-                        switch (userLoginResult)
-                        {
-                            case -1:
-                                apiResult.ErrorCode = 1101;
-                                apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                                break;
-                            case -2:
-                                apiResult.ErrorCode = 1001;
-                                apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                                break;
-                            case -3:
-                                apiResult.ErrorCode = 1102;
-                                apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
-                                break;
-                            default:
-                            {
-                                if (userLoginResult != 0)
-                                {
-                                    apiResult.ErrorCode = 9000;
-                                }
-                                else
-                                {
-                                    var claims = new List<Claim>
-                                    {
-                                        new(ClaimTypes.Name, customer.UserName),
-                                        new(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
-                                        new("Token", token),
-                                        new("LangId", customer.UserLang)
-                                    };
-                                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                                    apiResult.ErrorCode = 0;
-                                    apiResult.Message = Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = _selLangBll.GetLangId() });
-                                }
-
-                                break;
-                            }
-                        }
-                    }
-
-                    break;
-                }
-            }
-
-            return apiResult;
-        }
-
         public class SignupModel : RegisteredModel
         {
             public string SignupUrl { get; set; }
@@ -826,12 +698,7 @@ namespace MemberSite.Controllers.Api
             };
             return apiResult;
         }
-
-        public class TpInfoNologin
-        {
-            public int TpId { set; get; }
-            public Dictionary<string, string> inputs { set; get; }
-        }
+        
         public class ForgetPwdReq
         {
             public string Email { get; set; }
@@ -1197,37 +1064,6 @@ namespace MemberSite.Controllers.Api
         public class BannerReq
         {
             public int BannerType { get; set; }
-        }
-
-        [HttpPost]
-        public ApiResult<IEnumerable<BannerV2>> GetBannerV2(BannerReq bannerReq)
-        {
-            var apiResult = new ApiResult<IEnumerable<BannerV2>>();
-
-            var serverInfo = _serverInfoBll.GetServerInfo();
-            var perferCurr = 0;
-            var SiteId = 0;
-            var ShowStatus = 1;
-            if (User.Identity.IsAuthenticated)
-            {
-                var authData = _authorizeBll.GetAuthData();
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                SiteId = custInfo.SiteId;
-                perferCurr = custInfo.CurrencyId;
-                ShowStatus = 2;
-            }
-            else
-            {
-                perferCurr = _selLangBll.GetPreferCurrencyId();
-                SiteId = serverInfo.SiteId;
-            }
-
-            var banner_CurrencyId = !User.Identity.IsAuthenticated && perferCurr == 13 ? 2 : perferCurr;
-
-            apiResult.ErrorCode = 0;
-            apiResult.Data = _bannerBll.GetBannerV2(SiteId, bannerReq.BannerType, ShowStatus, banner_CurrencyId, _selLangBll.GetLangId());
-
-            return apiResult;
         }
 
         [HttpPost]
