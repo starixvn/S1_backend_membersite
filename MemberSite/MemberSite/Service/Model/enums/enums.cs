@@ -343,4 +343,9 @@
         Lock = 3,
         Unlock = 4
     }
+    public enum CustBankDetailStatus
+    {
+        Disable = 0,
+        Able = 1,
+    }
 }

@@ -563,7 +563,7 @@ namespace MemberSite.Controllers.Api
                                         {
                                             if (!string.IsNullOrEmpty(signupModel.RealName))
                                             {
-                                                _custInfoBll.SetCustBankInfo(custId, signupModel.RealName, null);
+                                                _custInfoBll.SetCustBankInfo(custId, signupModel.RealName);
                                             }
 
                                             var claims = new List<Claim>
@@ -748,7 +748,7 @@ namespace MemberSite.Controllers.Api
                                         {
                                             if (!string.IsNullOrEmpty(signupModel.RealName))
                                             {
-                                                _custInfoBll.SetCustBankInfo(custId, signupModel.RealName, null);
+                                                _custInfoBll.SetCustBankInfo(custId, signupModel.RealName);
                                             }
 
                                             var claims = new[] {

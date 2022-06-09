@@ -309,10 +309,10 @@ namespace MemberSite.Service.BLL
             return _custInfoService.SetProfileV2(custId, custInfo.SiteId, custProfile) ? 0 : -1;
         }
 
-        public int SetCustBankInfo(int custId, string accountName, IEnumerable<BankInfoDetail> bankInfo)
+        public int SetCustBankInfo(int custId, string accountName)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName, bankInfo) ? 0 : -1;
+            return _custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName) ? 0 : -1;
         }
         public int InsertCustBankInfo(int custId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status)
         {
@@ -616,10 +616,10 @@ namespace MemberSite.Service.BLL
             return _custInfoService.GetCustBankDetail(sysId, accountNo);
         }
 
-        public int SetCustBankDetail(int custId, string accountName, IEnumerable<BankInfoDetail> bankInfo)
+        public int SetCustBankDetail(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
         {
-            var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName, bankInfo) ? 0 : -1;
+            //var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.SetCustBankDetail(custId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
     }
 }
