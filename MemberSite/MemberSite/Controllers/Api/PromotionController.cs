@@ -1,8 +1,10 @@
 ﻿using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
 {
@@ -15,6 +17,10 @@ namespace MemberSite.Controllers.Api
         private readonly ServerInfoBll _serverInfoBLL;
         private readonly AuthorizeBLL _authorizeBLL;
         private readonly CustInfoBll _custInfoBLL;
+        private readonly string _bonusServiceUrl;
+        private readonly CourierAdapter _courierAdapter;
+        private readonly ILogger<PromotionController> _logger;
+        private readonly Tools _tools;
 
         public PromotionController(IServiceProvider provider)
         {
@@ -23,6 +29,10 @@ namespace MemberSite.Controllers.Api
             _serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
             _authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
             _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
+            _bonusServiceUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("BonusService");
+            _courierAdapter = provider.GetRequiredService<CourierAdapter>();
+            _logger = provider.GetRequiredService<ILogger<PromotionController>>();
+            _tools = provider.GetRequiredService<Tools>();
         }
         
         public class PromotionReq
@@ -30,6 +40,41 @@ namespace MemberSite.Controllers.Api
             public string BonusCode { set; get; }
             public decimal? LockedAmount { set; get; }
             public int? DeviceType { set; get; }
+        }
+        
+        public class PromotionRequest
+        {
+            public string BonusCode { set; get; }
+            public int CustId { set; get; }
+            public string custIP { set; get; }
+            public decimal? LockedAmount { set; get; }
+            public int? DeviceType { set; get; }
+        }
+        
+        public class CustPromotionRequest
+        {
+            public int SiteId { set; get; }
+            public int CustId { set; get; }
+            public int CurrencyId { set; get; }
+            public int DeviceType { set; get; }
+            public bool IsLogin { set; get; }
+            public string LangId { set; get; }
+            public string DefLang { set; get; }
+        }
+        
+        public class PromotionDetailRequest : CustPromotionRequest
+        {
+            public string BonusCode { set; get; }
+        }
+        
+        public class PromotionDeviceReq
+        {
+            public int DeviceType { set; get; }
+        }
+
+        public class PromotionDetailReq : PromotionDeviceReq
+        {
+            public string BonusCode { set; get; }
         }
 
         [Authorize]
@@ -45,79 +90,116 @@ namespace MemberSite.Controllers.Api
                 {
                     deviceType = promotionReq.DeviceType;
                 }
-                apiResult = await _promotionBLL.SetClaimPromotionV2Async(authData.CustId, promotionReq.BonusCode, promotionReq.LockedAmount, deviceType);
+                
+                var apiUrl = $"{_bonusServiceUrl}SetClaimPromotion";
+                
+                var req = new PromotionRequest
+                {
+                    BonusCode = promotionReq.BonusCode,
+                    CustId = authData.CustId,
+                    custIP = _tools.GetClientIP(),
+                    LockedAmount = promotionReq.LockedAmount,
+                    DeviceType = deviceType
+                };
+                
+                apiResult = await _courierAdapter.MyPostAsync<ApiResult, PromotionRequest>(apiUrl, req);
                 
             }
             catch (Exception ex)
             {
                 apiResult.RawMessage = ex.Message;
                 apiResult.Message = ex.Message;
+                _logger.LogError(ex, GetCurrentAsyncMethod());
             }
 
             return apiResult;
         }
-
-        public class PromotionDeviceReq
-        {
-            public int DeviceType { set; get; }
-        }
+        
         [HttpPost]
         public ApiResult<List<CustPromotion>> GetPromotionListV3(PromotionDeviceReq promotionDeviceReq)
         {
             var result = new ApiResult<List<CustPromotion>>();
-
-            var serverInfo = _serverInfoBLL.GetServerInfo();
-            var isLogin = User.Identity.IsAuthenticated;
-            var custId = 0;
-            int currencyId;
-            if (isLogin)
+            try
             {
-                var authData = _authorizeBLL.GetAuthData();
-                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                custId = authData.CustId;
-                currencyId = custInfo.CurrencyId;
+                var serverInfo = _serverInfoBLL.GetServerInfo();
+                var isLogin = User.Identity.IsAuthenticated;
+                var custId = 0;
+                int currencyId;
+                if (isLogin)
+                {
+                    var authData = _authorizeBLL.GetAuthData();
+                    var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                    custId = authData.CustId;
+                    currencyId = custInfo.CurrencyId;
+                }
+                else
+                {
+                    currencyId = _selLangBLL.GetPreferCurrencyId();
+                }
+            
+                var apiUrl = $"{_bonusServiceUrl}GetPromotionListV3";
+                var req = new CustPromotionRequest
+                {
+                    SiteId = serverInfo.SiteId,
+                    CustId = custId,
+                    CurrencyId = currencyId,
+                    DeviceType = promotionDeviceReq.DeviceType,
+                    IsLogin = isLogin,
+                    LangId = _selLangBLL.GetLangId(),
+                    DefLang = serverInfo.DefLang
+                };
+
+                result = _courierAdapter.MyPostAsync<List<CustPromotion>, CustPromotionRequest>(apiUrl, req).Result;
             }
-            else
+            catch (Exception e)
             {
-                currencyId = _selLangBLL.GetPreferCurrencyId();
+                _logger.LogError(e, GetCurrentMethod());
             }
-
-            result.Data = _promotionBLL.GetPromotionListV3(serverInfo.SiteId, custId, currencyId, promotionDeviceReq.DeviceType, isLogin, _selLangBLL.GetLangId(), serverInfo.DefLang);
-            result.ErrorCode = 0;
-
+            
             return result;
         }
 
-
         [HttpPost]
-        public ApiResult<CustPromotion> GetPromotionDetail(CustPromotion data)
+        public ApiResult<CustPromotion> GetPromotionDetail(PromotionDetailReq data)
         {
             var result = new ApiResult<CustPromotion>();
-
-            var serverInfo = _serverInfoBLL.GetServerInfo();
-            var isLogin = User.Identity.IsAuthenticated;
-            var custId = 0;
-            int currencyId;
-            int? DeviceType = 1;
-            if (isLogin)
+            try
             {
-                var authData = _authorizeBLL.GetAuthData();
-                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                custId = authData.CustId;
-                currencyId = custInfo.CurrencyId;
-            }
-            else
-            {
-                currencyId = _selLangBLL.GetPreferCurrencyId();
-            }
+                var serverInfo = _serverInfoBLL.GetServerInfo();
+                var isLogin = User.Identity.IsAuthenticated;
+                var custId = 0;
+                int currencyId;
+                if (isLogin)
+                {
+                    var authData = _authorizeBLL.GetAuthData();
+                    var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                    custId = authData.CustId;
+                    currencyId = custInfo.CurrencyId;
+                }
+                else
+                {
+                    currencyId = _selLangBLL.GetPreferCurrencyId();
+                }
 
-            if (data.DeviceType != null)
-            {
-                DeviceType = data.DeviceType;
-            }
+                var apiUrl = $"{_bonusServiceUrl}GetPromotionDetail";
+                var req = new PromotionDetailRequest
+                {
+                    SiteId = serverInfo.SiteId,
+                    CustId = custId,
+                    CurrencyId = currencyId,
+                    DeviceType = data.DeviceType,
+                    IsLogin = isLogin,
+                    LangId = _selLangBLL.GetLangId(),
+                    DefLang = serverInfo.DefLang,
+                    BonusCode = data.BonusCode
+                };
 
-            result.Data = _promotionBLL.GetPromotionDetail(serverInfo.SiteId, custId, currencyId, isLogin, _selLangBLL.GetLangId(), serverInfo.DefLang, data.BonusCode, Convert.ToInt32(DeviceType));
-            result.ErrorCode = 0;
+                result = _courierAdapter.MyPostAsync<CustPromotion, PromotionDetailRequest>(apiUrl, req).Result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+            }
 
             return result;
         }
@@ -126,15 +208,32 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<List<CustPromotion>> GetSpecialPromotionListV2(PromotionDeviceReq promotionDeviceReq)
         {
-            var serverInfo = _serverInfoBLL.GetServerInfo();
-            var authData = _authorizeBLL.GetAuthData();
-            var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
-
-            return new ApiResult<List<CustPromotion>>
+            var result = new ApiResult<List<CustPromotion>>();
+            try
             {
-                Data = _promotionBLL.GetSpecialPromotionListV2(serverInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, _selLangBLL.GetLangId(), serverInfo.DefLang, promotionDeviceReq.DeviceType),
-                ErrorCode = 0
-            };
+                var serverInfo = _serverInfoBLL.GetServerInfo();
+                var authData = _authorizeBLL.GetAuthData();
+                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+
+                var apiUrl = $"{_bonusServiceUrl}GetSpecialPromotionListV2";
+                var req = new CustPromotionRequest
+                {
+                    SiteId = serverInfo.SiteId,
+                    CustId = custInfo.CustId,
+                    CurrencyId = custInfo.CurrencyId,
+                    DeviceType = promotionDeviceReq.DeviceType,
+                    LangId = _selLangBLL.GetLangId(),
+                    DefLang = serverInfo.DefLang
+                };
+
+                result = _courierAdapter.MyPostAsync<List<CustPromotion>, CustPromotionRequest>(apiUrl, req).Result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+            }
+
+            return result;
         }
 
         public class SetSpecialCodeReq
@@ -205,17 +304,31 @@ namespace MemberSite.Controllers.Api
         public ApiResult<List<CustPromotion>> GetDepositPromotionList(PromotionDeviceReq promotionDeviceReq)
         {
             var result = new ApiResult<List<CustPromotion>>();
+            try
+            {
+                var serverInfo = _serverInfoBLL.GetServerInfo();
+                var authData = _authorizeBLL.GetAuthData();
 
-            var serverInfo = _serverInfoBLL.GetServerInfo();
-            var authData = _authorizeBLL.GetAuthData();
-            var custId = authData.CustId;
-           
+                var apiUrl = $"{_bonusServiceUrl}GetDepositPromotionList";
+                var req = new CustPromotionRequest
+                {
+                    CustId = authData.CustId,
+                    DeviceType = promotionDeviceReq.DeviceType,
+                    LangId = _selLangBLL.GetLangId(),
+                    DefLang = serverInfo.DefLang
+                };
 
-            result.Data = _promotionBLL.GetDepositPromotionList( custId, promotionDeviceReq.DeviceType, _selLangBLL.GetLangId(), serverInfo.DefLang);
-            result.ErrorCode = 0;
+                result = _courierAdapter.MyPostAsync<List<CustPromotion>, CustPromotionRequest>(apiUrl, req).Result;
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+            }
 
             return result;
         }
+
         public class SetDepositPromotionQueueReq
         {
             public string TransId { set; get; }
