@@ -38,8 +38,8 @@ namespace MemberSite.Controllers.Api
         private readonly GameCasinoBll _gameCasinoBll;
         private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
         private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
-        private readonly Regex _regexUserName = new Regex(@"^[a-zA-Z0-9]{6,18}$");
-        private readonly Regex _regexAffCode = new Regex(@"^[0-9]{5,20}$");
+        private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
+        private readonly Regex _regexAffCode = new(@"^[0-9]{5,20}$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly CacheHelper _cacheHelper;
 
@@ -127,10 +127,10 @@ namespace MemberSite.Controllers.Api
 
             var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name,customer.UserName ),
-                    new Claim(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
-                    new Claim("Token",token ),
-                    new Claim("LangId",customer.UserLang )
+                    new(ClaimTypes.Name,customer.UserName ),
+                    new(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
+                    new("Token",token ),
+                    new("LangId",customer.UserLang )
                 };
 
             var authProperties = new AuthenticationProperties
@@ -285,98 +285,106 @@ namespace MemberSite.Controllers.Api
 
             var result = _custInfoBll.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd,
                 registeredModel.Email, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId,
-                registeredModel.AffId, registeredModel.Aff, registeredModel.AffCode, serverInfo.SiteId, out custId, Request.Host.Host);
-            if (result == -1)
+                registeredModel.AffId, registeredModel.Aff, registeredModel.AffCode, out custId, Request.Host.Host);
+            
+            switch (result)
             {
-                apiResult.ErrorCode = result;
-                apiResult.Message = _selLangBll.GetMsg("err_ThisCurrencyNotSupport");
-            }
-            else if (result == -2)
-            {
-                apiResult.ErrorCode = result;
-                apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
-            }
-            else if (result == -3)
-            {
-                apiResult.ErrorCode = result;
-                apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordValidate" : "msg_PasswordValidate2");
-            }
-            else if (result == -4)
-            {
-                apiResult.ErrorCode = result;
-                apiResult.Message = "";
-            }
-            else if (result == -5)
-            {
-                apiResult.ErrorCode = result;
-                apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
-            }
-            else if (result == -19)
-            {
-                apiResult.ErrorCode = result;
-                apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
-            }
-            else if (custId == 0)
-            {
-                apiResult.ErrorCode = result;
-                apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
-            }
-            else if (result != 0)
-            {
-                apiResult.ErrorCode = result;
-                apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
-            }
-            else
-            {
-                _ = Task.Run(async () =>
+                case -1:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("err_ThisCurrencyNotSupport");
+                    break;
+                case -2:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
+                    break;
+                case -3:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_PasswordValidate");
+                    break;
+                case -4:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = "";
+                    break;
+                case -5:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
+                    break;
+                case -19:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
+                    break;
+                default:
                 {
-                    _commonBll.SendWelcomeMail(custId);
-
-                    if (registeredModel.blackbox != null)
+                    if (custId == 0)
                     {
-                        var apiResultIovation = await _iovationBll.IovationChecks(custId, registeredModel.CurrencyId, registeredModel.UserName, registeredModel.blackbox, IovationType.registration);
-                        if (apiResultIovation.ErrorCode == 0)
-                            _iovationBll.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
+                        apiResult.ErrorCode = result;
+                        apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
                     }
-                });
-
-                Customer customer = null;
-                var fromUrl = _tools.GetFromUrl();
-                var deviceType = (int) _tools.GetDeviceId(fromUrl);
-                var userLoginResult = _custInfoBll.UserLogin(registeredModel.UserName, registeredModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out string token);
-
-                if (userLoginResult == -1)
-                {
-                    apiResult.ErrorCode = 1101;
-                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                }
-                else if (userLoginResult == -2)
-                {
-                    apiResult.ErrorCode = 1001;
-                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                }
-                else if (userLoginResult == -3)
-                {
-                    apiResult.ErrorCode = 1102;
-                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
-                }
-                else if (userLoginResult != 0)
-                {
-                    apiResult.ErrorCode = 9000;
-                }
-                else
-                {
-                    var claims = new List<Claim>
+                    else if (result != 0)
                     {
-                        new Claim(ClaimTypes.Name,customer.UserName ),
-                        new Claim(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
-                        new Claim("Token",token ),
-                        new Claim("LangId",customer.UserLang )
-                    };
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                    apiResult.ErrorCode = 0;
-                    apiResult.Message = Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = _selLangBll.GetLangId() });
+                        apiResult.ErrorCode = result;
+                        apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
+                    }
+                    else
+                    {
+                        _ = Task.Run(async () =>
+                        {
+                            _commonBll.SendWelcomeMail(custId);
+
+                            if (registeredModel.blackbox != null)
+                            {
+                                var apiResultIovation = await _iovationBll.IovationChecks(custId, registeredModel.CurrencyId, registeredModel.UserName, registeredModel.blackbox, IovationType.registration);
+                                if (apiResultIovation.ErrorCode == 0)
+                                    _iovationBll.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
+                            }
+                        });
+
+                        Customer customer = null;
+                        var fromUrl = _tools.GetFromUrl();
+                        var deviceType = (int) _tools.GetDeviceId(fromUrl);
+                        var userLoginResult = _custInfoBll.UserLogin(registeredModel.UserName, registeredModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out string token);
+
+                        switch (userLoginResult)
+                        {
+                            case -1:
+                                apiResult.ErrorCode = 1101;
+                                apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                break;
+                            case -2:
+                                apiResult.ErrorCode = 1001;
+                                apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                break;
+                            case -3:
+                                apiResult.ErrorCode = 1102;
+                                apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
+                                break;
+                            default:
+                            {
+                                if (userLoginResult != 0)
+                                {
+                                    apiResult.ErrorCode = 9000;
+                                }
+                                else
+                                {
+                                    var claims = new List<Claim>
+                                    {
+                                        new(ClaimTypes.Name, customer.UserName),
+                                        new(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
+                                        new("Token", token),
+                                        new("LangId", customer.UserLang)
+                                    };
+                                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                                    apiResult.ErrorCode = 0;
+                                    apiResult.Message = Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = _selLangBll.GetLangId() });
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+
+                    break;
                 }
             }
 
@@ -466,7 +474,7 @@ namespace MemberSite.Controllers.Api
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
                     signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl,signupModel.ReferralUrl, signupModel.PhoneNo, signupModel.AreaCode,
+                    signupModel.AffCode, out custId, signupModel.SignupUrl,signupModel.ReferralUrl, signupModel.PhoneNo, signupModel.AreaCode,
                     signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d, signupModel.Birth_m,
                     signupModel.Birth_y);
             }
@@ -483,7 +491,7 @@ namespace MemberSite.Controllers.Api
                     break;
                 case -3:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordValidate" : "msg_PasswordValidate2");
+                    apiResult.Message = _selLangBll.GetMsg("msg_PasswordValidate");
                     break;
                 case -4:
                     apiResult.ErrorCode = result;/**/
@@ -569,10 +577,10 @@ namespace MemberSite.Controllers.Api
 
                                             var claims = new List<Claim>
                                     {
-                                        new Claim(ClaimTypes.Name,customer.UserName ),
-                                        new Claim(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
-                                        new Claim("Token",token ),
-                                        new Claim("LangId",customer.UserLang )
+                                        new(ClaimTypes.Name,customer.UserName ),
+                                        new(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
+                                        new("Token",token ),
+                                        new("LangId",customer.UserLang )
                                     };
 
                                             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -652,7 +660,7 @@ namespace MemberSite.Controllers.Api
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
                     signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.ReferralUrl,
+                    signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.ReferralUrl,
                     signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode);
             }
 
@@ -668,7 +676,7 @@ namespace MemberSite.Controllers.Api
                     break;
                 case -3:
                     apiResult.ErrorCode = result;
-                    apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordValidate" : "msg_PasswordValidate2");
+                    apiResult.Message = _selLangBll.GetMsg("msg_PasswordValidate");
                     break;
                 case -4:
                     apiResult.ErrorCode = result;/**/
@@ -1068,14 +1076,14 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<List<Provider>>();
 
             var providers = new List<Provider> {
-                new Provider { Value = 6, Name = "GPI", DisplayText = _selLangBll.GetResourceValue("lbl_GPI"), PlayFree = true, DisplayKey = "lbl_GPI" },
-                new Provider { Value = 8, Name = "YGG", DisplayText = "YGG", PlayFree = true },
-                new Provider { Value = 9, Name = "Joker", DisplayText = "Joker", PlayFree = false },
-                new Provider { Value = 10, Name = "SG", DisplayText = "SG", PlayFree = true },
-                new Provider { Value = 5, Name = "PP", DisplayText = "PP", PlayFree = true },
-                new Provider { Value = 14, Name = "PG", DisplayText = "PG", PlayFree = true },
-                new Provider { Value = 16, Name = "CQ9", DisplayText = "CQ9", PlayFree = true },
-                new Provider { Value = 24, Name = "Iconic", DisplayText = "ICG", PlayFree = true }
+                new() { Value = 6, Name = "GPI", DisplayText = _selLangBll.GetResourceValue("lbl_GPI"), PlayFree = true, DisplayKey = "lbl_GPI" },
+                new() { Value = 8, Name = "YGG", DisplayText = "YGG", PlayFree = true },
+                new() { Value = 9, Name = "Joker", DisplayText = "Joker", PlayFree = false },
+                new() { Value = 10, Name = "SG", DisplayText = "SG", PlayFree = true },
+                new() { Value = 5, Name = "PP", DisplayText = "PP", PlayFree = true },
+                new() { Value = 14, Name = "PG", DisplayText = "PG", PlayFree = true },
+                new() { Value = 16, Name = "CQ9", DisplayText = "CQ9", PlayFree = true },
+                new() { Value = 24, Name = "Iconic", DisplayText = "ICG", PlayFree = true }
             };
 
             IEnumerable<int> tpIds = new int[] { };
@@ -1311,10 +1319,10 @@ namespace MemberSite.Controllers.Api
                         {
                             var claims = new List<Claim>
                             {
-                                new Claim(ClaimTypes.Name, custInfoProfile.UserName),
-                                new Claim(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
-                                new Claim("Token", token),
-                                new Claim("LangId", custInfoProfile.UserLang)
+                                new(ClaimTypes.Name, custInfoProfile.UserName),
+                                new(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
+                                new("Token", token),
+                                new("LangId", custInfoProfile.UserLang)
                             };
                             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));

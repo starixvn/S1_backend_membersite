@@ -169,10 +169,7 @@
     <value>請輸入密碼。</value>
   </data>
   <data name="msg_PasswordValidate" xml:space="preserve">
-    <value>6到18個數字、英文字母大小寫或特殊符號(@$*!%#?&amp;)</value>
-  </data>
-  <data name="msg_PasswordValidate2" xml:space="preserve">
-    <value>密碼只支援 6-15 個字符。</value>
+    <value>密碼長度必須 6 至 15 個字符，包含字母數字。</value>
   </data>
   <data name="msg_SamePassword" xml:space="preserve">
     <value>新密碼與舊密碼相同</value>

@@ -59,7 +59,7 @@ namespace MemberSite.Service.BLL
         }
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
-            string refId, string affId, string aff, string affCode, int siteId, out int custId, string signupUrl = null,
+            string refId, string affId, string aff, string affCode, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
@@ -76,7 +76,7 @@ namespace MemberSite.Service.BLL
                 return -2;
             }
 
-            if (!_tools.CheckUserInputPassword(Userpwd, siteId))
+            if (!_tools.CheckUserInputPassword(Userpwd))
             {
                 custId = 0;
                 return -3;
@@ -264,9 +264,9 @@ namespace MemberSite.Service.BLL
                 i => _custInfoService.GetPointLevel(custId));
         }
 
-        public int SetPassword(int custId, string oldPassword, string newPassword, int siteId)
+        public int SetPassword(int custId, string oldPassword, string newPassword)
         {
-            if (!_tools.CheckUserInputPassword(newPassword, siteId))
+            if (!_tools.CheckUserInputPassword(newPassword))
             {
                 return -2;
             }

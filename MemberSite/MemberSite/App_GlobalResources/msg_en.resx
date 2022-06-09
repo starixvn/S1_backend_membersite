@@ -166,10 +166,7 @@
     <value>Password is required.</value>
   </data>
   <data name="msg_PasswordValidate" xml:space="preserve">
-    <value>Password must be 6-15 characters, contain both alphanumeric and a special characters (!@#$%^&amp;*)</value>
-  </data>
-  <data name="msg_PasswordValidate2" xml:space="preserve">
-    <value>Password must be 6-15 characters only.</value>
+    <value>Password must be 6-15 characters, contain alphanumeric.</value>
   </data>
   <data name="msg_SamePassword" xml:space="preserve">
     <value>Old Password and New Password are same!</value>
