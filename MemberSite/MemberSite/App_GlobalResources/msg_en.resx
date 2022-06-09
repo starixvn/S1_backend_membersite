@@ -357,4 +357,7 @@
   <data name="msg_LineAccountAlreadyBind" xml:space="preserve">
     <value>This LINE account has been used, please use another account.</value>
   </data>
+  <data name="msg_BankAccountDuplicate" xml:space="preserve">
+    <value>Duplicate Bank Account No. is not allowed. Please try another Account No.</value>
+  </data>
 </root>

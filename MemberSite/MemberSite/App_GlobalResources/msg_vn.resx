@@ -329,4 +329,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_DecimalOutOfRange" xml:space="preserve">
     <value>Transfer failed due to decimal greater than 2 digits</value>
   </data>
+  <data name="msg_BankAccountDuplicate" xml:space="preserve">
+    <value>Tài khoản ngân hàng này đã tồn tại</value>
+  </data>
 </root>
