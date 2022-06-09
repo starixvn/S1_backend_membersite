@@ -166,10 +166,7 @@
     <value>Kata laluan diperlukan.</value>
   </data>
   <data name="msg_PasswordValidate" xml:space="preserve">
-    <value>Kata laluan perlu mengandungi 6-15 aksara, mengandungi kedua-dua angka abjad dan aksara unik (!@#$%^&amp;*).</value>
-  </data>
-  <data name="msg_PasswordValidate2" xml:space="preserve">
-    <value>Kata laluan perlu mengandungi 6-15 aksara.</value>
+    <value>Kata laluan mestilah 6-15 aksara yang mengandungi alfanumerik.</value>
   </data>
   <data name="msg_SamePassword" xml:space="preserve">
     <value>Kata Laluan Lama dan Kata Laluan Baru adalah sama!</value>

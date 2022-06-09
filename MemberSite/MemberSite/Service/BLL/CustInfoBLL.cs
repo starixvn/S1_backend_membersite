@@ -24,8 +24,7 @@ namespace MemberSite.Service.BLL
             {
                 {51,false },{15,false }
             };
-
-        private readonly Dictionary<string, string> _areaCodeCountryList;
+        private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -39,29 +38,27 @@ namespace MemberSite.Service.BLL
             _bankInfoService = provider.GetRequiredService<BankInfoService>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
-            _areaCodeCountryList = new CurrencyMapping().AreaCodeMap;
+            _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
-            string countryName = null;
-            if (areaCode != null)
-                _areaCodeCountryList.TryGetValue(areaCode, out countryName);
-            return countryName;
+            var countryName = _areaCodeMap.FirstOrDefault(x => x.AreaCode == areaCode);
+            return countryName?.Code;
         }
-        
+
         public string GetAreaCodeByCountryName(string countryName)
         {
-            var areaCode = _areaCodeCountryList.FirstOrDefault(x => x.Value == countryName).Key;
-            return areaCode;
+            var areaCode = _areaCodeMap.FirstOrDefault(x => x.Code == countryName);
+            return areaCode?.AreaCode;
         }
-        
+
         public bool IsConvertRequired(int currencyId)
         {
             return _isConvert.ContainsKey(currencyId);
         }
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
-            string refId, string affId, string aff, string affCode, int siteId, out int custId, string signupUrl = null,
+            string refId, string affId, string aff, string affCode, string lineUserId, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
@@ -78,7 +75,7 @@ namespace MemberSite.Service.BLL
                 return -2;
             }
 
-            if (!_tools.CheckUserInputPassword(Userpwd, siteId))
+            if (!_tools.CheckUserInputPassword(Userpwd))
             {
                 custId = 0;
                 return -3;
@@ -135,7 +132,7 @@ namespace MemberSite.Service.BLL
                 signupUrl = _tools.GetFromUrl();
             }
 
-            var result = _custInfoService.AddCustInfo(regCustInfo, Email, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
+            var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
             return result != 0 ? result : 0;
         }
@@ -162,19 +159,24 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(1)),
                 i => _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId));
         }
-        public int UserLogin(string userName, string pwd, string ip, string fromUrl, string userAgent,int deviceType ,ref Customer customer, out string token)
+        public int UserLogin(bool isLineLogin, int custId, string userName, string pwd, string ip, string fromUrl, string userAgent, int deviceType, ref Customer customer, out string token)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            customer = _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId);
             token = null;
-            if (customer == null)
+            if (isLineLogin)
             {
-                return -1;
+                customer = _custInfoService.GetCustInfo(custId);
+                if (customer == null) return -1;
             }
-
-            if (customer.Userpwd != _tools.MD5Encrypt(pwd))
+            else
             {
-                return -2;
+                customer = _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId);
+                if (customer == null) return -1;
+
+                if (customer.Userpwd != _tools.MD5Encrypt(pwd))
+                {
+                    return -2;
+                }
             }
 
             if (!VerifyCustomerStatus(customer.Status))
@@ -182,12 +184,12 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
-            _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip , deviceType , out token);
+            _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, deviceType, out token);
             _authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
             return 0;
         }
 
-        public int UserLoginForResetPwd(string userName, string ip, string fromUrl, string userAgent,int deviceType, ref Customer customer, out string token)
+        public int UserLoginForResetPwd(string userName, string ip, string fromUrl, string userAgent, int deviceType, ref Customer customer, out string token)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             customer = _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId);
@@ -202,7 +204,7 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
-            _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip,deviceType, out token);
+            _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, deviceType, out token);
             _authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
             return 0;
         }
@@ -266,9 +268,9 @@ namespace MemberSite.Service.BLL
                 i => _custInfoService.GetPointLevel(custId));
         }
 
-        public int SetPassword(int custId, string oldPassword, string newPassword, int siteId)
+        public int SetPassword(int custId, string oldPassword, string newPassword)
         {
-            if (!_tools.CheckUserInputPassword(newPassword, siteId))
+            if (!_tools.CheckUserInputPassword(newPassword))
             {
                 return -2;
             }
@@ -325,10 +327,10 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.SetCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo) ? 0 : -1;
         }
-        public int InsertCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo ,IEnumerable<USDTDetail> uSDTInfoLog)
+        public int InsertCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo, IEnumerable<USDTDetail> uSDTInfoLog)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.InsertCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo ,uSDTInfoLog) ? 0 : -1;
+            return _custInfoService.InsertCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo, uSDTInfoLog) ? 0 : -1;
         }
         public CustBankInfo GetCustBankInfo(int custId)
         {
@@ -567,6 +569,8 @@ namespace MemberSite.Service.BLL
             {
                 ReferralReward = referralData.BonusAmount,
                 InvitationLimit = referralData.InvitationLimit,
+                AgentValidBet = referralData.AgentValidBet,
+                AgentDeposit = referralData.AgentDeposit,
                 MemberReward = referralData.ReferralFreeCredit,
                 Deposit = referralData.Deposit,
                 VaildBet = referralData.VaildBet,
@@ -578,8 +582,10 @@ namespace MemberSite.Service.BLL
 
         private ReferralContent DeserializeReferralContent(string details, string langId)
         {
+            var oldLang = langId.Split('_');
+            var lang = oldLang.Length == 2 ? oldLang[1] : oldLang[0];
             var referralContents = JsonConvert.DeserializeObject<IEnumerable<ReferralContent>>(details);
-            return referralContents?.FirstOrDefault(a => a.LangId == langId);
+            return referralContents?.FirstOrDefault(a => a.LangId == lang);
         }
 
         public int GetAffiliateAgentBll(string affId)
@@ -613,10 +619,10 @@ namespace MemberSite.Service.BLL
             return _agentInfoService.GetRefFriendList(custId, StartDate, EndDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
         }
 
-        private static bool VerifyCustomerStatus(int status)
+        public bool VerifyCustomerStatus(int status)
         {
-            if (status == (int) CustStatus.Suspend || status == (int) CustStatus.Closed ||
-                status == (int) CustStatus.Lock)
+            if (status == (int)CustStatus.Suspend || status == (int)CustStatus.Closed ||
+                status == (int)CustStatus.Lock)
             {
                 {
                     return false;
@@ -627,7 +633,7 @@ namespace MemberSite.Service.BLL
         }
         public int SetFireBaseTroken(int custId, int siteId, string fireBaseToken)
         {
-            return _custInfoService.SetFireBaseTroken( custId, siteId, fireBaseToken);
+            return _custInfoService.SetFireBaseTroken(custId, siteId, fireBaseToken);
         }
         public int SetCustActStatus(int custId, string Operator)
         {

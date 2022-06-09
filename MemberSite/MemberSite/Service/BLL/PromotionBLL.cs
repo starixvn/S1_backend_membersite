@@ -18,40 +18,7 @@ namespace MemberSite.Service.BLL
             _bonusServiceUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("BonusService");
             _tools = provider.GetRequiredService<Tools>();
         }
-
-        public IEnumerable<Promotion> GetPromotionList(int siteId)
-        {
-            return _promotionService.GetPromotionList(siteId);
-        }
-
-        public class PromotionReq
-        {
-            public string BonusCode { set; get; }
-            public int CustId { set; get; }
-            public string custIP { set; get; }
-            public decimal? LockedAmount { set; get; }
-            public int? DeviceType { set; get; }
-        }
-        public async Task<ApiResult> SetClaimPromotionV2Async(int custId, string bonusCode, decimal? dLockedAmount, int? deviceType)
-        {
-            var result = await _promotionService.SetClaimPromotionV2Async(custId, bonusCode, dLockedAmount, deviceType);
-
-            return result;
-        }
-
-        public List<CustPromotion> GetPromotionListV3(int SiteId, int CustId, int CurrencyId, int DeviceType, bool IsLogin, string langId, string defLang)
-        {
-            return _promotionService.GetPromotionListv3(SiteId, CustId, CurrencyId, DeviceType, IsLogin, langId, defLang);
-        }
-        public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode, int DeviceType)
-        {
-            return _promotionService.GetPromotionDetail(SiteId, CustId, CurrencyId, IsLogin, langId, defLang, BonusCode, DeviceType);
-        }
-
-        public List<CustPromotion> GetSpecialPromotionListV2(int SiteId, int CustId, int CurrencyId, string langId, string defLang, int deviceType)
-        {
-            return _promotionService.GetSpecialPromotionListV2(SiteId, CustId, CurrencyId, langId, defLang, deviceType);
-        }
+        
         public bool CheckSpecialCode(string specialCode)
         {
             return _promotionService.CheckSpecialCode(specialCode);
@@ -69,10 +36,6 @@ namespace MemberSite.Service.BLL
             return _promotionService.SetSpecialCode(custId, specialCode, deviceType);
         }
 
-        public List<CustPromotion> GetDepositPromotionList(int CustId, int DeviceType, string langId, string defLang)
-        {
-            return _promotionService.GetDepositPromotionList(CustId, DeviceType, langId, defLang);
-        }
         public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, int siteId, string userName, int currencyId, int deviceType, decimal lockedAmount)
         {
             return _promotionService.SetDepositPromotionQueue(transId, bonusCode, custId, siteId, userName, currencyId, deviceType, lockedAmount, _tools.GetClientIP());

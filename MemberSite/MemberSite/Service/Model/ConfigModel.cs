@@ -25,4 +25,13 @@
     {
         public string Url { get; set; }
     }
+
+    public class LineLoginChannelConfig
+    {
+        public string ChannelId { get; set; }
+
+        public string ChannelSecret { get; set; }
+
+        public int ExpiredSeconds { get; set; }
+    }
 }

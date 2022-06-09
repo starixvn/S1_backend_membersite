@@ -181,12 +181,15 @@ namespace MemberSite.Service.Model
         public decimal BonusAmount { get; set; }
         public decimal VaildBet { get; set; }
         public decimal Deposit { get; set; }
+        public bool Status { get; set; }
     }
 
     public class ReferralSettingDetailData
     {
         public decimal BonusAmount { get; set; }
         public int InvitationLimit { get; set; }
+        public decimal AgentValidBet { get; set; }
+        public decimal AgentDeposit { get; set; }
         public decimal ReferralFreeCredit { get; set; }
         public decimal VaildBet { get; set; }
         public decimal Deposit { get; set; }
@@ -198,6 +201,8 @@ namespace MemberSite.Service.Model
     {
         public decimal ReferralReward { get; set; }
         public int InvitationLimit { get; set; }
+        public decimal AgentValidBet { get; set; }
+        public decimal AgentDeposit { get; set; }
         public decimal MemberReward { get; set; }
         public decimal VaildBet { get; set; }
         public decimal Deposit { get; set; }

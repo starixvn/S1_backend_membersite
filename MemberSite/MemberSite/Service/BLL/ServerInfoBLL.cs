@@ -3,6 +3,7 @@ using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
 {
@@ -160,6 +161,22 @@ namespace MemberSite.Service.BLL
         public bool IsSeoDomain(string domain)
         {
             return _seoDomain.Exists(seoDomain => seoDomain == domain);
+        }
+        
+        public async Task<IEnumerable<SocialChannelResponse>> GetSocialChannel(SocialChannelRequest request)
+        {
+            var result = await _serverInfoService.GetSocialChannel(request);
+            var items = JsonConvert.DeserializeObject<IEnumerable<SocialChannelResponse>>(JsonConvert.SerializeObject(result));
+
+            foreach (var item in items)
+            {
+                item.Scheme = new SocialChannelApp
+                {
+                    Android = result.First(i => i.Id == item.Id).Android,
+                    Ios = result.First(i => i.Id == item.Id).Ios
+                };
+            }
+            return items;
         }
     }
 }

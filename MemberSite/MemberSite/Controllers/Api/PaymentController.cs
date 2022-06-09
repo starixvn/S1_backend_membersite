@@ -58,10 +58,10 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<SysBankInfoFront>> GetBankInfoOffList()
+        public ApiResult<IEnumerable<OfflineBankInfoFront>> GetBankInfoOffList()
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>
+            var apiResult = new ApiResult<IEnumerable<OfflineBankInfoFront>>
             {
                 Data = bankInfoOffBLL.GetBankInfoOffList(authData.CustId),
                 ErrorCode = 0
@@ -73,10 +73,10 @@ namespace MemberSite.Controllers.Api
             public int? QueryType { get; set; } // queryType: 0.only open Bank(status = 1) 1.open & suspend Bank(status = 1 or status = 2)
         }
         [HttpPost]
-        public ApiResult<IEnumerable<SysBankInfoFront>> GetBankInfoOffListStatus(GetBankInfoOffListReq getBankInfoOffListReq)
+        public ApiResult<IEnumerable<OfflineBankInfoFront>> GetBankInfoOffListStatus(GetBankInfoOffListReq getBankInfoOffListReq)
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>();
+            var apiResult = new ApiResult<IEnumerable<OfflineBankInfoFront>>();
             var queryType = 0;
             if (getBankInfoOffListReq != null && getBankInfoOffListReq.QueryType != null)
                 queryType = (int)getBankInfoOffListReq.QueryType;

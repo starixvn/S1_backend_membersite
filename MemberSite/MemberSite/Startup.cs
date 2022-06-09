@@ -13,6 +13,7 @@ using System.Text.Unicode;
 using MemberSite.Extensions;
 using MemberSite.Service.DAL.Interface;
 using StackExchange.Redis;
+using MemberSite.Service.Model.Mapping;
 
 namespace MemberSite
 {
@@ -52,6 +53,7 @@ namespace MemberSite
         {
             services.Configure<MailConfig>(configuration.GetSection("MailConfig"));
             services.Configure<JwtConfig>(configuration.GetSection("JwtSettings"));
+            services.Configure<LineLoginChannelConfig>(configuration.GetSection("LineLoginChannelConfig"));
             services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
             services.Configure<Dictionary<string, string>>(configuration.GetSection("LoginDeviceConfig"));
             services.AddMemoryCache();
@@ -63,11 +65,11 @@ namespace MemberSite
             services.AddSingleton<Common>();
             services.AddSingleton<CourierAdapter>();
             services.AddSingleton<CodeGenerator>();
-			services.AddTransient<JsonNetSerializer>();
+            services.AddTransient<JsonNetSerializer>();
             services.AddSingleton<IHttpHelper, HttpHelper>();
             services.AddSingleton<CacheHelper>();
             services.AddSingleton<TpGameTypeHelper>();
-            
+
             /*DAL*/
             services.AddSingleton<IServerInfoService, ServerInfoService>();
             services.AddSingleton<AgentInfoService>();
@@ -133,7 +135,7 @@ namespace MemberSite
             services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<LatestHighlightDataBll>();
             services.AddSingleton<GameBLL>();
-			services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
+            services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
             services.AddTransient<GeoIpBLL>();
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
@@ -141,6 +143,7 @@ namespace MemberSite
             services.AddTransient<VerificationRewardBLL>();
             services.AddTransient<DeepLinkBLL>();
             services.AddSingleton<PayInfoBLL>();
+            services.AddSingleton<LineLoginBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();
@@ -218,6 +221,16 @@ namespace MemberSite
                             .AllowAnyMethod()
                             .SetIsOriginAllowedToAllowWildcardSubdomains();
                     });
+                
+                options.AddPolicy("SocialChannel", 
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .SetIsOriginAllowedToAllowWildcardSubdomains();
+                    });
+
 
                 options.AddPolicy("LandingPage",
                     builder =>
@@ -233,6 +246,7 @@ namespace MemberSite
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
             services.AddOptionListByDB<BlockIP>("Member_BlockIP_Get");
+            services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -246,6 +260,7 @@ namespace MemberSite
 
             app.UseCors();
             app.UseCors("LandingPage");
+            app.UseCors("SocialChannel");
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseRequestLogMiddleware();
