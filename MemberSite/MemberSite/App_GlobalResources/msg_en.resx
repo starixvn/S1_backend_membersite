@@ -357,4 +357,7 @@
   <data name="msg_DecimalOutOfRange" xml:space="preserve">
     <value>Transfer failed due to decimal greater than 2 digits</value>
   </data>
+  <data name="msg_BankAccountDuplicate" xml:space="preserve">
+    <value>Duplicate Bank Account No. is not allowed. Please try another Account No.</value>
+  </data>
 </root>

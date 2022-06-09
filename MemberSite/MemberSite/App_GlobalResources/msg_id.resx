@@ -349,4 +349,7 @@
   <data name="msg_DecimalOutOfRange" xml:space="preserve">
     <value>Transfer gagal karena desimal lebih dari 2 digit</value>
   </data>
+  <data name="msg_BankAccountDuplicate" xml:space="preserve">
+    <value>Duplikat Nomor Rekening Bank tidak diperbolehkan. Silakan coba Nomor Rekening lain.</value>
+  </data>
 </root>
