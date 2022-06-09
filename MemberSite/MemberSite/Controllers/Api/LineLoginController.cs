@@ -122,8 +122,8 @@ namespace MemberSite.Controllers.Api
             }
 
             var domainUrl = _tools.GetDomainUrl();
-            _logger.LogInformation($"fromUrl:{domainUrl}");
-            string redirectUri = $"{Request.Scheme}://{domainUrl}/callback";
+            _logger.LogInformation($"domainUrl:{domainUrl}");
+            string redirectUri = $"https://{domainUrl}/callback";
 
             string LineLoginUrl = string.Format("https://access.line.me/oauth2/v2.1/authorize?" +
                 "response_type={0}"
@@ -144,8 +144,8 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> LineCallbackAsync(LineCallbackModel request)
         {
             var domainUrl = _tools.GetDomainUrl();
-            _logger.LogInformation($"fromUrl:{domainUrl}");
-            string redirectUri = $"{Request.Scheme}://{domainUrl}/callback";
+            _logger.LogInformation($"domainUrl:{domainUrl}");
+            string redirectUri = $"https://{domainUrl}/callback";
 
             var result = await _lineLoginBll.LineLoginCallBack(request.LineLoginResponse.code,
                 request.LineLoginResponse.state,
