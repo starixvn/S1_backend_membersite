@@ -42,6 +42,14 @@ namespace MemberSite.Service.Model
         public string IFSCCode { set; get; }
         public bool IsBlock { get; set; } = false;
     }
+    public class BankInfoDetailData
+    {
+        public int CustId { get; set; }
+        public int SysId { set; get; }
+        public string AccountNo { set; get; }
+        public string IFSCCode { set; get; }
+        public int Status { get; set; }
+    }
     public class USDTDetail
     {
         public string NickName { set; get; }

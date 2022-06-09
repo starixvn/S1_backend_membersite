@@ -1,5 +1,6 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Mapping;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -60,11 +61,24 @@ namespace MemberSite.Controllers.Api
 
             var blockBankAccountList = _bankInfoBLL.GetBlockBankAccount(bankInfo.SysId, bankInfo.AccountNo).ToList();
 
+            var custBankDetail = _custInfoBLL.GetCustBankDetail(bankInfo.SysId, bankInfo.AccountNo).ToList();
+
             if (bankInfoSysList == null || bankInfoSysList.Count(x => x.SysId == bankInfo.SysId) == 0)
             {
                 apiResult.ErrorCode = -1;
                 apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                 return apiResult;
+            }
+
+            if(custBankDetail.Count > 0)
+            {
+                var bankDetail = custBankDetail.Find(x => x.CustId == authData.CustId);
+                if (bankDetail == null)
+                {
+                    apiResult.ErrorCode = -5;
+                    apiResult.Message = _selLangBLL.GetMsg("msg_BankAccountDuplicate");
+                    return apiResult;
+                }
             }
 
             if(blockBankAccountList.Count > 0)
@@ -81,7 +95,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBLL.GetMsg("msg_NeedAccountName");
                 return apiResult;
             }
-            else if (custBankInfo != null && custBankInfo.BankInfo != null && custBankInfo.bankInfoDetail?.Count() >= 3)
+            else if (custBankInfo != null && custBankInfo.bankInfoDetail?.Count() >= 3)
             {
                 apiResult.ErrorCode = -3;
                 apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
@@ -103,9 +117,7 @@ namespace MemberSite.Controllers.Api
                 bankInfoList = new List<BankInfoDetail>();
             }
 
-            bankInfoList.Add(new BankInfoDetail { AccountNo = bankInfo.AccountNo, SysId = bankInfo.SysId, IFSCCode = bankInfo.IFSCCode });
-            BankInfoLogList.Add(new BankInfoDetail { AccountNo = bankInfo.AccountNo, SysId = bankInfo.SysId, IFSCCode = bankInfo.IFSCCode });
-            apiResult.ErrorCode = _custInfoBLL.InsertCustBankInfo(authData.CustId, bankInfo.AccountName, bankInfoList, BankInfoLogList);
+            apiResult.ErrorCode = _custInfoBLL.InsertCustBankInfo(authData.CustId, bankInfo.AccountName, bankInfo.SysId, bankInfo.AccountNo, bankInfo.IFSCCode, CustBankInfoLogStatus.Create);
             apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
@@ -115,7 +127,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
-            IEnumerable<BankInfoDetail> bankInfoList = null;
+            //IEnumerable<BankInfoDetail> bankInfoList = null;
 
             var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
             if (custBankInfo == null || custBankInfo.bankInfoDetail == null)
@@ -124,13 +136,14 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                 return apiResult;
             }
-            else if (custBankInfo != null && custBankInfo.bankInfoDetail != null)
-            {
-                bankInfoList = custBankInfo.bankInfoDetail.Where(x => !(x.SysId == bankInfo.SysId && x.AccountNo == bankInfo.AccountNo));
-            }
-
-            apiResult.ErrorCode = _custInfoBLL.SetCustBankInfo(authData.CustId, custBankInfo.AccountName, bankInfoList);
-            apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
+            //else if (custBankInfo != null && custBankInfo.bankInfoDetail != null)
+            //{
+            //    bankInfoList = custBankInfo.bankInfoDetail.Where(x => !(x.SysId == bankInfo.SysId && x.AccountNo == bankInfo.AccountNo));
+            //}
+            apiResult.ErrorCode = _custInfoBLL.SetCustBankDetail(authData.CustId, bankInfo.SysId, bankInfo.AccountNo, bankInfo.IFSCCode, CustBankDetailStatus.Disable);
+            apiResult.Message = _selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
+            //apiResult.ErrorCode = _custInfoBLL.SetCustBankInfo(authData.CustId, custBankInfo.AccountName, bankInfoList);
+            //apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
         public class USDTDetailreq
@@ -384,8 +397,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -5;
                 return apiResult;
             }
-            //not existed, update (custInfoBLL.SetCustBankInfo only return 0 or -1)
-            apiResult.ErrorCode = _custInfoBLL.SetCustBankInfo(authData.CustId, content.Name, null);
+            apiResult.ErrorCode = _custInfoBLL.SetCustBankInfo(authData.CustId, content.Name);
             apiResult.Message = _selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
 
             return apiResult;
@@ -401,7 +413,7 @@ namespace MemberSite.Controllers.Api
             if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
             {
                 string AccountName = custProfile[nameof(AccountName)];
-                var result = _custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
+                var result = _custInfoBLL.SetCustBankInfo(authData.CustId, AccountName);
                 if (!string.IsNullOrEmpty(beforeCustInfo.CountryCode))
                     custProfile["CountryCode"] = beforeCustInfo.CountryCode;
                 if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
@@ -445,7 +457,7 @@ namespace MemberSite.Controllers.Api
                 }
                 else
                 {
-                    var result = _custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"], null);
+                    var result = _custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"]);
                 }
             }
             
@@ -504,8 +516,7 @@ namespace MemberSite.Controllers.Api
                 if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
                 {
                     string AccountName = custProfile[nameof(AccountName)];
-                    var result = _custInfoBLL.SetCustBankInfo(authData.CustId, AccountName, null);
-
+                    var result = _custInfoBLL.SetCustBankInfo(authData.CustId, AccountName);
                     if (!string.IsNullOrEmpty(beforeCustInfo.CountryCode))
                         custProfile["CountryCode"] = beforeCustInfo.CountryCode;
 
@@ -553,7 +564,7 @@ namespace MemberSite.Controllers.Api
                     }
                     else
                     {
-                        var result = _custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"], null);
+                        var result = _custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"]);
                     }
                 }
 

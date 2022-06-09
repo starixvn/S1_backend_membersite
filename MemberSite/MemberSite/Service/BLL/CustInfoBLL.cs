@@ -309,15 +309,15 @@ namespace MemberSite.Service.BLL
             return _custInfoService.SetProfileV2(custId, custInfo.SiteId, custProfile) ? 0 : -1;
         }
 
-        public int SetCustBankInfo(int custId, string accountName, IEnumerable<BankInfoDetail> bankInfo)
+        public int SetCustBankInfo(int custId, string accountName)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName, bankInfo) ? 0 : -1;
+            return _custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName) ? 0 : -1;
         }
-        public int InsertCustBankInfo(int custId, string accountName, IEnumerable<BankInfoDetail> bankInfo, IEnumerable<BankInfoDetail> banklog)
+        public int InsertCustBankInfo(int custId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.InsertCustBankInfo(custId, custInfo.SiteId, accountName, bankInfo, banklog) ? 0 : -1;
+            return _custInfoService.InsertCustBankInfo(custId, custInfo.SiteId, accountName, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
 
         public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo)
@@ -335,9 +335,10 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             var custBankInfo = _custInfoService.GetCustBankInfo(custId, custInfo.SiteId);
 
-            if (custBankInfo != null && custBankInfo.BankInfo != null)
+            if (custBankInfo != null)
             {
-                var bankInfoDetailList = JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
+                //var bankInfoDetailList = JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
+                var bankInfoDetailList = _custInfoService.GetCustBankDetail(custId);
                 if (bankInfoDetailList != null)
                 {
                     bankInfoDetailList = bankInfoDetailList.Where(x => x.SysId != 0 && x.AccountNo != null);//filiter null data
@@ -631,6 +632,17 @@ namespace MemberSite.Service.BLL
         public int SetCustActStatus(int custId, string Operator)
         {
             return _custInfoService.SetCustActStatus(custId, Operator);
+        }
+
+        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo)
+        {
+            return _custInfoService.GetCustBankDetail(sysId, accountNo);
+        }
+
+        public int SetCustBankDetail(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
+        {
+            //var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.SetCustBankDetail(custId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
     }
 }

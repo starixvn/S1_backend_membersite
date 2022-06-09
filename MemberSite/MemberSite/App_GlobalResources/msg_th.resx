@@ -353,4 +353,7 @@
   <data name="msg_DecimalOutOfRange" xml:space="preserve">
     <value>การโอนล้มเหลวเนื่องจากมีทศนิยมมากกว่า 2 หลัก</value>
   </data>
+  <data name="msg_BankAccountDuplicate" xml:space="preserve">
+    <value>ไม่อนุญาตให้ใช้หมายเลขบัญชีธนาคารซ้ำ โปรดลองหมายเลขบัญชีอื่น</value>
+  </data>
 </root>

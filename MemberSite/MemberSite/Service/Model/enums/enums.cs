@@ -342,4 +342,16 @@
         Restore = 1,
         Manual = 2,
     }
+    public enum CustBankInfoLogStatus
+    {
+        Create = 1,
+        Delete = 2,
+        Lock = 3,
+        Unlock = 4
+    }
+    public enum CustBankDetailStatus
+    {
+        Disable = 0,
+        Able = 1,
+    }
 }
