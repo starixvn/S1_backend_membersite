@@ -356,9 +356,10 @@
         IssueLineTokenFail = 2001,
         GetLineTokenFail = 2002,
         LineTokenInvaild = 2003,
-        GetLineUserProfileFail = 2004,
-        LineUserProfileInvaild = 2005,
-        LineUserIdNotFound = 2006,
+        LineTokenNotFound = 2004,
+        GetLineUserProfileFail = 2005,
+        LineUserProfileInvaild = 2006,
+        LineUserIdNotFound = 2007,
         LineGetUserIdException = 2009,
 
         RegisterAuthInvaild = 3001,
