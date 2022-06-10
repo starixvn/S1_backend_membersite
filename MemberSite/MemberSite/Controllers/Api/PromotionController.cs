@@ -82,13 +82,6 @@ namespace MemberSite.Controllers.Api
             public string SpecialCode { set; get; }
             public int? DeviceType { set; get; }
         }
-        
-        public class SetSpecialCodeRequest
-        {
-            public int CustId { set; get; }
-            public string SpecialCode { set; get; }
-            public int DeviceType { set; get; }
-        }
 
         [Authorize]
         [HttpPost]
@@ -260,14 +253,14 @@ namespace MemberSite.Controllers.Api
                 var authData = _authorizeBLL.GetAuthData();
 
                 var apiUrl = $"{_bonusServiceUrl}SetSpecialCode";
-                var req = new SetSpecialCodeRequest
+                var req = new SpecialCodeRequest
                 {
                     CustId = authData.CustId,
                     DeviceType = Convert.ToInt32(setSpecialCodeReq.DeviceType),
                     SpecialCode = setSpecialCodeReq.SpecialCode
                 };
 
-                result = _courierAdapter.MyPostAsync<ApiResult, SetSpecialCodeRequest>(apiUrl, req).Result;
+                result = _courierAdapter.MyPostAsync<ApiResult, SpecialCodeRequest>(apiUrl, req).Result;
                 if (result.ErrorCode == (int)SpecialCode.SpecialCodeError)
                 {
                     result.Message = _selLangBLL.GetMsg("msg_SpecialCodeErr");
