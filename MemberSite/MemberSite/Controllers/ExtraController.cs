@@ -43,7 +43,6 @@ namespace MemberSite.Controllers
         {
             var message = "";
             var errorCode = 99;
-            var serverInfo = _serverInfoBll.GetServerInfo();
 
             if (User.Identity.IsAuthenticated)
             {

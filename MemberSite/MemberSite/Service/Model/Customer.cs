@@ -22,6 +22,7 @@ namespace MemberSite.Service.Model
         public bool IsResetPwd { get; set; }
         public string Aff { get; set; }
         public string AffCode { get; set; }
+        public string Token { get; set; }
     }
 
     //{"Ver": 1, "SysId": 8, "AccountNo": "9876543210", "AccountName": "Eddie Wu"}
