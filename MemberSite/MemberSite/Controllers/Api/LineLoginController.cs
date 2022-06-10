@@ -163,7 +163,7 @@ namespace MemberSite.Controllers.Api
                     case LineLoginErrorCode.BindingLineProfileInvaild:
                         meesage = _selLangBll.GetMsg("msg_LineAccountAlreadyBind");
                         break;
-                    case LineLoginErrorCode.CodeInvaild:
+                    case LineLoginErrorCode.CodeInvaild: //使用者於line認證跳出，選擇不繼續綁定
                         result.ErrorCode = LineLoginErrorCode.Success;
                         break;
                     default:
