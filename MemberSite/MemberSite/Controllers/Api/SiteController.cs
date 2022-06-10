@@ -260,6 +260,7 @@ namespace MemberSite.Controllers.Api
             public string AreaCode { get; set; }
             public string RealName { get; set; }
             public string PromoCode { get; set; }
+            public string RedirectUrl { get; set; }
             public int Birth_d { get; set; }
             public int Birth_m { get; set; }
             public int Birth_y { get; set; }
