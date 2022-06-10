@@ -227,7 +227,7 @@
         Success = 0,
         IovationNotSupport = 1301
     }
-    public enum SpecialCodeErrorcode : int
+    public enum SpecialCode
     {
         Success = 0,
         SpecialCodeError = 99
@@ -343,6 +343,13 @@
         Manual = 2,
     }
 
+    public enum PromotionDeviceType
+    {
+        All = 1,
+        Web = 2,
+        App = 3
+    }
+    
     public enum LineLoginErrorCode
     {
         Success = 0,

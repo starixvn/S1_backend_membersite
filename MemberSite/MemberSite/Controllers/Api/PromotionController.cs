@@ -76,6 +76,19 @@ namespace MemberSite.Controllers.Api
         {
             public string BonusCode { set; get; }
         }
+        
+        public class SetSpecialCodeReq
+        {
+            public string SpecialCode { set; get; }
+            public int? DeviceType { set; get; }
+        }
+        
+        public class SetSpecialCodeRequest
+        {
+            public int CustId { set; get; }
+            public string SpecialCode { set; get; }
+            public int DeviceType { set; get; }
+        }
 
         [Authorize]
         [HttpPost]
@@ -236,66 +249,37 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
-        public class SetSpecialCodeReq
-        {
-            public string SpecialCode { set; get; }
-            public int? DeviceType { set; get; }
-        }
-
         [Authorize]
         [HttpPost]
         public ApiResult SetSpecialCode(SetSpecialCodeReq setSpecialCodeReq)
         {
-            var result = new ApiResult
-            {
-                ErrorCode = (int)SpecialCodeErrorcode.SpecialCodeError,
-                Message = _selLangBLL.GetMsg("msg_SpecialCodeErr")
-            };
-
+            setSpecialCodeReq.DeviceType ??= (int)PromotionDeviceType.App;
+            var result = new ApiResult();
             try
             {
                 var authData = _authorizeBLL.GetAuthData();
-                if (!_promotionBLL.CheckSpecialCode(setSpecialCodeReq.SpecialCode))
+
+                var apiUrl = $"{_bonusServiceUrl}SetSpecialCode";
+                var req = new SetSpecialCodeRequest
                 {
-                    result.ErrorCode = 99;
-                }
-                else if (_promotionBLL.CheckScratchCardCode(setSpecialCodeReq.SpecialCode.ToUpper()))
+                    CustId = authData.CustId,
+                    DeviceType = Convert.ToInt32(setSpecialCodeReq.DeviceType),
+                    SpecialCode = setSpecialCodeReq.SpecialCode
+                };
+
+                result = _courierAdapter.MyPostAsync<ApiResult, SetSpecialCodeRequest>(apiUrl, req).Result;
+                if (result.ErrorCode == (int)SpecialCode.SpecialCodeError)
                 {
-                    result.ErrorCode = _promotionBLL.SetScratchCardCode(authData.CustId, setSpecialCodeReq.SpecialCode.ToUpper(), setSpecialCodeReq.DeviceType);
-                    if (result.ErrorCode == 0)
-                        result.Message = "";
-                }
-                else
-                {
-                    if (_promotionBLL.SetSpecialCode(authData.CustId, setSpecialCodeReq.SpecialCode, setSpecialCodeReq.DeviceType))
-                    {
-                        result.ErrorCode = 0;
-                        result.Message = "";
-                    }
-                    else
-                    {
-                        result.ErrorCode = 99;
-                    }
+                    result.Message = _selLangBLL.GetMsg("msg_SpecialCodeErr");
                 }
             }
-            catch (MySql.Data.MySqlClient.MySqlException mySqlEx)
-            {
-                if (mySqlEx.Number == 1062)/*Duplicate for key 'PRIMARY'*/
-                {
-                    result.ErrorCode = 0;
-                }
-                else
-                {
-                    result.ErrorCode = 9000;
-                    result.Message = mySqlEx.ToString();
-                }
-            }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 result.ErrorCode = 9000;
-                result.Message = ex.ToString();
+                result.Message = e.ToString();
+                _logger.LogError(e, GetCurrentMethod());
             }
-
+            
             return result;
         }
 

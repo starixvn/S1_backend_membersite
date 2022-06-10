@@ -5,7 +5,6 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MySql.Data.MySqlClient;
-using MemberSite.Service.BLL;
 
 namespace MemberSite.Service.DAL
 {
