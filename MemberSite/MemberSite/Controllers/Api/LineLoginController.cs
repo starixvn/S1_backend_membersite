@@ -141,7 +141,6 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> LineCallbackAsync(LineCallbackModel request)
         {
             var domainUrl = _tools.GetDomainUrl();
-            _logger.LogInformation($"domainUrl:{domainUrl}");
             string redirectUri = $"https://{domainUrl}/callback";
 
             var result = await _lineLoginBll.LineLoginCallBack(request.LineLoginResponse.code,
