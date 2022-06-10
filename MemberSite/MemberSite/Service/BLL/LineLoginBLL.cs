@@ -1,19 +1,12 @@
 ﻿using MemberSite.Service.DAL;
-using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace MemberSite.Service.BLL
 {
@@ -50,7 +43,7 @@ namespace MemberSite.Service.BLL
                     var authData = _authorizeBll.GetAuthData();
                     if (authData != null && authData.CustId != 0)
                     {
-                        var custLineProfile = GetCustLinePrfile(authData.CustId, null);
+                        var custLineProfile = GetCustLineProfile(authData.CustId, null);
                         if (custLineProfile != null)
                         {
                             errorCode = (int)LineLoginErrorCode.MemberAccountAlreadyBinding;
@@ -71,18 +64,18 @@ namespace MemberSite.Service.BLL
             catch (Exception ex)
             {
                 errorCode = (int)LineLoginErrorCode.IssueLineTokenException;
-                _logger.LogError(ex, $"IssueLineToken Fail: Exception happend. Message={ex.Message}");
+                _logger.LogError(ex, $"IssueLineToken Fail: Exception happened. Message={ex.Message}");
                 return false;
             }
         }
 
-        public async Task<CallBackReponseModel> LineLoginCallBack(string code, string state, string error, int errorCode, string error_description, string errorMessage, string redirectUri)
+        public async Task<CallBackReponseModel> LineLoginCallBack(string code, string state, string error, int errorCode, string errorDescription, string errorMessage, string redirectUri)
         {
             var lineUserId = string.Empty;
             var config = _lineLoginChannelConfig.Value;
             var resultCode = LineLoginErrorCode.Success;
 
-            if (!CheckLineResponse(code, state, error, errorCode, error_description, errorMessage, out resultCode))
+            if (!CheckLineResponse(code, state, error, errorCode, errorDescription, errorMessage, out resultCode))
             {
                 return new CallBackReponseModel { Type = FlowType.Undefine, ErrorCode = resultCode };
             }
@@ -103,7 +96,7 @@ namespace MemberSite.Service.BLL
             {
                 var authData = _authorizeBll.GetAuthData();
 
-                var custLineProfile = GetCustLinePrfile(0, lineUserId);
+                var custLineProfile = GetCustLineProfile(0, lineUserId);
 
                 switch (lineIssueToken.FlowType)
                 {
@@ -156,7 +149,7 @@ namespace MemberSite.Service.BLL
                     default:
                         {
                             resultCode = LineLoginErrorCode.UndefineFlow;
-                            _logger.LogInformation("Flow Error: Undefine flow.");
+                            _logger.LogInformation("Flow Error: UnDefine flow.");
                             return new CallBackReponseModel { Type = lineIssueToken.FlowType, ErrorCode = resultCode };
                         }
                 }
@@ -169,12 +162,12 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        public CustLineProfileModel GetCustLinePrfile(int custId, string encryptUserId)
+        private CustLineProfileModel GetCustLineProfile(int custId, string encryptUserId)
         {
             return _custInfoService.GetCustLineProfile(custId, encryptUserId);
         }
 
-        public bool InsertCustLineProfile(int custId, string lineUserId, out LineLoginErrorCode resultCode)
+        private bool InsertCustLineProfile(int custId, string lineUserId, out LineLoginErrorCode resultCode)
         {
             resultCode = LineLoginErrorCode.Success;
             try
@@ -190,18 +183,18 @@ namespace MemberSite.Service.BLL
             catch (Exception ex)
             {
                 resultCode = LineLoginErrorCode.InsertLineProfileException;
-                _logger.LogError(ex, $"InsertCustLineProfile Fail: Exception happend.");
+                _logger.LogError(ex, $"InsertCustLineProfile Fail: Exception happened.");
                 return false;
             }
         }
 
-        private bool CheckLineResponse(string code, string state, string error, int errorCode, string error_description, string errorMessage, out LineLoginErrorCode resultCode)
+        private bool CheckLineResponse(string code, string state, string error, int errorCode, string errorDescription, string errorMessage, out LineLoginErrorCode resultCode)
         {
             resultCode = 0;
             if (!string.IsNullOrWhiteSpace(error))
             {
                 resultCode = LineLoginErrorCode.LineCallbackError;
-                _logger.LogInformation($"CheckLineResponse Fail：error hapeen. error={error}.errorCode={errorCode}. error_description={error_description}. errormessage={errorMessage}");
+                _logger.LogInformation($"CheckLineResponse Fail：error happened. error={error}.errorCode={errorCode}. error_description={errorDescription}. errormessage={errorMessage}");
                 return false;
             }
 
@@ -275,7 +268,7 @@ namespace MemberSite.Service.BLL
                 nvc.Add("client_id", config.ChannelId);
                 nvc.Add("client_secret", config.ChannelSecret);
 
-                string tokenResponseStr = string.Empty;
+                var tokenResponseStr = string.Empty;
 
                 try
                 {
@@ -285,13 +278,16 @@ namespace MemberSite.Service.BLL
                 catch (WebException ex)
                 {
                     resultCode = LineLoginErrorCode.GetLineTokenFail;
-                    using (HttpWebResponse hr = (HttpWebResponse)ex.Response)
+                    using (var hr = (HttpWebResponse)ex.Response)
                     {
-                        int statusCode = (int)hr.StatusCode;
-                        StringBuilder sb = new StringBuilder();
-                        StreamReader sr = new StreamReader(hr.GetResponseStream(), Encoding.UTF8);
-                        sb.Append(sr.ReadToEnd());
-                        _logger.LogError(ex, $"GetLineUserId LineTokenApi Fail: StatusCode:{statusCode},Content:{sb}");
+                        if (hr != null)
+                        {
+                            int statusCode = (int)hr.StatusCode;
+                            var sb = new StringBuilder();
+                            var sr = new StreamReader(hr.GetResponseStream(), Encoding.UTF8);
+                            sb.Append(sr.ReadToEnd());
+                            _logger.LogError(ex, $"GetLineUserId LineTokenApi Fail: StatusCode:{statusCode},Content:{sb}");
+                        }
                     }
                     return false;
                 }
@@ -303,9 +299,9 @@ namespace MemberSite.Service.BLL
                     return false;
                 }
 
-                IssueAccessTokenResponseModel tokenResponse = JsonConvert.DeserializeObject<IssueAccessTokenResponseModel>(tokenResponseStr);
+                var tokenResponse = JsonConvert.DeserializeObject<IssueAccessTokenResponseModel>(tokenResponseStr);
 
-                if (string.IsNullOrWhiteSpace(tokenResponse.access_token))
+                if (tokenResponse == null || string.IsNullOrWhiteSpace(tokenResponse.access_token))
                 {
                     resultCode = LineLoginErrorCode.LineTokenNotFound;
                     _logger.LogInformation($"GetLineUserId LineProfileApi Fail：userId not found.");
@@ -329,13 +325,16 @@ namespace MemberSite.Service.BLL
                 catch (WebException ex)
                 {
                     resultCode = LineLoginErrorCode.GetLineUserProfileFail;
-                    using (HttpWebResponse hr = (HttpWebResponse)ex.Response)
+                    using (var hr = (HttpWebResponse)ex.Response)
                     {
-                        int statusCode = (int)hr.StatusCode;
-                        StringBuilder sb = new StringBuilder();
-                        StreamReader sr = new StreamReader(hr.GetResponseStream(), Encoding.UTF8);
-                        sb.Append(sr.ReadToEnd());
-                        _logger.LogError(ex, $"GetLineUserId LineProfileApi Fail: StatusCode:{statusCode},Content:{sb}");
+                        if (hr != null)
+                        {
+                            var statusCode = (int)hr.StatusCode;
+                            var sb = new StringBuilder();
+                            var sr = new StreamReader(hr.GetResponseStream(), Encoding.UTF8);
+                            sb.Append(sr.ReadToEnd());
+                            _logger.LogError(ex, $"GetLineUserId LineProfileApi Fail: StatusCode:{statusCode},Content:{sb}");
+                        }
                     }
                     return false;
                 }
@@ -347,9 +346,9 @@ namespace MemberSite.Service.BLL
                     return false;
                 }
 
-                var ProfileObj = JsonConvert.DeserializeObject<LineProfileResponseModel>(userProfileResponseStr);
+                var profileObj = JsonConvert.DeserializeObject<LineProfileResponseModel>(userProfileResponseStr);
 
-                if (string.IsNullOrWhiteSpace(ProfileObj.userId))
+                if (profileObj == null || string.IsNullOrWhiteSpace(profileObj.userId))
                 {
                     resultCode = LineLoginErrorCode.LineUserIdNotFound;
                     _logger.LogInformation($"GetLineUserId LineProfileApi Fail：userId not found.");
@@ -358,7 +357,7 @@ namespace MemberSite.Service.BLL
 
                 #endregion
 
-                lineUserId = ProfileObj.userId;
+                lineUserId = profileObj.userId;
 
                 return true;
             }

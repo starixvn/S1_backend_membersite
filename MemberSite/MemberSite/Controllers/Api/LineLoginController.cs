@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Web;
 using MemberSite.Service.Model.enums;
@@ -112,9 +111,8 @@ namespace MemberSite.Controllers.Api
             #endregion
 
             var config = _lineLoginChannelConfig.Value;
-            int errorCode = 0;
 
-            if (!_lineLoginBll.IssueLineToken(request.type, out errorCode, out string token))
+            if (!_lineLoginBll.IssueLineToken(request.type, out var errorCode, out string token))
             {
                 return new ApiResult(_selLangBll) { ErrorCode = errorCode, Message = _selLangBll.GetMsg("msg_ApiServerError") };
             }
@@ -122,7 +120,7 @@ namespace MemberSite.Controllers.Api
             var domainUrl = _tools.GetDomainUrl();
             string redirectUri = $"https://{domainUrl}/callback";
 
-            string LineLoginUrl = string.Format("https://access.line.me/oauth2/v2.1/authorize?" +
+            var lineLoginUrl = string.Format("https://access.line.me/oauth2/v2.1/authorize?" +
                 "response_type={0}"
                 + "&client_id={1}"
                 + "&redirect_uri={2}"
@@ -134,7 +132,7 @@ namespace MemberSite.Controllers.Api
                 token
             );
 
-            return new ApiResult<string>() { Data = LineLoginUrl, ErrorCode = errorCode };
+            return new ApiResult<string>() { Data = lineLoginUrl, ErrorCode = errorCode };
         }
 
         [HttpPost]
@@ -154,19 +152,19 @@ namespace MemberSite.Controllers.Api
             if (result.ErrorCode != LineLoginErrorCode.Success)
             {
                 var data = new { Type = result.Type, UserId = result.UserId };
-                string meesage = string.Empty;
+                var message = string.Empty;
 
                 switch (result.ErrorCode)
                 {
                     case LineLoginErrorCode.RegisterLineProfileInvaild:
                     case LineLoginErrorCode.BindingLineProfileInvaild:
-                        meesage = _selLangBll.GetMsg("msg_LineAccountAlreadyBind");
+                        message = _selLangBll.GetMsg("msg_LineAccountAlreadyBind");
                         break;
                     case LineLoginErrorCode.CodeInvaild: //使用者於line認證跳出，選擇不繼續綁定
                         result.ErrorCode = LineLoginErrorCode.Success;
                         break;
                     default:
-                        meesage = _selLangBll.GetMsg("msg_ApiServerError");
+                        message = _selLangBll.GetMsg("msg_ApiServerError");
                         break;
                 }
 
@@ -174,7 +172,7 @@ namespace MemberSite.Controllers.Api
                 {
                     Data = data,
                     ErrorCode = (int)result.ErrorCode,
-                    Message = meesage
+                    Message = message
                 };
             }
 
@@ -205,7 +203,8 @@ namespace MemberSite.Controllers.Api
                             RawMessage = loginReuslt.RawMessage
                         };
                     }
-                default: //Type Undefine
+                case FlowType.Undefine:
+                default:
                     return new ApiResult<dynamic>(_selLangBll)
                     {
                         Data = new { Type = result.Type },
@@ -221,8 +220,8 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<dynamic>(_selLangBll);
 
-            var desktopClaims = new List<Claim>(); //Initial Destop & H5 Claims
-            var appClaims = new Claim[0]; //Initial App Claims
+            var desktopClaims = new List<Claim>(); //Initial Desktop & H5 Claims
+            var appClaims = Array.Empty<Claim>(); //Initial App Claims
 
             Customer customer = null;
             var ip = _tools.GetClientIP();
