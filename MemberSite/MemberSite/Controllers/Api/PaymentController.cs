@@ -4,6 +4,7 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
 {
@@ -20,7 +21,6 @@ namespace MemberSite.Controllers.Api
         private readonly CourierAdapter courierAdapter;
         private readonly SelLangBLL selLangBLL;
         private readonly WalletBLL walletBLL;
-        //private readonly MobilePayInfoBll mobilePayInfoBLL;
         private readonly IovationBLL iovationBLL;
         private readonly CryptoPayInfoBll cryptoPayInfoBLL;
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
@@ -28,9 +28,10 @@ namespace MemberSite.Controllers.Api
         private readonly int mainWalletType;
         private readonly FileNameBLL _fileNameBll;
         private readonly ImageEditorBLL _imageEditorBll;
-        private readonly PromotionBll _promotionBLL;
         private readonly PayInfoBLL _payInfoBLL;
         private readonly ILogger<PaymentController> _logger;
+        private readonly CourierAdapter _courierAdapter;
+        private readonly string _bonusServiceUrl;
 
         public PaymentController(IServiceProvider provider)
         {
@@ -42,19 +43,19 @@ namespace MemberSite.Controllers.Api
             courierAdapter = provider.GetRequiredService<CourierAdapter>();
             selLangBLL = provider.GetRequiredService<SelLangBLL>();
             walletBLL = provider.GetRequiredService<WalletBLL>();
-            //mobilePayInfoBLL = provider.GetRequiredService<MobilePayInfoBll>();
             iovationBLL = provider.GetRequiredService<IovationBLL>();
             cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
             loadCardPayInfoBLL = provider.GetRequiredService<LoadCardPayInfoBLL>();
             _fileNameBll = provider.GetRequiredService<FileNameBLL>();
             _imageEditorBll = provider.GetRequiredService<ImageEditorBLL>();
-            _promotionBLL = provider.GetRequiredService<PromotionBll>();
             _payInfoBLL = provider.GetRequiredService<PayInfoBLL>();
             _logger = provider.GetRequiredService<ILogger<PaymentController>>();
+            _courierAdapter = provider.GetRequiredService<CourierAdapter>();
 
             var configuration = provider.GetRequiredService<IConfiguration>();
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
+            _bonusServiceUrl = configuration.GetValue<string>("BonusService");
         }
 
         [HttpPost]
@@ -1323,164 +1324,51 @@ namespace MemberSite.Controllers.Api
             public int DeviceType { get; set; }
         }
         [HttpPost]
-        public ApiResult<CheckDepositSpecialCodeRsp> CheckDepositSpecialCode(CheckDepositSpecialCodeReq checkDepositSpecialCodeReq)
+        public ApiResult<SpecialCodeResponse> CheckDepositSpecialCode(CheckDepositSpecialCodeReq request)
         {
-            var apiResult = new ApiResult<CheckDepositSpecialCodeRsp>();
-            var authData = authorizeBLL.GetAuthData();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
+            var result = new ApiResult<SpecialCodeResponse>();
 
-            //檢核SpecialCode格式是否正確
-            bool IsSpecialCode = _promotionBLL.CheckSpecialCode(checkDepositSpecialCodeReq.SpecialCode);
-            bool IsScratchCardCode = _promotionBLL.CheckScratchCardCode(checkDepositSpecialCodeReq.SpecialCode.ToUpper());
-            if (!IsSpecialCode && !IsScratchCardCode)
+            try
             {
-                apiResult.ErrorCode = 1000;
-                apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                return apiResult;
-            }
-            if (!custInfoProfile.PhoneVerified
-                || string.IsNullOrEmpty(custInfoProfile.AccountName)
-                || string.IsNullOrEmpty(custInfoProfile.Birth_y)
-                || string.IsNullOrEmpty(custInfoProfile.Birth_m)
-                || string.IsNullOrEmpty(custInfoProfile.Birth_d))
-            {
-                apiResult.ErrorCode = 2000;
-                apiResult.Message = selLangBLL.GetMsg("msg_OTPHint");
-                return apiResult;
-            }
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
 
-            if (IsScratchCardCode)
-            {
-                //檢核是否真有這筆ScratchCardCode
-                var promotion = _promotionBLL.GetPromotionBySpecialScratchCard(custInfo.SiteId, checkDepositSpecialCodeReq.SpecialCode);
-                if (promotion != null)
+                if (!custInfoProfile.PhoneVerified
+                    || string.IsNullOrEmpty(custInfoProfile.AccountName)
+                    || string.IsNullOrEmpty(custInfoProfile.Birth_y)
+                    || string.IsNullOrEmpty(custInfoProfile.Birth_m)
+                    || string.IsNullOrEmpty(custInfoProfile.Birth_d))
                 {
-                    if (promotion.PromotionType != (int)PromotionType.FstDeposit && promotion.PromotionType != (int)PromotionType.ReDeposit)
-                    {
-                        apiResult.ErrorCode = 1000;
-                        apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                        return apiResult;
-                    }
-                    if (promotion.CustId != 0 && promotion.CustId != authData.CustId)
-                    {
-                        apiResult.ErrorCode = 3000;
-                        apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed");
-                        return apiResult;
-                    }
-                    //寫入CustSpecialCode Table,並檢核是否輸入相同ScratchCard過
-                    //有輸入相同ScratchCard過
-                    if (_promotionBLL.SetScratchCardCode(authData.CustId, checkDepositSpecialCodeReq.SpecialCode, checkDepositSpecialCodeReq.DeviceType) != 0)
-                    {
-                        //檢核是否領過這個BonusCode
-                        if (_promotionBLL.GetBonusinfoByBonusCode(authData.CustId, promotion.BonusCode) != null)
-                        {
-                            apiResult.ErrorCode = 3000;
-                            apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed");
-                            return apiResult;
-                        }
-                        else
-                        {
-                            apiResult.ErrorCode = 1000;
-                            apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                            return apiResult;
-                        }
-                    }
-                    apiResult.ErrorCode = 0;
-                    apiResult.Data = new CheckDepositSpecialCodeRsp() { BonusCode = promotion.BonusCode };
+                    result.ErrorCode = 2000;
+                    result.Message = selLangBLL.GetMsg("msg_OTPHint");
+                    return result;
                 }
-                else
+
+                var apiUrl = $"{_bonusServiceUrl}CheckDepositSpecialCode";
+                var req = new SpecialCodeRequest
                 {
-                    if (!IsSpecialCode)
-                    {
-                        apiResult.ErrorCode = 1000;
-                        apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                        return apiResult;
-                    }
-                    else
-                    {
-                        //檢核是否真有這筆specialCode
-                        var promotionv2 = _promotionBLL.GetPromotionBySpecialCode(custInfo.SiteId, checkDepositSpecialCodeReq.SpecialCode);
-                        if (promotionv2 != null)
-                        {
-                            if (promotionv2.PromotionType != (int)PromotionType.FstDeposit && promotionv2.PromotionType != (int)PromotionType.ReDeposit)
-                            {
-                                apiResult.ErrorCode = 1000;
-                                apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                                return apiResult;
-                            }
-                            //寫入CustSpecialCode Table,並檢核是否輸入相同specialCode過
-                            //有輸入相同specialCode過
-                            if (!_promotionBLL.SetSpecialCode(authData.CustId, checkDepositSpecialCodeReq.SpecialCode, checkDepositSpecialCodeReq.DeviceType))
-                            {
-                                //檢核是否領過這個BonusCode
-                                if (_promotionBLL.GetBonusinfoByBonusCode(authData.CustId, promotionv2.BonusCode) != null)
-                                {
-                                    apiResult.ErrorCode = 3000;
-                                    apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed");
-                                    return apiResult;
-                                }
-                                else
-                                {
-                                    apiResult.ErrorCode = 1000;
-                                    apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                                    return apiResult;
-                                }
-                            }
-                            apiResult.ErrorCode = 0;
-                            apiResult.Data = new CheckDepositSpecialCodeRsp() { BonusCode = promotionv2.BonusCode };
-                        }
-                        else
-                        {
-                            apiResult.ErrorCode = 1000;
-                            apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                            return apiResult;
-                        }
-                    }
-                }
+                    CustId = authData.CustId,
+                    DeviceType = request.DeviceType,
+                    SpecialCode = request.SpecialCode,
+                    SiteId = custInfo.SiteId
+                };
+
+                result = _courierAdapter.MyPostAsync<SpecialCodeResponse, SpecialCodeRequest>(apiUrl, req).Result;
+
+                result.Message = result.ErrorCode switch
+                {
+                    (int)SpecialCode.SpecialCodeErrorForCheck => selLangBLL.GetMsg("msg_SpecialCodeErr"),
+                    (int)SpecialCode.PromoCodeHasBeenUsed => selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed"),
+                    _ => result.Message
+                };
             }
-            else
+            catch (Exception e)
             {
-                //檢核是否真有這筆specialCode
-                var promotion = _promotionBLL.GetPromotionBySpecialCode(custInfo.SiteId, checkDepositSpecialCodeReq.SpecialCode);
-                if (promotion != null)
-                {
-                    if (promotion.PromotionType != (int)PromotionType.FstDeposit && promotion.PromotionType != (int)PromotionType.ReDeposit)
-                    {
-                        apiResult.ErrorCode = 1000;
-                        apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                        return apiResult;
-                    }
-                    //寫入CustSpecialCode Table,並檢核是否輸入相同specialCode過
-                    //有輸入相同specialCode過
-                    if (!_promotionBLL.SetSpecialCode(authData.CustId, checkDepositSpecialCodeReq.SpecialCode, checkDepositSpecialCodeReq.DeviceType))
-                    {
-                        //檢核是否領過這個BonusCode
-                        if (_promotionBLL.GetBonusinfoByBonusCode(authData.CustId, promotion.BonusCode) != null)
-                        {
-                            apiResult.ErrorCode = 3000;
-                            apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed");
-                            return apiResult;
-                        }
-                        else
-                        {
-                            apiResult.ErrorCode = 1000;
-                            apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                            return apiResult;
-                        }
-                    }
-                    apiResult.ErrorCode = 0;
-                    apiResult.Data = new CheckDepositSpecialCodeRsp() { BonusCode = promotion.BonusCode };
-                }
-                else
-                {
-                    apiResult.ErrorCode = 1000;
-                    apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                    return apiResult;
-                }
+                _logger.LogError(e, GetCurrentMethod());
             }
 
-            return apiResult;
+            return result;
         }
 
         [HttpPost]
