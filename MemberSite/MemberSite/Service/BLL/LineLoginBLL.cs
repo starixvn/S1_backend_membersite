@@ -162,7 +162,7 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        private CustLineProfileModel GetCustLineProfile(int custId, string encryptUserId)
+        public CustLineProfileModel GetCustLineProfile(int custId, string encryptUserId)
         {
             return _custInfoService.GetCustLineProfile(custId, encryptUserId);
         }
