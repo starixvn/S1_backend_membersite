@@ -23,7 +23,6 @@ namespace MemberSite.Controllers.Api
     {
         private readonly Tools _tools;
         private readonly LineLoginBLL _lineLoginBll;
-        private readonly AuthorizeBLL _authorizeBll;
         private readonly SelLangBLL _selLangBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly FPSBLL _sFpsBll;
@@ -36,7 +35,6 @@ namespace MemberSite.Controllers.Api
         {
             _tools = provider.GetRequiredService<Tools>();
             _lineLoginBll = provider.GetRequiredService<LineLoginBLL>();
-            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
@@ -87,7 +85,7 @@ namespace MemberSite.Controllers.Api
         #region Action
 
         [HttpPost]
-        public async Task<ApiResult> LineLoginDirectAsync(LineLoginModel request)
+        public ApiResult LineLoginDirect(LineLoginModel request)
         {
             #region API Example & Description
 
@@ -122,7 +120,6 @@ namespace MemberSite.Controllers.Api
             }
 
             var domainUrl = _tools.GetDomainUrl();
-            _logger.LogInformation($"domainUrl:{domainUrl}");
             string redirectUri = $"https://{domainUrl}/callback";
 
             string LineLoginUrl = string.Format("https://access.line.me/oauth2/v2.1/authorize?" +
@@ -165,6 +162,9 @@ namespace MemberSite.Controllers.Api
                     case LineLoginErrorCode.RegisterLineProfileInvaild:
                     case LineLoginErrorCode.BindingLineProfileInvaild:
                         meesage = _selLangBll.GetMsg("msg_LineAccountAlreadyBind");
+                        break;
+                    case LineLoginErrorCode.CodeInvaild: //使用者於line認證跳出，選擇不繼續綁定
+                        result.ErrorCode = LineLoginErrorCode.Success;
                         break;
                     default:
                         meesage = _selLangBll.GetMsg("msg_ApiServerError");
