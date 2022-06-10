@@ -26,30 +26,36 @@ namespace MemberSite.Controllers.Api
         private readonly CustInfoBll _custInfoBll;
         private readonly Tools _tools;
         private readonly SelLangBLL _selLangBll;
+        private readonly CommonBLL _commonBll;
         private readonly IWebHostEnvironment _environment;
         private readonly AuthorizeBLL _authorizeBll;
         private readonly CasinoBll _casinoBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly BannerBLL _bannerBll;
         private readonly AuthBLL _authBll;
+        private readonly IovationBLL _iovationBll;
         private readonly FPSBLL _sFpsBll;
         private readonly GameCasinoBll _gameCasinoBll;
         private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
         private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
+        private readonly Regex _regexAffCode = new(@"^[0-9]{5,20}$");
         private readonly ThirdPartyBll _thirdPartyBll;
+        private readonly CacheHelper _cacheHelper;
 
         public SiteController(IServiceProvider provider)
         {
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _tools = provider.GetRequiredService<Tools>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
+            _commonBll = provider.GetRequiredService<CommonBLL>();
             _environment = provider.GetRequiredService<IWebHostEnvironment>();
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _bannerBll = provider.GetRequiredService<BannerBLL>();
             _authBll = provider.GetRequiredService<AuthBLL>();
+            _iovationBll = provider.GetRequiredService<IovationBLL>();
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
             _gameCasinoBll = provider.GetRequiredService<GameCasinoBll>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
@@ -203,17 +209,22 @@ namespace MemberSite.Controllers.Api
 
             if (userLoginResult != 0)
             {
+                //await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
                 return apiResult;
             }
 
             var claims = new[]
-            {
-                new Claim(ClaimTypes.Name, customer.UserName),
-                new Claim(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
-                new Claim("Token", token),
-                new Claim("LangId", customer.UserLang),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
+                {
+                    new Claim(ClaimTypes.Name,customer.UserName ),
+                    new Claim(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
+                    new Claim("Token",token ),
+                    new Claim("LangId",customer.UserLang ),
+                    //new Claim("CustId",customer.CustId.ToString() ),
+                    //new Claim("SiteId",customer.SiteId.ToString() ),
+                    //new Claim("UserName",customer.UserName ),
+                    //new Claim(JwtRegisteredClaimNames.Sub, customer.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString() )
+                };
 
             if (loginModel.di != null)
             {
@@ -222,6 +233,10 @@ namespace MemberSite.Controllers.Api
                     await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
                 });
             }
+
+            //Response.Cookies.Delete($"Initialization{User.Identity.Name}");
+            //var claimsIdentity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
+            //await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 
             var accessToken = _tools.GenerateJwtTokens(claims);
             var data = new JwtAuthData
@@ -265,23 +280,195 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> SignupAsync(SignupModel signupModel)
         {
             var apiResult = new ApiResult(_selLangBll);
-            var isAuthenticated = User.Identity is { IsAuthenticated: true };
-            var customer = _custInfoBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
-                Request.Headers["User-Agent"]);
-            
-            if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
-            
-            var claims = new List<Claim>
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            if (User.Identity.IsAuthenticated || (string.IsNullOrEmpty(signupModel.AreaCode) && !string.IsNullOrEmpty(signupModel.PhoneNo)))
             {
-                new(ClaimTypes.Name, customer.UserName),
-                new(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
-                new("Token", customer.Token),
-                new("LangId", customer.UserLang)
-            };
+                apiResult.ErrorCode = 9000;
+                return apiResult;
+            }
 
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity));
+            if (!_regexUserName.IsMatch(signupModel.UserName))
+            {
+                apiResult.ErrorCode = -8;
+                apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
+                return apiResult;
+            }
+
+            if (!string.IsNullOrEmpty(signupModel.AffCode?.Trim()))
+            {
+                signupModel.AffCode = signupModel.AffCode.Trim();
+                if (!_regexAffCode.IsMatch(signupModel.AffCode))
+                {
+                    apiResult.ErrorCode = -9;
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
+                    return apiResult;
+                }
+            }
+
+            if (string.IsNullOrEmpty(signupModel.SignupUrl))
+            {
+                signupModel.SignupUrl = Request.Host.Host;
+            }
+
+            // URL tag with specific affcode
+            if((Request.Host.Host == "www.nova88fun.com") || (Request.Host.Host == "m.nova88fun.com"))
+            {
+                signupModel.AffCode = "nova88tvads";
+            }
+
+            var custId = 0;
+            var result = -99;
+            var phoneExists = false;
+            var mailExists = false;
+
+            if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
+            {
+                signupModel.PhoneNo = phoneNo.ToString();
+                phoneExists = _custInfoBll.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
+                if (phoneExists)
+                    result = -6;
+            }
+            else if (!string.IsNullOrEmpty(signupModel.PhoneNo))
+            {
+                apiResult.ErrorCode = -20;
+                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
+                return apiResult;
+            }
+
+            if (!string.IsNullOrWhiteSpace(signupModel.Email))
+            {
+                mailExists = _custInfoBll.ExistsEmail(0, signupModel.Email);
+                if (mailExists)
+                    result = -10;
+            }
+
+            if (!phoneExists && !mailExists)
+            {
+                result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
+                    signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
+                    signupModel.AffCode, out custId, signupModel.SignupUrl,signupModel.ReferralUrl, signupModel.PhoneNo, signupModel.AreaCode,
+                    signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d, signupModel.Birth_m,
+                    signupModel.Birth_y);
+            }
+
+            switch (result)
+            {
+                case -1:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("err_ThisCurrencyNotSupport");
+                    break;
+                case -2:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
+                    break;
+                case -3:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_PasswordValidate");
+                    break;
+                case -4:
+                    apiResult.ErrorCode = result;/**/
+                    apiResult.Message = "";
+                    break;
+                case -5:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
+                    break;
+                case -6:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_HasExist")}";
+                    break;
+                case -7:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_PromoCodeIncorrect");
+                    break;
+                case -10:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Email")} {_selLangBll.GetMsg("msg_HasExist")}";
+                    break;
+                case -19:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
+                    break;
+                default:
+                    {
+                        if (custId == 0)
+                        {
+                            apiResult.ErrorCode = result;
+                            apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
+                        }
+                        else if (result != 0)
+                        {
+                            apiResult.ErrorCode = result;
+                            apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
+                        }
+                        else
+                        {
+                            _ = Task.Run(async () =>
+                            {
+                                _commonBll.SendWelcomeMail(custId);
+
+                                if (signupModel.blackbox != null)
+                                {
+                                    var apiResultIovation = await _iovationBll.IovationChecks(custId, signupModel.CurrencyId, signupModel.UserName, signupModel.blackbox, IovationType.registration);
+                                    if (apiResultIovation.ErrorCode == 0)
+                                        _iovationBll.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
+                                }
+                            });
+
+                            Customer customer = null;
+                            var fromUrl = _tools.GetFromUrl();
+                            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+                            var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out var token);
+
+                            switch (userLoginResult)
+                            {
+                                case -1:
+                                    apiResult.ErrorCode = 1101;
+                                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                    break;
+                                case -2:
+                                    apiResult.ErrorCode = 1001;
+                                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                    break;
+                                case -3:
+                                    apiResult.ErrorCode = 1102;
+                                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
+                                    break;
+                                default:
+                                    {
+                                        if (userLoginResult != 0)
+                                        {
+                                            apiResult.ErrorCode = 9000;
+                                        }
+                                        else
+                                        {
+                                            if (!string.IsNullOrEmpty(signupModel.RealName))
+                                            {
+                                                _custInfoBll.SetCustBankInfo(custId, signupModel.RealName, null);
+                                            }
+
+                                            var claims = new List<Claim>
+                                    {
+                                        new(ClaimTypes.Name,customer.UserName ),
+                                        new(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
+                                        new("Token",token ),
+                                        new("LangId",customer.UserLang )
+                                    };
+
+                                            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                                            apiResult.ErrorCode = 0;
+                                            return apiResult;
+                                        }
+
+                                        break;
+                                    }
+                            }
+                        }
+
+                        break;
+                    }
+            }
 
             return apiResult;
         }
@@ -290,28 +477,192 @@ namespace MemberSite.Controllers.Api
         public ApiResult<JwtAuthData> SignupApp(SignupModel signupModel)
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
-            var isAuthenticated = User.Identity is { IsAuthenticated: true };
-            var customer = _custInfoBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
-                Request.Headers["User-Agent"]);
-            
-            if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
-            
-            var claims = new[]
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            if (User.Identity.IsAuthenticated || (string.IsNullOrEmpty(signupModel.AreaCode) && !string.IsNullOrEmpty(signupModel.PhoneNo)))
             {
-                new Claim(ClaimTypes.Name, customer.UserName),
-                new Claim(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
-                new Claim("Token", customer.Token),
-                new Claim("LangId", customer.UserLang),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-            
-            var accessToken = _tools.GenerateJwtTokens(claims);
-            var data = new JwtAuthData
+                apiResult.ErrorCode = 9000;
+                return apiResult;
+            }
+
+            if (!_regexUserName.IsMatch(signupModel.UserName))
             {
-                AccessToken = accessToken
-            };
-            apiResult.Data = data;
-        
+                apiResult.ErrorCode = -8;
+                apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
+                return apiResult;
+            }
+
+            if (!string.IsNullOrEmpty(signupModel.AffCode?.Trim()))
+            {
+                signupModel.AffCode = signupModel.AffCode.Trim();
+                if (!_regexAffCode.IsMatch(signupModel.AffCode))
+                {
+                    apiResult.ErrorCode = -9;
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
+                    return apiResult;
+                }
+            }
+
+            var custId = 0;
+            var result = -99;
+            var phoneExists = false;
+            var mailExists = false;
+
+            if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
+            {
+                signupModel.PhoneNo = phoneNo.ToString();
+                phoneExists = _custInfoBll.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
+                if (phoneExists)
+                    result = -6;
+            }
+            else if (!string.IsNullOrEmpty(signupModel.PhoneNo))
+            {
+                apiResult.ErrorCode = -20;
+                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
+                return apiResult;
+            }
+
+            if (!string.IsNullOrWhiteSpace(signupModel.Email))
+            {
+                mailExists = _custInfoBll.ExistsEmail(0, signupModel.Email);
+                if (mailExists)
+                    result = -10;
+            }
+            
+            if (!phoneExists && !mailExists)
+            {
+                result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
+                    signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
+                    signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.ReferralUrl,
+                    signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode);
+            }
+
+            switch (result)
+            {
+                case -1:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("err_ThisCurrencyNotSupport");
+                    break;
+                case -2:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
+                    break;
+                case -3:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_PasswordValidate");
+                    break;
+                case -4:
+                    apiResult.ErrorCode = result;/**/
+                    apiResult.Message = "";
+                    break;
+                case -5:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
+                    break;
+                case -6:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_HasExist")}";
+                    break;
+                case -7:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_PromoCodeIncorrect");
+                    break;
+                case -10:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Email")} {_selLangBll.GetMsg("msg_HasExist")}";
+                    break;
+                case -19:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
+                    break;
+                default:
+                    {
+                        if (custId == 0)
+                        {
+                            apiResult.ErrorCode = result;
+                            apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
+                        }
+                        else if (result != 0)
+                        {
+                            apiResult.ErrorCode = result;
+                            apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
+                        }
+                        else
+                        {
+                            _ = Task.Run(async () =>
+                            {
+                                _commonBll.SendWelcomeMail(custId);
+
+                                if (signupModel.blackbox != null)
+                                {
+                                    var apiResultIovation = await _iovationBll.IovationChecks(custId, signupModel.CurrencyId, signupModel.UserName, signupModel.blackbox, IovationType.registration);
+                                    if (apiResultIovation.ErrorCode == 0)
+                                        _iovationBll.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
+                                }
+                            });
+
+                            Customer customer = null;
+                            var fromUrl = _tools.GetFromUrl();
+                            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+                            var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out var token);
+
+                            switch (userLoginResult)
+                            {
+                                case -1:
+                                    apiResult.ErrorCode = 1101;
+                                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                    break;
+                                case -2:
+                                    apiResult.ErrorCode = 1001;
+                                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                    break;
+                                case -3:
+                                    apiResult.ErrorCode = 1102;
+                                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
+                                    break;
+                                default:
+                                    {
+                                        if (userLoginResult != 0)
+                                        {
+                                            apiResult.ErrorCode = 9000;
+                                        }
+                                        else
+                                        {
+                                            if (!string.IsNullOrEmpty(signupModel.RealName))
+                                            {
+                                                _custInfoBll.SetCustBankInfo(custId, signupModel.RealName, null);
+                                            }
+
+                                            var claims = new[] {
+                                        new Claim(ClaimTypes.Name,customer.UserName ),
+                                        new Claim(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
+                                        new Claim("Token",token ),
+                                        new Claim("LangId",customer.UserLang ),
+                                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString() )
+                                    };
+
+
+                                            var accessToken = _tools.GenerateJwtTokens(claims);
+                                            var data = new JwtAuthData
+                                            {
+                                                AccessToken = accessToken
+                                            };
+
+                                            apiResult.Data = data;
+                                            apiResult.Message = "";
+                                            apiResult.ErrorCode = 0;
+                                            apiResult.ErrorCode = 0;
+                                            return apiResult;
+                                        }
+
+                                        break;
+                                    }
+                            }
+                        }
+
+                        break;
+                    }
+            }
+
             return apiResult;
         }
 
@@ -332,7 +683,12 @@ namespace MemberSite.Controllers.Api
             apiResult.Message = apiResult.Data ? _selLangBll.GetMsg("msg_UsernameNotAvailable") : string.Empty;
             return apiResult;
         }
-        
+
+        //[HttpOptions]
+        //public IActionResult ExistsUserName()
+        //{
+        //    return NoContent();
+        //}
         public ApiResult<bool> ExistsEmail(RegisteredModel registeredModel)
         {
             var apiResult = new ApiResult<bool>(_selLangBll)
