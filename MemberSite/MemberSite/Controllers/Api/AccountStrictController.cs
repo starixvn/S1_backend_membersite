@@ -683,7 +683,7 @@ namespace MemberSite.Controllers.Api
                     }
                 }
 
-                var isLineBinding = _lineLoginBll.GetCustLinePrfile(authData.CustId, null) == null ? false : true;
+                var isLineBinding = _lineLoginBll.GetCustLineProfile(authData.CustId, null) == null ? false : true;
 
                 apiResult.Data = new
                 {
