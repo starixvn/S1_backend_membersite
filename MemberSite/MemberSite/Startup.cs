@@ -139,6 +139,7 @@ namespace MemberSite
             services.AddTransient<VerificationRewardBLL>();
             services.AddTransient<DeepLinkBLL>();
             services.AddSingleton<PayInfoBLL>();
+            services.AddSingleton<SiteBll>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();

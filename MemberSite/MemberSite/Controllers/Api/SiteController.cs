@@ -38,6 +38,7 @@ namespace MemberSite.Controllers.Api
         private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
         private readonly ThirdPartyBll _thirdPartyBll;
+        private readonly SiteBll _siteBll;
 
         public SiteController(IServiceProvider provider)
         {
@@ -55,6 +56,7 @@ namespace MemberSite.Controllers.Api
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _loginDeviceConfig = provider.GetRequiredService<IOptions<Dictionary<string, string>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
+            _siteBll = provider.GetRequiredService<SiteBll>();
         }
 
         public class LoginModel
@@ -266,7 +268,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
-            var customer = _custInfoBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
+            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
                 Request.Headers["User-Agent"]);
             
             if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
@@ -291,7 +293,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
-            var customer = _custInfoBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
+            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
                 Request.Headers["User-Agent"]);
             
             if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
