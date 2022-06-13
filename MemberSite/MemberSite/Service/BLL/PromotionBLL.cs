@@ -1,5 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 
 namespace MemberSite.Service.BLL
 {
@@ -14,9 +15,26 @@ namespace MemberSite.Service.BLL
             _tools = provider.GetRequiredService<Tools>();
         }
 
-        public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, int siteId, string userName, int currencyId, int deviceType, decimal lockedAmount)
+        public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, int siteId, string userName,
+            int currencyId, int deviceType, decimal lockedAmount)
         {
-            return _promotionService.SetDepositPromotionQueue(transId, bonusCode, custId, siteId, userName, currencyId, deviceType, lockedAmount, _tools.GetClientIP());
+            return SetDepositPromotionQueue(new DepositPromotionQueue
+            {
+                TransId = transId,
+                BonusCode = bonusCode,
+                CustId = custId,
+                SiteId = siteId,
+                UserName = userName,
+                CurrencyId = currencyId,
+                DeviceType = deviceType,
+                LockedAmount = lockedAmount,
+                ClientIp = _tools.GetClientIP()
+            });
+        }
+
+        public bool SetDepositPromotionQueue(DepositPromotionQueue request)
+        {
+            return _promotionService.SetDepositPromotionQueue(request);
         }
     }
 }

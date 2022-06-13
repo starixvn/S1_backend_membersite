@@ -80,4 +80,17 @@ namespace MemberSite.Service.Model
         public int DeviceType { set; get; }
         public int SiteId { set; get; }
     }
+    
+    public class DepositPromotionQueue
+    {
+        public string TransId { set; get; }
+        public string BonusCode { set; get; }
+        public decimal LockedAmount { set; get; }
+        public int DeviceType { set; get; }
+        public int CustId { set; get; }
+        public int SiteId { set; get; }
+        public string UserName { set; get; }
+        public int CurrencyId { set; get; }
+        public string ClientIp { set; get; }
+    }
 }
