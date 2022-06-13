@@ -68,21 +68,29 @@ namespace MemberSite.Service.Model
         public decimal Amount { get; set; }
     }
 
-    public class PromotionBySpecialCode
-    {
-        public string BonusCode { set; get; }
-        public int PromotionType { get; set; }
-    }
-    public class PromotionBySpecialScratchCard : PromotionBySpecialCode
-    {
-        public int CustId { get; set; }
-    }
-    public class BonusinfoByBonusCode
-    {
-        public int Status { get; set; }
-    }
-    public class CheckDepositSpecialCodeRsp
+    public class SpecialCodeResponse
     {
         public string BonusCode { get; set; }
+    }
+    
+    public class SpecialCodeRequest
+    {
+        public int CustId { set; get; }
+        public string SpecialCode { set; get; }
+        public int DeviceType { set; get; }
+        public int SiteId { set; get; }
+    }
+    
+    public class DepositPromotionQueue
+    {
+        public string TransId { set; get; }
+        public string BonusCode { set; get; }
+        public decimal LockedAmount { set; get; }
+        public int DeviceType { set; get; }
+        public int CustId { set; get; }
+        public int SiteId { set; get; }
+        public string UserName { set; get; }
+        public int CurrencyId { set; get; }
+        public string ClientIp { set; get; }
     }
 }
