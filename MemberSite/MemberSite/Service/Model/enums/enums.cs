@@ -366,10 +366,10 @@
         TokenExpired = 1007,
 
         IssueLineTokenFail = 2001,
-        GetLineTokenFail = 2002,
+        //GetLineTokenFail = 2002, //HttpCode!=200
         LineTokenInvaild = 2003,
         LineTokenNotFound = 2004,
-        GetLineUserProfileFail = 2005,
+        //GetLineUserProfileFail = 2005, //HttpCode!=200
         LineUserProfileInvaild = 2006,
         LineUserIdNotFound = 2007,
         LineGetUserIdException = 2009,

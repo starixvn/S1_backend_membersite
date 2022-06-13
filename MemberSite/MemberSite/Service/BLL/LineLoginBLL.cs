@@ -4,8 +4,10 @@ using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using NuGet.Protocol;
 using System.Collections.Specialized;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace MemberSite.Service.BLL
@@ -16,6 +18,7 @@ namespace MemberSite.Service.BLL
         private readonly AuthService _authService;
         private readonly AuthorizeBLL _authorizeBll;
         private readonly IOptions<LineLoginChannelConfig> _lineLoginChannelConfig;
+        private readonly IOptions<LineLoginConfig> _lineLoginConfig;
         private readonly ILogger<LineLoginBLL> _logger;
 
         #region Constructor
@@ -26,6 +29,7 @@ namespace MemberSite.Service.BLL
             _authService = provider.GetRequiredService<AuthService>();
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _lineLoginChannelConfig = provider.GetRequiredService<IOptions<LineLoginChannelConfig>>();
+            _lineLoginConfig = provider.GetRequiredService<IOptions<LineLoginConfig>>();
             _logger = provider.GetRequiredService<ILogger<LineLoginBLL>>();
         }
 
@@ -37,6 +41,13 @@ namespace MemberSite.Service.BLL
             errorCode = 0;
             try
             {
+                if (!Enum.IsDefined(typeof(FlowType), type) || type == FlowType.Undefine)
+                {
+                    errorCode = (int)LineLoginErrorCode.FlowTypeInvaild;
+                    _logger.LogInformation($"CheckToken Fail：Flow Type Is Invalid. FlowType={type}");
+                    return false;
+                }
+
                 if (type == FlowType.Binding)
                 {
                     //如果走綁定流程，先檢查是否已經綁定，已綁定則不可再次載綁定
@@ -248,105 +259,60 @@ namespace MemberSite.Service.BLL
 
         private bool GetLineUserId(LineLoginChannelConfig config, string code, string redirectUri, out string lineUserId, out LineLoginErrorCode resultCode)
         {
-
             resultCode = 0;
             lineUserId = string.Empty;
-            string ApiUrl_Token = "https://api.line.me/oauth2/v2.1/token";
-            string ApiUrl_Profile = "https://api.line.me/v2/profile";
             try
             {
-                WebClient wc = new WebClient();
-                wc.Encoding = Encoding.UTF8;
-                wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                NameValueCollection nvc = new NameValueCollection();
+                //using var handler = new HttpClientHandler();
+                //if (!string.IsNullOrEmpty(proxyHost))
+                //{
+                //    handler.UseProxy = true;
+                //    handler.Proxy = new WebProxy(proxyHost, proxyPort);
+                //}
+                //using var client = new HttpClient(handler)
+                using var client = new HttpClient();
 
-                #region OAuth (Access Token)
-
-                nvc.Add("grant_type", "authorization_code");
-                nvc.Add("code", code);
-                nvc.Add("redirect_uri", redirectUri);
-                nvc.Add("client_id", config.ChannelId);
-                nvc.Add("client_secret", config.ChannelSecret);
-
-                var tokenResponseStr = string.Empty;
-
-                try
-                {
-                    tokenResponseStr = Encoding.UTF8.GetString(wc.UploadValues(ApiUrl_Token, "POST", nvc));
-                    _logger.LogInformation($"GetLineUserId LineTokenApi Success:{tokenResponseStr}");
-                }
-                catch (WebException ex)
-                {
-                    resultCode = LineLoginErrorCode.GetLineTokenFail;
-                    using (var hr = (HttpWebResponse)ex.Response)
+                var parameters = new Dictionary<string, string>()
                     {
-                        if (hr != null)
-                        {
-                            int statusCode = (int)hr.StatusCode;
-                            var sb = new StringBuilder();
-                            var sr = new StreamReader(hr.GetResponseStream(), Encoding.UTF8);
-                            sb.Append(sr.ReadToEnd());
-                            _logger.LogError(ex, $"GetLineUserId LineTokenApi Fail: StatusCode:{statusCode},Content:{sb}");
-                        }
-                    }
-                    return false;
-                }
+                        { "grant_type", "authorization_code" },
+                        { "code", code },
+                        { "redirect_uri",redirectUri},
+                        { "client_id", config.ChannelId},
+                        { "client_secret",config.ChannelSecret}
+                    };
+                var tokenRequestMessage = new HttpRequestMessage();
+                tokenRequestMessage.Content = new FormUrlEncodedContent(parameters);
+                tokenRequestMessage.Method = HttpMethod.Post;
+                tokenRequestMessage.RequestUri = new Uri(_lineLoginConfig.Value.ProfileApi);
+                tokenRequestMessage.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded");
 
-                if (string.IsNullOrWhiteSpace(tokenResponseStr))
+                var tokenResponse = client.SendAsync(tokenRequestMessage).Result;
+
+                var tokenResponseContent = tokenResponse.Content.ReadAsStringAsync().Result;
+                _logger.LogInformation($"GetLineUserId LineTokenApi Response StatusCode = {(int)tokenResponse.StatusCode}-{tokenResponse.StatusCode}.\n"
+                    + $"Content:{tokenResponseContent}");
+
+                var tokenResponseObj = JsonConvert.DeserializeObject<IssueAccessTokenResponseModel>(tokenResponseContent);
+
+                if (tokenResponseObj == null || string.IsNullOrWhiteSpace(tokenResponseObj.access_token))
                 {
-                    resultCode = LineLoginErrorCode.LineTokenInvaild;
+                    resultCode = LineLoginErrorCode.LineTokenNotFound;
                     _logger.LogInformation($"GetLineUserId LineTokenApi Fail：token not found.");
                     return false;
                 }
 
-                var tokenResponse = JsonConvert.DeserializeObject<IssueAccessTokenResponseModel>(tokenResponseStr);
+                var profileRequestMessage = new HttpRequestMessage();
+                profileRequestMessage.Method = HttpMethod.Get;
+                profileRequestMessage.RequestUri = new Uri(_lineLoginConfig.Value.ProfileApi);
+                profileRequestMessage.Headers.TryAddWithoutValidation("Authorization", "Bearer " + tokenResponseObj.access_token);
 
-                if (tokenResponse == null || string.IsNullOrWhiteSpace(tokenResponse.access_token))
-                {
-                    resultCode = LineLoginErrorCode.LineTokenNotFound;
-                    _logger.LogInformation($"GetLineUserId LineProfileApi Fail：userId not found.");
-                    return false;
-                }
+                var profileResponse = client.SendAsync(profileRequestMessage).Result;
 
-                #endregion
+                var profileResponseContent = profileResponse.Content.ReadAsStringAsync().Result;
+                _logger.LogInformation($"GetLineUserId LineProfileApi  Response StatusCode = {(int)profileResponse.StatusCode}-{profileResponse.StatusCode}.\n"
+                    + $"Content:{tokenResponseContent}");
 
-                wc.Headers.Clear();
-
-                #region Profile (User Profile)
-
-                wc.Headers.Add("Authorization", "Bearer " + tokenResponse.access_token);
-                var userProfileResponseStr = string.Empty;
-
-                try
-                {
-                    userProfileResponseStr = wc.DownloadString(ApiUrl_Profile);
-                    _logger.LogInformation($"GetLineUserId LineProfileApi Success:{userProfileResponseStr}");
-                }
-                catch (WebException ex)
-                {
-                    resultCode = LineLoginErrorCode.GetLineUserProfileFail;
-                    using (var hr = (HttpWebResponse)ex.Response)
-                    {
-                        if (hr != null)
-                        {
-                            var statusCode = (int)hr.StatusCode;
-                            var sb = new StringBuilder();
-                            var sr = new StreamReader(hr.GetResponseStream(), Encoding.UTF8);
-                            sb.Append(sr.ReadToEnd());
-                            _logger.LogError(ex, $"GetLineUserId LineProfileApi Fail: StatusCode:{statusCode},Content:{sb}");
-                        }
-                    }
-                    return false;
-                }
-
-                if (string.IsNullOrWhiteSpace(userProfileResponseStr))
-                {
-                    resultCode = LineLoginErrorCode.LineUserProfileInvaild;
-                    _logger.LogInformation($"GetLineUserId LineProfileApi Fail：UserProfile is null.");
-                    return false;
-                }
-
-                var profileObj = JsonConvert.DeserializeObject<LineProfileResponseModel>(userProfileResponseStr);
+                var profileObj = JsonConvert.DeserializeObject<LineProfileResponseModel>(profileResponseContent);
 
                 if (profileObj == null || string.IsNullOrWhiteSpace(profileObj.userId))
                 {
@@ -354,8 +320,6 @@ namespace MemberSite.Service.BLL
                     _logger.LogInformation($"GetLineUserId LineProfileApi Fail：userId not found.");
                     return false;
                 }
-
-                #endregion
 
                 lineUserId = profileObj.userId;
 
