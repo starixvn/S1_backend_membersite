@@ -261,15 +261,18 @@ namespace MemberSite.Controllers.Api
                 };
 
                 result = _courierAdapter.MyPostAsync<ApiResult, SpecialCodeRequest>(apiUrl, req).Result;
-                if (result.ErrorCode == (int)SpecialCode.SpecialCodeError)
+                
+                result.Message = result.ErrorCode switch
                 {
-                    result.Message = _selLangBLL.GetMsg("msg_SpecialCodeErr");
-                }
+                    (int)SpecialCode.SpecialCodeError => _selLangBLL.GetMsg("msg_SpecialCodeErr"),
+                    9000 => _selLangBLL.GetMsg("msg_Ineligible"),
+                    _ => result.Message
+                };
             }
             catch (Exception e)
             {
                 result.ErrorCode = 9000;
-                result.Message = e.ToString();
+                result.Message = _selLangBLL.GetMsg("msg_Ineligible");
                 _logger.LogError(e, GetCurrentMethod());
             }
             
