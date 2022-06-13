@@ -1361,11 +1361,14 @@ namespace MemberSite.Controllers.Api
                 {
                     (int)SpecialCode.SpecialCodeErrorForCheck => selLangBLL.GetMsg("msg_SpecialCodeErr"),
                     (int)SpecialCode.PromoCodeHasBeenUsed => selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed"),
+                    9000 => selLangBLL.GetMsg("msg_Ineligible"),
                     _ => result.Message
                 };
             }
             catch (Exception e)
             {
+                result.ErrorCode = 9000;
+                result.Message = selLangBLL.GetMsg("msg_Ineligible");
                 _logger.LogError(e, GetCurrentMethod());
             }
 
