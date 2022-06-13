@@ -283,7 +283,7 @@ namespace MemberSite.Service.BLL
                 var tokenRequestMessage = new HttpRequestMessage();
                 tokenRequestMessage.Content = new FormUrlEncodedContent(parameters);
                 tokenRequestMessage.Method = HttpMethod.Post;
-                tokenRequestMessage.RequestUri = new Uri(_lineLoginConfig.Value.ProfileApi);
+                tokenRequestMessage.RequestUri = new Uri(_lineLoginConfig.Value.AccessTokenApi);
                 tokenRequestMessage.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded");
 
                 var tokenResponse = client.SendAsync(tokenRequestMessage).Result;
