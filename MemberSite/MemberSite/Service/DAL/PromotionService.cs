@@ -1,30 +1,35 @@
 ﻿using System.Data;
 using System.Text.RegularExpressions;
-using Dapper;
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using MySql.Data.MySqlClient;
 
 namespace MemberSite.Service.DAL
 {
     public class PromotionService
     {
-        private readonly IConfiguration _configuration;
+        private readonly MySqlClient _mainDbClient;
 
         public PromotionService(IServiceProvider serviceProvider)
         {
-            _configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            _mainDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
         }
 
-        public bool SetDepositPromotionQueue(string transId, string bonusCode, int custId, int siteId, string userName, int currencyId, int deviceType, decimal lockedAmount, string custIp)
+        public bool SetDepositPromotionQueue(DepositPromotionQueue request)
         {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("Member_DepositBonusQueue_Set_V2",
+            return _mainDbClient.Execute("Member_DepositBonusQueue_Set_V2",
                 new
                 {
-                    TransId = transId, BonusCode = bonusCode, CustId = custId, SiteId = siteId, UserName = userName,
-                    CurrencyId = currencyId, DeviceType = deviceType, LockedAmount = lockedAmount, IP = custIp
-                }, commandType: CommandType.StoredProcedure) > 0;
+                    request.TransId,
+                    request.BonusCode,
+                    request.CustId,
+                    request.SiteId,
+                    request.UserName,
+                    request.CurrencyId,
+                    request.DeviceType,
+                    request.LockedAmount, 
+                    IP = request.ClientIp
+                }) > 0;
         }
         public bool CheckSpecialCode(string specialCode)
         {
