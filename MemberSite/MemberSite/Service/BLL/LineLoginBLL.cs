@@ -310,7 +310,7 @@ namespace MemberSite.Service.BLL
 
                 var profileResponseContent = profileResponse.Content.ReadAsStringAsync().Result;
                 _logger.LogInformation($"GetLineUserId LineProfileApi  Response StatusCode = {(int)profileResponse.StatusCode}-{profileResponse.StatusCode}.\n"
-                    + $"Content:{tokenResponseContent}");
+                    + $"Content:{profileResponseContent}");
 
                 var profileObj = JsonConvert.DeserializeObject<LineProfileResponseModel>(profileResponseContent);
 
