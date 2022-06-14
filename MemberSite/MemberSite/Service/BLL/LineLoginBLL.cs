@@ -21,6 +21,14 @@ namespace MemberSite.Service.BLL
         private readonly IOptions<LineLoginConfig> _lineLoginConfig;
         private readonly ILogger<LineLoginBLL> _logger;
 
+        private static readonly Lazy<HttpClient> lazy = new Lazy<HttpClient>(() =>
+        {
+            var client = new HttpClient();
+            return client;
+        });
+
+        private HttpClient client => lazy.Value;
+
         #region Constructor
 
         public LineLoginBLL(IServiceProvider provider)
@@ -263,15 +271,6 @@ namespace MemberSite.Service.BLL
             lineUserId = string.Empty;
             try
             {
-                //using var handler = new HttpClientHandler();
-                //if (!string.IsNullOrEmpty(proxyHost))
-                //{
-                //    handler.UseProxy = true;
-                //    handler.Proxy = new WebProxy(proxyHost, proxyPort);
-                //}
-                //using var client = new HttpClient(handler)
-                using var client = new HttpClient();
-
                 var parameters = new Dictionary<string, string>()
                     {
                         { "grant_type", "authorization_code" },
