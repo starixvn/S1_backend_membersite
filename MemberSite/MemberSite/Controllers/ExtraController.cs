@@ -80,7 +80,7 @@ namespace MemberSite.Controllers
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
                     signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo, signupModel.AreaCode,
+                    signupModel.AffCode, serverInfo.SiteId, signupModel.LineUserId, out custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo, signupModel.AreaCode,
                     signupModel.RealName);
             }
 
@@ -147,7 +147,7 @@ namespace MemberSite.Controllers
                 var fromUrl = _tools.GetFromUrl();
                 var deviceType = (int) _tools.GetDeviceId(fromUrl);
                 
-                var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out string token);
+                var userLoginResult = _custInfoBll.UserLogin(false,0,signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out string token);
 
                 if (userLoginResult == -1)
                 {
