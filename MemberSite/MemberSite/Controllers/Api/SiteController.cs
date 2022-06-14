@@ -36,6 +36,7 @@ namespace MemberSite.Controllers.Api
         private readonly IovationBLL _iovationBll;
         private readonly FPSBLL _sFpsBll;
         private readonly GameCasinoBll _gameCasinoBll;
+        private readonly LineLoginBLL _lineLoginBll;
         private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
         private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
         private readonly Regex _regexUserName = new Regex(@"^[a-zA-Z0-9]{6,18}$");
@@ -58,6 +59,7 @@ namespace MemberSite.Controllers.Api
             _iovationBll = provider.GetRequiredService<IovationBLL>();
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
             _gameCasinoBll = provider.GetRequiredService<GameCasinoBll>();
+            _lineLoginBll = provider.GetRequiredService<LineLoginBLL>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _loginDeviceConfig = provider.GetRequiredService<IOptions<Dictionary<string, string>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
@@ -67,7 +69,6 @@ namespace MemberSite.Controllers.Api
         {
             public string UserName { get; set; }
             public string Userpwd { get; set; }
-            
             public bool isPersistent { get; set; }
             public string url { get; set; }
             public string platform { get; set; }
@@ -90,8 +91,8 @@ namespace MemberSite.Controllers.Api
             Customer customer = null;
             var ip = _tools.GetClientIP();
             var fromUrl = _tools.GetFromUrl();
-            var deviceType = (int) _tools.GetDeviceId(fromUrl);
-            var userLoginResult = _custInfoBll.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
+            var deviceType = (int)_tools.GetDeviceId(fromUrl);
+            var userLoginResult = _custInfoBll.UserLogin(false, 0,loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             switch (userLoginResult)
@@ -178,8 +179,8 @@ namespace MemberSite.Controllers.Api
             Customer customer = null;
             var ip = _tools.GetClientIP();
             var fromUrl = _tools.GetFromUrl();
-            var deviceType = (int) _tools.GetDeviceId(fromUrl);
-            var userLoginResult = _custInfoBll.UserLogin(loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
+            var deviceType = (int)_tools.GetDeviceId(fromUrl);
+            var userLoginResult = _custInfoBll.UserLogin(false,0, loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             switch (userLoginResult)
@@ -261,6 +262,7 @@ namespace MemberSite.Controllers.Api
             public string Aff { get; set; }
             public string AffCode { get; set; }
             public string blackbox { get; set; }
+            public string LineUserId { get; set; }
         }
 
         [HttpPost]
@@ -285,7 +287,7 @@ namespace MemberSite.Controllers.Api
 
             var result = _custInfoBll.AddCustInfo(registeredModel.UserName, registeredModel.Userpwd,
                 registeredModel.Email, registeredModel.CurrencyId, registeredModel.UserLang, registeredModel.RefId,
-                registeredModel.AffId, registeredModel.Aff, registeredModel.AffCode, serverInfo.SiteId, out custId, Request.Host.Host);
+                registeredModel.AffId, registeredModel.Aff, registeredModel.AffCode, serverInfo.SiteId, registeredModel.LineUserId, out custId, Request.Host.Host);
             if (result == -1)
             {
                 apiResult.ErrorCode = result;
@@ -342,8 +344,8 @@ namespace MemberSite.Controllers.Api
 
                 Customer customer = null;
                 var fromUrl = _tools.GetFromUrl();
-                var deviceType = (int) _tools.GetDeviceId(fromUrl);
-                var userLoginResult = _custInfoBll.UserLogin(registeredModel.UserName, registeredModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out string token);
+                var deviceType = (int)_tools.GetDeviceId(fromUrl);
+                var userLoginResult = _custInfoBll.UserLogin(false, 0,registeredModel.UserName, registeredModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out string token);
 
                 if (userLoginResult == -1)
                 {
@@ -431,7 +433,7 @@ namespace MemberSite.Controllers.Api
             }
 
             // URL tag with specific affcode
-            if((Request.Host.Host == "www.nova88fun.com") || (Request.Host.Host == "m.nova88fun.com"))
+            if ((Request.Host.Host == "www.nova88fun.com") || (Request.Host.Host == "m.nova88fun.com"))
             {
                 signupModel.AffCode = "nova88tvads";
             }
@@ -466,7 +468,7 @@ namespace MemberSite.Controllers.Api
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
                     signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl,signupModel.ReferralUrl, signupModel.PhoneNo, signupModel.AreaCode,
+                    signupModel.AffCode, serverInfo.SiteId, signupModel.LineUserId, out custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo, signupModel.AreaCode,
                     signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d, signupModel.Birth_m,
                     signupModel.Birth_y);
             }
@@ -509,6 +511,10 @@ namespace MemberSite.Controllers.Api
                     apiResult.ErrorCode = result;
                     apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
                     break;
+                case -3002:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_LineAccountAlreadyBind");
+                    break;
                 default:
                     {
                         if (custId == 0)
@@ -537,8 +543,8 @@ namespace MemberSite.Controllers.Api
 
                             Customer customer = null;
                             var fromUrl = _tools.GetFromUrl();
-                            var deviceType = (int) _tools.GetDeviceId(fromUrl);
-                            var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out var token);
+                            var deviceType = (int)_tools.GetDeviceId(fromUrl);
+                            var userLoginResult = _custInfoBll.UserLogin(false,0, signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
                             switch (userLoginResult)
                             {
@@ -647,12 +653,12 @@ namespace MemberSite.Controllers.Api
                 if (mailExists)
                     result = -10;
             }
-            
+
             if (!phoneExists && !mailExists)
             {
                 result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
                     signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-                    signupModel.AffCode, serverInfo.SiteId, out custId, signupModel.SignupUrl, signupModel.ReferralUrl,
+                    signupModel.AffCode, serverInfo.SiteId, signupModel.LineUserId, out custId, signupModel.SignupUrl, signupModel.ReferralUrl,
                     signupModel.PhoneNo, signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode);
             }
 
@@ -694,6 +700,10 @@ namespace MemberSite.Controllers.Api
                     apiResult.ErrorCode = result;
                     apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
                     break;
+                case -3002:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_LineAccountAlreadyBind");
+                    break;
                 default:
                     {
                         if (custId == 0)
@@ -722,8 +732,8 @@ namespace MemberSite.Controllers.Api
 
                             Customer customer = null;
                             var fromUrl = _tools.GetFromUrl();
-                            var deviceType = (int) _tools.GetDeviceId(fromUrl);
-                            var userLoginResult = _custInfoBll.UserLogin(signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out var token);
+                            var deviceType = (int)_tools.GetDeviceId(fromUrl);
+                            var userLoginResult = _custInfoBll.UserLogin(false,0, signupModel.UserName, signupModel.Userpwd, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
                             switch (userLoginResult)
                             {
@@ -837,7 +847,7 @@ namespace MemberSite.Controllers.Api
             {
                 Customer custInfo;
                 var host = Request.Host.ToString();
-                var deviceType = (int) _tools.GetDeviceId(host);
+                var deviceType = (int)_tools.GetDeviceId(host);
                 var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "ResetPassword", controller = "Home", LangId = _selLangBll.GetLangId() }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
                 if (!string.IsNullOrEmpty(forgetPwdReq.Username))
                 {
@@ -1282,7 +1292,7 @@ namespace MemberSite.Controllers.Api
 
             var apiResult = new ApiResult<IEnumerable<HotGame>>
             {
-                ErrorCode = 0, 
+                ErrorCode = 0,
                 Data = await _bannerBll.GetHotGames(siteId, currencyId, req.DeviceType)
             };
 
@@ -1297,33 +1307,33 @@ namespace MemberSite.Controllers.Api
             {
                 Customer customer = null;
                 var fromUrl = _tools.GetFromUrl();
-                var deviceType = (int) _tools.GetDeviceId(fromUrl);
-                var userLoginResult = _custInfoBll.UserLoginForResetPwd(custInfoProfile.UserName, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out var token);
+                var deviceType = (int)_tools.GetDeviceId(fromUrl);
+                var userLoginResult = _custInfoBll.UserLoginForResetPwd(custInfoProfile.UserName, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out var token);
                 switch (userLoginResult)
                 {
                     case 0:
-                    {
-                        if (User.Identity.IsAuthenticated && _authorizeBll.GetAuthData().CustId != customer.CustId)
                         {
-                            apiResult.ErrorCode = 1;
-                        }
-                        else
-                        {
-                            var claims = new List<Claim>
+                            if (User.Identity.IsAuthenticated && _authorizeBll.GetAuthData().CustId != customer.CustId)
+                            {
+                                apiResult.ErrorCode = 1;
+                            }
+                            else
+                            {
+                                var claims = new List<Claim>
                             {
                                 new Claim(ClaimTypes.Name, custInfoProfile.UserName),
                                 new Claim(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
                                 new Claim("Token", token),
                                 new Claim("LangId", custInfoProfile.UserLang)
                             };
-                            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                            apiResult.ErrorCode = 0;
+                                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                                apiResult.ErrorCode = 0;
+                            }
+
+                            break;
                         }
-                        
-                        break;
-                    }
-                    
+
                     case -3:
                         apiResult.ErrorCode = 401;
                         break;
@@ -1586,7 +1596,7 @@ namespace MemberSite.Controllers.Api
                 tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
                 //取出有byCurrency跟Site設定的遊戲資訊
                 gameCasionByCurrencyAndSite = _casinoBll.GetGameCasinoByCurrencyAndSite(custInfo.CurrencyId, custInfo.SiteId);
-                
+
                 var blockGames = _casinoBll.GetTpDisableUserByCustId(custInfo.CustId);
                 _casinoBll.ExcludeBlockGames(GameCasinoList, providers, blockGames);
             }
@@ -1755,7 +1765,7 @@ namespace MemberSite.Controllers.Api
 
         [HttpGet, HttpPost]
         public ApiResult<IEnumerable<TpMaintain>> GetTpMaintainList()
-        {           
+        {
             return new ApiResult<IEnumerable<TpMaintain>>()
             {
                 ErrorCode = 0,
@@ -1763,7 +1773,7 @@ namespace MemberSite.Controllers.Api
                 Message = $"UtcNow is {DateTime.UtcNow:yyyy/MM/dd HH:mm:ss}"
             };
         }
-        
+
         [Route("{domain?}")]
         [HttpGet, HttpPost]
         public ApiResult<SeoModel> Seo([FromRoute] string? domain)
@@ -1788,7 +1798,7 @@ namespace MemberSite.Controllers.Api
                     data.PaymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(data.PaymentMethodData);
                 }
             }
-            
+
 
             return new ApiResult<SeoModel>()
             {
@@ -1796,10 +1806,10 @@ namespace MemberSite.Controllers.Api
                 Data = data
             };
         }
-        
+
         [HttpGet]
         public string Domain() => _serverInfoBll.GetMainDomain();
-        
+
         [HttpPost]
         public async Task<ApiResult<IEnumerable<MenuOfGame>>> GetMenuOfGames()
         {

@@ -33,6 +33,25 @@
         public decimal MaxAmount { get; set; }
         public int Status { get; set; }
     }
+    public class OfflineBankInfoFront : SysBankInfoFront
+    {
+        public OfflineBankInfoFront(){}
+
+        public OfflineBankInfoFront(SysBankInfoFront bankInfo, bool canSubmit)
+        {
+            base.SysId = bankInfo.SysId;
+            base.BankCode = bankInfo.BankCode;
+            base.BankName = bankInfo.BankName;
+            base.IFSCCode = bankInfo.IFSCCode;
+            base.BankLogo = bankInfo.BankLogo;
+            base.BankSite = bankInfo.BankSite;
+            base.MinAmount = bankInfo.MinAmount;
+            base.MaxAmount = bankInfo.MaxAmount;
+            base.Status = bankInfo.Status;
+            this.CanSubmit = canSubmit;
+        }
+        public bool CanSubmit { get; set; }
+    }
 
     public class BankInfoName
     {
