@@ -344,6 +344,13 @@
         Restore = 1,
         Manual = 2,
     }
+    
+    public enum PromotionDeviceType
+    {
+        All = 1,
+        Web = 2,
+        App = 3
+    }
 
     public enum PromotionDeviceType
     {
