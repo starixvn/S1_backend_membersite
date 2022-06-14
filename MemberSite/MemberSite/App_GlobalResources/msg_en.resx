@@ -357,4 +357,7 @@
   <data name="msg_DecimalOutOfRange" xml:space="preserve">
     <value>Transfer failed due to decimal greater than 2 digits</value>
   </data>
+  <data name="msg_LineAccountAlreadyBind" xml:space="preserve">
+    <value>This LINE account has been used, please use another account.</value>
+  </data>
 </root>
