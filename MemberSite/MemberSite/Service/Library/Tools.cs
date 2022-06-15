@@ -182,6 +182,12 @@ namespace MemberSite.Service.Library
             return fromUrl;
         }
 
+        public string GetDomainUrl()
+        {
+            return  httpContextAccessor.HttpContext.Request.Host.ToString();
+        }
+
+
         /// <summary>
         /// 保留两位小数的金额
         /// </summary>

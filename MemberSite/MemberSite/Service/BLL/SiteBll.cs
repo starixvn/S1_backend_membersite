@@ -96,7 +96,7 @@ public class SiteBll
         {
             result = _custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
                 signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-                signupModel.AffCode, out custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
+                signupModel.AffCode, signupModel.LineUserId, out custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
                 signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
                 signupModel.Birth_m,
                 signupModel.Birth_y);
@@ -169,9 +169,8 @@ public class SiteBll
 
                     var fromUrl = _tools.GetFromUrl();
                     var deviceType = (int)_tools.GetDeviceId(fromUrl);
-                    var userLoginResult = _custInfoBLL.UserLogin(signupModel.UserName, signupModel.Userpwd,
-                        _tools.GetClientIP(), fromUrl, userAgent, deviceType, ref customer,
-                        out var token);
+                    var userLoginResult = _custInfoBLL.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd,
+                        _tools.GetClientIP(), fromUrl, userAgent, deviceType, ref customer, out var token);
 
                     switch (userLoginResult)
                     {

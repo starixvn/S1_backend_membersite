@@ -350,4 +350,7 @@
   <data name="msg_DecimalOutOfRange" xml:space="preserve">
     <value>การโอนล้มเหลวเนื่องจากมีทศนิยมมากกว่า 2 หลัก</value>
   </data>
+  <data name="msg_LineAccountAlreadyBind" xml:space="preserve">
+    <value>บัญชีไลน์นี้ถูกใช้งานแล้ว โปรดใช้บัญชีไลน์อื่น</value>
+  </data>
 </root>
