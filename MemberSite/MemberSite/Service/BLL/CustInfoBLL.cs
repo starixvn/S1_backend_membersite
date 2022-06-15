@@ -640,7 +640,7 @@ namespace MemberSite.Service.BLL
         {
             return _custInfoService.SetCustActStatus(custId, Operator);
         }
-
+        
         public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo)
         {
             return _custInfoService.GetCustBankDetail(sysId, accountNo);

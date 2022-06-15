@@ -227,10 +227,12 @@
         Success = 0,
         IovationNotSupport = 1301
     }
-    public enum SpecialCodeErrorcode : int
+    public enum SpecialCode
     {
         Success = 0,
-        SpecialCodeError = 99
+        SpecialCodeError = 99,
+        SpecialCodeErrorForCheck = 1000,
+        PromoCodeHasBeenUsed = 3000
     }
 
     public enum SiteId
@@ -343,6 +345,13 @@
         Manual = 2,
     }
 
+    public enum PromotionDeviceType
+    {
+        All = 1,
+        Web = 2,
+        App = 3
+    }
+    
     public enum LineLoginErrorCode
     {
         Success = 0,
@@ -357,11 +366,12 @@
         TokenExpired = 1007,
 
         IssueLineTokenFail = 2001,
-        GetLineTokenFail = 2002,
+        //GetLineTokenFail = 2002, //HttpCode!=200
         LineTokenInvaild = 2003,
-        GetLineUserProfileFail = 2004,
-        LineUserProfileInvaild = 2005,
-        LineUserIdNotFound = 2006,
+        LineTokenNotFound = 2004,
+        //GetLineUserProfileFail = 2005, //HttpCode!=200
+        LineUserProfileInvaild = 2006,
+        LineUserIdNotFound = 2007,
         LineGetUserIdException = 2009,
 
         RegisterAuthInvaild = 3001,

@@ -54,6 +54,7 @@ namespace MemberSite
             services.Configure<MailConfig>(configuration.GetSection("MailConfig"));
             services.Configure<JwtConfig>(configuration.GetSection("JwtSettings"));
             services.Configure<LineLoginChannelConfig>(configuration.GetSection("LineLoginChannelConfig"));
+            services.Configure<LineLoginConfig>(configuration.GetSection("LineLoginConfig"));
             services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
             services.Configure<Dictionary<string, string>>(configuration.GetSection("LoginDeviceConfig"));
             services.AddMemoryCache();
@@ -144,6 +145,7 @@ namespace MemberSite
             services.AddTransient<DeepLinkBLL>();
             services.AddSingleton<PayInfoBLL>();
             services.AddSingleton<LineLoginBLL>();
+            services.AddSingleton<SiteBll>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();

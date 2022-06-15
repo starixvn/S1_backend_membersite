@@ -76,6 +76,20 @@ namespace MemberSite.Controllers.Api
         {
             public string BonusCode { set; get; }
         }
+        
+        public class SetSpecialCodeReq
+        {
+            public string SpecialCode { set; get; }
+            public int? DeviceType { set; get; }
+        }
+        
+        public class SetDepositPromotionQueueReq
+        {
+            public string TransId { set; get; }
+            public string BonusCode { set; get; }
+            public decimal? LockedAmount { set; get; }
+            public int? DeviceType { set; get; }
+        }
 
         [Authorize]
         [HttpPost]
@@ -236,66 +250,40 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
-        public class SetSpecialCodeReq
-        {
-            public string SpecialCode { set; get; }
-            public int? DeviceType { set; get; }
-        }
-
         [Authorize]
         [HttpPost]
         public ApiResult SetSpecialCode(SetSpecialCodeReq setSpecialCodeReq)
         {
-            var result = new ApiResult
-            {
-                ErrorCode = (int)SpecialCodeErrorcode.SpecialCodeError,
-                Message = _selLangBLL.GetMsg("msg_SpecialCodeErr")
-            };
-
+            setSpecialCodeReq.DeviceType ??= (int)PromotionDeviceType.App;
+            var result = new ApiResult();
             try
             {
                 var authData = _authorizeBLL.GetAuthData();
-                if (!_promotionBLL.CheckSpecialCode(setSpecialCodeReq.SpecialCode))
+
+                var apiUrl = $"{_bonusServiceUrl}SetSpecialCode";
+                var req = new SpecialCodeRequest
                 {
-                    result.ErrorCode = 99;
-                }
-                else if (_promotionBLL.CheckScratchCardCode(setSpecialCodeReq.SpecialCode.ToUpper()))
+                    CustId = authData.CustId,
+                    DeviceType = Convert.ToInt32(setSpecialCodeReq.DeviceType),
+                    SpecialCode = setSpecialCodeReq.SpecialCode
+                };
+
+                result = _courierAdapter.MyPostAsync<ApiResult, SpecialCodeRequest>(apiUrl, req).Result;
+                
+                result.Message = result.ErrorCode switch
                 {
-                    result.ErrorCode = _promotionBLL.SetScratchCardCode(authData.CustId, setSpecialCodeReq.SpecialCode.ToUpper(), setSpecialCodeReq.DeviceType);
-                    if (result.ErrorCode == 0)
-                        result.Message = "";
-                }
-                else
-                {
-                    if (_promotionBLL.SetSpecialCode(authData.CustId, setSpecialCodeReq.SpecialCode, setSpecialCodeReq.DeviceType))
-                    {
-                        result.ErrorCode = 0;
-                        result.Message = "";
-                    }
-                    else
-                    {
-                        result.ErrorCode = 99;
-                    }
-                }
+                    (int)SpecialCode.SpecialCodeError => _selLangBLL.GetMsg("msg_SpecialCodeErr"),
+                    9000 => _selLangBLL.GetMsg("msg_Ineligible"),
+                    _ => result.Message
+                };
             }
-            catch (MySql.Data.MySqlClient.MySqlException mySqlEx)
-            {
-                if (mySqlEx.Number == 1062)/*Duplicate for key 'PRIMARY'*/
-                {
-                    result.ErrorCode = 0;
-                }
-                else
-                {
-                    result.ErrorCode = 9000;
-                    result.Message = mySqlEx.ToString();
-                }
-            }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 result.ErrorCode = 9000;
-                result.Message = ex.ToString();
+                result.Message = _selLangBLL.GetMsg("msg_Ineligible");
+                _logger.LogError(e, GetCurrentMethod());
             }
-
+            
             return result;
         }
 
@@ -328,56 +316,56 @@ namespace MemberSite.Controllers.Api
 
             return result;
         }
-
-        public class SetDepositPromotionQueueReq
-        {
-            public string TransId { set; get; }
-            public string BonusCode { set; get; }
-            public decimal? LockedAmount { set; get; }
-            public int? DeviceType { set; get; }
-
-        }
-
+        
         [Authorize]
         [HttpPost]
-        public ApiResult SetDepositPromotionQueue(SetDepositPromotionQueueReq setDepositPromotionQueueReq)
+        public ApiResult SetDepositPromotionQueue(SetDepositPromotionQueueReq request)
         {
-            var deviceType = 1;
-            if (setDepositPromotionQueueReq.DeviceType != null)
-            {
-                deviceType = (int)setDepositPromotionQueueReq.DeviceType;
-            }
-            var authData = _authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult();
-            var lockedAmount = setDepositPromotionQueueReq.LockedAmount ?? 0;
-            var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var result = new ApiResult();
             try
             {
-                if (_promotionBLL.SetDepositPromotionQueue(setDepositPromotionQueueReq.TransId, setDepositPromotionQueueReq.BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, deviceType, lockedAmount))
+                var authData = _authorizeBLL.GetAuthData();
+                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                var req = new DepositPromotionQueue
                 {
-                    apiResult.ErrorCode = 0;
+                    TransId = request.TransId,
+                    BonusCode = request.BonusCode,
+                    CustId = authData.CustId,
+                    SiteId = custInfo.SiteId,
+                    UserName = custInfo.UserName,
+                    CurrencyId = custInfo.CurrencyId,
+                    DeviceType = request.DeviceType ?? 1,
+                    LockedAmount = request.LockedAmount ?? 0,
+                    ClientIp = _tools.GetClientIP()
+                };
+                if (!_promotionBLL.SetDepositPromotionQueue(req))
+                {
+                    result.ErrorCode = 9000;
+                    result.Message = _selLangBLL.GetMsg("msg_Ineligible");
                 }
             }
             catch (MySql.Data.MySqlClient.MySqlException mySqlEx)
             {
                 if (mySqlEx.Number == 1062)/*Duplicate for key 'PRIMARY'*/
                 {
-                    apiResult.ErrorCode = 1062;
-                    apiResult.Message = "Duplicate";
+                    result.ErrorCode = 1062;
+                    result.Message = "Duplicate";
                 }
                 else
                 {
-                    apiResult.ErrorCode = 9000;
-                    apiResult.Message = mySqlEx.ToString();
+                    result.ErrorCode = 9000;
+                    result.Message = _selLangBLL.GetMsg("msg_Ineligible");
+                    _logger.LogError(mySqlEx, GetCurrentMethod());
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                apiResult.ErrorCode = 9000;
-                apiResult.Message = ex.ToString();
+                result.ErrorCode = 9000;
+                result.Message = _selLangBLL.GetMsg("msg_Ineligible");
+                _logger.LogError(e, GetCurrentMethod());
             }
 
-            return apiResult;
+            return result;
         }
     }
 }
