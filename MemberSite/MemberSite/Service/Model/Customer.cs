@@ -41,7 +41,6 @@ namespace MemberSite.Service.Model
         public int SysId { set; get; }
         public string AccountNo { set; get; }
         public string IFSCCode { set; get; }
-        public bool IsBlock { get; set; } = false;
     }
     public class BankInfoDetailData
     {
