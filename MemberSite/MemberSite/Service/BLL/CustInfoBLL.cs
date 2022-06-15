@@ -341,23 +341,24 @@ namespace MemberSite.Service.BLL
             {
                 //var bankInfoDetailList = JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
                 var bankInfoDetailList = _custInfoService.GetCustBankDetail(custId);
-                if (bankInfoDetailList != null)
-                {
-                    bankInfoDetailList = bankInfoDetailList.Where(x => x.SysId != 0 && x.AccountNo != null);//filiter null data
-                    bankInfoDetailList.ToList().ForEach(x =>
-                    {
-                        var blockBankAccountList = _bankInfoService.GetBlockBankAccount(x.SysId, x.AccountNo).ToList();
-                        if(blockBankAccountList.Count > 0)
-                        {
-                            x.IsBlock = true;
-                        }
-                    });
+                //if (bankInfoDetailList != null)
+                //{
+                //    bankInfoDetailList = bankInfoDetailList.Where(x => x.SysId != 0 && x.AccountNo != null);//filiter null data
+                //    bankInfoDetailList.ToList().ForEach(x =>
+                //    {
+                //        var blockBankAccountList = _bankInfoService.GetBlockBankAccount(x.SysId, x.AccountNo).ToList();
+                //        if(blockBankAccountList.Count > 0)
+                //        {
+                //            x.IsBlock = true;
+                //        }
+                //    });
 
-                    if (bankInfoDetailList.Any())
-                    {
-                        custBankInfo.bankInfoDetail = bankInfoDetailList;
-                    }
-                }
+                //    if (bankInfoDetailList.Any())
+                //    {
+                //        custBankInfo.bankInfoDetail = bankInfoDetailList;
+                //    }
+                //}
+                custBankInfo.bankInfoDetail = bankInfoDetailList;
                 //if (custInfo.CurrencyId == 96)
                 //{
                 //    custBankInfo.uSDTDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
