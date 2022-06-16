@@ -116,7 +116,7 @@
         /// </summary>
         AutoPayError = 9,
     }
-    
+
     public enum PromotionCategoryId
     {
         SlotsGame = 1,
@@ -124,7 +124,7 @@
         SabaSports = 4,
         Lottery = 5
     }
-    
+
     public enum TpCategoryId
     {
         Sports = 1,
@@ -241,7 +241,7 @@
     }
 
     public enum MaintainType
-    { 
+    {
         Date,
         Day,
         Week,
@@ -291,10 +291,13 @@
     public enum CurrencyId
     {
         MYR = 2,
+        USD = 3,
         THB = 4,
+        CNY = 13,
         IDR = 15,
         VND = 51,
         INR = 61,
+        BDT = 74,
         USDT = 96
     }
     public enum DeviceId
@@ -312,4 +315,65 @@
         ETH = 98,
         BTC = 99
     }
+    public enum DeepLinkType
+    {
+        Android = 1,
+        IOS = 2,
+        Desktop = 3
+    }
+    public enum DeepLinkProtocolType
+    {
+        http = 1,
+        https = 2
+    }
+
+    public enum TransferAction
+    {
+        Unknow = 0,
+        Manual = 1,
+        RestoreAll = 2
+    }
+    public enum WalletMode
+    {
+        Seamless = 0,
+        Restore = 1,
+        Manual = 2,
+    }
+
+    public enum LineLoginErrorCode
+    {
+        Success = 0,
+
+        MemberAccountAlreadyBinding = 1001,
+        LineCallbackError = 1002,
+        CodeInvaild = 1003,
+        StateInvaid = 1004,
+
+        NotFoundToken = 1005,
+        FlowTypeInvaild = 1006,
+        TokenExpired = 1007,
+
+        IssueLineTokenFail = 2001,
+        //GetLineTokenFail = 2002, //HttpCode!=200
+        LineTokenInvaild = 2003,
+        LineTokenNotFound = 2004,
+        //GetLineUserProfileFail = 2005, //HttpCode!=200
+        LineUserProfileInvaild = 2006,
+        LineUserIdNotFound = 2007,
+        LineGetUserIdException = 2009,
+
+        RegisterAuthInvaild = 3001,
+        RegisterLineProfileInvaild = 3002,
+        LoginLineProfileInvaild = 3003,
+        BindingAuthInvaild = 3004,
+        BindingLineProfileInvaild = 3005,
+        UndefineFlow = 3009,
+
+        InsertLineProfileFail = 4001,
+        InsertLineProfileException = 4009,
+
+        IssueLineTokenException = 9001,
+        CallBackException = 9002
+    }
+
 }

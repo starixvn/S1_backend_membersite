@@ -34,7 +34,7 @@ namespace MemberSite.Controllers.Api
 
             _perCurrency = new Dictionary<int, string>()
             {
-              {2,"MYR" },{4,"THB" },{13,"RMB" },{15,"IDR" },{51,"VND" },{61,"INR" },{96,"USDT" }
+              {2,"MYR" },{4,"THB" },{13,"CNY" },{15,"IDR" },{51,"VND" },{61,"INR" },{96,"USDT" }
             };
         }
 

@@ -22,6 +22,7 @@ namespace MemberSite.Service.Model
         public bool IsResetPwd { get; set; }
         public string Aff { get; set; }
         public string AffCode { get; set; }
+        public string Token { get; set; }
     }
 
     //{"Ver": 1, "SysId": 8, "AccountNo": "9876543210", "AccountName": "Eddie Wu"}
@@ -150,6 +151,7 @@ namespace MemberSite.Service.Model
         public string TpName { set; get; }
         public string displayKey { get; set; }
         public string Description { set; get; }
+        public int WalletMode { set; get; } //0.Semless Wallet 1.Restore All 2.Manual
     }
     public class TpWalletData
     {

@@ -166,10 +166,7 @@
     <value>请输入密码。</value>
   </data>
   <data name="msg_PasswordValidate" xml:space="preserve">
-    <value>6到18个数字、英文字母大小写或特殊符号(@$*!%#?&amp;)</value>
-  </data>
-  <data name="msg_PasswordValidate2" xml:space="preserve">
-    <value>密码只支援 6-15 个字符。</value>
+    <value>密码长度必须 6 至 15 个字符，包含字母数字。</value>
   </data>
   <data name="msg_SamePassword" xml:space="preserve">
     <value>新密码与旧密码相同</value>
@@ -342,5 +339,8 @@
   </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>您的加密钱包地址格式不符！</value>
+  </data>
+  <data name="msg_DecimalOutOfRange" xml:space="preserve">
+    <value>转账失败由于小数点多于二位数</value>
   </data>
 </root>

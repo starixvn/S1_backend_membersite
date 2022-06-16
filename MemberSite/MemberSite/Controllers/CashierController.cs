@@ -131,7 +131,7 @@ namespace MemberSite.Controllers
             else
                 return View(apiResult);
         }
-        public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount, string BonusCode)
+        public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount, string BonusCode, string PayAccount)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();
             var apiResult = new ApiResult<PayResult>();
@@ -152,7 +152,8 @@ namespace MemberSite.Controllers
                     ChannelId = payInfo.ChannelId,
                     PayId = payInfo.PayId,
                     ClientIP = tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}"),
+                    PayAccount = PayAccount
                 };
 
                 var myUrl = $"{payApiUrl}ReqDepositMobile";
@@ -340,6 +341,7 @@ namespace MemberSite.Controllers
         public class ReqDepositMobile : ReqDeposit
         {
             public int ChannelId { get; set; }
+            public string PayAccount { get; set; }
         }
 
         [Route("{LangId}/[controller]/DepositReceip.jpg")]

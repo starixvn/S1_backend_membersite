@@ -17,6 +17,9 @@ namespace MemberSite.Service.DAL
         private readonly MySqlClient _reportDbClient;
         private readonly WalletService _walletService;
         private readonly SelLangBLL _selLangBll;
+        private readonly CourierAdapter _courierAdapter;
+        private readonly string _bonusServiceUrl;
+        private readonly Tools _tools;
 
         public PromotionService(IServiceProvider serviceProvider)
         {
@@ -25,17 +28,9 @@ namespace MemberSite.Service.DAL
             _reportDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
             _walletService = serviceProvider.GetRequiredService<WalletService>();
             _selLangBll = serviceProvider.GetRequiredService<SelLangBLL>();
-        }
-
-        public IEnumerable<Promotion> GetPromotionList(int siteId)
-        {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<Promotion>("Member_PromotionList_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
-        }
-        public IEnumerable<Promotion> GetPromotionListByCustId(int siteId, int custId, int currencyId)
-        {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<Promotion>("Member_PromotionListByCustId_Get", new { SiteId = siteId, CustId = custId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+            _courierAdapter = serviceProvider.GetRequiredService<CourierAdapter>();
+            _bonusServiceUrl = serviceProvider.GetRequiredService<IConfiguration>().GetValue<string>("BonusService");
+            _tools = serviceProvider.GetRequiredService<Tools>();
         }
 
         public List<CustPromotion> GetPromotionListv3(int SiteId, int CustId, int CurrencyId, int DeviceType, bool IsLogin, string langId, string defLang)
@@ -58,10 +53,10 @@ namespace MemberSite.Service.DAL
 
             return promotion;
         }
-
+        
         public CustPromotion GetPromotionDetail(int SiteId, int CustId, int CurrencyId, bool IsLogin, string langId, string defLang, string BonusCode, int DeviceType)
         {
-            var promo = _reportDbClient.QueryFirst<CustPromotion>("Member_PromotionV3_Get", new DynamicParameters(new {CustId, SiteId, CurrencyId, BonusCode, DeviceType}));
+            var promo = _reportDbClient.QueryFirst<CustPromotion>("Member_PromotionV3_Get", new DynamicParameters(new { CustId, SiteId, CurrencyId, BonusCode, DeviceType }));
 
             if (promo != null)
             {
@@ -76,7 +71,7 @@ namespace MemberSite.Service.DAL
 
             return promo;
         }
-        
+
         private static DateTime StartOfWeek(DateTime dateTime, DayOfWeek startOfWeek)
         {
             var diff = (7 + (dateTime.DayOfWeek - startOfWeek)) % 7;
@@ -165,7 +160,7 @@ namespace MemberSite.Service.DAL
 
             return _promotion;
         }
-        
+
         private DynamicParameters GetPromotionCanJoin(int siteId, int custId, int currencyId, int deviceType,
             CustPromotion promo)
         {
@@ -190,8 +185,12 @@ namespace MemberSite.Service.DAL
                 && promo.canJoin)
             {
                 promo.DepositId = canJoinParams.Get<string>("RefId");
-                promo.DepositAmount = canJoinParams.Get<decimal>("Amount");
-                promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(canJoinParams.Get<string>("RefList"));
+                promo.DepositAmount = canJoinParams.Get<decimal?>("Amount") ?? 0;
+                var refList = canJoinParams.Get<string>("RefList");
+                if (refList != null && refList.Contains("DepositId", StringComparison.OrdinalIgnoreCase))
+                {
+                    promo.RefList = JsonConvert.DeserializeObject<IEnumerable<Ref>>(refList);
+                }
 
                 promo.MaxAmount = promo.PromotionType == (int)PromotionType.FstDeposit
                     ? _walletService.GetBalance(custId)
@@ -223,6 +222,11 @@ namespace MemberSite.Service.DAL
                         }
                     }
                 }
+
+                if (promo.RequiredAmount > promo.DepositAmount)
+                {
+                    promo.canJoin = false;
+                }
             }
 
             if (promo.PromotionType == (int)PromotionType.Rebate)
@@ -251,7 +255,7 @@ namespace MemberSite.Service.DAL
                 }
             }
         }
-        
+
         private void SetPromotionDetail(string langId, string defLang, bool clearDetails, CustPromotion promo)
         {
             if (!string.IsNullOrEmpty(promo.Details))
@@ -300,7 +304,6 @@ namespace MemberSite.Service.DAL
                 }
             }
         }
-
         
         public bool SetSpecialCode(int custId, string specialCode, int? deviceType)
         {
@@ -378,6 +381,32 @@ namespace MemberSite.Service.DAL
         public BonusinfoByBonusCode GetBonusinfoByBonusCode(int CustId, string BonusCode)
         {
             return _reportDbClient.QueryFirst<BonusinfoByBonusCode>("Member_BonusinfoByBonusCode_Get", new DynamicParameters(new { CustId = CustId, BonusCode = BonusCode }));
+        }
+        public class PromotionReq
+        {
+            public string BonusCode { set; get; }
+            public int CustId { set; get; }
+            public string custIP { set; get; }
+            public decimal? LockedAmount { set; get; }
+            public int? DeviceType { set; get; }
+        }
+        public async Task<ApiResult> SetClaimPromotionV2Async(int custId, string bonusCode, decimal? dLockedAmount, int? deviceType)
+        {
+            var apiUrl = $"{_bonusServiceUrl}SetClaimPromotion";
+
+            var req = new PromotionReq
+            {
+                BonusCode = bonusCode,
+                CustId = custId,
+                custIP = _tools.GetClientIP(),
+                LockedAmount = dLockedAmount,
+                DeviceType = deviceType
+            };
+
+            var result = await _courierAdapter.MyPostAsync<ApiResult, PromotionReq>(apiUrl, req);
+
+            return result;
+
         }
     }
 }

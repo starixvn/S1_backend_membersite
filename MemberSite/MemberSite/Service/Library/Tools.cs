@@ -14,8 +14,7 @@ namespace MemberSite.Service.Library
     {
         private readonly IOptions<JwtConfig> jwtConfig;
         private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
-        private readonly Regex _regexPasswordNova = new Regex(@"^(?=.*[a-zA-Z0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,15}$", RegexOptions.Singleline);
-        private readonly Regex _regexPasswordGaolBwing = new Regex(@"^(?=.{6,15}$)[a-zA-Z0-9!@#$%^&*]*$", RegexOptions.Singleline);
+        private readonly Regex _regexPassword = new(@"^(?=.{6,15}$)[a-zA-Z0-9!@#$%^&*]*$", RegexOptions.Singleline);
         public IHttpContextAccessor httpContextAccessor { get; }
 
         public Tools(IHttpContextAccessor httpContextAccessor, IOptions<JwtConfig> jwtConfig ,IOptions<Dictionary<string, string>> loginDeviceConfig)
@@ -59,18 +58,17 @@ namespace MemberSite.Service.Library
         }
 
         /// <summary>
-        /// 驗證用戶密碼: Nova88  支援6~15碼大小寫英文數字，必須要有特殊符號!@#$%^&*
-        /// Gaol / Bwing 支援6~15碼大小寫英文數字跟特殊符號!@#$%^&*
+        /// 驗證用戶密碼: Nova88 / Gaol / Bwing 支援6~15碼大小寫英文數字跟特殊符號!@#$%^&*
         /// </summary>
         /// <param name="userPwd"></param>
         /// <param name="siteId"></param>
         /// <returns></returns>
-        public bool CheckUserInputPassword(string userPwd, int siteId)
+        public bool CheckUserInputPassword(string userPwd)
         {
             if (string.IsNullOrEmpty(userPwd))
                 return false;
 
-            var result = siteId == (int)SiteId.Nova88 ? _regexPasswordNova.Match(userPwd) : _regexPasswordGaolBwing.Match(userPwd);
+            var result = _regexPassword.Match(userPwd);
             return result.Success;
         }
 
@@ -183,6 +181,12 @@ namespace MemberSite.Service.Library
 
             return fromUrl;
         }
+
+        public string GetDomainUrl()
+        {
+            return  httpContextAccessor.HttpContext.Request.Host.ToString();
+        }
+
 
         /// <summary>
         /// 保留两位小数的金额
