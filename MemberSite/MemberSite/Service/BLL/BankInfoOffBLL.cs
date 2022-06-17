@@ -118,7 +118,7 @@ namespace MemberSite.Service.BLL
 
             var key = $"GetBankInfoOffList_{SiteId}_{CurrencyId}_{vipLevel}_{lang}_{queryType}";
             var offBankList = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
                 i => GetBankAccountOffList(SiteId, CurrencyId, vipLevel, lang, queryType));
 
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
