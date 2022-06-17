@@ -278,7 +278,6 @@ namespace MemberSite.Controllers
                     loadCardPayInfo.PayId,
                     ClientIP = tools.GetClientIP(),
                     ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}"),
-                    Lang = _selLangBLL.GetLangId()
                 };
 
                 var myUrl = $"{payApiUrl}ReqDepositLoadCard";
