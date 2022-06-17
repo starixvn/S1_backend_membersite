@@ -47,7 +47,7 @@ namespace MemberSite.Service.BLL
 
             var key = $"BankInfoSysListForCtrl_{serverInfo.SiteId}";
             var result = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
                 i => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId));
             return result?.Where(x => x.CurrencyId == currencyId);
         }
