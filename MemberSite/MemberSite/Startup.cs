@@ -142,6 +142,7 @@ namespace MemberSite
             services.AddTransient<DeepLinkBLL>();
             services.AddSingleton<PayInfoBLL>();
             services.AddSingleton<LineLoginBLL>();
+            services.AddSingleton<SiteBll>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();
