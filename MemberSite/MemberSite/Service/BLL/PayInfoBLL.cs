@@ -132,7 +132,7 @@ namespace MemberSite.Service.BLL
         private IEnumerable<PayInfo> GetPayInfoList(int siteId, DepositType depositType)
         {
             return _cacheHelper.TryGetOrCreate<IEnumerable<PayInfo>>($"PayInfoList_{siteId}_{depositType}",
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
                 i => _payService.GetPayInfo(siteId, depositType).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
         }
 

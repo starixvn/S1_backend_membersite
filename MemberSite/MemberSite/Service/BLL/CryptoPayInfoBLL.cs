@@ -40,7 +40,7 @@ namespace MemberSite.Service.BLL
         {
             var key = $"CryptoPayInfoList_{siteId}";
             return _cacheHelper.TryGetOrCreate<IEnumerable<CryptoPayInfo>>(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
                 i => _payService.GetCryptoPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
         }
         
