@@ -48,7 +48,7 @@ namespace MemberSite.Controllers.Api
             public int CustId { set; get; }
             public string custIP { set; get; }
             public decimal? LockedAmount { set; get; }
-            public int? DeviceType { set; get; }
+            public int DeviceType { set; get; }
         }
         
         public class CustPromotionRequest
@@ -99,10 +99,10 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var authData = _authorizeBLL.GetAuthData();
-                int? deviceType = 1;
+                var deviceType = (int)PromotionDeviceType.All;
                 if (promotionReq.DeviceType != null)
                 {
-                    deviceType = promotionReq.DeviceType;
+                    deviceType = Convert.ToInt32(promotionReq.DeviceType);
                 }
                 
                 var apiUrl = $"{_bonusServiceUrl}SetClaimPromotion";
