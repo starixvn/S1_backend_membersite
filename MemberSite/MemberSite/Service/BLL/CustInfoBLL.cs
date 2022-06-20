@@ -305,12 +305,14 @@ namespace MemberSite.Service.BLL
         public int SetProfile(int custId, Dictionary<string, string> custProfile)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.SetProfile(custId, custInfo.SiteId, custProfile) ? 0 : -1;
+            var seperateData = SeperateAddress(custProfile);
+            return _custInfoService.SetProfile(custId, custInfo.SiteId, seperateData.CustProfile, seperateData.CustAddress) ? 0 : -1;
         }
         public int SetProfileV2(int custId, Dictionary<string, string> custProfile)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.SetProfileV2(custId, custInfo.SiteId, custProfile) ? 0 : -1;
+            var seperateData = SeperateAddress(custProfile);
+            return _custInfoService.SetProfileV2(custId, custInfo.SiteId, seperateData.CustProfile, seperateData.CustAddress) ? 0 : -1;
         }
 
         public int SetCustBankInfo(int custId, string accountName, IEnumerable<BankInfoDetail> bankInfo)
@@ -603,6 +605,26 @@ namespace MemberSite.Service.BLL
         public int SetCustActStatus(int custId, string Operator)
         {
             return _custInfoService.SetCustActStatus(custId, Operator);
+        }
+
+        private static List<string> AddressKeys = new List<string>() { "Country", "State", "PostCode", "City", "LineFirst", "LineSecond" };
+        private (Dictionary<string, string> CustProfile, Dictionary<string, string> CustAddress) SeperateAddress(Dictionary<string, string> custProfile)
+        {
+            var addressProfile = new Dictionary<string, string>();
+            foreach(var key in AddressKeys)
+            {
+                if (custProfile.ContainsKey($"Address{key}"))
+                {
+                    addressProfile.Add(key, custProfile[$"Address{key}"]);
+                    custProfile.Remove($"Address{key}");
+                }
+                else
+                {
+                    addressProfile.Add(key, "");
+                }
+            }
+
+            return (custProfile, addressProfile);
         }
     }
 }

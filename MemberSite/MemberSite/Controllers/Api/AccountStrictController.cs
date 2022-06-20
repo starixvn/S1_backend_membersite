@@ -475,7 +475,13 @@ namespace MemberSite.Controllers.Api
                     custInfo.RegTime,
                     LastLogin = custInfo.LastLoginTime,
                     Country = custInfo.CountryCode,
-                    custInfo.PhoneNo
+                    custInfo.PhoneNo,
+                    custInfo.AddressCountry,
+                    custInfo.AddressState,
+                    custInfo.AddressPostCode,
+                    custInfo.AddressCity,
+                    custInfo.AddressLineFirst,
+                    custInfo.AddressLineSecond
                 };
             }
             else
@@ -584,7 +590,13 @@ namespace MemberSite.Controllers.Api
                         LastLogin = custInfo.LastLoginTime,
                         Country = custInfo.CountryCode,
                         custInfo.AreaCode,
-                        custInfo.PhoneNo
+                        custInfo.PhoneNo,
+                        custInfo.AddressCountry,
+                        custInfo.AddressState,
+                        custInfo.AddressPostCode,
+                        custInfo.AddressCity,
+                        custInfo.AddressLineFirst,
+                        custInfo.AddressLineSecond
                     };
                 }
                 else
@@ -671,7 +683,13 @@ namespace MemberSite.Controllers.Api
                     custInfo.EmailReward,
                     custInfo.EnablePromotion,
                     custInfo.ActStatus,
-                    IsLineBinding = isLineBinding
+                    IsLineBinding = isLineBinding,
+                    custInfo.AddressCountry,
+                    custInfo.AddressState,
+                    custInfo.AddressPostCode,
+                    custInfo.AddressCity,
+                    custInfo.AddressLineFirst,
+                    custInfo.AddressLineSecond
                 };
 
                 apiResult.ErrorCode = 0;
