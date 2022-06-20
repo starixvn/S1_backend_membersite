@@ -499,7 +499,13 @@ namespace MemberSite.Controllers.Api
                     custInfoProfile.RegTime,
                     LastLogin = custInfoProfile.LastLoginTime,
                     Country = custInfoProfile.CountryCode,
-                    custInfoProfile.PhoneNo
+                    custInfoProfile.PhoneNo,
+                    custInfoProfile.AddressCountry,
+                    custInfoProfile.AddressState,
+                    custInfoProfile.AddressPostCode,
+                    custInfoProfile.AddressCity,
+                    custInfoProfile.AddressLineFirst,
+                    custInfoProfile.AddressLineSecond
                 };
             }
             else
@@ -609,7 +615,13 @@ namespace MemberSite.Controllers.Api
                         LastLogin = custInfoProfile.LastLoginTime,
                         Country = custInfoProfile.CountryCode,
                         custInfoProfile.AreaCode,
-                        custInfoProfile.PhoneNo
+                        custInfoProfile.PhoneNo,
+                        custInfoProfile.AddressCountry,
+                        custInfoProfile.AddressState,
+                        custInfoProfile.AddressPostCode,
+                        custInfoProfile.AddressCity,
+                        custInfoProfile.AddressLineFirst,
+                        custInfoProfile.AddressLineSecond
                     };
                 }
                 else
@@ -708,7 +720,13 @@ namespace MemberSite.Controllers.Api
                     custInfo.EmailReward,
                     custInfo.EnablePromotion,
                     custInfo.ActStatus,
-                    IsLineBinding = isLineBinding
+                    IsLineBinding = isLineBinding,
+                    custInfo.AddressCountry,
+                    custInfo.AddressState,
+                    custInfo.AddressPostCode,
+                    custInfo.AddressCity,
+                    custInfo.AddressLineFirst,
+                    custInfo.AddressLineSecond
                 };
 
                 apiResult.ErrorCode = 0;

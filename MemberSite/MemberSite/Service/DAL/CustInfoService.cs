@@ -130,7 +130,7 @@ namespace MemberSite.Service.DAL
 
             if (result > 0 && !string.IsNullOrWhiteSpace(lineUserId))
             {
-                if(GetCustLineProfile(0, lineUserId) != null)
+                if (GetCustLineProfile(0, lineUserId) != null)
                 {
                     result = -3002;
                 }
@@ -207,24 +207,44 @@ namespace MemberSite.Service.DAL
                 }
             }
         }
-        public bool SetProfile(int custId, int siteId, Dictionary<string, string> profile)
+        public bool SetProfile(int custId, int siteId, Dictionary<string, string> profile, Dictionary<string, string> address)
         {
             var result = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             string Email = profile[nameof(Email)];
             string AreaCode = profile[nameof(AreaCode)];
             string PhoneNo = profile[nameof(PhoneNo)];
-            result = conn.Execute("Member_CustProfile_Set", new { CustId = custId, SiteId = siteId, AreaCode, Email, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
+            result = conn.Execute("Member_CustProfile_Set_V3",
+                new
+                {
+                    CustId = custId,
+                    SiteId = siteId,
+                    AreaCode,
+                    Email,
+                    PhoneNo,
+                    Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile),
+                    Address = Newtonsoft.Json.JsonConvert.SerializeObject(address)
+                }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
-        public bool SetProfileV2(int custId, int siteId, Dictionary<string, string> profile)
+        public bool SetProfileV2(int custId, int siteId, Dictionary<string, string> profile, Dictionary<string, string> address)
         {
             var result = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             string Email = profile[nameof(Email)];
             string AreaCode = profile[nameof(AreaCode)];
             string PhoneNo = profile[nameof(PhoneNo)];
-            result = conn.Execute("Member_CustProfileV2_Set", new { CustId = custId, SiteId = siteId, AreaCode, Email, PhoneNo, Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile) }, commandType: CommandType.StoredProcedure);
+            result = conn.Execute("Member_CustProfile_Set_V3",
+                new
+                {
+                    CustId = custId,
+                    SiteId = siteId,
+                    AreaCode,
+                    Email,
+                    PhoneNo,
+                    Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile),
+                    Address = Newtonsoft.Json.JsonConvert.SerializeObject(address)
+                }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
         public bool SetCustBankInfo(int custId, int siteId, string accountName)
@@ -341,7 +361,7 @@ namespace MemberSite.Service.DAL
         public CustInfoProfile GetCustInfoProfile(int custId, int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<CustInfoProfile>("Member_CustProfileV2_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.QueryFirstOrDefault<CustInfoProfile>("Member_CustProfile_Get_V3", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
         public int SubmittedCustPhotoId(int custId, int siteId, int currencyId)
         {
