@@ -13,6 +13,7 @@ using System.Text.Unicode;
 using MemberSite.Extensions;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Model.Mapping;
+using StackExchange.Redis;
 
 namespace MemberSite
 {
@@ -58,7 +59,8 @@ namespace MemberSite
             services.Configure<Dictionary<string, string>>(configuration.GetSection("LoginDeviceConfig"));
             services.AddMemoryCache();
             services.AddDatabaseConnection(configuration);
-
+            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(configuration.GetValue<string>("RedisConnection")));
+            services.AddSingleton<ICacheHelper, RedisCacheHelper>();
             /*Library*/
             services.AddSingleton<Tools>();
             services.AddSingleton<Common>();
