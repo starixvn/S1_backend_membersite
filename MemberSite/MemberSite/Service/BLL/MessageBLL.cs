@@ -21,9 +21,9 @@ namespace MemberSite.Service.BLL
             return _messageService.GetMsgList(custId, pageSize, ref pageNumber, out totalPages, out rowCount);
         }
 
-        public MsgContent GetMsgContent(int custId, int msgId)
+        public MsgContent GetMsgContent(int custId, int msgId ,int isBatch)
         {
-            return _messageService.GetMsgContent(custId, msgId);
+            return _messageService.GetMsgContent(custId, msgId, isBatch);
         }
         
         public async Task<PopupMsg> GetPopupMessage(int custId)
