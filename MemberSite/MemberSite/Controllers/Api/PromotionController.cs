@@ -321,7 +321,10 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult SetDepositPromotionQueue(SetDepositPromotionQueueReq request)
         {
-            var result = new ApiResult();
+            var result = new ApiResult
+            {
+                ErrorCode = 0
+            };
             try
             {
                 var authData = _authorizeBLL.GetAuthData();
