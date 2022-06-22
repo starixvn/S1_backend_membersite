@@ -57,8 +57,7 @@ namespace MemberSite.Service.Model
         public string PeriodFrom { get; set; }
         public string PeriodTo { get; set; }
         public decimal LossAmount { get; set; }
-        public decimal Percentage { private get; set; }
-        public string PercentageName => $"{Percentage:G29}%";
+        public string PercentageName { get; set; }
         public decimal BonusAmount { get; set; }
     }
 
