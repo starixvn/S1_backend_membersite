@@ -223,7 +223,7 @@
     <value>Insufficient Fund!</value>
   </data>
   <data name="mag_AffiliateNotExist" xml:space="preserve">
-    <value>Your Affiliate Code is invaild. Please check again!</value>
+    <value>Your Affiliate Code is invalid. Please check again!</value>
   </data>
   <data name="msg_TransferAlert" xml:space="preserve">
     <value>Your current Sportsbook Wallet is : &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;Deposit and transfer from Main Wallet to Sportsbook Wallet now to enjoy our games and services.</value>
