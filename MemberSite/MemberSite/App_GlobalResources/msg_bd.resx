@@ -164,7 +164,7 @@
     <value>অপর্যাপ্ত তহবিল!</value>
   </data>
   <data name="mag_AffiliateNotExist" xml:space="preserve">
-    <value>Your Affiliate Code is invalid. Please check again!</value>
+    <value>আপনার অধিভুক্ত কোডটি অবৈধ. আবার চেক করুন!</value>
   </data>
   <data name="msg_TransferAlert" xml:space="preserve">
     <value>আপনার বর্তমান খেলাধুলা বইয়ের ওয়ালেট হল: &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;আমাদের খেলা এবং পরিষেবাগুলি উপভোগ করতে এখনই মূল ওয়ালেট থেকে খেলাধুলা বইয়ের ওয়ালেটে জমা এবং স্থানান্তর .</value>
@@ -294,9 +294,6 @@
   </data>
   <data name="msg_DecimalOutOfRange" xml:space="preserve">
     <value>Transfer failed due to decimal greater than 2 digits</value>
-  </data>
-  <data name="msg_LineAccountAlreadyBind" xml:space="preserve">
-    <value>This LINE account has been used, please use another account.</value>
   </data>
   <data name="msg_BankAccountDuplicate" xml:space="preserve">
     <value>Duplicate Bank Account No. is not allowed. Please try another Account No.</value>
