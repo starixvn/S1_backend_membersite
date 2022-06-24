@@ -304,14 +304,18 @@ namespace MemberSite.Service.BLL
         public int SetProfile(int custId, Dictionary<string, string> custProfile)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            var seperateData = SeperateAddress(custProfile);
-            return _custInfoService.SetProfile(custId, custInfo.SiteId, seperateData.CustProfile, seperateData.CustAddress) ? 0 : -1;
+            return _custInfoService.SetProfile(custId, custInfo.SiteId, custProfile) ? 0 : -1;
         }
         public int SetProfileV2(int custId, Dictionary<string, string> custProfile)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            var seperateData = SeperateAddress(custProfile);
-            return _custInfoService.SetProfileV2(custId, custInfo.SiteId, seperateData.CustProfile, seperateData.CustAddress) ? 0 : -1;
+            return _custInfoService.SetProfileV2(custId, custInfo.SiteId, custProfile) ? 0 : -1;
+        }
+
+        public int SetProfileAddress(int custId, Dictionary<string, string> custProfile)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.SetAddress(custId, custInfo.SiteId, ConvertAddress(custProfile)) ? 0 : -1;
         }
 
         public int SetCustBankInfo(int custId, string accountName)
@@ -657,23 +661,25 @@ namespace MemberSite.Service.BLL
         }
 
         private static List<string> AddressKeys = new List<string>() { "Country", "State", "PostCode", "City", "LineFirst", "LineSecond" };
-        private (Dictionary<string, string> CustProfile, Dictionary<string, string> CustAddress) SeperateAddress(Dictionary<string, string> custProfile)
+        private Dictionary<string, string> ConvertAddress(Dictionary<string, string> addressProfile)
         {
-            var addressProfile = new Dictionary<string, string>();
-            foreach (var key in AddressKeys)
+
+            var result = new Dictionary<string, string>();
+            foreach(var key in AddressKeys)
             {
-                if (custProfile.ContainsKey($"Address{key}"))
+                if (addressProfile.ContainsKey($"Address{key}"))
                 {
-                    addressProfile.Add(key, custProfile[$"Address{key}"]);
-                    custProfile.Remove($"Address{key}");
+                    result.Add(key, addressProfile[$"Address{key}"]);
+                    addressProfile.Remove($"Address{key}");
                 }
                 else
                 {
-                    addressProfile.Add(key, "");
+                    result.Add(key, "");
                 }
             }
 
-            return (custProfile, addressProfile);
+            return result;
+            ;
         }
     }
 }
