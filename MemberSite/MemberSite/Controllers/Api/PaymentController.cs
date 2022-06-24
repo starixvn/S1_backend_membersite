@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.BLL;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -30,6 +31,7 @@ namespace MemberSite.Controllers.Api
         private readonly ImageEditorBLL _imageEditorBll;
         private readonly PromotionBll _promotionBLL;
         private readonly PayInfoBLL _payInfoBLL;
+        private readonly CustInfoService _custInfoService;
         private readonly ILogger<PaymentController> _logger;
 
         public PaymentController(IServiceProvider provider)
@@ -50,6 +52,7 @@ namespace MemberSite.Controllers.Api
             _imageEditorBll = provider.GetRequiredService<ImageEditorBLL>();
             _promotionBLL = provider.GetRequiredService<PromotionBll>();
             _payInfoBLL = provider.GetRequiredService<PayInfoBLL>();
+            _custInfoService = provider.GetRequiredService<CustInfoService>();
             _logger = provider.GetRequiredService<ILogger<PaymentController>>();
 
             var configuration = provider.GetRequiredService<IConfiguration>();
@@ -639,6 +642,13 @@ namespace MemberSite.Controllers.Api
         {
             if (withdrawalReqModel.amount <= 0)
             {
+                return false;
+            }
+
+            if (custInfo.CurrencyId == (int)CurrencyId.INR && !_custInfoService.GetPhoneVerified(custInfo.CustId).Result)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_CompletePhoneNumber");
+                apiResult.ErrorCode = -9;
                 return false;
             }
 
