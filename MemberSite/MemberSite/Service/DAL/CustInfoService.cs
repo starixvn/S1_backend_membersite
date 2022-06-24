@@ -207,14 +207,14 @@ namespace MemberSite.Service.DAL
                 }
             }
         }
-        public bool SetProfile(int custId, int siteId, Dictionary<string, string> profile, Dictionary<string, string> address)
+        public bool SetProfile(int custId, int siteId, Dictionary<string, string> profile)
         {
             var result = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             string Email = profile[nameof(Email)];
             string AreaCode = profile[nameof(AreaCode)];
             string PhoneNo = profile[nameof(PhoneNo)];
-            result = conn.Execute("Member_CustProfile_Set_V3",
+            result = conn.Execute("Member_CustProfile_Set",
                 new
                 {
                     CustId = custId,
@@ -222,19 +222,18 @@ namespace MemberSite.Service.DAL
                     AreaCode,
                     Email,
                     PhoneNo,
-                    Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile),
-                    Address = Newtonsoft.Json.JsonConvert.SerializeObject(address)
+                    Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile)
                 }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
-        public bool SetProfileV2(int custId, int siteId, Dictionary<string, string> profile, Dictionary<string, string> address)
+        public bool SetProfileV2(int custId, int siteId, Dictionary<string, string> profile)
         {
             var result = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             string Email = profile[nameof(Email)];
             string AreaCode = profile[nameof(AreaCode)];
             string PhoneNo = profile[nameof(PhoneNo)];
-            result = conn.Execute("Member_CustProfile_Set_V3",
+            result = conn.Execute("Member_CustProfileV2_Set",
                 new
                 {
                     CustId = custId,
@@ -242,10 +241,19 @@ namespace MemberSite.Service.DAL
                     AreaCode,
                     Email,
                     PhoneNo,
-                    Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile),
-                    Address = Newtonsoft.Json.JsonConvert.SerializeObject(address)
+                    Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile)
                 }, commandType: CommandType.StoredProcedure);
             return result > 0;
+        }
+        public bool SetAddress(int custId, int siteId, Dictionary<string, string> address)
+        {
+            var p = new DynamicParameters(new
+            {
+                CustId = custId,
+                SiteId = siteId,
+                Address = Newtonsoft.Json.JsonConvert.SerializeObject(address)
+            });
+            return _mainDbClient.Execute("Member_CustProfile_Address_Set", p) > 0 ;
         }
         public bool SetCustBankInfo(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo)
         {
