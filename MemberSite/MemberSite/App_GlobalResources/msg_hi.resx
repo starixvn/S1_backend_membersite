@@ -174,6 +174,9 @@
   <data name="msg_EnterPhoneNumber" xml:space="preserve">
     <value>कृपया अपना फोन नंबर दर्ज करें</value>
   </data>
+  <data name="msg_CompletePhoneNumber" xml:space="preserve">
+    <value>कृपया अपना मोबाइल फ़ोन (OTP) सत्यापन पूरा करें।</value>
+  </data>
   <data name="msg_EnterRealName" xml:space="preserve">
     <value>कृपया अपना वास्तविक नाम दर्ज करें</value>
   </data>
