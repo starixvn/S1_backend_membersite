@@ -9,6 +9,7 @@
         public string Title { get; set; }
         public DateTime CreateTime { get; set; }
         public bool Flag { get; set; }
+        public bool IsBatch { get; set; }
     }
 
     public class MsgContent
