@@ -309,6 +309,12 @@ namespace MemberSite.Service.BLL
             return _custInfoService.SetProfileV2(custId, custInfo.SiteId, custProfile) ? 0 : -1;
         }
 
+        public int SetProfileAddress(int custId, Dictionary<string, string> custProfile)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.SetAddress(custId, custInfo.SiteId, ConvertAddress(custProfile)) ? 0 : -1;
+        }
+
         public int SetCustBankInfo(int custId, string accountName, IEnumerable<BankInfoDetail> bankInfo)
         {
             var custInfo = GetCustInfoWithCache(custId);
@@ -599,6 +605,27 @@ namespace MemberSite.Service.BLL
         public int SetCustActStatus(int custId, string Operator)
         {
             return _custInfoService.SetCustActStatus(custId, Operator);
+        }
+
+        private static List<string> AddressKeys = new List<string>() { "Country", "State", "PostCode", "City", "LineFirst", "LineSecond" };
+        private Dictionary<string, string> ConvertAddress(Dictionary<string, string> addressProfile)
+        {
+            var result = new Dictionary<string, string>();
+            foreach(var key in AddressKeys)
+            {
+                if (addressProfile.ContainsKey($"Address{key}"))
+                {
+                    result.Add(key, addressProfile[$"Address{key}"]);
+                    addressProfile.Remove($"Address{key}");
+                }
+                else
+                {
+                    result.Add(key, "");
+                }
+            }
+
+            return result;
+            ;
         }
     }
 }
