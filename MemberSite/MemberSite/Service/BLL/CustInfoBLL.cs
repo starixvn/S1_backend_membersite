@@ -615,7 +615,7 @@ namespace MemberSite.Service.BLL
             {
                 if (addressProfile.ContainsKey($"Address{key}"))
                 {
-                    result.Add(key, addressProfile[$"Address{key}"]);
+                    result.Add(key, (string.IsNullOrWhiteSpace(addressProfile[$"Address{key}"]) ? "" : addressProfile[$"Address{key}"]));
                     addressProfile.Remove($"Address{key}");
                 }
                 else
