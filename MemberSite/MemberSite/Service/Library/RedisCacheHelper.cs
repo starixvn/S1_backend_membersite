@@ -11,7 +11,7 @@ namespace MemberSite.Service.Library
         {
             _redis =  multiplexer.GetDatabase();
         }
-        public TItem TryGetOrCreate<TItem>(string key, TimeSpan timeSpan, Func<string, TItem> factory)
+        public TItem TryGetOrCreate<TItem>(string key, TimeSpan? timeSpan, Func<string, TItem> factory)
         {
             if (!_redis.KeyExists(key))
             {

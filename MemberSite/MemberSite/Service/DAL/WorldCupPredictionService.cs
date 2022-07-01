@@ -17,6 +17,8 @@ namespace MemberSite.Service.DAL
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main); ;
         }
 
+        #region 隊伍設定
+
         /// <summary>
         /// 取得後台使用者設定的世界盃設定
         /// </summary>
@@ -37,5 +39,63 @@ namespace MemberSite.Service.DAL
         {
             return _mainDbClient.Query<WorldCupPredictionOptionsDto>("Admin_WorldCupPredictionOptions_Get");
         }
+
+        #endregion
+
+        #region 充值 & 發票
+
+        /// <summary>
+        /// 取得玩家每日充值總計
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<MemberDepositAmountDailyDto> GetMemberDepositAmountDaily(int siteId, int custId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId, dbType: DbType.Int64);
+            p.Add("_CustId", custId, dbType: DbType.Int64);
+            return _mainDbClient.Query<MemberDepositAmountDailyDto>("Member_MemberDepositAmountDaily_Get", p);
+        }
+
+        /// <summary>
+        /// 取得世界盃衝值設定金額表
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<DepositAmountSettingDto> GetDepositAmountSetting()
+        {
+            return _mainDbClient.Query<DepositAmountSettingDto>("Member_DepositAmountSetting_Get");
+        }
+
+        /// <summary>
+        /// 取得玩家的票券
+        /// </summary>
+        /// <param name="custId"></param>
+        /// <returns></returns>
+        public IEnumerable<WorldCupMemberTicketInfoDto> GetWorldCupMemberTicketInfo(int custId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId, dbType: DbType.Int64);
+            return _mainDbClient.Query<WorldCupMemberTicketInfoDto>("Member_WorldCupMemberTicketInfo_Get", p);
+        }
+
+        /// <summary>
+        /// 取得世界盃充值，投票設定時間
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<WorldCupDateSettingDto> GetWorldCupDateSetting()
+        {
+            return _mainDbClient.Query<WorldCupDateSettingDto>("Service_WorldCupDateSetting_Get");
+        }
+
+        public Task UserPollTicketAsync(int custId, UserPollTicketRequest request)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId, dbType: DbType.Int64);
+            p.Add("_TicketType", request.TicketType, dbType: DbType.Byte);
+            p.Add("_TeamId", request.CountryId, dbType: DbType.Int64);
+
+            return _mainDbClient.ExecuteAsync("Member_PollTicketInfo_Set", p);
+        }
+
+        #endregion
     }
 }
