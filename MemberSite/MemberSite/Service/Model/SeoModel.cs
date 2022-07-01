@@ -9,6 +9,7 @@ namespace MemberSite.Service.Model
         public string Meta { get; set; }
         public string DefaultLang { get; set; }
         public bool ActiveDomain { get; set; }
+        public string Keyword { get; set; }
         
         [JsonIgnore]
         public string FollowUsData { get; set; }
