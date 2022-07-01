@@ -1272,6 +1272,7 @@ namespace MemberSite.Controllers.Api
                 data.Meta = string.IsNullOrEmpty(data.Meta) ? null : data.Meta;
                 data.Title = string.IsNullOrEmpty(data.Title) ? null : data.Title;
                 data.DefaultLang = string.IsNullOrEmpty(data.DefaultLang) ? null : data.DefaultLang;
+                data.Keyword = string.IsNullOrEmpty(data.DefaultLang) ? null : data.Keyword;
                 if (!string.IsNullOrEmpty(data.FollowUsData))
                 {
                     data.FollowUs = JsonConvert.DeserializeObject<List<FollowUs>>(data.FollowUsData);
