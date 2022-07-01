@@ -14,6 +14,7 @@ namespace MemberSite.Service.BLL
         private readonly IWebHostEnvironment environment;
         private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
         private readonly TpGameTypeHelper tpGameTypeHelper;
+        private readonly ICacheHelper _redisHelper;
 
         public BannerBLL(IServiceProvider provider)
         {
@@ -23,6 +24,7 @@ namespace MemberSite.Service.BLL
             promotionBLL = provider.GetRequiredService<PromotionBll>();
             siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             tpGameTypeHelper = provider.GetRequiredService<TpGameTypeHelper>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
         public IEnumerable<BannerSettingItem> GetBanner(int perferCurr, string FolderName)
@@ -47,41 +49,6 @@ namespace MemberSite.Service.BLL
             {
                 return null;
             }
-        }
-
-        public IEnumerable<BannerSettingItem> GetBannerFromDB(int CurrencyId, string langId)
-        {
-            var serverInfo = serverInfoBLL.GetServerInfo();
-            var promotionList = promotionBLL.GetPromotionList(serverInfo.SiteId)?.Where(p => p.CurrencyId == CurrencyId).OrderBy(x => x.Sort);
-            var bannerFromDB = new List<BannerSettingItem>();
-            foreach (var promo in promotionList)
-            {
-                if (promo.Details != null)
-                {
-                    var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(promo.Details);
-                    Dictionary<string, string> settings = null;
-                    if (details.TryGetValue(langId, out settings))
-                    {
-                        var bannerUrl = settings["bannerUrl"];
-                        var hideInHome = false;
-                        if (settings.TryGetValue("hideInHome", out var strHideInHome))
-                        {
-                            hideInHome = string.Equals(strHideInHome, "TRUE", StringComparison.OrdinalIgnoreCase);
-                        };
-
-                        if (serverInfo.SiteId == 2)
-                        {
-                            bannerFromDB.Add(new BannerSettingItem() { actionLink = $"promotion/promotionInfo?BonusCode={promo.BonusCode}", imgURL = bannerUrl, fromDB = true, hideInHome = hideInHome });
-                        }
-                        else
-                        {
-                            bannerFromDB.Add(new BannerSettingItem() { actionLink = $"Promotion/Bonus?BonusCode={promo.BonusCode}", imgURL = bannerUrl, fromDB = true, hideInHome = hideInHome });
-                        }
-                    }
-                }
-            }
-
-            return bannerFromDB;
         }
 
         public IEnumerable<BannerV2> GetBannerV2(int SiteId, int BannerType, int ShowStatus, int CurrencyId, string LangId)
@@ -202,8 +169,10 @@ namespace MemberSite.Service.BLL
 
         public async Task<IEnumerable<HotGame>> GetHotGames(int siteId, int currencyId, int deviceType)
         {
-            var hotGamesData = await bannerService.GetHotGames(siteId, currencyId);
-            var hotGames = hotGamesData
+            var key = $"GetHotGames_{siteId}_{currencyId}";
+            var hotGames = await _redisHelper.TryGetOrCreateAsync(key, null,
+                async _ => await bannerService.GetHotGames(siteId, currencyId));
+            return hotGames
                 .Select(a => new HotGame()
                 {
                     TpId = a.TpId,
@@ -215,8 +184,6 @@ namespace MemberSite.Service.BLL
                     TpName = a.TpName,
                     TpLogo = a.TpLogo
                 });
-
-            return hotGames;
         }
 
         private string DeserializeGameLogo(string jsonGameLogo, int device)

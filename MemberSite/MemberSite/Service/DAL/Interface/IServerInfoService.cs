@@ -10,6 +10,6 @@ namespace MemberSite.Service.DAL.Interface
         SeoModel GetSeo(string domain);
         IEnumerable<Domainlist> GetSupportDomainList(int siteId, int currencyId);
         Task<IEnumerable<MenuOfGameData>> GetMenuOfGames(int siteId, string langId);
-        Task<IEnumerable<SocialChannelResponse>> GetSocialChannel(SocialChannelRequest request);
+        Task<IEnumerable<SocialChannel>> GetSocialChannel(SocialChannelRequest request);
     }
 }

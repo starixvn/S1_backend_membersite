@@ -218,34 +218,31 @@ namespace MemberSite.Controllers.Api
 
             var apiResult = new ApiResult(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
-            var serverInfo = _serverInfoBll.GetServerInfo();
 
             if (oldPassword == newPassword)
             {
                 apiResult.ErrorCode = -1;
                 apiResult.Message = _selLangBll.GetMsg("msg_SamePassword");
             }
-            else if (!_tools.CheckUserInputPassword(newPassword, serverInfo.SiteId))
-            {
-                apiResult.ErrorCode = -2;
-                apiResult.Message = _selLangBll.GetMsg(serverInfo.SiteId == (int)SiteId.Nova88 ? "msg_PasswordValidate" : "msg_PasswordValidate2");
-            }
             else
             {
-                apiResult.ErrorCode = _custInfoBll.SetPassword(authData.CustId, oldPassword, newPassword, serverInfo.SiteId);
+                apiResult.ErrorCode = _custInfoBll.SetPassword(authData.CustId, oldPassword, newPassword);
 
-                if (apiResult.ErrorCode == -3)
+                switch (apiResult.ErrorCode)
                 {
-                    apiResult.Message = _selLangBll.GetMsg("msg_InvalidOldPassword");
-                }
-                else if (apiResult.ErrorCode == -4)
-                {
-                    apiResult.Message = _selLangBll.GetMsg("msg_UpdateFailed");
-                }
-                else
-                {
-                    apiResult.ErrorCode = 0;
-                    apiResult.Message = _selLangBll.GetMsg("msg_Updatesuccessful");
+                    case -2:
+                        apiResult.Message = _selLangBll.GetMsg("msg_PasswordValidate");
+                        break;
+                    case -3:
+                        apiResult.Message = _selLangBll.GetMsg("msg_InvalidOldPassword");
+                        break;
+                    case -4:
+                        apiResult.Message = _selLangBll.GetMsg("msg_UpdateFailed");
+                        break;
+                    default:
+                        apiResult.ErrorCode = 0;
+                        apiResult.Message = _selLangBll.GetMsg("msg_Updatesuccessful");
+                        break;
                 }
             }
 
@@ -461,6 +458,7 @@ namespace MemberSite.Controllers.Api
         public class MsgContentReq
         {
             public int MsgId { get; set; }
+            public int IsBatch { get; set; }
             //public int PageSize { get; set; }
         }
 
@@ -470,7 +468,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiResult<MsgContent>
             {
-                Data = _messageBll.GetMsgContent(authData.CustId, msgContentReq.MsgId),
+                Data = _messageBll.GetMsgContent(authData.CustId, msgContentReq.MsgId, msgContentReq.IsBatch),
                 ErrorCode = 0
             };
             return apiResult;

@@ -47,7 +47,7 @@ namespace MemberSite.Service.BLL
 
             var key = $"BankInfoSysListForCtrl_{serverInfo.SiteId}";
             var result = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
                 i => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId));
             return result?.Where(x => x.CurrencyId == currencyId);
         }
@@ -231,7 +231,7 @@ namespace MemberSite.Service.BLL
         {
             var key = $"BankInfoPayList_{siteId}";
             return _cacheHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)),
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
                 i => _bankInfoService.GetBankInfoPayList(siteId).OrderBy(x => x.MSort).ThenBy(x => x.SSort));
         }
         public IEnumerable<PayCurrency> GetPayCurrency()
@@ -273,7 +273,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<AutoChannelBankInfo> GetAutoChannelBankInfoList(int siteId, DepositType depositType)
         {
             return _cacheHelper.TryGetOrCreate($"BankInfoPayList_{siteId}_{depositType}",
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)),
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
                 i => _bankInfoService.GetAutoChannelBankInfoList(siteId, depositType));
         }
 

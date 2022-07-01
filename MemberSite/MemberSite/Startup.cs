@@ -12,6 +12,7 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using MemberSite.Extensions;
 using MemberSite.Service.DAL.Interface;
+using StackExchange.Redis;
 
 namespace MemberSite
 {
@@ -51,21 +52,24 @@ namespace MemberSite
         {
             services.Configure<MailConfig>(configuration.GetSection("MailConfig"));
             services.Configure<JwtConfig>(configuration.GetSection("JwtSettings"));
+            services.Configure<LineLoginChannelConfig>(configuration.GetSection("LineLoginChannelConfig"));
+            services.Configure<LineLoginConfig>(configuration.GetSection("LineLoginConfig"));
             services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
             services.Configure<Dictionary<string, string>>(configuration.GetSection("LoginDeviceConfig"));
             services.AddMemoryCache();
             services.AddDatabaseConnection(configuration);
-
+            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(configuration.GetValue<string>("RedisConnection")));
+            services.AddSingleton<ICacheHelper, RedisCacheHelper>();
             /*Library*/
             services.AddSingleton<Tools>();
             services.AddSingleton<Common>();
             services.AddSingleton<CourierAdapter>();
             services.AddSingleton<CodeGenerator>();
-			services.AddTransient<JsonNetSerializer>();
+            services.AddTransient<JsonNetSerializer>();
             services.AddSingleton<IHttpHelper, HttpHelper>();
             services.AddSingleton<CacheHelper>();
             services.AddSingleton<TpGameTypeHelper>();
-            
+
             /*DAL*/
             services.AddSingleton<IServerInfoService, ServerInfoService>();
             services.AddSingleton<AgentInfoService>();
@@ -131,7 +135,7 @@ namespace MemberSite
             services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<LatestHighlightDataBll>();
             services.AddSingleton<GameBLL>();
-			services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
+            services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
             services.AddTransient<GeoIpBLL>();
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
@@ -139,6 +143,8 @@ namespace MemberSite
             services.AddTransient<VerificationRewardBLL>();
             services.AddTransient<DeepLinkBLL>();
             services.AddSingleton<PayInfoBLL>();
+            services.AddSingleton<LineLoginBLL>();
+            services.AddSingleton<SiteBll>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();

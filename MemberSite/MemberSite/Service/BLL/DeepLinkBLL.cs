@@ -20,13 +20,18 @@ namespace MemberSite.Service.BLL
             {
                 result.Add(new GetDeepLinkRep
                 {
-                    Type = x.Type,
+                    Type = (int)x.Type,
                     TypeName = Enum.GetName(typeof(DeepLinkType), x.Type),
-                    DeepLink = $"{Enum.GetName(typeof(DeepLinkProtocolType), x.ProtocolType)}://{x.Domain}"
+                    DeepLink = $"{GetProtocolTypeName(x.Type, x.ProtocolType)}://{x.Domain}"
                 });
             });
 
             return result;
+        }
+
+        private string GetProtocolTypeName(DeepLinkType type, DeepLinkProtocolType protocolType)
+        {
+            return Enum.GetName(typeof(DeepLinkProtocolType), protocolType);
         }
     }
 }

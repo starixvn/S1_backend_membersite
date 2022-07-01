@@ -28,7 +28,7 @@ namespace MemberSite.Service.BLL
         {
             var key = $"LoadCardPayInfoList_{siteId}";
             return _cacheHelper.TryGetOrCreate<IEnumerable<LoadCardPayInfo>>(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
                 i => _payService.GetLoadCardPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
         }
         private class LoadCardPayGroupComparer : IEqualityComparer<LoadCardPayGroup>
