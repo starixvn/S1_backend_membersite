@@ -258,20 +258,6 @@ namespace MemberSite.Service.DAL
             return bankDetailResult & banklogResult;
         }
 
-        //private bool SetCustBankInfo(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo, MySqlConnection conn, MySqlTransaction trans)
-        //{
-        //    var result = 0;
-        //    var tmp = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo);
-        //    var parameter = new DynamicParameters(new
-        //    {
-        //        CustId = custId,
-        //        SiteId = siteId,
-        //        AccountName = accountName,
-        //        BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo)
-        //    });
-        //    result = _mainDbClient.Execute("Service_CustBankInfo_SetV2", parameter, conn,trans);
-        //    return result > 0;
-        //}
         private bool SetCustBankInfoLog(int custId, int siteId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status, MySqlConnection conn, MySqlTransaction trans)
         {
             var result = 0;
@@ -438,7 +424,6 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<BankInfoDetailData>("Member_CustBankDetail_Get", new { SysId = sysId, AccountNo = accountNo }, commandType: CommandType.StoredProcedure);
         }
-
         public bool SetCustBankDetail(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status,MySqlConnection conn, MySqlTransaction trans)
         {
             var result = 0;
@@ -453,11 +438,18 @@ namespace MemberSite.Service.DAL
             result = _mainDbClient.Execute("Member_CustBankDetail_Set", parameter, conn, trans);
             return result > 0;
         }
-        public bool SetCustBankDetail(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
+        public bool DeleteCustBankInfo(int custId, int siteId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            var result =  conn.Execute("Member_CustBankDetail_Set", new { CustId = custId, SysId = sysId, AccountNo = accountNum, IFSCCode = iFSCCode, Status = (int)status }, commandType: CommandType.StoredProcedure);
-            return result > 0;
+            using var conn = new MySqlConnection(_connectionString);
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            var bankDetailResult = SetCustBankDetail(custId, sysId, accountNum, iFSCCode, status, conn, trans);
+            var banklogResult = SetCustBankInfoLog(custId, siteId, null, sysId, accountNum, iFSCCode, CustBankInfoLogStatus.Delete, conn, trans);
+            if (bankDetailResult & banklogResult)
+            {
+                trans.Commit();
+            }
+            return bankDetailResult & banklogResult;
         }
     }
 }
