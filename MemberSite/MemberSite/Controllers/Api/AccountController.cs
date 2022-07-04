@@ -458,6 +458,7 @@ namespace MemberSite.Controllers.Api
         public class MsgContentReq
         {
             public int MsgId { get; set; }
+            public int IsBatch { get; set; }
             //public int PageSize { get; set; }
         }
 
@@ -467,7 +468,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiResult<MsgContent>
             {
-                Data = _messageBll.GetMsgContent(authData.CustId, msgContentReq.MsgId),
+                Data = _messageBll.GetMsgContent(authData.CustId, msgContentReq.MsgId, msgContentReq.IsBatch),
                 ErrorCode = 0
             };
             return apiResult;

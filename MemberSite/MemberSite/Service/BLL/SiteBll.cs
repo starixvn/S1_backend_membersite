@@ -170,8 +170,7 @@ public class SiteBll
                     var fromUrl = _tools.GetFromUrl();
                     var deviceType = (int)_tools.GetDeviceId(fromUrl);
                     var userLoginResult = _custInfoBLL.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd,
-                        _tools.GetClientIP(), fromUrl, userAgent, deviceType, ref customer,
-                        out var token);
+                        _tools.GetClientIP(), fromUrl, userAgent, deviceType, ref customer, out var token);
 
                     switch (userLoginResult)
                     {

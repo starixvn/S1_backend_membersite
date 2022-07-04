@@ -257,6 +257,17 @@
         Wager,//ConnectionStringWager
         Log,//ConnectionStringLog
     }
+    
+    public enum RedisDataBase
+    {
+        Member = 0,
+        Shared = 1,
+        Tp = 2,
+        Bonus = 3,
+        Admin = 4,
+        Payment = 5
+    }
+    
     public enum AppLinkAppType
     {
         Andriod = 1,
@@ -399,5 +410,12 @@
     {
         Disable = 0,
         Able = 1,
+    }
+
+    public enum WorldCupUserTicketStatus
+    {
+        Active = 1,
+        Finished = 2,
+        UnStarted = 3
     }
 }
