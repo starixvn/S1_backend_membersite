@@ -140,7 +140,7 @@ namespace MemberSite.Controllers.Api
             //{
             //    bankInfoList = custBankInfo.bankInfoDetail.Where(x => !(x.SysId == bankInfo.SysId && x.AccountNo == bankInfo.AccountNo));
             //}
-            apiResult.ErrorCode = _custInfoBLL.SetCustBankDetail(authData.CustId, bankInfo.SysId, bankInfo.AccountNo, bankInfo.IFSCCode, CustBankDetailStatus.Disable);
+            apiResult.ErrorCode = _custInfoBLL.DeleteCustBankInfo(authData.CustId, bankInfo.SysId, bankInfo.AccountNo, bankInfo.IFSCCode, CustBankDetailStatus.Disable);
             apiResult.Message = _selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
             //apiResult.ErrorCode = _custInfoBLL.SetCustBankInfo(authData.CustId, custBankInfo.AccountName, bankInfoList);
             //apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");

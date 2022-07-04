@@ -617,10 +617,16 @@ namespace MemberSite.Service.BLL
             return _custInfoService.GetCustBankDetail(sysId, accountNo);
         }
 
-        public int SetCustBankDetail(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
+        //public int SetCustBankDetail(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
+        //{
+        //    //var custInfo = GetCustInfoWithCache(custId);
+        //    return _custInfoService.SetCustBankDetail(custId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
+        //}
+        
+        public int DeleteCustBankInfo(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
         {
-            //var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.SetCustBankDetail(custId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.DeleteCustBankInfo(custId, custInfo.SiteId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
     }
 }
