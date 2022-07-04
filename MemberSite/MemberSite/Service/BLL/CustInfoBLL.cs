@@ -337,25 +337,7 @@ namespace MemberSite.Service.BLL
 
             if (custBankInfo != null)
             {
-                //var bankInfoDetailList = JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
                 var bankInfoDetailList = _custInfoService.GetCustBankDetail(custId);
-                //if (bankInfoDetailList != null)
-                //{
-                //    bankInfoDetailList = bankInfoDetailList.Where(x => x.SysId != 0 && x.AccountNo != null);//filiter null data
-                //    bankInfoDetailList.ToList().ForEach(x =>
-                //    {
-                //        var blockBankAccountList = _bankInfoService.GetBlockBankAccount(x.SysId, x.AccountNo).ToList();
-                //        if(blockBankAccountList.Count > 0)
-                //        {
-                //            x.IsBlock = true;
-                //        }
-                //    });
-
-                //    if (bankInfoDetailList.Any())
-                //    {
-                //        custBankInfo.bankInfoDetail = bankInfoDetailList;
-                //    }
-                //}
                 custBankInfo.bankInfoDetail = bankInfoDetailList;
                 //if (custInfo.CurrencyId == 96)
                 //{
@@ -363,7 +345,7 @@ namespace MemberSite.Service.BLL
                 //}
                 //else
                 //{
-                //    custBankInfo.bankInfoDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
+                //    custBankInfo.bankInfoDetail = bankInfoDetailList;
                 //}
 
             }
@@ -384,7 +366,7 @@ namespace MemberSite.Service.BLL
                 //}
                 //else
                 //{
-                //    custBankInfo.bankInfoDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
+                //    custBankInfo.bankInfoDetail = bankInfoDetailList;
                 //}
 
             }
@@ -617,12 +599,6 @@ namespace MemberSite.Service.BLL
             return _custInfoService.GetCustBankDetail(sysId, accountNo);
         }
 
-        //public int SetCustBankDetail(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
-        //{
-        //    //var custInfo = GetCustInfoWithCache(custId);
-        //    return _custInfoService.SetCustBankDetail(custId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
-        //}
-        
         public int DeleteCustBankInfo(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
         {
             var custInfo = GetCustInfoWithCache(custId);

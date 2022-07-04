@@ -56,7 +56,7 @@ namespace MemberSite.Controllers.Api
             var BankInfoLogList = new List<BankInfoDetail>();
 
             var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            //
+
             var bankInfoSysList = _bankInfoBLL.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId);
 
             var blockBankAccountList = _bankInfoBLL.GetBlockBankAccount(bankInfo.SysId, bankInfo.AccountNo).ToList();
@@ -127,7 +127,6 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
-            //IEnumerable<BankInfoDetail> bankInfoList = null;
 
             var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
             if (custBankInfo == null || custBankInfo.bankInfoDetail == null)
@@ -136,14 +135,8 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                 return apiResult;
             }
-            //else if (custBankInfo != null && custBankInfo.bankInfoDetail != null)
-            //{
-            //    bankInfoList = custBankInfo.bankInfoDetail.Where(x => !(x.SysId == bankInfo.SysId && x.AccountNo == bankInfo.AccountNo));
-            //}
             apiResult.ErrorCode = _custInfoBLL.DeleteCustBankInfo(authData.CustId, bankInfo.SysId, bankInfo.AccountNo, bankInfo.IFSCCode, CustBankDetailStatus.Disable);
             apiResult.Message = _selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
-            //apiResult.ErrorCode = _custInfoBLL.SetCustBankInfo(authData.CustId, custBankInfo.AccountName, bankInfoList);
-            //apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
         public class USDTDetailreq
@@ -180,7 +173,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBLL.GetMsg("msg_NeedAccountName");
                 return apiResult;
             }
-            else if (custBankInfo != null && custBankInfo.BankInfo != null && custBankInfo.usdtDetail?.Count() >= 3)
+            else if (custBankInfo != null && custBankInfo.usdtDetail?.Count() >= 3)
             {
                 apiResult.ErrorCode = -3;
                 apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
@@ -249,7 +242,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBLL.GetMsg("msg_NeedAccountName");
                 return apiResult;
             }
-            if (custBankInfo != null && custBankInfo.BankInfo != null && (custBankInfo.usdtDetail?.Count() >= 3 || (custBankInfo.usdtDetail?.Count() + custUSDTInfoBatchreq.USDTInfo?.Count() > 3)))
+            if (custBankInfo != null && (custBankInfo.usdtDetail?.Count() >= 3 || (custBankInfo.usdtDetail?.Count() + custUSDTInfoBatchreq.USDTInfo?.Count() > 3)))
             {
                 apiResult.ErrorCode = -3;
                 apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
