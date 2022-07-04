@@ -16,7 +16,7 @@ namespace MemberSite.Service.Library
         }
 
         public TItem TryGetOrCreate<TItem>(string key, TimeSpan timeSpan, Func<TItem> factory,
-            RedisDataBase redisDataBase = RedisDataBase.MemberSite)
+            RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{key}";
             try
@@ -45,7 +45,7 @@ namespace MemberSite.Service.Library
         }
 
         public async Task<TItem> TryGetOrCreateAsync<TItem>(string key, TimeSpan? timeSpan, Func<Task<TItem>> factory,
-            RedisDataBase redisDataBase = RedisDataBase.MemberSite)
+            RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{key}";
             try
