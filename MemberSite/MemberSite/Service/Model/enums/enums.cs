@@ -257,6 +257,17 @@
         Wager,//ConnectionStringWager
         Log,//ConnectionStringLog
     }
+    
+    public enum RedisDataBase
+    {
+        MemberSite = 0,
+        Shared = 1,
+        Tp = 2,
+        Bonus = 3,
+        AdminSite = 4,
+        Payment = 5
+    }
+    
     public enum AppLinkAppType
     {
         Andriod = 1,

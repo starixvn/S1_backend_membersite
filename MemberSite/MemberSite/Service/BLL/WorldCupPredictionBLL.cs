@@ -44,9 +44,9 @@ namespace MemberSite.Service.BLL
         /// <returns></returns>
         private List<WorldCupPredictionCountry> GetWorldCupPredictionCountry()
         {
-            const string countryKey = "Member:WorldCupPredictionCountryList";
+            const string countryKey = "WorldCupPredictionCountryList";
             var allTeamEnglishName = _redisHelper.TryGetOrCreate(countryKey, TimeSpan.FromDays(1),
-                _ => GetWorldCupPredictionSelectOptions().ToList());
+                () => GetWorldCupPredictionSelectOptions().ToList());
             return allTeamEnglishName;
         }
 
@@ -57,9 +57,9 @@ namespace MemberSite.Service.BLL
         /// <returns></returns>
         private List<WorldCupPredictionSettingDto> GetWorldCupPredictionSetting(string langId)
         {
-            var worldCupPredictionSettingKey = $"Member:WorldCupPredictionSetting:{langId}";
+            var worldCupPredictionSettingKey = $"WorldCupPredictionSetting:{langId}";
             var dbData = _redisHelper.TryGetOrCreate(worldCupPredictionSettingKey, TimeSpan.FromMinutes(1),
-                _ => _worldCupPredictionService.GetWorldCupPredictionSetting(langId).ToList());
+                () => _worldCupPredictionService.GetWorldCupPredictionSetting(langId).ToList());
             return dbData;
         }
 
@@ -182,9 +182,9 @@ namespace MemberSite.Service.BLL
         /// <returns></returns>
         private IEnumerable<DepositAmountSettingDto> GetDepositAmountSetting()
         {
-            var depositAmountSettingKey = $"Member:depositAmountSetting";
+            var depositAmountSettingKey = $"depositAmountSetting";
             var depositAmountSetting = _redisHelper.TryGetOrCreate(depositAmountSettingKey, TimeSpan.FromDays(60),
-                _ => _worldCupPredictionService.GetDepositAmountSetting().ToList());
+                () => _worldCupPredictionService.GetDepositAmountSetting().ToList());
 
             return depositAmountSetting;
         }
@@ -197,9 +197,9 @@ namespace MemberSite.Service.BLL
         /// <returns></returns>
         private IEnumerable<MemberDepositAmountDailyDto> GetMemberDepositAmountDaily(int siteId, int custId)
         {
-            var memberDepositAmountDailyKey = $"Member:memberDepositAmountDaily:{siteId}:{custId}";
+            var memberDepositAmountDailyKey = $"memberDepositAmountDaily:{siteId}:{custId}";
             var memberDepositAmountDaily = _redisHelper.TryGetOrCreate(memberDepositAmountDailyKey, TimeSpan.FromHours(1),
-                _ => _worldCupPredictionService.GetMemberDepositAmountDaily(siteId, custId).ToList());
+                () => _worldCupPredictionService.GetMemberDepositAmountDaily(siteId, custId).ToList());
 
             return memberDepositAmountDaily;
         }
@@ -295,9 +295,9 @@ namespace MemberSite.Service.BLL
 
         private IEnumerable<WorldCupDateSettingDto> GetWorldCupDateSetting()
         {
-            var worldCupDateSettingKey = "member:WorldCupDateSetting";
+            var worldCupDateSettingKey = "WorldCupDateSetting";
             var worldCupDateSetting = _redisHelper.TryGetOrCreate(worldCupDateSettingKey, TimeSpan.FromDays(60),
-                _ => _worldCupPredictionService.GetWorldCupDateSetting().ToList());
+                () => _worldCupPredictionService.GetWorldCupDateSetting().ToList());
 
             return worldCupDateSetting;
         }
