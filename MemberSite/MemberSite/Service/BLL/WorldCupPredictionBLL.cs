@@ -44,9 +44,9 @@ namespace MemberSite.Service.BLL
         /// <returns></returns>
         private List<WorldCupPredictionCountry> GetWorldCupPredictionCountry()
         {
-            const string countryKey = "Member:WorldCupPredictionCountryList";
+            const string countryKey = "WorldCupPredictionCountryList";
             var allTeamEnglishName = _redisHelper.TryGetOrCreate(countryKey, TimeSpan.FromDays(1),
-                _ => GetWorldCupPredictionSelectOptions().ToList());
+                () => GetWorldCupPredictionSelectOptions().ToList());
             return allTeamEnglishName;
         }
 
@@ -57,9 +57,9 @@ namespace MemberSite.Service.BLL
         /// <returns></returns>
         private List<WorldCupPredictionSettingDto> GetWorldCupPredictionSetting(string langId)
         {
-            var worldCupPredictionSettingKey = $"Member:WorldCupPredictionSetting:{langId}";
+            var worldCupPredictionSettingKey = $"WorldCupPredictionSetting:{langId}";
             var dbData = _redisHelper.TryGetOrCreate(worldCupPredictionSettingKey, TimeSpan.FromMinutes(1),
-                _ => _worldCupPredictionService.GetWorldCupPredictionSetting(langId).ToList());
+                () => _worldCupPredictionService.GetWorldCupPredictionSetting(langId).ToList());
             return dbData;
         }
 
@@ -154,7 +154,7 @@ namespace MemberSite.Service.BLL
         }
 
 
-        public async Task UserPollTicket(int custId,int siteId,int currencyId, UserPollTicketRequest request)
+        public async Task UserPollTicket(int custId, int siteId, int currencyId, UserPollTicketRequest request)
         {
             // 投票參數驗證
             if (request.TicketType is < 1 or > 3) throw new Exception("ticketType not found");
@@ -182,9 +182,9 @@ namespace MemberSite.Service.BLL
         /// <returns></returns>
         private IEnumerable<DepositAmountSettingDto> GetDepositAmountSetting()
         {
-            var depositAmountSettingKey = $"Member:depositAmountSetting";
+            var depositAmountSettingKey = $"depositAmountSetting";
             var depositAmountSetting = _redisHelper.TryGetOrCreate(depositAmountSettingKey, TimeSpan.FromDays(60),
-                _ => _worldCupPredictionService.GetDepositAmountSetting().ToList());
+                () => _worldCupPredictionService.GetDepositAmountSetting().ToList());
 
             return depositAmountSetting;
         }
@@ -197,9 +197,9 @@ namespace MemberSite.Service.BLL
         /// <returns></returns>
         private IEnumerable<MemberDepositAmountDailyDto> GetMemberDepositAmountDaily(int siteId, int custId)
         {
-            var memberDepositAmountDailyKey = $"Member:memberDepositAmountDaily:{siteId}:{custId}";
+            var memberDepositAmountDailyKey = $"memberDepositAmountDaily:{siteId}:{custId}";
             var memberDepositAmountDaily = _redisHelper.TryGetOrCreate(memberDepositAmountDailyKey, TimeSpan.FromHours(1),
-                _ => _worldCupPredictionService.GetMemberDepositAmountDaily(siteId, custId).ToList());
+                () => _worldCupPredictionService.GetMemberDepositAmountDaily(siteId, custId).ToList());
 
             return memberDepositAmountDaily;
         }
@@ -295,9 +295,9 @@ namespace MemberSite.Service.BLL
 
         private IEnumerable<WorldCupDateSettingDto> GetWorldCupDateSetting()
         {
-            var worldCupDateSettingKey = "member:WorldCupDateSetting";
+            var worldCupDateSettingKey = "WorldCupDateSetting";
             var worldCupDateSetting = _redisHelper.TryGetOrCreate(worldCupDateSettingKey, TimeSpan.FromDays(60),
-                _ => _worldCupPredictionService.GetWorldCupDateSetting().ToList());
+                () => _worldCupPredictionService.GetWorldCupDateSetting().ToList());
 
             return worldCupDateSetting;
         }
@@ -324,63 +324,66 @@ namespace MemberSite.Service.BLL
             var countrySetting = GetWorldCupPredictionSetting(langId);
             if (!countrySetting.Any()) throw new Exception("not found countrySetting");
 
-            var top32Team = countrySetting.Where(r => r.LevelName == "top32Team").ToList();
+            var top32Team = countrySetting.Where(r => r.LevelName == "top32Team").OrderBy(x=>x.Sort).ToList();
             if (top32Team.Count < 32) throw new Exception("countrySetting top32Team less than 32 Team");
-
-            var i = 0;
-            var groupTeam = top32Team.OrderBy(r => r.Sort)
-                .GroupBy(x => i++ / 4)
-                .ToDictionary(k => k.Key);
 
             var selectOptions = new SelectOptions()
             {
-                GroupA = groupTeam[0].Select(x => new GroupSelect()
-                {
-                    CountryId = x.TeamId,
-                    CountryName = x.TeamName
-                }).ToList(),
+                GroupA = top32Team.Where(r => r.Sort is >= 1 and <= 4)
+                     .Select(x => new GroupSelect()
+                     {
+                         CountryId = x.TeamId,
+                         CountryName = x.TeamName
+                     }).ToList(),
 
-                GroupB = groupTeam[1].Select(x => new GroupSelect()
-                {
-                    CountryId = x.TeamId,
-                    CountryName = x.TeamName
-                }).ToList(),
+                GroupB = top32Team.Where(r => r.Sort is >= 5 and <= 8)
+                     .Select(x => new GroupSelect()
+                     {
+                         CountryId = x.TeamId,
+                         CountryName = x.TeamName
+                     }).ToList(),
 
-                GroupC = groupTeam[2].Select(x => new GroupSelect()
-                {
-                    CountryId = x.TeamId,
-                    CountryName = x.TeamName
-                }).ToList(),
+                GroupC = top32Team.Where(r => r.Sort is >= 9 and <= 12)
+                     .Select(x => new GroupSelect()
+                     {
+                         CountryId = x.TeamId,
+                         CountryName = x.TeamName
+                     }).ToList(),
 
-                GroupD = groupTeam[3].Select(x => new GroupSelect()
-                {
-                    CountryId = x.TeamId,
-                    CountryName = x.TeamName
-                }).ToList(),
+                GroupD = top32Team.Where(r => r.Sort is >= 13 and <= 16)
+                     .Select(x => new GroupSelect()
+                     {
+                         CountryId = x.TeamId,
+                         CountryName = x.TeamName
+                     }).ToList(),
 
-                GroupE = groupTeam[4].Select(x => new GroupSelect()
-                {
-                    CountryId = x.TeamId,
-                    CountryName = x.TeamName
-                }).ToList(),
+                GroupE = top32Team.Where(r => r.Sort is >= 17 and <= 20)
+                     .Select(x => new GroupSelect()
+                     {
+                         CountryId = x.TeamId,
+                         CountryName = x.TeamName
+                     }).ToList(),
 
-                GroupF = groupTeam[5].Select(x => new GroupSelect()
-                {
-                    CountryId = x.TeamId,
-                    CountryName = x.TeamName
-                }).ToList(),
+                GroupF = top32Team.Where(r => r.Sort is >= 21 and <= 24)
+                     .Select(x => new GroupSelect()
+                     {
+                         CountryId = x.TeamId,
+                         CountryName = x.TeamName
+                     }).ToList(),
 
-                GroupG = groupTeam[6].Select(x => new GroupSelect()
-                {
-                    CountryId = x.TeamId,
-                    CountryName = x.TeamName
-                }).ToList(),
+                GroupG = top32Team.Where(r => r.Sort is >= 25 and <= 28)
+                     .Select(x => new GroupSelect()
+                     {
+                         CountryId = x.TeamId,
+                         CountryName = x.TeamName
+                     }).ToList(),
 
-                GroupH = groupTeam[7].Select(x => new GroupSelect()
-                {
-                    CountryId = x.TeamId,
-                    CountryName = x.TeamName
-                }).ToList(),
+                GroupH = top32Team.Where(r => r.Sort is >= 29 and <= 32)
+                     .Select(x => new GroupSelect()
+                     {
+                         CountryId = x.TeamId,
+                         CountryName = x.TeamName
+                     }).ToList()
             };
 
             return selectOptions;

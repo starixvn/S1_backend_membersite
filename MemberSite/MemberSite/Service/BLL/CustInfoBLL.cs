@@ -20,6 +20,7 @@ namespace MemberSite.Service.BLL
         private readonly BankInfoService _bankInfoService;
         private readonly CommonBLL _commonBll;
         private readonly CacheHelper _cacheHelper;
+        private readonly ICacheHelper _redisHelper;
         private readonly Dictionary<int, bool> _isConvert = new()
         {
             { 51, false },
@@ -40,6 +41,7 @@ namespace MemberSite.Service.BLL
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -236,10 +238,9 @@ namespace MemberSite.Service.BLL
         }
         public Customer GetCustInfoWithCache(int custId)
         {
-            var key = $"CustInfo_{custId}";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(1)),
-                i => _custInfoService.GetCustInfo(custId));
+            return _redisHelper.TryGetOrCreate($"CustInfo:{custId}", TimeSpan.FromMinutes(1),
+                () => _custInfoService.GetCustInfo(custId),
+                RedisDataBase.Shared);
         }
 
         public Customer GetCustInfo(int custId)
@@ -346,25 +347,7 @@ namespace MemberSite.Service.BLL
 
             if (custBankInfo != null)
             {
-                //var bankInfoDetailList = JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
                 var bankInfoDetailList = _custInfoService.GetCustBankDetail(custId);
-                //if (bankInfoDetailList != null)
-                //{
-                //    bankInfoDetailList = bankInfoDetailList.Where(x => x.SysId != 0 && x.AccountNo != null);//filiter null data
-                //    bankInfoDetailList.ToList().ForEach(x =>
-                //    {
-                //        var blockBankAccountList = _bankInfoService.GetBlockBankAccount(x.SysId, x.AccountNo).ToList();
-                //        if(blockBankAccountList.Count > 0)
-                //        {
-                //            x.IsBlock = true;
-                //        }
-                //    });
-
-                //    if (bankInfoDetailList.Any())
-                //    {
-                //        custBankInfo.bankInfoDetail = bankInfoDetailList;
-                //    }
-                //}
                 custBankInfo.bankInfoDetail = bankInfoDetailList;
                 //if (custInfo.CurrencyId == 96)
                 //{
@@ -372,7 +355,7 @@ namespace MemberSite.Service.BLL
                 //}
                 //else
                 //{
-                //    custBankInfo.bankInfoDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
+                //    custBankInfo.bankInfoDetail = bankInfoDetailList;
                 //}
 
             }
@@ -393,7 +376,7 @@ namespace MemberSite.Service.BLL
                 //}
                 //else
                 //{
-                //    custBankInfo.bankInfoDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
+                //    custBankInfo.bankInfoDetail = bankInfoDetailList;
                 //}
 
             }
@@ -654,10 +637,10 @@ namespace MemberSite.Service.BLL
             return _custInfoService.GetCustBankDetail(sysId, accountNo);
         }
 
-        public int SetCustBankDetail(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
+        public int DeleteCustBankInfo(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
         {
-            //var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.SetCustBankDetail(custId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.DeleteCustBankInfo(custId, custInfo.SiteId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
 
         private static List<string> AddressKeys = new List<string>() { "Country", "State", "PostCode", "City", "LineFirst", "LineSecond" };
