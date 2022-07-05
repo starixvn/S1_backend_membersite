@@ -475,7 +475,13 @@ namespace MemberSite.Controllers.Api
                     custInfo.RegTime,
                     LastLogin = custInfo.LastLoginTime,
                     Country = custInfo.CountryCode,
-                    custInfo.PhoneNo
+                    custInfo.PhoneNo,
+                    custInfo.AddressCountry,
+                    custInfo.AddressState,
+                    custInfo.AddressPostCode,
+                    custInfo.AddressCity,
+                    custInfo.AddressLineFirst,
+                    custInfo.AddressLineSecond
                 };
             }
             else
@@ -584,7 +590,64 @@ namespace MemberSite.Controllers.Api
                         LastLogin = custInfo.LastLoginTime,
                         Country = custInfo.CountryCode,
                         custInfo.AreaCode,
-                        custInfo.PhoneNo
+                        custInfo.PhoneNo,
+                        custInfo.AddressCountry,
+                        custInfo.AddressState,
+                        custInfo.AddressPostCode,
+                        custInfo.AddressCity,
+                        custInfo.AddressLineFirst,
+                        custInfo.AddressLineSecond
+                    };
+                }
+                else
+                {
+                    apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
+                }
+            }
+            catch (Exception ex)
+            {
+                apiResult.ErrorCode = 9000;
+                apiResult.RawMessage = ex.ToString();
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<object> SetProfileAddress(Dictionary<string, string> custAddress)
+        {
+            var apiResult = new ApiResult<object>(_selLangBLL);
+            var authData = _authorizeBLL.GetAuthData();
+            try
+            {
+                var beforeCustInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
+                apiResult.ErrorCode = _custInfoBLL.SetProfileAddress(authData.CustId, custAddress);
+
+                if (apiResult.ErrorCode == 0)
+                {
+                    apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
+
+                    var custInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
+                    apiResult.Data = new
+                    {
+                        LangCode = _selLangBLL.GetLangId(),
+                        custInfo.UserName,
+                        custInfo.Email,
+                        custInfo.AccountName,
+                        custInfo.Birth_d,
+                        custInfo.Birth_m,
+                        custInfo.Birth_y,
+                        custInfo.RegTime,
+                        LastLogin = custInfo.LastLoginTime,
+                        Country = custInfo.CountryCode,
+                        custInfo.AreaCode,
+                        custInfo.PhoneNo,
+                        custInfo.AddressCountry,
+                        custInfo.AddressState,
+                        custInfo.AddressPostCode,
+                        custInfo.AddressCity,
+                        custInfo.AddressLineFirst,
+                        custInfo.AddressLineSecond
                     };
                 }
                 else
@@ -671,7 +734,13 @@ namespace MemberSite.Controllers.Api
                     custInfo.EmailReward,
                     custInfo.EnablePromotion,
                     custInfo.ActStatus,
-                    IsLineBinding = isLineBinding
+                    IsLineBinding = isLineBinding,
+                    custInfo.AddressCountry,
+                    custInfo.AddressState,
+                    custInfo.AddressPostCode,
+                    custInfo.AddressCity,
+                    custInfo.AddressLineFirst,
+                    custInfo.AddressLineSecond
                 };
 
                 apiResult.ErrorCode = 0;
