@@ -1,4 +1,7 @@
-﻿using MemberSite.Service.Model;
+﻿using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model;
+using MemberSite.Service.Model.Store.Frontend;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,26 +19,26 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL _authorizeBLL;
         private readonly CustInfoBll _custInfoBLL;
         private readonly string _bonusServiceUrl;
-        private readonly CourierAdapter _courierAdapter;
+        private readonly StoreBLL _storeBLL;
         private readonly ILogger<PromotionController> _logger;
         private readonly Tools _tools;
 
         public StoreController(IServiceProvider provider)
         {
             _selLangBLL = provider.GetRequiredService<SelLangBLL>();
-            _promotionBLL = provider.GetRequiredService<PromotionBll>();
+            _promotionBLL = provider.GetRequiredService<StoreBLL>();
             _serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
             _authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
             _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
             _bonusServiceUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("BonusService");
-            _courierAdapter = provider.GetRequiredService<CourierAdapter>();
+            _storeBLL = provider.GetRequiredService<StoreBLL>();
             _logger = provider.GetRequiredService<ILogger<PromotionController>>();
             _tools = provider.GetRequiredService<Tools>();
         }
 
 
         [HttpPost]
-        public async Task<ApiResult<object>> GetGiftListAsync(PromotionDeviceReq promotionDeviceReq)
+        public async Task<ApiResult<object>> GetGiftListAsync(GetListRequest request)
         {
             var result = new ApiResult<List<CustPromotion>>();
             try
@@ -57,18 +60,19 @@ namespace MemberSite.Controllers.Api
                 }
 
                 var apiUrl = $"{_bonusServiceUrl}GetPromotionListV3";
-                var req = new CustPromotionRequest
+                var req = new GetListRequest
                 {
                     SiteId = serverInfo.SiteId,
-                    CustId = custId,
                     CurrencyId = currencyId,
+                    CustId = custId,
                     DeviceType = promotionDeviceReq.DeviceType,
                     IsLogin = isLogin,
-                    LangId = _selLangBLL.GetLangId(),
-                    DefLang = serverInfo.DefLang
+                    Lang = _selLangBLL.GetLangId(),
+                    OrderByField = request.OrderByField ?? null,
+                    Desc = true
                 };
 
-                result = _courierAdapter.MyPostAsync<List<CustPromotion>, CustPromotionRequest>(apiUrl, req).Result;
+                return await _storeBLL.GetGiftListAsync(request);
             }
             catch (Exception e)
             {
