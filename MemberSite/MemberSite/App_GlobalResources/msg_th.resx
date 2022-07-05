@@ -283,7 +283,7 @@
     <value>รหัสโปรโมชั่นนี้ถูกใช้แล้ว</value>
   </data>
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
-    <value>Phone Format is wrong.</value>
+    <value>รูปแบบโทรศัพท์ไม่ถูกต้อง</value>
   </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>ที่อยู่กระเป๋าเงินเข้ารหัสลับไม่ถูกต้อง</value>
