@@ -21,7 +21,7 @@ public class StoreBLL
     public async Task<object> GetGiftListAsync(StoreGetGiftListRequest request)
     {
         var url = _storeSiteUrl + "Frontend/GetGiftList";
-        var result = await _courierAdapter.MyPostAsync<object, StoreGetGiftListRequest>(url, request);
+        var result = await _courierAdapter.MyPostAsync<List<GiftListModel>, StoreGetGiftListRequest>(url, request);
 
         return result;
     }
