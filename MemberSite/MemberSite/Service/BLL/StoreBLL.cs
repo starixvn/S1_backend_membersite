@@ -18,10 +18,10 @@ public class StoreBLL
         _courierAdapter = provider.GetRequiredService<CourierAdapter>();
     }
 
-    public async Task<object> GetGiftListAsync(GetListRequest req)
+    public async Task<object> GetGiftListAsync(StoreGetGiftListRequest request)
     {
         var url = _storeSiteUrl + "Frontend/GetGiftList";
-        var result = await _courierAdapter.MyPostAsync<object, GetListRequest>(url, req);
+        var result = await _courierAdapter.MyPostAsync<object, StoreGetGiftListRequest>(url, request);
 
         return result;
     }
