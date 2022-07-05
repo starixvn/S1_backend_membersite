@@ -20,7 +20,7 @@ public class RedemptionBLL
     
     public async Task<object> CreateRedemptionAsync(CreateRedemptionRequest req)
     {
-        var url = _storeSiteUrl + "/api/Redemption/CreateRedemption";
+        var url = _storeSiteUrl + "Redemption/CreateRedemption";
         var result = await _courierAdapter.MyPostAsync<object,CreateRedemptionRequest>(url, req);
         
         return result;
