@@ -333,7 +333,7 @@ namespace MemberSite.Service.BLL
         public CustBankInfo GetCustBankInfo(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            var custBankInfo = _custInfoService.GetCustBankInfo(custId, custInfo.SiteId);
+            var custBankInfo = _custInfoService.GetCustBankInfo(custId);
 
             if (custBankInfo != null)
             {

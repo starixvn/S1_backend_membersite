@@ -296,10 +296,10 @@ namespace MemberSite.Service.DAL
             return result > 0;
         }
         
-        public CustBankInfo GetCustBankInfo(int custId, int siteId)
+        public CustBankInfo GetCustBankInfo(int custId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.QueryFirstOrDefault<CustBankInfo>("Member_CustBankInfo_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.QueryFirstOrDefault<CustBankInfo>("Member_CustBankInfo_Get", new { CustId = custId}, commandType: CommandType.StoredProcedure);
         }
         public string GetDefAccountNo(int custId, int siteId)
         {
