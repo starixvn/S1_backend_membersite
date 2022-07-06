@@ -146,12 +146,6 @@ namespace MemberSite.Service.Model
 
     public class MemberDepositTicketInfoResponse
     {
-        [JsonPropertyName("data")]
-        public MemberDepositTicketInfo Data { get; set; }
-    }
-
-    public class MemberDepositTicketInfo
-    {
         /// <summary>
         /// 玩家名稱
         /// </summary>
@@ -213,28 +207,28 @@ namespace MemberSite.Service.Model
     public class SelectOptions
     {
         [JsonPropertyName("groupA")]
-        public IEnumerable<GroupSelect> GroupA { get; set; }
+        public List<GroupSelect> GroupA { get; set; }
 
         [JsonPropertyName("groupB")]
-        public IEnumerable<GroupSelect> GroupB { get; set; }
+        public List<GroupSelect> GroupB { get; set; }
 
         [JsonPropertyName("groupC")]
-        public IEnumerable<GroupSelect> GroupC { get; set; }
+        public List<GroupSelect> GroupC { get; set; }
 
         [JsonPropertyName("groupD")]
-        public IEnumerable<GroupSelect> GroupD { get; set; }
+        public List<GroupSelect> GroupD { get; set; }
 
         [JsonPropertyName("groupE")]
-        public IEnumerable<GroupSelect> GroupE { get; set; }
+        public List<GroupSelect> GroupE { get; set; }
 
         [JsonPropertyName("groupF")]
-        public IEnumerable<GroupSelect> GroupF { get; set; }
+        public List<GroupSelect> GroupF { get; set; }
 
         [JsonPropertyName("groupG")]
-        public IEnumerable<GroupSelect> GroupG { get; set; }
+        public List<GroupSelect> GroupG { get; set; }
 
         [JsonPropertyName("groupH")]
-        public IEnumerable<GroupSelect> GroupH { get; set; }
+        public List<GroupSelect> GroupH { get; set; }
     }
 
     public class UserTicket
@@ -243,7 +237,7 @@ namespace MemberSite.Service.Model
         /// 國家Id
         /// </summary>
         [JsonPropertyName("countryId")]
-        public int CountryId { get; set; }
+        public int? CountryId { get; set; }
 
         /// <summary>
         /// 票券狀態 1:Active 可用
@@ -256,14 +250,81 @@ namespace MemberSite.Service.Model
 
     public class UserTicketResult
     {
-        [JsonPropertyName("Ticket1")]
-        public UserTicket UserTicket { get; set; }
+        [JsonPropertyName("ticket1")]
+        public UserTicket Ticket1 { get; set; }
 
-        [JsonPropertyName("Ticket2")]
+        [JsonPropertyName("ticket2")]
         public UserTicket Ticket2 { get; set; }
 
-        [JsonPropertyName("Ticket3")]
+        [JsonPropertyName("ticket3")]
         public UserTicket Ticket3 { get; set; }
+    }
+
+    public class MemberDepositAmountDailyDto
+    {
+        /// <summary>
+        /// 充值金額
+        /// </summary>
+        public decimal DepositAmount { get; set; }
+
+        /// <summary>
+        /// 歸帳日期
+        /// </summary>
+        public DateTime AccountDate { get; set; }
+    }
+
+    public class DepositAmountSettingDto
+    {
+        public int SiteId { get; set; }
+
+        public int CurrencyId { get; set; }
+
+        /// <summary>
+        /// 累積存款標準
+        /// </summary>
+        public decimal Amount { get; set; }
+
+        /// <summary>
+        /// 票券類型 Ticket1:1;Ticket2:2;Ticket3:3
+        /// </summary>
+        public int TicketType { get; set; }
+    }
+
+    public class WorldCupMemberTicketInfoDto
+    {
+        public int TicketType { get; set; }
+        public int? TeamId { get; set; }
+    }
+
+    public class WorldCupDateSettingDto
+    {
+        public int SiteId { get; set; }
+
+        public int CurrencyId { get; set; }
+
+        public DateTime DepositStartTime { get; set; }
+
+        public DateTime DepositEndTime { get; set; }
+
+        public DateTime TicketOpenTime { get; set; }
+
+        public DateTime TicketCloseTime { get; set; }
+
+        /// <summary>
+        /// 時區
+        /// </summary>
+        public string TimeZone { get; set; }
+
+    }
+
+
+    public class UserPollTicketRequest
+    {
+        [JsonPropertyName("ticketType")]
+        public int TicketType { get; set; }
+
+        [JsonPropertyName("countryId")]
+        public int CountryId { get; set; }
     }
 
     #endregion
