@@ -283,7 +283,7 @@
     <value>इस प्रोमो कोड का इस्तेमाल किया गया है।</value>
   </data>
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
-    <value>Phone Format is wrong.</value>
+    <value>फोन का फॉर्मेट गलत है।</value>
   </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>अमान्य क्रिप्टो वॉलेट पता।</value>

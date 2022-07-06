@@ -115,6 +115,12 @@ namespace MemberSite.Service.Model
         public bool EmailVerified { get; set; }
         public decimal EmailReward { get; set; }
         public int EnablePromotion { get; set; }
+        public string AddressCountry { get; set; }
+        public string AddressState { get; set; }
+        public string AddressPostCode { get; set; }
+        public string AddressCity { get; set; }
+        public string AddressLineFirst { get; set; }
+        public string AddressLineSecond { get; set; }
     }
     public class CustRollOver
     {

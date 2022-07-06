@@ -19,6 +19,7 @@ namespace MemberSite.Service.BLL
         private readonly RolloverService _rollOverService;
         private readonly CommonBLL _commonBll;
         private readonly CacheHelper _cacheHelper;
+        private readonly ICacheHelper _redisHelper;
         private readonly Dictionary<int, bool> _isConvert = new()
         {
             { 51, false },
@@ -39,6 +40,7 @@ namespace MemberSite.Service.BLL
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
             _areaCodeCountryList = new CurrencyMapping().AreaCodeMap;
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -237,10 +239,9 @@ namespace MemberSite.Service.BLL
         }
         public Customer GetCustInfoWithCache(int custId)
         {
-            var key = $"CustInfo_{custId}";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(1)),
-                i => _custInfoService.GetCustInfo(custId));
+            return _redisHelper.TryGetOrCreate($"CustInfo:{custId}", TimeSpan.FromMinutes(1),
+                () => _custInfoService.GetCustInfo(custId),
+                RedisDataBase.Shared);
         }
 
         public Customer GetCustInfo(int custId)
@@ -311,6 +312,12 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.SetProfileV2(custId, custInfo.SiteId, custProfile) ? 0 : -1;
+        }
+
+        public int SetProfileAddress(int custId, Dictionary<string, string> custProfile)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.SetAddress(custId, custInfo.SiteId, ConvertAddress(custProfile)) ? 0 : -1;
         }
 
         public int SetCustBankInfo(int custId, string accountName, IEnumerable<BankInfoDetail> bankInfo)
@@ -603,6 +610,27 @@ namespace MemberSite.Service.BLL
         public int SetCustActStatus(int custId, string Operator)
         {
             return _custInfoService.SetCustActStatus(custId, Operator);
+        }
+
+        private static List<string> AddressKeys = new List<string>() { "Country", "State", "PostCode", "City", "LineFirst", "LineSecond" };
+        private Dictionary<string, string> ConvertAddress(Dictionary<string, string> addressProfile)
+        {
+            var result = new Dictionary<string, string>();
+            foreach(var key in AddressKeys)
+            {
+                if (addressProfile.ContainsKey($"Address{key}"))
+                {
+                    result.Add(key, (string.IsNullOrWhiteSpace(addressProfile[$"Address{key}"]) ? "" : addressProfile[$"Address{key}"]));
+                    addressProfile.Remove($"Address{key}");
+                }
+                else
+                {
+                    result.Add(key, "");
+                }
+            }
+
+            return result;
+            ;
         }
     }
 }
