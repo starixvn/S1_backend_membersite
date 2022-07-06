@@ -294,4 +294,7 @@
   <data name="msg_LineAccountAlreadyBind" xml:space="preserve">
     <value>บัญชีไลน์นี้ถูกใช้งานแล้ว โปรดใช้บัญชีไลน์อื่น</value>
   </data>
+  <data name="msg_BankAccountDuplicate" xml:space="preserve">
+    <value>ไม่อนุญาตให้ใช้หมายเลขบัญชีธนาคารซ้ำ โปรดลองหมายเลขบัญชีอื่น</value>
+  </data>
 </root>

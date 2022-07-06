@@ -293,4 +293,7 @@
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>Invalid crypto wallet address.</value>
   </data>
+  <data name="msg_BankAccountDuplicate" xml:space="preserve">
+    <value>No. Akaun Bank pendua tidak dibenarkan. Sila cuba No. Akaun yang lain.</value>
+  </data>
 </root>
