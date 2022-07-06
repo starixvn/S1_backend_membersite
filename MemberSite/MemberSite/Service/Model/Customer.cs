@@ -22,6 +22,7 @@ namespace MemberSite.Service.Model
         public bool IsResetPwd { get; set; }
         public string Aff { get; set; }
         public string AffCode { get; set; }
+        public string Token { get; set; }
     }
 
     //{"Ver": 1, "SysId": 8, "AccountNo": "9876543210", "AccountName": "Eddie Wu"}
@@ -122,6 +123,12 @@ namespace MemberSite.Service.Model
         public bool EmailVerified { get; set; }
         public decimal EmailReward { get; set; }
         public int EnablePromotion { get; set; }
+        public string AddressCountry { get; set; }
+        public string AddressState { get; set; }
+        public string AddressPostCode { get; set; }
+        public string AddressCity { get; set; }
+        public string AddressLineFirst { get; set; }
+        public string AddressLineSecond { get; set; }
     }
     public class CustRollOver
     {

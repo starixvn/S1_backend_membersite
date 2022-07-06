@@ -46,7 +46,7 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        public IEnumerable<SysBankInfoFront> GetBankInfoOffList(int custId, int queryType = 0)
+        public IEnumerable<OfflineBankInfoFront> GetBankInfoOffList(int custId, int queryType = 0)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
@@ -60,10 +60,11 @@ namespace MemberSite.Service.BLL
             var depositLimitInfo = depositLimitInfoList.FirstOrDefault(x =>
                 x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank &&
                 x.CurrencyId == custInfo.CurrencyId);
-
+            var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
+            
             if (depositLimitInfo?.DepositStatus == 0)
             {
-                return new SysBankInfoFront[] { };
+                return new OfflineBankInfoFront[] { };
             }
 
             if (depositLimitInfo != null && localBankList.Any())
@@ -102,10 +103,13 @@ namespace MemberSite.Service.BLL
                 _info[i].MaxAmount = _info1.MaxAmount;
             }
 
-            return _info;
+            var result =
+                _info.Select(x => new OfflineBankInfoFront(x, !custDepositSysIds.Contains(x.SysId)));
+            
+            return result;
         }
 
-        public IEnumerable<SysBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang, int queryType = 0)
+        public IEnumerable<OfflineBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang, int queryType = 0)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
@@ -113,9 +117,14 @@ namespace MemberSite.Service.BLL
             int CurrencyId = custInfo.CurrencyId;
 
             var key = $"GetBankInfoOffList_{SiteId}_{CurrencyId}_{vipLevel}_{lang}_{queryType}";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
+            var offBankList = _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
                 i => GetBankAccountOffList(SiteId, CurrencyId, vipLevel, lang, queryType));
+
+            var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
+            var result = offBankList
+                .Select(x => new OfflineBankInfoFront(x, !custDepositSysIds.Contains(x.SysId)));
+            return result;
         }
 
         public IEnumerable<SysBankInfoFront> GetBankAccountOffList(int siteId, int currencyId, int vipLevel, string lang, int queryType = 0)
