@@ -245,7 +245,6 @@ namespace MemberSite.Service.DAL
                 }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
-
         public bool SetAddress(int custId, int siteId, Dictionary<string, string> address)
         {
             var p = new DynamicParameters(new
@@ -257,7 +256,6 @@ namespace MemberSite.Service.DAL
             return _mainDbClient.Execute("Member_CustProfile_Address_Set", p) > 0 ;
         }
         public bool SetCustBankInfo(int custId, int siteId, string accountName)
-
         {
             var result = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
@@ -343,11 +341,11 @@ namespace MemberSite.Service.DAL
             result = _mainDbClient.Execute("Service_CustUSDTInfoLog_Set", parameter, conn, trans);
             return result > 0;
         }
-
-        public CustBankInfo GetCustBankInfo(int custId, int siteId)
+        
+        public CustBankInfo GetCustBankInfo(int custId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.QueryFirstOrDefault<CustBankInfo>("Member_CustBankInfo_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.QueryFirstOrDefault<CustBankInfo>("Member_CustBankInfo_Get", new { CustId = custId}, commandType: CommandType.StoredProcedure);
         }
         public string GetDefAccountNo(int custId, int siteId)
         {

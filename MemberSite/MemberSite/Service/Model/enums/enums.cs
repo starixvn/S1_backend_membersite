@@ -355,7 +355,7 @@
         Restore = 1,
         Manual = 2,
     }
-
+    
     public enum PromotionDeviceType
     {
         All = 1,
@@ -398,7 +398,6 @@
         IssueLineTokenException = 9001,
         CallBackException = 9002
     }
-
     public enum CustBankInfoLogStatus
     {
         Create = 1,
