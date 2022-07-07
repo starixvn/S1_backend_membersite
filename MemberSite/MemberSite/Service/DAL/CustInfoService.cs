@@ -95,7 +95,7 @@ namespace MemberSite.Service.DAL
 
 
                 if (!string.IsNullOrEmpty(RealName))
-                    SetCustBankInfo(custId, customer.SiteId, RealName, null);
+                    SetCustBankInfo(custId, customer.SiteId, RealName);
             }
 
             if (result > 0 && (!string.IsNullOrEmpty(signupUrl) || !string.IsNullOrEmpty(referralUrl)))
@@ -255,12 +255,11 @@ namespace MemberSite.Service.DAL
             });
             return _mainDbClient.Execute("Member_CustProfile_Address_Set", p) > 0 ;
         }
-        public bool SetCustBankInfo(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo)
+        public bool SetCustBankInfo(int custId, int siteId, string accountName)
         {
             var result = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            var tmp = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo);
-            result = conn.Execute("Service_CustBankInfo_SetV2", new { CustId = custId, SiteId = siteId, AccountName = accountName, BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo) }, commandType: CommandType.StoredProcedure);
+            result = conn.Execute("Service_CustBankInfo_SetV3", new { CustId = custId, SiteId = siteId, AccountName = accountName }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
 
@@ -272,47 +271,35 @@ namespace MemberSite.Service.DAL
             result = conn.Execute("Service_CustUSDTInfo_Set", new { CustId = custId, SiteId = siteId, AccountName = accountName, USDTInfo = Newtonsoft.Json.JsonConvert.SerializeObject(uSDTInfo) }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
-
-        public bool InsertCustBankInfo(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo, IEnumerable<BankInfoDetail> banklog)
+        
+        public bool InsertCustBankInfo(int custId, int siteId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status)
         {
             using var conn = new MySqlConnection(_connectionString);
             conn.Open();
             using var trans = conn.BeginTransaction();
-            var bankinfoResult = SetCustBankInfo(custId, siteId, accountName, bankInfo, conn, trans);
-            var banklogResult = SetCustBankInfoLog(custId, siteId, accountName, banklog, conn, trans);
-            if (bankinfoResult & banklogResult)
+            var bankDetailResult = SetCustBankDetail(custId, sysId, accountNum, iFSCCode, CustBankDetailStatus.Able, conn, trans);
+            var banklogResult = SetCustBankInfoLog(custId, siteId, accountName, sysId, accountNum, iFSCCode, status, conn, trans);
+            if(bankDetailResult & banklogResult)
             {
                 trans.Commit();
             }
-            return bankinfoResult & banklogResult;
+            return bankDetailResult & banklogResult;
         }
 
-        private bool SetCustBankInfo(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo, MySqlConnection conn, MySqlTransaction trans)
+        private bool SetCustBankInfoLog(int custId, int siteId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status, MySqlConnection conn, MySqlTransaction trans)
         {
             var result = 0;
-            var tmp = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo);
             var parameter = new DynamicParameters(new
             {
                 CustId = custId,
                 SiteId = siteId,
                 AccountName = accountName,
-                BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo)
+                SysId = sysId,
+                AccountNum = accountNum,
+                IFSCCode = string.IsNullOrWhiteSpace(iFSCCode) ? "" : iFSCCode,
+                Status = (int)status
             });
-            result = _mainDbClient.Execute("Service_CustBankInfo_SetV2", parameter, conn, trans);
-            return result > 0;
-        }
-        private bool SetCustBankInfoLog(int custId, int siteId, string accountName, IEnumerable<BankInfoDetail> bankInfo, MySqlConnection conn, MySqlTransaction trans)
-        {
-            var result = 0;
-            var tmp = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo);
-            var parameter = new DynamicParameters(new
-            {
-                CustId = custId,
-                SiteId = siteId,
-                AccountName = accountName,
-                BankInfo = Newtonsoft.Json.JsonConvert.SerializeObject(bankInfo)
-            });
-            result = _mainDbClient.Execute("Service_CustBankInfoLog_Set", parameter, conn, trans);
+            result = _mainDbClient.Execute("Service_CustBankInfoLog_Set_V2", parameter, conn, trans);
             return result > 0;
         }
         public bool InsertCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo, IEnumerable<USDTDetail> uSDTInfoLog)
@@ -354,11 +341,11 @@ namespace MemberSite.Service.DAL
             result = _mainDbClient.Execute("Service_CustUSDTInfoLog_Set", parameter, conn, trans);
             return result > 0;
         }
-
-        public CustBankInfo GetCustBankInfo(int custId, int siteId)
+        
+        public CustBankInfo GetCustBankInfo(int custId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.QueryFirstOrDefault<CustBankInfo>("CustBankInfo_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.QueryFirstOrDefault<CustBankInfo>("Member_CustBankInfo_Get", new { CustId = custId}, commandType: CommandType.StoredProcedure);
         }
         public string GetDefAccountNo(int custId, int siteId)
         {
@@ -453,6 +440,44 @@ namespace MemberSite.Service.DAL
                 _CustId = custId,
                 _userId = lineUserId
             }));
+        }
+
+        public IEnumerable<BankInfoDetail> GetCustBankDetail(int custId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Query<BankInfoDetail>("Member_CustBankDetailByCustId_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+        }
+        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId,string accountNo)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Query<BankInfoDetailData>("Member_CustBankDetail_Get", new { SysId = sysId, AccountNo = accountNo }, commandType: CommandType.StoredProcedure);
+        }
+        public bool SetCustBankDetail(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status,MySqlConnection conn, MySqlTransaction trans)
+        {
+            var result = 0;
+            var parameter = new DynamicParameters(new
+            {
+                CustId = custId,
+                SysId = sysId,
+                AccountNo = accountNum,
+                IFSCCode = iFSCCode,
+                Status = (int)status
+            });
+            result = _mainDbClient.Execute("Member_CustBankDetail_Set", parameter, conn, trans);
+            return result > 0;
+        }
+        public bool DeleteCustBankInfo(int custId, int siteId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
+        {
+            using var conn = new MySqlConnection(_connectionString);
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            var bankDetailResult = SetCustBankDetail(custId, sysId, accountNum, iFSCCode, status, conn, trans);
+            var banklogResult = SetCustBankInfoLog(custId, siteId, null, sysId, accountNum, iFSCCode, CustBankInfoLogStatus.Delete, conn, trans);
+            if (bankDetailResult & banklogResult)
+            {
+                trans.Commit();
+            }
+            return bankDetailResult & banklogResult;
         }
     }
 }
