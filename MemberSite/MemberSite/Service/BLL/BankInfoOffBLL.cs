@@ -141,7 +141,7 @@ namespace MemberSite.Service.BLL
 
             var localBankList = new List<BankInfoOff>(newbankAccountOffList);
 
-            var depositLimitInfoList = (_depositService.GetDepositLimitInfoList().Where(x => x.SiteId == siteId))?.ToList();
+            var depositLimitInfoList = _depositService.GetDepositLimitInfoList().Where(x => x.SiteId == siteId)?.ToList();
             var depositLimitInfo = depositLimitInfoList.FirstOrDefault(x =>
                 x.SiteId == siteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank &&
                 x.CurrencyId == currencyId);
@@ -161,8 +161,7 @@ namespace MemberSite.Service.BLL
 
             var _info = localBankList
                 .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == currencyId && x.MaxAmount > 0)
-                .OrderByDescending(x => x.PointLevel)
-                .ThenBy(x => x.BSort)
+                .OrderBy(x => x.BSort)
                 .Select( x => new SysBankInfoFront
                 {
                     SysId = x.SysId,
