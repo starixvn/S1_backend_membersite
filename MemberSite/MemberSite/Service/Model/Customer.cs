@@ -129,6 +129,7 @@ namespace MemberSite.Service.Model
         public string AddressCity { get; set; }
         public string AddressLineFirst { get; set; }
         public string AddressLineSecond { get; set; }
+        public bool IsResetPwd { get; set; }
     }
     public class CustRollOver
     {

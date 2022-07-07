@@ -433,10 +433,7 @@ namespace MemberSite.Service.BLL
         }
         public CustInfoProfile GetCustInfoProfile(int custId)
         {
-            var custInfo = GetCustInfoWithCache(custId);
-            var customer = _custInfoService.GetCustInfoProfile(custId, custInfo.SiteId);
-            //customer.UserLevel = custInfoService.GetCustLevel(custId);
-            return customer;
+            return _custInfoService.GetCustInfoProfile(custId);
         }
         public CustInfoProfile GetCustInfoProfileWithCache(int custId)
         {
