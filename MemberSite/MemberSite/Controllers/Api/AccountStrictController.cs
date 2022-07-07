@@ -740,7 +740,7 @@ namespace MemberSite.Controllers.Api
                     }
                 }
 
-                var isLineBinding = _lineLoginBll.GetCustLineProfile(authData.CustId, null) == null ? false : true;
+                var isLineBinding = _lineLoginBll.GetCustLineProfile(authData.CustId, null) != null;
 
                 apiResult.Data = new
                 {
@@ -771,7 +771,8 @@ namespace MemberSite.Controllers.Api
                     custInfo.AddressPostCode,
                     custInfo.AddressCity,
                     custInfo.AddressLineFirst,
-                    custInfo.AddressLineSecond
+                    custInfo.AddressLineSecond,
+                    custInfo.IsResetPwd
                 };
 
                 apiResult.ErrorCode = 0;
