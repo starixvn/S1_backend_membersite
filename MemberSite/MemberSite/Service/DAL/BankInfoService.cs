@@ -44,5 +44,12 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<AutoChannelBankInfo>("Service_AutoChannelBankInfo_Get", new { SiteId = siteId, DepositType = (int)depositType }, commandType: CommandType.StoredProcedure);
         }
+
+        public IEnumerable<EWalletInfoSys> GetEWalletInfoSysList()
+        {
+            //siteId Still Useless
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<EWalletInfoSys>("Service_EWalletInfoSys_Get", commandType: CommandType.StoredProcedure);
+        }
     }
 }

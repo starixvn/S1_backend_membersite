@@ -281,5 +281,14 @@ namespace MemberSite.Service.BLL
         {
             return _payService.GetLineChannel(siteId, currencyId);
         }
+
+        public IEnumerable<EWalletInfoSys> GetEWalletInfoSysListByCurrency(int currencyId)
+        {
+            var key = $"EWalletInfoSysList";
+            var result = _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                i => _bankInfoService.GetEWalletInfoSysList());
+            return result?.Where(x => x.CurrencyId == currencyId);
+        }
     }
 }
