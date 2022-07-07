@@ -159,19 +159,21 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var _info = (from x in localBankList
-                         where vipLevel >= x.PointLevel && x.CurrencyId == currencyId && x.MaxAmount > 0
-                         orderby x.PointLevel descending, x.BSort ascending
-                         select new SysBankInfoFront
-                         {
-                             SysId = x.SysId,
-                             BankCode = x.BankCode,
-                             BankLogo = x.BankLogo,
-                             BankName = x.BankName,
-                             IFSCCode = x.IFSCCode,
-                             BankSite = x.BankSite,
-                             Status = x.Status,
-                         }).Distinct(_sysBankInfoOffComparer).ToList();
+            var _info = localBankList
+                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == currencyId && x.MaxAmount > 0)
+                .OrderByDescending(x => x.PointLevel)
+                .ThenBy(x => x.BSort)
+                .Select( x => new SysBankInfoFront
+                {
+                    SysId = x.SysId,
+                    BankCode = x.BankCode,
+                    BankLogo = x.BankLogo,
+                    BankName = x.BankName,
+                    IFSCCode = x.IFSCCode,
+                    BankSite = x.BankSite,
+                    Status = x.Status,
+                })
+                .Distinct(_sysBankInfoOffComparer).ToList();
 
             for (var i = 0; i < _info.Count; i++)
             {
