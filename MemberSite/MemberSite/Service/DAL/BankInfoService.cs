@@ -45,6 +45,12 @@ namespace MemberSite.Service.DAL
             return conn.Query<AutoChannelBankInfo>("Service_AutoChannelBankInfo_Get", new { SiteId = siteId, DepositType = (int)depositType }, commandType: CommandType.StoredProcedure);
         }
 
+        public IEnumerable<BlockAccount> GetBlockBankAccount(int sysId, string accountNum)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<BlockAccount>("Member_BlockAccount_Get", new { SysId = sysId, AccountNum = accountNum }, commandType: CommandType.StoredProcedure);
+        }
+
         public IEnumerable<EWalletInfoSys> GetEWalletInfoSysList()
         {
             //siteId Still Useless

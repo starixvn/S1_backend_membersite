@@ -17,6 +17,7 @@ namespace MemberSite.Service.BLL
         private readonly ServerInfoBll _serverInfoBll;
         private readonly AgentInfoService _agentInfoService;
         private readonly RolloverService _rollOverService;
+        private readonly BankInfoService _bankInfoService;
         private readonly CommonBLL _commonBll;
         private readonly CacheHelper _cacheHelper;
         private readonly ICacheHelper _redisHelper;
@@ -37,6 +38,7 @@ namespace MemberSite.Service.BLL
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _agentInfoService = provider.GetRequiredService<AgentInfoService>();
             _rollOverService = provider.GetRequiredService<RolloverService>();
+            _bankInfoService = provider.GetRequiredService<BankInfoService>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
             _areaCodeCountryList = new CurrencyMapping().AreaCodeMap;
@@ -320,15 +322,15 @@ namespace MemberSite.Service.BLL
             return _custInfoService.SetAddress(custId, custInfo.SiteId, ConvertAddress(custProfile)) ? 0 : -1;
         }
 
-        public int SetCustBankInfo(int custId, string accountName, IEnumerable<BankInfoDetail> bankInfo)
+        public int SetCustBankInfo(int custId, string accountName)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName, bankInfo) ? 0 : -1;
+            return _custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName) ? 0 : -1;
         }
-        public int InsertCustBankInfo(int custId, string accountName, IEnumerable<BankInfoDetail> bankInfo, IEnumerable<BankInfoDetail> banklog)
+        public int InsertCustBankInfo(int custId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.InsertCustBankInfo(custId, custInfo.SiteId, accountName, bankInfo, banklog) ? 0 : -1;
+            return _custInfoService.InsertCustBankInfo(custId, custInfo.SiteId, accountName, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
 
         public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo)
@@ -344,26 +346,19 @@ namespace MemberSite.Service.BLL
         public CustBankInfo GetCustBankInfo(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            var custBankInfo = _custInfoService.GetCustBankInfo(custId, custInfo.SiteId);
+            var custBankInfo = _custInfoService.GetCustBankInfo(custId);
 
-            if (custBankInfo != null && custBankInfo.BankInfo != null)
+            if (custBankInfo != null)
             {
-                var bankInfoDetailList = JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
-                if (bankInfoDetailList != null)
-                {
-                    bankInfoDetailList = bankInfoDetailList.Where(x => x.SysId != 0 && x.AccountNo != null);//filiter null data
-                    if (bankInfoDetailList.Any())
-                    {
-                        custBankInfo.bankInfoDetail = bankInfoDetailList;
-                    }
-                }
+                var bankInfoDetailList = _custInfoService.GetCustBankDetail(custId);
+                custBankInfo.bankInfoDetail = bankInfoDetailList;
                 //if (custInfo.CurrencyId == 96)
                 //{
                 //    custBankInfo.uSDTDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
                 //}
                 //else
                 //{
-                //    custBankInfo.bankInfoDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
+                //    custBankInfo.bankInfoDetail = bankInfoDetailList;
                 //}
 
             }
@@ -384,7 +379,7 @@ namespace MemberSite.Service.BLL
                 //}
                 //else
                 //{
-                //    custBankInfo.bankInfoDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<BankInfoDetail>>(custBankInfo.BankInfo);
+                //    custBankInfo.bankInfoDetail = bankInfoDetailList;
                 //}
 
             }
@@ -631,6 +626,17 @@ namespace MemberSite.Service.BLL
 
             return result;
             ;
+        }
+
+        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo)
+        {
+            return _custInfoService.GetCustBankDetail(sysId, accountNo);
+        }
+
+        public int DeleteCustBankInfo(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.DeleteCustBankInfo(custId, custInfo.SiteId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
     }
 }

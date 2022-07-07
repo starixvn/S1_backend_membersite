@@ -141,7 +141,7 @@ namespace MemberSite.Service.BLL
 
             var localBankList = new List<BankInfoOff>(newbankAccountOffList);
 
-            var depositLimitInfoList = (_depositService.GetDepositLimitInfoList().Where(x => x.SiteId == siteId))?.ToList();
+            var depositLimitInfoList = _depositService.GetDepositLimitInfoList().Where(x => x.SiteId == siteId)?.ToList();
             var depositLimitInfo = depositLimitInfoList.FirstOrDefault(x =>
                 x.SiteId == siteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank &&
                 x.CurrencyId == currencyId);
@@ -159,19 +159,20 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var _info = (from x in localBankList
-                         where vipLevel >= x.PointLevel && x.CurrencyId == currencyId && x.MaxAmount > 0
-                         orderby x.PointLevel descending, x.BSort
-                         select new SysBankInfoFront
-                         {
-                             SysId = x.SysId,
-                             BankCode = x.BankCode,
-                             BankLogo = x.BankLogo,
-                             BankName = x.BankName,
-                             IFSCCode = x.IFSCCode,
-                             BankSite = x.BankSite,
-                             Status = x.Status,
-                         }).Distinct(_sysBankInfoOffComparer).ToList();
+            var _info = localBankList
+                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == currencyId && x.MaxAmount > 0)
+                .OrderBy(x => x.BSort)
+                .Select( x => new SysBankInfoFront
+                {
+                    SysId = x.SysId,
+                    BankCode = x.BankCode,
+                    BankLogo = x.BankLogo,
+                    BankName = x.BankName,
+                    IFSCCode = x.IFSCCode,
+                    BankSite = x.BankSite,
+                    Status = x.Status,
+                })
+                .Distinct(_sysBankInfoOffComparer).ToList();
 
             for (var i = 0; i < _info.Count; i++)
             {

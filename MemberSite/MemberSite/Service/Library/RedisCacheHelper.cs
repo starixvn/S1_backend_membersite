@@ -8,6 +8,7 @@ namespace MemberSite.Service.Library
     {
         private readonly IConnectionMultiplexer _multiplexer;
         private readonly ILogger<RedisCacheHelper> _logger;
+        private readonly string[] _charsToRemove = { "[", "]", "/", " ", "," };
 
         public RedisCacheHelper(IConnectionMultiplexer multiplexer, ILogger<RedisCacheHelper> logger)
         {
@@ -18,7 +19,7 @@ namespace MemberSite.Service.Library
         public TItem TryGetOrCreate<TItem>(string key, TimeSpan timeSpan, Func<TItem> factory,
             RedisDataBase redisDataBase = RedisDataBase.Member)
         {
-            key = $"{redisDataBase}:{key}";
+            key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
             try
             {
                 var db = _multiplexer.GetDatabase((int)redisDataBase);
@@ -47,7 +48,7 @@ namespace MemberSite.Service.Library
         public async Task<TItem> TryGetOrCreateAsync<TItem>(string key, TimeSpan? timeSpan, Func<Task<TItem>> factory,
             RedisDataBase redisDataBase = RedisDataBase.Member)
         {
-            key = $"{redisDataBase}:{key}";
+            key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
             try
             {
                 var db = _multiplexer.GetDatabase((int)redisDataBase);
@@ -71,6 +72,16 @@ namespace MemberSite.Service.Library
                 _logger.LogError(ex, $"{key} | {ex.Message}");
                 return await factory();
             }
+        }
+        
+        private string RemoveSpecialChars(string key)
+        {
+            foreach (var c in _charsToRemove)
+            {
+                key = key.Replace(c, string.Empty);
+            }
+
+            return key;
         }
     }
 }
