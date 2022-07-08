@@ -202,6 +202,12 @@ namespace MemberSite.Service.Model
         /// </summary>
         [JsonPropertyName("countryName")]
         public string CountryName { get; set; }
+
+        /// <summary>
+        ///  圖片名稱
+        /// </summary>
+        [JsonPropertyName("imageName")]
+        public string ImageName { get; set; }
     }
 
     public class SelectOptions
