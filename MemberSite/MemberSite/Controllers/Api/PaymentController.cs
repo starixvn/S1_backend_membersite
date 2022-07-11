@@ -529,6 +529,7 @@ namespace MemberSite.Controllers.Api
                         break;
                     case WithdrawalTypeStatus.EWallet:
                         result = paymentBLL.WithdrawalEWalletReq(authData.CustId,
+                        custBankInfo.AccountName,
                         withdrawalReqModel.sysId,
                         withdrawalReqModel.AccountNo,
                         withdrawalReqModel.amount,

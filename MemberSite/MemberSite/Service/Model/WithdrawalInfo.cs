@@ -21,7 +21,9 @@ namespace MemberSite.Service.Model
     public class WithdrawalEWalletInfo
     {
         public int EWalletSysId { get; set; }
-        public string EWalletAccountNo { get; set; }
+        public string AccountNo { get; set; }
+        public string AccountType { get; set; }
+        public string AccountName { get; set; }
     }
     public class WithdrawalHistory
     {
