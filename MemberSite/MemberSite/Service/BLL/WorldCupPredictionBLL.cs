@@ -23,6 +23,7 @@ namespace MemberSite.Service.BLL
         {
             var allTeamEnglishName = GetWorldCupPredictionCountry();
             var dbData = GetWorldCupPredictionSetting(langId);
+            var selectOption = GetSelectOptions(langId);
 
             var responseData = new WorldCupPredictionSettingResponse()
             {
@@ -33,6 +34,7 @@ namespace MemberSite.Service.BLL
                 ThirdRdPlace = FilterData(dbData, allTeamEnglishName, "3rdPlace"),
                 Final = FilterData(dbData, allTeamEnglishName, "final"),
                 MatchTimes = GetMatchTimes(),
+                SelectOptions = selectOption
             };
 
             return responseData;
