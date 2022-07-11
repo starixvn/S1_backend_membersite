@@ -284,4 +284,7 @@
   <data name="msg_DecimalOutOfRange" xml:space="preserve">
     <value>转账失败由于小数点多于二位数</value>
   </data>
+  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
+    <value>很抱歉，您已达兑换上限。恳请新月份再尝试</value>
+  </data>
 </root>

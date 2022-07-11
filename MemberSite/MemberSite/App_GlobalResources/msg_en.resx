@@ -298,4 +298,7 @@
   <data name="msg_LineAccountAlreadyBind" xml:space="preserve">
     <value>This LINE account has been used, please use another account.</value>
   </data>
+  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
+    <value>Sorry, your redemption limit reached. Please try again on the new calendar month.</value>
+  </data>
 </root>

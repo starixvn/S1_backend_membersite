@@ -384,4 +384,9 @@
         IssueLineTokenException = 9001,
         CallBackException = 9002
     }
+    
+    public enum RedemptionErrorCode
+    {
+        RedemptionLimitOverLimit = -1002
+    }
 }

@@ -287,4 +287,7 @@
   <data name="msg_DecimalOutOfRange" xml:space="preserve">
     <value>Transfer gagal karena desimal lebih dari 2 digit</value>
   </data>
+  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
+    <value>Maaf, batas penukaran Anda telah habis. Silakan coba lagi di bulan depan.</value>
+  </data>
 </root>

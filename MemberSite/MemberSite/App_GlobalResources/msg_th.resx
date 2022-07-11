@@ -294,4 +294,8 @@
   <data name="msg_LineAccountAlreadyBind" xml:space="preserve">
     <value>บัญชีไลน์นี้ถูกใช้งานแล้ว โปรดใช้บัญชีไลน์อื่น</value>
   </data>
+  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
+    <value>ขออภัย ถึงขีดจำกัดการแลกของคุณแล้ว โปรดลองใหม่อีกครั้งในเดือนหน้า
+</value>
+  </data>
 </root>

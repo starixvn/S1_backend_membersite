@@ -293,4 +293,7 @@
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>Invalid crypto wallet address.</value>
   </data>
+  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
+    <value>Maaf, had penebusan anda telah tercapai. Sila cuba lagi pada bulan kalendar baharu.</value>
+  </data>
 </root>
