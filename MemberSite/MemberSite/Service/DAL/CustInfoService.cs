@@ -447,10 +447,10 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<BankInfoDetail>("Member_CustBankDetailByCustId_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
         }
-        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId,string accountNo)
+        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId,string accountNo, int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<BankInfoDetailData>("Member_CustBankDetail_Get", new { SysId = sysId, AccountNo = accountNo }, commandType: CommandType.StoredProcedure);
+            return conn.Query<BankInfoDetailData>("Member_CustBankDetail_Get_V2", new { SysId = sysId, AccountNo = accountNo, SiteId = siteId}, commandType: CommandType.StoredProcedure);
         }
         public bool SetCustBankDetail(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status,MySqlConnection conn, MySqlTransaction trans)
         {
