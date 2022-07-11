@@ -436,4 +436,8 @@
         Crypto = 1,
         EWallet = 2
     }
+     public enum RedemptionErrorCode
+    {
+        RedemptionLimitOverLimit = -1002
+    }
 }

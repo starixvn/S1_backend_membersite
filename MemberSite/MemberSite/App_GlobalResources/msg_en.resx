@@ -366,4 +366,7 @@
   <data name="msg_EWalletDuplicate" xml:space="preserve">
     <value>Duplicate E-wallet Account No. is not allowed. Please try another E-wallet Account No.</value>
   </data>
+  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
+    <value>Sorry, your redemption limit reached. Please try again on the new calendar month.</value>
+  </data>
 </root>
