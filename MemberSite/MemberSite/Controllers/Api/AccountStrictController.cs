@@ -63,7 +63,7 @@ namespace MemberSite.Controllers.Api
 
             var blockBankAccountList = _bankInfoBLL.GetBlockBankAccount(bankInfo.SysId, bankInfo.AccountNo).ToList();
 
-            var custBankDetail = _custInfoBLL.GetCustBankDetail(bankInfo.SysId, bankInfo.AccountNo).ToList();
+            var custBankDetail = _custInfoBLL.GetCustBankDetail(bankInfo.SysId, bankInfo.AccountNo, custInfo.SiteId).ToList();
 
             if (bankInfoSysList == null || bankInfoSysList.Count(x => x.SysId == bankInfo.SysId) == 0)
             {
