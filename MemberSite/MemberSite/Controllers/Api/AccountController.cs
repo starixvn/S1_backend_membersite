@@ -33,7 +33,6 @@ namespace MemberSite.Controllers.Api
         private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
         private readonly EventsBLL _eventsBll;
-        private readonly ServerInfoBll _serverInfoBll;
 
         public AccountController(IServiceProvider provider)
         {
@@ -54,7 +53,6 @@ namespace MemberSite.Controllers.Api
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
             _eventsBll = provider.GetRequiredService<EventsBLL>();
-            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
         }
 
         [HttpPost]
@@ -635,19 +633,7 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-
-        [HttpPost]
-        public ApiResult<CustInfoProfile> GetCustInfoProfile()
-        {
-            var authData = _authorizeBll.GetAuthData();
-            var apiResult = new ApiResult<CustInfoProfile>
-            {
-                Data = _custInfoBll.GetCustInfoProfile(authData.CustId),
-                ErrorCode = 0
-            };
-
-            return apiResult;
-        }
+        
         [HttpPost]
         public ApiResult<string> GetReferralCode()
         {
@@ -683,6 +669,25 @@ namespace MemberSite.Controllers.Api
             }
             return apiResult;
         }
+        
+        [HttpPost]
+        public async Task<ApiResult<ReferralSettingDetail>> GetReferralSettingDetail()
+        {
+            var apiResult = new ApiResult<ReferralSettingDetail>();
+            var authData = _authorizeBll.GetAuthData();
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            try
+            {
+                apiResult.Data = await _custInfoBll.GetReferralSettingDetailAsync(custInfo.SiteId, custInfo.CurrencyId, custInfo.UserLang);
+                apiResult.ErrorCode = 0;
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
+        
         [HttpPost]
         public ApiResult<ReferralSummary> GetReferralSummary()
         {

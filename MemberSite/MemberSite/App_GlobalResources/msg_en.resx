@@ -234,6 +234,9 @@
   <data name="msg_EnterPhoneNumber" xml:space="preserve">
     <value>Please enter phone number.</value>
   </data>
+  <data name="msg_CompletePhoneNumber" xml:space="preserve">
+    <value>Please complete your Mobile Phone (OTP) verification.</value>
+  </data>
   <data name="msg_EnterRealName" xml:space="preserve">
     <value>Please enter your real name.</value>
   </data>
