@@ -624,9 +624,9 @@ namespace MemberSite.Service.BLL
             ;
         }
 
-        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo)
+        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo, int siteId)
         {
-            return _custInfoService.GetCustBankDetail(sysId, accountNo);
+            return _custInfoService.GetCustBankDetail(sysId, accountNo, siteId);
         }
 
         public int DeleteCustBankInfo(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
