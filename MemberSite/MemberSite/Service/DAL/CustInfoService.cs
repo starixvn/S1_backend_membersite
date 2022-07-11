@@ -277,13 +277,19 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(_connectionString);
             conn.Open();
             using var trans = conn.BeginTransaction();
+            var custBankInfoResult = true;
+            var custBankInfo = GetCustBankInfo(custId);
+            if (custBankInfo == null && !string.IsNullOrEmpty(accountName))
+            {
+                custBankInfoResult = SetCustBankInfo(custId, siteId, accountName, conn, trans);
+            }
             var bankDetailResult = SetCustBankDetail(custId, sysId, accountNum, iFSCCode, CustBankDetailStatus.Able, conn, trans);
             var banklogResult = SetCustBankInfoLog(custId, siteId, accountName, sysId, accountNum, iFSCCode, status, conn, trans);
-            if(bankDetailResult & banklogResult)
+            if(bankDetailResult & banklogResult & custBankInfoResult)
             {
                 trans.Commit();
             }
-            return bankDetailResult & banklogResult;
+            return bankDetailResult & banklogResult & custBankInfoResult;
         }
 
         private bool SetCustBankInfoLog(int custId, int siteId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status, MySqlConnection conn, MySqlTransaction trans)
@@ -478,6 +484,19 @@ namespace MemberSite.Service.DAL
                 trans.Commit();
             }
             return bankDetailResult & banklogResult;
+        }
+
+        public bool SetCustBankInfo(int custId, int siteId, string accountName, MySqlConnection conn, MySqlTransaction trans)
+        {
+            var result = 0;
+            var parameter = new DynamicParameters(new
+            {
+                CustId = custId,
+                SiteId = siteId,
+                AccountName = accountName
+            });
+            result = _mainDbClient.Execute("Service_CustBankInfo_SetV3", parameter, conn, trans);
+            return result > 0;
         }
     }
 }
