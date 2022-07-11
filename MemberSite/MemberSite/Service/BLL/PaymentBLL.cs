@@ -501,7 +501,7 @@ namespace MemberSite.Service.BLL
             return withdrawalService.WithdrawalUSDTReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalUSDTInfo, out afterAmount, out transId);
         }
 
-        public int WithdrawalEWalletReq(int custId, int sysId, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
+        public int WithdrawalEWalletReq(int custId, string accountName, int sysId, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
         {
             afterAmount = 0;
             transId = "";
@@ -521,10 +521,10 @@ namespace MemberSite.Service.BLL
             {
                 return -1;
             }
-
-            withdrawalEWalletInfo.EWalletAccountNo = accountNo;
+            withdrawalEWalletInfo.AccountName = accountName;
+            withdrawalEWalletInfo.AccountNo = accountNo;
             withdrawalEWalletInfo.EWalletSysId = sysId;
-
+            withdrawalEWalletInfo.AccountType = "ewallet";
             return withdrawalService.WithdrawalEWalletReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalEWalletInfo, out afterAmount, out transId);
         }
 
