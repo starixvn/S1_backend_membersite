@@ -57,5 +57,11 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<EWalletInfoSys>("Service_EWalletInfoSys_Get", commandType: CommandType.StoredProcedure);
         }
+
+        public IEnumerable<BlockAccount> GetBlockEWalletAccount(int sysId, string accountNum)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<BlockAccount>("Member_BlockEWallet_Get", new { SysId = sysId, AccountNum = accountNum }, commandType: CommandType.StoredProcedure);
+        }
     }
 }

@@ -295,5 +295,10 @@ namespace MemberSite.Service.BLL
                 i => _bankInfoService.GetEWalletInfoSysList());
             return result?.Where(x => x.CurrencyId == currencyId);
         }
+
+        public IEnumerable<BlockAccount> GetBlockEWalletAccount(int sysId, string accountNum)
+        {
+            return _bankInfoService.GetBlockEWalletAccount(sysId, accountNum);
+        }
     }
 }
