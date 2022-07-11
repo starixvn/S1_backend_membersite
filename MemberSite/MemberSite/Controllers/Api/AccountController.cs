@@ -1116,5 +1116,38 @@ namespace MemberSite.Controllers.Api
             }
             return apiResult;
         }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<EWalletInfoDetailRep>> GetCustEWalletInfo()
+        {
+            var apiResult = new ApiResult<IEnumerable<EWalletInfoDetailRep>>(_selLangBll);
+            List<EWalletInfoDetailRep> result = new List<EWalletInfoDetailRep>();
+            var authData = _authorizeBll.GetAuthData();
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var eWalletInfoSysList = _bankInfoBll.GetEWalletInfoSysListByCurrency(custInfo.CurrencyId).ToList();
+
+            var custEWalletInfo = _custInfoBll.GetCustEWalletInfo(authData.CustId).ToList();
+
+            if (custEWalletInfo.Count > 0)
+            {
+                foreach (var eWalletInfo in custEWalletInfo)
+                {
+                    var refEWalletInfo = eWalletInfoSysList.FirstOrDefault(x => x.SysId == eWalletInfo.SysId);
+                    result.Add(new EWalletInfoDetailRep()
+                    {
+                        SysId = eWalletInfo.SysId,
+                        AccountNo = eWalletInfo.AccountNo,
+                        EWalleName = refEWalletInfo?.EWalleName,
+                        EWalleLogo = refEWalletInfo?.EWalleLogo,
+                        EWalleSite = refEWalletInfo?.EWalleSite
+                    });
+                }
+            }
+
+            apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+
+            return apiResult;
+        }
     }
 }

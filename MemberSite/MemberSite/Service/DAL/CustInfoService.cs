@@ -498,5 +498,71 @@ namespace MemberSite.Service.DAL
             result = _mainDbClient.Execute("Service_CustBankInfo_SetV3", parameter, conn, trans);
             return result > 0;
         }
+        public IEnumerable<EWalletInfoDetail> GetCustEWalletInfo(int custId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Query<EWalletInfoDetail>("Member_CustEWalletDetail_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+        }
+
+        public IEnumerable<EWalletInfoDetailData> GetCustEWalletDetail(int sysId, string accountNo)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            return conn.Query<EWalletInfoDetailData>("Member_CustEWalletDetailByAccountNo_Get", new { SysId = sysId, AccountNo = accountNo }, commandType: CommandType.StoredProcedure);
+        }
+
+        public bool InsertCustEWalletDetail(int custId, int siteId, int sysId, string accountNum, CustEWalletDetailLogStatus status)
+        {
+            using var conn = new MySqlConnection(_connectionString);
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            var eWalletDetailResult = SetCustEWalletDetail(custId, sysId, accountNum, CustEWalletDetailStatus.Able, conn, trans);
+            var eWalletlogResult = SetEWalletinfoLog(custId, siteId, sysId, accountNum, status, conn, trans);
+            if (eWalletDetailResult & eWalletlogResult)
+            {
+                trans.Commit();
+            }
+            return eWalletDetailResult & eWalletlogResult;
+        }
+        public bool SetCustEWalletDetail(int custId, int sysId, string accountNum, CustEWalletDetailStatus status, MySqlConnection conn, MySqlTransaction trans)
+        {
+            var result = 0;
+            var parameter = new DynamicParameters(new
+            {
+                CustId = custId,
+                SysId = sysId,
+                AccountNo = accountNum,
+                Status = (int)status
+            });
+            result = _mainDbClient.Execute("Member_CustEWalletDetail_Set", parameter, conn, trans);
+            return result > 0;
+        }
+        private bool SetEWalletinfoLog(int custId, int siteId, int sysId, string accountNum, CustEWalletDetailLogStatus status, MySqlConnection conn, MySqlTransaction trans)
+        {
+            var result = 0;
+            var parameter = new DynamicParameters(new
+            {
+                CustId = custId,
+                SiteId = siteId,
+                SysId = sysId,
+                AccountNum = accountNum,
+                Status = (int)status
+            });
+            result = _mainDbClient.Execute("Service_EWalletinfoLog_Set", parameter, conn, trans);
+            return result > 0;
+        }
+
+        public bool DeleteCustEWalletDetail(int custId, int siteId, int sysId, string accountNum, CustEWalletDetailStatus status)
+        {
+            using var conn = new MySqlConnection(_connectionString);
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            var eWalletDetailResult = SetCustEWalletDetail(custId, sysId, accountNum, status, conn, trans);
+            var eWalletlogResult = SetEWalletinfoLog(custId, siteId, sysId, accountNum, CustEWalletDetailLogStatus.Delete, conn, trans);
+            if (eWalletDetailResult & eWalletlogResult)
+            {
+                trans.Commit();
+            }
+            return eWalletDetailResult & eWalletlogResult;
+        }
     }
 }

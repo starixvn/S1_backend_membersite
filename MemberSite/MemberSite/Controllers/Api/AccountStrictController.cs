@@ -975,5 +975,94 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+
+        public class EWalletInfo
+        {
+            public int SysId { set; get; }
+            public string AccountNo { set; get; }
+        }
+        [HttpPost]
+        public ApiResult SetCustEWalletInfo(EWalletInfo eWalletInfo)
+        {
+            var apiResult = new ApiResult(_selLangBLL);
+            var authData = _authorizeBLL.GetAuthData();
+            var BankInfoLogList = new List<BankInfoDetail>();
+
+            var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+
+            var eWalletInfoSysList = _bankInfoBLL.GetEWalletInfoSysListByCurrency(custInfo.CurrencyId);
+
+            var blockEWalletAccountList = _bankInfoBLL.GetBlockEWalletAccount(eWalletInfo.SysId, eWalletInfo.AccountNo).ToList();
+
+            var custEWalletDetail = _custInfoBLL.GetCustEWalletDetail(eWalletInfo.SysId, eWalletInfo.AccountNo).ToList();
+
+            if (eWalletInfoSysList == null || eWalletInfoSysList.Count(x => x.SysId == eWalletInfo.SysId) == 0)
+            {
+                apiResult.ErrorCode = -1;
+                apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
+                return apiResult;
+            }
+
+            if (custEWalletDetail.Count > 0)
+            {
+                var bankDetail = custEWalletDetail.Find(x => x.CustId == authData.CustId);
+                if (bankDetail == null)
+                {
+                    apiResult.ErrorCode = -5;
+                    apiResult.Message = _selLangBLL.GetMsg("msg_BankAccountDuplicate");
+                    return apiResult;
+                }
+            }
+
+            if (blockEWalletAccountList.Count > 0)
+            {
+                apiResult.ErrorCode = -1;
+                apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
+                return apiResult;
+            }
+
+            var custEWalletInfo = _custInfoBLL.GetCustEWalletInfo(authData.CustId);
+
+            if (custEWalletInfo != null && custEWalletInfo?.Count() >= 3)
+            {
+                apiResult.ErrorCode = -3;
+                apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
+                return apiResult;
+            }
+            else if (custEWalletInfo != null)
+            {
+                if (custEWalletInfo.Count(x => x.SysId == eWalletInfo.SysId && x.AccountNo == eWalletInfo.AccountNo) > 0)
+                {
+                    apiResult.ErrorCode = -4;
+                    apiResult.Message = _selLangBLL.GetMsg("msg_BankAccountExists");
+                    return apiResult;
+                }
+            }
+
+            apiResult.ErrorCode = _custInfoBLL.InsertCustEWalletDetail(authData.CustId,
+                                                                       eWalletInfo.SysId,
+                                                                       eWalletInfo.AccountNo,
+                                                                       CustEWalletDetailLogStatus.Create);
+            apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult DelCustEWalletInfo(EWalletInfo eWalletInfo)
+        {
+            var apiResult = new ApiResult(_selLangBLL);
+            var authData = _authorizeBLL.GetAuthData();
+
+            var custEWalletInfo = _custInfoBLL.GetCustEWalletInfo(authData.CustId);
+            if (custEWalletInfo == null)
+            {
+                apiResult.ErrorCode = -2;
+                apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
+                return apiResult;
+            }
+            apiResult.ErrorCode = _custInfoBLL.DeleteCustEWalletDetail(authData.CustId, eWalletInfo.SysId, eWalletInfo.AccountNo, CustEWalletDetailStatus.Disable);
+            apiResult.Message = _selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
+            return apiResult;
+        }
     }
 }

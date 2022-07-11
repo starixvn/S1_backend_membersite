@@ -660,5 +660,27 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.DeleteCustBankInfo(custId, custInfo.SiteId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
+
+        public IEnumerable<EWalletInfoDetail> GetCustEWalletInfo(int custId)
+        {
+            return _custInfoService.GetCustEWalletInfo(custId);
+        }
+
+        public IEnumerable<EWalletInfoDetailData> GetCustEWalletDetail(int sysId, string accountNo)
+        {
+            return _custInfoService.GetCustEWalletDetail(sysId, accountNo);
+        }
+
+        public int InsertCustEWalletDetail(int custId, int sysId, string accountNum, CustEWalletDetailLogStatus status)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.InsertCustEWalletDetail(custId, custInfo.SiteId, sysId, accountNum, status) ? 0 : -1;
+        }
+
+        public int DeleteCustEWalletDetail(int custId, int sysId, string accountNum, CustEWalletDetailStatus status)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.DeleteCustEWalletDetail(custId, custInfo.SiteId, sysId, accountNum, status) ? 0 : -1;
+        }
     }
 }
