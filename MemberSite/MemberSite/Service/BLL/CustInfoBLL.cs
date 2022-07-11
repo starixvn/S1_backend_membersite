@@ -26,8 +26,7 @@ namespace MemberSite.Service.BLL
             { 51, false },
             { 15, false }
         };
-
-        private readonly Dictionary<string, string> _areaCodeCountryList;
+        private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -41,21 +40,19 @@ namespace MemberSite.Service.BLL
             _bankInfoService = provider.GetRequiredService<BankInfoService>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
-            _areaCodeCountryList = new CurrencyMapping().AreaCodeMap;
+            _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
-            string countryName = null;
-            if (areaCode != null)
-                _areaCodeCountryList.TryGetValue(areaCode, out countryName);
-            return countryName;
+            var countryName = _areaCodeMap.FirstOrDefault(x => x.AreaCode == areaCode);
+            return countryName?.Code;
         }
 
         public string GetAreaCodeByCountryName(string countryName)
         {
-            var areaCode = _areaCodeCountryList.FirstOrDefault(x => x.Value == countryName).Key;
-            return areaCode;
+            var areaCode = _areaCodeMap.FirstOrDefault(x => x.Code == countryName);
+            return areaCode?.AreaCode;
         }
 
         public bool IsConvertRequired(int currencyId)
@@ -433,10 +430,7 @@ namespace MemberSite.Service.BLL
         }
         public CustInfoProfile GetCustInfoProfile(int custId)
         {
-            var custInfo = GetCustInfoWithCache(custId);
-            var customer = _custInfoService.GetCustInfoProfile(custId, custInfo.SiteId);
-            //customer.UserLevel = custInfoService.GetCustLevel(custId);
-            return customer;
+            return _custInfoService.GetCustInfoProfile(custId);
         }
         public CustInfoProfile GetCustInfoProfileWithCache(int custId)
         {
@@ -555,6 +549,33 @@ namespace MemberSite.Service.BLL
         {
             return _agentInfoService.GetReferralSetting(siteId, currencyId);
         }
+
+        public async Task<ReferralSettingDetail> GetReferralSettingDetailAsync(int siteId, int currencyId, string langId)
+        {
+            var referralData = await _agentInfoService.GetReferralSettingDetailAsync(siteId, currencyId);
+            var referralSettingDetail = new ReferralSettingDetail()
+            {
+                ReferralReward = referralData.BonusAmount,
+                InvitationLimit = referralData.InvitationLimit,
+                AgentValidBet = referralData.AgentValidBet,
+                AgentDeposit = referralData.AgentDeposit,
+                MemberReward = referralData.ReferralFreeCredit,
+                Deposit = referralData.Deposit,
+                VaildBet = referralData.VaildBet,
+                PeriodDays = referralData.PeriodDays,
+                ReferralContent = DeserializeReferralContent(referralData.Details, langId)
+            };
+            return referralSettingDetail;
+        }
+
+        private ReferralContent DeserializeReferralContent(string details, string langId)
+        {
+            var oldLang = langId.Split('_');
+            var lang = oldLang.Length == 2 ? oldLang[1] : oldLang[0];
+            var referralContents = JsonConvert.DeserializeObject<IEnumerable<ReferralContent>>(details);
+            return referralContents?.FirstOrDefault(a => a.LangId == lang);
+        }
+
         public int GetAffiliateAgentBll(string affId)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
@@ -610,6 +631,7 @@ namespace MemberSite.Service.BLL
         private static List<string> AddressKeys = new List<string>() { "Country", "State", "PostCode", "City", "LineFirst", "LineSecond" };
         private Dictionary<string, string> ConvertAddress(Dictionary<string, string> addressProfile)
         {
+
             var result = new Dictionary<string, string>();
             foreach(var key in AddressKeys)
             {
