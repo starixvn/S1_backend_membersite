@@ -358,10 +358,10 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<string>("Member_DefAccountNo_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
-        public CustInfoProfile GetCustInfoProfile(int custId, int siteId)
+        public CustInfoProfile GetCustInfoProfile(int custId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<CustInfoProfile>("Member_CustProfile_Get_V3", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.QueryFirstOrDefault<CustInfoProfile>("Member_CustProfile_Get_V4", new { CustId = custId}, commandType: CommandType.StoredProcedure);
         }
         public int SubmittedCustPhotoId(int custId, int siteId, int currencyId)
         {
