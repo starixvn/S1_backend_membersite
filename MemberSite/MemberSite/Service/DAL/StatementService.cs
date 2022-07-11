@@ -82,7 +82,7 @@ namespace MemberSite.Service.DAL
         public IEnumerable<TpBetRecordListOneWeek> GetCustTpBetRecordListOneWeek(int custId)
         {
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            var result = conn.Query<TpBetRecordListOneWeek>("Member_TpBetRecord_byCustIDOneWeek_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            var result = conn.Query<TpBetRecordListOneWeek>("Member_TpBetRecord_byCustIDOneWeek_Get_V2", new { CustId = custId }, commandType: CommandType.StoredProcedure);
             return result;
         }
         public IEnumerable<TpBetRecordListOneDay> GetCustTpBetRecordListOneDay(int custId, string selDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
@@ -90,7 +90,7 @@ namespace MemberSite.Service.DAL
             IEnumerable<TpBetRecordListOneDay> result = null;
             using (var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport")))
             {
-                var SpName = "Member_TpBetRecord_byOneDay_Get";
+                var SpName = "Member_TpBetRecord_byOneDay_Get_V2";
                 var props = new DynamicParameters(new { CustId = custId, SelDate = selDate });
                 props.Add("@PageNumber", PageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
                 props.Add("@TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -111,7 +111,7 @@ namespace MemberSite.Service.DAL
             IEnumerable<TpBetRecordbyCategoryId> result = null;
             using (var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport")))
             {
-                var SpName = "Member_TpBetRecord_byCategoryId_Get";
+                var SpName = "Member_TpBetRecord_byCategoryId_Get_V2";
                 var props = new DynamicParameters(new { CustId = custId, SelDate = selDate, CategoryId = categoryId });
                 props.Add("@PageNumber", PageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
                 props.Add("@TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -131,7 +131,7 @@ namespace MemberSite.Service.DAL
             IEnumerable<TpBetRecordDetailbyGameType> result = null;
             using (var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport")))
             {
-                var SpName = "Member_TpBetRecord_byGameTypeList_Get";
+                var SpName = "Member_TpBetRecord_byGameTypeList_Get_V2";
                 var props = new DynamicParameters(new { CustId = custId, SelDate = selDate, TypeId = gameTypeId });
                 props.Add("@PageNumber", PageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
                 props.Add("@TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -151,7 +151,7 @@ namespace MemberSite.Service.DAL
             IEnumerable<TpBetRecordListDateRange> result = null;
             using (var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport")))
             {
-                var SpName = "Member_TpBetRecord_byDateRange_Get";
+                var SpName = "Member_TpBetRecord_byDateRange_Get_V2";
                 var props = new DynamicParameters(new { CustId = custId, StartDate = startDate, EndDate = endDate });
                 props.Add("@PageNumber", PageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
                 props.Add("@TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);

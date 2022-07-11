@@ -352,4 +352,7 @@
   <data name="msg_EWalletDuplicate" xml:space="preserve">
     <value>Duplikat Nomor Akun E-wallet tidak diperbolehkan. Silakan coba Nomor Akun E-wallet lain.</value>
   </data>
+  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
+    <value>Maaf, batas penukaran Anda telah habis. Silakan coba lagi di bulan depan.</value>
+  </data>
 </root>
