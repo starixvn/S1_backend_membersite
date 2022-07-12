@@ -666,9 +666,9 @@ namespace MemberSite.Service.BLL
             return _custInfoService.GetCustEWalletInfo(custId);
         }
 
-        public IEnumerable<EWalletInfoDetailData> GetCustEWalletDetail(int sysId, string accountNo)
+        public IEnumerable<EWalletInfoDetailData> GetCustEWalletDetail(int sysId, string accountNo, int siteId)
         {
-            return _custInfoService.GetCustEWalletDetail(sysId, accountNo);
+            return _custInfoService.GetCustEWalletDetail(sysId, accountNo, siteId);
         }
 
         public int InsertCustEWalletDetail(int custId, int sysId, string accountNum, CustEWalletDetailLogStatus status)
