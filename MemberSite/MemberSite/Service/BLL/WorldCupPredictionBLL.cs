@@ -366,7 +366,7 @@ namespace MemberSite.Service.BLL
                          ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.jpg"
                      }).ToList(),
 
-                GroupE = top32Team.Where(r => r.Sort is >= 9 and <= 10)
+                GroupE = top32Team.Where(r => r.Sort is >= 9 and <= 12)
                      .Select(x => new GroupSelect()
                      {
                          CountryId = x.TeamId,
