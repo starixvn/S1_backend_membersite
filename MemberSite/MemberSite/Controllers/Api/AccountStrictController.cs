@@ -975,7 +975,7 @@ namespace MemberSite.Controllers.Api
 
             var blockEWalletAccountList = _bankInfoBLL.GetBlockEWalletAccount(eWalletInfo.SysId, eWalletInfo.AccountNo).ToList();
 
-            var custEWalletDetail = _custInfoBLL.GetCustEWalletDetail(eWalletInfo.SysId, eWalletInfo.AccountNo).ToList();
+            var custEWalletDetail = _custInfoBLL.GetCustEWalletDetail(eWalletInfo.SysId, eWalletInfo.AccountNo, custInfo.SiteId).ToList();
 
             if (eWalletInfoSysList == null || eWalletInfoSysList.Count(x => x.SysId == eWalletInfo.SysId) == 0)
             {
