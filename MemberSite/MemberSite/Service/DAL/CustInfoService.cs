@@ -504,10 +504,10 @@ namespace MemberSite.Service.DAL
             return conn.Query<EWalletInfoDetail>("Member_CustEWalletDetail_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
         }
 
-        public IEnumerable<EWalletInfoDetailData> GetCustEWalletDetail(int sysId, string accountNo)
+        public IEnumerable<EWalletInfoDetailData> GetCustEWalletDetail(int sysId, string accountNo, int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<EWalletInfoDetailData>("Member_CustEWalletDetailByAccountNo_Get", new { SysId = sysId, AccountNo = accountNo }, commandType: CommandType.StoredProcedure);
+            return conn.Query<EWalletInfoDetailData>("Member_CustEWalletDetailByAccountNo_Get", new { SysId = sysId, AccountNo = accountNo, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
 
         public bool InsertCustEWalletDetail(int custId, int siteId, int sysId, string accountNum, CustEWalletDetailLogStatus status)
