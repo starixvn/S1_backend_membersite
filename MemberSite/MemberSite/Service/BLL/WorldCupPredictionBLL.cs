@@ -342,7 +342,7 @@ namespace MemberSite.Service.BLL
                          ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.jpg"
                      }).ToList(),
 
-                GroupB = top32Team.Where(r => r.Sort is >= 5 and <= 8)
+                GroupB = top32Team.Where(r => r.Sort is >= 17 and <= 20)
                      .Select(x => new GroupSelect()
                      {
                          CountryId = x.TeamId,
@@ -350,7 +350,7 @@ namespace MemberSite.Service.BLL
                          ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.jpg"
                      }).ToList(),
 
-                GroupC = top32Team.Where(r => r.Sort is >= 9 and <= 12)
+                GroupC = top32Team.Where(r => r.Sort is >= 5 and <= 8)
                      .Select(x => new GroupSelect()
                      {
                          CountryId = x.TeamId,
@@ -358,7 +358,7 @@ namespace MemberSite.Service.BLL
                          ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.jpg"
                      }).ToList(),
 
-                GroupD = top32Team.Where(r => r.Sort is >= 13 and <= 16)
+                GroupD = top32Team.Where(r => r.Sort is >= 21 and <= 24)
                      .Select(x => new GroupSelect()
                      {
                          CountryId = x.TeamId,
@@ -366,7 +366,7 @@ namespace MemberSite.Service.BLL
                          ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.jpg"
                      }).ToList(),
 
-                GroupE = top32Team.Where(r => r.Sort is >= 17 and <= 20)
+                GroupE = top32Team.Where(r => r.Sort is >= 9 and <= 12)
                      .Select(x => new GroupSelect()
                      {
                          CountryId = x.TeamId,
@@ -374,7 +374,7 @@ namespace MemberSite.Service.BLL
                          ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.jpg"
                      }).ToList(),
 
-                GroupF = top32Team.Where(r => r.Sort is >= 21 and <= 24)
+                GroupF = top32Team.Where(r => r.Sort is >= 25 and <= 28)
                      .Select(x => new GroupSelect()
                      {
                          CountryId = x.TeamId,
@@ -382,7 +382,7 @@ namespace MemberSite.Service.BLL
                          ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.jpg"
                      }).ToList(),
 
-                GroupG = top32Team.Where(r => r.Sort is >= 25 and <= 28)
+                GroupG = top32Team.Where(r => r.Sort is >= 13 and <= 16)
                      .Select(x => new GroupSelect()
                      {
                          CountryId = x.TeamId,
