@@ -57,7 +57,7 @@ namespace MemberSite.Service.DAL
         public IEnumerable<ReferralFriend> GetRefFriendList(int custId, long? StartDate, long? EndDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            var SpName = "Member_ReferralList_Get";
+            var SpName = "Member_ReferralList_Get_V2";
             var props = new DynamicParameters(new { CustId = custId });
             props.Add("PageNumber", PageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             props.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
