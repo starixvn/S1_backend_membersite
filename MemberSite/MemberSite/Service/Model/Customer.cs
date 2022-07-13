@@ -100,9 +100,9 @@ namespace MemberSite.Service.Model
 
     public class EWalletInfoDetailRep : EWalletInfoDetail
     {
-        public string EWalleName { set; get; }
-        public string EWalleLogo { set; get; }
-        public string EWalleSite { set; get; }
+        public string EWalletName { set; get; }
+        public string EWalletLogo { set; get; }
+        public string EWalletSite { set; get; }
     }
 
     public class WalletInfo
