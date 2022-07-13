@@ -1137,9 +1137,9 @@ namespace MemberSite.Controllers.Api
                     {
                         SysId = eWalletInfo.SysId,
                         AccountNo = eWalletInfo.AccountNo,
-                        EWalleName = refEWalletInfo?.EWalleName,
-                        EWalleLogo = refEWalletInfo?.EWalleLogo,
-                        EWalleSite = refEWalletInfo?.EWalleSite
+                        EWalletName = refEWalletInfo?.EWalletName,
+                        EWalletLogo = refEWalletInfo?.EWalletLogo,
+                        EWalletSite = refEWalletInfo?.EWalletSite
                     });
                 }
             }
