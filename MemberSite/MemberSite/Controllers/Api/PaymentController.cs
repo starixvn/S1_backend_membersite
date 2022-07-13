@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.BLL;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -29,6 +30,7 @@ namespace MemberSite.Controllers.Api
         private readonly FileNameBLL _fileNameBll;
         private readonly ImageEditorBLL _imageEditorBll;
         private readonly PayInfoBLL _payInfoBLL;
+        private readonly CustInfoService _custInfoService;
         private readonly ILogger<PaymentController> _logger;
         private readonly CourierAdapter _courierAdapter;
         private readonly string _bonusServiceUrl;
@@ -49,6 +51,7 @@ namespace MemberSite.Controllers.Api
             _fileNameBll = provider.GetRequiredService<FileNameBLL>();
             _imageEditorBll = provider.GetRequiredService<ImageEditorBLL>();
             _payInfoBLL = provider.GetRequiredService<PayInfoBLL>();
+            _custInfoService = provider.GetRequiredService<CustInfoService>();
             _logger = provider.GetRequiredService<ILogger<PaymentController>>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
 
@@ -640,6 +643,13 @@ namespace MemberSite.Controllers.Api
         {
             if (withdrawalReqModel.amount <= 0)
             {
+                return false;
+            }
+
+            if (custInfo.CurrencyId == (int)CurrencyId.INR && !_custInfoService.GetPhoneVerified(custInfo.CustId).Result)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_CompletePhoneNumber");
+                apiResult.ErrorCode = -9;
                 return false;
             }
 
