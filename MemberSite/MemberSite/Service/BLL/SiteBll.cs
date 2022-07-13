@@ -196,7 +196,7 @@ public class SiteBll
                             {
                                 if (!string.IsNullOrEmpty(signupModel.RealName))
                                 {
-                                    _custInfoBLL.SetCustBankInfo(custId, signupModel.RealName, null);
+                                    _custInfoBLL.SetCustBankInfo(custId, signupModel.RealName);
                                 }
 
                                 customer.Token = token;

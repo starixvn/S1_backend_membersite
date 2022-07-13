@@ -59,4 +59,15 @@
         public string Lang { set; get; }
         public string BankName { set; get; }
     }
+
+    public class BlockAccount
+    {
+        public int SysId { set; get; }
+        public string AccountNum { get; set; }
+        public int Status { set; get; }
+        public string Memo { set; get; }
+        public string UpdateOperator { set; get; }
+        public DateTime UpdateTime { set; get; }
+
+    }
 }

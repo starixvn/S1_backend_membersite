@@ -284,4 +284,7 @@
   <data name="msg_DecimalOutOfRange" xml:space="preserve">
     <value>转账失败由于小数点多于二位数</value>
   </data>
+  <data name="msg_BankAccountDuplicate" xml:space="preserve">
+    <value>不允许重复银行，请尝试另一个户口。</value>
+  </data>
 </root>
