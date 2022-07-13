@@ -61,7 +61,7 @@ namespace MemberSite.Service.DAL
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId, int siteId, int topNum)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<DepositInfoHistory>("DepositInfoRecent_Get", new { CustId = custId, SiteId = siteId, TopNum = topNum }, commandType: CommandType.StoredProcedure);
+            return conn.Query<DepositInfoHistory>("DepositInfoRecent_Get_V2", new { CustId = custId, SiteId = siteId, TopNum = topNum }, commandType: CommandType.StoredProcedure);
         }
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoHistory(int custId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages,out int rowCount)
@@ -73,7 +73,7 @@ namespace MemberSite.Service.DAL
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var depositInfoHistoryResult = conn.Query<DepositInfoHistory>("DepositInfoSearch_Get", p, commandType: CommandType.StoredProcedure);
+            var depositInfoHistoryResult = conn.Query<DepositInfoHistory>("DepositInfoSearch_Get_V2", p, commandType: CommandType.StoredProcedure);
             totalPages = p.Get<int?>("TotalPages") ?? 0;
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return depositInfoHistoryResult;

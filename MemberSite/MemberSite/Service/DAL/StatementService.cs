@@ -28,7 +28,7 @@ namespace MemberSite.Service.DAL
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var result = conn.Query<Statement>("Member_FinacialLog_Get", p, commandType: CommandType.StoredProcedure);
+            var result = conn.Query<Statement>("Member_FinacialLog_Get_V2", p, commandType: CommandType.StoredProcedure);
             totalPages = p.Get<int?>("TotalPages") ?? 0;
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return result;
@@ -67,7 +67,7 @@ namespace MemberSite.Service.DAL
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var result = conn.Query<BounsLogStatement>("Member_BonusLog_Get", p, commandType: CommandType.StoredProcedure);
+            var result = conn.Query<BounsLogStatement>("Member_BonusLog_Get_V2", p, commandType: CommandType.StoredProcedure);
             totalPages = p.Get<int?>("TotalPages") ?? 0;
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return result;
