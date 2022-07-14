@@ -103,6 +103,7 @@ namespace MemberSite
             services.AddSingleton<AppLinkService>();
             services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
+            services.AddSingleton<IPService>();
 
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
@@ -146,6 +147,7 @@ namespace MemberSite
             services.AddSingleton<PayInfoBLL>();
             services.AddSingleton<LineLoginBLL>();
             services.AddSingleton<SiteBll>();
+            services.AddSingleton<IPBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();
@@ -247,7 +249,7 @@ namespace MemberSite
             services.AddControllers();
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
-            services.AddOptionListByDB<BlockIP>("Member_BlockIP_Get");
+            //services.AddOptionListByDB<BlockIP>("Member_BlockIP_Get");
             services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
         }
 
