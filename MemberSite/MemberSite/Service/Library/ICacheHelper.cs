@@ -14,24 +14,24 @@ public interface ICacheHelper
         RedisDataBase redisDataBase = RedisDataBase.Member);
 
     Task<bool> StringSetAsync(string key, RedisValue value, TimeSpan? timeSpan,
-            RedisDataBase redisDataBase = RedisDataBase.Bonus);
+            RedisDataBase redisDataBase = RedisDataBase.Member);
 
     bool StringSet(string key, RedisValue value, TimeSpan? timeSpan,
-        RedisDataBase redisDataBase = RedisDataBase.Bonus);
+        RedisDataBase redisDataBase = RedisDataBase.Member);
 
-    bool KeyExists(string key, RedisDataBase redisDataBase = RedisDataBase.Bonus);
+    bool KeyExists(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
 
-    Task<TItem> StringGetAsync<TItem>(string key, RedisDataBase redisDataBase = RedisDataBase.Bonus);
-    List<TItem> GetCacheList<TItem>(IEnumerable<string> keys, RedisDataBase redisDataBase = RedisDataBase.Bonus);
+    Task<TItem> StringGetAsync<TItem>(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
+    List<TItem> GetCacheList<TItem>(IEnumerable<string> keys, RedisDataBase redisDataBase = RedisDataBase.Member);
 
     bool SetCacheList<TItem>(Dictionary<string, TItem> dataList, TimeSpan? timeSpan,
-        RedisDataBase redisDataBase = RedisDataBase.Bonus);
+        RedisDataBase redisDataBase = RedisDataBase.Member);
 
     bool InsertList<TItem>(string key, TimeSpan? timeSpan, IEnumerable<TItem> list,
-        RedisDataBase redisDataBase = RedisDataBase.Bonus);
+        RedisDataBase redisDataBase = RedisDataBase.Member);
 
     List<TItem> GetListByRange<TItem>(string key, long startIndex, long endIndex,
-        RedisDataBase redisDataBase = RedisDataBase.Bonus);
+        RedisDataBase redisDataBase = RedisDataBase.Member);
 
-    long GetListLength(string key, RedisDataBase redisDataBase = RedisDataBase.Bonus);
+    long GetListLength(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
 }
