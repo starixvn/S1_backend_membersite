@@ -111,10 +111,49 @@ namespace MemberSite.Service.DAL
                 return result;
             }
         }
+        public int WithdrawalEWalletReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, WithdrawalEWalletInfo withdrawalEWalletInfo, out decimal afterAmount, out string transId)
+        {
+            transId = "";
+            afterAmount = 0;
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            var p = new DynamicParameters(new { CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, Amount = amount, Memo = memo, WithdrawalInfo = Newtonsoft.Json.JsonConvert.SerializeObject(withdrawalEWalletInfo), Prefix = $"W{common.GetEnv()}" });
+            p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
+            p.Add("ToKyc", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+
+            conn.Execute("Member_WithdrawalInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
+            transId = p.Get<string>("vTransId");
+
+            if (GetWithdrawalAvailableBalance(custId, conn, trans) < amount)
+            {
+                return -3;
+            }
+
+            var result = -99;
+            result = walletService.SetBalance(custId, siteId, userName, amount * -1, typePosition + 1, null, transId, out afterAmount, out _, conn, trans);
+            if (result > 0)
+            {
+                trans.Commit();
+
+                if ((p.Get<byte?>("ToKyc") ?? 0) == 1)
+                {
+                    return 2;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return result;
+            }
+        }
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoRecent(int custId, int siteId, int topNum)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<WithdrawalHistory>("WithdrawalInfoRecent_Get", new { CustId = custId, SiteId = siteId, TopNum = topNum }, commandType: CommandType.StoredProcedure);
+            return conn.Query<WithdrawalHistory>("WithdrawalInfoRecent_Get_V2", new { CustId = custId, SiteId = siteId, TopNum = topNum }, commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoHistory(int custId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
@@ -125,7 +164,7 @@ namespace MemberSite.Service.DAL
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var withdrawalInfoHistoryResult = conn.Query<WithdrawalHistory>("WithdrawalInfoSearch_Get", p, commandType: CommandType.StoredProcedure);
+            var withdrawalInfoHistoryResult = conn.Query<WithdrawalHistory>("WithdrawalInfoSearch_Get_V2", p, commandType: CommandType.StoredProcedure);
             totalPages = p.Get<int?>("TotalPages") ?? 0;
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return withdrawalInfoHistoryResult;
@@ -246,5 +285,16 @@ namespace MemberSite.Service.DAL
             return conn.Query<USDTWithdrawalLimitInfoOutput>("Member_USDTWithdrawalLimitInfo_Get",
                 new { input.SiteId, input.CurrencyId, input.VipLevel, input.Network }, commandType: CommandType.StoredProcedure);
         }
+
+        public EWalletWithdrawalLimitInfoOutput GetEWalletWithdrawalLimitInfo(WithdrawalLimitInfoInput input)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<EWalletWithdrawalLimitInfoOutput>("Member_EWalletWithdrawalLimitInfo_Get",
+                new
+                {
+                    SiteId = input.SiteId,
+                    CurrencyId = input.CurrencyId
+                }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+        }      
     }
 }

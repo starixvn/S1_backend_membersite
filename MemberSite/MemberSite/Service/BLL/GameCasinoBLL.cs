@@ -26,14 +26,14 @@ namespace MemberSite.Service.BLL
         {
             var key = $"GameCasinoList";
             return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromHours(1)),
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
                 i => _gameCasinoService.GetGameCasinoList());
         }
         public List<GameCasinoListData> GetGameCasinoListByDevice(int deviceType)
         {
             var key = $"GetGameCasinoListByDevice_{deviceType}";
             return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromHours(1)),
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
                 i => _gameCasinoService.GetGameCasinoListByDevice(deviceType));
         }
         public List<Provider> GetProviderList()

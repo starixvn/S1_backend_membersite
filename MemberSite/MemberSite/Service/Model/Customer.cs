@@ -88,6 +88,23 @@ namespace MemberSite.Service.Model
         public IEnumerable<USDTDetail> uSDTDetail { set; get; }
     }
 
+    public class EWalletInfoDetail
+    {
+        public int SysId { set; get; }
+        public string AccountNo { set; get; }
+    }
+    public class EWalletInfoDetailData: EWalletInfoDetail
+    {
+        public int CustId  { set; get; }
+    }
+
+    public class EWalletInfoDetailRep : EWalletInfoDetail
+    {
+        public string EWalletName { set; get; }
+        public string EWalletLogo { set; get; }
+        public string EWalletSite { set; get; }
+    }
+
     public class WalletInfo
     {
         public decimal Balance { set; get; }
@@ -188,7 +205,44 @@ namespace MemberSite.Service.Model
         public decimal BonusAmount { get; set; }
         public decimal VaildBet { get; set; }
         public decimal Deposit { get; set; }
+        public bool Status { get; set; }
     }
+
+    public class ReferralSettingDetailData
+    {
+        public decimal BonusAmount { get; set; }
+        public int InvitationLimit { get; set; }
+        public decimal AgentValidBet { get; set; }
+        public decimal AgentDeposit { get; set; }
+        public decimal ReferralFreeCredit { get; set; }
+        public decimal VaildBet { get; set; }
+        public decimal Deposit { get; set; }
+        public int PeriodDays { get; set; }
+        public string Details { get; set; }
+    }
+    
+    public class ReferralSettingDetail
+    {
+        public decimal ReferralReward { get; set; }
+        public int InvitationLimit { get; set; }
+        public decimal AgentValidBet { get; set; }
+        public decimal AgentDeposit { get; set; }
+        public decimal MemberReward { get; set; }
+        public decimal VaildBet { get; set; }
+        public decimal Deposit { get; set; }
+        public int PeriodDays { get; set; }
+        public ReferralContent ReferralContent { get; set; }
+    }
+
+    public class ReferralContent
+    {
+        public string LangId { get; set; }
+        public string BannerUrl { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Detail { get; set; }
+    }
+
     public class ReferralSummary
     {
         public int ReferralCount { get; set; }

@@ -500,7 +500,34 @@ namespace MemberSite.Service.BLL
             
             return withdrawalService.WithdrawalUSDTReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalUSDTInfo, out afterAmount, out transId);
         }
-        
+
+        public int WithdrawalEWalletReq(int custId, string accountName, int sysId, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
+        {
+            afterAmount = 0;
+            transId = "";
+
+            if (amount <= 0)
+                return -99;
+
+            var withdrawalEWalletInfo = new WithdrawalEWalletInfo();
+            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var checkAmount = amount;
+            if (custInfoBLL.IsConvertRequired(CustInfo.CurrencyId))
+            {
+                checkAmount /= 1000;
+            }
+
+            if (Math.Ceiling(checkAmount) != Math.Floor(checkAmount))
+            {
+                return -1;
+            }
+            withdrawalEWalletInfo.AccountName = accountName;
+            withdrawalEWalletInfo.AccountNo = accountNo;
+            withdrawalEWalletInfo.EWalletSysId = sysId;
+            withdrawalEWalletInfo.AccountType = "ewallet";
+            return withdrawalService.WithdrawalEWalletReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalEWalletInfo, out afterAmount, out transId);
+        }
+
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
@@ -777,6 +804,11 @@ namespace MemberSite.Service.BLL
         public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoList(USDTWithdrawalLimitInfoInput input)
         {
             return withdrawalService.GetUSDTWithdrawalLimitInfoList(input);
+        }
+
+        public EWalletWithdrawalLimitInfoOutput GetEWalletWithdrawalLimitInfo(WithdrawalLimitInfoInput input)
+        {
+            return withdrawalService.GetEWalletWithdrawalLimitInfo(input);
         }
     }
 }

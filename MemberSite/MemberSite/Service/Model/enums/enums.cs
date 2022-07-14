@@ -296,11 +296,13 @@
         Promotion = 0,
         Deposit = 1
     }
+
     public enum OTPType
     {
         SMS = 0,
         Email = 1
     }
+    
     public enum CurrencyId
     {
         MYR = 2,
@@ -313,13 +315,6 @@
         BDT = 74,
         USDT = 96
     }
-    public enum DeviceId
-    {
-        Old = 0,
-        Desktop = 1,
-        H5 = 2,
-        APP = 3
-    }
 
     public enum CryptoCurrencyId
     {
@@ -327,6 +322,14 @@
         USDC = 97,
         ETH = 98,
         BTC = 99
+    }
+    
+    public enum DeviceId
+    {
+        Old = 0,
+        Desktop = 1,
+        H5 = 2,
+        APP = 3
     }
     public enum DeepLinkType
     {
@@ -359,7 +362,7 @@
         Web = 2,
         App = 3
     }
-
+    
     public enum LineLoginErrorCode
     {
         Success = 0,
@@ -406,5 +409,35 @@
     {
         Disable = 0,
         Able = 1,
+    }
+
+    public enum WorldCupUserTicketStatus
+    {
+        Active = 1,
+        Finished = 2,
+        UnStarted = 3
+    }
+    public enum CustEWalletDetailLogStatus
+    {
+        Create = 1,
+        Delete = 2,
+        Lock = 3,
+        Unlock = 4
+    }
+    public enum CustEWalletDetailStatus
+    {
+        Disable = 0,
+        Able = 1,
+    }
+
+    public enum WithdrawalTypeStatus 
+    { 
+        LocalBank = 0,
+        Crypto = 1,
+        EWallet = 2
+    }
+     public enum RedemptionErrorCode
+    {
+        RedemptionLimitOverLimit = -1002
     }
 }
