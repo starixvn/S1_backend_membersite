@@ -75,7 +75,7 @@ namespace MemberSite.Service.Library
         }
 
         public async Task<bool> StringSetAsync(string key, RedisValue value, TimeSpan? timeSpan,
-            RedisDataBase redisDataBase = RedisDataBase.Bonus)
+            RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
             try
@@ -91,7 +91,7 @@ namespace MemberSite.Service.Library
         }
 
         public bool StringSet(string key, RedisValue value, TimeSpan? timeSpan,
-            RedisDataBase redisDataBase = RedisDataBase.Bonus)
+            RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
             try
@@ -106,7 +106,7 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public bool KeyExists(string key, RedisDataBase redisDataBase = RedisDataBase.Bonus)
+        public bool KeyExists(string key, RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
             try
@@ -121,7 +121,7 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public async Task<TItem> StringGetAsync<TItem>(string key, RedisDataBase redisDataBase = RedisDataBase.Bonus)
+        public async Task<TItem> StringGetAsync<TItem>(string key, RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
             try
@@ -137,7 +137,7 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public List<TItem> GetCacheList<TItem>(IEnumerable<string> keys, RedisDataBase redisDataBase = RedisDataBase.Bonus)
+        public List<TItem> GetCacheList<TItem>(IEnumerable<string> keys, RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             try
             {
@@ -172,7 +172,7 @@ namespace MemberSite.Service.Library
         }
 
         public bool SetCacheList<TItem>(Dictionary<string, TItem> dataList, TimeSpan? timeSpan,
-            RedisDataBase redisDataBase = RedisDataBase.Bonus)
+            RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             try
             {
@@ -196,7 +196,7 @@ namespace MemberSite.Service.Library
         }
 
         public bool InsertList<TItem>(string key, TimeSpan? timeSpan, IEnumerable<TItem> list,
-            RedisDataBase redisDataBase = RedisDataBase.Bonus)
+            RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             try
             {
@@ -227,7 +227,7 @@ namespace MemberSite.Service.Library
         }
 
         public List<TItem> GetListByRange<TItem>(string key, long startIndex, long endIndex,
-            RedisDataBase redisDataBase = RedisDataBase.Bonus)
+            RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             try
             {
@@ -258,7 +258,7 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public long GetListLength(string key, RedisDataBase redisDataBase = RedisDataBase.Bonus)
+        public long GetListLength(string key, RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             try
             {
