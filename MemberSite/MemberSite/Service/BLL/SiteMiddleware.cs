@@ -12,7 +12,8 @@ namespace MemberSite.Service.BLL
         private readonly Tools _tools;
         private readonly IConfiguration _configuration;
         private readonly ServerInfoBll _serverInfoBll;
-        private readonly IEnumerable<BlockIP> _blockIp;
+        private readonly ICacheHelper _redisHelper;
+        private readonly IPBLL _iPBLL;
 
         public SiteMiddleware(IServiceProvider provider, RequestDelegate next)
         {
@@ -21,7 +22,8 @@ namespace MemberSite.Service.BLL
             _tools = provider.GetRequiredService<Tools>();
             _configuration = provider.GetRequiredService<IConfiguration>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
-            _blockIp = provider.GetRequiredService<IEnumerable<BlockIP>>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _iPBLL = provider.GetRequiredService<IPBLL>();
         }
         public RouteValueDictionary Match(string routeTemplate, string requestPath)
         {
@@ -47,7 +49,7 @@ namespace MemberSite.Service.BLL
         {
             try
             {
-                if (IsBlockIP(context))
+                if (await IsBlockIP(context))
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                     return;
@@ -121,15 +123,18 @@ namespace MemberSite.Service.BLL
         {
             return true;
         }
-        private bool IsBlockIP(HttpContext context)
+        private async Task<bool> IsBlockIP(HttpContext context)
         {
-            if (_blockIp == null || !_blockIp.Any())
+            var key = $"GetBlockIP";
+            var blockIPs = await _redisHelper.TryGetOrCreateAsync(key, TimeSpan.FromMinutes(5),
+                async () => await _iPBLL.GetBlockIP());
+
+            if (blockIPs == null || !blockIPs.Any())
             {
                 return false;
             }
-
             var clientIp = _tools.GetClientIP(context);
-            return _blockIp.Any(x => x.IP == clientIp);
+            return blockIPs.Any(x => x.IP == clientIp);
         }
     }
 }
