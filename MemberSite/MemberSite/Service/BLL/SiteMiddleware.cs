@@ -14,6 +14,7 @@ namespace MemberSite.Service.BLL
         private readonly ServerInfoBll _serverInfoBll;
         private readonly ICacheHelper _redisHelper;
         private readonly IPBLL _iPBLL;
+        private readonly IEnumerable<BlockIP> _blockIp;
 
         public SiteMiddleware(IServiceProvider provider, RequestDelegate next)
         {
@@ -24,6 +25,7 @@ namespace MemberSite.Service.BLL
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _iPBLL = provider.GetRequiredService<IPBLL>();
+            _blockIp = provider.GetRequiredService<IEnumerable<BlockIP>>();
         }
         public RouteValueDictionary Match(string routeTemplate, string requestPath)
         {
@@ -49,7 +51,7 @@ namespace MemberSite.Service.BLL
         {
             try
             {
-                if (await IsBlockIP(context))
+                if (IsBlockIP(context))
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                     return;
@@ -123,18 +125,15 @@ namespace MemberSite.Service.BLL
         {
             return true;
         }
-        private async Task<bool> IsBlockIP(HttpContext context)
+        private bool IsBlockIP(HttpContext context)
         {
-            var key = $"GetBlockIP";
-            var blockIPs = await _redisHelper.TryGetOrCreateAsync(key, TimeSpan.FromMinutes(5),
-                async () => await _iPBLL.GetBlockIP());
-
-            if (blockIPs == null || !blockIPs.Any())
+            if (_blockIp == null || !_blockIp.Any())
             {
                 return false;
             }
+
             var clientIp = _tools.GetClientIP(context);
-            return blockIPs.Any(x => x.IP == clientIp);
+            return _blockIp.Any(x => x.IP == clientIp);
         }
     }
 }
