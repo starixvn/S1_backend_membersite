@@ -7,7 +7,7 @@
         public decimal BeforeAmount { get; set; }
         public decimal AfterAmount { get; set; }
         public string RefTransId { get; set; }
-        public DateTime CreateTime { get; set; }
+        public DateTimeOffset CreateTime { get; set; }
         public int Direction { get; set; }
 
         public string TypeName { get; set; }
@@ -20,7 +20,7 @@
         public decimal BeforeBonus { get; set; }
         public decimal AfterBonus { get; set; }
         public string RefTransId { get; set; }
-        public DateTime CreateTime { get; set; }
+        public DateTimeOffset CreateTime { get; set; }
         public int Direction { get; set; }
 
         public string TypeName { get; set; }

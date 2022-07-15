@@ -53,7 +53,7 @@ namespace MemberSite.Service.Model
 
     public class DepositInfoHistory
     {
-        public DateTime CreateTime { get; set; }
+        public DateTimeOffset CreateTime { get; set; }
         public int DepositType { get; set; }
         public string TransId { get; set; }
         public decimal Amount { get; set; }
@@ -66,7 +66,7 @@ namespace MemberSite.Service.Model
         public BankInfoSys BankInfo { get; set; }
         public string ThirdId { get; set; }
         public string RefId { get; set; }
-        public DateTime? DepositTime { get; set; }
+        public DateTimeOffset? DepositTime { get; set; }
         public string PicFileName { get; set; }
     }
 
