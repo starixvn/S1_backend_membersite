@@ -103,6 +103,7 @@ namespace MemberSite
             services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
             services.AddSingleton<IPService>();
+            services.AddSingleton<ShieldService>();
 
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
@@ -147,6 +148,7 @@ namespace MemberSite
             services.AddSingleton<LineLoginBLL>();
             services.AddSingleton<SiteBll>();
             services.AddSingleton<IPBLL>();
+            services.AddSingleton<ShieldBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();

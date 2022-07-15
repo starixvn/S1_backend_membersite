@@ -28,6 +28,7 @@ namespace MemberSite.Service.BLL
         };
 
         private readonly Dictionary<string, string> _areaCodeCountryList;
+        private readonly ShieldBLL _shieldBll;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -43,6 +44,7 @@ namespace MemberSite.Service.BLL
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
             _areaCodeCountryList = new CurrencyMapping().AreaCodeMap;
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _shieldBll = provider.GetRequiredService<ShieldBLL>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -140,6 +142,15 @@ namespace MemberSite.Service.BLL
 
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
+
+            if (result == 0 && regCustInfo.SiteId == (int) SiteId.Goal123)
+            {
+                regCustInfo.CustId = custId;
+                var checkResult = _shieldBll.CheckCustShieldRisk(
+                    regCustInfo,
+                    ShieldRiskTriggeredPoint.Registration,
+                    ShieldRiskTaggedIssue.HighRisk);
+            }
             return result != 0 ? result : 0;
         }
 
