@@ -18,6 +18,7 @@ namespace MemberSite.Service.Model
         [JsonIgnore]
         public string PaymentMethodData { get; set; }
         public List<PaymentMethod> PaymentMethod { get; set; }
+        public string Script { get; set; }
     }
 
     public class FollowUs
