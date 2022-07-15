@@ -12,6 +12,8 @@ namespace MemberSite.Service.BLL
         private readonly Tools _tools;
         private readonly IConfiguration _configuration;
         private readonly ServerInfoBll _serverInfoBll;
+        private readonly ICacheHelper _redisHelper;
+        private readonly IPBLL _iPBLL;
         private readonly IEnumerable<BlockIP> _blockIp;
 
         public SiteMiddleware(IServiceProvider provider, RequestDelegate next)
@@ -21,6 +23,8 @@ namespace MemberSite.Service.BLL
             _tools = provider.GetRequiredService<Tools>();
             _configuration = provider.GetRequiredService<IConfiguration>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _iPBLL = provider.GetRequiredService<IPBLL>();
             _blockIp = provider.GetRequiredService<IEnumerable<BlockIP>>();
         }
         public RouteValueDictionary Match(string routeTemplate, string requestPath)
