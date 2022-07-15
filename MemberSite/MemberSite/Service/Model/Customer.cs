@@ -255,7 +255,7 @@ namespace MemberSite.Service.Model
     {
         public int CustId { get; set; }
         public string UserName { get; set; }
-        public DateTime RegisterDate { get; set; }
+        public DateTimeOffset RegisterDate { get; set; }
         public int CurrencyId { get; set; }
         public decimal TotalDeposit { get; set; }
         public decimal DepositC { get; set; }

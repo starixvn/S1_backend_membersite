@@ -26,7 +26,7 @@ namespace MemberSite.Service.Model
         public string TransId { set; get; }
         public decimal Amount { set; get; }
         public int Direction { set; get; }
-        public DateTime CreateTime { set; get; }
+        public DateTimeOffset CreateTime { set; get; }
         public int Status { set; get; }
         public string Memo { set; get; }
     }
