@@ -27,13 +27,26 @@ namespace MemberSite.Service.Model
     }
     public class WithdrawalHistory
     {
-        public DateTimeOffset CreateTime { get; set; }
+        public DateTimeOffset CreateTime
+        {
+            get
+            {
+                return DateTimeOffset.Parse(_createTime.ToString() + CustTimeZone);
+            }
+            set
+            {
+                _createTime = value.DateTime;
+            }
+        }
+        private DateTime _createTime { get; set; }
         public string TransId { get; set; }
         public decimal Amount { get; set; }
         public decimal ChargeFee { get; set; }
         public int Status { get; set; }
         [JsonIgnore]
         public string WithdrawalInfo { get; set; }
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
     }
 
     public class WithdrawalLimitInfo
