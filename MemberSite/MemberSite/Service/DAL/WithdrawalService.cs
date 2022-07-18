@@ -5,6 +5,7 @@ using MemberSite.Service.Model.enums;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Text.RegularExpressions;
+using MemberSite.Service.BLL;
 
 namespace MemberSite.Service.DAL
 {
@@ -16,6 +17,7 @@ namespace MemberSite.Service.DAL
         private readonly RolloverService rolloverService;
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
+        private readonly ShieldBLL _shieldBll;
         private readonly int typePosition = 1000;
 
         public WithdrawalService(IServiceProvider provider)
@@ -24,6 +26,7 @@ namespace MemberSite.Service.DAL
             common = provider.GetRequiredService<Common>();
             walletService = provider.GetRequiredService<WalletService>();
             rolloverService = provider.GetRequiredService<RolloverService>();
+            _shieldBll = provider.GetRequiredService<ShieldBLL>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
@@ -57,6 +60,22 @@ namespace MemberSite.Service.DAL
             {
                 trans.Commit();
 
+                if (siteId == (int) SiteId.Goal123)
+                {
+                    _ = Task.Run(async () =>
+                    {
+                        var checkResult = _shieldBll.CheckCustShieldRisk(
+                            new Customer()
+                            {
+                                SiteId = siteId,
+                                CurrencyId = currencyId,
+                                CustId = custId
+                            },
+                            ShieldRiskTriggeredPoint.Withdrawal,
+                            ShieldRiskTaggedIssue.HighRisk);
+                    });
+                }
+                
                 if ((p.Get<byte?>("ToKyc") ?? 0) == 1)
                 {
                     return 2;
@@ -96,6 +115,22 @@ namespace MemberSite.Service.DAL
             if (result > 0)
             {
                 trans.Commit();
+                
+                if (siteId == (int) SiteId.Goal123)
+                {
+                    _ = Task.Run(async () =>
+                    {
+                        var checkResult = _shieldBll.CheckCustShieldRisk(
+                            new Customer()
+                            {
+                                SiteId = siteId,
+                                CurrencyId = currencyId,
+                                CustId = custId
+                            },
+                            ShieldRiskTriggeredPoint.Withdrawal,
+                            ShieldRiskTaggedIssue.HighRisk);
+                    });
+                }
 
                 if ((p.Get<byte?>("ToKyc") ?? 0) == 1)
                 {

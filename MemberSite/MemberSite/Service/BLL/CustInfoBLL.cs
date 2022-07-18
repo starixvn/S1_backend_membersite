@@ -146,10 +146,13 @@ namespace MemberSite.Service.BLL
             if (result == 0 && regCustInfo.SiteId == (int) SiteId.Goal123)
             {
                 regCustInfo.CustId = custId;
-                var checkResult = _shieldBll.CheckCustShieldRisk(
-                    regCustInfo,
-                    ShieldRiskTriggeredPoint.Registration,
-                    ShieldRiskTaggedIssue.HighRisk);
+                _ = Task.Run(async () =>
+                {
+                    var checkResult = _shieldBll.CheckCustShieldRisk(
+                        regCustInfo,
+                        ShieldRiskTriggeredPoint.Registration,
+                        ShieldRiskTaggedIssue.HighRisk);
+                });
             }
             return result != 0 ? result : 0;
         }
@@ -201,6 +204,18 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
+            if (customer is {SiteId: (int) SiteId.Goal123})
+            {
+                var info = customer;
+                _ = Task.Run(async () =>
+                {
+                    var checkResult = _shieldBll.CheckCustShieldRisk(
+                        info,
+                        ShieldRiskTriggeredPoint.Login,
+                        ShieldRiskTaggedIssue.HighRisk);
+                });
+            }
+            
             _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, deviceType, out token);
             _authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
             return 0;

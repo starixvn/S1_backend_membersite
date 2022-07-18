@@ -29,7 +29,7 @@ public class ShieldBLL
         return result;
     }
 
-    public int CheckCustShieldRisk(Customer custInfo ,ShieldRiskTriggeredPoint trigger ,ShieldRiskTaggedIssue issue)
+    public async Task<int> CheckCustShieldRisk(Customer custInfo ,ShieldRiskTriggeredPoint trigger ,ShieldRiskTaggedIssue issue)
     {
         var context = _httpContextAccessor.HttpContext;
         var shieldId = context.Request.Cookies["shield_id"];
