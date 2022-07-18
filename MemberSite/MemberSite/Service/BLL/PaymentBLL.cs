@@ -581,7 +581,7 @@ namespace MemberSite.Service.BLL
             var datas = statementService.GetStatement(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
             foreach (var item in datas)
             {
-                item.TypeName = GetTransTypeNameV2(x.Type, x.TypeName);
+                item.TypeName = GetTransTypeNameV2(item.Type, item.TypeName);
             }
             return datas;
         }
