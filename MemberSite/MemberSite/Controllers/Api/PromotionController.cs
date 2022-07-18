@@ -17,6 +17,7 @@ namespace MemberSite.Controllers.Api
         private readonly ServerInfoBll _serverInfoBLL;
         private readonly AuthorizeBLL _authorizeBLL;
         private readonly CustInfoBll _custInfoBLL;
+        private readonly ShieldBLL _shieldBll;
         private readonly string _bonusServiceUrl;
         private readonly CourierAdapter _courierAdapter;
         private readonly ILogger<PromotionController> _logger;
@@ -29,6 +30,7 @@ namespace MemberSite.Controllers.Api
             _serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
             _authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
             _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
+            _shieldBll = provider.GetRequiredService<ShieldBLL>();
             _bonusServiceUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("BonusService");
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _logger = provider.GetRequiredService<ILogger<PromotionController>>();
@@ -99,6 +101,7 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var authData = _authorizeBLL.GetAuthData();
+                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 var deviceType = (int)PromotionDeviceType.All;
                 if (promotionReq.DeviceType != null)
                 {
@@ -117,6 +120,17 @@ namespace MemberSite.Controllers.Api
                 };
                 
                 apiResult = await _courierAdapter.MyPostAsync<ApiResult, PromotionRequest>(apiUrl, req);
+                
+                if (custInfo is {SiteId: (int) SiteId.Goal123})
+                {
+                    _ = Task.Run(async () =>
+                    {
+                        var checkResult = _shieldBll.CheckCustShieldRisk(
+                            custInfo,
+                            ShieldRiskTriggeredPoint.ClaimBonus,
+                            ShieldRiskTaggedIssue.HighRisk);
+                    });
+                }
                 
             }
             catch (Exception ex)
