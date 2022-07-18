@@ -579,30 +579,11 @@ namespace MemberSite.Service.BLL
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var datas = statementService.GetStatement(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
-
-            //var tpList = statementService.GetTpList();
-
-            //Dictionary<string, string> singleWalletTransType = new Dictionary<string, string>()
-            //{
-            //    {"1", selLangBLL.GetResourceValue("lbl_Stake")  }, 
-            //    {"2", selLangBLL.GetResourceValue("lbl_Refund") }, 
-            //    {"3", selLangBLL.GetResourceValue("lbl_Settled")},
-            //    {"4", selLangBLL.GetResourceValue("lbl_Prize")  }, 
-            //    {"5", selLangBLL.GetResourceValue("lbl_UnSettle")}
-            //};
-
-            return datas.Select(x => new Statement
+            foreach (var item in datas)
             {
-                BeforeAmount = x.BeforeAmount,
-                ChangeAmount = x.ChangeAmount,
-                CreateTime = x.CreateTime,
-                Direction = x.Direction,
-                RefTransId = x.RefTransId,
-                AfterAmount = x.AfterAmount,
-                //TypeName = GetTransTypeName(x.Type, x.TypeName, ref tpList, ref singleWalletTransType)
-                TypeName = GetTransTypeNameV2(x.Type, x.TypeName)
-
-            });
+                item.TypeName = GetTransTypeNameV2(x.Type, x.TypeName);
+            }
+            return datas;
         }
 
         public IEnumerable<BounsLogStatement> GetBounsLogStatement(int custId,int PromoCategoryId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
