@@ -369,4 +369,7 @@
   <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
     <value>Sorry, your redemption limit reached. Please try again on the new calendar month.</value>
   </data>
+  <data name="msg_InsufficientPoint" xml:space="preserve">
+    <value>Sorry! You have insufficient 88 Rewards point.</value>
+  </data>
 </root>

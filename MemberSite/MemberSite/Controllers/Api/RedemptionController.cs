@@ -26,6 +26,10 @@ public class RedemptionController : Controller
 
         switch (result.Result.ErrorCode)
         {
+            case (int)RedemptionErrorCode.InsufficientPoint:
+                result.Result.Message = _selLangBll.GetMsg("msg_InsufficientPoint");
+                break;
+            
             case (int)RedemptionErrorCode.RedemptionLimitOverLimit:
                 result.Result.Message = _selLangBll.GetMsg("msg_RedemptionLimitOverLimit");
                 break;
