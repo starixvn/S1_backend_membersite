@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Routing.Template;
 using System.Net;
 using MemberSite.Service.Model;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.BLL
 {
@@ -12,9 +13,8 @@ namespace MemberSite.Service.BLL
         private readonly Tools _tools;
         private readonly IConfiguration _configuration;
         private readonly ServerInfoBll _serverInfoBll;
-        private readonly ICacheHelper _redisHelper;
         private readonly IPBLL _iPBLL;
-        private readonly IEnumerable<BlockIP> _blockIp;
+        private readonly CacheHelper _cacheHelper;
 
         public SiteMiddleware(IServiceProvider provider, RequestDelegate next)
         {
@@ -23,9 +23,8 @@ namespace MemberSite.Service.BLL
             _tools = provider.GetRequiredService<Tools>();
             _configuration = provider.GetRequiredService<IConfiguration>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
-            _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _iPBLL = provider.GetRequiredService<IPBLL>();
-            _blockIp = provider.GetRequiredService<IEnumerable<BlockIP>>();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
         public RouteValueDictionary Match(string routeTemplate, string requestPath)
         {
@@ -127,6 +126,10 @@ namespace MemberSite.Service.BLL
         }
         private bool IsBlockIP(HttpContext context)
         {
+            var key = $"GetBlockIP";
+            var _blockIp = _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
+                i => _iPBLL.GetBlockIP());
             if (_blockIp == null || !_blockIp.Any())
             {
                 return false;
