@@ -11,9 +11,9 @@ namespace MemberSite.Service.BLL
             _iPService = provider.GetRequiredService<IPService>();
         }
 
-        public async Task<IEnumerable<BlockIP>> GetBlockIP()
+        public IEnumerable<BlockIP> GetBlockIP()
         {
-            return await _iPService.GetBlockIP();
+            return _iPService.GetBlockIP();
         }
     }
 }
