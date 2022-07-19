@@ -68,28 +68,67 @@ namespace MemberSite.Service.Model
     }
     public class TpBetRecordListOneWeek
     {
-        public DateTime SettledDate { get; set; }
+        public DateTimeOffset SettledDate
+        {
+            get
+            {
+                return DateTimeOffset.Parse(_settledDate.ToString() + CustTimeZone);
+            }
+            set
+            {
+                _settledDate = value.DateTime;
+            }
+        }
+        private DateTime _settledDate { get; set; }
         public decimal TurnOver { get; set; }
         public decimal ValidBet { get; set; }
         public decimal WinlostAmount { get; set; }
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
     }
     public class TpBetRecordListOneDay
     {
-        public DateTime SettledDate { get; set; }
+        public DateTimeOffset SettledDate
+        {
+            get
+            {
+                return DateTimeOffset.Parse(_settledDate.ToString() + CustTimeZone);
+            }
+            set
+            {
+                _settledDate = value.DateTime;
+            }
+        }
+        private DateTime _settledDate { get; set; }
         public string CategoryName { get; set; }
         public int CategoryId { get; set; }
         public decimal TurnOver { get; set; }
         public decimal ValidBet { get; set; }
         public decimal WinlostAmount { get; set; }
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
     }
     public class TpBetRecordbyCategoryId
     {
-        public DateTime SettledDate { get; set; }
+        public DateTimeOffset SettledDate
+        {
+            get
+            {
+                return DateTimeOffset.Parse(_settledDate.ToString() + CustTimeZone);
+            }
+            set
+            {
+                _settledDate = value.DateTime;
+            }
+        }
+        private DateTime _settledDate { get; set; }
         public string GameTypeName { get; set; }
         public int GameTypeID { get; set; }
         public decimal TurnOver { get; set; }
         public decimal ValidBet { get; set; }
         public decimal WinlostAmount { get; set; }
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
     }
     public class TpBetRecordDetailbyGameType
     {
@@ -129,10 +168,23 @@ namespace MemberSite.Service.Model
     }
     public class TpBetRecordListDateRange
     {
-        public DateTime SettledDate { get; set; }
+        public DateTimeOffset SettledDate
+        {
+            get
+            {
+                return DateTimeOffset.Parse(_settledDate.ToString() + CustTimeZone);
+            }
+            set
+            {
+                _settledDate = value.DateTime;
+            }
+        }
+        private DateTime _settledDate { get; set; }
         public decimal TurnOver { get; set; }
         public decimal ValidBet { get; set; }
         public decimal WinlostAmount { get; set; }
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
     }
     public class GameTypeList
     {
