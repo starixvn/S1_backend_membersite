@@ -20,10 +20,10 @@ namespace MemberSite.Service.DAL
             _reportDb = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
-        public async Task<IEnumerable<BlockIP>> GetBlockIP()
+        public IEnumerable<BlockIP> GetBlockIP()
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return await conn.QueryAsync<BlockIP>("Member_BlockIP_Get", commandType: CommandType.StoredProcedure);
+            return conn.Query<BlockIP>("Member_BlockIP_Get", commandType: CommandType.StoredProcedure);
         }
     }
 }
