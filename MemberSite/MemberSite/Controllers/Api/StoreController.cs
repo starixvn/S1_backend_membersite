@@ -30,17 +30,30 @@ namespace MemberSite.Controllers.Api
             _storeBLL = provider.GetRequiredService<StoreBLL>();
             _logger = provider.GetRequiredService<ILogger<PromotionController>>();
         }
-
-
+        
         [HttpPost]
         public async Task<object> GetGiftListAsync(GetGiftListRequest request)
         {
             try
             {
+                var custId = 0;
+                var currencyId = 0;
+                
+                if (User.Identity.IsAuthenticated)
+                {
+                    var authData = _authorizeBLL.GetAuthData();
+                    var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                    currencyId = custInfo.CurrencyId;
+                    custId = authData.CustId;
+                }
+                else
+                    currencyId = _selLangBLL.GetPreferCurrencyId();
+                
                 var apiRequest = new StoreGetGiftListRequest
                 {
+                    CustId = custId,
                     SiteId = _serverInfoBLL.GetServerInfo().SiteId,
-                    CurrencyId = GetCurrencyId(),
+                    CurrencyId = currencyId,
                     CategoryIds = request.CategoryIds,
                     Tags = request.Tags,
                     Lang = _selLangBLL.GetLangId(),
@@ -56,18 +69,31 @@ namespace MemberSite.Controllers.Api
                 return new ApiResult();
             }
         }
-
-        private int GetCurrencyId()
+        
+        public async Task<object> SetFavoriteAsync(SetFavoriteRequest request)
         {
-            if (User.Identity.IsAuthenticated)
+            try
             {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return new ApiResult(-1, _selLangBLL.GetMsg("msg_LoginToAccess"));
+                }
+                
                 var authData = _authorizeBLL.GetAuthData();
-                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                return custInfo.CurrencyId;
-            }
-            else
-                return _selLangBLL.GetPreferCurrencyId();
-        }
+                var apiRequest = new StoreSetFavoriteRequest
+                {
+                    CustId = authData.CustId,
+                    GiftId = request.GiftId,
+                    IsFavorite = request.IsFavorite
+                };
 
+                return await _storeBLL.SetFavoriteAsync(apiRequest);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+                return new ApiResult();
+            }
+        }
     }
 }
