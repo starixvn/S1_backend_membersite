@@ -18,6 +18,7 @@ public class GiftListModel
     public decimal PriceWorth { get; set; }
     public bool ShowStock { get; set; }
     public int Stock { get; set; }
+    public bool IsFavorite { get; set; }
 }
 
 public class GiftTag
