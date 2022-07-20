@@ -42,6 +42,14 @@ namespace MemberSite.Service.Model
         public string AccountNo { set; get; }
         public string IFSCCode { set; get; }
     }
+    public class BankInfoDetailData
+    {
+        public int CustId { get; set; }
+        public int SysId { set; get; }
+        public string AccountNo { set; get; }
+        public string IFSCCode { set; get; }
+        public int Status { get; set; }
+    }
     public class USDTDetail
     {
         public string NickName { set; get; }
@@ -115,6 +123,13 @@ namespace MemberSite.Service.Model
         public bool EmailVerified { get; set; }
         public decimal EmailReward { get; set; }
         public int EnablePromotion { get; set; }
+        public string AddressCountry { get; set; }
+        public string AddressState { get; set; }
+        public string AddressPostCode { get; set; }
+        public string AddressCity { get; set; }
+        public string AddressLineFirst { get; set; }
+        public string AddressLineSecond { get; set; }
+        public bool IsResetPwd { get; set; }
     }
     public class CustRollOver
     {

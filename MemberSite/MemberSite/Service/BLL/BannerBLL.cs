@@ -169,9 +169,9 @@ namespace MemberSite.Service.BLL
 
         public async Task<IEnumerable<HotGame>> GetHotGames(int siteId, int currencyId, int deviceType)
         {
-            var key = $"GetHotGames_{siteId}_{currencyId}";
+            var key = $"GetHotGames:{siteId}:{currencyId}";
             var hotGames = await _redisHelper.TryGetOrCreateAsync(key, null,
-                async _ => await bannerService.GetHotGames(siteId, currencyId));
+                async () => await bannerService.GetHotGames(siteId, currencyId));
             return hotGames
                 .Select(a => new HotGame()
                 {

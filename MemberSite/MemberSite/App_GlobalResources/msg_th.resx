@@ -283,7 +283,7 @@
     <value>รหัสโปรโมชั่นนี้ถูกใช้แล้ว</value>
   </data>
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
-    <value>Phone Format is wrong.</value>
+    <value>รูปแบบโทรศัพท์ไม่ถูกต้อง</value>
   </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>ที่อยู่กระเป๋าเงินเข้ารหัสลับไม่ถูกต้อง</value>
@@ -293,5 +293,8 @@
   </data>
   <data name="msg_LineAccountAlreadyBind" xml:space="preserve">
     <value>บัญชีไลน์นี้ถูกใช้งานแล้ว โปรดใช้บัญชีไลน์อื่น</value>
+  </data>
+  <data name="msg_BankAccountDuplicate" xml:space="preserve">
+    <value>ไม่อนุญาตให้ใช้หมายเลขบัญชีธนาคารซ้ำ โปรดลองหมายเลขบัญชีอื่น</value>
   </data>
 </root>
