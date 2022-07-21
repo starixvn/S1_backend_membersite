@@ -675,7 +675,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<ReferralSettingDetail>();
             var authData = _authorizeBll.GetAuthData();
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
             try
             {
                 apiResult.Data = await _custInfoBll.GetReferralSettingDetailAsync(custInfo.SiteId, custInfo.CurrencyId, custInfo.UserLang);
