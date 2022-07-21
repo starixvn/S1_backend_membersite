@@ -291,6 +291,6 @@
     <value>很抱歉，您已达兑换上限。恳请新月份再尝试</value>
   </data>
   <data name="msg_InsufficientPoint" xml:space="preserve">
-    <value>抱歉，您的 88奖励兑换分数不足</value>
+    <value>抱歉，您的 88奖励兑换金币不足</value>
   </data>
 </root>
