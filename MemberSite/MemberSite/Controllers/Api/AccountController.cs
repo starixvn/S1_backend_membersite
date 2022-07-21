@@ -669,6 +669,25 @@ namespace MemberSite.Controllers.Api
             }
             return apiResult;
         }
+        
+        [HttpPost]
+        public async Task<ApiResult<ReferralSettingDetail>> GetReferralSettingDetail()
+        {
+            var apiResult = new ApiResult<ReferralSettingDetail>();
+            var authData = _authorizeBll.GetAuthData();
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            try
+            {
+                apiResult.Data = await _custInfoBll.GetReferralSettingDetailAsync(custInfo.SiteId, custInfo.CurrencyId, custInfo.UserLang);
+                apiResult.ErrorCode = 0;
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
+        
         [HttpPost]
         public ApiResult<ReferralSummary> GetReferralSummary()
         {
