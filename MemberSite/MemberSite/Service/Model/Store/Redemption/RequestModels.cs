@@ -1,6 +1,12 @@
 ﻿namespace MemberSite.Service.Model.Store.Redemption;
 
 
+public class SendCreateRedemptionRequest
+{
+    public int GiftId { get; set; }
+    public int Point { get; set; }
+}
+
 public class CreateRedemptionRequest
 {
     public int CustId { get; set; }
