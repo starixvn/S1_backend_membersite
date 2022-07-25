@@ -95,5 +95,31 @@ namespace MemberSite.Controllers.Api
                 return new ApiResult();
             }
         }
+        
+        public async Task<object> GetPointBalanceAsync()
+        {
+            try
+            {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return new ApiResult(-1, _selLangBLL.GetMsg("msg_LoginToAccess"));
+                }
+                
+                var authData = _authorizeBLL.GetAuthData();
+                var apiRequest = new StoreGetBalanceRequest
+                {
+                    CustId = authData.CustId
+                };
+
+                var result = await _storeBLL.GetBalanceAsync(apiRequest);
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+                return new ApiResult();
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.Store.Frontend;
 
 namespace MemberSite.Service.BLL;
@@ -30,6 +31,14 @@ public class StoreBLL
     {
         var url = _storeSiteUrl + "Frontend/SetFavorite";
         var result = await _courierAdapter.MyPostAsync<object, StoreSetFavoriteRequest>(url, request);
+
+        return result;
+    }
+    
+    public async Task<object> GetBalanceAsync(StoreGetBalanceRequest request)
+    {
+        var url = _storeSiteUrl + "Member/GetBalance";
+        var result = await _courierAdapter.MyPostAsync<CustPointBalance, StoreGetBalanceRequest>(url, request);
 
         return result;
     }
