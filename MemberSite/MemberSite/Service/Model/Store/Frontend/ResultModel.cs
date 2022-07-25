@@ -27,3 +27,8 @@ public class GiftTag
     public string TagName { get; set; }
     public string Lang { get; set; }
 }
+
+public class CustPointBalance
+{
+    public decimal PointBalance { get; set; }
+}

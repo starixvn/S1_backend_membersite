@@ -28,3 +28,7 @@ public class StoreSetFavoriteRequest: SetFavoriteRequest
     public int CustId { get; set; }
 }
 
+public class StoreGetBalanceRequest
+{
+    public int CustId { get; set; }
+}
