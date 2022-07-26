@@ -206,10 +206,18 @@ namespace MemberSite.Service.BLL
                 var info = customer;
                 _ = Task.Run(async () =>
                 {
+                    // Check Shield Info is high risk
                     var checkResult = _shieldBll.CheckCustShieldRisk(
                         info,
                         ShieldRiskTriggeredPoint.Login,
                         ShieldRiskTaggedIssue.HighRisk);
+
+                    // send custId to tp.Shield
+                    var request = new SendShieldAttributesRequest()
+                    {
+                        UserId = info.CustId
+                    };
+                    var result = await _shieldBll.SendShieldAttributes(request);
                 });
             }
             

@@ -29,12 +29,17 @@ public class ShieldBLL
     public async Task<SendAttributesResult> SendShieldAttributes(SendShieldAttributesRequest request)
     {
         var result = new SendAttributesResult();
-        
+        var context = _httpContextAccessor.HttpContext;
+        request.SessionId = context.Request.Cookies["session_id"];
+        request.Platform = context.Request.Cookies["platform"];
+
         var timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
         var sign = _shieldService.GetShieldSignature(timestamp);
         var endpoint = await GetEndpoint();
         
-        if (!string.IsNullOrEmpty(endpoint.Endpoint))
+        if (!string.IsNullOrEmpty(endpoint.Endpoint) && 
+            !string.IsNullOrEmpty(request.SessionId) && 
+            !string.IsNullOrEmpty(request.Platform))
         {
              result = await _shieldService.SendShieldAttributes(endpoint , request ,timestamp ,sign );
         }
