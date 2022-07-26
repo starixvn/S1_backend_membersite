@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
+using Newtonsoft.Json.Linq;
 using Serilog.Context;
 
 namespace MemberSite.Service.Library
@@ -58,6 +59,84 @@ namespace MemberSite.Service.Library
                     ErrorCode = 9000,
                     RawMessage = $"{ex.Message} {url}"
                 };
+            }
+            return oApiResult;
+        }
+        
+        public async Task<T> ShieldGetAsync<T, U>(string url, U header) where T : new()
+        {
+            T oApiResult = default;
+            var headerJson = JsonConvert.SerializeObject(header);
+            var jo = JObject.Parse(headerJson);
+            
+            LogContext.PushProperty("TpHeader", headerJson);
+            LogContext.PushProperty("Tp.Request.URL", url);
+
+            using var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add("Site-Id", jo["SiteId"]?.ToString());
+            httpClient.DefaultRequestHeaders.Add("Timestamp", jo["Timestamp"]?.ToString());
+            httpClient.DefaultRequestHeaders.Add("Shield-Signature", jo["ShieldSignature"]?.ToString());
+
+            try
+            {
+                using var response = await httpClient.GetAsync(url);
+                var result = await response.Content.ReadAsStringAsync();
+                _logger.LogInformation($"Tp.Request.Response:{result}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    oApiResult = JsonConvert.DeserializeObject<T>(result);
+                }
+                else
+                {
+                    oApiResult = new T();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+
+            return oApiResult;
+        }
+        
+        public async Task<T> ShieldPostAsync<T, U>(string url, U oTpInfo ,U header) where T : new()
+        {
+            T oApiResult = default;
+            var fooJson = JsonConvert.SerializeObject(oTpInfo);
+            var fooContent = new StringContent(fooJson, Encoding.UTF8, "application/json");
+            
+            LogContext.PushProperty("TpInfo", fooJson);
+            LogContext.PushProperty("TpHeader", header);
+            LogContext.PushProperty("Tp.Request.URL", url);
+            
+            var headerJson = JsonConvert.SerializeObject(header);
+            var jo = JObject.Parse(headerJson);
+   
+            using var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add("Site-Id", jo["SiteId"]?.ToString());
+            httpClient.DefaultRequestHeaders.Add("Timestamp", jo["Timestamp"]?.ToString());
+            httpClient.DefaultRequestHeaders.Add("Shield-Signature", jo["ShieldSignature"]?.ToString());
+            httpClient.DefaultRequestHeaders.Add("X-Endpoint-Version", jo["XEndpointVersion"]?.ToString());
+            
+            try
+            {
+                using var response = await httpClient.PostAsync(url, fooContent);
+                var result = await response.Content.ReadAsStringAsync();
+                _logger.LogInformation($"Tp.Request.Response:{result}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    oApiResult = JsonConvert.DeserializeObject<T>(result);
+                }
+                else
+                {
+                    oApiResult = new T();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
             }
             return oApiResult;
         }

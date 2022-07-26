@@ -1,8 +1,11 @@
 ﻿using System.Data;
+using System.Security.Cryptography;
+using System.Text;
 using Dapper;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
 
 namespace MemberSite.Service.DAL;
@@ -10,14 +13,17 @@ namespace MemberSite.Service.DAL;
 public class ShieldService
 {
     private readonly IConfiguration configuration;
-    private readonly Tools tools;
+    private readonly CourierAdapter _courierAdapter;
+    private readonly IOptions<ShieldConfig> _shieldConfig;
     private readonly MySqlClient _mainDbClient;
     private readonly MySqlClient _reportDbClient;
+    
 
     public ShieldService(IServiceProvider provider)
     {
         configuration = provider.GetRequiredService<IConfiguration>();
-        tools = provider.GetRequiredService<Tools>();
+        _courierAdapter = provider.GetRequiredService<CourierAdapter>();
+        _shieldConfig = provider.GetRequiredService<IOptions<ShieldConfig>>();
         _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
         _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
     }
@@ -75,4 +81,65 @@ public class ShieldService
       
         return result;
     }
+    
+    public async Task<GetEndpointResult> GetEndpoint()
+    {
+        var apiUrl = $"{_shieldConfig.Value.ShieldService}?sid={_shieldConfig.Value.SiteId}";
+        
+        var timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+        var sign = GetShieldSignature(timestamp);
+        dynamic req = new
+        {
+            SiteId = _shieldConfig.Value.SiteId,
+            Timestamp = timestamp,
+            ShieldSignature = sign,
+        };
+        
+        var result = await _courierAdapter.ShieldGetAsync<GetEndpointResult, dynamic>(apiUrl, req);
+      
+        return result;
+    }
+
+    public async Task<SendAttributesResult> SendShieldAttributes(GetEndpointResult endpoint , SendShieldAttributesRequest request , string timestamp, string sign)
+    {
+        var apiUrl = $" {endpoint.Endpoint}/shield-fp/v1/api/attributes/{request.SessionId}";
+
+        dynamic req = new
+        {
+            user_id = request.UserId,
+            platform = request.Platform
+        };
+        
+        dynamic header = new
+        {
+            SiteId = _shieldConfig.Value.SiteId,
+            Timestamp = timestamp,
+            ShieldSignature = sign,
+            XEndpointVersion = endpoint.Version
+        };
+        
+        var result = await _courierAdapter.ShieldPostAsync<SendAttributesResult, dynamic>(apiUrl, req , header);
+        
+        return result;
+    }
+    
+    public string GetShieldSignature(string timestamp)
+    {
+        var config = _shieldConfig.Value;
+        var timeHash = HmacSha256(timestamp, config.SecretKey);
+        var shieldSignature = HmacSha256(config.SiteId, timeHash);
+      
+        return shieldSignature;
+    }
+    
+    private string HmacSha256(string toHash, string secretKey)
+    {
+        using var mac = new HMACSHA256(Encoding.UTF8.GetBytes(secretKey));
+        var hash = mac.ComputeHash(Encoding.UTF8.GetBytes(toHash));
+        var sign = BitConverter.ToString(hash).Replace("-", "").ToLower();
+   
+        return sign;
+    }
+    
+   
 }
