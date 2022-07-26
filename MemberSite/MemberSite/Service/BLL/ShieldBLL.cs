@@ -1,6 +1,8 @@
 ﻿using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.BLL;
 
@@ -8,11 +10,13 @@ public class ShieldBLL
 {
     private readonly ShieldService _shieldService;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly CacheHelper _cacheHelper;
     
     public ShieldBLL(IServiceProvider provider)
     {
         _shieldService = provider.GetRequiredService<ShieldService>();
         _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+        _cacheHelper = provider.GetRequiredService<CacheHelper>();
     }
 
     public int InsertCustShieldInfo(ShieldRiskRequest input , Customer custInfo)
@@ -21,8 +25,35 @@ public class ShieldBLL
         
         return result;
     }
+    
+    public async Task<SendAttributesResult> SendShieldAttributes(SendShieldAttributesRequest request)
+    {
+        var result = new SendAttributesResult();
+        
+        var timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+        var sign = _shieldService.GetShieldSignature(timestamp);
+        var endpoint = await GetEndpoint();
+        
+        if (!string.IsNullOrEmpty(endpoint.Endpoint))
+        {
+             result = await _shieldService.SendShieldAttributes(endpoint , request ,timestamp ,sign );
+        }
+        
+        return result;
+    }
 
-    public int InsertHighShieldRiskLog(HighShieldRiskLogRequest input )
+    public Task<GetEndpointResult> GetEndpoint()
+    {
+        var key = "ShieldEndpoint";
+        
+        var result = _cacheHelper.TryGetOrCreate(key,
+            new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
+            i => _shieldService.GetEndpoint());
+        
+        return result;
+    }
+    
+    private int InsertHighShieldRiskLog(HighShieldRiskLogRequest input )
     {
         var result = _shieldService.HighShieldRiskLog(input);
         

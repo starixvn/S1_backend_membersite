@@ -14,6 +14,13 @@ public class ShieldRiskRequest
     public DeviceIntelligence DeviceIntelligence { get; set; }
 }
 
+public class SendShieldAttributesRequest
+{
+    public string UserId { get; set; }
+    public string Platform { get; set; }
+    public string SessionId { get; set; }
+}
+
 public class DeviceIntelligence
 {
     //web
@@ -82,4 +89,23 @@ public class HighShieldRiskLogRequest
     public int DeviceScore { get; set; }
     public int TriggeredPoint { get; set; }
     public int TaggedIssue { get; set; }
+}
+
+public class GetEndpointResult
+{
+    [JsonPropertyName("endpoint")]
+    public string Endpoint { get; set; }
+    [JsonPropertyName("version")]
+    public int Version { get; set; }
+    [JsonPropertyName("mode")]
+    public int Mode { get; set; }
+    [JsonPropertyName("fp_setting")]
+    public bool FpSetting { get; set; }
+}
+
+public class SendAttributesResult
+{
+    public string Status { get; set; }
+    public string Code { get; set; }
+    public string Message { get; set; }
 }
