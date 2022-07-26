@@ -68,18 +68,4 @@ public class ShieldController : ControllerBase
         
         return apiResult;
     }
-    
-    [HttpPost]
-    public async Task<ApiResult> SendShieldAttributes(SendShieldAttributesRequest request)
-    {
-        var apiResult = new ApiResult();
-        var result = await _shieldBll.SendShieldAttributes(request);
-        
-        apiResult.ErrorCode = result.Status == "true" ? 
-            (int) ShieldErrorCode.Success : (int) ShieldErrorCode.Failed;
-        apiResult.RawMessage = result.Message;
-        
-        return apiResult;
-    }
-    
 }
