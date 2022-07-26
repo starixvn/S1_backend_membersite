@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Controllers.Api;
 
-[Authorize]
+[AllowAnonymous]
 [Route("api/[controller]/[action]")]
 [Route("api/[controller]/[action]/{LangId}")]
 [ApiController]
