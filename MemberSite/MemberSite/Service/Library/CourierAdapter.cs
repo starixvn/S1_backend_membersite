@@ -101,9 +101,9 @@ namespace MemberSite.Service.Library
             var reqJson = JsonConvert.SerializeObject(request);
             var reqContent = new StringContent(reqJson, Encoding.UTF8, "application/json");
             
-            LogContext.PushProperty("Shield.Request", reqJson);
             LogContext.PushProperty("Shield.Header", JsonConvert.SerializeObject(header));
             LogContext.PushProperty("Shield.Request.URL", url);
+            _logger.LogInformation($"Shield.Request:{reqJson}");
             
             using var httpClient = new HttpClient();
             foreach (var (key, value) in header)
