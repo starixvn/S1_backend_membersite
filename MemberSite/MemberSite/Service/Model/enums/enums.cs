@@ -257,6 +257,17 @@
         Wager,//ConnectionStringWager
         Log,//ConnectionStringLog
     }
+    
+    public enum RedisDataBase
+    {
+        Member = 0,
+        Shared = 1,
+        Tp = 2,
+        Bonus = 3,
+        Admin = 4,
+        Payment = 5
+    }
+    
     public enum AppLinkAppType
     {
         Andriod = 1,
@@ -384,10 +395,38 @@
         IssueLineTokenException = 9001,
         CallBackException = 9002
     }
-    
+    public enum CustBankInfoLogStatus
+    {
+        Create = 1,
+        Delete = 2,
+        Lock = 3,
+        Unlock = 4
+    }
+    public enum CustBankDetailStatus
+    {
+        Disable = 0,
+        Able = 1,
+    }
+
     public enum RedemptionErrorCode
     {
         InsufficientPoint = -1001,
         RedemptionLimitOverLimit = -1002
+    }
+
+
+    public enum PointTypeEnum
+    {
+        Deposit = 1,
+        Turnover = 2,
+        /// <summary>
+        /// 兌換物品
+        /// </summary>
+        Redemption = 3,
+        /// <summary>
+        /// 手動
+        /// </summary>
+        Manual = 4,
+        System = 5
     }
 }

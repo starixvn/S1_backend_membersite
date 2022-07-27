@@ -175,6 +175,9 @@
   <data name="msg_EnterPhoneNumber" xml:space="preserve">
     <value>Please enter phone number.</value>
   </data>
+  <data name="msg_CompletePhoneNumber" xml:space="preserve">
+    <value>Please complete your Mobile Phone (OTP) verification.</value>
+  </data>
   <data name="msg_EnterRealName" xml:space="preserve">
     <value>Please enter your real name.</value>
   </data>
@@ -297,6 +300,9 @@
   </data>
   <data name="msg_LineAccountAlreadyBind" xml:space="preserve">
     <value>This LINE account has been used, please use another account.</value>
+  </data>
+  <data name="msg_BankAccountDuplicate" xml:space="preserve">
+    <value>Duplicate Bank Account No. is not allowed. Please try another Account No.</value>
   </data>
   <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
     <value>Sorry, your redemption limit reached. Please try again on the new calendar month.</value>

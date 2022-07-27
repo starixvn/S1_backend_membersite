@@ -16,3 +16,8 @@ public class GetGiftListRequest
     public bool Desc { get; set; }
 }
 
+public class StoreGetMyCoinRequest
+{
+    public int CustId { get; set; }
+}
+

@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.Store.Frontend;
 
 namespace MemberSite.Service.BLL;
@@ -22,6 +23,14 @@ public class StoreBLL
     {
         var url = _storeSiteUrl + "Frontend/GetGiftList";
         var result = await _courierAdapter.MyPostAsync<StoreGetGiftListRequest>(url, request);
+
+        return result;
+    }
+
+    public async Task<ApiResult<CustPointSummary>> GetMyCoinAsync(StoreGetMyCoinRequest request)
+    {
+        var url = _storeSiteUrl + "Frontend/GetMyCoin";
+        var result = await _courierAdapter.MyPostAsync<CustPointSummary, StoreGetMyCoinRequest>(url, request);
 
         return result;
     }
