@@ -238,7 +238,19 @@ namespace MemberSite.Service.Model
     {
         public int CustId { get; set; }
         public string UserName { get; set; }
-        public DateTime RegisterDate { get; set; }
+        public DateTimeOffset RegisterDate
+        {
+            get
+            {
+                return DateTimeOffset.Parse(_registerDate.ToString() + CustTimeZone);
+            }
+            set
+            {
+                _registerDate = value.DateTime;
+            }
+        }
+        private DateTime _registerDate { get; set; }
+
         public int CurrencyId { get; set; }
         public decimal TotalDeposit { get; set; }
         public decimal DepositC { get; set; }
@@ -246,6 +258,9 @@ namespace MemberSite.Service.Model
         public decimal VaildBetC { get; set; }
         public decimal BonusAmount { get; set; }
         public int Status { get; set; }
+
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
 
     }
     public class CustTransSummary

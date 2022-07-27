@@ -53,7 +53,18 @@ namespace MemberSite.Service.Model
 
     public class DepositInfoHistory
     {
-        public DateTime CreateTime { get; set; }
+        public DateTimeOffset CreateTime 
+        {
+            get
+            {
+                return DateTimeOffset.Parse(_createTime.ToString() + CustTimeZone);
+            }
+            set 
+            {
+                _createTime = value.DateTime;
+            }
+        }
+        private DateTime _createTime { get; set; }
         public int DepositType { get; set; }
         public string TransId { get; set; }
         public decimal Amount { get; set; }
@@ -66,8 +77,23 @@ namespace MemberSite.Service.Model
         public BankInfoSys BankInfo { get; set; }
         public string ThirdId { get; set; }
         public string RefId { get; set; }
-        public DateTime? DepositTime { get; set; }
+        public DateTimeOffset? DepositTime
+        {
+            get
+            {
+                return _depositTime != null ? DateTimeOffset.Parse(_depositTime.ToString() + CustTimeZone) : null;
+            }
+            set
+            {
+                _depositTime = value?.DateTime;
+            }
+        }
+        private DateTime? _depositTime { get; set; }
+
         public string PicFileName { get; set; }
+
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
     }
 
     public class DepositReceipt
