@@ -16,7 +16,7 @@ public class ShieldRiskRequest
 
 public class SendShieldAttributesRequest
 {
-    public int UserId { get; set; }
+    public string UserId { get; set; }
     public string Platform { get; set; }
     public string SessionId { get; set; }
 }
