@@ -103,6 +103,8 @@ namespace MemberSite
             services.AddSingleton<AppLinkService>();
             services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
+            services.AddTransient<WorldCupPredictionService>();
+
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
 
@@ -150,6 +152,7 @@ namespace MemberSite
             services.AddSingleton<SiteBll>();
             services.AddSingleton<IPBLL>();
             services.AddSingleton<ShieldBLL>();
+            services.AddTransient<WorldCupPredictionBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();
