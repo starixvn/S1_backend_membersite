@@ -63,33 +63,28 @@ namespace MemberSite.Service.Library
             return oApiResult;
         }
         
-        public async Task<T> ShieldGetAsync<T, U>(string url, U header) where T : new()
+        public async Task<T> ShieldGetAsync<T>(string url, ICollection<KeyValuePair<string, string>> header) where T : new()
         {
             T oApiResult = default;
-            var headerJson = JsonConvert.SerializeObject(header);
-            var jo = JObject.Parse(headerJson);
-            
-            LogContext.PushProperty("TpHeader", headerJson);
-            LogContext.PushProperty("Tp.Request.URL", url);
+            LogContext.PushProperty("Shield.Header", JsonConvert.SerializeObject(header));
+            LogContext.PushProperty("Shield.Request.URL", url);
 
             using var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add("Site-Id", jo["SiteId"]?.ToString());
-            httpClient.DefaultRequestHeaders.Add("Timestamp", jo["Timestamp"]?.ToString());
-            httpClient.DefaultRequestHeaders.Add("Shield-Signature", jo["ShieldSignature"]?.ToString());
-
+            
+            foreach (var (key, value) in header)
+            {
+                httpClient.DefaultRequestHeaders.Add(key, value);
+            }
+            
             try
             {
                 using var response = await httpClient.GetAsync(url);
                 var result = await response.Content.ReadAsStringAsync();
-                _logger.LogInformation($"Tp.Request.Response:{result}");
+                LogContext.PushProperty("Shield.Response", result);
 
                 if (response.IsSuccessStatusCode)
                 {
                     oApiResult = JsonConvert.DeserializeObject<T>(result);
-                }
-                else
-                {
-                    oApiResult = new T();
                 }
             }
             catch (Exception ex)
@@ -100,39 +95,33 @@ namespace MemberSite.Service.Library
             return oApiResult;
         }
         
-        public async Task<T> ShieldPostAsync<T, U>(string url, U oTpInfo ,U header) where T : new()
+        public async Task<T> ShieldPostAsync<T, U>(string url, U request , ICollection<KeyValuePair<string, string>> header) where T : new()
         {
             T oApiResult = default;
-            var fooJson = JsonConvert.SerializeObject(oTpInfo);
-            var fooContent = new StringContent(fooJson, Encoding.UTF8, "application/json");
+            var reqJson = JsonConvert.SerializeObject(request);
+            var reqContent = new StringContent(reqJson, Encoding.UTF8, "application/json");
             
-            LogContext.PushProperty("TpInfo", fooJson);
-            LogContext.PushProperty("TpHeader", header);
-            LogContext.PushProperty("Tp.Request.URL", url);
+            LogContext.PushProperty("Shield.Request", reqJson);
+            LogContext.PushProperty("Shield.Header", JsonConvert.SerializeObject(header));
+            LogContext.PushProperty("Shield.Request.URL", url);
             
-            var headerJson = JsonConvert.SerializeObject(header);
-            var jo = JObject.Parse(headerJson);
-   
             using var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add("Site-Id", jo["SiteId"]?.ToString());
-            httpClient.DefaultRequestHeaders.Add("Timestamp", jo["Timestamp"]?.ToString());
-            httpClient.DefaultRequestHeaders.Add("Shield-Signature", jo["ShieldSignature"]?.ToString());
-            httpClient.DefaultRequestHeaders.Add("X-Endpoint-Version", jo["XEndpointVersion"]?.ToString());
+            foreach (var (key, value) in header)
+            {
+                httpClient.DefaultRequestHeaders.Add(key, value);
+            }
             
             try
             {
-                using var response = await httpClient.PostAsync(url, fooContent);
+                using var response = await httpClient.PostAsync(url, reqContent);
                 var result = await response.Content.ReadAsStringAsync();
-                _logger.LogInformation($"Tp.Request.Response:{result}");
+                LogContext.PushProperty("Shield.Response", result);
 
                 if (response.IsSuccessStatusCode)
                 {
                     oApiResult = JsonConvert.DeserializeObject<T>(result);
                 }
-                else
-                {
-                    oApiResult = new T();
-                }
+                
             }
             catch (Exception ex)
             {
