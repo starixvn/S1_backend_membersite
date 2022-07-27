@@ -108,7 +108,6 @@ namespace MemberSite
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
 
-
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
             services.AddSingleton<CustInfoBll>();
@@ -257,6 +256,9 @@ namespace MemberSite
             services.AddControllers();
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
+
+            services.AddOptionListByDB<BlockIP>("Member_BlockIP_Get");
+
             services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
         }
 

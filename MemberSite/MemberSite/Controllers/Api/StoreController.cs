@@ -8,7 +8,7 @@ using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
 {
-
+    [Route("api/[controller]/[action]")]
     [Route("api/[controller]/[action]/{LangId}")]
     [ApiController]
     public class StoreController : ControllerBase
@@ -32,42 +32,39 @@ namespace MemberSite.Controllers.Api
         }
         
         [HttpPost]
-        public async Task<object> GetGiftListAsync(GetGiftListRequest request)
+        public Task<object> GetGiftListAsync(GetGiftListRequest request)
         {
-            try
+            var apiRequest = new StoreGetGiftListRequest
             {
-                var custId = 0;
-                var currencyId = 0;
-                
-                if (User.Identity.IsAuthenticated)
-                {
-                    var authData = _authorizeBLL.GetAuthData();
-                    var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                    currencyId = custInfo.CurrencyId;
-                    custId = authData.CustId;
-                }
-                else
-                    currencyId = _selLangBLL.GetPreferCurrencyId();
-                
-                var apiRequest = new StoreGetGiftListRequest
-                {
-                    CustId = custId,
-                    SiteId = _serverInfoBLL.GetServerInfo().SiteId,
-                    CurrencyId = currencyId,
-                    CategoryIds = request.CategoryIds,
-                    Tags = request.Tags,
-                    Lang = _selLangBLL.GetLangId(),
-                    OrderByField = request.OrderByField,
-                    Desc = request.Desc
-                };
+                SiteId = _serverInfoBLL.GetServerInfo().SiteId,
+                CurrencyId = GetCurrencyId(),
+                CategoryIds = request.CategoryIds,
+                Tags = request.Tags,
+                Lang = _selLangBLL.GetLangId(),
+                OrderByField = request.OrderByField,
+                Desc = request.Desc
+            };
 
-                return await _storeBLL.GetGiftListAsync(apiRequest);
-            }
-            catch (Exception e)
+            return _storeBLL.GetGiftListAsync(apiRequest);
+
+        }
+
+        [HttpPost]
+        public ApiResult<CustPointSummary> GetMyCoinAsync()
+        {
+
+            var authData = _authorizeBLL.GetAuthData();
+            if (authData == null || authData.CustId == 0)
+                return new ApiResult<CustPointSummary>()
+                {
+                    ErrorCode = -1,
+                    Message = "Cust is Invalid.Please Contact to CSD."
+                }; ;
+
+            return _storeBLL.GetMyCoinAsync(new StoreGetMyCoinRequest
             {
-                _logger.LogError(e, GetCurrentMethod());
-                return new ApiResult();
-            }
+                CustId = authData.CustId
+            }).Result;
         }
         
         public async Task<object> SetFavoriteAsync(SetFavoriteRequest request)
@@ -121,5 +118,18 @@ namespace MemberSite.Controllers.Api
                 return new ApiResult();
             }
         }
+
+        private int GetCurrencyId()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = _authorizeBLL.GetAuthData();
+                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                return custInfo.CurrencyId;
+            }
+            else
+                return _selLangBLL.GetPreferCurrencyId();
+        }
+
     }
 }

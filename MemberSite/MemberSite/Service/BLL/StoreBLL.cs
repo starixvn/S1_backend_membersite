@@ -26,7 +26,13 @@ public class StoreBLL
 
         return result;
     }
-    
+
+    public async Task<ApiResult<CustPointSummary>> GetMyCoinAsync(StoreGetMyCoinRequest request)
+    {
+        var url = _storeSiteUrl + "Frontend/GetMyCoin";
+        var result = await _courierAdapter.MyPostAsync<CustPointSummary, StoreGetMyCoinRequest>(url, request);
+        return result;
+    }
     public async Task<object> SetFavoriteAsync(StoreSetFavoriteRequest request)
     {
         var url = _storeSiteUrl + "Frontend/SetFavorite";

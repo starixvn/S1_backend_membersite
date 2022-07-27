@@ -34,4 +34,5 @@ public interface ICacheHelper
         RedisDataBase redisDataBase = RedisDataBase.Member);
 
     long GetListLength(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
+
 }
