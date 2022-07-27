@@ -297,4 +297,10 @@
   <data name="msg_BankAccountDuplicate" xml:space="preserve">
     <value>ไม่อนุญาตให้ใช้หมายเลขบัญชีธนาคารซ้ำ โปรดลองหมายเลขบัญชีอื่น</value>
   </data>
+  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
+    <value>ขออภัย ถึงขีดจำกัดการแลกของคุณแล้ว โปรดลองใหม่อีกครั้งในเดือนหน้า</value>
+  </data>
+  <data name="msg_InsufficientPoint" xml:space="preserve">
+    <value>ขออภัยค่ะ! คุณมีคะแนนรางวัลไม่เพียงพอ 88 คะแนน</value>
+ </data>
 </root>

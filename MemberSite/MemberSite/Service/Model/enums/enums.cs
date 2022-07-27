@@ -407,4 +407,10 @@
         Disable = 0,
         Able = 1,
     }
+
+    public enum RedemptionErrorCode
+    {
+        InsufficientPoint = -1001,
+        RedemptionLimitOverLimit = -1002
+    }
 }

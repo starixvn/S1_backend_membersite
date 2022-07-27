@@ -296,4 +296,10 @@
   <data name="msg_BankAccountDuplicate" xml:space="preserve">
     <value>No. Akaun Bank pendua tidak dibenarkan. Sila cuba No. Akaun yang lain.</value>
   </data>
+  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
+    <value>Maaf, had penebusan anda telah tercapai. Sila cuba lagi pada bulan kalendar baharu.</value>
+  </data>
+  <data name="msg_InsufficientPoint" xml:space="preserve">
+    <value>Maaf! Anda tidak mempunyai mata 88 Ganjaran yang mencukupi.</value>
+  </data>  
 </root>
