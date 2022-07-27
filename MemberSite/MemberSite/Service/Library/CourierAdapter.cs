@@ -80,7 +80,7 @@ namespace MemberSite.Service.Library
             {
                 using var response = await httpClient.GetAsync(url);
                 var result = await response.Content.ReadAsStringAsync();
-                LogContext.PushProperty("Shield.Response", result);
+                _logger.LogInformation($"Shield.Response:{result}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -115,7 +115,7 @@ namespace MemberSite.Service.Library
             {
                 using var response = await httpClient.PostAsync(url, reqContent);
                 var result = await response.Content.ReadAsStringAsync();
-                LogContext.PushProperty("Shield.Response", result);
+                _logger.LogInformation($"Shield.Response:{result}");
 
                 if (response.IsSuccessStatusCode)
                 {
