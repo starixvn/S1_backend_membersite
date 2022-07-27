@@ -3,6 +3,7 @@
 
 public class StoreGetGiftListRequest : GetGiftListRequest
 {
+    public int CustId { get; set; }
     public int SiteId { get; set; }
     public int CurrencyId { get; set; }
     public string Lang { get; set; }
@@ -21,3 +22,18 @@ public class StoreGetMyCoinRequest
     public int CustId { get; set; }
 }
 
+public class SetFavoriteRequest
+{
+    public int GiftId { get; set; }
+    public bool IsFavorite { get; set; }
+}
+
+public class StoreSetFavoriteRequest: SetFavoriteRequest
+{
+    public int CustId { get; set; }
+}
+
+public class StoreGetBalanceRequest
+{
+    public int CustId { get; set; }
+}

@@ -57,6 +57,12 @@ namespace MemberSite.Service.Model
         /// </summary>
         [JsonPropertyName("matchTimes")]
         public IEnumerable<MatchTimeInfoDto> MatchTimes { get; set; }
+
+        /// <summary>
+        /// 隊伍選單，手機版分組
+        /// </summary>
+        [JsonPropertyName("selectOptions")]
+        public SelectOptions SelectOptions { get; set; }
     }
 
     public class WorldCupPredictionCountry
@@ -202,6 +208,12 @@ namespace MemberSite.Service.Model
         /// </summary>
         [JsonPropertyName("countryName")]
         public string CountryName { get; set; }
+
+        /// <summary>
+        ///  圖片名稱
+        /// </summary>
+        [JsonPropertyName("imageName")]
+        public string ImageName { get; set; }
     }
 
     public class SelectOptions

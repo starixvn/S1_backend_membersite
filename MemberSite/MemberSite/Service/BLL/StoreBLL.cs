@@ -31,6 +31,20 @@ public class StoreBLL
     {
         var url = _storeSiteUrl + "Frontend/GetMyCoin";
         var result = await _courierAdapter.MyPostAsync<CustPointSummary, StoreGetMyCoinRequest>(url, request);
+        return result;
+    }
+    public async Task<object> SetFavoriteAsync(StoreSetFavoriteRequest request)
+    {
+        var url = _storeSiteUrl + "Frontend/SetFavorite";
+        var result = await _courierAdapter.MyPostAsync<object, StoreSetFavoriteRequest>(url, request);
+
+        return result;
+    }
+    
+    public async Task<object> GetBalanceAsync(StoreGetBalanceRequest request)
+    {
+        var url = _storeSiteUrl + "Member/GetBalance";
+        var result = await _courierAdapter.MyPostAsync<CustPointBalance, StoreGetBalanceRequest>(url, request);
 
         return result;
     }

@@ -19,6 +19,7 @@ public class GiftListModel
     public decimal PriceWorth { get; set; }
     public bool ShowStock { get; set; }
     public int Stock { get; set; }
+    public bool IsFavorite { get; set; }
 }
 
 public class GiftTag
@@ -27,7 +28,6 @@ public class GiftTag
     public string TagName { get; set; }
     public string Lang { get; set; }
 }
-
 public class CustPointSummary
 {
     public int CustId { get; set; }
@@ -52,4 +52,8 @@ public class RewardPointSummary
     public decimal MinusSummary { get; set; }
     public decimal TotalSummary { get; set; }
     public Dictionary<string, decimal> DetailRewardCoin { get; set; }
+}
+public class CustPointBalance
+{
+    public decimal PointBalance { get; set; }
 }

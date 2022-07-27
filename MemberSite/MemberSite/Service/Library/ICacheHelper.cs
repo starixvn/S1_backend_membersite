@@ -12,6 +12,7 @@ public interface ICacheHelper
 
     Task<TItem> TryGetOrCreateAsync<TItem>(string key, TimeSpan? timeSpan, Func<Task<TItem>> factory,
         RedisDataBase redisDataBase = RedisDataBase.Member);
+
     Task<bool> StringSetAsync(string key, RedisValue value, TimeSpan? timeSpan,
             RedisDataBase redisDataBase = RedisDataBase.Member);
 
@@ -33,4 +34,5 @@ public interface ICacheHelper
         RedisDataBase redisDataBase = RedisDataBase.Member);
 
     long GetListLength(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
+
 }

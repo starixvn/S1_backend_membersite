@@ -17,6 +17,7 @@ namespace MemberSite.Controllers.Api
         private readonly ServerInfoBll _serverInfoBLL;
         private readonly AuthorizeBLL _authorizeBLL;
         private readonly CustInfoBll _custInfoBLL;
+        private readonly ShieldBLL _shieldBll;
         private readonly string _bonusServiceUrl;
         private readonly CourierAdapter _courierAdapter;
         private readonly ILogger<PromotionController> _logger;
@@ -29,6 +30,7 @@ namespace MemberSite.Controllers.Api
             _serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
             _authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
             _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
+            _shieldBll = provider.GetRequiredService<ShieldBLL>();
             _bonusServiceUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("BonusService");
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _logger = provider.GetRequiredService<ILogger<PromotionController>>();
@@ -99,6 +101,7 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var authData = _authorizeBLL.GetAuthData();
+                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 var deviceType = (int)PromotionDeviceType.All;
                 if (promotionReq.DeviceType != null)
                 {
@@ -117,6 +120,17 @@ namespace MemberSite.Controllers.Api
                 };
                 
                 apiResult = await _courierAdapter.MyPostAsync<ApiResult, PromotionRequest>(apiUrl, req);
+                
+                if (custInfo is {SiteId: (int) SiteId.Goal123})
+                {
+                    _ = Task.Run(async () =>
+                    {
+                        var checkResult = _shieldBll.CheckCustShieldRisk(
+                            custInfo,
+                            ShieldRiskTriggeredPoint.ClaimBonus,
+                            ShieldRiskTaggedIssue.HighRisk);
+                    });
+                }
                 
             }
             catch (Exception ex)
@@ -193,6 +207,8 @@ namespace MemberSite.Controllers.Api
                 else
                 {
                     currencyId = _selLangBLL.GetPreferCurrencyId();
+                    currencyId = currencyId == 13 ? 2 : currencyId; // Todo 暫時解 HardCode，之後前端有空，請前端協助帶入是哪 cs 語系的哪一種幣別
+
                 }
 
                 var apiUrl = $"{_bonusServiceUrl}GetPromotionDetail";
