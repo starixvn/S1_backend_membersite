@@ -257,7 +257,6 @@ namespace MemberSite.Service.DAL
             return _mainDbClient.Execute("Member_CustProfile_Address_Set", p) > 0 ;
         }
         public bool SetCustBankInfo(int custId, int siteId, string accountName)
-
         {
             var result = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
@@ -279,13 +278,19 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(_connectionString);
             conn.Open();
             using var trans = conn.BeginTransaction();
+            var custBankInfoResult = true;
+            var custBankInfo = GetCustBankInfo(custId);
+            if (custBankInfo == null && !string.IsNullOrEmpty(accountName))
+            {
+                custBankInfoResult = SetCustBankInfo(custId, siteId, accountName, conn, trans);
+            }
             var bankDetailResult = SetCustBankDetail(custId, sysId, accountNum, iFSCCode, CustBankDetailStatus.Able, conn, trans);
             var banklogResult = SetCustBankInfoLog(custId, siteId, accountName, sysId, accountNum, iFSCCode, status, conn, trans);
-            if(bankDetailResult & banklogResult)
+            if(bankDetailResult & banklogResult & custBankInfoResult)
             {
                 trans.Commit();
             }
-            return bankDetailResult & banklogResult;
+            return bankDetailResult & banklogResult & custBankInfoResult;
         }
 
         private bool SetCustBankInfoLog(int custId, int siteId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status, MySqlConnection conn, MySqlTransaction trans)
@@ -343,21 +348,21 @@ namespace MemberSite.Service.DAL
             result = _mainDbClient.Execute("Service_CustUSDTInfoLog_Set", parameter, conn, trans);
             return result > 0;
         }
-
-        public CustBankInfo GetCustBankInfo(int custId, int siteId)
+        
+        public CustBankInfo GetCustBankInfo(int custId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.QueryFirstOrDefault<CustBankInfo>("Member_CustBankInfo_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.QueryFirstOrDefault<CustBankInfo>("Member_CustBankInfo_Get", new { CustId = custId}, commandType: CommandType.StoredProcedure);
         }
         public string GetDefAccountNo(int custId, int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.QueryFirstOrDefault<string>("Member_DefAccountNo_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
-        public CustInfoProfile GetCustInfoProfile(int custId, int siteId)
+        public CustInfoProfile GetCustInfoProfile(int custId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<CustInfoProfile>("Member_CustProfile_Get_V3", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.QueryFirstOrDefault<CustInfoProfile>("Member_CustProfile_Get_V4", new { CustId = custId}, commandType: CommandType.StoredProcedure);
         }
         public int SubmittedCustPhotoId(int custId, int siteId, int currencyId)
         {
@@ -449,10 +454,10 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Query<BankInfoDetail>("Member_CustBankDetailByCustId_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
         }
-        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId,string accountNo)
+        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId,string accountNo, int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<BankInfoDetailData>("Member_CustBankDetail_Get", new { SysId = sysId, AccountNo = accountNo }, commandType: CommandType.StoredProcedure);
+            return conn.Query<BankInfoDetailData>("Member_CustBankDetail_Get_V2", new { SysId = sysId, AccountNo = accountNo, SiteId = siteId}, commandType: CommandType.StoredProcedure);
         }
         public bool SetCustBankDetail(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status,MySqlConnection conn, MySqlTransaction trans)
         {
@@ -480,6 +485,19 @@ namespace MemberSite.Service.DAL
                 trans.Commit();
             }
             return bankDetailResult & banklogResult;
+        }
+
+        public bool SetCustBankInfo(int custId, int siteId, string accountName, MySqlConnection conn, MySqlTransaction trans)
+        {
+            var result = 0;
+            var parameter = new DynamicParameters(new
+            {
+                CustId = custId,
+                SiteId = siteId,
+                AccountName = accountName
+            });
+            result = _mainDbClient.Execute("Service_CustBankInfo_SetV3", parameter, conn, trans);
+            return result > 0;
         }
     }
 }

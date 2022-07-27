@@ -343,7 +343,7 @@ namespace MemberSite.Service.BLL
         public CustBankInfo GetCustBankInfo(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            var custBankInfo = _custInfoService.GetCustBankInfo(custId, custInfo.SiteId);
+            var custBankInfo = _custInfoService.GetCustBankInfo(custId);
 
             if (custBankInfo != null)
             {
@@ -430,10 +430,7 @@ namespace MemberSite.Service.BLL
         }
         public CustInfoProfile GetCustInfoProfile(int custId)
         {
-            var custInfo = GetCustInfoWithCache(custId);
-            var customer = _custInfoService.GetCustInfoProfile(custId, custInfo.SiteId);
-            //customer.UserLevel = custInfoService.GetCustLevel(custId);
-            return customer;
+            return _custInfoService.GetCustInfoProfile(custId);
         }
         public CustInfoProfile GetCustInfoProfileWithCache(int custId)
         {
@@ -631,10 +628,9 @@ namespace MemberSite.Service.BLL
             return _custInfoService.SetCustActStatus(custId, Operator);
         }
 
-
-        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo)
+        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo, int siteId)
         {
-            return _custInfoService.GetCustBankDetail(sysId, accountNo);
+            return _custInfoService.GetCustBankDetail(sysId, accountNo, siteId);
         }
 
         public int DeleteCustBankInfo(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
@@ -642,6 +638,7 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.DeleteCustBankInfo(custId, custInfo.SiteId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
+
 
         private static List<string> AddressKeys = new List<string>() { "Country", "State", "PostCode", "City", "LineFirst", "LineSecond" };
         private Dictionary<string, string> ConvertAddress(Dictionary<string, string> addressProfile)
@@ -662,7 +659,7 @@ namespace MemberSite.Service.BLL
             }
 
             return result;
-            ;
         }
+
     }
 }
