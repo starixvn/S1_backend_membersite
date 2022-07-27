@@ -207,6 +207,8 @@ namespace MemberSite.Controllers.Api
                 else
                 {
                     currencyId = _selLangBLL.GetPreferCurrencyId();
+                    currencyId = currencyId == 13 ? 2 : currencyId; // Todo 暫時解 HardCode，之後前端有空，請前端協助帶入是哪 cs 語系的哪一種幣別
+
                 }
 
                 var apiUrl = $"{_bonusServiceUrl}GetPromotionDetail";
