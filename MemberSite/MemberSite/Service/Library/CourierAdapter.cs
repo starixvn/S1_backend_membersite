@@ -61,5 +61,28 @@ namespace MemberSite.Service.Library
             }
             return oApiResult;
         }
+
+
+        public async Task<object> MyPostAsync<TRequestBody>(string url, TRequestBody requestBody)
+        {
+            var fooJson = JsonConvert.SerializeObject(requestBody);
+            LogContext.PushProperty("TpInfo", fooJson);
+            LogContext.PushProperty("Tp.Request.URL", url);
+            var fooContent = new StringContent(fooJson, Encoding.UTF8, "application/json");
+
+            try
+            {
+                using var response = await client.PostAsync(url, fooContent);
+                var responseString = await response.Content.ReadAsStringAsync();
+                _logger.LogInformation($"Tp.Request.Response:{responseString}");
+                var result = System.Text.Json.JsonSerializer.Deserialize<object>(responseString); // 序列化走System.Text.Json
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return default(object);
+        }
     }
 }
