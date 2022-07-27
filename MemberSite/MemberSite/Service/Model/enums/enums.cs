@@ -413,4 +413,20 @@
         InsufficientPoint = -1001,
         RedemptionLimitOverLimit = -1002
     }
+
+
+    public enum PointTypeEnum
+    {
+        Deposit = 1,
+        Turnover = 2,
+        /// <summary>
+        /// 兌換物品
+        /// </summary>
+        Redemption = 3,
+        /// <summary>
+        /// 手動
+        /// </summary>
+        Manual = 4,
+        System = 5
+    }
 }
