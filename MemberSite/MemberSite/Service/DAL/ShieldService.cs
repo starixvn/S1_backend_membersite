@@ -107,7 +107,7 @@ public class ShieldService
         var req = new
         {
             user_id = request.UserId,
-            platform = request.Platform
+            platform = request.Platform.ToUpper()
         };
         
         var header =new Dictionary<string, string>
