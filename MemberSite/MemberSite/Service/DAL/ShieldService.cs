@@ -88,14 +88,14 @@ public class ShieldService
         
         var timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
         var sign = GetShieldSignature(timestamp);
-        dynamic req = new
+        var header = new Dictionary<string, string>
         {
-            SiteId = _shieldConfig.Value.SiteId,
-            Timestamp = timestamp,
-            ShieldSignature = sign,
+            {"Site-Id", _shieldConfig.Value.SiteId},
+            {"Timestamp", timestamp},
+            {"Shield-Signature", sign}
         };
         
-        var result = await _courierAdapter.ShieldGetAsync<GetEndpointResult, dynamic>(apiUrl, req);
+        var result = await _courierAdapter.ShieldGetAsync<GetEndpointResult>(apiUrl, header);
       
         return result;
     }
@@ -104,21 +104,21 @@ public class ShieldService
     {
         var apiUrl = $" {endpoint.Endpoint}/shield-fp/v1/api/attributes/{request.SessionId}";
 
-        dynamic req = new
+        var req = new
         {
             user_id = request.UserId,
-            platform = request.Platform
+            platform = request.Platform.ToUpper()
         };
         
-        dynamic header = new
+        var header =new Dictionary<string, string>
         {
-            SiteId = _shieldConfig.Value.SiteId,
-            Timestamp = timestamp,
-            ShieldSignature = sign,
-            XEndpointVersion = endpoint.Version
+            {"Site-Id", _shieldConfig.Value.SiteId},
+            {"Timestamp", timestamp},
+            {"Shield-Signature", sign},
+            {"X-Endpoint-Version", endpoint.Version.ToString()}
         };
         
-        var result = await _courierAdapter.ShieldPostAsync<SendAttributesResult, dynamic>(apiUrl, req , header);
+        var result = await _courierAdapter.ShieldPostAsync<SendAttributesResult, object>(apiUrl, req , header);
         
         return result;
     }
@@ -132,7 +132,7 @@ public class ShieldService
         return shieldSignature;
     }
     
-    private string HmacSha256(string toHash, string secretKey)
+    private static string HmacSha256(string toHash, string secretKey)
     {
         using var mac = new HMACSHA256(Encoding.UTF8.GetBytes(secretKey));
         var hash = mac.ComputeHash(Encoding.UTF8.GetBytes(toHash));
@@ -140,6 +140,4 @@ public class ShieldService
    
         return sign;
     }
-    
-   
 }
