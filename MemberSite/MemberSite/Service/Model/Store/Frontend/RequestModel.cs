@@ -3,6 +3,7 @@
 
 public class StoreGetGiftListRequest : GetGiftListRequest
 {
+    public int CustId { get; set; }
     public int SiteId { get; set; }
     public int CurrencyId { get; set; }
     public string Lang { get; set; }
