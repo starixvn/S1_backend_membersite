@@ -99,26 +99,26 @@ namespace MemberSite.Service.Library
 
             return oApiResult;
         }
-        
-        public async Task<T> ShieldPostAsync<T, U>(string url, U oTpInfo ,U header) where T : new()
+
+        public async Task<T> ShieldPostAsync<T, U>(string url, U oTpInfo, U header) where T : new()
         {
             T oApiResult = default;
             var fooJson = JsonConvert.SerializeObject(oTpInfo);
             var fooContent = new StringContent(fooJson, Encoding.UTF8, "application/json");
-            
+
             LogContext.PushProperty("TpInfo", fooJson);
             LogContext.PushProperty("TpHeader", header);
             LogContext.PushProperty("Tp.Request.URL", url);
-            
+
             var headerJson = JsonConvert.SerializeObject(header);
             var jo = JObject.Parse(headerJson);
-   
+
             using var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Add("Site-Id", jo["SiteId"]?.ToString());
             httpClient.DefaultRequestHeaders.Add("Timestamp", jo["Timestamp"]?.ToString());
             httpClient.DefaultRequestHeaders.Add("Shield-Signature", jo["ShieldSignature"]?.ToString());
             httpClient.DefaultRequestHeaders.Add("X-Endpoint-Version", jo["XEndpointVersion"]?.ToString());
-            
+
             try
             {
                 using var response = await httpClient.PostAsync(url, fooContent);
@@ -139,6 +139,40 @@ namespace MemberSite.Service.Library
                 _logger.LogError(ex, ex.Message);
             }
             return oApiResult;
+        }
+
+        public async Task<object> PostAsync<TRequest>(string url, TRequest request, int timeout = 0)
+        {
+            try
+            {
+                object result = default;
+                var jsonReq = JsonConvert.SerializeObject(request);
+                var content = new StringContent(jsonReq, Encoding.UTF8, "application/json");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                if (timeout != 0)
+                {
+                    client.Timeout = TimeSpan.FromSeconds(timeout);
+                }
+
+                _logger.LogInformation($"url:{url}, request:{jsonReq}");
+                using var response = await client.PostAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    _logger.LogInformation($"response:{responseBody}");
+                    result = System.Text.Json.JsonSerializer.Deserialize<object>(responseBody); // 序列化走System.Text.Json
+                }
+
+                return result;
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                throw;
+            }
         }
     }
 }

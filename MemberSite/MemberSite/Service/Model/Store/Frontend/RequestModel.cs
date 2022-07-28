@@ -37,3 +37,16 @@ public class StoreGetBalanceRequest
 {
     public int CustId { get; set; }
 }
+
+public class StoreGetMyPurchesRequest : GetMyPurchesRequest
+{
+    public int CustId { get; set; }
+    public string Lang { get; set; }
+}
+
+public class GetMyPurchesRequest
+{
+    public int PageNumber { get; set; } = 1;
+    public int PageSize { get; set; } = 10;
+}
+
