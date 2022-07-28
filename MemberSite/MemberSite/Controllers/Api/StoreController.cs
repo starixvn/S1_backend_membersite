@@ -32,12 +32,26 @@ namespace MemberSite.Controllers.Api
         }
         
         [HttpPost]
-        public Task<object> GetGiftListAsync(GetGiftListRequest request)
+        public async Task<object> GetGiftListAsync(GetGiftListRequest request)
         {
+            var custId = 0;
+            var currencyId = 0;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = _authorizeBLL.GetAuthData();
+                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                currencyId = custInfo.CurrencyId;
+                custId = authData.CustId;
+            }
+            else
+                currencyId = _selLangBLL.GetPreferCurrencyId();
+
             var apiRequest = new StoreGetGiftListRequest
             {
+                CustId = custId,
                 SiteId = _serverInfoBLL.GetServerInfo().SiteId,
-                CurrencyId = GetCurrencyId(),
+                CurrencyId = currencyId,
                 CategoryIds = request.CategoryIds,
                 Tags = request.Tags,
                 Lang = _selLangBLL.GetLangId(),
@@ -45,7 +59,7 @@ namespace MemberSite.Controllers.Api
                 Desc = request.Desc
             };
 
-            return _storeBLL.GetGiftListAsync(apiRequest);
+            return await _storeBLL.GetGiftListAsync(apiRequest);
 
         }
 
