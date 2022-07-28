@@ -62,27 +62,38 @@ namespace MemberSite.Service.Library
             return oApiResult;
         }
 
-
-        public async Task<object> MyPostAsync<TRequestBody>(string url, TRequestBody requestBody)
+        public async Task<object> PostAsync<TRequest>(string url, TRequest request, int timeout = 0)
         {
-            var fooJson = JsonConvert.SerializeObject(requestBody);
-            LogContext.PushProperty("TpInfo", fooJson);
-            LogContext.PushProperty("Tp.Request.URL", url);
-            var fooContent = new StringContent(fooJson, Encoding.UTF8, "application/json");
-
             try
             {
-                using var response = await client.PostAsync(url, fooContent);
-                var responseString = await response.Content.ReadAsStringAsync();
-                _logger.LogInformation($"Tp.Request.Response:{responseString}");
-                var result = System.Text.Json.JsonSerializer.Deserialize<object>(responseString); // 序列化走System.Text.Json
+                object result = default;
+                var jsonReq = JsonConvert.SerializeObject(request);
+                var content = new StringContent(jsonReq, Encoding.UTF8, "application/json");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                if (timeout != 0)
+                {
+                    client.Timeout = TimeSpan.FromSeconds(timeout);
+                }
+
+                _logger.LogInformation($"url:{url}, request:{jsonReq}");
+                using var response = await client.PostAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    _logger.LogInformation($"response:{responseBody}");
+                    result = System.Text.Json.JsonSerializer.Deserialize<object>(responseBody); // 序列化走System.Text.Json
+                }
+
                 return result;
+
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                _logger.LogError(ex, ex.Message);
+                _logger.LogError(e, e.Message);
+                throw;
             }
-            return default(object);
         }
     }
 }
