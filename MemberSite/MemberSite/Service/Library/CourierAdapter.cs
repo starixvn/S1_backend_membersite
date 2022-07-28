@@ -110,7 +110,6 @@ namespace MemberSite.Service.Library
             {
                 httpClient.DefaultRequestHeaders.Add(key, value);
             }
-            
             try
             {
                 using var response = await httpClient.PostAsync(url, reqContent);
@@ -128,6 +127,40 @@ namespace MemberSite.Service.Library
                 _logger.LogError(ex, ex.Message);
             }
             return oApiResult;
+        }
+
+        public async Task<object> PostAsync<TRequest>(string url, TRequest request, int timeout = 0)
+        {
+            try
+            {
+                object result = default;
+                var jsonReq = JsonConvert.SerializeObject(request);
+                var content = new StringContent(jsonReq, Encoding.UTF8, "application/json");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                if (timeout != 0)
+                {
+                    client.Timeout = TimeSpan.FromSeconds(timeout);
+                }
+
+                _logger.LogInformation($"url:{url}, request:{jsonReq}");
+                using var response = await client.PostAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    _logger.LogInformation($"response:{responseBody}");
+                    result = System.Text.Json.JsonSerializer.Deserialize<object>(responseBody); // 序列化走System.Text.Json
+                }
+
+                return result;
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                throw;
+            }
         }
     }
 }

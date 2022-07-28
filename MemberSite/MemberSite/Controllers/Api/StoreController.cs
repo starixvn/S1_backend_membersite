@@ -50,21 +50,42 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<CustPointSummary> GetMyCoinAsync()
+        public Task<object> GetMyCoinAsync()
         {
 
             var authData = _authorizeBLL.GetAuthData();
             if (authData == null || authData.CustId == 0)
-                return new ApiResult<CustPointSummary>()
+                return Task.FromResult<object>(new ApiResult()
                 {
                     ErrorCode = -1,
                     Message = "Cust is Invalid.Please Contact to CSD."
-                }; ;
+                });
 
             return _storeBLL.GetMyCoinAsync(new StoreGetMyCoinRequest
             {
                 CustId = authData.CustId
-            }).Result;
+            });
+        }
+
+        [HttpPost]
+        public Task<object> GetMyPurchesAsync(GetMyPurchesRequest request)
+        {
+
+            var authData = _authorizeBLL.GetAuthData();
+            if (authData == null || authData.CustId == 0)
+                return Task.FromResult<object>(new ApiResult()
+                {
+                    ErrorCode = -1,
+                    Message = "Cust is Invalid.Please Contact to CSD."
+                });
+
+            return _storeBLL.GetMyPurchesAsync(new StoreGetMyPurchesRequest
+            {
+                CustId = authData.CustId,
+                Lang = authData.LangId,
+                PageNumber = request.PageNumber,
+                PageSize = request.PageSize
+            });
         }
         
         public async Task<object> SetFavoriteAsync(SetFavoriteRequest request)

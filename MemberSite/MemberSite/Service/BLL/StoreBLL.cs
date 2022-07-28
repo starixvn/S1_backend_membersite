@@ -22,15 +22,16 @@ public class StoreBLL
     public async Task<object> GetGiftListAsync(StoreGetGiftListRequest request)
     {
         var url = _storeSiteUrl + "Frontend/GetGiftList";
-        var result = await _courierAdapter.MyPostAsync<List<GiftListModel>, StoreGetGiftListRequest>(url, request);
+        var result = await _courierAdapter.PostAsync(url, request);
 
         return result;
     }
 
-    public async Task<ApiResult<CustPointSummary>> GetMyCoinAsync(StoreGetMyCoinRequest request)
+    public async Task<object> GetMyCoinAsync(StoreGetMyCoinRequest request)
     {
         var url = _storeSiteUrl + "Frontend/GetMyCoin";
-        var result = await _courierAdapter.MyPostAsync<CustPointSummary, StoreGetMyCoinRequest>(url, request);
+
+        var result = await _courierAdapter.PostAsync(url, request);
         return result;
     }
     public async Task<object> SetFavoriteAsync(StoreSetFavoriteRequest request)
@@ -45,6 +46,14 @@ public class StoreBLL
     {
         var url = _storeSiteUrl + "Member/GetBalance";
         var result = await _courierAdapter.MyPostAsync<CustPointBalance, StoreGetBalanceRequest>(url, request);
+
+        return result;
+    }
+
+    public async Task<object> GetMyPurchesAsync(StoreGetMyPurchesRequest request)
+    {
+        var url = _storeSiteUrl + "Frontend/GetMyPurches";
+        var result = await _courierAdapter.PostAsync(url, request);
 
         return result;
     }
