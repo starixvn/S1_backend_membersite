@@ -15,6 +15,7 @@ public class GetGiftListRequest
     public IEnumerable<int> Tags { get; set; }
     public string OrderByField { get; set; }
     public bool Desc { get; set; }
+    public int Limit { get; set; }
 }
 
 public class StoreGetMyCoinRequest
