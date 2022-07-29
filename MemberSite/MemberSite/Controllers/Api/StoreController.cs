@@ -56,7 +56,8 @@ namespace MemberSite.Controllers.Api
                 Tags = request.Tags,
                 Lang = _selLangBLL.GetLangId(),
                 OrderByField = request.OrderByField,
-                Desc = request.Desc
+                Desc = request.Desc,
+                PageSize = request.PageSize
             };
 
             return await _storeBLL.GetGiftListAsync(apiRequest);
