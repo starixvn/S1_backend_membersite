@@ -57,7 +57,7 @@ namespace MemberSite.Controllers.Api
                 Lang = _selLangBLL.GetLangId(),
                 OrderByField = request.OrderByField,
                 Desc = request.Desc,
-                Limit = request.Limit
+                PageSize = request.PageSize
             };
 
             return await _storeBLL.GetGiftListAsync(apiRequest);
