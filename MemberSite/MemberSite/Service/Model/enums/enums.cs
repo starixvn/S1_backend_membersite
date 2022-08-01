@@ -416,13 +416,7 @@
         Disable = 0,
         Able = 1,
     }
-
-    public enum WorldCupUserTicketStatus
-    {
-        Active = 1,
-        Finished = 2,
-        UnStarted = 3
-    }
+    
     public enum RedemptionErrorCode
     {
         InsufficientPoint = -1001,
