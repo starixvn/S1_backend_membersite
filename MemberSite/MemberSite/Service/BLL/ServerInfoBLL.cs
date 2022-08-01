@@ -107,6 +107,18 @@ namespace MemberSite.Service.BLL
             return host;
         }
 
+        public string GetSubDomain()
+        {
+            var host = GetDomain();
+            var dotIndex = host.IndexOf(".");
+            if (dotIndex > -1)
+            {
+                host = host.Substring(0, dotIndex);
+            }
+
+            return host;
+        }
+
         public string GetHttpDomain()
         {
             var http = _httpContextAccessor.HttpContext.Request.Scheme;
