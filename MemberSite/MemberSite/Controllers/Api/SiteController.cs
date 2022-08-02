@@ -1294,7 +1294,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpGet]
-        public string Domain() => _serverInfoBll.GetMainDomain();
+        public string Domain() => $"MainDomain:{_serverInfoBll.GetMainDomain()}, SubDomain:{_serverInfoBll.GetSubDomain()}";
 
         [HttpPost]
         public async Task<ApiResult<IEnumerable<MenuOfGame>>> GetMenuOfGames()
