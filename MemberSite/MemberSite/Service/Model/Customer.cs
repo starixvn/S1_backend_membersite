@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.Model.enums;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.Model.enums;
 using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
@@ -242,7 +243,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return DateTimeOffset.Parse(_registerDate.ToString() + CustTimeZone);
+                return _registerDate.ToOffset(CustTimeZone);
             }
             set
             {

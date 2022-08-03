@@ -8,5 +8,11 @@
                dt >= startDate && dt <= endDate :
                dt.Date >= startDate.Date && dt.Date <= endDate.Date;
         }
+
+        /// <param name="timeZone">format:+08:00</param>
+        public static DateTimeOffset ToOffset(this DateTime time, string timeZone)
+        {
+            return DateTimeOffset.Parse(time.ToString() + timeZone);
+        }
     }
 }
