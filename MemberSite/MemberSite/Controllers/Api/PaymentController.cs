@@ -193,24 +193,13 @@ namespace MemberSite.Controllers.Api
             }
             
             var decimalPlaces = 0;
-            switch ((CurrencyId)custInfo.CurrencyId)
-            {
-                case CurrencyId.VND:
-                case CurrencyId.IDR:
-                    decimalPlaces = 3;
-                    break;
-
-                default:
-                    decimalPlaces = 2;
-                    break;
-            }
-
             if (!HasThisManyDecimalPlacesOrLess(depositReqWireTransferReq.amount, decimalPlaces))
             {
                 apiResult.ErrorCode = -5;
                 apiResult.Message = "Amount format is wrong.";
                 return apiResult;
             }
+            
             //check PhoneVerified,AccountName,Birth
             if (depositReqWireTransferReq.hasPromotion)
             {

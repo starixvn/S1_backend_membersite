@@ -30,7 +30,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return DateTimeOffset.Parse(_createTime.ToString() + CustTimeZone);
+                return _createTime.ToOffset(CustTimeZone);
             }
             set
             {
