@@ -456,4 +456,11 @@
         Finished = 2,
         UnStarted = 3
     }
+    
+    public enum OfflineBankAccountPurposeEnum
+    {
+        Deposit = 1,
+        Withdrawal = 2,
+        Transfer = 3
+    }
 }

@@ -65,40 +65,24 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<OfflineBankInfoFront>> GetBankInfoOffList()
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<OfflineBankInfoFront>>
+            
+            return new ApiResult<IEnumerable<OfflineBankInfoFront>>
             {
-                Data = bankInfoOffBLL.GetBankInfoOffList(authData.CustId),
+                Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, authData.LangId),
                 ErrorCode = 0
             };
-            return apiResult;
-        }
-        public class GetBankInfoOffListReq
-        {
-            public int? QueryType { get; set; } // queryType: 0.only open Bank(status = 1) 1.open & suspend Bank(status = 1 or status = 2)
-        }
-        [HttpPost]
-        public ApiResult<IEnumerable<OfflineBankInfoFront>> GetBankInfoOffListStatus(GetBankInfoOffListReq getBankInfoOffListReq)
-        {
-            var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<OfflineBankInfoFront>>();
-            var queryType = 0;
-            if (getBankInfoOffListReq != null && getBankInfoOffListReq.QueryType != null)
-                queryType = (int)getBankInfoOffListReq.QueryType;
-            apiResult.Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, authData.LangId, queryType);
-            apiResult.ErrorCode = 0;
-            return apiResult;
         }
 
-        public ApiResult<IEnumerable<SysBankInfoFront>> GetBankInfoOffListStatusORG(GetBankInfoOffListReq getBankInfoOffListReq)
+        [HttpPost]
+        public ApiResult<IEnumerable<OfflineBankInfoFront>> GetBankInfoOffListStatus()
         {
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>();
-            var queryType = 0;
-            if (getBankInfoOffListReq != null && getBankInfoOffListReq.QueryType != null)
-                queryType = (int)getBankInfoOffListReq.QueryType;
-            apiResult.Data = bankInfoOffBLL.GetBankInfoOffList(authData.CustId, queryType);
-            apiResult.ErrorCode = 0;
-            return apiResult;
+            // 220804: 詢問市場說給用戶使用只有open，所以把queryType這段拔掉
+            return new ApiResult<IEnumerable<OfflineBankInfoFront>>
+            {
+                Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, authData.LangId),
+                ErrorCode = 0
+            };
         }
 
         [HttpPost]
@@ -277,17 +261,6 @@ namespace MemberSite.Controllers.Api
 
             //check AccountName first
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-
-            //if (custInfo.SiteId == 2 && custInfoBLL.GetCustBankInfo(authData.CustId) == null)
-            //{
-            //    apiResult.ErrorCode = -2;
-            //    apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
-            //    return apiResult;
-            //}
-            //else /**/
-            //{
-
-            //}
 
             var result = paymentBLL.LocalBankinfo(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.memo, out var depositRep3);
 
