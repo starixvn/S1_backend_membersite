@@ -521,9 +521,13 @@ namespace MemberSite.Service.BLL
             {
                 return -1;
             }
+            
+            var eWalletInfoSysList = bankInfoBLL.GetEWalletInfoSysListByCurrency(CustInfo.CurrencyId).ToList();
+            var eWalletInfoSys = eWalletInfoSysList.FirstOrDefault(x => x.SysId == sysId);
             withdrawalEWalletInfo.AccountName = accountName;
             withdrawalEWalletInfo.AccountNo = accountNo;
             withdrawalEWalletInfo.EWalletSysId = sysId;
+            withdrawalEWalletInfo.EWalletName = eWalletInfoSys.EWalletName;
             withdrawalEWalletInfo.AccountType = "ewallet";
             return withdrawalService.WithdrawalEWalletReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalEWalletInfo, out afterAmount, out transId);
         }
