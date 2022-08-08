@@ -69,7 +69,7 @@ namespace MemberSite.Service.DAL
             p.Add("_RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("_StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var tpTransferInfoHistoryResult = conn.Query<TpTransferInfoHistory>("Member_TpTransferInfoSearch_Get_AniseTEST", p, commandType: CommandType.StoredProcedure);
+            var tpTransferInfoHistoryResult = conn.Query<TpTransferInfoHistory>("Member_TpTransferInfoSearch_Get_V3", p, commandType: CommandType.StoredProcedure);
             totalPages = p.Get<int?>("_TotalPages") ?? 0;
             rowCount = p.Get<int?>("_RowCount") ?? 0;
             return tpTransferInfoHistoryResult;
