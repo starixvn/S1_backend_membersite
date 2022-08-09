@@ -352,4 +352,7 @@
   <data name="msg_EWalletDuplicate" xml:space="preserve">
     <value>Duplikat Nomor Akun E-wallet tidak diperbolehkan. Silakan coba Nomor Akun E-wallet lain.</value>
   </data>
+  <data name="msg_EWalletIsMaintenance" xml:space="preserve">
+    <value>E-Wallet adalah pemeliharaan, silakan gunakan metode penarikan lainnya</value>
+  </data>
 </root>

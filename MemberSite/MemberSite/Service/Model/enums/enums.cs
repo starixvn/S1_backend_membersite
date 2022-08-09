@@ -426,4 +426,10 @@
         Crypto = 1,
         EWallet = 2
     }
+
+    public enum EWalletStatus
+    {
+        Disable = 0,
+        Able = 1,
+    }
 }

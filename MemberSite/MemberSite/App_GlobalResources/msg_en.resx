@@ -363,4 +363,7 @@
   <data name="msg_EWalletDuplicate" xml:space="preserve">
     <value>Duplicate E-wallet Account No. is not allowed. Please try another E-wallet Account No.</value>
   </data>
+  <data name="msg_EWalletIsMaintenance" xml:space="preserve">
+    <value>E-Wallet is maintenance, please use other withdrawal methods</value>
+  </data>
 </root>
