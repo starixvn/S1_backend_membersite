@@ -1314,6 +1314,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        [HttpOptions]
         [EnableCors("SocialChannel")]
         public async Task<ApiResult<IEnumerable<SocialChannelResponse>>> GetSocialChannel(SocialChannelRequest request,
             [FromRoute] string langId = "en")
