@@ -1280,7 +1280,8 @@ namespace MemberSite.Controllers.Api
             var eWallet = eWalletWithdrawalLimitInfo ?? new EWalletWithdrawalLimitInfoOutput()
             {
                 WithdrawalMin = 0,
-                WithdrawalMax = 0
+                WithdrawalMax = 0,
+                Status = 0
             };
 
             tmpEWalletAvailableAmount = eWallet.WithdrawalMax == 0
@@ -1300,6 +1301,7 @@ namespace MemberSite.Controllers.Api
                 EWalletUnlimited = eWallet.WithdrawalMax == 0,
                 EWalletWithdrawalAvailableAmount = tmpEWalletAvailableAmount < 0
                     ? 0 : tmpEWalletAvailableAmount,
+                EWalletStatus = eWallet.Status
             };
 
             var apiResult = new ApiResult<WithdrawalLimitOutput>
@@ -1539,6 +1541,12 @@ namespace MemberSite.Controllers.Api
             #endregion
 
             #region - Check WithdrawalLimit -
+            if(eWalletWithdrawalLimitInfo.Status == (int)EWalletStatus.Disable)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_EWalletIsMaintenance");
+                apiResult.ErrorCode = -8;
+                return apiResult;
+            }
             if (eWalletWithdrawalLimitInfo != null && eWalletWithdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
             {
                 apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), eWalletWithdrawalLimitInfo.WithdrawalMin);

@@ -372,4 +372,7 @@
   <data name="msg_InsufficientPoint" xml:space="preserve">
     <value>Sorry! You have insufficient 88 Rewards point.</value>
   </data>
+  <data name="msg_EWalletIsMaintenance" xml:space="preserve">
+    <value>E-Wallet is maintenance, please use other withdrawal methods</value>
+  </data>
 </root>

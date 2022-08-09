@@ -499,4 +499,10 @@
         Finished = 2,
         UnStarted = 3
     }
+
+    public enum EWalletStatus
+    {
+        Disable = 0,
+        Able = 1,
+    }
 }
