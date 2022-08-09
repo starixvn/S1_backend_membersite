@@ -27,6 +27,7 @@ namespace MemberSite.Service.BLL
             { 15, false }
         };
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
+        private readonly ShieldBLL _shieldBll;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -42,6 +43,7 @@ namespace MemberSite.Service.BLL
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _shieldBll = provider.GetRequiredService<ShieldBLL>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -137,6 +139,18 @@ namespace MemberSite.Service.BLL
 
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
+
+            if (result == 0 && regCustInfo.SiteId == (int) SiteId.Goal123)
+            {
+                regCustInfo.CustId = custId;
+                _ = Task.Run(async () =>
+                {
+                    var checkResult = _shieldBll.CheckCustShieldRisk(
+                        regCustInfo,
+                        ShieldRiskTriggeredPoint.Registration,
+                        ShieldRiskTaggedIssue.HighRisk);
+                });
+            }
             return result != 0 ? result : 0;
         }
 
@@ -187,6 +201,26 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
+            if (customer is {SiteId: (int) SiteId.Goal123})
+            {
+                var info = customer;
+                _ = Task.Run(async () =>
+                {
+                    // Check Shield Info is high risk
+                    var checkResult = _shieldBll.CheckCustShieldRisk(
+                        info,
+                        ShieldRiskTriggeredPoint.Login,
+                        ShieldRiskTaggedIssue.HighRisk);
+
+                    // send custId to tp.Shield
+                    var request = new SendShieldAttributesRequest()
+                    {
+                        UserId = info.CustId.ToString()
+                    };
+                    var result = await _shieldBll.SendShieldAttributes(request);
+                });
+            }
+            
             _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, deviceType, out token);
             _authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
             return 0;
@@ -628,6 +662,17 @@ namespace MemberSite.Service.BLL
             return _custInfoService.SetCustActStatus(custId, Operator);
         }
 
+        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo, int siteId)
+        {
+            return _custInfoService.GetCustBankDetail(sysId, accountNo, siteId);
+        }
+
+        public int DeleteCustBankInfo(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.DeleteCustBankInfo(custId, custInfo.SiteId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
+        }
+
         private static List<string> AddressKeys = new List<string>() { "Country", "State", "PostCode", "City", "LineFirst", "LineSecond" };
         private Dictionary<string, string> ConvertAddress(Dictionary<string, string> addressProfile)
         {
@@ -647,18 +692,6 @@ namespace MemberSite.Service.BLL
             }
 
             return result;
-            ;
-        }
-
-        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo, int siteId)
-        {
-            return _custInfoService.GetCustBankDetail(sysId, accountNo, siteId);
-        }
-
-        public int DeleteCustBankInfo(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
-        {
-            var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.DeleteCustBankInfo(custId, custInfo.SiteId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
 
         public IEnumerable<EWalletInfoDetail> GetCustEWalletInfo(int custId)

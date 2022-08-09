@@ -355,6 +355,9 @@
   <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
     <value>Maaf, batas penukaran Anda telah habis. Silakan coba lagi di bulan depan.</value>
   </data>
+  <data name="msg_InsufficientPoint" xml:space="preserve">
+    <value>Maaf! 88 Poin Rewards yang Anda miliki tidak cukup.</value>
+  </data>
   <data name="msg_EWalletIsMaintenance" xml:space="preserve">
     <value>E-Wallet adalah pemeliharaan, silakan gunakan metode penarikan lainnya</value>
   </data>

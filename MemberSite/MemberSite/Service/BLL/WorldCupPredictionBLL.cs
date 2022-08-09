@@ -192,7 +192,7 @@ namespace MemberSite.Service.BLL
         }
 
         /// <summary>
-        /// 取得玩家充值資訊，cache 1 小時
+        /// 取得玩家充值資訊，cache 1 分鐘
         /// </summary>
         /// <param name="siteId"></param>
         /// <param name="custId"></param>
@@ -200,7 +200,7 @@ namespace MemberSite.Service.BLL
         private IEnumerable<MemberDepositAmountDailyDto> GetMemberDepositAmountDaily(int siteId, int custId)
         {
             var memberDepositAmountDailyKey = $"memberDepositAmountDaily:{siteId}:{custId}";
-            var memberDepositAmountDaily = _redisHelper.TryGetOrCreate(memberDepositAmountDailyKey, TimeSpan.FromHours(1),
+            var memberDepositAmountDaily = _redisHelper.TryGetOrCreate(memberDepositAmountDailyKey, TimeSpan.FromMinutes(1),
                 () => _worldCupPredictionService.GetMemberDepositAmountDaily(siteId, custId).ToList());
 
             return memberDepositAmountDaily;

@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.Model.enums;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.Model.enums;
 using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
@@ -255,7 +256,19 @@ namespace MemberSite.Service.Model
     {
         public int CustId { get; set; }
         public string UserName { get; set; }
-        public DateTime RegisterDate { get; set; }
+        public DateTimeOffset RegisterDate
+        {
+            get
+            {
+                return _registerDate.ToOffset(CustTimeZone);
+            }
+            set
+            {
+                _registerDate = value.DateTime;
+            }
+        }
+        private DateTime _registerDate { get; set; }
+
         public int CurrencyId { get; set; }
         public decimal TotalDeposit { get; set; }
         public decimal DepositC { get; set; }
@@ -263,6 +276,9 @@ namespace MemberSite.Service.Model
         public decimal VaildBetC { get; set; }
         public decimal BonusAmount { get; set; }
         public int Status { get; set; }
+
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
 
     }
     public class CustTransSummary

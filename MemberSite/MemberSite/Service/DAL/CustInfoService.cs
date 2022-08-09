@@ -245,6 +245,7 @@ namespace MemberSite.Service.DAL
                 }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
+
         public bool SetAddress(int custId, int siteId, Dictionary<string, string> address)
         {
             var p = new DynamicParameters(new

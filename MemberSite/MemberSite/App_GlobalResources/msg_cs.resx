@@ -349,6 +349,9 @@
   <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
     <value>很抱歉，您已达兑换上限。恳请新月份再尝试</value>
   </data>
+  <data name="msg_InsufficientPoint" xml:space="preserve">
+    <value>抱歉，您的 88奖励兑换金币不足</value>
+  </data>
   <data name="msg_EWalletIsMaintenance" xml:space="preserve">
     <value>目前E-Wallet正在維護中，請使用其它提款方式</value>
   </data>

@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.Store.Frontend;
 
 namespace MemberSite.Service.BLL;
@@ -21,7 +22,38 @@ public class StoreBLL
     public async Task<object> GetGiftListAsync(StoreGetGiftListRequest request)
     {
         var url = _storeSiteUrl + "Frontend/GetGiftList";
-        var result = await _courierAdapter.MyPostAsync<List<GiftListModel>, StoreGetGiftListRequest>(url, request);
+        var result = await _courierAdapter.PostAsync(url, request);
+
+        return result;
+    }
+
+    public async Task<object> GetMyCoinAsync(StoreGetMyCoinRequest request)
+    {
+        var url = _storeSiteUrl + "Frontend/GetMyCoin";
+
+        var result = await _courierAdapter.PostAsync(url, request);
+        return result;
+    }
+    public async Task<object> SetFavoriteAsync(StoreSetFavoriteRequest request)
+    {
+        var url = _storeSiteUrl + "Frontend/SetFavorite";
+        var result = await _courierAdapter.MyPostAsync<object, StoreSetFavoriteRequest>(url, request);
+
+        return result;
+    }
+    
+    public async Task<object> GetBalanceAsync(StoreGetBalanceRequest request)
+    {
+        var url = _storeSiteUrl + "Member/GetBalance";
+        var result = await _courierAdapter.MyPostAsync<CustPointBalance, StoreGetBalanceRequest>(url, request);
+
+        return result;
+    }
+
+    public async Task<object> GetMyPurchesAsync(StoreGetMyPurchesRequest request)
+    {
+        var url = _storeSiteUrl + "Frontend/GetMyPurches";
+        var result = await _courierAdapter.PostAsync(url, request);
 
         return result;
     }
