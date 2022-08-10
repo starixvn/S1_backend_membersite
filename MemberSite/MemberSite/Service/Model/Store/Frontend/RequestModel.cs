@@ -35,3 +35,18 @@ public class GetMyPurchesRequest
     public int PageSize { get; set; } = 10;
 }
 
+public class SetFavoriteRequest
+{
+    public int GiftId { get; set; }
+    public bool IsFavorite { get; set; }
+}
+
+public class StoreSetFavoriteRequest: SetFavoriteRequest
+{
+    public int CustId { get; set; }
+}
+
+public class StoreGetBalanceRequest
+{
+    public int CustId { get; set; }
+}

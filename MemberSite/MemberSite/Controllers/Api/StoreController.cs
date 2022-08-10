@@ -30,8 +30,7 @@ namespace MemberSite.Controllers.Api
             _storeBLL = provider.GetRequiredService<StoreBLL>();
             _logger = provider.GetRequiredService<ILogger<PromotionController>>();
         }
-
-
+        
         [HttpPost]
         public async Task<object> GetGiftListAsync(GetGiftListRequest request)
         {
@@ -103,18 +102,57 @@ namespace MemberSite.Controllers.Api
                 PageSize = request.PageSize
             });
         }
-
-        private int GetCurrencyId()
+        
+        public async Task<object> SetFavoriteAsync(SetFavoriteRequest request)
         {
-            if (User.Identity.IsAuthenticated)
+            try
             {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return new ApiResult(-1, _selLangBLL.GetMsg("msg_LoginToAccess"));
+                }
+                
                 var authData = _authorizeBLL.GetAuthData();
-                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                return custInfo.CurrencyId;
-            }
-            else
-                return _selLangBLL.GetPreferCurrencyId();
-        }
+                var apiRequest = new StoreSetFavoriteRequest
+                {
+                    CustId = authData.CustId,
+                    GiftId = request.GiftId,
+                    IsFavorite = request.IsFavorite
+                };
 
+                return await _storeBLL.SetFavoriteAsync(apiRequest);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+                return new ApiResult();
+            }
+        }
+        
+        public async Task<object> GetPointBalanceAsync()
+        {
+            try
+            {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return new ApiResult(-1, _selLangBLL.GetMsg("msg_LoginToAccess"));
+                }
+                
+                var authData = _authorizeBLL.GetAuthData();
+                var apiRequest = new StoreGetBalanceRequest
+                {
+                    CustId = authData.CustId
+                };
+
+                var result = await _storeBLL.GetBalanceAsync(apiRequest);
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+                return new ApiResult();
+            }
+        }
     }
 }
