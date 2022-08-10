@@ -107,6 +107,7 @@ namespace MemberSite
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
+            services.AddTransient<IHotEventService, HotEventService>();
 
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
@@ -155,6 +156,7 @@ namespace MemberSite
             services.AddTransient<WorldCupPredictionBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
+            services.AddTransient<HotEventBLL>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
