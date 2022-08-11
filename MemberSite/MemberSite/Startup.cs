@@ -56,6 +56,7 @@ namespace MemberSite
             services.Configure<LineLoginChannelConfig>(configuration.GetSection("LineLoginChannelConfig"));
             services.Configure<LineLoginConfig>(configuration.GetSection("LineLoginConfig"));
             services.Configure<ShieldConfig>(configuration.GetSection("ShieldConfig"));
+            services.Configure<ReCaptchaSetting>(configuration.GetSection("ReCaptchaSetting"));
             services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
             services.Configure<Dictionary<string, string>>(configuration.GetSection("LoginDeviceConfig"));
             services.AddMemoryCache();
@@ -105,6 +106,7 @@ namespace MemberSite
             services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
             services.AddTransient<WorldCupPredictionService>();
+            services.AddTransient<ReCaptchaService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
