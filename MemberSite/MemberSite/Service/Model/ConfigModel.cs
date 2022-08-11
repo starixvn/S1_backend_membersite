@@ -47,4 +47,10 @@
         public string SecretKey { get; set; }
         public string ShieldService { get; set; }
     }
+
+    public class ReCaptchaSetting
+    {
+        public string ApiUrl { get; set; }
+        public string Secret { get; set; }
+    }
 }
