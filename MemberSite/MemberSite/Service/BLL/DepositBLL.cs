@@ -1,5 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
+using Microsoft.Extensions.Caching.Memory;
 using MemberSite.Service.Library;
 
 namespace MemberSite.Service.BLL
@@ -7,19 +8,20 @@ namespace MemberSite.Service.BLL
     public class DepositBLL
     {
         private readonly DepositService _depositService;
-        private readonly ICacheHelper _redisHelper;
+        private readonly CacheHelper _cacheHelper;
 
         public DepositBLL(IServiceProvider provider)
         {
             _depositService = provider.GetRequiredService<DepositService>();
-            _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
         public IEnumerable<DepositLimitInfo> GetDepositLimitInfoList(int siteId)
         {
-           
-            return _redisHelper.TryGetOrCreate($"DepositLimitInfoList:{siteId}", TimeSpan.FromMinutes(1),
-                () => _depositService.GetDepositLimitInfoList().Where(x => x.SiteId == siteId));
+            var key = $"DepositLimitInfoList_{siteId}";
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                i => _depositService.GetDepositLimitInfoList().Where(x => x.SiteId == siteId));
         }
         public void FixDepositLimit(IPaymentLimit paymentLimit, DepositLimitInfo depositLimitInfo)
         {
