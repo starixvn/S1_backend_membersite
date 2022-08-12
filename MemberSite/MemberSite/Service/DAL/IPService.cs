@@ -3,7 +3,6 @@ using MemberSite.Service.Model;
 using MySql.Data.MySqlClient;
 using System.Data;
 using MemberSite.Service.Library;
-using Newtonsoft.Json;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
