@@ -41,7 +41,10 @@ namespace MemberSite.Service.Model
         public string WithdrawalInfo { get; set; }
         [JsonIgnore]
         public string CustTimeZone { get; set; }
+        public string Memo { get; set; }
+        public bool CanCancel => this.Memo == "WithdrawalSubmission" ? false : true;
     }
+
 
     public class WithdrawalLimitInfo
     {
@@ -62,7 +65,7 @@ namespace MemberSite.Service.Model
         public int CurrencyId { get; set; }
         public int VipLevel { get; set; }
     }
-    public class USDTWithdrawalLimitInfoInput: WithdrawalLimitInfoInput
+    public class USDTWithdrawalLimitInfoInput : WithdrawalLimitInfoInput
     {
         public int CryptoCurrencyId { get; set; }
 
@@ -73,9 +76,9 @@ namespace MemberSite.Service.Model
         public decimal WithdrawalMin { get; set; }
         public decimal WithdrawalMax { get; set; }
         public int Times { get; set; }
-        
+
     }
-    public class USDTWithdrawalLimitInfoOutput: WithdrawalLimitInfoOutput
+    public class USDTWithdrawalLimitInfoOutput : WithdrawalLimitInfoOutput
     {
         public string Network { get; set; }
         public int CurrencyId { get; set; }
@@ -102,12 +105,12 @@ namespace MemberSite.Service.Model
         public decimal Amount { get; set; }
         public int Count { get; set; }
     }
-    
+
     public class CustomerWithdrawalInfoInput
     {
         public int CustId { get; set; }
     }
-    
+
     public class CustomerWithdrawalInfoOutput
     {
         public bool WithdrawalExists { get; set; }
