@@ -78,7 +78,7 @@ namespace MemberSite.Service.BLL
             var localBankList = GetOfflineBankAccount(siteId)
                 .Where(x => x.CurrencyId == currencyId 
                             && x.PointLevels.Contains(pointLevel)
-                            && x.VipLevels.Contains(vipLevel)
+                            && (!x.VipLevels.Any() || x.VipLevels.Contains(vipLevel))
                             && x.MaxAmount > 0)
                 .ToList();
 
