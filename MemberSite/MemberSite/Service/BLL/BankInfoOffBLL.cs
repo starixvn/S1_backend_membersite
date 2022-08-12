@@ -50,21 +50,15 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
-            var bankAccountOffList = GetBankAccountOff(custInfo.SiteId, queryType);
-
-            var newbankAccountOffList = JsonSerializer.Deserialize<IEnumerable<BankInfoOff>>(JsonSerializer.Serialize(bankAccountOffList));
-            var localBankList = new List<BankInfoOff>(newbankAccountOffList?.ToList());
-
-            var depositLimitInfoList = JsonSerializer.Deserialize<IEnumerable<DepositLimitInfo>>(
-                    JsonSerializer.Serialize(_depositBll.GetDepositLimitInfoList(custInfo.SiteId))).ToList();
-            var depositLimitInfo = depositLimitInfoList.FirstOrDefault(x =>
+            var localBankList = GetBankAccountOff(custInfo.SiteId, queryType).ToList();
+            var depositLimitInfo = _depositBll.GetDepositLimitInfoList(custInfo.SiteId).FirstOrDefault(x =>
                 x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank &&
                 x.CurrencyId == custInfo.CurrencyId);
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
             
             if (depositLimitInfo?.DepositStatus == 0)
             {
-                return new OfflineBankInfoFront[] { };
+                return Array.Empty<OfflineBankInfoFront>();
             }
 
             if (depositLimitInfo != null && localBankList.Any())
