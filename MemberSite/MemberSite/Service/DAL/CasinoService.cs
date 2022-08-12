@@ -22,8 +22,7 @@ namespace MemberSite.Service.DAL
 
         public FavoriteGames GetFavoriteGames(int CustId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<FavoriteGames>("Member_Favorite_Get", new { CustId }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+            return _reportDb.Query<FavoriteGames>("Member_Favorite_Get", new { CustId }, commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
 
         public void SetFavoriteGames(int CustId, string GameInfo, bool IsRemove)

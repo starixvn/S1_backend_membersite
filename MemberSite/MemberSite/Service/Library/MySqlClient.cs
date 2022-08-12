@@ -246,7 +246,7 @@ namespace MemberSite.Service.Library
             return result;
         }
 
-        public async Task<IEnumerable<T>> QueryAsync<T>(string name, SqlMapper.IDynamicParameters parameters)
+        public async Task<IEnumerable<T>> QueryAsync<T>(string name, object parameters)
         {
             IEnumerable<T> result;
             var sw = Stopwatch.StartNew();
