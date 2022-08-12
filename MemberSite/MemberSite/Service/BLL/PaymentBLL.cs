@@ -59,7 +59,7 @@ namespace MemberSite.Service.BLL
             var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
                 .Where(x => x.CurrencyId == custInfo.CurrencyId
                             && x.PointLevels.Contains(pointLevel)
-                            && (!x.VipLevels.Any() || x.VipLevels.Contains(custInfo.UserLevel))
+                            && x.VipLevels.Contains(custInfo.UserLevel)
                             && x.SysId == sysId)
                 .ToList();
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
@@ -180,7 +180,7 @@ namespace MemberSite.Service.BLL
             var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
                 .Where(x => x.CurrencyId == custInfo.CurrencyId
                             && x.PointLevels.Contains(pointLevel)
-                            && (!x.VipLevels.Any() || x.VipLevels.Contains(custInfo.UserLevel))
+                            && x.VipLevels.Contains(custInfo.UserLevel)
                             && x.SysId == sysId)
                 .ToList();
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
@@ -297,7 +297,7 @@ namespace MemberSite.Service.BLL
             var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
                 .Where(x => x.CurrencyId == custInfo.CurrencyId
                             && x.PointLevels.Contains(pointLevel)
-                            && (!x.VipLevels.Any() || x.VipLevels.Contains(custInfo.UserLevel))
+                            && x.VipLevels.Contains(custInfo.UserLevel)
                             && x.SysId == sysId)
                 .ToList();
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
