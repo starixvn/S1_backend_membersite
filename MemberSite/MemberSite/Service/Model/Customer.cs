@@ -89,6 +89,23 @@ namespace MemberSite.Service.Model
         public IEnumerable<USDTDetail> uSDTDetail { set; get; }
     }
 
+    public class EWalletInfoDetail
+    {
+        public int SysId { set; get; }
+        public string AccountNo { set; get; }
+    }
+    public class EWalletInfoDetailData: EWalletInfoDetail
+    {
+        public int CustId  { set; get; }
+    }
+
+    public class EWalletInfoDetailRep : EWalletInfoDetail
+    {
+        public string EWalletName { set; get; }
+        public string EWalletLogo { set; get; }
+        public string EWalletSite { set; get; }
+    }
+
     public class WalletInfo
     {
         public decimal Balance { set; get; }
