@@ -46,8 +46,8 @@ namespace MemberSite.Service.BLL
                     ChannelName = x.ChannelName,
                     GSort = x.GSort,
                     Mode = x.Mode,
-                    MinAmount = payInfoList.Where(y => x.ChannelId == y.ChannelId).OrderBy(y => y.MinAmount).First().MinAmount,
-                    MaxAmount = payInfoList.Where(y => x.ChannelId == y.ChannelId).OrderByDescending(y => y.MaxAmount).First().MaxAmount
+                    MinAmount = payInfoList.Where(y => x.GroupId == y.GroupId).OrderBy(y => y.MinAmount).First().MinAmount,
+                    MaxAmount = payInfoList.Where(y => x.GroupId == y.GroupId).OrderByDescending(y => y.MaxAmount).First().MaxAmount
                 })
                 .Distinct(i => i.GroupId);
         }

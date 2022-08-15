@@ -22,12 +22,11 @@ namespace MemberSite.Service.BLL
         private readonly CacheHelper _cacheHelper;
         private readonly ICacheHelper _redisHelper;
         private readonly Dictionary<int, bool> _isConvert = new()
-        {
-            { 51, false },
-            { 15, false }
-        };
-
-        private readonly Dictionary<string, string> _areaCodeCountryList;
+            {
+                {51,false },{15,false }
+            };
+        private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
+        private readonly ShieldBLL _shieldBll;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -41,21 +40,20 @@ namespace MemberSite.Service.BLL
             _bankInfoService = provider.GetRequiredService<BankInfoService>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
-            _areaCodeCountryList = new CurrencyMapping().AreaCodeMap;
+            _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _shieldBll = provider.GetRequiredService<ShieldBLL>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
-            string countryName = null;
-            if (areaCode != null)
-                _areaCodeCountryList.TryGetValue(areaCode, out countryName);
-            return countryName;
+            var countryName = _areaCodeMap.FirstOrDefault(x => x.AreaCode == areaCode);
+            return countryName?.Code;
         }
 
         public string GetAreaCodeByCountryName(string countryName)
         {
-            var areaCode = _areaCodeCountryList.FirstOrDefault(x => x.Value == countryName).Key;
-            return areaCode;
+            var areaCode = _areaCodeMap.FirstOrDefault(x => x.Code == countryName);
+            return areaCode?.AreaCode;
         }
 
         public bool IsConvertRequired(int currencyId)
@@ -140,6 +138,18 @@ namespace MemberSite.Service.BLL
 
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
+
+            if (result == 0 && regCustInfo.SiteId == (int) SiteId.Goal123)
+            {
+                regCustInfo.CustId = custId;
+                _ = Task.Run(async () =>
+                {
+                    var checkResult = _shieldBll.CheckCustShieldRisk(
+                        regCustInfo,
+                        ShieldRiskTriggeredPoint.Registration,
+                        ShieldRiskTaggedIssue.HighRisk);
+                });
+            }
             return result != 0 ? result : 0;
         }
 
@@ -190,6 +200,26 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
+            if (customer is {SiteId: (int) SiteId.Goal123})
+            {
+                var info = customer;
+                _ = Task.Run(async () =>
+                {
+                    // Check Shield Info is high risk
+                    var checkResult = _shieldBll.CheckCustShieldRisk(
+                        info,
+                        ShieldRiskTriggeredPoint.Login,
+                        ShieldRiskTaggedIssue.HighRisk);
+
+                    // send custId to tp.Shield
+                    var request = new SendShieldAttributesRequest()
+                    {
+                        UserId = info.CustId.ToString()
+                    };
+                    var result = await _shieldBll.SendShieldAttributes(request);
+                });
+            }
+            
             _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, deviceType, out token);
             _authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
             return 0;
@@ -433,10 +463,7 @@ namespace MemberSite.Service.BLL
         }
         public CustInfoProfile GetCustInfoProfile(int custId)
         {
-            var custInfo = GetCustInfoWithCache(custId);
-            var customer = _custInfoService.GetCustInfoProfile(custId, custInfo.SiteId);
-            //customer.UserLevel = custInfoService.GetCustLevel(custId);
-            return customer;
+            return _custInfoService.GetCustInfoProfile(custId);
         }
         public CustInfoProfile GetCustInfoProfileWithCache(int custId)
         {
@@ -555,6 +582,33 @@ namespace MemberSite.Service.BLL
         {
             return _agentInfoService.GetReferralSetting(siteId, currencyId);
         }
+        
+        public async Task<ReferralSettingDetail> GetReferralSettingDetailAsync(int siteId, int currencyId, string langId)
+        {
+            var referralData = await _agentInfoService.GetReferralSettingDetailAsync(siteId, currencyId);
+            var referralSettingDetail = new ReferralSettingDetail()
+            {
+                ReferralReward = referralData.BonusAmount,
+                InvitationLimit = referralData.InvitationLimit,
+                AgentValidBet = referralData.AgentValidBet,
+                AgentDeposit = referralData.AgentDeposit,
+                MemberReward = referralData.ReferralFreeCredit,
+                Deposit = referralData.Deposit,
+                VaildBet = referralData.VaildBet,
+                PeriodDays = referralData.PeriodDays,
+                ReferralContent = DeserializeReferralContent(referralData.Details, langId)
+            };
+            return referralSettingDetail;
+        }
+
+        private ReferralContent DeserializeReferralContent(string details, string langId)
+        {
+            var oldLang = langId.Split('_');
+            var lang = oldLang.Length == 2 ? oldLang[1] : oldLang[0];
+            var referralContents = JsonConvert.DeserializeObject<IEnumerable<ReferralContent>>(details);
+            return referralContents?.FirstOrDefault(a => a.LangId == lang);
+        }
+
         public int GetAffiliateAgentBll(string affId)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
@@ -628,9 +682,9 @@ namespace MemberSite.Service.BLL
             ;
         }
 
-        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo)
+        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo, int siteId)
         {
-            return _custInfoService.GetCustBankDetail(sysId, accountNo);
+            return _custInfoService.GetCustBankDetail(sysId, accountNo, siteId);
         }
 
         public int DeleteCustBankInfo(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)

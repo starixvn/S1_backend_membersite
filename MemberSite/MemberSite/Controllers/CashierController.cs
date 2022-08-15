@@ -25,6 +25,7 @@ namespace MemberSite.Controllers
         private bool isNewVersion = true;
         private readonly PayInfoBLL _payInfoBLL;
         private readonly BankInfoBLL _bankInfoBLL;
+        private readonly SelLangBLL _selLangBLL;
 
         public CashierController(IServiceProvider provider)
         {
@@ -40,6 +41,7 @@ namespace MemberSite.Controllers
             promotionBLL = provider.GetRequiredService<PromotionBll>();
             _payInfoBLL = provider.GetRequiredService<PayInfoBLL>();
             _bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
+            _selLangBLL = provider.GetRequiredService<SelLangBLL>();
 
             var configuration = provider.GetRequiredService<IConfiguration>();
             payApiUrl = configuration.GetValue<string>("PayService");
@@ -275,11 +277,12 @@ namespace MemberSite.Controllers
                     loadCardPayInfo.ChannelId,
                     loadCardPayInfo.PayId,
                     ClientIP = tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}"),
                 };
 
                 var myUrl = $"{payApiUrl}ReqDepositLoadCard";
                 apiResult = await courierAdapter.MyPostAsync<PayResult, dynamic>(myUrl, reqDeposit);
+
                 if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
                 {
                     return View(apiResult);
@@ -427,11 +430,11 @@ namespace MemberSite.Controllers
             var vipLevel = custInfoBLL.GetPointLevelWithCache(authData.CustId);
             var depositType = _bankInfoBLL.GetAutoChannelDepositType(custInfo.SiteId);
             var url = depositType == DepositType.BankAutoChannel ? $"{payApiUrl}BankAutoChannel" : $"{payApiUrl}ReqDepositBank";
-            
+
             //取得可用銀行列表
             var bankList = _bankInfoBLL.GetAutoChannelBankList(custInfo, vipLevel)
                 .Where(i => i.SysId == sysId && Amount <= i.MaxAmount && Amount >= i.MinAmount);
-          
+
             foreach (var bank in bankList.OrderBy(i => i.SSort))
             {
                 var result = paymentBLL.DepositReqOnlineBanking(authData.CustId, sysId, bank.PayId, bank.ChannelId, Amount, out var transId, out var onlineBank, depositType);
@@ -459,7 +462,7 @@ namespace MemberSite.Controllers
                 {
                     if (string.IsNullOrEmpty(apiResult.Data.Message))
                     {
-                        return View("DepositReqOnlineBanking",apiResult);
+                        return View("DepositReqOnlineBanking", apiResult);
                     }
                     else
                     {

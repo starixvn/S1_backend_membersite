@@ -25,6 +25,8 @@ namespace MemberSite.Controllers.Api
         private readonly AuthBLL _authBll;
         private readonly CryptoPayInfoBll _cryptoPayInfoBLL;
         private readonly LineLoginBLL _lineLoginBll;
+        private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
+        
 
         public AccountStrictController(IServiceProvider provider)
         {
@@ -39,6 +41,7 @@ namespace MemberSite.Controllers.Api
             _authBll = provider.GetRequiredService<AuthBLL>();
             _cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
             _lineLoginBll = provider.GetRequiredService<LineLoginBLL>();
+            _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
         }
 
         public class BankInfo
@@ -63,7 +66,7 @@ namespace MemberSite.Controllers.Api
 
             var blockBankAccountList = _bankInfoBLL.GetBlockBankAccount(bankInfo.SysId, bankInfo.AccountNo).ToList();
 
-            var custBankDetail = _custInfoBLL.GetCustBankDetail(bankInfo.SysId, bankInfo.AccountNo).ToList();
+            var custBankDetail = _custInfoBLL.GetCustBankDetail(bankInfo.SysId, bankInfo.AccountNo, custInfo.SiteId).ToList();
 
             if (bankInfoSysList == null || bankInfoSysList.Count(x => x.SysId == bankInfo.SysId) == 0)
             {
@@ -404,6 +407,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<object>(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
 
+            var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var beforeCustInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
             if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
             {
@@ -468,34 +472,34 @@ namespace MemberSite.Controllers.Api
             {
                 custProfile["Email"] = beforeCustInfo.Email;
             }
-
-            custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo);
+            
+            custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo, custInfo.SiteId);
 
             apiResult.ErrorCode = _custInfoBLL.SetProfile(authData.CustId, custProfile);
             if (apiResult.ErrorCode == 0)
             {
                 apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
 
-                var custInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
+                var custInfoProfile = _custInfoBLL.GetCustInfoProfile(authData.CustId);
                 apiResult.Data = new
                 {
                     LangCode = _selLangBLL.GetLangId(),
-                    custInfo.UserName,
-                    custInfo.Email,
-                    custInfo.AccountName,
-                    custInfo.Birth_d,
-                    custInfo.Birth_m,
-                    custInfo.Birth_y,
-                    custInfo.RegTime,
-                    LastLogin = custInfo.LastLoginTime,
-                    Country = custInfo.CountryCode,
-                    custInfo.PhoneNo,
-                    custInfo.AddressCountry,
-                    custInfo.AddressState,
-                    custInfo.AddressPostCode,
-                    custInfo.AddressCity,
-                    custInfo.AddressLineFirst,
-                    custInfo.AddressLineSecond
+                    custInfoProfile.UserName,
+                    custInfoProfile.Email,
+                    custInfoProfile.AccountName,
+                    custInfoProfile.Birth_d,
+                    custInfoProfile.Birth_m,
+                    custInfoProfile.Birth_y,
+                    custInfoProfile.RegTime,
+                    LastLogin = custInfoProfile.LastLoginTime,
+                    Country = custInfoProfile.CountryCode,
+                    custInfoProfile.PhoneNo,
+                    custInfoProfile.AddressCountry,
+                    custInfoProfile.AddressState,
+                    custInfoProfile.AddressPostCode,
+                    custInfoProfile.AddressCity,
+                    custInfoProfile.AddressLineFirst,
+                    custInfoProfile.AddressLineSecond
                 };
             }
             else
@@ -511,8 +515,10 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<object>(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
+            
             try
             {
+                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 var beforeCustInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
                 if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
                 {
@@ -582,34 +588,34 @@ namespace MemberSite.Controllers.Api
                     custProfile["Email"] = beforeCustInfo.Email;
                 }
 
-                custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo);
+                custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo, custInfo.SiteId);
 
                 apiResult.ErrorCode = _custInfoBLL.SetProfileV2(authData.CustId, custProfile);
                 if (apiResult.ErrorCode == 0)
                 {
                     apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
 
-                    var custInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
+                    var custInfoProfile = _custInfoBLL.GetCustInfoProfile(authData.CustId);
                     apiResult.Data = new
                     {
                         LangCode = _selLangBLL.GetLangId(),
-                        custInfo.UserName,
-                        custInfo.Email,
-                        custInfo.AccountName,
-                        custInfo.Birth_d,
-                        custInfo.Birth_m,
-                        custInfo.Birth_y,
-                        custInfo.RegTime,
-                        LastLogin = custInfo.LastLoginTime,
-                        Country = custInfo.CountryCode,
-                        custInfo.AreaCode,
-                        custInfo.PhoneNo,
-                        custInfo.AddressCountry,
-                        custInfo.AddressState,
-                        custInfo.AddressPostCode,
-                        custInfo.AddressCity,
-                        custInfo.AddressLineFirst,
-                        custInfo.AddressLineSecond
+                        custInfoProfile.UserName,
+                        custInfoProfile.Email,
+                        custInfoProfile.AccountName,
+                        custInfoProfile.Birth_d,
+                        custInfoProfile.Birth_m,
+                        custInfoProfile.Birth_y,
+                        custInfoProfile.RegTime,
+                        LastLogin = custInfoProfile.LastLoginTime,
+                        Country = custInfoProfile.CountryCode,
+                        custInfoProfile.AreaCode,
+                        custInfoProfile.PhoneNo,
+                        custInfoProfile.AddressCountry,
+                        custInfoProfile.AddressState,
+                        custInfoProfile.AddressPostCode,
+                        custInfoProfile.AddressCity,
+                        custInfoProfile.AddressLineFirst,
+                        custInfoProfile.AddressLineSecond
                     };
                 }
                 else
@@ -677,22 +683,34 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        private Dictionary<string, string> SetCountryCodeAndAreaCode(Dictionary<string, string> custProfile, CustInfoProfile beforeCustInfo)
+        private Dictionary<string, string> SetCountryCodeAndAreaCode(Dictionary<string, string> custProfile, CustInfoProfile beforeCustInfo, int siteId)
         {
-            var perCountry = new CurrencyMapping().CountryMap;
-            custProfile.TryGetValue("CountryCode", out var country);
-            if (string.IsNullOrEmpty(country) || perCountry.FirstOrDefault(x => x.Value == country).Equals(default(KeyValuePair<int, string>)))
+            custProfile.TryGetValue("CountryCode",out var reqCountryCode);
+            
+            if (string.IsNullOrEmpty(reqCountryCode) || !_areaCodeMap.Any(i => i.Code == reqCountryCode))
             {
-                perCountry.TryGetValue(beforeCustInfo.CurrencyId, out var countryCode);
-                custProfile["CountryCode"] = countryCode;
+                if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
+                {
+                    custProfile["CountryCode"] = _custInfoBLL.GetCountryNameByAreaCode(beforeCustInfo.AreaCode);
+                }
+                else if (siteId is (int)SiteId.Goal123 or (int)SiteId.Bwing)
+                {
+                    custProfile["CountryCode"] = "VN";
+                }
             }
-
-            var areaCodeMap = new CurrencyMapping().AreaCodeMap;
-            custProfile.TryGetValue("AreaCode", out var areaCode);
-            if (string.IsNullOrEmpty(areaCode) ||
-                !areaCodeMap.TryGetValue(areaCode, out _))
+            
+            custProfile.TryGetValue("AreaCode", out var reqAreaCode);
+            
+            if ( string.IsNullOrEmpty(reqAreaCode) || !_areaCodeMap.Any(i => i.AreaCode == reqAreaCode))
             {
-                custProfile["AreaCode"] = _custInfoBLL.GetAreaCodeByCountryName(custProfile["CountryCode"]);
+                if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
+                {
+                    custProfile["AreaCode"] = beforeCustInfo.AreaCode;
+                }
+                else
+                {
+                    custProfile["AreaCode"] = _custInfoBLL.GetAreaCodeByCountryName(custProfile["CountryCode"]);
+                }
             }
 
             return custProfile;
@@ -704,8 +722,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<object>(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
-            var perCountry = new CurrencyMapping().CountryMap;
-
+            
             try
             {
                 var custInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
@@ -718,11 +735,11 @@ namespace MemberSite.Controllers.Api
                     }
                     else
                     {
-                        perCountry.TryGetValue(custInfo.CurrencyId, out _perCountry);
+                        _perCountry = _custInfoBLL.GetCountryNameByAreaCode(custInfo.AreaCode);
                     }
                 }
 
-                var isLineBinding = _lineLoginBll.GetCustLineProfile(authData.CustId, null) == null ? false : true;
+                var isLineBinding = _lineLoginBll.GetCustLineProfile(authData.CustId, null) != null;
 
                 apiResult.Data = new
                 {
@@ -753,7 +770,8 @@ namespace MemberSite.Controllers.Api
                     custInfo.AddressPostCode,
                     custInfo.AddressCity,
                     custInfo.AddressLineFirst,
-                    custInfo.AddressLineSecond
+                    custInfo.AddressLineSecond,
+                    custInfo.IsResetPwd
                 };
 
                 apiResult.ErrorCode = 0;

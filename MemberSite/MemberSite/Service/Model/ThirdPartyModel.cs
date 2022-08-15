@@ -26,9 +26,23 @@ namespace MemberSite.Service.Model
         public string TransId { set; get; }
         public decimal Amount { set; get; }
         public int Direction { set; get; }
-        public DateTime CreateTime { set; get; }
+        public DateTimeOffset CreateTime
+        {
+            get
+            {
+                return _createTime.ToOffset(CustTimeZone);
+            }
+            set
+            {
+                _createTime = value.DateTime;
+            }
+        }
+        private DateTime _createTime { get; set; }
         public int Status { set; get; }
         public string Memo { set; get; }
+
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
     }
     public class UserBalance
     {
