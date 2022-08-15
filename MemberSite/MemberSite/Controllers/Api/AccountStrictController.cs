@@ -63,7 +63,7 @@ namespace MemberSite.Controllers.Api
 
             var blockBankAccountList = _bankInfoBLL.GetBlockBankAccount(bankInfo.SysId, bankInfo.AccountNo).ToList();
 
-            var custBankDetail = _custInfoBLL.GetCustBankDetail(bankInfo.SysId, bankInfo.AccountNo).ToList();
+            var custBankDetail = _custInfoBLL.GetCustBankDetail(bankInfo.SysId, bankInfo.AccountNo, custInfo.SiteId).ToList();
 
             if (bankInfoSysList == null || bankInfoSysList.Count(x => x.SysId == bankInfo.SysId) == 0)
             {
@@ -722,7 +722,7 @@ namespace MemberSite.Controllers.Api
                     }
                 }
 
-                var isLineBinding = _lineLoginBll.GetCustLineProfile(authData.CustId, null) == null ? false : true;
+                var isLineBinding = _lineLoginBll.GetCustLineProfile(authData.CustId, null) != null;
 
                 apiResult.Data = new
                 {
@@ -753,7 +753,8 @@ namespace MemberSite.Controllers.Api
                     custInfo.AddressPostCode,
                     custInfo.AddressCity,
                     custInfo.AddressLineFirst,
-                    custInfo.AddressLineSecond
+                    custInfo.AddressLineSecond,
+                    custInfo.IsResetPwd
                 };
 
                 apiResult.ErrorCode = 0;

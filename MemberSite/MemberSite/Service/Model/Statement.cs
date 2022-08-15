@@ -1,4 +1,7 @@
-﻿namespace MemberSite.Service.Model
+﻿using MemberSite.Extensions;
+using System.Text.Json.Serialization;
+
+namespace MemberSite.Service.Model
 {
     public class Statement
     {
@@ -7,10 +10,24 @@
         public decimal BeforeAmount { get; set; }
         public decimal AfterAmount { get; set; }
         public string RefTransId { get; set; }
-        public DateTime CreateTime { get; set; }
+        public DateTimeOffset CreateTime
+        {
+            get
+            {
+                return _createTime.ToOffset(CustTimeZone);
+            }
+            set
+            {
+                _createTime = value.DateTime;
+            }
+        }
+        private DateTime _createTime { get; set; }
         public int Direction { get; set; }
 
         public string TypeName { get; set; }
+
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
     }
 
     public class BounsLogStatement
@@ -20,10 +37,24 @@
         public decimal BeforeBonus { get; set; }
         public decimal AfterBonus { get; set; }
         public string RefTransId { get; set; }
-        public DateTime CreateTime { get; set; }
+        public DateTimeOffset CreateTime
+        {
+            get
+            {
+                return _createTime.ToOffset(CustTimeZone);
+            }
+            set
+            {
+                _createTime = value.DateTime;
+            }
+        }
+        private DateTime _createTime { get; set; }
         public int Direction { get; set; }
 
         public string TypeName { get; set; }
+
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
     }
     public class TpList
     {
@@ -38,28 +69,67 @@
     }
     public class TpBetRecordListOneWeek
     {
-        public DateTime SettledDate { get; set; }
+        public DateTimeOffset SettledDate
+        {
+            get
+            {
+                return _settledDate.ToOffset(CustTimeZone);
+            }
+            set
+            {
+                _settledDate = value.DateTime;
+            }
+        }
+        private DateTime _settledDate { get; set; }
         public decimal TurnOver { get; set; }
         public decimal ValidBet { get; set; }
         public decimal WinlostAmount { get; set; }
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
     }
     public class TpBetRecordListOneDay
     {
-        public DateTime SettledDate { get; set; }
+        public DateTimeOffset SettledDate
+        {
+            get
+            {
+                return _settledDate.ToOffset(CustTimeZone);
+            }
+            set
+            {
+                _settledDate = value.DateTime;
+            }
+        }
+        private DateTime _settledDate { get; set; }
         public string CategoryName { get; set; }
         public int CategoryId { get; set; }
         public decimal TurnOver { get; set; }
         public decimal ValidBet { get; set; }
         public decimal WinlostAmount { get; set; }
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
     }
     public class TpBetRecordbyCategoryId
     {
-        public DateTime SettledDate { get; set; }
+        public DateTimeOffset SettledDate
+        {
+            get
+            {
+                return _settledDate.ToOffset(CustTimeZone);
+            }
+            set
+            {
+                _settledDate = value.DateTime;
+            }
+        }
+        private DateTime _settledDate { get; set; }
         public string GameTypeName { get; set; }
         public int GameTypeID { get; set; }
         public decimal TurnOver { get; set; }
         public decimal ValidBet { get; set; }
         public decimal WinlostAmount { get; set; }
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
     }
     public class TpBetRecordDetailbyGameType
     {
@@ -69,15 +139,53 @@
         public decimal TurnOver { get; set; }
         public decimal ValidBet { get; set; }
         public decimal WinlostAmount { get; set; }
-        public DateTime TransTime { get; set; }
-        public DateTime SettledTime { get; set; }
+        public DateTimeOffset TransTime
+        {
+            get
+            {
+                return _transTime.ToOffset(CustTimeZone);
+            }
+            set
+            {
+                _transTime = value.DateTime;
+            }
+        }
+        private DateTime _transTime { get; set; }
+        public DateTimeOffset SettledTime
+        {
+            get
+            {
+                return _settledTime.ToOffset(CustTimeZone);
+            }
+            set
+            {
+                _settledTime = value.DateTime;
+            }
+        }
+        private DateTime _settledTime { get; set; }
+
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
     }
     public class TpBetRecordListDateRange
     {
-        public DateTime SettledDate { get; set; }
+        public DateTimeOffset SettledDate
+        {
+            get
+            {
+                return _settledDate.ToOffset(CustTimeZone);
+            }
+            set
+            {
+                _settledDate = value.DateTime;
+            }
+        }
+        private DateTime _settledDate { get; set; }
         public decimal TurnOver { get; set; }
         public decimal ValidBet { get; set; }
         public decimal WinlostAmount { get; set; }
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
     }
     public class GameTypeList
     {

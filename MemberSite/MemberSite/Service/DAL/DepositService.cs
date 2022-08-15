@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using Dapper;
 using MemberSite.Service.Library;
 using System.Data;
+using MemberSite.Service.BLL;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
@@ -12,12 +13,14 @@ namespace MemberSite.Service.DAL
         private readonly IConfiguration configuration;
         private readonly Common common;
         private readonly MySqlClient _mainDbClient;
+        private readonly ShieldBLL _shieldBll;
 
         public DepositService(IServiceProvider provider)
         {
             this.configuration = provider.GetRequiredService<IConfiguration>();
             this.common = provider.GetService<Common>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
+            _shieldBll = provider.GetRequiredService<ShieldBLL>();
         }
         public int DepositReq(DepositDetailInfo depositDetailInfo, out string transId, out string postScript)
         {
@@ -32,7 +35,23 @@ namespace MemberSite.Service.DAL
 
             var result = conn.Execute("DepositInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
             trans.Commit();
-
+            
+            if (depositDetailInfo is {SiteId: (int) SiteId.Goal123})
+            {
+                _ = Task.Run(async () =>
+                {
+                    var checkResult = _shieldBll.CheckCustShieldRisk(
+                        new Customer()
+                        {
+                            SiteId = depositDetailInfo.SiteId,
+                            CurrencyId = depositDetailInfo.CurrencyId,
+                            CustId = depositDetailInfo.CustId
+                        },
+                        ShieldRiskTriggeredPoint.Deposit,
+                        ShieldRiskTaggedIssue.HighRisk);
+                });
+            }
+            
             postScript = p.Get<string>("vPostScript");
             transId = p.Get<string>("vTransId");
 
@@ -51,6 +70,22 @@ namespace MemberSite.Service.DAL
 
             var result = conn.Execute("DepositInfoWithFrom_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
             trans.Commit();
+            
+            if (depositDetailInfo is {SiteId: (int) SiteId.Goal123})
+            {
+                _ = Task.Run(async () =>
+                {
+                    var checkResult = _shieldBll.CheckCustShieldRisk(
+                        new Customer()
+                        {
+                            SiteId = depositDetailInfo.SiteId,
+                            CurrencyId = depositDetailInfo.CurrencyId,
+                            CustId = depositDetailInfo.CustId
+                        },
+                        ShieldRiskTriggeredPoint.Deposit,
+                        ShieldRiskTaggedIssue.HighRisk);
+                });
+            }
 
             postScript = p.Get<string>("vPostScript");
             transId = p.Get<string>("vTransId");
@@ -61,7 +96,7 @@ namespace MemberSite.Service.DAL
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId, int siteId, int topNum)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<DepositInfoHistory>("DepositInfoRecent_Get", new { CustId = custId, SiteId = siteId, TopNum = topNum }, commandType: CommandType.StoredProcedure);
+            return conn.Query<DepositInfoHistory>("DepositInfoRecent_Get_V2", new { CustId = custId, SiteId = siteId, TopNum = topNum }, commandType: CommandType.StoredProcedure);
         }
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoHistory(int custId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages,out int rowCount)
@@ -73,7 +108,7 @@ namespace MemberSite.Service.DAL
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var depositInfoHistoryResult = conn.Query<DepositInfoHistory>("DepositInfoSearch_Get", p, commandType: CommandType.StoredProcedure);
+            var depositInfoHistoryResult = conn.Query<DepositInfoHistory>("DepositInfoSearch_Get_V2", p, commandType: CommandType.StoredProcedure);
             totalPages = p.Get<int?>("TotalPages") ?? 0;
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return depositInfoHistoryResult;

@@ -54,6 +54,7 @@ namespace MemberSite
             services.Configure<JwtConfig>(configuration.GetSection("JwtSettings"));
             services.Configure<LineLoginChannelConfig>(configuration.GetSection("LineLoginChannelConfig"));
             services.Configure<LineLoginConfig>(configuration.GetSection("LineLoginConfig"));
+            services.Configure<ShieldConfig>(configuration.GetSection("ShieldConfig"));
             services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
             services.Configure<Dictionary<string, string>>(configuration.GetSection("LoginDeviceConfig"));
             services.AddMemoryCache();
@@ -102,6 +103,10 @@ namespace MemberSite
             services.AddSingleton<AppLinkService>();
             services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
+            services.AddTransient<WorldCupPredictionService>();
+
+            services.AddSingleton<IPService>();
+            services.AddSingleton<ShieldService>();
 
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
@@ -145,6 +150,9 @@ namespace MemberSite
             services.AddSingleton<PayInfoBLL>();
             services.AddSingleton<LineLoginBLL>();
             services.AddSingleton<SiteBll>();
+            services.AddSingleton<IPBLL>();
+            services.AddSingleton<ShieldBLL>();
+            services.AddTransient<WorldCupPredictionBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddControllersWithViews();
@@ -246,7 +254,6 @@ namespace MemberSite
             services.AddControllers();
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
-            services.AddOptionListByDB<BlockIP>("Member_BlockIP_Get");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
