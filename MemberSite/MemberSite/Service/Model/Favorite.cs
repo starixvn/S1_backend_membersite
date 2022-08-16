@@ -30,9 +30,17 @@
         {
             try
             {
-                var game = gameInfo.Split('_');
-                TpId = int.Parse(game[0]);
-                GameId= game[1];
+                var underlineIndex = gameInfo.IndexOf('_');
+                if (string.IsNullOrWhiteSpace(gameInfo) || underlineIndex == -1)
+                {
+                    TpId = 0;
+                    GameId = string.Empty;
+                }
+                else
+                {
+                    TpId = int.Parse(gameInfo.Substring(0, underlineIndex));
+                    GameId = gameInfo.Substring(underlineIndex + 1);
+                }          
             }
             catch 
             {
