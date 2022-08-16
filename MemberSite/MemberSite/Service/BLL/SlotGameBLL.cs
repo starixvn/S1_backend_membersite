@@ -23,6 +23,7 @@ namespace MemberSite.Service.BLL
         private readonly ServerInfoBll _serverInfoBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly GameBLL _gameBll;
+        private readonly SelLangBLL _selLangBll;
 
         private readonly CasinoService _casinoService;
 
@@ -42,6 +43,7 @@ namespace MemberSite.Service.BLL
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _gameBll = provider.GetRequiredService<GameBLL>();
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
 
             _casinoService = provider.GetRequiredService<CasinoService>();
         }
@@ -78,12 +80,16 @@ namespace MemberSite.Service.BLL
         {
             var result = await _cacheHelper.TryGetOrCreateAsync($"GetSlotGameList:{currencyId}:{siteId}:{deviceType}",
                 TimeSpan.FromMinutes(10),
-                async () => await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
+                async () => 
                 {
-                    CurrencyId = currencyId,
-                    SiteId = siteId,
-                    DeviceType = deviceType,
-                }));
+                    var result = await _reportDbClient.QueryAsync<SlotGameInfoDTO>("Service_SlotGame_Get", new
+                    {
+                        CurrencyId = currencyId,
+                        SiteId = siteId,
+                        DeviceType = deviceType,
+                    });
+                    return result.Select(i => new SlotGameInfo(i));
+                });
             return result.ToList();
         }
 
@@ -112,7 +118,7 @@ namespace MemberSite.Service.BLL
             else
             {
 
-                return (serverInfo.SiteId, 0, 0);
+                return (serverInfo.SiteId, _selLangBll.GetPreferCurrencyId(), 0);
             }
         }
 

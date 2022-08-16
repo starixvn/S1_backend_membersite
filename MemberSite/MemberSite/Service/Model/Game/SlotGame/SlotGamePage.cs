@@ -75,7 +75,7 @@ namespace MemberSite.Service.Model.Game
                     RecentlyPlayed.Add(game);
                 }
 
-                foreach (var category in game.SlotGameCategory)
+                foreach (var category in game.SlotGameCategoryList)
                 {
                     if (category == (int)SlotGameCategory.Featured)
                     {
