@@ -2,7 +2,7 @@
 
 namespace MemberSite.Service.Model.Game
 {
-    public class SlotGameInfoDTO
+    public class SlotGameInfo
     {
         public string SlotGameId { get; set; }
         public int TpId { get; set; }
@@ -13,13 +13,22 @@ namespace MemberSite.Service.Model.Game
         public string RTP { get; set; }
         public string Paylines { get; set; }
         public bool PlayFree { get; set; }
-        public Dictionary<string, string> GameName 
+        public Dictionary<string, string> GameName
         {
-            get 
+            get
             {
-                return string.IsNullOrEmpty(Name) ? default : JsonConvert.DeserializeObject<Dictionary<string, string>>(Name);
+                if (_gameName == null)
+                {
+                    return string.IsNullOrEmpty(Name) ? default : JsonConvert.DeserializeObject<Dictionary<string, string>>(Name);
+                }
+                return _gameName;  
+            }
+            set
+            {
+                _gameName = value;
             }
         }
+        private Dictionary<string, string> _gameName { get; set; }
 
         [JsonIgnore]
         public string Name { get; set; }
@@ -28,9 +37,18 @@ namespace MemberSite.Service.Model.Game
         {
             get
             {
-                return string.IsNullOrEmpty(SlotGameCategory) ? default : JsonConvert.DeserializeObject<IEnumerable<int>>(SlotGameCategory);
+                if (_slotGameCategoryList == null)
+                {
+                    return string.IsNullOrEmpty(SlotGameCategory) ? default : JsonConvert.DeserializeObject<IEnumerable<int>>(SlotGameCategory);
+                }
+                return _slotGameCategoryList;
+            }
+            set
+            {
+                _slotGameCategoryList = value;
             }
         }
+        private IEnumerable<int> _slotGameCategoryList { get; set; }
 
         [JsonIgnore]
         public string SlotGameCategory { get; set; }
@@ -39,10 +57,10 @@ namespace MemberSite.Service.Model.Game
         {
             get 
             {
-                if (GameName != null)
+                if (_gameName != null)
                 {
-                    var imgName = GameName.ContainsKey("en") ? GameName["en"] : string.Empty;
-                    return GameName.ToDictionary(x => x.Key, x => $"{OrgFileNameFilter($"{imgName}-{x.Key}")}.jpg");
+                    var imgName = _gameName.ContainsKey("en") ? _gameName["en"] : string.Empty;
+                    return _gameName.ToDictionary(x => x.Key, x => $"{OrgFileNameFilter($"{imgName}-{x.Key}")}.jpg");
                 }
                 return default;
             }    
@@ -62,38 +80,5 @@ namespace MemberSite.Service.Model.Game
                                        .Replace(",", "")
                                        .ToLower();
         }
-    }
-
-    public class SlotGameInfo
-    {
-        public SlotGameInfo() { }
-
-        public SlotGameInfo(SlotGameInfoDTO slotGameInfoDTO)
-        {
-            SlotGameId = slotGameInfoDTO.SlotGameId;
-            TpId = slotGameInfoDTO.TpId;
-            GameId = slotGameInfoDTO.GameId;
-            AppId = slotGameInfoDTO.AppId;
-            LaunchDate = slotGameInfoDTO.LaunchDate;
-            Reels = slotGameInfoDTO.Reels;
-            RTP = slotGameInfoDTO.RTP;
-            Paylines = slotGameInfoDTO.Paylines;
-            PlayFree = slotGameInfoDTO.PlayFree;
-            GameName = slotGameInfoDTO.GameName;
-            SlotGameCategoryList = slotGameInfoDTO.SlotGameCategoryList;
-            ImgName = slotGameInfoDTO.ImgName;
-        }
-        public string SlotGameId { get; set; }
-        public int TpId { get; set; }
-        public string GameId { get; set; }
-        public string AppId { get; set; }
-        public DateTime LaunchDate { get; set; }
-        public string Reels { get; set; }
-        public string RTP { get; set; }
-        public string Paylines { get; set; }
-        public bool PlayFree { get; set; }
-        public Dictionary<string, string> GameName { get; set; }
-        public IEnumerable<int> SlotGameCategoryList { get; set; }
-        public Dictionary<string, string> ImgName { get; set; }
     }
 }

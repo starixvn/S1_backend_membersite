@@ -21,7 +21,7 @@ namespace MemberSite.Service.Library
             DataBase = dataBase;
         }
 
-        public async Task<T> QueryFirstAsync<T>(string name, SqlMapper.IDynamicParameters parameters)
+        public async Task<T> QueryFirstAsync<T>(string name, object parameters)
         {
             T result;
             var sw = Stopwatch.StartNew();

@@ -15,10 +15,17 @@
         public string RecentlyPlayed { get; set; }
     }
 
+    public class FavoriteAndRecentlyPlayed
+    {
+        public List<UserGameInfo> FavoriteList { get; set; } = new List<UserGameInfo>();
+        public List<UserGameInfo> RecentlyPlayedList { get; set; } = new List<UserGameInfo>();
+    }
+
     public class UserGameInfo
     {
         public int TpId { get; set; }
         public string GameId { get; set; }
+        public UserGameInfo() { }
         public UserGameInfo(string gameInfo)
         {
             try
