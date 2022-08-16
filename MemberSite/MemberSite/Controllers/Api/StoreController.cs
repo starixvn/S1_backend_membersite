@@ -65,7 +65,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public Task<object> GetMyCoinAsync()
+        public async Task<object> GetMyCoinAsync()
         {
 
             var authData = _authorizeBLL.GetAuthData();
@@ -76,14 +76,14 @@ namespace MemberSite.Controllers.Api
                     Message = "Cust is Invalid.Please Contact to CSD."
                 });
 
-            return _storeBLL.GetMyCoinAsync(new StoreGetMyCoinRequest
+            return await _storeBLL.GetMyCoinAsync(new StoreGetMyCoinRequest
             {
                 CustId = authData.CustId
             });
         }
 
         [HttpPost]
-        public Task<object> GetMyPurchesAsync(GetMyPurchesRequest request)
+        public async Task<object> GetMyPurchesAsync(GetMyPurchesRequest request)
         {
 
             var authData = _authorizeBLL.GetAuthData();
@@ -94,7 +94,7 @@ namespace MemberSite.Controllers.Api
                     Message = "Cust is Invalid.Please Contact to CSD."
                 });
 
-            return _storeBLL.GetMyPurchesAsync(new StoreGetMyPurchesRequest
+            return await _storeBLL.GetMyPurchesAsync(new StoreGetMyPurchesRequest
             {
                 CustId = authData.CustId,
                 Lang = authData.LangId,
