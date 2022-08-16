@@ -1,4 +1,5 @@
 ﻿using MemberSite.Extensions;
+using MemberSite.Service.Model.enums;
 using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
@@ -18,6 +19,14 @@ namespace MemberSite.Service.Model
         public string AccountNo { get; set; }
         public string Network { set; get; }
         public int CurrencyId { set; get; }
+    }
+    public class WithdrawalEWalletInfo
+    {
+        public int EWalletSysId { get; set; }
+        public string EWalletName { get; set; }
+        public string AccountNo { get; set; }
+        public string AccountType { get; set; }
+        public string AccountName { get; set; }
     }
     public class WithdrawalHistory
     {
@@ -84,6 +93,12 @@ namespace MemberSite.Service.Model
         public int CurrencyId { get; set; }
         public string CurrencyName { get; set; }
     }
+    public class EWalletWithdrawalLimitInfoOutput
+    {
+        public decimal WithdrawalMin { get; set; }
+        public decimal WithdrawalMax { get; set; }
+        public EWalletStatus Status { get; set; }
+    }
 
     public class WithdrawalLimitOutput
     {
@@ -93,6 +108,10 @@ namespace MemberSite.Service.Model
         public int MaxTimes { get; set; }
         public int WithdrawalTimes { get; set; }
         public List<CryptoWithdrawalLimitOutput> USDTList { get; set; }
+        public decimal EWalletWithdrawalMin { get; set; }
+        public bool EWalletUnlimited { get; set; }
+        public decimal EWalletWithdrawalAvailableAmount { get; set; }
+        public EWalletStatus EWalletStatus { get; set; }
     }
 
     public class DailyCustomerWithdrawalInfoInput
