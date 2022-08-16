@@ -54,7 +54,15 @@ public class StoreBLL
     public async Task<object> GetBalanceAsync(StoreGetBalanceRequest request)
     {
         var url = _storeSiteUrl + "Member/GetBalance";
-        var result = await _courierAdapter.MyPostAsync<CustPointBalance, StoreGetBalanceRequest>(url, request);
+        var result = await _courierAdapter.MyPostAsync<object, StoreGetBalanceRequest>(url, request);
+
+        return result;
+    }
+
+    public async Task<object> GetGiftTagsAsync(StoreGetTagsRequest request)
+    {
+        var url = _storeSiteUrl + "Frontend/GetTags";
+        var result = await _courierAdapter.PostAsync(url, request);
 
         return result;
     }
