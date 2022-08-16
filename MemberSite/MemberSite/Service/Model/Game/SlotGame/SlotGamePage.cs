@@ -65,31 +65,6 @@ namespace MemberSite.Service.Model.Game
                     New.Add(game);
                 }
 
-                if (game.SlotGameCategory.Contains((int)SlotGameCategory.Featured))
-                {
-                    Featured.Add(game);
-                }
-
-                if (game.SlotGameCategory.Contains((int)SlotGameCategory.Jackpot))
-                {
-                    Jackpot.Add(game);
-                }
-
-                if (game.SlotGameCategory.Contains((int)SlotGameCategory.TableAndCards))
-                {
-                    TableAndCards.Add(game);
-                }
-
-                if (game.SlotGameCategory.Contains((int)SlotGameCategory.BuyFeaturesGames))
-                {
-                    BuyFeaturesGames.Add(game);
-                }
-
-                if (game.SlotGameCategory.Contains((int)SlotGameCategory.Megaways))
-                {
-                    Megaways.Add(game);
-                }
-
                 if (favorite != null && favorite.Any(i => i.TpId == game.TpId && i.GameId == game.GameId))
                 {
                     MyFavorite.Add(game);
@@ -98,6 +73,34 @@ namespace MemberSite.Service.Model.Game
                 if (recentlyPlayed != null && recentlyPlayed.Any(i => i.TpId == game.TpId && i.GameId == game.GameId))
                 {
                     RecentlyPlayed.Add(game);
+                }
+
+                foreach (var category in game.SlotGameCategory)
+                {
+                    if (category == (int)SlotGameCategory.Featured)
+                    {
+                        Featured.Add(game);
+                    }
+
+                    if (category == (int)SlotGameCategory.Jackpot)
+                    {
+                        Jackpot.Add(game);
+                    }
+
+                    if (category == (int)SlotGameCategory.TableAndCards)
+                    {
+                        TableAndCards.Add(game);
+                    }
+
+                    if (category == (int)SlotGameCategory.BuyFeaturesGames)
+                    {
+                        BuyFeaturesGames.Add(game);
+                    }
+
+                    if (category == (int)SlotGameCategory.Megaways)
+                    {
+                        Megaways.Add(game);
+                    }
                 }
             }
         }
