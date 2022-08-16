@@ -417,47 +417,6 @@
         Able = 1,
     }
     
-    public enum RedemptionErrorCode
-    {
-        InsufficientPoint = -1001,
-        RedemptionLimitOverLimit = -1002
-    }
-
-
-    public enum PointTypeEnum
-    {
-        Deposit = 1,
-        Turnover = 2,
-        /// <summary>
-        /// 兌換物品
-        /// </summary>
-        Redemption = 3,
-        /// <summary>
-        /// 手動
-        /// </summary>
-        Manual = 4,
-        System = 5
-    }
-    public enum CustEWalletDetailLogStatus
-    {
-        Create = 1,
-        Delete = 2,
-        Lock = 3,
-        Unlock = 4
-    }
-    public enum CustEWalletDetailStatus
-    {
-        Disable = 0,
-        Able = 1,
-    }
-
-    public enum WithdrawalTypeStatus 
-    { 
-        LocalBank = 0,
-        Crypto = 1,
-        EWallet = 2
-    }
-    
     public enum ShieldRiskTagged
     {
         IsBot = 1,
@@ -498,6 +457,46 @@
         Active = 1,
         Finished = 2,
         UnStarted = 3
+    }
+    public enum RedemptionErrorCode
+    {
+        InsufficientPoint = -1001,
+        RedemptionLimitOverLimit = -1002
+    }
+
+
+    public enum PointTypeEnum
+    {
+        Deposit = 1,
+        Turnover = 2,
+        /// <summary>
+        /// 兌換物品
+        /// </summary>
+        Redemption = 3,
+        /// <summary>
+        /// 手動
+        /// </summary>
+        Manual = 4,
+        System = 5
+    }
+    public enum CustEWalletDetailLogStatus
+    {
+        Create = 1,
+        Delete = 2,
+        Lock = 3,
+        Unlock = 4
+    }
+    public enum CustEWalletDetailStatus
+    {
+        Disable = 0,
+        Able = 1,
+    }
+
+    public enum WithdrawalTypeStatus 
+    { 
+        LocalBank = 0,
+        Crypto = 1,
+        EWallet = 2
     }
 
     public enum EWalletStatus
