@@ -30,7 +30,7 @@ namespace MemberSite.Controllers.Api
             _storeBLL = provider.GetRequiredService<StoreBLL>();
             _logger = provider.GetRequiredService<ILogger<PromotionController>>();
         }
-        
+
         [HttpPost]
         public async Task<object> GetGiftListAsync(GetGiftListRequest request)
         {
@@ -83,6 +83,33 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        public async Task<object> GetGiftTagsAsync()
+        {
+            var currencyId = 0;
+            var lang = string.Empty;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var authData = _authorizeBLL.GetAuthData();
+                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                currencyId = custInfo.CurrencyId;
+                lang = custInfo.UserLang;
+            }
+            else
+            {
+                currencyId = _selLangBLL.GetPreferCurrencyId();
+                lang = _selLangBLL.GetLangId();
+            }
+
+            return await _storeBLL.GetGiftTagsAsync(new StoreGetTagsRequest
+            {
+                SiteId = _serverInfoBLL.GetServerInfo().SiteId,
+                CurrencyId = currencyId,
+                LangCodes = new List<string>() { lang }
+            });
+        }
+
+        [HttpPost]
         public async Task<object> GetMyPurchesAsync(GetMyPurchesRequest request)
         {
 
@@ -102,7 +129,7 @@ namespace MemberSite.Controllers.Api
                 PageSize = request.PageSize
             });
         }
-        
+
         public async Task<object> SetFavoriteAsync(SetFavoriteRequest request)
         {
             try
@@ -111,7 +138,7 @@ namespace MemberSite.Controllers.Api
                 {
                     return new ApiResult(-1, _selLangBLL.GetMsg("msg_LoginToAccess"));
                 }
-                
+
                 var authData = _authorizeBLL.GetAuthData();
                 var apiRequest = new StoreSetFavoriteRequest
                 {
@@ -128,7 +155,7 @@ namespace MemberSite.Controllers.Api
                 return new ApiResult();
             }
         }
-        
+
         public async Task<object> GetPointBalanceAsync()
         {
             try
@@ -137,7 +164,7 @@ namespace MemberSite.Controllers.Api
                 {
                     return new ApiResult(-1, _selLangBLL.GetMsg("msg_LoginToAccess"));
                 }
-                
+
                 var authData = _authorizeBLL.GetAuthData();
                 var apiRequest = new StoreGetBalanceRequest
                 {
