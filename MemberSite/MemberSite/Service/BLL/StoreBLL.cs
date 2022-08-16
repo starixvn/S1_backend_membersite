@@ -46,7 +46,7 @@ public class StoreBLL
     public async Task<object> SetFavoriteAsync(StoreSetFavoriteRequest request)
     {
         var url = _storeSiteUrl + "Frontend/SetFavorite";
-        var result = await _courierAdapter.MyPostAsync<object, StoreSetFavoriteRequest>(url, request);
+        var result = await _courierAdapter.PostAsync(url, request);
 
         return result;
     }
@@ -54,7 +54,7 @@ public class StoreBLL
     public async Task<object> GetBalanceAsync(StoreGetBalanceRequest request)
     {
         var url = _storeSiteUrl + "Member/GetBalance";
-        var result = await _courierAdapter.MyPostAsync<object, StoreGetBalanceRequest>(url, request);
+        var result = await _courierAdapter.PostAsync(url, request);
 
         return result;
     }

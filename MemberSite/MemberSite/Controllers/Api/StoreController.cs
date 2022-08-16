@@ -61,13 +61,11 @@ namespace MemberSite.Controllers.Api
             };
 
             return await _storeBLL.GetGiftListAsync(apiRequest);
-
         }
 
         [HttpPost]
         public async Task<object> GetMyCoinAsync()
         {
-
             var authData = _authorizeBLL.GetAuthData();
             if (authData == null || authData.CustId == 0)
                 return Task.FromResult<object>(new ApiResult()
@@ -112,7 +110,6 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<object> GetMyPurchesAsync(GetMyPurchesRequest request)
         {
-
             var authData = _authorizeBLL.GetAuthData();
             if (authData == null || authData.CustId == 0)
                 return Task.FromResult<object>(new ApiResult()
