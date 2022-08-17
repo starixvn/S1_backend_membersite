@@ -26,4 +26,12 @@ public class RedemptionBLL
         
         return result;
     }
+    
+    public async Task<object> SetShoppingCartAsync(SetShoppingCartRequest req)
+    {
+        var url = _storeSiteUrl + "GiftManagement/SetShoppingCart";
+        var result = await _courierAdapter.PostAsync(url, req);
+        
+        return result;
+    }
 }
