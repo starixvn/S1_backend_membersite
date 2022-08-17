@@ -1,6 +1,14 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
 using MemberSite.Service.Model;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using MemberSite.Extensions;
+using NSubstitute;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using MemberSite.Service.Library;
 
 namespace MemberSite.Service.BLL.Tests
 {
@@ -10,10 +18,27 @@ namespace MemberSite.Service.BLL.Tests
         private GameBLL _gameBLL;
         private List<TpMaintain> _tpMaintainList;
 
+        public GameBLLTests()
+        {
+            var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
+            {
+                EnvironmentName = "Local",
+            });
+            builder.Configuration.AddRemoteJsonConfig(builder.Configuration.GetSection("ConfigService").Get<string[]>());
+            builder.Services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>());
+            builder.Services.AddSingleton(p => Substitute.For<IWebHostEnvironment>());
+            builder.Services.AddSingleton(p => Substitute.For<ILogger<CourierAdapter>>());
+
+            var startup = new Startup(builder.Configuration, builder.Environment);
+            startup.ConfigureServices(builder.Services);
+            var app = builder.Build();
+
+            _gameBLL = app.Services.GetRequiredService<GameBLL>();
+        }
+
         [SetUp]
         public void Setup()
         {
-            _gameBLL = new GameBLL();
             _tpMaintainList = new List<TpMaintain>()
             {
                 new TpMaintain() { TpId = 1, TpGameType = 1 },

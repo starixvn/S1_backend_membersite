@@ -54,7 +54,7 @@ namespace MemberSite.Service.BLL
             var (siteId, currencyId, custId) = GetUserInfo(user, serverInfo);
             var imgUrl = _siteConfig.Value[serverInfo.SiteName].ImageURL;
 
-            var providerList = GetProviderList(siteId, currencyId, TpCategory.Slots);
+            var providerList = GetSlotGameProviderList(siteId, currencyId, TpCategory.Slots);
             var slotGameList = GetSlotGameList(siteId, currencyId, request.DeviceType);
 
             // 未登入狀態直接回傳
@@ -96,7 +96,7 @@ namespace MemberSite.Service.BLL
         /// <summary>
         /// 透過共用方法取回Slot Game Provider
         /// </summary>
-        private async Task<List<SlotGameProvider>> GetProviderList(int siteId, int currencyId, TpCategory tpCategory)
+        public async Task<List<SlotGameProvider>> GetSlotGameProviderList(int siteId, int currencyId, TpCategory tpCategory)
         {
             var providerList = await _gameBll.GetGameProviderByCategory(siteId, currencyId, tpCategory);
             return providerList

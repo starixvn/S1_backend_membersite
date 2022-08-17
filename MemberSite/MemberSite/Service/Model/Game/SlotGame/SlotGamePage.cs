@@ -139,6 +139,7 @@ namespace MemberSite.Service.Model.Game
                     if (excludeTp != null)
                     {
                         providers.Remove(excludeTp);
+                        slotGameList.RemoveAll(a => a.TpId == disableGame.TpId);
                     }
                 }
             }
