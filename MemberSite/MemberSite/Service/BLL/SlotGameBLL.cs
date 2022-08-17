@@ -124,36 +124,24 @@ namespace MemberSite.Service.BLL
 
         public async Task<IEnumerable<DisableTpGame>> GetDisableGameList(int custId)
         {
-            var result = await _cacheHelper.TryGetOrCreateAsync($"GetDisableGameList:{custId}",
-                 TimeSpan.FromMinutes(10),
-                 async () =>
-                 {
-                     return await _casinoService.GetTpDisableUserByCustIdAsync(custId);
-                 });
-            return result;
+            return await _casinoService.GetTpDisableUserByCustIdAsync(custId);
         }
 
         public async Task<FavoriteAndRecentlyPlayed> GetFavoriteAndRecentlyPlayed(int custId)
-        {         
-            var result = await _cacheHelper.TryGetOrCreateAsync($"GetFavoriteAndRecentlyPlayed:{custId}",
-                 TimeSpan.FromMinutes(10),
-                 async () =>
-                 {
-                     var result = new FavoriteAndRecentlyPlayed();
-                     var data = await _casinoService.GetFavoriteGamesAsync(custId);
-                     if (!string.IsNullOrEmpty(data.Favorite))
-                     {
-                         result.FavoriteList = JsonConvert.DeserializeObject<IEnumerable<string>>(data.Favorite)
-                             .Select(gameInfo => new UserGameInfo(gameInfo)).ToList();
-                     }
+        {
+            var result = new FavoriteAndRecentlyPlayed();
+            var data = await _casinoService.GetFavoriteGamesAsync(custId);
+            if (!string.IsNullOrEmpty(data.Favorite))
+            {
+                result.FavoriteList = JsonConvert.DeserializeObject<IEnumerable<string>>(data.Favorite)
+                    .Select(gameInfo => new UserGameInfo(gameInfo)).ToList();
+            }
 
-                     if (!string.IsNullOrEmpty(data.RecentlyPlayed))
-                     {
-                         result.RecentlyPlayedList = JsonConvert.DeserializeObject<IEnumerable<string>>(data.RecentlyPlayed)
-                             .Select(gameInfo => new UserGameInfo(gameInfo)).ToList();
-                     }
-                     return result;
-                 });
+            if (!string.IsNullOrEmpty(data.RecentlyPlayed))
+            {
+                result.RecentlyPlayedList = JsonConvert.DeserializeObject<IEnumerable<string>>(data.RecentlyPlayed)
+                    .Select(gameInfo => new UserGameInfo(gameInfo)).ToList();
+            }
             return result;
         }      
     }
