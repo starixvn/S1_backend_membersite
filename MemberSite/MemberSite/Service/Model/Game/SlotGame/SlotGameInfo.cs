@@ -59,10 +59,10 @@ namespace MemberSite.Service.Model.Game
         {
             get 
             {
-                if (_gameName != null)
+                if (GameName != null)
                 {
-                    var imgName = _gameName.ContainsKey("en") ? _gameName["en"] : string.Empty;
-                    return _gameName.ToDictionary(x => x.Key, x => $"{OrgFileNameFilter($"{imgName}-{x.Key}")}.jpg");
+                    var imgName = GameName.ContainsKey("en") ? GameName["en"] : string.Empty;
+                    return GameName.ToDictionary(x => x.Key, x => $"{OrgFileNameFilter($"{imgName}-{x.Key}")}.jpg");
                 }
                 return default;
             }    
