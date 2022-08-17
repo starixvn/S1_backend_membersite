@@ -31,6 +31,7 @@ namespace MemberSite.Service.Model.Game
         private Dictionary<string, string> _gameName { get; set; }
 
         [JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
         public string Name { get; set; }
 
         public IEnumerable<int> SlotGameCategoryList
@@ -51,6 +52,7 @@ namespace MemberSite.Service.Model.Game
         private IEnumerable<int> _slotGameCategoryList { get; set; }
 
         [JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
         public string SlotGameCategory { get; set; }
 
         public Dictionary<string, string> ImgName 
