@@ -58,4 +58,23 @@ public class RedemptionController : Controller
         
         return result;
     }
+    
+    [HttpPost]
+    public async Task<object> SetShoppingCartAsync(SendSetShoppingCartRequest req)
+    {
+        var authData = _authorizeBll.GetAuthData();
+        var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+        
+        var sendReq = new SetShoppingCartRequest()
+        {
+            SiteId = custInfo.SiteId,
+            CustId = custInfo.CustId,
+            CurrencyId = custInfo.CurrencyId,
+            IsAdd = req.IsAdd,
+            GiftId = req.GiftId
+        };
+        
+        var result = await _redemptionBll.SetShoppingCartAsync(sendReq);
+        return result;
+    }
 }
