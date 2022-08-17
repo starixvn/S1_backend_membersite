@@ -20,7 +20,11 @@ namespace MemberSite.Service.Model
         public DateTime LastLoginTime { get; set; }
         public DateTime RegTime { get; set; }
         public int Status { get; set; }
+        public bool PhoneVerified { get; set; }
         public bool IsResetPwd { get; set; }
+        public string PhoneNo { get; set; }
+        public string AreaCode { get; set; }
+        public string AccountName { get; set; }
         public string Aff { get; set; }
         public string AffCode { get; set; }
         public string Token { get; set; }
