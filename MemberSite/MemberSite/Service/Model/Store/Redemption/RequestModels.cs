@@ -9,7 +9,7 @@ public class SendCreateRedemptionRequest
 
 public class SendSetShoppingCartRequest
 {
-    public int GiftId { get; set; }
+    public IEnumerable<int> GiftIds { get; set; }
     public int IsAdd { get; set; }
 }
 
@@ -27,6 +27,6 @@ public class SetShoppingCartRequest
     public int SiteId { get; set; }
     public int CurrencyId { get; set; }
     public int CustId { get; set; }
-    public int GiftId { get; set; }
+    public IEnumerable<int> GiftIds { get; set; }
     public int IsAdd { get; set; }
 }
