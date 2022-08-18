@@ -135,7 +135,7 @@ namespace MemberSite.Service.Library
                 object result = default;
                 var jsonReq = JsonConvert.SerializeObject(request);
                 var content = new StringContent(jsonReq, Encoding.UTF8, "application/json");
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 if (timeout != 0)
                 {
