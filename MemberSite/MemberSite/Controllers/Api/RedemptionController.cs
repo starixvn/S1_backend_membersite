@@ -71,7 +71,7 @@ public class RedemptionController : Controller
             CustId = custInfo.CustId,
             CurrencyId = custInfo.CurrencyId,
             IsAdd = req.IsAdd,
-            GiftId = req.GiftId
+            GiftIds = req.GiftIds
         };
         
         var result = await _redemptionBll.SetShoppingCartAsync(sendReq);
