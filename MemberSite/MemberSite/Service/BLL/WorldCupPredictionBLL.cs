@@ -160,8 +160,7 @@ namespace MemberSite.Service.BLL
         {
             // 投票參數驗證
             if (request.TicketType is < 1 or > 3) throw new Exception("ticketType not found");
-            if (request.CountryId is < 1 or > 32) throw new Exception("selectCountry not found");
-
+            
             var worldCupDateSetting = GetWorldCupDateSetting().First(r => r.SiteId == siteId && r.CurrencyId == currencyId);
             var userCurrentTime = GetUserCurrentTime(worldCupDateSetting);
 
