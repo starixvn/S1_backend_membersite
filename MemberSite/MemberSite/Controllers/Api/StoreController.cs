@@ -81,7 +81,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<object> GetGiftTagsAsync()
+        public async Task<object> GetGiftTagsAsync(string LangId = "")
         {
             var currencyId = 0;
             var lang = string.Empty;
@@ -97,6 +97,12 @@ namespace MemberSite.Controllers.Api
             {
                 currencyId = _selLangBLL.GetPreferCurrencyId();
                 lang = _selLangBLL.GetLangId();
+            }
+
+            // 因前端需求，有帶LangId時優先使用LangId
+            if (!string.IsNullOrEmpty(LangId))
+            {
+                lang = LangId;
             }
 
             return await _storeBLL.GetGiftTagsAsync(new StoreGetTagsRequest
