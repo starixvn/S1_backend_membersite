@@ -84,6 +84,7 @@ namespace MemberSite.Service.Model
     {
         public decimal WithdrawalMin { get; set; }
         public decimal WithdrawalMax { get; set; }
+        public decimal TotalWithdrawalMax { get; set; }
         public int Times { get; set; }
 
     }
