@@ -40,6 +40,7 @@ namespace MemberSite.Controllers.Api
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
+        private readonly ICacheHelper _cacheHelper;
 
         public SiteController(IServiceProvider provider)
         {
@@ -59,6 +60,7 @@ namespace MemberSite.Controllers.Api
             _loginDeviceConfig = provider.GetRequiredService<IOptions<Dictionary<string, string>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _siteBll = provider.GetRequiredService<SiteBll>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
         public class LoginModel
@@ -153,6 +155,7 @@ namespace MemberSite.Controllers.Api
                 });
             }
 
+            await _cacheHelper.StringSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             Response.Cookies.Delete($"Initialization{User.Identity.Name}");
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
@@ -288,7 +291,7 @@ namespace MemberSite.Controllers.Api
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity));
-
+            await _cacheHelper.StringSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             return apiResult;
         }
 
