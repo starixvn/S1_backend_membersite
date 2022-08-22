@@ -32,4 +32,5 @@ public interface ICacheHelper
 
     long GetListLength(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
 
+    Task<bool> KeyDeleteAsync(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
 }
