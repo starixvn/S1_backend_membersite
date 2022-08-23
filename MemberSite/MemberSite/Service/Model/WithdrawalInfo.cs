@@ -113,6 +113,7 @@ namespace MemberSite.Service.Model
         public bool EWalletUnlimited { get; set; }
         public decimal EWalletWithdrawalAvailableAmount { get; set; }
         public EWalletStatus EWalletStatus { get; set; }
+        public decimal TotalWithdrawalMax { get; set; }
     }
 
     public class DailyCustomerWithdrawalInfoInput
