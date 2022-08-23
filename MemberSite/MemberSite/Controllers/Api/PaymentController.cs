@@ -1234,15 +1234,14 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
+            #region Limitation
+
             var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(new WithdrawalLimitInfoInput
             {
                 SiteId = custInfo.SiteId,
                 CurrencyId = custInfo.CurrencyId,
                 VipLevel = custInfo.UserLevel
             });
-
-            var dailyCustomerWithdrawalInfo =
-                paymentBLL.GetDailyCustomerWithdrawalInfo(new DailyCustomerWithdrawalInfoInput { CustId = custInfo.CustId });
 
             var cryptoWithdrawalLimitInfo = paymentBLL.GetUSDTWithdrawalLimitInfoV2(new USDTWithdrawalLimitInfoInput
             {
@@ -1257,9 +1256,15 @@ namespace MemberSite.Controllers.Api
                 SiteId = custInfo.SiteId,
                 CurrencyId = custInfo.CurrencyId
             });
+            
+            #endregion
+            
+            var dailyCustomerWithdrawalInfo =
+                paymentBLL.GetDailyCustomerWithdrawalInfo(new DailyCustomerWithdrawalInfoInput { CustId = custInfo.CustId });
 
-            var tmpWithdrawalAvailableAmount = 0m;
-            var tmpEWalletAvailableAmount = 0m;
+            decimal tmpWithdrawalAvailableAmount;
+
+            #region crypto
 
             cryptoWithdrawalLimitInfo.ForEach(x =>
             {
@@ -1281,16 +1286,21 @@ namespace MemberSite.Controllers.Api
                 });
             });
 
+            #endregion
+            
             var output = withdrawalLimitInfo ?? new WithdrawalLimitInfoOutput()
             {
                 WithdrawalMin = 0,
                 WithdrawalMax = 0,
+                TotalWithdrawalMax = 0,
                 Times = 0
             };
 
-            tmpWithdrawalAvailableAmount = output.WithdrawalMax == 0
+            tmpWithdrawalAvailableAmount = output.TotalWithdrawalMax == 0
                 ? dailyCustomerWithdrawalInfo.Amount
-                : output.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount;
+                : output.TotalWithdrawalMax - dailyCustomerWithdrawalInfo.Amount;
+
+            #region eWallet
 
             var eWallet = eWalletWithdrawalLimitInfo ?? new EWalletWithdrawalLimitInfoOutput()
             {
@@ -1299,10 +1309,12 @@ namespace MemberSite.Controllers.Api
                 Status = 0
             };
 
-            tmpEWalletAvailableAmount = eWallet.WithdrawalMax == 0
+            var tmpEWalletAvailableAmount = eWallet.WithdrawalMax == 0
                 ? dailyCustomerWithdrawalInfo.Amount
                 : eWallet.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount;
-
+            
+            #endregion
+           
             var data = new WithdrawalLimitOutput
             {
                 WithdrawalMin = output.WithdrawalMin,
@@ -1316,7 +1328,8 @@ namespace MemberSite.Controllers.Api
                 EWalletUnlimited = eWallet.WithdrawalMax == 0,
                 EWalletWithdrawalAvailableAmount = tmpEWalletAvailableAmount < 0
                     ? 0 : tmpEWalletAvailableAmount,
-                EWalletStatus = eWallet.Status
+                EWalletStatus = eWallet.Status,
+                TotalWithdrawalMax = output.TotalWithdrawalMax
             };
 
             var apiResult = new ApiResult<WithdrawalLimitOutput>
