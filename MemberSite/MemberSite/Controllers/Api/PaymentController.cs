@@ -1279,7 +1279,7 @@ namespace MemberSite.Controllers.Api
             var data = new WithdrawalLimitOutput
             {
                 WithdrawalMin = output.WithdrawalMin,
-                Unlimited = output.WithdrawalMax == 0,
+                Unlimited = output.TotalWithdrawalMax == 0,
                 WithdrawalAvailableAmount = tmpWithdrawalAvailableAmount < 0
                     ? 0 : tmpWithdrawalAvailableAmount,
                 MaxTimes = output.Times,
@@ -1289,8 +1289,7 @@ namespace MemberSite.Controllers.Api
                 EWalletUnlimited = eWallet.WithdrawalMax == 0,
                 EWalletWithdrawalAvailableAmount = tmpEWalletAvailableAmount < 0
                     ? 0 : tmpEWalletAvailableAmount,
-                EWalletStatus = eWallet.Status,
-                TotalWithdrawalMax = output.TotalWithdrawalMax
+                EWalletStatus = eWallet.Status
             };
 
             var apiResult = new ApiResult<WithdrawalLimitOutput>
