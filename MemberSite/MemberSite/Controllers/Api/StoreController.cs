@@ -32,7 +32,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<object> GetGiftListAsync(GetGiftListRequest request)
+        public async Task<object> GetGiftListAsync(GetGiftListRequest request, string LangId = "en")
         {
             var custId = 0;
             var currencyId = 0;
@@ -54,7 +54,7 @@ namespace MemberSite.Controllers.Api
                 CurrencyId = currencyId,
                 CategoryIds = request.CategoryIds,
                 Tags = request.Tags,
-                Lang = _selLangBLL.GetLangId(),
+                Lang = LangId, // 應前端要求，一律改吃LangId
                 OrderByField = request.OrderByField,
                 Desc = request.Desc,
                 PageSize = request.PageSize
