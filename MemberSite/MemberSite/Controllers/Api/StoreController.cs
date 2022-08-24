@@ -1,8 +1,7 @@
-﻿using MemberSite.Service.BLL;
-using MemberSite.Service.Library;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.Store.Frontend;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static MemberSite.Extensions.MethodExtension;
 
@@ -45,7 +44,7 @@ namespace MemberSite.Controllers.Api
                 custId = authData.CustId;
             }
             else
-                currencyId = _selLangBLL.GetPreferCurrencyId();
+                currencyId = (int)StoreExtension.GetCurrencyByLangId(LangId);
 
             var apiRequest = new StoreGetGiftListRequest
             {
@@ -84,25 +83,19 @@ namespace MemberSite.Controllers.Api
         public async Task<object> GetGiftTagsAsync(string LangId = "")
         {
             var currencyId = 0;
-            var lang = string.Empty;
+            var lang = string.IsNullOrEmpty(LangId)
+                ? _selLangBLL.GetLangId()
+                : LangId; // 因前端需求，有帶LangId時優先使用LangId
 
             if (User.Identity.IsAuthenticated)
             {
                 var authData = _authorizeBLL.GetAuthData();
                 var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 currencyId = custInfo.CurrencyId;
-                lang = custInfo.UserLang;
             }
             else
             {
-                currencyId = _selLangBLL.GetPreferCurrencyId();
-                lang = _selLangBLL.GetLangId();
-            }
-
-            // 因前端需求，有帶LangId時優先使用LangId
-            if (!string.IsNullOrEmpty(LangId))
-            {
-                lang = LangId;
+                currencyId = (int)StoreExtension.GetCurrencyByLangId(LangId);
             }
 
             return await _storeBLL.GetGiftTagsAsync(new StoreGetTagsRequest
