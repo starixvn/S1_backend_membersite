@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.Model.enums;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.Model.enums;
 using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
@@ -19,7 +20,11 @@ namespace MemberSite.Service.Model
         public DateTime LastLoginTime { get; set; }
         public DateTime RegTime { get; set; }
         public int Status { get; set; }
+        public bool PhoneVerified { get; set; }
         public bool IsResetPwd { get; set; }
+        public string PhoneNo { get; set; }
+        public string AreaCode { get; set; }
+        public string AccountName { get; set; }
         public string Aff { get; set; }
         public string AffCode { get; set; }
         public string Token { get; set; }
@@ -86,6 +91,23 @@ namespace MemberSite.Service.Model
         public string DefAccountNo { set; get; }
         public IEnumerable<BankInfoDetailRep> bankInfoDetail { set; get; }
         public IEnumerable<USDTDetail> uSDTDetail { set; get; }
+    }
+
+    public class EWalletInfoDetail
+    {
+        public int SysId { set; get; }
+        public string AccountNo { set; get; }
+    }
+    public class EWalletInfoDetailData: EWalletInfoDetail
+    {
+        public int CustId  { set; get; }
+    }
+
+    public class EWalletInfoDetailRep : EWalletInfoDetail
+    {
+        public string EWalletName { set; get; }
+        public string EWalletLogo { set; get; }
+        public string EWalletSite { set; get; }
     }
 
     public class WalletInfo
@@ -242,7 +264,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return DateTimeOffset.Parse(_registerDate.ToString() + CustTimeZone);
+                return _registerDate.ToOffset(CustTimeZone);
             }
             set
             {

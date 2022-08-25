@@ -227,6 +227,13 @@
         Success = 0,
         IovationNotSupport = 1301
     }
+    
+    public enum ShieldErrorCode
+    {
+        Success = 0,
+        InvalidRequest = -1 ,
+        Failed = 99,
+    }
     public enum SpecialCode
     {
         Success = 0,
@@ -407,7 +414,74 @@
         Disable = 0,
         Able = 1,
     }
+    
+    public enum ShieldRiskTagged
+    {
+        IsBot = 1,
+        IsIncognito = 2,
+        IsEmulated = 3,
+        IsTor = 4,
+        IsAntiFingerprinting = 5,
+        IsProxy = 6,
+        RunningCloneApps = 7,
+        RunningGpsSpoofers = 8,
+        RunningVpnSpoofers = 9,
+        AutoClickerEnabled = 10,
+        IsDeviceMasked = 11,
+        IsJailBroken = 12,
+        AppTampering = 13,
+        SuspiciousFactoryReset = 14,
+        VirtualOs = 15,
+        Hooking = 16
+    }
+    
+    public enum ShieldRiskTriggeredPoint
+    {
+        Registration = 1,
+        Login = 2,
+        Deposit = 3,
+        Withdrawal = 4,
+        ClaimBonus = 5,
+    }
+    
+    public enum ShieldRiskTaggedIssue
+    {
+        HighRisk  = 1
+    }
+    
 
+    public enum WorldCupUserTicketStatus
+    {
+        Active = 1,
+        Finished = 2,
+        UnStarted = 3
+    }
+    public enum CustEWalletDetailLogStatus
+    {
+        Create = 1,
+        Delete = 2,
+        Lock = 3,
+        Unlock = 4
+    }
+    public enum CustEWalletDetailStatus
+    {
+        Disable = 0,
+        Able = 1,
+    }
+
+    public enum WithdrawalTypeStatus 
+    { 
+        LocalBank = 0,
+        Crypto = 1,
+        EWallet = 2
+    }
+
+    public enum EWalletStatus
+    {
+        Disable = 0,
+        Able = 1,
+	}
+	
     public enum RedemptionErrorCode
     {
         InsufficientPoint = -1001,

@@ -40,4 +40,11 @@
 
         public string ProfileApi { get; set; }
     }
+    public class ShieldConfig
+    {
+        public string SiteId { get; set; }
+
+        public string SecretKey { get; set; }
+        public string ShieldService { get; set; }
+    }
 }
