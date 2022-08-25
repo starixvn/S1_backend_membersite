@@ -483,4 +483,11 @@
         Disable = 0,
         Able = 1,
     }
+    
+    public enum OfflineBankAccountPurposeEnum
+    {
+        Deposit = 1,
+        Withdrawal = 2,
+        Transfer = 3
+    }
 }
