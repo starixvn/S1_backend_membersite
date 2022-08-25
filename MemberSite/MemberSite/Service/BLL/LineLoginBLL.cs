@@ -4,11 +4,7 @@ using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using NuGet.Protocol;
-using System.Collections.Specialized;
-using System.Net;
 using System.Net.Http.Headers;
-using System.Text;
 
 namespace MemberSite.Service.BLL
 {

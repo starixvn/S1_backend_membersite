@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using MemberSite.Extensions;
+using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
 {
@@ -57,7 +58,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return DateTimeOffset.Parse(_createTime.ToString() + CustTimeZone);
+                return _createTime.ToOffset(CustTimeZone);
             }
             set 
             {
@@ -81,7 +82,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _depositTime != null ? DateTimeOffset.Parse(_depositTime.ToString() + CustTimeZone) : null;
+                return _depositTime != null ? _depositTime.Value.ToOffset(CustTimeZone) : null;
             }
             set
             {

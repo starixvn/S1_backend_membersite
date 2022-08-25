@@ -1,7 +1,6 @@
 ﻿using MemberSite.Service.Library;
 using Microsoft.AspNetCore.Routing.Template;
 using System.Net;
-using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.BLL

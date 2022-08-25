@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.Model.enums;
+using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
 {
@@ -18,13 +20,21 @@ namespace MemberSite.Service.Model
         public string Network { set; get; }
         public int CurrencyId { set; get; }
     }
+    public class WithdrawalEWalletInfo
+    {
+        public int EWalletSysId { get; set; }
+        public string EWalletName { get; set; }
+        public string AccountNo { get; set; }
+        public string AccountType { get; set; }
+        public string AccountName { get; set; }
+    }
     public class WithdrawalHistory
     {
         public DateTimeOffset CreateTime
         {
             get
             {
-                return DateTimeOffset.Parse(_createTime.ToString() + CustTimeZone);
+                return _createTime.ToOffset(CustTimeZone);
             }
             set
             {
@@ -40,7 +50,10 @@ namespace MemberSite.Service.Model
         public string WithdrawalInfo { get; set; }
         [JsonIgnore]
         public string CustTimeZone { get; set; }
+        public string Memo { get; set; }
+        public bool CanCancel => this.Memo == "WithdrawalSubmission" ? false : true;
     }
+
 
     public class WithdrawalLimitInfo
     {
@@ -61,7 +74,7 @@ namespace MemberSite.Service.Model
         public int CurrencyId { get; set; }
         public int VipLevel { get; set; }
     }
-    public class USDTWithdrawalLimitInfoInput: WithdrawalLimitInfoInput
+    public class USDTWithdrawalLimitInfoInput : WithdrawalLimitInfoInput
     {
         public int CryptoCurrencyId { get; set; }
 
@@ -72,13 +85,19 @@ namespace MemberSite.Service.Model
         public decimal WithdrawalMin { get; set; }
         public decimal WithdrawalMax { get; set; }
         public int Times { get; set; }
-        
+
     }
-    public class USDTWithdrawalLimitInfoOutput: WithdrawalLimitInfoOutput
+    public class USDTWithdrawalLimitInfoOutput : WithdrawalLimitInfoOutput
     {
         public string Network { get; set; }
         public int CurrencyId { get; set; }
         public string CurrencyName { get; set; }
+    }
+    public class EWalletWithdrawalLimitInfoOutput
+    {
+        public decimal WithdrawalMin { get; set; }
+        public decimal WithdrawalMax { get; set; }
+        public EWalletStatus Status { get; set; }
     }
 
     public class WithdrawalLimitOutput
@@ -89,6 +108,10 @@ namespace MemberSite.Service.Model
         public int MaxTimes { get; set; }
         public int WithdrawalTimes { get; set; }
         public List<CryptoWithdrawalLimitOutput> USDTList { get; set; }
+        public decimal EWalletWithdrawalMin { get; set; }
+        public bool EWalletUnlimited { get; set; }
+        public decimal EWalletWithdrawalAvailableAmount { get; set; }
+        public EWalletStatus EWalletStatus { get; set; }
     }
 
     public class DailyCustomerWithdrawalInfoInput
@@ -101,12 +124,12 @@ namespace MemberSite.Service.Model
         public decimal Amount { get; set; }
         public int Count { get; set; }
     }
-    
+
     public class CustomerWithdrawalInfoInput
     {
         public int CustId { get; set; }
     }
-    
+
     public class CustomerWithdrawalInfoOutput
     {
         public bool WithdrawalExists { get; set; }

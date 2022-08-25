@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using MemberSite.Extensions;
+using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
 {
@@ -13,7 +14,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return DateTimeOffset.Parse(_createTime.ToString() + CustTimeZone);
+                return _createTime.ToOffset(CustTimeZone);
             }
             set
             {
@@ -40,7 +41,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return DateTimeOffset.Parse(_createTime.ToString() + CustTimeZone);
+                return _createTime.ToOffset(CustTimeZone);
             }
             set
             {
@@ -72,7 +73,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return DateTimeOffset.Parse(_settledDate.ToString() + CustTimeZone);
+                return _settledDate.ToOffset(CustTimeZone);
             }
             set
             {
@@ -92,7 +93,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return DateTimeOffset.Parse(_settledDate.ToString() + CustTimeZone);
+                return _settledDate.ToOffset(CustTimeZone);
             }
             set
             {
@@ -114,7 +115,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return DateTimeOffset.Parse(_settledDate.ToString() + CustTimeZone);
+                return _settledDate.ToOffset(CustTimeZone);
             }
             set
             {
@@ -142,7 +143,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return DateTimeOffset.Parse(_transTime.ToString() + CustTimeZone);
+                return _transTime.ToOffset(CustTimeZone);
             }
             set
             {
@@ -154,7 +155,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return DateTimeOffset.Parse(_settledTime.ToString() + CustTimeZone);
+                return _settledTime.ToOffset(CustTimeZone);
             }
             set
             {
@@ -172,7 +173,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return DateTimeOffset.Parse(_settledDate.ToString() + CustTimeZone);
+                return _settledDate.ToOffset(CustTimeZone);
             }
             set
             {
