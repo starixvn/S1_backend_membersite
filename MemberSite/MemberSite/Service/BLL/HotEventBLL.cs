@@ -21,6 +21,12 @@ namespace MemberSite.Service.BLL
         public async Task<IEnumerable<HotEventResponse>> GetHotEventDataList(int siteId, string langId, ServerInfo serverInfo)
         {
             var hotEventList = await _hotEventService.GetHotEventDataList(siteId, langId);
+
+            if (!hotEventList.Any() && langId != "en") // 如果某個語系沒資料，就抓抓看 en 語系給前台，Ariel的需求 
+            {
+                hotEventList = await _hotEventService.GetHotEventDataList(siteId, "en");
+            }
+
             var sportTeamsInfo = await GetSportTeamsInfo();
             var sportLeaguesInfo = await GetSportLeaguesInfo();
 
