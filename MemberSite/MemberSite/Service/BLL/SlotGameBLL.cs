@@ -131,6 +131,12 @@ namespace MemberSite.Service.BLL
         {
             var result = new FavoriteAndRecentlyPlayed();
             var data = await _casinoService.GetFavoriteGamesAsync(custId);
+
+            if (data == null )
+            {
+                return result;
+            }
+           
             if (!string.IsNullOrEmpty(data.Favorite))
             {
                 result.FavoriteList = JsonConvert.DeserializeObject<IEnumerable<string>>(data.Favorite)
