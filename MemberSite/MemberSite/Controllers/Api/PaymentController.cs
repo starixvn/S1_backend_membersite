@@ -650,8 +650,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            if (usdtWithdrawalLimitInfo != null
-                && withdrawalLimitInfo.TotalWithdrawalMax != 0
+            if (withdrawalLimitInfo.TotalWithdrawalMax != 0
                 && dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > withdrawalLimitInfo.TotalWithdrawalMax)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
@@ -659,9 +658,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             
-            if (usdtWithdrawalLimitInfo != null
-                && usdtWithdrawalLimitInfo.Times != 0
-                && dailyCustomerWithdrawalInfo.Count >= usdtWithdrawalLimitInfo.Times)
+            if (dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
                 apiResult.ErrorCode = -7;
@@ -1574,15 +1571,16 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -8;
                 return apiResult;
             }
-            if (eWalletWithdrawalLimitInfo != null && eWalletWithdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
+            if (eWalletWithdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
             {
                 apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), eWalletWithdrawalLimitInfo.WithdrawalMin);
                 apiResult.ErrorCode = -5;
                 return apiResult;
             }
 
-            if (withdrawalLimitInfo != null && withdrawalLimitInfo.TotalWithdrawalMax != 0 &&
-                dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > withdrawalLimitInfo.TotalWithdrawalMax)
+            if (withdrawalLimitInfo != null
+                && withdrawalLimitInfo.TotalWithdrawalMax != 0 
+                && dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > withdrawalLimitInfo.TotalWithdrawalMax)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
                 apiResult.ErrorCode = -6;
