@@ -104,6 +104,7 @@ namespace MemberSite
             services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
             services.AddTransient<WorldCupPredictionService>();
+            services.AddSingleton<PartitionService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
