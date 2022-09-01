@@ -971,15 +971,20 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult GetStatement(HistoryReq historyReq)
         {
-            var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiListResult<Statement>();
-            var pageNumber = historyReq.PageNumber;
-            apiResult.Data = paymentBLL.GetStatement(authData.CustId, historyReq.StartDate, historyReq.EndDate, ref pageNumber, out var totalPages, out var rowCount);
-            apiResult.PageNumber = pageNumber;
-            apiResult.TotalPages = totalPages;
-            apiResult.RowCount = rowCount;
-            apiResult.ErrorCode = 0;
-            return apiResult;
+            return new ApiListResult<Statement>
+            {
+                Data = paymentBLL.GetStatement(
+                    authorizeBLL.GetAuthData().CustId, 
+                    historyReq.StartDate, 
+                    historyReq.EndDate, 
+                    historyReq.PageNumber, 
+                    5,
+                    out var pageInfo),
+                PageNumber = pageInfo.PageNumber,
+                TotalPages = pageInfo.TotalPages,
+                RowCount = pageInfo.RowCount,
+                ErrorCode = 0,
+            };
         }
 
         public class BounsLogReq

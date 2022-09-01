@@ -107,6 +107,7 @@ namespace MemberSite
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
             services.AddTransient<WorldCupPredictionService>();
             services.AddTransient<ReCaptchaService>();
+            services.AddSingleton<PartitionService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
