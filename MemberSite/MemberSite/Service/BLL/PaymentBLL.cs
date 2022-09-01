@@ -613,7 +613,7 @@ namespace MemberSite.Service.BLL
             return withdrawalInfoHistory;
         }
 
-        public IEnumerable<Statement> GetStatement(int custId, long startDate, long endDate, int pageNumber, int pageSize out IPageInfo pageInfo)
+        public IEnumerable<Statement> GetStatement(int custId, long startDate, long endDate, int pageNumber, int pageSize, out IPageInfo pageInfo)
         {
             pageInfo = new PageInfo();
             var start = DateTimeOffset.FromUnixTimeSeconds(startDate).DateTime;
