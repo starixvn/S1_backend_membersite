@@ -2,12 +2,51 @@
 {
     #region Response
 
-    public class HotEventResponse : HotEventDto
+    public class HotEventResponse
     {
         /// <summary>
-        /// Logo圖
+        /// 聯賽標題名稱
         /// </summary>
-        public string Logo { get; set; }
+        public string SportLeaguesTitle { get; set; }
+
+        /// <summary>
+        /// SaBa提供的
+        /// </summary>
+        public int MatchId { get; set; }
+        public string TpId { get; set; }
+        public string GameId { get; set; }
+
+
+        /// <summary>
+        /// 主隊名稱
+        /// </summary>
+        public string HomeTeamName { get; set; }
+
+
+        /// <summary>
+        /// 客隊名稱
+        /// </summary>
+        public string AwayTeamName { get; set; }
+
+        /// <summary>
+        /// 比賽時間
+        /// </summary>
+        public DateTime BattleTime { get; set; }
+
+        /// <summary>
+        /// 主隊賠率 TpWager專案 會有 Job 持續更新
+        /// </summary>
+        public decimal? HomeOdds { get; set; }
+
+        /// <summary>
+        /// 客隊賠率，TpWager專案 會有 Job 持續更新
+        /// </summary>
+        public decimal? AwayOdds { get; set; }
+
+        /// <summary>
+        /// 盤口，TpWager專案 會有 Job 持續更新
+        /// </summary>
+        public decimal? Handicap { get; set; }
 
         /// <summary>
         /// 背景底圖
@@ -49,11 +88,6 @@
         public int HomeTeamLeaguesId { get; set; }
 
         /// <summary>
-        /// 主隊的聯賽名稱
-        /// </summary>
-        public string HomeTeamLeaguesName { get; set; }
-
-        /// <summary>
         /// 主隊隊伍Id
         /// </summary>
         public int HomeTeamId { get; set; }
@@ -67,11 +101,6 @@
         /// 客隊的聯賽Id
         /// </summary>
         public int AwayTeamLeaguesId { get; set; }
-
-        /// <summary>
-        /// 客隊的聯賽名稱
-        /// </summary>
-        public string AwayTeamLeaguesName { get; set; }
 
         /// <summary>
         /// 客隊隊伍Id

@@ -36,17 +36,12 @@ namespace MemberSite.Service.BLL
                 MatchId = r.MatchId,
                 TpId = r.TpId,
                 GameId = r.GameId,
-                HomeTeamLeaguesId = r.HomeTeamLeaguesId,
-                HomeTeamLeaguesName = r.HomeTeamLeaguesName,
                 HomeTeamName = r.HomeTeamName,
-                AwayTeamLeaguesId = r.AwayTeamLeaguesId,
-                AwayTeamLeaguesName = r.AwayTeamLeaguesName,
                 AwayTeamName = r.AwayTeamName,
                 BattleTime = r.BattleTime,
                 HomeOdds = r.HomeOdds,
                 AwayOdds = r.AwayOdds,
                 Handicap = r.Handicap,
-                Logo = GetLogPic(serverInfo, sportLeaguesInfo, r),
                 BackgroundPic = GetBackgroundPic(serverInfo, sportLeaguesInfo, r),
                 HomeTeamPic = GetHomeTeamPic(serverInfo, sportLeaguesInfo, r, sportTeamsInfo),
                 AwayTeamPic = GetAwayTeamPic(serverInfo, sportLeaguesInfo, r, sportTeamsInfo)
@@ -57,16 +52,11 @@ namespace MemberSite.Service.BLL
 
         #region private method
 
-        private string GetLogPic(ServerInfo serverInfo, IEnumerable<SportLeaguesInfoDto> sportLeaguesInfo, HotEventDto hotEvent)
-        {
-            return $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{MapSportLeaguesName(sportLeaguesInfo, hotEvent.HomeTeamLeaguesId)}/{serverInfo.SiteName}/Logo.png";
-        }
 
         private string GetBackgroundPic(ServerInfo serverInfo, IEnumerable<SportLeaguesInfoDto> sportLeaguesInfo, HotEventDto hotEvent)
         {
             return $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{MapSportLeaguesName(sportLeaguesInfo, hotEvent.HomeTeamLeaguesId)}/{serverInfo.SiteName}/Background.jpg";
         }
-
 
         private string GetHomeTeamPic(ServerInfo serverInfo, IEnumerable<SportLeaguesInfoDto> sportLeaguesInfo, HotEventDto r, IEnumerable<SportTeamsInfoDto> sportTeamsInfo)
         {
