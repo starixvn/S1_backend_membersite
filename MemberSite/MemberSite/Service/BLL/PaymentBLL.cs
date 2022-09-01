@@ -592,9 +592,8 @@ namespace MemberSite.Service.BLL
         {
             pageInfo = new PageInfo();
             var start = DateTimeOffset.FromUnixTimeSeconds(startDate).DateTime;
-            var end = DateTimeOffset.FromUnixTimeSeconds(endDate).DateTime;
-            
-            var key = $"GetStatement:{custId}:{startDate:yyyyMMddHHmmssfff}:{endDate:yyyyMMddHHmmssfff}";
+            var end = DateTimeOffset.FromUnixTimeSeconds(endDate).DateTime;         
+            var key = $"GetStatement:{custId}:{start:yyyyMMddHHmmssfff}:{end:yyyyMMddHHmmssfff}";
             var cacheTime = TimeSpan.FromMinutes(15);
 
             if (_cacheHelper.KeyExists(key))
