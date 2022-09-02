@@ -68,10 +68,9 @@ namespace MemberSite.Service.DAL
             return msg;
         }
         
-        public bool DelMsg(int custId, int msgId)
+        public bool DelMsg(int CustId, DeleteMsg msg)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("Msg_Del", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure) > 0;
+            return _mainDbClient.Execute("Msg_Del_V2", new { msg.MsgId, CustId, msg.IsBatch }) > 0;
         }
         public int GetMsgCount(int custId)
         {
