@@ -166,9 +166,9 @@ namespace MemberSite.Controllers.Api
                 {
                     currencyId = _selLangBLL.GetPreferCurrencyId();
                     
-                    if (data.CurrencyId.HasValue)
+                    if (promotionDeviceReq.CurrencyId.HasValue)
                     {
-                        currencyId = data.CurrencyId.Value;
+                        currencyId = promotionDeviceReq.CurrencyId.Value;
                     }
                 }
             
