@@ -46,13 +46,14 @@ namespace MemberSite.Service.BLL
         {
             return await _messageService.SetReadPopupMessageTime(custId, 1);
         }
-        
-        public bool DelMsg(int custId, int[] msgIds)
+
+
+        public bool DelMsg(int custId, List<DeleteMsg> list)
         {
             var result = true;
-            foreach (var msgId in msgIds)
+            foreach (var msg in list)
             {
-                result &= _messageService.DelMsg(custId, msgId);
+                result &= _messageService.DelMsg(custId, msg);
             }
 
             return result;
