@@ -72,6 +72,7 @@ namespace MemberSite.Controllers.Api
         public class PromotionDeviceReq
         {
             public int DeviceType { set; get; }
+            public int? CurrencyId { set; get; }
         }
 
         public class PromotionDetailReq : PromotionDeviceReq
@@ -164,6 +165,11 @@ namespace MemberSite.Controllers.Api
                 else
                 {
                     currencyId = _selLangBLL.GetPreferCurrencyId();
+                    
+                    if (data.CurrencyId.HasValue)
+                    {
+                        currencyId = data.CurrencyId.Value;
+                    }
                 }
             
                 var apiUrl = $"{_bonusServiceUrl}GetPromotionListV3";
