@@ -523,7 +523,7 @@ namespace MemberSite.Controllers.Api
         
         public class DelMsgReq
         {
-            public int[] MsgIds { get; set; }
+            public List<DeleteMsg> DeleteList { get; set; }
         }
 
         [HttpPost]
@@ -531,7 +531,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiResult<MsgContent>();
-            if (_messageBll.DelMsg(authData.CustId, msgReq.MsgIds))
+            if (_messageBll.DelMsg(authData.CustId, msgReq.DeleteList))
             {
                 apiResult.ErrorCode = 0;
             }
