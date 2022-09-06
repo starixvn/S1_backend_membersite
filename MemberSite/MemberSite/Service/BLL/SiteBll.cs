@@ -180,8 +180,8 @@ public class SiteBll
                         {
                             var apiResultIovation = await _iovationBll.IovationChecks(custId, signupModel.CurrencyId,
                                 signupModel.UserName, signupModel.blackbox, IovationType.registration);
-                            if (apiResultIovation.ErrorCode == 0)
-                                _iovationBll.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
+                            if (apiResultIovation.ErrorCode == 0 & apiResultIovation.Data != null)
+                                _iovationBll.SetIovation(custId, IovationType.registration, apiResultIovation.Data);
                         }
                     });
 
