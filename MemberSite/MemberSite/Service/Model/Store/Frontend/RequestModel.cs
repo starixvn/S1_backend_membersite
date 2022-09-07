@@ -53,7 +53,5 @@ public class StoreGetBalanceRequest
 
 public class StoreGetTagsRequest
 {
-    public int SiteId { get; set; }
-    public int CurrencyId { get; set; }
     public IEnumerable<string> LangCodes { get; set; }
 }
