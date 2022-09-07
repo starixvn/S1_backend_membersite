@@ -72,11 +72,13 @@ namespace MemberSite.Controllers.Api
         public class PromotionDeviceReq
         {
             public int DeviceType { set; get; }
+            public int? CurrencyId { set; get; }
         }
 
         public class PromotionDetailReq : PromotionDeviceReq
         {
             public string BonusCode { set; get; }
+            public int? CurrencyId { set; get; }
         }
         
         public class SetSpecialCodeReq
@@ -163,6 +165,11 @@ namespace MemberSite.Controllers.Api
                 else
                 {
                     currencyId = _selLangBLL.GetPreferCurrencyId();
+                    
+                    if (promotionDeviceReq.CurrencyId.HasValue)
+                    {
+                        currencyId = promotionDeviceReq.CurrencyId.Value;
+                    }
                 }
             
                 var apiUrl = $"{_bonusServiceUrl}GetPromotionListV3";
@@ -209,6 +216,10 @@ namespace MemberSite.Controllers.Api
                     currencyId = _selLangBLL.GetPreferCurrencyId();
                     currencyId = currencyId == 13 ? 2 : currencyId; // Todo 暫時解 HardCode，之後前端有空，請前端協助帶入是哪 cs 語系的哪一種幣別
 
+                    if (data.CurrencyId.HasValue)
+                    {
+                        currencyId = data.CurrencyId.Value;
+                    }
                 }
 
                 var apiUrl = $"{_bonusServiceUrl}GetPromotionDetail";
