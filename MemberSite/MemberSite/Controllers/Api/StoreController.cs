@@ -53,7 +53,7 @@ namespace MemberSite.Controllers.Api
                 CurrencyId = currencyId,
                 CategoryIds = request.CategoryIds,
                 Tags = request.Tags,
-                Lang = LangId, // 應前端要求，一律改吃LangId
+                Lang = LangConverter(LangId), // 應前端要求，一律改吃LangId
                 OrderByField = request.OrderByField,
                 Desc = request.Desc,
                 PageSize = request.PageSize
@@ -82,27 +82,13 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<object> GetGiftTagsAsync(string LangId = "")
         {
-            var currencyId = 0;
             var lang = string.IsNullOrEmpty(LangId)
                 ? _selLangBLL.GetLangId()
                 : LangId; // 因前端需求，有帶LangId時優先使用LangId
 
-            if (User.Identity.IsAuthenticated)
-            {
-                var authData = _authorizeBLL.GetAuthData();
-                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                currencyId = custInfo.CurrencyId;
-            }
-            else
-            {
-                currencyId = (int)StoreExtension.GetCurrencyByLangId(LangId);
-            }
-
             return await _storeBLL.GetGiftTagsAsync(new StoreGetTagsRequest
             {
-                SiteId = _serverInfoBLL.GetServerInfo().SiteId,
-                CurrencyId = currencyId,
-                LangCodes = new List<string>() { lang }
+                LangCodes = new List<string>() { LangConverter(lang) }
             });
         }
 
@@ -178,17 +164,15 @@ namespace MemberSite.Controllers.Api
             }
         }
 
-        private int GetCurrencyId()
+        private static string LangConverter(string lang)
         {
-            if (User.Identity.IsAuthenticated)
+            if (string.IsNullOrWhiteSpace(lang))
             {
-                var authData = _authorizeBLL.GetAuthData();
-                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                return custInfo.CurrencyId;
+                return lang;
             }
-            else
-                return _selLangBLL.GetPreferCurrencyId();
+            
+            return lang.Contains("en", StringComparison.OrdinalIgnoreCase)
+                ? "en" : lang;
         }
-
     }
 }

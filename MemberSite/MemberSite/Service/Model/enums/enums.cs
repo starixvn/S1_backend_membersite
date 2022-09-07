@@ -504,7 +504,7 @@
     {
         Disable = 0,
         Able = 1,
-    }
+	}
 
     public enum OfflineBankAccountPurposeEnum
     {

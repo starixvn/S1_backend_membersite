@@ -363,14 +363,14 @@
   <data name="msg_BankAccountDuplicate" xml:space="preserve">
     <value>Duplicate Bank Account No. is not allowed. Please try another Account No.</value>
   </data>
-  <data name="msg_EWalletDuplicate" xml:space="preserve">
-    <value>Duplicate E-wallet Account No. is not allowed. Please try another E-wallet Account No.</value>
-  </data>
   <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
     <value>Sorry, your redemption limit reached. Please try again on the new calendar month.</value>
   </data>
   <data name="msg_InsufficientPoint" xml:space="preserve">
     <value>Sorry! You have insufficient 88 Rewards point.</value>
+  </data>
+  <data name="msg_EWalletDuplicate" xml:space="preserve">
+    <value>Duplicate E-wallet Account No. is not allowed. Please try another E-wallet Account No.</value>
   </data>
   <data name="msg_EWalletIsMaintenance" xml:space="preserve">
     <value>E-Wallet is maintenance, please use other withdrawal methods</value>

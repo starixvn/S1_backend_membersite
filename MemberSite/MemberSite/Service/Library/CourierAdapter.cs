@@ -126,8 +126,8 @@ namespace MemberSite.Service.Library
                 _logger.LogError(ex, ex.Message);
             }
             return oApiResult;
-        }
-
+		}
+		
         public async Task<object> PostAsync<TRequest>(string url, TRequest request, int timeout = 0)
         {
             try
