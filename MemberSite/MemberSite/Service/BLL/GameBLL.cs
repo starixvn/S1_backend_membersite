@@ -63,7 +63,7 @@ namespace MemberSite.Service.BLL
                     });
                     foreach (var provider in providerList)
                     {
-                        provider.ImgName = $"{tpCategory}_{provider.TpName}.png".ToLower();
+                        provider.ImgName = $"{tpCategory}_{provider.TpName}".ToLower();
                     }
                     return providerList;
                 }); 
