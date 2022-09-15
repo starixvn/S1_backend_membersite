@@ -12,12 +12,9 @@ namespace MemberSite.Service.BLL
     public class SlotGameBLL
     {
         private readonly ILogger<SlotGameBLL> _logger;
-        private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
         private readonly ICacheHelper _cacheHelper;
         private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
-        private readonly Dictionary<string, string> _changeDisplayName;
-
 
         private readonly AuthorizeBLL _authorizeBll;
         private readonly ServerInfoBll _serverInfoBll;
@@ -30,21 +27,14 @@ namespace MemberSite.Service.BLL
         public SlotGameBLL(IServiceProvider provider)
         {
             _logger = provider.GetRequiredService<ILogger<SlotGameBLL>>();
-            _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
-            _changeDisplayName = new Dictionary<string, string>()
-            {
-              {"Iconic","AT" },
-            };
-
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _gameBll = provider.GetRequiredService<GameBLL>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
-
             _casinoService = provider.GetRequiredService<CasinoService>();
         }
 
@@ -54,7 +44,7 @@ namespace MemberSite.Service.BLL
             var (siteId, currencyId, custId) = GetUserInfo(user, serverInfo);
             var imgUrl = _siteConfig.Value[serverInfo.SiteName].ImageURL;
 
-            var providerList = GetSlotGameProviderList(siteId, currencyId, TpCategory.Slots);
+            var providerList = GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
             var slotGameList = GetSlotGameList(siteId, currencyId, request.DeviceType);
 
             // 未登入狀態直接回傳
@@ -96,12 +86,10 @@ namespace MemberSite.Service.BLL
         /// <summary>
         /// 透過共用方法取回Slot Game Provider
         /// </summary>
-        public async Task<List<SlotGameProvider>> GetSlotGameProviderList(int siteId, int currencyId, TpCategory tpCategory)
+        public async Task<List<GameProvider>> GetSlotGameProviderList(int siteId, int currencyId, TpCategory tpCategory)
         {
             var providerList = await _gameBll.GetGameProviderByCategory(siteId, currencyId, tpCategory);
-            return providerList
-                .Select(i => new SlotGameProvider(i, _changeDisplayName.TryGetValue(i.TpName, out var changeName) ? changeName : i.TpName))
-                .ToList();
+            return providerList.ToList();
         }
 
         /// <summary>

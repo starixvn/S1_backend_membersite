@@ -53,12 +53,20 @@ namespace MemberSite.Service.BLL
         {
             return await _cacheHelper.TryGetOrCreateAsync($"GetGameProviderByCategory:{currencyId}:{siteId}:{tpCategory}",
                 TimeSpan.FromMinutes(10),
-                async () => await _reportDbClient.QueryAsync<GameProvider>("Member_TpList_GetByCategory", new
+                async () => 
                 {
-                    CurrencyId = currencyId,
-                    SiteId = siteId,
-                    TpCategoryId = (int)tpCategory,
-                })); 
+                    var providerList = await _reportDbClient.QueryAsync<GameProvider>("Member_TpList_GetByCategory", new
+                    {
+                        CurrencyId = currencyId,
+                        SiteId = siteId,
+                        TpCategoryId = (int)tpCategory,
+                    });
+                    foreach (var provider in providerList)
+                    {
+                        provider.ImgName = $"{tpCategory}_{provider.TpName}.png".ToLower();
+                    }
+                    return providerList;
+                }); 
         }
     }
 }
