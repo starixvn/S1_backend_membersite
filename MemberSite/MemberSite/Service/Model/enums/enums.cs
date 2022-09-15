@@ -488,4 +488,10 @@
         Withdrawal = 2,
         Transfer = 3
     }
+    
+    public enum OfflineBankAccountSupportChannelEnum
+    {
+        LocalBank = 0,
+        EWallet = 1
+    }
 }

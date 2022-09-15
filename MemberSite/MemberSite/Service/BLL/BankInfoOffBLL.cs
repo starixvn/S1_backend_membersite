@@ -54,7 +54,22 @@ namespace MemberSite.Service.BLL
                 return t.ToString().GetHashCode();
             }
         }
+        
+        public IEnumerable<SysBankInfoFront> GetOfflineBankCardListWithCache(int custId)
+        {
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
+            var siteId = custInfo.SiteId;
+            var currencyId = custInfo.CurrencyId;
 
+            var key = $"GetOfflineBankCardList_{siteId}_{currencyId}_{pointLevel}_{custInfo.UserLevel}";
+            var offBankList = _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
+                i => GetOfflineBankAccountList(siteId, currencyId, pointLevel, custInfo.UserLevel));
+
+            return offBankList;
+        }
+        
         public IEnumerable<OfflineBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
@@ -117,6 +132,8 @@ namespace MemberSite.Service.BLL
                     IFSCCode = x.AccountCode,
                     BankSite = x.BankSite,
                     Status = x.Status,
+                    QRCodeUrl = x.QRCodeUrl,
+                    SupportQR = x.SupportChannel.Any(y => y == OfflineBankAccountSupportChannelEnum.EWallet)
                 })
                 .Distinct(_sysBankInfoOffComparer)
                 .ToList();
@@ -137,6 +154,52 @@ namespace MemberSite.Service.BLL
                 info.MinAmount = tmpInfo.MinAmount;
                 info.MaxAmount = tmpInfo.MaxAmount;
             }
+
+            return infos;
+        }
+        
+        private IEnumerable<SysBankInfoFront> GetOfflineBankAccountList(int siteId, int currencyId, int pointLevel, int vipLevel)
+        {
+            var localBankList = GetOfflineBankAccount(siteId)
+                .Where(x => x.CurrencyId == currencyId 
+                            && x.PointLevels.Contains(pointLevel)
+                            && x.VipLevels.Contains(vipLevel))
+                .ToList();
+
+            var depositLimitInfo = _depositService.GetDepositLimitInfoList()
+                .FirstOrDefault(x => x.SiteId == siteId
+                    && x.VipLevel == pointLevel // DepositLimit 裡的 VipLevel 是 PointLevel
+                    && x.DepositType == (int)DepositType.LocalBank
+                    && x.CurrencyId == currencyId);
+
+            if (depositLimitInfo?.DepositStatus == 0)
+            {
+                return Array.Empty<SysBankInfoFront>();
+            }
+
+            if (depositLimitInfo != null && localBankList.Any())
+            {
+                foreach (var localBank in localBankList)
+                {
+                    _depositBll.FixDepositLimit(localBank, depositLimitInfo);
+                }
+            }
+
+            var infos = localBankList
+                .OrderBy(x => x.BSort)
+                .Select( x => new SysBankInfoFront
+                {
+                    SysId = x.SysId,
+                    BankCode = x.BankCode,
+                    BankLogo = x.BankLogo,
+                    BankName = x.BankName,
+                    IFSCCode = x.AccountCode,
+                    BankSite = x.BankSite,
+                    Status = x.Status,
+                    QRCodeUrl = x.QRCodeUrl,
+                    SupportQR = x.SupportChannel.Any(y => y == OfflineBankAccountSupportChannelEnum.EWallet)
+                })
+                .ToList();
 
             return infos;
         }

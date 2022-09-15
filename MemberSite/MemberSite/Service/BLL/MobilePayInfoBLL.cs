@@ -13,6 +13,7 @@ namespace MemberSite.Service.BLL
         private readonly DepositBLL _depositBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly MobilePayGroupComparer _mobilePayGroupComparer;
+        private readonly BankInfoOffBLL _bankInfoOffBll;
         private readonly CacheHelper _cacheHelper;
         public MobilePayInfoBll(IServiceProvider provider)
         {
@@ -20,6 +21,7 @@ namespace MemberSite.Service.BLL
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositService = provider.GetRequiredService<DepositService>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
+            _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _mobilePayGroupComparer = new MobilePayGroupComparer();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
@@ -79,10 +81,31 @@ namespace MemberSite.Service.BLL
                                                        {
                                                            y.MaxAmount
                                                        }).OrderByDescending(y => y.MaxAmount).FirstOrDefault().MaxAmount
-                                      }).Distinct(_mobilePayGroupComparer);
+                                      }).Distinct(_mobilePayGroupComparer).ToList();
 
+            if (custInfo.CurrencyId == (int) CurrencyId.MYR)
+            {
+                var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
+                    .Where(x => x.SupportQR);
+
+                if (bankCards.Any())
+                {
+                    mobilePayGroupList.Add(new MobilePayGroup
+                    {
+                        ChannelName = "DuitNow QR",
+                        GroupId = 53,
+                        GroupName = "DuitNowQR",
+                        Mode = 3,
+                        GSort = 99,
+                        MinAmount = bankCards.Min(x => x.MinAmount),
+                        MaxAmount = bankCards.Max(x => x.MaxAmount)
+                    });
+                }
+            }
+            
             return mobilePayGroupList;
         }
+        
 
         public IEnumerable<MobilePayInfo> GetMobilePayInfoList(int custId, int groupId)
         {

@@ -39,7 +39,7 @@ namespace MemberSite.Service.BLL
                 .Where(info=> vipLevel >= info.PointLevel && info.CurrencyId == custInfo.CurrencyId);
 
             return payInfoList
-                .Select(x => new PayGroup()
+                .Select(x => new PayGroup
                 {
                     GroupId = x.GroupId,
                     GroupName = x.GroupName,

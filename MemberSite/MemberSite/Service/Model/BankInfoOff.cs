@@ -59,5 +59,11 @@ namespace MemberSite.Service.Model
         
         public int Ver { get; set; }
         public int Status { get; set; }
+
+        public string StrSupportChannel { get; set; }
+        public IEnumerable<OfflineBankAccountSupportChannelEnum> SupportChannel =>
+            JsonConvert.DeserializeObject<IEnumerable<OfflineBankAccountSupportChannelEnum>>(StrSupportChannel);
+
+        public string QRCodeUrl { get; set; }
     }
 }
