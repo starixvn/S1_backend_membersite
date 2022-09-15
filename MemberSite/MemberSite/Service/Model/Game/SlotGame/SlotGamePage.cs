@@ -14,7 +14,7 @@ namespace MemberSite.Service.Model.Game
     public class GetSlotGamePageResponse
     {
         public string ImgUrl { get; set; }
-        public List<SlotGameProvider> ProviderList { get; set; } = new List<SlotGameProvider>();
+        public List<GameProvider> ProviderList { get; set; } = new List<GameProvider>();
         public List<SlotGameInfo> All { get; set; } = new List<SlotGameInfo>();
         public List<SlotGameInfo> Random { get; set; } = new List<SlotGameInfo>();
         public List<SlotGameInfo> RecentlyPlayed { get; set; } = new List<SlotGameInfo>();
@@ -33,7 +33,7 @@ namespace MemberSite.Service.Model.Game
         /// <summary>
         /// 未登入回傳的SlotGamePage
         /// </summary>
-        public GetSlotGamePageResponse(string imgUrl, List<SlotGameProvider> providerList, List<SlotGameInfo> slotGameList)
+        public GetSlotGamePageResponse(string imgUrl, List<GameProvider> providerList, List<SlotGameInfo> slotGameList)
         {
             ImgUrl = imgUrl;
             ProviderList = providerList;
@@ -43,7 +43,7 @@ namespace MemberSite.Service.Model.Game
         /// <summary>
         /// 登入回傳的SlotGamePage
         /// </summary>
-        public GetSlotGamePageResponse(string imgUrl, List<SlotGameProvider> providerList, List<SlotGameInfo> slotGameList, List<UserGameInfo> favorite, List<UserGameInfo> recentlyPlayed, IEnumerable<DisableTpGame> disableGame)
+        public GetSlotGamePageResponse(string imgUrl, List<GameProvider> providerList, List<SlotGameInfo> slotGameList, List<UserGameInfo> favorite, List<UserGameInfo> recentlyPlayed, IEnumerable<DisableTpGame> disableGame)
         {
             ImgUrl = imgUrl;
             ExcludeBlockGames(slotGameList, providerList, disableGame);
@@ -118,7 +118,7 @@ namespace MemberSite.Service.Model.Game
             return result;
         }
 
-        private void ExcludeBlockGames(List<SlotGameInfo> slotGameList, List<SlotGameProvider> providers, IEnumerable<DisableTpGame> disableGames)
+        private void ExcludeBlockGames(List<SlotGameInfo> slotGameList, List<GameProvider> providers, IEnumerable<DisableTpGame> disableGames)
         {
             foreach (var disableGame in disableGames)
             {
