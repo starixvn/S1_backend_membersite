@@ -12,6 +12,7 @@ namespace MemberSite.Service.BLL
         private readonly PayService _payService;
         private readonly DepositService _depositService;
         private readonly DepositBLL _depositBll;
+        private readonly BankInfoOffBLL _bankInfoOffBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly CacheHelper _cacheHelper;
 
@@ -21,6 +22,7 @@ namespace MemberSite.Service.BLL
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositService = provider.GetRequiredService<DepositService>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
+            _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
@@ -38,7 +40,7 @@ namespace MemberSite.Service.BLL
             var payInfoList = GetPayInfoList(custInfo.SiteId, depositType)
                 .Where(info=> vipLevel >= info.PointLevel && info.CurrencyId == custInfo.CurrencyId);
 
-            return payInfoList
+            var payGroupList = payInfoList
                 .Select(x => new PayGroup
                 {
                     GroupId = x.GroupId,
@@ -49,7 +51,30 @@ namespace MemberSite.Service.BLL
                     MinAmount = payInfoList.Where(y => x.GroupId == y.GroupId).OrderBy(y => y.MinAmount).First().MinAmount,
                     MaxAmount = payInfoList.Where(y => x.GroupId == y.GroupId).OrderByDescending(y => y.MaxAmount).First().MaxAmount
                 })
-                .Distinct(i => i.GroupId);
+                .Distinct(i => i.GroupId)
+                .ToList();
+            
+            if (custInfo.CurrencyId == (int) CurrencyId.MYR && depositType == DepositType.MobilePayment)
+            {
+                var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
+                    .Where(x => x.SupportQR);
+
+                if (bankCards.Any())
+                {
+                    payGroupList.Add(new PayGroup
+                    {
+                        ChannelName = "DuitNow QR",
+                        GroupId = 53,
+                        GroupName = "DuitNowQR",
+                        Mode = 3,
+                        GSort = 99,
+                        MinAmount = bankCards.Min(x => x.MinAmount),
+                        MaxAmount = bankCards.Max(x => x.MaxAmount)
+                    });
+                }
+            }
+            
+            return payGroupList;
         }
 
         public IEnumerable<PayInfo> GetPayInfoList(int custId, int groupId, DepositType depositType)

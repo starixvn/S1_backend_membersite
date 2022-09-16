@@ -198,7 +198,9 @@ namespace MemberSite.Service.BLL
                     BankSite = x.BankSite,
                     Status = x.Status,
                     QRCodeUrl = x.QRCodeUrl,
-                    SupportQR = x.SupportChannel.Any(y => y == OfflineBankAccountSupportChannelEnum.EWallet)
+                    SupportQR = x.SupportChannel.Any(y => y == OfflineBankAccountSupportChannelEnum.EWallet),
+                    MinAmount = x.MinAmount,
+                    MaxAmount = x.MaxAmount
                 })
                 .ToList();
 
