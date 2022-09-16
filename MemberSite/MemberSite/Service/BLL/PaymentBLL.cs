@@ -588,41 +588,42 @@ namespace MemberSite.Service.BLL
             return withdrawalInfoHistory;
         }
 
-        public IEnumerable<Statement> GetStatement(int custId, long startDate, long endDate, int pageNumber, int pageSize, out IPageInfo pageInfo)
+        public IEnumerable<Statement> GetStatement(int custId, long start, long end, int pageNumber, int pageSize, out IPageInfo pageInfo)
         {
             pageInfo = new PageInfo();
-            var start = DateTimeOffset.FromUnixTimeSeconds(startDate).DateTime;
-            var end = DateTimeOffset.FromUnixTimeSeconds(endDate).DateTime;         
-            var key = $"GetStatement:{custId}:{start:yyyyMMddHHmmssfff}:{end:yyyyMMddHHmmssfff}";
-            var cacheTime = TimeSpan.FromMinutes(15);
+            var startDate = DateTimeOffset.FromUnixTimeSeconds(start).DateTime;
+            var endDate = DateTimeOffset.FromUnixTimeSeconds(end).DateTime;         
+            var key = $"GetFinancialLog:{custId}:{startDate:yyyyMMddHHmmssfff}:{endDate:yyyyMMddHHmmssfff}";
+            var cacheTime = TimeSpan.FromMinutes(5);
 
-            if (_cacheHelper.KeyExists(key))
+            if (_cacheHelper.KeyExists(key, RedisDataBase.Shared))
             {
                 //Redis Pagination
-                var total = (int)_cacheHelper.GetListLength(key);
+                var total = (int)_cacheHelper.GetListLength(key, RedisDataBase.Shared);
                 var (startIndex, endIndex) = pageInfo.RedisPagination(total, pageNumber, pageSize);
-                var cacheList = _cacheHelper.GetListByRange<Statement>(key, startIndex, endIndex);
+                var cacheList = _cacheHelper.GetListByRange<Statement>(key, startIndex, endIndex, RedisDataBase.Shared);
                 foreach (var item in cacheList)
                 {
                     item.TypeName = GetTransTypeNameV2(item.Type, item.TypeName);
                 }
                 return cacheList;
             }
-           
+            object RefTransId = null;
             //Search range table
             var parameters = new
             {
                 CustId = custId,
-                StartDate = start,
-                EndDate = end,
+                StartDate = startDate,
+                EndDate = endDate,
+                RefTransId,
             };
-            var data = _partitionService.MonthlyQuery<Statement>(start, end, "Member_FinancialLog_Get_V3", parameters);
+            var data = _partitionService.MonthlyQuery<Statement>(startDate, endDate, "Service_FinancialLog_Get", parameters);
             var list = data.OrderByDescending(i => i.CreateTime).ToList();
 
             // Add Cache by List      
             _ = Task.Run(() =>
             {
-                _cacheHelper.InsertList(key, cacheTime, list);
+                _cacheHelper.InsertList(key, cacheTime, list, RedisDataBase.Shared);
             });
 
             var (index, count) = pageInfo.ListPagination(list.Count, pageNumber, pageSize);
