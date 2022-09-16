@@ -32,6 +32,10 @@
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
         public int Status { get; set; }
+
+        public string QRCodeUrl { get; set; }
+        
+        public bool SupportQR  { get; set; }
     }
     public class OfflineBankInfoFront : SysBankInfoFront
     {
@@ -48,6 +52,8 @@
             base.MinAmount = bankInfo.MinAmount;
             base.MaxAmount = bankInfo.MaxAmount;
             base.Status = bankInfo.Status;
+            base.QRCodeUrl = bankInfo.QRCodeUrl;
+            base.SupportQR = bankInfo.SupportQR;
             this.CanSubmit = canSubmit;
         }
         public bool CanSubmit { get; set; }
