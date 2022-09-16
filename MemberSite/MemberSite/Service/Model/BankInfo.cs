@@ -52,6 +52,8 @@
             base.MinAmount = bankInfo.MinAmount;
             base.MaxAmount = bankInfo.MaxAmount;
             base.Status = bankInfo.Status;
+            base.QRCodeUrl = bankInfo.QRCodeUrl;
+            base.SupportQR = bankInfo.SupportQR;
             this.CanSubmit = canSubmit;
         }
         public bool CanSubmit { get; set; }

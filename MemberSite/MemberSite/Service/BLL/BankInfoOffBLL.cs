@@ -93,7 +93,8 @@ namespace MemberSite.Service.BLL
             var localBankList = GetOfflineBankAccount(siteId)
                 .Where(x => x.CurrencyId == currencyId 
                             && x.PointLevels.Contains(pointLevel)
-                            && x.VipLevels.Contains(vipLevel))
+                            && x.VipLevels.Contains(vipLevel)
+                            && x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .ToList();
 
             if (siteId == (int) SiteId.Nova88
