@@ -7,5 +7,6 @@
         public bool PlayFree { get; set; }
         public string DisplayText { get; set; }
         public string ImgName { get; set; }
+        public string OpenPath { get; set; }
     }
 }
