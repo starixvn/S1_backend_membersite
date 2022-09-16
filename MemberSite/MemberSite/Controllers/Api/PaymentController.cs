@@ -244,16 +244,23 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
         
+        public class DepositReqFakeMobilePayReq
+        {
+            public int GroupId { set; get; }
+            public decimal Amount { set; get; }
+            public string BonusCode { set; get; }
+        }
+        
         [HttpPost]
-        public ApiResult<FakeMobilePayResp> DepositReqFakeMobilePayAsync(int groupId,  decimal amount, string bonusCode)
+        public ApiResult<FakeMobilePayResp> DepositReqFakeMobilePayAsync(DepositReqFakeMobilePayReq req)
         {
             var authData = authorizeBLL.GetAuthData();
             var custId = authData.CustId;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var cards = bankInfoOffBLL.GetOfflineBankCardListWithCache(custId)
-                .Where(x => x.SupportQR && amount >= x.MinAmount && amount <= x.MaxAmount)
+                .Where(x => x.SupportQR && req.Amount >= x.MinAmount && req.Amount <= x.MaxAmount)
                 .ToList();
-            var hasPromotion = !string.IsNullOrWhiteSpace(bonusCode);
+            var hasPromotion = !string.IsNullOrWhiteSpace(req.BonusCode);
 
             if (!cards.Any())
             {
@@ -269,9 +276,9 @@ namespace MemberSite.Controllers.Api
             var card = cards[random.Next(cards.Count - 1)];
             var fakeReq = new DepositReqWireTransferReq
             {
-                amount = amount,
+                amount = req.Amount,
                 memo = "Fake MobilePay",
-                fromChannel = groupId,
+                fromChannel = req.GroupId,
                 sysId = card.SysId,
                 hasPromotion = hasPromotion
             };
@@ -293,7 +300,7 @@ namespace MemberSite.Controllers.Api
             {
                 if (!_promotionBll.SetDepositPromotionQueue(
                         transId,
-                        bonusCode,
+                        req.BonusCode,
                         authData.CustId,
                         custInfo.SiteId,
                         custInfo.UserName,
@@ -309,7 +316,7 @@ namespace MemberSite.Controllers.Api
             {
                 Data = new FakeMobilePayResp
                 {
-                    Amount = amount,
+                    Amount = req.Amount,
                     ReturnUrl = card.QRCodeUrl,
                     TransId = transId
                 },
