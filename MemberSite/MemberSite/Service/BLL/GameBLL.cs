@@ -9,11 +9,16 @@ namespace MemberSite.Service.BLL
     {
         private readonly MySqlClient _reportDbClient;
         private readonly ICacheHelper _cacheHelper;
+        private readonly Dictionary<int, string> _openPathList;
 
         public GameBLL(IServiceProvider provider)
         {
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
+            _openPathList = new Dictionary<int, string>()
+            {
+                { 22, "mega888"}
+            };
         }
 
         public bool IsMaintain(IEnumerable<TpMaintain> tpMaintainList, int tpId, string tpGameType, out TpMaintain result)
@@ -53,7 +58,7 @@ namespace MemberSite.Service.BLL
         {
             return await _cacheHelper.TryGetOrCreateAsync($"GetGameProviderByCategory:{currencyId}:{siteId}:{tpCategory}",
                 TimeSpan.FromMinutes(10),
-                async () => 
+                async () =>
                 {
                     var providerList = await _reportDbClient.QueryAsync<GameProvider>("Member_TpList_GetByCategory", new
                     {
@@ -64,9 +69,10 @@ namespace MemberSite.Service.BLL
                     foreach (var provider in providerList)
                     {
                         provider.ImgName = $"{tpCategory}_{provider.TpName}".ToLower();
+                        provider.OpenPath = _openPathList.TryGetValue(provider.TpId, out var openPath) ? openPath : null;
                     }
                     return providerList;
-                }); 
+                });
         }
     }
 }
