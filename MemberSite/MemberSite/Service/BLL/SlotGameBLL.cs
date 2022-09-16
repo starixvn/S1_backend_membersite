@@ -24,6 +24,8 @@ namespace MemberSite.Service.BLL
 
         private readonly CasinoService _casinoService;
 
+        private readonly List<int> _excludeTp;
+
         public SlotGameBLL(IServiceProvider provider)
         {
             _logger = provider.GetRequiredService<ILogger<SlotGameBLL>>();
@@ -36,6 +38,12 @@ namespace MemberSite.Service.BLL
             _gameBll = provider.GetRequiredService<GameBLL>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _casinoService = provider.GetRequiredService<CasinoService>();
+            _excludeTp = new List<int>
+            {
+                1, //SABA
+                41,//SBSW
+                42,//SBO
+            };
         }
 
         public async Task<GetSlotGamePageResponse> GetSlotGamePage(GetSlotGamePageRequest request, ClaimsPrincipal user)
@@ -89,7 +97,7 @@ namespace MemberSite.Service.BLL
         public async Task<List<GameProvider>> GetSlotGameProviderList(int siteId, int currencyId, TpCategory tpCategory)
         {
             var providerList = await _gameBll.GetGameProviderByCategory(siteId, currencyId, tpCategory);
-            return providerList.ToList();
+            return providerList.Where(i => !_excludeTp.Contains(i.TpId)).ToList();
         }
 
         /// <summary>
