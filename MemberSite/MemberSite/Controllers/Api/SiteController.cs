@@ -748,7 +748,10 @@ namespace MemberSite.Controllers.Api
             var domain = _serverInfoBll.GetHttpDomain();
             foreach (var data in apiResult.Data)
             {
-                data.BannerLink = data.BannerLink.Trim().TrimStart('/');
+                if (!string.IsNullOrEmpty(data.BannerLink))
+                {
+                    data.BannerLink = data.BannerLink.Trim().TrimStart('/');
+                }
                 data.BannerLink = $"{domain}/{data.BannerLink}";
             }
             
