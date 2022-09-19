@@ -10,7 +10,7 @@ namespace MemberSite.Service.Model.Tests
     public class GetSlotGamePageResponseTests
     {
         private string _imgUrl;
-        private List<SlotGameProvider> _providerList;
+        private List<GameProvider> _providerList;
         private List<SlotGameInfo> _slotGameList;
         private List<UserGameInfo> _favorite;
         private List<UserGameInfo> _recentlyPlayed;
@@ -20,14 +20,14 @@ namespace MemberSite.Service.Model.Tests
         public void Setup()
         {
             _imgUrl = "test";
-            _providerList = new List<SlotGameProvider>
+            _providerList = new List<GameProvider>
             {
-                new SlotGameProvider(new GameProvider() { TpId = 1, TpName = "1" },"1"),
-                new SlotGameProvider(new GameProvider() { TpId = 2, TpName = "2" },"2"),
-                new SlotGameProvider(new GameProvider() { TpId = 3, TpName = "3" },"3"),
-                new SlotGameProvider(new GameProvider() { TpId = 4, TpName = "4" },"4"),
-                new SlotGameProvider(new GameProvider() { TpId = 5, TpName = "5" },"5"),
-                new SlotGameProvider(new GameProvider() { TpId = 6, TpName = "6" },"6"),
+                new GameProvider() { TpId = 1, TpName = "1" },
+                new GameProvider() { TpId = 2, TpName = "2" },
+                new GameProvider() { TpId = 3, TpName = "3" },
+                new GameProvider() { TpId = 4, TpName = "4" },
+                new GameProvider() { TpId = 5, TpName = "5" },
+                new GameProvider() { TpId = 6, TpName = "6" },
             };
             _slotGameList = new List<SlotGameInfo>
             {
