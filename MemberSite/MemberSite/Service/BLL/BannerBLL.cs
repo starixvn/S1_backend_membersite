@@ -84,83 +84,82 @@ namespace MemberSite.Service.BLL
             return banner;
         }
 
-        public IEnumerable<BannerV3> GetBannerV3(int SiteId, int BannerType, int ShowStatus, int CurrencyId, string LangId, ServerInfo serverInfo)
+        public IEnumerable<BannerV3> GetBannerV3(int siteId, int bannerType, int showStatus, int currencyId, string langId, ServerInfo serverInfo)
         {
             var banner = new List<BannerV3>();
-            var bannerlist = bannerService.GetBannerV3(SiteId, BannerType, ShowStatus, CurrencyId);
-            foreach (var bannerdetail in bannerlist)
+            var bannerList = bannerService.GetBannerV3(siteId, bannerType, showStatus, currencyId);
+            foreach (var bannerDetail in bannerList)
             {
-                if (bannerdetail.Details != null && bannerdetail.BannerType != 2)
+                if (bannerDetail.Details != null && bannerDetail.BannerType != 2)
                 {
-                    var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(bannerdetail.Details);
-                    if (details.ContainsKey(LangId))
+                    var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(bannerDetail.Details);
+                    if (details.ContainsKey(langId))
                     {
-                        var settings = details[LangId];
+                        var settings = details[langId];
                         banner.Add(new BannerV3()
                         {
-                            BannerName = bannerdetail.BannerName,
-                            BannerType = bannerdetail.BannerType,
-                            ActionMode = bannerdetail.ActionMode,
-                            BonusCode = bannerdetail.BonusCode,
-                            MatchId = bannerdetail.MatchId,
-                            TpId = bannerdetail.TpId,
-                            GameId = bannerdetail.GameId,
-                            UrlRouter = bannerdetail.UrlRouter,
+                            BannerName = bannerDetail.BannerName,
+                            BannerType = bannerDetail.BannerType,
+                            ActionMode = bannerDetail.ActionMode,
+                            BonusCode = bannerDetail.BonusCode,
+                            MatchId = bannerDetail.MatchId,
+                            TpId = bannerDetail.TpId,
+                            GameId = bannerDetail.GameId,
+                            UrlRouter = bannerDetail.UrlRouter,
                             BannerLink = settings["bannerLink"],
                             BannerPCUrl = settings["bannerPCUrl"],
                             BannerMobileUrl = settings["bannerMobileUrl"],
-                            tpGameType = tpGameTypeHelper.GetTpGameType(bannerdetail, CurrencyId),
+                            tpGameType = tpGameTypeHelper.GetTpGameType(bannerDetail, currencyId),
                         });
                     }
                 }
-                else if (bannerdetail.SportLeaguesId != null && bannerdetail.SportTeamsHome != null && bannerdetail.SportTeamsAway != null && bannerdetail.BannerType == 2)
+                else if (bannerDetail.SportLeaguesId != null && bannerDetail.SportTeamsHome != null && bannerDetail.SportTeamsAway != null && bannerDetail.BannerType == 2)
                 {
-                    var sportLeaguesId = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerdetail.SportLeaguesId);
-                    var sportTeamsHome = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerdetail.SportTeamsHome);
-                    var sportTeamsAway = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerdetail.SportTeamsAway);
+                    var sportLeaguesId = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerDetail.SportLeaguesId);
+                    var sportTeamsHome = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerDetail.SportTeamsHome);
+                    var sportTeamsAway = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerDetail.SportTeamsAway);
                     var logoPic = "";
                     var backgroundPic = "";
-                    if (sportLeaguesId.ContainsKey(LangId) && sportTeamsHome.ContainsKey(LangId) && sportTeamsAway.ContainsKey(LangId))
+                    if (sportLeaguesId.ContainsKey(langId) && sportTeamsHome.ContainsKey(langId) && sportTeamsAway.ContainsKey(langId))
                     {
-                        //if (serverInfo.SiteId == 1 && (bannerdetail.LeaguesId == 1 || bannerdetail.LeaguesId == 2 || bannerdetail.LeaguesId == 3 || bannerdetail.LeaguesId == 4 || bannerdetail.LeaguesId == 5 ))
-                        if (serverInfo.SiteId == 1 && bannerdetail.LeaguesId != 6)
+                        if (serverInfo.SiteId == 1 && bannerDetail.LeaguesId != 6)
                         {
                             logoPic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{serverInfo.SiteName}/Logo.png";
                             backgroundPic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{serverInfo.SiteName}/Background.jpg";
                         }
-                        var leagues = sportLeaguesId[LangId];
-                        var teamsHome = sportTeamsHome[LangId];
+                        var leagues = sportLeaguesId[langId];
+                        var teamsHome = sportTeamsHome[langId];
                         var teamsHomePic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{sportTeamsHome["en"]}.png";
-                        var teamsAway = sportTeamsAway[LangId];
+                        var teamsAway = sportTeamsAway[langId];
                         var teamsAwayPic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{sportTeamsAway["en"]}.png";
                         banner.Add(new BannerV3()
                         {
-                            BannerName = bannerdetail.BannerName,
-                            BannerType = bannerdetail.BannerType,
-                            ActionMode = bannerdetail.ActionMode,
-                            BonusCode = bannerdetail.BonusCode,
-                            MatchId = bannerdetail.MatchId,
-                            TpId = bannerdetail.TpId,
-                            GameId = bannerdetail.GameId,
-                            UrlRouter = bannerdetail.UrlRouter,
-                            SportBattleDateTime = bannerdetail.SportBattleDateTime,
-                            LeaguesId = bannerdetail.LeaguesId,
+                            BannerName = bannerDetail.BannerName,
+                            BannerType = bannerDetail.BannerType,
+                            ActionMode = bannerDetail.ActionMode,
+                            BonusCode = bannerDetail.BonusCode,
+                            MatchId = bannerDetail.MatchId,
+                            TpId = bannerDetail.TpId,
+                            GameId = bannerDetail.GameId,
+                            UrlRouter = bannerDetail.UrlRouter,
+                            SportBattleDateTime = bannerDetail.SportBattleDateTime,
+                            LeaguesId = bannerDetail.LeaguesId,
                             SportLeaguesId = leagues,
                             SportTeamsHome = teamsHome,
                             SportTeamsHomePic = teamsHomePic,
                             SportTeamsAway = teamsAway,
                             SportTeamsAwayPic = teamsAwayPic,
-                            HomeOdds = bannerdetail.HomeOdds,
-                            AwayOdds = bannerdetail.AwayOdds,
-                            Handicap = bannerdetail.Handicap,
+                            HomeOdds = bannerDetail.HomeOdds,
+                            AwayOdds = bannerDetail.AwayOdds,
+                            Handicap = bannerDetail.Handicap,
                             Logo = logoPic,
                             BackgroundPic = backgroundPic,
-                            tpGameType = tpGameTypeHelper.GetTpGameType(bannerdetail, CurrencyId)
+                            tpGameType = tpGameTypeHelper.GetTpGameType(bannerDetail, currencyId)
                         });
                     }
                 }
             }
-            if (BannerType == 2)
+            if (bannerType == 2)
             {
                 banner = banner.OrderBy(x => x.SportBattleDateTime).ToList();
             }

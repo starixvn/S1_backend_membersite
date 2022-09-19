@@ -721,30 +721,37 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var perferCurr = 0;
-            var SiteId = 0;
-            var ShowStatus = 1;
+            int preferCurr;
+            int siteId;
+            var showStatus = 1;
             if (User.Identity.IsAuthenticated)
             {
                 var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                SiteId = custInfo.SiteId;
-                perferCurr = custInfo.CurrencyId;
-                ShowStatus = 2;
+                siteId = custInfo.SiteId;
+                preferCurr = custInfo.CurrencyId;
+                showStatus = 2;
                 langId = _selLangBll.GetLangId();
             }
             else
             {
-                perferCurr = _selLangBll.GetPreferCurrencyId();
-                SiteId = serverInfo.SiteId;
+                preferCurr = _selLangBll.GetPreferCurrencyId();
+                siteId = serverInfo.SiteId;
                 langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
             }
 
-            var banner_CurrencyId = !User.Identity.IsAuthenticated && perferCurr == 13 ? 2 : perferCurr;
+            var bannerCurrencyId = !User.Identity.IsAuthenticated && preferCurr == 13 ? 2 : preferCurr;
 
             apiResult.ErrorCode = 0;
-            apiResult.Data = _bannerBll.GetBannerV3(SiteId, bannerReq.BannerType, ShowStatus, banner_CurrencyId, langId, serverInfo);
+            apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, showStatus, bannerCurrencyId, langId, serverInfo);
 
+            var domain = _serverInfoBll.GetHttpDomain();
+            foreach (var data in apiResult.Data)
+            {
+                data.BannerLink = data.BannerLink.Trim().TrimStart('/');
+                data.BannerLink = $"{domain}/{data.BannerLink}";
+            }
+            
             return apiResult;
         }
 
