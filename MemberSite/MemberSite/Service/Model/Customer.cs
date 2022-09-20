@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.Model.enums;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.Model.enums;
 using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
@@ -19,7 +20,11 @@ namespace MemberSite.Service.Model
         public DateTime LastLoginTime { get; set; }
         public DateTime RegTime { get; set; }
         public int Status { get; set; }
+        public bool PhoneVerified { get; set; }
         public bool IsResetPwd { get; set; }
+        public string PhoneNo { get; set; }
+        public string AreaCode { get; set; }
+        public string AccountName { get; set; }
         public string Aff { get; set; }
         public string AffCode { get; set; }
         public string Token { get; set; }
@@ -41,6 +46,14 @@ namespace MemberSite.Service.Model
         public int SysId { set; get; }
         public string AccountNo { set; get; }
         public string IFSCCode { set; get; }
+    }
+    public class BankInfoDetailData
+    {
+        public int CustId { get; set; }
+        public int SysId { set; get; }
+        public string AccountNo { set; get; }
+        public string IFSCCode { set; get; }
+        public int Status { get; set; }
     }
     public class USDTDetail
     {
@@ -80,6 +93,23 @@ namespace MemberSite.Service.Model
         public IEnumerable<USDTDetail> uSDTDetail { set; get; }
     }
 
+    public class EWalletInfoDetail
+    {
+        public int SysId { set; get; }
+        public string AccountNo { set; get; }
+    }
+    public class EWalletInfoDetailData: EWalletInfoDetail
+    {
+        public int CustId  { set; get; }
+    }
+
+    public class EWalletInfoDetailRep : EWalletInfoDetail
+    {
+        public string EWalletName { set; get; }
+        public string EWalletLogo { set; get; }
+        public string EWalletSite { set; get; }
+    }
+
     public class WalletInfo
     {
         public decimal Balance { set; get; }
@@ -115,6 +145,13 @@ namespace MemberSite.Service.Model
         public bool EmailVerified { get; set; }
         public decimal EmailReward { get; set; }
         public int EnablePromotion { get; set; }
+        public string AddressCountry { get; set; }
+        public string AddressState { get; set; }
+        public string AddressPostCode { get; set; }
+        public string AddressCity { get; set; }
+        public string AddressLineFirst { get; set; }
+        public string AddressLineSecond { get; set; }
+        public bool IsResetPwd { get; set; }
     }
     public class CustRollOver
     {
@@ -173,7 +210,44 @@ namespace MemberSite.Service.Model
         public decimal BonusAmount { get; set; }
         public decimal VaildBet { get; set; }
         public decimal Deposit { get; set; }
+        public bool Status { get; set; }
     }
+
+    public class ReferralSettingDetailData
+    {
+        public decimal BonusAmount { get; set; }
+        public int InvitationLimit { get; set; }
+        public decimal AgentValidBet { get; set; }
+        public decimal AgentDeposit { get; set; }
+        public decimal ReferralFreeCredit { get; set; }
+        public decimal VaildBet { get; set; }
+        public decimal Deposit { get; set; }
+        public int PeriodDays { get; set; }
+        public string Details { get; set; }
+    }
+    
+    public class ReferralSettingDetail
+    {
+        public decimal ReferralReward { get; set; }
+        public int InvitationLimit { get; set; }
+        public decimal AgentValidBet { get; set; }
+        public decimal AgentDeposit { get; set; }
+        public decimal MemberReward { get; set; }
+        public decimal VaildBet { get; set; }
+        public decimal Deposit { get; set; }
+        public int PeriodDays { get; set; }
+        public ReferralContent ReferralContent { get; set; }
+    }
+
+    public class ReferralContent
+    {
+        public string LangId { get; set; }
+        public string BannerUrl { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Detail { get; set; }
+    }
+
     public class ReferralSummary
     {
         public int ReferralCount { get; set; }
@@ -186,7 +260,19 @@ namespace MemberSite.Service.Model
     {
         public int CustId { get; set; }
         public string UserName { get; set; }
-        public DateTime RegisterDate { get; set; }
+        public DateTimeOffset RegisterDate
+        {
+            get
+            {
+                return _registerDate.ToOffset(CustTimeZone);
+            }
+            set
+            {
+                _registerDate = value.DateTime;
+            }
+        }
+        private DateTime _registerDate { get; set; }
+
         public int CurrencyId { get; set; }
         public decimal TotalDeposit { get; set; }
         public decimal DepositC { get; set; }
@@ -194,6 +280,9 @@ namespace MemberSite.Service.Model
         public decimal VaildBetC { get; set; }
         public decimal BonusAmount { get; set; }
         public int Status { get; set; }
+
+        [JsonIgnore]
+        public string CustTimeZone { get; set; }
 
     }
     public class CustTransSummary

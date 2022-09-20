@@ -227,10 +227,19 @@
         Success = 0,
         IovationNotSupport = 1301
     }
-    public enum SpecialCodeErrorcode : int
+    
+    public enum ShieldErrorCode
     {
         Success = 0,
-        SpecialCodeError = 99
+        InvalidRequest = -1 ,
+        Failed = 99,
+    }
+    public enum SpecialCode
+    {
+        Success = 0,
+        SpecialCodeError = 99,
+        SpecialCodeErrorForCheck = 1000,
+        PromoCodeHasBeenUsed = 3000
     }
 
     public enum SiteId
@@ -255,6 +264,17 @@
         Wager,//ConnectionStringWager
         Log,//ConnectionStringLog
     }
+    
+    public enum RedisDataBase
+    {
+        Member = 0,
+        Shared = 1,
+        Tp = 2,
+        Bonus = 3,
+        Admin = 4,
+        Payment = 5
+    }
+    
     public enum AppLinkAppType
     {
         Andriod = 1,
@@ -339,6 +359,13 @@
         Restore = 1,
         Manual = 2,
     }
+    
+    public enum PromotionDeviceType
+    {
+        All = 1,
+        Web = 2,
+        App = 3
+    }
 
     public enum LineLoginErrorCode
     {
@@ -375,5 +402,105 @@
         IssueLineTokenException = 9001,
         CallBackException = 9002
     }
+    public enum CustBankInfoLogStatus
+    {
+        Create = 1,
+        Delete = 2,
+        Lock = 3,
+        Unlock = 4
+    }
+    public enum CustBankDetailStatus
+    {
+        Disable = 0,
+        Able = 1,
+    }
+    
+    public enum ShieldRiskTagged
+    {
+        IsBot = 1,
+        IsIncognito = 2,
+        IsEmulated = 3,
+        IsTor = 4,
+        IsAntiFingerprinting = 5,
+        IsProxy = 6,
+        RunningCloneApps = 7,
+        RunningGpsSpoofers = 8,
+        RunningVpnSpoofers = 9,
+        AutoClickerEnabled = 10,
+        IsDeviceMasked = 11,
+        IsJailBroken = 12,
+        AppTampering = 13,
+        SuspiciousFactoryReset = 14,
+        VirtualOs = 15,
+        Hooking = 16
+    }
+    
+    public enum ShieldRiskTriggeredPoint
+    {
+        Registration = 1,
+        Login = 2,
+        Deposit = 3,
+        Withdrawal = 4,
+        ClaimBonus = 5,
+    }
+    
+    public enum ShieldRiskTaggedIssue
+    {
+        HighRisk  = 1
+    }
+    
 
+    public enum WorldCupUserTicketStatus
+    {
+        Active = 1,
+        Finished = 2,
+        UnStarted = 3
+    }
+    public enum CustEWalletDetailLogStatus
+    {
+        Create = 1,
+        Delete = 2,
+        Lock = 3,
+        Unlock = 4
+    }
+    public enum CustEWalletDetailStatus
+    {
+        Disable = 0,
+        Able = 1,
+    }
+
+    public enum WithdrawalTypeStatus 
+    { 
+        LocalBank = 0,
+        Crypto = 1,
+        EWallet = 2
+    }
+
+    public enum EWalletStatus
+    {
+        Disable = 0,
+        Able = 1,
+	}
+	
+    public enum RedemptionErrorCode
+    {
+        InsufficientPoint = -1001,
+        RedemptionLimitOverLimit = -1002
+    }
+
+
+    public enum PointTypeEnum
+    {
+        Deposit = 1,
+        Turnover = 2,
+        /// <summary>
+        /// 兌換物品
+        /// </summary>
+        Redemption = 3,
+        /// <summary>
+        /// 手動
+        /// </summary>
+        Manual = 4,
+        System = 5
+    }
 }

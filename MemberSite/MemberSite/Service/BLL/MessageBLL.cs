@@ -21,9 +21,9 @@ namespace MemberSite.Service.BLL
             return _messageService.GetMsgList(custId, pageSize, ref pageNumber, out totalPages, out rowCount);
         }
 
-        public MsgContent GetMsgContent(int custId, int msgId)
+        public MsgContent GetMsgContent(int custId, int msgId ,int isBatch)
         {
-            return _messageService.GetMsgContent(custId, msgId);
+            return _messageService.GetMsgContent(custId, msgId, isBatch);
         }
         
         public async Task<PopupMsg> GetPopupMessage(int custId)
@@ -46,13 +46,14 @@ namespace MemberSite.Service.BLL
         {
             return await _messageService.SetReadPopupMessageTime(custId, 1);
         }
-        
-        public bool DelMsg(int custId, int[] msgIds)
+
+
+        public bool DelMsg(int custId, List<DeleteMsg> list)
         {
             var result = true;
-            foreach (var msgId in msgIds)
+            foreach (var msg in list)
             {
-                result &= _messageService.DelMsg(custId, msgId);
+                result &= _messageService.DelMsg(custId, msg);
             }
 
             return result;

@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAkBA,AAAA,WAAW,AAAC,CACR,KAAK,CAAE,OAAO,CACjB,AACD,AAAA,QAAQ,AAAC,CACL,KAAK,CAAE,OAAO,CACjB,AACD,AAAA,UAAU,AAAC,CACP,KAAK,CAAE,OAAO,CACjB,AACD,AAAA,SAAS,AAAC,CACN,KAAK,CAAE,OAAO,CACjB,AAED,AAAA,SAAS,AAAC,CACN,KAAK,CArBG,OAAO,CAsBlB,AAED,AAAA,KAAK,AAAC,CACF,gBAAgB,CAzBR,OAAO,CA0BlB",
-    "sources": [
-        "../color-group.scss"
-    ],
-    "names": [],
-    "file": "color-group.min.css"
-}

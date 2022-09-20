@@ -9,6 +9,7 @@ namespace MemberSite.Service.Model
         public string Meta { get; set; }
         public string DefaultLang { get; set; }
         public bool ActiveDomain { get; set; }
+        public string Keyword { get; set; }
         
         [JsonIgnore]
         public string FollowUsData { get; set; }
@@ -17,6 +18,8 @@ namespace MemberSite.Service.Model
         [JsonIgnore]
         public string PaymentMethodData { get; set; }
         public List<PaymentMethod> PaymentMethod { get; set; }
+        public string Script { get; set; }
+        public string XCMScript { get; set; }
     }
 
     public class FollowUs

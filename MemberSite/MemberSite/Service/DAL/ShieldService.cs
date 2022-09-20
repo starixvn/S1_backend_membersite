@@ -1,0 +1,141 @@
+﻿using System.Security.Cryptography;
+using System.Text;
+using Dapper;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
+using Microsoft.Extensions.Options;
+
+namespace MemberSite.Service.DAL;
+
+public class ShieldService
+{
+    private readonly IConfiguration configuration;
+    private readonly CourierAdapter _courierAdapter;
+    private readonly IOptions<ShieldConfig> _shieldConfig;
+    private readonly MySqlClient _mainDbClient;
+    private readonly MySqlClient _reportDbClient;
+    
+
+    public ShieldService(IServiceProvider provider)
+    {
+        configuration = provider.GetRequiredService<IConfiguration>();
+        _courierAdapter = provider.GetRequiredService<CourierAdapter>();
+        _shieldConfig = provider.GetRequiredService<IOptions<ShieldConfig>>();
+        _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
+        _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
+    }
+    
+    public int InsertCustShieldInfo(ShieldRiskRequest input , Customer custInfo)
+    {
+        var p = new DynamicParameters(new
+        {
+            CustId = custInfo.CustId,
+            SiteId = custInfo.SiteId,
+            CurrencyId =custInfo.CurrencyId,
+            Version = input.Version,
+            Timestamp = input.Timestamp,
+            SessionId = input.SessionId,
+            Platform = input.Platform,
+            ShieldId = input.DeviceIntelligence.ShieldId,
+            DeviceScore = input.DeviceIntelligence.DeviceScore,
+            IsBot = input.DeviceIntelligence.IsBot,
+            IsIncognito = input.DeviceIntelligence.IsIncognito,
+            IsEmulated = input.DeviceIntelligence.IsEmulated,
+            IsTor = input.DeviceIntelligence.IsTor,
+            IsAntiFingerprinting = input.DeviceIntelligence.IsAntiFingerprinting,
+            IsProxy = input.DeviceIntelligence.IsProxy,
+            RunningCloneApps = input.DeviceIntelligence.RunningCloneApps,
+            RunningGpsSpoofers = input.DeviceIntelligence.RunningGpsSpoofers,
+            RunningVpnSpoofers = input.DeviceIntelligence.RunningVpnSpoofers,
+            AutoClickerEnabled = input.DeviceIntelligence.AutoClickerEnabled,
+            IsDeviceMasked = input.DeviceIntelligence.IsDeviceMasked,
+            IsJailBroken = input.DeviceIntelligence.IsJailBroken,
+            AppTampering = input.DeviceIntelligence.AppTampering,
+            SuspiciousFactoryReset = input.DeviceIntelligence.SuspiciousFactoryReset,
+            VirtualOs = input.DeviceIntelligence.VirtualOs,
+            Hooking = input.DeviceIntelligence.Hooking
+        });
+        
+        var result = _mainDbClient.Execute("Member_CustShieldRiskInfo_Ins", p);
+      
+        return result;
+    }
+    
+    public int HighShieldRiskLog(HighShieldRiskLogRequest input)
+    {
+        var p = new DynamicParameters(new
+        {
+            SiteId = input.SiteId,
+            CurrencyId = input.CurrencyId,
+            CustId = input.CustId,
+            ShieldId = input.ShieldId,
+            DeviceScore = input.DeviceScore,
+            TaggedIssue = input.TaggedIssue,
+            TriggeredPoint = input.TriggeredPoint
+        });
+        
+        var result = _mainDbClient.Execute("Member_CustShieldTriggeredLog_Ins", p);
+      
+        return result;
+    }
+    
+    public async Task<GetEndpointResult> GetEndpoint()
+    {
+        var apiUrl = $"{_shieldConfig.Value.ShieldService}?sid={_shieldConfig.Value.SiteId}";
+        
+        var timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+        var sign = GetShieldSignature(timestamp);
+        var header = new Dictionary<string, string>
+        {
+            {"Site-Id", _shieldConfig.Value.SiteId},
+            {"Timestamp", timestamp},
+            {"Shield-Signature", sign}
+        };
+        
+        var result = await _courierAdapter.ShieldGetAsync<GetEndpointResult>(apiUrl, header);
+      
+        return result;
+    }
+
+    public async Task<SendAttributesResult> SendShieldAttributes(GetEndpointResult endpoint , SendShieldAttributesRequest request , string timestamp, string sign)
+    {
+        var apiUrl = $" {endpoint.Endpoint}/shield-fp/v1/api/attributes/{request.SessionId}";
+
+        var req = new
+        {
+            user_id = request.UserId,
+            platform = request.Platform.ToUpper()
+        };
+        
+        var header =new Dictionary<string, string>
+        {
+            {"Site-Id", _shieldConfig.Value.SiteId},
+            {"Timestamp", timestamp},
+            {"Shield-Signature", sign},
+            {"X-Endpoint-Version", endpoint.Version.ToString()}
+        };
+        
+        var result = await _courierAdapter.ShieldPostAsync<SendAttributesResult, object>(apiUrl, req , header);
+        
+        return result;
+    }
+    
+    public string GetShieldSignature(string timestamp)
+    {
+        var config = _shieldConfig.Value;
+        var timeHash = HmacSha256(timestamp, config.SecretKey);
+        var shieldSignature = HmacSha256(config.SiteId, timeHash);
+      
+        return shieldSignature;
+    }
+    
+    private static string HmacSha256(string toHash, string secretKey)
+    {
+        using var mac = new HMACSHA256(Encoding.UTF8.GetBytes(secretKey));
+        var hash = mac.ComputeHash(Encoding.UTF8.GetBytes(toHash));
+        var sign = BitConverter.ToString(hash).Replace("-", "").ToLower();
+   
+        return sign;
+    }
+}

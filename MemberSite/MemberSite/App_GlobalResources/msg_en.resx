@@ -223,7 +223,7 @@
     <value>Insufficient Fund!</value>
   </data>
   <data name="mag_AffiliateNotExist" xml:space="preserve">
-    <value>Your Affiliate Code is invaild. Please check again!</value>
+    <value>Your Affiliate Code is invalid. Please check again!</value>
   </data>
   <data name="msg_TransferAlert" xml:space="preserve">
     <value>Your current Sportsbook Wallet is : &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;Deposit and transfer from Main Wallet to Sportsbook Wallet now to enjoy our games and services.</value>
@@ -233,6 +233,9 @@
   </data>
   <data name="msg_EnterPhoneNumber" xml:space="preserve">
     <value>Please enter phone number.</value>
+  </data>
+  <data name="msg_CompletePhoneNumber" xml:space="preserve">
+    <value>Please complete your Mobile Phone (OTP) verification.</value>
   </data>
   <data name="msg_EnterRealName" xml:space="preserve">
     <value>Please enter your real name.</value>
@@ -356,5 +359,20 @@
   </data>
   <data name="msg_LineAccountAlreadyBind" xml:space="preserve">
     <value>This LINE account has been used, please use another account.</value>
+  </data>
+  <data name="msg_BankAccountDuplicate" xml:space="preserve">
+    <value>Duplicate Bank Account No. is not allowed. Please try another Account No.</value>
+  </data>
+  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
+    <value>Sorry, your redemption limit reached. Please try again on the new calendar month.</value>
+  </data>
+  <data name="msg_InsufficientPoint" xml:space="preserve">
+    <value>Sorry! You have insufficient 88 Rewards point.</value>
+  </data>
+  <data name="msg_EWalletDuplicate" xml:space="preserve">
+    <value>Duplicate E-wallet Account No. is not allowed. Please try another E-wallet Account No.</value>
+  </data>
+  <data name="msg_EWalletIsMaintenance" xml:space="preserve">
+    <value>E-Wallet is maintenance, please use other withdrawal methods</value>
   </data>
 </root>

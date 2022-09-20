@@ -1,9 +1,11 @@
 ﻿using MemberSite.Service.BLL;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
 {
@@ -20,7 +22,6 @@ namespace MemberSite.Controllers.Api
         private readonly CourierAdapter courierAdapter;
         private readonly SelLangBLL selLangBLL;
         private readonly WalletBLL walletBLL;
-        //private readonly MobilePayInfoBll mobilePayInfoBLL;
         private readonly IovationBLL iovationBLL;
         private readonly CryptoPayInfoBll cryptoPayInfoBLL;
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
@@ -28,9 +29,11 @@ namespace MemberSite.Controllers.Api
         private readonly int mainWalletType;
         private readonly FileNameBLL _fileNameBll;
         private readonly ImageEditorBLL _imageEditorBll;
-        private readonly PromotionBll _promotionBLL;
         private readonly PayInfoBLL _payInfoBLL;
+        private readonly CustInfoService _custInfoService;
         private readonly ILogger<PaymentController> _logger;
+        private readonly CourierAdapter _courierAdapter;
+        private readonly string _bonusServiceUrl;
 
         public PaymentController(IServiceProvider provider)
         {
@@ -42,19 +45,20 @@ namespace MemberSite.Controllers.Api
             courierAdapter = provider.GetRequiredService<CourierAdapter>();
             selLangBLL = provider.GetRequiredService<SelLangBLL>();
             walletBLL = provider.GetRequiredService<WalletBLL>();
-            //mobilePayInfoBLL = provider.GetRequiredService<MobilePayInfoBll>();
             iovationBLL = provider.GetRequiredService<IovationBLL>();
             cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
             loadCardPayInfoBLL = provider.GetRequiredService<LoadCardPayInfoBLL>();
             _fileNameBll = provider.GetRequiredService<FileNameBLL>();
             _imageEditorBll = provider.GetRequiredService<ImageEditorBLL>();
-            _promotionBLL = provider.GetRequiredService<PromotionBll>();
             _payInfoBLL = provider.GetRequiredService<PayInfoBLL>();
+            _custInfoService = provider.GetRequiredService<CustInfoService>();
             _logger = provider.GetRequiredService<ILogger<PaymentController>>();
+            _courierAdapter = provider.GetRequiredService<CourierAdapter>();
 
             var configuration = provider.GetRequiredService<IConfiguration>();
             tpApiUrl = configuration.GetValue<string>("TpService");
             mainWalletType = configuration.GetValue<int>("MainWalletType");
+            _bonusServiceUrl = configuration.GetValue<string>("BonusService");
         }
 
         [HttpPost]
@@ -189,24 +193,13 @@ namespace MemberSite.Controllers.Api
             }
             
             var decimalPlaces = 0;
-            switch ((CurrencyId)custInfo.CurrencyId)
-            {
-                case CurrencyId.VND:
-                case CurrencyId.IDR:
-                    decimalPlaces = 3;
-                    break;
-
-                default:
-                    decimalPlaces = 2;
-                    break;
-            }
-
             if (!HasThisManyDecimalPlacesOrLess(depositReqWireTransferReq.amount, decimalPlaces))
             {
                 apiResult.ErrorCode = -5;
                 apiResult.Message = "Amount format is wrong.";
                 return apiResult;
             }
+            
             //check PhoneVerified,AccountName,Birth
             if (depositReqWireTransferReq.hasPromotion)
             {
@@ -392,7 +385,7 @@ namespace MemberSite.Controllers.Api
             }
             #endregion
 
-            return await DoWithdrawalAsync(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, false, null);
+            return await DoWithdrawalAsync(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, WithdrawalTypeStatus.LocalBank, null);
         }
 
         public class WithdrawalUSDTReqModel
@@ -408,7 +401,7 @@ namespace MemberSite.Controllers.Api
             Customer custInfo,
             WithdrawalReqModel withdrawalReqModel,
             CustBankInfo custBankInfo,
-            bool isCrypto,
+            WithdrawalTypeStatus withdrawalType,
             USDTDetail usdtDetail)
         {
             var result = 99;
@@ -505,23 +498,53 @@ namespace MemberSite.Controllers.Api
 
                 decimal afterAmount;
                 string transId;
-
-                result = isCrypto
-                    ? paymentBLL.WithdrawalUSDTReq(authData.CustId,
-                        custBankInfo.AccountName,
-                        usdtDetail,
-                        withdrawalReqModel.AccountNo,
-                        withdrawalReqModel.amount,
-                        withdrawalReqModel.memo, out afterAmount, out transId)
-                    : paymentBLL.WithdrawalReq(authData.CustId,
+                switch(withdrawalType)
+                {
+                    case WithdrawalTypeStatus.LocalBank:
+                        result = paymentBLL.WithdrawalReq(authData.CustId,
                         withdrawalReqModel.sysId,
                         custBankInfo.AccountName,
                         withdrawalReqModel.AccountNo,
                         withdrawalReqModel.IFSCCode,
                         withdrawalReqModel.amount,
-                        withdrawalReqModel.memo, out afterAmount, out transId); ;
+                        withdrawalReqModel.memo, out afterAmount, out transId);
+                        _logger.LogInformation($"AfterAmount={afterAmount}, TransId={transId}");
+                        break;
+                    case WithdrawalTypeStatus.Crypto:
+                        result = paymentBLL.WithdrawalUSDTReq(authData.CustId,
+                        custBankInfo.AccountName,
+                        usdtDetail,
+                        withdrawalReqModel.AccountNo,
+                        withdrawalReqModel.amount,
+                        withdrawalReqModel.memo, out afterAmount, out transId);
+                        _logger.LogInformation($"AfterAmount={afterAmount}, TransId={transId}");
+                        break;
+                    case WithdrawalTypeStatus.EWallet:
+                        result = paymentBLL.WithdrawalEWalletReq(authData.CustId,
+                        custBankInfo.AccountName,
+                        withdrawalReqModel.sysId,
+                        withdrawalReqModel.AccountNo,
+                        withdrawalReqModel.amount,
+                        withdrawalReqModel.memo, out afterAmount, out transId);
+                        _logger.LogInformation($"AfterAmount={afterAmount}, TransId={transId}");
+                        break;
+                }
+                //result = isCrypto
+                //    ? paymentBLL.WithdrawalUSDTReq(authData.CustId,
+                //        custBankInfo.AccountName,
+                //        usdtDetail,
+                //        withdrawalReqModel.AccountNo,
+                //        withdrawalReqModel.amount,
+                //        withdrawalReqModel.memo, out afterAmount, out transId)
+                //    : paymentBLL.WithdrawalReq(authData.CustId,
+                //        withdrawalReqModel.sysId,
+                //        custBankInfo.AccountName,
+                //        withdrawalReqModel.AccountNo,
+                //        withdrawalReqModel.IFSCCode,
+                //        withdrawalReqModel.amount,
+                //        withdrawalReqModel.memo, out afterAmount, out transId); 
 
-                _logger.LogInformation($"AfterAmount={afterAmount}, TransId={transId}");
+                //_logger.LogInformation($"AfterAmount={afterAmount}, TransId={transId}");
 
                 switch (result)
                 {
@@ -632,13 +655,20 @@ namespace MemberSite.Controllers.Api
             }
             #endregion
 
-            return await DoWithdrawalAsync(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, true, usdtDetail);
+            return await DoWithdrawalAsync(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, WithdrawalTypeStatus.Crypto, usdtDetail);
         }
 
         private bool WithdrawalReqCheck(ref ApiResult apiResult, WithdrawalReqModel withdrawalReqModel, AuthData authData, Customer custInfo)
         {
             if (withdrawalReqModel.amount <= 0)
             {
+                return false;
+            }
+
+            if (custInfo.CurrencyId == (int)CurrencyId.INR && !_custInfoService.GetPhoneVerified(custInfo.CustId).Result)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_CompletePhoneNumber");
+                apiResult.ErrorCode = -9;
                 return false;
             }
 
@@ -1208,7 +1238,14 @@ namespace MemberSite.Controllers.Api
                 CryptoCurrencyId = 0
             }).ToList();
 
+            var eWalletWithdrawalLimitInfo = paymentBLL.GetEWalletWithdrawalLimitInfo(new WithdrawalLimitInfoInput
+            {
+                SiteId = custInfo.SiteId,
+                CurrencyId = custInfo.CurrencyId
+            });
+
             var tmpWithdrawalAvailableAmount = 0m;
+            var tmpEWalletAvailableAmount = 0m;
 
             cryptoWithdrawalLimitInfo.ForEach(x =>
             {
@@ -1241,6 +1278,17 @@ namespace MemberSite.Controllers.Api
                 ? dailyCustomerWithdrawalInfo.Amount
                 : output.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount;
 
+            var eWallet = eWalletWithdrawalLimitInfo ?? new EWalletWithdrawalLimitInfoOutput()
+            {
+                WithdrawalMin = 0,
+                WithdrawalMax = 0,
+                Status = 0
+            };
+
+            tmpEWalletAvailableAmount = eWallet.WithdrawalMax == 0
+                ? dailyCustomerWithdrawalInfo.Amount
+                : eWallet.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount;
+
             var data = new WithdrawalLimitOutput
             {
                 WithdrawalMin = output.WithdrawalMin,
@@ -1249,7 +1297,12 @@ namespace MemberSite.Controllers.Api
                     ? 0 : tmpWithdrawalAvailableAmount,
                 MaxTimes = output.Times,
                 WithdrawalTimes = dailyCustomerWithdrawalInfo.Count,
-                USDTList = cryptoList
+                USDTList = cryptoList,
+                EWalletWithdrawalMin = eWallet.WithdrawalMin,
+                EWalletUnlimited = eWallet.WithdrawalMax == 0,
+                EWalletWithdrawalAvailableAmount = tmpEWalletAvailableAmount < 0
+                    ? 0 : tmpEWalletAvailableAmount,
+                EWalletStatus = eWallet.Status
             };
 
             var apiResult = new ApiResult<WithdrawalLimitOutput>
@@ -1324,164 +1377,54 @@ namespace MemberSite.Controllers.Api
             public int DeviceType { get; set; }
         }
         [HttpPost]
-        public ApiResult<CheckDepositSpecialCodeRsp> CheckDepositSpecialCode(CheckDepositSpecialCodeReq checkDepositSpecialCodeReq)
+        public ApiResult<SpecialCodeResponse> CheckDepositSpecialCode(CheckDepositSpecialCodeReq request)
         {
-            var apiResult = new ApiResult<CheckDepositSpecialCodeRsp>();
-            var authData = authorizeBLL.GetAuthData();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
+            var result = new ApiResult<SpecialCodeResponse>();
 
-            //檢核SpecialCode格式是否正確
-            bool IsSpecialCode = _promotionBLL.CheckSpecialCode(checkDepositSpecialCodeReq.SpecialCode);
-            bool IsScratchCardCode = _promotionBLL.CheckScratchCardCode(checkDepositSpecialCodeReq.SpecialCode.ToUpper());
-            if (!IsSpecialCode && !IsScratchCardCode)
+            try
             {
-                apiResult.ErrorCode = 1000;
-                apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                return apiResult;
-            }
-            if (!custInfoProfile.PhoneVerified
-                || string.IsNullOrEmpty(custInfoProfile.AccountName)
-                || string.IsNullOrEmpty(custInfoProfile.Birth_y)
-                || string.IsNullOrEmpty(custInfoProfile.Birth_m)
-                || string.IsNullOrEmpty(custInfoProfile.Birth_d))
-            {
-                apiResult.ErrorCode = 2000;
-                apiResult.Message = selLangBLL.GetMsg("msg_OTPHint");
-                return apiResult;
-            }
+                var authData = authorizeBLL.GetAuthData();
+                var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
 
-            if (IsScratchCardCode)
-            {
-                //檢核是否真有這筆ScratchCardCode
-                var promotion = _promotionBLL.GetPromotionBySpecialScratchCard(custInfo.SiteId, checkDepositSpecialCodeReq.SpecialCode);
-                if (promotion != null)
+                if (!custInfoProfile.PhoneVerified
+                    || string.IsNullOrEmpty(custInfoProfile.AccountName)
+                    || string.IsNullOrEmpty(custInfoProfile.Birth_y)
+                    || string.IsNullOrEmpty(custInfoProfile.Birth_m)
+                    || string.IsNullOrEmpty(custInfoProfile.Birth_d))
                 {
-                    if (promotion.PromotionType != (int)PromotionType.FstDeposit && promotion.PromotionType != (int)PromotionType.ReDeposit)
-                    {
-                        apiResult.ErrorCode = 1000;
-                        apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                        return apiResult;
-                    }
-                    if (promotion.CustId != 0 && promotion.CustId != authData.CustId)
-                    {
-                        apiResult.ErrorCode = 3000;
-                        apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed");
-                        return apiResult;
-                    }
-                    //寫入CustSpecialCode Table,並檢核是否輸入相同ScratchCard過
-                    //有輸入相同ScratchCard過
-                    if (_promotionBLL.SetScratchCardCode(authData.CustId, checkDepositSpecialCodeReq.SpecialCode, checkDepositSpecialCodeReq.DeviceType) != 0)
-                    {
-                        //檢核是否領過這個BonusCode
-                        if (_promotionBLL.GetBonusinfoByBonusCode(authData.CustId, promotion.BonusCode) != null)
-                        {
-                            apiResult.ErrorCode = 3000;
-                            apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed");
-                            return apiResult;
-                        }
-                        else
-                        {
-                            apiResult.ErrorCode = 1000;
-                            apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                            return apiResult;
-                        }
-                    }
-                    apiResult.ErrorCode = 0;
-                    apiResult.Data = new CheckDepositSpecialCodeRsp() { BonusCode = promotion.BonusCode };
+                    result.ErrorCode = 2000;
+                    result.Message = selLangBLL.GetMsg("msg_OTPHint");
+                    return result;
                 }
-                else
+
+                var apiUrl = $"{_bonusServiceUrl}CheckDepositSpecialCode";
+                var req = new SpecialCodeRequest
                 {
-                    if (!IsSpecialCode)
-                    {
-                        apiResult.ErrorCode = 1000;
-                        apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                        return apiResult;
-                    }
-                    else
-                    {
-                        //檢核是否真有這筆specialCode
-                        var promotionv2 = _promotionBLL.GetPromotionBySpecialCode(custInfo.SiteId, checkDepositSpecialCodeReq.SpecialCode);
-                        if (promotionv2 != null)
-                        {
-                            if (promotionv2.PromotionType != (int)PromotionType.FstDeposit && promotionv2.PromotionType != (int)PromotionType.ReDeposit)
-                            {
-                                apiResult.ErrorCode = 1000;
-                                apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                                return apiResult;
-                            }
-                            //寫入CustSpecialCode Table,並檢核是否輸入相同specialCode過
-                            //有輸入相同specialCode過
-                            if (!_promotionBLL.SetSpecialCode(authData.CustId, checkDepositSpecialCodeReq.SpecialCode, checkDepositSpecialCodeReq.DeviceType))
-                            {
-                                //檢核是否領過這個BonusCode
-                                if (_promotionBLL.GetBonusinfoByBonusCode(authData.CustId, promotionv2.BonusCode) != null)
-                                {
-                                    apiResult.ErrorCode = 3000;
-                                    apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed");
-                                    return apiResult;
-                                }
-                                else
-                                {
-                                    apiResult.ErrorCode = 1000;
-                                    apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                                    return apiResult;
-                                }
-                            }
-                            apiResult.ErrorCode = 0;
-                            apiResult.Data = new CheckDepositSpecialCodeRsp() { BonusCode = promotionv2.BonusCode };
-                        }
-                        else
-                        {
-                            apiResult.ErrorCode = 1000;
-                            apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                            return apiResult;
-                        }
-                    }
-                }
+                    CustId = authData.CustId,
+                    DeviceType = request.DeviceType,
+                    SpecialCode = request.SpecialCode,
+                    SiteId = custInfo.SiteId
+                };
+
+                result = _courierAdapter.MyPostAsync<SpecialCodeResponse, SpecialCodeRequest>(apiUrl, req).Result;
+
+                result.Message = result.ErrorCode switch
+                {
+                    (int)SpecialCode.SpecialCodeErrorForCheck => selLangBLL.GetMsg("msg_SpecialCodeErr"),
+                    (int)SpecialCode.PromoCodeHasBeenUsed => selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed"),
+                    9000 => selLangBLL.GetMsg("msg_Ineligible"),
+                    _ => result.Message
+                };
             }
-            else
+            catch (Exception e)
             {
-                //檢核是否真有這筆specialCode
-                var promotion = _promotionBLL.GetPromotionBySpecialCode(custInfo.SiteId, checkDepositSpecialCodeReq.SpecialCode);
-                if (promotion != null)
-                {
-                    if (promotion.PromotionType != (int)PromotionType.FstDeposit && promotion.PromotionType != (int)PromotionType.ReDeposit)
-                    {
-                        apiResult.ErrorCode = 1000;
-                        apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                        return apiResult;
-                    }
-                    //寫入CustSpecialCode Table,並檢核是否輸入相同specialCode過
-                    //有輸入相同specialCode過
-                    if (!_promotionBLL.SetSpecialCode(authData.CustId, checkDepositSpecialCodeReq.SpecialCode, checkDepositSpecialCodeReq.DeviceType))
-                    {
-                        //檢核是否領過這個BonusCode
-                        if (_promotionBLL.GetBonusinfoByBonusCode(authData.CustId, promotion.BonusCode) != null)
-                        {
-                            apiResult.ErrorCode = 3000;
-                            apiResult.Message = selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed");
-                            return apiResult;
-                        }
-                        else
-                        {
-                            apiResult.ErrorCode = 1000;
-                            apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                            return apiResult;
-                        }
-                    }
-                    apiResult.ErrorCode = 0;
-                    apiResult.Data = new CheckDepositSpecialCodeRsp() { BonusCode = promotion.BonusCode };
-                }
-                else
-                {
-                    apiResult.ErrorCode = 1000;
-                    apiResult.Message = selLangBLL.GetMsg("msg_SpecialCodeErr");
-                    return apiResult;
-                }
+                result.ErrorCode = 9000;
+                result.Message = selLangBLL.GetMsg("msg_Ineligible");
+                _logger.LogError(e, GetCurrentMethod());
             }
 
-            return apiResult;
+            return result;
         }
 
         [HttpPost]
@@ -1560,10 +1503,87 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0
             }; ;
         }
-        
+
+        [HttpPost]
+        public ApiResult<IEnumerable<EWalletInfoSys>> GetEWalletInfoSysList()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var apiResult = new ApiResult<IEnumerable<EWalletInfoSys>>();
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var result = bankInfoBLL.GetEWalletInfoSysListByCurrency(custInfo.CurrencyId)
+                .ToList();
+
+            apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
         private bool HasThisManyDecimalPlacesOrLess(decimal value, int decimalPlaces)
         {
             return (decimal.Round(value, decimalPlaces) == value);
+        }
+
+        [HttpPost]
+        public async Task<ApiResult> WithdrawalEWalletReqAsync(WithdrawalReqModel withdrawalReqModel)
+        {
+            var apiResult = new ApiResult(selLangBLL);
+            var authData = authorizeBLL.GetAuthData(true);
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(new WithdrawalLimitInfoInput
+            { SiteId = custInfo.SiteId, CurrencyId = custInfo.CurrencyId, VipLevel = custInfo.UserLevel });
+            var eWalletWithdrawalLimitInfo = paymentBLL.GetEWalletWithdrawalLimitInfo(new WithdrawalLimitInfoInput { SiteId = custInfo.SiteId, CurrencyId = custInfo.CurrencyId });
+            var dailyCustomerWithdrawalInfo = paymentBLL.GetDailyCustomerWithdrawalInfo(new DailyCustomerWithdrawalInfoInput { CustId = custInfo.CustId });
+
+            #region - Check -
+            if (!WithdrawalReqCheck(ref apiResult, withdrawalReqModel, authData, custInfo))
+            {
+                return apiResult;
+            }
+            #endregion
+
+            #region - Check WithdrawalLimit -
+            if(eWalletWithdrawalLimitInfo.Status == (int)EWalletStatus.Disable)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_EWalletIsMaintenance");
+                apiResult.ErrorCode = -8;
+                return apiResult;
+            }
+            if (eWalletWithdrawalLimitInfo != null && eWalletWithdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
+            {
+                apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), eWalletWithdrawalLimitInfo.WithdrawalMin);
+                apiResult.ErrorCode = -5;
+                return apiResult;
+            }
+
+            if (eWalletWithdrawalLimitInfo != null && eWalletWithdrawalLimitInfo.WithdrawalMax != 0 &&
+                dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > eWalletWithdrawalLimitInfo.WithdrawalMax)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
+                apiResult.ErrorCode = -6;
+                return apiResult;
+            }
+
+            if (withdrawalLimitInfo != null
+                && withdrawalLimitInfo.Times != 0
+                && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
+                apiResult.ErrorCode = -7;
+                return apiResult;
+            }
+
+            #endregion
+
+            #region - Check EWalletInfo -
+            var eWalletInfo = custInfoBLL.GetCustEWalletInfo(authData.CustId).ToList();
+            var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+            if(eWalletInfo.Count == 0 || eWalletInfo.Find(x=> x.AccountNo == withdrawalReqModel.AccountNo && x.SysId == withdrawalReqModel.sysId) == null)
+            {
+                return apiResult;
+            }
+            #endregion
+
+            return await DoWithdrawalAsync(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, WithdrawalTypeStatus.EWallet, null);
         }
     }
 }

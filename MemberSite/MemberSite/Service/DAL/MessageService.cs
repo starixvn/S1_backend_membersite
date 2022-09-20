@@ -43,16 +43,16 @@ namespace MemberSite.Service.DAL
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var msgList = conn.Query<Msg>("MsgList_Get", p, commandType: CommandType.StoredProcedure);
+            var msgList = conn.Query<Msg>("MsgList_Get_V2", p, commandType: CommandType.StoredProcedure);
             totalPages = p.Get<int?>("TotalPages") ?? 0;
             pageNumber = p.Get<int?>("PageNumber") ?? 0;
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return msgList;
         }
-        public MsgContent GetMsgContent(int custId, int msgId)
+        public MsgContent GetMsgContent(int custId, int msgId , int isBatch)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            var msgContent = conn.QueryFirstOrDefault<MsgContent>("MsgContent_Get", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure);
+            var msgContent = conn.QueryFirstOrDefault<MsgContent>("MsgContent_Get_V2", new { MsgId = msgId, CustId = custId ,IsBatch = isBatch }, commandType: CommandType.StoredProcedure);
             return msgContent;
         }
         
@@ -61,17 +61,16 @@ namespace MemberSite.Service.DAL
             var pageNumber = 0;
             var p = new DynamicParameters(new {_CustId = custId, _PageSize = pageSize});
             p.Add("_PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.Output);
-            var msg = await _reportClient.QueryFirstAsync<PopupMsg>("Member_PopupMsg_Get_V2", p);
+            var msg = await _reportClient.QueryFirstAsync<PopupMsg>("Member_PopupMsg_Get_V3", p);
             if (msg == null) return null;
             pageNumber = p.Get<int>("_PageNumber");
             msg.PageNumber = pageNumber;
             return msg;
         }
         
-        public bool DelMsg(int custId, int msgId)
+        public bool DelMsg(int CustId, DeleteMsg msg)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("Msg_Del", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure) > 0;
+            return _mainDbClient.Execute("Msg_Del_V2", new { msg.MsgId, CustId, msg.IsBatch }) > 0;
         }
         public int GetMsgCount(int custId)
         {

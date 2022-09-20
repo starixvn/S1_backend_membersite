@@ -324,9 +324,15 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
     <value>Định dạng Phone không đúng</value>
   </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
-    <value>ที่อยู่Địa chỉ ví tiền điện tử không hợp lệ.</value>
+    <value>Địa chỉ ví tiền điện tử không hợp lệ.</value>
   </data>
   <data name="msg_DecimalOutOfRange" xml:space="preserve">
-    <value>Transfer failed due to decimal greater than 2 digits</value>
+    <value>Chuyển quỹ thất bại do phần thập phân có nhiều hơn 2 chữ số. </value>
+  </data>
+  <data name="msg_BankAccountDuplicate" xml:space="preserve">
+    <value>Tài khoản ngân hàng này đã tồn tại</value>
+  </data>
+  <data name="msg_EWalletIsMaintenance" xml:space="preserve">
+    <value>Ví điện tử đang bảo trì, vui lòng sử dụng các phương thức rút tiền khác</value>
   </data>
 </root>

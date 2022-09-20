@@ -13,6 +13,7 @@ public class SiteBll
     private readonly IovationBLL _iovationBll;
     private readonly CommonBLL _commonBll;
     private readonly Tools _tools;
+    private readonly ShieldBLL _ShieldBll;
     private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
     private readonly Regex _regexAffCode = new(@"^[0-9]{5,20}$");
     
@@ -23,6 +24,7 @@ public class SiteBll
         _iovationBll = provider.GetRequiredService<IovationBLL>();
         _commonBll = provider.GetRequiredService<CommonBLL>();
         _tools = provider.GetRequiredService<Tools>();
+        _ShieldBll = provider.GetRequiredService<ShieldBLL>();
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
@@ -196,7 +198,7 @@ public class SiteBll
                             {
                                 if (!string.IsNullOrEmpty(signupModel.RealName))
                                 {
-                                    _custInfoBLL.SetCustBankInfo(custId, signupModel.RealName, null);
+                                    _custInfoBLL.SetCustBankInfo(custId, signupModel.RealName);
                                 }
 
                                 customer.Token = token;

@@ -1272,6 +1272,9 @@ namespace MemberSite.Controllers.Api
                 data.Meta = string.IsNullOrEmpty(data.Meta) ? null : data.Meta;
                 data.Title = string.IsNullOrEmpty(data.Title) ? null : data.Title;
                 data.DefaultLang = string.IsNullOrEmpty(data.DefaultLang) ? null : data.DefaultLang;
+                data.Keyword = string.IsNullOrEmpty(data.Keyword) ? null : data.Keyword;
+                data.Script = string.IsNullOrEmpty(data.Script) ? null : data.Script;
+                data.XCMScript = string.IsNullOrEmpty(data.XCMScript) ? null : data.XCMScript;
                 if (!string.IsNullOrEmpty(data.FollowUsData))
                 {
                     data.FollowUs = JsonConvert.DeserializeObject<List<FollowUs>>(data.FollowUsData);
@@ -1291,7 +1294,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpGet]
-        public string Domain() => _serverInfoBll.GetMainDomain();
+        public string Domain() => $"MainDomain:{_serverInfoBll.GetMainDomain()}, SubDomain:{_serverInfoBll.GetSubDomain()}";
 
         [HttpPost]
         public async Task<ApiResult<IEnumerable<MenuOfGame>>> GetMenuOfGames()
