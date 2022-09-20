@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.Model.enums;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model
 {
@@ -42,6 +43,20 @@ namespace MemberSite.Service.Model
         public int? PromotionAction { set; get; }
         public CashBackDetails CashBackDetails { get; set; }
         public bool BeenUsed { get; set; }
+
+        public string TierAmount { get; set; }
+        public IEnumerable<TierAmount> TierAmountList
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(TierAmount))
+                {
+                    return default;
+                }
+
+                return JsonConvert.DeserializeObject<IEnumerable<TierAmount>>(TierAmount);
+            }
+        }
     }
 
     public class CashBackDetails
@@ -93,5 +108,14 @@ namespace MemberSite.Service.Model
         public string UserName { set; get; }
         public int CurrencyId { set; get; }
         public string ClientIp { set; get; }
+    }
+
+    public class TierAmount
+    {
+        public decimal Bonus { get; set; }
+        public decimal MaxBonus { get; set; }
+        public decimal RequiredAmount { get; set; }
+        public int RollOver { get; set; }
+        public int WinOver { get; set; }
     }
 }
