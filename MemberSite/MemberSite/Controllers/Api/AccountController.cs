@@ -518,7 +518,7 @@ namespace MemberSite.Controllers.Api
         
         public class DelMsgReq
         {
-            public int[] MsgIds { get; set; }
+            public List<DeleteMsg> DeleteList { get; set; }
         }
 
         [HttpPost]
@@ -526,7 +526,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiResult<MsgContent>();
-            if (_messageBll.DelMsg(authData.CustId, msgReq.MsgIds))
+            if (_messageBll.DelMsg(authData.CustId, msgReq.DeleteList))
             {
                 apiResult.ErrorCode = 0;
             }
@@ -1114,6 +1114,39 @@ namespace MemberSite.Controllers.Api
                 apiResult.Data = false;
                 apiResult.ErrorCode = 99;
             }
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<EWalletInfoDetailRep>> GetCustEWalletInfo()
+        {
+            var apiResult = new ApiResult<IEnumerable<EWalletInfoDetailRep>>(_selLangBll);
+            List<EWalletInfoDetailRep> result = new List<EWalletInfoDetailRep>();
+            var authData = _authorizeBll.GetAuthData();
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var eWalletInfoSysList = _bankInfoBll.GetEWalletInfoSysListByCurrency(custInfo.CurrencyId).ToList();
+
+            var custEWalletInfo = _custInfoBll.GetCustEWalletInfo(authData.CustId).ToList();
+
+            if (custEWalletInfo.Count > 0)
+            {
+                foreach (var eWalletInfo in custEWalletInfo)
+                {
+                    var refEWalletInfo = eWalletInfoSysList.FirstOrDefault(x => x.SysId == eWalletInfo.SysId);
+                    result.Add(new EWalletInfoDetailRep()
+                    {
+                        SysId = eWalletInfo.SysId,
+                        AccountNo = eWalletInfo.AccountNo,
+                        EWalletName = refEWalletInfo?.EWalletName,
+                        EWalletLogo = refEWalletInfo?.EWalletLogo,
+                        EWalletSite = refEWalletInfo?.EWalletSite
+                    });
+                }
+            }
+
+            apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+
             return apiResult;
         }
     }

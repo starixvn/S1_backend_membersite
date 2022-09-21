@@ -127,6 +127,8 @@ namespace MemberSite
             services.AddSingleton<ThirdPartyBll>();
             services.AddSingleton<MessageBll>();
             services.AddSingleton<PromotionBll>();
+            services.AddSingleton<RedemptionBLL>();
+            services.AddSingleton<StoreBLL>();
             services.AddSingleton<GamingBLL>();
             services.AddSingleton<CasinoBll>();
             services.AddSingleton<CommonBLL>();

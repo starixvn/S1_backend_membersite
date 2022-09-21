@@ -286,5 +286,19 @@ namespace MemberSite.Service.BLL
         {
             return _bankInfoService.GetBlockBankAccount(sysId, accountNum);
         }
+
+        public IEnumerable<EWalletInfoSys> GetEWalletInfoSysListByCurrency(int currencyId)
+        {
+            var key = $"EWalletInfoSysList";
+            var result = _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
+                i => _bankInfoService.GetEWalletInfoSysList());
+            return result?.Where(x => x.CurrencyId == currencyId);
+        }
+
+        public IEnumerable<BlockAccount> GetBlockEWalletAccount(int sysId, string accountNum)
+        {
+            return _bankInfoService.GetBlockEWalletAccount(sysId, accountNum);
+        }
     }
 }

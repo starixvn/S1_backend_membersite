@@ -752,6 +752,7 @@ namespace MemberSite.Controllers.Api
         public class HotGameReq
         {
             public int DeviceType { get; set; }
+            public int? CurrencyId { get; set; }
         }
 
         [HttpPost]
@@ -772,6 +773,10 @@ namespace MemberSite.Controllers.Api
                 siteId = serverInfo.SiteId;
                 currencyId = _selLangBll.GetPreferCurrencyId();
                 currencyId = currencyId == 13 ? 2 : currencyId;
+                if (req.CurrencyId.HasValue)
+                {
+                    currencyId = req.CurrencyId.Value;
+                }
             }
 
             var apiResult = new ApiResult<IEnumerable<HotGame>>
