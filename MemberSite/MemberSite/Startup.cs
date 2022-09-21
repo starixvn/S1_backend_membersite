@@ -12,6 +12,7 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using MemberSite.Extensions;
 using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Model.Mapping;
 using StackExchange.Redis;
 
 namespace MemberSite
@@ -256,6 +257,7 @@ namespace MemberSite
             services.AddControllers();
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
+            services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
