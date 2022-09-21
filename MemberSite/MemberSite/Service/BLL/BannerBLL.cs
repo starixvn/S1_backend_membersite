@@ -117,7 +117,7 @@ namespace MemberSite.Service.BLL
                     var sportTeamsHome = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerDetail.SportTeamsHome);
                     var sportTeamsAway = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerDetail.SportTeamsAway);
 
-                    if (HotEventLangFullExist(langId, sportLeaguesId, sportTeamsHome, sportTeamsAway)) 
+                    if (HotEventLangFullExist(langId, sportLeaguesId, sportTeamsHome, sportTeamsAway))
                     {
                         ComposeHotEventData(currencyId, langId, serverInfo, bannerDetail, sportLeaguesId, sportTeamsHome, sportTeamsAway, banner);
                     }
