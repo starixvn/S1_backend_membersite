@@ -53,7 +53,7 @@ namespace MemberSite.Service.BLL
                 })
                 .Distinct(i => i.GroupId)
                 .ToList();
-            
+            // BankQR
             if (custInfo.CurrencyId == (int) CurrencyId.MYR && depositType == DepositType.MobilePayment)
             {
                 var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
@@ -63,10 +63,10 @@ namespace MemberSite.Service.BLL
                 {
                     payGroupList.Add(new PayGroup
                     {
-                        ChannelName = "DuitNow QR",
-                        GroupId = 53,
-                        GroupName = "DuitNowQR",
-                        Mode = 3,
+                        ChannelName = FakePayGroupEnum.DuitNowQR.GetDescription(),
+                        GroupId = (int) FakePayGroupEnum.DuitNowQR,
+                        GroupName = FakePayGroupEnum.DuitNowQR.ToString(),
+                        Mode = (int) PayModeEnum.QrCode,
                         GSort = 99,
                         MinAmount = bankCards.Min(x => x.MinAmount),
                         MaxAmount = bankCards.Max(x => x.MaxAmount)
@@ -86,6 +86,19 @@ namespace MemberSite.Service.BLL
             if (depositLimitInfo?.DepositStatus == 0)
             {
                 return new List<PayInfo>();
+            }
+            
+            if (depositType == DepositType.MobilePayment && FakeMobilePay.FakeMobilePayInfoMap.Keys.Any(x => (int)x == groupId))
+            {
+                var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
+                    .Where(x => x.SupportQR);
+
+                var payInfo = FakeMobilePay.FakeMobilePayInfoMap[(FakePayGroupEnum) groupId];
+                payInfo.MinAmount = bankCards.Min(x => x.MinAmount);
+                payInfo.MaxAmount = bankCards.Max(x => x.MaxAmount);
+                _depositBll.FixDepositLimit(payInfo, depositLimitInfo);
+                
+                return new[] { payInfo };
             }
 
             var payInfoList = GetPayInfoList(custInfo.SiteId, depositType)
