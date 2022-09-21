@@ -314,8 +314,8 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            if (withdrawalLimitInfo != null && withdrawalLimitInfo.WithdrawalMax != 0 &&
-                dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > withdrawalLimitInfo.WithdrawalMax)
+            if (withdrawalLimitInfo != null && withdrawalLimitInfo.TotalWithdrawalMax != 0 &&
+                dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > withdrawalLimitInfo.TotalWithdrawalMax)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
                 apiResult.ErrorCode = -6;
@@ -601,6 +601,9 @@ namespace MemberSite.Controllers.Api
                 Network = usdtDetail.Network
             }).FirstOrDefault();
 
+            var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(new WithdrawalLimitInfoInput
+                { SiteId = custInfo.SiteId, CurrencyId = custInfo.CurrencyId, VipLevel = custInfo.UserLevel });
+            
             if (usdtWithdrawalLimitInfo != null
                 && usdtWithdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
             {
@@ -609,18 +612,15 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            if (usdtWithdrawalLimitInfo != null
-                && usdtWithdrawalLimitInfo.WithdrawalMax != 0
-                && dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > usdtWithdrawalLimitInfo.WithdrawalMax)
+            if (withdrawalLimitInfo.TotalWithdrawalMax != 0
+                && dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > withdrawalLimitInfo.TotalWithdrawalMax)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
                 apiResult.ErrorCode = -6;
                 return apiResult;
             }
             
-            if (usdtWithdrawalLimitInfo != null
-                && usdtWithdrawalLimitInfo.Times != 0
-                && dailyCustomerWithdrawalInfo.Count >= usdtWithdrawalLimitInfo.Times)
+            if (dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
                 apiResult.ErrorCode = -7;
@@ -1193,15 +1193,14 @@ namespace MemberSite.Controllers.Api
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
+            #region Limitation
+
             var withdrawalLimitInfo = paymentBLL.GetWithdrawalLimitInfo(new WithdrawalLimitInfoInput
             {
                 SiteId = custInfo.SiteId,
                 CurrencyId = custInfo.CurrencyId,
                 VipLevel = custInfo.UserLevel
             });
-
-            var dailyCustomerWithdrawalInfo =
-                paymentBLL.GetDailyCustomerWithdrawalInfo(new DailyCustomerWithdrawalInfoInput { CustId = custInfo.CustId });
 
             var cryptoWithdrawalLimitInfo = paymentBLL.GetUSDTWithdrawalLimitInfoV2(new USDTWithdrawalLimitInfoInput
             {
@@ -1216,9 +1215,15 @@ namespace MemberSite.Controllers.Api
                 SiteId = custInfo.SiteId,
                 CurrencyId = custInfo.CurrencyId
             });
+            
+            #endregion
+            
+            var dailyCustomerWithdrawalInfo =
+                paymentBLL.GetDailyCustomerWithdrawalInfo(new DailyCustomerWithdrawalInfoInput { CustId = custInfo.CustId });
 
-            var tmpWithdrawalAvailableAmount = 0m;
-            var tmpEWalletAvailableAmount = 0m;
+            decimal tmpWithdrawalAvailableAmount;
+
+            #region crypto
 
             cryptoWithdrawalLimitInfo.ForEach(x =>
             {
@@ -1240,16 +1245,21 @@ namespace MemberSite.Controllers.Api
                 });
             });
 
+            #endregion
+            
             var output = withdrawalLimitInfo ?? new WithdrawalLimitInfoOutput()
             {
                 WithdrawalMin = 0,
                 WithdrawalMax = 0,
+                TotalWithdrawalMax = 0,
                 Times = 0
             };
 
-            tmpWithdrawalAvailableAmount = output.WithdrawalMax == 0
+            tmpWithdrawalAvailableAmount = output.TotalWithdrawalMax == 0
                 ? dailyCustomerWithdrawalInfo.Amount
-                : output.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount;
+                : output.TotalWithdrawalMax - dailyCustomerWithdrawalInfo.Amount;
+
+            #region eWallet
 
             var eWallet = eWalletWithdrawalLimitInfo ?? new EWalletWithdrawalLimitInfoOutput()
             {
@@ -1258,14 +1268,16 @@ namespace MemberSite.Controllers.Api
                 Status = 0
             };
 
-            tmpEWalletAvailableAmount = eWallet.WithdrawalMax == 0
+            var tmpEWalletAvailableAmount = eWallet.WithdrawalMax == 0
                 ? dailyCustomerWithdrawalInfo.Amount
                 : eWallet.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount;
-
+            
+            #endregion
+           
             var data = new WithdrawalLimitOutput
             {
                 WithdrawalMin = output.WithdrawalMin,
-                Unlimited = output.WithdrawalMax == 0,
+                Unlimited = output.TotalWithdrawalMax == 0,
                 WithdrawalAvailableAmount = tmpWithdrawalAvailableAmount < 0
                     ? 0 : tmpWithdrawalAvailableAmount,
                 MaxTimes = output.Times,
@@ -1521,15 +1533,16 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -8;
                 return apiResult;
             }
-            if (eWalletWithdrawalLimitInfo != null && eWalletWithdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
+            if (eWalletWithdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
             {
                 apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), eWalletWithdrawalLimitInfo.WithdrawalMin);
                 apiResult.ErrorCode = -5;
                 return apiResult;
             }
 
-            if (eWalletWithdrawalLimitInfo != null && eWalletWithdrawalLimitInfo.WithdrawalMax != 0 &&
-                dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > eWalletWithdrawalLimitInfo.WithdrawalMax)
+            if (withdrawalLimitInfo != null
+                && withdrawalLimitInfo.TotalWithdrawalMax != 0 
+                && dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > withdrawalLimitInfo.TotalWithdrawalMax)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
                 apiResult.ErrorCode = -6;
