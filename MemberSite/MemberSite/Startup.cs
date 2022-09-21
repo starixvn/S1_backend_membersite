@@ -56,7 +56,7 @@ namespace MemberSite
             services.Configure<LineLoginChannelConfig>(configuration.GetSection("LineLoginChannelConfig"));
             services.Configure<LineLoginConfig>(configuration.GetSection("LineLoginConfig"));
             services.Configure<ShieldConfig>(configuration.GetSection("ShieldConfig"));
-            services.Configure<ReCaptchaSetting>(configuration.GetSection("ReCaptchaSetting"));
+            services.Configure<Dictionary<string, ReCaptchaSetting>>(configuration.GetSection("ReCaptchaSetting"));
             services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
             services.Configure<Dictionary<string, string>>(configuration.GetSection("LoginDeviceConfig"));
             services.AddMemoryCache();
