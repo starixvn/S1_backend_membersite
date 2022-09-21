@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.DAL;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Caching.Memory;
@@ -92,10 +93,10 @@ namespace MemberSite.Service.BLL
                 {
                     mobilePayGroupList.Add(new MobilePayGroup
                     {
-                        ChannelName = "DuitNow QR",
-                        GroupId = 53,
-                        GroupName = "DuitNowQR",
-                        Mode = 3,
+                        ChannelName = FakePayGroupEnum.DuitNowQR.GetDescription(),
+                        GroupId = (int) FakePayGroupEnum.DuitNowQR,
+                        GroupName = FakePayGroupEnum.DuitNowQR.ToString(),
+                        Mode = (int) PayModeEnum.QrCode,
                         GSort = 99,
                         MinAmount = bankCards.Min(x => x.MinAmount),
                         MaxAmount = bankCards.Max(x => x.MaxAmount)
@@ -105,6 +106,7 @@ namespace MemberSite.Service.BLL
             
             return mobilePayGroupList;
         }
+        
         
 
         public IEnumerable<MobilePayInfo> GetMobilePayInfoList(int custId, int groupId)
