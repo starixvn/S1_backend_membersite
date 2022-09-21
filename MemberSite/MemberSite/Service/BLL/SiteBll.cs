@@ -43,7 +43,7 @@ public class SiteBll
             return customer;
         }
 
-        if (_environment.IsDevelopment() && !string.IsNullOrEmpty(signupModel.ReCaptchaToken))
+        if (!string.IsNullOrEmpty(signupModel.ReCaptchaToken))
         {
             var verifyResult = _reCaptcha.Verify(signupModel.ReCaptchaToken);
             if (!verifyResult.success)
