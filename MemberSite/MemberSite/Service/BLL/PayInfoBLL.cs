@@ -14,7 +14,7 @@ namespace MemberSite.Service.BLL
         private readonly DepositBLL _depositBll;
         private readonly BankInfoOffBLL _bankInfoOffBll;
         private readonly CustInfoBll _custInfoBll;
-        private readonly CacheHelper _cacheHelper;
+        private readonly ICacheHelper _redisHelper;
 
         public PayInfoBLL(IServiceProvider provider)
         {
@@ -23,7 +23,7 @@ namespace MemberSite.Service.BLL
             _depositService = provider.GetRequiredService<DepositService>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
-            _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
         public IEnumerable<PayGroup> GetPayGroupList(int custId, DepositType depositType)
@@ -169,9 +169,11 @@ namespace MemberSite.Service.BLL
 
         private IEnumerable<PayInfo> GetPayInfoList(int siteId, DepositType depositType)
         {
-            return _cacheHelper.TryGetOrCreate<IEnumerable<PayInfo>>($"PayInfoList_{siteId}_{depositType}",
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
-                i => _payService.GetPayInfo(siteId, depositType).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
+            var key = $"PayInfoList_{siteId}_{depositType}";
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromSeconds(10),
+                () => _payService.GetPayInfo(siteId, depositType).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
+                RedisDataBase.Shared);
+            return dbData;
         }
 
         private DepositLimitInfo GetDepositLimitInfo(Customer custInfo, int vipLevel, DepositType depositType)

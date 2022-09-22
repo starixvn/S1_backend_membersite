@@ -15,7 +15,7 @@ namespace MemberSite.Service.BLL
         private readonly CustInfoBll _custInfoBll;
         private readonly MobilePayGroupComparer _mobilePayGroupComparer;
         private readonly BankInfoOffBLL _bankInfoOffBll;
-        private readonly CacheHelper _cacheHelper;
+        private readonly ICacheHelper _redisHelper;
         public MobilePayInfoBll(IServiceProvider provider)
         {
             _payService = provider.GetRequiredService<PayService>();
@@ -24,15 +24,15 @@ namespace MemberSite.Service.BLL
             _depositBll = provider.GetRequiredService<DepositBLL>();
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _mobilePayGroupComparer = new MobilePayGroupComparer();
-            _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
         public IEnumerable<MobilePayInfo> GetMobilePayInfoList(int siteId)
         {
             var key = $"MobilePayInfoList_{siteId}";
-            return _cacheHelper.TryGetOrCreate<IEnumerable<MobilePayInfo>>(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
-                i => _payService.GetMobilePayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<MobilePayInfo>>(key, TimeSpan.FromMinutes(1),
+                () => _payService.GetMobilePayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
+            return dbData;
         }
         private class MobilePayGroupComparer : IEqualityComparer<MobilePayGroup>
         {
