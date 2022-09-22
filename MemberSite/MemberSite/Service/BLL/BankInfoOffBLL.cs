@@ -15,7 +15,7 @@ namespace MemberSite.Service.BLL
         private readonly DepositBLL _depositBll;
         private readonly SysBankInfoOffComparer _sysBankInfoOffComparer;
         private readonly DepositService _depositService;
-        private readonly CacheHelper _cacheHelper;
+        private readonly ICacheHelper _redisHelper;
 
         public BankInfoOffBLL(IServiceProvider provider)
         {
@@ -23,7 +23,7 @@ namespace MemberSite.Service.BLL
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
-            _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _sysBankInfoOffComparer = new SysBankInfoOffComparer();
             _depositService = provider.GetRequiredService<DepositService>();
         }
@@ -113,13 +113,12 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
-            int SiteId = custInfo.SiteId;
-            int CurrencyId = custInfo.CurrencyId;
+            var siteId = custInfo.SiteId;
+            var currencyId = custInfo.CurrencyId;
 
-            var key = $"GetBankInfoOffList_{SiteId}_{CurrencyId}_{vipLevel}_{lang}_{queryType}";
-            var offBankList = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
-                i => GetBankAccountOffList(SiteId, CurrencyId, vipLevel, lang, queryType));
+            var key = $"GetBankInfoOffList_{siteId}_{currencyId}_{vipLevel}_{lang}_{queryType}";
+            var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(10),
+                () => GetBankAccountOffList(siteId, currencyId, vipLevel, lang, queryType));
 
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
             var result = offBankList
