@@ -594,7 +594,7 @@ namespace MemberSite.Service.BLL
             var startDate = DateTimeOffset.FromUnixTimeSeconds(start).DateTime;
             var endDate = DateTimeOffset.FromUnixTimeSeconds(end).DateTime;         
             var key = $"GetFinancialLog:{custId}:{startDate:yyyyMMddHHmmssfff}:{endDate:yyyyMMddHHmmssfff}";
-            var cacheTime = TimeSpan.FromMinutes(5);
+            var cacheTime = TimeSpan.FromMinutes(1);
 
             if (_cacheHelper.KeyExists(key, RedisDataBase.Shared))
             {
