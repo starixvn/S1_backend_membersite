@@ -84,6 +84,7 @@ namespace MemberSite.Service.Model
     {
         public decimal WithdrawalMin { get; set; }
         public decimal WithdrawalMax { get; set; }
+        public decimal TotalWithdrawalMax { get; set; }
         public int Times { get; set; }
 
     }
@@ -112,6 +113,7 @@ namespace MemberSite.Service.Model
         public bool EWalletUnlimited { get; set; }
         public decimal EWalletWithdrawalAvailableAmount { get; set; }
         public EWalletStatus EWalletStatus { get; set; }
+        public decimal TotalWithdrawalMax { get; set; }
     }
 
     public class DailyCustomerWithdrawalInfoInput
