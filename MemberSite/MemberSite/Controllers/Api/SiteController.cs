@@ -713,6 +713,8 @@ namespace MemberSite.Controllers.Api
         public class BannerReq
         {
             public int BannerType { get; set; }
+
+            public int CurrencyId { get; set; }
         }
 
         [HttpPost]
@@ -735,15 +737,13 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                perferCurr = _selLangBll.GetPreferCurrencyId();
+                perferCurr = bannerReq.CurrencyId;
                 SiteId = serverInfo.SiteId;
                 langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
             }
 
-            var banner_CurrencyId = !User.Identity.IsAuthenticated && perferCurr == 13 ? 2 : perferCurr;
-
             apiResult.ErrorCode = 0;
-            apiResult.Data = _bannerBll.GetBannerV3(SiteId, bannerReq.BannerType, ShowStatus, banner_CurrencyId, langId, serverInfo);
+            apiResult.Data = _bannerBll.GetBannerV3(SiteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
 
             return apiResult;
         }
