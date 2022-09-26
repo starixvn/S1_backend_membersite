@@ -12,6 +12,7 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using MemberSite.Extensions;
 using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Model.Mapping;
 using StackExchange.Redis;
 using MemberSite.Service.Model.Mapping;
 

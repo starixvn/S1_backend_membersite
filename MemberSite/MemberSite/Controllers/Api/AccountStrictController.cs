@@ -26,6 +26,7 @@ namespace MemberSite.Controllers.Api
         private readonly CryptoPayInfoBll _cryptoPayInfoBLL;
         private readonly LineLoginBLL _lineLoginBll;
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
+        
 
         public AccountStrictController(IServiceProvider provider)
         {
@@ -471,7 +472,7 @@ namespace MemberSite.Controllers.Api
             {
                 custProfile["Email"] = beforeCustInfo.Email;
             }
-       
+            
             custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo, custInfo.SiteId);
 
             apiResult.ErrorCode = _custInfoBLL.SetProfile(authData.CustId, custProfile);
@@ -682,13 +683,11 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        private Dictionary<string, string> SetCountryCodeAndAreaCode(Dictionary<string, string> custProfile, CustInfoProfile beforeCustInfo,int siteId)
-
+        private Dictionary<string, string> SetCountryCodeAndAreaCode(Dictionary<string, string> custProfile, CustInfoProfile beforeCustInfo, int siteId)
         {
-
-            var perCountry = new CurrencyMapping().CountryMap;
-            custProfile.TryGetValue("CountryCode", out var country);
-            if (string.IsNullOrEmpty(country) || perCountry.FirstOrDefault(x => x.Value == country).Equals(default(KeyValuePair<int, string>)))
+            custProfile.TryGetValue("CountryCode",out var reqCountryCode);
+            
+            if (string.IsNullOrEmpty(reqCountryCode) || !_areaCodeMap.Any(i => i.Code == reqCountryCode))
             {
                 if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
                 {

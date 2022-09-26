@@ -22,10 +22,9 @@ namespace MemberSite.Service.BLL
         private readonly CacheHelper _cacheHelper;
         private readonly ICacheHelper _redisHelper;
         private readonly Dictionary<int, bool> _isConvert = new()
-        {
-            { 51, false },
-            { 15, false }
-        };
+            {
+                {51,false },{15,false }
+            };
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
         private readonly ShieldBLL _shieldBll;
 
