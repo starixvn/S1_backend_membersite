@@ -741,15 +741,13 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                perferCurr = bannerReq.CurrencyId;
-                SiteId = serverInfo.SiteId;
+                preferCurr = bannerReq.CurrencyId;
+                siteId = serverInfo.SiteId;
                 langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
             }
 
-            var banner_CurrencyId = !User.Identity.IsAuthenticated && perferCurr == 13 ? 2 : perferCurr;
-
             apiResult.ErrorCode = 0;
-            apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, showStatus, bannerCurrencyId, langId, serverInfo);
+            apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, showStatus, preferCurr, langId, serverInfo);
 
             var domain = _serverInfoBll.GetHttpDomain();
             foreach (var data in apiResult.Data)
