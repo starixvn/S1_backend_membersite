@@ -1554,37 +1554,48 @@ namespace MemberSite.Controllers.Api
             #endregion
 
             #region - Check WithdrawalLimit -
-            if(eWalletWithdrawalLimitInfo.Status == (int)EWalletStatus.Disable)
-            {
-                apiResult.Message = selLangBLL.GetMsg("msg_EWalletIsMaintenance");
-                apiResult.ErrorCode = -8;
-                return apiResult;
-            }
-            if (eWalletWithdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
-            {
-                apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), eWalletWithdrawalLimitInfo.WithdrawalMin);
-                apiResult.ErrorCode = -5;
-                return apiResult;
-            }
 
-            if (withdrawalLimitInfo != null
-                && withdrawalLimitInfo.TotalWithdrawalMax != 0 
-                && dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > withdrawalLimitInfo.TotalWithdrawalMax)
+            if (eWalletWithdrawalLimitInfo != null && withdrawalLimitInfo != null)
             {
-                apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
-                apiResult.ErrorCode = -6;
-                return apiResult;
-            }
+                if(eWalletWithdrawalLimitInfo.Status == (int)EWalletStatus.Disable)
+                {
+                    apiResult.Message = selLangBLL.GetMsg("msg_EWalletIsMaintenance");
+                    apiResult.ErrorCode = -8;
+                    return apiResult;
+                }
 
-            if (withdrawalLimitInfo != null
-                && withdrawalLimitInfo.Times != 0
-                && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
-            {
-                apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
-                apiResult.ErrorCode = -7;
-                return apiResult;
-            }
+                var minAmount = Math.Max(eWalletWithdrawalLimitInfo.WithdrawalMin, withdrawalLimitInfo.WithdrawalMin);
+                if (minAmount > withdrawalReqModel.amount)
+                {
+                    apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), minAmount);
+                    apiResult.ErrorCode = -5;
+                    return apiResult;
+                }
+                
+                var maxAmount = Math.Max(eWalletWithdrawalLimitInfo.WithdrawalMax, withdrawalLimitInfo.WithdrawalMax);
+                if (maxAmount < withdrawalReqModel.amount)
+                {
+                    apiResult.Message = string.Format(selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax"));
+                    apiResult.ErrorCode = -6;
+                    return apiResult;
+                }
 
+                if (withdrawalLimitInfo.TotalWithdrawalMax != 0 
+                    && dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > withdrawalLimitInfo.TotalWithdrawalMax)
+                {
+                    apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
+                    apiResult.ErrorCode = -6;
+                    return apiResult;
+                }
+
+                if (withdrawalLimitInfo.Times != 0
+                    && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
+                {
+                    apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
+                    apiResult.ErrorCode = -7;
+                    return apiResult;
+                }
+            }
             #endregion
 
             #region - Check EWalletInfo -
