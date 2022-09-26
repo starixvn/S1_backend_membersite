@@ -714,7 +714,7 @@ namespace MemberSite.Controllers.Api
         {
             public int BannerType { get; set; }
 
-            public int CurrencyId { get; set; }
+            public int? CurrencyId { get; set; }
         }
 
         [HttpPost]
@@ -737,7 +737,7 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                perferCurr = bannerReq.CurrencyId;
+                perferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
                 SiteId = serverInfo.SiteId;
                 langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
             }
