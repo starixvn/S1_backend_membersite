@@ -14,7 +14,9 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _createTime.ToOffset(CustTimeZone);
+                //先取得時區再進行時間位移
+                var offset = DateTime.Now.ToDateTimeOffset(CustTimeZone).Offset;
+                return  new DateTimeOffset(_createTime).ToOffset(offset);
             }
             set
             {
@@ -41,7 +43,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _createTime.ToOffset(CustTimeZone);
+                return _createTime.ToDateTimeOffset(CustTimeZone);
             }
             set
             {
@@ -73,7 +75,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _settledDate.ToOffset(CustTimeZone);
+                return _settledDate.ToDateTimeOffset(CustTimeZone);
             }
             set
             {
@@ -93,7 +95,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _settledDate.ToOffset(CustTimeZone);
+                return _settledDate.ToDateTimeOffset(CustTimeZone);
             }
             set
             {
@@ -115,7 +117,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _settledDate.ToOffset(CustTimeZone);
+                return _settledDate.ToDateTimeOffset(CustTimeZone);
             }
             set
             {
@@ -143,7 +145,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _transTime.ToOffset(CustTimeZone);
+                return _transTime.ToDateTimeOffset(CustTimeZone);
             }
             set
             {
@@ -155,7 +157,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _settledTime.ToOffset(CustTimeZone);
+                return _settledTime.ToDateTimeOffset(CustTimeZone);
             }
             set
             {
@@ -173,7 +175,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _settledDate.ToOffset(CustTimeZone);
+                return _settledDate.ToDateTimeOffset(CustTimeZone);
             }
             set
             {
