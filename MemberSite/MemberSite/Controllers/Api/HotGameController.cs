@@ -13,20 +13,19 @@ namespace MemberSite.Controllers.Api
     {
         private readonly IHotGameBLL _hotGameBll;
         private readonly AuthorizeBLL _authorizeBll;
-        private readonly CustInfoBll _custInfoBll;
+        private readonly CustInfoBll _customerInfoBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly SelLangBLL _selLangBll;
 
-
         public HotGameController(IHotGameBLL hotGameBll,
             AuthorizeBLL authorizeBll,
-            CustInfoBll custInfoBll,
+            CustInfoBll customerInfoBll,
             ServerInfoBll serverInfoBll,
             SelLangBLL selLangBll)
         {
             this._hotGameBll = hotGameBll;
             this._authorizeBll = authorizeBll;
-            this._custInfoBll = custInfoBll;
+            this._customerInfoBll = customerInfoBll;
             this._serverInfoBll = serverInfoBll;
             this._selLangBll = selLangBll;
         }
@@ -40,7 +39,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             if (authData is { CustId: > 0 })
             {
-                var customerInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                var customerInfo = _customerInfoBll.GetCustInfoWithCache(authData.CustId);
                 siteId = customerInfo.SiteId;
                 currencyId = customerInfo.CurrencyId;
             }
