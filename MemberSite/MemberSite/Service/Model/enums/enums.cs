@@ -512,4 +512,10 @@
         Featured = 4,
         TopCasino = 5
     }
+
+    public enum HotGameDeviceType
+    {
+        Pc = 1,
+        Mobile = 2
+    }
 }

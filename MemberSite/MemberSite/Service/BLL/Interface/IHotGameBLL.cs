@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.BLL.Interface
 {
@@ -11,7 +12,7 @@ namespace MemberSite.Service.BLL.Interface
         /// <param name="currencyId"></param>
         /// <param name="deviceType"></param>
         /// <returns></returns>
-        Task<Dictionary<string, IEnumerable<HotGameResponse>>> GetHotGames(int siteId, int currencyId, int deviceType);
+        Task<Dictionary<string, IEnumerable<HotGameResponse>>> GetHotGames(int siteId, int currencyId, HotGameDeviceType deviceType);
 
     }
 }

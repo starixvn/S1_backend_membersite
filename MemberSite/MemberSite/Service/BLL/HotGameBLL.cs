@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -14,7 +15,7 @@ namespace MemberSite.Service.BLL
             this._hotGameService = hotGameService;
         }
 
-        public async Task<Dictionary<string, IEnumerable<HotGameResponse>>> GetHotGames(int siteId, int currencyId, int deviceType)
+        public async Task<Dictionary<string, IEnumerable<HotGameResponse>>> GetHotGames(int siteId, int currencyId, HotGameDeviceType deviceType)
         {
             var hotGames = await _hotGameService.GetHotGames(siteId, currencyId);
 
@@ -37,13 +38,13 @@ namespace MemberSite.Service.BLL
             return result;
         }
 
-        private string DeserializeGameLogo(string jsonGameLogo, int device)
+        private string DeserializeGameLogo(string jsonGameLogo, HotGameDeviceType deviceType)
         {
             var gameLogo = JsonConvert.DeserializeObject<HotGameLogoUrl>(jsonGameLogo);
-            return device switch
+            return deviceType switch
             {
-                1 => gameLogo.HotGamePcUrl,
-                2 => gameLogo.HotGameMobileUrl,
+                HotGameDeviceType.Pc => gameLogo.HotGamePcUrl,
+                HotGameDeviceType.Mobile => gameLogo.HotGameMobileUrl,
                 _ => ""
             };
         }
