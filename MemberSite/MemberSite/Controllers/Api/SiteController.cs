@@ -14,6 +14,7 @@ using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Cors;
+using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
 {
@@ -40,6 +41,7 @@ namespace MemberSite.Controllers.Api
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
+        private readonly ILogger<SiteController> _logger;
 
         public SiteController(IServiceProvider provider)
         {
@@ -59,6 +61,7 @@ namespace MemberSite.Controllers.Api
             _loginDeviceConfig = provider.GetRequiredService<IOptions<Dictionary<string, string>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _siteBll = provider.GetRequiredService<SiteBll>();
+            _logger = provider.GetRequiredService<ILogger<SiteController>>();
         }
 
         public class LoginModel
@@ -630,22 +633,29 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<int>> GetTpIds()
         {
             var apiResult = new ApiResult<IEnumerable<int>>();
-            if (User.Identity.IsAuthenticated)
+            try
             {
                 var authData = _authorizeBll.GetAuthData();
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                var tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId).ToList();
-                if (string.CompareOrdinal(custInfo.AffCode, "67253") == 0)
+                if (authData is { CustId: > 0 })
                 {
-                    tpIds.RemoveAll(item => item == (int)Tp.TCG);
-                }
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    var tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId).ToList();
+                    if (string.CompareOrdinal(custInfo.AffCode, "67253") == 0)
+                    {
+                        tpIds.RemoveAll(item => item == (int)Tp.TCG);
+                    }
 
-                apiResult.Data = tpIds;
+                    apiResult.Data = tpIds;
+                }
+                else
+                {
+                    var serverInfo = _serverInfoBll.GetServerInfo();
+                    apiResult.Data = _casinoBll.GetProviderIdByCurrency(0, serverInfo.SiteId);
+                }
             }
-            else
+            catch (Exception e)
             {
-                var serverInfo = _serverInfoBll.GetServerInfo();
-                apiResult.Data = _casinoBll.GetProviderIdByCurrency(0, serverInfo.SiteId);
+                _logger.LogError(e, GetCurrentMethod());
             }
 
             apiResult.ErrorCode = 0;
