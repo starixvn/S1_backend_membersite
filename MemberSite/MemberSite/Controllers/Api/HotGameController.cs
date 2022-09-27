@@ -1,7 +1,7 @@
-﻿using MemberSite.Service.BLL.Interface;
+﻿using MemberSite.Service.BLL;
+using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Controllers.Api
@@ -12,26 +12,59 @@ namespace MemberSite.Controllers.Api
     public class HotGameController : ControllerBase
     {
         private readonly IHotGameBLL _hotGameBll;
+        private readonly AuthorizeBLL _authorizeBll;
+        private readonly CustInfoBll _custInfoBll;
+        private readonly ServerInfoBll _serverInfoBll;
+        private readonly SelLangBLL _selLangBll;
 
-        public HotGameController(IHotGameBLL hotGameBll)
+
+        public HotGameController(IHotGameBLL hotGameBll,
+            AuthorizeBLL authorizeBll,
+            CustInfoBll custInfoBll,
+            ServerInfoBll serverInfoBll,
+            SelLangBLL selLangBll)
         {
             this._hotGameBll = hotGameBll;
+            this._authorizeBll = authorizeBll;
+            this._custInfoBll = custInfoBll;
+            this._serverInfoBll = serverInfoBll;
+            this._selLangBll = selLangBll;
         }
 
 
         [HttpPost]
         public async Task<ApiResult<Dictionary<string, IEnumerable<HotGameResponse>>>> GetDataList(GetHotGameDataListRequest request)
         {
-           var data = await _hotGameBll.GetHotGames(1, request.CurrencyId.Value, request.DeviceType);
+            int currencyId;
+            int siteId;
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
+            {
+                var customerInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                siteId = customerInfo.SiteId;
+                currencyId = customerInfo.CurrencyId;
+            }
+            else
+            {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                siteId = serverInfo.SiteId;
+                currencyId = request.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
+            }
 
-           var apiResult = new ApiResult<Dictionary<string, IEnumerable<HotGameResponse>>>
-           {
-               Data = data,
-               ErrorCode = 0
-           };
+            var apiResult = new ApiResult<Dictionary<string, IEnumerable<HotGameResponse>>>();
 
-           return apiResult;
+            try
+            {
+                var data = await _hotGameBll.GetHotGames(siteId, currencyId, request.DeviceType);
+                apiResult.Data = data;
+                apiResult.ErrorCode = 0;
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.Message;
+            }
+
+            return apiResult;
         }
-
     }
 }
