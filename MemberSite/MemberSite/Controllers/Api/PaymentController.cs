@@ -1555,46 +1555,50 @@ namespace MemberSite.Controllers.Api
 
             #region - Check WithdrawalLimit -
 
-            if (eWalletWithdrawalLimitInfo != null && withdrawalLimitInfo != null)
+            if (eWalletWithdrawalLimitInfo == null || withdrawalLimitInfo == null)
             {
-                if(eWalletWithdrawalLimitInfo.Status == (int)EWalletStatus.Disable)
-                {
-                    apiResult.Message = selLangBLL.GetMsg("msg_EWalletIsMaintenance");
-                    apiResult.ErrorCode = -8;
-                    return apiResult;
-                }
+                apiResult.Message = selLangBLL.GetMsg("msg_EWalletIsMaintenance");
+                apiResult.ErrorCode = -8;
+                return apiResult;
+            }
+            
+            if(eWalletWithdrawalLimitInfo.Status == (int)EWalletStatus.Disable)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_EWalletIsMaintenance");
+                apiResult.ErrorCode = -8;
+                return apiResult;
+            }
 
-                var minAmount = Math.Max(eWalletWithdrawalLimitInfo.WithdrawalMin, withdrawalLimitInfo.WithdrawalMin);
-                if (minAmount > withdrawalReqModel.amount)
-                {
-                    apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), minAmount);
-                    apiResult.ErrorCode = -5;
-                    return apiResult;
-                }
-                
-                var maxAmount = Math.Max(eWalletWithdrawalLimitInfo.WithdrawalMax, withdrawalLimitInfo.WithdrawalMax);
-                if (maxAmount < withdrawalReqModel.amount)
-                {
-                    apiResult.Message = string.Format(selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax"));
-                    apiResult.ErrorCode = -6;
-                    return apiResult;
-                }
+            var minAmount = Math.Max(eWalletWithdrawalLimitInfo.WithdrawalMin, withdrawalLimitInfo.WithdrawalMin);
+            if (minAmount > withdrawalReqModel.amount)
+            {
+                apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), minAmount);
+                apiResult.ErrorCode = -5;
+                return apiResult;
+            }
 
-                if (withdrawalLimitInfo.TotalWithdrawalMax != 0 
-                    && dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > withdrawalLimitInfo.TotalWithdrawalMax)
-                {
-                    apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
-                    apiResult.ErrorCode = -6;
-                    return apiResult;
-                }
+            var maxAmount = eWalletWithdrawalLimitInfo.WithdrawalMax;
+            if (maxAmount < withdrawalReqModel.amount)
+            {
+                apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), maxAmount);
+                apiResult.ErrorCode = -9;
+                return apiResult;
+            }
 
-                if (withdrawalLimitInfo.Times != 0
-                    && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
-                {
-                    apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
-                    apiResult.ErrorCode = -7;
-                    return apiResult;
-                }
+            if (withdrawalLimitInfo.TotalWithdrawalMax != 0 
+                && dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > withdrawalLimitInfo.TotalWithdrawalMax)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
+                apiResult.ErrorCode = -6;
+                return apiResult;
+            }
+
+            if (withdrawalLimitInfo.Times != 0
+                && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
+                apiResult.ErrorCode = -7;
+                return apiResult;
             }
             #endregion
 
