@@ -32,7 +32,7 @@ namespace MemberSite.Service.BLL
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
 
-            var key = $"BankInfoSysList_{serverInfo.SiteId}";
+            var key = $"BankInfoSysList:{serverInfo.SiteId}";
             var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(1),
                 () => _bankInfoService.GetBankInfoSysList(serverInfo.SiteId));
             return dbData?.Where(x => x.CurrencyId == currencyId);
@@ -42,7 +42,7 @@ namespace MemberSite.Service.BLL
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             
-            var key = $"BankInfoSysListForCtrl_{serverInfo.SiteId}";
+            var key = $"BankInfoSysListForCtrl:{serverInfo.SiteId}";
             var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(10),
                 () => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId));
             return dbData?.Where(x => x.CurrencyId == currencyId);
@@ -50,7 +50,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<BankInfoName> GetBankInfoName(string lang)
         {
-            var key = $"BankInfoNameList_{lang}";
+            var key = $"BankInfoNameList:{lang}";
             var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetBankInfoNameList(lang));
             return dbData;
@@ -223,7 +223,7 @@ namespace MemberSite.Service.BLL
         #endregion
         public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId)
         {
-            var key = $"BankInfoPayList_{siteId}";
+            var key = $"BankInfoPayList:{siteId}";
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromSeconds(10),
                 () => _bankInfoService.GetBankInfoPayList(siteId).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
@@ -265,7 +265,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<AutoChannelBankInfo> GetAutoChannelBankInfoList(int siteId, DepositType depositType)
         {
-            var key = $"BankInfoPayList_{siteId}_{depositType}";
+            var key = $"BankInfoPayList:{siteId}:{depositType}";
             var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(10),
                 () => _bankInfoService.GetAutoChannelBankInfoList(siteId, depositType),
                 RedisDataBase.Shared);
