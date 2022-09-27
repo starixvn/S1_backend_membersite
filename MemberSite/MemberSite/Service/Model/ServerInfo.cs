@@ -1,5 +1,4 @@
-﻿using MemberSite.Service.Model.enums;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model
 {
@@ -25,9 +24,7 @@ namespace MemberSite.Service.Model
         public string CurrencyList { set; get; }
         public string DefLang { set; get; }
         public int DefCurrency { set; get; }
-
-        public IEnumerable<int> ICurrencyList => JsonConvert.DeserializeObject<IEnumerable<int>>(CurrencyList)
-            .Where(i => i != (int)CurrencyId.USD && i != (int)CurrencyId.CNY && i != (int)CurrencyId.BDT);
+        public IEnumerable<int> ICurrencyList => JsonConvert.DeserializeObject<IEnumerable<int>>(CurrencyList);
 
         public IEnumerable<string> ILangList => JsonConvert.DeserializeObject<IEnumerable<string>>(LangList);
     }
