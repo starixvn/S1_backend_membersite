@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.Model.enums;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model
 {
@@ -31,6 +32,14 @@ namespace MemberSite.Service.Model
         public string HotGamePcUrl { get; set; }
         public string HotGameMobileUrl { get; set; }
     }
+
+
+    public class GetHotGameDataListRequest
+    {
+        public int DeviceType { get; set; }
+        public int? CurrencyId { get; set; }
+    }
+
 
     public class HotGameDto
     {
