@@ -492,24 +492,7 @@ namespace MemberSite.Service.BLL
             var result = await _commonBll.SendResetPwdMailAsync(custId, resetPasswordUrl);
             return result;
         }
-        public async Task<ApiResult> SendVerifySMSAsync(int custId)
-        {
-            var custInfo = GetCustInfoWithCache(custId);
-            var apiResult = await _commonBll.SendVerifySMSAsync(custInfo);
-            return apiResult;
-        }
-        public async Task<ApiResult> AcknowledgeVerifySMS(int custId, string siteName, string request_id, string code)
-        {
-            var custInfo = GetCustInfoWithCache(custId);
-            var apiResult = await _commonBll.AcknowledgeVerifySMS(custInfo, siteName, request_id, code);
-
-            if (apiResult.ErrorCode == 0)
-            {
-                _custInfoService.SetPhoneVerified(custId);
-            }
-
-            return apiResult;
-        }
+        
         public CustRollOver GetCustRollOver(int custId, string bonusCode)
         {
             return _rollOverService.GetCustRollOver(custId, bonusCode);
