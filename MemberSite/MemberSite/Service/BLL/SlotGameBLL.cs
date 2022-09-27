@@ -52,26 +52,30 @@ namespace MemberSite.Service.BLL
             var (siteId, currencyId, custId) = GetUserInfo(user, serverInfo);
             var imgUrl = _siteConfig.Value[serverInfo.SiteName].ImageURL;
 
-            var providerList = GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
-            var slotGameList = GetSlotGameList(siteId, currencyId, request.DeviceType);
+            var providerList = await GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
+            var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);
 
+            //排除不在SlotGameList的provider
+            var slotGameProviderList = slotGameList.GroupBy(i => i.TpId).ToDictionary(i => i.Key,i => i.Key);
+            providerList = providerList.Where(i => slotGameProviderList.ContainsKey(i.TpId)).ToList();
+            
             // 未登入狀態直接回傳
             if (custId == 0)
             {
-                return new GetSlotGamePageResponse(imgUrl, await providerList, await slotGameList);
+                return new GetSlotGamePageResponse(imgUrl, providerList, slotGameList);
             }
 
             //取得User Slot Game相關資料         
-            var disableGame = GetDisableGameList(custId);
+            var disableGame = await GetDisableGameList(custId);
             var favoriteAndRecentlyPlayed = await GetFavoriteAndRecentlyPlayed(custId);
 
             return new GetSlotGamePageResponse(
                 imgUrl: imgUrl, 
-                providerList: await providerList,
-                slotGameList: await slotGameList,
+                providerList: providerList,
+                slotGameList: slotGameList,
                 favorite: favoriteAndRecentlyPlayed.FavoriteList,
                 recentlyPlayed: favoriteAndRecentlyPlayed.RecentlyPlayedList,
-                disableGame: await disableGame);
+                disableGame: disableGame);
         }
 
         public async Task<List<SlotGameInfo>> GetSlotGameList(int siteId, int currencyId, int deviceType)
