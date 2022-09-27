@@ -116,7 +116,7 @@ namespace MemberSite.Service.BLL
             var siteId = custInfo.SiteId;
             var currencyId = custInfo.CurrencyId;
 
-            var key = $"GetBankInfoOffList_{siteId}_{currencyId}_{vipLevel}_{lang}_{queryType}";
+            var key = $"GetBankInfoOffList:{siteId}:{currencyId}:{vipLevel}:{lang}:{queryType}";
             var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(10),
                 () => GetBankAccountOffList(siteId, currencyId, vipLevel, lang, queryType));
 
