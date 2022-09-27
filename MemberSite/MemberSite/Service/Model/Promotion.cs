@@ -65,6 +65,7 @@ namespace MemberSite.Service.Model
         public decimal MaxBonus { get; set; }
         public decimal TotalLossAmount { get; set; }
         public decimal MinLossAmount { get; set; }
+        public decimal OriginalTotalBonus { get; set; }
         public string Percentage { get; set; }
         public IEnumerable<CashBackDetail> CashBackDetail { get; set; }
     }
