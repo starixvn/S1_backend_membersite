@@ -54,53 +54,7 @@ namespace MemberSite.Service.BLL
 
             return result;
         }
-
-        public async Task<ApiResult> SendVerifySMSAsync(Customer custInfo)
-        {
-            var apiUrl = $"{commonServiceUrl}MoviderSMS/SendVerifySMS";
-
-            dynamic req = new
-            {
-                custInfo.CustId,
-                ip = tools.GetClientIP()
-            };
-
-            if (custInfo.CurrencyId == 51)
-            {
-                apiUrl = $"{commonServiceUrl}TwilioSMS/VerificationsSMS";
-            }
-
-            ApiResult result = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
-
-            return result;
-        }
-        public async Task<ApiResult> AcknowledgeVerifySMS(Customer custInfo, string siteName, string request_id, string code)
-        {
-            var apiUrl = $"{commonServiceUrl}MoviderSMS/AcknowledgeVerifySMS";
-
-            dynamic req = new
-            {
-                siteName,
-                request_id,
-                code
-            };
-
-            if (custInfo.CurrencyId == 51)
-            {
-                apiUrl = $"{commonServiceUrl}TwilioSMS/VerificationCheckSMS";
-
-                req = new
-                {
-                    siteName,
-                    sid = request_id,
-                    code
-                };
-            }
-
-            ApiResult apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
-
-            return apiResult;
-        }
+        
         public async Task<ApiResult<SendOTPSMSResult>> SendOTPSMSAsync(int custId)
         {
             var apiUrl = $"{commonServiceUrl}OTPSMS/SendOTPSMS";
