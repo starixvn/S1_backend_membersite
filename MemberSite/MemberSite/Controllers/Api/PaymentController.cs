@@ -1555,11 +1555,9 @@ namespace MemberSite.Controllers.Api
 
             #region - Check WithdrawalLimit -
 
-            var errorCode = CheckWithdrawLimit(eWalletWithdrawalLimitInfo, withdrawalLimitInfo,
-                dailyCustomerWithdrawalInfo, withdrawalReqModel.amount);
+            var withdrawLimit = WithdrawLimitFactory.Create(WithdrawalTypeStatus.EWallet);
+            var errorCode = withdrawLimit.CheckWithdrawLimit(eWalletWithdrawalLimitInfo, withdrawalLimitInfo, dailyCustomerWithdrawalInfo, withdrawalReqModel.amount);
 
-            var minAmount = Math.Max(eWalletWithdrawalLimitInfo.WithdrawalMin, withdrawalLimitInfo.WithdrawalMin);
-            var maxAmount = eWalletWithdrawalLimitInfo.WithdrawalMax;
             if (errorCode != 0)
             {
                 apiResult.ErrorCode = errorCode;
@@ -1569,10 +1567,10 @@ namespace MemberSite.Controllers.Api
                         apiResult.Message = selLangBLL.GetMsg("msg_EWalletIsMaintenance");
                         break;
                     case -5:
-                        apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), minAmount);
+                        apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), withdrawLimit.MinAmount);
                         break;
                     case -9:
-                        apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), maxAmount);
+                        apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), withdrawLimit.MaxAmount);
                         break;
                     case -6:
                     case -7:
@@ -1593,44 +1591,6 @@ namespace MemberSite.Controllers.Api
             }
             #endregion
             return await DoWithdrawalAsync(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, WithdrawalTypeStatus.EWallet, null);
-        }
-
-        private int CheckWithdrawLimit(EWalletWithdrawalLimitInfoOutput eWalletWithdrawalLimitInfo, 
-                                       WithdrawalLimitInfoOutput withdrawalLimitInfo, 
-                                       DailyCustomerWithdrawalInfoOutput dailyCustomerWithdrawalInfo, decimal amount)
-        {
-            if (eWalletWithdrawalLimitInfo == null || withdrawalLimitInfo == null)
-            {
-                return -8;
-            }
-            if(eWalletWithdrawalLimitInfo.Status == (int)EWalletStatus.Disable)
-            {
-                return -8;
-            }
-
-            var minAmount = Math.Max(eWalletWithdrawalLimitInfo.WithdrawalMin, withdrawalLimitInfo.WithdrawalMin);
-            if (minAmount > amount)
-            {
-                return -5;
-            }
-
-            var maxAmount = eWalletWithdrawalLimitInfo.WithdrawalMax;
-            if (maxAmount < amount)
-            {
-                return -9;
-            }
-
-            if (withdrawalLimitInfo.TotalWithdrawalMax != 0 && dailyCustomerWithdrawalInfo.Amount + amount > withdrawalLimitInfo.TotalWithdrawalMax)
-            {
-                return -6;
-            }
-
-            if (withdrawalLimitInfo.Times != 0 && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
-            {
-                return -7;
-            }
-
-            return 0;
         }
     }
 }
