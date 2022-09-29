@@ -1629,7 +1629,7 @@ namespace MemberSite.Controllers.Api
                         apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), withdrawLimit.MinAmount);
                         break;
                     case -9:
-                        apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), withdrawLimit.MaxAmount);
+                        apiResult.Message = selLangBLL.GetMsg("msg_NotInLimit");
                         break;
                     case -6:
                     case -7:
