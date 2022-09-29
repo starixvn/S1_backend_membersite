@@ -22,12 +22,10 @@ namespace MemberSite.Service.BLL
         private readonly CacheHelper _cacheHelper;
         private readonly ICacheHelper _redisHelper;
         private readonly Dictionary<int, bool> _isConvert = new()
-        {
-            { 51, false },
-            { 15, false }
-        };
-
-        private readonly Dictionary<string, string> _areaCodeCountryList;
+            {
+                {51,false },{15,false }
+            };
+        private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
         private readonly ShieldBLL _shieldBll;
 
         public CustInfoBll(IServiceProvider provider)
@@ -42,22 +40,20 @@ namespace MemberSite.Service.BLL
             _bankInfoService = provider.GetRequiredService<BankInfoService>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
-            _areaCodeCountryList = new CurrencyMapping().AreaCodeMap;
+            _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
-            string countryName = null;
-            if (areaCode != null)
-                _areaCodeCountryList.TryGetValue(areaCode, out countryName);
-            return countryName;
+            var countryName = _areaCodeMap.FirstOrDefault(x => x.AreaCode == areaCode);
+            return countryName?.Code;
         }
 
         public string GetAreaCodeByCountryName(string countryName)
         {
-            var areaCode = _areaCodeCountryList.FirstOrDefault(x => x.Value == countryName).Key;
-            return areaCode;
+            var areaCode = _areaCodeMap.FirstOrDefault(x => x.Code == countryName);
+            return areaCode?.AreaCode;
         }
 
         public bool IsConvertRequired(int currencyId)
@@ -496,24 +492,7 @@ namespace MemberSite.Service.BLL
             var result = await _commonBll.SendResetPwdMailAsync(custId, resetPasswordUrl);
             return result;
         }
-        public async Task<ApiResult> SendVerifySMSAsync(int custId)
-        {
-            var custInfo = GetCustInfoWithCache(custId);
-            var apiResult = await _commonBll.SendVerifySMSAsync(custInfo);
-            return apiResult;
-        }
-        public async Task<ApiResult> AcknowledgeVerifySMS(int custId, string siteName, string request_id, string code)
-        {
-            var custInfo = GetCustInfoWithCache(custId);
-            var apiResult = await _commonBll.AcknowledgeVerifySMS(custInfo, siteName, request_id, code);
-
-            if (apiResult.ErrorCode == 0)
-            {
-                _custInfoService.SetPhoneVerified(custId);
-            }
-
-            return apiResult;
-        }
+        
         public CustRollOver GetCustRollOver(int custId, string bonusCode)
         {
             return _rollOverService.GetCustRollOver(custId, bonusCode);
