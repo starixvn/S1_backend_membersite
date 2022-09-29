@@ -232,7 +232,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<PayCurrency> GetPayCurrency()
         {
             var dbData = _redisHelper.TryGetOrCreate("PayCurrency", TimeSpan.FromMinutes(5),
-                () => _payService.GetPayCurrency());
+                () => _payService.GetPayCurrency(),RedisDataBase.Shared);
             return dbData;
         }
         
