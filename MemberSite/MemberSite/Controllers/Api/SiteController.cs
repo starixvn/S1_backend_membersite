@@ -35,9 +35,7 @@ namespace MemberSite.Controllers.Api
         private readonly AuthBLL _authBll;
         private readonly FPSBLL _sFpsBll;
         private readonly GameCasinoBll _gameCasinoBll;
-        private readonly LineLoginBLL _lineLoginBll;
         private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
-        private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
@@ -57,9 +55,7 @@ namespace MemberSite.Controllers.Api
             _authBll = provider.GetRequiredService<AuthBLL>();
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
             _gameCasinoBll = provider.GetRequiredService<GameCasinoBll>();
-            _lineLoginBll = provider.GetRequiredService<LineLoginBLL>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
-            _loginDeviceConfig = provider.GetRequiredService<IOptions<Dictionary<string, string>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _siteBll = provider.GetRequiredService<SiteBll>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
@@ -576,7 +572,7 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult();
             try
             {
-                if (User.Identity.IsAuthenticated)
+                if (User.Identity?.IsAuthenticated == true)
                 {
                     result.ErrorCode = 0;
                 }
