@@ -22,7 +22,7 @@ public class SiteBll
     
     public SiteBll(IServiceProvider provider)
     {
-        _custInfoBLL= provider.GetRequiredService<CustInfoBll>();
+        _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
         _selLangBll = provider.GetRequiredService<SelLangBLL>();
         _iovationBll = provider.GetRequiredService<IovationBLL>();
         _commonBll = provider.GetRequiredService<CommonBLL>();
@@ -162,22 +162,22 @@ public class SiteBll
                 apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
                 break;
             default:
-            {
-                if (custId == 0)
                 {
-                    apiResult.ErrorCode = result;
-                    apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
-                }
-                else if (result != 0)
-                {
-                    apiResult.ErrorCode = result;
-                    apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
-                }
-                else
-                {
-                    _ = Task.Run(async () =>
+                    if (custId == 0)
                     {
-                        _commonBll.SendWelcomeMail(custId);
+                        apiResult.ErrorCode = result;
+                        apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
+                    }
+                    else if (result != 0)
+                    {
+                        apiResult.ErrorCode = result;
+                        apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
+                    }
+                    else
+                    {
+                        _ = Task.Run(async () =>
+                        {
+                            _commonBll.SendWelcomeMail(custId);
 
                         if (signupModel.blackbox != null)
                         {
@@ -191,46 +191,46 @@ public class SiteBll
                     var userLoginResult = _custInfoBLL.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd,
                         _tools.GetClientIP(), fromUrl, userAgent, deviceType, ref customer, out var token);
 
-                    switch (userLoginResult)
-                    {
-                        case -1:
-                            apiResult.ErrorCode = 1101;
-                            apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                            break;
-                        case -2:
-                            apiResult.ErrorCode = 1001;
-                            apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                            break;
-                        case -3:
-                            apiResult.ErrorCode = 1102;
-                            apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
-                            break;
-                        default:
+                        switch (userLoginResult)
                         {
-                            if (userLoginResult != 0)
-                            {
-                                apiResult.ErrorCode = 9000;
-                            }
-                            else
-                            {
-                                if (!string.IsNullOrEmpty(signupModel.RealName))
+                            case -1:
+                                apiResult.ErrorCode = 1101;
+                                apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                break;
+                            case -2:
+                                apiResult.ErrorCode = 1001;
+                                apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                                break;
+                            case -3:
+                                apiResult.ErrorCode = 1102;
+                                apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
+                                break;
+                            default:
                                 {
-                                    _custInfoBLL.SetCustBankInfo(custId, signupModel.RealName);
+                                    if (userLoginResult != 0)
+                                    {
+                                        apiResult.ErrorCode = 9000;
+                                    }
+                                    else
+                                    {
+                                        if (!string.IsNullOrEmpty(signupModel.RealName))
+                                        {
+                                            _custInfoBLL.SetCustBankInfo(custId, signupModel.RealName, forceUseMainDb: true);
+                                        }
+
+                                        customer.Token = token;
+
+                                        apiResult.ErrorCode = 0;
+                                        return customer;
+                                    }
+
+                                    break;
                                 }
-
-                                customer.Token = token;
-
-                                apiResult.ErrorCode = 0;
-                                return customer;
-                            }
-
-                            break;
                         }
                     }
-                }
 
-                break;
-            }
+                    break;
+                }
         }
 
         return customer;

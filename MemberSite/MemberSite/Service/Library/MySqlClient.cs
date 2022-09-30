@@ -103,7 +103,7 @@ namespace MemberSite.Service.Library
             return result;
         }
         
-        public int Execute(string name, DynamicParameters parameters, MySqlConnection connection,
+        public int Execute(string name, object parameters, MySqlConnection connection,
             MySqlTransaction trans)
         {
             var result = 0;
