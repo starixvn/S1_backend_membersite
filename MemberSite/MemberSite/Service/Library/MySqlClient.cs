@@ -42,7 +42,7 @@ namespace MemberSite.Service.Library
             return result;
         }
 
-        public T QueryFirst<T>(string name, SqlMapper.IDynamicParameters parameters)
+        public T QueryFirst<T>(string name, object parameters)
         {
             T result;
             var sw = Stopwatch.StartNew();
