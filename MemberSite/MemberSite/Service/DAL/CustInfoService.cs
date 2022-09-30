@@ -157,8 +157,7 @@ namespace MemberSite.Service.DAL
         }
         public Customer GetCustInfo(int custId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<Customer>("Customer_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.QueryFirst<Customer>("Customer_Get", new { CustId = custId });
         }
         public CustTransSummary GetCustTransSummary(int custId)
         {
