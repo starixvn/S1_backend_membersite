@@ -67,7 +67,11 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
                 i => GetOfflineBankAccountList(siteId, currencyId, pointLevel, custInfo.UserLevel));
 
-            return offBankList;
+            var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
+            var result = offBankList
+                .Where(x => !custDepositSysIds.Contains(x.SysId));
+
+            return result;
         }
         
         public IEnumerable<OfflineBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang)
