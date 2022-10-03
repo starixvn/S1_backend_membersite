@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
 {
@@ -33,6 +34,7 @@ namespace MemberSite.Controllers.Api
         private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
         private readonly EventsBLL _eventsBll;
+        private readonly ILogger<AccountController> _logger;
 
         public AccountController(IServiceProvider provider)
         {
@@ -53,6 +55,7 @@ namespace MemberSite.Controllers.Api
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
             _eventsBll = provider.GetRequiredService<EventsBLL>();
+            _logger = provider.GetRequiredService<ILogger<AccountController>>();
         }
 
         [HttpPost]
@@ -114,7 +117,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             var result = _authorizeBll.Logout();
 
-            Response.Cookies.Delete($"InitializationReset{ User.Identity.Name}");
+            Response.Cookies.Delete($"InitializationReset{ User.Identity?.Name}");
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             apiResult.ErrorCode = 0;
             apiResult.Message = _selLangBll.GetMsg("msg_loggedout");
@@ -847,18 +850,18 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<object>();
             try
             {
-                if (User.Identity.IsAuthenticated)
+                var authData = _authorizeBll.GetAuthData();
+                if (authData is { CustId: > 0 })
                 {
-                    var authData = _authorizeBll.GetAuthData();
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     var data = _casinoBll.GetFavoriteGames(custInfo.CustId);
                     result.Data = data != null && data.Any() ? data.Select(x => new { x.ProviderId, x.GameId }) : null;
                     result.ErrorCode = 0;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, GetCurrentMethod()); 
             }
 
             return result;
@@ -870,9 +873,9 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult();
             try
             {
-                if (User.Identity.IsAuthenticated)
+                var authData = _authorizeBll.GetAuthData();
+                if (authData is { CustId: > 0 })
                 {
-                    var authData = _authorizeBll.GetAuthData();
                     _casinoBll.SetFavoriteGames(authData.CustId, FavoriteInfo.ProviderId, FavoriteInfo.GameId, FavoriteInfo.IsRemove);
                     result.ErrorCode = 0;
                 }
@@ -887,6 +890,7 @@ namespace MemberSite.Controllers.Api
                 result.ErrorCode = 9000;
                 result.RawMessage = ex.Message;
                 result.Message = _selLangBll.GetErrMsg(result.ErrorCode);
+                _logger.LogError(ex, GetCurrentMethod());
             }
 
             return result;
