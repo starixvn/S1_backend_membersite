@@ -66,7 +66,11 @@ namespace MemberSite.Service.BLL
             var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => GetOfflineBankAccountList(siteId, currencyId, pointLevel, custInfo.UserLevel));
 
-            return offBankList;
+            var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
+            var result = offBankList
+                .Where(x => !custDepositSysIds.Contains(x.SysId));
+
+            return result;
         }
         
         public IEnumerable<OfflineBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang)
