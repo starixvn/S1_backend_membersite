@@ -163,10 +163,12 @@ namespace MemberSite.Service.DAL
         }
         public Customer GetCustInfo(int custId, bool forceUseMainDb = false)
         {
-            using var conn = forceUseMainDb 
-                ? new MySqlConnection(configuration.GetConnectionString("ConnectionString"))
-                : new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<Customer>("Customer_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            var spName = "Customer_Get";
+            var parameter = new { CustId = custId };
+
+            return forceUseMainDb
+                ? _mainDbClient.QueryFirst<Customer>(spName, parameter)
+                : _reportDbClient.QueryFirst<Customer>(spName, parameter);
         }
         public CustTransSummary GetCustTransSummary(int custId)
         {
