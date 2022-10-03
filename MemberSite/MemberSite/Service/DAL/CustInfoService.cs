@@ -64,6 +64,11 @@ namespace MemberSite.Service.DAL
                 }
 
                 custId = p.Get<int?>("CustId") ?? 0;
+                if (custId == 0)
+                {
+                    trans.Rollback();
+                    return -5;
+                }
             }
 
             if (result > 0 && (!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
