@@ -56,14 +56,12 @@ namespace MemberSite.Service.DAL
 
             if (result > 0)
             {
-                var dbReturnCustomerId = p.Get<long?>("CustId") ?? 0;
-                if (dbReturnCustomerId > int.MaxValue)
+                custId = p.Get<int?>("CustId") ?? 0;
+                if (custId == 0)
                 {
                     trans.Rollback();
                     return -5;
                 }
-
-                custId = p.Get<int?>("CustId") ?? 0;
             }
 
             if (result > 0 && (!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
