@@ -1075,25 +1075,27 @@ namespace MemberSite.Controllers.Api
             {
                 Data = new AffiliateAgent()
             };
-            var result = _custInfoBll.GetAffiliateAgentBll(affiliateAgentReq.AffId);
-            apiResult.ErrorCode = 0;
-            if (result > 0)
+
+            if (string.IsNullOrWhiteSpace(affiliateAgentReq.AffId) || affiliateAgentReq.AffId.Length > 32)
             {
-                apiResult.Data.CurrencyId = result;
-            }
-            else if (result == -1)
-            {
-                apiResult.ErrorCode = result;
+                apiResult.ErrorCode = -1;
                 apiResult.Message = "no AffId";
             }
-            else if (result == -19)
+            
+            var result = _custInfoBll.GetAffiliateAgentBll(affiliateAgentReq.AffId);
+            apiResult.ErrorCode = 0;
+            switch (result)
             {
-                apiResult.ErrorCode = result;
-                apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
-            }
-            else
-            {
-                apiResult.ErrorCode = result;
+                case > 0:
+                    apiResult.Data.CurrencyId = result;
+                    break;
+                case -19:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
+                    break;
+                default:
+                    apiResult.ErrorCode = result;
+                    break;
             }
 
             return apiResult;
