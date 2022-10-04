@@ -55,13 +55,6 @@ namespace MemberSite.Service.DAL
 
             if (result > 0)
             {
-                var dbReturnCustomerId = p.Get<long?>("CustId") ?? 0;
-                if (dbReturnCustomerId > int.MaxValue)
-                {
-                    trans.Rollback();
-                    return -5;
-                }
-
                 custId = p.Get<int?>("CustId") ?? 0;
                 if (custId == 0)
                 {
