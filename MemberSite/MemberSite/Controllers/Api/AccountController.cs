@@ -68,12 +68,15 @@ namespace MemberSite.Controllers.Api
             var fromUrl = _tools.GetFromUrl();
             var deviceType = (int) _tools.GetDeviceId(fromUrl);
             var result = _authorizeBll.LoginCheckin(deviceType);
-            if (!result && authData is { CustId: > 0 })
+            if (!result)
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 apiResult.ErrorCode = 1001;
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                _ = Task.Run(async () => { _ = await LogoutAsync(1, authData.CustId); });
+                if (authData is { CustId: > 0 })
+                {
+                    _ = Task.Run(async () => { _ = await LogoutAsync(1, authData.CustId); });
+                }
             }
             else
             {
@@ -92,14 +95,14 @@ namespace MemberSite.Controllers.Api
             var fromUrl = _tools.GetFromUrl();
             var deviceType = (int) _tools.GetDeviceId(fromUrl);
             var result = _authorizeBll.LoginCheckin(deviceType);
-            if (!result && authData is { CustId: > 0 })
+            if (!result)
             {
                 apiResult.ErrorCode = 1001;
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                _ = Task.Run(async () =>
+                if (authData is { CustId: > 0 })
                 {
-                    _ = await LogoutAsync(1, authData.CustId);
-                });
+                    _ = Task.Run(async () => { _ = await LogoutAsync(1, authData.CustId); });
+                }
             }
             else
             {
