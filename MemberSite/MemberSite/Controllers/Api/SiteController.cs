@@ -1080,6 +1080,7 @@ namespace MemberSite.Controllers.Api
             {
                 apiResult.ErrorCode = -1;
                 apiResult.Message = "no AffId";
+                return apiResult;
             }
             
             var result = _custInfoBll.GetAffiliateAgentBll(affiliateAgentReq.AffId);
