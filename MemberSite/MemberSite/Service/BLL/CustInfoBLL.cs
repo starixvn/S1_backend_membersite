@@ -604,15 +604,11 @@ namespace MemberSite.Service.BLL
                 {
                     return -19;
                 }
-                else
-                {
-                    return agent.CurrencyId;
-                }
+
+                return agent.CurrencyId;
             }
-            else
-            {
-                return -1;
-            }
+
+            return -1;
 
         }
         public void GetReferralSummary(int custId, out int referralCount, out int conditionCount, out int amountCount, out int amountSum)

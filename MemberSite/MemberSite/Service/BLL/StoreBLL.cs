@@ -1,5 +1,4 @@
 ﻿using MemberSite.Service.Library;
-using MemberSite.Service.Model;
 using MemberSite.Service.Model.Store.Frontend;
 
 namespace MemberSite.Service.BLL;
