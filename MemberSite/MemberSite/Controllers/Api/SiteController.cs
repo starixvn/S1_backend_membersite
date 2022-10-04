@@ -323,7 +323,7 @@ namespace MemberSite.Controllers.Api
         public ApiResult<bool> ExistsUserName(RegisteredModel registeredModel)
         {
             var apiResult = new ApiResult<bool>(_selLangBll);
-            if (!_regexUserName.IsMatch(registeredModel.UserName))
+            if (string.IsNullOrWhiteSpace(registeredModel.UserName) || !_regexUserName.IsMatch(registeredModel.UserName))
             {
                 apiResult.Data = true;
                 apiResult.ErrorCode = 0;
@@ -1080,6 +1080,7 @@ namespace MemberSite.Controllers.Api
             {
                 apiResult.ErrorCode = -1;
                 apiResult.Message = "no AffId";
+                return apiResult;
             }
             
             var result = _custInfoBll.GetAffiliateAgentBll(affiliateAgentReq.AffId);
