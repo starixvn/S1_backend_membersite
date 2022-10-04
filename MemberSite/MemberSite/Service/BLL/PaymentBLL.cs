@@ -591,8 +591,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<Statement> GetStatement(int custId, long start, long end, int pageNumber, int pageSize, out IPageInfo pageInfo)
         {
             pageInfo = new PageInfo();
-            var startDate = DateTimeOffset.FromUnixTimeSeconds(start).DateTime;
-            var endDate = DateTimeOffset.FromUnixTimeSeconds(end).DateTime;         
+            var (startDate, endDate) = CheckTimeRange(start, end);
             var key = $"GetFinancialLog:{custId}:{startDate:yyyyMMddHHmmssfff}:{endDate:yyyyMMddHHmmssfff}";
             var cacheTime = TimeSpan.FromMinutes(1);
 
@@ -836,5 +835,34 @@ namespace MemberSite.Service.BLL
         {
             return withdrawalService.GetEWalletWithdrawalLimitInfo(input);
         }
+
+        private (DateTime startDate, DateTime endDate) CheckTimeRange(long start, long end)
+        {
+            var startDate = DateTimeOffset.FromUnixTimeSeconds(start).DateTime;
+            var endDate = DateTimeOffset.FromUnixTimeSeconds(end).DateTime;
+
+            var oneYear = DateTime.UtcNow.AddYears(-1);//不可超過一年
+            var tomorrow = DateTime.UtcNow.AddDays(1).AddMilliseconds(-1);//不可超過今天
+
+            if (startDate < oneYear)
+            {
+                startDate = oneYear;
+            }
+            if (endDate < oneYear)
+            {
+                endDate = oneYear;
+            }
+
+            if (startDate > tomorrow)
+            {
+                startDate = tomorrow;
+            }
+            if (endDate > tomorrow)
+            {
+                endDate = tomorrow;
+            }
+            return (startDate, endDate);
+        }
+
     }
 }
