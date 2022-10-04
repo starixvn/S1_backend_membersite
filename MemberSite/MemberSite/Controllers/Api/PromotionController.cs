@@ -152,12 +152,12 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var serverInfo = _serverInfoBLL.GetServerInfo();
-                var isLogin = User.Identity.IsAuthenticated;
+                var authData = _authorizeBLL.GetAuthData();
+                var isLogin = authData is { CustId: > 0 };
                 var custId = 0;
                 int currencyId;
                 if (isLogin)
                 {
-                    var authData = _authorizeBLL.GetAuthData();
                     var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                     custId = authData.CustId;
                     currencyId = custInfo.CurrencyId;
@@ -201,12 +201,12 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var serverInfo = _serverInfoBLL.GetServerInfo();
-                var isLogin = User.Identity.IsAuthenticated;
+                var authData = _authorizeBLL.GetAuthData();
+                var isLogin = authData is { CustId: > 0 };
                 var custId = 0;
                 int currencyId;
                 if (isLogin)
                 {
-                    var authData = _authorizeBLL.GetAuthData();
                     var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                     custId = authData.CustId;
                     currencyId = custInfo.CurrencyId;
@@ -214,8 +214,6 @@ namespace MemberSite.Controllers.Api
                 else
                 {
                     currencyId = _selLangBLL.GetPreferCurrencyId();
-                    currencyId = currencyId == 13 ? 2 : currencyId; // Todo 暫時解 HardCode，之後前端有空，請前端協助帶入是哪 cs 語系的哪一種幣別
-
                     if (data.CurrencyId.HasValue)
                     {
                         currencyId = data.CurrencyId.Value;

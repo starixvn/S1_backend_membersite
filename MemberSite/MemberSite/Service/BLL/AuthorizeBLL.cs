@@ -36,14 +36,20 @@ namespace MemberSite.Service.BLL
         public AuthData GetAuthData(bool checkOnUser = false)
         {
             AuthData authData = null;
-            if (httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            if (httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated == true)
             {
-                authData = new AuthData();
-                int.TryParse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier)?.Value, out var custId);
-                authData.CustId = custId;
-                authData.UserName = httpContextAccessor.HttpContext.User.Identity.Name;
-                authData.Token = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "Token")?.Value;
-                authData.LangId = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "LangId")?.Value;
+                if (!int.TryParse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier)?.Value, out var custId))
+                {
+                    return null;
+                }
+
+                authData = new AuthData
+                {
+                    CustId = custId,
+                    UserName = httpContextAccessor.HttpContext.User.Identity.Name,
+                    Token = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "Token")?.Value,
+                    LangId = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "LangId")?.Value
+                };
 
                 if (_jwtConfig.IsJwt || checkOnUser)
                 {
