@@ -109,9 +109,10 @@ namespace MemberSite.Controllers.Api
             var custId = 0;
             var siteId = 0;
             var currencyId = 0;
-            if (User.Identity.IsAuthenticated)
+            
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
             {
-                var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 siteId = custInfo.SiteId;
                 currencyId = custInfo.CurrencyId;
@@ -145,9 +146,10 @@ namespace MemberSite.Controllers.Api
             var custId = 0;
             var siteId = 0;
             var currencyId = 0;
-            if (User.Identity.IsAuthenticated)
+            
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
             {
-                var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 siteId = custInfo.SiteId;
                 currencyId = custInfo.CurrencyId;
@@ -188,9 +190,10 @@ namespace MemberSite.Controllers.Api
             var custId = 0;
             var siteId = 0;
             var currencyId = 0;
-            if (User.Identity.IsAuthenticated)
+            
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
             {
-                var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 siteId = custInfo.SiteId;
                 currencyId = custInfo.CurrencyId;
@@ -408,9 +411,9 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var currencyId = 0;
-                if (User.Identity.IsAuthenticated)
+                var authData = _authorizeBll.GetAuthData();
+                if (authData is { CustId: > 0 })
                 {
-                    var authData = _authorizeBll.GetAuthData();
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     currencyId = custInfo.CurrencyId;
                 }
@@ -449,9 +452,9 @@ namespace MemberSite.Controllers.Api
             string NowEventCode = null;
             string LastEventCode = null;
            
-            if (User.Identity.IsAuthenticated)
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
             {
-                var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 siteId = custInfo.SiteId;
             }
@@ -478,9 +481,9 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<LeaderboardInfo>();
             var siteId = 0;
             var currencyId = 0;
-            if (User.Identity.IsAuthenticated)
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
             {
-                var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 siteId = custInfo.SiteId;
                 currencyId = custInfo.CurrencyId;
