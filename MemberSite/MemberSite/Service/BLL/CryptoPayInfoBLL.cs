@@ -15,7 +15,7 @@ namespace MemberSite.Service.BLL
         private readonly DepositService _depositService;
         private readonly CourierAdapter _courierAdapter;
         private readonly string _payApiUrl;
-        private readonly CacheHelper _cacheHelper;
+        private readonly ICacheHelper _redisHelper;
         private readonly Dictionary<NetworkType, Func<string, bool>> _cryptoValidateHandler;
 
         public CryptoPayInfoBll(IServiceProvider provider)
@@ -26,7 +26,7 @@ namespace MemberSite.Service.BLL
             _depositService = provider.GetRequiredService<DepositService>();
             _payApiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("PayService");
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
-            _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _cryptoValidateHandler = new Dictionary<NetworkType, Func<string, bool>>
                 {
                     { NetworkType.ERC20, Erc20AddressValidation },
@@ -38,10 +38,11 @@ namespace MemberSite.Service.BLL
 
         private IEnumerable<CryptoPayInfo> GetCryptoPayInfoListWithCache(int siteId)
         {
-            var key = $"CryptoPayInfoList_{siteId}";
-            return _cacheHelper.TryGetOrCreate<IEnumerable<CryptoPayInfo>>(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
-                i => _payService.GetCryptoPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
+            var key = $"CryptoPayInfoList:{siteId}";
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<CryptoPayInfo>>(key, TimeSpan.FromSeconds(10),
+                () => _payService.GetCryptoPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
+                RedisDataBase.Shared);
+            return dbData;
         }
         
         public IEnumerable<CryptoPayInfo> GetCryptoPayInfoList(int custId/*, int groupId*/)

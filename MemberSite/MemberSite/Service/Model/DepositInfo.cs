@@ -58,7 +58,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _createTime.ToOffset(CustTimeZone);
+                return _createTime.ToDateTimeOffset(CustTimeZone);
             }
             set 
             {
@@ -82,7 +82,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _depositTime != null ? _depositTime.Value.ToOffset(CustTimeZone) : null;
+                return _depositTime != null ? _depositTime.Value.ToDateTimeOffset(CustTimeZone) : null;
             }
             set
             {

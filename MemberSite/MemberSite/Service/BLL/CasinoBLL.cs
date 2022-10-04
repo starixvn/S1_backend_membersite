@@ -1,6 +1,5 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
-using Microsoft.Extensions.Caching.Memory;
 using MemberSite.Service.Library;
 
 namespace MemberSite.Service.BLL
@@ -8,12 +7,12 @@ namespace MemberSite.Service.BLL
     public class CasinoBll
     {
         private readonly CasinoService _casinoService;
-        private readonly CacheHelper _cacheHelper;
+        private readonly ICacheHelper _redisHelper;
         
         public CasinoBll(IServiceProvider provider)
         {
             _casinoService = provider.GetRequiredService<CasinoService>();
-            _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
         public IEnumerable<MemberFavorite> GetFavoriteGames(int custId)
@@ -53,10 +52,8 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<int> GetProviderIdByCurrency(int currencyId, int siteId)
         {
-            var key = $"ProviderIdByCurrency_{currencyId}_{siteId}";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
-                i => _casinoService.GetProviderIdByCurrency(currencyId, siteId));
+            return _redisHelper.TryGetOrCreate($"ProviderIdByCurrency:{currencyId}:{siteId}", TimeSpan.FromMinutes(10),
+                () => _casinoService.GetProviderIdByCurrency(currencyId, siteId));
         }
         public IEnumerable<GameCasionByCurrencyAndSite> GetGameCasinoByCurrencyAndSite(int currencyId, int siteId)
         {

@@ -63,19 +63,19 @@ namespace MemberSite.Service.Model
     {
         public decimal TotalBonus { get; set; }
         public decimal MaxBonus { get; set; }
+        public decimal TotalLossAmount { get; set; }
+        public decimal MinLossAmount { get; set; }
+        public decimal OriginalTotalBonus { get; set; }
+        public string Percentage { get; set; }
         public IEnumerable<CashBackDetail> CashBackDetail { get; set; }
     }
 
     public class CashBackDetail
     {
-        public int CategoryId { get; set; }
-        public int TpId { get; set; }
         public string TpName { get; set; }
-        public string PeriodFrom { get; set; }
-        public string PeriodTo { get; set; }
         public decimal LossAmount { get; set; }
+        public decimal LossAmountWithBonus { get; set; }
         public string PercentageName { get; set; }
-        public decimal BonusAmount { get; set; }
     }
 
     public class Ref
