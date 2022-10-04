@@ -29,6 +29,10 @@ namespace MemberSite.Service.BLL
         public bool LoginCheckin(int? deviceType)
         {
             var authData = GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                return false;
+            }
             var ip = tools.GetClientIP();
             var result = authenticateService.UpdateOnline(authData.CustId, true, authData.Token, ip, deviceType);
 
