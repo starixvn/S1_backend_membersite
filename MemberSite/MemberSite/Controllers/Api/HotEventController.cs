@@ -2,6 +2,7 @@
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
 {
@@ -16,6 +17,7 @@ namespace MemberSite.Controllers.Api
         private readonly CustInfoBll _custInfoBll;
         private readonly SelLangBLL _selLangBll;
         private readonly HotEventBLL _hotEventBll;
+        private readonly ILogger<HotEventController> _logger;
 
         public HotEventController(IServiceProvider provider)
         {
@@ -24,36 +26,38 @@ namespace MemberSite.Controllers.Api
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _hotEventBll = provider.GetRequiredService<HotEventBLL>();
+            _logger = provider.GetRequiredService<ILogger<HotEventController>>();
         }
 
         [HttpPost]
         public async Task<ApiResult<IEnumerable<HotEventResponse>>> GetDataList([FromRoute] string langId = null)
         {
-            var serverInfo = _serverInfoBll.GetServerInfo();
-            var siteId = 0;
-            
-            if (User.Identity.IsAuthenticated)
-            {
-                var authData = _authorizeBll.GetAuthData();
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                siteId = custInfo.SiteId;
-                langId = _selLangBll.GetLangId();
-            }
-            else
-            {
-                siteId = serverInfo.SiteId;
-                langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
-            }
-
             var apiResult = new ApiResult<IEnumerable<HotEventResponse>>();
+
             try
             {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var authData = _authorizeBll.GetAuthData();
+                var siteId = 0;
+                if (authData is { CustId: > 0 })
+                {
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    siteId = custInfo.SiteId;
+                    langId = _selLangBll.GetLangId();
+                }
+                else
+                {
+                    siteId = serverInfo.SiteId;
+                    langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
+                }
+
                 apiResult.ErrorCode = 0;
                 apiResult.Data = await _hotEventBll.GetHotEventDataList(siteId, langId, serverInfo);
             }
             catch (Exception ex)
             {
                 apiResult.Message = ex.Message;
+                _logger.LogError(ex, GetCurrentAsyncMethod()); 
             }
 
             return apiResult;

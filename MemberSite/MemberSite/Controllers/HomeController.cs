@@ -24,7 +24,7 @@ namespace MemberSite.Controllers
         }
         public IActionResult Index(string refId, string affId, string aff)
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated == false)
             {
                 // VN Affiliate
                 if (aff != null)
@@ -89,7 +89,7 @@ namespace MemberSite.Controllers
 
         public IActionResult Register(string refId, string affId, string aff)
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated == true)
             {
                 return RedirectToRoute(new { action = "Index", controller = "Home" });
             }
@@ -156,7 +156,7 @@ namespace MemberSite.Controllers
 
         public IActionResult ForgetPassowrd()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated == true)
             {
                 return RedirectToRoute(new { action = "Index", controller = "Home" });
             }
@@ -166,7 +166,7 @@ namespace MemberSite.Controllers
 
         public async Task<IActionResult> ResetPasswordAsync(string key)
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated == true)
             {
                 return RedirectToRoute(new { action = "Index", controller = "Home" });
             }
