@@ -264,7 +264,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _registerDate.ToOffset(CustTimeZone);
+                return _registerDate.ToDateTimeOffset(CustTimeZone);
             }
             set
             {

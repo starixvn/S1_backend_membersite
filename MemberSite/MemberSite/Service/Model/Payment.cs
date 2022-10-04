@@ -72,11 +72,9 @@ namespace MemberSite.Service.Model
         [System.Text.Json.Serialization.JsonIgnore]
         public string AmountShow { get; set; }
         public IEnumerable<decimal> AmountList => AmountShow == null ? null : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
+        public string PayCode { get; set; }
         public int GSort { get; set; }
         public int SSort { get; set; }
-        //public long Updated_timestamp { get; set; }
-        //public decimal BuyRate { get; set; }
-        //public decimal SellRate { get; set; }
     }
     public class CryptoPayGroup
     {
@@ -103,6 +101,7 @@ namespace MemberSite.Service.Model
         [System.Text.Json.Serialization.JsonIgnore]
         public string AmountShow { get; set; }
         public IEnumerable<decimal> AmountList => AmountShow == null ? null : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
+        public string PayCode { get; set; }
         public int GSort { get; set; }
         public int SSort { get; set; }
         public long Updated_timestamp { get; set; }
@@ -136,7 +135,7 @@ namespace MemberSite.Service.Model
         public string ChannelName { get; set; }
         public int Mode { get; set; }
         public int PointLevel { get; set; }
-        //public string PayCode { get; set; }
+        public string PayCode { get; set; }
         public int CurrencyId { get; set; }
         public string PayCurrencyId { get; set; }
         public decimal MinAmount { get; set; }
