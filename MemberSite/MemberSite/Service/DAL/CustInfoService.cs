@@ -14,6 +14,7 @@ namespace MemberSite.Service.DAL
         private readonly PromotionService promotionService;
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
+        private readonly ILogger<CustInfoService> _logger;
         private readonly string _connectionString;
 
         public CustInfoService(IServiceProvider provider)
@@ -23,6 +24,7 @@ namespace MemberSite.Service.DAL
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
             _connectionString = configuration.GetConnectionString("ConnectionString");
+            _logger = provider.GetRequiredService<ILogger<CustInfoService>>();
         }
 
         public bool ExistsUserName(string userName, int siteId)
@@ -45,127 +47,146 @@ namespace MemberSite.Service.DAL
 
         public int AddCustInfo(Customer customer, string Email, string lineUserId, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
-            custId = 0;
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            var p = new DynamicParameters(new { customer.SiteId, customer.UserName, customer.Userpwd, customer.CurrencyId, customer.UserLang, customer.AgentId, customer.AllAgentId, customer.UserLevel });
-            p.Add("CustId", dbType: DbType.Int32, direction: ParameterDirection.Output);
-
-            conn.Open();
-            using var trans = conn.BeginTransaction();
-            var result = _mainDbClient.Execute("CustInfo_Ins", p, conn, trans);
-
-            if (result > 0)
+            var flag = string.Empty;
+            try
             {
-                var dbReturnCustomerId = p.Get<long?>("CustId") ?? 0;
-                if (dbReturnCustomerId > int.MaxValue)
+                custId = 0;
+                using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+                var p = new DynamicParameters(new { customer.SiteId, customer.UserName, customer.Userpwd, customer.CurrencyId, customer.UserLang, customer.AgentId, customer.AllAgentId, customer.UserLevel });
+                p.Add("CustId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                conn.Open();
+                using var trans = conn.BeginTransaction();
+                var result = _mainDbClient.Execute("CustInfo_Ins", p, conn, trans);
+
+                if (result > 0)
                 {
-                    trans.Rollback();
-                    return -5;
-                }
-
-                custId = p.Get<int?>("CustId") ?? 0;
-                if (custId == 0)
-                {
-                    trans.Rollback();
-                    return -5;
-                }
-            }
-
-            if (result > 0 && (!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
-            {
-                if (string.IsNullOrEmpty(Email))
-                {
-                    Email = null;
-                }
-                else if (string.IsNullOrEmpty(PhoneNo) || string.IsNullOrEmpty(AreaCode))
-                {
-                    PhoneNo = null;
-                    AreaCode = null;
-                }
-
-                var profiler = new Dictionary<string, string>();
-
-                if (!string.IsNullOrEmpty(RealName)) profiler.Add("AccountName", RealName);
-                if (Birth_d != 0 && Birth_m != 0 && Birth_y != 0)
-                {
-                    profiler.Add("Birth_d", Birth_d.ToString());
-                    profiler.Add("Birth_m", Birth_m.ToString());
-                    profiler.Add("Birth_y", Birth_y.ToString());
-                }
-
-                var profile = profiler.Count <= 0 ? null : Newtonsoft.Json.JsonConvert.SerializeObject(profiler);
-                result = _mainDbClient.Execute("Member_CustProfile_Ins", new DynamicParameters(new
-                {
-                    CustId = custId,
-                    customer.SiteId,
-                    Email,
-                    Profile = profile,
-                    PhoneNo,
-                    AreaCode
-                }), conn, trans);
-
-
-                if (!string.IsNullOrEmpty(RealName))
-                    SetCustBankInfo(custId, customer.SiteId, RealName);
-            }
-
-            if (result > 0 && (!string.IsNullOrEmpty(signupUrl) || !string.IsNullOrEmpty(referralUrl)))
-            {
-                result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V2", new DynamicParameters(new { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl }), conn, trans);
-            }
-
-            if (result > 0 && !string.IsNullOrEmpty(promoCode) && promotionService.CheckSpecialCode(promoCode))
-            {
-                if (promotionService.CheckScratchCardCode(promoCode))
-                {
-                    var parameters = new DynamicParameters(new { CustId = custId, ScratchCardCode = promoCode, DeviceType = 1 });
-                    parameters.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                    _mainDbClient.Execute("Member_CustScratchCardCodeV3_Ins", parameters, conn, trans);
-                    result = parameters.Get<int>("Result") == 0 ? 1 : 0;
-                }
-                else
-                    result = _mainDbClient.Execute("Member_CustPromoCode_Ins", new DynamicParameters(new { CustId = custId, PromoCode = promoCode.Trim() }), conn, trans);
-
-                if (result == 0)
-                {
-                    result = -7;
-                }
-            }
-
-            if (result > 0 && (int.TryParse(customer.Aff, out var iAff) || !string.IsNullOrEmpty(customer.AffCode)))
-            {
-                result = _mainDbClient.Execute("Member_VNAffiliate_Ins", new DynamicParameters(new { CustId = custId, customer.SiteId, AffId = iAff, customer.AffCode }), conn, trans);
-            }
-
-            if (result > 0 && !string.IsNullOrWhiteSpace(lineUserId))
-            {
-                if (GetCustLineProfile(0, lineUserId) != null)
-                {
-                    result = -3002;
+                    custId = p.Get<int?>("CustId") ?? 0;
+                    flag += $" Executed CustInfo_Ins after custId：{custId} ";
+                    if (custId == 0)
+                    {
+                        trans.Rollback();
+                        return -5;
+                    }
                 }
                 else
                 {
-                    result = InsertCustLineProfile(custId, lineUserId, conn, trans) ? 1 : 0;
+                    flag += $" Executed CustInfo_Ins Fail custId：{custId} ";
                 }
-            }
 
-            if (result > 0)
-            {
-                trans.Commit();
-            }
-            else
-            {
-                trans.Rollback();
-            }
+                if (result > 0 && (!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
+                {
+                    if (string.IsNullOrEmpty(Email))
+                    {
+                        Email = null;
+                    }
+                    else if (string.IsNullOrEmpty(PhoneNo) || string.IsNullOrEmpty(AreaCode))
+                    {
+                        PhoneNo = null;
+                        AreaCode = null;
+                    }
 
-            result = result switch
-            {
-                > 0 => 0,
-                0 => -5,
-                _ => result
-            };
+                    var profiler = new Dictionary<string, string>();
 
-            return result;
+                    if (!string.IsNullOrEmpty(RealName)) profiler.Add("AccountName", RealName);
+                    if (Birth_d != 0 && Birth_m != 0 && Birth_y != 0)
+                    {
+                        profiler.Add("Birth_d", Birth_d.ToString());
+                        profiler.Add("Birth_m", Birth_m.ToString());
+                        profiler.Add("Birth_y", Birth_y.ToString());
+                    }
+
+                    var profile = profiler.Count <= 0 ? null : Newtonsoft.Json.JsonConvert.SerializeObject(profiler);
+                    result = _mainDbClient.Execute("Member_CustProfile_Ins", new DynamicParameters(new
+                    {
+                        CustId = custId,
+                        customer.SiteId,
+                        Email,
+                        Profile = profile,
+                        PhoneNo,
+                        AreaCode
+                    }), conn, trans);
+                    flag += $" Executed Member_CustProfile_Ins after custId：{custId} ";
+
+                    if (!string.IsNullOrEmpty(RealName))
+                    {
+                        SetCustBankInfo(custId, customer.SiteId, RealName);
+                        flag += $" Executed SetCustBankInfo after custId：{custId} ";
+                    }
+                        
+                }
+
+                if (result > 0 && (!string.IsNullOrEmpty(signupUrl) || !string.IsNullOrEmpty(referralUrl)))
+                {
+                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V2", new DynamicParameters(new { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl }), conn, trans);
+                    flag += $" Executed Member_CustRegInfo_Ins_V2 after custId：{custId} ";
+                }
+
+                if (result > 0 && !string.IsNullOrEmpty(promoCode) && promotionService.CheckSpecialCode(promoCode))
+                {
+                    if (promotionService.CheckScratchCardCode(promoCode))
+                    {
+                        var parameters = new DynamicParameters(new { CustId = custId, ScratchCardCode = promoCode, DeviceType = 1 });
+                        parameters.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                        _mainDbClient.Execute("Member_CustScratchCardCodeV3_Ins", parameters, conn, trans);
+                        result = parameters.Get<int>("Result") == 0 ? 1 : 0;
+                        flag += $" Executed Member_CustScratchCardCodeV3_Ins after custId：{custId} ";
+                    }
+                    else
+                    {
+                        result = _mainDbClient.Execute("Member_CustPromoCode_Ins", new DynamicParameters(new { CustId = custId, PromoCode = promoCode.Trim() }), conn, trans);
+                        flag += $" Executed Member_CustPromoCode_Ins after custId：{custId} ";
+                    }
+                    
+                    if (result == 0)
+                    {
+                        result = -7;
+                    }
+                }
+
+                if (result > 0 && (int.TryParse(customer.Aff, out var iAff) || !string.IsNullOrEmpty(customer.AffCode)))
+                {
+                    result = _mainDbClient.Execute("Member_VNAffiliate_Ins", new DynamicParameters(new { CustId = custId, customer.SiteId, AffId = iAff, customer.AffCode }), conn, trans);
+                    flag += $" Executed Member_VNAffiliate_Ins after custId：{custId} ";
+                }
+
+                if (result > 0 && !string.IsNullOrWhiteSpace(lineUserId))
+                {
+                    if (GetCustLineProfile(0, lineUserId) != null)
+                    {
+                        result = -3002;
+                        flag += $" Executed GetCustLineProfile after custId：{custId} ";
+                    }
+                    else
+                    {
+                        result = InsertCustLineProfile(custId, lineUserId, conn, trans) ? 1 : 0;
+                        flag += $" Executed InsertCustLineProfile after custId：{custId} ";
+                    }
+                }
+
+                if (result > 0)
+                {
+                    trans.Commit();
+                }
+                else
+                {
+                    trans.Rollback();
+                }
+
+                result = result switch
+                {
+                    > 0 => 0,
+                    0 => -5,
+                    _ => result
+                };
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,$"{ex.Message}，codeFlow:{flag}");
+                throw;
+            }
         }
         public Customer GetCustInfo(int custId, bool forceUseMainDb = false)
         {
