@@ -40,7 +40,7 @@ namespace MemberSite.Service.BLL
             {
                 if (!int.TryParse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier)?.Value, out var custId))
                 {
-                    return null;
+                    return new AuthData();
                 }
 
                 authData = new AuthData
