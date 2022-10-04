@@ -707,14 +707,13 @@ namespace MemberSite.Controllers.Api
                     langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
                 }
                 apiResult.Data = _bannerBll.GetBannerV3(SiteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
-
+                apiResult.ErrorCode = 0;
             }
             catch (Exception e)
             {
                 _logger.LogError(e, GetCurrentMethod());
             }
             
-            apiResult.ErrorCode = 0;
             return apiResult;
         }
 
